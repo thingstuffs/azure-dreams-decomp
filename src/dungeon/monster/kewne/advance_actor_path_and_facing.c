@@ -8,11 +8,10 @@
 #include "engine/graphics.h"
 #include "dungeon/level.h"
 #include "dungeon/item.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 
    /* (u8 *)arg3 + ((S_8017169C_0 *)arg3)->unk_8A.s in advance_actor_path_and_facing */
-
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 /* Advance the actor along its path and update its facing and movement timing. */
 void advance_actor_path_and_facing(ActorRecord *body, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor)

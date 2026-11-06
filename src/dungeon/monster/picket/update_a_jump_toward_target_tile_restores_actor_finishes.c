@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/monster/picket_frames.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/picket.h"
 #include "shared/actor_action_flags.h"
@@ -20,7 +21,6 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern u8 picket_action_resume_address;
 extern u8 D_80174F20[];
-extern u8 picket_frame_set_5[];
 
 /* Updates a jump toward the target tile and restores the actor when it finishes. */
 void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_state, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {

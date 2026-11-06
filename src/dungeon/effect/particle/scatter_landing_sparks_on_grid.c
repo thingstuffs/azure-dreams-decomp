@@ -42,14 +42,14 @@ void scatter_landing_sparks_on_grid(ObjectNodeHeader *source) {
                 if (particle != NULL) {
                     (particle->update_callback) = effect_data;
                     jitter_or_scale = rand();
-                    x_base = ((MovingPosition *)(source->position))->x + (grid_x << 6);
+                    x_base = source->position->x.unsigned_parts.integer + (grid_x << 6);
                     x_base -= 0x20;
                     particle->position->x.w.i = (s16) (x_base + (jitter_or_scale & 0x3F));
                     y_random = rand();
-                    y_base = ((MovingPosition *)(source->position))->y + (grid_y << 6);
+                    y_base = source->position->y.unsigned_parts.integer + (grid_y << 6);
                     y_base -= 0x20;
                     particle->position->y.w.i = (s16) (y_base + (y_random & 0x3F));
-                    particle->position->z.w.i = (s16) (((MovingPosition *)(source->position))->z - 0x100);
+                    particle->position->z.w.i = (s16) (source->position->z.unsigned_parts.integer - 0x100);
                     motion = particle->position;
                     motion->velocity_y = 0;
                     motion->velocity_x = 0;

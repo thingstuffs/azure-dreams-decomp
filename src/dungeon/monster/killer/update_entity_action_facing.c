@@ -27,12 +27,10 @@ extern u8 killer_action_resume_address;
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/monster/killer_frames.h"
 
 extern u8 D_80174040[];
 extern u8 D_80174070[];
-extern u8 killer_frame_set[];
-extern u8 killer_frame_set_2[];
-
 
 /* Updates the entity action, facing direction, and animation from dungeon state. */
 /* Selects Killer's movement, two attack modes, spells, and turn processing, then restores its directional

@@ -14,4 +14,15 @@ extern u8 beldo_large_frame_set_4[];
 extern u8 beldo_large_frame_set_5[];
 extern u8 beldo_large_frame_set_7[];
 
+extern u8 beldo_large_frame_set_8[ 16 ];
+
+extern u8 beldo_large_frame_set_14[ 16 ];
+extern u8 beldo_large_frame_set[ 8 ];
+extern u8 beldo_large_frame_set_10[ 8 ];
+extern u8 beldo_large_frame_set_11[ ];
+extern u8 beldo_large_frame_set_15[ 8 ];
+extern u8 beldo_large_frame_set_16[ 8 ];
+extern u8 beldo_large_frame_set_17[ ];
+extern u8 beldo_large_frame_set_6[ ];
+
 #endif

@@ -1,5 +1,6 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "slus/jtbl_80054F9C.h"
 
 
 
@@ -7,7 +8,6 @@
 
 extern void handle_audio_status_code(s32 a0);
 extern void start_pending_selection(void);
-extern void set_sound_task_priority(s32 a0, SoundTask *a1);
 
 /* Dispatches a status transition or queues a packed selection for playback. */
 void dispatch_audio_command(s32 code)

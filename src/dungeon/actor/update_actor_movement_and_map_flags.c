@@ -9,12 +9,12 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "dungeon/player/position.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern u8 destination_motion_resume_address[];
 extern u8 actor_default_frames[];
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 classify_adjacent_tile_height();
 
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))

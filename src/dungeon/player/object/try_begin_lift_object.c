@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
+#include "dungeon/player/object/data.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -13,7 +14,6 @@
 extern u8 resident_globals_page[];
 
 extern s32 spawn_object_at_target_position(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern u8 player_lift_frames[];
 extern u8 D_800E0495[];
 
 typedef struct S_8008C5C4_2 {

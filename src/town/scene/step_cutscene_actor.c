@@ -41,7 +41,7 @@ typedef struct S_8080DF94_4 {
 } S_8080DF94_4;   /* target in step_cutscene_actor */
 
 /* Per-frame step for the town cutscene actor: dispatch its state and drive its motion, colour fade and timers. */
-void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *part) {
+void step_cutscene_actor(S_8080DF94_0 *obj, ObjectPosition *motion, SpriteFrameState *part) {
     Copy12 scratch;
     s16 state;
     s32 result;
@@ -55,14 +55,14 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
     s32 step_x;
     s32 pos_x;
 
-    owner = ((S_8080DF94_0 *)obj)->unk_00;
+    owner = obj->unk_00;
     scratch_words = scratch.word;
     flag = 0;
     target = (*(void **)((u8 *)(owner->unk_04) + (8)));
     scratch = *(Copy12 *)D_80526430;
     func_8003EA54(part);
     func_80245C10(motion);
-    state = ((S_8080DF94_0 *)obj)->unk_04;
+    state = obj->unk_04;
 
     switch (state) {
     case 0:
@@ -70,11 +70,11 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
         if ((u8)part->color.word >= 0xA0U) {
             part->color.word = 0x808080;
             part->flags = (u16)(part->flags & 0xFFF3);
-            ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
+            obj->unk_04 = (s16)((u16)obj->unk_04 + 1);
         }
         break;
     case 1:
-        if (((S_8080DF94_0 *)obj)->unk_08 & 1) {
+        if (obj->unk_08 & 1) {
             result = func_80071494();
             flag = scratch_words[result % 3];
             motion->velocity_x = (s32)(((func_80071494() & 0x7F) - 0x40) << 0xF);
@@ -83,7 +83,7 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
                 part->flags = (u16)(part->flags | 1);
             }
             motion->velocity_y = (s32)target->unk_10;
-            ((S_8080DF94_0 *)obj)->unk_04 = 0x20;
+            obj->unk_04 = 0x20;
         }
         if (owner->unk_36 == 0xA) {
             if (func_80071494() & 1) {
@@ -93,7 +93,7 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
             }
             {
                 s32 next_state = 0x100;
-                ((S_8080DF94_0 *)obj)->unk_04 = (s16)next_state;
+                obj->unk_04 = (s16)next_state;
             }
         }
         break;
@@ -108,11 +108,11 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
             motion->velocity_z = (s32)((s32)(0 - motion->velocity_z) >> 3);
         }
         if (part->flags & 0x6000) {
-            ((S_8080DF94_0 *)obj)->unk_06 = 0xA;
+            obj->unk_06 = 0xA;
             if (part->unk_00 == D_80288FF0) {
                 part->color.word = 0xA0A0A0;
                 part->flags = (u16)(part->flags | 0xC);
-                ((S_8080DF94_0 *)obj)->unk_04 = 0x22;
+                obj->unk_04 = 0x22;
                 break;
             }
             if (func_80071494() & 1) {
@@ -120,7 +120,7 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
             } else {
                 flag = (s32)D_80288F88;
             }
-            ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
+            obj->unk_04 = (s16)((u16)obj->unk_04 + 1);
         }
         pos_x = motion->velocity_x;
         vel_x = motion->velocity_y;
@@ -154,7 +154,7 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
         if (count & 0x6000) {
             part->flags = (u16)(count | 0xC);
             part->color.word = 0xA0A0A0;
-            ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
+            obj->unk_04 = (s16)((u16)obj->unk_04 + 1);
         }
         break;
     }
@@ -167,21 +167,21 @@ void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *pa
         if ((u8)part->color.word < 0x20U) {
             part->color.word = 0;
         }
-        if ((owner->unk_36 == 9) || (ticks = ((S_8080DF94_0 *)obj)->unk_06 - 1,
-            ((S_8080DF94_0 *)obj)->unk_06 = ticks, ((ticks << 0x10) <= 0))) {
-            ((S_8080DF94_0 *)obj)->unk_04 = 0xFFF;
+        if ((owner->unk_36 == 9) || (ticks = obj->unk_06 - 1,
+            obj->unk_06 = ticks, ((ticks << 0x10) <= 0))) {
+            obj->unk_04 = 0xFFF;
         }
         break;
     case 0x100:
         part->color.word = 0xA0A0A0;
         part->flags = (u16)(part->flags | 0xC);
-        ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
+        obj->unk_04 = (s16)((u16)obj->unk_04 + 1);
                         /* fall through */
     case 0x101:
         part->color.word = (s32)(part->color.word + 0xFFDFDFE0);
         if ((u8)part->color.word < 0x20U) {
             part->color.word = 0;
-            ((S_8080DF94_0 *)obj)->unk_04 = 0xFFF;
+            obj->unk_04 = 0xFFF;
         }
         break;
     case 0xFFF:

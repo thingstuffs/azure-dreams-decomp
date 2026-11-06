@@ -14,14 +14,13 @@
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
 #include "dungeon/monster/picket.h"
+#include "dungeon/monster/picket_frames.h"
 
 
 
 
 extern s32 generate_random_value(void);
 extern u8 D_80170CC8[];
-extern u8 picket_frame_set_1[];
-extern u8 picket_frame_set_6[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Picket with default frames at D_80174F00, applies spawn flags, and attempts valid tile

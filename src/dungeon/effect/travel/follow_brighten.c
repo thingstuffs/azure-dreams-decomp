@@ -26,7 +26,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
 {
     u8 *owner;
     MovingObject *base;
-    u8 *record;
+    MovingPosition *record;
     u8 *tail_page0;
     u8 *tail_page1;
     s32 velocity;
@@ -40,7 +40,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
     owner = ((MovingEffectState *)self)->unk_00;
     state = ((MovingEffectState *)self)->unk_0A.s;
     base = (MovingObject *)(owner - 32);
-    record = base->unk_08;
+    record = (MovingPosition *)base->unk_08;
     switch (state) {
     case 0:
         color = 0x00808080;
@@ -73,14 +73,14 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                 break;
             }
         }
-        ((MovingMotion *)motion)->unk_00.at02.v = ((MovingPosition *)record)->x;
-        ((MovingMotion *)motion)->unk_04.at02.v = ((MovingPosition *)record)->y;
+        ((MovingMotion *)motion)->unk_00.at02.v = record->x;
+        ((MovingMotion *)motion)->unk_04.at02.v = record->y;
         if (((MovingSpriteFlags *)(base->unk_0C))->unk_14 & 0x8000) {
-            u16 height = ((MovingPosition *)record)->z - 64;
+            u16 height = record->z - 64;
             ((MovingMotion *)motion)->unk_08.at02.v = height;
             ((MovingEffectState *)self)->unk_30.at02.v = height;
         } else {
-            u16 height = ((MovingPosition *)record)->z + ((OriginOffsetView *)scratch)->unk_04;
+            u16 height = record->z + ((OriginOffsetView *)scratch)->unk_04;
             ((MovingMotion *)motion)->unk_08.at02.v = height;
             ((MovingEffectState *)self)->unk_30.at02.v = height;
         }

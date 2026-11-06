@@ -1232,7 +1232,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
 }
 
 /* Starts a targeted spell with a two-row effect, then restores movement and status after the animation. */
-void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, void *actor, ActorRecord *object) {
+void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, R08_80172CE8_S_80172CE8_3 *actor, ActorRecord *object) {
     u16 position[3];
     s16 is_special;
     u8 *item_slot;
@@ -1299,8 +1299,8 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
 
                         (object->target) = scan_actor_along_heading(
                             object,
-                            ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24,
-                            ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_25,
+                            actor->unk_24,
+                            actor->unk_25,
                             (object->facing),
                             0x10);
                         object->target_tile_x = abs(object->target_tile_x);
@@ -1314,7 +1314,7 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
             position[1] = ((u16)motion->y.w.i);
             position[2] = ((u16)motion->z.w.i);
             if (create_actor_spell_effect(object, item_slot, is_special, (u8 *)action + 0x98)) {
-                ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
+                actor->unk_14 &= 0xF7FF;
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(position, (s16)((*item_slot - 1) % 3));
                 action->action_phase.u++;
@@ -1326,7 +1326,7 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_25);
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
         g_dungeon_status.active_actor = 0;
         {
             u8 *active_object = (u8 *)primary_actor_record;
@@ -1341,10 +1341,10 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
         return;
 
     case 1:
-        if (!(((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 & 0xE000)) {
+        if (!(actor->unk_14 & 0xE000)) {
             return;
         }
-        (*(void * *)((u8 *)actor + 0x2C)) = griffon_frame_set_14;
+        actor->unk_2C = griffon_frame_set_14;
         select_sprite_entry(
             actor,
             griffon_frame_set_14[((g_game_work.view.camera_rotation.parts.viewAngle + (object->facing) + 0x100) >> 9) & 7],
@@ -1354,18 +1354,18 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
 
     case 2:
         if (get_cd_command_queue_depth()) {
-            ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 |= 0x800;
+            actor->unk_14 |= 0x800;
             return;
         }
-        ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
+        actor->unk_14 &= 0xF7FF;
         action->action_phase.u++;
                         /* fall through */
 
     case 3:
-        if ((((R08_80172CE8_S_80172CE8_3 *)actor)->unk_04 == 5 &&
-            (((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 & 0x1000)) ||
-            (((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 & 0xE000)) {
-            ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 |= 0x800;
+        if ((actor->unk_04 == 5 &&
+            (actor->unk_14 & 0x1000)) ||
+            (actor->unk_14 & 0xE000)) {
+            actor->unk_14 |= 0x800;
             action->action_timer.u = 0x10;
             action->action_state_flags |= 0x80;
         }
@@ -1375,21 +1375,21 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
             action->action_timer.u = timer;
             if ((s16)timer <= 0) {
                 action->action_timer.u = 0;
-                ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
+                actor->unk_14 &= 0xF7FF;
             }
         }
 
-        if (!(((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 & 0xE000)) {
+        if (!(actor->unk_14 & 0xE000)) {
             return;
         }
 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_25);
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
 
-        if (((R08_80172CE8_S_80172CE8_3 *)actor)->unk_2C != griffon_direction_frames) {
-            (*(void * *)((u8 *)actor + 0x2C)) = griffon_direction_frames;
+        if (actor->unk_2C != griffon_direction_frames) {
+            actor->unk_2C = griffon_direction_frames;
             select_sprite_entry(
                 actor,
                 griffon_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + (object->facing) + 0x100) >> 9) & 7],
@@ -1402,7 +1402,7 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
+        actor->unk_14 &= 0xF7FF;
         action->unk_8C.address = ((void *)update_actor_behavior_and_effect);
         advance_status_timers(object);
         if ((object->pending_turn_updates) > 0) {

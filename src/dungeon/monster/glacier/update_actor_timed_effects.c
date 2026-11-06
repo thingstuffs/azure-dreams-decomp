@@ -20,7 +20,6 @@
 
 
 
-extern void advance_sprite_animation_and_textures(void *);
 extern s32 find_active_rect_containing_point(s32, s32);
 
 extern void update_actor_status_and_mp(ActorRecord *entity);

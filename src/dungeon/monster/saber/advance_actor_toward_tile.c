@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/monster/saber_frames.h"
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
@@ -16,7 +17,6 @@
 #include "sdk/libgte.h"
 
 extern s32 D_80159728;
-extern u8 saber_frame_set_5[];
 extern u8 D_8015CE0C[];
 extern u8 D_8015CE14[];
 

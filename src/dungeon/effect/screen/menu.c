@@ -3168,19 +3168,20 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct State {
-    u8 target0[3];
-    u8 pad03;
+typedef struct OrbitingColorParticleBody {
+    SpriteColor target_color;
     u16 value4;
     u16 value6;
-    u8 pad08[0x40];
+    s16 origin_z;
+    u8 pad0a[0x3E];
     s16 shift;
     s16 mode;
     s16 count;
     s16 angle;
-    u8 pad50[8];
+    s16 unk_50;
+    u8 pad52[6];
     u16 delta;
-} State;
+} OrbitingColorParticleBody;
 
 typedef struct Output {
     u8 pad00[2];
@@ -3202,16 +3203,16 @@ extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
 
 /* Updates angular motion and fades three channels in, holds them, then fades them out. */
-void update_orbiting_color_particle(State *state, Output *output, Interp *interp) {
+void update_orbiting_color_particle(OrbitingColorParticleBody *state, Output *output, Interp *interp) {
     output->value2 = state->value4 + (rcos(state->angle) >> state->shift);
     output->value6 = state->value6 + (rsin(state->angle) >> state->shift);
     state->angle = state->angle + state->delta;
     interp->value1a = state->angle + 0x400;
 
     if (state->mode == 0) {
-        interp->value0c = interp->value0c + (state->target0[0] - interp->value0c) / state->count;
-        interp->value0d = interp->value0d + (state->target0[1] - interp->value0d) / state->count;
-        interp->value0e = interp->value0e + (state->target0[2] - interp->value0e) / state->count;
+        interp->value0c = interp->value0c + (state->target_color.c.r - interp->value0c) / state->count;
+        interp->value0d = interp->value0d + (state->target_color.c.g - interp->value0d) / state->count;
+        interp->value0e = interp->value0e + (state->target_color.c.b - interp->value0e) / state->count;
         state->count = state->count - 1;
         if (state->count <= 0) {
             state->count = 8;
@@ -3413,37 +3414,11 @@ s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteF
 #include "common.h"
 #include "shared/object_node.h"
 
-struct State;
+struct OrbitingColorParticleBody;
 struct Output;
 struct Interp;
-extern void update_orbiting_color_particle(struct State *state, struct Output *output, struct Interp *interp);
+extern void update_orbiting_color_particle(struct OrbitingColorParticleBody *state, struct Output *output, struct Interp *interp);
 extern s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data);
-
-typedef struct S_800BC0A8_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void (*unk_10)(State *, Output *, Interp *);
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_800BC0A8_0;
-
-
-typedef struct S_800BC0A8_2 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    u8 pad_0A[0x3E];
-    s16 unk_48;
-    u8 pad_4A[0x2];
-    s16 unk_4C;
-    s16 unk_4E;
-    s16 unk_50;
-    u8 pad_52[0x6];
-    s16 unk_58;
-} S_800BC0A8_2;
-
 
 /* Creates an object and initializes its position, angle, and state. */
 void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48) {
@@ -3451,31 +3426,31 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
     s16 saved_value_58 = value_58;
     s16 saved_value_48 = value_48;
     SpriteFrameState *transform;
-    S_800BC0A8_2 *state;
-    void *object;
+    OrbitingColorParticleBody *state;
+    ObjectNodeHeader *object;
     ObjectPosition *position;
 
     object = allocate_list_node(0x202, &scene_object_list_anchor.next);
     if (object != 0) {
-        ((S_800BC0A8_0 *)object)->unk_10 = update_orbiting_color_particle;
+        object->update_callback = update_orbiting_color_particle;
         register_node(object, draw_shaded_quad_chain);
-        position = ((S_800BC0A8_0 *)object)->unk_08;
-        state = object + 0x20;
+        position = object->position;
+        state = NODE_BODY(object);
         position->x.w.i = x;
-        state->unk_04 = x;
+        state->value4 = x;
         position->y.w.i = y;
-        state->unk_06 = y;
+        state->value6 = y;
         position->z.w.i = z;
-        state->unk_08 = z;
-        transform = ((S_800BC0A8_0 *)object)->unk_0C;
+        state->origin_z = z;
+        transform = object->sprite;
         transform->angle_z = (s16) (angle + 0x400);
         transform->flags = (u16) (transform->flags | 0xC);
-        state->unk_4E = angle;
-        state->unk_4C = 4;
+        state->angle = angle;
+        state->count = 4;
         state->unk_50 = (s16) saved_value_50;
-        ((S_800BC0A8_0 *)object)->unk_20 = state_word;
-        state->unk_58 = (s16) saved_value_58;
-        state->unk_48 = (s16) saved_value_48;
+        state->target_color.word = state_word;
+        state->delta = (s16) saved_value_58;
+        state->shift = (s16) saved_value_48;
     }
     return object;
 }

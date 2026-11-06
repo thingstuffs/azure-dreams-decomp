@@ -21,7 +21,7 @@ typedef s32 M2C_UNK;
 extern s32 generate_random_value(void);
 extern u8 D_80170A58[];
 #include "dungeon/monster/ifrit.h"
-extern u8 ifrit_frame_set[];
+#include "dungeon/monster/ifrit_frames.h"
 extern M2C_UNK ifrit_action_resume_address;
 
 extern void *build_projected_tile_packets(s16, s16, s16, s16);

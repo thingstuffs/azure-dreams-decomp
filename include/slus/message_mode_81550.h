@@ -10,4 +10,5 @@ extern MessageModeHandler message_mode_handlers[];
 extern char *strcpy(char *dst, const char *src);
 extern char *strrchr(const char *str, s32 ch);
 
+extern char message_mode_work_buffer[2];
 #endif

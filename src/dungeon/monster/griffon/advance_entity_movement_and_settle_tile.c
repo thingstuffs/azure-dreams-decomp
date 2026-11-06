@@ -8,12 +8,12 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/griffon_frames.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 griffon_slot_d_action_callback;
-extern u8 griffon_frame_set_10[];
 extern u8 D_80162C74[];
 
 /* Advances entity movement through its phases and settles it at the tile center. */

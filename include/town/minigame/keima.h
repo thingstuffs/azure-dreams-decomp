@@ -88,4 +88,5 @@ void remove_completed_keima_object(KeimaExitState *effect);
 
 void update_directional_record(KeimaPathActor *orientation, void *state_ptr, SpriteFrameState *record);
 
+extern u8 path_actor_direction_frames[];
 #endif

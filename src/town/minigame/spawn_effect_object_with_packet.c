@@ -22,7 +22,7 @@ extern s32 D_800D2360;
 void spawn_effect_object_with_packet(TownObjectRecord *caller_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
     ObjectNodeHeader *obj;
     SpriteFrameState *part;
-    void *setup;
+    ObjectStatePositionObject *setup;
     s32 *packet;
 
     obj = allocate_flagged_object_node(0x136);
@@ -41,7 +41,7 @@ void spawn_effect_object_with_packet(TownObjectRecord *caller_data, ObjectPositi
         packet[0] = 0x05400000;
         packet[1] = 0x02300000;
         packet[2] = 0;
-        ((ObjectStatePositionObject *)setup)->setup_value = D_800D2360;
+        setup->setup_value = D_800D2360;
         configure_the_set_mode_n_1(setup, packet, D_800D2348);
     }
     (((ObjectNodeHeader *)caller_data - 1)->flags) |= NODE_REMOVE;

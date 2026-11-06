@@ -20,6 +20,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/modules.h"
 #include "dungeon/monster/hikewne.h"
+#include "dungeon/monster/picket_frames.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
@@ -31,12 +32,8 @@ extern void func_80174060(void *, void *, void *, void *);
 extern void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *, ObjectPosition *, void *, void *);
 extern void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *, ObjectPosition *, void *, ActorRecord *);
 
-
-extern u8 picket_frame_set_1[];
-extern u8 picket_frame_set_4[];
 extern u8 picket_frame_set_9;
 extern u8 picket_frame_set_3;
-extern u8 picket_frame_set_6;
 
 /* Updates dungeon actor behavior, facing, and animation from its current state. */
 /* Selects Picket's movement, attacks, spells, and turn processing; suppresses its special action while
@@ -56,7 +53,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
 
     if (entity->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (sprite->frameTable != &picket_frame_set_6) {
+        if (sprite->frameTable != picket_frame_set_6) {
             u8 *next_anim_table = &picket_frame_set_3;
 
             (sprite->frameTable) = next_anim_table;
@@ -69,7 +66,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
     }
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
-        if (sprite->frameTable == &picket_frame_set_6) {
+        if (sprite->frameTable == picket_frame_set_6) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
             actor->unk_8C.word = 0;

@@ -1,9 +1,9 @@
 #include "common.h"
+#include "engine/message/data.h"
 
 #include "common.h"
 #include "engine/script/vm.h"
 
-extern u8 message_window_object_template[];
 extern u8 message_window_state_data[];
 
 extern void update_text_row_scale(u8 *state, u8 value);

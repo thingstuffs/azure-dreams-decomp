@@ -95,7 +95,7 @@ void advance_accelerating_particle(B31_818C8924_EffectState *effect, s32 *positi
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Updates a moving effect, spawns particles, and advances its timed phases. */
-void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect, B31_818C8A70_S_818C8A70_4 *position) {
+void update_a_moving_effect_spawns_particles_advances_timed_phases(B31_818C8A70_S_818C8A70_0 *effect, B31_818C8A70_S_818C8A70_4 *position) {
     s32 effect_mode;
     s16 coord;
     s16 coord_2;
@@ -112,8 +112,8 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
     ObjectNodeHeader *particle;
 
     moving_particle_effect_updated = 1;
-    source = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_2C;
-    if (((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 == 0) {
+    source = effect->unk_2C;
+    if (effect->unk_00 == 0) {
         particle = allocate_flagged_object_node(0x212);
         particle_state = NODE_BODY(particle);
         if (particle != NULL) {
@@ -150,32 +150,32 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
             sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
             select_record_entry_and_value(sprite, effect_sprite_sources, 0);
         }
-        remaining_ticks = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 - 1;
-        ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = remaining_ticks;
+        remaining_ticks = effect->unk_02 - 1;
+        effect->unk_02 = remaining_ticks;
         if ((remaining_ticks << 0x10) <= 0) {
-            if (((B31_818C8A70_S_818C8A70_0 *)effect)->unk_08 != 0) {
-                ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 = 1;
-                ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = 0U;
+            if (effect->unk_08 != 0) {
+                effect->unk_00 = 1;
+                effect->unk_02 = 0U;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             } else {
                 ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
                 object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             }
         }
-        if ((check_adjacent_tile_height_clearance(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30) << 0x10) == 0) {
-            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_58);
-            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_5C);
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_60);
+        if ((check_adjacent_tile_height_clearance(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, effect->unk_30) << 0x10) == 0) {
+            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + effect->unk_58);
+            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + effect->unk_5C);
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + effect->unk_60);
         } else {
             ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
         }
     }
-    phase = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00;
+    phase = effect->unk_00;
     if (phase == 1) {
-        burst_ticks = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 + 1;
-        ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = burst_ticks;
+        burst_ticks = effect->unk_02 + 1;
+        effect->unk_02 = burst_ticks;
         if ((burst_ticks & 3) == phase) {
             particle = allocate_flagged_object_node(0x212);
             particle_state = NODE_BODY(particle);
@@ -189,7 +189,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 sprite->unk_10 = 0x60;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
                 particle_pos = particle->position;
-                sprite = ((B31_818C8A70_S_818C8A70_7_pre *)(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30))[-1].unk_00;
+                sprite = ((B31_818C8A70_S_818C8A70_7_pre *)(effect->unk_30))[-1].unk_00;
                 random_value = rand();
                 coord = sprite->unk_02;
                 coord -= 0x10;
@@ -220,7 +220,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 select_record_entry_and_value(sprite, effect_sprite_sources, 0);
             }
         }
-        if ((((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 & 3) == 2) {
+        if ((effect->unk_02 & 3) == 2) {
             particle = allocate_flagged_object_node(0x212);
             particle_state = NODE_BODY(particle);
             if (particle != NULL) {
@@ -232,7 +232,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 sprite->unk_10 = 0;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
                 particle_pos = particle->position;
-                sprite = ((B31_818C8A70_S_818C8A70_7_pre *)(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30))[-1].unk_00;
+                sprite = ((B31_818C8A70_S_818C8A70_7_pre *)(effect->unk_30))[-1].unk_00;
                 random_value = rand();
                 coord = sprite->unk_02;
                 coord -= 0x10;
@@ -261,15 +261,15 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 select_record_entry_and_value(sprite, directional_sprite_entries, 0);
             }
         }
-        if ((s16) ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 >= 0x29) {
-            ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 = 2;
-            ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = 0U;
+        if ((s16) effect->unk_02 >= 0x29) {
+            effect->unk_00 = 2;
+            effect->unk_02 = 0U;
             if (try_trigger_target_record_effect(source->unk_60, 1, source) == 0) {
                 s16 random_bonus;
                 u32 effect_scale;
                 random_bonus = generate_random_value();
                 random_bonus &= 3;
-                effect_scale = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_15;
+                effect_scale = effect->unk_15;
                 random_bonus += 2;
                 effect_scale >>= 2;
                 effect_value = effect_scale + random_bonus;
@@ -277,13 +277,13 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 if (current_spell_effect_variant == 0xFF) {
                     effect_mode = 0xFF;
                 }
-                try_apply_confusion_status(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30, effect_mode, effect_value);
+                try_apply_confusion_status(effect->unk_30, effect_mode, effect_value);
             }
         }
     }
-    if (((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 == 2) {
-        fade_ticks = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 + 1;
-        ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = fade_ticks;
+    if (effect->unk_00 == 2) {
+        fade_ticks = effect->unk_02 + 1;
+        effect->unk_02 = fade_ticks;
         if ((s16) fade_ticks >= 0x15) {
             ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

@@ -1,5 +1,6 @@
 #ifndef DUNGEON_MONSTER_GARUDA_ACTOR_STATUS_EVENTS_G00019_H
 #define DUNGEON_MONSTER_GARUDA_ACTOR_STATUS_EVENTS_G00019_H
+#include "dungeon/monster/garuda_frames.h"
 /* Actor status events shared declarations (G00019). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00019 - PD:dungeon/bank_1025000:801748E8, PD:dungeon/bank_102b000:8016E8E8, PD:dungeon/bank_1031000:801688E8, PD:dungeon/bank_1037000:801628E8, PD:dungeon/bank_103d000:8015C8E8, PD:dungeon/bank_1043000:801568E8. */
 
@@ -36,7 +37,6 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173834(void *, void *, void *, void *);
-extern u8 garuda_frame_set_2[];
 extern u8 garuda_frame_set_1[];
 
 typedef struct S_80047784 S_80047784;

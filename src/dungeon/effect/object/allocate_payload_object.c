@@ -5,14 +5,6 @@
 
 #include "engine/node/allocation.h"                  /* extern */
 
-typedef struct S_800B341C_0 {
-    u8 pad_00[0x10];
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    ObjectNodeHeader *unk_20;
-} S_800B341C_0;
-
-
 /* Allocates and initializes an object when the payload value is nonzero. */
 void allocate_payload_object(ObjectNodeHeader *owner, s32 payloadValue, s16 payloadShortValue) {
     ObjectNodeHeader *allocatedObject;
@@ -23,7 +15,7 @@ void allocate_payload_object(ObjectNodeHeader *owner, s32 payloadValue, s16 payl
         if (allocatedObject != 0) {
             allocatedObject->update_callback = &update_oriented_offset_effect_position;
             objectData = NODE_BODY(allocatedObject);
-            ((S_800B341C_0 *)allocatedObject)->unk_20 = owner;
+            objectData->unk_00 = owner;
             objectData->unk_04 = payloadValue;
             objectData->unk_8E.s = payloadShortValue;
         }

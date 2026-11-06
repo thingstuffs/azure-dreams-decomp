@@ -15,6 +15,7 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/manoeva_frames.h"
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s8 find_active_rect_containing_point(u8, u8);
@@ -31,9 +32,6 @@ extern u8 manoeva_frame_set_1[];
 extern u8 D_801765E0[];
 extern u8 D_80176650[];
 extern u8 D_80176660[];
-extern u8 manoeva_frame_set_3[];
-
-
 
 /* Update dungeon actor behavior, facing, and directional animation. */
 void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update_context_in, SpriteFrameState *map_object, ActorRecord *actor_data) {

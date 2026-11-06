@@ -11,8 +11,8 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/level.h"
 #include "dungeon/player.h"
+#include "dungeon/globals.h"
 
-extern s16 lift_jitter_offsets[2];
 #include "engine/graphics.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"

@@ -798,13 +798,13 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         return 2;
     }
     if ((s8)position[0x26] >= 0) {
-        select_actor_route_target(position, creature->unk_9C, creature, (u8 *)creature + 0x98);
+        select_actor_route_target(position, creature->unk_9C, creature, &creature->action_state_flags);
     } else {
         flee_player_pos = &reference_tile_object;
         if ((s16)get_tile_chebyshev_distance(position, flee_player_pos) == 1) {
             (creature->facing) = get_rounded_facing_and_rounding_flag(
                 ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
-                flee_player_pos->tile_position.parts.tile_x, flee_player_pos->tile_position.parts.tile_y, (u8 *)creature + 0x98) + 0x800;
+                flee_player_pos->tile_position.parts.tile_x, flee_player_pos->tile_position.parts.tile_y, &creature->action_state_flags) + 0x800;
         }
     }
     creature->action_flags = 0x800B;
@@ -821,7 +821,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
     if ((find_nearest_floor_item_in_room(position, 0x12, &tile_x, &tile_y) << 16) == 0) {
         break;
     }
-    action_result = get_rounded_facing_and_rounding_flag(((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, tile_x, tile_y, (u8 *)creature + 0x98);
+    action_result = get_rounded_facing_and_rounding_flag(((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, tile_x, tile_y, &creature->action_state_flags);
     {
         s32 target_x = *(u16 *)&tile_x;
         s32 target_y = *(u16 *)&tile_y;
@@ -888,7 +888,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
     }
     (creature->facing) = get_rounded_facing_and_rounding_flag(
         ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
-        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (u8 *)creature + 0x98);
+        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &creature->action_state_flags);
     goto return_wait;
 
     case MONSTER_GLACIER:

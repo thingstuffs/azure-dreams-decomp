@@ -4,7 +4,7 @@
 #include "common.h"
 #include "shared/entity.h"
 
-/* Two Cyclone creators copy a path into this body and install the bobbing updater. */
+/* Three Cyclone creators copy a path into this body and install the bobbing updater. */
 typedef struct CycloneBobbingMotionBody {
     s16 state;
     u16 count;

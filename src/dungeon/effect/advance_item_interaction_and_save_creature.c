@@ -172,6 +172,7 @@ s32 generate_random_value(void);
 #include "dungeon/system.h"
 #include "dungeon/level.h"
 #include "dungeon/data.h"
+#include "dungeon/player/familiar_frames.h"
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 monster_species_table;
 
@@ -180,7 +181,6 @@ extern u32 level_experience_table[];
 extern s8 dungeon_event_pending_flag;
 extern u8 D_800DD108[];
 extern u8 D_800DD110[];
-extern u8 familiar_summon_frames[];
 extern s32 D_800814A0;
 extern u8 D_800E0A2A[9];
 extern u8 D_800E0A33[15];

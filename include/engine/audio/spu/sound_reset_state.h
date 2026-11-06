@@ -1,5 +1,6 @@
 #ifndef SLUS_SOUND_RESET_STATE_H
 #define SLUS_SOUND_RESET_STATE_H
+#include "sdk/libspu.h"
 
 #include "engine/audio/spu/sound_range_records.h"
 
@@ -21,9 +22,6 @@ extern s32 spu_buffered_voice_mask;
 extern s32 spu_register_buffer_flags;
 void ResetCallback(s32 channel);
 s32 _spu_init(s32 warm);
-void SpuStart(void);
-void _spu_FsetRXX(s32 index, u32 value, s32 apply_shift);
 
-void _SpuInit(s32 channel);
 
 #endif

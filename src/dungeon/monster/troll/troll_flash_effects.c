@@ -92,7 +92,7 @@ void update_growing_rotating_flash(GrowingRotatingFlashBody *effect, ObjectPosit
 }
 
 /* Updates effect motion, handles collisions, grows the sprite, and flags expiration. */
-void update_growing_bouncing_effect(void *effect, void *position_arg, SpriteFrameState *sprite)
+void update_growing_bouncing_effect(T_80170F94_S_80170F94_1 *effect, void *position_arg, SpriteFrameState *sprite)
 {
     T_80170F94_S_80170F94_0 *position = position_arg;
     s32 height;
@@ -101,45 +101,45 @@ void update_growing_bouncing_effect(void *effect, void *position_arg, SpriteFram
     u16 scale_y;
     u16 ticks_left;
 
-    position->unk_00.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_40;
-    ((T_80170F94_S_80170F94_1 *)effect)->unk_40 += ((T_80170F94_S_80170F94_1 *)effect)->unk_4C;
+    position->unk_00.at00.v += effect->unk_40;
+    effect->unk_40 += effect->unk_4C;
     if (check_left_tile_and_center_height(position->unk_00.at02.v,
                       position->unk_04.at02.v,
                       position->unk_08.at02.v) << 16) {
-        position->unk_00.at00.v -= ((T_80170F94_S_80170F94_1 *)effect)->unk_40;
-        ((T_80170F94_S_80170F94_1 *)effect)->unk_40 = 0;
-        ((T_80170F94_S_80170F94_1 *)effect)->unk_4C = 0;
+        position->unk_00.at00.v -= effect->unk_40;
+        effect->unk_40 = 0;
+        effect->unk_4C = 0;
     }
 
-    position->unk_04.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_44;
-    ((T_80170F94_S_80170F94_1 *)effect)->unk_44 += ((T_80170F94_S_80170F94_1 *)effect)->unk_50;
+    position->unk_04.at00.v += effect->unk_44;
+    effect->unk_44 += effect->unk_50;
     if (check_left_tile_and_center_height(position->unk_00.at02.v,
                       position->unk_04.at02.v,
                       position->unk_08.at02.v) << 16) {
-        position->unk_04.at00.v -= ((T_80170F94_S_80170F94_1 *)effect)->unk_44;
-        ((T_80170F94_S_80170F94_1 *)effect)->unk_44 = 0;
-        ((T_80170F94_S_80170F94_1 *)effect)->unk_50 = 0;
+        position->unk_04.at00.v -= effect->unk_44;
+        effect->unk_44 = 0;
+        effect->unk_50 = 0;
     }
 
-    position->unk_08.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_48;
-    ((T_80170F94_S_80170F94_1 *)effect)->unk_48 += ((T_80170F94_S_80170F94_1 *)effect)->unk_54;
+    position->unk_08.at00.v += effect->unk_48;
+    effect->unk_48 += effect->unk_54;
     height = position->unk_08.at02.v;
     if (sample_terrain_surface_height(position->unk_00.at02.v,
                       position->unk_04.at02.v,
                       (s16)(position->unk_08.at02u.v - 4)) - 0x10 < height) {
-        ((T_80170F94_S_80170F94_1 *)effect)->unk_48 = 0;
+        effect->unk_48 = 0;
         position->unk_08.at02.v = sample_terrain_surface_height(
             position->unk_00.at02.v, position->unk_04.at02.v,
             (s16)(position->unk_08.at02u.v - 4)) - 0x11;
         position->unk_08.at00u.v = 0;
-        if (((T_80170F94_S_80170F94_1 *)effect)->unk_0E == 0) {
-            ((T_80170F94_S_80170F94_1 *)effect)->unk_0E = 1;
-            ((T_80170F94_S_80170F94_1 *)effect)->unk_18.s = 0;
+        if (effect->unk_0E == 0) {
+            effect->unk_0E = 1;
+            effect->unk_18.s = 0;
         }
     }
 
-    frame_count = ((T_80170F94_S_80170F94_1 *)effect)->unk_1A + 1;
-    ((T_80170F94_S_80170F94_1 *)effect)->unk_1A = frame_count;
+    frame_count = effect->unk_1A + 1;
+    effect->unk_1A = frame_count;
     if ((frame_count & 3) == 0) {
         advance_sprite_animation_and_textures(sprite);
     }
@@ -156,8 +156,8 @@ void update_growing_bouncing_effect(void *effect, void *position_arg, SpriteFram
         sprite->scale_y = 0x1000;
     }
 
-    ticks_left = ((T_80170F94_S_80170F94_1 *)effect)->unk_18.u - 1;
-    ((T_80170F94_S_80170F94_1 *)effect)->unk_18.u = ticks_left;
+    ticks_left = effect->unk_18.u - 1;
+    effect->unk_18.u = ticks_left;
     if ((s16)ticks_left <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

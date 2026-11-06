@@ -34,7 +34,7 @@ void spawn_conditional_source_effect(void) {
     }
     count = low_byte | (high_byte << 8);
     source_pos = ghosh_actor_node->position;
-    source_state = source + 0x20;
+    source_state = NODE_BODY(source);
     if (((count & 3) == 1) && !(rand() & 1)) {
         effect = allocate_flagged_object_node(0x12);
         if (effect != NULL) {

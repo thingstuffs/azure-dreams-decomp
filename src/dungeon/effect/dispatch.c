@@ -335,20 +335,12 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_800C5A64_1 {
-    u8 pad_00[0xC];
-    s16 unk_0C;
-    u8 pad_0E[0x2];
-    union { s16 s; u16 u; } unk_10;   /* accessed as both */
-    u8 pad_12[0xA];
-    s16 unk_1C;
-} S_800C5A64_1;   /* arg0 in damp_effect_motion_and_fade */
-
 extern void advance_sprite_animation_and_textures(void *entity);
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
 void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive)
 {
+    DampedParticleBurstBody *body = effect;
     s16 remaining;
 
     motion[0] += motion[3];
@@ -359,18 +351,18 @@ void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *pr
 
     advance_sprite_animation_and_textures(primitive);
 
-    primitive->color.c.r -= primitive->color.c.r / ((S_800C5A64_1 *)effect)->unk_10.s;
-    primitive->color.c.g -= primitive->color.c.g / ((S_800C5A64_1 *)effect)->unk_10.s;
-    primitive->color.c.b -= primitive->color.c.b / ((S_800C5A64_1 *)effect)->unk_10.s;
+    primitive->color.c.r -= primitive->color.c.r / body->remaining_ticks;
+    primitive->color.c.g -= primitive->color.c.g / body->remaining_ticks;
+    primitive->color.c.b -= primitive->color.c.b / body->remaining_ticks;
 
-    remaining = ((S_800C5A64_1 *)effect)->unk_10.u - 1;
-    ((S_800C5A64_1 *)effect)->unk_10.s = remaining;
+    remaining = (u16)body->remaining_ticks - 1;
+    body->remaining_ticks = remaining;
     if ((remaining << 16) <= 0) {
-        if ((((S_800C5A64_1 *)effect)->unk_0C == 0) &&
-            (((S_800C5A64_1 *)effect)->unk_1C == 0)) {
+        if ((body->effect_index == 0) &&
+            (body->unk_1C == 0)) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -387,13 +379,6 @@ struct Elem;
 extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
-typedef struct S_800C5BBC_3 {
-    u8 pad_00[0xC];
-    s16 unk_0C;
-    u8 pad_0E[0x2];
-    s16 unk_10;
-} S_800C5BBC_3;
-
 /* Spawn a burst of randomized particles and return the first particle. */
 void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound) {
     s32 alloc_flags;
@@ -402,7 +387,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
     ObjectPosition *position;
     SpriteFrameState *sprite;
     ObjectNodeHeader *particle;
-    S_800C5BBC_3 *particle_state;
+    DampedParticleBurstBody *particle_state;
     void *first_particle;
 
     first_particle = 0;
@@ -437,8 +422,8 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
                 sprite->clut = 3;
                 sprite->flags = (u16) (sprite->flags | 0xC);
                 particle_state = NODE_BODY(particle);
-                particle_state->unk_10 = (s16) ((rand() & 0xF) | 0x10);
-                particle_state->unk_0C = particle_index;
+                particle_state->remaining_ticks = (s16) ((rand() & 0xF) | 0x10);
+                particle_state->effect_index = particle_index;
                 if (particle_index == 0) {
                     first_particle = particle;
                     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);

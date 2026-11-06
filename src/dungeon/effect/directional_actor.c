@@ -219,7 +219,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
 
 /* Shrinks and recolors a sprite along a rotated, jittered path, looping its animation until its
    lifetime ends. */
-void shrink_spiraling_sprite_effect(void *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_80082E80 *sprite)
+void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_80082E80 *sprite)
 {
     Row_818E0D94_CallRecord transform;
     Row_818E0D94_OutputVector offset;
@@ -227,9 +227,9 @@ void shrink_spiraling_sprite_effect(void *effect, Row_818E0D94_S_818E0D94_3 *pos
     u16 size;
     s8 shade;
 
-    effect_state = ((Row_818E0D94_S_818E0D94_0 *)effect)->unk_00;
+    effect_state = effect->unk_00;
     effect_state->unk_52 |= 0x8000;
-    ((Row_818E0D94_S_818E0D94_0 *)effect)->unk_48.u16++;
+    effect->unk_48.u16++;
 
     size = sprite->unk_1C.at02_u16.v - 0x50;
     sprite->unk_1C.at02_u16.v = size;
@@ -241,12 +241,12 @@ void shrink_spiraling_sprite_effect(void *effect, Row_818E0D94_S_818E0D94_3 *pos
         s16 height;
 
         height_jitter = rand() & 0x3F;
-        phase = ((Row_818E0D94_S_818E0D94_0 *)effect)->unk_48.s16 * 0x32;
-        height = ((Row_818E0D94_S_818E0D94_0 *)effect)->unk_18;
+        phase = effect->unk_48.s16 * 0x32;
+        height = effect->unk_18;
         phase += 0xC8;
         height += 0x200;
         height += height_jitter;
-        ((Row_818E0D94_S_818E0D94_0 *)effect)->unk_18 = height;
+        effect->unk_18 = height;
         offset.x = rsin(phase) / 80;
     }
     offset.y = 0;
@@ -255,14 +255,14 @@ void shrink_spiraling_sprite_effect(void *effect, Row_818E0D94_S_818E0D94_3 *pos
         s32 neg_tick;
 
         z_jitter = rand() & 3;
-        neg_tick = 0 - ((Row_818E0D94_S_818E0D94_0 *)effect)->unk_48.s16;
+        neg_tick = 0 - effect->unk_48.s16;
         offset.z = (neg_tick * 4) + z_jitter - 1;
     }
 
-    shade = ((u8)offset.x + 0x28) - ((Row_818E0D94_S_818E0D94_0 *)effect)->unk_48.u8;
+    shade = ((u8)offset.x + 0x28) - effect->unk_48.u8;
     sprite->unk_0C.at01_s8.v = shade;
     sprite->unk_0C.at00_s8.v = shade;
-    sprite->unk_0C.at02_s8.v = ((u8)offset.x + 0x60) - ((Row_818E0D94_S_818E0D94_0 *)effect)->unk_48.u8;
+    sprite->unk_0C.at02_s8.v = ((u8)offset.x + 0x60) - effect->unk_48.u8;
 
     transform.field0 = &offset;
     transform.field4 = &offset;
@@ -282,7 +282,7 @@ void shrink_spiraling_sprite_effect(void *effect, Row_818E0D94_S_818E0D94_3 *pos
         sprite->unk_05.as_s8 = 0;
     }
 
-    if (((Row_818E0D94_S_818E0D94_0 *)effect)->unk_48.s16 >= 0x20) {
+    if (effect->unk_48.s16 >= 0x20) {
         u32 *flags_base;
 
         ((Row_818E0D94_S_818E0D94_0_pre *)effect)[-1].unk_00 |= 0x8000;

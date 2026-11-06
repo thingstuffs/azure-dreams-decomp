@@ -150,7 +150,7 @@ void update_directional_actor_effect(void *input, void *output)
     ObjectPosition *dst_position;
     ObjectPosition *dst_position_3;
     ObjectPosition *dst_position_2;
-    void *particle_data;
+    S_FUNC_8197C800_BODY_10 *particle_data;
     s32 remaining;
     s32 result;
     void *particle_script_debris;
@@ -235,7 +235,7 @@ void update_directional_actor_effect(void *input, void *output)
         sprite->frame_ticks = 0;
         sprite->color.word = (void *)random_value;
         ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
-        ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
+        particle_data->unk_4C = 0;
     }
     tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A + 1;
 
@@ -332,7 +332,7 @@ void update_directional_actor_effect(void *input, void *output)
                     sprite->frame_ticks = 0;
                     sprite->color.word = (void *)(color | 0x6060u);
                     ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
-                    ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
+                    particle_data->unk_4C = 0;
                 }
             }
             remaining -= 1;
@@ -410,7 +410,7 @@ void update_directional_actor_effect(void *input, void *output)
                     sprite->frame_ticks = 0;
                     sprite->color.word = (void *)(color | 0x1010u);
                     ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
-                    ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
+                    particle_data->unk_4C = 0;
                 }
             }
             remaining -= 1;

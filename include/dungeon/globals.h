@@ -11,4 +11,12 @@ extern u8 player_alternate_motion_frames[ ];
 extern u8 player_put_down_frames[ ];
 extern u8 player_tile_motion_frames[ ];
 
+extern s16 actor_hop_target_height;
+extern s16 beldo_turn_angle_steps[];
+extern u8 cyclone_view_direction_entries[];
+extern s8 encounter_cd_ready;
+extern u16 encounter_image_load_commands[8];
+extern s16 lift_jitter_offsets[2];
+extern s32 visual_object_sprite_data;
+
 #endif

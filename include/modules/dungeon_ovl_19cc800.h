@@ -32,6 +32,9 @@ typedef struct EffectSprite {
 extern u16 warp_effect_counters[8];
 extern s16 D_80027450;
 extern u8 warp_sprite_entries[12];
+extern s32 warp_position_phase;
+extern u8 warp_attack_option;
+extern u8 warp_piece_slots[];
 
 struct EffectColor;
 struct Entry;

@@ -126,7 +126,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         position->unk_00 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_00;
         position->unk_04 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_04;
         position->unk_08.unk_08 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_08.unk_08;
-        effect->unk_0A = (s16) ((u16) (s16)effect->unk_0A + 1);
+        effect->unk_0A = effect->unk_0A + 1;
     case 1:
         if (!(*effect->unk_04 & 0x80)) {
             return;
@@ -427,9 +427,9 @@ typedef struct S_8002466C_0 {
     s16 unk_42;
     s16 unk_44;
     s16 unk_46;
-    u16 unk_48;   /* accessed as both */
+    u16 unk_48;
     u16 unk_4A;
-    s16 unk_4C;   /* accessed as both */
+    s16 unk_4C;
     u16 unk_4E;
     u16 unk_50;
     u16 unk_52;

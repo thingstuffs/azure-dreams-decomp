@@ -328,10 +328,10 @@ s32 attempt_random_status_effect(ActorRecord *entity, s32 rng_input_a, s32 rng_i
 }
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
+#include "dungeon/actor/movement_overlap_wait_g00334.h"
 
 extern u8 D_800E1BDA[];
 extern s32 generate_random_value(void);
-extern void begin_actor_random_warp(void *, void *, void *, void *);
 
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
 s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
@@ -927,12 +927,12 @@ typedef struct S_800CCDA0_3 {
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 
 /* Updates a bouncing effect's motion, rotation, and fading until its lifetime expires. */
-void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, void *motion, void *sprite)
+void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, S_800CCDA0_1 *motion, S_800CCDA0_3 *sprite)
 {
     u16 ticks_or_angle;
 
     if (effect->phase == 0) {
-        ((S_800CCDA0_1 *)motion)->unk_14 += 0x20000;
+        motion->unk_14 += 0x20000;
 
         ticks_or_angle = effect->ticks_left - 1;
         effect->ticks_left = ticks_or_angle;
@@ -940,18 +940,18 @@ void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, void *motion, v
             play_sound_if_enabled(0x701);
         }
 
-        if (effect->floor_height < ((S_800CCDA0_1 *)motion)->unk_08.at02.v) {
+        if (effect->floor_height < motion->unk_08.at02.v) {
             apply_attack_power_and_element_effects(effect->source, 10,
                           dungeon_actor_ring_anchor->level, 8,
                           (effect->unk_08 << 25) >> 16, 0, 2);
 
-            ((S_800CCDA0_1 *)motion)->unk_14 = -((S_800CCDA0_1 *)motion)->unk_14;
-            ((S_800CCDA0_1 *)motion)->unk_0C =
+            motion->unk_14 = -motion->unk_14;
+            motion->unk_0C =
                 rcos(g_game_work.view.camera_rotation.parts.viewAngle) << 8;
-            ((S_800CCDA0_1 *)motion)->unk_10 =
+            motion->unk_10 =
                 rsin(g_game_work.view.camera_rotation.parts.viewAngle) << 8;
 
-            ((S_800CCDA0_3 *)sprite)->unk_14 |= 0xC;
+            sprite->unk_14 |= 0xC;
             effect->ticks_left = 12;
             effect->phase = (s16)((u16)effect->phase + 1);
         }
@@ -959,31 +959,31 @@ void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, void *motion, v
         u16 angle;
         s16 ticks_left;
 
-        ((S_800CCDA0_1 *)motion)->unk_14 += 0x80000;
-        angle = ((S_800CCDA0_3 *)sprite)->unk_1A;
+        motion->unk_14 += 0x80000;
+        angle = sprite->unk_1A;
         ticks_left = (s16)effect->ticks_left;
         angle += (0x400 - angle) / ticks_left;
-        ((S_800CCDA0_3 *)sprite)->unk_1A = angle;
+        sprite->unk_1A = angle;
 
         {
             s32 wobble_angle;
 
             ticks_or_angle = effect->ticks_left;
-            wobble_angle = ((S_800CCDA0_3 *)sprite)->unk_1A;
+            wobble_angle = sprite->unk_1A;
             if (ticks_or_angle & 1) {
                 ticks_or_angle = wobble_angle + 0x100;
             } else {
                 ticks_or_angle = wobble_angle - 0x100;
             }
-            ((S_800CCDA0_3 *)sprite)->unk_1A = ticks_or_angle;
+            sprite->unk_1A = ticks_or_angle;
         }
 
-        ((S_800CCDA0_3 *)sprite)->unk_0C -=
-            ((S_800CCDA0_3 *)sprite)->unk_0C / (s16)effect->ticks_left;
-        ((S_800CCDA0_3 *)sprite)->unk_0D -=
-            ((S_800CCDA0_3 *)sprite)->unk_0D / (s16)effect->ticks_left;
-        ((S_800CCDA0_3 *)sprite)->unk_0E -=
-            ((S_800CCDA0_3 *)sprite)->unk_0E / (s16)effect->ticks_left;
+        sprite->unk_0C -=
+            sprite->unk_0C / (s16)effect->ticks_left;
+        sprite->unk_0D -=
+            sprite->unk_0D / (s16)effect->ticks_left;
+        sprite->unk_0E -=
+            sprite->unk_0E / (s16)effect->ticks_left;
 
         ticks_or_angle = effect->ticks_left - 1;
         effect->ticks_left = ticks_or_angle;
@@ -994,9 +994,9 @@ void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, void *motion, v
         }
     }
 
-    ((S_800CCDA0_1 *)motion)->unk_00 += ((S_800CCDA0_1 *)motion)->unk_0C;
-    ((S_800CCDA0_1 *)motion)->unk_04 += ((S_800CCDA0_1 *)motion)->unk_10;
-    ((S_800CCDA0_1 *)motion)->unk_08.at00.v += ((S_800CCDA0_1 *)motion)->unk_14;
+    motion->unk_00 += motion->unk_0C;
+    motion->unk_04 += motion->unk_10;
+    motion->unk_08.at00.v += motion->unk_14;
 }
 #include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
@@ -1166,7 +1166,7 @@ typedef struct S_800CD1A4_1 {
 } S_800CD1A4_1;   /* owner in roll_trap_hit_and_raise_event_520 */
 
 /* Roll the actor's trap check; on a hit mark it, play the burst at the owner's tile and raise event 0x520. */
-s32 roll_trap_hit_and_raise_event_520(void *actor) {
+s32 roll_trap_hit_and_raise_event_520(EntityRec *actor) {
     s32 chance;
     S_800CD1A4_1 *owner;
 
@@ -1175,21 +1175,21 @@ s32 roll_trap_hit_and_raise_event_520(void *actor) {
         chance = 0x400;
     }
     if (roll_chance_and_run_action(actor, chance, 0x10) == 0) {
-        if ((*((u8 *)&((EntityRec *)actor)->unk_10 + 3)) == 0) {
+        if ((*((u8 *)&actor->unk_10 + 3)) == 0) {
             display_fixed_item_action_message();
             return 1;
         }
         return 1;
     }
     adjust_source_value_and_finalize(actor, &D_800E1BF3);
-    if ((*((u8 *)&((EntityRec *)actor)->unk_10 + 3)) == 0) {
+    if ((*((u8 *)&actor->unk_10 + 3)) == 0) {
         wrap_position_and_set_state_value(D_800DCF0C);
     }
     owner = ((S_800CD1A4_0_pre *)actor)[-1].unk_00;
     if (!(owner->unk_14 & 0x8000)) {
         spawn_randomized_particle_burst((owner->unk_24 << 6) | 0x20,
                       (owner->unk_25 << 6) | 0x20,
-                      ((EntityRec *)actor)->unk_88, 0x808080, 0x20, 0);
+                      actor->unk_88, 0x808080, 0x20, 0);
         play_sound_if_enabled(0x520);
     }
     return 1;

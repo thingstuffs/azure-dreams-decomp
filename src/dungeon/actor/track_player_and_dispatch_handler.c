@@ -57,7 +57,7 @@ extern s32 check_object_type_and_data_tag(void *);
 extern void retry_sound_sequence_when_ready(void);
 
 /* Adjusts the position and dispatches the current state handler for the owner. */
-void track_player_and_dispatch_handler(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, s32 dispatch_param)
+void track_player_and_dispatch_handler(Rec_D_80082D58 *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, s32 dispatch_param)
 {
     TownState *state = &scene_object_payload_alias;
     s32 *offset = D_800D0420;
@@ -92,19 +92,19 @@ void track_player_and_dispatch_handler(void *context, S_7FFFE25C_1 *owner, Entit
         if (current == (s32)&town_interaction_action_address || current == (s32)&town_threshold_update_address) {
             dispatch_context = context;
             dispatch_owner = owner;
-            handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_08;
+            handler = ((S_7FFFE25C_4 *)(context->unk_58))->unk_08;
             dispatch_pos = adjusted_pos;
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
         } else if (current == (s32)&town_input_motion_address) {
             dispatch_context = context;
             dispatch_owner = owner;
-            handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_14;
+            handler = ((S_7FFFE25C_4 *)(context->unk_58))->unk_14;
             dispatch_pos = adjusted_pos;
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
         } else if (current == (s32)&town_timed_state_address) {
             dispatch_context = context;
             dispatch_owner = owner;
-            handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_0C;
+            handler = ((S_7FFFE25C_4 *)(context->unk_58))->unk_0C;
             dispatch_pos = adjusted_pos;
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
         } else if (current == (s32)&scene_fallback_request_address) {
@@ -116,7 +116,7 @@ void track_player_and_dispatch_handler(void *context, S_7FFFE25C_1 *owner, Entit
             current == (s32)&scene_idle_callback_address || service_script_controller() != 0) || previous_owner != (s32)owner) {
             dispatch_context = context;
             dispatch_owner = owner;
-            handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_10;
+            handler = ((S_7FFFE25C_4 *)(context->unk_58))->unk_10;
             dispatch_pos = adjusted_pos;
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
         } else {

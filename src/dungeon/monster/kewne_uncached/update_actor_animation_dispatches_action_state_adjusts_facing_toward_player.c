@@ -19,6 +19,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/kewne.h"
+#include "dungeon/monster/kewne_uncached_frames.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
@@ -29,7 +30,6 @@ extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosit
 extern void func_80163078(void *, void *, void *, void *);
 
 extern u8 D_8015FFA4[];
-extern u8 kewne_uncached_frame_set_3[];
 extern u8 D_80163C38[];
 extern u8 D_80163C88[];
 extern u8 D_80163C90[];

@@ -34,8 +34,6 @@ struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 struct Rec_func_800A9E70_arg0;
 struct Rec_func_800A9E70_arg0;
 s32 advance_actor_effect_sequence_2();
-extern u8 beldo_large_frame_set_6[];
-extern u8 beldo_large_frame_set_17[];
 extern u8 D_801739F8[];
 extern u8 D_80173A08[];
 extern u8 D_80173A10[];

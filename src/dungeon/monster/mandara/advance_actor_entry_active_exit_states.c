@@ -34,6 +34,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/monster/mandara.h"
 #include "dungeon/level.h"
 #include "dungeon.h"
+#include "dungeon/monster/mandara_frames.h"
 
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -41,7 +42,6 @@ extern void func_80174250(void *, void *, void *, void *);
 
 extern u8 mandara_action_resume_address[];
 extern u8 mandara_object_callback[];
-extern u8 mandara_frame_set_1[];
 
 /* Advances the actor action through its entry, active, and exit animation states. */
 /* Animates entry and exit palette changes for status slot 1, processes turns while active, and restores

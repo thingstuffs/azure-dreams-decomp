@@ -20,13 +20,13 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/ifrit_frames.h"
 
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80173F28(void *, void *, void *, void *);
 
 extern u8 ifrit_action_resume_address[];
-extern u8 ifrit_frame_set[];
 
 /* Advance the actor action through animation setup, status handling, and completion. */
 void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor) {

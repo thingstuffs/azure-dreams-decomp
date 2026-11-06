@@ -30,8 +30,8 @@ extern u8 dreamin_action_continuation_address[];
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/level.h"
+#include "dungeon/monster/dreamin_frames.h"
 
-extern u8 dreamin_frame_set_1[];
 extern u8 D_8017389C[];
 
 typedef struct S_80170E68_4 {

@@ -6,6 +6,7 @@
 #include "dungeon/level.h"
 #include "dungeon/player.h"
 #include "engine/graphics.h"
+#include "dungeon/player/familiar_frames.h"
 
 
 typedef struct S_80095854_1 {
@@ -17,7 +18,6 @@ typedef struct S_80095854_1 {
 
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);           /* extern */
-extern u8 familiar_summon_frames;
 
 /* Starts the summoning animation and finds a nearby tile, reserving space for an existing linked familiar. */
 s32 begin_familiar_summoning(ActorRecord *record, s32 input1, void *pointer_input, s32 value_input) {
@@ -45,9 +45,9 @@ s32 begin_familiar_summoning(ActorRecord *record, s32 input1, void *pointer_inpu
         status = value;
     }
     clear_player_linked_action_flags();
-    (*(s32 **)((u8 *)pointer_data + 0x2C)) = &familiar_summon_frames;
+    (*(s32 **)((u8 *)pointer_data + 0x2C)) = familiar_summon_frames;
     set_sprite_animation_frame(pointer_data, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + record->facing + 0x100) >> 9) & 7)
-        + &familiar_summon_frames), 0, 1);
+        + familiar_summon_frames), 0, 1);
     reference_tile_object.selected_item = input_value;
     direction_index = ((u16) (record->facing) >> 8) & 0xE;
     record->target_tile_x = (s8) (((MovingTile *)pointer_data)->tile_x + *(direction_index + ((s8 *)dir_step_x)));

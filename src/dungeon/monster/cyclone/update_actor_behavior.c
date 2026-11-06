@@ -29,8 +29,7 @@ extern void func_80174520(void *, void *, void *, void *);
 #include "dungeon/monster/cyclone.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
-
-extern u8 cyclone_frame_set_1[];
+#include "dungeon/monster/cyclone_frames.h"
 
 /* Updates actor behavior and directional animation through three states, then sets its next callback. */
 void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

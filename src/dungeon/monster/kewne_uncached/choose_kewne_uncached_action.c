@@ -37,13 +37,13 @@ extern u8 D_8016FCA0[];
 extern u8 D_8016FCA8[];
 
 /* Updates actor animation, facing, and action handling from dungeon state. */
-void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
+void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     u16 direction_flags;
     s8 area_id;
     u16 action;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((ActorRecord *)actor)->action_id.u = 0xE;
+        actor->action_id.u = 0xE;
         advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
@@ -64,9 +64,9 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_8016FC90) {
-            ((ActorRecord *)actor)->action_id.u = 0xD;
-            ((ActorRecord *)actor)->action_phase.u = 1;
-            ((ActorRecord *)actor)->unk_8C.word = 0;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
+            actor->unk_8C.word = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
         }
@@ -82,14 +82,14 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
         }
 
         {
-            u8 current_state = ((ActorRecord *)actor)->action_id.u;
+            u8 current_state = actor->action_id.u;
             u32 next_state = 0xE;
             void *current_anim;
             void *anim_table;
 
             if (current_state != next_state) {
-                ((ActorRecord *)actor)->action_id.u = next_state;
-                ((ActorRecord *)actor)->unk_B4.halves.high.s = 0;
+                actor->action_id.u = next_state;
+                actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
             if (current_anim == D_8016FCA8) {
@@ -101,8 +101,8 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
                         ((u8 *)idle_anim)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-                    ((ActorRecord *)actor)->unk_9E.s = 0;
+                    actor->unk_A0.halves.high.s = 0;
+                    actor->unk_9E.s = 0;
                 }
             } else {
                 anim_table = D_8016FC30;
@@ -112,14 +112,14 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
                         ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-                    ((ActorRecord *)actor)->unk_9E.s = 0;
+                    actor->unk_A0.halves.high.s = 0;
+                    actor->unk_9E.s = 0;
                 }
             }
         }
 
         entity->flags1C |= 0x40000;
-        ((ActorRecord *)actor)->action_state_flags &= 0xFFF7;
+        actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_8016FC38) != 0) {
@@ -131,10 +131,10 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
             s16 base_height;
 
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
-            base_height = ((ActorRecord *)actor)->unk_90.parts.high.u - ((ActorRecord *)actor)->unk_A0.parts.high;
-            ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-            ((ActorRecord *)actor)->unk_9E.s = 0;
-            ((ActorRecord *)actor)->unk_90.parts.high.s = base_height;
+            base_height = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            actor->unk_A0.halves.high.s = 0;
+            actor->unk_9E.s = 0;
+            actor->unk_90.parts.high.s = base_height;
             func_8016F078(actor, context, sprite, entity);
             return;
         }

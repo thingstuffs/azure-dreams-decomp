@@ -7,7 +7,7 @@
 #include "shared/object_node.h"
 
 /* Update the effect countdown and motion, fade its color, and flag expiration. */
-void update_fading_motion_effect(void *effect_arg, void *transform_arg, void *color_arg) {
+void update_fading_motion_effect(BlumeFadingMotionBody *effect_arg, ObjectPosition *transform_arg, SpriteFrameState *color_arg) {
     SpriteFrameState *color = color_arg;
     ObjectPosition *transform = transform_arg;
     BlumeFadingMotionBody *effect = effect_arg;
@@ -18,25 +18,25 @@ void update_fading_motion_effect(void *effect_arg, void *transform_arg, void *co
     next_value = effect->ticks_left - 1;
     effect->ticks_left = next_value;
     if ((s16)next_value < 8) {
-        effect->unk_4E = effect->unk_4E - 1;
+        effect->late_countdown = effect->late_countdown - 1;
     }
 
-    if ((s16)effect->unk_4E < 2) {
-        effect->unk_4E = 2;
+    if ((s16)effect->late_countdown < 2) {
+        effect->late_countdown = 2;
     }
 
     if ((s16)effect->ticks_left < 10) {
-        next_value = effect->unk_2A + 1;
-        next_total = effect->unk_50 + next_value;
-        effect->unk_2A = next_value;
-        effect->unk_50 = next_total;
+        next_value = effect->late_step + 1;
+        next_total = effect->accumulated_step + next_value;
+        effect->late_step = next_value;
+        effect->accumulated_step = next_total;
     } else {
-        effect->unk_50 = effect->unk_50 + 1;
+        effect->accumulated_step = effect->accumulated_step + 1;
     }
 
     if ((s16)effect->ticks_left < 11) {
-        next_value = effect->unk_2C + 2;
-        effect->unk_2C = next_value;
+        next_value = effect->vertical_drop_step + 2;
+        effect->vertical_drop_step = next_value;
         transform->z.unsigned_parts.integer = transform->z.unsigned_parts.integer - next_value;
     }
 

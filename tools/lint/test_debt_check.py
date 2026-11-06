@@ -7,6 +7,7 @@ import json
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
@@ -38,6 +39,14 @@ void after(void)
 
 
 class MacroCastReport(unittest.TestCase):
+    def test_access_summary_is_report_only(self):
+        lines = D.access_report_lines({'source_sites': 8, 'mapped': 4, 'agreement': 3,
+                                       'by_kind': {'view': 1, 'named record': 3},
+                                       'source_by_kind': {'view': 4, 'named record': 4}})
+        self.assertIn('3/4\t75.00%', lines[0])
+        self.assertIn('4/8', lines[1])
+        self.assertIn('1/4\t25.00%', next(line for line in lines if 'view coverage' in line))
+
     def scopes(self, text, flag):
         return D.analyze('src/test/example.c', text, flag)['scopes']
 
@@ -82,6 +91,29 @@ class MacroCastReport(unittest.TestCase):
             self.assertEqual(rows[1].split('\t')[:6], ['src/test/example.c', 'use#1', '8', '1', '9', '5'])
             D.write_outputs(root / 'plain', plain)
             self.assertFalse((root / 'plain/debt_macro_casts.tsv').exists())
+
+    def test_summary_cache_uses_content_and_invalidates_on_header_change(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'src/test').mkdir(parents=True)
+            (root / 'include').mkdir()
+            source = root / 'src/test/example.c'
+            header = root / 'include/example.h'
+            source.write_text('#include "example.h"\nvoid f(void) { }\n')
+            header.write_text('#define MARK 1\n')
+            cache = root / 'out/cache'
+            original = D.analyze
+            with patch.object(D, 'analyze', wraps=original) as analyze:
+                first = D.census(root, ['src/test/example.c'], True, cache)
+                second = D.census(root, ['src/test/example.c'], True, cache)
+                self.assertEqual(first, second)
+                self.assertEqual(analyze.call_count, 1)
+                header.write_text('#define MARK 2\n')
+                D.census(root, ['src/test/example.c'], True, cache)
+                self.assertEqual(analyze.call_count, 2)
+                source.write_text('#include "example.h"\nvoid f(void) { int x; }\n')
+                D.census(root, ['src/test/example.c'], True, cache)
+                self.assertEqual(analyze.call_count, 3)
 
     def test_reachable_header_macros_and_local_shadow(self):
         with tempfile.TemporaryDirectory() as td:

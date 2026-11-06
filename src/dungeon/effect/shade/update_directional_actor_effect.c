@@ -37,7 +37,7 @@ void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 
 
 /* Follows the source sprite until released, arcs toward the actor, then expands and brightens before
    removal. */
-void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect, void *motion, void *sprite_arg)
+void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect, Row_8194C8F0_S_800240F0_2 *motion, void *sprite_arg)
 {
     Row_8194C8F0_S_800240F0_4 *sprite = sprite_arg;
     u16 offset[3];
@@ -60,20 +60,20 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
             u16 source_z;
 
             position = ((Row_8194C8F0_S_800240F0_6 *)(effect->unk_00))->unk_08;
-            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at02.v = position->unk_00.at02.v;
-            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at02.v = position->unk_04.at02.v;
+            motion->unk_00.at02.v = position->unk_00.at02.v;
+            motion->unk_04.at02.v = position->unk_04.at02.v;
             source_z = position->unk_0A;
-            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at02.v = source_z;
+            motion->unk_08.at02.v = source_z;
 
             if (!(source->unk_14 & 0x8000)) {
                 u16 offset_z;
 
-                ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at02.v += offset[0];
-                ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at02.v += offset[1];
-                offset_z = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at02.v + offset[2];
-                ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at02.v = offset_z;
+                motion->unk_00.at02.v += offset[0];
+                motion->unk_04.at02.v += offset[1];
+                offset_z = motion->unk_08.at02.v + offset[2];
+                motion->unk_08.at02.v = offset_z;
             } else {
-                ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at02.v = source_z - 0x20;
+                motion->unk_08.at02.v = source_z - 0x20;
             }
         }
     }
@@ -97,30 +97,30 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
         {
             Row_8194C8F0_S_800240F0_3 *position;
             position = ((Row_8194C8F0_S_800240F0_8 *)(effect->unk_04))->unk_08;
-            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C = position->unk_00.at00.v;
-            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 = position->unk_04.at00.v;
+            motion->unk_0C = position->unk_00.at00.v;
+            motion->unk_10 = position->unk_04.at00.v;
         }
-        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 = (primary_actor_record->ground_height - 0x50) << 16;
+        motion->unk_14 = (primary_actor_record->ground_height - 0x50) << 16;
 
         {
             s32 angle_index;
             angle_index = (g_game_work.view.camera_rotation.parts.viewAngle + primary_actor_record->facing + 0x100) >> 7;
             if (resolve_record_orientation_or_fallback(*(void **)((angle_index & 0x1C) + (long)(*(s32 * *)actor_direction_sprites)),
                               ((&reference_tile_object)), offset, 0) != 0) {
-                ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;
-                ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 += ((s16 *)offset)[1] << 16;
-                ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 += ((s16 *)offset)[2] << 16;
+                motion->unk_0C += ((s16 *)offset)[0] << 16;
+                motion->unk_10 += ((s16 *)offset)[1] << 16;
+                motion->unk_14 += ((s16 *)offset)[2] << 16;
             }
         }
 
-        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at00.v +=
-            (((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C - ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at00.v) /
+        motion->unk_00.at00.v +=
+            (motion->unk_0C - motion->unk_00.at00.v) /
             (s16)effect->unk_10;
-        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at00.v +=
-            (((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 - ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at00.v) /
+        motion->unk_04.at00.v +=
+            (motion->unk_10 - motion->unk_04.at00.v) /
             (s16)effect->unk_10;
-        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at00.v +=
-            (((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 - ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at00.v) /
+        motion->unk_08.at00.v +=
+            (motion->unk_14 - motion->unk_08.at00.v) /
                 (s16)effect->unk_10 -
             (rsin((s16)effect->unk_10 * 0xAA) << 7);
         {
@@ -132,9 +132,9 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
             }
         }
 
-        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at00.v = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C;
-        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at00.v = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10;
-        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at00.v = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14;
+        motion->unk_00.at00.v = motion->unk_0C;
+        motion->unk_04.at00.v = motion->unk_10;
+        motion->unk_08.at00.v = motion->unk_14;
         effect->unk_10 = state;
         effect->unk_0C += 1;
         break;

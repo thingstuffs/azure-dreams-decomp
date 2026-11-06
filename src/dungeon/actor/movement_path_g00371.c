@@ -317,28 +317,28 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
     s32 old_y;
     s32 step_count;
 
-    if ((((s8)((ActorRecord *)state)->movement_queue_state) > 0) &&
-        ((s32)((ActorRecord *)state)->movement_queue_state > ((ActorRecord *)state)->unk_8A)) {
+    if ((((s8)state->movement_queue_state) > 0) &&
+        ((s32)state->movement_queue_state > state->unk_8A)) {
         anim_table = sprite->frameTable;
         if (anim_table != actor_movement_frames) {
             void *anim_slot;
 
             sprite->frameTable = actor_movement_frames;
             anim_slot = actor_movement_frames +
-                (((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)state)->facing + 0x100) >> 7) & 0x1C);
+                (((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 7) & 0x1C);
             select_record_entry_and_value(sprite, *(void **)anim_slot, 0);
         } else if (sprite->flags & 0x6000) {
             select_record_entry_and_value(
                 sprite,
                 *(void **)(actor_movement_frames +
-                    (((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)state)->facing + 0x100) >> 7) & 0x1C)),
+                    (((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 7) & 0x1C)),
                 0);
         }
 
         old_x = sprite->tile_x;
         old_y = sprite->tile_y;
         tile_mask = 0x3000;
-        if (((ActorRecord *)state)->flags1C & 0x2000) {
+        if (state->flags1C & 0x2000) {
             tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
@@ -352,18 +352,18 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
         sprite->tile_x = state->path_x[state->unk_8A];
         tile_mask = 0x3000;
         sprite->tile_y = state->path_y[state->unk_8A];
-        ((ActorRecord *)state)->unk_8A = (u16)((ActorRecord *)state)->unk_8A + 1;
+        state->unk_8A = (u16)state->unk_8A + 1;
 
         {
             s32 new_x = sprite->tile_x;
             s32 new_y = sprite->tile_y;
-            if (((ActorRecord *)state)->flags1C & 0x2000) {
+            if (state->flags1C & 0x2000) {
                 tile_mask = 0x300;
             }
             cycle_map_cell_flags(new_x, new_y, tile_mask);
         }
 
-        ((ActorRecord *)state)->facing = direction;
+        state->facing = direction;
         if ((move_result == 3) &&
             ((g_dungeon_status.flags & 0x80) || (sprite->flags & 0x8000))) {
             body->action_id.u = 0xF;
@@ -371,14 +371,14 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
             initialize_actor_direction_table(body, position, sprite, state);
         }
         body->unk_8C.word = 0;
-        (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
+        state->flags1C |= 0x40000000;
         if (g_dungeon_status.flags & 0x80) {
             body->action_timer.s = 0;
             return;
         }
 
         body->action_timer.s = 8;
-        step_count = ((ActorRecord *)state)->movement_queue_state;
+        step_count = state->movement_queue_state;
         if (step_count > 0) {
             body->action_timer.s = 8 / step_count;
         }

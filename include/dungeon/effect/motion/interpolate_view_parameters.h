@@ -399,7 +399,7 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
 void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, struct SpriteFrameState *visual);
 void advance_radial_effect_state(void *motion, void *position,struct SpriteFrameState *effect);
 void *create_an_oriented_effect_between_position_owner(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos);
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, void *transform,struct SpriteFrameState *visual);
+void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform,struct SpriteFrameState *visual);
 void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
 void build_inverted(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 extern u8 camera_transition_timer[];

@@ -54,11 +54,10 @@ extern u8 mandara_object_callback_2[];
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/level.h"
+#include "dungeon/monster/mandara_frames.h"
 
 extern u8 D_80175260[];
 extern u8 D_80175290[];
-extern u8 mandara_frame_set_1[];
-extern u8 mandara_frame_set[];
 
 /* Selects movement, attacks, and spells from actor status, including a timed directional particle
  * sequence. */

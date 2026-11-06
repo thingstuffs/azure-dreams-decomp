@@ -10,7 +10,6 @@
 
 
 
-extern void run_the_three_update_routines_context(ObjectPosition *context);
 
 /* Run follow-up updates if the record value is unchanged and flag 0x80 is set. */
 void update_entity_countdown_transition(void *record_arg, void *context, SpriteFrameState *sprite) {

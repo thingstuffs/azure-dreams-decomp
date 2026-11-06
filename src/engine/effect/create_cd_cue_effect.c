@@ -2,13 +2,13 @@
 #include "script_symbols.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/effect/data.h"
 #include "engine/audio.h"
 #include "engine/graphics.h"
 #include "engine/node.h"
 #include "engine/object.h"
 
 /* The controller body follows the standard object-node header. */
-extern s16 cd_cue_effect_visual_data[8];
 
 struct CdCueEffectNode;
 extern void init_fade_in_out_effect(struct CdCueEffectNode *, struct Controller *);

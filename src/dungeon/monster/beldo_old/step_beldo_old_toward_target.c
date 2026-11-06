@@ -9,6 +9,7 @@
 #include "dungeon/level/room_flags.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/stale_bank_imports.h"
+#include "dungeon/globals.h"
 
 typedef struct S_8127C3E0_0 {
     u8 pad_00[0x2];
@@ -28,7 +29,6 @@ extern void initialize_indexed_object_and_lookup_value(s32, s32, s32); /* Unprot
 
 extern s8 D_8006BDA8;
 extern s8 D_8006BDB8;
-extern s16 beldo_turn_angle_steps[];
 extern ActorRecord *beldo_old_target_actor;   /* the primary actor pointer in this build */
 extern u8 free_node_list_head[];
 extern s8 cd_queue_buffered_argument_word_1;

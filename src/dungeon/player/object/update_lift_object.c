@@ -11,6 +11,7 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/globals.h"
 
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
@@ -21,7 +22,6 @@ extern u8 player_carry_frames[8];
 extern u8 D_800E0523[];
 extern u8 D_800E0683[];
 extern s32 saved_held_item_word;
-extern s16 lift_jitter_offsets[2];
 
 #line 1 "a"
 

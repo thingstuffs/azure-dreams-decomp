@@ -1,5 +1,6 @@
 #ifndef SLUS_SOUND_TRANSFER_FRONTENDS_H
 #define SLUS_SOUND_TRANSFER_FRONTENDS_H
+#include "sdk/libspu.h"
 
 #include "common.h"
 
@@ -9,7 +10,5 @@ extern s32 spu_address_unit_shift;
 
 s32 _spu_t(s32 command, ...);
 void _spu_FwriteByIO(u16 *src, u32 bytes_left);
-s32 _spu_Fw(s32 channel, s32 playback_param);
-s32 _spu_Fr(s32 buffer_addr, s32 size);
 
 #endif

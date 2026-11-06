@@ -60,15 +60,15 @@ extern M2C_UNK D_8010C460;
 extern M2C_UNK D_8010C984;
 
 /* Periodically spawns an effect and retires the source when its countdown expires. */
-void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) {
+void spawn_periodic_source_effect(S_7FFEA1CC_0 *source, s32 spawn_arg1, s32 spawn_arg2) {
     s16 elapsed_ticks;
     u16 remaining_ticks;
     S_7FFEA1CC_2 *effect_position;
     void *effect;
     S_7FFEA1CC_3 *render_state;
 
-    elapsed_ticks = ((S_7FFEA1CC_0 *)source)->unk_16 + 1;
-    ((S_7FFEA1CC_0 *)source)->unk_16 = (u16) elapsed_ticks;
+    elapsed_ticks = source->unk_16 + 1;
+    source->unk_16 = (u16) elapsed_ticks;
     if ((elapsed_ticks < 0x17) && (elapsed_ticks & 1)) {
         effect = func_7003CF18(0x212);
         if (effect != NULL) {
@@ -78,7 +78,7 @@ void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) 
             ((S_7FFEA1CC_1 *)effect)->unk_10 = &D_8010C460;
             effect_position = ((S_7FFEA1CC_1 *)effect)->unk_08;
             effect_position->unk_0A = (u16) (effect_position->unk_0A
-                - (emitter_height_offsets[((S_7FFEA1CC_4 *)(((S_7FFEA1CC_0 *)source)->unk_00))->unk_13] >> 1));
+                - (emitter_height_offsets[((S_7FFEA1CC_4 *)(source->unk_00))->unk_13] >> 1));
             render_state = ((S_7FFEA1CC_1 *)effect)->unk_0C;
             memcpy((s8 *) effect + 0x62, &D_8010C984, 0xC);
             render_state->unk_08 = (effect + 0x62);
@@ -88,8 +88,8 @@ void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) 
             render_state->unk_0C = 0;
         }
     }
-    remaining_ticks = ((S_7FFEA1CC_0 *)source)->unk_1E - 1;
-    ((S_7FFEA1CC_0 *)source)->unk_1E = remaining_ticks;
+    remaining_ticks = source->unk_1E - 1;
+    source->unk_1E = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         u16 *active_count = &emitted_effect_counter;
         u16 next_count;

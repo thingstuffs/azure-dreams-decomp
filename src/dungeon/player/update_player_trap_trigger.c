@@ -23,7 +23,6 @@ extern void restore_player_control_callback(Actor *, s32); /* Unprototyped: uses
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * expand_text_control_codes(u8 *src, u8 *dst);
 extern u8 *write_text_byte_and_advance(s8 value, s8 *dest);
-extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern s32 reveal_triggered_trap(void *actor, s32 unused_context_a, s32 unused_context_b, s32 unused_target); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Advance the actor's entry action and clear pending state when it finishes. */

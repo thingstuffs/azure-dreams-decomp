@@ -1,5 +1,6 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio/data.h"
 #include "engine/audio.h"
 #include "engine/cd.h"
 #include "sdk/libgpu.h"
@@ -17,7 +18,6 @@ typedef struct {
 extern S_8006E61C sound_effect_bank_descriptors[];
 
 /* Per-id "last processed" byte counter, indexed by field0-1. */
-extern u8 sound_effect_loaded_record_ids[];
 
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;

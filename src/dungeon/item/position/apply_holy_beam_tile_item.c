@@ -22,7 +22,6 @@
 #include "dungeon/item/message.h"
 #include "dungeon/effect/dispatch.h"
 extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flags);
-extern s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 
 extern u8 D_800893D4[];
 extern u8 D_800E1684[];

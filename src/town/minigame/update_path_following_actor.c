@@ -31,7 +31,6 @@ typedef struct {
 } Stack24;
 
 extern s32 loaded_town_resource_attributes[];
-extern u8 path_actor_direction_frames[];
 
 /* Updates path following, turning, sprite state, and ground movement. */
 void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, SpriteFrameState *sprite) {

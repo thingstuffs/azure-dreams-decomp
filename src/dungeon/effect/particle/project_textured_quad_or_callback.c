@@ -19,13 +19,11 @@ struct ObjectPosition;
 #include "dungeon/system.h"
 void (*const dungeon_1894800_entry)(TargetParticleStatusSpellBody *, ObjectPosition *, SpriteFrameState *) = update_animated_effect_sprite;
 const u8 no_effect_target_prefix[48] = { 0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x82, 0x92, 0x82, 0x85, 0x81, 0x40, 0x82, 0x97, 0x82, 0x81, 0x82, 0x93, 0x81, 0x40, 0x82, 0x8E, 0x82, 0x8F, 0x81, 0x40, 0x82, 0x85, 0x82, 0x86, 0x82, 0x86, 0x82, 0x85, 0x82, 0x83, 0x82, 0x94, 0x81, 0x40, 0x82, 0x8F, 0x82, 0x8E, 0x81, 0x40, 0x00, 0x00 };
-const u8 D_80024034[4] = { 0x81, 0x44, 0x00, 0x00 };
+const u8 no_effect_target_period[4] = { 0x81, 0x44, 0x00, 0x00 };
 #include "modules/dungeon_native_abi.h"
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
 #include "common.h"
 
-extern const u8 no_effect_target_prefix[48];
-extern const u8 D_80024034[4];
 extern u8 D_800E1C8A[38];
 
 #include "dungeon/effect/screen.h"
@@ -55,7 +53,7 @@ void apply_random_duration_actor_status(void *entity, s32 direction, void *unuse
             message_start = message_end;
             message_end = expand_text_control_codes(no_effect_target_prefix, message_end);
             message_end = append_entity_display_text(entity, message_end);
-            message_end = expand_text_control_codes(D_80024034, message_end);
+            message_end = expand_text_control_codes(no_effect_target_period, message_end);
             clear_byte_and_advance(message_end);
             display_text_with_fullwidth_adjustment(message_start);
         }
@@ -82,7 +80,7 @@ typedef struct S_81874988_0 {
     s32 unk_14;
     s32 unk_18;
     u8 pad_1C[0x8];
-    union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
+    u8 *unk_24;
     u16 unk_28;
     u8 pad_2A[0xA];
     s32 unk_34;
@@ -137,20 +135,20 @@ typedef struct S_81874988_4 {
 typedef struct S_81874988_5 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    union { u16 u; s16 s; } unk_08;   /* accessed as both */
-    union { u16 u; s16 s; } unk_0A;   /* accessed as both */
+    u16 unk_08;
+    u16 unk_0A;
     u8 pad_0C[0x2];
     u16 unk_0E;
     u16 unk_10;
     u16 unk_12;
-    union { u16 u16; u8 u8; } unk_14;   /* accessed as both */
+    u16 unk_14;
     u8 pad_16[0x2];
     u16 unk_18;
     u16 unk_1A;
     union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_1C;   /* overlapping accesses */
     u8 pad_1E[0x2];
-    union { u16 u; s16 s; } unk_20;   /* accessed as both */
-    union { u16 u; s16 s; } unk_22;   /* accessed as both */
+    u16 unk_20;
+    u16 unk_22;
     union {
         struct { u16 v; } at00;
         struct { u8 v; } at00u;
@@ -174,7 +172,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
     u8 tex_flags;
     MATRIX view_matrix;
 
-    scratch->unk_24.p = render_state + 0xB0;
+    scratch->unk_24 = render_state + 0xB0;
     scratch->unk_88 = position->x.w.i;
     scratch->unk_8C = position->y.w.i;
     scratch->unk_90 = position->z.w.i;
@@ -229,14 +227,14 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 
         if ((u32)depth_index < 0x1E0) {
             if (
-                (((u16)(((S_81874988_5 *)packet)->unk_08.u + 0x20) < 0x181) &&
-                 ((u16)(((S_81874988_5 *)packet)->unk_0A.u + 0x20) < 0x121)) |
+                (((u16)(((S_81874988_5 *)packet)->unk_08 + 0x20) < 0x181) &&
+                 ((u16)(((S_81874988_5 *)packet)->unk_0A + 0x20) < 0x121)) |
                 (((u16)(((S_81874988_5 *)packet)->unk_10 + 0x20) < 0x181) &&
                  ((u16)(((S_81874988_5 *)packet)->unk_12 + 0x20) < 0x121)) |
                 (((u16)(((S_81874988_5 *)packet)->unk_18 + 0x20) < 0x181) &&
                  ((u16)(((S_81874988_5 *)packet)->unk_1A + 0x20) < 0x121)) |
-                (((u16)(((S_81874988_5 *)packet)->unk_20.u + 0x20) < 0x181) &&
-                 ((u16)(((S_81874988_5 *)packet)->unk_22.u + 0x20) < 0x121))
+                (((u16)(((S_81874988_5 *)packet)->unk_20 + 0x20) < 0x181) &&
+                 ((u16)(((S_81874988_5 *)packet)->unk_22 + 0x20) < 0x121))
                 ) {
                 ((S_81874988_5 *)packet)->unk_00.at03.v = 9;
                 ((S_81874988_5 *)packet)->unk_04.at03.v = 0x2C;
@@ -267,7 +265,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 
                 (*(u16 *)(packet + 0xC)) = (*(u16 *)((u8 *)scratch + 0x10)) +
                                           (*(u16 *)((u8 *)scratch + 0xC));
-                ((S_81874988_5 *)packet)->unk_14.u16 = (*(u16 *)((u8 *)scratch + 0x10)) +
+                ((S_81874988_5 *)packet)->unk_14 = (*(u16 *)((u8 *)scratch + 0x10)) +
                                            (*(u16 *)((u8 *)scratch + 0x14));
 
                 tex_adjust = material->tpage_abr;
@@ -283,11 +281,11 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                 ((S_81874988_5 *)packet)->unk_24.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
                                            (*(u16 *)((u8 *)scratch + 0x14));
 
-                if (((S_81874988_5 *)packet)->unk_08.s > ((S_81874988_5 *)packet)->unk_20.s) {
-                    ((S_81874988_5 *)packet)->unk_14.u8--;
+                if ((s16)((S_81874988_5 *)packet)->unk_08 > (s16)((S_81874988_5 *)packet)->unk_20) {
+                    (*(u8 *)&((S_81874988_5 *)packet)->unk_14)--;
                     ((S_81874988_5 *)packet)->unk_24.at00u.v--;
                 }
-                if (((S_81874988_5 *)packet)->unk_0A.s > ((S_81874988_5 *)packet)->unk_22.s) {
+                if ((s16)((S_81874988_5 *)packet)->unk_0A > (s16)((S_81874988_5 *)packet)->unk_22) {
                     ((S_81874988_5 *)packet)->unk_1C.at01.v--;
                     ((S_81874988_5 *)packet)->unk_24.at01.v--;
                 }
@@ -302,10 +300,10 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 
                 ((S_81874988_5 *)packet)->unk_04.at00.v = ((u32)(material->color.word));
                 ((S_81874988_5 *)packet)->unk_00.at00.v = (((S_81874988_5 *)packet)->unk_00.at00.v & 0xFF000000) |
-                    ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    ((*(u32 *)(scratch->unk_24
                         + scratch->unk_100 * 4)) & 0x00FFFFFF);
-                (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
-                    ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                (*(u32 *)(scratch->unk_24 + scratch->unk_100 * 4)) =
+                    ((*(u32 *)(scratch->unk_24
                         + scratch->unk_100 * 4)) & 0xFF000000) |
                     ((u32)packet & 0x00FFFFFF);
             }
@@ -1156,10 +1154,7 @@ typedef struct {
     u16 z;
 } Vec3s;
 
-typedef union {
-    u16 u;
-    s16 s;
-} H16;
+typedef u16 H16;
 
 typedef struct {
     H16 x;
@@ -1259,14 +1254,14 @@ L0_adjust_z:
         if (((S_800259D8_3 *)obj)->unk_60 != 0) {
             SpriteFrameState *resident_work;
             entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-            effect->unk_74.u = entry->unk_00.at02u.v;
-            effect->unk_76.u = entry->unk_04.at02u.v;
+            effect->unk_74 = entry->unk_00.at02u.v;
+            effect->unk_76 = entry->unk_04.at02u.v;
             {
                 s32 depth_bias;
                 s32 resident_value;
                 depth_bias = entity_height_offsets[((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13];
                 resident_value = entry->unk_08.at02.v - depth_bias - 0x60;
-                effect->unk_78.u = resident_value;
+                effect->unk_78 = resident_value;
             }
             resident_work = ((S_800259D8_3_pre *)obj)[-1].unk_00;
             effect->unk_AE = resident_work->tile_x +
@@ -1283,7 +1278,7 @@ L0_adjust_z:
                     resident_copy = *(s16 *)((u8 *)&copy + (effect->unk_80 << 2));
                     resident_delta = abs(resident_delta);
                     resident_copy = abs(resident_copy);
-                    effect->unk_7C.s = resident_delta / resident_copy;
+                    effect->unk_7C = resident_delta / resident_copy;
                 } else {
                     Pair *cp;
                     s32 cidx;
@@ -1293,35 +1288,35 @@ L0_adjust_z:
                     cidx = effect->unk_80 << 2;
                     resident_delta = resident_delta - entry->unk_04.at02.v;
                     cp = (Pair *)&copy;
-                    resident_copy = ((Pair *)((u8 *)cp + cidx))->y.u;
+                    resident_copy = ((Pair *)((u8 *)cp + cidx))->y;
                     resident_delta = abs(resident_delta);
                     resident_copy = (s32)((u32)resident_copy << 16) >> 16;
                     resident_copy = abs(resident_copy);
-                    effect->unk_7C.s = resident_delta / resident_copy;
+                    effect->unk_7C = resident_delta / resident_copy;
                 }
             }
         } else {
             {
-                effect->unk_7C.s = 0x80;
-                effect->unk_74.s = entity->x.unsigned_parts.integer +
-                    (((Pair *)((u8 *)&copy + (effect->unk_80 << 2)))->x.u << 7);
-                effect->unk_76.s = entity->y.unsigned_parts.integer +
-                    (((Pair *)((u8 *)&copy + (effect->unk_80 << 2)))->y.u *
-                     effect->unk_7C.u);
-                effect->unk_78.s = ((S_800259D8_3 *)obj)->unk_88 - 0x50;
+                effect->unk_7C = 0x80;
+                effect->unk_74 = entity->x.unsigned_parts.integer +
+                    (((Pair *)((u8 *)&copy + (effect->unk_80 << 2)))->x << 7);
+                effect->unk_76 = entity->y.unsigned_parts.integer +
+                    (((Pair *)((u8 *)&copy + (effect->unk_80 << 2)))->y *
+                     (u16)effect->unk_7C);
+                effect->unk_78 = ((S_800259D8_3 *)obj)->unk_88 - 0x50;
             }
         }
         {
             Pair *cp = (Pair *)&copy;
             entity->velocity_x =
-                ((Pair *)((u8 *)cp + (effect->unk_80 << 2)))->x.s << 16;
+                (s16)((Pair *)((u8 *)cp + (effect->unk_80 << 2)))->x << 16;
             entity->velocity_y =
-                ((Pair *)((u8 *)cp + (effect->unk_80 << 2)))->y.u << 16;
+                ((Pair *)((u8 *)cp + (effect->unk_80 << 2)))->y << 16;
         }
         entity->velocity_z =
-            ((effect->unk_78.s << 16) - entity->z.v) /
-            effect->unk_7C.s;
-        effect->unk_84.u = 0;
+            ((effect->unk_78 << 16) - entity->z.v) /
+            effect->unk_7C;
+        effect->unk_84 = 0;
         effect->unk_9C = 55;
         effect->spell.phase.u++;
         i = 0;
@@ -1395,27 +1390,27 @@ L0_adjust_z:
                 sprite->color.c.g -= 4;
                 sprite->color.c.b -= 4;
                 if (sprite->color.c.r == 0) {
-                    effect->unk_7C.u = 1;
+                    effect->unk_7C = 1;
                 }
             }
-            count = effect->unk_7C.u - 1;
-            effect->unk_7C.u = count;
+            count = (u16)effect->unk_7C - 1;
+            effect->unk_7C = count;
             if (count > 0) {
                 goto L1_calc;
             }
             if (((S_800259D8_3 *)obj)->unk_60 != 0) {
                 effect->spell.phase.u = 3;
-                effect->unk_84.u = 0;
+                effect->unk_84 = 0;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
                 entity->x.unsigned_parts.integer = entry->unk_00.at02u.v;
                 entity->y.unsigned_parts.integer = entry->unk_04.at02u.v;
-                entity->z.unsigned_parts.integer = effect->unk_78.u;
+                entity->z.unsigned_parts.integer = (u16)effect->unk_78;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 return;
             }
         }
         effect->spell.phase.u = 7;
-        effect->unk_84.u = 0;
+        effect->unk_84 = 0;
         sprite->color.c.b = 0;
         sprite->color.c.g = 0;
         sprite->color.c.r = 0;
@@ -1423,13 +1418,13 @@ L0_adjust_z:
 
 L1_calc:
         entity->velocity_x =
-            ((effect->unk_74.s << 16) - entity->x.v) / count;
+            ((effect->unk_74 << 16) - entity->x.v) / count;
         entity->velocity_y =
-            ((effect->unk_76.s << 16) - entity->y.v) /
-            effect->unk_7C.s;
+            ((effect->unk_76 << 16) - entity->y.v) /
+            effect->unk_7C;
         entity->velocity_z =
-            ((effect->unk_78.s << 16) - entity->z.v) /
-            effect->unk_7C.s;
+            ((effect->unk_78 << 16) - entity->z.v) /
+            effect->unk_7C;
         entity->x.v += entity->velocity_x;
         entity->y.v += entity->velocity_y;
         entity->z.v += entity->velocity_z;
@@ -1486,16 +1481,16 @@ L1_calc:
             }
         }
         effect->spell.phase.u = 4;
-        effect->unk_84.u = 0;
+        effect->unk_84 = 0;
         return;
 
     case 4:
-        count = effect->unk_84.u + 1;
-        effect->unk_84.u = count;
+        count = effect->unk_84 + 1;
+        effect->unk_84 = count;
         if (count < 30) {
-            sprite->color.c.r = ((30 - effect->unk_84.s) * 0x80) / 30;
-            sprite->color.c.g = ((30 - effect->unk_84.s) * 0x80) / 30;
-            sprite->color.c.b = ((30 - effect->unk_84.s) * 0xE0) / 30;
+            sprite->color.c.r = ((30 - (s16)effect->unk_84) * 0x80) / 30;
+            sprite->color.c.g = ((30 - (s16)effect->unk_84) * 0x80) / 30;
+            sprite->color.c.b = ((30 - (s16)effect->unk_84) * 0xE0) / 30;
             if (effect->unk_A0 == 0) {
                 effect->unk_A0 = 1;
                 effect->unk_AA += 0x18;
@@ -1515,7 +1510,7 @@ L1_calc:
             }
         }
         effect->spell.phase.u++;
-        effect->unk_84.u = 0;
+        effect->unk_84 = 0;
         sprite->flags |= 0x80;
         return;
 
@@ -1524,7 +1519,7 @@ L1_calc:
             return;
         }
         {
-            effect->unk_84.u = 0;
+            effect->unk_84 = 0;
             effect->spell.phase.u++;
             return;
         }
@@ -1533,12 +1528,12 @@ L1_calc:
     {
         void *fade_node;
         S_800259D8_11 *fade_entry;
-        count = effect->unk_84.u + 1;
-        effect->unk_84.u = count;
+        count = effect->unk_84 + 1;
+        effect->unk_84 = count;
         fade_node = ((S_800259D8_3 *)obj)->unk_60;
         ((S_800259D8_10 *)fade_node)->unk_1C |= 0x10000000;
         fade_entry = ((S_800259D8_10_pre *)fade_node)[-1].unk_00;
-        if (effect->unk_84.s >= 36) {
+        if ((s16)effect->unk_84 >= 36) {
             fade_entry->unk_0C += 2;
             fade_entry->unk_0D += 2;
             fade_entry->unk_0E -= 3;
@@ -1547,7 +1542,7 @@ L1_calc:
             fade_entry->unk_0D -= 2;
             fade_entry->unk_0E += 3;
         }
-        if (effect->unk_84.s < 71) {
+        if ((s16)effect->unk_84 < 71) {
             return;
         }
         {
@@ -1560,21 +1555,21 @@ L1_calc:
             fade_entry->unk_0C = 0x80;
             apply_random_duration_actor_status(((S_800259D8_3 *)obj)->unk_60, effect->spell.variant, obj);
         }
-        effect->unk_84.u = 13;
+        effect->unk_84 = 13;
         effect->spell.phase.u++;
         return;
     }
 
     case 7:
-        old_count = effect->unk_84.u;
-        effect->unk_84.u = old_count + 1;
+        old_count = effect->unk_84;
+        effect->unk_84 = old_count + 1;
         if ((s16)old_count < 15) {
             return;
         }
         {
             s32 seen;
             seen = (&sphere_particle_effect_updated)[0];
-            effect->unk_84.u = old_count;
+            effect->unk_84 = old_count;
             if (seen == 0) {
                 g_dungeon_status.active_actor = 0;
                 NODE_HEADER(effect)->flags |= 0x8000;

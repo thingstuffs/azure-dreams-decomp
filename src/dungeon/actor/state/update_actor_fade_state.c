@@ -45,7 +45,7 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);            
 
 /* Waits for pending actions, shrinks and darkens the actor sprite, then detaches the actor and clears
    its map occupancy. */
-void update_actor_fade_state(void *state, void *unused, void *data, void *entity) {
+void update_actor_fade_state(S_800D34CC_0 *state, void *unused, S_800D34CC_2 *data, void *entity) {
     s32 selectedValue;
     s16 countdown;
     s16 countdownNext;
@@ -60,7 +60,7 @@ void update_actor_fade_state(void *state, void *unused, void *data, void *entity
     u8 byte0;
     u8 byte1;
 
-    stateId = ((S_800D34CC_0 *)state)->unk_9B;
+    stateId = state->unk_9B;
     switch (stateId) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
@@ -68,35 +68,35 @@ void update_actor_fade_state(void *state, void *unused, void *data, void *entity
         }
         ((ActorRecord *)entity)->flags1C = (s32) (((ActorRecord *)entity)->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
-        ((S_800D34CC_2 *)data)->unk_0C.at00.v = 0x808080;
-        ((S_800D34CC_0 *)state)->unk_96 = 0x10;
-        ((S_800D34CC_0 *)state)->unk_9B = (u8) (((S_800D34CC_0 *)state)->unk_9B + 1);
+        data->unk_0C.at00.v = 0x808080;
+        state->unk_96 = 0x10;
+        state->unk_9B = (u8) (state->unk_9B + 1);
     case 1:
-        byte0 = (u8) ((S_800D34CC_2 *)data)->unk_0C.at00.v;
-        ((S_800D34CC_2 *)data)->unk_0C.at00u.v = (u8) (byte0 + ((0x20
-            - byte0) / (s16) ((S_800D34CC_0 *)state)->unk_96));
-        byte1 = ((S_800D34CC_2 *)data)->unk_0C.at01.v;
-        countdown = ((S_800D34CC_0 *)state)->unk_96;
+        byte0 = (u8) data->unk_0C.at00.v;
+        data->unk_0C.at00u.v = (u8) (byte0 + ((0x20
+            - byte0) / (s16) state->unk_96));
+        byte1 = data->unk_0C.at01.v;
+        countdown = state->unk_96;
         byte1Next = byte1 + ((0x20 - byte1) / countdown);
-        byte2 = ((S_800D34CC_2 *)data)->unk_0C.at02.v;
-        ((S_800D34CC_2 *)data)->unk_0C.at01.v = (u8) byte1Next;
-        ((S_800D34CC_2 *)data)->unk_0C.at02u.v = (u8) (byte2 + ((0x20
-            - byte2) / (s16) ((S_800D34CC_0 *)state)->unk_96));
-        value1C = ((S_800D34CC_2 *)data)->unk_1C;
-        ((S_800D34CC_2 *)data)->unk_1C = (u16) (value1C - (value1C / (s16) ((S_800D34CC_0 *)state)->unk_96));
-        value1E = ((S_800D34CC_2 *)data)->unk_1E;
-        ((S_800D34CC_2 *)data)->unk_1E = (u16) (value1E - (value1E / (s16) ((S_800D34CC_0 *)state)->unk_96));
-        countdownNext = (u16) ((S_800D34CC_0 *)state)->unk_96 - 1;
-        ((S_800D34CC_0 *)state)->unk_96 = countdownNext;
-        if (((countdownNext << 0x10) <= 0) || ((((S_800D34CC_2 *)data)->unk_14 & 0x8000) != 0)) {
+        byte2 = data->unk_0C.at02.v;
+        data->unk_0C.at01.v = (u8) byte1Next;
+        data->unk_0C.at02u.v = (u8) (byte2 + ((0x20
+            - byte2) / (s16) state->unk_96));
+        value1C = data->unk_1C;
+        data->unk_1C = (u16) (value1C - (value1C / (s16) state->unk_96));
+        value1E = data->unk_1E;
+        data->unk_1E = (u16) (value1E - (value1E / (s16) state->unk_96));
+        countdownNext = (u16) state->unk_96 - 1;
+        state->unk_96 = countdownNext;
+        if (((countdownNext << 0x10) <= 0) || ((data->unk_14 & 0x8000) != 0)) {
             statusValue = ((s32)g_dungeon_status.pending_display_owner);
             if (statusValue == (entity - 0x20)) {
                 g_dungeon_status.pending_display_owner = (s32) (statusValue & 0x7FFFFFFF);
             }
             detach_record_and_update_slot_state(entity);
             if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
-                value24 = ((S_800D34CC_2 *)data)->unk_24;
-                value25 = ((S_800D34CC_2 *)data)->unk_25;
+                value24 = data->unk_24;
+                value25 = data->unk_25;
                 selectedValue = 0x3000;
                 if (((ActorRecord *)entity)->flags1C & ACTOR_PLAYER_SIDE) {
                     selectedValue = 0x300;

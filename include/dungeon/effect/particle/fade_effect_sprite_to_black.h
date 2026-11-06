@@ -17,12 +17,12 @@
 
 typedef struct S_8182C800_1 {
     u8 pad_00[0x2A];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
+    u16 unk_2A;
     u8 pad_2C[0x34];
     s32 unk_60;
     u8 pad_64[0xE];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
+    u8 unk_72;
+    u8 unk_73;
 } S_8182C800_1;   /* temp_s7 in func_8002401C */
 
 typedef struct S_8182C800_2 {
@@ -141,7 +141,7 @@ typedef struct SpriteFadeCountdownBody {
     u8 pad_04[0x44];
     u16 unk_48;
     u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;
+    s16 unk_4C;
 } SpriteFadeCountdownBody;
 
 typedef struct S_8182D544_1 {

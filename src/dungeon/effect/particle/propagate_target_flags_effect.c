@@ -306,46 +306,46 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
 }
 
    /* Advance motion, resolve collisions, and mark expired objects for removal. */
-void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, void *position, SpriteFrameState *update_id) {
+void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, S_8196B074_1 *position, SpriteFrameState *update_id) {
     LingeringBallisticSpriteBody *motion = motion_arg;
     s32 height;
     u16 remaining_ticks;
 
-    remaining_ticks = motion->unk_2C.u;
+    remaining_ticks = motion->unk_2C;
     particle_activity = 1;
-    motion->unk_2C.u = remaining_ticks - 1;
+    motion->unk_2C = remaining_ticks - 1;
     advance_sprite_animation_and_textures(update_id);
-    ((S_8196B074_1 *)position)->unk_00.at00.v += motion->unk_8C;
+    position->unk_00.at00.v += motion->unk_8C;
     motion->unk_8C += motion->unk_98;
-    if ((check_left_tile_and_center_height(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
-        ((S_8196B074_1 *)position)->unk_08.at02.v) << 16) != 0) {
-        ((S_8196B074_1 *)position)->unk_00.at00.v -= motion->unk_8C;
+    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
+        position->unk_08.at02.v) << 16) != 0) {
+        position->unk_00.at00.v -= motion->unk_8C;
         motion->unk_8C = 0;
         motion->unk_98 = 0;
     }
-    ((S_8196B074_1 *)position)->unk_04.at00.v += motion->unk_90;
+    position->unk_04.at00.v += motion->unk_90;
     motion->unk_90 += motion->unk_9C;
-    if ((check_left_tile_and_center_height(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
-        ((S_8196B074_1 *)position)->unk_08.at02.v) << 16) != 0) {
-        ((S_8196B074_1 *)position)->unk_04.at00.v -= motion->unk_90;
+    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
+        position->unk_08.at02.v) << 16) != 0) {
+        position->unk_04.at00.v -= motion->unk_90;
         motion->unk_90 = 0;
         motion->unk_9C = 0;
     }
-    ((S_8196B074_1 *)position)->unk_08.at00.v += motion->unk_94;
+    position->unk_08.at00.v += motion->unk_94;
     motion->unk_94 += motion->unk_A0;
-    height = ((S_8196B074_1 *)position)->unk_08.at02.v;
-    if (((s16)sample_terrain_surface_height(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
-                       (s16)((u16)((S_8196B074_1 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
+    height = position->unk_08.at02.v;
+    if (((s16)sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+                       (s16)((u16)position->unk_08.at02u.v - 4)) - 0x10) < height) {
         motion->unk_94 = 0;
         motion->unk_90 = 0;
         motion->unk_8C = 0;
-        ((S_8196B074_1 *)position)->unk_08.at02.v = (s16)sample_terrain_surface_height(((S_8196B074_1 *)position)->unk_00.at02.v,
-            ((S_8196B074_1 *)position)->unk_04.at02.v,
-                                               (s16)((u16)((S_8196B074_1 *)position)->unk_08.at02.v - 4)) - 0x11;
-        ((S_8196B074_1 *)position)->unk_08.at00u.v = 0;
-        motion->unk_2C.u = 0;
+        position->unk_08.at02.v = (s16)sample_terrain_surface_height(position->unk_00.at02.v,
+            position->unk_04.at02.v,
+                                               (s16)((u16)position->unk_08.at02.v - 4)) - 0x11;
+        position->unk_08.at00u.v = 0;
+        motion->unk_2C = 0;
     }
-    if ((s16)motion->unk_2C.u <= 0) {
+    if ((s16)motion->unk_2C <= 0) {
         (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -353,11 +353,11 @@ void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, 
 
 /* Dim the effect's color and flag completion when its countdown expires. */
 void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused, u8 *primitive) {
-    u16 ticks_left = effect->unk_2C.u;
+    u16 ticks_left = effect->unk_2C;
 
     particle_activity = 1;
     ticks_left -= 1;
-    effect->unk_2C.u = ticks_left;
+    effect->unk_2C = ticks_left;
 
     if (primitive[12] >= 65) {
         primitive[14] = 64;
@@ -373,7 +373,7 @@ void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused,
         primitive[12] = shade;
     }
 
-    if (effect->unk_2C.s <= 0) {
+    if ((s16)effect->unk_2C <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -463,7 +463,7 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = NODE_BODY(effect);
-        motion->unk_2C.s = 0xF;
+        motion->unk_2C = 0xF;
         effect->update_callback = advance_terrain_colliding_sprite;
         register_node(effect, project_sprite_chain);
 
@@ -549,7 +549,7 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = NODE_BODY(effect);
-        motion->unk_2C.s = 0x4;
+        motion->unk_2C = 0x4;
         effect->update_callback = advance_terrain_colliding_sprite;
         register_node(effect, project_sprite_chain);
 
@@ -693,8 +693,8 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
         }
     }
 
-    ticks_left = owner->unk_2C.u - 1;
-    owner->unk_2C.u = ticks_left;
+    ticks_left = owner->unk_2C - 1;
+    owner->unk_2C = ticks_left;
     if ((s16)ticks_left <= 0) {
         (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -722,7 +722,7 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object_state = NODE_BODY(object);
-        object_state->unk_2C.s = 0xB;
+        object_state->unk_2C = 0xB;
         object_state->unk_7C = source;
         object->update_callback = create_timed_rectangle_effect;
         register_node(object, project_sprite_chain);
@@ -788,7 +788,7 @@ void shrink_effect_and_step_texture(void *effect_arg, s32 unused, S_8196BF24_1 *
     S_8196BF24_0 *effect = effect_arg;
     u8 next_u;
 
-    effect->unk_2C.s = (s16)(effect->unk_2C.s - 1);
+    effect->unk_2C = (s16)(effect->unk_2C - 1);
     transform->unk_1C = (u16)(transform->unk_1C - 0x300);
     transform->unk_1E = (u16)(transform->unk_1E - 0x200);
     next_u = effect->unk_40 - 0x18;
@@ -797,7 +797,7 @@ void shrink_effect_and_step_texture(void *effect_arg, s32 unused, S_8196BF24_1 *
         effect->unk_40 = 0x18U;
         effect->unk_41 = (u8)(effect->unk_41 - 0x20);
     }
-    if (effect->unk_2C.u <= 0) {
+    if ((s16)effect->unk_2C <= 0) {
         ((S_8196BF24_0_pre *)effect)[-1].unk_00 = (u16)(((S_8196BF24_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
@@ -851,12 +851,12 @@ void advance_particle_emitting_projectile(StagedParticleEffectBody *object, Obje
                           position->y.unsigned_parts.integer,
                           (s16)(position->z.unsigned_parts.integer - 4)) - 0x11;
         position->z.w.frac = 0;
-        object->unk_2C.s = 0;
+        object->unk_2C = 0;
     }
 
-    if (object->unk_50.s++ >= 3) {
-        scale_x = render_state->unk_1C.u;
-        scale_y = render_state->unk_1E.u;
+    if ((s16)object->unk_50++ >= 3) {
+        scale_x = render_state->unk_1C;
+        scale_y = render_state->unk_1E;
         scale_x = scale_x - 0x100;
         if (scale_x < 0) {
             scale_x = 0;
@@ -865,8 +865,8 @@ void advance_particle_emitting_projectile(StagedParticleEffectBody *object, Obje
         if (scale_y < 0) {
             scale_y = 0;
         }
-        render_state->unk_1C.s = scale_x;
-        render_state->unk_1E.s = scale_y;
+        render_state->unk_1C = scale_x;
+        render_state->unk_1E = scale_y;
     }
 
     create_randomized_paletted_sprite(object, position, render_state,
@@ -874,7 +874,7 @@ void advance_particle_emitting_projectile(StagedParticleEffectBody *object, Obje
                   (s16)(position->y.unsigned_parts.integer - ((u16)view_reference_entity.y.w.i)),
                   (s16)(position->z.unsigned_parts.integer - ((u16)view_reference_entity.z.w.i)));
 
-    if (--object->unk_2C.s <= 0) {
+    if ((s16)--object->unk_2C <= 0) {
         NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -934,11 +934,11 @@ void shrink_particle_emitting_projectile(StagedParticleEffectBody *effect, Objec
                 position->y.unsigned_parts.integer, (s16)(position->z.unsigned_parts.integer - 4))
             - 0x11;
             position->z.w.frac = 0;
-            effect->unk_2C.u = 0;
+            effect->unk_2C = 0;
         }
     }
-    age = effect->unk_50.u;
-    effect->unk_50.u = age + 1;
+    age = effect->unk_50;
+    effect->unk_50 = age + 1;
     if ((s16)age >= 3) {
         scale_x = sprite->scale_x;
         next_scale_y = sprite->scale_y;
@@ -953,7 +953,7 @@ void shrink_particle_emitting_projectile(StagedParticleEffectBody *effect, Objec
             next_scale_y = 0;
         }
         if (((next_scale_y << 0x10) == 0) || ((scale_x << 0x10) == 0)) {
-            effect->unk_2C.u = 0;
+            effect->unk_2C = 0;
         }
         sprite->scale_x = scale_x;
         sprite->scale_y = next_scale_y;
@@ -962,8 +962,8 @@ void shrink_particle_emitting_projectile(StagedParticleEffectBody *effect, Objec
         (s16)(position->x.unsigned_parts.integer - ((u16)view_reference_entity.x.w.i)),
         (s16)(position->y.unsigned_parts.integer - ((u16)view_reference_entity.y.w.i)),
         (s16)(position->z.unsigned_parts.integer - ((u16)view_reference_entity.z.w.i)));
-    life_left = effect->unk_2C.u - 1;
-    effect->unk_2C.u = life_left;
+    life_left = effect->unk_2C - 1;
+    effect->unk_2C = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -19,6 +19,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/kewne.h"
+#include "dungeon/monster/kewne_uncached_frames.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
@@ -29,7 +30,6 @@ extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosit
 extern void func_8015D078(void *, void *, void *, void *);
 
 extern u8 D_80159FA4[];
-extern u8 kewne_uncached_frame_set_2[];
 extern u8 D_8015DC38[];
 extern u8 D_8015DC88[];
 extern u8 D_8015DC90[];
@@ -37,13 +37,13 @@ extern u8 D_8015DCA0[];
 extern u8 D_8015DCA8[];
 
 /* Updates an actor's animation and dispatches its dungeon behavior. */
-void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
+void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     u16 distance;
     s8 room_id;
     u16 behavior;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((ActorRecord *)actor)->action_id.u = 0xE;
+        actor->action_id.u = 0xE;
         advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
@@ -64,9 +64,9 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_8015DC90) {
-            ((ActorRecord *)actor)->action_id.u = 0xD;
-            ((ActorRecord *)actor)->action_phase.u = 1;
-            ((ActorRecord *)actor)->unk_8C.word = 0;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
+            actor->unk_8C.word = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
         }
@@ -82,13 +82,13 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
         }
 
         {
-            u8 current_state = ((ActorRecord *)actor)->action_id.u;
+            u8 current_state = actor->action_id.u;
             u32 next_state = 0xE;
             void *current_anim;
 
             if (current_state != next_state) {
-                ((ActorRecord *)actor)->action_id.u = next_state;
-                ((ActorRecord *)actor)->unk_B4.halves.high.s = 0;
+                actor->action_id.u = next_state;
+                actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
             if (current_anim == D_8015DCA8) {
@@ -98,8 +98,8 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
                         kewne_uncached_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-                    ((ActorRecord *)actor)->unk_9E.s = 0;
+                    actor->unk_A0.halves.high.s = 0;
+                    actor->unk_9E.s = 0;
                 }
             } else {
                 void *idle_anim = kewne_uncached_frame_set_2;
@@ -109,14 +109,14 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
                         *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + (u32)idle_anim),
                         0);
                     sprite->frame_ticks = 1;
-                    ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-                    ((ActorRecord *)actor)->unk_9E.s = 0;
+                    actor->unk_A0.halves.high.s = 0;
+                    actor->unk_9E.s = 0;
                 }
             }
         }
 
         entity->flags1C = (u32)((u32)(entity->flags1C) | (0x40000));
-        ((ActorRecord *)actor)->action_state_flags &= 0xFFF7;
+        actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_8015DC38) != 0) {
@@ -128,10 +128,10 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
             s16 movement_delta;
 
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
-            movement_delta = ((ActorRecord *)actor)->unk_90.parts.high.u - ((ActorRecord *)actor)->unk_A0.parts.high;
-            ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-            ((ActorRecord *)actor)->unk_9E.s = 0;
-            ((ActorRecord *)actor)->unk_90.parts.high.s = movement_delta;
+            movement_delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            actor->unk_A0.halves.high.s = 0;
+            actor->unk_9E.s = 0;
+            actor->unk_90.parts.high.s = movement_delta;
             func_8015D078(actor, context, sprite, entity);
             return;
         }

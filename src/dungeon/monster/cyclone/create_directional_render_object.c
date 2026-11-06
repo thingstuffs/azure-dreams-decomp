@@ -7,6 +7,7 @@
 #include "engine/graphics.h"
 #include "shared/entity.h"
 #include "dungeon/monster/cyclone.h"
+#include "dungeon/globals.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -25,7 +26,6 @@ typedef struct {
 } Copy24;
 
 extern u8 D_8017573C;
-extern u8 cyclone_view_direction_entries[];
 
 /* Allocate and initialize an object with source direction, render properties, and copied data. */
 void *create_directional_render_object(void *direction_src, Copy24 *initial_data, void *render_src) {

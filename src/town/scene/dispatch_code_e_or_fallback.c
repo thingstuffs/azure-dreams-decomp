@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene.h"
 
-extern void *select_data_pointer_based_result(void);
 
 /* Forward values for code 0x1E, otherwise call the fallback handler. */
 void dispatch_code_1_e_or_fallback(s32 first_value, s32 second_value, s32 code) {

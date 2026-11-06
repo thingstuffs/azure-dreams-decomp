@@ -12,7 +12,7 @@
 #include "dungeon/effect/shade.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
-void project_and_queue_shaded_quad(void *quad, void *position_arg, void *render_state_arg, s16 depth_bias)
+void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *position_arg, void *render_state_arg, s16 depth_bias)
 {
     Row_81922998_S_80024198_2 *render_state = render_state_arg;
     Row_81922998_S_80024198_1 *position = position_arg;
@@ -66,18 +66,18 @@ void project_and_queue_shaded_quad(void *quad, void *position_arg, void *render_
         render_context->unk_8D0 = packet + 0x24;
     }
 
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_B0 = ((Row_81922998_S_80024198_6 *)quad)->unk_20;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_B8 = ((Row_81922998_S_80024198_6 *)quad)->unk_26;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_C0 = ((Row_81922998_S_80024198_6 *)quad)->unk_2C;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_C8 = ((Row_81922998_S_80024198_6 *)quad)->unk_32;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_B2 = ((Row_81922998_S_80024198_6 *)quad)->unk_22;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_BA = ((Row_81922998_S_80024198_6 *)quad)->unk_28;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_C2 = ((Row_81922998_S_80024198_6 *)quad)->unk_2E;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_CA = ((Row_81922998_S_80024198_6 *)quad)->unk_34;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_B4 = ((Row_81922998_S_80024198_6 *)quad)->unk_24;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_BC = ((Row_81922998_S_80024198_6 *)quad)->unk_2A;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_C4 = ((Row_81922998_S_80024198_6 *)quad)->unk_30;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_CC = ((Row_81922998_S_80024198_6 *)quad)->unk_36;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_B0 = quad->unk_20;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_B8 = quad->unk_26;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_C0 = quad->unk_2C;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_C8 = quad->unk_32;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_B2 = quad->unk_22;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_BA = quad->unk_28;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_C2 = quad->unk_2E;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_CA = quad->unk_34;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_B4 = quad->unk_24;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_BC = quad->unk_2A;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_C4 = quad->unk_30;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_CC = quad->unk_36;
 
     ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                              scratch + 0xC0, scratch + 0xC8,
@@ -104,10 +104,10 @@ void project_and_queue_shaded_quad(void *quad, void *position_arg, void *render_
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((Row_81922998_S_80024198_4 *)packet)->unk_04.at00.v = ((Row_81922998_S_80024198_6 *)quad)->unk_00;
-            ((Row_81922998_S_80024198_4 *)packet)->unk_0C = ((Row_81922998_S_80024198_6 *)quad)->unk_04;
-            ((Row_81922998_S_80024198_4 *)packet)->unk_14 = ((Row_81922998_S_80024198_6 *)quad)->unk_08;
-            ((Row_81922998_S_80024198_4 *)packet)->unk_1C = ((Row_81922998_S_80024198_6 *)quad)->unk_0C;
+            ((Row_81922998_S_80024198_4 *)packet)->unk_04.at00.v = quad->unk_00;
+            ((Row_81922998_S_80024198_4 *)packet)->unk_0C = quad->unk_04;
+            ((Row_81922998_S_80024198_4 *)packet)->unk_14 = quad->unk_08;
+            ((Row_81922998_S_80024198_4 *)packet)->unk_1C = quad->unk_0C;
             ((Row_81922998_S_80024198_4 *)packet)->unk_00.at03.v = 8;
             ((Row_81922998_S_80024198_4 *)packet)->unk_04.at03.v = 0x3A;
 
@@ -246,7 +246,7 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
 
 /* Rotates, grows, and shrinks a sprite, updates its visibility flag, and removes it when the countdown
    ends. */
-void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_800249FC_0 *effect) {
+void update_effect_values_and_expire(Row_819231FC_S_800249FC_1 *object, s32 unused, Row_819231FC_S_800249FC_0 *effect) {
     s32 ticks_left;
     s16 next_ticks;
     s16 check_result;
@@ -254,7 +254,7 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
     u16 paired_value;
 
     effect->unk_1A += 0x2BC;
-    ticks_left = ((Row_819231FC_S_800249FC_1 *)object)->unk_5A;
+    ticks_left = object->unk_5A;
     ((s16 *)shaded_effect_update_flag)[0] = 1;
 
     if (ticks_left >= 0x29) {
@@ -277,8 +277,8 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
         effect->unk_14 = flags | 0x80;
     }
 
-    next_ticks = ((Row_819231FC_S_800249FC_1 *)object)->unk_5A - 1;
-    ((Row_819231FC_S_800249FC_1 *)object)->unk_5A = next_ticks;
+    next_ticks = object->unk_5A - 1;
+    object->unk_5A = next_ticks;
     if (next_ticks <= 0) {
         ((Row_819231FC_S_800249FC_1_pre *)object)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

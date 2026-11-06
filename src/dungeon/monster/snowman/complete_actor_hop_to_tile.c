@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/monster/snowman_frames.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -16,7 +17,6 @@
 #include "sdk/libgte.h"
 
 extern s32 D_801597F4;
-extern u8 snowman_frame_set_6[];
 extern u8 D_8015D9A8[];
 extern u8 D_8015D9B8[];
 

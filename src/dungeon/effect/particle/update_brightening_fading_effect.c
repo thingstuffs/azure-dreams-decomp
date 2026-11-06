@@ -23,7 +23,6 @@
 
 extern s32 D_80027328;
 extern u8 bright_effect_palette_work[];
-extern u8 bright_effect_config_byte;
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The switch table follows it at 0x80024008
@@ -232,7 +231,6 @@ void update_brightening_fading_effect(BrighteningFadeBody *effect, S_8195EB88_2 
 #define NULL 0
 
 extern s32 D_80027380;
-extern s32 bright_effect_sprite_source;
 extern s32 D_800DF334;
 
 /* Creates an object, initializes its parts, and loads its graphics. */
@@ -388,7 +386,6 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
 #include "shared/object_flags.h"
 
 extern u8 D_80027334[][8];
-extern u8 bright_effect_config_byte;
 
 /* Animate nearby tile heights and fade the color, then finalize the dungeon transition. */
 void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *origin) {
@@ -1082,9 +1079,6 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern u16 bright_effect_height_samples[];
-extern u8 bright_effect_center_column[9];
-extern u8 bright_effect_center_row[9];
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
 void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
@@ -1156,9 +1150,6 @@ void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
 #include "common.h"
 #include "shared/game_work.h"
 
-extern u16 bright_effect_height_samples[];
-extern u8 bright_effect_center_column[9];
-extern u8 bright_effect_center_row[9];
 
 /* Copies a 7-by-7 tile region from the source grid into the dungeon map around the current coordinates. */
 void restore_saved_map_tile_region(void)
@@ -2016,7 +2007,6 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
 #define NULL 0
 #endif
 
-extern s32 bright_effect_sprite_source;
 extern u8 linked_mesh_processor_address[];
 
 /* Allocates and initializes objects at the supplied position across nine slots. */

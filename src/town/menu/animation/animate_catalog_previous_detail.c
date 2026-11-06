@@ -24,7 +24,6 @@ typedef struct TownInitialPosition {
     u16 y;
 } TownInitialPosition;
 
-extern void store_cached_value_at_pointer(void);
 extern void initialize_linked_value_records(void);
 extern void backup_and_clear_linked_values(void *);
 extern void restore_linked_values_from_backup(void *);

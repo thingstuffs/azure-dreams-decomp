@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "dungeon/monster/saber_frames.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -10,11 +11,10 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/saber.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_movement_clearance_and_height();
 
-extern u8 saber_frame_set_9[];
 
 
 

@@ -12,10 +12,9 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/picket.h"
+#include "dungeon/monster/picket_frames.h"
 
 extern u8 picket_action_resume_address[];
-extern u8 picket_frame_set_1[];
-
 
    /*
  * Plays sound 0x50C, creates the display effect, and waits for the countdown or animation

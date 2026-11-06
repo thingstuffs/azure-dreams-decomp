@@ -9,4 +9,9 @@ extern u8 kraken_frame_set_1[];
 extern u8 kraken_frame_set_2[ ];
 extern u8 kraken_frame_set_6[];
 
+extern u8 kraken_frame_set_4[];
+
+extern u8 kraken_frame_set_3[ ];
+extern u8 kraken_frame_set_5;
+
 #endif

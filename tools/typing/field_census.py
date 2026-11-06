@@ -363,6 +363,8 @@ class FunctionFacts:
         self.src = src_text
         self.globals = globals_
         self.locals = {}
+        self.local_writes = collections.defaultdict(list)
+        self.escaped_locals = set()
         self.edges = []      # (a, b, delta, phase, key)
         self.results = set()
         self.attach = []     # (node, delta, identity, strong)
@@ -548,15 +550,21 @@ class FunctionFacts:
 
     # -- statements and sites
     def assign_to(self, lhs, val):
-        if val is None:
-            return
         s = strip(lhs, casts=False)
         if s and s.get('kind') == 'DeclRefExpr':
             vn = self.var_node(s['referencedDecl'])
             if vn and vn[0] == 'ptr':
+                if vn[1].startswith('v:'):
+                    self.local_writes[vn[1]].append(val)
+                if val is None:
+                    return
                 self.edges.append((vn[1], val[0], val[1], 1, None))
             elif vn and vn[0] == 'glob':
+                if val is None:
+                    return
                 self.edges.append((('F', vn[1], 0), val[0], val[1], 1, None))
+            return
+        if val is None:
             return
         a = self.addr(lhs)
         if a is not None:
@@ -690,8 +698,10 @@ class FunctionFacts:
                         self.type_obj(node, t)
                     if e.get('init') and kids:
                         val = self.value(kids[0])
-                        if val is not None and self.locals[e['id']][0] == 'ptr':
-                            self.edges.append((node, val[0], val[1], 1, None))
+                        if self.locals[e['id']][0] == 'ptr':
+                            self.local_writes[node].append(val)
+                            if val is not None:
+                                self.edges.append((node, val[0], val[1], 1, None))
             elif k == 'BinaryOperator' and e.get('opcode') == '=':
                 self.assign_to(kids[0], self.value(kids[1]))
                 child_ctx = ['w', 'r']
@@ -705,12 +715,26 @@ class FunctionFacts:
                     v = self.var_node(lhs['referencedDecl'])
                     n = int_value(kids[1])
                     if v and v[0] == 'ptr' and n is not None and e.get('opcode') in ('+=', '-='):
+                        if v[1].startswith('v:'):
+                            self.local_writes[v[1]].append(None)
                         scale = self.T.size(self.T.pointee(qtype(lhs))) or 1
                         self.edges.append((v[1], v[1], (n if e['opcode'] == '+=' else -n) * scale, 1, 'walk'))
+                    elif v and v[0] == 'ptr' and v[1].startswith('v:'):
+                        self.local_writes[v[1]].append(None)
             elif k == 'UnaryOperator' and e.get('opcode') in ('++', '--'):
                 child_ctx = ['rw']
+                lhs = strip(kids[0], casts=False) if kids else None
+                if lhs and lhs.get('kind') == 'DeclRefExpr':
+                    v = self.var_node(lhs['referencedDecl'])
+                    if v and v[0] == 'ptr' and v[1].startswith('v:'):
+                        self.local_writes[v[1]].append(None)
             elif k == 'UnaryOperator' and e.get('opcode') == '&':
                 child_ctx = ['addr']
+                lhs = strip(kids[0], casts=False) if kids else None
+                if lhs and lhs.get('kind') == 'DeclRefExpr':
+                    v = self.var_node(lhs['referencedDecl'])
+                    if v and v[0] == 'ptr' and v[1].startswith('v:'):
+                        self.escaped_locals.add(v[1])
             elif k == 'CallExpr':
                 callee = strip(kids[0]) if kids else None
                 if callee and callee.get('kind') == 'DeclRefExpr' and callee['referencedDecl'].get('kind') == 'FunctionDecl':
@@ -820,7 +844,9 @@ def extract_tu(args):
                 texts[f] = ''
         ff = FunctionFacts(types, d, f, texts[f], globals_)
         ff.walk()
-        funcs.append({'file': f, 'func': d['name'], 'edges': ff.edges, 'attach': ff.attach, 'sites': ff.sites})
+        funcs.append({'file': f, 'func': d['name'], 'edges': ff.edges, 'attach': ff.attach,
+                      'sites': ff.sites, 'local_writes': dict(ff.local_writes),
+                      'escaped_locals': sorted(ff.escaped_locals)})
     return {'tu': rel, 'error': None if rc == 0 else (err.strip().splitlines() or [''])[-1][:300],
             'functions': funcs, 'globals': gfacts, 'meta': types.strong_meta()}
 

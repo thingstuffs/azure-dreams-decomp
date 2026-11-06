@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/maximum_frames.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/player/object.h"
@@ -41,7 +42,6 @@ typedef struct {
     u16 field_6a;
 } S810AF65C_3;
 
-extern u8 maximum_frame_set_3[];
 extern u8 maximum_action_continuation_address[];
 
 /* Updates directional movement, then returns the actor to its tile position. */

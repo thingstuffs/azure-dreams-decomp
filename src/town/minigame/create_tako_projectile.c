@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "common.h"
+#include "town/data.h"
 #include "town/minigame.h"
 
 typedef struct Copy20 {
@@ -20,7 +21,6 @@ typedef struct Object136 {
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_8002614C[];
-extern u8 tako_particle_sprite_data[];
 
 /* Creates object 0x136 with the supplied initial state and Y position. */
 void create_tako_projectile(Copy20 *init_data, s32 pos_y, s32 unused_effect_arg)

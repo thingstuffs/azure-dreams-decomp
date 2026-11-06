@@ -6,8 +6,7 @@
 #include "dungeon/item.h"
 #include "engine/graphics.h"
 #include "dungeon/player.h"
-
-extern u8 familiar_summon_frames[];
+#include "dungeon/player/familiar_frames.h"
 
 /* Initializes object state and its directional display, then dispatches an action. */
 void begin_familiar_deployment_change(ActorRecord *obj, s32 unused, void *display, s32 mode, u16 variant) {

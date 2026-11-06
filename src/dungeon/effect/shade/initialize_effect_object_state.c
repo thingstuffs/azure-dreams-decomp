@@ -7,15 +7,9 @@
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/effect/shade/emit_particles_until_expired.h"
 #include "engine/node.h"
 #include "slus.h"
-
-typedef struct S_800D4BD4_0 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x14];
-    void * unk_24;
-} S_800D4BD4_0;   /* state in initialize_effect_object_state */
 
 extern s32 fading_sprite_entries;
 
@@ -25,12 +19,12 @@ void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_
     SpriteFrameState *render_config;
     SpriteFrameState *render_data;
     ObjectPosition *object_position;
-    S_800D4BD4_0 *state;
+    FadingMotionParticleBody *state;
     s32 source_value;
     u16 flags;
 
     state = NODE_BODY(object);
-    state->unk_24 = source;
+    state->source_emitter = source;
     register_node(object, project_sprite_chain);
     render_config = object->sprite;
     render_config->tpage_abr = 0x20;
@@ -42,7 +36,7 @@ void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_
     render_data = object->sprite;
     render_data->scale_y = 0x800;
     render_data->scale_x = 0x800;
-    state->unk_0C = source->unk_0C;
+    state->color.word = source->unk_0C;
     source_value = source->unk_0C;
     flags = render_data->flags;
     render_data->clut = 0x7DCF;

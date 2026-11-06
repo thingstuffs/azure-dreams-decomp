@@ -7,4 +7,7 @@
 extern u8 cyclone_fade_direction_frames[8];
 extern u8 cyclone_move_direction_frames[8];
 
+extern u8 cyclone_attack_frames[];
+extern u8 cyclone_frame_set_1[];
+
 #endif

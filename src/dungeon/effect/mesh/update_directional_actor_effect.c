@@ -213,7 +213,7 @@ extern void *actor_direction_sprites;
 extern void *create_positioned(void *, s32, s32, s32, void *, s32, s32, s32, s32);
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
-void update_source_relative_position_delays_movement_advances_arc_toward_target(void *self, void *coords)
+void update_source_relative_position_delays_movement_advances_arc_toward_target(LinkedEffectControllerBody *self, ObjectPosition *coords)
 {
     u16 delta[3];
     s32 target[3];
@@ -243,62 +243,62 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
     void *delta_out;
     D_80024A70[0]++;
 
-    state = ((LinkedEffectControllerBody *)self)->field28.s;
+    state = self->field28.s;
     switch (state) {
     case 0:
-        source = ((S_8199AAD4_10 *)(((LinkedEffectControllerBody *)self)->field00))->unk_0C;
+        source = ((S_8199AAD4_10 *)(self->field00))->unk_0C;
         if ((((S_8199AAD4_1 *)source)->unk_14 & 0x8000) ||
             resolve_record_orientation_or_fallback(((S_8199AAD4_1 *)source)->unk_08, source, delta, 0)) {
-            position = ((S_8199AAD4_10 *)(((LinkedEffectControllerBody *)self)->field00))->unk_08;
-            ((ObjectPosition *)coords)->x.unsigned_parts.integer = position->x;
-            ((ObjectPosition *)coords)->y.unsigned_parts.integer = position->y;
+            position = ((S_8199AAD4_10 *)(self->field00))->unk_08;
+            coords->x.unsigned_parts.integer = position->x;
+            coords->y.unsigned_parts.integer = position->y;
             position_z = position->z;
-            ((ObjectPosition *)coords)->z.unsigned_parts.integer = position_z;
+            coords->z.unsigned_parts.integer = position_z;
 
             if (!(((S_8199AAD4_1 *)source)->unk_14 & 0x8000)) {
-                ((ObjectPosition *)coords)->x.unsigned_parts.integer += delta[0];
-                ((ObjectPosition *)coords)->y.unsigned_parts.integer += delta[1];
-                tail_z_2 = ((ObjectPosition *)coords)->z.unsigned_parts.integer;
+                coords->x.unsigned_parts.integer += delta[0];
+                coords->y.unsigned_parts.integer += delta[1];
+                tail_z_2 = coords->z.unsigned_parts.integer;
                 tail_z_2 += delta[2];
-                ((ObjectPosition *)coords)->z.unsigned_parts.integer = tail_z_2;
+                coords->z.unsigned_parts.integer = tail_z_2;
             } else {
                 tail_z = position_z - 0x20;
 
-                ((ObjectPosition *)coords)->z.unsigned_parts.integer = tail_z;
+                coords->z.unsigned_parts.integer = tail_z;
             }
         }
 
-        if (((u16 *)(((LinkedEffectControllerBody *)self)->field0C))[0] & 0x80) {
-            ((LinkedEffectControllerBody *)self)->field2E.s = 8;
-            tail_z = ((LinkedEffectControllerBody *)self)->field28.u;
+        if (((u16 *)(self->field0C))[0] & 0x80) {
+            self->field2E.s = 8;
+            tail_z = self->field28.u;
             target_node = 9;
-            ((LinkedEffectControllerBody *)self)->field30.s = target_node;
-            ((LinkedEffectControllerBody *)self)->field28.p = tail_z + 1;
+            self->field30.s = target_node;
+            self->field28.p = tail_z + 1;
         }
         return;
     case 1:
-        count = ((LinkedEffectControllerBody *)self)->field30.u - 1;
-        ((LinkedEffectControllerBody *)self)->field30.u = count;
+        count = self->field30.u - 1;
+        self->field30.u = count;
         if ((s16)count > 0) {
             return;
         }
-        tail_z = ((LinkedEffectControllerBody *)self)->field28.u;
-        ((LinkedEffectControllerBody *)self)->field28.p = tail_z + 1;
+        tail_z = self->field28.u;
+        self->field28.p = tail_z + 1;
         return;
 finish:
-        ((ObjectPosition *)coords)->x.v = target[0];
-        ((ObjectPosition *)coords)->y.v = target[1];
-        ((ObjectPosition *)coords)->z.v = target[2];
-        spawn_blinking_sprite_flash(((ObjectPosition *)coords)->x.w.i, ((ObjectPosition *)coords)->y.w.i,
-                      ((ObjectPosition *)coords)->z.w.i);
+        coords->x.v = target[0];
+        coords->y.v = target[1];
+        coords->z.v = target[2];
+        spawn_blinking_sprite_flash(coords->x.w.i, coords->y.w.i,
+                      coords->z.w.i);
         tail_z = ((u16 *)self)[-1];
         global_flags = (s32 *)0x80080000;
         ((u16 *)self)[-1] = tail_z | 0x8000;
-        count = ((LinkedEffectControllerBody *)self)->field28.p;
+        count = self->field28.p;
         flags_value = ((S_8199AAD4_4 *)global_flags)->unk_14A0;
         count++;
         flags_value |= 0x8000;
-        ((LinkedEffectControllerBody *)self)->field28.p = count;
+        self->field28.p = count;
         ((S_8199AAD4_4 *)global_flags)->unk_14A0 = flags_value;
         return;
 
@@ -307,20 +307,20 @@ finish:
         table_end = &D_80024AE0;
         table_start_2 = table_end - 0x54;
 loop_top:
-        object_entry = ((LinkedEffectControllerBody *)self)->field04;
-        start_x = ((ObjectPosition *)coords)->x.w.i;
-        start_y = ((ObjectPosition *)coords)->y.w.i;
+        object_entry = self->field04;
+        start_x = coords->x.w.i;
+        start_y = coords->y.w.i;
         target_node = object_entry->unk_08;
-        start_z = ((ObjectPosition *)coords)->z.w.i;
+        start_z = coords->z.w.i;
         target[0] = target_node->unk_00;
         target[1] = target_node->unk_04;
-        target[2] = (((LinkedEffectControllerBody *)self)->field38 - 0x50) << 16;
+        target[2] = (self->field38 - 0x50) << 16;
 
         entry_offset = (g_game_work.view.camera_rotation.parts.viewAngle + primary_actor_record->facing + 0x100) >> 7;
         delta_out = delta;
         entry_base = actor_direction_sprites;
         entry_offset &= 0x1C;
-        call_node = ((LinkedEffectControllerBody *)self)->field04;
+        call_node = self->field04;
         if (resolve_record_orientation_or_fallback(((S_8199AAD4_5 *)(entry_offset + (long)entry_base))->unk_00, call_node->unk_0C, delta_out,
             0)) {
             target[0] += (s32)(s16)delta[0] << 16;
@@ -328,32 +328,32 @@ loop_top:
             target[2] += (s32)(s16)delta[2] << 16;
         }
 
-        ((ObjectPosition *)coords)->x.v +=
-            (target[0] - ((ObjectPosition *)coords)->x.v) / ((LinkedEffectControllerBody *)self)->field2E.u;
-        ((ObjectPosition *)coords)->y.v +=
-            (target[1] - ((ObjectPosition *)coords)->y.v) / ((LinkedEffectControllerBody *)self)->field2E.u;
-        arc_height = rsin(((LinkedEffectControllerBody *)self)->field2E.u * 170);
-        ((ObjectPosition *)coords)->z.v +=
-            (target[2] - ((ObjectPosition *)coords)->z.v) / ((LinkedEffectControllerBody *)self)->field2E.u -
+        coords->x.v +=
+            (target[0] - coords->x.v) / self->field2E.u;
+        coords->y.v +=
+            (target[1] - coords->y.v) / self->field2E.u;
+        arc_height = rsin(self->field2E.u * 170);
+        coords->z.v +=
+            (target[2] - coords->z.v) / self->field2E.u -
             (arc_height << 7);
 
-        created = create_positioned(((LinkedEffectControllerBody *)self)->field08, start_x, start_y, start_z,
-                                coords, ((LinkedEffectControllerBody *)self)->field10.s, 4,
-                                ((LinkedEffectControllerBody *)self)->field14, iteration);
+        created = create_positioned(self->field08, start_x, start_y, start_z,
+                                coords, self->field10.s, 4,
+                                self->field14, iteration);
         if (created != NULL) {
-            ((LinkedEffectControllerBody *)self)->field08 = created;
-            ((LinkedEffectControllerBody *)self)->field14 = created->unk_08;
+            self->field08 = created;
+            self->field14 = created->unk_08;
         }
 
-        count = ((LinkedEffectControllerBody *)self)->field2E.p - 1;
-        ((LinkedEffectControllerBody *)self)->field2E.p = count;
+        count = self->field2E.p - 1;
+        self->field2E.p = count;
         if ((s16)count <= 0) {
             goto finish;
         }
 
-        ((LinkedEffectControllerBody *)self)->field10.u += 0xC;
-        if (((LinkedEffectControllerBody *)self)->field10.u >= table_end) {
-            ((LinkedEffectControllerBody *)self)->field10.u = table_start_2;
+        self->field10.u += 0xC;
+        if (self->field10.u >= table_end) {
+            self->field10.u = table_start_2;
         }
         iteration = (u8 *)iteration + 1;
         goto loop_top;

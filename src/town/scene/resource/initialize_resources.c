@@ -6,8 +6,8 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "town/map/resource.h"
+#include "town/scene/resource.h"
 
-extern void reserve_twch_load(s32 a0);
 extern u8 town_scene_resource_descriptor;
 extern u8 D_800D1D54;
 extern u8 D_80080F48;

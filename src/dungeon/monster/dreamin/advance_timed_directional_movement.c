@@ -10,9 +10,9 @@
 #include "engine/graphics.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/dreamin_frames.h"
 
 extern u8 dreamin_action_continuation_address;
-extern u8 dreamin_frame_set_1[];
 
 /* Updates timed directional movement and settles the entity at its grid position. */
 void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)

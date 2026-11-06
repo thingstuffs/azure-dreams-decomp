@@ -72,4 +72,6 @@ typedef struct FloorItemScratch {
     /* 0x100 */ u16 angle_x, angle_y, angle_z;
 } FloorItemScratch;
 
+extern s8 random_pickup_enabled;
+extern s16 pickup_event_latch;
 #endif

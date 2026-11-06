@@ -33,9 +33,9 @@ void create_user_data_object(s32 user_data) {
         register_node(object, draw_linked_sprites);
         render_state = object->sprite;
         instance_data->unk_04 = user_data;
-        ((SignedPositionView *)(object->position))->x = 0xF0;
-        ((SignedPositionView *)(object->position))->y = 0xAC;
-        ((SignedPositionView *)(object->position))->z = 0;
+        object->position->x.w.i = 0xF0;
+        object->position->y.w.i = 0xAC;
+        object->position->z.w.i = 0;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->depth_bias = 0x10;

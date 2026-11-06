@@ -13,10 +13,10 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/maximum_frames.h"
 
 extern void *actor_update_node_cursor;
 extern s32 maximum_action_continuation_address;
-extern u8 maximum_frame_set[];
 
 /* Advances the actor action through animation setup, completion, and cleanup. */
 void advance_actor_action_animation_and_cleanup(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *animation, ActorRecord *actor) {

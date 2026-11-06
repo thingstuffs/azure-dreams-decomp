@@ -206,7 +206,6 @@ const DirectionOffsets dungeon_7ce800_directions = {1,0,1,1,0,1,-1,1,-1,0,-1,-1,
 
 s32 draw_linked_lit_meshes(void *,void *,void *);
 extern s32 default_textured_quad_color;
-extern s16 *view_marker_slots[];
 
 /* Creates a dungeon object at the given position and records it in its slot. */
 void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
@@ -257,7 +256,6 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
 #include "shared/dungeon_status.h"
 
 extern s32 D_80013718;
-extern s16 *view_marker_slots[];
 
 /* Update both state targets and set flags when the mode is 3. */
 void update_overlay_state_and_retire(void *data)
@@ -332,7 +330,6 @@ struct S_80082E60 {
     s16 field_16;
 };
 typedef struct S_80082E60 S_80082E60;
-extern s16 *view_marker_slots[];
 
 extern u8 D_800F8A4C[];
 struct S_10 {

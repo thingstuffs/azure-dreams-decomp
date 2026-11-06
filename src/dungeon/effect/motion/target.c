@@ -237,16 +237,16 @@ s32 render_linked_jittered_effect_strips(DirectionalActorEffectBody *node_data) 
                         primitive->unk_20 =
                             (s16)(primitive->unk_10 + step);
 
-                        tex_coord = *(u8 *)&node->texture_u;
+                        tex_coord = (u8)node->texture_u;
                         primitive->unk_1C = (u8)tex_coord;
                         primitive->unk_0C = (u8)tex_coord;
-                        tex_coord = (s16)(tex_coord + *(u8 *)&node->texture_u_step);
+                        tex_coord = (s16)(tex_coord + (u8)node->texture_u_step);
                         primitive->unk_24 = (s8)tex_coord;
                         primitive->unk_14 = (s8)tex_coord;
-                        tex_coord = *(u8 *)&node->texture_v;
+                        tex_coord = (u8)node->texture_v;
                         primitive->unk_15 = (u8)tex_coord;
                         primitive->unk_0D = (u8)tex_coord;
-                        tex_coord = (s16)(tex_coord + *(u8 *)&node->texture_v_step);
+                        tex_coord = (s16)(tex_coord + (u8)node->texture_v_step);
                         primitive->unk_25 = (s8)tex_coord;
                         primitive->unk_1D = (s8)tex_coord;
 

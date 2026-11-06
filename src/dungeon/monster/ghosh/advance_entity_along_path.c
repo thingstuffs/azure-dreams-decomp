@@ -8,16 +8,11 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/ghosh.h"
+#include "dungeon/monster/ghosh_frames.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_movement_clearance_and_height();
 extern void func_8016C698(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
-
-extern u8 ghosh_frame_set_7[];
-
-
-
-
 
 /* Advance the entity along its path and update its heading and movement state. */
 void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *path) {

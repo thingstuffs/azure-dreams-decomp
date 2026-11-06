@@ -415,7 +415,7 @@ void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, Obje
 void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion,SpriteFrameState *sprite, ActorRecord *actor);
 void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, void *actor, ActorRecord *object);
+void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, R08_80172CE8_S_80172CE8_3 *actor, ActorRecord *object);
 void advance_action_phase_and_process_actor(ActorRecord *action, struct ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *entity);
 void remove_defeated_griffon(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_griffon(void *state, void *motion, void *position, void *actor);

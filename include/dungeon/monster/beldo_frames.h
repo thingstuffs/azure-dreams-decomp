@@ -7,4 +7,6 @@
 extern u8 beldo_frame_set_1[ 8 ];
 extern u8 beldo_frame_set_2[ ];
 
+extern u8 beldo_frame_set_3[ 8 ];
+
 #endif

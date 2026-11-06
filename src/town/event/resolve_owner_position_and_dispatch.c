@@ -67,7 +67,7 @@ extern s32 D_800D0420[];
 extern s32 town_input_motion_address;
 
 /* Resolve the owner position and dispatch its handler for the current town state. */
-void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param)
+void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param)
 {
     TownState *state = &scene_object_payload_alias;
     s32 *offset = D_800D0420;
@@ -94,14 +94,14 @@ void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, Enti
     dispatched = 1;
 
     if (current_state == (s32)update_actor_interaction_actions || current_state == (s32)update_threshold_object) {
-        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_08)(object, owner, resolved_pos,
+        ((DispatchFn)((S_8009B9BC_4 *)(object->unk_58))->unk_08)(object, owner, resolved_pos,
             dispatch_param);
     } else if (current_state == (s32)&town_input_motion_address) {
-        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_14)(object, owner, resolved_pos,
+        ((DispatchFn)((S_8009B9BC_4 *)(object->unk_58))->unk_14)(object, owner, resolved_pos,
             dispatch_param);
     } else if (current_state == (s32)update_entity_and_dispatch_timed_state) {
                 /* MATCH: preserve the fourth argument register allocation. */
-        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_0C)(object, owner, resolved_pos,
+        ((DispatchFn)((S_8009B9BC_4 *)(object->unk_58))->unk_0C)(object, owner, resolved_pos,
             dispatch_param);
     } else if (current_state == (s32)dispatch_fallback_request) {
         unlink_and_remove_scene_object(object, owner, resolved_pos, dispatch_param);
@@ -112,7 +112,7 @@ void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, Enti
               current_state == (s32)update_actor_movement_with_radial_effects || current_state == (s32)dispatch_deferred_callback ||
               current_state == (s32)no_op_scene_callback_b || service_script_controller() != 0) ||
             previous_owner != (s32)owner) {
-            ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_10)(object, owner, resolved_pos,
+            ((DispatchFn)((S_8009B9BC_4 *)(object->unk_58))->unk_10)(object, owner, resolved_pos,
                 dispatch_param);
         } else {
             dispatched = 0;

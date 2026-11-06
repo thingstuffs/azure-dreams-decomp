@@ -48,10 +48,10 @@ extern DungeonGroup item_category_groups[];
 /* Spell state for the falling particle field and its timed attack. */
 typedef struct FallingParticleFieldSpellBody {
     SpellEffectHeader spell;
-    union { u16 s; s16 u; } unk_0C;   /* accessed as both */
-    union { s16 s; u16 u; } unk_0E;   /* accessed as both */
-    union { u16 s; s16 u; } unk_10;   /* accessed as both */
-    union { u16 s; s16 u; } unk_12;   /* accessed as both */
+    u16 unk_0C;
+    u16 unk_0E;
+    u16 unk_10;
+    u16 unk_12;
     u16 unk_14;
 } FallingParticleFieldSpellBody;
 
@@ -109,7 +109,7 @@ typedef struct S_81934C5C_0 {
     u8 pad_2C[0x4];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_30;   /* overlapping accesses */
     u8 pad_34[0x14];
-    union { u16 s; s16 u; } unk_48;   /* accessed as both */
+    u16 unk_48;
     u8 pad_4A[0x2];
     s16 unk_4C;
 } S_81934C5C_0;   /* arg0 in func_8002445C */

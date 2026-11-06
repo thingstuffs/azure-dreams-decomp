@@ -24,6 +24,16 @@ typedef struct VerticalParticleBurstBody {
     s16 remaining_ticks;
 } VerticalParticleBurstBody;
 
+/* The randomized burst creator installs damp_effect_motion_and_fade on each particle. */
+typedef struct DampedParticleBurstBody {
+    u8 pad_00[0xC];
+    s16 effect_index;
+    u8 pad_0E[0x2];
+    s16 remaining_ticks;
+    u8 pad_12[0xA];
+    s16 unk_1C;
+} DampedParticleBurstBody;
+
 /* The central effect creator places this state at object +0x20. The item
  * caller stores its floor-position index in the same body at state +0x20. */
 typedef struct CentralChildEffectState {

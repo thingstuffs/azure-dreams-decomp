@@ -8,6 +8,7 @@
 #include "dungeon/item.h"
 #include "dungeon/item/state.h"
 #include "dungeon/monster/pulunpa.h"
+#include "dungeon/item/position.h"
 
 
 typedef struct S_8017405C_1 {
@@ -65,7 +66,6 @@ extern s32 generate_random_value(void);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s16 check_diagonal_side_height(s32, s32, s32, s32);
-extern s32 calculate_planar_heading(s16, s16, s16, s16);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void cycle_map_cell_flags(s32, s32, s32);

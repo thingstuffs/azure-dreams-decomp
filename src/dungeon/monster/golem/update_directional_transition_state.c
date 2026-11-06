@@ -5,13 +5,11 @@
 #include "engine/graphics.h"
 #include "shared/entity.h"
 #include "dungeon/monster/golem.h"
+#include "dungeon/monster/golem_frames.h"
 
 
 extern u8 golem_action_continuation_address[];
 extern u8 golem_direction_frames[];
-extern u8 golem_alt_direction_frames[];
-
-
 
 /* Updates directional animation and entity state when the transition flags allow. */
 void update_directional_transition_state(ActorRecord *entity, ObjectPosition *position, SpriteFrameState *sprite,

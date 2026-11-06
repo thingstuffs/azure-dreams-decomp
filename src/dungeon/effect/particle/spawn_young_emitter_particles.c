@@ -48,7 +48,7 @@ extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010C994;
 
 /* Spawns randomized particles while the emitter is young and marks it inactive when its timer expires. */
-void spawn_young_emitter_particles(void *emitter, s32 init_param_1, s32 init_param_2) {
+void spawn_young_emitter_particles(S_7FFEA9D4_0 *emitter, s32 init_param_1, s32 init_param_2) {
     s32 z_offset;
     s32 spawn_count;
     s32 rand_value;
@@ -63,8 +63,8 @@ void spawn_young_emitter_particles(void *emitter, s32 init_param_1, s32 init_par
     S_7FFEA9D4_3 *emitter_data;
     S_7FFEA9D4_1 *particle;
 
-    age_or_flags = ((S_7FFEA9D4_0 *)emitter)->unk_16 + 1;
-    ((S_7FFEA9D4_0 *)emitter)->unk_16 = age_or_flags;
+    age_or_flags = emitter->unk_16 + 1;
+    emitter->unk_16 = age_or_flags;
     if ((s16) age_or_flags < 0x28) {
         spawn_count = 0;
         do {
@@ -86,7 +86,7 @@ void spawn_young_emitter_particles(void *emitter, s32 init_param_1, s32 init_par
                 pos_y -= 0x1F;
                 pos_y += rand_value & 0x3F;
                 position->y = (u16) pos_y;
-                emitter_data = ((S_7FFEA9D4_0 *)emitter)->unk_00;
+                emitter_data = emitter->unk_00;
                 particle->unk_60 = (u16) position->z;
                 rand_value = func_700750E0();
                 z_offset = emitter_height_offsets[emitter_data->unk_13];
@@ -99,8 +99,8 @@ void spawn_young_emitter_particles(void *emitter, s32 init_param_1, s32 init_par
             }
         } while (spawn_count < 2);
     }
-    ticks_left = ((S_7FFEA9D4_0 *)emitter)->unk_1E - 1;
-    ((S_7FFEA9D4_0 *)emitter)->unk_1E = ticks_left;
+    ticks_left = emitter->unk_1E - 1;
+    emitter->unk_1E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         header = (u16 *)emitter - 1;
         z_offset = (s32)&emitted_effect_counter;

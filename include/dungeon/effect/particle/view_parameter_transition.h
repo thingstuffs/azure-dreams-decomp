@@ -71,7 +71,7 @@ typedef struct {
     } value;
 } UnkArg1;
 extern const u8 no_effect_target_prefix[48];
-extern const u8 D_80024034[4];
+extern const u8 no_effect_target_period[4];
 extern const s16 D_80024038[8][2];
 extern s16 D_80025308;
 /* Work at node +0x20 for the moving color effect. The two views keep

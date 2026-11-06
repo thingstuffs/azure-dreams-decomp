@@ -46,7 +46,8 @@ void update_damped_height_effect(DirectionalParticlesAndResetActorBody *state, v
 void update_growing_colliding_effect(GrowingCollidingEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* Callback entry points. */
-void update_fading_motion_effect(void *effect, void *transform, void *color);
+struct BlumeFadingMotionBody;
+void update_fading_motion_effect(struct BlumeFadingMotionBody *effect, ObjectPosition *transform, SpriteFrameState *color);
 
 void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor);
 

@@ -27,7 +27,7 @@ void spawn_owned_motion_object(void)
 
     owner_data = ghosh_actor_node;
     source_pos = ghosh_actor_node->position;
-    owner_state = (u8 *)owner_data + 0x20;
+    owner_state = NODE_BODY(owner_data);
     spawned_object = allocate_flagged_object_node(0x12);
     if (spawned_object != 0) {
         spawned_object->header.update_callback = update_object_motion_and_landing;

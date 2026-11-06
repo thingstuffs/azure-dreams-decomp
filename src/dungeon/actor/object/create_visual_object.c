@@ -7,13 +7,13 @@
 #include "engine/node.h"
 #include "dungeon/actor/object.h"
 #include "dungeon/actor/alternating_shade.h"
+#include "dungeon/globals.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 extern s32 D_80026E3C;
-extern s32 visual_object_sprite_data;
 
 /* Creates a visual object with the given position and size. */
 void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {

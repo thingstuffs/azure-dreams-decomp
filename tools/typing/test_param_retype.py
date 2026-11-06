@@ -172,6 +172,31 @@ class Fixture(unittest.TestCase):
         self.assertIn('+ q->y;', text)
         self.assertIn('Obj *q)', text)
 
+    def test_own_view_candidate_and_two_type_hold(self):
+        unit, fn, params = self.callee()
+        self.assertEqual(R.own_view_candidate(unit, 'src/callee.c', fn, params[1], 2),
+                         ('Obj *', 2, ''))
+        (self.root / 'src/mixed.c').write_text(
+            '#include "x.h"\n'
+            'typedef struct Other { s32 x; } Other;\n'
+            's32 mixed(void *p) { return ((Obj *)p)->x + ((Other *)p)->x; }\n')
+        mixed_unit = self.units.get('src/mixed.c')
+        mixed = R.find_function(mixed_unit, 'src/mixed.c', 'mixed')
+        target, count, why = R.own_view_candidate(mixed_unit, 'src/mixed.c', mixed,
+                                                  R.params_of(mixed)[0], 1)
+        self.assertEqual((target, count, why), ('', 2, 'two_type:Obj,Other'))
+
+    def test_entry_hoist_keeps_generic_callback_parameter(self):
+        unit, fn, params = self.callee()
+        plan, why = R.plan_entry_hoist(unit, 'src/callee.c', fn, params[1], 'Obj *')
+        self.assertEqual(why, '')
+        text = plan['texts']['src/callee.c']
+        self.assertIn('callee(S_80012345_0 *p, void *q)', text)
+        self.assertIn('Obj * own_view_q = (Obj *)q;', text)
+        self.assertIn('own_view_q->x = 3;', text)
+        self.assertIn('+ own_view_q->y;', text)
+        self.assertEqual(plan['summary']['casts_dropped'], 1)
+
     def test_byte_use_refuses(self):
         unit = self.units.get('src/callee.c')
         fn = R.find_function(unit, 'src/callee.c', 'user')

@@ -8,12 +8,12 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/grineut_frames.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_80164E54;
-extern u8 grineut_frame_set_11[];
 extern u8 D_80168178[];
 
 /* Update directional motion, decelerate, and settle the entity at its tile center. */

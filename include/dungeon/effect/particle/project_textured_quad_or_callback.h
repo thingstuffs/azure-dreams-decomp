@@ -30,16 +30,16 @@ typedef struct TerrainSeekingPointBody {
 typedef struct TargetParticleStatusSpellBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x68];
-    union { u16 u; s16 s; } unk_74;
-    union { u16 u; s16 s; } unk_76;
-    union { u16 u; s16 s; } unk_78;
+    s16 unk_74;
+    s16 unk_76;
+    s16 unk_78;
     u8 unk_7A;
     u8 pad_7B[0x1];
-    union { s16 s; u16 u; } unk_7C;
+    s16 unk_7C;
     u8 pad_7E[0x2];
     s16 unk_80;
     u8 pad_82[0x2];
-    union { u16 u; s16 s; } unk_84;
+    u16 unk_84;
     u8 pad_86[0x2];
     s16 unk_88;
     u8 pad_8A[0x12];
@@ -63,4 +63,6 @@ void spawn_randomized_spark_burst(u8 *, void *, u8 *);
 void apply_random_duration_actor_status(void *, s32, void *);
 /* Signed two-byte view of the first counter; indexed reads use its address. */
 extern s16 sphere_particle_effect_updated;
+extern const u8 no_effect_target_prefix[48];
+extern const u8 no_effect_target_period[4];
 #endif

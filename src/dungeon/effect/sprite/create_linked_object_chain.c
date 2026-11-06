@@ -39,12 +39,12 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
     for (i = 0; i < 18; i++) {
         objects[i] = allocate_list_node(18, (i != 0) ? objects[0] : (void *)&scene_object_list_anchor);
         if (objects[i] != NULL) {
-            ((ObjectNodeHeader *)objects[i])->update_callback = update_linked_object_chain;
-            position = ((ObjectNodeHeader *)objects[i])->position;
+            objects[i]->update_callback = update_linked_object_chain;
+            position = objects[i]->position;
             position->x.w.i = x;
             position->y.w.i = y;
             position->z.w.i = z;
-            node = ((ObjectNodeHeader *)objects[i])->sprite;
+            node = objects[i]->sprite;
             node->angle_x = 0x400;
             node->angle_z = angle + 0x400;
             node->offset_x = 0x1000;

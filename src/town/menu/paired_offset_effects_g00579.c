@@ -45,11 +45,11 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     position[1] = origin->y + offset_data->first_component + offset_data->second_component;
     position[2] = origin->z;
     first_object = create_preset_sprite_object(position);
-    ((ObjectPosition *)first_object->unk_08)->velocity_x = 0x10000;
-    first_y_data = first_object->unk_08;
+    first_object->position->velocity_x = 0x10000;
+    first_y_data = first_object->position;
     y_component = first_y_data->velocity_y;
     first_y_data->velocity_y = (s32) (y_component / 4);
-    first_z_data = first_object->unk_08;
+    first_z_data = first_object->position;
     z_component = first_z_data->velocity_z;
     first_z_data->velocity_z = (s32) (z_component / 4);
     first_object->unk_B0 = 0;
@@ -58,8 +58,8 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     position[0] = origin->x - ((second_offset_data->first_component
         + second_offset_data->second_component) / 3);
     first_object = create_preset_sprite_object(position);
-    ((ObjectPosition *)first_object->unk_08)->velocity_x = -0x8000;
-    second_y_data = first_object->unk_08;
+    first_object->position->velocity_x = -0x8000;
+    second_y_data = first_object->position;
     second_y_data->velocity_y = (s32) (second_y_data->velocity_y / 3);
     first_object->unk_B0 = 0;
     spawn_person_radial_effects(position);

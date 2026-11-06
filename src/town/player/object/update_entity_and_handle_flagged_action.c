@@ -10,7 +10,6 @@
 
 
 extern s32 init_button_transition_action();
-extern void run_the_three_update_routines_context(ObjectPosition *context);
 /* Updates the record, then handles a flagged action or countdown if its state is unchanged. */
 void update_entity_and_handle_flagged_action(void *record_arg, void *context, SpriteFrameState *sprite) {
     Rec_func_80090C68_arg0 *record = record_arg;

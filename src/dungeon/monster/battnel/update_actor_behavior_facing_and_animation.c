@@ -28,11 +28,11 @@ extern void func_80173AC0(void *, void *, void *, void *);
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/level.h"
+#include "dungeon/monster/battnel_frames.h"
 
 extern u8 D_80173D14[];
 extern u8 D_80173D1C[];
 extern u8 D_80173D3C[];
-extern u8 battnel_frame_set[];
 extern u8 D_80173D4C[];
 
 /* Update actor behavior, facing, and animation from dungeon state. */

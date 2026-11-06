@@ -475,7 +475,7 @@ extern const Row_819A1654_PointTable linked_effect_octant_offsets[1];
 extern Row_819A1654_Blob12 D_80026180[];
 extern Row_819A1654_Blob12 linked_effect_task_values[];
 extern Row_819A1654_Blob24 D_80026198[];
-void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_state, s16 depth_bias);
+void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *position, void *render_state, s16 depth_bias);
 s32 draw_linked_effect_chain(void *state, void *position, void *appearance);
 void update_effect_countdown_fields(void *object_data);
 void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive);

@@ -37,7 +37,7 @@ typedef struct S_8015F3A8_2 {
 /* Run entity callbacks and update motion, facing, and ground height. */
 /* Runs Death state callbacks from D_801626A0, updates sprite facing and height offsets, and resolves
  * ground contact. */
-void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion, void *sprite)
+void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     S_8015F3A8_2 *entity_base = entity;
     s16 old_state;
@@ -104,40 +104,40 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
         (*((u8 *)entity + 0x9D)) = 0;
     }
     (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
-    initial_flags = ((SpriteFrameState *)sprite)->flags;
+    initial_flags = sprite->flags;
 
     if (!(initial_flags & 0x8000)) {
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_base->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
             select_indirect_table_entry(sprite,
-                *(*(u8 * *)&((SpriteFrameState *)sprite)->frameTable + direction),
-                ((SpriteFrameState *)sprite)->unk_04);
+                *(*(u8 * *)&sprite->frameTable + direction),
+                sprite->unk_04);
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
         if (dir_sprite_flag[direction] != 0) {
-            ((SpriteFrameState *)sprite)->flags |= 1;
+            sprite->flags |= 1;
         } else {
-            ((SpriteFrameState *)sprite)->flags &= 0xFFFE;
+            sprite->flags &= 0xFFFE;
         }
         apply_monster_koyaw_data(entity_base->unk_1C, (u8 *)sprite + 0xC);
         if (!(entity_base->unk_1C & 0x20)) {
-            if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
+            if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
-            ((SpriteFrameState *)sprite)->flags |= 0x7000;
+            sprite->flags |= 0x7000;
             entity_base->unk_1C &= 0xFFFBFFFF;
         }
 
         entity_base->unk_1C &= 0xF7FFFFFF;
         flags = entity_base->unk_1C;
         if (flags & 0x40000) {
-            sprite_flags = ((SpriteFrameState *)sprite)->flags;
+            sprite_flags = sprite->flags;
             if (!(sprite_flags & 0x40)) {
-                u8 *direction_frames = *(u8 * *)&((SpriteFrameState *)sprite)->frameTable;
+                u8 *direction_frames = *(u8 * *)&sprite->frameTable;
 
                 if (direction_frames == D_80162634) {
-                    if (((SpriteFrameState *)sprite)->unk_04 == 3 && (sprite_flags & 0x1000)) {
+                    if (sprite->unk_04 == 3 && (sprite_flags & 0x1000)) {
                         (*(s32 *)((u8 *)entity + 0xAC)) = 0x60000;
                         (*(s32 *)((u8 *)entity + 0xB0)) = (s32)0xFFFF3000;
                     }
@@ -192,9 +192,9 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
         }
     } else {
         if (initial_flags & 0x800) {
-            ((SpriteFrameState *)sprite)->flags = initial_flags & 0x8FFF;
+            sprite->flags = initial_flags & 0x8FFF;
         } else {
-            ((SpriteFrameState *)sprite)->flags = initial_flags | 0x7000;
+            sprite->flags = initial_flags | 0x7000;
         }
         entity_base->unk_1C &= 0xF7FFFFFF;
         flags = entity_base->unk_1C;
@@ -219,8 +219,8 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
                 }
             }
         } else {
-            if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
-                u8 *direction_frames = *(u8 * *)&((SpriteFrameState *)sprite)->frameTable;
+            if (!(sprite->flags & 0x40)) {
+                u8 *direction_frames = *(u8 * *)&sprite->frameTable;
 
                 if (direction_frames == D_80162634) {
                     (*(s32 *)((u8 *)entity + 0xAC)) = 0;
@@ -256,8 +256,8 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
     flags = entity_base->unk_1C;
     if (flags & 0x40000000) {
         entity_base->unk_1C = flags & 0xBFFFFFFF;
-        ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->tile_x << 6) | 0x20,
-                                      (((SpriteFrameState *)sprite)->tile_y << 6) | 0x20,
+        ground_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+                                      (sprite->tile_y << 6) | 0x20,
                                       (s16)(entity_base->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =
@@ -269,5 +269,5 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
     motion->z.w.i = entity_base->unk_88 +
                      (u16)(*(s16 *)((u8 *)entity + 0x92)) -
                      (*(u16 *)((u8 *)entity + 0xA6));
-    ((SpriteFrameState *)sprite)->flags |= 0x40;
+    sprite->flags |= 0x40;
 }

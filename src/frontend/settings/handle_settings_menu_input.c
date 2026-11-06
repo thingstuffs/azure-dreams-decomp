@@ -23,7 +23,6 @@ extern s32 saved_sequence_volume_scale;
 extern s32 saved_voice_gain_scale;
 extern s32 volume_slider_levels[3];
 extern s32 runtime_saved_state_word;
-extern short SD_Call(int flags);
 /* Handles the options menu, adjusting audio levels and applying display settings. */
 void handle_settings_menu_input(SettingsScreenBody *menu)
 {

@@ -3,8 +3,7 @@
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
 #include "slus.h"
-
-extern s8 encounter_cd_ready;
+#include "dungeon/globals.h"
 
 /* Clears the status flag and registers the callback and status handlers. */
 void register_encounter_cd_callbacks(s32 input_value) {

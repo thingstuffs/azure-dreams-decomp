@@ -2,6 +2,7 @@
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/monster/maximum_frames.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
@@ -68,7 +69,6 @@ typedef struct S_801728B4_9 {
 
 extern void effect_update_tag();
 void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
-extern u8 maximum_frame_set_4[];
 
 /* Updates an actor action, its visual effect, and completion cleanup. */
 /* Starts a targeted spell with a child sprite on frame 45, releases the child after animation, and

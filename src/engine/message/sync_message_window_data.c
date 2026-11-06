@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/message/data.h"
 
 #include "common.h"
 #include "engine/message.h"
@@ -32,7 +33,6 @@ struct Func8003800CState {
 };
 
 extern u8 D_800809C4[];
-extern u8 message_window_audio_sync_data[];
 
 extern s32 return_zero_variadic(void *, ...);
 

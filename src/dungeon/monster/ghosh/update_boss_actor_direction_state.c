@@ -6,6 +6,7 @@
 #include "dungeon/monster/ghosh.h"
 #include "engine/graphics.h"
 #include "slus.h"
+#include "dungeon/monster/ghosh_frames.h"
 
 typedef struct S_80172610_0 {
     u8 pad_00[0x2A];
@@ -69,7 +70,6 @@ typedef struct S_80172610_8 {
 } S_80172610_8;   /* saved_base in update_boss_actor_direction_state */
 
 extern s8 view_direction_depth_biases[];
-extern u8 ghosh_frame_set_2[];
 
 /* Update actor direction, copy linked output state, and propagate status flags. */
 void update_boss_actor_direction_state(void *actor_data, void *output_data, SpriteFrameState *context_data)

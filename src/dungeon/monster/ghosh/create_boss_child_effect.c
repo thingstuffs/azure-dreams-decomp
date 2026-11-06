@@ -11,6 +11,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/ghosh_frames.h"
 
 typedef struct S_80172B00_0 {
     u8 pad_00[0x2A];
@@ -38,7 +39,6 @@ typedef struct S_80172B00_7 {
 } S_80172B00_7;   /* arg2 in create_boss_child_effect */
 
 extern s8 view_direction_depth_biases[];
-extern u8 ghosh_frame_set_10[];
 
 typedef struct {
     s32 words[4];

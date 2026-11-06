@@ -165,7 +165,7 @@ typedef struct S_func_81904990_7 {
         } as_u8_0D;
     } unk_0C;
     u16 unk_0E;
-    u16 unk_10;
+    s16 unk_10;
     s16 unk_12;
     union {
         s16 as_s16_14;
@@ -176,7 +176,7 @@ typedef struct S_func_81904990_7 {
         } as_u8_15;
     } unk_14;
     u16 unk_16;
-    u16 unk_18;
+    s16 unk_18;
     s16 unk_1A;
     union {
         s16 as_s16_1C;
@@ -305,46 +305,25 @@ typedef struct S_func_81905FD0_1 {
     void * launch_flags;
     u8 pad_08[0x1];
     u8 unk_09;
-    union {
-        s16 s16;
-        u16 u16;
-    } phase;
+    u16 phase;
     u8 pad_0C[0x6C];
-    union {
-        s16 s16;
-        u16 u16;
-    } target_height;
+    u16 target_height;
     u8 flags;
     u8 travel_ticks;
     u8 pad_7C[0x2];
-    union {
-        s16 s16;
-        u16 u16;
-    } direction;
+    s16 direction;
     u8 pad_80[0x2];
-    union {
-        s16 s16;
-        u16 u16;
-    } timer;
+    u16 timer;
     u8 pad_84[0x4];
     u16 unk_88;
     u16 unk_8A;
     u8 pad_8C[0x4];
-    union {
-        s16 s16;
-        u16 u16;
-    } scale_shrinking;
+    s16 scale_shrinking;
     u16 scale_timer;
-    union {
-        s16 s16;
-        u16 u16;
-    } scale_period;
+    s16 scale_period;
     u16 scale_step;
     u8 pad_98[0x4];
-    union {
-        s16 s16;
-        u16 u16;
-    } child_done;
+    s16 child_done;
     u8 pad_9E[0x1C];
     u8 unk_BA;
     u8 unk_BB;
@@ -379,10 +358,7 @@ typedef struct S_func_81905FD0_2 {
     } z;
     u32 velocity_x;
     u32 velocity_y;
-    union {
-        s32 s32;
-        u32 u32;
-    } velocity_z;
+    s32 velocity_z;
 } S_func_81905FD0_2;
 
 typedef struct S_func_81905FD0_3 {
@@ -482,10 +458,7 @@ typedef struct S_func_81905FD0_9 {
 } S_func_81905FD0_9;
 
 typedef struct S_func_81905FD0_10 {
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_00;
+    s16 unk_00;
 } S_func_81905FD0_10;
 
 typedef struct S_func_81905FD0_11 {

@@ -17,6 +17,7 @@
 #include "dungeon/level.h"
 #include "dungeon/monster/kewne_uncached.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/kewne_uncached_frames.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
@@ -29,7 +30,6 @@ extern s32 func_801551CC(void *, void *, void *, void *);
 extern void func_80157078(void *, void *, void *, void *);
 
 extern u8 D_80153FA4[];
-extern u8 kewne_uncached_frame_set[];
 extern u8 D_80157C38[];
 extern u8 D_80157C88[];
 extern u8 D_80157C90[];

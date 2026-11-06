@@ -510,38 +510,20 @@ typedef struct S_func_8190B2D0_0 {
     void * unk_4;
     u8 pad_8[0x1];
     u8 unk_9;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_A;
+    u16 unk_A;
     u8 pad_C[0x6C];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_78;
+    u16 unk_78;
     u8 unk_7A;
-    union {
-        s8 s8;
-        u8 u8;
-    } unk_7B;
+    u8 unk_7B;
     u8 pad_7C[0x2];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_7E;
+    s16 unk_7E;
     u8 pad_80[0x2];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_82;
+    u16 unk_82;
     u8 pad_84[0x4];
     s16 unk_88;
     s16 unk_8A;
     u8 pad_8C[0x4];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_90;
+    s16 unk_90;
     u8 pad_92[0x4];
     Packed12 unk_96;
     u8 unk_A2;
@@ -667,7 +649,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     directions = rising_effect_octant_offsets;
     owner_base = ((S_func_8190B2D0_2 *)((u8 *)owner - 32));
     source_pos = owner_base->unk_8;
-    state = effect->unk_A.s16;
+    state = (s16)effect->unk_A;
 
     switch (state) {
     case 0:
@@ -679,10 +661,10 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         sprite->source = (u8 *)effect + 0x96;
         owner_flags = owner->unk_2A;
         D_80025630 = 1;
-        next_state = effect->unk_A.u16;
-        effect->unk_7E.u16 = (u16)(owner_flags >> 9) & 7;
+        next_state = effect->unk_A;
+        effect->unk_7E = (u16)(owner_flags >> 9) & 7;
         next_state++;
-        effect->unk_A.u16 = next_state;
+        effect->unk_A = next_state;
     }
 
     case 1:
@@ -737,14 +719,14 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             target_pos = ((S_func_8190B2D0_2 *)((u8 *)target - 32))->unk_8;
             height_or_steps = entity_height_offsets[target->unk_13] + 32;
             target_z = target_pos->unk_8.at_A_u16.unk_A - height_or_steps;
-            effect->unk_78.u16 = (u16)target_z;
+            effect->unk_78 = (u16)target_z;
             owner_sprite = ((S_func_8190B2D0_2 *)((u8 *)owner - 32))->unk_C;
             effect->unk_A2 =
                 owner_sprite->tile_x +
-                ((u8 *)dir_step_x)[(s16)effect->unk_7E.s16 * 2];
+                ((u8 *)dir_step_x)[(s16)effect->unk_7E * 2];
             effect->unk_A3 =
                 owner_sprite->tile_y +
-                ((u8 *)dir_step_y)[(s16)effect->unk_7E.s16 * 2];
+                ((u8 *)dir_step_y)[(s16)effect->unk_7E * 2];
 
             coordinate_steps = owner->unk_72;
             target_coord = owner_sprite->tile_x;
@@ -756,27 +738,27 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 coordinate_steps -= target_coord;
             }
             coordinate_steps = __builtin_abs(coordinate_steps);
-            effect->unk_7B.u8 = (u8)((coordinate_steps << 1) - 1);
+            effect->unk_7B = (u8)((coordinate_steps << 1) - 1);
         } else {
             base_height = owner->unk_88;
-            effect->unk_7B.u8 = 32;
-            effect->unk_78.u16 = (u16)(base_height - 80);
+            effect->unk_7B = 32;
+            effect->unk_78 = (u16)(base_height - 80);
         }
 
         motion_or_child->unk_C.s32 =
-            (s32)directions.value[effect->unk_7E.s16].x << 16;
+            (s32)directions.value[effect->unk_7E].x << 16;
         motion_or_child->unk_10.s32 =
-            (s32)directions.value[effect->unk_7E.s16].y << 16;
+            (s32)directions.value[effect->unk_7E].y << 16;
         motion_or_child->unk_14 =
-            (((s32)effect->unk_78.s16 << 16) - motion_or_child->unk_8.s32) /
-            (s8)effect->unk_7B.u8;
-        effect->unk_82.u16 = 0;
-        next_state = effect->unk_A.u16 + 1;
-        effect->unk_A.u16 = next_state;
-        effect->unk_88 = (s16)(s8)effect->unk_7B.u8;
+            (((s32)(s16)effect->unk_78 << 16) - motion_or_child->unk_8.s32) /
+            (s8)effect->unk_7B;
+        effect->unk_82 = 0;
+        next_state = effect->unk_A + 1;
+        effect->unk_A = next_state;
+        effect->unk_88 = (s16)(s8)effect->unk_7B;
         effect->unk_8A =
-            (s16)((s8)effect->unk_7B.u8 *
-                  (s8)effect->unk_7B.u8);
+            (s16)((s8)effect->unk_7B *
+                  (s8)effect->unk_7B);
         return;
     }
 
@@ -793,7 +775,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             s32 particle_shade;
             s32 random_bits = rand();
             particle_shade = (random_bits & 0xFF) | 0x80;
-            handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent((u8 *)effect - 32, effect->unk_7E.s16,
+            handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent((u8 *)effect - 32, effect->unk_7E,
                           0x00202020, particle_shade, 0, 0, 0);
             particle_index++;
         } while ((s32)particle_index < 4);
@@ -805,20 +787,20 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                     (u16)(angle - 4096);
             }
         }
-        elapsed_frames = effect->unk_88 - effect->unk_7B.s8 + 1;
+        elapsed_frames = effect->unk_88 - (s8)effect->unk_7B + 1;
         sprite->color.c.r = (u8)((elapsed_frames * elapsed_frames * 108) /
                                 effect->unk_8A + 20);
-        elapsed_frames_2 = effect->unk_88 - effect->unk_7B.s8 + 1;
+        elapsed_frames_2 = effect->unk_88 - (s8)effect->unk_7B + 1;
         sprite->color.c.g = (u8)((elapsed_frames_2 * elapsed_frames_2 * 108) /
                                     effect->unk_8A + 20);
-        elapsed_frames_3 = effect->unk_88 - effect->unk_7B.s8 + 1;
+        elapsed_frames_3 = effect->unk_88 - (s8)effect->unk_7B + 1;
         sprite->color.c.b = (u8)((elapsed_frames_3 * elapsed_frames_3 * 108) /
                                     effect->unk_8A + 20);
         collision = check_adjacent_tile_height_clearance(motion_or_child->unk_0.at_2_u16.unk_2, motion_or_child->unk_4.at_6_u16.unk_6,
                                   motion_or_child->unk_8.at_A_s16.unk_A, owner->unk_60);
         if ((collision << 16) != 0) {
-            effect->unk_A.u16 = 8;
-            effect->unk_82.u16 = 0;
+            effect->unk_A = 8;
+            effect->unk_82 = 0;
             sprite->color.c.b = 0;
             sprite->color.c.g = 0;
             sprite->color.c.r = 0;
@@ -826,22 +808,22 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             sprite->scale_x = 0;
             return;
         }
-        frames_left = effect->unk_7B.u8 - 1;
-        effect->unk_7B.u8 = frames_left;
+        frames_left = effect->unk_7B - 1;
+        effect->unk_7B = frames_left;
         if ((s8)frames_left <= 0) {
             if (owner->unk_60 != 0) {
-                effect->unk_A.u16 = 3;
-                effect->unk_82.u16 = 0;
+                effect->unk_A = 3;
+                effect->unk_82 = 0;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 ((S_func_8190B2D0_6 *)owner->unk_60)->unk_14 |= 0x100000;
                 target_pos = ((S_func_8190B2D0_2 *)((u8 *)owner->unk_60 - 32))->unk_8;
                 motion_or_child->unk_0.at_2_u16.unk_2 = target_pos->unk_0.at_2_u16.unk_2;
                 motion_or_child->unk_4.at_6_u16.unk_6 = target_pos->unk_4.at_6_u16.unk_6;
-                motion_or_child->unk_8.at_A_u16.unk_A = effect->unk_78.u16;
+                motion_or_child->unk_8.at_A_u16.unk_A = effect->unk_78;
                 return;
             }
-            effect->unk_A.u16 = 8;
-            effect->unk_82.u16 = 0;
+            effect->unk_A = 8;
+            effect->unk_82 = 0;
             sprite->color.c.b = 0;
             sprite->color.c.g = 0;
             sprite->color.c.r = 0;
@@ -872,15 +854,15 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                     (u16)(angle - 4096);
             }
         }
-        effect->unk_82.u16++;
-        frame = effect->unk_82.s16;
+        effect->unk_82++;
+        frame = (s16)effect->unk_82;
         if (frame == 1) {
             capture_point.x = capture_rect.x + ((s16)capture_rect.w >> 1);
             capture_point.y = capture_rect.y + 72;
             draw_transformed_sprite_with_clip_rect(owner->unk_60, &capture_rect, &capture_point, 1,
                           frame);
         }
-        spawn_frame = effect->unk_82.s16;
+        spawn_frame = (s16)effect->unk_82;
         if ((s16)spawn_frame != 4) {
             return;
         }
@@ -918,13 +900,13 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                     GetTPage(2, 1, 0x340, 0x100);
             }
         }
-        current_frame = effect->unk_82.s16;
+        current_frame = (s16)effect->unk_82;
         if (current_frame != (s16)spawn_frame) {
             return;
         }
-        effect->unk_A.u16 = current_frame;
-        effect->unk_82.u16 = 0;
-        effect->unk_90.u16 = 0;
+        effect->unk_A = current_frame;
+        effect->unk_82 = 0;
+        effect->unk_90 = 0;
         return;
     }
 
@@ -934,7 +916,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         s32 green_frame;
         S_func_8190B2D0_6 *target;
         SpriteFrameState *target_sprite;
-        effect->unk_82.u16 = effect->unk_82.u16 + 1;
+        effect->unk_82 = effect->unk_82 + 1;
         {
             u16 angle = sprite->angle_z + 400;
             sprite->angle_z = angle;
@@ -943,42 +925,42 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                     (u16)(angle - 4096);
             }
         }
-        if (effect->unk_82.s16 < 42) {
+        if ((s16)effect->unk_82 < 42) {
             motion_or_child->unk_8.s32 -= 0x20000;
         }
-        if (effect->unk_82.s16 == 81) {
+        if ((s16)effect->unk_82 == 81) {
             sprite->tpage_abr = 32;
             sprite->color.c.r = 54;
             sprite->color.c.g = 54;
             sprite->color.c.b = 54;
         }
-        if (effect->unk_82.s16 >= 81) {
-            fade_frame = effect->unk_82.s16;
+        if ((s16)effect->unk_82 >= 81) {
+            fade_frame = (s16)effect->unk_82;
             sprite->color.c.r = (u8)(((100 - fade_frame) * 54) / 20);
-            green_frame = effect->unk_82.s16;
+            green_frame = (s16)effect->unk_82;
             sprite->color.c.g = (u8)(((100 - green_frame) * 54) / 20);
-            fade_frame = effect->unk_82.s16;
+            fade_frame = (s16)effect->unk_82;
             sprite->color.c.b = (u8)(((100 - fade_frame) * 54) / 20);
         }
-        if (effect->unk_82.s16 >= 0) {
+        if ((s16)effect->unk_82 >= 0) {
             target = owner->unk_60;
             target->unk_1C |= 0x10000000;
             target_sprite = ((S_func_8190B2D0_2 *)((u8 *)target - 32))->unk_C;
-            if (effect->unk_82.s16 >= 43) {
-                if (effect->unk_82.s16 < 64) {
+            if ((s16)effect->unk_82 >= 43) {
+                if ((s16)effect->unk_82 < 64) {
                     target_sprite->color.c.b += 3;
                     target_sprite->color.c.g += 3;
                     target_sprite->color.c.r += 3;
                 }
             } else {
-                if (effect->unk_82.s16 == 41) {
+                if ((s16)effect->unk_82 == 41) {
                     target_sprite->color.c.b -= 60;
                     target_sprite->color.c.g -= 60;
                     target_sprite->color.c.r -= 60;
                 }
             }
         }
-        if (effect->unk_82.s16 >= 100) {
+        if ((s16)effect->unk_82 >= 100) {
             S_func_8190B2D0_6 *finished_target;
             u32 clear_tint_mask;
             clear_tint_mask = 0xEFFFFFFF;
@@ -988,7 +970,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             target_sprite->color.c.b = 128;
             target_sprite->color.c.g = 128;
             target_sprite->color.c.r = 128;
-            effect->unk_A.u16++;
+            effect->unk_A++;
         }
         return;
     }
@@ -999,7 +981,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         u8 target_mode;
         u32 clear_effect_mask;
         s32 effect_kind;
-        if (effect->unk_90.s16 != 0) {
+        if (effect->unk_90 != 0) {
             clear_effect_mask = 0xFFEFFFFF;
             effect_kind = 255;
             target = owner->unk_60;
@@ -1009,8 +991,8 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 effect_kind = effect->unk_9;
             }
             try_lower_actor_level(owner->unk_60, effect_kind, owner);
-            effect->unk_A.u16 = 8;
-            effect->unk_82.u16 = 30;
+            effect->unk_A = 8;
+            effect->unk_82 = 30;
         }
         return;
     }
@@ -1020,14 +1002,14 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         s16 old_frame;
         s16 frame;
         s32 cleanup_pending;
-        old_frame = effect->unk_82.u16;
+        old_frame = effect->unk_82;
         frame = old_frame + 1;
-        effect->unk_82.u16 = frame;
+        effect->unk_82 = frame;
         if ((s16)frame < 31) {
             break;
         }
         cleanup_pending = D_80025630;
-        effect->unk_82.u16 = old_frame;
+        effect->unk_82 = old_frame;
         switch (cleanup_pending) {
         case 0:
         {

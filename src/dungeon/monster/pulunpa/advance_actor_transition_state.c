@@ -11,11 +11,11 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
 #include "dungeon/system.h"
+#include "dungeon/item/decrement_monster_entry_count_api.h"
 
 extern void store_recalled_familiar(void *, void *, void *, ActorRecord *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s32 find_entity_slot_by_field_ac(void *target_value);
 
 extern void spend_actor_mp(void *, s32);

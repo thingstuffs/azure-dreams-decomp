@@ -1,12 +1,12 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio/data.h"
 #include "engine/audio.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
 #include "slus/data.h"
 #include "engine/audio/slots.h"
 
-extern void *audio_selection_record_pointers[][16];
 
 /* Starts playback of the pending selection when available and initializes its mode. */
 void start_pending_selection(void)

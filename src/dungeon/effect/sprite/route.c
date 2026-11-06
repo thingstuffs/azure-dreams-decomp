@@ -330,7 +330,7 @@ void update_actor_effect_sequence(ChasingStarEffectBody *record)
 
 
 /* Updates effect motion, collisions, animation, scale, and expiration. */
-void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite) {
+void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite) {
     s32 current_z;
     u16 frame_count;
     u16 scale_x;
@@ -338,41 +338,41 @@ void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0
     u16 life_left;
     s32 collision_z;
 
-    position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C);
-    ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = (s32) (((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_58);
+    position->unk_00.at00.v = (s32) (position->unk_00.at00.v + state->unk_4C);
+    state->unk_4C = (s32) (state->unk_4C + state->unk_58);
     if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        (collision_z = position->unk_08.at02.v, linked_point_effect_updated[0] = 1, collision_z)) << 0x10) != 0) {
-        position->unk_00.at00.v = (s32) (position->unk_00.at00.v - ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C);
-        ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = 0;
-        ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_58 = 0;
+        position->unk_00.at00.v = (s32) (position->unk_00.at00.v - state->unk_4C);
+        state->unk_4C = 0;
+        state->unk_58 = 0;
     }
-    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50);
-    ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 = (s32) (((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_5C);
+    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + state->unk_50);
+    state->unk_50 = (s32) (state->unk_50 + state->unk_5C);
     if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0) {
-        position->unk_04.at00.v = (s32) (position->unk_04.at00.v - ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50);
-        ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 = 0;
-        ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_5C = 0;
+        position->unk_04.at00.v = (s32) (position->unk_04.at00.v - state->unk_50);
+        state->unk_50 = 0;
+        state->unk_5C = 0;
     }
-    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_54);
+    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + state->unk_54);
     {
-        s32 accel_z = ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_60;
-        ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_54 += accel_z;
+        s32 accel_z = state->unk_60;
+        state->unk_54 += accel_z;
     }
-    ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = (s32) ((((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C * 0x60) / 100);
-    ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 = (s32) ((((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 * 0x60) / 100);
+    state->unk_4C = (s32) ((state->unk_4C * 0x60) / 100);
+    state->unk_50 = (s32) ((state->unk_50 * 0x60) / 100);
     current_z = position->unk_08.at02.v;
     if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02u.v - 4)) - 0x10) < current_z) {
-        ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_54 = 0;
+        state->unk_54 = 0;
         position->unk_08.at02.v = (s16) (sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02.v - 4)) - 0x11);
         position->unk_08.at00u.v = 0;
-        if (((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_08 == 0) {
-            ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_08 = 1;
-            ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
-            ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
+        if (state->unk_08 == 0) {
+            state->unk_08 = 1;
+            state->unk_4C = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
+            state->unk_50 = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
         }
     }
-    frame_count = ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_04 + 1;
-    ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_04 = frame_count;
+    frame_count = state->unk_04 + 1;
+    state->unk_04 = frame_count;
     if (!(frame_count & 3)) {
         advance_sprite_animation_and_textures(sprite);
     }
@@ -386,8 +386,8 @@ void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0
     if ((u32) (scale_y & 0xFFFF) >= 0x1001U) {
         sprite->scale_y = 0x1000U;
     }
-    life_left = ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_02 - 1;
-    ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_02 = life_left;
+    life_left = state->unk_02 - 1;
+    state->unk_02 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -619,7 +619,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 }
             }
         } else {
-            *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04 -= 1;
+            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04 - 1;
             pos->x.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
             pos->y.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
             pos->z.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54;
@@ -640,11 +640,11 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
         ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = cnt;
         if (cnt >= 0xF) {
             ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
-            *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 += 1;
+            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 + 1;
         }
     }
     if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 2) {
-        *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 += 1;
+        ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 + 1;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
         obj = allocate_flagged_object_node(0x212);
@@ -746,7 +746,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
         }
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 >= 0x29) {
             ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
-            *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 += 1;
+            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 + 1;
             if (try_trigger_target_record_effect(env->unk_60, 2, env) == 0) {
                 s32 a2v;
                 s32 a1v;
@@ -762,7 +762,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
         }
     }
     if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 3) {
-        *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 += 1;
+        ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 + 1;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 >= 0x15) {

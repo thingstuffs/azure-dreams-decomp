@@ -391,11 +391,11 @@ extern M2C_UNK D_80025B48;
 
 extern u8 D_80024C0C[16];
 extern u8 shaded_quad_frame_set[9];
-void project_and_queue_shaded_quad(void *quad, void *position, void *render_state, s16 depth_bias);
+void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *position, void *render_state, s16 depth_bias);
 s32 draw_linked_shaded_quads(void *state, void *position, void *appearance);
 void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work);
 void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origin, void *unused_sprite);
-void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_800249FC_0 *effect);
+void update_effect_values_and_expire(Row_819231FC_S_800249FC_1 *object, s32 unused, Row_819231FC_S_800249FC_0 *effect);
 void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite);
 void advance_radial_effect_state(void *entity_data, s32 unused, SpriteFrameState *effect_data);
 void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite);

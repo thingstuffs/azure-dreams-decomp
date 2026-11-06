@@ -13,6 +13,7 @@
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
 #include "dungeon/monster/killer.h"
+#include "dungeon/monster/killer_frames.h"
 
 
 
@@ -21,8 +22,6 @@
 extern s32 generate_random_value(void);
 
 extern u8 D_8016AA7C[];
-extern u8 killer_slot_f_default_frames[];
-extern u8 killer_frame_set_1[];
 extern u8 killer_slot_f_action_address[];
 
 /* Creates a dungeon object and initializes its kind flags and part parameters. */

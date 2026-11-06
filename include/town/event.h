@@ -7,6 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/vector.h"
 #include "shared/town_object.h"
+#include "records/Rec_D_80082D58.h"
 
 struct S_8009B0EC_0;
 struct S_8009B9BC_1;
@@ -66,7 +67,7 @@ void no_op_action_callback(TownObjectRecord *unused_object, ObjectPosition *unus
 void noop_hook(void);
 
 /* resolve_owner_position_and_dispatch.c */
-void resolve_owner_position_and_dispatch(void *object, struct S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param);
+void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, struct S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param);
 
 /* target_record_angles_g00590.c */
 void apply_two_records_to_target(void *target, ObjectPosition *setup_data);

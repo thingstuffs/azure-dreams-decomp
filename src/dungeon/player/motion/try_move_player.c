@@ -27,8 +27,8 @@ extern u8 active_actor_command_code[];
 #include "dungeon/item.h"
 #include "dungeon/player/motion.h"
 #include "dungeon/player/position.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 classify_adjacent_tile_height();
 
 /* Update movement state, position, and animation from the movement result. */

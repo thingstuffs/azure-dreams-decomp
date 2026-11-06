@@ -9,6 +9,8 @@
 #include "shared/vector.h"
 #include "town/person/effects.h"
 
+struct ObjectPosition;
+
 
 
 /* Pair of source offsets used for both spawned positions. */
@@ -26,7 +28,7 @@ typedef struct S_800A6F48_0 {
 
 typedef struct S_800A6F48_4 {
     u8 pad_00[0x8];
-    void * unk_08;
+    struct ObjectPosition *position;
     u8 pad_0C[0xA4];
     s16 unk_B0;
 } S_800A6F48_4;

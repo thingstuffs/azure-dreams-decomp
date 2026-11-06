@@ -24,14 +24,13 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/actor/motion.h"
 #include "dungeon/level.h"
 #include "dungeon.h"
+#include "dungeon/monster/maximum_frames.h"
 
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *creature);
 
 extern u8 maximum_action_continuation_address;
-extern u8 maximum_frame_set_2[];
-extern u8 maximum_frame_set_1[];
 
 /* Updates entity state, directional animation, and color fading. */
 void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity) {

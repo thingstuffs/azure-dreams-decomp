@@ -14,4 +14,5 @@ void func_80024860(struct StructA0 *, void *, SpriteFrameState *);
 void update_homing_brightening_effect(void *, void *, SpriteFrameState *);
 void func_800248F0(void *, void *, void *);
 extern void (*const dungeon_1852800_entry)(struct S_func_81832800_1 *, struct S_func_81832800_4 *, void *);
+extern u8 homing_particle_sprite_entries[];
 #endif

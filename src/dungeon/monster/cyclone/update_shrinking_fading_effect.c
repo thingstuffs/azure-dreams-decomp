@@ -21,6 +21,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/globals.h"
 
 typedef struct S_80172FC0_0 {
     u8 pad_00[0x8C];
@@ -56,7 +57,6 @@ extern s32 D_800814A0;
 
 extern u8 cyclone_move_direction_frames[];
 extern u8 cyclone_fade_direction_frames[];
-extern u8 cyclone_view_direction_entries[];
 
 /* Updates an actor effect through shrinking, fading, and restoring its sprite. */
 /* Starts the selected spell, shrinks and swaps the sprite, fades it out, then restores its appearance and

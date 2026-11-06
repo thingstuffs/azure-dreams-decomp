@@ -3,7 +3,6 @@
 #include "town/menu.h"
 #include "town/menu/animation.h"
 
-extern void layout_catalog_entry_grid(void);
 extern void initialize_catalog_slot_records(void);
 extern void initialize_catalog_view_records(void *, void *, void *);
 

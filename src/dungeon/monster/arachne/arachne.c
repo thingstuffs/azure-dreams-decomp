@@ -900,14 +900,14 @@ void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPositio
 }
 
 /* Arcs to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void complete_actor_arc_movement(void *action, void *motion, void *map_actor, void *actor) {
+void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, void *motion, void *map_actor, void *actor) {
     u16 target_distance;
     s32 frames_left;
     s16 next_timer;
     s32 actor_flags;
     s32 state;
 
-    state = ((R12_80172290_S_80172290_0 *)action)->unk_9B;
+    state = action->unk_9B;
     switch (state) {
     case 0:
         if (!(((SpriteFrameState *)map_actor)->flags & 0x6000)) {
@@ -918,15 +918,15 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
             map_actor,
             D_80175A6C[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
-        ((R12_80172290_S_80172290_0 *)action)->unk_98 |= 8;
+        action->unk_98 |= 8;
         ((ObjectPosition *)motion)->velocity_z = 0xFFF00000;
         ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((R12_80172290_S_80172290_0 *)action)->unk_A0 = 0;
-        ((R12_80172290_S_80172290_0 *)action)->unk_9B++;
+        action->unk_A0 = 0;
+        action->unk_9B++;
                         /* fallthrough */
     case 1:
-        frames_left = ((R12_80172290_S_80172290_0 *)action)->unk_96.s;
-        ((R12_80172290_S_80172290_0 *)action)->unk_90 -= ((R12_80172290_S_80172290_0 *)action)->unk_A0;
+        frames_left = action->unk_96.s;
+        action->unk_90 -= action->unk_A0;
         if (frames_left != 0) {
             {
                 s32 target_x = ((SpriteFrameState *)map_actor)->tile_x << 6;
@@ -939,22 +939,22 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
                 s32 current_y = ((ObjectPosition *)motion)->y.w.i - 0x20;
 
                 ((ObjectPosition *)motion)->velocity_y = ((target_y - current_y) << 16) /
-                    ((R12_80172290_S_80172290_0 *)action)->unk_96.s;
+                    action->unk_96.s;
             }
-            ((R12_80172290_S_80172290_0 *)action)->unk_A0 += ((ObjectPosition *)motion)->velocity_z;
+            action->unk_A0 += ((ObjectPosition *)motion)->velocity_z;
             ((ObjectPosition *)motion)->velocity_z += 0x40000;
         }
-        ((R12_80172290_S_80172290_0 *)action)->unk_90 += ((R12_80172290_S_80172290_0 *)action)->unk_A0;
-        if (((R12_80172290_S_80172290_0 *)action)->unk_96.s < 0) {
-            ((R12_80172290_S_80172290_0 *)action)->unk_90 = 0;
-            ((R12_80172290_S_80172290_0 *)action)->unk_98 &= 0xFFF7;
+        action->unk_90 += action->unk_A0;
+        if (action->unk_96.s < 0) {
+            action->unk_90 = 0;
+            action->unk_98 &= 0xFFF7;
             ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
-            ((R12_80172290_S_80172290_0 *)action)->unk_9B++;
+            action->unk_9B++;
         }
                         /* fallthrough */
     case 2:
         if (((u32)((ActorRecord *)actor)->flags1C) & ACTOR_GROUNDED) {
-            ((R12_80172290_S_80172290_0 *)action)->unk_98 &= 0xFFF7;
+            action->unk_98 &= 0xFFF7;
             ((ObjectPosition *)motion)->velocity_z = 0;
             ((ObjectPosition *)motion)->velocity_y = 0;
             ((ObjectPosition *)motion)->velocity_x = 0;
@@ -964,13 +964,13 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
                 map_actor,
                 D_80175A74[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            ((R12_80172290_S_80172290_0 *)action)->unk_9B++;
+            action->unk_9B++;
         }
         break;
     }
 
-    next_timer = ((R12_80172290_S_80172290_0 *)action)->unk_96.u - 1;
-    ((R12_80172290_S_80172290_0 *)action)->unk_96.s = next_timer;
+    next_timer = action->unk_96.u - 1;
+    action->unk_96.s = next_timer;
     if ((next_timer << 16) <= 0) {
         ((ObjectPosition *)motion)->velocity_z = 0;
         ((ObjectPosition *)motion)->velocity_y = 0;
@@ -1005,7 +1005,7 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
         }
 
         if ((check_actor_floor_trap(map_actor, actor) << 16) > 0) {
-            ((R12_80172290_S_80172290_0 *)action)->unk_8C = ((void *)update_actor_state_and_select_target);
+            action->unk_8C = ((void *)update_actor_state_and_select_target);
             on_actor_status_updated(actor);
         }
     }

@@ -10,4 +10,8 @@ extern u8 nyuel_frame_set_12[];
 extern u8 nyuel_frame_set_2[ ];
 extern u8 nyuel_frame_set_3[];
 
+extern u8 nyuel_frame_set_10;
+extern u8 nyuel_frame_set_4;
+extern u8 nyuel_frame_set_9;
+
 #endif

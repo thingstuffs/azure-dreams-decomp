@@ -21,6 +21,7 @@ struct ObjectPosition;
 #include "dungeon/monster/unicorn.h"
 #include "dungeon/item.h"
 #include "dungeon/data.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 #ifndef NULL
 #define NULL 0
@@ -36,11 +37,9 @@ extern s32 D_80174E2C[];
 extern s16 D_80174E38[];
 extern void *D_80174E40[];
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 lookup_masked_byte_table();
 extern void unlink_entity_node();
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void *create_status_linked_render_effect();
 extern void create_angular_offset_effect();

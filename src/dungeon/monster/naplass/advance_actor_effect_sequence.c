@@ -34,6 +34,7 @@ s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/level.h"
 #include "dungeon.h"
+#include "dungeon/monster/naplass_frames.h"
 
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
@@ -41,8 +42,6 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition
 extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern u8 effect_update_tag[];
 extern u8 naplass_action_continuation_address[];
-extern u8 naplass_frame_set[];
-extern u8 naplass_frame_set_5[];
 extern u8 D_801741EC[];
 extern u8 D_801741F4[];
 extern u8 D_801741FC[];

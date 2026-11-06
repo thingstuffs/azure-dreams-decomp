@@ -38,7 +38,6 @@ extern u8 town_scene_record_handlers[];
 extern u8 D_800D0080[];
 extern u8 town_position_callback_address[];
 
-extern void initialize_town_context_action(void);
 extern void create_familiar_deployment_effect_with_owner_state(void);
 extern void initialize_scene_action_record(TownObjectRecord *record, void *ptr, void *ptr2);
 #include "town/shop/display_objects.h"

@@ -10,14 +10,9 @@
 #include "sdk/libc.h"
 #include "dungeon/effect/shade_callbacks_api.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/effect/shade/emit_particles_until_expired.h"
 
 
-
-typedef struct S_800D5294_2 {
-    u8 pad_00[0x1E];
-    s16 unk_1E;
-    s16 unk_20;
-} S_800D5294_2;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -32,14 +27,14 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
     ObjectPosition *particle_motion;
     M2C_UNK *particle_data;
     ObjectNodeHeader *particle;
-    S_800D5294_2 *particle_state;
+    FadingMotionParticleBody *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
-    position->unk_02.as_s16 = (s16) (((MovingPosition *)(parent->position))->x
+    position->unk_02.as_s16 = (s16) (parent->position->x.unsigned_parts.integer
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
-    position->unk_06.as_s16 = (s16) (((MovingPosition *)(parent->position))->y
+    position->unk_06.as_s16 = (s16) (parent->position->y.unsigned_parts.integer
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
-    position->unk_0A.as_s16 = (s16) (((MovingPosition *)(parent->position))->z
+    position->unk_0A.as_s16 = (s16) (parent->position->z.unsigned_parts.integer
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     tick_or_offset = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = tick_or_offset;
@@ -52,8 +47,8 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
             if (particle != NULL) {
                 initialize_effect_object_state(particle, emitter, position, spawn_context);
                 particle_state = NODE_BODY(particle);
-                particle_state->unk_1E = particle_size;
-                particle_state->unk_20 = particle_size;
+                particle_state->remaining_ticks = particle_size;
+                particle_state->initial_ticks = particle_size;
                 particle->update_callback = particle_data;
                 particle_motion = particle->position;
                 tick_or_offset = rand() & 0x3F;

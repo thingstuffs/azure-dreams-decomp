@@ -48,15 +48,15 @@ typedef struct S_7FFEB1CC_3 {
 } S_7FFEB1CC_3;   /* ((S_7FFEB1CC_0 *)arg0)->unk_00 in spawn_alternating_tick_effects */
 
 /* Spawn effects on alternating early ticks and expire the source when its lifetime ends. */
-void spawn_alternating_tick_effects(void *effect, s32 init_param_1, s32 init_param_2) {
+void spawn_alternating_tick_effects(S_7FFEB1CC_0 *effect, s32 init_param_1, s32 init_param_2) {
     s16 age;
     u16 remaining_life;
     void *spawned_effect;
     S_7FFEB1CC_2 *part;
     S_7FFEB1CC_1 *primitive;
 
-    age = ((S_7FFEB1CC_0 *)effect)->unk_16 + 1;
-    ((S_7FFEB1CC_0 *)effect)->unk_16 = age;
+    age = effect->unk_16 + 1;
+    effect->unk_16 = age;
     if ((age < 0x17) && (age & 1)) {
         spawned_effect = func_7003CF18(0x212);
         if (spawned_effect != NULL) {
@@ -68,7 +68,7 @@ void spawn_alternating_tick_effects(void *effect, s32 init_param_1, s32 init_par
             primitive = (*(void * *)((u8 *)spawned_effect + 8));
             primitive->unk_0A =
                 primitive->unk_0A -
-                (emitter_height_offsets[(u8)((S_7FFEB1CC_3 *)(((S_7FFEB1CC_0 *)effect)->unk_00))->unk_13] >> 1);
+                (emitter_height_offsets[(u8)((S_7FFEB1CC_3 *)(effect->unk_00))->unk_13] >> 1);
 
             part = (*(void * *)((u8 *)spawned_effect + 0xC));
             (*(Packed12 *)((u8 *)spawned_effect + 0x62)) = D_8010D40C;
@@ -81,8 +81,8 @@ void spawn_alternating_tick_effects(void *effect, s32 init_param_1, s32 init_par
         }
     }
 
-    remaining_life = ((S_7FFEB1CC_0 *)effect)->unk_1E - 1;
-    ((S_7FFEB1CC_0 *)effect)->unk_1E = remaining_life;
+    remaining_life = effect->unk_1E - 1;
+    effect->unk_1E = remaining_life;
     if ((remaining_life << 0x10) <= 0) {
         u16 *active_count = &emitted_effect_counter;
         u16 remaining_count;

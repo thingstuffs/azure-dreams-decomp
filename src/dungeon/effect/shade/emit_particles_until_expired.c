@@ -32,17 +32,17 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     ObjectNodeHeader *parent;
     ObjectPosition *particle_motion;
     ObjectNodeHeader *particle;
-    ExpiringParticleEmitterBody *particle_state;
+    FadingMotionParticleBody *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
     position->unk_02.as_s16 =
-        (s16)(((MovingPosition *)(parent->position))->x +
+        (s16)(parent->position->x.unsigned_parts.integer +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
     position->unk_06.as_s16 =
-        (s16)(((MovingPosition *)(parent->position))->y +
+        (s16)(parent->position->y.unsigned_parts.integer +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
     position->unk_0A.as_s16 =
-        (s16)(((MovingPosition *)(parent->position))->z +
+        (s16)(parent->position->z.unsigned_parts.integer +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     age = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = age;

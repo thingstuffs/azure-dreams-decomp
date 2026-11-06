@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/shop/item_menu_actions.h"
+#include "town/shop/item.h"
 #include "shared/object_node.h"
 
 typedef struct S_800AE494_0 {
@@ -12,7 +13,6 @@ typedef struct S_800AE494_0 {
 
 
 struct S_800B0418_0; void set_item_menu_record_active(struct S_800B0418_0 *);                         /* extern */
-void schedule_item_menu_child_release(ObjectNodeHeader *);                         /* extern */
 
 /* Pass the record handles to their handlers and clear its secondary handle and status. */
 void run_item_menu_record_handlers(void *record_payload) {

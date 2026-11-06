@@ -10,27 +10,27 @@
 
 
 /* Advances a three-component interpolation and deactivates it when complete. */
-void runtime_advance_three_component_interpolation(void *record_data) {
+void runtime_advance_three_component_interpolation(CameraInterpolationBody *record_data) {
     s32 progress;
     u16 delta_x;
     u16 delta_y;
     u16 delta_z;
     s16 *output;
 
-    output = ((CameraInterpolationBody *)record_data)->output;
-    progress = ((CameraInterpolationBody *)record_data)->progress + ((CameraInterpolationBody *)record_data)->step;
-    ((CameraInterpolationBody *)record_data)->progress = progress;
+    output = record_data->output;
+    progress = record_data->progress + record_data->step;
+    record_data->progress = progress;
     if (progress >= 0x1000) {
-        ((CameraInterpolationBody *)record_data)->progress = 0x1000;
+        record_data->progress = 0x1000;
         ((ViewSlot *)((u8 *)record_data - 4))->callback = 0;
     }
-    delta_x = ((CameraInterpolationBody *)record_data)->delta[0].u;
-    output[0] = (s16) ((((CameraInterpolationBody *)record_data)->target[0] - delta_x)
-        + ((s32) ((s16) delta_x * ((CameraInterpolationBody *)record_data)->progress) >> 0xC));
-    delta_y = ((CameraInterpolationBody *)record_data)->delta[1].u;
-    output[1] = (s16) ((((CameraInterpolationBody *)record_data)->target[1] - delta_y)
-        + ((s32) ((s16) delta_y * ((CameraInterpolationBody *)record_data)->progress) >> 0xC));
-    delta_z = ((CameraInterpolationBody *)record_data)->delta[2].u;
-    output[2] = (s16) ((((CameraInterpolationBody *)record_data)->target[2] - delta_z)
-        + ((s32) ((s16) delta_z * ((CameraInterpolationBody *)record_data)->progress) >> 0xC));
+    delta_x = record_data->delta[0].u;
+    output[0] = (s16) ((record_data->target[0] - delta_x)
+        + ((s32) ((s16) delta_x * record_data->progress) >> 0xC));
+    delta_y = record_data->delta[1].u;
+    output[1] = (s16) ((record_data->target[1] - delta_y)
+        + ((s32) ((s16) delta_y * record_data->progress) >> 0xC));
+    delta_z = record_data->delta[2].u;
+    output[2] = (s16) ((record_data->target[2] - delta_z)
+        + ((s32) ((s16) delta_z * record_data->progress) >> 0xC));
 }

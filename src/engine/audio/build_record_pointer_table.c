@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/data.h"
 #include "engine/audio.h"
 
 
@@ -18,7 +19,6 @@ typedef struct S_80055ADC_arg0
     u8 records[1];
 }
 S_80055ADC_arg0;
-extern void *audio_selection_record_pointers[][16];
 // Fills a 16-entry table with record payload pointers, repeating the first pointer for unused slots.
 void build_record_pointer_table(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
 {

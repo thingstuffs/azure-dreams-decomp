@@ -38,6 +38,7 @@ typedef struct DirectionOffsets {
     u16 y7;
 } __attribute__((packed)) DirectionOffsets;
 extern const DirectionOffsets dungeon_7ce800_directions;
+extern s16 *view_marker_slots[];
 void update_sprite_from_third_argument(struct ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value);
 void create_positioned_view_marker(s16 x, s16 y);
 void advance_dungeon_tile_action_state(struct SlotViewMarkerBody *state, u8 *actor, u8 *target);

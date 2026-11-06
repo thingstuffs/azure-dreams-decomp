@@ -17,13 +17,13 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/golem_frames.h"
 
 
 
 
 extern u8 golem_direction_frames[];
 extern u8 golem_frame_set_2;
-extern u8 golem_alt_direction_frames;
 extern u8 golem_frame_set_3[];
 extern u8 D_80175F50;
 extern u8 D_80175F60;
@@ -61,7 +61,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
     if (stats->mp_value.parts.whole == 0) {
         consume_pending_flag(actor, stats);
         advance_actor_pending_action(actor, context, sprite, stats);
-        if (sprite->frameTable == &golem_alt_direction_frames) {
+        if (sprite->frameTable == golem_alt_direction_frames) {
             return;
         }
         sprite->frameTable = &golem_frame_set_2;
@@ -71,7 +71,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
     }
 
     if ((u32)stats->flags1C & ACTOR_ASLEEP) {
-        if (sprite->frameTable == &golem_alt_direction_frames) {
+        if (sprite->frameTable == golem_alt_direction_frames) {
             actor->state = 13;
             actor->phase = 1;
             actor->callback = 0;

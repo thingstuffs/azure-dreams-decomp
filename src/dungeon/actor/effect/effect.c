@@ -1572,8 +1572,6 @@ extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);
 
 extern s16 current_dungeon_floor;
-extern s8 random_pickup_enabled;
-extern s16 pickup_event_latch;
 
 /* Dungeon item pickup: run the one-off 0x11F9 event, then occasionally take one entry from the floor's item table. */
 s32 select_random_eligible_item_entry(void *actor)

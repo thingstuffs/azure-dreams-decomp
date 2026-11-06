@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_F7D070_P01_H
 #define DUNGEON_OVL_F7D070_P01_H
+#include "dungeon/monster/naplass_frames.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -29,6 +30,5 @@ extern s32 generate_random_value(void);
 extern u8 D_80170A3C[];
 extern s32 naplass_action_continuation_address;
 extern u8 naplass_frame_set_1[];
-extern u8 naplass_frame_set[];
 void * allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value);
 #endif

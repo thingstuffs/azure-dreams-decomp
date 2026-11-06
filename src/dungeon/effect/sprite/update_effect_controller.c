@@ -77,9 +77,9 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
                 entry->update_callback = update_orbiting_effect_particle;
                 register_node(entry, project_sprite_chain);
                 sub_data = entry->sprite;
-                ((MovingPosition *)entry->position)->x = controller->unk_04;
-                ((MovingPosition *)entry->position)->y = controller->unk_06;
-                ((MovingPosition *)entry->position)->z = controller->unk_08;
+                entry->position->x.unsigned_parts.integer = controller->unk_04;
+                entry->position->y.unsigned_parts.integer = controller->unk_06;
+                entry->position->z.unsigned_parts.integer = controller->unk_08;
                 sub_data->scale_y = 0x400;
                 sub_data->scale_x = 0x400;
                 sub_data->tpage_abr = 0x20;
@@ -92,7 +92,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
                 sub_data->source = resource_word;
                 __builtin_memcpy((u8 *)entry + 0x2C, &controller->unk_04, 8);
                 entry_data->unk_4A = (spawn_index & 1) ? 1 : -1;
-                ((MovingPosition *)entry->position)->z = controller->unk_08;
+                entry->position->z.unsigned_parts.integer = controller->unk_08;
             }
             spawn_index -= 1;
         } while (spawn_index >= 0);

@@ -17,6 +17,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/modules.h"
 #include "dungeon/monster/hikewne.h"
+#include "dungeon/monster/garuda_frames.h"
 
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
@@ -33,7 +34,6 @@ extern u8 garuda_walk_direction_frames[];
 extern u8 D_80174890[];
 extern u8 garuda_frame_set;
 extern u8 D_801748D8[];
-extern u8 garuda_frame_set_2[];
 
 /* Update creature animation and dispatch its dungeon action. */
 void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature) {

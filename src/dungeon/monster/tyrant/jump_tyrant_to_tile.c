@@ -34,14 +34,14 @@ extern u8 D_8016DFD8[];
 extern u8 D_8016DFE0[];
 
 /* Updates a jump toward the destination tile and completes movement when its timer expires. */
-void jump_tyrant_to_tile(void *jump, void *motion, SpriteFrameState *sprite, void *actor) {
+void jump_tyrant_to_tile(S_80172258_0 *jump, void *motion, SpriteFrameState *sprite, void *actor) {
     u16 facing_aux;
     s32 frames_left;
     s16 next_timer;
     s32 actor_flags;
     s32 state;
 
-    state = ((S_80172258_0 *)jump)->unk_9B;
+    state = jump->unk_9B;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -52,15 +52,15 @@ void jump_tyrant_to_tile(void *jump, void *motion, SpriteFrameState *sprite, voi
             sprite,
             D_8016DFD8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80172258_0 *)jump)->unk_98 |= 8;
+        jump->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFE80000;
         ((EntityRec *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80172258_0 *)jump)->unk_A0 = 0;
-        ((S_80172258_0 *)jump)->unk_9B++;
+        jump->unk_A0 = 0;
+        jump->unk_9B++;
 
     case 1:
-        frames_left = ((S_80172258_0 *)jump)->unk_96;
-        ((S_80172258_0 *)jump)->unk_90 -= ((S_80172258_0 *)jump)->unk_A0;
+        frames_left = jump->unk_96;
+        jump->unk_90 -= jump->unk_A0;
         if (frames_left != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -73,22 +73,22 @@ void jump_tyrant_to_tile(void *jump, void *motion, SpriteFrameState *sprite, voi
                 s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
 
                 ((EntityRec *)motion)->unk_10 = ((target_y - current_y) << 16) /
-                    ((S_80172258_0 *)jump)->unk_96;
+                    jump->unk_96;
             }
-            ((S_80172258_0 *)jump)->unk_A0 += ((EntityRec *)motion)->flags14;
+            jump->unk_A0 += ((EntityRec *)motion)->flags14;
             ((EntityRec *)motion)->flags14 += 0x60000;
         }
-        ((S_80172258_0 *)jump)->unk_90 += ((S_80172258_0 *)jump)->unk_A0;
-        if (((S_80172258_0 *)jump)->unk_96 < 2) {
-            ((S_80172258_0 *)jump)->unk_90 = 0;
-            ((S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
+        jump->unk_90 += jump->unk_A0;
+        if (jump->unk_96 < 2) {
+            jump->unk_90 = 0;
+            jump->unk_98 &= 0xFFF7;
             ((EntityRec *)actor)->flags1C |= ACTOR_GROUNDED;
-            ((S_80172258_0 *)jump)->unk_9B++;
+            jump->unk_9B++;
         }
 
     case 2:
         if (((u32)((EntityRec *)actor)->flags1C) & ACTOR_GROUNDED) {
-            ((S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
+            jump->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
@@ -98,14 +98,14 @@ void jump_tyrant_to_tile(void *jump, void *motion, SpriteFrameState *sprite, voi
                 sprite,
                 D_8016DFE0[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80172258_0 *)jump)->unk_9B++;
+            jump->unk_9B++;
         }
     default:
         break;
     }
 
-    next_timer = ((u16)((S_80172258_0 *)jump)->unk_96) - 1;
-    ((S_80172258_0 *)jump)->unk_96 = next_timer;
+    next_timer = ((u16)jump->unk_96) - 1;
+    jump->unk_96 = next_timer;
     if ((next_timer << 16) <= 0) {
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
@@ -136,7 +136,7 @@ void jump_tyrant_to_tile(void *jump, void *motion, SpriteFrameState *sprite, voi
 
 finish:
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((S_80172258_0 *)jump)->unk_8C = &tyrant_slot_f_action_callback;
+            jump->unk_8C = &tyrant_slot_f_action_callback;
             on_actor_status_updated(actor);
         }
     }

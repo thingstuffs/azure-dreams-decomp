@@ -43,11 +43,9 @@ typedef struct DungeonObject {
     u8 flag102;
 } DungeonObject;
 
-extern s32 warp_position_phase;
 extern u8 D_80028260[];
 extern u8 D_80028780[];
 extern s16 D_800287A0;
-extern u8 warp_attack_option;
 
 extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 decode_and_upload_image(void *, void *);
@@ -818,7 +816,6 @@ s16 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 extern s8 D_8002758C[];
-extern u8 warp_attack_option;
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */
 void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *motion, void *gfx) {
@@ -1060,7 +1057,6 @@ typedef struct S_800255B8_2 {
     s16 unk_20;
 } S_800255B8_2;   /* partB in create_linked_sprite_pieces */
 
-extern u8 warp_piece_slots[];
 extern u8 D_80027580[];
 
 extern s32 has_enough_available_runtime_nodes(s32 limit);
@@ -1354,7 +1350,6 @@ typedef struct Entry {
     void *field_8;
 } Entry;
 
-extern u8 warp_piece_slots[];
 extern void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation, void *model, s16 depth_bias);
 
 /* Processes twelve buffer slots for each entry in a linked state chain. */

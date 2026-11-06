@@ -41,7 +41,7 @@ s32 process_linked_mesh_states_mode_1(void *initial_state, s32 value, void *data
 }
 
 /* Projects sprite parts between two endpoints and queues visible textured quads. */
-void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, void *sprite, s16 depth_bias, s16 orient_mode) {
+void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, S_800CEFB8_1 *sprite, s16 depth_bias, s16 orient_mode) {
     S_800CEFB8_2 *endpoints = endpoints_arg;
     s32 camera_rot_x;
     s32 camera_rot_z;
@@ -92,7 +92,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
     scratch->unk_074 = 0;
     scratch->unk_020 = global_base + 0xB0;
     packet_next = ((S_800CEFB8_0 *)global_base)->unk_8D0;
-    ((S_800CEFB8_1 *)sprite)->unk_14 = (u16) (((S_800CEFB8_1 *)sprite)->unk_14 | 0x8000);
+    sprite->unk_14 = (u16) (sprite->unk_14 | 0x8000);
     scratch->unk_000 = (u16) endpoints->unk_02;
     scratch->unk_002 = (u16) endpoints->unk_06;
     render_state = &g_game_work;
@@ -133,8 +133,8 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
         scratch->unk_030 = camera_rot_x;
         scratch->unk_034 = camera_rot_z;
         scratch->unk_038 = camera_rot_y;
-        scratch->unk_100 = (u16) ((S_800CEFB8_1 *)sprite)->unk_16;
-        rotation_z = (((S_800CEFB8_1 *)sprite)->unk_1A - camera_rot_z) + render_state->view.view_rotation_offset.parts.view_rotation_offset_z;
+        scratch->unk_100 = (u16) sprite->unk_16;
+        rotation_z = (sprite->unk_1A - camera_rot_z) + render_state->view.view_rotation_offset.parts.view_rotation_offset_z;
         if (orient_mode == 0) {
             segment_angle = scratch->unk_10E;
             rotation_z += (s16)segment_angle;
@@ -142,12 +142,12 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
         {
             s32 rotation_y;
             scratch->unk_104 = rotation_z;
-            rotation_y = ((S_800CEFB8_1 *)sprite)->unk_18;
+            rotation_y = sprite->unk_18;
             scratch->unk_102 = (s16) ((((u16) scratch->unk_038 + 0x100) & 0x1FF) + (s16) (rotation_y - 0x100));
-            origin_x = ((S_800CEFB8_1 *)sprite)->unk_20;
+            origin_x = sprite->unk_20;
             scratch->unk_0E4 = (s32) origin_x;
             scratch->unk_108 = origin_x;
-            origin_y = ((S_800CEFB8_1 *)sprite)->unk_22;
+            origin_y = sprite->unk_22;
             scratch->unk_0E8 = (s32) origin_y;
             scratch->unk_10A = origin_y;
             RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
@@ -156,9 +156,9 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
             s32 scale_x;
             s32 scale_y;
             s32 scale_z;
-            scale_x = ((S_800CEFB8_1 *)sprite)->unk_1C;
+            scale_x = sprite->unk_1C;
             scratch->unk_030 = scale_x;
-            scale_y = ((S_800CEFB8_1 *)sprite)->unk_1E;
+            scale_y = sprite->unk_1E;
             scale_z = 0x1000;
             scratch->unk_038 = scale_z;
             scratch->unk_034 = scale_y;
@@ -167,8 +167,8 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
         CompMatrix(end_depth, (void *)0x1F8000D0, (void *)0x1F800050);
         SetTransMatrix((void *)0x1F800050);
         SetRotMatrix((void *)0x1F800050);
-        part = ((S_800CEFB8_1 *)sprite)->unk_08;
-        scratch->unk_024 = (u16) ((S_800CEFB8_1 *)sprite)->unk_14;
+        part = sprite->unk_08;
+        scratch->unk_024 = (u16) sprite->unk_14;
         for (;;) {
         if (!(part->unk_00 & 0x20)) {
             scratch->unk_008.s32 = (s32) part->unk_08;
@@ -287,7 +287,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
             coord_work = visible_abc | visible_d;
             if (coord_work != 0) {
                 packet_next->unk_03 = 9;
-                ((S_800CEFB8_1 *)sprite)->unk_14 = (u16) (((S_800CEFB8_1 *)sprite)->unk_14 & 0x7FFF);
+                sprite->unk_14 = (u16) (sprite->unk_14 & 0x7FFF);
                 coord_work = scratch->unk_010.s32;
                 coord_end = scratch->unk_008.s32;
                 coord_work -= 1;
@@ -314,7 +314,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
                 }
                 scratch->unk_014.s32 <<= 8;
                 scratch->unk_00C <<= 8;
-                texture_override = ((S_800CEFB8_1 *)sprite)->unk_12;
+                texture_override = sprite->unk_12;
                 if (texture_override != 0) {
                     if (scratch->unk_024 & 0x100) {
                         packet_next->unk_0E = texture_override;
@@ -332,7 +332,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
                 }
                 packet_next->unk_0C = (s16) ((u16) scratch->unk_00C + (u16) scratch->unk_008.s32);
                 packet_next->unk_14.s16 = (s16) ((u16) scratch->unk_00C + (u16) scratch->unk_010.s32);
-                texture_override = ((S_800CEFB8_1 *)sprite)->unk_10;
+                texture_override = sprite->unk_10;
                 if (texture_override != 0) {
                     coord_work = part->unk_04;
                     coord_work &= 0xFF9F;
@@ -366,7 +366,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
                     packet_next->unk_1C.at01.v = bottom_v;
                 }
                 packet_code = part->unk_01;
-                ((S_800CEFB8_1 *)sprite)->unk_0C.at03.v = packet_code;
+                sprite->unk_0C.at03.v = packet_code;
                 sprite_flags = scratch->unk_024;
                 if (sprite_flags & 8) {
                     if (sprite_flags & 4) {
@@ -374,10 +374,10 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
                     } else {
                         coord_work = packet_code & 0xFD;
                     }
-                    ((S_800CEFB8_1 *)sprite)->unk_0C.at03.v = coord_work;
+                    sprite->unk_0C.at03.v = coord_work;
                 }
                 draw_packet = packet_next;
-                packet_next->unk_04 = (s32) ((S_800CEFB8_1 *)sprite)->unk_0C.at00.v;
+                packet_next->unk_04 = (s32) sprite->unk_0C.at00.v;
                 packet_next = packet_next + 1;
                 AddPrim(scratch->unk_020 + (scratch->unk_0C0 * 4), draw_packet);
             }

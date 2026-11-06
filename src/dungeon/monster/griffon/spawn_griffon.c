@@ -17,7 +17,6 @@
 
 
 
-extern s32 generate_random_value(void);
 extern u8 D_8016AA50[];
 extern u8 griffon_slot_f_action_callback;
 extern u8 D_8016EC3C[];

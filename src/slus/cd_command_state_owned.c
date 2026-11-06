@@ -12,7 +12,6 @@ void *cd_event_payload = 0;
 s32 cd_queue_buffered_argument_word_0 = 0;
 s32 cd_queue_buffered_argument_word_1 = 0;
 
-extern u8 cd_command_phase[2];
 
 #include "w_8003E34C.c"
 #include "w_8003E4FC.c"

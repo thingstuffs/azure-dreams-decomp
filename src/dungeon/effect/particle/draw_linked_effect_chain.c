@@ -10,7 +10,7 @@
 #include "dungeon/system.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
-void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *render_state_arg, s16 depth_bias)
+void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *position_arg, void *render_state_arg, s16 depth_bias)
 {
     Row_819A088C_S_819A088C_2 *render_state = render_state_arg;
     Row_819A088C_S_819A088C_1 *position = position_arg;
@@ -64,18 +64,18 @@ void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *ren
         render_context->unk_8D0 = packet + 0x24;
     }
 
-    scratch->unk_B0 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_54;
-    scratch->unk_B8 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_5A;
-    scratch->unk_C0 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_60;
-    scratch->unk_C8 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_66;
-    scratch->unk_B2 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_56;
-    scratch->unk_BA = ((Row_819A088C_S_819A088C_6 *)quad)->unk_5C;
-    scratch->unk_C2 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_62;
-    scratch->unk_CA = ((Row_819A088C_S_819A088C_6 *)quad)->unk_68;
-    scratch->unk_B4 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_58;
-    scratch->unk_BC = ((Row_819A088C_S_819A088C_6 *)quad)->unk_5E;
-    scratch->unk_C4 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_64;
-    scratch->unk_CC = ((Row_819A088C_S_819A088C_6 *)quad)->unk_6A;
+    scratch->unk_B0 = quad->unk_54;
+    scratch->unk_B8 = quad->unk_5A;
+    scratch->unk_C0 = quad->unk_60;
+    scratch->unk_C8 = quad->unk_66;
+    scratch->unk_B2 = quad->unk_56;
+    scratch->unk_BA = quad->unk_5C;
+    scratch->unk_C2 = quad->unk_62;
+    scratch->unk_CA = quad->unk_68;
+    scratch->unk_B4 = quad->unk_58;
+    scratch->unk_BC = quad->unk_5E;
+    scratch->unk_C4 = quad->unk_64;
+    scratch->unk_CC = quad->unk_6A;
 
     ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
                              (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
@@ -102,10 +102,10 @@ void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *ren
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((Row_819A088C_S_819A088C_4 *)packet)->unk_04.at00.v = ((Row_819A088C_S_819A088C_6 *)quad)->unk_0C;
-            ((Row_819A088C_S_819A088C_4 *)packet)->unk_0C = ((Row_819A088C_S_819A088C_6 *)quad)->unk_10;
-            ((Row_819A088C_S_819A088C_4 *)packet)->unk_14 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_14;
-            ((Row_819A088C_S_819A088C_4 *)packet)->unk_1C = ((Row_819A088C_S_819A088C_6 *)quad)->unk_18;
+            ((Row_819A088C_S_819A088C_4 *)packet)->unk_04.at00.v = quad->unk_0C;
+            ((Row_819A088C_S_819A088C_4 *)packet)->unk_0C = quad->unk_10;
+            ((Row_819A088C_S_819A088C_4 *)packet)->unk_14 = quad->unk_14;
+            ((Row_819A088C_S_819A088C_4 *)packet)->unk_1C = quad->unk_18;
             ((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at03.v = 8;
             ((Row_819A088C_S_819A088C_4 *)packet)->unk_04.at03.v = 0x3A;
 

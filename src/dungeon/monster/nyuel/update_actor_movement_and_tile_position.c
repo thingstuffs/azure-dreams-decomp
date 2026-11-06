@@ -10,10 +10,10 @@
 #include "dungeon/monster/nyuel.h"
 #include "dungeon/item.h"
 #include "dungeon/item/state.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 check_movement_clearance_and_height();
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);

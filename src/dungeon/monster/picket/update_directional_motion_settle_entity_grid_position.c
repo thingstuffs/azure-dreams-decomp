@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/monster/picket_frames.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -13,7 +14,6 @@
    /* arg0 in update_directional_motion_settle_entity_grid_position */
 
 extern u8 picket_action_resume_address[];
-extern u8 picket_frame_set[];
 
 /* Update directional motion, then settle the entity at its grid position. */
 void update_directional_motion_settle_entity_grid_position(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *grid_pos, ActorRecord *entity) {

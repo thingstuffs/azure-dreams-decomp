@@ -79,18 +79,18 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
             ObjectPosition *copy_page;
             *output_data = *(Copy24 *)&view_reference_entity;
             copy_page = &view_reference_entity;
-            self->unk_10.s = ((u16)copy_page->x.w.i);
-            self->unk_12.s = ((u16)copy_page->y.w.i);
+            self->unk_10 = ((u16)copy_page->x.w.i);
+            self->unk_12 = ((u16)copy_page->y.w.i);
             page_value = ((u16)copy_page->z.w.i);
         }
-        self->unk_0C.s = 0x3C;
+        self->unk_0C = 0x3C;
         self->spell.phase.u++;
         self->unk_14 = page_value;
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
     }
         /* fallthrough */
     case 1:
-    spawn_index = 0x3C - self->unk_0C.u;
+    spawn_index = 0x3C - (s16)self->unk_0C;
     if (spawn_index >= 8) {
         spawn_index = 8;
     }
@@ -104,7 +104,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
-                origin_component = self->unk_10.u;
+                origin_component = (s16)self->unk_10;
                 rand_quotient = random_value / 512;
                 value = origin_component + ((random_value % 512)) - 0x100;
                 if (value < 0) {
@@ -115,7 +115,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
-                origin_component = self->unk_12.u;
+                origin_component = (s16)self->unk_12;
                 rand_quotient = random_value / 512;
                 value = origin_component + ((random_value % 512)) - 0x100;
                 if (value < 0) {
@@ -133,7 +133,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
         } while (spawn_index >= 0);
     }
 
-    if (self->unk_0C.u == 0x1E) {
+    if ((s16)self->unk_0C == 0x1E) {
         target = primary_actor_record;
         if (target != NULL) {
             void *lookup_origin = target;
@@ -148,28 +148,28 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
         }
     }
 
-    countdown = self->unk_0C.s - 1;
-    self->unk_0C.s = countdown;
+    countdown = self->unk_0C - 1;
+    self->unk_0C = countdown;
     if (countdown > 0) {
         return;
     }
-    self->unk_0C.s = 8;
+    self->unk_0C = 8;
     self->spell.phase.u = 0xFF;
     return;
 
     case 0xFF:
-    countdown = self->unk_0C.s - 1;
-    self->unk_0C.s = countdown;
+    countdown = self->unk_0C - 1;
+    self->unk_0C = countdown;
     if (countdown > 0) {
         return;
     }
     {
         u16 effect_flags;
-        value = self->unk_0E.s;
-        effect_flags = self->unk_0E.u;
+        value = (s16)self->unk_0E;
+        effect_flags = self->unk_0E;
         if ((value & 0x8000) != 0) {
             value = effect_flags & 0x7FFF;
-            self->unk_0E.u = value;
+            self->unk_0E = value;
             return;
         }
     }
@@ -193,12 +193,12 @@ void draw_red(void *effect) {
     S_81934C5C_1 *owner;
 
     owner = ((S_81934C5C_0 *)effect)->unk_00;
-    ((S_81934C5C_0 *)effect)->unk_48.s = (u16) (((S_81934C5C_0 *)effect)->unk_48.s - 1);
+    ((S_81934C5C_0 *)effect)->unk_48 = (u16) (((S_81934C5C_0 *)effect)->unk_48 - 1);
     owner->unk_0E = (u16) (owner->unk_0E | 0x8000);
     state = ((S_81934C5C_0 *)effect)->unk_4C;
     switch (state) {
     case 0:
-        ((S_81934C5C_0 *)effect)->unk_48.s = 3U;
+        ((S_81934C5C_0 *)effect)->unk_48 = 3U;
         ((S_81934C5C_0 *)effect)->unk_28.at02.v = -4;
         ((S_81934C5C_0 *)effect)->unk_30.at02.v = 0x10;
         ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
@@ -207,7 +207,7 @@ void draw_red(void *effect) {
     case 1:
         ((S_81934C5C_0 *)effect)->unk_1C.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_1C.at00.v
             + ((S_81934C5C_0 *)effect)->unk_28.at00.v);
-        ticks_left = ((S_81934C5C_0 *)effect)->unk_48.u;
+        ticks_left = (s16)((S_81934C5C_0 *)effect)->unk_48;
         ((S_81934C5C_0 *)effect)->unk_24.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_24.at00.v
             + ((S_81934C5C_0 *)effect)->unk_30.at00.v);
         if (ticks_left > 0) {

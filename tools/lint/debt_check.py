@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from collections import Counter
 import csv
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -717,7 +718,40 @@ def totals(rows):
     return {key: sum(row['counts'][key] for row in rows) for key in CLASSES}
 
 
-def census(root, only=None, macro_casts=False):
+def cache_value(cache_dir, rel, key, calculate):
+    """Content-keyed report cache; never use timestamps as validity proof."""
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    path = cache_dir / (hashlib.sha256(rel.encode()).hexdigest() + '.json')
+    if path.is_file():
+        try:
+            cached = json.loads(path.read_text())
+            if cached.get('key') == key:
+                return cached['value']
+        except (ValueError, KeyError, TypeError):
+            pass
+    value = calculate()
+    path.write_text(json.dumps({'key': key, 'value': value}, separators=(',', ':')))
+    return value
+
+
+def report_cache_keys(root):
+    """Hash tool logic and all relevant headers for source macro reports."""
+    h = hashlib.sha256()
+    for tool in (Path(__file__), TOOLS / 'readability/score.py', TOOLS / 'typing/union_census.py'):
+        h.update(tool.read_bytes())
+    tool_hash = h.hexdigest()
+    h = hashlib.sha256()
+    for base in ('include', 'src'):
+        for path in sorted((root / base).rglob('*.h')):
+            rel = path.relative_to(root).as_posix()
+            if path.is_symlink() or path.stat().st_size > 4 * 1024 * 1024:
+                raise ValueError('unsupported symlink or header over 4 MiB: ' + rel)
+            h.update(rel.encode())
+            h.update(path.read_bytes())
+    return tool_hash, h.hexdigest()
+
+
+def census(root, only=None, macro_casts=False, cache_dir=None):
     available = sorted(p.relative_to(root).as_posix() for p in (root / 'src').rglob('*.c'))
     if not available:
         raise ValueError('no src/**/*.c files')
@@ -729,14 +763,23 @@ def census(root, only=None, macro_casts=False):
     union_definitions = generic_views = 0
     typedef_views, address_names = [], set()
     header_cache = {}
+    tool_hash, headers_hash = report_cache_keys(root) if cache_dir is not None else ('', '')
     for rel in selected:
         path = root / rel
         # Refuse silently skipped inputs and keep reads bounded in size.
         if path.is_symlink() or path.stat().st_size > 4 * 1024 * 1024:
             raise ValueError('unsupported symlink or source over 4 MiB: ' + rel)
         text = path.read_text()
-        header_events = include_macro_events(root, path, text, header_cache) if macro_casts else ()
-        source = analyze(rel, text, macro_casts, header_events)
+        if cache_dir is None:
+            header_events = include_macro_events(root, path, text, header_cache) if macro_casts else ()
+            source = analyze(rel, text, macro_casts, header_events)
+        else:
+            key = hashlib.sha256((tool_hash + headers_hash + str(macro_casts)).encode()
+                                 + text.encode()).hexdigest()
+            def analyze_source():
+                events = include_macro_events(root, path, text, header_cache) if macro_casts else ()
+                return analyze(rel, text, macro_casts, events)
+            source = cache_value(cache_dir / 'sources', rel, key, analyze_source)
         scopes = source['scopes']
         functions[rel] = scopes
         files[rel] = dict(counts=totals(scopes.values()),
@@ -758,13 +801,24 @@ def census(root, only=None, macro_casts=False):
                 if path.is_symlink() or path.stat().st_size > 4 * 1024 * 1024:
                     raise ValueError('unsupported symlink or header over 4 MiB: ' + rel)
                 header_text = path.read_text()
-                header_tokens = c.lex(header_text)
-                header_pairs = c.pairs_of(header_tokens)[0]
-                sign, bad = union_sites(rel, header_text, header_tokens, header_pairs)
-                union_definitions += union_definition_count(header_tokens, header_pairs)
-                generic_views += generic_index_views(header_text)
-                address_names.update(name for name, _, _, _ in typedef_view_sites(header_tokens, header_pairs)
-                                     if ADDRESS_NAME.search(name) and not name.startswith('S_'))
+                def analyze_header():
+                    tokens = c.lex(header_text)
+                    pairs = c.pairs_of(tokens)[0]
+                    sign, bad = union_sites(rel, header_text, tokens, pairs)
+                    return dict(sign=sign, bad=bad,
+                                unions=union_definition_count(tokens, pairs),
+                                generic=generic_index_views(header_text),
+                                names=[name for name, _, _, _ in typedef_view_sites(tokens, pairs)
+                                       if ADDRESS_NAME.search(name) and not name.startswith('S_')])
+                if cache_dir is None:
+                    header = analyze_header()
+                else:
+                    key = hashlib.sha256(tool_hash.encode() + header_text.encode()).hexdigest()
+                    header = cache_value(cache_dir / 'headers', rel, key, analyze_header)
+                sign, bad = header['sign'], header['bad']
+                union_definitions += header['unions']
+                generic_views += header['generic']
+                address_names.update(header['names'])
                 signedness_unions.extend((rel, line) for line in sign)
                 bad_label_unions.extend(bad)
     extra = {}
@@ -1013,6 +1067,22 @@ def write_outputs(out, summary, baseline=None):
             writer.writerow([rel, *(row['counts'][key] for key in CLASSES), row['tokens']])
 
 
+def access_report_lines(access):
+    """Access accuracy is a sampled report and never changes the debt baseline."""
+    mapped = access.get('mapped', 0)
+    agreement = access.get('agreement', 0)
+    pct = 100 * agreement / mapped if mapped else 0
+    lines = [f'access agreement (report only, measured subset)\t{agreement}/{mapped}\t{pct:.2f}%',
+             f'access mapping coverage (report only)\t{mapped}/{access.get("source_sites", 0)}']
+    lines.extend(f'access base {kind} (report only)\t{count}'
+                 for kind, count in sorted(access.get('by_kind', {}).items()))
+    lines.extend(f'access base {kind} coverage (report only)\t'
+                 f'{access.get("by_kind", {}).get(kind, 0)}/{count}\t'
+                 f'{100 * access.get("by_kind", {}).get(kind, 0) / count:.2f}%'
+                 for kind, count in sorted(access.get('source_by_kind', {}).items()) if count)
+    return lines
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=TOOLS.parent)
@@ -1020,6 +1090,10 @@ def main(argv=None):
     parser.add_argument('--baseline', type=Path, default=Path(__file__).with_name('debt_baseline.json'))
     parser.add_argument('--only', nargs='+')
     parser.add_argument('--summary', action='store_true')
+    parser.add_argument('--access-summary', type=Path,
+                        help='report-only access_census.py access_summary.json; never ratcheted')
+    parser.add_argument('--no-report-cache', action='store_true',
+                        help='recompute all lexical report rows when using --summary')
     parser.add_argument('--macro-casts', action='store_true',
                         help='report pointer casts added by file-local and reachable include/ macro bodies '
                              'at each use site; these report counts do not affect the ratchet')
@@ -1084,7 +1158,9 @@ def main(argv=None):
         if baseline is not None:
             validate_baseline(baseline)
         report_macros = args.macro_casts or args.summary or args.write_baseline
-        summary = census(args.root.resolve(), args.only, report_macros)
+        cache_dir = (args.root.resolve() / 'out/debt_report_cache'
+                     if args.summary and not args.no_report_cache else None)
+        summary = census(args.root.resolve(), args.only, report_macros, cache_dir)
         problems = check_baseline(summary, baseline) if args.check else []
         problems += summary['errors']
         write_outputs(args.out, summary, baseline)
@@ -1106,6 +1182,13 @@ def main(argv=None):
         for key, value in summary['view_inventory_report'].items():
             if key != 'note':
                 print(f'{key} (report only)\t{value}')
+        access_path = args.access_summary or args.root / 'out/access_summary.json'
+        if access_path.is_file():
+            access = json.loads(access_path.read_text())
+            for line in access_report_lines(access):
+                print(line)
+        else:
+            print('access agreement (report only)\tunavailable; run tools/typing/access_census.py')
     if report_macros:
         report = summary['macro_casts_report']
         print(f'macro_casts (report only)\t{report["casts"]}\t{report["uses"]} uses')

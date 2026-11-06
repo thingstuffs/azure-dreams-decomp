@@ -15,10 +15,10 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "sdk/libgte.h"
+#include "dungeon/monster/garuda_frames.h"
 
 extern u8 D_801748A0[];
 extern u8 D_801748A8[];
-extern u8 garuda_frame_set_4[];
 
 /* Advance a timed movement animation, snap the entity to its tile, and finish the action. */
 void complete_timed_tile_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)

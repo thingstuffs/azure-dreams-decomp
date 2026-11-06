@@ -6,8 +6,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/actor.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 typedef struct {
     u8 pad[10];

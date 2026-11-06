@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/pulunpa_frames.h"
 #include "dungeon/monster/pulunpa.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -14,7 +15,6 @@
 
 
 extern u8 pulunpa_action_resume_address;
-extern u8 pulunpa_attack_frames[];
 
 /* Advances the actor's directional animation and resets its action state on completion. */
 void advance_directional_action_and_reset(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor) {

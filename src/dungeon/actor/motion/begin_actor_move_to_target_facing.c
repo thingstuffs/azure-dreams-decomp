@@ -2,15 +2,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "dungeon/actor/motion.h"
-
-
-
-
-
-
-
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Reset action state, update the tile, and refresh entity flags and data. */
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

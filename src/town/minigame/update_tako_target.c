@@ -11,7 +11,6 @@
 extern u8 tako_minigame_sprites[16];
 extern u8 D_800F79E8[16];
 
-extern void create_timed_sound(s16 value);
 
 typedef struct B {
     u8 pad0[0x10];

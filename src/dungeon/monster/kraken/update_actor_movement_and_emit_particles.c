@@ -61,7 +61,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
-                particle_work = (u8 *)particle + 0x20;
+                particle_work = NODE_BODY(particle);
                 register_node(particle, project_sprite_chain);
                 particle_sprite = particle->sprite;
                 particle->update_callback = particle_update;

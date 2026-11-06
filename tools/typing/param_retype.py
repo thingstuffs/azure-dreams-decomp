@@ -5,6 +5,7 @@
     param_retype.py apply  --scope ... --out DIR [--symbols S...] [--exclude P...] [--census DIR/census.tsv]
                            [--max-closure 400] [--workers 4] [--no-decls]
     param_retype.py callbacks --spec SPEC.json --scope ... --out DIR [--exclude P...]
+    param_retype.py own-view --scope src/dungeon/monster --out DIR [--apply] [--min-casts 3]
 
 A callee whose real prototype tools/proto cannot publish because a caller passes a value of another
 type ('u8 *' to 's32 *', 'int' to 'void *', 'u8 *' to 'Rec_D_80082E80 *', ...) usually carries a
@@ -106,6 +107,102 @@ INT_PLACEHOLDER = False  # "int_placeholder": an int/u32 parameter holding the p
 BYTE_ARITH = False  # "byte_arith": p+K / p-K / p[K] / *p on a byte or void * parameter keep a (u8 *) view
 COMPARE_UNCAST = False  # "compare_uncast": `p == (s32)q` drops the cast when q already has a pointer type
 BYTE_MACROS = False  # "byte_macros": a use as the pointer argument of U8_AT/S16_AT/PTR_AT... (they cast it to u8 *)
+
+
+def own_view_candidate(unit, file, fn, decl, min_casts=3):
+    """Find a parameter's single existing record view without inferring a new record identity.
+
+    The target comes only from casts on this parameter in its own body.  A second
+    record view is a semantic question and is always held, even when its layout
+    happens to match.  Direct member accesses through a different current record
+    are held for the same reason.  Return (spelling, member casts, reason).
+    """
+    parents, nodes = parents_of(fn)
+    did = decl.get('id')
+    views = collections.Counter()
+    spellings = {}
+    direct = 0
+    for ref in nodes:
+        if ref.get('kind') != 'DeclRefExpr' or (ref.get('referencedDecl') or {}).get('id') != did:
+            continue
+        node, p = up(parents, ref)
+        if (p or {}).get('kind') == 'ImplicitCastExpr' and p.get('castKind') == 'LValueToRValue':
+            node, p = up(parents, p)
+        if (p or {}).get('kind') == 'MemberExpr' and p.get('isArrow'):
+            direct += 1
+        if (p or {}).get('kind') != 'CStyleCastExpr':
+            continue
+        key = unit.record_of_pointer(C.qtype(p))
+        if not key:
+            continue
+        outer, member = up(parents, p)
+        if (member or {}).get('kind') == 'ImplicitCastExpr' and member.get('castKind') in ('BitCast', 'NoOp'):
+            outer, member = up(parents, member)
+        if (member or {}).get('kind') != 'MemberExpr' or not member.get('isArrow'):
+            continue
+        views[key] += 1
+        spellings.setdefault(key, C.qtype(p))
+    if not views:
+        return '', 0, 'no_member_cast'
+    if len(views) != 1:
+        return '', sum(views.values()), 'two_type:' + ','.join(sorted(views))
+    key, count = next(iter(views.items()))
+    if count < min_casts:
+        return '', count, 'below_min_casts'
+    if unit.layouts[key].get('kind') != 'struct':
+        return '', count, 'union_view'
+    old_key = unit.record_of_pointer(C.qtype(decl))
+    if direct and old_key != key:
+        return '', count, 'two_type:' + ','.join(sorted((old_key or 'untyped', key)))
+    spelling = spelled(spellings[key])
+    if decay(unit.canon(C.qtype(decl))) == decay(unit.canon(spelling)):
+        return '', count, 'already_typed'
+    return spelling, count, ''
+
+
+def plan_entry_hoist(unit, file, fn, decl, spelling):
+    """Keep a generic callback signature and convert once at entry (R18).
+
+    Only the parameter's existing casts to its own record view are replaced.
+    Other uses of the generic parameter retain their original contract.
+    """
+    text = unit.text(file)
+    parents, nodes = parents_of(fn)
+    did = decl.get('id')
+    target = Target(unit, spelling)
+    name = (decl.get('name') or 'arg')
+    alias = 'own_view_' + name
+    body = next((n for n in A.kids(fn) if n.get('kind') == 'CompoundStmt'), None)
+    br = A.node_range(body, text) if body else None
+    if br is None or text[br[0]] != '{':
+        return None, 'body_range_unknown'
+    body_text = text[br[0]:br[1]]
+    while re.search(r'\b' + re.escape(alias) + r'\b', body_text):
+        alias += '_'
+    edits = [(br[0] + 1, br[0] + 1,
+              '\n    %s %s = (%s)%s;' % (target.spelling, alias, target.spelling, name))]
+    removed = 0
+    for ref in nodes:
+        if ref.get('kind') != 'DeclRefExpr' or (ref.get('referencedDecl') or {}).get('id') != did:
+            continue
+        node, p = up(parents, ref)
+        if (p or {}).get('kind') == 'ImplicitCastExpr' and p.get('castKind') == 'LValueToRValue':
+            node, p = up(parents, p)
+        if (p or {}).get('kind') != 'CStyleCastExpr' or decay(unit.canon(C.qtype(p))) != target.canon:
+            continue
+        edit = cast_removal_edit(parents, p, ref, text)
+        if edit is None:
+            return None, 'cast_in_macro'
+        edits.append((edit[0], edit[1], alias))
+        removed += 1
+    if removed < 2:
+        return None, 'too_few_casts_for_entry_hoist'
+    try:
+        result = apply_text_edits(text, edits)
+    except ValueError:
+        return None, 'overlapping_cast_edits'
+    return dict(texts={file: result}, touched={file: {fn['name']}}, headers={},
+                summary=dict(casts_dropped=removed - 1, entry_casts=1)), ''
 
 
 # ----------------------------------------------------------------------------------- type helpers
@@ -1969,7 +2066,7 @@ def apply_decls(root, prover, units, scope, exclude, symbols, log):
     return rows
 
 
-def plan_callback(root, units, index, symbol, param, spelling, editable, replace=()):
+def plan_callback(root, units, index, symbol, param, spelling, editable, replace=(), own_view=False):
     """Plan one indirect-dispatch parameter retype: `symbol`'s parameter `param` becomes `spelling` (the object
     body type of its object kind, tools/typing/object_kinds.py).  Callbacks have no direct callers to vote, so
     the type comes from the kind; any direct caller must already pass a compatible value.
@@ -1996,11 +2093,17 @@ def plan_callback(root, units, index, symbol, param, spelling, editable, replace
     if not tgt.canon or tgt.home is None:
         return None, 'type_not_visible:' + spelling
     if tgt.home.startswith('src/'):
-        return None, 'private_type_in_' + tgt.home
+        if not own_view or tgt.home != dpath:
+            return None, 'private_type_in_' + tgt.home
+        other_decls = index.typed.get(symbol, set()) - {dpath}
+        if other_decls:
+            return None, 'private_type_declared_elsewhere:' + sorted(other_decls)[0]
     cur_c = decay(dunit.canon(C.qtype(pdecl)))
     if cur_c == tgt.canon:
         return None, 'nothing_to_change'
-    if INT_PLACEHOLDER and cur_c in ('int', 'unsigned int'):
+    if own_view:
+        pass  # the type is the one already used by this parameter's own member casts
+    elif INT_PLACEHOLDER and cur_c in ('int', 'unsigned int'):
         pass  # kit_v2: an int holding the object pointer; every use is planned (no int arithmetic survives)
     elif cur_c != 'void*' and not (cur_c.endswith('*') and cur_c[:-1] in A.BYTE_POINTEES):
         cur_key = dunit.record_of_pointer(C.qtype(pdecl))
@@ -2114,11 +2217,103 @@ def count_remaining(root, scope, exclude):
     return total, sum(1 for s in rem if in_scope(s.path, scope, exclude))
 
 
+OWN_VIEW_FIELDS = ['file', 'function', 'param', 'old', 'target', 'casts', 'status', 'reason']
+
+
+def own_view_scan(root, scope, min_casts=3, log=print):
+    """Read-only, scoped candidate and refusal plan.  AST parsing is limited to files with cast arrows."""
+    units, rows = Units(root), []
+    files = sorted({p for item in scope for p in (Path(root) / item).rglob('*.c')})
+    for n, path in enumerate(files, 1):
+        rel = path.relative_to(root).as_posix()
+        source = path.read_text()
+        if source.count(')->') < min_casts:
+            continue
+        unit = units.get(rel)
+        if unit is None:
+            rows.append(dict(file=rel, function='', param='', old='', target='', casts=0,
+                             status='held', reason='parse_failed'))
+            continue
+        for f, fn in unit.functions({rel}):
+            for i, decl in enumerate(params_of(fn)):
+                target, count, why = own_view_candidate(unit, rel, fn, decl, min_casts)
+                if why in ('no_member_cast', 'below_min_casts', 'already_typed'):
+                    continue
+                row = dict(file=rel, function=fn['name'], param=i, old=C.qtype(decl), target=target,
+                           casts=count, status='candidate', reason='')
+                if why:
+                    row.update(status='held', reason=why)
+                else:
+                    plan = plan_retype(unit, rel, fn, decl, Target(unit, target))
+                    if plan.get('refused'):
+                        row.update(status='held', reason='body:' + plan['refused'])
+                rows.append(row)
+        if n % 100 == 0:
+            log('own-view scan: %d/%d files, %d rows' % (n, len(files), len(rows)))
+    return rows
+
+
+def own_view_run(root, out, scope, min_casts, apply, limit, workers, max_closure, log, plan_file=None,
+                 entry_only=False):
+    rows = read_tsv(plan_file) if plan_file else own_view_scan(root, scope, min_casts, log)
+    for row in rows:
+        row['param'], row['casts'] = int(row['param'] or 0), int(row['casts'] or 0)
+    write_tsv(out / 'plan.tsv', rows, OWN_VIEW_FIELDS)
+    log('own-view dry plan: %s' % dict(collections.Counter(r['status'] for r in rows)))
+    if not apply:
+        write_tsv(out / 'holds.tsv', [r for r in rows if r['status'] == 'held'], OWN_VIEW_FIELDS)
+        return
+    candidates = sorted((r for r in rows if r['status'] == 'candidate'), key=lambda r: (-r['casts'], r['file']))
+    selected = candidates[:limit]
+    units = Units(root)
+    index = None if entry_only else Index(root)
+    prover = Prover(root, out, workers, max_closure, log)
+    editable = lambda f: in_scope(f, scope) or f.startswith('include/')
+    changed_files = set()
+    for n, row in enumerate(selected, 1):
+        symbol = row['function'] + '@' + row['file']
+        unit = units.get(row['file'])
+        fn = find_function(unit, row['file'], row['function']) if unit else None
+        params = params_of(fn) if fn else []
+        current = own_view_candidate(unit, row['file'], fn, params[row['param']], min_casts) \
+            if row['param'] < len(params) else ('', 0, 'missing_parameter')
+        if current[0] != row['target']:
+            plan, why = None, 'stale_plan:' + current[2]
+        elif entry_only:
+            plan, why = plan_entry_hoist(unit, row['file'], fn, params[row['param']], row['target'])
+        else:
+            plan, why = plan_callback(root, units, index, symbol, row['param'], row['target'], editable,
+                                      own_view=True)
+        if why:
+            row.update(status='held', reason=why)
+        elif len(changed_files | set(plan['texts'])) > 40:
+            row.update(status='held', reason='batch_source_file_limit')
+        else:
+            verdict, info = transact(root, prover, units, ('entry-hoist:' if entry_only else 'own-view:') + symbol,
+                                     plan['texts'], plan['touched'], plan['headers'], fold=not entry_only)
+            if verdict:
+                row.update(status='held', reason=verdict)
+            else:
+                row.update(status='accepted', reason=('entry_hoist_casts_removed:' if entry_only else
+                                                      'casts_removed:') + str(info['casts_removed']))
+                changed_files.update(info['files'])
+        log('own-view %d/%d %s:%s %s %s' % (n, len(selected), row['file'], row['function'],
+                                            row['status'], row['reason']))
+    write_tsv(out / 'results.tsv', rows, OWN_VIEW_FIELDS)
+    write_tsv(out / 'holds.tsv', [r for r in rows if r['status'] == 'held'], OWN_VIEW_FIELDS)
+    (out / 'changed_files.txt').write_text(''.join(f + '\n' for f in sorted(changed_files)))
+    with open(out / 'receipt.jsonl', 'w') as fh:
+        for receipt in prover.receipts:
+            fh.write(json.dumps(receipt, sort_keys=True) + '\n')
+    (out / 'summary.json').write_text(json.dumps(dict(collections.Counter(r['status'] for r in rows)),
+                                                  indent=2, sort_keys=True) + '\n')
+
+
 # --------------------------------------------------------------------------------------------- main
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('mode', choices=('census', 'apply', 'callbacks'))
+    ap.add_argument('mode', choices=('census', 'apply', 'callbacks', 'own-view'))
     ap.add_argument('--spec', type=Path, help='callbacks: {"type": "T *", "param": 0, "symbols": [...]}')
     ap.add_argument('--root', type=Path, default=ROOT)
     ap.add_argument('--scope', nargs='+', default=[], help='caller/declaration files (and editable files)')
@@ -2132,6 +2327,11 @@ def main(argv=None):
     ap.add_argument('--no-decls', action='store_true', help='retype only; do not publish prototypes')
     ap.add_argument('--no-owner', action='store_true', help='do not add prototypes to owning folder headers')
     ap.add_argument('--passes', type=int, default=3, help='re-run refused families while a pass accepts any')
+    ap.add_argument('--apply', action='store_true', help='own-view: prove and write selected candidates')
+    ap.add_argument('--limit', type=int, default=20, help='own-view: at most this many candidate transactions')
+    ap.add_argument('--min-casts', type=int, default=3, help='own-view: minimum member casts on a parameter')
+    ap.add_argument('--plan', type=Path, help='own-view: reuse a dry plan from this unchanged base')
+    ap.add_argument('--entry-only', action='store_true', help='own-view: retain generic signature, hoist one cast')
     args = ap.parse_args(argv)
     root = args.root.resolve()
     if root != ROOT:
@@ -2149,6 +2349,10 @@ def main(argv=None):
         logf.write(line + '\n')
         logf.flush()
 
+    if args.mode == 'own-view':
+        own_view_run(root, out, args.scope, args.min_casts, args.apply, args.limit, args.workers,
+                     args.max_closure, log, args.plan, args.entry_only)
+        return 0
     if args.mode == 'callbacks':
         spec = json.loads(args.spec.read_text())
         results, prover, originals = apply_callbacks(root, out, spec, args.scope, args.exclude, args.workers,

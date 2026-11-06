@@ -24,6 +24,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/picket_frames.h"
 
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -31,7 +32,6 @@ extern void func_80174060(void *, void *, void *, void *);
 
 extern u8 picket_action_resume_address[];
 extern u8 picket_frame_set_3[];
-extern u8 picket_frame_set_6[];
 extern u8 D_80174F50[];
 
 /* Advances an actor's action state, updating directional animations and status transitions. */

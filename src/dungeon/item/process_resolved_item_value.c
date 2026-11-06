@@ -121,7 +121,7 @@ enum ResolvedEffectPhase {
 
 /* Creates and follows a directional sprite copy, sets target status slot 29, and displays its
    completion message. */
-void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, void *sprite_arg) {
+void process_resolved_item_value(ObjectNodeHeader *effect_state, ResolvedMotion *motion, void *sprite_arg) {
     ResolvedSprite *sprite = sprite_arg;
     DirectionTable directions;
     s16 phase;
@@ -161,9 +161,9 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
         (((ResolvedEffect *)effect_state)->phase) = (s16) ((u16) (((ResolvedEffect *)effect_state)->phase) + 1);
         /* fallthrough */
     case RESOLVED_EFFECT_FOLLOW_OWNER:
-        (((ResolvedMotion *)motion)->axes[0].half.whole) = (u16) (((u16)(owner_motion->x.w.i)));
-        (((ResolvedMotion *)motion)->axes[1].half.whole) = (u16) (((u16)(owner_motion->y.w.i)));
-        (((ResolvedMotion *)motion)->axes[2].half.whole) = (u16) (((u16)(owner_motion->z.w.i)));
+        (motion->axes[0].half.whole) = (u16) (((u16)(owner_motion->x.w.i)));
+        (motion->axes[1].half.whole) = (u16) (((u16)(owner_motion->y.w.i)));
+        (motion->axes[2].half.whole) = (u16) (((u16)(owner_motion->z.w.i)));
         if (*(*(u16 * *)&effect_state->pprev) & 0x80) {
             (((ResolvedEffect *)effect_state)->frame) = 0U;
             (((ResolvedEffect *)effect_state)->phase) = (u16) (((ResolvedEffect *)effect_state)->phase) + 1;
@@ -218,9 +218,9 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
             spawn_sprite->frameTable = ((u32)D_80025B40);
             select_sprite_entry(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
             spawn_motion = (spawned->position);
-            (spawn_motion->x.v) = (s32) (((ResolvedMotion *)motion)->axes[0].fixed);
-            (spawn_motion->y.v) = (s32) (((ResolvedMotion *)motion)->axes[1].fixed);
-            (spawn_motion->z.v) = (s32) (((ResolvedMotion *)motion)->axes[2].fixed);
+            (spawn_motion->x.v) = (s32) (motion->axes[0].fixed);
+            (spawn_motion->y.v) = (s32) (motion->axes[1].fixed);
+            (spawn_motion->z.v) = (s32) (motion->axes[2].fixed);
             (((ResolvedEffect *)effect_state)->spawned) = spawned;
             (((ResolvedEffect *)effect_state)->motion) = spawn_motion;
             (((ResolvedEffect *)effect_state)->value) = 0x63;
@@ -234,9 +234,9 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
             if ((spawned->flags) & 0x8000) {
                 (((ResolvedEffect *)effect_state)->value) = 0;
             } else {
-                (((ResolvedMotion *)motion)->axes[0].fixed) = (s32) (follow_motion->x.v);
-                (((ResolvedMotion *)motion)->axes[1].fixed) = (s32) (follow_motion->y.v);
-                (((ResolvedMotion *)motion)->axes[2].fixed) = (s32) (follow_motion->z.v);
+                (motion->axes[0].fixed) = (s32) (follow_motion->x.v);
+                (motion->axes[1].fixed) = (s32) (follow_motion->y.v);
+                (motion->axes[2].fixed) = (s32) (follow_motion->z.v);
             }
         }
         if ((((ResolvedEffect *)effect_state)->complete) != 0) {

@@ -10,6 +10,7 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/golem_frames.h"
 
 
 
@@ -18,7 +19,6 @@ extern s32 generate_random_value(void);
 extern u8 golem_particle_update_address[];
 
 extern u8 golem_direction_frames[];
-extern u8 golem_alt_direction_frames[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Golem with default frames at D_80175F10, applies spawn flags, and attempts valid tile placement. */

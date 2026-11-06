@@ -318,7 +318,7 @@ void cycle_moving_effect_phase(DecrementObjectCounterBody *object_arg, S_8181B07
     s16 phase;
 
     textured_effect_update_flag = 1;
-    object->unk_02.s--;
+    object->unk_02--;
 
     if (++object->unk_1C >= 2) {
         object->unk_1C = 0;
@@ -343,7 +343,7 @@ void cycle_moving_effect_phase(DecrementObjectCounterBody *object_arg, S_8181B07
 
     position->unk_08 += object->unk_60;
 
-    if (object->unk_02.u <= 0) {
+    if ((s16)object->unk_02 <= 0) {
         ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -367,7 +367,7 @@ void decrement_object_counter(void *source_arg, s32 offset_x, s32 offset_y, s32 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         state = effect + 0x20;
-        state->unk_02.u = effect_value;
+        state->unk_02 = effect_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
         ((ObjectNodeHeader *)effect)->update_callback = &cycle_moving_effect_phase;
         register_node(effect, project_sprite_chain);
@@ -392,14 +392,14 @@ void decrement_object_counter(void *source_arg, s32 offset_x, s32 offset_y, s32 
 void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unused, SpriteFrameState *target) {
     u16 timer;
 
-    timer = state->timer.u + 2;
+    timer = state->timer + 2;
     textured_effect_update_flag = 1;
-    state->timer.u = timer;
+    state->timer = timer;
     if ((s16)timer < 40) {
         target->scale_x = (s16)timer * 204;
-        target->scale_y = (s16)state->timer.u * 204;
+        target->scale_y = (s16)state->timer * 204;
     }
-    if ((s16)state->timer.u >= 120) {
+    if ((s16)state->timer >= 120) {
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -463,7 +463,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
         select_record_entry_and_value(sprite, effect_sprite_sources, 2);
         source_flags = ((S_80024BE8_3 *)source)->unk_2A;
         textured_effect_update_flag = 1;
-        effect->unk_7E.s = (source_flags >> 9) & 7;
+        effect->unk_7E = (source_flags >> 9) & 7;
         effect->spell.phase.s++;
 
     case 1:
@@ -495,9 +495,9 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                 target = ((S_80024BE8_3 *)source)->unk_60;
                 if (target != 0) {
                     target_height = target->unk_88;
-                    direction = effect->unk_7E.s;
+                    direction = effect->unk_7E;
                     direction_table = target_height;
-                    effect->unk_78.u = direction_table;
+                    effect->unk_78 = direction_table;
                     direction_table = D_8006CCD8;
                     direction <<= 1;
                     direction += (s32)direction_table;
@@ -506,7 +506,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                     direction_table = (u8 *)(u32)target_graphics->mp_value.parts.fraction;
                     direction_table = (direction_table + direction);
                     effect->unk_A2 = (s32)direction_table;
-                    direction = effect->unk_7E.s;
+                    direction = effect->unk_7E;
                     direction_table = D_8006CCE8;
                     direction <<= 1;
                     direction += (s32)direction_table;
@@ -531,15 +531,15 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                     u16 target_z;
                     target_z = ((S_80024BE8_3 *)source)->unk_88;
                     effect->unk_7B = default_steps;
-                    effect->unk_78.u = target_z - 0x50;
+                    effect->unk_78 = target_z - 0x50;
                 }
 
-                motion->velocity_x = velocity_table.entries[effect->unk_7E.s].x
+                motion->velocity_x = velocity_table.entries[effect->unk_7E].x
                 << 16;
-                motion->velocity_y = velocity_table.entries[effect->unk_7E.s].y
+                motion->velocity_y = velocity_table.entries[effect->unk_7E].y
                 << 16;
                 motion->velocity_z =
-                    ((effect->unk_78.s << 16) - motion->z.v) /
+                    (((s16)effect->unk_78 << 16) - motion->z.v) /
                     effect->unk_7B;
                 prev_state = effect->spell.phase.u;
                 effect->unk_82 = 0;
@@ -572,7 +572,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             random_intensity = rand();
             particle_color = 0xF04040;
             intensity = (random_intensity & 0xFF) | 0x80;
-            heading = effect->unk_7E.s;
+            heading = effect->unk_7E;
             spawn_scattered_point_particle((u8 *)effect - 0x20, heading, particle_color, intensity, 0, 0, 0);
             particle_count_m++;
         } while (particle_count_m < 4);
@@ -582,12 +582,12 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             unlink_node((u8 *)effect - 0x20);
             color_mode = 4;
             if (((S_80024BE8_3 *)source)->unk_60 != 0) {
-                effect->unk_86.u = 0;
+                effect->unk_86 = 0;
                 effect->spell.phase.s++;
                 target_position = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_00;
                 motion->x.w.i = target_position->x.unsigned_parts.integer;
                 motion->y.w.i = target_position->y.unsigned_parts.integer;
-                motion->z.w.i = effect->unk_78.u;
+                motion->z.w.i = effect->unk_78;
                 source_sprite = ((S_80024BE8_3 *)source)->unk_60;
                 ((S_80024BE8_23 *)source_sprite)->unk_1C |= 0x10000000;
                 target_graphics = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_04;
@@ -706,16 +706,16 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
         s32 color_step;
         u16 previous_phase;
 
-        color_step = effect->unk_86.u;
+        color_step = effect->unk_86;
         color_step += 2;
-        effect->unk_86.u = color_step;
+        effect->unk_86 = color_step;
         target_graphics = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_04;
         target_graphics->unk_0C.bytes[2] = (s16)color_step * 3 - 0x70;
-        target_graphics->unk_0C.bytes[1] = 0x70 - effect->unk_86.s * 3;
-        target_graphics->unk_0C.bytes[0] = 0x70 - effect->unk_86.s * 3;
-        if (effect->unk_86.s >= 0x24) {
+        target_graphics->unk_0C.bytes[1] = 0x70 - (s16)effect->unk_86 * 3;
+        target_graphics->unk_0C.bytes[0] = 0x70 - (s16)effect->unk_86 * 3;
+        if ((s16)effect->unk_86 >= 0x24) {
             previous_phase = effect->spell.phase.u;
-            effect->unk_86.u = 0;
+            effect->unk_86 = 0;
             effect->unk_82 = 0;
             effect->spell.phase.u = previous_phase + 1;
             break;
@@ -747,11 +747,11 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             impact_sprite >>= 16;
             decrement_object_counter((u8 *)effect - 0x20, impact_sprite,
                 (s16)((rand() & 0x3F) - 0x20),
-                (s16)(-(effect->unk_86.s * 2) + 0x10), 0x1E);
+                (s16)(-((s16)effect->unk_86 * 2) + 0x10), 0x1E);
         } while (particle_count_m < 2);
 
         particle_kind = 0x212;
-        side = effect->unk_86.u & 3;
+        side = effect->unk_86 & 3;
         impact = allocate_flagged_object_node(particle_kind);
         if (impact != 0) {
             ((S_80024BE8_15 *)impact)->unk_22 = 0x1E;
@@ -803,10 +803,10 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                 s32 scale;
 
                 particle_sprite = impact->sprite;
-                scale = effect->unk_86.s;
+                scale = (s16)effect->unk_86;
                 scaled_sprite = particle_sprite;
                 scaled_sprite->scale_x = scale * 0xAA;
-                scale = effect->unk_86.s;
+                scale = (s16)effect->unk_86;
                 scaled_sprite->color.c.b = 0x80;
                 scaled_sprite->color.c.g = 0x80;
                 scaled_sprite->color.c.r = 0x80;
@@ -815,12 +815,12 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             }
         }
 
-        scale_step = effect->unk_86.u + 2;
-        effect->unk_86.u = scale_step;
+        scale_step = effect->unk_86 + 2;
+        effect->unk_86 = scale_step;
         if ((s16)scale_step >= 0x3D) {
             scale_step = 0x28;
             previous_phase = effect->spell.phase.u;
-            effect->unk_86.u = scale_step;
+            effect->unk_86 = scale_step;
             effect->spell.phase.u = previous_phase + 1;
             break;
         }
@@ -849,11 +849,11 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                 (s16)(-0x20 - (rand() & 0x3F)), 0x1E);
         } while (particle_count_m < 2);
 
-        scale_step = effect->unk_86.u - 2;
-        effect->unk_86.u = scale_step;
+        scale_step = effect->unk_86 - 2;
+        effect->unk_86 = scale_step;
         target_flag = 0x10000000;
         if ((s16)scale_step <= 0) {
-            effect->unk_86.u = 0;
+            effect->unk_86 = 0;
             effect->unk_82 = 0;
             effect->spell.phase.s++;
             target_actor = ((S_80024BE8_3 *)source)->unk_60;
@@ -864,7 +864,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             target_graphics->unk_0C.bytes[1] = 0x80;
             target_graphics->unk_0C.bytes[2] = 0x80;
             apply_attack_power_and_element_effects(((S_80024BE8_3 *)source)->unk_60, 0x10, effect->spell.variant, 2,
-                (s16)(effect->unk_7E.u << 9), source, 2);
+                (s16)((u16)effect->unk_7E << 9), source, 2);
         }
         break;
     }

@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/util/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "engine/camera/interpolation.h"
 
 struct S_8004B298_a1;
 struct S_8004DA24_dst;
@@ -54,7 +55,7 @@ s32 *realloc_field_0_buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words);
 void *reverse_bytes(u8 *buf, u16 len);
 
 /* runtime_advance_three_component_interpolation.c */
-void runtime_advance_three_component_interpolation(void *record_data);
+void runtime_advance_three_component_interpolation(CameraInterpolationBody *record_data);
 
 /* runtime_lookup_byte_by_key.c */
 s32 runtime_lookup_byte_by_key(s32 key);

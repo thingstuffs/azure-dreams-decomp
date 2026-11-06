@@ -33,7 +33,6 @@ extern s32 check_movement_clearance_and_height();
 s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);
 extern s32 generate_random_value(void);
 void update_actor_status_and_mp(struct ActorRecord *);
-extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 
 extern s16 actor_turn_angle_offsets[];

@@ -23,7 +23,7 @@
 
 void (*const dungeon_189a800_entry)(ProjectileEffect *, ObjectPosition *, SpriteFrameState *) = update_projectile_trail_and_hit_effect;
 const u8 no_effect_target_prefix[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
-const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
+const u8 no_effect_target_period[4] = {0x81,0x44,0x0,0x0};
 extern s32 D_800E1CB0;
 
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
@@ -50,7 +50,7 @@ void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameS
             message_start = message;
             message = expand_text_control_codes(no_effect_target_prefix, message);
             message = append_entity_display_text(target, message);
-            message = expand_text_control_codes(D_80024034, message);
+            message = expand_text_control_codes(no_effect_target_period, message);
             clear_byte_and_advance(message);
             display_text_with_fullwidth_adjustment(message_start);
         }

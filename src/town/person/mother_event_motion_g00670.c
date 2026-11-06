@@ -61,7 +61,7 @@ void initialize_mother_event_actor(void *actor, EntityRec *state, void *init_par
 }
 
 /* Try random directions against the bounds, then initialize the entity state. */
-void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, void *context_arg)
+void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bounds_arg, void *context_arg)
 {
     void *context;
     s32 attempts;
@@ -78,7 +78,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
 
             upper_edge = entity->unk_84;
             extent = entity->unk_8C;
-            bound_test = ((S_800C7AC4_1 *)bounds_arg)->unk_02;
+            bound_test = bounds_arg->unk_02;
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
@@ -92,7 +92,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
 
             upper_edge = (entity->unk_86);
             extent = entity->unk_8E;
-            bound_test = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
+            bound_test = bounds_arg->unk_06;
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
@@ -106,7 +106,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
 
             lower_edge = entity->unk_84;
             extent = entity->unk_8C;
-            bound_coord = ((S_800C7AC4_1 *)bounds_arg)->unk_02;
+            bound_coord = bounds_arg->unk_02;
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {
@@ -120,7 +120,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
 
             lower_edge = (entity->unk_86);
             extent = entity->unk_8E;
-            bound_coord = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
+            bound_coord = bounds_arg->unk_06;
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {

@@ -566,7 +566,7 @@ void *create_an_oriented_effect_between_position_owner(AttachedRandomAngleEffect
 
 /* Grows and brightens an orbiting sprite, waits for its indexed delay, then replaces it with a
    directed effect. */
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, void *transform, SpriteFrameState *visual) {
+void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform, SpriteFrameState *visual) {
     s32 scale;
     s16 phase;
     u8 brightness;
@@ -598,8 +598,8 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
         scale = effect->unk_06.s << 5;
         visual->scale_y = scale;
         visual->scale_x = scale;
-        ((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v =
-            (u16) (((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v - 2);
+        transform->unk_08.at02_u16.v =
+            (u16) (transform->unk_08.at02_u16.v - 2);
     case 1:
         if ((s16) effect->unk_06.u >= 0x20) {
             effect->unk_06.u = 0U;
@@ -619,10 +619,10 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
         break;
     }
 
-    ((Rec_func_80024E80_arg1 *)transform)->unk_00.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_0E
+    transform->unk_00.at02_s16.v = (s16) (transform->unk_0E
         + ((s32) ((rcos(effect->unk_0C) >> 4) * (s16) effect->unk_0A)
            >> 8));
-    ((Rec_func_80024E80_arg1 *)transform)->unk_04.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_12
+    transform->unk_04.at02_s16.v = (s16) (transform->unk_12
         + ((s32) ((rsin(effect->unk_0C) >> 4) * (s16) effect->unk_0A)
            >> 8));
 }

@@ -37,15 +37,15 @@ void create_ballistic_landing_particle(ObjectNodeHeader *source, s16 duration, s
     if (effect != NULL) {
         (effect->update_callback) = &D_80165AB8;
         effect->position->x.w.i =
-            (s16) (((MovingPosition *)(source->position))->x + offset_x);
+            (s16) (source->position->x.unsigned_parts.integer + offset_x);
         effect->position->y.w.i =
-            (s16) (((MovingPosition *)(source->position))->y + offset_y);
+            (s16) (source->position->y.unsigned_parts.integer + offset_y);
         effect->position->z.w.i =
-            (s16) (((MovingPosition *)(source->position))->z + offset_z);
+            (s16) (source->position->z.unsigned_parts.integer + offset_z);
         effect_state = NODE_BODY(effect);
-        effect_state->unk_42 = (u16) ((MovingPosition *)(source->position))->x;
-        effect_state->unk_44 = (u16) ((MovingPosition *)(source->position))->y;
-        effect_state->unk_46 = (u16) ((MovingPosition *)(source->position))->z;
+        effect_state->unk_42 = (u16) source->position->x.unsigned_parts.integer;
+        effect_state->unk_44 = (u16) source->position->y.unsigned_parts.integer;
+        effect_state->unk_46 = (u16) source->position->z.unsigned_parts.integer;
         effect->position->velocity_x = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
         effect->position->velocity_y = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
         effect->position->velocity_z = (s32) (velocity_z + 0xFFFC0000);

@@ -20,6 +20,7 @@ typedef s32 M2C_UNK;
 #include "dungeon/actor/state.h"
 #include "dungeon.h"
 #include "dungeon/level.h"
+#include "dungeon/monster/pulunpa_frames.h"
 
 typedef struct S_8017405C_1 S_8017405C_1;
 
@@ -42,14 +43,12 @@ void select_sprite_entry(void *sprite, u8 frame, s32 mode);
 s8 find_active_rect_containing_point(u8 tile_x, u8 tile_y);
 s32 can_entity_gain_level(void *creature);
 void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_object_or_select_directional_data(void *object_arg, ObjectPosition *context, void *source_arg, ActorRecord *target_arg);
 extern void choose_heading_and_advance_actor(ActorRecord *context, s32 action, S_8017405C_1 *actor, ActorRecord *movement);
 void func_80174924(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern s32 check_object_action_and_clear_flags(ActorRecord *object, s32 query_x, void *query_y, s32 action_override);
 s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *actor_pos_arg, ActorRecord *actor);
 
-extern u8 pulunpa_frame_set_2[];
 extern u8 D_80176358[];
 extern M2C_UNK pulunpa_frame_set_3;
 extern u8 D_80176370[];

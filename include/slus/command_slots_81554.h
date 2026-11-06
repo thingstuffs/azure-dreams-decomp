@@ -11,4 +11,5 @@ extern void runtime_register_object_or_fallback_slot(void *object);
 extern void set_script_record_buffer(s32 script_addr);
 extern void func_8003528C(s32 script_addr);
 
+extern u8 script_message_default_record[1];
 #endif

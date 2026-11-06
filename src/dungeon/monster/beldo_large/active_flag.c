@@ -19,7 +19,7 @@
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 #include "dungeon/monster/beldo_large.h"
-extern u8 beldo_large_frame_set_8[16];
+#include "dungeon/monster/beldo_large_frames.h"
 extern void *beldo_script_node;
 
 /* Extracts flag 0x2000 from the supplied word. */

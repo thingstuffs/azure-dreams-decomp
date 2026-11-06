@@ -2,6 +2,7 @@
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/entity.h"
 #include "common.h"
+#include "dungeon/player/object/data.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "dungeon/level.h"
@@ -9,7 +10,6 @@
 #include "dungeon/system.h"
 
 extern s32 held_item_record;
-extern void *player_put_down_target;
 extern s32 saved_held_item_word;
 
 

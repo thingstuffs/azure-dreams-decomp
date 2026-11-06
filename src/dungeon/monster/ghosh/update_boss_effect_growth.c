@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/ghosh.h"
+#include "dungeon/monster/ghosh_frames.h"
 
 
 
@@ -27,8 +28,6 @@ typedef struct S_80172874_7 {
     s32 unk_14A0;
 } S_80172874_7;   /* global_base in update_boss_effect_growth */
 
-
-extern u8 ghosh_frame_set_5[];
 
 /* Brighten and rotate the sprite, track its source position, then fade it out. */
 void update_boss_effect_growth(GhoshTrackedFadeBody *effect, ObjectPosition *position, SpriteFrameState *transform)

@@ -25,7 +25,6 @@ extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 secondary_sprite[];
-extern u8 homing_particle_sprite_entries[];
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */                /* extern */
 s32 rand();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */

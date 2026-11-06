@@ -15,11 +15,10 @@ struct SpriteFrameState;
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 #include "sdk/libgte.h"
+#include "dungeon/monster/cyclone_frames.h"
 
 extern s32 create_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);
 extern s32 create_offset_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);
-
-extern u8 cyclone_attack_frames[];
 
 /* Updates a timed backward-then-forward movement sequence and handles animation completion. */
 void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor) {

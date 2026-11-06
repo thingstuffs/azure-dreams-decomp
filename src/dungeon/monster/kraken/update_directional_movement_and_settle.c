@@ -14,12 +14,12 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/kraken_frames.h"
 
 
 extern void *actor_update_node_cursor;
 extern s32 kraken_action_resume_address;
 extern u8 D_8017419C[];
-extern u8 kraken_frame_set_4[];
 
 /* Updates directional movement and animation, then settles the actor on its destination tile. */
 void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

@@ -15,6 +15,7 @@
 #include "town/player.h"
 #include "town/data.h"
 #include "town/scene.h"
+#include "town/shop/display_objects.h"
 
 #ifndef NULL
 #define NULL 0
@@ -31,7 +32,6 @@ extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
 extern s16 SD_Call(s32 value);
-extern void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y);
 extern void *create_familiar_deployment_effect_with_owner_state(void);
 extern void register_node(void *entry, void *registration_id);
 

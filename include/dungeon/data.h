@@ -1,5 +1,8 @@
 #ifndef DUNGEON_DATA_H
 #define DUNGEON_DATA_H
+#include "dungeon/monster/garuda_frames.h"
+#include "dungeon/monster/picket_frames.h"
+#include "dungeon/monster/pulunpa_frames.h"
 #include "dungeon/globals.h"
 #include "dungeon/monster/stealth_frames.h"
 #include "dungeon/monster/viper_frames.h"
@@ -26,8 +29,6 @@ struct S_800B50B0_Entity;
 extern u8 manoeva_frame_set[ ];
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-extern u8 beldo_large_frame_set_14[ 16 ];
-extern u8 beldo_large_frame_set_8[ 16 ];
 
 extern u8 familiar_call_text[ ];
 extern u8 genus_change_text[ ];
@@ -120,28 +121,15 @@ extern s32 selected_item_action_alias;
 extern u16 actor_direction_dispatch_key;
 extern s16 beldo_camera_position[ 4 ];
 extern s16 beldo_camera_rotation[ 4 ];
-extern u8 beldo_large_frame_set[ 8 ];
-extern u8 beldo_large_frame_set_10[ 8 ];
-extern u8 beldo_large_frame_set_11[ ];
-extern u8 beldo_large_frame_set_15[ 8 ];
-extern u8 beldo_large_frame_set_16[ 8 ];
-extern u8 beldo_large_frame_set_17[ ];
 #include "dungeon/monster/beldo_large_frames.h"
-extern u8 beldo_large_frame_set_6[ ];
 extern s16 beldo_script_timer;
 extern u8 encounter_transition_pool_script[ ];
 
-extern u8 ghosh_frame_set_1[ ];
-extern u8 ghosh_frame_set_11[ ];
-extern u8 ghosh_frame_set_2[ ];
-extern u8 ghosh_frame_set_5[ ];
-extern u8 ghosh_frame_set_6[ ];
 extern u8 ghosh_motion_path[ ];
 extern u8 kid_effect_load_done;
 extern u32 kid_image_commands;
 extern u8 kid_image_load_done;
 #include "dungeon/monster/kraken_frames.h"
-extern u8 kraken_frame_set_3[ ];
 extern u8 nyuel_effect_load_done[ ];
 extern u32 nyuel_image_commands;
 extern u8 nyuel_image_load_done[ ];
@@ -163,32 +151,20 @@ extern u8 baloon_fall_frames[ 8 ];
 #include "dungeon/monster/barong_frames.h"
 
 #include "dungeon/monster/beldo_frames.h"
-extern u8 beldo_frame_set_3[ 8 ];
 extern u8 child_object_update_address[ ];
 extern u8 child_texture_entries[ ];
 extern u8 death_frame_set_4[ 8 ];
 extern u8 death_frame_set_5[ 8 ];
 extern u8 death_frame_set_6[ 8 ];
-extern u8 ghosh_command_f0_frames[ ];
-extern u8 ghosh_command_f8_frames[ ];
-extern u8 ghosh_frame_bank[ ];
-extern u8 ghosh_frame_set_13[ ];
 #include "dungeon/monster/ghosh_frames.h"
 
-extern u8 ghosh_frame_set_8[ ];
-extern u8 ghosh_frame_set_9[ ];
 extern u8 hikewne_frame_set_14[ ];
 extern u8 hikewne_frame_set_15[ ];
 extern u8 metal_frame_set_2[ ];
 extern u8 metal_movement_frames[ ];
 extern u8 naplass_frame_set_2[ ];
 extern u8 naplass_frame_set_3[ ];
-extern u8 nyuel_frame_set_10;
-extern u8 nyuel_frame_set_4;
-extern u8 nyuel_frame_set_9;
-extern u8 picket_frame_set_1[ ];
 extern u8 picket_frame_set_2[ ];
-extern u8 saber_frame_set[ ];
 #include "dungeon/monster/saber_frames.h"
 
 extern u8 ashra_frame_set_1[ ];
@@ -196,7 +172,6 @@ extern u8 ashra_frame_set_2[ ];
 
 
 extern s32 beldo_old_transition_flags[ 3 ];
-extern u8 garuda_frame_set_3[ ];
 extern u8 garuda_walk_text[ 16 ];
 extern u8 golem_frame_set_2;
 extern u8 golem_frame_set_4[ 8 ];
@@ -219,12 +194,9 @@ extern u8 kewne_frame_set_4[ ];
 extern u32 kewne_palette_colors[ ];
 extern u8 kewne_turn_frames[ ];
 extern u8 kraken_action_handlers[ ];
-extern u8 kraken_frame_set_5;
 extern u8 metal_frame_set_1[ ];
 #include "dungeon/monster/nyuel_frames.h"
-extern u8 picket_frame_set_4[ ];
 extern s32 picket_slot_f_item_result[ ];
-extern u8 pulunpa_frame_set_1[ ];
 
 extern u8 ashra_frame_set_3[ ];
 extern u8 tyrant_frame_set_1[ ];

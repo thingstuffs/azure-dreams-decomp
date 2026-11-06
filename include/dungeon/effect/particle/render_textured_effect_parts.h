@@ -90,15 +90,15 @@ typedef struct S_8181B078_2 {
 typedef struct ProjectileBurstImpactBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x6C];
-    union { u16 u; s16 s; } unk_78;   /* accessed as both */
+    u16 unk_78;
     u8 unk_7A;
     s8 unk_7B;
     u8 pad_7C[0x2];
-    union { s16 s; u16 u; } unk_7E;   /* accessed as both */
+    s16 unk_7E;
     u8 pad_80[0x2];
     u16 unk_82;
     u16 unk_84;
-    union { u16 u; s16 s; } unk_86;   /* accessed as both */
+    u16 unk_86;
     u8 pad_88[0x1A];
     s8 unk_A2;
     s8 unk_A3;
@@ -187,14 +187,14 @@ void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offs
 /* Lifetime counter for the spawned projectile impact sprite. */
 typedef struct TimedSpriteImpactBody {
     u8 pad_00[0x2];
-    union { u16 u; s16 s; } timer;
+    u16 timer;
 } TimedSpriteImpactBody;
 void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unused, SpriteFrameState *target);
 
 /* State, animation phase, and lifetime for the counter-driven moving effect. */
 typedef struct DecrementObjectCounterBody {
     u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;
+    u16 unk_02;
     u8 pad_04[0x18];
     s16 unk_1C;
     s16 unk_1E;

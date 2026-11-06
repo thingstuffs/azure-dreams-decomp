@@ -5,6 +5,7 @@
 #include "shared/sys_flags.h"
 #include "sdk/libgte.h"
 #include "dungeon/actor.h"
+#include "dungeon/globals.h"
 
 
 typedef struct S_800AB538_1 {
@@ -18,7 +19,6 @@ typedef struct S_800AB538_1 {
 
 
 extern u8 view_reference_entity[];
-extern s16 actor_hop_target_height;
 
 /* Move toward the target while shrinking, then mark the animation complete. */
 s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteFrameState *scale, void *render_arg)
@@ -58,10 +58,9 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
         } else {
             ObjectPosition *target = view_reference_entity;
 
-    /* MATCH: retain these views for production byte identity. */
-            (*(s32 *)((u8 *)motion + 0x10)) = 0;
-            (*(s32 *)((u8 *)motion + 0xC)) = 0;
-            (*(u16 *)((u8 *)motion + 2)) = ((u16)(target->x.w.i));
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            motion->x.unsigned_parts.integer = ((u16)(target->x.w.i));
             motion->y.unsigned_parts.integer = ((u16)(target->y.w.i));
         }
 

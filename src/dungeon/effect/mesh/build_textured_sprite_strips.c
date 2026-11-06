@@ -365,8 +365,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             wrapped_v_offset = -0x30;
             second_addr = (s32) packet & addr_mask;
             packet->unk_08 = (u16) ((u16)packet->unk_08 + 0x40);
-            packet->unk_10 = (u16) (packet->unk_10 + 0x40);
-            packet->unk_18 = (u16) (packet->unk_18 + 0x40);
+            packet->unk_10 = (u16) ((u16)packet->unk_10 + 0x40);
+            packet->unk_18 = (u16) ((u16)packet->unk_18 + 0x40);
             packet->unk_20 = (u16) ((u16)packet->unk_20 + 0x40);
             packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
             second_link = scratch->unk_20;
@@ -425,9 +425,9 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             packet->unk_08 =
                 (u16) ((u16)packet->unk_08 + 0x40);
             packet->unk_10 =
-                (u16) (packet->unk_10 + 0x40);
+                (u16) ((u16)packet->unk_10 + 0x40);
             packet->unk_18 =
-                (u16) (packet->unk_18 + 0x40);
+                (u16) ((u16)packet->unk_18 + 0x40);
             packet->unk_20 =
                 (u16) ((u16)packet->unk_20 + 0x40);
             packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
@@ -993,7 +993,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
     owner = effect->owner;
     *(Copy8 *)(scratch + 8) = *(Copy8 *)rect_template;
     *(Copy32 *)(scratch + 24) = *(Copy32 *)strip_direction_steps;
-    state = effect->phase.s16;
+    state = (s16)effect->phase;
     owner_object = (S_func_81905FD0_5 *)((u8 *)owner - 0x20);
     owner_motion = owner_object->position;
 
@@ -1006,10 +1006,10 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
         render->source = (u8 *)effect + 0xA2;
         {
             u16 direction = (owner->facing >> 9) & 7;
-            ((S_func_81905FD0_10 *)traveling_strip_effect_updated)->unk_00.u16 = 1;
-            effect->direction.u16 = direction;
+            ((S_func_81905FD0_10 *)traveling_strip_effect_updated)->unk_00 = 1;
+            effect->direction = (s16)direction;
         }
-        effect->phase.u16++;
+        effect->phase++;
 
     case 1:
         result = get_sprite_attachment_vector(owner_object->sprite->source,
@@ -1060,12 +1060,12 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
                 target_motion_m = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->position;
                 kind_or_shade = target->species;
                 target_height = entity_height_offsets[kind_or_shade] + 64;
-                effect->target_height.u16 = target_motion_m->z.u16_0A.unk_0A - target_height;
+                effect->target_height = target_motion_m->z.u16_0A.unk_0A - target_height;
                 owner_info = ((S_func_81905FD0_5 *)((u8 *)owner - 0x20))->sprite;
                 effect->unk_BA = owner_info->tile_x +
-                    ((u8 *)dir_step_x)[effect->direction.s16 * 2];
+                    ((u8 *)dir_step_x)[effect->direction * 2];
                 effect->unk_BB = owner_info->tile_y +
-                    ((u8 *)dir_step_y)[effect->direction.s16 * 2];
+                    ((u8 *)dir_step_y)[effect->direction * 2];
                 {
                     s32 target_tile;
 
@@ -1087,7 +1087,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
                 u16 owner_height = owner->ground_height;
 
                 effect->travel_ticks = 32;
-                effect->target_height.u16 = owner_height - 80;
+                effect->target_height = owner_height - 80;
             }
         }
         {
@@ -1095,20 +1095,20 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
             u8 *x_step;
             u8 *y_step;
 
-            x_step = direction_steps + effect->direction.s16 * 4;
+            x_step = direction_steps + effect->direction * 4;
             motion->velocity_x = (s32)((S_func_81905FD0_9 *)x_step)->unk_00 << 16;
-            y_step = direction_steps + effect->direction.s16 * 4;
+            y_step = direction_steps + effect->direction * 4;
             motion->velocity_y = (s32)((S_func_81905FD0_9 *)y_step)->unk_02 << 16;
         }
-        motion->velocity_z.s32 =
-            (((s32)effect->target_height.s16 << 16) - motion->z.s32) /
+        motion->velocity_z =
+            (((s32)(s16)effect->target_height << 16) - motion->z.s32) /
             (s8)effect->travel_ticks;
-        effect->timer.u16 = 0;
-        effect->scale_shrinking.u16 = 0;
+        effect->timer = 0;
+        effect->scale_shrinking = 0;
         effect->scale_timer = 0;
-        effect->scale_period.u16 = 5;
+        effect->scale_period = 5;
         effect->scale_step = 200;
-        effect->phase.u16++;
+        effect->phase++;
         effect->unk_88 = (s8)effect->travel_ticks;
         effect->unk_8A =
             (s8)effect->travel_ticks * (s8)effect->travel_ticks;
@@ -1118,7 +1118,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
         index = 0;
         while (1) {
             random_bits = rand();
-            get_half_byte_length((u8 *)effect - 0x20, effect->direction.s16, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
+            get_half_byte_length((u8 *)effect - 0x20, effect->direction, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
                 0, 0);
             index++;
             if (index >= 4) {
@@ -1136,7 +1136,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
                     render->angle_z = previous_angle - 0xE70;
                 }
             }
-            if (effect->scale_shrinking.s16 == 0) {
+            if (effect->scale_shrinking == 0) {
                 render->scale_x += effect->scale_step;
                 render->scale_y += effect->scale_step;
             } else {
@@ -1146,9 +1146,9 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
             {
                 u16 timer = effect->scale_timer + 1;
                 effect->scale_timer = timer;
-                if ((s16)timer >= effect->scale_period.s16) {
+                if ((s16)timer >= effect->scale_period) {
                     effect->scale_timer = 0;
-                    effect->scale_shrinking.u16 = effect->scale_shrinking.u16 ^ 1;
+                    effect->scale_shrinking = (u16)effect->scale_shrinking ^ 1;
                 }
             }
             effect->travel_ticks = effect->travel_ticks - 1;
@@ -1156,8 +1156,8 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
                 goto update_coords;
             }
             if (owner->target != 0) {
-                effect->phase.u16 = 3;
-                effect->timer.u16 = 0;
+                effect->phase = 3;
+                effect->timer = 0;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 {
                     S_func_81905FD0_6 *target = owner->target;
@@ -1174,12 +1174,12 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
                     motion->x.u16_02.unk_02 = target_motion_m->x.u16_02.unk_02;
                     motion->y.u16_06.unk_06 = target_motion_m->y.u16_06.unk_06;
                 }
-                motion->z.u16_0A.unk_0A = effect->target_height.u16;
+                motion->z.u16_0A.unk_0A = effect->target_height;
                 return;
             }
         }
-        effect->phase.u16 = 8;
-        effect->timer.u16 = 0;
+        effect->phase = 8;
+        effect->timer = 0;
         render->color.u8_0E.unk_0E = 0;
         render->color.u8_0D.unk_0D = 0;
         render->color.u8 = 0;
@@ -1188,7 +1188,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
 update_coords:
         motion->x.u32 += motion->velocity_x;
         motion->y.u32 += motion->velocity_y;
-        motion->z.u32 += motion->velocity_z.u32;
+        motion->z.u32 += (u32)motion->velocity_z;
         return;
 
     case 3:
@@ -1201,7 +1201,7 @@ update_coords:
                 render->angle_z = previous_angle - 0xE70;
             }
         }
-        if (effect->scale_shrinking.s16 == 0) {
+        if (effect->scale_shrinking == 0) {
             render->scale_x += effect->scale_step;
             render->scale_y += effect->scale_step;
         } else {
@@ -1211,17 +1211,17 @@ update_coords:
         {
             u16 timer = effect->scale_timer + 1;
             effect->scale_timer = timer;
-            if ((s16)timer >= effect->scale_period.s16) {
+            if ((s16)timer >= effect->scale_period) {
                 effect->scale_timer = 0;
-                effect->scale_shrinking.u16 = effect->scale_shrinking.u16 ^ 1;
+                effect->scale_shrinking = (u16)effect->scale_shrinking ^ 1;
             }
         }
         {
             s16 frame;
             u8 *tex_dest;
 
-            effect->timer.u16 = effect->timer.u16 + 1;
-            frame = (s16)effect->timer.u16;
+            effect->timer = effect->timer + 1;
+            frame = (s16)effect->timer;
             if (frame == 1) {
                 s32 rect_value;
                 u16 second_y;
@@ -1266,7 +1266,7 @@ update_coords:
                 draw_transformed_sprite_with_clip_rect(owner->target, rect_arg,
                               dest_arg, 1, frame);
             }
-            if (effect->timer.s16 != 4) {
+            if ((s16)effect->timer != 4) {
                 return;
             }
         }
@@ -1461,10 +1461,10 @@ update_coords:
                 *(Copy12 *)((u8 *)control_effect + 0x40) = *(Copy12 *)D_80026760;
                 child_render->source = (u8 *)control_effect + 0x40;
             }
-            if (effect->timer.s16 == 4) {
-                effect->phase.u16 = 4;
-                effect->timer.u16 = 0;
-                effect->child_done.u16 = 0;
+            if ((s16)effect->timer == 4) {
+                effect->phase = 4;
+                effect->timer = 0;
+                effect->child_done = 0;
                 return;
             }
         }
@@ -1472,7 +1472,7 @@ update_coords:
     }
 
     case 4:
-        effect->timer.u16++;
+        effect->timer++;
         index = 4;
         do {
             index--;
@@ -1486,7 +1486,7 @@ update_coords:
                 render->angle_z = previous_angle - 0xE70;
             }
         }
-        if (effect->scale_shrinking.s16 == 0) {
+        if (effect->scale_shrinking == 0) {
             render->scale_x += effect->scale_step;
             render->scale_y += effect->scale_step;
         } else {
@@ -1496,31 +1496,31 @@ update_coords:
         {
             u16 timer = effect->scale_timer + 1;
             effect->scale_timer = timer;
-            if ((s16)timer >= effect->scale_period.s16) {
+            if ((s16)timer >= effect->scale_period) {
                 effect->scale_timer = 0;
-                effect->scale_shrinking.u16 = effect->scale_shrinking.u16 ^ 1;
+                effect->scale_shrinking = (u16)effect->scale_shrinking ^ 1;
             }
         }
-        if ((u32)(effect->timer.u16 - 11) < 20) {
+        if ((u32)(effect->timer - 11) < 20) {
             kind_or_shade = render->color.u8_0E.unk_0E - 3;
             render->color.u8_0E.unk_0E = kind_or_shade;
             render->color.u8_0D.unk_0D = kind_or_shade;
             render->color.u8 = kind_or_shade;
         }
-        if (effect->timer.s16 >= 100 && render->color.u8 >= 6) {
+        if ((s16)effect->timer >= 100 && render->color.u8 >= 6) {
             kind_or_shade = render->color.u8_0E.unk_0E - 4;
             render->color.u8_0E.unk_0E = kind_or_shade;
             render->color.u8_0D.unk_0D = kind_or_shade;
             render->color.u8 = kind_or_shade;
         }
-        if (effect->timer.s16 >= 120) {
-            effect->timer.u16 = 0;
-            effect->phase.u16 = effect->phase.u16 + 1;
+        if ((s16)effect->timer >= 120) {
+            effect->timer = 0;
+            effect->phase = effect->phase + 1;
         }
         return;
 
     case 5:
-        if (effect->child_done.s16 == 0) {
+        if (effect->child_done == 0) {
             return;
         }
         result = 0xFF;
@@ -1529,13 +1529,13 @@ update_coords:
         }
         try_halve_actor_counter(owner->target, result, owner);
 
-        effect->timer.u16 = 0;
-        effect->phase.u16 = effect->phase.u16 + 1;
+        effect->timer = 0;
+        effect->phase = effect->phase + 1;
         return;
 
     case 6:
-        effect->timer.u16 = effect->timer.u16 + 1;
-        if (effect->timer.s16 < 11) {
+        effect->timer = effect->timer + 1;
+        if ((s16)effect->timer < 11) {
             return;
         }
         target_render = ((S_func_81905FD0_5 *)((u8 *)owner->target - 0x20))->sprite;
@@ -1545,29 +1545,29 @@ update_coords:
         target_render->color.c.b = 128;
         target_render->color.c.g = 128;
         target_render->color.c.r = 128;
-        effect->phase.u16 = 8;
-        effect->timer.u16 = 30;
+        effect->phase = 8;
+        effect->timer = 30;
         return;
 
     case 8:
     {
-        u16 previous_timer = effect->timer.u16;
+        u16 previous_timer = effect->timer;
         u16 timer = previous_timer + 1;
 
-        effect->timer.u16 = timer;
+        effect->timer = timer;
         if ((s16)timer < 31) {
             return;
         }
         {
-            s32 active_flag = ((S_func_81905FD0_10 *)traveling_strip_effect_updated)->unk_00.s16;
+            s32 active_flag = ((S_func_81905FD0_10 *)traveling_strip_effect_updated)->unk_00;
 
-            effect->timer.u16 = previous_timer;
+            effect->timer = previous_timer;
             if (active_flag == 0) {
                 g_dungeon_status.active_actor = 0;
                 NODE_HEADER(effect)->flags|= NODE_REMOVE;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             } else {
-                ((S_func_81905FD0_10 *)traveling_strip_effect_updated)->unk_00.u16 = 0;
+                ((S_func_81905FD0_10 *)traveling_strip_effect_updated)->unk_00 = 0;
             }
         }
         return;

@@ -13,6 +13,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
+#include "dungeon/monster/garuda_frames.h"
 
 
 
@@ -20,7 +21,6 @@
 extern s32 generate_random_value(void);
 
 extern u8 garuda_walk_direction_frames[];
-extern u8 garuda_frame_set_2[];
 
 /* Creates a Garuda actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */

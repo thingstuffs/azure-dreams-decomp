@@ -223,7 +223,6 @@ s32 return_zero_variadic(s32 unused, ...)
     return 0;
 }
 
-extern short SD_Call(int a0);
 
 /* Forward four values and trigger status event 0x300. */
 void set_cd_cue_and_submit_sound_command(int first, int second, int third, int fourth)
@@ -1180,7 +1179,6 @@ void noop_audio_init_hook(void) {
 }
 
 extern void audio_reset_all_voices(void);
-extern void SpuQuit(void);
 
 /* Run the three initialization routines in order. */
 void reset_voices_slots_and_stop_spu_service(void)
@@ -1201,8 +1199,6 @@ void flush_pending_sound_voice_flags(void)
     drain_ready_sound_voice_flags();
 }
 
-extern s32 SpuReserveReverbWorkArea(s32 enabled);
-extern s32 SpuSetReverb(s32 enable);
 
 /* Run both setup routines with mode one. */
 void enable_available_spu_reverb(void) {

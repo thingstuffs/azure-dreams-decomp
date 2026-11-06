@@ -231,8 +231,8 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
                     sprite->flags |= 0x100;
                     (*(Copy12 *)effect_data->sprite_entries) = *(Copy12 *)D_80175424;
                     sprite->source = effect_data->sprite_entries;
-                    effect_data->unk_50 = 8;
-                    effect_data->unk_4E = 4;
+                    effect_data->accumulated_step = 8;
+                    effect_data->late_countdown = 4;
                 }
             }
         }

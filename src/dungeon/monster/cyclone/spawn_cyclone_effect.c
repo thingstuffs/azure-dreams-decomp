@@ -9,22 +9,13 @@
 #include "engine/node.h"
 #include "engine/scene.h"
 #include "dungeon/monster/cyclone.h"
+#include "dungeon/monster/cyclone/bobbing_motion.h"
 
 typedef struct {
     s32 word[6];
 } Copy24;
 
 extern s32 cyclone_spawn_update_address;
-
-typedef struct S_80E122F4_3 {
-    u8 pad_00[0x4];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_0C;   /* overlapping accesses */
-    s32 unk_10;
-    s32 unk_14;
-    s32 unk_18;
-} S_80E122F4_3;   /* part in func_80E122F4 */
 
    /* coords in func_80E122F4 */
 
@@ -49,7 +40,7 @@ void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position
     SpriteFrameState *source_obj;
     ObjectPosition *coords;
     SpriteFrameState *child;
-    S_80E122F4_3 *part;
+    CycloneBobbingMotionBody *part;
     s32 delta;
 
     source_obj = sprite;
@@ -76,30 +67,30 @@ void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position
         offset.distance[0] = 0;
         part = NODE_BODY(obj);
         if (resolve_record_orientation_or_fallback(source_obj->source, source_obj, &offset.orientation, 1) != 0) {
-            part->unk_04.at02.v += offset.distance[0];
-            coords->x.w.i = part->unk_04.at02.v;
-            part->unk_08.at02.v += offset.distance[1];
-            coords->y.w.i = part->unk_08.at02.v;
-            part->unk_0C.at02.v += offset.distance[2];
-            coords->z.w.i = part->unk_0C.at02.v;
+            part->path.x.unsigned_parts.integer += offset.distance[0];
+            coords->x.w.i = part->path.x.unsigned_parts.integer;
+            part->path.y.unsigned_parts.integer += offset.distance[1];
+            coords->y.w.i = part->path.y.unsigned_parts.integer;
+            part->path.z.unsigned_parts.integer += offset.distance[2];
+            coords->z.w.i = part->path.z.unsigned_parts.integer;
         }
 
-        delta = reference->unk_00 - part->unk_04.at00.v;
+        delta = reference->unk_00 - part->path.x.v;
         if (delta < 0) {
             delta += 31;
         }
         delta >>= 5;
-        part->unk_10 = delta;
-        delta = reference->unk_04 - part->unk_08.at00.v;
+        part->path.velocity_x = delta;
+        delta = reference->unk_04 - part->path.y.v;
         if (delta < 0) {
             delta += 31;
         }
         delta >>= 5;
-        part->unk_14 = delta;
+        part->path.velocity_y = delta;
         delta = (reference->unk_08 -
                  ((s32)entity_height_offsets[((ActorRecord *)(owner->target))->species] << 15) -
-                 part->unk_0C.at00.v) / 32;
-        part->unk_18 = delta;
+                 part->path.z.v) / 32;
+        part->path.velocity_z = delta;
         return obj;
     }
     return 0;
