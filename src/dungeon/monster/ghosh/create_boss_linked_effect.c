@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "engine/graphics.h"
 #include "common.h"
+#include "dungeon/monster/ghosh/tracked_fade.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
@@ -13,13 +14,6 @@ typedef struct S_80172A14_0 {
     void * unk_AC;
 } S_80172A14_0;   /* arg0 in create_boss_linked_effect */
 
-typedef struct S_80172A14_2 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    u8 pad_1A[0x6];
-    void * unk_20;
-    void * unk_24;
-} S_80172A14_2;
 
    /* arg1 in create_boss_linked_effect */
 
@@ -32,7 +26,7 @@ extern u8 D_80174ABC[];
 void create_boss_linked_effect(void *owner, MovingPosition *source_pos, void *unused) {
     SpriteFrameState *render_flags;
     ObjectNodeHeader *effect;
-    S_80172A14_2 *effect_state;
+    GhoshTrackedFadeBody *effect_state;
     ObjectPosition *effect_pos;
 
     effect = allocate_list_node(0x12, &((ObjectNodeHeader *)owner - 1)->next);
@@ -41,9 +35,9 @@ void create_boss_linked_effect(void *owner, MovingPosition *source_pos, void *un
         effect->update_callback = D_80172874;
         register_node(effect, draw_linked_sprites_clipped);
         effect_state = NODE_BODY(effect);
-        effect_state->unk_18 = 5;
-        effect_state->unk_20 = owner;
-        effect_state->unk_24 = source_pos;
+        effect_state->phase_duration = 5;
+        effect_state->owner = owner;
+        effect_state->source_position = source_pos;
         render_flags = effect->sprite;
         render_flags->tpage_abr = 0x40;
         render_flags->flags |= 0xC;

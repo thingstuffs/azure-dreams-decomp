@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/ghosh/rising_trail_emitter.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
@@ -16,11 +17,6 @@ struct Elem;
 #define NULL 0
 #endif
 
-typedef struct S_80172160_1 {
-    u8 pad_00[0x16];
-    s16 unk_16;
-    s16 unk_18;
-} S_80172160_1;
 
 extern s32 rand(); /* Unprototyped: retail supplies an ignored argument; dropping it changes this TU. */
 
@@ -32,7 +28,7 @@ void spawn_rising_trail_emitter(void)
     ObjectPosition *effect_pos;
     ObjectPosition *source_pos;
     ObjectNodeHeader *effect;
-    S_80172160_1 *effect_state;
+    GhoshRisingTrailEmitterBody *effect_state;
     s32 random_offset;
     s32 coord;
 
@@ -40,7 +36,7 @@ void spawn_rising_trail_emitter(void)
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         effect_state = NODE_BODY(effect);
-        effect_state->unk_16 = 0x1E;
+        effect_state->remaining_ticks = 0x1E;
         effect_state->unk_18 = 0x1E;
         effect->update_callback = &update_rising_trail_emitter;
         register_node(effect, project_sprite_chain);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -6,9 +7,6 @@
 #include "dungeon/item.h"
 #include "slus.h"
 
-typedef struct S_80099B18_1_pre {
-    u16 unk_00;
-} S_80099B18_1_pre;   /* the 0x2 bytes before arg0 in advance_or_block_fading_record, addressed as arg0[-1] */
 
 
 /* Flag blocked records or advance their state, damping motion and fading color when enabled. */
@@ -20,8 +18,8 @@ void advance_or_block_fading_record(RadialParticleBurstBody *state, ObjectPositi
     u8 green;
 
     if (record->flags & 0xE000) {
-        ((S_80099B18_1_pre *)state)[-1].unk_00 =
-            (s16)(((S_80099B18_1_pre *)state)[-1].unk_00 | 0x8000);
+        NODE_HEADER(state)->flags =
+            (s16)(NODE_HEADER(state)->flags | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

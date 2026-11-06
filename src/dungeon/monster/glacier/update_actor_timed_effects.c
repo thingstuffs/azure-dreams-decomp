@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/glacier/projected_depth.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -52,12 +53,6 @@ typedef struct S_801714B8_0_pre {
 } S_801714B8_0_pre;   /* the 0x14 bytes before arg0 in update_actor_timed_effects, addressed as arg0[-1] */
 
 
-typedef struct S_801714B8_7 {
-    u8 pad_00[0x1C];
-    u16 unk_1C;
-    u8 pad_1E[0xA];
-    void * unk_28;
-} S_801714B8_7;   /* object_data in update_actor_timed_effects */
 
 /* Updates actor behavior, facing, and timed animation effects in the dungeon. */
 /* Dispatches Glacier's movement, attacks, spells, and turn processing, adding timed idle gestures and an
@@ -284,7 +279,7 @@ ordinary_cleanup:
             ((ActorRecord *)actor)->unk_9E.u = idle_timer + 1;
             if (idle_timer >= ((s16)((ActorRecord *)actor)->unk_A0.parts.low)) {
                 ObjectNodeHeader *object;
-                S_801714B8_7 *object_data;
+                GlacierProjectedDepthBody *object_data;
 
                 u8 *alt_table = glacier_frame_set_1;
 
@@ -302,8 +297,8 @@ ordinary_cleanup:
                     initialize_object_rendering_and_params(object, actor, context);
                     object->update_callback = D_80170A0C;
                     object_data = NODE_BODY(object);
-                    object_data->unk_28 = context;
-                    object_data->unk_1C = ((u16)((ActorRecord *)stats)->facing);
+                    object_data->reference_position = context;
+                    object_data->facing = ((u16)((ActorRecord *)stats)->facing);
 
                     {
                         SpriteFrameState *owner = ((S_801714B8_0_pre *)actor)[-1].unk_00;

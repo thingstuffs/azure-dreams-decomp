@@ -1,19 +1,8 @@
 #include "common.h"
+#include "frontend/libcard/format_operation.h"
 #include "frontend/libcard/state.h"
 
-typedef struct S_80027584_0_pre {
-    void * unk_00;
-    u8 pad_04[0xC];
-} S_80027584_0_pre;   /* the 0x10 bytes before arg0 in card_boot_format_card_with_retry, addressed as arg0[-1] */
 
-typedef struct S_80027584_0 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x1C];
-    void * unk_2C;
-    u8 pad_30[0x8];
-    s32 unk_38;
-} S_80027584_0;   /* arg0 in card_boot_format_card_with_retry */
 
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard.h"
@@ -21,7 +10,7 @@ typedef struct S_80027584_0 {
 
 /* Polls status with bounded retries and dispatches the corresponding context update. */
 void card_boot_format_card_with_retry(void *state_arg) {
-    S_80027584_0 *state = state_arg;
+    CardFormatOperationBody *state = state_arg;
     s32 retry_status;
     s32 status;
     s32 retry_count;
@@ -30,28 +19,28 @@ void card_boot_format_card_with_retry(void *state_arg) {
     retry_count = 0;
     retry_status = 5;
     do {
-        status = card_boot_format_card_and_wait(state->unk_0C);
+        status = card_boot_format_card_and_wait(state->channel);
         if (status != retry_status) {
             break;
         }
     } while (retry_count++ < 6);
 
-    state->unk_38 = 0;
+    state->notice_state = 0;
     card_boot_recheck_selected_channel();
     if (status == 1) {
-        context = (u8 *)state - 0x20;
-        state->unk_2C = card_boot_update_card_chooser_input;
+        context = NODE_HEADER(state);
+        state->resume_callback = card_boot_update_card_chooser_input;
         card_boot_show_format_success_notice(context);
-        ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274D8;
+        NODE_HEADER(state)->update_callback = D_800274D8;
     } else if (status == 4) {
-        context = (u8 *)state - 0x20;
-        state->unk_2C = card_boot_update_card_chooser_input;
+        context = NODE_HEADER(state);
+        state->resume_callback = card_boot_update_card_chooser_input;
         card_boot_show_no_memory_card_notice(context);
-        ((S_80027584_0_pre *)state)[-1].unk_00 = reset_menu_object_state_2;
+        NODE_HEADER(state)->update_callback = reset_menu_object_state_2;
     } else {
-        context = (u8 *)state - 0x20;
-        state->unk_2C = card_boot_update_card_chooser_input;
+        context = NODE_HEADER(state);
+        state->resume_callback = card_boot_update_card_chooser_input;
         card_boot_show_format_failure_notice(context);
-        ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274D8;
+        NODE_HEADER(state)->update_callback = D_800274D8;
     }
 }

@@ -485,11 +485,6 @@ typedef struct R12_801749EC_S_801749EC_9 {
     s32 unk_04;
     s32 unk_08;
 } R12_801749EC_S_801749EC_9;
-typedef struct R12_801749EC_S_801749EC_10 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} R12_801749EC_S_801749EC_10;
 typedef struct R12_801749EC_S_801749EC_11 {
     u8 pad_00[0xC];
     u8 unk_0C;

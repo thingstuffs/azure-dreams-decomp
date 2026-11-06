@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -10,9 +11,6 @@
 
    /* arg1 in update_relative_depth_and_expire */
 
-typedef struct S_8102F0D4_1_pre {
-    u16 unk_00;
-} S_8102F0D4_1_pre;   /* the 0x2 bytes before arg0 in update_relative_depth_and_expire, addressed as arg0[-1] */
 
 typedef struct S_8102F0D4_1 {
     u8 pad_00[0x94];
@@ -53,7 +51,7 @@ void update_relative_depth_and_expire(void *state_arg, MovingPosition *position,
     ticks_left = state->ticks_left - 1;
     state->ticks_left = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        ((S_8102F0D4_1_pre *)state)[-1].unk_00 = (u16) (((S_8102F0D4_1_pre *)state)[-1].unk_00 | 0x8000);
+        NODE_HEADER(state)->flags = (u16) (NODE_HEADER(state)->flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

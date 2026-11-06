@@ -1594,7 +1594,7 @@ s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, 
  *
  * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
  */
-void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, R16_80173738_FuncArg1 *position, SpriteFrameState *primitive) {
+void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, ObjectPosition *position, SpriteFrameState *primitive) {
     AngledSourceEffectBody *effect = effect_arg;
     s16 life;
     s16 next_life;
@@ -1605,14 +1605,14 @@ void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, R16_8017
 
     effect->unk_1E.u = (u16) (effect->unk_1E.u - 0x12C);
     effect->unk_20.u = (u16) (effect->unk_20.u + 2);
-    position->unk00 = (s32) (effect->unk_40
+    position->x.v = (s32) (effect->unk_40
         + ((s16) effect->unk_20.u * rcos((s16) effect->unk_1E.u) * 0x10));
     y_offset = (s16) effect->unk_20.u * rsin((s16) effect->unk_1E.u);
     primitive_dst = primitive;
     z_step = 0xFFF40000U;
     base_y = effect->unk_44;
-    position->unk08 = (s32) (position->unk08 + z_step);
-    position->unk04 = (s32) (base_y + (y_offset * 0x10));
+    position->z.v = (s32) (position->z.v + z_step);
+    position->y.v = (s32) (base_y + (y_offset * 0x10));
     advance_sprite_animation_and_textures(primitive_dst);
     if (primitive->flags & 0x4000) {
         select_record_entry_and_value(primitive, (shared_sprite_entries), 0);

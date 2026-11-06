@@ -1,11 +1,9 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "dungeon/actor/effect.h"
 
 
-typedef struct S_80026E3C_0_pre {
-    u16 unk_00;
-} S_80026E3C_0_pre;   /* the 0x2 bytes before arg0 in alternate_effect_shade_and_decay, addressed as arg0[-1] */
 
 typedef struct S_80026E3C_0 {
     u8 pad_00[0x66];
@@ -40,8 +38,8 @@ void alternate_effect_shade_and_decay(void *effect_arg, s32 ticks_left, SpriteFr
     ticks_left = effect->unk_66 - 1;
     effect->unk_66 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        ((S_80026E3C_0_pre *)effect)[-1].unk_00 =
-            (u16)(((S_80026E3C_0_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags =
+            (u16)(NODE_HEADER(effect)->flags | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

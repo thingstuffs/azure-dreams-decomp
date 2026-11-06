@@ -40,15 +40,7 @@ typedef struct S_800A6F48_4 {
     s16 unk_B0;
 } S_800A6F48_4;
 
-typedef struct S_800A6F48_5 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800A6F48_5;
 
-typedef struct S_800A6F48_6 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800A6F48_6;
 
 typedef struct S_800A6F48_7 {
     u8 pad_00[0x4];
@@ -57,10 +49,6 @@ typedef struct S_800A6F48_7 {
     s32 unk_10;
 } S_800A6F48_7;
 
-typedef struct S_800A6F48_9 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800A6F48_9;
 
 typedef struct S_800A6F48_10 {
     u8 pad_00[0x50];

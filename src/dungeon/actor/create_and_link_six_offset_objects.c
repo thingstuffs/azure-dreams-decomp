@@ -18,14 +18,6 @@ typedef struct {
 extern TableEntry linked_effect_direction_entries[];
 extern s32 linked_mesh_processor_address[3];
 
-typedef struct S_80026C88_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_80026C88_1;
 
 typedef struct S_80026C88_2 {
     u8 pad_00[0x8];
@@ -89,6 +81,7 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
         if (object != NULL) {
             s32 point_index;
             S_80026C88_2 *state;
+            ActorTrailWork *trail;
             void *self_link;
 
             object->update_callback = callback;
@@ -110,7 +103,8 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
             self_link = ((void *)object) + 0x38;
             pointers.render->unk_08 = table_entry;
             pointers.render->unk_14 = (u16) (pointers.render->unk_14 | 0xC);
-            ((S_80026C88_1 *)object)->unk_20 = self_link;
+            trail = NODE_BODY(object);
+            trail->target = self_link;
             state->unk_66 = 0x20;
             state->unk_6E = object_index;
             for (point_index = 0; point_index < 8; point_index++) {

@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "dungeon/monster/beldo/expanding_fade.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -21,14 +22,6 @@ s32 register_node();
 void select_sprite_entry();
 extern M2C_UNK D_80170D44;
 
-typedef struct S_80170E18_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x10];
-    s16 unk_A8;
-    u8 pad_AA[0x2];
-    void * unk_AC;
-} S_80170E18_0;
 
 typedef struct S_80170E18_3 {
     u8 pad_00[0x2A];
@@ -41,7 +34,7 @@ typedef struct S_80170E18_3 {
 void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, S_80170E18_3 *facing_source) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
-    S_80170E18_0 *effect_state;
+    BeldoExpandingFadeBody *effect_state;
     ObjectPosition *transform;
     Block16 *sprite_data;
     Block16 *src;
@@ -52,10 +45,10 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
     sprite_data = sprite_template;
     if (effect != NULL) {
         effect_state = NODE_BODY(effect);
-        effect_state->unk_96 = 7;
-        effect_state->unk_A8 = 7;
+        effect_state->ticks_left = 7;
+        effect_state->duration = 7;
         effect->update_callback = &D_80170D44;
-        effect_state->unk_AC = source_transform;
+        effect_state->source_position = source_transform;
         sprite = effect->sprite;
         src = sprite_data;
         dst = (Block16 *)sprite;

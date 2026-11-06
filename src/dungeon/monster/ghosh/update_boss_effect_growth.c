@@ -1,35 +1,14 @@
 #include "common.h"
+#include "dungeon/monster/ghosh/tracked_fade.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/ghosh.h"
 
-typedef struct S_80172874_0_pre {
-    u16 unk_00;
-} S_80172874_0_pre;   /* the 0x2 bytes before base in update_boss_effect_growth, addressed as base[-1] */
 
-typedef struct S_80172874_0 {
-    u8 pad_00[0x12];
-    union { s16 s; u16 u; u16 p; } unk_12;   /* accessed as both */
-    u8 pad_14[0x2];
-    u16 unk_16;
-    s16 unk_18;
-    u8 pad_1A[0x6];
-    void * unk_20;
-    void * unk_24;
-} S_80172874_0;   /* base in update_boss_effect_growth */
 
-typedef struct S_80172874_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80172874_1_pre;   /* the 0x14 bytes before parent in update_boss_effect_growth, addressed as parent[-1] */
 
-typedef struct S_80172874_3 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x24];
-    void * unk_2C;
-} S_80172874_3;   /* owner in update_boss_effect_growth */
 
 typedef struct S_80172874_4 {
     u8 pad_00[0x4CE0];
@@ -51,12 +30,12 @@ typedef struct S_80172874_7 {
 
 extern u8 ghosh_frame_set_5[];
 
-/* Advances the effect through growth, position tracking, and shrinkage. */
-void update_boss_effect_growth(void *effect, EntityRec *position, SpriteFrameState *transform)
+/* Brighten and rotate the sprite, track its source position, then fade it out. */
+void update_boss_effect_growth(GhoshTrackedFadeBody *effect, EntityRec *position, SpriteFrameState *transform)
 {
-    void *base = effect;
+    GhoshTrackedFadeBody *base = effect;
     S_80172874_6 *source;
-    S_80172874_3 *owner;
+    SpriteFrameState *owner;
     s16 duration;
     s16 mode;
     s32 grow_scale;
@@ -67,13 +46,13 @@ void update_boss_effect_growth(void *effect, EntityRec *position, SpriteFrameSta
     u16 grow_step;
     u16 shrink_step;
     u16 owner_value;
-    S_80172874_1_pre *parent;
+    ObjectNodeHeader *parent;
 
-    parent = ((S_80172874_0 *)base)->unk_20;
-    source = ((S_80172874_0 *)base)->unk_24;
-    owner = parent[-1].unk_00;
+    parent = NODE_HEADER(base->owner);
+    source = base->source_position;
+    owner = parent->sprite;
     angle = transform->angle_z;
-    owner_value = owner->unk_06;
+    owner_value = owner->depth_bias;
     next_angle = angle + 0x190;
     transform->angle_z = next_angle;
     transform->depth_bias = owner_value;
@@ -81,19 +60,19 @@ void update_boss_effect_growth(void *effect, EntityRec *position, SpriteFrameSta
         transform->angle_z = angle - 0xE70;
     }
 
-    mode = ((S_80172874_0 *)base)->unk_12.s;
-    current_mode = ((S_80172874_0 *)base)->unk_12.u;
+    mode = (s16)base->phase;
+    current_mode = base->phase;
     switch (mode) {
     case 0:
-        grow_step = ((S_80172874_0 *)base)->unk_16 + 1;
-        duration = ((S_80172874_0 *)base)->unk_18;
+        grow_step = base->phase_ticks + 1;
+        duration = base->phase_duration;
         grow_scale = ((s32)(grow_step << 16) >> 9) / duration;
-        ((S_80172874_0 *)base)->unk_16 = grow_step;
+        base->phase_ticks = grow_step;
         transform->color.c.r = grow_scale;
         transform->color.c.g = grow_scale;
         transform->color.c.b = grow_scale;
-        if (((s16)((S_80172874_0 *)base)->unk_16) >= 5) {
-            ((S_80172874_0 *)base)->unk_12.p = ((S_80172874_0 *)base)->unk_12.p + 1;
+        if ((s16)base->phase_ticks >= 5) {
+            base->phase = base->phase + 1;
             return;
         }
         return;
@@ -102,14 +81,14 @@ void update_boss_effect_growth(void *effect, EntityRec *position, SpriteFrameSta
         u32 flag_base;
         flag_base = 0x80170000;
         if (((S_80172874_4 *)flag_base)->unk_4CE0 == 0) {
-            ((S_80172874_0 *)base)->unk_12.s = current_mode + 1;
-            ((S_80172874_0 *)base)->unk_18 = 0x14;
-            ((S_80172874_0 *)base)->unk_16 = 0x14;
+            base->phase = current_mode + 1;
+            base->phase_duration = 0x14;
+            base->phase_ticks = 0x14;
         }
-        if (owner->unk_2C == ghosh_frame_set_5) {
-            ((S_80172874_0 *)base)->unk_18 = 0x14;
-            ((S_80172874_0 *)base)->unk_16 = 0x14;
-            ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;
+        if (owner->frameTable == ghosh_frame_set_5) {
+            base->phase_duration = 0x14;
+            base->phase_ticks = 0x14;
+            base->phase = base->phase + 1;
         }
         position->x.v = source->unk_00;
         position->y.v = source->unk_04;
@@ -117,16 +96,16 @@ void update_boss_effect_growth(void *effect, EntityRec *position, SpriteFrameSta
         return;
     }
     case 2:
-        shrink_step = ((S_80172874_0 *)base)->unk_16 - 1;
-        shrink_scale = ((s32)(shrink_step << 16) >> 9) / ((S_80172874_0 *)base)->unk_18;
-        ((S_80172874_0 *)base)->unk_16 = shrink_step;
+        shrink_step = base->phase_ticks - 1;
+        shrink_scale = ((s32)(shrink_step << 16) >> 9) / base->phase_duration;
+        base->phase_ticks = shrink_step;
         transform->color.c.r = shrink_scale;
         transform->color.c.g = shrink_scale;
         transform->color.c.b = shrink_scale;
-        if (((s16)((S_80172874_0 *)base)->unk_16) <= 0) {
+        if ((s16)base->phase_ticks <= 0) {
             s32 *global_base;
             global_base = (s32 *)0x80080000;
-            ((S_80172874_0_pre *)base)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(base)->flags |= 0x8000;
             ((S_80172874_7 *)global_base)->unk_14A0 |= 0x8000;
         }
 

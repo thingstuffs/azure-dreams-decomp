@@ -2069,16 +2069,16 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 
 /* Moves the effect with directional jitter and a vertical offset, reduces its speed, and removes it on
  * timeout. */
-void advance_randomized_motion_and_complete(PointRecord *object_data, R06_801740E4_S_801740E4_0 *position, SpriteFrameState *state) {
+void advance_randomized_motion_and_complete(PointRecord *object_data, ObjectPosition *position, SpriteFrameState *state) {
     s16 next_speed;
     s32 random_value;
     s32 lowered_z;
 
-    position->unk_00 += ((dir_step_x[object_data->unk_14] * object_data->brightness) << 7) + (rand() & 0x7FFF);
-    position->unk_04 += ((dir_step_y[object_data->unk_14] * object_data->brightness) << 7) + (rand() & 0x7FFF);
+    position->x.v += ((dir_step_x[object_data->unk_14] * object_data->brightness) << 7) + (rand() & 0x7FFF);
+    position->y.v += ((dir_step_y[object_data->unk_14] * object_data->brightness) << 7) + (rand() & 0x7FFF);
     random_value = rand();
-    lowered_z = position->unk_08 + (s32) 0xFFFE0000;
-    position->unk_08 = lowered_z - (random_value & 0xFFF);
+    lowered_z = position->z.v + (s32) 0xFFFE0000;
+    position->z.v = lowered_z - (random_value & 0xFFF);
     next_speed = (u16) object_data->brightness - 8;
     object_data->brightness = next_speed;
     if (((next_speed << 0x10) <= 0) || (state->flags & 0x8000)) {
@@ -2351,7 +2351,7 @@ void advance_record_countdown(void *record_data) {
 }
 
 /* Fades a four-strip textured effect, emits randomized particles, and flags it for removal on timeout. */
-void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, SpriteFrameState *render_data)
+void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteFrameState *render_data)
 {
     s16 phase;
     u16 phase_bits;
@@ -2440,9 +2440,9 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, Spr
             ((R06_80174934_S_80174934_3 *)render_ctl)->unk_14 |= 0xC;
 
             position = strip_obj->position;
-            position->x.v = origin->x;
-            position->y.v = origin->y;
-            position->z.v = origin->z;
+            position->x.v = origin->x.v;
+            position->y.v = origin->y.v;
+            position->z.v = origin->z.v;
 
             render_ctl = *(u8 * *)&strip_obj->sprite;
             ((R06_80174934_S_80174934_3 *)render_ctl)->unk_1E = 0x1000;

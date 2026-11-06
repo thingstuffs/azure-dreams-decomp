@@ -129,7 +129,8 @@ void allocate_and_initialize_object(void);
 void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a);
 void create_boss_offset_effect(void);
 void create_linked_facing_sprite(u16 x, u16 y, s32 z);
-void update_cascading_trail_emitter(void *record_data);
+struct GhoshTrailEmitterBody;
+void update_cascading_trail_emitter(struct GhoshTrailEmitterBody *record_data);
 
 s32 execute_actor_script_command(ActorRecord *actor_arg, ObjectPosition *action_context, SpriteFrameState *sprite_arg);
 

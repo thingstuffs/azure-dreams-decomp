@@ -2286,7 +2286,7 @@ void build_animated_spherical_wireframe(void *effect, void *origin, SpriteFrameS
     s32 y_coordinate;
     s32 state_m;
     s16 vertices[10][6][3];
-    register R12_801749EC_S_801749EC_10 *object_origin;
+    register ObjectPosition *object_origin;
     void *line_data;
     s16 *closing_angle;
     s16 next_angle_index;
@@ -2442,9 +2442,9 @@ void build_animated_spherical_wireframe(void *effect, void *origin, SpriteFrameS
             meridian_render->tpage_abr = 0x20;
             meridian_render->flags = (u16) (meridian_render->flags | 0xC);
             meridian_origin = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_08;
-            meridian_origin->unk_00 = (s32) object_origin->unk_00;
-            meridian_origin->unk_04 = (s32) object_origin->unk_04;
-            meridian_origin->unk_08 = (s32) object_origin->unk_08;
+            meridian_origin->unk_00 = (s32) object_origin->x.v;
+            meridian_origin->unk_04 = (s32) object_origin->y.v;
+            meridian_origin->unk_08 = (s32) object_origin->z.v;
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
             meridian_render->scale_y = ONE;
             meridian_render->scale_x = ONE;
@@ -2493,9 +2493,9 @@ void build_animated_spherical_wireframe(void *effect, void *origin, SpriteFrameS
                     ring_render->flags = object_flags;
                 }
                 ring_origin = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_08;
-                ring_origin->unk_00 = (s32) object_origin->unk_00;
-                ring_origin->unk_04 = (s32) object_origin->unk_04;
-                ring_origin->unk_08 = (s32) object_origin->unk_08;
+                ring_origin->unk_00 = (s32) object_origin->x.v;
+                ring_origin->unk_04 = (s32) object_origin->y.v;
+                ring_origin->unk_08 = (s32) object_origin->z.v;
                 ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
                 ring_render->scale_y = ONE;
                 ring_render->scale_x = ONE;

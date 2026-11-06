@@ -34,9 +34,9 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     s32 z_component;
     u32 offset_sum;
     S_800A6F48_4 *first_object;
-    S_800A6F48_5 *first_y_data;
-    S_800A6F48_6 *first_z_data;
-    S_800A6F48_9 *second_y_data;
+    ObjectPosition *first_y_data;
+    ObjectPosition *first_z_data;
+    ObjectPosition *second_y_data;
 
     spawn_state->unk_0C = &D_800D0DD8;
     offset_sum = ((S_800A6F48_1 *)(&D_800D0DD8))->unk_04 + ((S_800A6F48_1 *)(&D_800D0DD8))->unk_10;
@@ -47,11 +47,11 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     first_object = create_preset_sprite_object(position);
     ((ObjectPosition *)first_object->unk_08)->velocity_x = 0x10000;
     first_y_data = first_object->unk_08;
-    y_component = first_y_data->unk_10;
-    first_y_data->unk_10 = (s32) (y_component / 4);
+    y_component = first_y_data->velocity_y;
+    first_y_data->velocity_y = (s32) (y_component / 4);
     first_z_data = first_object->unk_08;
-    z_component = first_z_data->unk_14;
-    first_z_data->unk_14 = (s32) (z_component / 4);
+    z_component = first_z_data->velocity_z;
+    first_z_data->velocity_z = (s32) (z_component / 4);
     first_object->unk_B0 = 0;
     spawn_person_radial_effects(position);
     second_offset_data = spawn_state->unk_0C;
@@ -60,7 +60,7 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     first_object = create_preset_sprite_object(position);
     ((ObjectPosition *)first_object->unk_08)->velocity_x = -0x8000;
     second_y_data = first_object->unk_08;
-    second_y_data->unk_10 = (s32) (second_y_data->unk_10 / 3);
+    second_y_data->velocity_y = (s32) (second_y_data->velocity_y / 3);
     first_object->unk_B0 = 0;
     spawn_person_radial_effects(position);
     owner->unk_50 = update_three_axis_scale_effect;

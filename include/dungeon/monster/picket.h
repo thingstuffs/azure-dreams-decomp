@@ -18,7 +18,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_func_800AD058_arg2.h"
-void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance);
+void create_and_initializes_display_source_position_appearance(ObjectPosition *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance);
 
 void * move_eligible_item(void *origin, ActorRecord *actor);
 void * pick_up_adjacent_item(void *origin, struct ActorRecord *actor);

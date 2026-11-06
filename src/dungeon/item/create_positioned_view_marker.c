@@ -918,67 +918,51 @@ void create_linked_particle_controller(void *sourceData) {
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
+#include "dungeon/item/converging_color_particle.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-typedef struct S_807AFB48_3 {
-    void * unk_00;
-    void * unk_04;
-} S_807AFB48_3;   /* arg0 in func_800F7348 */
 
-typedef struct S_807AFB48_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_807AFB48_4;   /* ((S_807AFB48_3 *)arg0)->unk_04 in func_800F7348 */
 
 typedef struct S_807AFB48_5 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_807AFB48_5;   /* ((S_807AFB48_3 *)arg0)->unk_00 in func_800F7348 */
+} S_807AFB48_5;   /* channel-source flags linked by the particle creator */
 
 
-typedef struct S_807AFB48_1 {
-    u16 unk_00;
-    u8 pad_02[0xC];
-    s16 unk_0E;
-} S_807AFB48_1;   /* arg0 in func_800F7348; pointer addresses record offset 0x2 */
 
 
 /* Advances position and selected color channels toward their targets and flags completion. */
 void converge_particle_position_and_color(void *transition_arg, ObjectPosition *position, SpriteFrameState *color) {
-    S_807AFB48_3 *transition = transition_arg;
+    ConvergingColorParticleBody *transition = transition_arg;
     s16 steps_left;
     s32 color_bits;
     u8 next_level;
 
     position->x.w.i = (s16) ((u16) position->x.w.i
-        + ((s32) (((S_807AFB48_4 *)(transition->unk_04))->unk_02
-        - position->x.w.i) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E));
+        + ((s32) (transition->target_position->x.w.i
+        - position->x.w.i) / (s16) transition->steps_left));
     position->y.w.i = (s16) ((u16) position->y.w.i
-        + ((s32) (((S_807AFB48_4 *)(transition->unk_04))->unk_06
-        - position->y.w.i) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E));
+        + ((s32) (transition->target_position->y.w.i
+        - position->y.w.i) / (s16) transition->steps_left));
     position->z.w.i = (s16) ((u16) position->z.w.i
-        + ((s32) (((S_807AFB48_4 *)(transition->unk_04))->unk_0A
-        - position->z.w.i) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E));
+        + ((s32) (transition->target_position->z.w.i
+        - position->z.w.i) / (s16) transition->steps_left));
     color_bits = color->color.c.b | (color->color.c.r | color->color.c.g);
-    next_level = color_bits + ((s32) (0xC0 - color_bits) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E);
-    if (((S_807AFB48_5 *)(transition->unk_00))->unk_14 & 1) {
+    next_level = color_bits + ((s32) (0xC0 - color_bits) / (s16) transition->steps_left);
+    if (((S_807AFB48_5 *)(transition->channel_source))->unk_14 & 1) {
         color->color.c.r = next_level;
     }
-    if (((S_807AFB48_5 *)(transition->unk_00))->unk_14 & 2) {
+    if (((S_807AFB48_5 *)(transition->channel_source))->unk_14 & 2) {
         color->color.c.b = next_level;
     }
-    if (((S_807AFB48_5 *)(transition->unk_00))->unk_14 & 4) {
+    if (((S_807AFB48_5 *)(transition->channel_source))->unk_14 & 4) {
         color->color.c.g = next_level;
     }
-    steps_left = (u16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E - 1;
-    ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E = steps_left;
+    steps_left = (u16) transition->steps_left - 1;
+    transition->steps_left = steps_left;
     if ((steps_left << 0x10) <= 0) {
-        ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00 = (u16) (((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00
+        NODE_HEADER(transition)->flags = (u16) (NODE_HEADER(transition)->flags
             | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
@@ -986,6 +970,7 @@ void converge_particle_position_and_color(void *transition_arg, ObjectPosition *
 #include "modules/dungeon_ovl_7ce800.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/item/converging_color_particle.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -993,14 +978,6 @@ void converge_particle_position_and_color(void *transition_arg, ObjectPosition *
 s32 rand(void);                                /* extern */
 extern M2C_UNK view_marker_sprite_data;
 
-typedef struct S_807AFC9C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_807AFC9C_0;
 
    /* arg1 in func_800F749C */
 
@@ -1009,28 +986,22 @@ typedef struct S_807AFC9C_4 {
     s32 unk_14;
 } S_807AFC9C_4;   /* arg2 in func_800F749C */
 
-typedef struct S_807AFC9C_5 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    u8 pad_08[0x4];
-    s16 unk_0C;
-} S_807AFC9C_5;
 
 /* Spawns an effect near the origin with color channels selected by the source flags. */
-void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_807AFC9C_4 *source) {
+void create_converging_color_particle(ObjectNodeHeader *spawn_arg, ObjectPosition *origin, S_807AFC9C_4 *source) {
     SpriteFrameState *sprite;
     ObjectPosition *position;
     ObjectNodeHeader *effect;
-    S_807AFC9C_5 *effect_state;
+    ConvergingColorParticleBody *effect_state;
 
     effect = allocate_list_node(0x212, spawn_arg);
     if (effect != NULL) {
         effect->update_callback = (void *)converge_particle_position_and_color;
         register_node(effect, project_sprite_chain);
         position = effect->position;
-        position->x.w.i = (s16) ((origin->x + (rand() & 0x3F)) - 0x20);
-        position->y.w.i = (s16) ((origin->y + (rand() & 0x3F)) - 0x20);
-        position->z.w.i = (s16) ((origin->z + (rand() & 0x3F)) - 0x20);
+        position->x.w.i = (s16) ((origin->x.unsigned_parts.integer + (rand() & 0x3F)) - 0x20);
+        position->y.w.i = (s16) ((origin->y.unsigned_parts.integer + (rand() & 0x3F)) - 0x20);
+        position->z.w.i = (s16) ((origin->z.unsigned_parts.integer + (rand() & 0x3F)) - 0x20);
         sprite = effect->sprite;
         sprite->source = &view_marker_sprite_data;
         if (source->unk_14 & 1) {
@@ -1047,13 +1018,14 @@ void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_8
         sprite->depth_bias = 8;
         effect_state = NODE_BODY(effect);
         sprite->flags = (u16) (sprite->flags | 0xC);
-        effect_state->unk_0C = 0x10;
-        ((S_807AFC9C_0 *)effect)->unk_20 = source;
-        effect_state->unk_04 = origin;
+        effect_state->steps_left = 0x10;
+        effect_state->channel_source = source;
+        effect_state->target_position = origin;
     }
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
+#include "dungeon/item/owner_attached_color_effect.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -1062,14 +1034,6 @@ typedef struct {
     s16 z;
 } Offset3;
 
-typedef struct Position3 {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 z;
-} Position3;
 
 typedef struct ColorPart {
     u8 pad0[0xC];
@@ -1080,31 +1044,20 @@ typedef struct ColorPart {
 
 extern u8 D_800DDC42;
 
-typedef struct S_807AFDEC_0 {
-    void * unk_00;
-    u8 pad_04[0x4];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-    u8 pad_0A[0x2];
-    union { s16 s; u16 u; } unk_0C;   /* accessed as both */
-} S_807AFDEC_0;   /* arg0 in update_owner_attached_color_effect */
 
-typedef struct S_807AFDEC_1_pre {
-    Position3 * unk_00;
-    u8 pad_04[0x14];
-} S_807AFDEC_1_pre;   /* the 0x18 bytes before ((S_807AFDEC_0 *)arg0)->unk_00 in update_owner_attached_color_effect, addressed as ((S_807AFDEC_0 *)arg0)->unk_00[-1] */
 
 typedef struct S_807AFDEC_1 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_807AFDEC_1;   /* ((S_807AFDEC_0 *)arg0)->unk_00 in update_owner_attached_color_effect */
+} S_807AFDEC_1;   /* owner channel flags used by the tint updater */
 
 /* Position the effect and fade its selected color channels in, then out. */
-void update_owner_attached_color_effect(void *effect_arg, Position3 *position, ColorPart *tint)
+void update_owner_attached_color_effect(void *effect_arg, ObjectPosition *position, ColorPart *tint)
 {
-    S_807AFDEC_0 *effect = effect_arg;
-    void *effect_base;
+    OwnerAttachedColorBody *effect = effect_arg;
+    ObjectNodeHeader *effect_base;
     Offset3 offset;
-    Position3 *source_pos;
+    ObjectPosition *source_pos;
     s32 intensity;
     u16 source_x;
     s16 ticks_left;
@@ -1113,61 +1066,61 @@ void update_owner_attached_color_effect(void *effect_arg, Position3 *position, C
     offset.y = 0;
     offset.z = -D_800DDC42 - 8;
 
-    source_pos = ((S_807AFDEC_1_pre *)(effect->unk_00))[-1].unk_00;
-    source_x = source_pos->x;
-    position->x = source_x;
-    position->y = source_pos->y + offset.y;
-    position->z = source_pos->z + offset.z;
+    source_pos = NODE_HEADER(effect->owner)->position;
+    source_x = source_pos->x.unsigned_parts.integer;
+    position->x.unsigned_parts.integer = source_x;
+    position->y.unsigned_parts.integer = source_pos->y.unsigned_parts.integer + offset.y;
+    position->z.unsigned_parts.integer = source_pos->z.unsigned_parts.integer + offset.z;
 
-    if (effect->unk_08.s == 0) {
+    if ((s16)effect->phase == 0) {
         intensity = tint->b | (tint->r | tint->g);
-        intensity += (0xC0 - intensity) / effect->unk_0C.s;
+        intensity += (0xC0 - intensity) / (s16)effect->ticks_left;
 
-        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 1) {
+        if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 1) {
             tint->r = intensity;
         }
-        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 4) {
+        if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 4) {
             tint->g = intensity;
         }
-        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 2) {
+        if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 2) {
             tint->b = intensity;
         }
 
         {
-            effect_base = (u8 *)effect - 0x20;
+            effect_base = NODE_HEADER(effect);
 
-            if (effect->unk_0C.s >= 8) {
-                create_converging_color_particle(effect_base, position, effect->unk_00);
-                create_converging_color_particle(effect_base, position, effect->unk_00);
-                create_converging_color_particle(effect_base, position, effect->unk_00);
+            if ((s16)effect->ticks_left >= 8) {
+                create_converging_color_particle(effect_base, position, effect->owner);
+                create_converging_color_particle(effect_base, position, effect->owner);
+                create_converging_color_particle(effect_base, position, effect->owner);
             }
 
-            ticks_left = effect->unk_0C.u - 1;
-            effect->unk_0C.u = ticks_left;
+            ticks_left = effect->ticks_left - 1;
+            effect->ticks_left = ticks_left;
             if ((ticks_left << 16) <= 0) {
-                effect->unk_0C.u = 8;
-                effect->unk_08.u++;
+                effect->ticks_left = 8;
+                effect->phase++;
                 return;
             }
         }
     } else {
         intensity = tint->b | (tint->r | tint->g);
-        intensity += -intensity / effect->unk_0C.s;
+        intensity += -intensity / (s16)effect->ticks_left;
 
-        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 1) {
+        if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 1) {
             tint->r = intensity;
         }
-        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 4) {
+        if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 4) {
             tint->g = intensity;
         }
-        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 2) {
+        if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 2) {
             tint->b = intensity;
         }
 
-        ticks_left = effect->unk_0C.u - 1;
-        effect->unk_0C.u = ticks_left;
+        ticks_left = effect->ticks_left - 1;
+        effect->ticks_left = ticks_left;
         if ((ticks_left << 16) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
@@ -1175,6 +1128,7 @@ void update_owner_attached_color_effect(void *effect_arg, Position3 *position, C
 #include "modules/dungeon_ovl_7ce800.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/item/owner_attached_color_effect.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct Bank7ce_18_Pair {
@@ -1186,19 +1140,7 @@ typedef struct Bank7ce_18_Pair {
 extern u8 D_800FBE30[12];
 extern u8 D_800FBE3C[12];
 
-typedef struct S_807B004C_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    u8 * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_807B004C_0;
 
-typedef struct S_807B004C_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s16 unk_0C;
-} S_807B004C_2;
 
 typedef struct S_807B004C_3 {
     u8 pad_00[0x2A];
@@ -1213,7 +1155,7 @@ void create_owner_attached_color_effect(void *parent_data) {
     GpuRect *rect_ptr;
     ObjectNodeHeader *child;
     SpriteFrameState *render_state;
-    S_807B004C_2 *child_data;
+    OwnerAttachedColorBody *child_data;
 
     child = allocate_list_node(2, (u8 *)parent_data - 0x20);
     if (child != 0) {
@@ -1227,9 +1169,9 @@ void create_owner_attached_color_effect(void *parent_data) {
         render_state->scale_x = 0x1000;
         render_state->scale_y = 0x800;
         child_data = NODE_BODY(child);
-        ((S_807B004C_0 *)child)->unk_20 = parent_data;
+        child_data->owner = parent_data;
         child_data->unk_0A = ((S_807B004C_3 *)parent_data)->unk_2A;
-        child_data->unk_0C = 0x30;
+        child_data->ticks_left = 0x30;
         texture_rect.words[1] = rect_size;
         texture_rect.words[0] = rect_origin;
         draw_textured_ellipse(D_800FBE3C, rect_ptr, 1, 0);

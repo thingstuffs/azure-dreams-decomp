@@ -1,22 +1,19 @@
 #include "common.h"
+#include "frontend/libcard/format_operation.h"
 #include "m2c_compat.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
 
-typedef struct S_8002765C_0 {
-    s32 * unk_00;
-    u8 pad_04[0x4C];
-    s32 unk_50;
-} S_8002765C_0;   /* arg0 in card_boot_wait_before_formatting_card; pointer addresses record offset 0x10 */
 
 
 /* Decrement the record's countdown and switch its handler when it becomes negative. */
 void card_boot_wait_before_formatting_card(void *record_data) {
+    CardFormatOperationBody *state = record_data;
     s32 countdown;
 
-    countdown = ((S_8002765C_0 *)((u8 *)record_data - 0x10))->unk_50 - 1;
-    ((S_8002765C_0 *)((u8 *)record_data - 0x10))->unk_50 = countdown;
+    countdown = state->countdown - 1;
+    state->countdown = countdown;
     if (countdown < 0) {
-        ((S_8002765C_0 *)((u8 *)record_data - 0x10))->unk_00 = card_boot_format_card_with_retry;
+        NODE_HEADER(state)->update_callback = card_boot_format_card_with_retry;
     }
 }

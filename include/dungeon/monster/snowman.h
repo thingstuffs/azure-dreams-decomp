@@ -80,9 +80,6 @@ typedef struct {
     s32 pos[3];
     s32 vel[3];
 } R10_80170B0C_Actor;
-typedef struct {
-    s32 xyz[3];
-} R10_80170B0C_Vec3;
 
 typedef struct R10_80170CF8_S_80AC55DC_0 {
     u8 pad_00[0x8];
@@ -386,13 +383,6 @@ typedef struct {
 typedef struct {
     R10_80174C70_LocalVector vectors[4];
 } __attribute__((packed)) R10_80174C70_LocalTable;
-typedef struct R10_80174C70_S_80174C70_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-} R10_80174C70_S_80174C70_2;
 typedef struct {
     s16 x;
     s16 y;
@@ -608,7 +598,7 @@ extern u8 D_80175A00[];
 extern u8 snowman_image_load_done[];
 extern u8 snowman_effect_load_done[];
 s32 draw_snowman_point_chain(u8 *node_data, u16 *position);
-void move_and_shrink_fading_effect(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 *vec, struct SpriteFrameState *sprite);
+void move_and_shrink_fading_effect(R10_80170B0C_Actor *actor, ObjectPosition *vec, struct SpriteFrameState *sprite);
 void create_converging_fading_sprite(
     R10_80170CF8_S_80AC55DC_1 *origin, s16 effect_id, s32 effect_value, s16 duration,
     s32 offset_x, s32 offset_y, s32 offset_z);
@@ -643,7 +633,7 @@ void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s
 void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position, R10_80174BE4_Entry *entry, s32 unused);
-void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, void *motion, void *render);
+void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, ObjectPosition *motion, void *render);
 void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *origin, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data);
 void restore_snowman_scene_tint(u8 *task, void *context, struct SpriteFrameState *input);

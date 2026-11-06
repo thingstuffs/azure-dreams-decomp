@@ -102,23 +102,23 @@ s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
 }
 
 
-/* Moves and accelerates the sprite, shrinks and fades it, and expires it near the target or on timeout. */void move_and_shrink_fading_effect(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 *vec, SpriteFrameState *sprite)
+/* Moves and accelerates the sprite, shrinks and fades it, and expires it near the target or on timeout. */void move_and_shrink_fading_effect(R10_80170B0C_Actor *actor, ObjectPosition *vec, SpriteFrameState *sprite)
 {
     s32 distance_x;
     s32 distance_y;
     u16 reduced_size;
     u16 sprite_size;
 
-    vec->xyz[0] += actor->pos[0];
-    vec->xyz[1] += actor->pos[1];
-    vec->xyz[2] += actor->pos[2];
+    vec->x.v += actor->pos[0];
+    vec->y.v += actor->pos[1];
+    vec->z.v += actor->pos[2];
     actor->pos[0] += actor->vel[0];
     actor->pos[1] += actor->vel[1];
     actor->pos[2] += actor->vel[2];
 
-    distance_x = __builtin_abs(actor->x - *(s16 *)((u8 *)vec + 2));
+    distance_x = __builtin_abs(actor->x - vec->x.w.i);
     if (distance_x < 0x10) {
-        distance_y = __builtin_abs(actor->y - *(s16 *)((u8 *)vec + 6));
+        distance_y = __builtin_abs(actor->y - vec->y.w.i);
         if (distance_y < 0x10) {
             ((ObjectNodeHeader *)actor - 1)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -2230,7 +2230,7 @@ s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position
  *
  * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
  */
-void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, void *motion, void *render)
+void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, ObjectPosition *motion, void *render)
 {
     R10_80174C70_LocalVector direction;
     R10_80174C70_LocalTable directions;
@@ -2337,7 +2337,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
             {
                 s32 height_step = cosine_product << 4;
 
-                ((R10_80174C70_S_80174C70_2 *)motion)->unk_08 += height_step;
+                motion->z.v += height_step;
             }
         }
     }
@@ -2346,16 +2346,16 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
         s32 axis_product = axis_step * render_or_step;
 
         axis_step = axis_product >> 4;
-        ((R10_80174C70_S_80174C70_2 *)motion)->unk_0C = axis_step;
+        motion->velocity_x = axis_step;
     }
     {
         s32 axis_step = direction.y;
         s32 axis_product = axis_step * render_or_step;
 
-        ((R10_80174C70_S_80174C70_2 *)motion)->unk_10 = axis_product >> 4;
+        motion->velocity_y = axis_product >> 4;
     }
-    ((R10_80174C70_S_80174C70_2 *)motion)->unk_00 += ((R10_80174C70_S_80174C70_2 *)motion)->unk_0C;
-    ((R10_80174C70_S_80174C70_2 *)motion)->unk_04 += ((R10_80174C70_S_80174C70_2 *)motion)->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     return;
 }

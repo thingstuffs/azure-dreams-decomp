@@ -35,14 +35,6 @@ typedef struct S_80174D48_1 {
     s16 unk_AA;
 } S_80174D48_1;
 
-typedef struct S_80174D48_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80174D48_2;
 
 typedef struct S_80174D48_3 {
     u8 pad_00[0x8];
@@ -56,7 +48,7 @@ typedef struct S_80174D48_3 {
 /* Creates and initializes a display object from the source position and appearance. */
 /* Creates a moving display for the held item, selecting its texture by item category and preserving its
  * item data. */
-void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance)
+void create_and_initializes_display_source_position_appearance(ObjectPosition *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance)
 {
     s32 coord_z;
     s32 record_byte;
@@ -67,26 +59,26 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
     s32 sprite_size;
     S_80174D48_3 *sprite;
     S_80174D48_1 *data_base;
-    S_80174D48_1 *data_base_2;
+    ObjectPosition *data_base_2;
     void *object_data;
     void *texture;
     ProjectileObject *object;
-    S_80174D48_2 *transform;
+    ObjectPosition *transform;
 
     if (((appearance->unk_49) != 0) &&
         (object = allocate_flagged_object_node(0x12), object != NULL)) {
         init_object = object;
         transform = object->position;
         data_base_2 = source;
-        coord_value = data_base_2->unk_00;
+        coord_value = data_base_2->x.v;
         sprite = object->sprite;
-        transform->unk_00 = coord_value;
-        transform->unk_04 = data_base_2->unk_04;
-        coord_z = data_base_2->unk_08;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
-        transform->unk_14 = 0xFFEE0000;
-        transform->unk_08 = coord_z;
+        transform->x.v = coord_value;
+        transform->y.v = data_base_2->y.v;
+        coord_z = data_base_2->z.v;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
+        transform->velocity_z = 0xFFEE0000;
+        transform->z.v = coord_z;
         register_node(init_object, project_sprite_chain);
         sprite->unk_0C = 0x808080;
         sprite_size = 0xC90;

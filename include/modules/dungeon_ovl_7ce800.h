@@ -14,7 +14,6 @@ extern DungeonFlagBuffer9 scripted_boundary_active;
 void select_record_entry_and_value(void *,void *,s32);
 struct ColorPart;
 struct DungeonObject;
-struct Position3;
 struct S807AF9A4;
 
 struct S_807AFC9C_4;
@@ -53,8 +52,8 @@ s32 draw_linked_particle_effect_primitives(struct DungeonObject *object, u16 *or
 void advance_linked_particle_effect_state(struct S807AF9A4 *data);
 void create_linked_particle_controller(void *sourceData);
 void converge_particle_position_and_color(void *transition, ObjectPosition *position, SpriteFrameState *color);
-void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, struct S_807AFC9C_4 *source);
-void update_owner_attached_color_effect(void *effect, struct Position3 *position, struct ColorPart *tint);
+void create_converging_color_particle(struct ObjectNodeHeader *spawn_arg, ObjectPosition *origin, struct S_807AFC9C_4 *source);
+void update_owner_attached_color_effect(void *effect, ObjectPosition *position, struct ColorPart *tint);
 void create_owner_attached_color_effect(void *parent_data);
 void advance_reverse_direction_particle(void *motion_data, s16 *position);
 void create_reverse_direction_particle(EntityRec *source, s16 state_value, s32 render_value);

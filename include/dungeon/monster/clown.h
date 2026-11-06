@@ -218,11 +218,6 @@ typedef struct R16_80173738_S_80173738_0_pre {
 typedef struct R16_80173738_S_80173738_2 {
     s32 unk_00;
 } R16_80173738_S_80173738_2;
-typedef struct {
-    s32 unk00;
-    s32 unk04;
-    s32 unk08;
-} R16_80173738_FuncArg1;
 
 /* Lifetime, angle, center and radius shared by the angled-source updater. */
 typedef struct AngledSourceEffectBody {
@@ -380,7 +375,7 @@ void finish_actor_action_flag_propagation_then_dispatch_transition(ActorRecord *
 void finish_actor_fade_in_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, R16_801736AC_Entry *entry, s32 unused);
-void update_expanding_spiral_effect(AngledSourceEffectBody *effect, R16_80173738_FuncArg1 *position, struct SpriteFrameState *primitive);
+void update_expanding_spiral_effect(AngledSourceEffectBody *effect, ObjectPosition *position, struct SpriteFrameState *primitive);
 void create_angled_source_effect(
     s32 unused_0, struct ObjectPosition *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset);
 void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, void *other_data);

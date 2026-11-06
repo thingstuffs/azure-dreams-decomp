@@ -348,11 +348,6 @@ typedef struct R06_80173E94_S_80173E94_5 {
     u8 pad_00[0x8];
     u8 * unk_08;
 } R06_80173E94_S_80173E94_5;
-typedef struct R06_801740E4_S_801740E4_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} R06_801740E4_S_801740E4_0;
 typedef struct R06_801740E4_S_801740E4_1 {
     u16 unk_00;
     u8 pad_02[0x14];
@@ -561,11 +556,6 @@ typedef struct R06_80174934_S_80174934_3 {
     s16 unk_1E;
 } R06_80174934_S_80174934_3;
 
-typedef struct R06_80174934_Vec3w {
-    s32 x;
-    s32 y;
-    s32 z;
-} R06_80174934_Vec3w;
 typedef struct R06_80174934_Rows {
     u8 pad[0x64];
     u16 row[4][3];
@@ -810,7 +800,7 @@ void finish_spinning_actor_fall_then_initialize_destination(ActorRecord *state, 
 void finish_actor_fade_in_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data, R06_80173E08_Entry *entry, s32 unused);
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg);
-void advance_randomized_motion_and_complete(PointRecord *object_data, R06_801740E4_S_801740E4_0 *position, SpriteFrameState *state);
+void advance_randomized_motion_and_complete(PointRecord *object_data, ObjectPosition *position, SpriteFrameState *state);
 void advance_actor_action_and_update_status(
     void *source,
     s16 value_34,
@@ -822,7 +812,7 @@ void advance_actor_action_and_update_status(
 void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position, SpriteFrameState *draw_state, s16 depth_bias);
 s32 project_textured_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data);
 void advance_record_countdown(void *record_data);
-void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, SpriteFrameState *render_data);
+void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteFrameState *render_data);
 void create_sixteen_segment_ring(R06_80174E78_Source *source, struct ObjectPosition *center, struct SpriteFrameState *unused_context);
 void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *other_data);
 void fade_effect_to_neutral_and_finish(void *entity_data, ObjectPosition *unused, SpriteFrameState *source_data);

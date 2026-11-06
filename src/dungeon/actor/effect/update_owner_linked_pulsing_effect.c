@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/effect.h"
@@ -19,9 +20,6 @@ typedef struct {
 void unlink_entity_node(void *node);
 
 
-typedef struct S_800CB600_0_pre {
-    u16 unk_00;
-} S_800CB600_0_pre;   /* the 0x2 bytes before arg0 in update_owner_linked_pulsing_effect, addressed as arg0[-1] */
 
 typedef struct S_800CB600_0 {
     u8 pad_00[0x8A];
@@ -141,6 +139,6 @@ void update_owner_linked_pulsing_effect(void *effect_arg, ObjectPosition *positi
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    ((S_800CB600_0_pre *)effect)[-1].unk_00 |= 0x8000;
+    NODE_HEADER(effect)->flags |= 0x8000;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

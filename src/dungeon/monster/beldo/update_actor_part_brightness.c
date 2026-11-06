@@ -1,13 +1,11 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/beldo.h"
 #include "dungeon/system.h"
 
-typedef struct S_81251000_0_pre {
-    u16 unk_00;
-} S_81251000_0_pre;   /* the 0x2 bytes before root in update_actor_part_brightness, addressed as root[-1] */
 
 typedef struct S_81251000_0 {
     u8 pad_00[0xAC];
@@ -144,7 +142,7 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
 
     advance_sprite_animation_and_textures(output_part);
     if (owner->unk_1E & 0x8000) {
-        ((S_81251000_0_pre *)root_data)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(root_data)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
