@@ -24,27 +24,15 @@ typedef struct S_81850800_0 {
     void * unk_04;
     u8 pad_08[0x1];
     u8 unk_09;
-    union {
-        s16 unk_0A_s16;
-        u16 unk_0A_u16;
-    } unk_0A;
+    u16 unk_0A;
     u8 pad_0C[0x44];
-    union {
-        s16 unk_50_s16;
-        u16 unk_50_u16;
-    } unk_50;
-    union {
-        s16 unk_52_s16;
-        u16 unk_52_u16;
-    } unk_52;
+    u16 unk_50;
+    u16 unk_52;
 } S_81850800_0;
 
 typedef struct S_81850800_1 {
     u8 pad_00[0x2A];
-    union {
-        s16 unk_2A_s16;
-        u16 unk_2A_u16;
-    } unk_2A;
+    s16 unk_2A;
     u8 pad_2C[0x34];
     void * unk_60;
     u8 pad_64[0xE];
@@ -162,10 +150,7 @@ typedef struct S_81850800_10 {
 
 typedef struct S_81850800_11 {
     u8 pad_00[0x48];
-    union {
-        s16 unk_48_s16;
-        u16 unk_48_u16;
-    } unk_48;
+    s16 unk_48;
     s16 unk_4A;
     s16 unk_4C;
     s16 unk_4E;
@@ -222,7 +207,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
     s32 pix_y;
     caster_data = owner->unk_00;
     step_x_table = (u8 *)((s8 *)dir_step_x);
-    magnitude = (u16)caster_data->unk_2A.unk_2A_u16;
+    magnitude = (u16)caster_data->unk_2A;
     facing_shift = magnitude >> 8;
     caster_sprite = (MovingTile *)NODE_HEADER(caster_data)->sprite;
     base_y = facing_shift & 0xE;
@@ -230,12 +215,12 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
     step_x = *(s16 *)step_x_table;
     step_y_table = (u8 *)((s8 *)dir_step_y);
     base_y = (s32)step_y_table + base_y;
-    timer = owner->unk_50.unk_50_u16 - 1;
+    timer = owner->unk_50 - 1;
     base_y = *(s16 *)base_y;
     step_y = base_y;
     work = (S_81850800_8 *)((u8 *)caster_data - 0x20);
-    mode = owner->unk_0A.unk_0A_s16;
-    owner->unk_50.unk_50_u16 = timer;
+    mode = (s16)owner->unk_0A;
+    owner->unk_50 = timer;
 
     switch (mode) {
     case 0:
@@ -257,7 +242,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                 obj = (S_81850800_9 *)((u16)dx);
                 probe_y = (u16)facing_shift;
                 ground_height = sample_terrain_surface_height((s32)obj, probe_y, min_height);
-                if ((s16)check_enabled_neighbor_height((s32)obj, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
+                if ((s16)check_enabled_neighbor_height((s32)obj, probe_y, ground_height, caster_data->unk_2A,
                                        caster_data->unk_60) != 0) {
                     break;
                 }
@@ -280,8 +265,8 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             facing_shift -= base_y;
             if ((position->unk_14.unk_14_u16 & 0x8000) &&
                 (sprite->flags & 0x8000)) {
-                owner->unk_0A.unk_0A_s16 = 2;
-                owner->unk_50.unk_50_u16 = 0;
+                owner->unk_0A = 2;
+                owner->unk_50 = 0;
                 return;
             }
         }
@@ -291,12 +276,12 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             effect_data.value = state;
         }
         magnitude = effect_data.value * 4;
-        owner->unk_50.unk_50_u16 = magnitude;
+        owner->unk_50 = magnitude;
         switch (effect_data.value) {
         case 0:
             dx = 0;
             facing_shift = 2;
-            owner->unk_50.unk_50_u16 = 0;
+            owner->unk_50 = 0;
             break;
         case 1:
             dx = 0;
@@ -305,12 +290,12 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             if (caster_data->unk_60 != 0) {
                 state = 1;
             }
-            owner->unk_50.unk_50_u16 = state;
+            owner->unk_50 = state;
             break;
         default:
             dx = 1;
             facing_shift = 0;
-            owner->unk_50.unk_50_u16 -= 2;
+            owner->unk_50 -= 2;
             break;
         }
         tile_step_x = step_x * dx;
@@ -331,7 +316,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
         pix_y += state;
         motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-        owner->unk_0A.unk_0A_u16++;
+        owner->unk_0A++;
         return;
 
     case 1:
@@ -372,15 +357,15 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             work->color.word = spawn_color;
             work->source = copy_value;
             obj->unk_20 = owner;
-            effect_data.pointer->unk_48.unk_48_s16 = rand() & 3;
+            effect_data.pointer->unk_48 = rand() & 3;
             effect_data.pointer->unk_4E = (rand() & 3) + 8;
             effect_data.pointer->unk_4A = (rand() & 7) + 0xC;
             effect_data.pointer->unk_4C = 0;
         }
-        if (owner->unk_50.unk_50_s16 <= 0) {
+        if ((s16)owner->unk_50 <= 0) {
             if (caster_data->unk_60 != 0) {
-                owner->unk_50.unk_50_u16 = 4;
-                owner->unk_0A.unk_0A_u16++;
+                owner->unk_50 = 4;
+                owner->unk_0A++;
                 tile_x = caster_data->unk_72;
                 motion->unk_00.unk_02_view_u16.unk_02_u16 = (tile_x << 6) + 0x20;
                 tile_y = caster_data->unk_73;
@@ -414,11 +399,11 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                     work->color.word = spawn_color;
                     work->source = copy_value;
                     obj->unk_20 = owner;
-                    timer = owner->unk_50.unk_50_u16;
+                    timer = owner->unk_50;
                     effect_data.pointer->unk_4E = 8;
                     effect_data.pointer->unk_4A = 8;
                     effect_data.pointer->unk_4C = 0;
-                    effect_data.pointer->unk_48.unk_48_u16 = timer;
+                    effect_data.pointer->unk_48 = timer;
                 }
                 dx = 0x3C;
                 effect_flags = delay_and_fade_particle;
@@ -454,7 +439,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                         ((S_81850800_5 *)obj->unk_08)->unk_14.unk_14_s32 =
                             0xFFF7FFFF - rand();
                         obj->unk_20 = owner;
-                        effect_data.pointer->unk_48.unk_48_s16 = 2;
+                        effect_data.pointer->unk_48 = 2;
                         effect_data.pointer->unk_4E = (rand() & 7) + 8;
                         effect_data.pointer->unk_4A = 0x10;
                         effect_data.pointer->unk_4C = 0;
@@ -462,8 +447,8 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                     dx--;
                 } while (dx >= 0);
             } else {
-                owner->unk_50.unk_50_u16 = 4;
-                owner->unk_0A.unk_0A_s16 = 3;
+                owner->unk_50 = 4;
+                owner->unk_0A = 3;
             }
         }
         motion->unk_00.unk_00_s32 += motion->unk_0C.unk_0C_s32;
@@ -477,16 +462,16 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
         if (caster_data->unk_60 != 0) {
             apply_attack_power_and_element_effects(caster_data->unk_60, 0x13,
                           owner->unk_09, 2,
-                          caster_data->unk_2A.unk_2A_s16, caster_data, mode);
+                          caster_data->unk_2A, caster_data, mode);
         }
-        owner->unk_50.unk_50_u16 = 0x10;
-        owner->unk_0A.unk_0A_u16++;
+        owner->unk_50 = 0x10;
+        owner->unk_0A++;
         return;
 
     case 3:
-        flags = owner->unk_52.unk_52_u16;
-        if (owner->unk_52.unk_52_s16 & 0x8000) {
-            owner->unk_52.unk_52_u16 = flags & 0x7FFF;
+        flags = owner->unk_52;
+        if ((s16)owner->unk_52 & 0x8000) {
+            owner->unk_52 = flags & 0x7FFF;
             return;
         }
         if ((s16)timer > 0) {

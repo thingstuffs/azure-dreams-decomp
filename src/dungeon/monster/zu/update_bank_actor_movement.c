@@ -1,3 +1,4 @@
+#include "dungeon/effect/particle.h"
 #include "dungeon/level/room_flags.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
@@ -18,6 +19,7 @@
 #include "dungeon/effect/motion.h"
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
+#include "dungeon/monster/zu_frames.h"
 
 struct EntityLinkNode;
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = spawn_zu_actor;
@@ -37,8 +39,6 @@ struct SpriteFrameState;
 
 extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
-
-extern u8 zu_frame_set_1[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Zu with default frames at D_80174AD4, applies spawn flags, and attempts valid tile placement. */
@@ -353,10 +353,7 @@ extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern u8 zu_frame_set[];
-extern u8 zu_frame_set_7[];
 extern u8 zu_action_direction_frames[];
-extern u8 zu_frame_set_1[];
 
 /* Updates actor behavior, animation, and facing from its status and dungeon state. */
 /* Selects Zu's movement, attacks, spells, and turn processing, then maintains its idle frames and facing
@@ -1111,7 +1108,6 @@ typedef struct S_80172494_8 {
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern u8 directional_effect_entries[];
 extern void *actor_update_node_cursor;
-extern u8 zu_frame_set_2[];
 
 /* Updates a staged movement action, spawns particles, and restores the actor when finished. */
 /* Animates Zu's backward windup and forward strike, emits particles while returning, then recenters and
@@ -1339,7 +1335,6 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
 
 extern void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
 extern void set_record_integer_tile_center(void *, u8, u8);
-extern void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
 
 
    /* the 0x14 bytes before target in update_bank_actor_targeted_action, addressed as target[-1] */
@@ -1540,8 +1535,6 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
-extern u8 zu_frame_set[];
 
 /* Updates staged directional motion, then restores the entity to its tile and animation. */
 void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -1871,7 +1864,6 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern u8 zu_frame_set_1[];
 extern u8 D_80174B04[];
 
 /* Updates actor state, animation, and transition counters. */
@@ -2020,8 +2012,6 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 zu_action_direction_frames[];
-extern u8 zu_frame_set_1[];
-
 
    /* global in advance_bank_actor_animation */
 
@@ -2156,7 +2146,6 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
 extern s32 update_actor_transform_from_parent(ActorRecord *, void *, void *, void *);
 
 extern u8 zu_default_frames[9];
-extern u8 zu_frame_set_1[9];
 
 /* Update actor and sprite state after checking the target entity. */
 void update_bank_actor_sprite_state(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *sprite, ActorRecord *target)

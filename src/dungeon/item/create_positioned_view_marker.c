@@ -86,7 +86,7 @@ extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
 void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, u8 *actor_arg, u8 *target_arg) {
-    ObjectPosition *actor = actor_arg;
+    ObjectPosition *position = actor_arg;
     SpriteFrameState *target = target_arg;
     s16 steps;
     s32 dispatch_index;
@@ -174,15 +174,15 @@ void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, u8 *actor_arg,
     if (countdown != 0) {
         countdown = countdown_u - 1;
         state->unk_0C = countdown;
-        actor_pos = actor->z.w.i;
+        actor_pos = position->z.w.i;
         if (countdown & 1) {
             countdown = actor_pos + 1;
         } else {
             countdown = actor_pos - 1;
         }
-        actor->z.w.i = countdown;
+        position->z.w.i = countdown;
         if (state->unk_0C == 0) {
-            actor->z.w.i = (s16) state->unk_0E;
+            position->z.w.i = (s16) state->unk_0E;
         }
     }
     if ((s16)state->unk_00 != 0) {

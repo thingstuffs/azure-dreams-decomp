@@ -21,12 +21,11 @@ s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/beldo_large_frames.h"
 
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
 void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-extern u8 beldo_large_frame_set_4[];
-extern u8 beldo_large_frame_set_7[];
 
 /* Processes object action states, dispatches actor_arg actions, and updates directional tiles. */
 void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_arg, SpriteFrameState *target_arg, ActorRecord *actor_arg) {

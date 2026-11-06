@@ -1,3 +1,4 @@
+#include "dungeon/monster/baloon_frames.h"
 #include "shared/audio_commands.h"
 #include "dungeon/monster/baloon.h"
 #include "shared/actor_status_flags.h"
@@ -23,7 +24,7 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern void spawn_directional_random_velocity_effect(void *, s32);
 
-extern u8 baloon_default_frames[];
+
 extern u8 D_800E2398[8];
 
 

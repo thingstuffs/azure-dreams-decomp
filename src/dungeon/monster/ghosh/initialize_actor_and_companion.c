@@ -9,6 +9,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "engine/entity.h"
+#include "dungeon/monster/ghosh_frames.h"
 
 
 typedef struct S_8016AEDC_1 {
@@ -48,7 +49,6 @@ s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 
 extern s32 ghosh_action_resume_address;
-extern u8 ghosh_frame_set_3[];
 
 /*
  * Creates Ghosh and its companion one tile to the right, stores both nodes, and retains the

@@ -9,6 +9,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/cyclone_frames.h"
 
 
 
@@ -21,8 +22,6 @@ extern s32 consume_object_code_19(void *);
 extern void show_entity_message(s32, void *);
 extern void show_entity_message_with_prefix(s32, void *);
 extern void func_801763CC(s32, void *);
-
-extern u8 cyclone_move_direction_frames[8];
 
 /* Advances the timed target interaction and updates the directional animation. */
 void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, SpriteFrameState *sprite, ActorRecord *actor) {

@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE17_SLOT0_H
 #define DUNGEON_RESOURCE17_SLOT0_H
+#include "dungeon/effect/particle.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
@@ -308,7 +309,6 @@ s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *t
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 s32 get_cd_command_queue_depth(void);
-void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
 void unlink_entity_node();
 void * detach_record_and_update_slot_state(void *record);
 

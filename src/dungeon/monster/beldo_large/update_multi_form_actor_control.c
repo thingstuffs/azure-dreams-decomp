@@ -23,6 +23,7 @@
 #include "dungeon.h"
 #include "dungeon/player/object.h"
 #include "dungeon/level.h"
+#include "dungeon/monster/beldo_large_frames.h"
 
 struct ActorRecord; 
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
@@ -33,22 +34,14 @@ struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 struct Rec_func_800A9E70_arg0;
 struct Rec_func_800A9E70_arg0;
 s32 advance_actor_effect_sequence_2();
-extern u8 beldo_large_frame_set_2;
-extern u8 beldo_large_frame_set_5;
-extern u8 beldo_large_frame_set_1;
-extern u8 beldo_large_frame_set_3;
 extern u8 beldo_large_frame_set_6[];
 extern u8 beldo_large_frame_set_17[];
-extern u8 beldo_large_frame_set_18[];
 extern u8 D_801739F8[];
-extern u8 beldo_large_frame_set_19[];
 extern u8 D_80173A08[];
 extern u8 D_80173A10[];
 extern u8 D_80173A18[];
 extern u8 beldo_large_frame_set_12;
 extern u8 beldo_large_frame_set_9;
-extern u8 beldo_large_frame_set_13[];
-extern u8 beldo_large_frame_set_4[];
 
 /* Updates dungeon actor actions, facing, and idle animations. */
 /* Dispatches movement, attacks, and spells for four actor forms, with separate idle frames and timed idle
@@ -178,31 +171,31 @@ block_37:
                 anim_state = actor->unk_AC.byte;
                 switch (anim_state) {
                 case 0:
-                    if (*(u8 **)&sprite->frameTable != &beldo_large_frame_set_2) {
-                        (sprite->frameTable) = &beldo_large_frame_set_2;
+                    if (*(u8 **)&sprite->frameTable != beldo_large_frame_set_2) {
+                        (sprite->frameTable) = beldo_large_frame_set_2;
                         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
-                            + &beldo_large_frame_set_2), 0);
+                            + beldo_large_frame_set_2), 0);
                     }
                     break;
                 case 1:
-                    if (*(u8 **)&sprite->frameTable != &beldo_large_frame_set_5) {
-                        (sprite->frameTable) = &beldo_large_frame_set_5;
+                    if (*(u8 **)&sprite->frameTable != beldo_large_frame_set_5) {
+                        (sprite->frameTable) = beldo_large_frame_set_5;
                         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
-                            + &beldo_large_frame_set_5), 0);
+                            + beldo_large_frame_set_5), 0);
                     }
                     break;
                 case 2:
-                    if (*(u8 **)&sprite->frameTable != &beldo_large_frame_set_1) {
-                        (sprite->frameTable) = &beldo_large_frame_set_1;
+                    if (*(u8 **)&sprite->frameTable != beldo_large_frame_set_1) {
+                        (sprite->frameTable) = beldo_large_frame_set_1;
                         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
-                            + &beldo_large_frame_set_1), 0);
+                            + beldo_large_frame_set_1), 0);
                     }
                     break;
                 case 3:
-                    if (*(u8 **)&sprite->frameTable != &beldo_large_frame_set_3) {
-                        (sprite->frameTable) = &beldo_large_frame_set_3;
+                    if (*(u8 **)&sprite->frameTable != beldo_large_frame_set_3) {
+                        (sprite->frameTable) = beldo_large_frame_set_3;
                         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
-                            + &beldo_large_frame_set_3), 0);
+                            + beldo_large_frame_set_3), 0);
                     }
                     break;
                 }
@@ -377,7 +370,7 @@ block_37:
     idle_pose = pose_actor->unk_AC;
     switch (idle_pose) {
     case 0:
-        next_table = &beldo_large_frame_set_2;
+        next_table = beldo_large_frame_set_2;
         current_table = sprite->frameTable;
         if (current_table == next_table) {
             return;
@@ -389,7 +382,7 @@ block_37:
         return;
     case 1:
         current_table = sprite->frameTable;
-        next_table = &beldo_large_frame_set_5;
+        next_table = beldo_large_frame_set_5;
         if (current_table == next_table) {
             return;
         }
@@ -400,14 +393,14 @@ block_37:
         return;
     case 2:
         pose2_table = sprite->frameTable;
-        if (pose2_table != &beldo_large_frame_set_1 && pose2_table != &beldo_large_frame_set_12) {
-            (sprite->frameTable) = &beldo_large_frame_set_1;
+        if (pose2_table != beldo_large_frame_set_1 && pose2_table != &beldo_large_frame_set_12) {
+            (sprite->frameTable) = beldo_large_frame_set_1;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
-                + &beldo_large_frame_set_1), 0);
+                + beldo_large_frame_set_1), 0);
             pose_actor->unk_9E.as_u16 = 0U;
             pose_actor->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
         }
-        if (pose2_table == &beldo_large_frame_set_1 || *(s32 **)&sprite->frameTable == &beldo_large_frame_set_1) {
+        if (pose2_table == beldo_large_frame_set_1 || *(s32 **)&sprite->frameTable == beldo_large_frame_set_1) {
             pose2_idle_ticks = pose_actor->unk_9E.as_u16;
             pose_actor->unk_9E.as_u16 = (u16) (pose2_idle_ticks + 1);
             if ((s16) pose2_idle_ticks >= pose_actor->unk_A0.at00_s16.v) {
@@ -426,16 +419,16 @@ block_37:
         if ((s16) pose2_anim_ticks < 0x12) {
             return;
         }
-        (sprite->frameTable) = &beldo_large_frame_set_1;
+        (sprite->frameTable) = beldo_large_frame_set_1;
         table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
-        table_index += (unsigned long)&beldo_large_frame_set_1;
+        table_index += (unsigned long)beldo_large_frame_set_1;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
         pose_actor->unk_9E.as_u16 = 0U;
         pose_actor->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);
         return;
     case 3:
         pose3_table = sprite->frameTable;
-        idle_table = &beldo_large_frame_set_3;
+        idle_table = beldo_large_frame_set_3;
         if (pose3_table != idle_table && pose3_table != &beldo_large_frame_set_9) {
             (sprite->frameTable) = idle_table;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
@@ -462,9 +455,9 @@ block_37:
         if ((s16) pose3_anim_ticks < 0x12) {
             return;
         }
-        (sprite->frameTable) = &beldo_large_frame_set_3;
+        (sprite->frameTable) = beldo_large_frame_set_3;
         table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
-        table_index += (unsigned long)&beldo_large_frame_set_3;
+        table_index += (unsigned long)beldo_large_frame_set_3;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
         pose_actor->unk_9E.as_u16 = 0U;
         pose_actor->unk_A0.at00_s16.v = (s16) ((rand() & 0x3F) + 0x3C);

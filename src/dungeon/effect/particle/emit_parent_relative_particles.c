@@ -2,6 +2,7 @@
 #include "dungeon/effect/particle.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/head_bank_imports.h"
+#include "dungeon/globals.h"
 
 typedef s32 M2C_UNK;
 
@@ -58,9 +59,6 @@ typedef struct S_7FFE89B0_6 {
     u8 unk_13;
 } S_7FFE89B0_6;   /* ((S_7FFE89B0_0 *)arg0)->unk_00 in emit_parent_relative_particles */
 
-
-
-extern s32 particle_object_flags;
 extern u8 emitter_height_offsets[];
 extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010B4EC;

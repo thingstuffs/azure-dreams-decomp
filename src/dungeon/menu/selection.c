@@ -90,7 +90,7 @@ void update_embedded_state_from_table(s32 object_addr) {
  * Clears the text buffer using the indexed pair limit, rebinds the entry address, and resets both
  * selection and linked entry offset to zero.
  */
-void clear_object_buffer_and_state(s32 objectAddress)
+void clear_object_buffer_and_state(void *objectAddress)
 {
     ovl_1831370_8181154C_S_8002654C_0 *objectState;
 

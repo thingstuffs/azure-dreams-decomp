@@ -39,7 +39,7 @@ typedef struct S_func_81832800_1 {
     u16 unk_0A;
     u8 pad_0C[0x44];
     u16 unk_50;
-    union { s16 as_s16; u16 as_u16; } unk_52;
+    u16 unk_52;
 } S_func_81832800_1;
 
 typedef struct S_func_81832800_3 {
@@ -56,21 +56,21 @@ typedef struct S_func_81832800_4 {
         s32 as_s32;
         struct {
             u8 pad_00[2];
-            union { s16 as_s16; u16 as_u16; } unk_02;
+            u16 unk_02;
         } parts;
     } unk_00;
     union {
         s32 as_s32;
         struct {
             u8 pad_04[2];
-            union { s16 as_s16; u16 as_u16; } unk_06;
+            u16 unk_06;
         } parts;
     } unk_04;
     union {
         s32 as_s32;
         struct {
             u8 pad_08[2];
-            union { s16 as_s16; u16 as_u16; } unk_0A;
+            u16 unk_0A;
         } parts;
     } unk_08;
     s32 unk_0C;
@@ -199,12 +199,12 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 particle_position = object->unk_08;
                 (((ObjectPosition *)object->unk_08))->z.w.i =
                     sample_terrain_surface_height(((u16)(particle_position->x.w.i)),
-                    ((u16)(particle_position->y.w.i)), (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
+                    ((u16)(particle_position->y.w.i)), (s16) (position->unk_08.parts.unk_0A - 0x30));
                 height_position = object->unk_08;
                 if (height_position->z.w.i >= 0x200) {
-                    height_position->z.w.i = (s16) position->unk_08.parts.unk_0A.as_u16;
+                    height_position->z.w.i = (s16) position->unk_08.parts.unk_0A;
                 }
-                position->unk_08.parts.unk_0A.as_u16 =
+                position->unk_08.parts.unk_0A =
                     (u16) (((ObjectPosition *)object->unk_08))->z.w.i;
                 color = 0xC0C0C0;
                 {
@@ -292,8 +292,8 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
 
     case 3:
         count = 3;
-        ground_height = (s16) sample_terrain_surface_height(position->unk_00.parts.unk_02.as_u16, position->unk_04.parts.unk_06.as_u16,
-            (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
+        ground_height = (s16) sample_terrain_surface_height(position->unk_00.parts.unk_02, position->unk_04.parts.unk_06,
+            (s16) (position->unk_08.parts.unk_0A - 0x30));
         do {
             object = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (object != NULL) {
@@ -306,7 +306,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 rounded_x = rand();
                 random_x = rounded_x;
                 burst_position = object->unk_08;
-                origin_x = position->unk_00.parts.unk_02.as_u16;
+                origin_x = position->unk_00.parts.unk_02;
                 particle_data->unk_0C = origin_x;
                 if (random_x < 0) {
                     rounded_x = random_x + 0x7F;
@@ -316,7 +316,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 rounded_y = rand((s32) origin_x, burst_position);
                 random_y = rounded_y;
                 burst_position_y = object->unk_08;
-                origin_y = position->unk_04.parts.unk_06.as_u16;
+                origin_y = position->unk_04.parts.unk_06;
                 particle_data->unk_0E = origin_y;
                 if (random_y < 0) {
                     rounded_y = random_y + 0x7F;
@@ -395,8 +395,8 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         return;
 
     case 0xFF:
-        if (effect->unk_52.as_s16 & 0x8000) {
-            effect->unk_52.as_u16 &= 0x7FFF;
+        if (((s16)effect->unk_52) & 0x8000) {
+            effect->unk_52 &= 0x7FFF;
             return;
         }
         g_dungeon_status.active_actor = 0;

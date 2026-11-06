@@ -19,7 +19,7 @@ extern s32 generate_random_value(void);
 extern u8 D_801712A8[];
 extern s32 barong_action_resume_address;
 #include "dungeon/monster/barong.h"
-extern u8 barong_frame_set_2[];
+#include "dungeon/monster/barong_frames.h"
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Barong with default frames at D_80175554, applies spawn flags, and attempts valid tile

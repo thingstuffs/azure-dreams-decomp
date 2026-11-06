@@ -2234,7 +2234,8 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
 {
     R10_80174C70_LocalVector direction;
     R10_80174C70_LocalTable directions;
-    long render_or_step = (long)render;
+    SpriteFrameState *display = render;
+    s32 render_step;
     s32 phase_angle;
     s32 phase_offset;
     u8 brightness;
@@ -2248,14 +2249,14 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
     case 1:
     case 2:
     case 3:
-        brightness = ((SpriteFrameState *)((void *)render_or_step))->color.c.b + 0x18;
-        ((SpriteFrameState *)((void *)render_or_step))->color.c.b = brightness;
-        ((SpriteFrameState *)((void *)render_or_step))->color.c.g = brightness;
-        ((SpriteFrameState *)((void *)render_or_step))->color.c.r = brightness;
+        brightness = display->color.c.b + 0x18;
+        display->color.c.b = brightness;
+        display->color.c.g = brightness;
+        display->color.c.r = brightness;
 
     case 4:
         effect->unk_62 = 0x20;
-        ((SpriteFrameState *)((void *)render_or_step))->angle_z = 0xA00;
+        display->angle_z = 0xA00;
         break;
 
     case 5:
@@ -2271,7 +2272,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
     case 16:
     case 15:
         effect->unk_62 = 0x18;
-        ((SpriteFrameState *)((void *)render_or_step))->angle_z += 0x180;
+        display->angle_z += 0x180;
         break;
 
     case 17:
@@ -2283,27 +2284,27 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
     case 23:
     case 24:
     case 25:
-        brightness = ((SpriteFrameState *)((void *)render_or_step))->color.c.b - 0xE;
-        ((SpriteFrameState *)((void *)render_or_step))->color.c.b = brightness;
-        ((SpriteFrameState *)((void *)render_or_step))->color.c.g = brightness;
-        ((SpriteFrameState *)((void *)render_or_step))->color.c.r = brightness;
+        brightness = display->color.c.b - 0xE;
+        display->color.c.b = brightness;
+        display->color.c.g = brightness;
+        display->color.c.r = brightness;
         effect->unk_62 = 0x18;
-        ((SpriteFrameState *)((void *)render_or_step))->angle_z += 0x30;
+        display->angle_z += 0x30;
         break;
 
     case 26:
-        (((ObjectNodeHeader *)effect - 1)->flags) |= NODE_REMOVE;
+        (NODE_HEADER(effect)->flags) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
     effect->unk_1A.u++;
 
-    if (((SpriteFrameState *)((void *)render_or_step))->angle_z >= 0x1000) {
-        ((SpriteFrameState *)((void *)render_or_step))->angle_z -= 0x1000;
+    if (display->angle_z >= 0x1000) {
+        display->angle_z -= 0x1000;
     }
 
-    phase_angle = ((SpriteFrameState *)((void *)render_or_step))->angle_z;
+    phase_angle = display->angle_z;
     phase_offset = phase_angle - 0x400;
     phase_angle = phase_offset;
     if ((s16)phase_offset < 0) {
@@ -2316,7 +2317,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
         s32 sine_product = sine_radius * sine;
         s32 cosine_angle = normalized_phase;
 
-        render_or_step = sine_product << 4;
+        render_step = sine_product << 4;
         phase_offset = rsin(cosine_angle);
     }
 
@@ -2343,14 +2344,14 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
     }
     {
         s32 axis_step = direction.x;
-        s32 axis_product = axis_step * render_or_step;
+        s32 axis_product = axis_step * render_step;
 
         axis_step = axis_product >> 4;
         motion->velocity_x = axis_step;
     }
     {
         s32 axis_step = direction.y;
-        s32 axis_product = axis_step * render_or_step;
+        s32 axis_product = axis_step * render_step;
 
         motion->velocity_y = axis_product >> 4;
     }

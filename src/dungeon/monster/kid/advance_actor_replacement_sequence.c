@@ -130,21 +130,21 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         state->action_phase.u = (u8) (state->action_phase.u + 1);
         return;
     case 1:
-        run_cd_image_commands(&kid_image_commands, (u8 *)(&kid_image_load_done), 0);
+        run_cd_image_commands(&kid_image_commands, &kid_image_load_done, 0);
         state->unk_B0.halves.low.s = 0;
         state->action_phase.u = (u8) (state->action_phase.u + 1);
         actor->unk_8A = (u16) ((u16)actor->facing);
         actor->flags1C = (s32) (actor->flags1C & 0xFFFBFFFF);
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((u16)actor->facing) + 0x100) >> 9) & 7;
-        if ((*(u8 *)&kid_image_load_done) == 0 || direction != 2) {
+        if (kid_image_load_done == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
             actor->facing = (u16) (((u16)actor->facing) + 0x200);
             return;
         }
-        run_cd_image_commands(&kid_image_commands, (u8 *)(&kid_image_load_done), 1);
+        run_cd_image_commands(&kid_image_commands, &kid_image_load_done, 1);
         sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         (*(s8 *)&kid_effect_load_done) = 0;

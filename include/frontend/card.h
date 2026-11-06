@@ -42,7 +42,7 @@ struct ObjectNodeHeader;
 void bind_dialog_template(s32 target);
 
 /* build_memory_task_text.c */
-void build_memory_task_text(s32 panel_addr);
+void build_memory_task_text(void *panel_addr);
 
 /* card_animate_selection_marker_rows.c */
 void card_animate_selection_marker_rows(struct Menu *menu);
@@ -301,61 +301,61 @@ void card_dev_set_slot_value_checked(s32 slot_addr, s32 slot_value);
 void card_dev_set_word(s32 *dest, s32 value);
 
 /* card_dev_show_copy_failure_notice.c */
-void card_dev_show_copy_failure_notice(s32 value);
+void card_dev_show_copy_failure_notice(struct ObjectNodeHeader *value);
 
 /* card_dev_show_copying_progress.c */
-void card_dev_show_copying_progress(s32 target, s32 value);
+void card_dev_show_copying_progress(struct ObjectNodeHeader *target, s32 value);
 
 /* card_dev_show_damaged_memory_card_notice.c */
-void card_dev_show_damaged_memory_card_notice(s32 value);
+void card_dev_show_damaged_memory_card_notice(struct ObjectNodeHeader *value);
 
 /* card_dev_show_delete_confirmation.c */
-void card_dev_show_delete_confirmation(s32 context, s32 value);
+void card_dev_show_delete_confirmation(struct ObjectNodeHeader *context, s32 value);
 
 /* card_dev_show_delete_failure_notice.c */
-void card_dev_show_delete_failure_notice(s32 target);
+void card_dev_show_delete_failure_notice(struct ObjectNodeHeader *target);
 
 /* card_dev_show_format_confirmation.c */
-void card_dev_show_format_confirmation(s32 target, s32 value);
+void card_dev_show_format_confirmation(struct ObjectNodeHeader *target, s32 value);
 
 /* card_dev_show_format_failure_notice.c */
-void card_dev_show_format_failure_notice(s32 input);
+void card_dev_show_format_failure_notice(struct ObjectNodeHeader *input);
 
 /* card_dev_show_format_success_notice.c */
-void card_dev_show_format_success_notice(s32 target);
+void card_dev_show_format_success_notice(struct ObjectNodeHeader *target);
 
 /* card_dev_show_formatting_progress.c */
-void card_dev_show_formatting_progress(s32 target, s32 value);
+void card_dev_show_formatting_progress(struct ObjectNodeHeader *target, s32 value);
 
 /* card_dev_show_insufficient_space_card_advice.c */
-void card_dev_show_insufficient_space_card_advice(s32 value);
+void card_dev_show_insufficient_space_card_advice(struct ObjectNodeHeader *value);
 
 /* card_dev_show_insufficient_space_overwrite_advice.c */
-void card_dev_show_insufficient_space_overwrite_advice(s32 target);
+void card_dev_show_insufficient_space_overwrite_advice(struct ObjectNodeHeader *target);
 
 /* card_dev_show_load_failure_notice.c */
-void card_dev_show_load_failure_notice(s32 target);
+void card_dev_show_load_failure_notice(struct ObjectNodeHeader *target);
 
 /* card_dev_show_loading_progress.c */
-void card_dev_show_loading_progress(s32 context, s32 payload);
+void card_dev_show_loading_progress(struct ObjectNodeHeader *context, s32 payload);
 
 /* card_dev_show_no_memory_card_notice.c */
-void card_dev_show_no_memory_card_notice(s32 value);
+void card_dev_show_no_memory_card_notice(struct ObjectNodeHeader *value);
 
 /* card_dev_show_overwrite_confirmation.c */
-void card_dev_show_overwrite_confirmation(s32 target, s32 value);
+void card_dev_show_overwrite_confirmation(struct ObjectNodeHeader *target, s32 value);
 
 /* card_dev_show_overwrite_failure_notice.c */
-void card_dev_show_overwrite_failure_notice(s32 value);
+void card_dev_show_overwrite_failure_notice(struct ObjectNodeHeader *value);
 
 /* card_dev_show_overwrite_protected_notice.c */
-void card_dev_show_overwrite_protected_notice(s32 target);
+void card_dev_show_overwrite_protected_notice(struct ObjectNodeHeader *target);
 
 /* card_dev_show_please_wait_notice.c */
-void card_dev_show_please_wait_notice(s32 target, s32 value);
+void card_dev_show_please_wait_notice(struct ObjectNodeHeader *target, s32 value);
 
 /* card_dev_show_saving_progress.c */
-void card_dev_show_saving_progress(s32 target, s32 value);
+void card_dev_show_saving_progress(struct ObjectNodeHeader *target, s32 value);
 
 /* card_dev_start_default_screen.c */
 void card_dev_start_default_screen(void);

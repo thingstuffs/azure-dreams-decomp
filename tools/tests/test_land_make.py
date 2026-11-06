@@ -171,7 +171,7 @@ class LandMakeTests(unittest.TestCase):
             (root/'src').mkdir()
             before='int f(void *p) { return 0; }\n'
             (root/'src/a.c').write_text(before)
-            for name in ('tools/lint/debt_check.py', 'tools/readability/score.py'):
+            for name in ('tools/lint/debt_check.py', 'tools/readability/score.py', 'tools/typing/union_census.py'):
                 target=root/name
                 target.parent.mkdir(parents=True,exist_ok=True)
                 shutil.copyfile(L.ROOT/name,target)

@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/cyclone_frames.h"
 
 typedef struct {
     u8 pad_00[0x8C];
@@ -43,8 +44,6 @@ typedef struct {
     u8 pad_00[0x14];
     u32 flags;
 } D3Nested;
-
-extern u8 cyclone_move_direction_frames[8];
 
 extern void spend_actor_mp(D3 *, s32);
 struct SpriteFrameState;

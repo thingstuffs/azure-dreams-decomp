@@ -155,10 +155,7 @@ typedef struct S_func_81904990_7 {
         } as_s8_03;
     } unk_00;
     s32 unk_04;
-    union {
-        s16 as_s16_08;
-        u16 as_u16_08;
-    } unk_08;
+    s16 unk_08;
     s16 unk_0A;
     union {
         s16 as_s16_0C;
@@ -168,10 +165,7 @@ typedef struct S_func_81904990_7 {
         } as_u8_0D;
     } unk_0C;
     u16 unk_0E;
-    union {
-        s16 as_s16_10;
-        u16 as_u16_10;
-    } unk_10;
+    u16 unk_10;
     s16 unk_12;
     union {
         s16 as_s16_14;
@@ -182,10 +176,7 @@ typedef struct S_func_81904990_7 {
         } as_u8_15;
     } unk_14;
     u16 unk_16;
-    union {
-        s16 as_s16_18;
-        u16 as_u16_18;
-    } unk_18;
+    u16 unk_18;
     s16 unk_1A;
     union {
         s16 as_s16_1C;
@@ -195,10 +186,7 @@ typedef struct S_func_81904990_7 {
         } as_u8_1D;
     } unk_1C;
     u8 pad_1E[0x2];
-    union {
-        s16 as_s16_20;
-        u16 as_u16_20;
-    } unk_20;
+    s16 unk_20;
     s16 unk_22;
     union {
         s16 as_s16_24;

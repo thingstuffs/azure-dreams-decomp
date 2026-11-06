@@ -1,3 +1,4 @@
+#include "dungeon/monster/u_boat_frames.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -23,11 +24,11 @@ extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 #include "dungeon/monster/u_boat.h"
 
-extern u8 uboat_default_frames[];
-extern u8 uboat_ready_frames[];
+
+
 extern u8 D_800E2418[];
-extern u8 u_boat_frame_set[];
-extern u8 uboat_action_frames[];
+
+
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"

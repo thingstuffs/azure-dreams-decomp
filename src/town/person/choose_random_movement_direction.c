@@ -26,7 +26,7 @@ void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *
             }
         } else if (direction == 1) {
             if (movement->y.w.i <
-                ((s16)entity->unk_86) + entity->unk_8E) {
+                (entity->unk_86) + entity->unk_8E) {
                 entity->heading = 0;
                 break;
             }
@@ -37,7 +37,7 @@ void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *
                 break;
             }
         } else {
-            if (((s16)entity->unk_86) - entity->unk_8E <
+            if ((entity->unk_86) - entity->unk_8E <
                 movement->y.w.i) {
                 entity->heading = 0x800;
                 break;

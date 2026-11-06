@@ -771,9 +771,9 @@ void advance_record_counter(CountdownRecord *record)
 #include "shared/object_flags.h"
 
 typedef struct S_80025398_0 {
-    union { s16 s; u16 u; u16 p; } unk_00;   /* accessed as both */
+    s16 unk_00;
     s16 unk_02;
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
+    s16 unk_04;
     u8 pad_06[0x4];
     s16 unk_0A;
     u8 pad_0C[0x28];
@@ -828,7 +828,7 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
 
     source_ptr = (PackedVector *)(&wave_texture_rect);
     source = *source_ptr;
-    frame = ((S_80025398_0 *)effect)->unk_04.s;
+    frame = ((S_80025398_0 *)effect)->unk_04;
     peak_frame = ((S_80025398_0 *)effect)->unk_0A;
     wave_effect_update_flag = 1;
 
@@ -861,7 +861,7 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
     }
 
     shade_index = 0x5F;
-    if (((S_80025398_0 *)effect)->unk_04.s < 0x32) {
+    if (((S_80025398_0 *)effect)->unk_04 < 0x32) {
         fill_shade = 0x46;
         shade_cursor = (u8 *)effect + 0x5F;
         do {
@@ -869,16 +869,16 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
             shade_index--;
             shade_cursor = (u8 *)shade_cursor - 1;
         } while (shade_index >= 0);
-        state = ((S_80025398_0 *)effect)->unk_00.s;
+        state = ((S_80025398_0 *)effect)->unk_00;
         ((S_80025398_0 *)effect)->unk_9A = 0x64;
     } else {
-        state = ((S_80025398_0 *)effect)->unk_00.s;
+        state = ((S_80025398_0 *)effect)->unk_00;
         ((S_80025398_0 *)effect)->unk_9A = 0x64;
     }
-    next_state = ((S_80025398_0 *)effect)->unk_00.u + 1;
+    next_state = (u16)((S_80025398_0 *)effect)->unk_00 + 1;
     switch (state) {
     case 0:
-        ((S_80025398_0 *)effect)->unk_00.p = next_state;
+        ((S_80025398_0 *)effect)->unk_00 = next_state;
         output->unk_14 &= 0xFF7F;
         break;
     case 1:
@@ -894,8 +894,8 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
     derived.y = source.y + 0x3C;
     move_linked_effect_along_path(effect, ((S_80025398_0 *)effect)->unk_34, render_source, derived_ptr, one, one);
 
-    next_frame = ((S_80025398_0 *)effect)->unk_04.u + 1;
-    ((S_80025398_0 *)effect)->unk_04.u = next_frame;
+    next_frame = (u16)((S_80025398_0 *)effect)->unk_04 + 1;
+    ((S_80025398_0 *)effect)->unk_04 = next_frame;
     if (next_frame == ((S_80025398_0 *)effect)->unk_02) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -1239,7 +1239,7 @@ typedef struct ObjDataView {
     u8 unk_0D;
     u8 unk_0E;
     u8 pad_0F[0x1];
-    union { s16 s; u16 u; } unk_10;   /* accessed as both */
+    u16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
     u8 pad_16[0x6];
@@ -1615,7 +1615,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                     register_node(impact, project_sprite_chain);
                     impact_data = impact->render;
                     impact_data->unk_14 = 0x0C;
-                    impact_data->unk_10.s = index;
+                    impact_data->unk_10 = index;
                     impact_data->unk_06 = 6;
                     impact_data->unk_14 |= 0x80;
                     flash_pos = impact->position;
@@ -1679,7 +1679,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             flash_data = impact->render;
             render_flags = flash_data->unk_14 & 0xFFF3;
             flash_data->unk_14 = render_flags;
-            flash_data->unk_10.u = 0x20;
+            flash_data->unk_10 = 0x20;
             flash_data->unk_14 = render_flags | 0x80;
             target_pos = ((ParentLinkMinus18 *)(parent->unk_60.p - 0x18))->unk_00;
             flash_pos = impact->position;
@@ -1729,7 +1729,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 impact->callback = advance_grayscale_fade;
                 register_node(impact, project_sprite_chain);
                 particle_data = impact->render;
-                particle_data->unk_10.u = 0x20;
+                particle_data->unk_10 = 0x20;
                 particle_data->unk_14 |= 0x0C;
                 target_pos = ((ParentLinkMinus18 *)(parent->unk_60.p - 0x18))->unk_00;
                 flash_pos = impact->position;

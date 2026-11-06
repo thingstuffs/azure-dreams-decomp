@@ -17,7 +17,7 @@ typedef struct { u8 pad[2]; u16 x; u8 pad2[2]; u16 y; u8 pad3[2]; u16 z; } Posit
 extern u8 linked_mesh_processor_address [ ];
 
 /* Create a positioned effect and set its animation and lifetime parameters. */
-Effect *create_positioned(void *source, s32 x, s32 y, s32 z, Position *position, s32 texture, s16 frame, s32 lifetime, s32 timer) {
+void *create_positioned(void *source, s32 x, s32 y, s32 z, Position *position, s32 texture, s16 frame, s32 lifetime, s32 timer) {
     Effect *effect;
     ObjectPosition *sprite;
     u8 *work;

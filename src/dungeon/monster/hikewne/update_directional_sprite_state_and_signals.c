@@ -6,13 +6,12 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8017360C_arg0.h"
+#include "dungeon/monster/hikewne_frames.h"
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 update_actor_transform_from_parent(s32, s32, void *, void *);
 
-extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
-extern u8 hikewne_frame_set_2[];
 
 /*
  * Alternates Hikewne's idle frames, updates its parent-relative motion, and restores its callback

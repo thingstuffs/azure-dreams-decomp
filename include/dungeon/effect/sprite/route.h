@@ -148,9 +148,9 @@ typedef struct B32_818CF0E8_S_818CF0E8_0_pre {
     u16 unk_00;
 } B32_818CF0E8_S_818CF0E8_0_pre;
 typedef struct B32_818CF0E8_S_818CF0E8_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    union { u16 s; s16 u; } unk_04;   /* accessed as both */
+    s16 unk_00;
+    s16 unk_02;
+    s16 unk_04;
     u8 pad_06[0x2];
     s16 unk_08;
     u8 pad_0A[0xB];
@@ -176,9 +176,9 @@ typedef struct B32_818CF0E8_S_818CF0E8_1 {
 } B32_818CF0E8_S_818CF0E8_1;
 typedef struct B32_818CF0E8_S_818CF0E8_2 {
     u8 pad_00[0x2];
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
+    s16 unk_02;
     u8 pad_04[0x2];
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
+    s16 unk_06;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } B32_818CF0E8_S_818CF0E8_2;
 typedef struct B32_818CF0E8_S_818CF0E8_3 {
@@ -209,9 +209,9 @@ typedef struct B32_818CF0E8_S_818CF0E8_5 {
 } B32_818CF0E8_S_818CF0E8_5;
 typedef struct B32_818CF0E8_S_818CF0E8_6 {
     u8 pad_00[0x2];
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
+    s16 unk_02;
     u8 pad_04[0x2];
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
+    s16 unk_06;
     union { struct { void * v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
     u8 unk_0C;
     u8 unk_0D;
@@ -219,7 +219,7 @@ typedef struct B32_818CF0E8_S_818CF0E8_6 {
     u8 pad_0F[0x1];
     s16 unk_10;
     s16 unk_12;
-    union { u16 s; u16 u; } unk_14;   /* accessed as both */
+    u16 unk_14;
     u8 pad_16[0x4];
     s16 unk_1A;
     s16 unk_1C;
@@ -271,7 +271,7 @@ typedef struct JitteredTerrainSeekingPointBody {
     s32 unk_10;
     s16 unk_14;
     u8 pad_16[0x1C];
-    union { s16 s; u16 u; } unk_32;
+    s16 unk_32;
     u8 pad_34[0xAC];
 } JitteredTerrainSeekingPointBody;
 

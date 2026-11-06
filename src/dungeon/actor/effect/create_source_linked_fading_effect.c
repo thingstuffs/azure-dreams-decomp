@@ -13,7 +13,6 @@
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-extern void fade_effect_primitive(void *effect, void *unused, SpriteFrameState *primitive);
 #include "shared/sprite_source.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect.h"

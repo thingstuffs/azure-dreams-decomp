@@ -1,3 +1,4 @@
+#include "dungeon/monster/viper_frames.h"
 #include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
@@ -19,8 +20,7 @@
 
 extern s32 generate_random_value(void);
 extern u8 D_80170A68[];
-extern u8 viper_frame_set_2[];
-extern u8 viper_default_frames[];
+
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Viper with default frames at D_80174A7C, applies spawn flags, and attempts valid tile placement. */

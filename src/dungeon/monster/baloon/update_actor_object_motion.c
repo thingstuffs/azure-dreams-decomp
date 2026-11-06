@@ -1,3 +1,4 @@
+#include "dungeon/monster/baloon_frames.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
@@ -14,7 +15,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
-extern u8 baloon_default_frames[];
+
 extern void baloon_action_resume_address(void *, void *, void *, void *);
 extern Callback baloon_callbacks[];
 

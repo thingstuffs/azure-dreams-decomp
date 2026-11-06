@@ -25,7 +25,7 @@ typedef struct S_819598B4_2 {
     u8 pad_04[0x2];
     s16 unk_06;
     u8 pad_08[0x2];
-    union { s16 n; u16 v; } unk_0A;   /* accessed as both */
+    s16 unk_0A;
 } S_819598B4_2;   /* values in update_ring_effect */
 
    /* D_800E3D7C[0] in update_ring_effect */
@@ -64,8 +64,8 @@ void update_ring_effect(FollowingColorBlendEffectBody *state, S_819598B4_2 *valu
             - values->unk_02) / state->unk_30));
         values->unk_06 = (s16)((u16)values->unk_06 + ((s32)(state->unk_16
             - values->unk_06) / state->unk_30));
-        value0A = values->unk_0A.n;
-        values->unk_0A.n = (s16)(values->unk_0A.v + ((s32)(state->unk_18
+        value0A = values->unk_0A;
+        values->unk_0A = (s16)((u16)values->unk_0A + ((s32)(state->unk_18
             - value0A) / state->unk_30));
         timerNextFirst = (u16)state->unk_30 - 1;
         state->unk_30 = timerNextFirst;

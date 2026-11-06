@@ -449,7 +449,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             state = sprite_flags | 0x80;
             first_sprite->flags = state;
             first_position = first_object->position;
-            child_effect->unk_0A.s = 0;
+            child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
             first_position->x.v = (s32) target_pos_or_step->x.v;
@@ -483,7 +483,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             child_effect->unk_30 = follow_target;
             second_sprite->depth_bias = 0;
             second_position = second_object->position;
-            child_effect->unk_0A.s = 0;
+            child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
             second_position->x.v = (s32) target_pos_or_step->x.v;
@@ -515,7 +515,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             state = sprite_flags | 0x80;
             second_sprite->flags = state;
             third_position = third_object->position;
-            child_effect->unk_0A.s = 0;
+            child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
             third_position->x.v = (s32) target_pos_or_step->x.v;
@@ -554,7 +554,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             state = sprite_flags | 0x80;
             second_sprite->flags = state;
             fourth_position = fourth_object->position;
-            child_effect->unk_0A.s = 0;
+            child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
             fourth_position->x.v = (s32) target_pos_or_step->x.v;

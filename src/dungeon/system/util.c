@@ -197,7 +197,7 @@ extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
 
 /* Creates an object and initializes its attached data and resources. */
-void *create_textured_ellipse_effect(ObjectPosition *object_id, s32 state_value) {
+void *create_textured_ellipse_effect(ObjectPosition *object_id, void *state_value) {
     GpuRectBuffer resource_params;
     ObjectNodeHeader *object;
     SpriteFrameState *render_data;
@@ -213,7 +213,7 @@ void *create_textured_ellipse_effect(ObjectPosition *object_id, s32 state_value)
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         state_data = NODE_BODY(object);
-        state_data->target = (void *)state_value;
+        state_data->target = state_value;
         state_data->timer.s = 4;
         resource_params.words[0] = 0x01800340;
         resource_params.words[1] = 0x400040;

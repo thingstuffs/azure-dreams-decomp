@@ -1,10 +1,10 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 
-extern int read_next_byte_and_finish(int a0);
+extern int read_next_byte_and_finish(void *a0);
 
 /* Reads a variable-length integer from the stream, most significant 7-bit group first. */
-s32 read_base_128_vlq(s32 stream)
+s32 read_base_128_vlq(void *stream)
 {
     s32 byte;
     s32 value;

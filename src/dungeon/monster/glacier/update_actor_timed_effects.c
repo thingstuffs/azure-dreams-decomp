@@ -40,12 +40,11 @@ extern u8 D_80170A0C[];
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/monster/glacier_frames.h"
 
-extern u8 glacier_frame_set_1[];
 extern u8 D_801760AC[];
 extern u8 D_801760DC[];
 extern u8 D_801760E4[];
-extern u8 glacier_frame_set_2[];
 
 typedef struct S_801714B8_0_pre {
     void * unk_00;

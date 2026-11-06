@@ -90,7 +90,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 bound_test;
             s32 extent;
 
-            upper_edge = ((s16)entity->unk_86);
+            upper_edge = (entity->unk_86);
             extent = entity->unk_8E;
             bound_test = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
             upper_edge += extent;
@@ -118,7 +118,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 extent;
             s32 bound_coord;
 
-            lower_edge = ((s16)entity->unk_86);
+            lower_edge = (entity->unk_86);
             extent = entity->unk_8E;
             bound_coord = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
             lower_edge -= extent;

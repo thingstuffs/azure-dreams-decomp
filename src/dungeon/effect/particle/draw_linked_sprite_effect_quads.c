@@ -26,10 +26,10 @@ typedef struct S_func_819B2800_0 {
     u16 *unk_04;
     u8 unk_08;
     u8 unk_09;
-    union { s16 unk_0A; u16 unk_A; } unk_0A;
+    u16 unk_0A;
     u8 pad_0C[0x44];
     u16 unk_50;
-    union { s16 unk_052; u16 unk_52; } unk_52;
+    u16 unk_52;
 } S_func_819B2800_0;
 
 typedef struct S_func_819B2800_1 {
@@ -116,7 +116,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
 
     timer = ((volatile S_func_819B2800_0 *) effect)->unk_50;
     object_data = ((volatile S_func_819B2800_0 *) effect)->unk_00;
-    phase_or_delay = effect->unk_0A.unk_0A;
+    phase_or_delay = (s16)effect->unk_0A;
     effect->unk_50 = (u16) (timer - 1);
     location = (S_func_819B2800_3 *) ((u8 *) object_data - 0x20);
     switch (phase_or_delay) {
@@ -126,7 +126,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         position->unk_00 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_00;
         position->unk_04 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_04;
         position->unk_08.unk_08 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_08.unk_08;
-        effect->unk_0A.unk_0A = (s16) ((u16) effect->unk_0A.unk_0A + 1);
+        effect->unk_0A = (s16) ((u16) (s16)effect->unk_0A + 1);
     case 1:
         if (!(*effect->unk_04 & 0x80)) {
             return;
@@ -157,9 +157,9 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
             visual->unk_24 = pos_z;
             object_data->unk_20 = effect;
         }
-        next_phase = effect->unk_0A.unk_A;
+        next_phase = effect->unk_0A;
         next_phase++;
-        effect->unk_0A.unk_A = next_phase;
+        effect->unk_0A = next_phase;
         return;
     case 2:
         if ((s16) effect->unk_50 > 0) {
@@ -171,11 +171,11 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
             effect_code = 0x4300;
         }
         play_sound_if_enabled(effect_code);
-        next_phase = effect->unk_0A.unk_A;
+        next_phase = effect->unk_0A;
         phase_or_delay = 0xD;
         effect->unk_50 = phase_or_delay;
         next_phase++;
-        effect->unk_0A.unk_A = next_phase;
+        effect->unk_0A = next_phase;
         return;
     case 3:
         if ((s16) effect->unk_50 == 2) {
@@ -198,11 +198,11 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
             visual->unk_10 = (u16) position->unk_08.unk_0A.unk_0A;
             object_data->unk_20 = effect;
         }
-        next_phase = effect->unk_0A.unk_A;
+        next_phase = effect->unk_0A;
         phase_or_delay = 0x10;
         effect->unk_50 = phase_or_delay;
         next_phase++;
-        effect->unk_0A.unk_A = next_phase;
+        effect->unk_0A = next_phase;
         return;
     case 4:
         if ((s16) effect->unk_50 == 8) {
@@ -226,8 +226,8 @@ next_target:
                 return;
             }
         }
-        if (effect->unk_52.unk_052 & 0x8000) {
-            effect->unk_52.unk_52 = (u16) (effect->unk_52.unk_52 & 0x7FFF);
+        if ((s16)effect->unk_52 & 0x8000) {
+            effect->unk_52 = (u16) (effect->unk_52 & 0x7FFF);
             return;
         }
         g_dungeon_status.active_actor = 0;
@@ -427,9 +427,9 @@ typedef struct S_8002466C_0 {
     s16 unk_42;
     s16 unk_44;
     s16 unk_46;
-    union { u16 s; s16 u; } unk_48;   /* accessed as both */
+    u16 unk_48;   /* accessed as both */
     u16 unk_4A;
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
+    s16 unk_4C;   /* accessed as both */
     u16 unk_4E;
     u16 unk_50;
     u16 unk_52;
@@ -483,19 +483,19 @@ void update_animated_target_effect(void *effect_arg)
     void *display;
 
     owner = effect->unk_00;
-    effect->unk_48.s = effect->unk_48.s + 1;
+    effect->unk_48 = effect->unk_48 + 1;
     owner->unk_52 |= 0x8000;
     last_particle = -1;
-    state = effect->unk_4C.s;
+    state = effect->unk_4C;
     switch (state) {
     case 0:
         effect->unk_50 = GetTPage(0, 1, 0x2C0, 0x100);
         effect->unk_52 = GetClut(0xC0, 0x1F7);
         effect->unk_46 = 0x1F;
         effect->unk_44 = 0x1F;
-        effect->unk_48.s = 0;
+        effect->unk_48 = 0;
         effect->unk_4E = 0x30;
-        effect->unk_4C.s = effect->unk_4C.u + 1;
+        effect->unk_4C = (u16)effect->unk_4C + 1;
     case 1:
         last_particle = 0xE;
         approach_data = &reference_tile_object;
@@ -511,17 +511,17 @@ void update_animated_target_effect(void *effect_arg)
                 ((target_pos.vz + view_reference_entity.z.w.i) -
                  effect->unk_24.at02.v) << 14;
             effect->unk_24.at00.v -=
-                rsin((effect->unk_48.u << 11) / 10) << 9;
+                rsin(((s16)effect->unk_48 << 11) / 10) << 9;
         }
-        if (effect->unk_48.u >= 0xA) {
+        if ((s16)effect->unk_48 >= 0xA) {
             effect->unk_4A = 0x10;
-            effect->unk_4C.s = effect->unk_4C.u + 1;
+            effect->unk_4C = (u16)effect->unk_4C + 1;
         }
         break;
 
     case 2:
         last_particle = 9;
-        if (effect->unk_48.u >= 0xB) {
+        if ((s16)effect->unk_48 >= 0xB) {
             last_particle = 4;
         }
         effect->unk_4E += 2;
@@ -538,20 +538,20 @@ void update_animated_target_effect(void *effect_arg)
                 ((target_pos.vz + view_reference_entity.z.w.i) -
                  effect->unk_24.at02.v) << 15;
         }
-        if (effect->unk_48.u >= 0xD) {
-            effect->unk_48.s = 8;
+        if ((s16)effect->unk_48 >= 0xD) {
+            effect->unk_48 = 8;
         }
         frames_left = effect->unk_4A - 1;
         effect->unk_4A = frames_left;
         if (((s32)(frames_left << 16) <= 0) &&
-            (effect->unk_48.u == 0xC)) {
-            effect->unk_4C.s = effect->unk_4C.u + 1;
+            ((s16)effect->unk_48 == 0xC)) {
+            effect->unk_4C = (u16)effect->unk_4C + 1;
         }
         break;
 
     case 3:
         last_particle = 5;
-        if (effect->unk_48.u == 0xF) {
+        if ((s16)effect->unk_48 == 0xF) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -559,9 +559,9 @@ void update_animated_target_effect(void *effect_arg)
     }
     particle_index = last_particle;
 
-    effect->unk_40 = ((effect->unk_48.s & 3) << 5) + 0x80;
+    effect->unk_40 = ((effect->unk_48 & 3) << 5) + 0x80;
     effect->unk_42 =
-        (((s32)(effect->unk_48.s << 16) >> 18) << 5) + 0x80;
+        (((s32)(effect->unk_48 << 16) >> 18) << 5) + 0x80;
     if (particle_index >= 0) {
         particle_data = build_and_queue_interpolated_vertical_quads_around_five_perimeter_points;
         display = secondary_sprite;

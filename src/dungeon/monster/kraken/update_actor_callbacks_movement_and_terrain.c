@@ -13,12 +13,12 @@
 #include "dungeon/item.h"
 #include "dungeon/monster/kraken.h"
 #include "dungeon/data.h"
+#include "dungeon/monster/kraken_frames.h"
 
 
 void advance_sprite_animation_and_textures(void *entity);
 s32 refresh_actor_facing_and_lifecycle();
 extern M2C_UNK D_80174174[];
-extern u8 kraken_frame_set_1[];
 
    /* arg1 in update_actor_callbacks_movement_and_terrain */
 

@@ -91,7 +91,7 @@ extern s32 RotTransPers(void *, void *, void *, void *);
 extern void check_action_six_eligibility(void *, void *);
 extern u8 D_80174EC8;
 extern s8 view_direction_depth_biases[];
-extern u8 noise_direction_frames[];
+#include "dungeon/monster/noise_frames.h"
 extern u8 noise_frame_set_2[];
 void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor);

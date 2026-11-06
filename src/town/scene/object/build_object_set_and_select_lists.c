@@ -59,8 +59,8 @@ typedef struct S_8001A044_9 {
 
 
 
-struct Func8032EEE4Record;
-extern struct Func8032EEE4Record *find_masked_record_and_initialize(void *, void *);
+struct MaskedSceneRecord;
+extern struct MaskedSceneRecord *find_masked_record_and_initialize(void *, void *);
 extern void *populate_and_dispatch_entry_records(void *, void *, s32, s32);
 
 extern u8 D_80016094[];

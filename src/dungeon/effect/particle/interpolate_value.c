@@ -117,17 +117,17 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
     u8 *coord_table;
     s32 one;
 
-    phase = effect->unk_12.s;
+    phase = (s16)effect->unk_12;
     switch (phase) {
     case 0:
-        if (effect->unk_18.s < 6) {
-            effect->unk_12.u++;
+        if (effect->unk_18 < 6) {
+            effect->unk_12++;
         }
         break;
     case 1:
-        red_scaled = effect->unk_00 * effect->unk_18.s;
+        red_scaled = effect->unk_00 * effect->unk_18;
         ((S_80168C88_1 *)color_in)->unk_0C = (red_scaled / 4);
-        green_scaled = effect->unk_01 * effect->unk_18.s;
+        green_scaled = effect->unk_01 * effect->unk_18;
         ((S_80168C88_1 *)color_in)->unk_0D = (green_scaled / 4);
         break;
     }
@@ -248,8 +248,8 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
         segment_offset += 0xC;
     } while (segment < 7);
 
-    ticks_left = effect->unk_18.u - 1;
-    effect->unk_18.s = ticks_left;
+    ticks_left = (u16)effect->unk_18 - 1;
+    effect->unk_18 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (((EffectFieldView_81331C88Prefix *)effect)[-1].flags) |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

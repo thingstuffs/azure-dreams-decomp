@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_1830850_H
 #define DUNGEON_OVL_1830850_H
+struct ItemMenuPart;
+struct DisplayPositionWords;
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -78,7 +80,7 @@ typedef struct {
     s32 unk8;
     s32 unkC;
     s32 unk10;
-    s32 unk14;
+    void *unk14;
     u8 pad18[0x3C];
     s32 unk54;
 } ovl_1830850_81810A0C_DungeonArg;
@@ -208,7 +210,7 @@ extern void strcpy();
 extern s32 check_object_byte_pairs_content(s32);
 extern u8 inventory_default_entry_data[];
 extern void SD_Call(s32 value);
-extern void set_object_data_pointer(s32 unk14);
+extern void set_object_data_pointer(void *object);
 extern s32 advance_index_with_single_wrap(s32 selection_step, s32 unk8, s32 value);
 extern u8 D_800789B8[9];
 extern s32 inventory_shared_entry_value;
@@ -222,7 +224,7 @@ extern u8 D_80029474[9];
 extern void *func_8004DC14(void *, s32);
 extern s32 func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
 extern s32 allocate_and_append_callback_payload(s32 *values, s32 lookup_key);
-extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32 entries, s32 *value, s32 count);
+extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(struct ItemMenuPart **entries, struct DisplayPositionWords *value, s32 count);
 extern void register_node(ovl_1830850_81811168_DungeonObj81811168 *, void *);
 extern void func_8004491C(ovl_1830850_81811168_DungeonObj81811168 *, void *);
 extern void release_null_terminated_entries(void *);

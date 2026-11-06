@@ -20,15 +20,12 @@ extern void select_sprite_entry(void *, u8, s32);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/kid_frames.h"
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(void *);
 extern void func_80174218(void *, void *, void *, void *);
 
 extern u8 kid_action_resume_address[];
-extern u8 kid_direction_frames[];
-extern u8 kid_alt_spawn_direction_frames[];
-extern u8 kid_frame_set_4[];
-
 
 /* Updates an actor's action state and animation before restoring its default callback. */
 void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

@@ -29,7 +29,7 @@ typedef struct S_set_handler_0 {
 
 /* base in card_boot_create_or_reset_message_dialog */
 
-extern void card_boot_initialize_message_render_templates(s32 entity, s32 primary_data, s32 secondary_data);
+extern void card_boot_initialize_message_render_templates(MenuDisplayNode *entity, MenuDisplayBlock *primary_data, DisplayPositionWords *secondary_data);
 extern void card_boot_initialize_dialog_packets_and_display(s32 record);
 /* arg0 in card_boot_activate_message_dialog */
 extern void *card_boot_build_message_window_packets(void *buffer, CardMessageDialogBody *layout);
@@ -48,9 +48,9 @@ extern u8 D_800287E8[];
 
 /* Functions defined in this translation unit. */
 void card_boot_measure_five_line_message(CardMenuEntry *entry);
-void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
-void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
+void card_boot_bind_message_dialog_record(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20);
+void card_boot_initialize_message_dialog_layout(u8 *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20);
 void card_boot_activate_message_dialog(CardMessageDialogBody *object);
-u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
+u8 *card_boot_create_or_reset_message_dialog(ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20);
 
 #endif

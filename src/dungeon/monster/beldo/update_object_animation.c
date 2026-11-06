@@ -16,6 +16,7 @@
 #include "dungeon/monster/beldo.h"
 #include "dungeon/player/object.h"
 #include "dungeon/monster/hikewne.h"
+#include "dungeon/monster/beldo_frames.h"
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 find_active_rect_containing_point(u8, u8);
@@ -25,8 +26,6 @@ extern void func_80171BE0(void *, void *, void *, void *);
 extern void func_801736B8(void *, void *, void *, void *);
 
 extern u8 beldo_action_dispatch_address;
-extern u8 beldo_frame_set_1[8];
-extern u8 beldo_frame_set_2[];
 extern u8 D_80173EC4[];
 extern u8 D_80173EE4[];
 

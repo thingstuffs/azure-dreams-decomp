@@ -19,16 +19,13 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/hikewne_frames.h"
 
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void update_actor_status_and_mp(void *);
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
-extern u8 hikewne_frame_set[];
 extern u8 D_801740F8[];
-extern u8 hikewne_frame_set_1[];
-extern u8 hikewne_frame_set_2[];
-extern u8 hikewne_frame_set_3[];
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
 /* Animates Hikewne's status-slot-1 entry and recovery, updates MP and turns while active, then restores

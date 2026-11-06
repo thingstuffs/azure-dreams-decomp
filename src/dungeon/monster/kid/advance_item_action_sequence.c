@@ -19,6 +19,7 @@
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/monster/kid_frames.h"
 
 typedef struct S_80172D74_5 {
     u8 pad_00[0x4];
@@ -27,10 +28,7 @@ typedef struct S_80172D74_5 {
 extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 kid_action_resume_address[];
-extern u8 kid_direction_frames[];
-extern u8 kid_alt_direction_frames[];
 extern u8 D_80175168[];
-extern u8 kid_frame_set_1[];
 
 /* Advances an item action through setup, animation, movement, and cleanup. */
 /* Starts a targeted spell and source effect, animates a backward step, then returns to its tile and

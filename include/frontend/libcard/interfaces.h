@@ -26,9 +26,9 @@ void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 m
 void card_boot_refresh_paired_choice_labels(u8 *state);
 void card_boot_reset_three_row_highlight(CardCommandPanelBody *panel);
 void card_boot_resume_menu_after_slot_refresh(void *object_data);
-void card_boot_show_copying_progress(s32 owner, s32 data);
-void card_boot_show_insufficient_space_overwrite_advice(s32 value);
-void card_boot_show_overwrite_confirmation(s32 owner, s32 data);
+void card_boot_show_copying_progress(ObjectNodeHeader *owner, void *data);
+void card_boot_show_insufficient_space_overwrite_advice(ObjectNodeHeader *value);
+void card_boot_show_overwrite_confirmation(ObjectNodeHeader *owner, void *data);
 void card_boot_stop_timer_and_init_server(void);
 s32 card_boot_sum_slot_lookup_values(void);
 void card_boot_update_card_chooser_input(CardChooserBody *body);

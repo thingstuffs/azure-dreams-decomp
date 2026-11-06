@@ -19,6 +19,7 @@
 #include "dungeon/level.h"
 #include "dungeon/monster/kraken.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/kraken_frames.h"
 
 typedef struct {
     s8 pad_00[0x8C];
@@ -57,11 +58,7 @@ s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPos
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 update_entity_state_from_query(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
-extern u8 kraken_frame_set_1[];
-extern u8 kraken_frame_set[];
 extern u8 D_801741AC[];
-extern u8 kraken_frame_set_6[];
-extern u8 kraken_frame_set_2[];
 
 /* Updates the actor animation and dispatches dungeon actions based on status and position. */
 /* Selects Kraken's movement, attacks, spells, and turn processing, resetting its vertical animation state

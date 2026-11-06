@@ -1,3 +1,4 @@
+#include "dungeon/monster/weadog_frames.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -15,8 +16,6 @@
 #include "dungeon/monster/weadog.h"
 
 extern s32 weadog_action_resume_address;
-extern u8 weadog_frame_set_2[];
-
 
    /* arg1 in advance_timed_sprite_flashing_sequence */
 

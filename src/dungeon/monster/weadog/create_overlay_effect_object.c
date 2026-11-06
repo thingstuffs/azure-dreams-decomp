@@ -1,3 +1,4 @@
+#include "dungeon/monster/weadog_frames.h"
 #include "shared/entity.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -24,8 +25,7 @@
 extern s32 generate_random_value(void);
 extern u8 D_801718E0[];
 extern s32 weadog_action_resume_address;
-extern u8 weadog_frame_set_3[];
-extern u8 weadog_frame_set_1[];
+
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Weadog with default frames at D_80174EB8, applies spawn flags, and attempts valid tile

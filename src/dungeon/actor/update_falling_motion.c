@@ -6,6 +6,7 @@
 #include "town/player/position.h"
 #include "town/scene/motion.h"
 #include "dungeon/actor.h"
+#include "dungeon/data.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
@@ -13,9 +14,6 @@ extern void call_the_same_context_both_processing_routines(void *, void *);
 extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(s32);
-
-extern u8 actor_surface_callback_address[];
-extern s16 terrain_height_limits[];
 
 /* Updates motion, handles ground contact, and checks the tile height limit. */
 void update_falling_motion(void *owner, void *actor, void *motion, s32 callback_arg) {

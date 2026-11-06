@@ -1,3 +1,4 @@
+#include "dungeon/monster/weadog_frames.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -26,7 +27,6 @@
    /* desc in update_actor_targeted_action */
 
 extern u8 weadog_action_resume_address[];
-extern u8 weadog_frame_set_3[];
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
 /* Starts a targeted spell, emits three randomly colored offset effects per casting tick, then restores

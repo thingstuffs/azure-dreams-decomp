@@ -6,13 +6,13 @@ struct S_800475A4_Entry {
     u8 pad[0xB];
 };
 
-extern void pack_texture_into_vram_wide(struct S_800475A4_Entry *a0, s32 a1, u16 a2);
+extern void pack_texture_into_vram_wide(struct S_800475A4_Entry *a0, void *a1, u16 a2);
 
 /* Packs and uploads entries with flags 0x60 clear using data offsets stored before the array. */
-void upload_entry_textures_wide(struct S_800475A4_Entry *entries, s32 *source_record_ptr)
+void upload_entry_textures_wide(struct S_800475A4_Entry *entries, void **source_record_ptr)
 {
     struct S_800475A4_Entry *entry = entries;
-    s32 *source_record = source_record_ptr;
+    void **source_record = source_record_ptr;
     u16 *data_offsets = (u16 *)entries;
 
     do {

@@ -16,6 +16,7 @@
 #include "dungeon/player/motion.h"
 #include "dungeon/player/position.h"
 #include "dungeon/player/state.h"
+#include "dungeon/data.h"
 
 
 typedef struct S_8008ACDC_6 {
@@ -53,7 +54,6 @@ struct S_8008C5C4_2;
 s32 generate_random_value(void);                      /* extern */
 extern M2C_UNK player_menu_action_data;
 extern u8 player_wait_frames[8];
-extern u8 player_landing_frame_set[];
 extern M2C_UNK D_800DD148;
 extern void (*actor_command_handlers[])(void);
 extern u8 active_actor_command_code;

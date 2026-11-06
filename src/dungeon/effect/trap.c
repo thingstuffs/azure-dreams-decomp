@@ -329,18 +329,9 @@ s32 attempt_random_status_effect(ActorRecord *entity, s32 rng_input_a, s32 rng_i
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
 
-typedef struct S_800CC18C_0 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x13];
-    u8 unk_1B;
-    u8 pad_1C[0xF];
-    u8 unk_2B;
-} S_800CC18C_0;   /* arg0 in resolve_random_trap_outcome; pointer addresses record offset 0x18 */
-
 extern u8 D_800E1BDA[];
 extern s32 generate_random_value(void);
-extern void begin_actor_random_warp(void *, s32, s32, void *);
+extern void begin_actor_random_warp(void *, void *, void *, void *);
 
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
 s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
@@ -365,8 +356,8 @@ s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwar
         roll = 0;
     }
     if (roll < 0x40) {
-        begin_actor_random_warp(entity, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_00,
-            ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_04, entity);
+        begin_actor_random_warp(entity, NODE_HEADER(entity)->position,
+            NODE_HEADER(entity)->sprite, entity);
         play_sound_if_enabled(0x705);
         if (trap_request_blocked != 0) {
             outcome = -1;

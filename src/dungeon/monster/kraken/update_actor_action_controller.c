@@ -15,6 +15,7 @@
 #include "engine/node/allocation.h"
 #include "engine/texture.h"
 #include "dungeon/data.h"
+#include "dungeon/monster/kraken_frames.h"
 
    /* obj in update_actor_action_controller */
 
@@ -49,7 +50,6 @@ extern s32 generate_random_value(void); /* Retail RNG reads no argument register
 extern void initialize_actor_sprite_and_animation();
 
 extern u8 kraken_action_resume_address[];
-extern u8 kraken_frame_set_1[];
 
 /* Creates a Kraken actor with a linked display object and initializes its status and tile placement. */
 void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 value_0A)

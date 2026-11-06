@@ -8,6 +8,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "sdk/libgte.h"
+#include "dungeon/monster/cyclone_frames.h"
 
 typedef struct Actor Actor;
 typedef void (*ActorCallback)(Actor *, ObjectPosition *, SpriteFrameState *, Actor *);
@@ -38,11 +39,6 @@ struct Actor {
     u16 correctionCountAC;
 };
 
-
-
-
-extern u8 cyclone_move_direction_frames[8];
-extern u8 cyclone_fade_direction_frames[8];
 extern ActorCallback cyclone_callbacks[];
 
 extern void advance_sprite_animation_and_textures(SpriteFrameState *);

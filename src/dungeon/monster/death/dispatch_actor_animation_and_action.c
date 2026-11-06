@@ -16,6 +16,7 @@
 #include "dungeon/monster/death.h"
 #include "dungeon/player/object.h"
 #include "dungeon/monster/hikewne.h"
+#include "dungeon/monster/death_frames.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
@@ -23,11 +24,6 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_801743F0(void *, void *, void *, void *);
 
 extern s32 death_action_resume_address;
-extern u8 death_direction_frames[];
-extern u8 death_frame_set_7[];
-extern u8 death_frame_set_8[];
-extern u8 death_frame_set_1[];
-extern u8 death_frame_set_2[];
 
 typedef struct S_801719DC_0 {
     u8 pad_00[0x8C];

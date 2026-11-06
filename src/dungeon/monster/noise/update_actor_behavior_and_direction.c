@@ -20,6 +20,7 @@
 #include "dungeon/player/object.h"
 #include "sdk/libc.h"
 #include "dungeon/modules.h"
+#include "dungeon/monster/noise_frames.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
@@ -32,11 +33,7 @@ extern void func_80174598(void *, void *, void *, void *);
 void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
 extern void noise_ability_resume_address(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
-extern u8 noise_direction_frames[];
 extern u8 D_80174E98[];
-extern u8 noise_spell_frame_set[];
-extern u8 noise_frame_set_3[];
-extern u8 noise_frame_set[];
 
 /* Update the actor's dungeon behavior, facing, and directional animation. */
 void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor) {

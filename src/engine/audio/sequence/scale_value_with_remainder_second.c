@@ -45,7 +45,7 @@ s32 initialize_audio_sequence_tracks(void)
     s32 format;
     s32 mode;
 
-    *(s32 *)&audio_sequence_timing_word = 0;
+    audio_sequence_timing_word[0] = 0;
     audio_sequence_format[0] = 1;
     offset = 0;
     format = *audio_sequence_data_base[0];
@@ -77,7 +77,7 @@ s32 initialize_audio_sequence_tracks(void)
                     offset = entity->f00;
                 }
                 entity->f04 = entity->f00;
-                entity->f10 = read_base_128_vlq((s32)entity);
+                entity->f10 = read_base_128_vlq(entity);
                 entity->f48 = 0;
                 entity->f4A = 0;
                 entity->f49 = 0;
@@ -109,7 +109,7 @@ s32 initialize_audio_sequence_tracks(void)
             entity->f38 = start;
             offset += length;
             entity->f1C = entity->f00 + entity->f18;
-            entity->f10 = read_base_128_vlq((s32)entity);
+            entity->f10 = read_base_128_vlq(entity);
             entity->f48 = 0;
             entity->f4A = 0;
             entity->f49 = 0;

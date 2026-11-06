@@ -12,6 +12,7 @@
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/system.h"
 #include "dungeon/data.h"
+#include "dungeon/monster/beldo_large_frames.h"
 
 
 
@@ -30,7 +31,6 @@ extern void select_sprite_entry(void *, u8, s32);
 extern void func_80164BA4(void *);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-extern u8 beldo_large_frame_set_3[];
 extern u8 D_80175DC0;
 extern u8 encounter_recovery_flag;
 

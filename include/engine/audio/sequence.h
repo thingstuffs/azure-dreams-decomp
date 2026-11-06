@@ -179,13 +179,13 @@ void open_timer_2_update_event(void);
 s32 seek_sequence_tag_and_schedule_step(struct PlaybackState *state);
 
 /* read_base_vlq.c */
-s32 read_base_128_vlq(s32 stream);
+s32 read_base_128_vlq(void *stream);
 
 /* read_big_endian_word.c */
-u32 read_big_endian_word(s32 stream);
+u32 read_big_endian_word(void *stream);
 
 /* read_sequence_halfword.c */
-int read_sequence_halfword(int input);
+int read_sequence_halfword(void *input);
 
 /* reinit_audio_voices.c */
 void reinit_audio_voices(void);

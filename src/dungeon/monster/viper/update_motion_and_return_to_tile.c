@@ -1,3 +1,4 @@
+#include "dungeon/monster/viper_frames.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -9,7 +10,6 @@
 #include "dungeon/player/object.h"
 
 extern u8 viper_action_continuation_address;
-extern u8 viper_frame_set[];
 
 /* Updates directional motion and returns the entity to its tile when the timer expires. */
 void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {

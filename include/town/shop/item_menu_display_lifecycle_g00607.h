@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "shared/object_node.h"
+#include "shared/item_menu.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "town/shop/state.h"
@@ -12,8 +13,8 @@
 typedef struct S_800B05DC_0 {
     u8 pad_00[0x4];
     s32 child; /* 0x04 */
-    s32 owner; /* 0x08 */
-    s32 init_config; /* 0x0C */
+    ItemMenuStateNode *owner; /* 0x08 */
+    void *init_config; /* 0x0C */
     u8 pad_10[0x4];
     s32 display_config; /* 0x14 */
     s32 init_result; /* 0x18 */
@@ -36,7 +37,7 @@ void release_item_menu_list_object(s32);
 extern struct { s32 v; s32 pad[2]; } object_flag_block;
 
 /* Functions defined in this translation unit. */
-void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, s32 y, s32 init_config);
+void *create_item_menu_display_controller(ItemMenuStateNode *owner, s32 display_config, s32 x, s32 y, void *init_config);
 void finish_item_menu_child_and_release_list(void *record);
 
 #endif

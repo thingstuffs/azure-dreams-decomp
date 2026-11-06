@@ -14,12 +14,11 @@ extern void select_sprite_entry(void *, s32, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/beldo_large_frames.h"
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-extern u8 beldo_large_frame_set_4[];
-extern u8 beldo_large_frame_set_7[];
 
 /* Advance the actor_arg state, updating directional tables and the shared counter. */
 void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *callback_arg, SpriteFrameState *object_arg, ActorRecord *actor_arg) {

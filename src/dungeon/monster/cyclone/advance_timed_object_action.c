@@ -5,10 +5,10 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/cyclone_frames.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern u8 cyclone_move_direction_frames[8];
 typedef struct Obj0 {
     u8 pad04[4];
     s8 field04;

@@ -9,6 +9,7 @@
 #include "dungeon/effect/particle.h"
 #include "dungeon/system.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/monster/beldo_large_frames.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 
@@ -27,7 +28,6 @@ typedef struct {
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern s16 encounter_blink_update_flag[];
-extern u8 beldo_large_frame_set_2[];
 
 extern void initialize_timed_motion_step(s32, s32, void *);
 extern void select_sprite_entry(void *, u8, s32);

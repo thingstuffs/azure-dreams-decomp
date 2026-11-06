@@ -19,5 +19,5 @@ void card_devkit_highlight_selected_load_slot(void *ptr) {
             break;
         }
     }
-    card_info_set_value_and_refresh(*(s32 *)((u8 *)ptr + 4), *(s32 *)((u8 *)ptr + 0x2C));
+    card_info_set_value_and_refresh(*(void **)((u8 *)ptr + 4), *(s32 *)((u8 *)ptr + 0x2C));
 }

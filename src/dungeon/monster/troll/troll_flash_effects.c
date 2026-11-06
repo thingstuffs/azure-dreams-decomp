@@ -39,9 +39,9 @@ void update_normalized_gray_fade(ActorActionEffectBody *countdownState, ObjectPo
     remainingCount = countdownState->remaining_count.u - 1;
     scaledRemaining = (s32) ((s32) (remainingCount << 16) >> 9) / countdownState->divisor;
     countdownState->remaining_count.u = remainingCount;
-    output->color.c.r = (s8) scaledRemaining;
-    output->color.c.b = (s8) scaledRemaining;
-    output->color.c.g = (s8) scaledRemaining;
+    output->color.c.r = scaledRemaining;
+    output->color.c.b = scaledRemaining;
+    output->color.c.g = scaledRemaining;
     if ((s16) countdownState->remaining_count.u <= 0) {
         ((u16 *)countdownState)[-1] |= 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

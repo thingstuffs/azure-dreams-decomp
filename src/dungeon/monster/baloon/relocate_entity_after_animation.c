@@ -1,3 +1,4 @@
+#include "dungeon/monster/baloon_frames.h"
 #include "shared/actor_status_flags.h"
 #include "dungeon/monster/baloon.h"
 #include "common.h"
@@ -19,7 +20,7 @@
 
 
 
-extern u8 baloon_default_frames[];
+
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
 

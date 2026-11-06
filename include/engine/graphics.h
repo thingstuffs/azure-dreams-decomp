@@ -248,16 +248,16 @@ s32 update_vsync_frame_id(s32 id_mode);
 void upload_dispatch_entry_vram_rows(u16 entry_index);
 
 /* upload_eligible_entries_by_mode.c */
-void upload_eligible_entries_by_mode(struct S_800482C8_Entry *entries, s32 *shared_value);
+void upload_eligible_entries_by_mode(struct S_800482C8_Entry *entries, void **shared_value);
 
 /* upload_entry_textures.c */
 void upload_entry_textures(struct S_80047694 *state);
 
 /* upload_entry_textures_narrow.c */
-void upload_entry_textures_narrow(struct S_8004761C_Entry *entries, s32 *source_record_ptr);
+void upload_entry_textures_narrow(struct S_8004761C_Entry *entries, void **source_record_ptr);
 
 /* upload_entry_textures_wide.c */
-void upload_entry_textures_wide(struct S_800475A4_Entry *entries, s32 *source_record_ptr);
+void upload_entry_textures_wide(struct S_800475A4_Entry *entries, void **source_record_ptr);
 
 /* upload_image_blocks.c */
 void runtime_upload_image_blocks_vram_offsets_selected_tile_block_indices(s32 image_addr, s32 tile_id, s32 num_blocks);

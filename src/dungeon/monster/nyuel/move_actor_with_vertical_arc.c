@@ -15,9 +15,9 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 #include "sdk/libgte.h"
+#include "dungeon/monster/nyuel_frames.h"
 
 extern u8 nyuel_action_resume_address[];
-extern u8 nyuel_frame_set_2[];
 
 /* Moves the actor to its tile with a vertical arc and completes the timed action. */
 void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

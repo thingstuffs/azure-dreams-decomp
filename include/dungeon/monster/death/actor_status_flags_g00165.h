@@ -71,7 +71,7 @@ extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPositio
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_801743F0(void *, void *, void *, void *);
 extern s32 death_action_resume_address;
-extern u8 death_frame_set_2[];
+#include "dungeon/monster/death_frames.h"
 extern u8 death_frame_set_3[];
 
 /* Functions defined in this translation unit. */

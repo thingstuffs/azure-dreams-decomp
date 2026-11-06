@@ -13,7 +13,7 @@ void card_boot_begin_selected_slot_load(void *state)
     s32 enabled;
     void *parent;
 
-    parent = (u8 *)state - 0x20;
+    parent = NODE_HEADER(state);
     if (card_save_slot_metadata[menu->unk_28].words[0] != 0) {
         enabled = 1;
         menu->countdown = enabled;

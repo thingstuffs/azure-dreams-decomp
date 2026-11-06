@@ -2,7 +2,6 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
-#include "records/Rec_func_800D6DC0_arg1.h"
 #include "records/Rec_func_800D6DC0_arg2.h"
 #include "dungeon/monster/manoeva.h"
 #include "sdk/libgpu.h"

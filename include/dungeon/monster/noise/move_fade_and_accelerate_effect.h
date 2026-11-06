@@ -121,8 +121,8 @@ s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern u8 D_80171358[];
-extern u8 noise_direction_frames[];
-extern u8 noise_frame_set[];
+#include "dungeon/monster/noise_frames.h"
+
 void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVector3 *position);
 void spawn_random_velocity_offset_effect(ObjectNodeHeader *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset);

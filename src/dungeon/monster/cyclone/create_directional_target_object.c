@@ -7,6 +7,7 @@
 #include "engine/node.h"
 #include "engine/scene.h"
 #include "engine/graphics.h"
+#include "dungeon/monster/cyclone/bobbing_motion.h"
 
 typedef struct
 {
@@ -30,6 +31,7 @@ void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, S
     u16 direction_flags;
     s32 direction_offset;
     Copy24 *position_data;
+    CycloneBobbingMotionBody *motion_data;
     ObjectNodeHeader * object;
     ObjectPosition *transform;
     SpriteFrameState *source_copy;
@@ -59,22 +61,22 @@ void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, S
         select_sprite_entry(render, 0x47, 0);
         transform = object->position;
         *((Copy24 *) (((u8 *) object) + 0x24)) = *position_data;
-        position_data = NODE_BODY(object);
+        motion_data = NODE_BODY(object);
         position_offset.z = 0;
         position_offset.y = 0;
         position_offset.x = 0;
         if (resolve_record_orientation_or_fallback(source_copy->source, source_copy, &position_offset, 1) != 0) {
-            *((u16 *) (((u8 *) position_data) + 6)) += position_offset.x;
-            transform->x.unsigned_parts.integer = *((u16 *) (((u8 *) position_data) + 6));
-            *((u16 *) (((u8 *) position_data) + 0xA)) += position_offset.y;
-            transform->y.unsigned_parts.integer = *((u16 *) (((u8 *) position_data) + 0xA));
-            *((u16 *) (((u8 *) position_data) + 0xE)) += position_offset.z;
-            transform->z.unsigned_parts.integer = *((u16 *) (((u8 *) position_data) + 0xE));
+            motion_data->path.x.unsigned_parts.integer += position_offset.x;
+            transform->x.unsigned_parts.integer = motion_data->path.x.unsigned_parts.integer;
+            motion_data->path.y.unsigned_parts.integer += position_offset.y;
+            transform->y.unsigned_parts.integer = motion_data->path.y.unsigned_parts.integer;
+            motion_data->path.z.unsigned_parts.integer += position_offset.z;
+            transform->z.unsigned_parts.integer = motion_data->path.z.unsigned_parts.integer;
         }
-        position_data->words[4] = (((s32) target_position.words[0])
-            - (*((s32 *) (((u8 *) position_data) + 4)))) / 0x20;
-        position_data->words[5] = (((s32) target_position.words[1])
-            - (*((s32 *) (((u8 *) position_data) + 8)))) / 0x20;
+        motion_data->path.velocity_x = (((s32) target_position.words[0])
+            - motion_data->path.x.v) / 0x20;
+        motion_data->path.velocity_y = (((s32) target_position.words[1])
+            - motion_data->path.y.v) / 0x20;
         result = object;
         return result;
     }

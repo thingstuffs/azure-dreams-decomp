@@ -16,14 +16,14 @@ struct S_800482C8_Entry {
 
 
 
-extern void pack_texture_into_vram_wide(struct S_800482C8_Entry *a0, s32 a1, s32 a2);
-extern void pack_texture_into_vram_narrow(struct S_800482C8_Entry *a0, s32 a1, s32 a2);
+extern void pack_texture_into_vram_wide(struct S_800482C8_Entry *a0, void *a1, s32 a2);
+extern void pack_texture_into_vram_narrow(struct S_800482C8_Entry *a0, void *a1, s32 a2);
 
 /* Dispatches eligible entries to the selected callback with a shared value and successive words preceding the array. */
-void upload_eligible_entries_by_mode(struct S_800482C8_Entry *entries, s32 *shared_value)
+void upload_eligible_entries_by_mode(struct S_800482C8_Entry *entries, void **shared_value)
 {
     struct S_800482C8_Entry *entry = entries;
-    s32 *value_ptr = shared_value;
+    void **value_ptr = shared_value;
     s32 *value_cursor = (s32 *)entries;
 
     do {

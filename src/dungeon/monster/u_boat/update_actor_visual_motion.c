@@ -1,3 +1,4 @@
+#include "dungeon/monster/u_boat_frames.h"
 #include "common.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
@@ -7,7 +8,7 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern u8 uboat_default_frames[];
+
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"

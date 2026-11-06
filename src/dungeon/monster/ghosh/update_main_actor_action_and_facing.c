@@ -19,6 +19,7 @@
 #include "dungeon.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/ghosh_frames.h"
 
 typedef struct {
     u8 before_callback[0x8C];
@@ -36,9 +37,6 @@ typedef struct S_8016B778_5 {
     u16 unk_0C;
 } S_8016B778_5;   /* entry in update_main_actor_action_and_facing */
 
-extern u8 ghosh_frame_set_12[];
-extern u8 ghosh_frame_set_4[];
-extern u8 ghosh_frame_set_3[];
 extern u8 ghosh_action_resume_address[];
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 struct ActorRecord; void update_actor_status_and_mp(struct ActorRecord *);

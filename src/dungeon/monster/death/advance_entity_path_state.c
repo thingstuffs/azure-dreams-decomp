@@ -7,12 +7,11 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/death.h"
+#include "dungeon/monster/death_frames.h"
 
 
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-
-extern u8 death_direction_frames[];
 
 /* Advance the entity along its path and update its movement state. */
 void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state) {

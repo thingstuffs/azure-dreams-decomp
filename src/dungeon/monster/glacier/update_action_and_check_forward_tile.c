@@ -32,7 +32,7 @@ extern void create_facing_offset_object(void *, ObjectPosition *, SpriteFrameSta
 extern u8 D_80170B48[];
 
 #include "dungeon/monster/glacier.h"
-extern u8 glacier_frame_set_1[];
+#include "dungeon/monster/glacier_frames.h"
 extern Pair16 glacier_direction_offsets[];
 
 

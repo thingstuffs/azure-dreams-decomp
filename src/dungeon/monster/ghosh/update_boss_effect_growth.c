@@ -31,7 +31,7 @@ typedef struct S_80172874_7 {
 extern u8 ghosh_frame_set_5[];
 
 /* Brighten and rotate the sprite, track its source position, then fade it out. */
-void update_boss_effect_growth(GhoshTrackedFadeBody *effect, EntityRec *position, SpriteFrameState *transform)
+void update_boss_effect_growth(GhoshTrackedFadeBody *effect, ObjectPosition *position, SpriteFrameState *transform)
 {
     GhoshTrackedFadeBody *base = effect;
     S_80172874_6 *source;

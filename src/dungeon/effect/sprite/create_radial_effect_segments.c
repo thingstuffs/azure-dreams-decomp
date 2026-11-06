@@ -4,7 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_800D6DC0_arg1.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/effect/radial_effect_segment.h"
 #include "engine/graphics.h"
@@ -35,7 +34,7 @@ typedef struct {
    /* arg3 in create_radial_effect_segments */
 
 /* Creates eight radial effect segments using the source position and render data. */
-void create_radial_effect_segments(ActorRecord *unused, Rec_func_800D6DC0_arg1 *origin, void *render_template, ActorRecord *orientation) {
+void create_radial_effect_segments(ActorRecord *unused, ObjectPosition *origin, void *render_template, ActorRecord *orientation) {
     s32 end_y_scaled;
     s32 start_angle;
     u8 * copy_end;
@@ -79,10 +78,10 @@ void create_radial_effect_segments(ActorRecord *unused, Rec_func_800D6DC0_arg1 *
             render_data->flags = (u16) (render_data->flags | 0xC);
             register_node(effect, &draw_linked_depth_sliced_quads);
             position = effect->position;
-            position->x.w.i = (u16) origin->unk_02;
+            position->x.w.i = (u16) origin->x.unsigned_parts.integer;
             start_angle = segment << 9;
-            position->y.w.i = (u16) origin->unk_06;
-            position->z.w.i = (s16) (origin->unk_0A + 0x28);
+            position->y.w.i = (u16) origin->y.unsigned_parts.integer;
+            position->z.w.i = (s16) (origin->z.unsigned_parts.integer + 0x28);
             render_data->scale_y = 0x1000;
             render_data->scale_x = 0x1000;
             render_data->color.c.b = 0xFA;

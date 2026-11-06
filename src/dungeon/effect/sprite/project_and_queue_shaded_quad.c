@@ -214,13 +214,13 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         sprite->flags |= 0xC;
         elevation = rand() & 0xFFF;
         planar_radius = (source->unk_56 * rcos(elevation)) >> 12;
-        state->unk_24.s = (source->unk_56 * rsin(elevation)) >> 12;
+        state->unk_24 = (source->unk_56 * rsin(elevation)) >> 12;
         azimuth = rand() & 0xFFF;
-        state->unk_20.s = ((s16)planar_radius * rcos(azimuth)) >> 12;
-        state->unk_22.s = ((s16)planar_radius * rsin(azimuth)) >> 12;
+        state->unk_20 = ((s16)planar_radius * rcos(azimuth)) >> 12;
+        state->unk_22 = ((s16)planar_radius * rsin(azimuth)) >> 12;
 
-        state->unk_26 = state->unk_20.u + project_and_queue_visible_shaded_quad(0x10) - 8;
-        state->unk_28 = state->unk_22.u + project_and_queue_visible_shaded_quad(0x10) - 8;
+        state->unk_26 = (u16)state->unk_20 + project_and_queue_visible_shaded_quad(0x10) - 8;
+        state->unk_28 = (u16)state->unk_22 + project_and_queue_visible_shaded_quad(0x10) - 8;
         random_value = project_and_queue_visible_shaded_quad(0x10);
         state->unk_36 = 0;
         state->unk_34 = 0;
@@ -228,7 +228,7 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         state->unk_30 = 0;
         state->unk_2E = 0;
         state->unk_2C = 0;
-        state->unk_2A = state->unk_24.u + random_value - 8;
+        state->unk_2A = (u16)state->unk_24 + random_value - 8;
 
         position = effect->position;
         position->x.w.i = origin->unk_02;
@@ -254,7 +254,7 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
     u16 paired_value;
 
     effect->unk_1A += 0x2BC;
-    ticks_left = ((Row_819231FC_S_800249FC_1 *)object)->unk_5A.s;
+    ticks_left = ((Row_819231FC_S_800249FC_1 *)object)->unk_5A;
     ((s16 *)shaded_effect_update_flag)[0] = 1;
 
     if (ticks_left >= 0x29) {
@@ -277,8 +277,8 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
         effect->unk_14 = flags | 0x80;
     }
 
-    next_ticks = ((Row_819231FC_S_800249FC_1 *)object)->unk_5A.s - 1;
-    ((Row_819231FC_S_800249FC_1 *)object)->unk_5A.s = next_ticks;
+    next_ticks = ((Row_819231FC_S_800249FC_1 *)object)->unk_5A - 1;
+    ((Row_819231FC_S_800249FC_1 *)object)->unk_5A = next_ticks;
     if (next_ticks <= 0) {
         ((Row_819231FC_S_800249FC_1_pre *)object)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -451,7 +451,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
     u8 effect_id;
     Row_8192365C_S_80024E5C_3 *target_position;
 
-    initial_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u;
+    initial_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
     (*(s16 *)shaded_effect_update_flag) = 1;
     if (initial_state < 3U) {
         sprite->color.c.b = 0x3C;
@@ -473,26 +473,26 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
             sprite->color.c.b = 0x80;
         }
     }
-    if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.s == 0) {
-        start_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u;
-        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = (u16) (start_frame + 1);
+    if ((s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 0) {
+        start_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
+        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = (u16) (start_frame + 1);
         if ((s16) start_frame >= 6) {
             effect_id = shaded_quad_frame_set[0];
             sprite->frameTable = shaded_quad_frame_set;
             select_sprite_entry(sprite, effect_id, 0);
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = 0U;
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u + 1);
+            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = 0U;
+            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 + 1);
             ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v = (u16) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v - 0x5A);
         }
     }
-    completion_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.s;
+    completion_state = (s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
     if (completion_state == 1) {
         if ((check_adjacent_tile_height_clearance(((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02.v, ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at02.v,
             (s16) ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v, ((Row_8192365C_S_80024E5C_0 *)effect)->unk_88) << 0x10) == 0) {
             if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_60 != 0) {
                 target_position = ((Row_8192365C_S_80024E5C_4_pre *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))[-1].unk_00;
                 sprite->depth_bias = 8;
-                if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.s == 0) {
+                if ((s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A == 0) {
                     delta_x = target_position->unk_00.at02.v;
                     delta_x -= ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02u.v;
                     distance_x = abs(delta_x);
@@ -505,10 +505,10 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
                         travel_distance += 0x3F;
                     }
                     travel_distance = (distance_x >> 6) + (travel_distance >> 6);
-                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = (u16) (((s32) (travel_distance << 0x10) >> 0xF) + 0xB);
+                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = (u16) (((s32) (travel_distance << 0x10) >> 0xF) + 0xB);
                 }
                 height_table = entity_height_offsets;
-                travel_frames = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u;
+                travel_frames = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
                 target_z = target_position->unk_08
                 - (((u8) *(((Row_8192365C_S_80024E5C_4 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))->unk_13 + height_table) >> 1)
                     << 0x10);
@@ -520,20 +520,20 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
                     ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames
                         - 0xB));
                     ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
-                        - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u
+                        - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A
                         - 0xB));
                     ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = (target_z
-                        - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v) / (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.s - 0xB);
+                        - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v) / ((s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 0xB);
                 } else {
                     if (travel_frames >= 0xB) {
                         current_x = ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v;
                         ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step
                             - current_x) / (s32) (travel_frames - 9));
                         ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
-                            - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u
+                            - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A
                             - 9));
                         ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = (target_z
-                            - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v) / (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.s - 9);
+                            - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v) / ((s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 9);
                     } else {
                         if (travel_frames >= 5) {
                             s32 divisor;
@@ -542,19 +542,19 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
                             ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step
                                 - current_x) / (s32) (travel_frames - 4));
                             ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
-                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u
+                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A
                                 - 4));
                             z_step = target_z - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v;
-                            divisor = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.s - 4;
+                            divisor = (s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 4;
                             z_step /= divisor;
                             ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = z_step;
                         } else {
                             ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = (s32) ((s32) (target_x_or_z_step
                                 - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v) / travel_frames);
                             ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
-                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u);
+                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A);
                             ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = (s32) ((s32) (target_z
-                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v) / (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u);
+                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v) / (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A);
                         }
                     }
                 }
@@ -564,19 +564,19 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
                     + ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C);
                 ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v + velocity_y);
                 ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v + velocity_z);
-                frames_left = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u - 1;
-                ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = frames_left;
+                frames_left = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 1;
+                ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = frames_left;
                 if ((frames_left << 0x10) == 0) {
-                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u = 2U;
+                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 = 2U;
                     ((Row_8192365C_S_80024E5C_0 *)effect)->unk_62 = 6;
-                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = 0U;
+                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = 0U;
                     ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = 0;
                     ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = 0;
                     ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = 0;
                     ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = 0x1E;
                 }
             } else {
-                ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = 0xAU;
+                ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = 0xAU;
                 ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5C = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5C - 1);
                 ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v
                     + ((Row_8192365C_S_80024E5C_0 *)effect)->unk_98);
@@ -591,7 +591,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
                     return;
                 }
             }
-            if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 5) {
+            if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 5) {
                 trail_index = 0;
                 do {
                     create_random_offset_effect(effect, motion, sprite);
@@ -607,15 +607,15 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
         }
     }
 update_impact:
-    impact_state = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u;
+    impact_state = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
     if (impact_state == 2) {
-        impact_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u + 1;
-        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = impact_frame;
+        impact_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
+        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = impact_frame;
         if ((s16) impact_frame == impact_state) {
             create_positioned_render_effect(effect, motion, sprite);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
-        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0xA) {
+        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0xA) {
             scale = sprite->scale_x;
             if (scale != 0) {
                 reduced_scale = scale - 0xC8;
@@ -627,25 +627,25 @@ update_impact:
                 sprite->scale_y = clamped_scale;
             }
         }
-        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x1E) {
+        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0x1E) {
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 + 3);
             create_randomized_radial_effect(effect, motion, sprite);
-            if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x28) {
+            if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0x28) {
                 create_randomized_radial_effect(effect, motion, sprite);
             }
-            if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x2D) {
+            if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0x2D) {
                 create_randomized_radial_effect(effect, motion, sprite);
             }
         }
-        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x32) {
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u = 3U;
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = 0U;
+        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0x32) {
+            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 = 3U;
+            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = 0U;
             sprite->flags = (u16) (sprite->flags | 0x80);
         }
     }
-    if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u == 3) {
-        burst_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u + 1;
-        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = burst_frame;
+    if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 3) {
+        burst_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
+        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = burst_frame;
         if ((s16) burst_frame < 0x12) {
             burst_index = 0;
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 - 3);
@@ -655,7 +655,7 @@ update_impact:
                 burst_index = next_burst;
             } while (next_burst < 5);
         }
-        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u == 0x10) {
+        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A == 0x10) {
             pair_index = 0;
             do {
                 create_randomized_radial_effect(effect, motion, sprite);
@@ -664,7 +664,7 @@ update_impact:
             } while (next_pair < 2);
         }
         triple_index = 0;
-        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u == 0x11) {
+        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A == 0x11) {
             do {
                 create_randomized_radial_effect(effect, motion, sprite);
                 next_triple = triple_index + 1;
@@ -672,18 +672,18 @@ update_impact:
             } while (next_triple < 3);
         }
         quad_index = 0;
-        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u == 0x12) {
+        if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A == 0x12) {
             do {
                 create_randomized_radial_effect(effect, motion, sprite);
                 next_quad = quad_index + 1;
                 quad_index = next_quad;
             } while (next_quad < 4);
         }
-        end_frame = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u;
+        end_frame = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
         completion_state = 1;
         if (end_frame == 1) {
             create_attached_effect(effect, motion, sprite);
-            end_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.s;
+            end_frame = (s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
         }
         if (end_frame >= 0x1B) {
             ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;

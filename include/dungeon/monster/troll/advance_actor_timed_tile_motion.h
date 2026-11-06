@@ -17,9 +17,9 @@ typedef struct T_80174C44_S_80174C44_0 {
     u8 phase;
 } T_80174C44_S_80174C44_0;   /* arg0 in func_80174C44 */
 
-extern u8 troll_frame_set_5[];
-extern u8 troll_frame_set_6[];
-extern u8 troll_frame_set_7[];
+#include "dungeon/monster/troll_frames.h"
+
+
 void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *transform, SpriteFrameState *entity, ActorRecord *actor);
 void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 #endif

@@ -24,7 +24,7 @@ struct S_800482C8_Entry {
 /* S_80047694: caller-side view of an entity/state struct.
  *   field_8  (0x08): pointer to the 0xC-byte entry array (passed on to callees)
  *   field_14 (0x14): u16 flags; bit 0x400 selects the upload_eligible_entries_by_mode path
- *   field_28 (0x28): pointer to an s32 cursor/arg passed on to callees
+ *   field_28 (0x28): pointer to the source record pointer passed on to callees
  */
 struct S_80047694 {
     u8 pad_0[0x8];
@@ -32,7 +32,7 @@ struct S_80047694 {
     u8 pad_C[0x8];
     u16 field_14;
     u8 pad_16[0x28 - 0x16];
-    s32 *field_28;
+    void **field_28;
 };
 
 /* Dispatch entries and cursor to a handler selected by state flags and global mode. */

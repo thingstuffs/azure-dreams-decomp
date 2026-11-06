@@ -1,3 +1,4 @@
+#include "dungeon/monster/baloon_frames.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -80,7 +81,7 @@ s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *act
         actor->unk_85 = 0;
         action_state->action_state_flags &= 0xFFF7;
         actor->flags1C &= 0xFFFBFFFF;
-        anim_table = &baloon_attack_frames;
+        anim_table = baloon_attack_frames;
         sprite->frameTable = anim_table;
         select_sprite_entry(sprite,
                       anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

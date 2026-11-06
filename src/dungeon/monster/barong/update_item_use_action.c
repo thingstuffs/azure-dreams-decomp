@@ -34,9 +34,8 @@ extern u8 barong_action_resume_address[];
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/barong_frames.h"
 
-extern u8 barong_frame_set[];
-extern u8 barong_frame_set_3[];
 extern LocalPacket D_801755D4;
 
 typedef struct S_801731C8_2 {

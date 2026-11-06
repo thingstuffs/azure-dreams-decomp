@@ -362,15 +362,15 @@ extern s32 generate_random_value(void);
 extern u8 D_80175EBC[];
 extern u8 D_80175EB4[];
 extern T_80171928_Blob12 D_80175EDC;
-extern u8 troll_kind13_direction_frames[];
-extern u8 troll_kind14_direction_frames[];
-extern u8 troll_kind15_direction_frames[];
+#include "dungeon/monster/troll_frames.h"
+
+
 extern T_80171BEC_Packed3 D_80175EE8;
 extern s8 entity_spawn_variant_code;
 extern u8 D_801720B4[];
-extern u8 troll_frame_set_1[];
-extern u8 troll_frame_set_2[];
-extern u8 troll_frame_set_3[];
+
+
+
 void update_stepped_rgb_flash(void *fade_state, ObjectPosition *unused, SpriteFrameState *primitive);
 void update_normalized_gray_fade(ActorActionEffectBody *countdownState, ObjectPosition *unused, SpriteFrameState *output);
 void update_saved_rgb_fade(T_80170E2C_FadeState *fade, ObjectPosition *unused, SpriteFrameState *output);

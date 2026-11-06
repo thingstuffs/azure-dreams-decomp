@@ -598,7 +598,7 @@ typedef struct S_80024B20_1 {
 
 typedef struct S_80024B20_3 {
     u8 pad_00[0x12];
-    union { u16 v; s16 n; } unk_12;   /* accessed as both */
+    u16 unk_12;
     s16 unk_14;
 } S_80024B20_3;   /* p in update_segment */
 
@@ -688,10 +688,10 @@ void update_segment(DirectionalGridEffectBody *effect) {
 
                 base_speed = (segment_index + 1) * 6;
                 segment = (u8 *)effect + segment_index * 6;
-                position = ((S_80024B20_3 *)segment)->unk_12.v;
+                position = ((S_80024B20_3 *)segment)->unk_12;
                 if (gap_limit < (((DirectionalGridEffectBody *)((u8 *)effect + base_speed))->entries[0].unk_02
-                    - ((S_80024B20_3 *)segment)->unk_12.n)) {
-                    ((S_80024B20_3 *)segment)->unk_12.n = position + (gap_limit + (gap_limit >> 1));
+                    - (s16)((S_80024B20_3 *)segment)->unk_12)) {
+                    ((S_80024B20_3 *)segment)->unk_12 = position + (gap_limit + (gap_limit >> 1));
                 }
                 gap_limit -= 0x10;
                 segment_index--;

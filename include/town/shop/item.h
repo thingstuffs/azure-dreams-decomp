@@ -105,7 +105,7 @@ void process_item_menu_selected_entry(ItemMenuObject *record);
 void run_item_menu_record_handlers(void *record_payload);
 
 /* schedule_item_menu_child_release.c */
-void schedule_item_menu_child_release(struct S_800B0700_0 *object);
+void schedule_item_menu_child_release(ObjectNodeHeader *object);
 
 /* serch_item_plown.c */
 s32 serch_item_plown(s32 item_kind, s32 item_type);

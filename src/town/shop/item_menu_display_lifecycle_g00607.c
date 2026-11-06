@@ -6,7 +6,7 @@
 #include "town/system_callbacks_api.h"
 
 /* Create a display controller and its child display object. */
-void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, s32 y, s32 init_config) {
+void *create_item_menu_display_controller(ItemMenuStateNode *owner, s32 display_config, s32 x, s32 y, void *init_config) {
     s32 init_result;
     s32 display_object;
     S_800B05DC_0 *state;

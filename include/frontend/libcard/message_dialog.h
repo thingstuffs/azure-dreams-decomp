@@ -4,15 +4,15 @@
 #include "shared/menu_display.h"
 #include "frontend/libcard/display_node.h"
 /* Shared storage initialized by card_boot_create_or_reset_message_dialog for
- * every message-dialog kind. The result slot keeps its pointer view here;
- * the legacy integer-valued binding interface retains its separate view. */
+ * every message-dialog kind. The owner is a node header; the result is a
+ * status word that the input handler writes through. */
 typedef struct CardMessageDialogBody {
     s32 selected_choice;
     u8 pad_04[4];
     s32 entry_index;
     s32 mode;
     s32 repeat_delay;
-    s32 owner;
+    struct ObjectNodeHeader *owner;
     s32 width;
     s32 height;
     s32 *result;

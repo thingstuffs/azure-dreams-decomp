@@ -19,10 +19,10 @@ typedef struct S_func_818DA800_1 {
     void *unk_00;
     void *unk_04;
     u8 pad_08[2];
-    union { s16 as_s16; u16 as_u16; } unk_0A;
+    u16 unk_0A;
     u8 pad_0C[0x44];
-    union { s16 as_s16; u16 as_u16; } unk_50;
-    union { s16 as_s16; u16 as_u16; } unk_52;
+    u16 unk_50;
+    u16 unk_52;
 } S_func_818DA800_1;
 
 typedef struct S_func_818DA800_2 {
@@ -30,21 +30,21 @@ typedef struct S_func_818DA800_2 {
         s32 as_s32;
         struct {
             u8 pad_00[2];
-            union { s16 as_s16; u16 as_u16; } unk_02;
+            u16 unk_02;
         } half;
     } unk_00;
     union {
         s32 as_s32;
         struct {
             u8 pad_04[2];
-            union { s16 as_s16; u16 as_u16; } unk_06;
+            u16 unk_06;
         } half;
     } unk_04;
     union {
         s32 as_s32;
         struct {
             u8 pad_08[2];
-            union { s16 as_s16; u16 as_u16; } unk_0A;
+            u16 unk_0A;
         } half;
     } unk_08;
     union {
@@ -148,11 +148,11 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     s32 tile_coord;
 
     actor = effect_state->unk_00;
-    timer = (u16)effect_state->unk_50.as_u16;
+    timer = (u16)effect_state->unk_50;
     timer -= 1;
-    phase = effect_state->unk_0A.as_s16;
+    phase = (s16)effect_state->unk_0A;
     actor_data = ((S_func_818DA800_5 *)NODE_HEADER(actor))->unk_0C;
-    effect_state->unk_50.as_u16 = timer;
+    effect_state->unk_50 = timer;
 
     actor_header = ((u8 *)actor - 0x20);
     switch (phase) {
@@ -180,38 +180,38 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
         }
     }
 
-    motion->unk_00.half.unk_02.as_u16 =
-        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_00.half.unk_02.as_u16;
-    motion->unk_04.half.unk_06.as_u16 =
-        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_04.half.unk_06.as_u16;
-    motion->unk_08.half.unk_0A.as_u16 =
-        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_08.half.unk_0A.as_u16;
-    effect_state->unk_50.as_u16 = 8;
+    motion->unk_00.half.unk_02 =
+        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_00.half.unk_02;
+    motion->unk_04.half.unk_06 =
+        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_04.half.unk_06;
+    motion->unk_08.half.unk_0A =
+        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_08.half.unk_0A;
+    effect_state->unk_50 = 8;
     tile_coord = actor->target_tile_x;
     motion->unk_0C.half.unk_0E =
-        (tile_coord << 6) - (motion->unk_00.half.unk_02.as_u16 - 0x20);
+        (tile_coord << 6) - (motion->unk_00.half.unk_02 - 0x20);
     motion->unk_0C.as_s32 = motion->unk_0C.as_s32 /
-        effect_state->unk_50.as_s16;
+        (s16)effect_state->unk_50;
     tile_coord = actor->target_tile_y;
     motion->unk_10.half.unk_12 =
-        (tile_coord << 6) - (motion->unk_04.half.unk_06.as_u16 - 0x20);
+        (tile_coord << 6) - (motion->unk_04.half.unk_06 - 0x20);
     motion->unk_10.as_s32 = motion->unk_10.as_s32 /
-        effect_state->unk_50.as_s16;
+        (s16)effect_state->unk_50;
     motion->unk_14.half.unk_16 = sample_terrain_surface_height(
-        motion->unk_00.half.unk_02.as_u16, motion->unk_04.half.unk_06.as_u16,
-        (s16)(((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_08.half.unk_0A.as_u16 -
-              0x30)) - motion->unk_08.half.unk_0A.as_s16;
+        motion->unk_00.half.unk_02, motion->unk_04.half.unk_06,
+        (s16)(((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_08.half.unk_0A -
+              0x30)) - (s16)motion->unk_08.half.unk_0A;
     motion->unk_14.as_s32 = motion->unk_14.as_s32 /
-        effect_state->unk_50.as_s16;
+        (s16)effect_state->unk_50;
     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-    effect_state->unk_0A.as_u16++;
+    effect_state->unk_0A++;
     break;
 
     case 1:
     motion->unk_00.as_s32 += motion->unk_0C.as_s32;
     motion->unk_04.as_s32 += motion->unk_10.as_s32;
     motion->unk_08.as_s32 += motion->unk_14.as_s32;
-    if (effect_state->unk_50.as_s16 > 0) {
+    if ((s16)effect_state->unk_50 > 0) {
         break;
     }
     {
@@ -231,21 +231,21 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
                 prim = burst_obj->sprite;
                 position_or_z_offset = (s32)burst_obj->position;
                 burst_obj->update_callback = image_base;
-                center_coord = motion->unk_00.half.unk_02.as_s16;
+                center_coord = (s16)motion->unk_00.half.unk_02;
                 child_state = NODE_BODY(burst_obj);
                 if (actor_or_corner >> 1) {
                     corner_coord = center_coord - 16;
                 } else {
                     corner_coord = center_coord + 16;
                 }
-                ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_00.half.unk_02.as_s16 = corner_coord;
+                ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_00.half.unk_02 = corner_coord;
                 position_or_z_offset = (s32)burst_obj->position;
-                center_coord = motion->unk_04.half.unk_06.as_s16;
+                center_coord = (s16)motion->unk_04.half.unk_06;
                 if ((actor_or_corner & 1) == 0) {
-                    ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06.as_s16 = center_coord + 16;
+                    ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06 = center_coord + 16;
                     prim_color = 0xC00000;
                 } else {
-                    ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06.as_s16 = center_coord - 16;
+                    ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06 = center_coord - 16;
                     prim_color = 0xC00000;
                 }
                 position_or_z_offset = -0x100000;
@@ -287,10 +287,10 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
             register_node(impact_obj, func_80024714);
             impact_obj->unk_10 = D_80024684;
             child_state = (S_func_818DA800_8 *)((u8 *)impact_obj + 0x20);
-            child_state->unk_04 = motion->unk_00.half.unk_02.as_u16;
-            effect_y = motion->unk_04.half.unk_06.as_u16;
+            child_state->unk_04 = motion->unk_00.half.unk_02;
+            effect_y = motion->unk_04.half.unk_06;
             child_state->unk_06 = effect_y;
-            effect_z = motion->unk_08.half.unk_0A.as_u16;
+            effect_z = motion->unk_08.half.unk_0A;
             child_state->unk_12 = 1;
             child_state->unk_0C = -64;
             duration = 40;
@@ -299,25 +299,25 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
             child_state->unk_10 = duration;
         }
     }
-    effect_state->unk_50.as_u16 = 10;
-    effect_state->unk_0A.as_u16++;
+    effect_state->unk_50 = 10;
+    effect_state->unk_0A++;
     break;
 
     case 2:
-    if (effect_state->unk_50.as_s16 > 0) {
+    if ((s16)effect_state->unk_50 > 0) {
         break;
     }
     if (actor->target == 0) {
-        effect_state->unk_50.as_u16 = 8;
-        effect_state->unk_0A.as_u16 = 5;
+        effect_state->unk_50 = 8;
+        effect_state->unk_0A = 5;
         break;
     }
-    effect_state->unk_50.as_u16 = 20;
-    effect_state->unk_0A.as_u16++;
+    effect_state->unk_50 = 20;
+    effect_state->unk_0A++;
     break;
 
     case 3:
-    if (effect_state->unk_50.as_s16 > 0) {
+    if ((s16)effect_state->unk_50 > 0) {
         break;
     }
     if (actor->target != 0 &&
@@ -328,23 +328,23 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
             ((S_func_818DA800_10 *)current_spell_effect_variant)->unk_00 == 0xFF ? 0xFF : 0x10,
             2);
     }
-    effect_state->unk_50.as_u16 = 10;
-    effect_state->unk_0A.as_u16++;
+    effect_state->unk_50 = 10;
+    effect_state->unk_0A++;
     break;
 
     case 4:
-    if (effect_state->unk_50.as_s16 > 0) {
+    if ((s16)effect_state->unk_50 > 0) {
         break;
     }
-    effect_state->unk_50.as_u16 = 4;
-    effect_state->unk_0A.as_u16++;
+    effect_state->unk_50 = 4;
+    effect_state->unk_0A++;
     break;
 
     case 5:
-    if (effect_state->unk_52.as_s16 & (u16)0x8000) {
-        effect_state->unk_52.as_u16 &= 0x7FFF;
+    if ((s16)effect_state->unk_52 & (u16)0x8000) {
+        effect_state->unk_52 &= 0x7FFF;
     } else {
-        if (effect_state->unk_50.as_s16 <= 0) {
+        if ((s16)effect_state->unk_50 <= 0) {
             g_dungeon_status.active_actor = 0;
             ((S_func_818DA800_11 *)((u8 *)effect_state - 4))->unk_02 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -9,8 +9,7 @@ struct ObjectNodeHeader;
 #include "dungeon/item.h"
 #include "engine/graphics.h"
 #include "dungeon/level.h"
-
-extern u8 ghosh_frame_set_4[];
+#include "dungeon/monster/ghosh_frames.h"
 
 /* Resets the Ghosh actor action and animation, updates system flags, and relinks up to two attached
  * objects. */

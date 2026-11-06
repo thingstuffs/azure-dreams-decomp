@@ -1,3 +1,4 @@
+#include "dungeon/monster/u_boat_frames.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/monster/u_boat.h"
@@ -17,7 +18,7 @@ typedef struct S_80170CEC_1 {
 
 
 
-extern u8 uboat_ready_frames[];
+
 extern u8 D_800E2408[];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */

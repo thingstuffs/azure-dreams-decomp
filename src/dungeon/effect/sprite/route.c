@@ -73,19 +73,19 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
             u8 *mode_packet;
 
             ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00.v = node->unk_08.word;
-            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00u.v * node->unk_32.s;
+            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00u.v * node->unk_32;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
             ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00u.v = color_or_tpage >> 8;
 
-            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at01.v * node->unk_32.s;
+            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at01.v * node->unk_32;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
             ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at01.v = color_or_tpage >> 8;
 
-            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at02.v * node->unk_32.s;
+            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at02.v * node->unk_32;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
                 texture_depth = 0;
@@ -167,8 +167,8 @@ void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *obj
         *(u32 *)(((u8 *)source) + 8) += 0x20000 + (random_value & 0xFFF);
     }
 
-    object->unk_32.s -= 8;
-    if (object->unk_32.s <= 0) {
+    object->unk_32 -= 8;
+    if (object->unk_32 <= 0) {
         ((u16 *)object)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -252,7 +252,7 @@ void create_jittered_terrain_seeking_point(
         position_z += bias_z;
         dest_z->unk_0A = (s16)position_z;
         fields->unk_14 = field_34;
-        fields->unk_32.s = saved_field_52;
+        fields->unk_32 = saved_field_52;
         register_node(object_cursor, init_data);
         fields->unk_08.u = saved_field_28;
     }
@@ -450,7 +450,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
 
     linked_point_effect_updated[0] = 1;
     env = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_2C;
-    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s == 0) {
+    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 0) {
         p = (void *)0;
         loop_0: {
             s32 a3v;
@@ -480,7 +480,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             s32 d;
             s32 aw;
             d = pos->x.w.i;
-            d -= star->unk_02.s;
+            d -= star->unk_02;
             aw = d;
             aw = abs(aw);
             if (aw < 8) {
@@ -506,7 +506,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             s32 d;
             s32 aw;
             d = pos->y.w.i;
-            d -= star->unk_06.s;
+            d -= star->unk_06;
             aw = (d >= 0) ? d : (0 - d);
             if (aw < 8) {
                 s32 v;
@@ -533,8 +533,8 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 s32 st;
                 a2v = pos->x.unsigned_parts.integer;
                 d = pos->x.w.i;
-                a1v = star->unk_02.u;
-                st = star->unk_02.s;
+                a1v = (u16)star->unk_02;
+                st = star->unk_02;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
@@ -544,20 +544,20 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 } else if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_38 != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3C) {
                     s32 one;
                     one = 1;
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s = one;
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
+                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = one;
+                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
                 }
                 if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_38 != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3C) {
                     s32 v = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
                     if (v > 0) {
                         if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s = 1;
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
+                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = 1;
+                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
                         }
                     } else if (v < 0) {
                         if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s = 1;
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
+                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = 1;
+                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
                         }
                     }
                 }
@@ -568,8 +568,8 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 s32 st;
                 a2v = pos->y.unsigned_parts.integer;
                 d = pos->y.w.i;
-                a1v = star->unk_06.u;
-                st = star->unk_06.s;
+                a1v = (u16)star->unk_06;
+                st = star->unk_06;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
@@ -579,20 +579,20 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 } else if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3A != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3E) {
                     s32 one;
                     one = 1;
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s = one;
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
+                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = one;
+                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
                 }
                 if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3A != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3E) {
                     s32 v = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
                     if (v > 0) {
                         if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s = 1;
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
+                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = 1;
+                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
                         }
                     } else if (v < 0) {
                         if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s = 1;
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
+                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = 1;
+                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
                         }
                     }
                 }
@@ -603,10 +603,10 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 s32 st;
                 if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C != 0) {
                     a2v = pos->x.unsigned_parts.integer;
-                    a1v = star->unk_02.u;
+                    a1v = (u16)star->unk_02;
                 } else {
                     a2v = pos->y.unsigned_parts.integer;
-                    a1v = star->unk_06.u;
+                    a1v = (u16)star->unk_06;
                 }
                 d = (s16)a2v;
                 st = (s16)a1v;
@@ -619,11 +619,11 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 }
             }
         } else {
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04.s -= 1;
+            *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04 -= 1;
             pos->x.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
             pos->y.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
             pos->z.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54;
-            if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04.u <= 0) {
+            if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04 <= 0) {
                 ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
                 ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -631,20 +631,20 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             }
         }
     }
-    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s == 1) {
-        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s == 0) {
+    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 1) {
+        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 == 0) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             drain_audio_commands_and_service_channels();
         }
-        cnt = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u + 1;
-        ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = cnt;
+        cnt = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 + 1;
+        ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = cnt;
         if (cnt >= 0xF) {
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.u += 1;
+            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
+            *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 += 1;
         }
     }
-    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s == 2) {
-        ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u += 1;
+    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 2) {
+        *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 += 1;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
         obj = allocate_flagged_object_node(0x212);
@@ -657,9 +657,9 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             obj->update_callback = advance_damped_ground_sliding_sprite;
             register_node(obj, project_sprite_chain);
             p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
-            p->unk_14.s |= 0xC;
+            p->unk_14 |= 0xC;
             p->unk_10 = 0x60;
-            p->unk_14.s |= 2;
+            p->unk_14 |= 2;
             p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
             {
                 s32 r2;
@@ -667,7 +667,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 r2 = rand() & 0x1F;
                 b2 = pos->x.unsigned_parts.integer - 0x10;
                 b2 += r2;
-                p->unk_02.s = b2;
+                p->unk_02 = b2;
             }
             {
                 s32 r2;
@@ -675,7 +675,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 r2 = rand() & 0x1F;
                 b2 = pos->y.unsigned_parts.integer - 0x10;
                 b2 += r2;
-                p->unk_06.s = b2;
+                p->unk_06 = b2;
             }
             p->unk_08.at02.v = pos->z.unsigned_parts.integer;
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_54 = rand() + 0x30000;
@@ -686,13 +686,13 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             p->unk_0E = 0x80;
             p->unk_0D = 0x80;
             p->unk_0C = 0x80;
-            flags = p->unk_14.u | 0x100;
+            flags = p->unk_14 | 0x100;
             p->unk_12 = 0x7DCF;
-            p->unk_14.s = flags;
+            p->unk_14 = flags;
             select_record_entry_and_value(p, effect_sprite_sources, 0);
             }
         }
-        if ((((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u & 3) == 1) {
+        if ((((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 & 3) == 1) {
             obj = allocate_flagged_object_node(0x212);
             {
             w1 = (NODE_BODY(obj));
@@ -701,26 +701,26 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 obj->update_callback = move_and_grow_timed_sprite;
                 register_node(obj, project_sprite_chain);
                 p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
-                flags = p->unk_14.s | 0xC;
+                flags = p->unk_14 | 0xC;
                 p->unk_10 = 0;
-                p->unk_14.s = flags;
+                p->unk_14 = flags;
                 p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
                 star = ((B32_818CF0E8_S_818CF0E8_8_pre *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
                 {
                     s32 r2;
                     s32 b2;
                     r2 = rand() & 0x1F;
-                    b2 = star->unk_02.u - 0x10;
+                    b2 = (u16)star->unk_02 - 0x10;
                     b2 += r2;
-                p->unk_02.s = b2;
+                p->unk_02 = b2;
                 }
                 {
                     s32 r2;
                     s32 b2;
                     r2 = rand() & 0x1F;
-                    b2 = star->unk_06.u - 0x10;
+                    b2 = (u16)star->unk_06 - 0x10;
                     b2 += r2;
-                p->unk_06.s = b2;
+                p->unk_06 = b2;
                 }
                 {
                     s32 r2;
@@ -737,16 +737,16 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 p->unk_0E = 0x80;
                 p->unk_0D = 0x80;
                 p->unk_0C = 0x80;
-                flags = p->unk_14.u | 0x100;
+                flags = p->unk_14 | 0x100;
                 p->unk_12 = 0x7DC0;
-                p->unk_14.s = flags;
+                p->unk_14 = flags;
                 select_record_entry_and_value(p, directional_sprite_entries, 0);
             }
             }
         }
-        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s >= 0x29) {
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.u += 1;
+        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 >= 0x29) {
+            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
+            *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 += 1;
             if (try_trigger_target_record_effect(env->unk_60, 2, env) == 0) {
                 s32 a2v;
                 s32 a1v;
@@ -761,11 +761,11 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             }
         }
     }
-    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s == 3) {
-        ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u += 1;
+    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 3) {
+        *(u16 *)&((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 += 1;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
-        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s >= 0x15) {
+        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 >= 0x15) {
             ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -778,17 +778,17 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
         obj->update_callback = update_actor_effect_sequence;
         register_node(obj, project_sprite_chain);
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
-        flags = p->unk_14.s | 0xC;
+        flags = p->unk_14 | 0xC;
         p->unk_10 = 0x60;
-        p->unk_14.s = flags;
+        p->unk_14 = flags;
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
-        p->unk_02.u = pos->x.unsigned_parts.integer;
-        p->unk_06.u = pos->y.unsigned_parts.integer;
+        p->unk_02 = pos->x.unsigned_parts.integer;
+        p->unk_06 = pos->y.unsigned_parts.integer;
         p->unk_08.at02.v = pos->z.unsigned_parts.integer;
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
         p->unk_1E = 0x1000;
         p->unk_1C = 0x1000;
-        p->unk_06.s = -1;
+        p->unk_06 = -1;
         p->unk_0C = gfx->unk_0C;
         p->unk_0D = gfx->unk_0D;
         p->unk_0E = gfx->unk_0E;
@@ -803,17 +803,17 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
         obj->update_callback = update_actor_effect_sequence;
         register_node(obj, project_sprite_chain);
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
-        flags = p->unk_14.s | 0xC;
+        flags = p->unk_14 | 0xC;
         p->unk_10 = 0x60;
-        p->unk_14.s = flags;
+        p->unk_14 = flags;
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
-        p->unk_02.u = pos->x.unsigned_parts.integer;
-        p->unk_06.u = pos->y.unsigned_parts.integer;
+        p->unk_02 = pos->x.unsigned_parts.integer;
+        p->unk_06 = pos->y.unsigned_parts.integer;
         p->unk_08.at02.v = pos->z.unsigned_parts.integer;
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
         p->unk_1E = 0x1000;
         p->unk_1C = 0x1000;
-        p->unk_06.s = -2;
+        p->unk_06 = -2;
         p->unk_0C = gfx->unk_0C;
         p->unk_0D = gfx->unk_0D;
         p->unk_0E = gfx->unk_0E;

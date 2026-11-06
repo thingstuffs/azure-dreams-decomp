@@ -102,31 +102,19 @@ typedef struct S_func_800241A8_1 {
     u16 unk_A6;
     u16 unk_A8;
     u8 pad_AA[0x6];
-    union {
-        s16 as_s16_B0;
-        u16 as_u16_B0;
-    } unk_B0;
+    s16 unk_B0;
     u16 unk_B2;
     u16 unk_B4;
     u8 pad_B6[0x2];
-    union {
-        s16 as_s16_B8;
-        u16 as_u16_B8;
-    } unk_B8;
+    s16 unk_B8;
     u16 unk_BA;
     u16 unk_BC;
     u8 pad_BE[0x2];
-    union {
-        s16 as_s16_C0;
-        u16 as_u16_C0;
-    } unk_C0;
+    s16 unk_C0;
     u16 unk_C2;
     u16 unk_C4;
     u8 pad_C6[0x2];
-    union {
-        s16 as_s16_C8;
-        u16 as_u16_C8;
-    } unk_C8;
+    s16 unk_C8;
     u16 unk_CA;
     u16 unk_CC;
     u8 pad_CE[0x32];
@@ -271,10 +259,10 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             scratch->unk_14.as_s32_14 = texture->b;
             scratch->unk_18.as_s32_18 = texture->a;
 
-            scratch->unk_B0.as_u16_B0 = mesh->unk_58.as_u16_58;
-            scratch->unk_B8.as_u16_B8 = mesh->unk_5A.as_u16_5A;
-            scratch->unk_C0.as_u16_C0 = mesh->unk_5C.as_u16_5C;
-            scratch->unk_C8.as_u16_C8 = mesh->unk_5E.as_u16_5E;
+            scratch->unk_B0 = mesh->unk_58.as_u16_58;
+            scratch->unk_B8 = mesh->unk_5A.as_u16_5A;
+            scratch->unk_C0 = mesh->unk_5C.as_u16_5C;
+            scratch->unk_C8 = mesh->unk_5E.as_u16_5E;
             scratch->unk_B2 = mesh->unk_60.as_u16_60;
             scratch->unk_BA = mesh->unk_62.as_u16_62;
             scratch->unk_C2 = mesh->unk_64.as_u16_64;
@@ -284,8 +272,8 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             scratch->unk_C4 = mesh->unk_6C.as_u16_6C;
             scratch->unk_CC = mesh->unk_6E.as_u16_6E;
 
-            ot_index = RotAverage4(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
-                                     &scratch->unk_C0.as_s16_C0, &scratch->unk_C8.as_s16_C8,
+            ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
+                                     &scratch->unk_C0, &scratch->unk_C8,
                                      &packet->unk_08.as_s16_08, &packet->unk_10,
                                      &packet->unk_18, &packet->unk_20.as_s16_20,
                                      (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
@@ -392,13 +380,13 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             coord_a = mesh->unk_58.as_s16_58;
             coord_b = mesh->unk_5C.as_s16_5C;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_C0.as_s16_C0 = midpoint;
-            scratch->unk_B0.as_s16_B0 = midpoint;
+            scratch->unk_C0 = midpoint;
+            scratch->unk_B0 = midpoint;
             coord_a = mesh->unk_5A.as_s16_5A;
             coord_b = mesh->unk_5E.as_s16_5E;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_C8.as_s16_C8 = midpoint;
-            scratch->unk_B8.as_s16_B8 = midpoint;
+            scratch->unk_C8 = midpoint;
+            scratch->unk_B8 = midpoint;
             coord_a = mesh->unk_60.as_s16_60;
             coord_b = mesh->unk_64.as_s16_64;
             midpoint = (coord_a + coord_b) / 2;
@@ -420,8 +408,8 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             scratch->unk_CC = midpoint_z;
             scratch->unk_BC = midpoint_z;
 
-            ot_index = RotAverage4(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
-                                     &scratch->unk_C0.as_s16_C0, &scratch->unk_C8.as_s16_C8,
+            ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
+                                     &scratch->unk_C0, &scratch->unk_C8,
                                      &line->unk_08.as_s16_08, &line->unk_0C,
                                      &line->unk_08.as_s16_08, &line->unk_0C,
                                      (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
@@ -970,16 +958,16 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
     s32 phase_state;
 
     point_cloud_update_flag[0] = 1;
-    effect_data->unk_02.u--;
+    effect_data->unk_02--;
 
     if (effect_data->unk_40.at00.v == 0) {
         s32 mid_y;
         u16 mid_x;
 
-        effect_data->unk_20.s =
-            (effect_data->unk_1E.s + effect_data->unk_58.s) / 2;
-        mid_y = (effect_data->unk_2A.s + effect_data->unk_60.s) / 2;
-        effect_data->unk_2C.s = mid_y;
+        effect_data->unk_20 =
+            (effect_data->unk_1E + (s16)effect_data->unk_58) / 2;
+        mid_y = (effect_data->unk_2A + (s16)effect_data->unk_60) / 2;
+        effect_data->unk_2C = mid_y;
         mid_x = *(u16 *)((u8 *)effect_data + 0x20);
         effect_data->unk_66 = mid_y;
         effect_data->unk_62 = mid_y;
@@ -990,23 +978,23 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
     phase_state = effect_data->unk_40.at00.v;
     tick_limit = 1;
     if (phase_state == tick_limit) {
-        effect_data->unk_20.s =
-            (effect_data->unk_1E.s + effect_data->unk_58.s) / 2;
-        effect_data->unk_20.s =
-            (effect_data->unk_1E.s + effect_data->unk_20.s) / 2;
-        effect_data->unk_2C.s =
-            (effect_data->unk_2A.s + effect_data->unk_60.s) / 2;
-        effect_data->unk_2C.s =
-            (effect_data->unk_2A.s + effect_data->unk_2C.s) / 2;
+        effect_data->unk_20 =
+            (effect_data->unk_1E + (s16)effect_data->unk_58) / 2;
+        effect_data->unk_20 =
+            (effect_data->unk_1E + effect_data->unk_20) / 2;
+        effect_data->unk_2C =
+            (effect_data->unk_2A + (s16)effect_data->unk_60) / 2;
+        effect_data->unk_2C =
+            (effect_data->unk_2A + effect_data->unk_2C) / 2;
         effect_data->unk_5A = effect_data->unk_5E =
-            effect_data->unk_20.u;
+            (u16)effect_data->unk_20;
         effect_data->unk_62 = effect_data->unk_66 =
-            effect_data->unk_2C.u;
+            (u16)effect_data->unk_2C;
     }
 
     if (effect_data->unk_40.at00.v == 0x10000) {
-        u32 start_x = effect_data->unk_1E.u;
-        u32 start_y = effect_data->unk_2A.u;
+        u32 start_x = (u16)effect_data->unk_1E;
+        u32 start_y = (u16)effect_data->unk_2A;
 
         effect_data->unk_5E = start_x;
         effect_data->unk_5A = start_x;
@@ -1073,16 +1061,16 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
         effect_data->unk_40.at00p.v++;
     }
 
-    if (effect_data->unk_02.s < 30) {
+    if ((s16)effect_data->unk_02 < 30) {
         colors->color.c.r =
-            (effect_data->unk_36 * effect_data->unk_02.s) / 30;
+            (effect_data->unk_36 * (s16)effect_data->unk_02) / 30;
         colors->color.c.g =
-            (effect_data->unk_37 * effect_data->unk_02.s) / 30;
+            (effect_data->unk_37 * (s16)effect_data->unk_02) / 30;
         colors->color.c.b =
-            (effect_data->unk_38 * effect_data->unk_02.s) / 30;
+            (effect_data->unk_38 * (s16)effect_data->unk_02) / 30;
     }
 
-    if (effect_data->unk_02.s <= 0) {
+    if ((s16)effect_data->unk_02 <= 0) {
         (*(u16 *)((u8 *)effect_data + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -1220,7 +1208,7 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
             }
 
             edge_data = NODE_BODY(node);
-            edge_data->unk_02.s = 0x37 - (state_data->edge_index * 4);
+            edge_data->unk_02 = 0x37 - (state_data->edge_index * 4);
             node->update_callback = advance_fading_effect_animation;
             register_node(node, decrement_object_counter);
 
@@ -1234,11 +1222,11 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
 
             switch (state_data->edge_index) {
             case 0:
-                edge_data->unk_58.u = edge_data->unk_5C =
+                edge_data->unk_58 = edge_data->unk_5C =
                     state_data->x[0];
                 edge_data->unk_5A = edge_data->unk_5E =
                     state_data->x[2];
-                edge_data->unk_60.u = edge_data->unk_64 =
+                edge_data->unk_60 = edge_data->unk_64 =
                     state_data->y[0];
                 {
                     u16 next_coord = state_data->y[2];
@@ -1249,11 +1237,11 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
                 }
                 break;
             case 1:
-                edge_data->unk_58.u = edge_data->unk_5C =
+                edge_data->unk_58 = edge_data->unk_5C =
                     state_data->x[2];
                 edge_data->unk_5A = edge_data->unk_5E =
                     state_data->x[4];
-                edge_data->unk_60.u = edge_data->unk_64 =
+                edge_data->unk_60 = edge_data->unk_64 =
                     state_data->y[2];
                 {
                     u16 next_coord = state_data->y[4];
@@ -1264,11 +1252,11 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
                 }
                 break;
             case 2:
-                edge_data->unk_58.u = edge_data->unk_5C =
+                edge_data->unk_58 = edge_data->unk_5C =
                     state_data->x[4];
                 edge_data->unk_5A = edge_data->unk_5E =
                     state_data->x[1];
-                edge_data->unk_60.u = edge_data->unk_64 =
+                edge_data->unk_60 = edge_data->unk_64 =
                     state_data->y[4];
                 {
                     u16 next_coord = state_data->y[1];
@@ -1279,11 +1267,11 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
                 }
                 break;
             case 3:
-                edge_data->unk_58.u = edge_data->unk_5C =
+                edge_data->unk_58 = edge_data->unk_5C =
                     state_data->x[1];
                 edge_data->unk_5A = edge_data->unk_5E =
                     state_data->x[3];
-                edge_data->unk_60.u = edge_data->unk_64 =
+                edge_data->unk_60 = edge_data->unk_64 =
                     state_data->y[1];
                 {
                     u16 next_coord = state_data->y[3];
@@ -1294,11 +1282,11 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
                 }
                 break;
             case 4:
-                edge_data->unk_58.u = edge_data->unk_5C =
+                edge_data->unk_58 = edge_data->unk_5C =
                     state_data->x[3];
                 edge_data->unk_5A = edge_data->unk_5E =
                     state_data->x[0];
-                edge_data->unk_60.u = edge_data->unk_64 =
+                edge_data->unk_60 = edge_data->unk_64 =
                     state_data->y[3];
                 {
                     u16 next_coord = state_data->y[0];
@@ -1312,23 +1300,23 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
                 break;
             }
 
-            edge_data->unk_1E.u = edge_data->unk_5A;
-            edge_data->unk_2A.u = edge_data->unk_62;
+            edge_data->unk_1E = edge_data->unk_5A;
+            edge_data->unk_2A = edge_data->unk_62;
 
-            blended_coord = (edge_data->unk_1E.s + edge_data->unk_58.s) / 2;
-            edge_data->unk_20.s = blended_coord;
-            blended_coord = (blended_coord + edge_data->unk_58.s) / 2;
-            edge_data->unk_20.s = blended_coord;
+            blended_coord = (edge_data->unk_1E + (s16)edge_data->unk_58) / 2;
+            edge_data->unk_20 = blended_coord;
+            blended_coord = (blended_coord + (s16)edge_data->unk_58) / 2;
+            edge_data->unk_20 = blended_coord;
 
-            blended_coord = (edge_data->unk_2A.s + edge_data->unk_60.s) / 2;
-            edge_data->unk_2C.s = blended_coord;
-            blended_coord = (blended_coord + edge_data->unk_60.s) / 2;
-            edge_data->unk_2C.s = blended_coord;
+            blended_coord = (edge_data->unk_2A + (s16)edge_data->unk_60) / 2;
+            edge_data->unk_2C = blended_coord;
+            blended_coord = (blended_coord + (s16)edge_data->unk_60) / 2;
+            edge_data->unk_2C = blended_coord;
 
             edge_data->unk_5A = edge_data->unk_5E =
-                edge_data->unk_20.u;
+                (u16)edge_data->unk_20;
             edge_data->unk_62 = edge_data->unk_66 =
-                edge_data->unk_2C.u;
+                (u16)edge_data->unk_2C;
 
             sprite = node->sprite;
             sprite->color.c.r = sprite->color.c.g = 0xE0;

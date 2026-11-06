@@ -36,10 +36,7 @@ typedef struct S_func_81856800_1 {
         s16 s16_50;
         u16 u16_50;
     } unk_50;
-    union {
-        s16 s16_52;
-        u16 u16_52;
-    } unk_52;
+    u16 unk_52;
 } S_func_81856800_1;
 
 typedef struct S_func_81856800_2 {
@@ -575,9 +572,9 @@ case2_spawn_loop:
     {
         s32 finish_flags;
 
-        finish_flags = action->unk_52.s16_52;
+        finish_flags = (s16)action->unk_52;
         if (finish_flags & 0x8000) {
-            action->unk_52.u16_52 &= 0x7FFF;
+            action->unk_52 &= 0x7FFF;
             return;
         }
         g_dungeon_status.active_actor = 0;

@@ -1,3 +1,4 @@
+#include "dungeon/monster/stealth_frames.h"
 #include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
@@ -17,7 +18,7 @@
 
 
 extern u8 D_80170A8C[];
-extern u8 stealth_frame_set[];
+
 extern u8 D_80173D78[];
 #include "dungeon/monster/stealth.h"
 #include "dungeon/effect/screen.h"

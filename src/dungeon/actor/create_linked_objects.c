@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/data.h"
 
 typedef struct S_800264D4_0 {
     u8 pad_00[0x8];
@@ -53,9 +54,7 @@ typedef struct {
     s16 unk1e;
 } NodeA;
 
-extern u8 linked_graphic_sprite_entries;
 extern u8 D_800260DC[];
-extern u8 linked_object_draw_address[];
 
 void *allocate_list_node(s32, void *);
 s32 register_node(void *, void *);

@@ -6,6 +6,7 @@
 #include "dungeon/level.h"
 #include "dungeon/actor.h"
 #include "sdk/libgte.h"
+#include "dungeon/monster/hikewne_frames.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -14,7 +15,6 @@ extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 extern void hikewne_action_resume_address(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
-extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/item.h"
 #include "engine/texture.h"

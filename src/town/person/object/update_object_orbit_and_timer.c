@@ -25,9 +25,9 @@ void update_object_orbit_and_timer(TownObjectRecord *object, ObjectPosition *pos
     object->heading = angle + 0x440;
 
     position->x.unsigned_parts.integer = ((u16)object->unk_84) +
-        rsin(((s16)object->unk_86)) / (0x1000 / object->unk_84);
+        rsin((object->unk_86)) / (0x1000 / object->unk_84);
     position->y.unsigned_parts.integer = (u16)object->unk_86 +
-        rcos(((s16)object->unk_86)) / (0x1000 / object->unk_84) -
+        rcos((object->unk_86)) / (0x1000 / object->unk_84) -
         ((u16)object->unk_84);
 
     motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, &town_actor_control);

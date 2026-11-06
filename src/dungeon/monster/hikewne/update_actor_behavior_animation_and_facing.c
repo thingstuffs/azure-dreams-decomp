@@ -12,6 +12,7 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/hikewne_frames.h"
 
 
 extern void select_sprite_entry(void *, u8, s32);
@@ -20,18 +21,11 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 
 extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
 
-extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
-
-extern u8 hikewne_frame_set[];
-extern u8 hikewne_frame_set_18[];
-extern u8 hikewne_frame_set_1[];
-extern u8 hikewne_frame_set_2[];
-
 
 /* Updates actor behavior, animation, and facing from its status and current tile. */
 void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg) {

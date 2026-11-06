@@ -321,12 +321,12 @@ void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_sta
 {
     s32 remaining_ticks;
 
-    countdown_state->ticks_remaining.u =
-        (u16)(countdown_state->ticks_remaining.u - 1);
+    countdown_state->ticks_remaining =
+        (u16)(countdown_state->ticks_remaining - 1);
     animation_state->scale_x = (u16)(animation_state->scale_x + 0x320);
     animation_state->scale_y = (u16)(animation_state->scale_y + 0x320);
     animation_state->angle_z = (u16)(animation_state->angle_z + 0x190);
-    remaining_ticks = countdown_state->ticks_remaining.s;
+    remaining_ticks = (s16)countdown_state->ticks_remaining;
     tint_particle_effect_updated = 1;
     if (remaining_ticks <= 0) {
         *(u16 *)((u8 *)countdown_state - 2) =
@@ -448,7 +448,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
     u32 mode_c = 0;
 
     effect->tick = (u16)(effect->tick + 1);
-    state = effect->state.s;
+    state = (s16)effect->state;
     effect_context = effect_data;
     switch (state) {
     case 0:
@@ -460,9 +460,9 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                                                      enabled, 0x1000, 0x1000, initial_color);
         effect->display_b = create_packed_sprite_effect(effect, position, effect_context, D_80025710,
                                                      2, 0xE00, 0xE00, 0x00E0E0E0);
-        old_state = effect->state.u;
+        old_state = effect->state;
         F(&tint_particle_effect_updated, u16, 0) = (u16)enabled;
-        effect->state.u = (u16)(old_state + 1);
+        effect->state = (u16)(old_state + 1);
 
     case 1:
         if ((effect->animation->flags & 0x80) == 0) {
@@ -471,13 +471,13 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
         init_object = effect;
         {
             ActorRecord *actor = primary_actor_record;
-            effect->timer.u = (u16)((u32)(0x14));
+            effect->timer = (u16)((u32)(0x14));
             actor->unk_A4.halves.high.u = (u16)(actor->unk_A4.halves.high.u - 1);
             actor->unk_A8.byte = effect->variant;
         }
         component = F(primary_actor_record, u16, 0x2A);
-        effect->state.u = (u16)(effect->state.u + 1);
-        effect->facing.u = (u16)component;
+        effect->state = (u16)(effect->state + 1);
+        effect->facing = (u16)component;
         advance_object_spawning_displays_high(init_object, position, effect_context);
         if (effect->display_b != 0) {
             texture_rect[0] = 0x340;
@@ -503,20 +503,20 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
         return;
 
     case 2:
-        timer = (s16)((u16)effect->timer.u - 1);
-        effect->timer.u = (u16)timer;
+        timer = (s16)((u16)effect->timer - 1);
+        effect->timer = (u16)timer;
         if (timer <= 0) {
-            effect->timer.u = 0x10;
-            effect->state.u = (u16)(effect->state.u + 1);
+            effect->timer = 0x10;
+            effect->state = (u16)(effect->state + 1);
         }
-        if (effect->timer.s == 0x13) {
+        if ((s16)effect->timer == 0x13) {
             if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             } else {
                 play_sound_if_enabled(AUDIO_RESUME_CD);
             }
         }
-        if (effect->timer.s < 11) {
+        if ((s16)effect->timer < 11) {
             u8 *dungeon = ((u8 *)(&reference_tile_object));
             if (get_sprite_attachment_vector(F(dungeon, void *, 8), dungeon,
                               (u8 *)effect + 0xC, 0) != 0) {
@@ -526,14 +526,14 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                     sprite_rgb = (u32)rand();
                     particle_color = 0x200000;
                     sprite_rgb = particle_alpha_from_random(sprite_rgb);
-                    particle_level = effect->facing.s;
-                    particle_x = effect->attachment_x.s;
+                    particle_level = (s16)effect->facing;
+                    particle_x = (s16)effect->attachment_x;
                     particle_color |= 0x20F0;
                     handle_spawn_initialize_randomized_offset_parent((u8 *)primary_actor_record - 0x20,
                                   particle_level, particle_color,
                                   sprite_rgb,
-                                  particle_x, effect->attachment_y.s,
-                                  effect->attachment_z.s);
+                                  particle_x, (s16)effect->attachment_y,
+                                  (s16)effect->attachment_z);
                     particle_index++;
                 }
                 while (particle_index < 4);
@@ -553,9 +553,9 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                         if ((rand() & 1) == 0) {
                             sprite->flags = (u16)(sprite->flags | 1);
                         }
-                        position->x.w.i = effect->attachment_x.u;
-                        position->y.w.i = effect->attachment_y.u;
-                        position->z.w.i = effect->attachment_z.u;
+                        position->x.w.i = effect->attachment_x;
+                        position->y.w.i = effect->attachment_y;
+                        position->z.w.i = effect->attachment_z;
                         position->x.w.i = (u16)(((u16)(position->x.w.i)) + ((u16)(world_offset->x.w.i)));
                         position->y.w.i = (u16)(((u16)(position->y.w.i)) + ((u16)(world_offset->y.w.i)));
                         position->z.w.i = (u16)(((u16)(position->z.w.i)) + ((u16)(world_offset->z.w.i)));
@@ -602,26 +602,26 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                     }
                     particle_index++;
                 } while (particle_index < 4);
-                if (effect->timer.s < 6) {
-                    effect->midpoint_x.s =
-                        (effect->attachment_x.s + effect->previous_x.s) / 2;
-                    effect->midpoint_y.s =
-                        (effect->attachment_y.s + effect->previous_y.s) / 2;
-                    effect->midpoint_z.s =
-                        (effect->attachment_z.s + effect->previous_z.s) / 2;
+                if ((s16)effect->timer < 6) {
+                    effect->midpoint_x =
+                        ((s16)effect->attachment_x + (s16)effect->previous_x) / 2;
+                    effect->midpoint_y =
+                        ((s16)effect->attachment_y + (s16)effect->previous_y) / 2;
+                    effect->midpoint_z =
+                        ((s16)effect->attachment_z + (s16)effect->previous_z) / 2;
                     particle_index = 0;
                     do {
                         sprite_rgb = (u32)rand();
                         particle_color = 0x200000;
                         sprite_rgb = particle_alpha_from_random(sprite_rgb);
-                        particle_level = effect->facing.s;
-                        particle_x = effect->midpoint_x.s;
+                        particle_level = (s16)effect->facing;
+                        particle_x = effect->midpoint_x;
                         particle_color |= 0x20F0;
                         handle_spawn_initialize_randomized_offset_parent((u8 *)primary_actor_record - 0x20,
                                       particle_level, particle_color,
                                       sprite_rgb,
-                                      particle_x, effect->midpoint_y.s,
-                                      effect->midpoint_z.s);
+                                      particle_x, effect->midpoint_y,
+                                      effect->midpoint_z);
                         particle_index++;
                     } while (particle_index < 4);
                     particle_index = 0;
@@ -641,9 +641,9 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                             if ((rand() & 1) == 0) {
                                 sprite->flags = (u16)(sprite->flags | 1);
                             }
-                            position->x.w.i = effect->midpoint_x.u;
-                            position->y.w.i = effect->midpoint_y.u;
-                            position->z.w.i = effect->midpoint_z.u;
+                            position->x.w.i = (u16)effect->midpoint_x;
+                            position->y.w.i = (u16)effect->midpoint_y;
+                            position->z.w.i = (u16)effect->midpoint_z;
                             position->x.w.i = (u16)(((u16)(position->x.w.i)) + ((u16)(world_offset->x.w.i)));
                             position->y.w.i = (u16)(((u16)(position->y.w.i)) + ((u16)(world_offset->y.w.i)));
                             position->z.w.i = (u16)(((u16)(position->z.w.i)) + ((u16)(world_offset->z.w.i)));
@@ -699,17 +699,17 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                     while (particle_index < 4);
                 }
                 {
-                    bits = effect->attachment_x.u;
-                    component = effect->attachment_y.u;
-                    neutral_color = effect->attachment_z.u;
-                    effect->previous_x.u = (u16)bits;
-                    effect->previous_y.u = (u16)component;
-                    effect->previous_z.u = (u16)neutral_color;
+                    bits = effect->attachment_x;
+                    component = effect->attachment_y;
+                    neutral_color = effect->attachment_z;
+                    effect->previous_x = (u16)bits;
+                    effect->previous_y = (u16)component;
+                    effect->previous_z = (u16)neutral_color;
                 }
             }
         }
 
-        if (effect->timer.s != 11) {
+        if ((s16)effect->timer != 11) {
             return;
         }
         particle = allocate_flagged_object_node(0x212);
@@ -739,9 +739,9 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
             u8 *dungeon = ((u8 *)(&reference_tile_object));
             if (get_sprite_attachment_vector(F(dungeon, void *, 8), dungeon,
                               (u8 *)effect + 0xC, 0) != 0) {
-                position->x.v = (u32)((u32)(position->x.v) + ((u32)(effect->attachment_x.s << 16)));
-                position->y.v = (u32)((u32)(position->y.v) + ((u32)(effect->attachment_y.s << 16)));
-                position->z.v = (u32)((u32)(position->z.v) + ((u32)(effect->attachment_z.s << 16)));
+                position->x.v = (u32)((u32)(position->x.v) + ((u32)((s16)effect->attachment_x << 16)));
+                position->y.v = (u32)((u32)(position->y.v) + ((u32)((s16)effect->attachment_y << 16)));
+                position->z.v = (u32)((u32)(position->z.v) + ((u32)((s16)effect->attachment_z << 16)));
             }
         }
         sprite = particle->sprite;
@@ -755,7 +755,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
         return;
 
     case 3:
-        if (effect->timer.s >= 13) {
+        if ((s16)effect->timer >= 13) {
             particle_index = 0;
             particle_script = advance_timed_effect_animation;
             spawn_data = ((u8 *)(&reference_tile_object));
@@ -775,35 +775,35 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                     }
                     position = particle->position;
                     if (get_sprite_attachment_vector(F(spawn_data, void *, 8), spawn_data, (u8 *)effect + 0xC, 0) != 0) {
-                        effect->attachment_x.u = (u16)(effect->attachment_x.u + ((u16)(world_offset->x.w.i)));
-                        effect->attachment_y.u = (u16)(effect->attachment_y.u + ((u16)(world_offset->y.w.i)));
-                        effect->attachment_z.u = (u16)(effect->attachment_z.u + ((u16)(world_offset->z.w.i)));
+                        effect->attachment_x = (u16)(effect->attachment_x + ((u16)(world_offset->x.w.i)));
+                        effect->attachment_y = (u16)(effect->attachment_y + ((u16)(world_offset->y.w.i)));
+                        effect->attachment_z = (u16)(effect->attachment_z + ((u16)(world_offset->z.w.i)));
                         if (particle_index != 0) {
                             F(burst_tail, s16, 0x2A) = 8;
                             sprite->tpage_abr = 0x20;
                             sprite_rgb = (u32)rand();
                             bits = sprite_rgb & 0x3F;
-                            component = effect->attachment_x.u;
+                            component = effect->attachment_x;
                             component -= 0x20;
                             component += bits;
-                            effect->attachment_x.u = (u16)component;
+                            effect->attachment_x = (u16)component;
                             sprite_rgb = (u32)rand();
                             bits = sprite_rgb & 0x3F;
-                            component = effect->attachment_y.u;
+                            component = effect->attachment_y;
                             component -= 0x20;
                             component += bits;
-                            effect->attachment_y.u = (u16)component;
+                            effect->attachment_y = (u16)component;
                             sprite_rgb = (u32)rand();
                             bits = sprite_rgb & 0x3F;
-                            component = effect->attachment_z.u;
+                            component = effect->attachment_z;
                             component -= 0x20;
                             component += bits;
-                            effect->attachment_z.u = (u16)component;
+                            effect->attachment_z = (u16)component;
                         }
                     }
-                    position->x.w.i = effect->attachment_x.u;
-                    position->y.w.i = effect->attachment_y.u;
-                    position->z.w.i = effect->attachment_z.u;
+                    position->x.w.i = effect->attachment_x;
+                    position->y.w.i = effect->attachment_y;
+                    position->z.w.i = effect->attachment_z;
                     sprite = particle->sprite;
                     sprite->scale_y = 0x1000;
                     sprite->scale_x = 0x1000;
@@ -826,24 +826,24 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                 F(animation_m, u32, 0x1C) |= 0x10000000;
                 {
                     model_color = NODE_HEADER(animation_m)->sprite;
-                    fade = effect->timer.s * 0x7F;
+                    fade = (s16)effect->timer * 0x7F;
                     if (fade < 0) {
                         fade += 15;
                     }
                     F(model_color, s8, 0xC) = (s8)((fade >> 4) - 0x80);
-                    fade = (16 - effect->timer.s) << 3;
+                    fade = (16 - (s16)effect->timer) << 3;
                     F(model_color, s8, 0xE) = (s8)fade;
                     F(model_color, s8, 0xD) = (s8)fade;
                 }
             }
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
-            effect->timer.u = (u16)(effect->timer.u - 1);
-            if (effect->timer.s >= 0) {
+            effect->timer = (u16)(effect->timer - 1);
+            if ((s16)effect->timer >= 0) {
                 return;
             }
         }
-        effect->state.u = 4;
+        effect->state = 4;
         return;
 
     case 4:

@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "dungeon/monster/beldo_large.h"
 #include "engine/graphics.h"
+#include "dungeon/monster/beldo_large_frames.h"
 
 typedef struct {
     u8 pad_00[0x8C];
@@ -23,10 +24,6 @@ typedef struct {
     s16 field_2A;
 } DungeonInput;
 
-extern u8 beldo_large_frame_set_2[];
-extern u8 beldo_large_frame_set_5[];
-extern u8 beldo_large_frame_set_1[];
-extern u8 beldo_large_frame_set_3[];
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);

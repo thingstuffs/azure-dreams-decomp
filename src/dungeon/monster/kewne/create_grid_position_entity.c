@@ -11,15 +11,11 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/monster/kewne_frames.h"
 
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 generate_random_value(void);
 extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
-
-extern u8 kewne_frame_set_1[];
-
-
-
 
 /* Create an entity at the given grid position and initialize its behavior and spawn flags. */
 /* Creates Kewne with default frames at D_80175E40, applies spawn flags, and attempts valid tile placement. */

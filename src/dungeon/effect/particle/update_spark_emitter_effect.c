@@ -33,7 +33,7 @@ typedef struct S_81814EDC_4 {
     u8 pad_04[0x2];
     s16 unk_06;
     u8 pad_08[0x2];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+    u16 unk_0A;
 } S_81814EDC_4;
 
 typedef struct S_81814EDC_5 {
@@ -91,7 +91,7 @@ void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPos
     ObjectNodeHeader *particle;
 
     if (effect->unk_00 == 0) {
-        if (!(effect->unk_0A.u & 1)) {
+        if (!(effect->unk_0A & 1)) {
             spark_kind = rand() & 7;
             spark_speed = (rand() & 0xFF) | 0x80;
             func_800245BC(((void *)effect) - 0x20, spark_kind, 0xF0, spark_speed, 0, 0,
@@ -142,8 +142,8 @@ void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPos
             advance_sprite_animation_and_textures(sprite);
             advance_sprite_animation_and_textures(sprite);
         }
-        ticks_left = effect->unk_02.u - 1;
-        effect->unk_02.u = ticks_left;
+        ticks_left = effect->unk_02 - 1;
+        effect->unk_02 = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
             effect_index = 0;
             if (effect->unk_08 != 0) {
@@ -231,7 +231,7 @@ loop_effects:
                         if (effect_index == 0) {
                             sprite->scale_x = unit_scale;
                             sprite->scale_y = double_scale;
-                            ((S_81814EDC_4 *)debris)->unk_0A.u -= 0x14;
+                            ((S_81814EDC_4 *)debris)->unk_0A -= 0x14;
                         } else {
                             sprite->scale_x = double_scale;
                             sprite->scale_y = unit_scale;
@@ -240,11 +240,11 @@ loop_effects:
                     }
                     effect_index += 1;
                 } while (effect_index < 2);
-                effect_type = (s16) effect->unk_0A.u;
+                effect_type = (s16) effect->unk_0A;
                 if (effect_type == 4) {
                     apply_attack_power_and_element_effects(effect->unk_30.p, 0x10, effect->unk_15, 1,
                         (s32) (s16) (effect->unk_16 << 9), effect->unk_2C.s, 2);
-                    if ((s16) effect->unk_0A.u == effect_type) {
+                    if ((s16) effect->unk_0A == effect_type) {
                         owner = effect->unk_30.p;
                         effect->unk_00 = 1;
                         owner_sprite = ((SpriteLinkPrefixView *)owner)[-1].sprite;
@@ -252,7 +252,7 @@ loop_effects:
                         owner_sprite->color.c.b = 0x30;
                         owner_sprite->color.c.g = 0x30;
                         owner_sprite->color.c.r = 0x30;
-                        effect->unk_02.s = 0;
+                        effect->unk_02 = 0;
                     } else {
                         NODE_HEADER(effect)->flags =
                             (u16) (NODE_HEADER(effect)->flags | 0x8000);
@@ -290,10 +290,10 @@ loop_effects:
     }
     state = effect->unk_00;
     if (state == 1) {
-        fade_ticks = effect->unk_02.u + 1;
-        effect->unk_02.u = fade_ticks;
+        fade_ticks = effect->unk_02 + 1;
+        effect->unk_02 = fade_ticks;
         if ((s16) fade_ticks >= 0x15) {
-            if (((s16) effect->unk_0A.u == 4) && (effect->unk_08 == state)) {
+            if (((s16) effect->unk_0A == 4) && (effect->unk_08 == state)) {
                 owner_flags = effect->unk_30.p;
                 owner_flags->flags1C = (s32) (owner_flags->flags1C & 0xEFFFFFFF);
                 owner_sprite = ((S_81814EDC_12_pre *)(effect->unk_30.p))[-1].unk_04;

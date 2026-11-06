@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/actor_status.h"
 #include "dungeon/level.h"
+#include "dungeon/monster/hikewne_frames.h"
 
 
    /* cell in advance_actor_along_queued_path */
@@ -14,7 +15,6 @@
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
-extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"

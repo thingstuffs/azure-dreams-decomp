@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-11-06T00:54:27Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-11-06T06:00:23Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -70,7 +70,7 @@ Baseline NOT exact: 0 rows
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 4662 rows, 2,840,164 bytes (34.5%); records used: 90.
+On shared record headers (T7, `include/records/`): 4650 rows, 2,830,644 bytes (34.4%); records used: 89.
 
 L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,944 rows (7,002,832 B).
 
@@ -86,7 +86,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | any live audit site, unnarrowed | 1,595 | 2,663,328 | 32.4% |
 | do{}while(0) scheduling barrier | 18 | 141,144 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 1,716 | 1,923,800 | 23.4% |
+| local address-named struct | 1,707 | 1,911,340 | 23.2% |
 | clean shape | 8,007 | 7,856,868 | 95.5% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
@@ -107,7 +107,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.2% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 18 | 141,144 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.2% | 1716 | 1,923,800 | 23.4% |
+| local address-named struct | 633 | 346,824 | 4.2% | 1707 | 1,911,340 | 23.2% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8007 | 7,856,868 | 95.5% |
 
 </details>

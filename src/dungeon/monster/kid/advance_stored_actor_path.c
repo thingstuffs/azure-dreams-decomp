@@ -8,14 +8,12 @@
 #include "engine/graphics.h"
 #include "dungeon/level.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/kid_frames.h"
 
 
    /* (u8 *)arg3 + ((S_80171960_0 *)arg3)->unk_8A.s in advance_stored_actor_path */
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-
-extern u8 kid_direction_frames[];
-extern u8 kid_alt_direction_frames[];
 
 /* Advance the actor along its stored path and update movement direction and timing. */
 void advance_stored_actor_path(ActorRecord *body, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor)

@@ -29,10 +29,7 @@ typedef struct {
 
 typedef struct S_func_800D7FB8_0 {
     s16 unk_00;
-    union {
-        s16 s16_value;
-        u16 u16_value;
-    } unk_02;
+    u16 unk_02;
     u16 unk_04;
     u16 unk_06;
     u16 unk_08;
@@ -69,7 +66,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
     state = controller->unk_00;
     switch (state) {
     case 0:
-        controller->unk_02.s16_value = 0x3C;
+        controller->unk_02 = 0x3C;
         controller->unk_00 = (s16)((u16)controller->unk_00 + 1);
         play_sound_if_enabled(0x600);
         spawn_index = 0x96;
@@ -100,16 +97,16 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
             spawn_index -= 1;
         } while (spawn_index >= 0);
     case 1:
-        effect_timer = (u16)(controller->unk_02.u16_value - 1);
-        controller->unk_02.u16_value = effect_timer;
+        effect_timer = (u16)(controller->unk_02 - 1);
+        controller->unk_02 = effect_timer;
         if ((effect_timer << 0x10) <= 0) {
-            controller->unk_02.u16_value = 8U;
+            controller->unk_02 = 8U;
             controller->unk_00 = (s16)0xFF;
         }
         return;
     case 0xFF:
-        finish_timer = (u16)(controller->unk_02.u16_value - 1);
-        controller->unk_02.u16_value = finish_timer;
+        finish_timer = (u16)(controller->unk_02 - 1);
+        controller->unk_02 = finish_timer;
         if ((finish_timer << 0x10) <= 0) {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 =

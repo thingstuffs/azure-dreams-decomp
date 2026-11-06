@@ -129,18 +129,18 @@ extern void begin_actor_move_to_target_facing();
 extern void create_tracked_attachment_sprite();
 extern s32 update_actor_transform_from_parent(T_801759A0_Obj0 *, void *, void *, void *);
 
-extern u8 troll_kind13_direction_frames[];
-extern u8 troll_kind14_direction_frames[];
-extern u8 troll_kind15_direction_frames[];
+#include "dungeon/monster/troll_frames.h"
+
+
 extern u8 troll_kind13_recovery_frames[];
 extern u8 troll_kind14_recovery_frames[];
 extern u8 troll_kind15_recovery_frames[];
 extern s32 troll_stored_path_frames;
 extern s32 troll_frame_set;
 extern s32 troll_frame_set_4;
-extern u8 troll_frame_set_1[];
-extern u8 troll_frame_set_2[];
-extern u8 troll_frame_set_3[];
+
+
+
 void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, SpriteFrameState *sprite_in, ActorRecord *actor_in);
 void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosition *context, SpriteFrameState *animation, T_80175574_Obj3 *actor);
 void update_directional_action_display(T_801759A0_Obj0 *actor, ObjectPosition *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg);

@@ -1,3 +1,4 @@
+#include "dungeon/monster/u_boat_frames.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -19,8 +20,8 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 
-extern u8 uboat_action_frames[];
-extern u8 u_boat_motion_frames[];
+
+
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"

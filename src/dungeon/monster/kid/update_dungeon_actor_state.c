@@ -16,6 +16,7 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/kid_frames.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
@@ -26,14 +27,8 @@ extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, Ob
 extern s16 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174218(void *, void *, void *, void *);
 
-extern u8 kid_direction_frames[];
-extern u8 kid_alt_direction_frames[];
 extern u8 D_80175150[];
-extern u8 kid_frame_set_1[];
 extern u8 kid_frame_set_2[];
-extern u8 kid_frame_set_3[];
-extern u8 kid_alt_spawn_direction_frames[];
-extern u8 kid_frame_set_4[];
 
 /* Updates a dungeon actor's state, animation, and facing direction. */
 void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *entity) {

@@ -31,11 +31,7 @@ void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/level.h"
-
-extern u8 saber_frame_set_10[];
-extern u8 saber_frame_set_2[];
-extern u8 saber_frame_set_11[];
-
+#include "dungeon/monster/saber_frames.h"
 
 /* Updates creature behavior, facing, and animation from dungeon and action state. */
 void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite, ActorRecord *creature_in) {

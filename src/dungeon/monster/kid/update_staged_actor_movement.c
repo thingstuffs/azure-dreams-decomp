@@ -17,6 +17,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 #include "sdk/libc.h"
+#include "dungeon/monster/kid_frames.h"
 
 typedef u32 az_uptr;
 
@@ -45,7 +46,6 @@ extern u8 directional_effect_entries[];
 extern void *actor_update_node_cursor;
 extern u8 kid_action_resume_address[];
 extern u8 D_801743EC[];
-extern u8 kid_alt_direction_frames[];
 extern u8 D_80175160[];
 
 /* Updates an actor's staged movement, particle effects, and return to its tile. */

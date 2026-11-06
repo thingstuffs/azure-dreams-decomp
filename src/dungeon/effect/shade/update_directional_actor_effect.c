@@ -43,11 +43,11 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
     u16 offset[3];
     s32 state;
 
-    state = effect->unk_0C.n;
+    state = (s16)effect->unk_0C;
     switch (state) {
     case 0:
         register_node((u8 *)effect - 0x20, project_sprite_chain);
-        effect->unk_0C.n2 = effect->unk_0C.n2 + 1;
+        effect->unk_0C = effect->unk_0C + 1;
                         /* fall through */
 
     case 1:
@@ -82,8 +82,8 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
             u16 travel_frames;
 
             travel_frames = 10;
-            effect->unk_10.u = travel_frames;
-            effect->unk_0C.n2 += 1;
+            effect->unk_10 = travel_frames;
+            effect->unk_0C += 1;
         }
         break;
 
@@ -115,18 +115,18 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
 
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at00.v +=
             (((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C - ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at00.v) /
-            effect->unk_10.s;
+            (s16)effect->unk_10;
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at00.v +=
             (((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 - ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at00.v) /
-            effect->unk_10.s;
+            (s16)effect->unk_10;
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at00.v +=
             (((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 - ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at00.v) /
-                effect->unk_10.s -
-            (rsin(effect->unk_10.s * 0xAA) << 7);
+                (s16)effect->unk_10 -
+            (rsin((s16)effect->unk_10 * 0xAA) << 7);
         {
             u16 frames_left;
-            frames_left = effect->unk_10.u - 1;
-            effect->unk_10.u = frames_left;
+            frames_left = effect->unk_10 - 1;
+            effect->unk_10 = frames_left;
             if ((s16)frames_left > 0) {
                 break;
             }
@@ -135,8 +135,8 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at00.v = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C;
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at00.v = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10;
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at00.v = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14;
-        effect->unk_10.u = state;
-        effect->unk_0C.n2 += 1;
+        effect->unk_10 = state;
+        effect->unk_0C += 1;
         break;
 
     case 3:
@@ -153,8 +153,8 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
     }
         {
             u16 frames_left;
-            frames_left = effect->unk_10.u - 1;
-            effect->unk_10.u = frames_left;
+            frames_left = effect->unk_10 - 1;
+            effect->unk_10 = frames_left;
             if ((s16)frames_left > 0) {
                 break;
             }
@@ -181,7 +181,7 @@ void allocate_effect_and_initialize_sprite(ObjectNodeHeader *effect_data, u16 *e
         effect->update_callback = &D_800240F0;
         color = 0x80;
         state = NODE_BODY(effect);
-        state->unk_0C.n = 0;
+        state->unk_0C = 0;
         *((s16 *) (((s8 *) state) + 0xE)) = 0;
         state->unk_00 = effect_data;
         state->unk_04 = (void *)&scene_object_list_anchor.next;
@@ -212,13 +212,13 @@ void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *pos
 
     counter_state = effect->unk_00.ptr;
     counter_state->unk_1A = (u16) (counter_state->unk_1A + 1);
-    effect->unk_2E.u = (u16) (effect->unk_2E.u + 0x100);
+    effect->unk_2E = (u16) (effect->unk_2E + 0x100);
     position->unk_00.at00.v = (s32) position->unk_0C;
     position->unk_04.at00.v = (s32) position->unk_10;
     position->unk_08.at00.v = (s32) position->unk_14;
-    local_offset.x = (s16) ((s32) ((rsin(effect->unk_2E.s)
-        >> 4) * effect->unk_2C.s) >> 8);
-    y_product = (rcos(effect->unk_2E.s) >> 4) * effect->unk_2C.s;
+    local_offset.x = (s16) ((s32) ((rsin((s16)effect->unk_2E)
+        >> 4) * effect->unk_2C) >> 8);
+    y_product = (rcos((s16)effect->unk_2E) >> 4) * effect->unk_2C;
     local_offset.z = 0;
     local_offset.y = (s16) (y_product >> 8);
     PushMatrix();
@@ -236,7 +236,7 @@ void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *pos
     sprite->color.c.r = brightness;
     if (!(brightness & 0xFF) || (scale = sprite->scale_y - 0x100,
         sprite->scale_y = scale, sprite->scale_x = scale,
-        sprite->angle_z = effect->unk_2E.u, advance_sprite_animation_and_textures(sprite),
+        sprite->angle_z = effect->unk_2E, advance_sprite_animation_and_textures(sprite),
         ((sprite->flags & 0x6000) != 0))) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_8194CD5C_S_8002455C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -278,10 +278,10 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object)
 
         offset_length = (u16)source->angle;
         angle_or_zero = 0;
-        data->unk_2C.u = offset_length;
+        data->unk_2C = offset_length;
         offset_angle = (u16)source->phase;
         data->unk_30 = 1;
-        data->unk_2E.u = offset_angle;
+        data->unk_2E = offset_angle;
 
         primitive = object->sprite;
         primitive->color.c.b = 0x40;
@@ -296,7 +296,7 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object)
         primitive->angle_x = scale_component >> 12;
         scale_component = data->unk_26;
         primitive->angle_y = scale_component >> 12;
-        angle_or_zero = data->unk_2E.u;
+        angle_or_zero = data->unk_2E;
         primitive->tpage_abr |= 0x20;
         primitive->flags |= 0xC;
         primitive->angle_z = angle_or_zero;
@@ -313,10 +313,10 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object)
         primitive_2->velocity_z = word_z;
         primitive_2->z.v = word_z;
 
-        local_offset[0] = ((rsin(data->unk_2E.s) >> 4) *
-            data->unk_2C.s) >> 8;
-        local_offset[1] = ((rcos(data->unk_2E.s) >> 4) *
-            data->unk_2C.s) >> 8;
+        local_offset[0] = ((rsin((s16)data->unk_2E) >> 4) *
+            data->unk_2C) >> 8;
+        local_offset[1] = ((rcos((s16)data->unk_2E) >> 4) *
+            data->unk_2C) >> 8;
         local_offset[2] = 0;
         PushMatrix();
         ApplyMatrixSV(&data->transform, local_offset, world_offset);
@@ -532,37 +532,37 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
         } else {
             target_pos = fallback_pos;
             step_count = 0;
-            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)((tile_or_y_steps->tile_position.parts.tile_x << 6) + 0x20);
+            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (u16)((tile_or_y_steps->tile_position.parts.tile_x << 6) + 0x20);
             tile_y = tile_or_y_steps->tile_position.parts.tile_y;
-            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
+            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (u16)((tile_y << 6) + 0x20);
             do {
                 actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
                 forward_dx = dir_step_x[(actor_or_frame->unk_2A >> 9) & 7];
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u + (forward_dx << 6));
+                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 + (forward_dx << 6));
                 forward_dy = dir_step_y[(actor_or_frame->unk_2A >> 9) & 7];
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u + (forward_dy << 6));
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = (u16)actor_or_frame->unk_88;
+                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 + (forward_dy << 6));
+                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = (u16)actor_or_frame->unk_88;
                 ground_height = get_surface_height_at_record(target_pos);
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
+                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = ground_height;
                 if ((s16)ground_height > 0x200) {
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u =
+                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A =
                         (u16)((u16)primary_actor_record->ground_height);
                 }
-                position_valid = check_left_tile_and_center_height(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u,
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u);
+                position_valid = check_left_tile_and_center_height(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02,
+                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A);
                 if ((position_valid << 0x10) != 0) {
                     actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
                     backtrack_dx = dir_step_x[(actor_or_frame->unk_2A >> 9) & 7];
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u - (backtrack_dx
+                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 - (backtrack_dx
                         << 5));
                     backtrack_dy = dir_step_y[(actor_or_frame->unk_2A >> 9) & 7];
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u - (backtrack_dy
+                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 - (backtrack_dy
                         << 5));
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = (u16)actor_or_frame->unk_88;
+                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = (u16)actor_or_frame->unk_88;
                     near_height = get_surface_height_at_record(target_pos);
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = near_height;
+                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = near_height;
                     if ((s16)near_height > 0x200) {
-                        ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u =
+                        ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A =
                             (u16)((u16)primary_actor_record->ground_height);
                     }
                     break;
@@ -571,8 +571,8 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
             } while (step_count < 8);
         }
         update_directional_actor_effect(position->x.w.i, position->y.w.i,
-            position->z.w.i, ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.s,
-            (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.s, (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.s, &direction);
+            position->z.w.i, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02,
+            (s32)(s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06, (s32)(s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A, &direction);
         RotMatrix(&direction, transform);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, phase, transform[0], transform[1], direction);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);

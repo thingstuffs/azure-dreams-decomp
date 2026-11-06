@@ -12,6 +12,6 @@ void select_memory_task_exit(Owner *owner) {
     if (card_slot_header_cache[owner->index].words[0]) {
         card_build_selected_slot_details(owner);
     } else {
-        build_memory_task_text((s32)owner);
+        build_memory_task_text(owner);
     }
 }

@@ -14,6 +14,7 @@
 #include "engine/scene.h"
 #include "engine/script.h"
 #include "slus.h"
+#include "dungeon/globals.h"
 
 typedef struct S_80041E28_Dst S_80041E28_Dst;
 typedef struct S_80041E28_Src S_80041E28_Src;
@@ -34,7 +35,6 @@ typedef struct {
 extern s32 familiar_record_slots[];
 extern S_800E3E48 familiar_record_storage[];
 extern s32 familiar_turn_counters_alias;
-extern s16 actor_event_values[];
 extern u8 restore_actor_script[];
 
 extern s32 get_entity_class();

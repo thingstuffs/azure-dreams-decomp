@@ -4,6 +4,7 @@
 #include "common.h"
 
 /* Initialize or retrieve the memory-card message object. */
-u8 * init_card_message_object(s32, s32, s32, s32);
+struct ObjectNodeHeader;
+u8 * init_card_message_object(struct ObjectNodeHeader *,  s32, s32, s32);
 
 #endif

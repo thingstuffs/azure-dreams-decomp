@@ -2,14 +2,9 @@
 #include "town/shop.h"
 #include "town/shop/item.h"
 
-typedef struct S_800B0700_0 {
-    u8 pad_00[0x10];
-    void (*unk_10)(void *);
-} S_800B0700_0;   /* arg0 in schedule_item_menu_child_release */
-
 /* Sets the object's data pointer when the object is present. */
-void schedule_item_menu_child_release(S_800B0700_0 *object) {
+void schedule_item_menu_child_release(ObjectNodeHeader *object) {
     if (object != 0) {
-        object->unk_10 = &finish_item_menu_child_and_release_list;
+        object->update_callback = &finish_item_menu_child_and_release_list;
     }
 }

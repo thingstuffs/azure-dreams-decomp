@@ -46,7 +46,7 @@ void card_boot_apply_slot_deletion_response(void *object_arg) {
         } while (entry_index < 5);
     } else {
         object->unk_34 = build_install;
-        card_boot_show_delete_failure_notice((u8 *)object - 0x20);
+        card_boot_show_delete_failure_notice(NODE_HEADER(object));
         ((S_80025788_0_pre *)object)[-1].unk_00 = card_boot_restore_saved_selection_callback;
     }
 

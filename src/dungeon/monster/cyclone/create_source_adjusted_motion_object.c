@@ -8,6 +8,7 @@
 #include "engine/node.h"
 #include "engine/graphics.h"
 #include "engine/scene.h"
+#include "dungeon/monster/cyclone/bobbing_motion.h"
 
 typedef struct {
     u32 words[6];
@@ -36,18 +37,6 @@ typedef struct S_80175D04_1 {
 } S_80175D04_1;   /* &local in create_source_adjusted_motion_object */
 
 
-typedef struct S_80175D04_4 {
-    u8 pad_00[0x4];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    s32 unk_10;
-    s32 unk_14;
-} S_80175D04_4;   /* out in create_source_adjusted_motion_object */
-
-   /* child in create_source_adjusted_motion_object */
-
 /* Creates an object with a source-adjusted position and motion toward a directional target. */
 void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_pos, SpriteFrameState *source)
 {
@@ -56,7 +45,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
     u16 direction_bits;
     s32 direction_offset;
     s16 axis_step;
-    Copy24 *motion;
+    CycloneBobbingMotionBody *motion;
     ObjectNodeHeader * object;
     ObjectPosition *child_pos;
     SpriteFrameState *render;
@@ -97,18 +86,18 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
         source_offset.y = 0;
         source_offset.x = 0;
         if (resolve_record_orientation_or_fallback(source->source, source, &source_offset, 1) != 0) {
-            ((S_80175D04_4 *)motion)->unk_04.at02.v += source_offset.x;
-            child_pos->x.w.i = ((S_80175D04_4 *)motion)->unk_04.at02.v;
-            ((S_80175D04_4 *)motion)->unk_08.at02.v += source_offset.y;
-            child_pos->y.w.i = ((S_80175D04_4 *)motion)->unk_08.at02.v;
-            ((S_80175D04_4 *)motion)->unk_0E += source_offset.z;
-            child_pos->z.w.i = ((S_80175D04_4 *)motion)->unk_0E;
+            motion->path.x.unsigned_parts.integer += source_offset.x;
+            child_pos->x.w.i = motion->path.x.unsigned_parts.integer;
+            motion->path.y.unsigned_parts.integer += source_offset.y;
+            child_pos->y.w.i = motion->path.y.unsigned_parts.integer;
+            motion->path.z.unsigned_parts.integer += source_offset.z;
+            child_pos->z.w.i = motion->path.z.unsigned_parts.integer;
         }
 
-        motion->words[4] =
-            ((s32)target_pos.words[0] - ((S_80175D04_4 *)motion)->unk_04.at00.v) / 0x20;
-        motion->words[5] =
-            ((s32)target_pos.words[1] - ((S_80175D04_4 *)motion)->unk_08.at00.v) / 0x20;
+        motion->path.velocity_x =
+            ((s32)target_pos.words[0] - motion->path.x.v) / 0x20;
+        motion->path.velocity_y =
+            ((s32)target_pos.words[1] - motion->path.y.v) / 0x20;
 
         return object;
     }

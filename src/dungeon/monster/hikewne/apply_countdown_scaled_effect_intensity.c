@@ -27,15 +27,15 @@ void apply_countdown_scaled_effect_intensity(void *record_data, void *unused, Sp
 }
 
 /* Follows the source position while growing and fading the sprite, then removes it when the timer expires. */
-void advance_and_fade_transformed_effect(void *effect_arg, MovingPosition *transform, SpriteFrameState *render_state)
+void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect_arg, MovingPosition *transform, SpriteFrameState *render_state)
 {
-    S_80975170_0 *effect = effect_arg;
+    HikewneExpandingFadeBody *effect = effect_arg;
     s16 ticks_left;
     s32 brightness;
     u16 render_offset;
     MovingPosition *source_transform;
 
-    source_transform = effect->unk_B0;
+    source_transform = effect->source_position;
     transform->x = source_transform->x;
     transform->y = source_transform->y;
     transform->z = source_transform->z;
@@ -44,16 +44,16 @@ void advance_and_fade_transformed_effect(void *effect_arg, MovingPosition *trans
     render_state->scale_y = render_offset;
     render_state->scale_x = render_offset;
 
-    ticks_left = effect->unk_96.s - 1;
-    brightness = (s32)(ticks_left * 0x50) / (s16)effect->unk_AA;
-    effect->unk_96.s = (u16)ticks_left;
+    ticks_left = effect->ticks_left - 1;
+    brightness = (s32)(ticks_left * 0x50) / (s16)effect->duration;
+    effect->ticks_left = (u16)ticks_left;
     render_state->color.c.b = (s8)brightness;
     render_state->color.c.g = (s8)brightness;
     render_state->color.c.r = (s8)brightness;
     advance_sprite_animation_and_textures(render_state);
 
-    if (effect->unk_96.u <= 0) {
-        ((ObjectRetirementFlags *)effect)[-1].flags = (u16)(((ObjectRetirementFlags *)effect)[-1].flags | 0x8000);
+    if ((s16)effect->ticks_left <= 0) {
+        NODE_HEADER(effect)->flags = (u16)(NODE_HEADER(effect)->flags | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -62,7 +62,7 @@ void advance_and_fade_transformed_effect(void *effect_arg, MovingPosition *trans
 void create_directional_template_effect(void *unused, MovingPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
-    S_80975244_0 *effect_state;
+    HikewneExpandingFadeBody *effect_state;
     ObjectPosition *effect_pos;
     Block16 *template_data;
     Block16 *src;
@@ -73,10 +73,10 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
     template_data = sprite_template;
     if (effect != NULL) {
         effect_state = NODE_BODY(effect);
-        effect_state->unk_96 = 7;
-        effect_state->unk_AA = 7;
+        effect_state->ticks_left = 7;
+        effect_state->duration = 7;
         effect->update_callback = advance_and_fade_transformed_effect;
-        effect_state->unk_B0 = source_pos;
+        effect_state->source_position = source_pos;
         sprite = effect->sprite;
         src = template_data;
         dst = (Block16 *)sprite;

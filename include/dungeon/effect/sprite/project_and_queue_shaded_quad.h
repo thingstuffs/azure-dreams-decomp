@@ -166,9 +166,9 @@ typedef struct Row_81922FB8_S_800247B8_0 {
         struct { u8 pad[0x2]; u8 v; } at02;
     } unk_18;   /* overlapping accesses */
     s32 unk_1C;
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    union { s16 s; u16 u; } unk_22;   /* accessed as both */
-    union { s16 s; u16 u; } unk_24;   /* accessed as both */
+    s16 unk_20;
+    s16 unk_22;
+    s16 unk_24;
     s16 unk_26;
     s16 unk_28;
     s16 unk_2A;
@@ -208,7 +208,7 @@ typedef struct Row_819231FC_S_800249FC_1_pre {
 
 typedef struct Row_819231FC_S_800249FC_1 {
     u8 pad_00[0x5A];
-    union { s16 s; u16 u; } unk_5A;   /* accessed as both */
+    s16 unk_5A;
 } Row_819231FC_S_800249FC_1;   /* arg0 in func_800249FC */
 
 /* Update effect values and flags, then mark the object when its countdown expires. */
@@ -290,8 +290,8 @@ typedef struct Row_8192365C_S_80024E5C_0_pre {
 typedef struct Row_8192365C_S_80024E5C_0 {
     u8 pad_00[0x56];
     u16 unk_56;
-    union { u16 u; s16 s; } unk_58;   /* accessed as both */
-    union { u16 u; s16 s; } unk_5A;   /* accessed as both */
+    u16 unk_58;
+    u16 unk_5A;
     u16 unk_5C;
     u8 pad_5E[0x2];
     s16 unk_60;
@@ -311,9 +311,9 @@ typedef struct Row_8192365C_S_80024E5C_1 {
     u8 pad_00[0x6];
     s16 unk_06;
     u8 pad_08[0x4];
-    union { s8 s; u8 u; } unk_0C;   /* accessed as both */
-    union { s8 s; u8 u; } unk_0D;   /* accessed as both */
-    union { s8 s; u8 u; } unk_0E;   /* accessed as both */
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
     u8 pad_16[0x6];

@@ -1,3 +1,4 @@
+#include "dungeon/monster/u_boat_frames.h"
 #include "dungeon/monster/dragon/display_orientation.h"
 #include "shared/entity.h"
 #include "shared/actor_status_ids.h"
@@ -15,9 +16,6 @@
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
-extern u8 uboat_default_frames[];
-
-
 
 /* Advance the entity along its path and update its movement state. */
 void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg) {

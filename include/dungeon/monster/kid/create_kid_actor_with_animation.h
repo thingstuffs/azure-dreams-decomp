@@ -42,8 +42,8 @@ extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];
 extern u8 D_80170BF8[];
 extern u8 kid_action_resume_address[];
-extern u8 kid_direction_frames[];
-extern u8 kid_alt_spawn_direction_frames[];
+#include "dungeon/monster/kid_frames.h"
+
 
 /* Allocate and initialize an object and its child entries. */
 

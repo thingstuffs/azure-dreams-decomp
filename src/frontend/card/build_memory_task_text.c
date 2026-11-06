@@ -33,8 +33,8 @@ typedef struct S_802EE3A0_1 {
 } S_802EE3A0_1;
 
 /* Builds count-dependent text and sets its display position. */
-void build_memory_task_text(s32 panel_addr) {
-    s32 panel_base;
+void build_memory_task_text(void *panel_addr) {
+    u8 *panel_base;
     s32 count;
     Local64 count_text;
     Local16 number_text;
@@ -44,7 +44,7 @@ void build_memory_task_text(s32 panel_addr) {
     s32 line_offset;
     s32 text_offset;
     S_802EE3A0_1 *text_entry;
-    s32 join_dst;
+    void *join_dst;
     void *join_src;
 
     panel_base = panel_addr;

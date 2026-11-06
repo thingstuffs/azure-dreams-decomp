@@ -1,3 +1,4 @@
+#include "dungeon/monster/u_boat_frames.h"
 #include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
@@ -18,8 +19,7 @@
 
 extern s32 generate_random_value(void);
 
-extern u8 uboat_default_frames[];
-extern u8 uboat_action_frames[];
+
 
 #include "dungeon/monster/u_boat.h"
 

@@ -179,13 +179,13 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
                 random = rand();
                 {
                     s32 tile_x = actor->target_tile_x;
-                    ((ObjectPosition *)(*(u8 * *)&effect_alloc->position))->x.w.i =
+                    effect_alloc->position->x.w.i =
                         (tile_x << 6) + (random % 64);
                 }
                 random = rand();
                 {
                     s32 tile_y = actor->target_tile_y;
-                    ((ObjectPosition *)(*(u8 * *)&effect_alloc->position))->y.w.i =
+                    effect_alloc->position->y.w.i =
                         (tile_y << 6) + (random % 64);
                 }
                 particle_pos = effect_alloc->position;
@@ -196,7 +196,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
                     height -= height_random % 95;
                     height -= 0x20;
                 }
-                ((ObjectPosition *)(*(u8 * *)&effect_alloc->position))->z.w.i = height;
+                effect_alloc->position->z.w.i = height;
 
                 tile->scale_y = 0xC04;
                 tile->scale_x = 0xC04;
@@ -238,7 +238,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
         if (actor->pending_turn_updates == 0) {
             actor->action_flags &= 0x7FFF;
         } else {
-            actor_update_node_cursor[0] = (u32)((u8 *)actor - 0x20);
+            actor_update_node_cursor[0] = (u32)NODE_HEADER(actor);
         }
 
         spawned_object = ((S_80174668_2 *)actor)->unk_60;

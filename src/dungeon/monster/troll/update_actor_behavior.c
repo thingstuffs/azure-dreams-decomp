@@ -19,6 +19,7 @@
 #include "dungeon/level.h"
 #include "dungeon.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/troll_frames.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
@@ -30,18 +31,6 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
 extern u8 D_80175DF4[];
 extern u8 D_80175DFC[];
 extern u8 D_80175E04[];
-extern u8 troll_frame_set_1[];
-extern u8 troll_frame_set_2[];
-extern u8 troll_frame_set_3[];
-extern u8 troll_frame_set_5[];
-extern u8 troll_frame_set_6[];
-extern u8 troll_frame_set_7[];
-extern u8 troll_kind13_direction_frames[];
-extern u8 troll_kind14_direction_frames[];
-extern u8 troll_kind15_direction_frames[];
-extern u8 troll_frame_set_8[];
-extern u8 troll_frame_set_9[];
-extern u8 troll_frame_set_10[];
 
 /* Updates actor animation, facing, and actions from its dungeon state. */
 /* Selects Troll's movement, attacks, spells, and turn processing using separate sprite tables for item

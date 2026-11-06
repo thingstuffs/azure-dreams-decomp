@@ -18,7 +18,7 @@ void update_inventory_menu(void *state_arg) {
             *(s32 *)((u8 *)state + 0x24) = *(s32 *)((u8 *)state + 0x24) + 1;
         } else {
             *(void (**)(void))((u8 *)state + 0x34) = card_boot_return_from_slot_menu;
-            card_boot_show_load_failure_notice((u8 *)state - 0x20);
+            card_boot_show_load_failure_notice(NODE_HEADER(state));
             *(void (**)(void))((u8 *)state - 0x10) = card_boot_restore_saved_selection_callback;
         }
     }

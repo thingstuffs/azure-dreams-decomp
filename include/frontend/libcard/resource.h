@@ -6,6 +6,7 @@ struct Object_800128C8;
 /* Prototypes of the functions defined in src/frontend/libcard/resource/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+struct ObjectNodeHeader;
 
 /* card_boot_begin_selected_slot_load.c */
 void card_boot_begin_selected_slot_load(void *state);
@@ -20,6 +21,6 @@ void card_boot_highlight_selected_load_slot(CardSaveMenuBody *state);
 void card_boot_load_selected_slot(CardSlotMenuState *state);
 
 /* card_boot_show_load_failure_notice.c */
-void card_boot_show_load_failure_notice(s32 value);
+void card_boot_show_load_failure_notice(struct ObjectNodeHeader *value);
 
 #endif

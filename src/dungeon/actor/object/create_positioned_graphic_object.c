@@ -9,9 +9,7 @@
 #include "engine/node.h"
 #include "dungeon/actor/object.h"
 #include "dungeon/actor/positioned_graphic_effect.h"
-
-
-extern u8 linked_graphic_sprite_entries;
+#include "dungeon/globals.h"
 
 /* Creates an object with the given position, graphic index, and state value. */
 void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value) {

@@ -217,7 +217,7 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
                              plane_vertex->unk_04) /
                             plane->unk_04;
                         scratch->unk_144 = height;
-                        height += (s16)scratch->unk_152;
+                        height += scratch->unk_152;
                         scratch->unk_144 = height;
                         if (height >= scratch->unk_14C &&
                             height < scratch->unk_148) {

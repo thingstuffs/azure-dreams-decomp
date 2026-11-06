@@ -54,7 +54,6 @@ typedef struct S_800CB82C_5 {
    /* the 0x14 bytes before arg2 in create_owner_linked_pulsing_effect, addressed as arg2[-1] */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void update_owner_linked_pulsing_effect(void *effect, ObjectPosition *position, SpriteFrameState *appearance);
 extern M2C_UNK D_800E03BC;
 extern u8 active_spell_parameters;
 

@@ -12,7 +12,7 @@
  * start_item_menu_object_processing passes them to the menu reset and child-release handlers. */
 typedef struct ItemMenuParameters {
     int field0; /* primary menu object header passed to the retirement/reset handler */
-    int field4; /* child object header scheduled for linked-entry release, or zero */
+    ObjectNodeHeader *field4; /* display controller header scheduled for linked-entry release, or zero */
     int field8; /* auxiliary display object whose update callback is replaced for completion */
 } ItemMenuParameters;
 

@@ -1,3 +1,4 @@
+#include "dungeon/monster/weadog_frames.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -16,7 +17,6 @@
 extern s32 D_8015FCE8;
 extern u8 D_80162EB8[];
 extern u8 D_80162ED0[];
-extern u8 weadog_frame_set_6[];
 
 /* Moves an actor to its tile with a timed hop, updates animation, and completes the action. */
 void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void *actor)

@@ -12,6 +12,6 @@ void card_boot_enter_insufficient_space_advice(void *record_part) {
     CardMenuCallbackPrefix *state = record_part;
 
     state->saved_callback = write_text_and_advance_selection;
-    card_boot_show_insufficient_space_overwrite_advice(record_part - 0x20);
+    card_boot_show_insufficient_space_overwrite_advice(NODE_HEADER(record_part));
     ((ObjectNodeHeader *)record_part - 1)->update_callback = &D_800261F0;
 }

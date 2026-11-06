@@ -3,11 +3,7 @@
 #include "frontend/card/service.h"
 #include "main/data.h"
 #include "frontend/card.h"
-
-typedef struct S_80407E64_0_pre {
-    void * unk_00;
-    u8 pad_04[0xC];
-} S_80407E64_0_pre;   /* the 0x10 bytes before arg0 in card_boot_poll_status_and_select_context, addressed as arg0[-1] */
+#include "shared/object_node.h"
 
 typedef struct S_80407E64_0 {
     u8 pad_00[0xC];
@@ -26,7 +22,7 @@ void card_boot_poll_status_and_select_context(void *state_arg) {
     s32 retry_status;
     s32 status;
     s32 retries;
-    void *context;
+    ObjectNodeHeader *context;
 
     retries = 0;
     retry_status = 5;
@@ -40,19 +36,19 @@ void card_boot_poll_status_and_select_context(void *state_arg) {
     state->unk_38 = 0;
     reset_card_selection_state();
     if (status == 1) {
-        context = (u8 *)state - 0x20;
+        context = NODE_HEADER(state);
         state->unk_2C = card_boot_handle_menu_selection_input;
         initialize_card_message_object_with_code_0xd(context);
-        ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407DB8;
+        context->update_callback = D_80407DB8;
     } else if (status == 4) {
-        context = (u8 *)state - 0x20;
+        context = NODE_HEADER(state);
         state->unk_2C = card_boot_handle_menu_selection_input;
         card_dev_show_no_memory_card_notice(context);
-        ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407D90;
+        context->update_callback = D_80407D90;
     } else {
-        context = (u8 *)state - 0x20;
+        context = NODE_HEADER(state);
         state->unk_2C = card_boot_handle_menu_selection_input;
         card_dev_show_format_failure_notice(context);
-        ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407DB8;
+        context->update_callback = D_80407DB8;
     }
 }

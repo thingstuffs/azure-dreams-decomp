@@ -51,7 +51,7 @@ void create_ballistic_landing_particle(ObjectNodeHeader *source, s16 duration, s
         effect->position->velocity_z = (s32) (velocity_z + 0xFFFC0000);
         effect_state->gravity = 0x10000;
         effect_state->unk_14 = duration;
-        effect_state->ticks.s = 0;
+        effect_state->ticks = 0;
         effect_state->unk_34 = 0;
         register_node(effect, project_sprite_chain);
         sprite = effect->sprite;

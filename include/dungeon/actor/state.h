@@ -48,4 +48,6 @@ s32 process_actor_state_chain(void *state_base, void *entry_data, struct Entry *
 
 u32 toggle_attacker_target_status_pair(ActorRecord *attacker, ActorRecord *target);
 
+void retire_effect_when_status_set(void *record_arg);
+
 #endif

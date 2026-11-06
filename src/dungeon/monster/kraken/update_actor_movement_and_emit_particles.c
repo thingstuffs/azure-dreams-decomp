@@ -17,6 +17,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
 #include "sdk/libc.h"
+#include "dungeon/monster/kraken_frames.h"
 
    /* arg0 in update_actor_movement_and_emit_particles */
 
@@ -27,29 +28,15 @@ typedef struct S_80172D1C_3 {
     s16 unk_48;
 } S_80172D1C_3;   /* (u8 *)calc_other in update_actor_movement_and_emit_particles */
 
-typedef struct S_80172D1C_8 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172D1C_8;   /* ((S_80172D1C_1 *)obj)->unk_08 in update_actor_movement_and_emit_particles */
-
 extern u8 kraken_action_resume_address[];
 extern u8 D_8017406C[];
-extern u8 kraken_frame_set_1[];
-extern u8 kraken_frame_set[];
 
 /* Updates actor movement, emits particles, and settles the actor onto its tile. */
 /* Applies Kraken's pending HP change, emits seven particles while recoiling, then returns it to its tile
  * and idle frames. */
 void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, void *entity_arg) {
     EntityRec *entity = entity_arg;
-    void *particle;
+    ObjectNodeHeader *particle;
     SpriteFrameState *particle_sprite;
     void *particle_update;
     u8 *unused_particle_state;
@@ -76,21 +63,21 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
             if (particle != 0) {
                 particle_work = (u8 *)particle + 0x20;
                 register_node(particle, project_sprite_chain);
-                particle_sprite = ((ProjectileObject *)particle)->sprite;
-                ((ProjectileObject *)particle)->update_callback = particle_update;
+                particle_sprite = particle->sprite;
+                particle->update_callback = particle_update;
 
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_02 =
+                particle->position->x.w.i =
                     ((u16) motion->x.w.i) + (rand() & 0xF) - 8;
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_06 =
+                particle->position->y.w.i =
                     ((u16) motion->y.w.i) + (rand() & 0xF) - 8;
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_0A =
+                particle->position->z.w.i =
                     ((u16) motion->z.w.i) + (rand() & 0xF) - 8;
 
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_0C =
+                particle->position->velocity_x =
                     ((rand() & 0xFF) - 0x80) << 10;
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_10 =
+                particle->position->velocity_y =
                     ((rand() & 0xFF) - 0x80) << 10;
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_14 = (-4 - (rand() & 3)) << 16;
+                particle->position->velocity_z = (-4 - (rand() & 3)) << 16;
 
                 ((S_80172D1C_3 *)particle_work)->unk_48 = 10;
                 sprite_flags = sprite->animation_resource;

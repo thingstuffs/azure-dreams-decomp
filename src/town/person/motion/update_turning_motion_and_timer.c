@@ -26,9 +26,9 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, ObjectPosition *po
     actor->heading = angle - 0x440;
 
     position->x.unsigned_parts.integer = ((u16)actor->unk_84) +
-        rsin(((s16)actor->unk_86)) / (0x1000 / actor->unk_84);
+        rsin((actor->unk_86)) / (0x1000 / actor->unk_84);
     position->y.unsigned_parts.integer = (u16)actor->unk_86 +
-        rcos(((s16)actor->unk_86)) / (0x1000 / actor->unk_84) -
+        rcos((actor->unk_86)) / (0x1000 / actor->unk_84) -
         ((u16)actor->unk_84);
 
     adjustment = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(actor, &town_actor_control);

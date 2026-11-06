@@ -46,19 +46,19 @@ check:
 }
 
 /* Sets record fields and processes the selected table entry. */
-void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20) {
-    record->unk_14 = value_14;
-    record->unk_20 = value_20;
-    record->unk_08 = entry_index;
-    record->unk_0C = value_0c;
+void card_boot_bind_message_dialog_record(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
+    record->owner = value_14;
+    record->result = value_20;
+    record->entry_index = entry_index;
+    record->mode = value_0c;
     card_boot_measure_five_line_message(&card_menu_entry_values[entry_index]);
 }
 
 /* Sets record fields, processes its embedded data, and updates the record. */
-void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20) {
-    card_boot_bind_message_dialog_record((Rec_func_8002290C_arg0 *)record, value_14, entry_index, value_0c, value_20);
+void card_boot_initialize_message_dialog_layout(u8 *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
+    card_boot_bind_message_dialog_record((CardMessageDialogBody *)record, value_14, entry_index, value_0c, value_20);
     card_boot_initialize_message_render_templates(record + 0x8BC, record + 0x894, record + 0x8A4);
-    card_boot_initialize_dialog_packets_and_display(record);
+    card_boot_initialize_dialog_packets_and_display((s32)record);
 }
 
 /* Initialize the object from its table entry and select its callback. */
@@ -86,7 +86,7 @@ static __inline__ void set_handler(ObjectNodeHeader *base) {
 }
 
 /* Creates or resets the entity, initializes its nodes and record, and installs its handler. */
-u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 value_0c, s32 value_20) {
+u8 *card_boot_create_or_reset_message_dialog(ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
     ObjectNodeHeader *base;
     u8 *context;
 
@@ -106,7 +106,7 @@ u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 
 
         base->sprite = body + 0x8BC;
         ((CardMessageDialogBody *)body)->chain = card_boot_link_message_display_entries(body + 0x8CC);
-        card_boot_initialize_message_dialog_layout((s32)body, value_14, entry_index, value_0c, value_20);
+        card_boot_initialize_message_dialog_layout(body, value_14, entry_index, value_0c, value_20);
     }
     set_handler(base);
     return base;

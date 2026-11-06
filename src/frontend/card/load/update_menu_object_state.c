@@ -4,7 +4,7 @@
 
 typedef struct S_func_80406AA8_0 {
     u8 pad_00[4];
-    s32 unk_04;
+    void *unk_04;
     u8 pad_08[4];
     s32 unk_0C[6];
     s32 unk_24;

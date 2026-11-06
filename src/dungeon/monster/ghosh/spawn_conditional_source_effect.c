@@ -8,20 +8,6 @@
 #include "engine/node.h"
 #include "sdk/libc.h"
 
-typedef struct S_8016ECE4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_8016ECE4_0;   /* base in spawn_conditional_source_effect */
-
-
-
-typedef struct S_8016ECE4_6 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x7E];
-    s16 unk_AA;
-} S_8016ECE4_6;
-
 extern M2C_UNK D_800777F4;
 
 
@@ -35,7 +21,7 @@ void spawn_conditional_source_effect(void) {
     register SpriteFrameState *sprite;
     ConditionalSourceEffectBody *effect_state;
     ObjectPosition *source_pos;
-    S_8016ECE4_6 *source_state;
+    ActorRecord *source_state;
     ConditionalSourceEffectNode *effect;
     ObjectPosition *effect_pos;
     void *source;
@@ -47,7 +33,7 @@ void spawn_conditional_source_effect(void) {
         high_byte = addr[0x3610];
     }
     count = low_byte | (high_byte << 8);
-    source_pos = ((S_8016ECE4_0 *)source)->unk_08;
+    source_pos = ghosh_actor_node->position;
     source_state = source + 0x20;
     if (((count & 3) == 1) && !(rand() & 1)) {
         effect = allocate_flagged_object_node(0x12);
@@ -67,11 +53,11 @@ void spawn_conditional_source_effect(void) {
             effect_state->unk_4C = 0;
             effect_state->unk_54 = 0;
             effect_state->unk_60 = 0;
-            effect_state->unk_18 = (s16) (((u16) source_state->unk_2A >> 9) & 7);
+            effect_state->unk_18 = (s16) (((u16) source_state->facing >> 9) & 7);
             sprite = effect->header.sprite;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
-            sprite->depth_bias = (s16) (ghosh_effect_direction_offsets[((u16) source_state->unk_2A >> 9) & 7].y * 6);
+            sprite->depth_bias = (s16) (ghosh_effect_direction_offsets[((u16) source_state->facing >> 9) & 7].y * 6);
             source_state->unk_AA = 0x4D;
             rounded_x = source_pos->x.w.i;
             effect_state->unk_48 = (s8) (rounded_x / 64);

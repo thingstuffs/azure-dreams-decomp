@@ -1,3 +1,4 @@
+#include "dungeon/monster/baloon_frames.h"
 #include "shared/entity.h"
 #include "dungeon/monster/baloon.h"
 #include "shared/actor_status_flags.h"
@@ -18,8 +19,8 @@
 
 
 extern s32 generate_random_value(void);
-extern u8 baloon_default_frames[];
-extern u8 baloon_frame_set_1[];
+
+
 extern u8 D_80171964[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */

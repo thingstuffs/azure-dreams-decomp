@@ -54,11 +54,11 @@ void advance_timed_visual_effect(ParticleCleanupEffectBody *state, void *positio
     }
 
     state->unk_02.s--;
-    if (state->unk_0A.s == 0) {
-        state->unk_0A.u = 1;
+    if (state->unk_0A == 0) {
+        state->unk_0A = 1;
         position->unk_08.u += -0x20000;
     } else {
-        state->unk_0A.s = 0;
+        state->unk_0A = 0;
         position->unk_08.u += 0x20000;
     }
     object = state->unk_30;
@@ -111,13 +111,13 @@ void update_tiled_fade_effect(ParticleCleanupEffectBody *effect, void *offset_st
 
     moving_rect = D_80024028;
     tile_rect = D_80024030;
-    offset_applied = effect->unk_0A.s;
+    offset_applied = effect->unk_0A;
     (*(s16 *)particle_update_flag) = 1;
     if (offset_applied == 0) {
-        effect->unk_0A.s = 1;
+        effect->unk_0A = 1;
         offset_state->unk_08 += -0x20000;
     } else {
-        effect->unk_0A.s = 0;
+        effect->unk_0A = 0;
         offset_state->unk_08 += 0x20000;
     }
     stage = effect->unk_00.s;

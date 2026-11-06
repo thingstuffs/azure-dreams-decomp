@@ -1,3 +1,4 @@
+#include "dungeon/monster/viper_frames.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -22,7 +23,6 @@ extern s32 generate_random_value(void);
 extern u8 D_8015EA68[];
 extern M2C_UNK D_8015EE94;
 extern u8 D_80162A7C[];
-extern u8 viper_frame_set_8[];
 
 /* Allocate an actor and initialize its parts and behavior from the spawn flags. */
 /* Creates Viper with default frames at D_80162A7C, applies spawn flags, and attempts valid tile placement. */

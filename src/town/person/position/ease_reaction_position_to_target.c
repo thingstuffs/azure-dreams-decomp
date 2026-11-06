@@ -29,7 +29,7 @@ void ease_reaction_position_to_target(TownObjectRecord *state, ObjectPosition *p
     position->x.w.i =
         (u16)(((u16)position->x.w.i) + (x_delta / 8));
 
-    y_delta = (s16)state->unk_86 - position->y.w.i;
+    y_delta = state->unk_86 - position->y.w.i;
     position->y.w.i =
         (s16)((u16)position->y.w.i + (y_delta / 8));
 

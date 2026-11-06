@@ -18,7 +18,7 @@ typedef struct DirectionalEffectWork {
     s32 child_flags;
     u8 pad_14[0x3C];
     union { s16 s; u16 u; } ticks_left;
-    union { s16 s; u16 u; } frame;
+    u16 frame;
 } DirectionalEffectWork;
 /* Directional particle travel, target impact geometry, and timed status effects. */
 #include "shared/entity.h"
@@ -223,7 +223,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                     velocity_z = (distance - velocity_z) / travel_frames;
                     motion->velocity_z = velocity_z << 16;
                 }
-                effect->frame.u = 0;
+                effect->frame = 0;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 effect->state.u = (u16)(effect->state.u + 1);
                 return;
@@ -239,12 +239,12 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                 motion->y.v += motion->velocity_y;
                 motion->z.v += motion->velocity_z;
             }
-            frame_counter = (u16)effect->frame.u + 1;
-            effect->frame.u = (u16)frame_counter;
+            frame_counter = (u16)effect->frame + 1;
+            effect->frame = (u16)frame_counter;
             if (frame_counter >= 8) {
-                effect->frame.u = 4;
+                effect->frame = 4;
             }
-            if (effect->ticks_left.s <= 0 && effect->frame.s == 7) {
+            if (effect->ticks_left.s <= 0 && (s16)effect->frame == 7) {
                 effect->ticks_left.u = 8;
                 effect->state.u = (u16)(effect->state.u + 1);
                 return;
@@ -254,8 +254,8 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
 
         case 2:
         {
-            u16 frame_counter = (u16)effect->frame.u + 1;
-            effect->frame.u = frame_counter;
+            u16 frame_counter = (u16)effect->frame + 1;
+            effect->frame = frame_counter;
             if (effect->ticks_left.s == mode) {
                 if (actor->target != 0) {
                     particle = allocate_list_node(770, &scene_object_list_anchor.next);
@@ -265,13 +265,13 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                         {
                             s32 coordinate = actor->target_tile_x;
                             particle_data = &particle->work;
-                            particle_data->impact.x.s = coordinate << 6;
+                            particle_data->impact.x = coordinate << 6;
                             coordinate = actor->target_tile_y;
-                            particle_data->impact.y.s = coordinate << 6;
-                            particle_data->impact.z.s = (u16)motion->z.w.i;
+                            particle_data->impact.y = coordinate << 6;
+                            particle_data->impact.z = (u16)motion->z.w.i;
                         }
                         particle->work.owner = effect;
-                        particle_data->impact.state.s = 0;
+                        particle_data->impact.state = 0;
                     }
                 }
             }

@@ -9,11 +9,11 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/kid.h"
+#include "dungeon/monster/kid_frames.h"
 
 extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 kid_action_resume_address[];
-extern u8 kid_alt_direction_frames[];
 extern u8 D_80175158[];
 
 /* Updates directional hop motion and returns the actor to its tile on landing. */

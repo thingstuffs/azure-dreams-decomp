@@ -15,12 +15,10 @@ extern void select_sprite_entry(void *, s32, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/hikewne_frames.h"
 
 extern void update_actor_status_and_mp(void *);
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
-
-extern u8 hikewne_frame_set_2[];
-extern u8 hikewne_frame_set_3[];
 
 /* Advance actor states, select directional animations, and process entity actions. */
 void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {

@@ -5,33 +5,16 @@ struct ObjectPosition;
 #include "shared/object_flags.h"
 #include "dungeon/effect.h"
 #include "sdk/libgte.h"
-
-typedef struct {
-    s16 state;
-    u16 count;
-    s32 value0;
-    s32 value1;
-    s32 value2;
-    s32 step0;
-    s32 step1;
-    s32 step2;
-} FuncState;
-
-typedef struct {
-    s32 pad0[5];
-    u16 flags;
-    u16 pad1[3];
-    u16 count;
-    u16 value;
-} FuncOutput;
+#include "shared/object_node.h"
+#include "dungeon/monster/cyclone/bobbing_motion.h"
 
 extern void advance_sprite_animation_and_textures(void *);
 extern void select_sprite_entry(void *, s32, s32);
 
 /* Advances motion and output animation, then signals completion after a short delay. */
-void advance_motion_output_animation(FuncState *motion, ObjectPosition *position, SpriteFrameState *output) {
+void advance_motion_output_animation(CycloneBobbingMotionBody *motion, ObjectPosition *position, SpriteFrameState *output) {
     u16 frame_count;
-    void *object;
+    ObjectNodeHeader *object;
 
     frame_count = motion->count + 1;
     motion->count = frame_count;
@@ -39,12 +22,12 @@ void advance_motion_output_animation(FuncState *motion, ObjectPosition *position
     case 0:
         output->scale_y = output->scale_y + 0x40;
         output->scale_x = output->scale_y;
-        motion->value0 = motion->value0 + motion->step0;
-        position->x.v = motion->value0;
-        motion->value1 = motion->value1 + motion->step1;
-        position->y.v = motion->value1;
-        motion->value2 = motion->value2 + motion->step2;
-        position->z.v = motion->value2 - ((rsin((s16)motion->count << 6) >> 4) * 0xC000);
+        motion->path.x.v = motion->path.x.v + motion->path.velocity_x;
+        position->x.v = motion->path.x.v;
+        motion->path.y.v = motion->path.y.v + motion->path.velocity_y;
+        position->y.v = motion->path.y.v;
+        motion->path.z.v = motion->path.z.v + motion->path.velocity_z;
+        position->z.v = motion->path.z.v - ((rsin((s16)motion->count << 6) >> 4) * 0xC000);
         if ((s16)motion->count >= 0x20) {
             motion->count = 0;
             motion->state = motion->state + 1;
@@ -54,11 +37,11 @@ void advance_motion_output_animation(FuncState *motion, ObjectPosition *position
         if ((s16)frame_count < 4) {
             break;
         }
-        *((u16 *)motion - 1) |= 0x8000;
+        NODE_HEADER(motion)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    object = ((s8 *)motion - 0x20);
+    object = NODE_HEADER(motion);
     select_nearby_target_and_initialize_slot(object, position, 8, 0x300);
     advance_sprite_animation_and_textures(output);
     if (output->flags & 0x6000) {

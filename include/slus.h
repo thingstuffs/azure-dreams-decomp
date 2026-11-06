@@ -1,5 +1,6 @@
 #ifndef SLUS_H
 #define SLUS_H
+#include "sdk/libspu.h"
 
 struct MenuSelectionBody;
 struct ObjectNodeHeader;
@@ -212,7 +213,6 @@ void _spu_Fw1ts(void);
 
 /* sound_key_buffer.c */
 u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_index);
-void SpuSetKey(s32 key_on, u32 voices);
 
 /* sound_streaming_transfer.c */
 s32 SpuClearReverbWorkArea(s32 voice);

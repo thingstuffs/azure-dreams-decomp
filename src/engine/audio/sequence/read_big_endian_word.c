@@ -2,10 +2,10 @@
 #include "engine/audio/sequence.h"
 #include "slus.h"
 
-extern s32 read_next_byte_and_finish(s32 a0);
+extern s32 read_next_byte_and_finish(void *a0);
 
 /* Reads four bytes from the stream and packs them into a word. */
-u32 read_big_endian_word(s32 stream)
+u32 read_big_endian_word(void *stream)
 {
     s32 first_byte, second_byte, third_byte, fourth_byte;
 

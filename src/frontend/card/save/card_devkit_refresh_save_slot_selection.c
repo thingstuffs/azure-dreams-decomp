@@ -27,5 +27,5 @@ void card_devkit_refresh_save_slot_selection(void *menu) {
             break;
         }
     }
-    card_info_set_value_and_refresh(*(s32 *)((u8 *)menu + 0x1C), *(s32 *)((u8 *)menu + 0x28));
+    card_info_set_value_and_refresh(*(void **)((u8 *)menu + 0x1C), *(s32 *)((u8 *)menu + 0x28));
 }

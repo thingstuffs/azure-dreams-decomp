@@ -8,7 +8,7 @@
 #include "frontend/libcard/state_callbacks_api.h"
 
 extern void update_spark_effect(void *menu, s32 entry_id);
-extern void card_boot_show_no_saved_game_notice(void *object); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern void card_boot_show_no_saved_game_notice(ObjectNodeHeader *object);
 
 
 
@@ -24,7 +24,7 @@ void card_boot_select_copy_source_slot(void *state) {
         ((ObjectNodeHeader *)state - 1)->update_callback = card_boot_update_copy_destination_selection;
     } else {
         menu->saved_callback = build_install;
-        card_boot_show_no_saved_game_notice((u8 *)state - 0x20);
+        card_boot_show_no_saved_game_notice(NODE_HEADER(state));
         ((ObjectNodeHeader *)state - 1)->update_callback = card_boot_poll_status_and_dismiss_dialog;
     }
 }

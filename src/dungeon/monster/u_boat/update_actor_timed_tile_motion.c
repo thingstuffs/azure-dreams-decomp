@@ -1,3 +1,4 @@
+#include "dungeon/monster/u_boat_frames.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -13,7 +14,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/data.h"
 
-extern u8 uboat_default_frames[];
+
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/item.h"
 

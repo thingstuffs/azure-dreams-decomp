@@ -1,3 +1,4 @@
+#include "town/player.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "town/minigame.h"
@@ -38,7 +39,6 @@ extern u8 town_position_callback_address[];
 
 extern void initialize_town_context_action(void);
 extern void create_familiar_deployment_effect_with_owner_state(void);
-extern void apply_global_scene_value(void *);
 extern void initialize_scene_action_record(TownObjectRecord *record, void *ptr, void *ptr2);
 #include "town/shop/display_objects.h"
 #include "town/shop/object.h"

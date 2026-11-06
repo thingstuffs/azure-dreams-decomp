@@ -18,6 +18,7 @@
 #include "dungeon/monster/beldo_large.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/beldo_large_frames.h"
 
 
    /* the 0x14 bytes before v0 in advance_selected_actor_action, addressed as v0[-1] */
@@ -30,10 +31,6 @@ typedef struct S_8016C190_5 {
 extern void select_sprite_entry(void *, u8, s32);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-extern u8 beldo_large_frame_set_2[];
-extern u8 beldo_large_frame_set_5[];
-extern u8 beldo_large_frame_set_1[];
-extern u8 beldo_large_frame_set_3[];
 
 /* Advances the selected actor action through targeting, animation, and cleanup. */
 /* Starts Beldo's targeted spell with an eight-tick casting wait, then restores the current form's idle

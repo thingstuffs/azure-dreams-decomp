@@ -2,10 +2,10 @@
 #include "engine/audio/sequence.h"
 #include "slus.h"
 
-extern int read_next_byte_and_finish(int a0);
+extern int read_next_byte_and_finish(void *a0);
 
 /* Combines the low bytes of two successive calls with the same input and returns the low 16 bits. */
-int read_sequence_halfword(int input)
+int read_sequence_halfword(void *input)
 {
     int first_result;
     int second_result;

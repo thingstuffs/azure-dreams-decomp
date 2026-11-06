@@ -32,12 +32,7 @@ extern u8 barong_action_resume_address[];
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
-
-extern u8 barong_frame_set_1[];
-extern u8 barong_frame_set_4[];
-extern u8 barong_frame_set[];
-extern u8 barong_frame_set_5[];
-extern u8 barong_frame_set_2[];
+#include "dungeon/monster/barong_frames.h"
 
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
 void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

@@ -179,7 +179,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                 }
                 work->unk_2C.p = parent;
                 work->unk_30.s = ((S_818154FC_3 *)parent)->unk_60.s;
-                work->unk_0A.s =
+                work->unk_0A =
                     (effect->unk_84.s - 1) / 2;
                 work->unk_15 = effect->spell.variant;
                 work->unk_16 = effect->unk_7E.u;
@@ -210,10 +210,10 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                     work->unk_08 = 1;
                     if (((S_818154FC_3 *)parent)->unk_72 != map->tile_x) {
                         tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - map->tile_x);
-                        work->unk_02.s = tile_distance * 2;
+                        work->unk_02 = tile_distance * 2;
                     } else {
                         tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - map->tile_y);
-                        work->unk_02.s = tile_distance * 2;
+                        work->unk_02 = tile_distance * 2;
                     }
 
                     compare_one = 1;
@@ -221,7 +221,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                     if (effect->unk_84.s == compare_one) {
                         s32 duration;
 
-                        duration = work->unk_02.s;
+                        duration = (s16)work->unk_02;
                         if (duration != 0) {
                             z_step = motion->z.v;
                             other_z = position->z.v;
@@ -236,14 +236,14 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                         work->unk_60 = position->velocity_z;
                     }
                 } else {
-                    work->unk_02.s = 8;
+                    work->unk_02 = 8;
                     work->unk_08 = 0;
                 }
                 if (effect->unk_84.s == 9) {
                     if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
                         u16 end_time;
 
-                        end_time = work->unk_02.u;
+                        end_time = work->unk_02;
                         end_time += 0x28;
                         effect->unk_86 = end_time;
                     } else {

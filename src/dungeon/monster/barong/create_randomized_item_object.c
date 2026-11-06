@@ -1,3 +1,4 @@
+#include "slus/data.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/barong.h"
 #include "shared/entity.h"

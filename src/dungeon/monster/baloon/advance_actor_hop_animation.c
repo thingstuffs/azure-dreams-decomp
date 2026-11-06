@@ -1,3 +1,4 @@
+#include "dungeon/monster/baloon_frames.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/baloon.h"
@@ -15,7 +16,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/data.h"
 
-extern u8 baloon_default_frames[];
+
 extern u8 D_800E2370[];
 
 /* Advances the actor's hop animation and finishes the action when its timer expires. */

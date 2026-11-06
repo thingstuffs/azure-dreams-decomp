@@ -6,11 +6,10 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/actor/effect.h"
 struct Entry;
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-extern void retire_effect_when_status_set(void *record);
-extern s32 render_actor_sprite_chain(void *initial_state, void *context, struct Entry *entry);
 
 typedef struct S_800ADC4C_0 {
     u8 pad_00[0x8];

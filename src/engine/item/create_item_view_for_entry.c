@@ -10,7 +10,7 @@ typedef struct S_8004B854 {
 } S_8004B854;
 
 /* Sends a packet containing the entry byte and command code 0x13 to the target; returns the item view it opens. */
-void *create_item_view_for_entry(int target, int record_addr, int entry_value)
+void *create_item_view_for_entry(int target, void *record_addr, int entry_value)
 {
     S_8004B854 local_packet;
     int zero = 0;

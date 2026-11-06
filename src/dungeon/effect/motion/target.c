@@ -70,7 +70,7 @@ void advance_effect_state_and_frame(DirectionalActorEffectBody *effect)
     object = effect->owner;
     S32_AT(object, 0x10) |= 0x8000;
 
-    state = effect->state.s;
+    state = (s16)effect->state;
     timer = effect->timer + 1;
     effect->timer = timer;
 
@@ -78,17 +78,17 @@ void advance_effect_state_and_frame(DirectionalActorEffectBody *effect)
     case 0:
         effect->timer = 0;
         effect->frame = 0;
-        effect->texture_v_step.signed_halfword = 0x1F;
-        effect->texture_u_step.signed_halfword = 0x1F;
-        effect->state.u++;
+        effect->texture_v_step = 0x1F;
+        effect->texture_u_step = 0x1F;
+        effect->state++;
                         /* fallthrough */
     case 1:
         counter = effect->frame + 1;
         effect->frame = counter;
-        effect->z_offset.s = (s16)counter * 0x30;
+        effect->z_offset = (s16)counter * 0x30;
 
         if ((s16)effect->frame >= 4) {
-            effect->state.u++;
+            effect->state++;
         }
         break;
     case 2:
@@ -99,8 +99,8 @@ void advance_effect_state_and_frame(DirectionalActorEffectBody *effect)
         break;
     }
 
-    effect->texture_u.signed_halfword = ((effect->timer & 3) << 5) + 0x80;
-    effect->texture_v.signed_halfword = ((s16)effect->timer >> 2) << 5;
+    effect->texture_u = ((effect->timer & 3) << 5) + 0x80;
+    effect->texture_v = ((s16)effect->timer >> 2) << 5;
 }
 
 /* Projects linked effects as four jittered strips of textured quads and queues them by depth. */
@@ -136,16 +136,16 @@ s32 render_linked_jittered_effect_strips(DirectionalActorEffectBody *node_data) 
         screen_base = screen_points;
         strip_base = strip_points;
 
-        world_points[4].x = (s16)(node->x.u + 0x20);
-        world_points[4].y = (s16)(node->y.u + 0x20);
-        world_points[4].z = node->z.s;
+        world_points[4].x = (s16)(node->x + 0x20);
+        world_points[4].y = (s16)(node->y + 0x20);
+        world_points[4].z = node->z;
         for (corner_index = 3; corner_index >= 0; corner_index--) {
-            world_base[corner_index].x = (s16)(node->x.u +
+            world_base[corner_index].x = (s16)(node->x +
                                     ((corner_index >> 1) << 6));
-            world_base[corner_index].y = (s16)(node->y.u +
+            world_base[corner_index].y = (s16)(node->y +
                                     ((corner_index % 2) << 6));
-        world_base[corner_index].z = (s16)(node->z.u +
-                                    node->z_offset.u);
+        world_base[corner_index].z = (s16)((u16)node->z +
+                                    (u16)node->z_offset);
         }
         func_80065770(world_points, screen_points, depths, scratch, projection_aux, 5);
 
@@ -237,16 +237,16 @@ s32 render_linked_jittered_effect_strips(DirectionalActorEffectBody *node_data) 
                         primitive->unk_20 =
                             (s16)(primitive->unk_10 + step);
 
-                        tex_coord = node->texture_u.byte;
+                        tex_coord = *(u8 *)&node->texture_u;
                         primitive->unk_1C = (u8)tex_coord;
                         primitive->unk_0C = (u8)tex_coord;
-                        tex_coord = (s16)(tex_coord + node->texture_u_step.byte);
+                        tex_coord = (s16)(tex_coord + *(u8 *)&node->texture_u_step);
                         primitive->unk_24 = (s8)tex_coord;
                         primitive->unk_14 = (s8)tex_coord;
-                        tex_coord = node->texture_v.byte;
+                        tex_coord = *(u8 *)&node->texture_v;
                         primitive->unk_15 = (u8)tex_coord;
                         primitive->unk_0D = (u8)tex_coord;
-                        tex_coord = (s16)(tex_coord + node->texture_v_step.byte);
+                        tex_coord = (s16)(tex_coord + *(u8 *)&node->texture_v_step);
                         primitive->unk_25 = (s8)tex_coord;
                         primitive->unk_1D = (s8)tex_coord;
 

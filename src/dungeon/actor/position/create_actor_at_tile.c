@@ -12,6 +12,7 @@ struct ObjectNodeHeader;
 #include "dungeon/actor/position.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "dungeon/data.h"
 typedef struct S_800D1C70_0 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -33,7 +34,6 @@ void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 void process_actor_status_transitions(s32 actor, s32 action_context, s32 sprite, u8 *state);
-extern s32 tile_actor_sprite_entries;
 
 /* Creates a dungeon object at the given tile and height, initializing its sprite and tile flags. */
 void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {

@@ -15,14 +15,12 @@ extern void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/kid_frames.h"
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80174218(void *, void *, void *, void *);
 
 extern u8 kid_action_resume_address[];
-extern u8 kid_frame_set_3[];
-extern u8 kid_alt_spawn_direction_frames[];
-
 
 typedef struct S_80173ED8_2 {
     u8 pad_00[0xA];

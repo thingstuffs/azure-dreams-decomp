@@ -20,14 +20,13 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/kewne_frames.h"
 
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, ActorRecord *);
 
 extern u8 kewne_action_resume_address[];
-extern u8 kewne_frame_set_1[];
-extern u8 kewne_frame_set_2[];
 
 /* Advances the actor action state, updating its directional animation and callback. */
 void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *render_record, ActorRecord *actor_state) {

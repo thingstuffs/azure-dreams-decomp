@@ -5,7 +5,7 @@
 
 void *forward_target(u8 *);
 void init_menu_entry_pointers(u8 *, s32);
-void func_80402EBC(u8 *, s32, s32, s32, s32);
+void func_80402EBC(u8 *, struct ObjectNodeHeader *, s32, s32, s32);
 s32 process_global(s32, u8 *);
 
 typedef struct S_8001BF84_0 {
@@ -20,7 +20,7 @@ typedef struct S_8001BF84_1 {
 } S_8001BF84_1;   /* store_base in func_8001BF84 */
 
 /* Initializes or retrieves the memory card message object. */
-u8 *init_card_message_object(s32 message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4)
+u8 *init_card_message_object(struct ObjectNodeHeader *message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4)
 {
     s32 result;
     u8 *store_base;

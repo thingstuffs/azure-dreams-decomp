@@ -8,6 +8,7 @@
 #include "dungeon/effect/particle.h"
 #include "dungeon/system.h"
 #include "dungeon/data.h"
+#include "dungeon/monster/beldo_large_frames.h"
 
 typedef union {
     u16 unsigned_value;
@@ -52,9 +53,6 @@ typedef struct {
     u8 unk_73;
 } DungeonInput;
 
-extern u8 beldo_large_frame_set_2[];
-extern u8 beldo_large_frame_set_5[];
-extern u8 beldo_large_frame_set_1[];
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 struct SpriteFrameState;

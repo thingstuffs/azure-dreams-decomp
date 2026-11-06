@@ -210,7 +210,7 @@ extern void *actor_direction_sprites;
 
 /* Ordinary declaration: the private selector authenticates this one
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
-extern void *create_positioned(void *, s32, s32, s32, void *, s32, s32, s32, void *);
+extern void *create_positioned(void *, s32, s32, s32, void *, s32, s32, s32, s32);
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
 void update_source_relative_position_delays_movement_advances_arc_toward_target(void *self, void *coords)

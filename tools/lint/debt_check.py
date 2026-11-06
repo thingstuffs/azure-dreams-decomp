@@ -13,6 +13,8 @@ import sys
 TOOLS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(TOOLS / 'readability'))
 import score as c
+sys.path.insert(0, str(TOOLS / 'typing'))
+from union_census import aggregates, after_brace
 
 SCHEMA = 3
 CLASSES = ('local_externs', 'generated_layouts', 'm2c_macros', 'goto',
@@ -141,6 +143,8 @@ def union_sites(rel, text, tokens=None, pairs=None):
     pairs = c.pairs_of(tokens)[0] if pairs is None else pairs
     signedness, bad = [], []
     identities = Counter()
+    definitions = aggregates(tokens, pairs)
+    by_start = {row['start']: row for row in definitions}
     for i, token in enumerate(tokens):
         if token.value != 'union':
             continue
@@ -172,12 +176,28 @@ def union_sites(rel, text, tokens=None, pairs=None):
         pointer_types = [type_tokens for _, _, type_tokens in typed if '*' in type_tokens]
         if len(pointer_types) > 1 and len(set(pointer_types)) > 1:
             reasons.append('pointer_pun')
-        close = pairs[opening]
-        field_name = tokens[close + 1].value if close + 1 < len(tokens) and tokens[close + 1].kind == 'id' else '<anonymous>'
-        # The trailing field name survives member relabelling and line shifts.
-        identities[field_name] += 1
+        aggregate = by_start[i]
+        ancestors = []
+        parent = min((row for row in definitions if row['body'] < i < row['end']),
+                     key=lambda row: row['end'] - row['body'], default=None)
+        while parent is not None:
+            ancestors.append(parent)
+            parent = min((row for row in definitions
+                          if row['body'] < parent['start'] < row['end']),
+                         key=lambda row: row['end'] - row['body'], default=None)
+        ancestors.reverse()
+        standalone_type = i > 0 and tokens[i - 1].value == 'typedef'
+        owner = next((row['name'] for row in ancestors if row['name']),
+                     (aggregate['name'] if standalone_type else None) or Path(rel).stem)
+        field_name = after_brace(tokens, aggregate['end']) or aggregate['name'] or '<anonymous>'
+        path = '.'.join([after_brace(tokens, row['end']) or row['name']
+                         for row in ancestors[1:] if after_brace(tokens, row['end']) or row['name']]
+                        + [field_name])
+        # Owner and member path survive retirements of unrelated same-named fields.
+        identity = f'{owner}.{path}'
+        identities[identity] += 1
         if reasons:
-            site = f'{rel}::{field_name}#{identities[field_name]}'
+            site = f'{rel}::{identity}#{identities[identity]}'
             bad.append(dict(site=site, file=rel, line=text.count('\n', 0, token.pos) + 1,
                             reasons=sorted(set(reasons))))
     return signedness, bad

@@ -256,13 +256,13 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             RotTransPers4(&scratch->unk_70, &scratch->unk_78, &scratch->unk_80, &scratch->unk_88,
                 &scratch->unk_F0, &scratch->unk_F4, &scratch->unk_F8, &scratch->unk_FC,
                 (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
-            packet->unk_08.as_s16_08 = (s16) (scratch->unk_F0 + scratch->unk_B8);
+            packet->unk_08 = (s16) (scratch->unk_F0 + scratch->unk_B8);
             packet->unk_0A = (s16) (scratch->unk_F2 + scratch->unk_BA);
-            packet->unk_10.as_s16_10 = (s16) (scratch->unk_F4 + scratch->unk_B8);
+            packet->unk_10 = (s16) (scratch->unk_F4 + scratch->unk_B8);
             packet->unk_12 = (s16) (scratch->unk_F6 + scratch->unk_BA);
-            packet->unk_18.as_s16_18 = (s16) (scratch->unk_F8 + scratch->unk_B8);
+            packet->unk_18 = (s16) (scratch->unk_F8 + scratch->unk_B8);
             packet->unk_1A = (s16) (scratch->unk_FA + scratch->unk_BA);
-            packet->unk_20.as_s16_20 = (s16) (scratch->unk_FC + scratch->unk_B8);
+            packet->unk_20 = (s16) (scratch->unk_FC + scratch->unk_B8);
             packet->unk_22 = (s16) (scratch->unk_FE + scratch->unk_BA);
             packet->unk_00.as_s8_03.unk_03 = quad_words;
             {
@@ -325,7 +325,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             }
             packet->unk_1C.as_s16_1C = (s16) ((u16) scratch->unk_14.as_s32_14 | (u16) scratch->unk_08);
             packet->unk_24.as_s16_24 = (s16) ((u16) scratch->unk_14.as_s32_14 | (u16) scratch->unk_10.as_s32_10);
-            if (packet->unk_08.as_s16_08 > packet->unk_20.as_s16_20) {
+            if (packet->unk_08 > packet->unk_20) {
                 right_u = (u8) packet->unk_24.as_s16_24;
                 packet->unk_24.as_u8_24 = (u8) (right_u + 0xFF);
                 packet->unk_14.as_u8_14 = right_u;
@@ -364,10 +364,10 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             row_index = 1;
             wrapped_v_offset = -0x30;
             second_addr = (s32) packet & addr_mask;
-            packet->unk_08.as_u16_08 = (u16) (packet->unk_08.as_u16_08 + 0x40);
-            packet->unk_10.as_u16_10 = (u16) (packet->unk_10.as_u16_10 + 0x40);
-            packet->unk_18.as_u16_18 = (u16) (packet->unk_18.as_u16_18 + 0x40);
-            packet->unk_20.as_u16_20 = (u16) (packet->unk_20.as_u16_20 + 0x40);
+            packet->unk_08 = (u16) ((u16)packet->unk_08 + 0x40);
+            packet->unk_10 = (u16) (packet->unk_10 + 0x40);
+            packet->unk_18 = (u16) (packet->unk_18 + 0x40);
+            packet->unk_20 = (u16) ((u16)packet->unk_20 + 0x40);
             packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
             second_link = scratch->unk_20;
             packet = (S_func_81904990_7 *)((u8 *)packet + 40);
@@ -422,14 +422,14 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             wrapped_v_offset += 0x10;
             row_index += 1;
             right_row_addr = (s32) packet & addr_mask;
-            packet->unk_08.as_u16_08 =
-                (u16) (packet->unk_08.as_u16_08 + 0x40);
-            packet->unk_10.as_u16_10 =
-                (u16) (packet->unk_10.as_u16_10 + 0x40);
-            packet->unk_18.as_u16_18 =
-                (u16) (packet->unk_18.as_u16_18 + 0x40);
-            packet->unk_20.as_u16_20 =
-                (u16) (packet->unk_20.as_u16_20 + 0x40);
+            packet->unk_08 =
+                (u16) ((u16)packet->unk_08 + 0x40);
+            packet->unk_10 =
+                (u16) (packet->unk_10 + 0x40);
+            packet->unk_18 =
+                (u16) (packet->unk_18 + 0x40);
+            packet->unk_20 =
+                (u16) ((u16)packet->unk_20 + 0x40);
             packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
             right_row_link = scratch->unk_20;
             *right_row_link = (*right_row_link & length_mask) | right_row_addr;

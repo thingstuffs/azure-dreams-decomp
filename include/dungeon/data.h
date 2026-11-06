@@ -1,5 +1,11 @@
 #ifndef DUNGEON_DATA_H
 #define DUNGEON_DATA_H
+#include "dungeon/globals.h"
+#include "dungeon/monster/stealth_frames.h"
+#include "dungeon/monster/viper_frames.h"
+#include "dungeon/monster/u_boat_frames.h"
+#include "dungeon/monster/weadog_frames.h"
+#include "dungeon/monster/baloon_frames.h"
 /* Imported data declarations for this image; maintained by tools/headers. */
 
 #include "common.h"
@@ -23,7 +29,6 @@ extern u8 manoeva_frame_set[ ];
 extern u8 beldo_large_frame_set_14[ 16 ];
 extern u8 beldo_large_frame_set_8[ 16 ];
 
-extern s16 actor_event_values[ ];
 extern u8 familiar_call_text[ ];
 extern u8 genus_change_text[ ];
 extern u8 *item_type_text_prefixes[ ];
@@ -59,7 +64,6 @@ extern u8 directional_effect_entries[ ];
 extern s16 linked_effect_chain_count[ 6 ];
 extern s16 parent_effect_update_flag;
 extern u8 particle_fade_pixels[ ];
-extern s32 particle_object_flags;
 extern u8 spark_sprite_entries[ ];
 extern s32 tile_actor_sprite_entries;
 
@@ -90,12 +94,6 @@ extern u8 mesh_edge_payload_template[ 12 ];
 extern s16 point_cloud_update_flag[ 5 ];
 
 extern u8 shaded_quad_frame_set[ 9 ];
-extern u8 uboat_action_frames[ ];
-extern u8 uboat_aura_later_frames[ ];
-extern u8 uboat_aura_start_frames[ ];
-extern u8 uboat_ready_frames[ ];
-extern u8 uboat_timed_motion_frames[ ];
-extern u8 uboat_timed_motion_frames_alt[ ];
 
 extern SpriteSourceEntry random_motion_sprite_data_a[ ];
 extern SpriteSourceEntry random_motion_sprite_data_b[ ];
@@ -104,7 +102,6 @@ extern SpriteSourceEntry random_motion_sprite_data_c[ ];
 extern u16 camera_depth_index[ 5 ];
 extern M2C_UNK familiar_menu_action_data;
 extern u8 familiar_removed_during_change;
-extern u8 player_alternate_motion_frames[ ];
 extern u8 player_damage_frames[ ];
 extern u8 player_height_step_frames[ ];
 extern u8 player_hop_frames[ ];
@@ -116,7 +113,6 @@ extern u8 player_push_loop_frames[ ];
 extern u8 player_push_start_frames[ ];
 extern u8 player_sleep_frames;
 extern u8 player_throw_followup_frames[ 8 ];
-extern u8 player_tile_motion_frames[ ];
 extern s32 player_turn_fraction;
 extern u8 return_magic_frames[ ];
 extern s32 selected_item_action_alias;
@@ -130,12 +126,11 @@ extern u8 beldo_large_frame_set_11[ ];
 extern u8 beldo_large_frame_set_15[ 8 ];
 extern u8 beldo_large_frame_set_16[ 8 ];
 extern u8 beldo_large_frame_set_17[ ];
-extern u8 beldo_large_frame_set_18[ ];
+#include "dungeon/monster/beldo_large_frames.h"
 extern u8 beldo_large_frame_set_6[ ];
 extern s16 beldo_script_timer;
 extern u8 encounter_transition_pool_script[ ];
 
-extern u8 baloon_hop_frames[ ];
 extern u8 ghosh_frame_set_1[ ];
 extern u8 ghosh_frame_set_11[ ];
 extern u8 ghosh_frame_set_2[ ];
@@ -144,8 +139,8 @@ extern u8 ghosh_frame_set_6[ ];
 extern u8 ghosh_motion_path[ ];
 extern u8 kid_effect_load_done;
 extern u32 kid_image_commands;
-extern M2C_UNK kid_image_load_done;
-extern u8 kraken_frame_set_2[ ];
+extern u8 kid_image_load_done;
+#include "dungeon/monster/kraken_frames.h"
 extern u8 kraken_frame_set_3[ ];
 extern u8 nyuel_effect_load_done[ ];
 extern u32 nyuel_image_commands;
@@ -165,9 +160,9 @@ extern u8 unicorn_effect_load_done[ ];
 extern s32 unicorn_image_load_done[ ];
 
 extern u8 baloon_fall_frames[ 8 ];
-extern u8 barong_frame_set_1[ ];
-extern u8 barong_frame_set_3[ ];
-extern u8 beldo_frame_set_1[ 8 ];
+#include "dungeon/monster/barong_frames.h"
+
+#include "dungeon/monster/beldo_frames.h"
 extern u8 beldo_frame_set_3[ 8 ];
 extern u8 child_object_update_address[ ];
 extern u8 child_texture_entries[ ];
@@ -178,8 +173,8 @@ extern u8 ghosh_command_f0_frames[ ];
 extern u8 ghosh_command_f8_frames[ ];
 extern u8 ghosh_frame_bank[ ];
 extern u8 ghosh_frame_set_13[ ];
-extern u8 ghosh_frame_set_3[ ];
-extern u8 ghosh_frame_set_4[ ];
+#include "dungeon/monster/ghosh_frames.h"
+
 extern u8 ghosh_frame_set_8[ ];
 extern u8 ghosh_frame_set_9[ ];
 extern u8 hikewne_frame_set_14[ ];
@@ -194,27 +189,21 @@ extern u8 nyuel_frame_set_9;
 extern u8 picket_frame_set_1[ ];
 extern u8 picket_frame_set_2[ ];
 extern u8 saber_frame_set[ ];
-extern u8 saber_frame_set_10[ ];
-extern u8 viper_frame_set_3[ ];
-extern u8 viper_frame_set_4[ ];
+#include "dungeon/monster/saber_frames.h"
 
 extern u8 ashra_frame_set_1[ ];
 extern u8 ashra_frame_set_2[ ];
-extern u8 barong_frame_set_4[ ];
-extern u8 beldo_frame_set_2[ ];
+
+
 extern s32 beldo_old_transition_flags[ 3 ];
 extern u8 garuda_frame_set_3[ ];
 extern u8 garuda_walk_text[ 16 ];
 extern u8 golem_frame_set_2;
 extern u8 golem_frame_set_4[ 8 ];
-extern u8 troll_frame_set_1[ ];
-extern u8 troll_frame_set_2[ ];
-extern u8 troll_frame_set_3[ ];
-extern u8 u_boat_aura_frames[ ];
+#include "dungeon/monster/troll_frames.h"
+
+
 extern u8 uboat_aura_sprite_data[ ];
-extern u8 uboat_default_frames[ ];
-extern u8 viper_frame_set_1[ ];
-extern u8 viper_frame_set_5[ ];
 
 extern u8 griffon_frame_set_9[ ];
 extern u8 griffon_slot_c_action_callback;
@@ -232,21 +221,19 @@ extern u8 kewne_turn_frames[ ];
 extern u8 kraken_action_handlers[ ];
 extern u8 kraken_frame_set_5;
 extern u8 metal_frame_set_1[ ];
-extern u8 nyuel_frame_set_2[ ];
+#include "dungeon/monster/nyuel_frames.h"
 extern u8 picket_frame_set_4[ ];
 extern s32 picket_slot_f_item_result[ ];
 extern u8 pulunpa_frame_set_1[ ];
 
 extern u8 ashra_frame_set_3[ ];
-extern u8 baloon_anchored_frames[ ];
-extern u8 baloon_attack_frames;
-extern s32 item_display_icon_words[ 256 ];
-extern u8 stealth_frame_set[ ];
 extern u8 tyrant_frame_set_1[ ];
-extern u8 u_boat_frame_set_1[ ];
 extern u8 unicorn_frame_set_1[ ];
-extern u8 viper_frame_set_2[ ];
-extern u8 weadog_frame_set_3[ ];
-extern u8 weadog_frame_set_7[ ];
+
+extern u8 actor_surface_callback_address[ ];
+extern u8 linked_object_draw_address[ ];
+extern u8 player_move_frames[ ];
+extern s32 *selected_menu_value_target;
+extern s16 terrain_height_limits[ ];
 
 #endif

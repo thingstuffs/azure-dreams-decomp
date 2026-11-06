@@ -186,7 +186,7 @@ typedef struct V {
             self.assertEqual(report['signedness_unions_report']['count'], 2)
             self.assertEqual(report['union_definitions_report']['count'], 3)
             self.assertEqual({r['site'] for r in report['bad_label_unions']},
-                             {'include/views.h::inverted#1', 'include/views.h::repeated#1'})
+                             {'include/views.h::V.inverted#1', 'include/views.h::V.repeated#1'})
             baseline = D.baseline_record(report)
             self.assertEqual(D.check_baseline(report, baseline), [])
             header.write_text(header.read_text().replace('} V;',
@@ -205,6 +205,32 @@ typedef struct V {
         _, fixed = D.union_sites('include/test.h', text.replace('u16 s; s16 u', 'u16 u; s16 s'))
         self.assertEqual(fixed, [])
 
+    def test_bad_label_key_survives_earlier_same_named_retirement(self):
+        text = '''
+typedef struct First { union { u16 s; s16 u; } field; } First;
+typedef struct Second { union { u16 s; s16 u; } field; } Second;
+'''
+        _, before = D.union_sites('include/test.h', text)
+        _, after = D.union_sites('include/test.h', text.replace(
+            'typedef struct First { union { u16 s; s16 u; } field; } First;',
+            'typedef struct First { u16 field; } First;'))
+        self.assertEqual(before[1]['site'], after[0]['site'])
+        self.assertEqual(after[0]['site'], 'include/test.h::Second.field#1')
+
+    def test_bad_label_key_includes_nested_member_path(self):
+        text = '''
+typedef struct Outer {
+    struct { union { u16 s; s16 u; } field; } first;
+    struct { union { u16 s; s16 u; } field; } second;
+} Outer;
+'''
+        _, before = D.union_sites('include/test.h', text)
+        _, after = D.union_sites('include/test.h', text.replace(
+            'struct { union { u16 s; s16 u; } field; } first;',
+            'struct { u16 field; } first;'))
+        self.assertEqual(before[1]['site'], after[0]['site'])
+        self.assertEqual(after[0]['site'], 'include/test.h::Outer.second.field#1')
+
     def test_different_array_types_are_not_duplicates(self):
         text = 'union { u8 small[2]; u8 large[4]; } bytes;'
         _, bad = D.union_sites('include/test.h', text)
@@ -219,8 +245,8 @@ union { u8 *p; u32 *p2; } ribbon;
 '''
         _, bad = D.union_sites('include/test.h', text)
         self.assertEqual({row['site'] for row in bad},
-                         {'include/test.h::data#1', 'include/test.h::callback#1',
-                          'include/test.h::signed_pointers#1', 'include/test.h::ribbon#1'})
+                         {'include/test.h::test.data#1', 'include/test.h::test.callback#1',
+                          'include/test.h::test.signed_pointers#1', 'include/test.h::test.ribbon#1'})
         self.assertIn('pointer_s', bad[0]['reasons'])
         self.assertIn('pointer_pun', bad[-1]['reasons'])
 

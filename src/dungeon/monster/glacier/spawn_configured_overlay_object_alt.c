@@ -17,7 +17,7 @@ extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 #include "dungeon/monster/glacier.h"
-extern u8 glacier_frame_set_2[];
+#include "dungeon/monster/glacier_frames.h"
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Glacier with default frames at D_8017609C, applies spawn flags, and attempts valid tile

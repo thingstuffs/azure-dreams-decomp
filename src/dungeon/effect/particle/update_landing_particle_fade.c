@@ -65,13 +65,13 @@ void update_landing_particle_fade(ScatterLandingSparksOnGridBody *object_arg, u8
                               motion->y.at02.v,
                               (s16)(motion->z.at02u.v - 4)) - 2;
             motion->z.at00u.v = 0;
-            object->ticks.s = 0;
+            object->ticks = 0;
             object->phase++;
         }
-        counter_check = object->ticks.u;
+        counter_check = object->ticks;
         next_tick = counter_check + 1;
         counter_check = (s16)counter_check < 60;
-        object->ticks.u = next_tick;
+        object->ticks = next_tick;
         if (counter_check) {
             return;
         }
@@ -87,7 +87,7 @@ void update_landing_particle_fade(ScatterLandingSparksOnGridBody *object_arg, u8
         next_tick += source_size;
         sprite->scale_y = next_tick;
         sprite->scale_x = next_tick;
-        object->ticks.s = 0;
+        object->ticks = 0;
         object->phase++;
         return;
     }
@@ -96,30 +96,30 @@ void update_landing_particle_fade(ScatterLandingSparksOnGridBody *object_arg, u8
         if (encounter_blink_update_flag == 0) {
             return;
         }
-        object->ticks.s = 0;
+        object->ticks = 0;
         object->phase++;
         return;
 
     case 3:
-        if ((s16)object->ticks.u++ < 20) {
+        if ((s16)object->ticks++ < 20) {
             return;
         }
         sprite->unk_10 = 0;
         sprite->unk_14 |= 0xC;
 
-        object->ticks.s = 0;
+        object->ticks = 0;
         object->phase++;
         return;
 
     case 4:
         sprite->red =
-            ((10 - object->ticks.s) * 255) / 10;
+            ((10 - (s16)object->ticks) * 255) / 10;
         sprite->green = sprite->blue =
-            ((10 - object->ticks.s) * 32) / 10;
-        counter_check = object->ticks.u;
+            ((10 - (s16)object->ticks) * 32) / 10;
+        counter_check = object->ticks;
         next_tick = counter_check + 1;
         counter_check = (s16)counter_check < 10;
-        object->ticks.u = next_tick;
+        object->ticks = next_tick;
         if (counter_check) {
             return;
         }

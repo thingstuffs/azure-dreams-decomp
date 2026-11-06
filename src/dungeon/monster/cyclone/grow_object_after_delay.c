@@ -5,8 +5,7 @@
 #include "dungeon/monster/cyclone.h"
 #include "engine/graphics.h"
 #include "slus.h"
-
-extern u8 cyclone_move_direction_frames[8];
+#include "dungeon/monster/cyclone_frames.h"
 
 /* Updates object direction and grows it to full scale after an eight-tick delay. */
 void grow_object_after_delay(DirectionalRenderObjectBody *animation, ObjectPosition *unused_position, SpriteFrameState *object) {

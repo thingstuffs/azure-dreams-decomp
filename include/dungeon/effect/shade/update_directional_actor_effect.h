@@ -32,9 +32,9 @@ typedef struct EffectAndInitializeSpriteBody {
     void *unk_00;
     void *unk_04;
     void *unk_08;
-    union { s16 n; u16 n2; } unk_0C;
+    u16 unk_0C;
     u8 pad_0E[0x2];
-    union { u16 u; s16 s; } unk_10;
+    u16 unk_10;
     u16 unk_12;
 } EffectAndInitializeSpriteBody;
 
@@ -145,8 +145,8 @@ typedef struct TexturedOffsetObjectBody {
     u16 unk_24;
     u16 unk_26;
     u8 pad_28[0x4];
-    union { u16 u; s16 s; } unk_2C;   /* accessed as both */
-    union { u16 u; s16 s; } unk_2E;   /* accessed as both */
+    s16 unk_2C;
+    u16 unk_2E;
     u8 unk_30;
 } TexturedOffsetObjectBody;
 typedef TexturedOffsetObjectBody Row_8194CD5C_S_8002455C_0;
@@ -217,7 +217,7 @@ typedef struct Row_8194D354_S_80024B54_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     u8 pad_20[0xA];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
+    u16 unk_2A;
     u8 pad_2C[0x5C];
     s16 unk_88;
     u8 pad_8A[0x1C];
@@ -238,11 +238,11 @@ typedef struct Row_8194D354_S_80024B54_5 {
 
 typedef struct Row_8194D354_S_80024B54_7 {
     u8 pad_00[0x2];
-    union { u16 u; s16 s; } unk_02;   /* accessed as both */
+    u16 unk_02;
     u8 pad_04[0x2];
-    union { u16 u; s16 s; } unk_06;   /* accessed as both */
+    u16 unk_06;
     u8 pad_08[0x2];
-    union { u16 u; s16 s; } unk_0A;   /* accessed as both */
+    u16 unk_0A;
 } Row_8194D354_S_80024B54_7;   /* var_s1 in func_80024B54 */
 
 typedef struct Row_8194D354_S_80024B54_8 {

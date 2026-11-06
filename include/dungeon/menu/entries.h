@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_1831CD8_H
 #define DUNGEON_OVL_1831CD8_H
+struct ItemMenuPart;
+struct DisplayPositionWords;
 #include "common.h"
 #include "shared/timed_stream.h"
 #include "m2c_compat.h"
@@ -70,7 +72,7 @@ typedef struct ovl_1831cd8_818124F0_S_8003E2D8 {
 } ovl_1831cd8_818124F0_S_8003E2D8;
 typedef struct ovl_1831cd8_818124F0_S_800274F0_Nested {
     u8 pad[0x28];
-    s32 unk28;
+    void *unk28;
 } ovl_1831cd8_818124F0_S_800274F0_Nested;
 typedef struct ovl_1831cd8_818124F0_S_800274F0_Arg {
     s32 unk0;
@@ -375,7 +377,7 @@ extern s16 SD_Call(s32 command, ...);
 extern void *get_second_work_value(void *);
 extern void forward_stored_object_value(void *);
 extern void write_text_and_advance_selection(void *, void *);
-extern s32 has_available_object(s32);
+extern u32 has_available_object(void *);
 extern void (*menu_enabled_callbacks[2])(void *);
 extern void (*menu_update_callbacks[2])(void *);
 extern void (*menu_countdown_callbacks[2])(void *);
@@ -400,7 +402,7 @@ extern M2C_UNK D_80078AD8;
 struct S8004CBFC_a1; extern struct S8004CBFC_a1 D_80079324;
 extern s32 func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
 extern s32 allocate_and_append_callback_payload(s32 *values, s32 lookup_key);
-extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32 entries, s32 *value, s32 count);
+extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(struct ItemMenuPart **entries, struct DisplayPositionWords *value, s32 count);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern void release_null_terminated_entries(void *);

@@ -31,7 +31,7 @@ void card_boot_poll_card_chooser_status(Object_800128C8 *state) {
     }
 
     if ((card_boot_get_operation_state() == 3) && (state->wait_notice_state == 0)) {
-        card_boot_show_please_wait_notice((u8 *)state - 0x20, (u8 *)state + 0x38);
+        card_boot_show_please_wait_notice(NODE_HEADER(state), &state->wait_notice_state);
         state->wait_notice_state = 1;
     }
 }

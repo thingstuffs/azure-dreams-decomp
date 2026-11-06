@@ -17,11 +17,11 @@ s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 void select_sprite_entry(void *, s32, s32);
 s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/monster/ghosh_frames.h"
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
 
 extern u8 ghosh_action_resume_address[];
-extern u8 ghosh_frame_set_12[];
 extern u8 D_801746AC[];
 #include "dungeon/monster/ghosh.h"
 #include "dungeon/actor.h"

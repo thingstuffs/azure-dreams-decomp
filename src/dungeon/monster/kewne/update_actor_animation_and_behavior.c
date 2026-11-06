@@ -20,6 +20,7 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 #include "dungeon/monster/hikewne.h"
+#include "dungeon/monster/kewne_frames.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
@@ -33,7 +34,6 @@ extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *,
 
 extern u8 D_80175E48[];
 extern u8 D_80175E98[];
-extern u8 kewne_frame_set_1[];
 extern u8 D_80175EB0[];
 extern u8 kewne_turn_frames[];
 

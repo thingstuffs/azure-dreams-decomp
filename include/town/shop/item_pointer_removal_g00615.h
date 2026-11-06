@@ -8,7 +8,7 @@
 extern void remove_selected_entry_from_list(void *list_addr, s32 index);
 
 /* Functions defined in this translation unit. */
-s32 find_value_index_or_count(s32 *values, s32 target_value, s32 count);
-void del_t_item_w_ptr(s32 item_ptr);
+s32 find_value_index_or_count(void **values, void *target_value, s32 count);
+void del_t_item_w_ptr(void *item_ptr);
 
 #endif

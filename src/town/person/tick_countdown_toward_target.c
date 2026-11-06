@@ -22,7 +22,7 @@ void tick_countdown_toward_target(TownObjectRecord *state, SignedPositionView *c
         apply_object_setup_and_update(state, current, context);
     }
     current->x = (s16) ((u16) current->x + ((s32) (state->unk_84 - current->x) / 2));
-    target_delta = ((s16)state->unk_86) - current->y;
+    target_delta = (state->unk_86) - current->y;
     current->z = (s16) ((u16) current->z + ((s32) (0 - current->z) / 2));
     current->y = (s16) ((u16) current->y + ((s32) (target_delta + (target_delta >> 0x1F)) >> 1));
 }

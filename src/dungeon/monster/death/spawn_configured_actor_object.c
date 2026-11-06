@@ -13,14 +13,13 @@
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
 #include "dungeon/monster/death.h"
+#include "dungeon/monster/death_frames.h"
 
 
 
 
 extern s32 generate_random_value(void);
 extern u8 D_801713A8[];
-extern u8 death_direction_frames[];
-extern u8 death_frame_set_2[];
 
 /* Creates a Death actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */

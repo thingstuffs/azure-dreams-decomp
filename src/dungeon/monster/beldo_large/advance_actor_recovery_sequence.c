@@ -11,6 +11,7 @@
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/beldo_large_frames.h"
 
 typedef struct S_func_8016C64C_2 {
     u8 pad_00[0x24];
@@ -27,10 +28,6 @@ typedef struct S_func_8016C64C_5 {
 extern void select_sprite_entry(void *, u8, s32);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-extern u8 beldo_large_frame_set_2[];
-extern u8 beldo_large_frame_set_5[];
-extern u8 beldo_large_frame_set_1[];
-extern u8 beldo_large_frame_set_3[];
 extern u8 D_80173A20[];
 extern u8 D_80173A28[];
 extern u8 D_80173A30[];

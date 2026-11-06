@@ -6,17 +6,11 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/actor/object.h"
+#include "dungeon/actor/alternating_shade.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_80026ED0_3 {
-    u8 pad_00[0x66];
-    s16 unk_66;
-    u8 pad_68[0x2];
-    s16 unk_6A;
-} S_80026ED0_3;
 
 extern s32 D_80026E3C;
 extern s32 visual_object_sprite_data;
@@ -26,7 +20,7 @@ void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
     ObjectNodeHeader *object;
     ObjectPosition *position;
     SpriteFrameState *render_data;
-    S_80026ED0_3 *effect_data;
+    AlternatingShadeBody *effect_data;
     s16 saved_size;
 
     saved_size = size;
@@ -47,8 +41,8 @@ void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
         render_data->tpage_abr = 0x20;
         render_data->flags |= 0xC;
         effect_data = NODE_BODY(object);
-        effect_data->unk_66 = 0x20;
-        effect_data->unk_6A = 0x80;
+        effect_data->ticks_left = 0x20;
+        effect_data->intensity = 0x80;
     }
     return object;
 }

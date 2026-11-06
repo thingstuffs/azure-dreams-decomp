@@ -21,8 +21,6 @@
 
 extern s16 D_80083464[];
 extern u8 player_wait_frames[];
-extern u8 player_move_frames[];
-extern u8 player_put_down_frames[];
 extern u8 active_actor_command_code[];
 
 #include "engine/graphics.h"

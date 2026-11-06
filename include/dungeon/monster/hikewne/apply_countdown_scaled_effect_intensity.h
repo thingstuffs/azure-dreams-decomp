@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_moving_views.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -24,14 +25,15 @@ typedef struct S_809750E8_0 {
 
    /* the 0x2 bytes before arg0 in func_80170970, addressed as arg0[-1] */
 
-typedef struct S_80975170_0 {
+/* The template effect follows its source transform as the sprite expands and fades. */
+typedef struct HikewneExpandingFadeBody {
     u8 pad_00[0x96];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    u16 ticks_left;
     u8 pad_98[0x12];
-    s16 unk_AA;
+    s16 duration;
     u8 pad_AC[0x4];
-    void * unk_B0;
-} S_80975170_0;   /* arg0 in func_80170970 */
+    MovingPosition *source_position;
+} HikewneExpandingFadeBody;
 
    /* arg1 in func_80170970 */
 
@@ -43,7 +45,6 @@ extern void advance_sprite_animation_and_textures(void *render_state);
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
-#include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 
 typedef struct {
@@ -55,17 +56,8 @@ typedef struct {
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void func_80047784(void *, u8, s32);
-void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform, SpriteFrameState *render_state);
+void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect, MovingPosition *transform, SpriteFrameState *render_state);
 extern u8 D_80174128[8];
-
-typedef struct S_80975244_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x12];
-    s16 unk_AA;
-    u8 pad_AC[0x4];
-    void * unk_B0;
-} S_80975244_0;   /* temp_v1 in func_80170A44 */
 
 typedef struct S_80975244_3 {
     u8 pad_00[0x2A];

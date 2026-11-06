@@ -28,6 +28,7 @@ extern u8 D_80170FD8[];
 
 extern u8 blume_action_resume_address[];
 #include "dungeon/monster/blume.h"
+#include "dungeon/monster/blume/fading_motion.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
@@ -179,7 +180,7 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
 
                 effect_node = allocate_flagged_object_node(0x212);
                 if (effect_node != 0) {
-                    u8 *effect_data;
+                    BlumeFadingMotionBody *effect_data;
                     SpriteFrameState *sprite;
                     ObjectPosition *effect_pos;
                     s32 dx;
@@ -187,8 +188,8 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
                     s32 color_bits;
 
                     effect_data = NODE_BODY(effect_node);
-                    (*(u16 *)(effect_data + 0x24)) = 0x13;
-                    (*(u16 *)NODE_BODY(effect_node)) = 0;
+                    effect_data->ticks_left = 0x13;
+                    effect_data->unk_00 = 0;
                     effect_node->update_callback = update_fading_motion_effect;
                     register_node(effect_node, D_80170FD8);
 
@@ -223,15 +224,15 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
                     } else {
                         sprite->color.c.b = dim_channel;
                     }
-                    (*(effect_data + 2)) = sprite->color.c.r;
-                    (*(effect_data + 3)) = sprite->color.c.g;
-                    (*(effect_data + 4)) = sprite->color.c.b;
+                    effect_data->initial_red = sprite->color.c.r;
+                    effect_data->initial_green = sprite->color.c.g;
+                    effect_data->initial_blue = sprite->color.c.b;
                     sprite->clut = 0x7DCF;
                     sprite->flags |= 0x100;
-                    (*(Copy12 *)(effect_data + 0x34)) = *(Copy12 *)D_80175424;
-                    sprite->source = effect_data + 0x34;
-                    (*(u16 *)(effect_data + 0x50)) = 8;
-                    (*(u16 *)(effect_data + 0x4E)) = 4;
+                    (*(Copy12 *)effect_data->sprite_entries) = *(Copy12 *)D_80175424;
+                    sprite->source = effect_data->sprite_entries;
+                    effect_data->unk_50 = 8;
+                    effect_data->unk_4E = 4;
                 }
             }
         }

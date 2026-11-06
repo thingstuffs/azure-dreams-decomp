@@ -17,6 +17,7 @@
 #include "dungeon/level.h"
 #include "dungeon/monster/kid.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/nyuel_frames.h"
 
 typedef struct {
     s8 pad_00[0x8C];
@@ -37,11 +38,6 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 s32 update_entity_state_from_query(ActorRecord *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
-extern u8 nyuel_frame_set_2[];
-extern u8 nyuel_frame_set_3[];
-extern u8 nyuel_frame_set_1[];
-extern u8 nyuel_frame_set_12[];
-extern u8 nyuel_frame_set_11[];
 
 /* Updates entity actions, facing, and animation from state and terrain. */
 /* Selects Nyuel's movement, attacks, spells, and turn processing, dimming its status sprite when its

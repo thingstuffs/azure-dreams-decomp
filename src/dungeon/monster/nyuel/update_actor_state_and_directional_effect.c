@@ -16,13 +16,12 @@ extern void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/nyuel_frames.h"
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_801737C4(void *, void *, void *, void *);
 
 extern u8 nyuel_action_resume_address[];
-extern u8 nyuel_frame_set_2[];
-extern u8 nyuel_frame_set_1[];
 
 /* Updates the actor state and selects its directional effect. */
 void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {

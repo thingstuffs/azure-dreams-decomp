@@ -1,3 +1,4 @@
+#include "dungeon/monster/u_boat_frames.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -13,8 +14,8 @@
 #include "dungeon/player/object/action_state.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
 
-extern u8 uboat_action_frames[];
-extern u8 u_boat_motion_frames[];
+
+
 #include "dungeon/monster/u_boat.h"
 #include "engine/graphics.h"
 #include "dungeon/actor.h"

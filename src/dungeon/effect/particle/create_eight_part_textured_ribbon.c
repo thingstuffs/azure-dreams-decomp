@@ -74,15 +74,15 @@ void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, Sprite
         object = allocate_flagged_object_node(0x12);
         effect = NODE_BODY(object);
         if (object != 0) {
-            effect->unk_18.u = 0xEU;
+            effect->unk_18 = 0xEU;
             if ((segment == 0) || (segment == 7)) {
-                effect->unk_18.u = 8U;
+                effect->unk_18 = 8U;
             }
             if ((segment == 1) || (segment == 6)) {
-                effect->unk_18.u = (u16) (effect->unk_18.u - 4);
+                effect->unk_18 = (u16) ((u16)effect->unk_18 - 4);
             }
             if ((segment == 2) || (segment == 5)) {
-                effect->unk_18.u = (u16) (effect->unk_18.u - 2);
+                effect->unk_18 = (u16) ((u16)effect->unk_18 - 2);
             }
             effect->unk_1A = (u16) source->action_timer.u;
             effect->unk_1C = segment;

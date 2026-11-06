@@ -22,13 +22,13 @@ typedef struct StarSequenceBody {
 /* Body of an edge node allocated by initialize_star_effect_sequence. */
 typedef struct StarEdgeEffectBody {
     u8 pad_00[0x2];
-    union { u16 u; s16 s; } unk_02;   /* accessed as both */
+    u16 unk_02;
     u8 pad_04[0x1A];
-    union { s16 s; u16 u; } unk_1E;   /* accessed as both */
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
+    s16 unk_1E;
+    s16 unk_20;
     u8 pad_22[0x8];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-    union { s16 s; u16 u; } unk_2C;   /* accessed as both */
+    s16 unk_2A;
+    s16 unk_2C;
     u8 pad_2E[0x8];
     u8 unk_36;
     u8 unk_37;
@@ -41,11 +41,11 @@ typedef struct StarEdgeEffectBody {
     u8 unk_4E;
     u8 unk_4F;
     u8 pad_50[0x8];
-    union { s16 s; u16 u; } unk_58;
+    u16 unk_58;
     u16 unk_5A;
     u16 unk_5C;
     u16 unk_5E;
-    union { s16 s; u16 u; } unk_60;
+    u16 unk_60;
     u16 unk_62;
     u16 unk_64;
     u16 unk_66;

@@ -9,7 +9,7 @@
 #include "slus.h"
 
 extern void *card_boot_recheck_selected_channel(void);
-extern void card_boot_prepare_save_buffer(s32, s32, s32);
+extern void card_boot_prepare_save_buffer(void *, s32, s32);
 void configure_shared_fade_primitive(void);
 
 extern s16 D_80010208[];
@@ -21,7 +21,7 @@ void *card_boot_save_selected_slot(Object_800128C8 *context) {
     card_boot_prepare_save_buffer(0x80010000, context->unk_2C, context->unk_24);
     if (card_boot_write_save_via_temporary_path(context->unk_2C, 0x80010000) == 0) {
         *(u8 **)((s8 *)context + 0x34) = (u8 *)write_text_and_advance_selection;
-        card_boot_show_overwrite_failure_notice((u8 *)context - 0x20);
+        card_boot_show_overwrite_failure_notice(NODE_HEADER(context));
         ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)&D_800261C0;
     } else {
         card_boot_set_slot_details_selection(context->slot_details, context->unk_2C, 3);

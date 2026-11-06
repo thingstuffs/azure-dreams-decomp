@@ -20,6 +20,7 @@
 #include "dungeon/monster/death.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/death_frames.h"
 
 
 typedef struct {
@@ -30,7 +31,6 @@ extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_80171080[];
 extern s32 death_action_resume_address;
-extern u8 death_direction_frames[];
 extern Packet12 D_80174694;
 
 

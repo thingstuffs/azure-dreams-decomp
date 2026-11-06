@@ -11,8 +11,7 @@
 #include "dungeon/player/item.h"
 #include "dungeon/player/object.h"
 #include "engine/graphics.h"
-
-extern u8 player_alternate_motion_frames[];
+#include "dungeon/globals.h"
 
 /* Updates movement toward the destination tile and handles arrival when the timer expires. */
 void advance_alternate_tile_center_motion(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *facing) {

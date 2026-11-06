@@ -1,3 +1,4 @@
+#include "dungeon/monster/baloon_frames.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "dungeon/monster/baloon.h"
@@ -27,12 +28,9 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *entity);
 extern void func_8017531C(void *, void *, void *, void *);
 
-extern u8 baloon_default_frames[];
-extern u8 D_800E2358[];
-extern u8 baloon_attack_frames;
-extern u8 D_800E23A0[];
-extern u8 baloon_frame_set_1[];
 
+extern u8 D_800E2358[];
+extern u8 D_800E23A0[];
 
 /* Update actor movement, animation, and action handling for the dungeon turn. */
 void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -207,7 +205,7 @@ void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, Spr
                 player = primary_actor_record;
                 move_data->facing = heading;
                 if (player->action_id.u == 0x11) {
-                    begin_actor_spell_action(body, position, sprite, &baloon_attack_frames, update_actor_turn_behavior);
+                    begin_actor_spell_action(body, position, sprite, baloon_attack_frames, update_actor_turn_behavior);
                     return;
                 }
             }
@@ -219,7 +217,7 @@ void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, Spr
             case 1:
             case 2:
             case 3:
-                begin_actor_spell_action(body, position, sprite, &baloon_attack_frames, update_actor_turn_behavior);
+                begin_actor_spell_action(body, position, sprite, baloon_attack_frames, update_actor_turn_behavior);
                 return;
 
             case 4:

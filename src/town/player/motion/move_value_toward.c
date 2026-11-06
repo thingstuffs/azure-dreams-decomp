@@ -4,10 +4,10 @@
 
    /* arg1 in move_value_toward_300 */
 
-extern s32 init_record_target_approach(s32 value, ObjectPosition *field_ptr, SpriteFrameState *other_value);
+extern s32 init_record_target_approach(TownObjectRecord *record, ObjectPosition *field_ptr, SpriteFrameState *other_value);
 
 /* Moves the halfword at +6 toward 0x300 by four and calls the next handler when it reaches that value. */
-s32 move_value_toward_300(s32 value, ObjectPosition *field_ptr, SpriteFrameState *other_value)
+s32 move_value_toward_300(TownObjectRecord *record, ObjectPosition *field_ptr, SpriteFrameState *other_value)
 {
     s16 current;
     u16 raw;
@@ -21,7 +21,7 @@ s32 move_value_toward_300(s32 value, ObjectPosition *field_ptr, SpriteFrameState
         if (current >= 0x300) {
             result = 0x300;
             field_ptr->y.w.i = result;
-            result = init_record_target_approach(value, field_ptr, other_value);
+            result = init_record_target_approach(record, field_ptr, other_value);
             return result;
         }
     } else {
@@ -30,7 +30,7 @@ s32 move_value_toward_300(s32 value, ObjectPosition *field_ptr, SpriteFrameState
         if (current < 0x301) {
             result = 0x300;
             field_ptr->y.w.i = result;
-            result = init_record_target_approach(value, field_ptr, other_value);
+            result = init_record_target_approach(record, field_ptr, other_value);
             return result;
         }
     }

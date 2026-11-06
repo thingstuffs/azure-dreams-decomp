@@ -12,8 +12,7 @@
 #include "dungeon/player/item.h"
 #include "dungeon/player/object.h"
 #include "engine/graphics.h"
-
-extern u8 player_tile_motion_frames[];
+#include "dungeon/globals.h"
 
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
 void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *facing) {

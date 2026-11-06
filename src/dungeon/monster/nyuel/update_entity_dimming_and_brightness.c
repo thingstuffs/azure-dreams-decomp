@@ -19,13 +19,13 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/nyuel_frames.h"
 
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_801737C4(void *, void *, void *, void *);
 
 extern u8 nyuel_action_resume_address[];
-extern u8 nyuel_frame_set_1[];
 
 /* Updates entity dimming, status behavior, and brightness recovery. */
 void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {

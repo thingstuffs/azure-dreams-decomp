@@ -89,7 +89,7 @@ void texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(stru
 void *texture_select_a_slot_fallback_initializes_enclosing_returns(struct S_800485E0_Obj *obj, s16 slot_index, s16 base_index, s16 entry_index);
 
 /* texture_set_the_active_entries_matching_id_in_type_table_slots.c */
-void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(struct S_800478E8_0 *owner, s32 value, s32 entry_id);
+void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(struct S_800478E8_0 *owner, void *value, s32 entry_id);
 
 /* Data declarations. */
 extern void *runtime_texture_resource_handle;
