@@ -31,7 +31,7 @@ s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFram
     u8 tile_x;
     u8 tile_y;
 
-    phase = state->action_phase.u;
+    phase = state->action_phase;
     switch (phase) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
@@ -44,7 +44,7 @@ s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFram
         play_sound_if_enabled(0x805);
         visual->color.word = 0x808080;
         state->action_timer.s = 0x10;
-        state->action_phase.u = (u8) (state->action_phase.u + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
     case 1:
         break;
     default:

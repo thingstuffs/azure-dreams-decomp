@@ -24,7 +24,7 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *moti
     u16 direction_aux;
     u8 move_state;
 
-    move_state = body->action_phase.u;
+    move_state = body->action_phase;
     switch (move_state) {
     case 0:
         if (sprite->flags & 0x6000) {
@@ -38,7 +38,7 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *moti
             actor->flags1C &= ~ACTOR_GROUNDED;
             body->unk_9E.s = 5;
             body->unk_A0.value = 0;
-            body->action_phase.u++;
+            body->action_phase++;
         } else {
             break;
         }
@@ -78,7 +78,7 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *moti
             body->unk_90.value = 0;
             body->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            body->action_phase.u++;
+            body->action_phase++;
         }
     }
                         /* fall through */
@@ -98,7 +98,7 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *moti
             select_sprite_entry(sprite,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->action_phase.u++;
+            body->action_phase++;
         }
         break;
 

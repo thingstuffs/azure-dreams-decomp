@@ -17,7 +17,7 @@ s32 try_move_actor_to_valid_position(void *action, void *context, void *position
         ((*(u16 *)((u8 *)action - 2) & NODE_REMOVE) == 0) &&
         ((*(u32 *)((u8 *)entity + 0x1C) & 0x80000) == 0) &&
         ((*(u32 *)((u8 *)entity + 0x14) & 0x100000) == 0) &&
-        ((player_state = primary_actor_record->action_id.u) != 0x18) &&
+        ((player_state = primary_actor_record->action_id) != 0x18) &&
         (player_state != 0x11) &&
         ((check_entity_eligibility(entity) << 16) != 0)) {
         old_x = *((u8 *)position + 0x24);
@@ -46,8 +46,8 @@ s32 try_move_actor_to_valid_position(void *action, void *context, void *position
 
 /* Sets the entity state to 3, clears its progress, and increments the global counter. */
 void begin_actor_overlap_wait(ActorRecord *entity, void *unused_1, void *unused_2, void *unused_3) {
-    entity->action_id.s = 3;
-    entity->action_phase.s = 0;
+    entity->action_id = 3;
+    entity->action_phase = 0;
     entity->unk_8C.word = 0;
     entity->action_timer.s = 4;
     g_dungeon_status.activity_counts.parts.pending_action_count += 1;

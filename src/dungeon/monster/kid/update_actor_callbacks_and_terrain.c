@@ -79,7 +79,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
         if (update_callback != NULL) {
             update_callback(actor_arg, ((motion_arg)), object_arg, actor_arg);
         }
-        ((void (*)(void *, void *, void *, void *))D_80175198[actor_arg->action_id.u])(actor_arg,
+        ((void (*)(void *, void *, void *, void *))D_80175198[actor_arg->action_id])(actor_arg,
             ((motion_arg)), object_arg, actor_arg);
         if ((s16) state_or_facing != (s8) actor_arg->pending_turn_updates) {
             try_move_actor_to_valid_position(actor_arg, ((motion_arg)), object_arg, actor_arg);
@@ -115,7 +115,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 facing_flags = object_arg->flags & 0xFFFE;
             }
             object_arg->flags = (u16) facing_flags;
-            if (actor_arg->action_id.u != 8) {
+            if (actor_arg->action_id != 8) {
                 apply_monster_koyaw_data(actor_base->flags1C, ((void *)object_arg) + 0xC);
             }
             if (!(actor_base->flags1C & 0x20)) {

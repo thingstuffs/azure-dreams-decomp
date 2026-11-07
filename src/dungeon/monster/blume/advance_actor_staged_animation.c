@@ -27,11 +27,11 @@ void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *mo
     s32 phase;
     action = action_data;
 
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if (animation->flags & 0x8000) {
-            action->action_phase.u = 3U;
+            action->action_phase = 3U;
             animation->flags = (u16) (animation->flags | 0x6000);
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
@@ -39,9 +39,9 @@ void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *mo
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        phase_value = action->action_phase.u;
+        phase_value = action->action_phase;
         action->action_timer.u = 0U;
-        action->action_phase.u = (u8) (phase_value + 1);
+        action->action_phase = (u8) (phase_value + 1);
         return;
 
     case 1:
@@ -53,9 +53,9 @@ void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *mo
         animation->frameTable = &D_801753E4;
         select_sprite_entry(animation, D_801753E4[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
         play_sound_if_enabled(0x808);
-        phase_value = action->action_phase.u;
+        phase_value = action->action_phase;
         action->action_timer.u = 0U;
-        action->action_phase.u = (u8) (phase_value + 1);
+        action->action_phase = (u8) (phase_value + 1);
         return;
 
     case 2:
@@ -65,9 +65,9 @@ void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *mo
             return;
         }
         resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
-        phase_value = action->action_phase.u;
+        phase_value = action->action_phase;
         action->action_timer.u = 0U;
-        action->action_phase.u = (u8) (phase_value + 1);
+        action->action_phase = (u8) (phase_value + 1);
         return;
 
     case 3:

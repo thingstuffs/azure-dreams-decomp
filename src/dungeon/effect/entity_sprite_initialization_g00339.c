@@ -90,7 +90,7 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
 
 post_kind:
         initialize_entity_sprite_effect(obj, part_a, (void *)value_or_part_b, init_mode);
-        ((ActorRecord *)((void *)byte_or_work))->action_id.u = 0xFF;
+        ((ActorRecord *)((void *)byte_or_work))->action_id = 0xFF;
         ((ActorRecord *)((void *)byte_or_work))->unk_9C = -1;
         (*(s32 * *)((u8 *)((void *)byte_or_work) + 0x8C)) = dispatch_target_action;
         ((SpriteFrameState *)value_or_part_b)->source = part_b_value;

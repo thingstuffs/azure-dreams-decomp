@@ -75,7 +75,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         }
 
         initialize_actor_sprite_and_animation(object, part_a, part_b, mode_copy);
-        work_copy->action_id.u = 0xFF;
+        work_copy->action_id = 0xFF;
         work_copy->unk_9C = -1;
         work_copy->unk_8C.address = uboat_behavior_entry;
         work->flags1C |= 0x40000;

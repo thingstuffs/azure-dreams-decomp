@@ -8,8 +8,8 @@ extern u8 D_801760B4;
 
 /* Initializes display state and selects a sprite frame from the combined facing angles. */
 void initialize_item_sprite_frame(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
-    body->action_id.s = 0x10;
-    body->action_phase.s = 0;
+    body->action_id = 0x10;
+    body->action_phase = 0;
     sprite->scale_x = 0x1400;
     sprite->scale_y = 0xC00;
     sprite->frameTable = &D_801760B4;

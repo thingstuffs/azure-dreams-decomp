@@ -49,7 +49,7 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
     ActorRecord *target_actor;
 
     use_player = 0;
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         if ((*(u32 *)((u8 *)actor_body + 0x1C)) & ACTOR_PLAYER_SIDE) {
@@ -141,7 +141,7 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
             if (create_actor_spell_effect(actor_body, item_slot, use_player, &controller->action_state_flags) == 0) {
                 return;
             }
-            controller->action_phase.u = controller->action_phase.u + 1;
+            controller->action_phase = controller->action_phase + 1;
             return;
         }
 
@@ -165,7 +165,7 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
             return;
         }
         action_sprite->flags &= 0xF7FF;
-        controller->action_phase.u++;
+        controller->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -247,7 +247,7 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
             (action_sprite->flags & 0xE000)) {
             action_sprite->flags |= 0x800;
             controller->action_timer.u = 0x14;
-            controller->action_phase.u = controller->action_phase.u + 1;
+            controller->action_phase = controller->action_phase + 1;
             return;
         }
         return;

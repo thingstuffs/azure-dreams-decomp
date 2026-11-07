@@ -25,16 +25,16 @@ void advance_actor_sprite_action(ActorRecord *action, ObjectPosition *motion, Sp
     u16 frame_count;
     s32 state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         action->action_state_flags |= 1;
-        action->action_phase.u++;
+        action->action_phase++;
                         /* fall through */
     case 1:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
-            action->action_phase.u = 3;
+            action->action_phase = 3;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -50,7 +50,7 @@ void advance_actor_sprite_action(ActorRecord *action, ObjectPosition *motion, Sp
                 0);
             create_action_sprite_effect(NODE_HEADER(action));
             action->action_timer.u = 0;
-            action->action_phase.u++;
+            action->action_phase++;
             play_sound_if_enabled(0x804);
             return;
         }
@@ -69,7 +69,7 @@ void advance_actor_sprite_action(ActorRecord *action, ObjectPosition *motion, Sp
             select_sprite_entry(sprite,
                 manoeva_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase.u++;
+            action->action_phase++;
             action->action_state_flags &= 0xFFFE;
             return;
         }

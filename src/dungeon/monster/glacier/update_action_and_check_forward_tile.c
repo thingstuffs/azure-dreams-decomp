@@ -64,10 +64,10 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
 
 #define motion motion
 
-    switch (actor->action_phase.u) {
+    switch (actor->action_phase) {
     case 0:
         if (animation->flags & 0x8000) {
-            actor->action_phase.u = 2;
+            actor->action_phase = 2;
             animation->flags |= 0x6000;
             return;
         }
@@ -77,7 +77,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
         actor->action_timer.u = 0xE;
         actor->unk_AC.byte = 0;
         actor->unk_AC.bytes[1] = 0;
-        actor->action_phase.u++;
+        actor->action_phase++;
         play_sound_if_enabled(0x80A);
         return;
 
@@ -136,7 +136,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             return;
         }
         actor->action_timer.u = 0x78;
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
 
     case 2:
@@ -218,10 +218,10 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
         }
         actor->action_timer.u = 0;
         if (((s8)actor->unk_AC.bytes[1]) == 0) {
-            actor->action_phase.u++;
+            actor->action_phase++;
             return;
         }
-        actor->action_phase.u = 0x10;
+        actor->action_phase = 0x10;
         return;
 
     case 3:
@@ -244,7 +244,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             return;
         }
         actor->action_timer.u = 0;
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
 
     case 4:
@@ -254,7 +254,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             return;
         }
         actor->action_timer.u = 0;
-        actor->action_phase.u++;
+        actor->action_phase++;
         (animation->frameTable) = glacier_frame_set_1;
         select_sprite_entry(animation,
             glacier_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -268,7 +268,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                 glacier_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             actor->action_timer.u = 0;
-            actor->action_phase.u++;
+            actor->action_phase++;
         }
         return;
 
@@ -279,7 +279,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             return;
         }
         actor->action_timer.u = 0;
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
 
     case 7:
@@ -302,7 +302,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             return;
         }
         actor->action_timer.u = 0;
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
 
     case 8:
@@ -310,7 +310,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             return;
         }
         actor->action_timer.u = 0;
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
 
     case 9:
@@ -323,7 +323,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
         timer = actor->action_timer.u + 1;
         actor->action_timer.u = timer;
         if (timer >= 0x1E) {
-            actor->action_phase.u = 9;
+            actor->action_phase = 9;
             actor->action_timer.u = 0;
         }
         return;

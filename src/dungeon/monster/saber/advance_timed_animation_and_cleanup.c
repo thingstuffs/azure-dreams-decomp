@@ -22,11 +22,11 @@ extern u8 D_80174E1C[];
 void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = sequence->action_phase.u;
+    state = sequence->action_phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            sequence->action_phase.u = 4;
+            sequence->action_phase = 4;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -35,7 +35,7 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         sequence->action_timer.u = 0;
-        sequence->action_phase.u++;
+        sequence->action_phase++;
         return;
 
     case 1:
@@ -46,7 +46,7 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
                 D_80174E1C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sequence->action_timer.u = 0;
-            sequence->action_phase.u++;
+            sequence->action_phase++;
             return;
         }
         return;
@@ -56,7 +56,7 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             sequence->action_timer.u = 0;
-            sequence->action_phase.u++;
+            sequence->action_phase++;
         }
         if (sequence->action_timer.s == 6) {
             play_sound_if_enabled(0x808);
@@ -72,7 +72,7 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             sequence->action_timer.u = 0;
-            sequence->action_phase.u++;
+            sequence->action_phase++;
             return;
         }
         return;

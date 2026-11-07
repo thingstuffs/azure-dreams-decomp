@@ -8,6 +8,22 @@
 struct EntityFields;
 struct SpriteFrameState;
 
+/* Body installed by create_orbiting_teleport_effect and consumed by its update callback. */
+typedef struct OrbitingTeleportEffectBody {
+    u8 pad_00[0x1C];
+    ObjectPosition *owner_position;
+    struct SpriteFrameState *owner_sprite;
+    ActorRecord *owner;
+    s16 phase;
+    s16 phase_ticks;
+    s16 orbit_offset_phase;
+    s16 orbit_angle;
+    s16 effect_value;
+    s16 size_offset;
+    u8 pad_34[2];
+    s16 exit_mode;
+} OrbitingTeleportEffectBody;
+
 /* create_linked_actor_fade_effect.c */
 void *create_linked_actor_fade_effect(struct EntityFields *source);
 

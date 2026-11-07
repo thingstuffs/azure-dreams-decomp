@@ -74,7 +74,6 @@ typedef struct S_80174B20_11 {
 } S_80174B20_11;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void select_record_entry_and_value(void *state, void *entries, short index);     /* extern */
 #include "slus/sound_set_cd_cue_parameters_api.h" /* extern */
 #include "engine/graphics/run_cd_image_commands_api.h" /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
@@ -124,15 +123,15 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
     void *replacement;
 
     scene_color = &g_game_work;
-    phase = state->action_phase.u;
+    phase = state->action_phase;
     switch (phase) {
     case 0:
-        state->action_phase.u = (u8) (state->action_phase.u + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
         return;
     case 1:
         run_cd_image_commands(&kid_image_commands, &kid_image_load_done, 0);
         state->unk_B0.halves.low.s = 0;
-        state->action_phase.u = (u8) (state->action_phase.u + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
         actor->unk_8A = (u16) ((u16)actor->facing);
         actor->flags1C = (s32) (actor->flags1C & 0xFFFBFFFF);
     case 2:
@@ -151,7 +150,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         Control_CD(0xFF, set_byte_one, &kid_effect_load_done);
         select_nearby_target_and_initialize_slot((s32)(((u8 *)actor - 0x20)), position, 8, 0x300);
         state->action_timer.u = 0x10U;
-        state->action_phase.u = (u8) (state->action_phase.u + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
     case 3:
         previous_ticks = state->action_timer.u;
         fade_ticks = previous_ticks - 1;
@@ -162,7 +161,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
             if (effect_ready == 0) {
                 return;
             }
-            state->action_phase.u = (u8) (state->action_phase.u + 1);
+            state->action_phase = (u8) (state->action_phase + 1);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
@@ -204,7 +203,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         entity->flags = (u16) (entity->flags | 0x80);
         ray_index = 1;
         state->action_timer.u = 0U;
-        state->action_phase.u = (u8) (state->action_phase.u + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
         do {
             create_randomly_rotated_offset_effect(state, position, entity, (s16) (ray_index << 0xA));
             next_ray = ray_index + 1;
@@ -216,7 +215,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         sprite = sprite->unk_0C.u;
         if (sprite->unk_14 & 0xE000) {
             state->action_timer.u = 0x10U;
-            state->action_phase.u = (u8) (state->action_phase.u + 1);
+            state->action_phase = (u8) (state->action_phase + 1);
             decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
@@ -224,14 +223,14 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
             sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
         }
     case 6:
-        if (state->action_phase.u != 6) {
+        if (state->action_phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, D_80175220, D_80175218, &staged_spawn_count) == 0) {
             return;
         }
         state->action_timer.u = 0x10U;
-        state->action_phase.u = (u8) (state->action_phase.u + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
         decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
@@ -245,7 +244,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
             return;
         }
         state->action_timer.u = 0x10U;
-        state->action_phase.u = (u8) (state->action_phase.u + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
         ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((u16)actor->facing);
         replacement = actor->target;
         sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;

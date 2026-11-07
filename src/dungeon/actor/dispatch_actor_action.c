@@ -15,8 +15,8 @@ void dispatch_actor_action_2(ActorRecord *actor, ObjectPosition *position, Sprit
             begin_pushed_actor_move(actor, position, sprite, state);
             return;
         }
-        if (actor->action_id.u != 0xE) {
-            actor->action_id.u = 0xE;
+        if (actor->action_id != 0xE) {
+            actor->action_id = 0xE;
         }
     }
     if (state->pending_turn_updates > 0) {

@@ -96,7 +96,7 @@ void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial
 
         outer = stable_object;
         outer_index = 0;
-        stable_object->action_id.u = 0xFF;
+        stable_object->action_id = 0xFF;
         stable_object->unk_9C = -1;
         stable_object->unk_8C.address = D_8015F3A8;
         object->flags1C |= 0x40000;

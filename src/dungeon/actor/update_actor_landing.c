@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "slus.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -24,7 +25,6 @@ typedef struct S_800D991C_0 {
     s32 unk_A4;
 } S_800D991C_0;   /* arg0 in update_actor_landing */
 
-void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);             /* extern */
                   /* extern */
 extern void *actor_action_frames[];

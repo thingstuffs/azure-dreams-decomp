@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
@@ -14,7 +15,6 @@
 extern u8 destination_motion_resume_address[];
 extern u8 actor_default_frames[];
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 classify_adjacent_tile_height();
 
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -37,7 +37,7 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
     move_result = classify_adjacent_tile_height(S16(map, 0x2A), move_mode, actor, S16(map, 0x88), 0x20);
     movement_kind = (s16)move_result;
     if (movement_kind > 0) {
-        obj->action_phase.u = 0;
+        obj->action_phase = 0;
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
         {
             u8 *x_offsets;
@@ -76,7 +76,7 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
                 select_record_entry_and_value(actor, *(void **)(alternate_anim + (facing_offset & 0x1C)), 0);
             } else {
                 move_result = 5;
-                obj->action_phase.u = 10;
+                obj->action_phase = 10;
             }
         }
 
@@ -92,9 +92,9 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
                     actor->frameTable = actor_default_frames;
                     facing_offset = (g_game_work.view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
                     select_record_entry_and_value(actor, *(void **)(actor_default_frames + (facing_offset & 0x1C)), 0);
-                    obj->action_id.u = 0x35;
+                    obj->action_id = 0x35;
                 } else {
-                    obj->action_id.u = 0x35;
+                    obj->action_id = 0x35;
                 }
                 updated_state->movement_frames_left = 8;
             } else {
@@ -105,12 +105,12 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
                 if (move_kind < 4) {
                     obj->unk_A0.parts.high |= 1;
                 } else if (move_kind == 2 || move_kind == 4) {
-                    obj->action_phase.u = 8;
+                    obj->action_phase = 8;
                 }
                 check_tile_entry_at_adjusted_height(obj, move_mode, actor, map);
                 {
                     g_dungeon_status.movement_frames_left = 8;
-                    obj->action_id.u = 0x36;
+                    obj->action_id = 0x36;
                     obj->action_timer.u = 2;
                     S32(map, 0x1C) |= 0x40000000;
                     append_packed_action_record(map, 8, 0, 0);

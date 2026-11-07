@@ -15,8 +15,8 @@ void select_state_16_directional_animation(void *entity_data, ObjectPosition *un
         u8 *page;
         u8 *current_page;
 
-        entity->action_id.u = 0x16;
-        entity->action_phase.u = 0;
+        entity->action_id = 0x16;
+        entity->action_phase = 0;
         entity->unk_8C.word = 0;
         entity->unk_A0.parts.high &= 0xFFFE;
         if (state->flags1C & ACTOR_CARRYING) {

@@ -46,7 +46,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
@@ -68,8 +68,8 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == kewne_frame_set_1) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             entity->flags1C &= ~0x40000;
             return;
@@ -89,8 +89,8 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             void *current_anim;
             u8 *anim_table;
 
-            if (actor->action_id.u != 0xE) {
-                actor->action_id.u = 0xE;
+            if (actor->action_id != 0xE) {
+                actor->action_id = 0xE;
                 actor->unk_B0.halves.high.s = 0;
             }
 
@@ -211,7 +211,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
                     &distance);
                 player = primary_actor_record;
                 entity->facing = facing_angle;
-                if (player->action_id.u == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80175E98, update_actor_animation_and_behavior);
                     return;
                 }
@@ -257,7 +257,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             }
         }
     } else if ((get_entity_effect_value(entity, STATUS_PARALYSIS) << 16) == 0) {
-        if (primary_actor_record->action_id.u == 0x17) {
+        if (primary_actor_record->action_id == 0x17) {
             update_kewne_charge_counter(actor, context, sprite, entity);
         }
     }

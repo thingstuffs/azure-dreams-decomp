@@ -20,7 +20,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
     s32 state;
     s32 next_timer;
 
-    state = motion_state->action_phase.u;
+    state = motion_state->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -28,7 +28,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
             dir_step_x[(entity->movement_facing >> 9) & 7] << 19;
         motion->velocity_y =
             dir_step_y[(entity->movement_facing >> 9) & 7] << 19;
-        motion_state->action_phase.u++;
+        motion_state->action_phase++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -39,7 +39,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
         }
         if (tile->flags & 0x8000) {
             motion_state->action_timer.s = 0;
-            motion_state->action_phase.s = 2;
+            motion_state->action_phase = 2;
             return;
         }
         frames_left = -1;
@@ -76,7 +76,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
             return;
         } else {
             motion_state->action_timer.s = 8;
-            motion_state->action_phase.u++;
+            motion_state->action_phase++;
             return;
         }
     case 2:

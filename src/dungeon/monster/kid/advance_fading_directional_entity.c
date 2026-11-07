@@ -34,7 +34,7 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
     u32 sound_y;
     u8 brightness;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     direction_offset = ((u16) ((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
     direction_x = dir_step_x[direction_offset >> 1];
     direction_y = dir_step_y[direction_offset >> 1];
@@ -58,14 +58,14 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
         motion->velocity_y = direction_y << 0x10;
         motion->velocity_z = 0xFFF40000;
         play_sound_if_enabled(0x805);
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
     }
     case 1:
         (motion->velocity_z) += 0x1C000;
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
     case 2:
         status_flags = ((ActorRecord *)entity)->flags14;
         if (status_flags & 0x4000) {
@@ -75,14 +75,14 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
         }
         sprite->tpage_abr = 0x60;
         sprite->flags |= 0xC;
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
     case 3:
         motion->velocity_z += 0x1C000;
         if (!(sprite->flags & 0x6000)) {
             return;
         }
         body->action_timer.u = 0x80U;
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
         return;
     case 4:
         ((ActorRecord *)entity)->flags1C |= 0x10000000;

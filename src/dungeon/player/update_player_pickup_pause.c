@@ -7,13 +7,13 @@
 /* Waits for a countdown or global state change before resetting the object's handler. */
 void update_player_pickup_pause(ActorRecord *object) {
     GameWork *shared_data = &g_game_work;
-    u8 state = object->action_phase.u;
+    u8 state = object->action_phase;
     u16 timer;
 
     switch (state) {
     case 0:
         object->action_timer.u = 0x10;
-        object->action_phase.u++;
+        object->action_phase++;
         break;
     case 1:
         timer = object->action_timer.u - 1;

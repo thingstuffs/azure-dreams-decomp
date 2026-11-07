@@ -81,7 +81,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
 
     is_special = 0;
     owner_object = NODE_HEADER(body);
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if ((actor->flags1C) & 0x2000) {
@@ -167,7 +167,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
                 return;
             }
             body->action_timer.u = 10;
-            body->action_phase.u++;
+            body->action_phase++;
             play_sound_if_enabled(0x703);
             return;
         }
@@ -197,7 +197,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
         }
         sprite->flags &= 0xF7FF;
         body->action_timer.u = 10;
-        body->action_phase.u++;
+        body->action_phase++;
         {
             ObjectNodeHeader *effect_object;
 
@@ -252,7 +252,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
             }
         }
         body->action_state_flags |= 0x80;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 3:

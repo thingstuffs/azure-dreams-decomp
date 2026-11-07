@@ -74,7 +74,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
     if (callback != 0) {
         callback(body, motion_arg, sprite, body);
     }
-    uboat_callbacks[body->action_id.u](body, motion_arg, sprite, body);
+    uboat_callbacks[body->action_id](body, motion_arg, sprite, body);
 
     prior_state = (s32)state_or_dir << 16;
     new_state = body->pending_turn_updates;

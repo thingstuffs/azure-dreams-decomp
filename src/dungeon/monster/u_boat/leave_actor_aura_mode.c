@@ -23,7 +23,7 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
     u8 step;
     u32 active_step;
 
-    phase = state->action_phase.u;
+    phase = state->action_phase;
     if (phase != 0) {
         if (phase != 1) {
             return;
@@ -60,7 +60,7 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
                 select_sprite_entry(sprite, uboat_default_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 state->action_timer.u = 5U;
-                state->action_phase.u++;
+                state->action_phase++;
                 state->unk_B0.bytes[1]++;
                 if (state->unk_B0.bytes[0] == 0) {
                     create_owner_linked_directional_object(state, motion, sprite);

@@ -366,7 +366,7 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
         state->facing = direction;
         if ((move_result == 3) &&
             ((g_dungeon_status.flags & 0x80) || (sprite->flags & 0x8000))) {
-            body->action_id.u = 0xF;
+            body->action_id = 0xF;
         } else {
             initialize_actor_direction_table(body, position, sprite, state);
         }

@@ -32,8 +32,8 @@ void begin_actor_hit_reaction_slot_f(ActorRecord *body, ObjectPosition *position
     actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
         body->unk_8C.word = 0;
-        body->action_id.s = 0x17;
-        body->action_phase.s = 0;
+        body->action_id = 0x17;
+        body->action_phase = 0;
         if (actor->flags1C & 0x400) {
             flags = actor->flags14;
             if (!(flags & 0x80000000)) {

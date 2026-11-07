@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "slus.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -12,7 +13,6 @@
 
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
-void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 #include "shared/sprite_source.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect.h"

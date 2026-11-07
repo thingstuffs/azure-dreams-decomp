@@ -153,7 +153,7 @@ void *spawn_block_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
-        result_copy->action_id.u = 0xFF;
+        result_copy->action_id = 0xFF;
         result_copy->unk_9C = -1;
         result_copy->unk_8C.address = dispatch_block_turn_actions_slot_d;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
@@ -205,7 +205,7 @@ void update_block_motion_and_facing_slot_d(ActorRecord *entity, CL_CC5000_80170C
         callback(entity, motion, sprite, entity);
     }
 
-    D_8016333C[entity->action_id.u](entity, motion, sprite, entity);
+    D_8016333C[entity->action_id](entity, motion, sprite, entity);
 
     if ((s16)old_direction != entity->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion, sprite, entity);
@@ -383,7 +383,7 @@ void dispatch_block_turn_actions_slot_d(CL_CC5000_8017102C_S_8017102C_0 *state, 
     return;
    case 5: case 6: case 7:
     actor->facing=get_rounded_facing_and_rounding_flag(sprite->tile.bytes.x,sprite->tile.bytes.y,reference_tile_object.tile_position.parts.tile_x,reference_tile_object.tile_position.parts.tile_y,&terrain_flags);
-    if(primary_actor_record->action_id.u==17) {
+    if(primary_actor_record->action_id==17) {
      begin_actor_spell_action(state,motion,sprite,D_801632EC,dispatch_block_turn_actions_slot_d);
      return;
     }
@@ -890,7 +890,7 @@ void update_block_hop_slot_d(ActorRecord *action, ObjectPosition *motion, Sprite
     u16 timer_or_flags;
     s32 phase;
 
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if (!(map_entry->flags & 0x6000)) {
@@ -902,7 +902,7 @@ void update_block_hop_slot_d(ActorRecord *action, ObjectPosition *motion, Sprite
         actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         action->unk_9E.s = 5;
         action->unk_A0.value = 0;
-        action->action_phase.u = (u8) (action->action_phase.u + 1);
+        action->action_phase = (u8) (action->action_phase + 1);
         action->unk_A4.halves.high.s = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
             (map_entry->tile_y << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
         action->unk_A8.u = (u16) ((u16)motion->z.w.i);
@@ -969,7 +969,7 @@ void update_block_hop_slot_d(ActorRecord *action, ObjectPosition *motion, Sprite
             action->unk_90.value = 0;
             action->action_state_flags = (u16) (action->action_state_flags & 0xFFF7);
             actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
-            action->action_phase.u = (u8) (action->action_phase.u + 1);
+            action->action_phase = (u8) (action->action_phase + 1);
         }
                         /* fall through */
     case 2:
@@ -983,7 +983,7 @@ void update_block_hop_slot_d(ActorRecord *action, ObjectPosition *motion, Sprite
             select_sprite_entry(map_entry, D_801632D4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             initialize_timed_motion_step(4, 8);
             emit_scattered_effects_unless_blocked(motion);
-            action->action_phase.u = 3U;
+            action->action_phase = 3U;
         }
         break;
     default:
@@ -1038,15 +1038,15 @@ void update_block_attack_slot_d(ActorRecord *action, ObjectPosition *motion, Spr
     s32 start_state;
     u16 timer;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     start_state = 1;
     switch (state) {
     case 0:
-        action->action_phase.u = start_state;
+        action->action_phase = start_state;
                         /* fall through */
     case 1:
         if (sprite->flags & 0x8000) {
-            action->action_phase.u = 3;
+            action->action_phase = 3;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -1059,10 +1059,10 @@ void update_block_attack_slot_d(ActorRecord *action, ObjectPosition *motion, Spr
         select_sprite_entry(sprite,
             D_801632DC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        next_state = action->action_phase.u;
+        next_state = action->action_phase;
         action->action_timer.u = 0;
         next_state++;
-        action->action_phase.u = next_state;
+        action->action_phase = next_state;
         return;
     case 2:
         timer = action->action_timer.u + 1;
@@ -1079,9 +1079,9 @@ void update_block_attack_slot_d(ActorRecord *action, ObjectPosition *motion, Spr
         if (action->action_timer.s == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
-            next_state = action->action_phase.u;
+            next_state = action->action_phase;
             next_state++;
-            action->action_phase.u = next_state;
+            action->action_phase = next_state;
         }
         return;
     case 3:

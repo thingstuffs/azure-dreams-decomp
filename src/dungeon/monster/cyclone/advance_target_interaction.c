@@ -29,7 +29,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
     u16 timer;
     ActorRecord *target;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
@@ -53,7 +53,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                     request_random_slot_effect(target);
                 }
             }
-            action->action_phase.u = 2;
+            action->action_phase = 2;
             return;
         }
 
@@ -76,7 +76,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
         play_sound_if_enabled(0x708);
         timer = 0x20;
         action->action_timer.u = timer;
-        action->action_phase.u++;
+        action->action_phase++;
         break;
 
     case 1:
@@ -103,7 +103,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                 }
             }
             action->action_timer.u = 4;
-            action->action_phase.u++;
+            action->action_phase++;
         }
         break;
 

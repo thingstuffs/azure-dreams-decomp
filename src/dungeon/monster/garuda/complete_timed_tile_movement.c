@@ -39,7 +39,7 @@ void complete_timed_tile_movement(ActorRecord *action, ObjectPosition *motion, S
     s32 facing_index;
     DungeonGlobalStatus *global_base;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -52,7 +52,7 @@ void complete_timed_tile_movement(ActorRecord *action, ObjectPosition *motion, S
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_B0.halves.low.s = 5;
         action->unk_A0.value = 0;
-        action->action_phase.u++;
+        action->action_phase++;
         break;
     case 1:
         action->unk_90.value += 0xC0000;
@@ -67,7 +67,7 @@ void complete_timed_tile_movement(ActorRecord *action, ObjectPosition *motion, S
         action->unk_B0.halves.low.s = 5;
         action->unk_A0.value = 0;
         action->unk_90.value -= 0x400000;
-        action->action_phase.u++;
+        action->action_phase++;
                         /* fall through */
     case 2:
         move_ticks = action->unk_B0.halves.low.s;
@@ -105,7 +105,7 @@ void complete_timed_tile_movement(ActorRecord *action, ObjectPosition *motion, S
             (sprite->frameTable) = garuda_frame_set_4;
             facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
             select_sprite_entry(sprite, garuda_frame_set_4[facing_index & 7], 0);
-            action->action_phase.u++;
+            action->action_phase++;
         }
                         /* fall through */
     case 3:
@@ -120,7 +120,7 @@ void complete_timed_tile_movement(ActorRecord *action, ObjectPosition *motion, S
         (sprite->frameTable) = garuda_frame_set_4;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, garuda_frame_set_4[facing_index & 7], 0);
-        action->action_phase.u++;
+        action->action_phase++;
 
         break;
     default:

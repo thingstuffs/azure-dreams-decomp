@@ -85,7 +85,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
     void *created_object;
     s16 *type_values;
 
-    phase = state->actor.action_phase.u;
+    phase = state->actor.action_phase;
     switch (phase) {
     case 0:
         slot_index = 1;
@@ -102,7 +102,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
             slot_index -= 1;
             slot_cursor -= 1;
         } while (slot_index >= 0);
-        state->actor.action_phase.u = (u8) (state->actor.action_phase.u + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
     case 1:
         wait_ticks = state->actor.action_timer.u + 1;
         state->actor.action_timer.u = wait_ticks;
@@ -149,7 +149,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
         ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_00.s = &D_80021268;
         reference_tile_object.unk_038 = 0;
         (*&dungeon_floor_flags) = (s32) (((S_800930F0_6 *)(&dungeon_floor_flags))->unk_00 | 0x2000);
-        state->actor.action_phase.u = (u8) (state->actor.action_phase.u + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
         break;
     case 2:
         load_status = create_expanding_screen_rectangle();
@@ -157,7 +157,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
         if (load_status == 0) {
             break;
         }
-        state->actor.action_phase.u = (u8) (state->actor.action_phase.u + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
         break;
     case 3:
         created_object = ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_00.u(((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_04,
@@ -166,7 +166,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
         if (created_object == NULL) {
             return;
         }
-        state->actor.action_phase.u = (u8) (state->actor.action_phase.u + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
     case 4:
         if (!(((ObjectNodeHeader *)(state->unk_C8))->flags & 0x8000)) {
             break;
@@ -174,7 +174,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
         request_scene_dispatch_state(scene_mode_code);
         current_dungeon_floor = *(u16 *)0x80010234;
         mark_sprite_resources_for_purge();
-        state->actor.action_phase.u = (u8) (state->actor.action_phase.u + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
         break;
     case 16:
         transition_base = (s32 *)0x800E0000;
@@ -205,7 +205,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
             flags_base->unk_2E76 = flags;
             request_scene_state_with_parameters(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
         }
-        state->actor.action_phase.u = (u8) (state->actor.action_phase.u + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
     case 17:
     default:
         break;

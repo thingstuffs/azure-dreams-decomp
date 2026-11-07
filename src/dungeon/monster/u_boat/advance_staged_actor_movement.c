@@ -26,14 +26,14 @@
 void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor) {
     u8 state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
 
     case 0:
         if (record->flags & 0x8000) {
             u8 *animation_ids;
 
-            action->action_phase.u = 5;
+            action->action_phase = 5;
             action->action_timer.u = 0;
             record->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
@@ -55,7 +55,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         motion->velocity_x = 0;
         action->action_timer.u = 2;
         action->action_state_flags &= 0xFFF7;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -72,7 +72,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
 
         action->action_timer.u = 0x12;
         direction_x = (s16 *)((s8 *)dir_step_x);
-        action->action_phase.u++;
+        action->action_phase++;
         direction_y = (s16 *)((s8 *)dir_step_y);
         motion->velocity_x =
             -*(s16 *)((u8 *)direction_x +
@@ -137,7 +137,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         action->action_timer.u = timer - 1;
         if ((s16)timer <= 0 || (record->flags & 0x8000)) {
             action->action_timer.u = 4;
-            action->action_phase.u++;
+            action->action_phase++;
         }
 
         if (*(u8 * *)&record->frameTable != u_boat_frame_set_1) {
@@ -177,7 +177,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             return;
         }
         action->action_timer.u = 2;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     }
 
@@ -191,7 +191,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             return;
         }
         action->action_timer.u = 6;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     }
 

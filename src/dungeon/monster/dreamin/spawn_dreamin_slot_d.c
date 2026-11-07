@@ -86,7 +86,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
             }
         }
         initialize_actor_sprite_and_animation(object, type_data, placement, spawn_flags);
-        entity_data->action_id.u = 0xFF;
+        entity_data->action_id = 0xFF;
         entity_data->unk_9C = -1;
         entity_data->unk_8C.address = &func_8015EE68;
         try_move_actor_to_valid_position(entity_data, type_data, placement, entity);

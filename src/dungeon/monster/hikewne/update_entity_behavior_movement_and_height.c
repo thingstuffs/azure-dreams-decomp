@@ -62,7 +62,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
     if (update_callback != 0) {
         update_callback(body, motion, sprite, body);
     }
-    D_8016E168[body->action_id.u](body, motion, sprite, body);
+    D_8016E168[body->action_id](body, motion, sprite, body);
     if ((s16)old_state_id != body->pending_turn_updates) {
         try_move_actor_to_valid_position(body, motion, sprite, body);
     }

@@ -16,14 +16,14 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
     s32 tracked_entity;
 
     direction = (actor->movement_facing >> 9) & 7;
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         motion->velocity_x =
             dir_step_x[direction] << 19;
         motion->velocity_y =
             dir_step_y[direction] << 19;
-        body->action_phase.u++;
+        body->action_phase++;
 
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -34,7 +34,7 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
         }
         if (sprite->flags & 0x8000) {
             body->action_timer.s = 0;
-            body->action_phase.u = 2;
+            body->action_phase = 2;
             return;
         }
         if (actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -68,7 +68,7 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
             return;
         }
         body->action_timer.s = 8;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 2:
@@ -125,13 +125,13 @@ void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, 
     s32 tile_y;
     s32 tile_mask;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        body->action_phase.u = 1;
+        body->action_phase = 1;
                         /* fallthrough */
     case 1:
         entity_flags = *(s32 *)&entity->flags;
@@ -142,7 +142,7 @@ void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, 
         }
         play_sound_if_enabled(0x805);
         body->action_timer.u = 4;
-        body->action_phase.u++;
+        body->action_phase++;
         sprite->clut -= 0x80;
                         /* fallthrough */
     case 2:

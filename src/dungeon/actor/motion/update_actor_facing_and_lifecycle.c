@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus.h"
 #include "slus/imports.h"
 #include "dungeon/actor/motion.h"
 #include "shared/sprite_frame_state.h"
@@ -11,7 +12,6 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 extern u8 actor_motion_resume_address;
@@ -51,7 +51,7 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
     if (callback != 0) {
         callback(body, motion, part, body);
     }
-    actor_facing_callbacks[body->action_id.u](body, motion, part, body);
+    actor_facing_callbacks[body->action_id](body, motion, part, body);
 
     if ((*(s16 *)((u8 *)body + (0xB8))) == 0) {
         part->color.c.r += 4;

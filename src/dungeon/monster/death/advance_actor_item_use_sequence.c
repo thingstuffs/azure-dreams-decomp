@@ -83,7 +83,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
     S_801732C4_1_pre *target;
 
     special = 0;
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if ((((u32)actor->flags1C)) & ACTOR_PLAYER_SIDE) {
@@ -175,9 +175,9 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
             if (create_actor_spell_effect(actor, item_slot, special, (u8 *)body + 0x98) == 0) {
                 return;
             }
-            next_state = body->action_phase.u;
+            next_state = body->action_phase;
             next_state++;
-            body->action_phase.u = next_state;
+            body->action_phase = next_state;
             return;
         }
         motion->velocity_z = 0;
@@ -200,7 +200,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
             return;
         }
         sprite->flags &= 0xF7FF;
-        body->action_phase.u++;
+        body->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -210,10 +210,10 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
 
         flags = sprite->flags;
         if (flags & 0x8000) {
-            next_state = body->action_phase.u;
+            next_state = body->action_phase;
             body->action_timer.u = 0;
             next_state++;
-            body->action_phase.u = next_state;
+            body->action_phase = next_state;
             return;
         }
         if (sprite->unk_04 == 2 && (flags & 0x1000)) {
@@ -227,7 +227,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
         body->action_timer.u = timer;
         if (timer <= 0) {
             body->action_timer.u = 0;
-            body->action_phase.u++;
+            body->action_phase++;
             sprite->flags &= 0xF7FF;
         }
         if (body->action_timer.s >= 7) {
@@ -297,7 +297,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
             sprite->flags |= 0x800;
             body->action_timer.u = 0x14;
             body->action_state_flags |= 0x80;
-            body->action_phase.u++;
+            body->action_phase++;
             i = 0;
             do {
                 {
@@ -329,9 +329,9 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
         }
         body->action_timer.u = 0;
         sprite->flags &= 0xF7FF;
-        next_state = body->action_phase.u;
+        next_state = body->action_phase;
         next_state++;
-        body->action_phase.u = next_state;
+        body->action_phase = next_state;
         return;
     }
 

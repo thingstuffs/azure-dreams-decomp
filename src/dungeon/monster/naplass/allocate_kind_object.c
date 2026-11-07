@@ -70,7 +70,7 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
         }
         init_obj = obj;
         initialize_actor_sprite_and_animation(init_obj, part_a, part_b, spawn_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &func_8015EE68;
         part_b->flags |= 0xC;

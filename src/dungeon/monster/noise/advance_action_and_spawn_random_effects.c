@@ -40,11 +40,11 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
 
     effect_work.copy = *direction_source;
     owner = NODE_HEADER(action);
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
     if (sprite->flags & 0x8000) {
-        action->action_phase.u = 3U;
+        action->action_phase = 3U;
         sprite->flags = (u16) (sprite->flags | 0x6000);
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         return;
@@ -53,7 +53,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
     motion->velocity_y = 0;
     motion->velocity_x = 0;
     action->action_timer.u = 0U;
-    action->action_phase.u = (u8) (action->action_phase.u + 1);
+    action->action_phase = (u8) (action->action_phase + 1);
     return;
 
     case 1:
@@ -66,7 +66,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
     select_sprite_entry(sprite, noise_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
 
     action->action_timer.u = 0U;
-    action->action_phase.u = (u8) (action->action_phase.u + 1);
+    action->action_phase = (u8) (action->action_phase + 1);
     return;
 
     case 2:
@@ -74,7 +74,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
     action->action_timer.u = effect_tick;
     if (((s16) effect_tick == 0x11) || (sprite->flags & 0x8000)) {
         action->action_timer.u = 0U;
-        action->action_phase.u = (u8) (action->action_phase.u + 1);
+        action->action_phase = (u8) (action->action_phase + 1);
     }
     if (((s16) action->action_timer.u == 0xB) || (sprite->flags & 0x8000)) {
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);

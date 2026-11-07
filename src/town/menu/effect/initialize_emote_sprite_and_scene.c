@@ -1,10 +1,10 @@
 #include "common.h"
+#include "slus.h"
 #include "town/menu/object_setup.h"
 #include "town/event/object_setup.h"
 #include "town/scene/list_setup.h"
 #include "m2c_compat.h"
 
-void select_record_entry_and_value(void *state, void *entries, short index);
 extern M2C_UNK D_800D0690;
 #include "shared/sprite_source.h"
 #include "town/event/state.h"

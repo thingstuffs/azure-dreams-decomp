@@ -28,7 +28,7 @@ void update_actor_directional_animation(ActorRecord *actor_in, ObjectPosition *p
     s32 entity_flags;
     s32 direction;
     DungeonGlobalStatus *shared_state;
-    state = actor_in->action_phase.u;
+    state = actor_in->action_phase;
     switch (state) {
     case 0:
     if (!(target->flags & 0xE000)) {
@@ -43,7 +43,7 @@ void update_actor_directional_animation(ActorRecord *actor_in, ObjectPosition *p
     target->frameTable = saber_direction_frames_2;
     direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
     select_sprite_entry(target, saber_direction_frames_2[direction & 7], 0);
-    actor_in->action_phase.u++;
+    actor_in->action_phase++;
     return;
 
     case 1:
@@ -55,7 +55,7 @@ void update_actor_directional_animation(ActorRecord *actor_in, ObjectPosition *p
         select_sprite_entry(target, saber_action_direction_frames[direction & 7], 0);
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count++;
-        actor_in->action_phase.u++;
+        actor_in->action_phase++;
         return;
     } else {
         shared_state = &g_dungeon_status;
@@ -110,7 +110,7 @@ void update_actor_directional_animation(ActorRecord *actor_in, ObjectPosition *p
         select_sprite_entry(target, saber_action_direction_frames[direction & 7], 0);
         shared_state->activity_counts.parts.pending_action_count++;
     }
-    actor_in->action_phase.u++;
+    actor_in->action_phase++;
     return;
 
     case 2:

@@ -9,8 +9,8 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
-extern int abs(int);
 
+#include "sdk/abs.h"
 typedef MonsterFactory SpawnFunc;
 
 extern u32 level_experience_table[];

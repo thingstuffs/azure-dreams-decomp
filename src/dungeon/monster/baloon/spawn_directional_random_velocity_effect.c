@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "slus.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -19,7 +20,6 @@ typedef struct S_80D65C5C_1 {
 
    /* ((S_80D65C5C_1 *)arg0)->unk_08 in spawn_directional_random_velocity_effect */
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern s16 actor_direction_step_pairs[];
 extern u8 D_80171384[];

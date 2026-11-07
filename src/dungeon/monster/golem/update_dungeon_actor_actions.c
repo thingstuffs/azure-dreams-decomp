@@ -229,7 +229,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &heading_flags);
             leader = primary_actor_record;
             stats->facing = heading;
-            if (leader->action_id.u != 17) {
+            if (leader->action_id != 17) {
                 update_actor_status_and_mp(stats);
                 return;
             }
@@ -262,7 +262,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
                     }
                 }
             } else if ((s16)get_entity_effect_value(stats, STATUS_PARALYSIS) == 0) {
-                if (primary_actor_record->action_id.u == 23) {
+                if (primary_actor_record->action_id == 23) {
                     advance_timed_directional_reset(actor, context, sprite, stats);
                 }
             }

@@ -66,7 +66,7 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
     SpriteFrameState *object_scale;
     ObjectPosition *object_position;
 
-    state = actor->action_phase.u;
+    state = actor->action_phase;
     resource_info = ((S_80095A10_3 *)reference_tile_object.selected_item);
     switch (state) {
     case 0:
@@ -79,30 +79,30 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
         animation->flags = (u16) (animation->flags | 0x200);
         create_familiar_deployment_effect_with_owner_state(actor, position, animation);
         create_familiar_deployment_overlay(actor, position, animation);
-        previous_state = actor->action_phase.u;
-        actor->action_phase.u = (u8) (previous_state + 1);
+        previous_state = actor->action_phase;
+        actor->action_phase = (u8) (previous_state + 1);
         return;
     case 1:
         load_resource = find_or_retain_sprite_resource_slot(resource_info->unk_00, 2);
         if (load_resource == 0) {
-            previous_state = actor->action_phase.u;
-        actor->action_phase.u = (u8) (previous_state + 1);
+            previous_state = actor->action_phase;
+        actor->action_phase = (u8) (previous_state + 1);
         return;
         }
         loaded_entity_sprite_resource = queue_cd_resource(resource_info->unk_00);
         load_monster_code_module(resource_info->unk_00, load_resource, 0);
         (*&entity_resource_read_complete) = 0;
         Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
-        previous_state = actor->action_phase.u;
-        actor->action_phase.u = (u8) (previous_state + 1);
+        previous_state = actor->action_phase;
+        actor->action_phase = (u8) (previous_state + 1);
         return;
     case 2:
         if (((S_80095A10_4 *)(&entity_resource_read_complete))->unk_00 == 0) {
             return;
         }
         runtime_no_op_callback(state);
-        previous_state = actor->action_phase.u;
-        actor->action_phase.u = (u8) (previous_state + 1);
+        previous_state = actor->action_phase;
+        actor->action_phase = (u8) (previous_state + 1);
         return;
     case 3:
         spawn_resource = find_or_retain_sprite_resource_slot(resource_info->unk_00, 2);
@@ -137,11 +137,11 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
                 ((ActorRecord *)object)->mp_value.parts.whole = 1U;
             }
         }
-        previous_state = actor->action_phase.u;
+        previous_state = actor->action_phase;
         {
             animation_flags = 0x10U;
             actor->action_timer.u = animation_flags;
-            actor->action_phase.u = (u8) (previous_state + 1);
+            actor->action_phase = (u8) (previous_state + 1);
             return;
         }
     case 4:
@@ -153,8 +153,8 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
         animation->frameTable = familiar_save_frames;
         set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + context->facing + 0x100)
             >> 9) & 7) + familiar_save_frames), 0, 1);
-        previous_state = actor->action_phase.u;
-        actor->action_phase.u = (u8) (previous_state + 1);
+        previous_state = actor->action_phase;
+        actor->action_phase = (u8) (previous_state + 1);
         return;
     case 5:
         animation_flags = animation->flags;
@@ -168,9 +168,9 @@ set_animation:
         set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + context->facing + 0x100)
             >> 9) & 7) + animation_table), 0, 1);
 advance_state:
-        previous_state = actor->action_phase.u;
+        previous_state = actor->action_phase;
 store_next_state:
-        actor->action_phase.u = (u8) (previous_state + 1);
+        actor->action_phase = (u8) (previous_state + 1);
         return;
     case 6:
         if (((ActorRecord *)(context->target))->flags14 & 0x100000) {

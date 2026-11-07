@@ -48,7 +48,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
     s32 delay_slot;
     S_8017472C_6 *control;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     use_player_target = 0;
     switch (state) {
     case 0:
@@ -130,7 +130,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
             }
             action->action_timer.u = 0x16;
             action->unk_AC.halves.high.s = 0xE;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
 
@@ -154,7 +154,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->action_phase.u++;
+        action->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -177,7 +177,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
             return;
         }
         action->action_state_flags |= 0x80;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 3:

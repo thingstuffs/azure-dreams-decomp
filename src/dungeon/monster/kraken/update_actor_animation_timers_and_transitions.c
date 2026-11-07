@@ -56,7 +56,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
     u16 count;
 
     body = entity->unk_A4.byte_address;
-    state = entity->action_phase.u;
+    state = entity->action_phase;
     body_part = (S_8017352C_5 *)(body + 0x20);
     part_anim = body + 0x28;
     switch (state) {
@@ -73,7 +73,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
         entity->action_timer.u = 0;
         count = ((u16)state_zero_counter_base->activity_counts.parts.pending_action_count) - 1;
         state_zero_counter_base->activity_counts.parts.pending_action_count = count;
-        entity->action_phase.u++;
+        entity->action_phase++;
         return;
     case 1:
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
@@ -167,7 +167,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
                 animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
                 count = ((u16)(animate_counter_base->activity_counts.parts.pending_action_count)) + 1;
                 animate_counter_base->activity_counts.parts.pending_action_count = count;
-                entity->action_phase.u++;
+                entity->action_phase++;
                 return;
             }
             break;
@@ -185,7 +185,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
                 animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
                 count = ((u16)(animate_counter_base->activity_counts.parts.pending_action_count)) + 1;
                 animate_counter_base->activity_counts.parts.pending_action_count = count;
-                entity->action_phase.u++;
+                entity->action_phase++;
                 return;
             }
             break;

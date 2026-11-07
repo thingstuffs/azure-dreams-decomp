@@ -19,12 +19,12 @@ void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motio
 
     direction = (entity->movement_facing >> 9) & 7;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 17;
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 17;
-        action->action_phase.u++;
+        action->action_phase++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -35,7 +35,7 @@ void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motio
         }
         if (tile->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.s = 2;
+            action->action_phase = 2;
             return;
         }
         if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -69,7 +69,7 @@ void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motio
             return;
         }
         action->action_timer.s = 8;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 2:

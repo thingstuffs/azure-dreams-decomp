@@ -78,7 +78,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
@@ -249,7 +249,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
     u8 *high_table; /* MATCH: both table-selection paths feed the shared tail in a1. */
 
     if (g_dungeon_status.flags & 0x1000) {
-        record->action_id.u = 0xE;
+        record->action_id = 0xE;
         advance_stored_path_motion(record, entity, object, other_entity);
         return;
     }
@@ -274,8 +274,8 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
 
     if (((u32)other_entity->flags1C) & ACTOR_ASLEEP) {
         if (object->frameTable == grineut_alt_direction_frames) {
-            record->action_id.u = 0xD;
-            record->action_phase.u = 1;
+            record->action_id = 0xD;
+            record->action_phase = 1;
             record->unk_8C.word = 0;
             other_entity->flags1C &= 0xFFFBFFFF;
             return;
@@ -291,7 +291,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
             return;
         }
 
-        if (record->action_id.u != 0xE) {
+        if (record->action_id != 0xE) {
             table = grineut_frame_set_1;
             if (object->frameTable != table) {
                 object->frameTable = table;
@@ -299,7 +299,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
                     table[((g_game_work.view.camera_rotation.parts.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
                     0);
             }
-            record->action_id.u = 0xE;
+            record->action_id = 0xE;
         }
 
         record->action_state_flags &= 0xFFF3;
@@ -375,7 +375,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
                 &scratch));
             player = primary_actor_record;
             other_entity->facing = coordinate;
-            if (player->action_id.u == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(record, entity, object, grineut_frame_set_3, ((void *)dispatch_monster_move_attack_spell));
                 return;
             }
@@ -550,7 +550,7 @@ void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, 
         initialize_opposite_facing_effect(action, action_id, entity, state);
         action->unk_8C.word = 0;
     } else {
-        action->action_id.u = 0x0F;
+        action->action_id = 0x0F;
         action->unk_8C.word = 0;
     }
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
@@ -792,8 +792,8 @@ void initialize_opposite_facing_effect(ActorRecord *effect, ObjectPosition *posi
     s16 *direction_x;
 
     direction = ((u16)source->facing >> 9) & 7;
-    effect->action_id.s = 0x10;
-    effect->action_phase.s = 0;
+    effect->action_id = 0x10;
+    effect->action_phase = 0;
     sprite->frameTable = grineut_frame_set_5;
     select_sprite_entry(sprite,(s16)(grineut_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle +
                                source->facing + 0x100) >> 9) & 7]),(s16)(0));
@@ -838,8 +838,8 @@ s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
     apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->action_id.u = 0x11;
-        action_state->action_phase.u = 0;
+        action_state->action_id = 0x11;
+        action_state->action_phase = 0;
         action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
@@ -860,9 +860,9 @@ void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_cont
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            action_state->action_id.s = 0x11;
+            action_state->action_id = 0x11;
             action_state->unk_8C.word = 0;
-            action_state->action_phase.s = 0;
+            action_state->action_phase = 0;
             sprite->frameTable = grineut_frame_set_1;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + grineut_frame_set_1), 0);
@@ -889,7 +889,7 @@ s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
     }
     switch (state_type) {
     case 0:
-        entity->action_id.s = 0xE;
+        entity->action_id = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -952,7 +952,7 @@ void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
     u16 direction_aux;
     DungeonGlobalStatus *global_base;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -967,7 +967,7 @@ void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         actor->flags1C &= 0xF7FFFFFF;
         body->unk_A8.s = 5;
         body->unk_A4.value = 0;
-        body->action_phase.u++;
+        body->action_phase++;
 
     case 1:
         move_ticks = body->unk_A8.s;
@@ -1004,7 +1004,7 @@ void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         body->unk_90.value = 0;
         body->action_state_flags &= 0xFFF7;
         actor->flags1C |= 0x08000000;
-        body->action_phase.u++;
+        body->action_phase++;
         break;
     case 2:
         if (actor->flags1C & 0x08000000) {
@@ -1019,7 +1019,7 @@ void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
                 grineut_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
 
-            body->action_phase.u++;
+            body->action_phase++;
         }
         break;
     }
@@ -1084,11 +1084,11 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
     s32 facing;
     s32 state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            action->action_phase.u = 3;
+            action->action_phase = 3;
             action->action_timer.u = 0;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
@@ -1112,7 +1112,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
             (*(grineut_frame_set_3 + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
         action->action_timer.u = 0;
-        action->action_phase.u += 1;
+        action->action_phase += 1;
         return;
 
     case 1:
@@ -1126,7 +1126,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
                 (*(D_80174170 + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
             action->action_timer.u = 0x14;
-            action->action_phase.u += 1;
+            action->action_phase += 1;
             return;
         }
         return;
@@ -1171,7 +1171,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
 
         if (((s16)action->action_timer.u <= 0) ||
             (sprite->flags & 0x8000)) {
-            action->action_phase.u += 1;
+            action->action_phase += 1;
             return;
         }
         return;
@@ -1206,7 +1206,7 @@ void advance_actor_stored_path_2(ActorRecord *body, ObjectPosition *motion, Spri
     R07_80172CC0_S_80172CC0_2 *state;
 
     is_special = 0;
-    state = (R07_80172CC0_S_80172CC0_2 *)(body->action_phase.u);
+    state = (R07_80172CC0_S_80172CC0_2 *)(body->action_phase);
     switch ((u8)state) {
     case 0:
         if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
@@ -1307,7 +1307,7 @@ copy_existing:
                 sprite->flags &= 0xF7FF;
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(pos, (s16)((*item - 1) % 3));
-                body->action_phase.u++;
+                body->action_phase++;
                 return;
             }
             return;
@@ -1336,7 +1336,7 @@ copy_existing:
             return;
         }
         sprite->flags &= 0xF7FF;
-        body->action_phase.u++;
+        body->action_phase++;
                         /* fall through */
 
     case 2:
@@ -1349,7 +1349,7 @@ copy_existing:
             D_80174180[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         body->unk_A8.u = 0x10;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 3:
@@ -1428,12 +1428,12 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
     s32 tracked_entity;
 
     direction = (entity->movement_facing >> 9) & 7;
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x = dir_step_x[direction] << 18;
         motion->velocity_y = dir_step_y[direction] << 18;
-        body->action_phase.u++;
+        body->action_phase++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -1444,7 +1444,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         }
         if (sprite->flags & 0x8000) {
             body->action_timer.s = 0;
-            body->action_phase.u = 3;
+            body->action_phase = 3;
             return;
         }
 
@@ -1483,7 +1483,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
             sprite,
             grineut_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 2:
@@ -1499,7 +1499,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
             grineut_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer.s = 8;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 3:
@@ -1578,7 +1578,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
     s32 actor_flags;
     s32 state;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0xE000)) {
@@ -1597,7 +1597,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
             dungeon_counters = &g_dungeon_status;
             (*(u16 *)&dungeon_counters->activity_counts.parts.pending_action_count)--;
         }
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
 
     case 1:
@@ -1632,7 +1632,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
                 DungeonGlobalStatus *dungeon_counters = &g_dungeon_status;
                 (*(u16 *)&dungeon_counters->activity_counts.parts.pending_action_count)++;
             }
-            controller->action_phase.u++;
+            controller->action_phase++;
             return;
         } else {
             dungeon_status = &g_dungeon_status;
@@ -1708,7 +1708,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
                     DungeonGlobalStatus *dungeon_counters = &g_dungeon_status;
                     (*(u16 *)&dungeon_counters->activity_counts.parts.pending_action_count)++;
                 }
-                controller->action_phase.u++;
+                controller->action_phase++;
                 return;
             }
         }
@@ -1740,7 +1740,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
 void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
     {
@@ -1756,7 +1756,7 @@ void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *conte
         select_sprite_entry(sprite,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
     }
     case 1:
@@ -1771,7 +1771,7 @@ void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *conte
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            controller->action_phase.u++;
+            controller->action_phase++;
             return;
         }
 
@@ -1823,7 +1823,7 @@ void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *conte
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        controller->action_phase.u++;
+        controller->action_phase++;
     }
         break;
     case 2:

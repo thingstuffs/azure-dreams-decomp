@@ -36,7 +36,7 @@ void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosit
     if (callback != 0) {
         callback(update_obj, motion, ent, update_obj);
     }
-    gravity_motion_callbacks[update_obj->action_id.u](update_obj, motion, ent, update_obj);
+    gravity_motion_callbacks[update_obj->action_id](update_obj, motion, ent, update_obj);
 
     {
         u16 render_flags = ent->flags;

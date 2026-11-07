@@ -96,7 +96,7 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
 
         outer = stable_object;
         outer_index = 0;
-        stable_object->action_id.u = 0xFF;
+        stable_object->action_id = 0xFF;
         stable_object->unk_9C = -1;
         stable_object->unk_8C.address = D_801593A8;
         object->flags1C |= 0x40000;

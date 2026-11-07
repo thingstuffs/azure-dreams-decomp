@@ -80,7 +80,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
             }
         }
         initialize_actor_sprite_and_animation(((object)), part_a, part_b, mask);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &func_8016AE84;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

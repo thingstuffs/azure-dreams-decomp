@@ -8,6 +8,9 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
+extern s8 encounter_cd_ready;
+extern u16 encounter_image_load_commands[8];
+
 /* State shared by encounter overlay construction and its slide callback. */
 typedef struct EncounterOverlayBody {
     u8 pad_00[0x12];

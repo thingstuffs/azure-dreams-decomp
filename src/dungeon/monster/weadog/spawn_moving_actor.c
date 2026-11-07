@@ -42,7 +42,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
     s32 tile_coord;
 
     __builtin_memcpy(direction_vectors, weadog_slot_g_direction_steps, sizeof(direction_vectors));
-    state = action_work->action_phase.u;
+    state = action_work->action_phase;
     switch (state) {
     case 0:
         position->velocity_z = 0;
@@ -58,7 +58,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
         select_sprite_entry(sprite,
             animations[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action_work->action_timer.u = 0x14;
-        action_work->action_phase.u = action_work->action_phase.u + 1;
+        action_work->action_phase = action_work->action_phase + 1;
     case 1:
         if ((action_work->action_timer.s == 0x13) || (sprite->flags & 0x8000)) {
             if (!(sprite->flags & 0x8000)) {
@@ -112,7 +112,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
         timer = action_work->action_timer.u - 1;
         action_work->action_timer.u = timer;
         if (((s32)(timer << 16) <= 0) || (sprite->flags & 0x8000)) {
-            action_work->action_phase.u = action_work->action_phase.u + 1;
+            action_work->action_phase = action_work->action_phase + 1;
             sprite->flags &= 0xF7FF;
             return;
         }
@@ -143,7 +143,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
         sprite->flags &= 0xF7FF;
         direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
         select_sprite_entry(sprite, U8_AT(sprite->frameTable, direction_index), 0);
-        action_work->action_phase.u = action_work->action_phase.u + 1;
+        action_work->action_phase = action_work->action_phase + 1;
         return;
     case 3:
         if (action_work->unk_A4.halves.low.s != 0x4D) {

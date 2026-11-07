@@ -13,7 +13,7 @@
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_18ac800_entry)(u8 *, u8 *, MovingSprite *) = follow_brighten;
+void (*const dungeon_18ac800_entry)(u8 *, MovingMotion *, MovingSprite *) = follow_brighten;
 
 /* Scales the coordinate by 64, adds the cell-center offset 32, and masks the result with 0xFFE0. */
 static __inline__ s32 align_effect_coord(s32 coord)
@@ -22,7 +22,7 @@ static __inline__ s32 align_effect_coord(s32 coord)
 }
 
 /* Updates a moving effect through initialization, travel, impact, and fading. */
-void follow_brighten(u8 *self, u8 *motion, MovingSprite *part)
+void follow_brighten(u8 *self, MovingMotion *motion, MovingSprite *part)
 {
     u8 *owner;
     MovingObject *base;
@@ -73,15 +73,15 @@ void follow_brighten(u8 *self, u8 *motion, MovingSprite *part)
                 break;
             }
         }
-        ((MovingMotion *)motion)->unk_00.at02.v = record->x;
-        ((MovingMotion *)motion)->unk_04.at02.v = record->y;
+        motion->unk_00.at02.v = record->x;
+        motion->unk_04.at02.v = record->y;
         if (((MovingSpriteFlags *)(base->unk_0C))->unk_14 & 0x8000) {
             u16 height = record->z - 64;
-            ((MovingMotion *)motion)->unk_08.at02.v = height;
+            motion->unk_08.at02.v = height;
             ((MovingEffectState *)self)->unk_30.at02.v = height;
         } else {
             u16 height = record->z + ((OriginOffsetView *)scratch)->unk_04;
-            ((MovingMotion *)motion)->unk_08.at02.v = height;
+            motion->unk_08.at02.v = height;
             ((MovingEffectState *)self)->unk_30.at02.v = height;
         }
         if (!(((MovingAnimationFlags *)(((MovingEffectState *)self)->unk_04))->unk_00 & 0x80)) {
@@ -132,14 +132,14 @@ void follow_brighten(u8 *self, u8 *motion, MovingSprite *part)
                 }
             } else {
                 ((MovingEffectState *)self)->unk_14 = 8;
-                ((MovingEffectState *)self)->unk_0C = ((MovingMotion *)motion)->unk_00.at02.v;
-                ((MovingEffectState *)self)->unk_0E = ((MovingMotion *)motion)->unk_04.at02.v;
+                ((MovingEffectState *)self)->unk_0C = motion->unk_00.at02.v;
+                ((MovingEffectState *)self)->unk_0E = motion->unk_04.at02.v;
                 ((MovingEffectState *)self)->unk_10.u = ((MovingActor *)owner)->unk_88 - 80;
             }
         }
-        ((MovingMotion *)motion)->unk_0C.at02.v =
+        motion->unk_0C.at02.v =
             (dir_step_x[((MovingEffectState *)self)->unk_16.s]) * 8;
-        ((MovingMotion *)motion)->unk_10.at02.v =
+        motion->unk_10.at02.v =
             (dir_step_y[((MovingEffectState *)self)->unk_16.s]) * 8;
         ((MovingEffectState *)self)->unk_0A.u++;
         break;
@@ -148,41 +148,41 @@ void follow_brighten(u8 *self, u8 *motion, MovingSprite *part)
     {
         s32 position;
         s32 adjusted;
-        velocity = ((MovingMotion *)motion)->unk_0C.at00.v;
-        position = (*(s32 *)(motion + 0));
+        velocity = motion->unk_0C.at00.v;
+        position = motion->unk_00.at00.v;
         position += velocity;
-        (*(s32 *)(motion + 0)) = position;
-        adjusted = ((MovingMotion *)motion)->unk_0C.at00.v;
+        motion->unk_00.at00.v = position;
+        adjusted = motion->unk_0C.at00.v;
         position = adjusted >> 4;
         adjusted += position;
         velocity = abs(adjusted);
-        ((MovingMotion *)motion)->unk_0C.at00.v = adjusted;
+        motion->unk_0C.at00.v = adjusted;
         if (velocity > 0x200000) {
             s32 limit = -0x200000;
             if (adjusted > 0) {
                 limit = 0x200000;
             }
-            ((MovingMotion *)motion)->unk_0C.at00.v = limit;
+            motion->unk_0C.at00.v = limit;
         }
     }
         {
             s32 position;
             s32 adjusted;
-            velocity = ((MovingMotion *)motion)->unk_10.at00.v;
-            position = (*(s32 *)(motion + 4));
+            velocity = motion->unk_10.at00.v;
+            position = motion->unk_04.at00.v;
             position += velocity;
-            (*(s32 *)(motion + 4)) = position;
-            adjusted = ((MovingMotion *)motion)->unk_10.at00.v;
+            motion->unk_04.at00.v = position;
+            adjusted = motion->unk_10.at00.v;
             position = adjusted >> 4;
             adjusted += position;
             velocity = abs(adjusted);
-            ((MovingMotion *)motion)->unk_10.at00.v = adjusted;
+            motion->unk_10.at00.v = adjusted;
             if (velocity > 0x200000) {
                 s32 limit = -0x200000;
                 if (adjusted > 0) {
                     limit = 0x200000;
                 }
-                ((MovingMotion *)motion)->unk_10.at00.v = limit;
+                motion->unk_10.at00.v = limit;
             }
         }
         {
@@ -191,21 +191,21 @@ void follow_brighten(u8 *self, u8 *motion, MovingSprite *part)
             ((MovingEffectState *)self)->unk_30.at00.v = height + height_step;
         }
         {
-            s32 height = ((MovingMotion *)motion)->unk_08.at00.v;
+            s32 height = motion->unk_08.at00.v;
             s32 height_step = (((s32)((MovingEffectState *)self)->unk_10.s << 16) - height) >> 4;
-            ((MovingMotion *)motion)->unk_08.at00.v = height + height_step;
+            motion->unk_08.at00.v = height + height_step;
         }
-        ((MovingMotion *)motion)->unk_08.at00.v += rsin((s32)((MovingEffectState *)self)->unk_18.s
+        motion->unk_08.at00.v += rsin((s32)((MovingEffectState *)self)->unk_18.s
             << 7) << 6;
         create_effect_from_endpoints(motion, part);
         {
-            s32 x = ((MovingMotion *)motion)->unk_00.at02u.v;
+            s32 x = motion->unk_00.at02u.v;
             if (x < 0) {
                 x += 63;
             }
             ((MovingEffectState *)self)->unk_1C.at02.v = x >> 6;
             {
-                s32 y = ((MovingMotion *)motion)->unk_04.at02u.v;
+                s32 y = motion->unk_04.at02u.v;
                 if (y < 0) {
                     y += 63;
                 }
@@ -222,12 +222,12 @@ void follow_brighten(u8 *self, u8 *motion, MovingSprite *part)
                 s32 snap_y;
                 snap_x <<= 6;
                 snap_x += 32;
-                ((MovingMotion *)motion)->unk_00.at02.v = snap_x;
+                motion->unk_00.at02.v = snap_x;
                 snap_y = ((MovingActor *)owner)->unk_70.at03.v;
                 snap_y <<= 6;
                 snap_y += 32;
-                ((MovingMotion *)motion)->unk_04.at02.v = snap_y;
-                ((MovingMotion *)motion)->unk_08.at02.v = ((MovingEffectState *)self)->unk_10.u;
+                motion->unk_04.at02.v = snap_y;
+                motion->unk_08.at02.v = ((MovingEffectState *)self)->unk_10.u;
                 create_effect_from_endpoints(motion, part);
                 {
                     u8 *target = ((MovingActor *)owner)->unk_60.p;
@@ -261,12 +261,12 @@ void follow_brighten(u8 *self, u8 *motion, MovingSprite *part)
         break;
 
     case 3:
-        ratan2(((MovingMotion *)motion)->unk_0C.at02.v,
-            ((MovingMotion *)motion)->unk_10.at02.v);
+        ratan2(motion->unk_0C.at02.v,
+            motion->unk_10.at02.v);
         ((MovingEffectState *)self)->unk_2C.i =
-            create_effect_object_groups(((MovingMotion *)motion)->unk_00.at02u.v,
-                ((MovingMotion *)motion)->unk_04.at02u.v,
-                          ((MovingMotion *)motion)->unk_08.at02u.v);
+            create_effect_object_groups(motion->unk_00.at02u.v,
+                motion->unk_04.at02u.v,
+                          motion->unk_08.at02u.v);
         if (((MovingEffectState *)self)->unk_2C.i == 0) {
             break;
         }
@@ -291,13 +291,13 @@ void follow_brighten(u8 *self, u8 *motion, MovingSprite *part)
         break;
 
     case 16:
-        ((MovingMotion *)motion)->unk_00.at00.v += ((MovingMotion *)motion)->unk_0C.at00.v;
-        ((MovingMotion *)motion)->unk_04.at00.v += ((MovingMotion *)motion)->unk_10.at00.v;
+        motion->unk_00.at00.v += motion->unk_0C.at00.v;
+        motion->unk_04.at00.v += motion->unk_10.at00.v;
         {
             s32 height_step = ((s32)((MovingEffectState *)self)->unk_10.s << 16) -
-                        ((MovingMotion *)motion)->unk_08.at00.v;
+                        motion->unk_08.at00.v;
             height_step >>= 4;
-            ((MovingMotion *)motion)->unk_08.at00.v += height_step;
+            motion->unk_08.at00.v += height_step;
         }
         part->color.at00u.v -= part->color.at00u.v >> 1;
         part->color.at01.v -= part->color.at01.v >> 1;

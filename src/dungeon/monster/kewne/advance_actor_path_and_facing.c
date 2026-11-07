@@ -66,7 +66,7 @@ void advance_actor_path_and_facing(ActorRecord *body, ObjectPosition *unused, Sp
         old_x, old_y, sprite->tile_x, sprite->tile_y,
         &path_actor->action_state_flags);
     actor->flags1C |= 0x40000000;
-    body->action_id.u = 0xF;
+    body->action_id = 0xF;
     body->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {

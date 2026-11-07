@@ -39,7 +39,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
     DungeonGlobalStatus *global_base;
     s32 state;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0xE000)) {
@@ -58,7 +58,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
 
             counter_base->unk_0A--;
         }
-        body->action_phase.u++;
+        body->action_phase++;
         break;
     case 1:
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
@@ -74,7 +74,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
         {
             S_80173DD4_3 *counter_base = (S_80173DD4_3 *)&g_dungeon_status.turn_scale;
 
-            body->action_phase.u++;
+            body->action_phase++;
             counter_base->unk_0A++;
         }
         break;
@@ -162,7 +162,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
         {
             S_80173DD4_3 *counter_base = (S_80173DD4_3 *)&g_dungeon_status.turn_scale;
 
-            body->action_phase.u++;
+            body->action_phase++;
             counter_base->unk_0A++;
         }
         break;

@@ -771,44 +771,40 @@ void advance_record_counter(CountdownRecord *record)
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_80025398_0 {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
+typedef struct {
+    u8 bytes[12];
+} __attribute__((packed)) Copy12;
+
+typedef struct ParticleState {
+    s16 phase;
+    s16 end_frame;
+    s16 frame;
     u8 pad_06[0x4];
-    s16 unk_0A;
-    u8 pad_0C[0x28];
-    void * unk_34;
+    s16 peak_frame;
+    u8 pad_0C[0xE];
+    Copy12 anim;
+    u8 pad_26[0x2];
+    void *parent;
+    void *target;
+    void *source;
+    void *flash_state;
     u8 pad_38[0x60];
-    u16 unk_98;
+    u16 rotation_angle;
     s16 unk_9A;
-} S_80025398_0;   /* arg0 in process_five_context_entries_or_fallback */
+} ParticleState;
 
-typedef struct S_80025398_1 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80025398_1;   /* out in process_five_context_entries_or_fallback */
-
-typedef struct S_80025398_2 {
+typedef struct CursorView {
     u8 pad_00[0x38];
-    s8 unk_38;
-} S_80025398_2;   /* cursor in process_five_context_entries_or_fallback */
+    u8 unk_38;
+} CursorView;
 
 /* Update the effect's fade and rotation, draw it, and flag completion at its final frame. */
-void process_five_context_entries_or_fallback(void *effect, void *unused, void *primitive)
+void process_five_context_entries_or_fallback(void *effect, void *unused, SpriteFrameState *output)
 {
     PackedVector source;
     PackedVector *source_ptr;
     PackedVector *render_source;
     Pair16 *derived_ptr;
-    S_80025398_1 *output = primitive;
     Pair16 derived;
     s32 frame;
     s32 peak_frame;
@@ -829,58 +825,58 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
 
     source_ptr = (PackedVector *)(&wave_texture_rect);
     source = *source_ptr;
-    frame = ((S_80025398_0 *)effect)->unk_04;
-    peak_frame = ((S_80025398_0 *)effect)->unk_0A;
+    frame = ((ParticleState *)effect)->frame;
+    peak_frame = ((ParticleState *)effect)->peak_frame;
     wave_effect_update_flag = 1;
 
     if (frame < peak_frame) {
         fade_in = (frame << 7) / peak_frame;
-        output->unk_1C += 0x50;
-        output->unk_1E += 0x50;
-        output->unk_0E = fade_in;
-        output->unk_0D = fade_in;
-        output->unk_0C = fade_in;
+        output->scale_x += 0x50;
+        output->scale_y += 0x50;
+        output->color.c.b = fade_in;
+        output->color.c.g = fade_in;
+        output->color.c.r = fade_in;
     } else {
-        end_frame = ((S_80025398_0 *)effect)->unk_02;
+        end_frame = ((ParticleState *)effect)->end_frame;
         fade_out = ((end_frame - frame) << 7) / (end_frame - peak_frame);
-        vertex_x = output->unk_1C;
-        vertex_y = output->unk_1E;
+        vertex_x = output->scale_x;
+        vertex_y = output->scale_y;
         vertex_x += 0x50;
         vertex_y += 0x50;
-        output->unk_1C = vertex_x;
-        output->unk_1E = vertex_y;
-        output->unk_0E = fade_out;
-        output->unk_0D = fade_out;
-        output->unk_0C = fade_out;
+        output->scale_x = vertex_x;
+        output->scale_y = vertex_y;
+        output->color.c.b = fade_out;
+        output->color.c.g = fade_out;
+        output->color.c.r = fade_out;
     }
 
-    angle = ((S_80025398_0 *)effect)->unk_98;
+    angle = ((ParticleState *)effect)->rotation_angle;
     next_angle = angle - 0x28;
-    ((S_80025398_0 *)effect)->unk_98 = next_angle;
+    ((ParticleState *)effect)->rotation_angle = next_angle;
     if ((s16)next_angle < 0) {
-        ((S_80025398_0 *)effect)->unk_98 = angle + 0xFD8;
+        ((ParticleState *)effect)->rotation_angle = angle + 0xFD8;
     }
 
     shade_index = 0x5F;
-    if (((S_80025398_0 *)effect)->unk_04 < 0x32) {
+    if (((ParticleState *)effect)->frame < 0x32) {
         fill_shade = 0x46;
         shade_cursor = (u8 *)effect + 0x5F;
         do {
-            ((S_80025398_2 *)shade_cursor)->unk_38 = fill_shade;
+            ((CursorView *)shade_cursor)->unk_38 = fill_shade;
             shade_index--;
             shade_cursor = (u8 *)shade_cursor - 1;
         } while (shade_index >= 0);
-        state = ((S_80025398_0 *)effect)->unk_00;
-        ((S_80025398_0 *)effect)->unk_9A = 0x64;
+        state = ((ParticleState *)effect)->phase;
+        ((ParticleState *)effect)->unk_9A = 0x64;
     } else {
-        state = ((S_80025398_0 *)effect)->unk_00;
-        ((S_80025398_0 *)effect)->unk_9A = 0x64;
+        state = ((ParticleState *)effect)->phase;
+        ((ParticleState *)effect)->unk_9A = 0x64;
     }
-    next_state = (u16)((S_80025398_0 *)effect)->unk_00 + 1;
+    next_state = (u16)((ParticleState *)effect)->phase + 1;
     switch (state) {
     case 0:
-        ((S_80025398_0 *)effect)->unk_00 = next_state;
-        output->unk_14 &= 0xFF7F;
+        ((ParticleState *)effect)->phase = next_state;
+        output->flags &= 0xFF7F;
         break;
     case 1:
         break;
@@ -893,12 +889,12 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
     derived.x = source.x + ((s16)source.z >> 1);
     one = 1;
     derived.y = source.y + 0x3C;
-    move_linked_effect_along_path(effect, ((S_80025398_0 *)effect)->unk_34, render_source, derived_ptr, one, one);
+    move_linked_effect_along_path(effect, ((ParticleState *)effect)->flash_state, render_source, derived_ptr, one, one);
 
-    next_frame = (u16)((S_80025398_0 *)effect)->unk_04 + 1;
-    ((S_80025398_0 *)effect)->unk_04 = next_frame;
-    if (next_frame == ((S_80025398_0 *)effect)->unk_02) {
-        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+    next_frame = (u16)((ParticleState *)effect)->frame + 1;
+    ((ParticleState *)effect)->frame = next_frame;
+    if (next_frame == ((ParticleState *)effect)->end_frame) {
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -907,16 +903,8 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct Func818F9D8CState {
-    u16 unk0;
-    s16 limit;
-    s16 current;
-    u8 pad6[4];
-    s16 target;
-} Func818F9D8CState;
-
 /* Updates a grayscale fade, advances its progress, and flags completion. */
-void advance_grayscale_fade(Func818F9D8CState *state, s32 unused, u8 *out)
+void advance_grayscale_fade(ParticleState *state, s32 unused, SpriteFrameState *out)
 {
     s32 current;
     s32 target;
@@ -924,25 +912,25 @@ void advance_grayscale_fade(Func818F9D8CState *state, s32 unused, u8 *out)
     s16 intensity;
     s16 next_step;
 
-    current = state->current;
-    target = state->target;
+    current = state->frame;
+    target = state->peak_frame;
     wave_effect_update_flag = 1;
 
     if (current < target) {
         intensity = (current * 0x60) / target;
-        out[0xE] = intensity;
+        out->color.c.b = intensity;
     } else {
-        limit = state->limit;
+        limit = state->end_frame;
         intensity = ((limit - current) * 0x60) / (limit - target);
-        out[0xE] = intensity;
+        out->color.c.b = intensity;
     }
-    out[0xD] = intensity;
-    out[0xC] = intensity;
+    out->color.c.g = intensity;
+    out->color.c.r = intensity;
 
-    next_step = (u16)state->current + 1;
-    state->current = next_step;
-    if (next_step >= state->limit) {
-        ((u16 *)state)[-1] |= NODE_REMOVE;
+    next_step = (u16)state->frame + 1;
+    state->frame = next_step;
+    if (next_step >= state->end_frame) {
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -952,69 +940,52 @@ void advance_grayscale_fade(Func818F9D8CState *state, s32 unused, u8 *out)
 #include "shared/object_flags.h"
 #include "dungeon/effect/mesh/timed_wave_particle.h"
 
-typedef struct S_818F9E48_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_818F9E48_1;   /* effect in func_818F9E48 */
+struct ParentView;
+struct SelfChildView;
 
-typedef struct S_818F9E48_2_pre {
-    void * unk_00;
-    void * unk_04;
-    u8 pad_08[0x10];
-} S_818F9E48_2_pre;   /* the 0x18 bytes before owner in func_818F9E48, addressed as owner[-1] */
-
-typedef struct S_818F9E48_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818F9E48_3;   /* out in func_818F9E48 */
-
-typedef struct S_818F9E48_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818F9E48_4;   /* copy in func_818F9E48 */
-
-typedef struct S_818F9E48_5 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_818F9E48_5;   /* motion in func_818F9E48 */
-
-typedef struct S_818F9E48_6 {
-    u8 pad_00[0x9C];
+typedef struct ProjectileSelf {
+    struct ParentView *parent;
+    struct SelfChildView *owner_data;
+    u8 pad_08[0x1];
+    u8 unk_09;
+    u16 state;
+    u8 pad_0C[0x6C];
+    u16 target_y;
+    u8 flags;
+    u8 frames_left;
+    u8 pad_7C[0x2];
+    s16 direction;
+    u8 pad_80[0x2];
+    u16 timer;
+    u8 pad_84[0x4];
+    s16 frames_copy;
+    s16 frames_squared;
+    u8 pad_8C[0x4];
+    s16 shrinking;
+    s16 pulse_ticks;
+    s16 pulse_period;
+    u16 pulse_step;
+    u8 pad_98[0x4];
     s16 unk_9C;
-} S_818F9E48_6;   /* source in update_timed */
+    u8 pad_9E[0x4];
+    Copy12 copy12;
+    u8 pad_AE[0xC];
+    u8 tile_x;
+    u8 tile_y;
+} ProjectileSelf;
 
 /* Update a timed visual effect using its owner's appearance and position. */
-void update_timed(TimedWaveParticleBody *state, void *position_out, void *effect_arg_arg) {
-    S_818F9E48_1 *effect_arg = effect_arg_arg;
+void update_timed(TimedWaveParticleBody *state, void *position_out, SpriteFrameState *effect_arg_arg) {
+    SpriteFrameState *effect_arg = effect_arg_arg;
     PackedVector origin;
     Pair16 anchor;
     s32 level_index;
     u8 intensity;
     s16 frame_or_phase;
     u16 effect_flags;
-    S_818F9E48_2_pre *owner;
-    S_818F9E48_5 *motion;
-    S_818F9E48_4 *owner_position;
+    void *owner;
+    SpriteFrameState *motion;
+    ObjectPosition *owner_position;
     u16 saved_scale_x;
     u16 saved_scale_y;
     s32 one;
@@ -1043,35 +1014,35 @@ void update_timed(TimedWaveParticleBody *state, void *position_out, void *effect
     frame_or_phase = state->frame;
     if (frame_or_phase < 0x15) {
         intensity = (frame_or_phase * 6) - 0x79;
-        effect_arg->unk_0E = intensity;
-        effect_arg->unk_0D = intensity;
-        effect_arg->unk_0C = intensity;
+        effect_arg->color.c.b = intensity;
+        effect_arg->color.c.g = intensity;
+        effect_arg->color.c.r = intensity;
     } else if (frame_or_phase >= 0x50) {
         intensity = ((0x64 - frame_or_phase) * 6) - 0x80;
-        effect_arg->unk_0E = intensity;
-        effect_arg->unk_0D = intensity;
-        effect_arg->unk_0C = intensity;
+        effect_arg->color.c.b = intensity;
+        effect_arg->color.c.g = intensity;
+        effect_arg->color.c.r = intensity;
     }
 
     state->unk_9A += 4;
     owner = state->target;
-    owner_position = owner[-1].unk_00;
-    motion = owner[-1].unk_04;
-    ((S_818F9E48_3 *)position_out)->unk_00 = owner_position->unk_00;
-    ((S_818F9E48_3 *)position_out)->unk_04 = owner_position->unk_04;
-    ((S_818F9E48_3 *)position_out)->unk_08 = owner_position->unk_08;
+    owner_position = NODE_HEADER(owner)->position;
+    motion = NODE_HEADER(owner)->sprite;
+    ((ObjectPosition *)position_out)->x.v = owner_position->x.v;
+    ((ObjectPosition *)position_out)->y.v = owner_position->y.v;
+    ((ObjectPosition *)position_out)->z.v = owner_position->z.v;
 
     switch (state->mode) {
     case 0:
     state->mode = (u16) ((u16) state->mode + 1);
-    effect_flags = effect_arg->unk_14 & 0xFF7F;
-    effect_arg->unk_14 = effect_flags;
-    effect_arg->unk_14 = effect_flags | (motion->unk_14 & 0xC);
-    effect_arg->unk_10 = motion->unk_10;
-    effect_arg->unk_0C = motion->unk_0C;
-    effect_arg->unk_0D = motion->unk_0D;
-    effect_arg->unk_0E = motion->unk_0E;
-    motion->unk_14 |= 0x80;
+    effect_flags = effect_arg->flags & 0xFF7F;
+    effect_arg->flags = effect_flags;
+    effect_arg->flags = effect_flags | (motion->flags & 0xC);
+    effect_arg->tpage_abr = motion->tpage_abr;
+    effect_arg->color.c.r = motion->color.c.r;
+    effect_arg->color.c.g = motion->color.c.g;
+    effect_arg->color.c.b = motion->color.c.b;
+    motion->flags |= 0x80;
         break;
     case 1:
         break;
@@ -1081,23 +1052,23 @@ void update_timed(TimedWaveParticleBody *state, void *position_out, void *effect
     one = 1;
     anchor.x = origin.x + ((s16)origin.z >> 1);
     anchor.y = origin.y + 0x48;
-    saved_scale_x = motion->unk_1C;
-    saved_scale_y = motion->unk_1E;
-    effect_arg->unk_1C = saved_scale_x;
-    effect_arg->unk_1E = motion->unk_1E;
-    motion->unk_1E = 0x1000;
-    motion->unk_1C = 0x1000;
+    saved_scale_x = motion->scale_x;
+    saved_scale_y = motion->scale_y;
+    effect_arg->scale_x = saved_scale_x;
+    effect_arg->scale_y = motion->scale_y;
+    motion->scale_y = 0x1000;
+    motion->scale_x = 0x1000;
     move_linked_effect_along_path(state, state->target, &origin, &anchor, one, one);
-    motion->unk_1C = saved_scale_x;
-    motion->unk_1E = saved_scale_y;
+    motion->scale_x = saved_scale_x;
+    motion->scale_y = saved_scale_y;
 
     frame_or_phase = (u16) state->frame + 1;
     state->frame = frame_or_phase;
     if (frame_or_phase >= 0x65) {
         state->frame = 0;
         state->mode = (u16) ((u16) state->mode + 1);
-        motion->unk_14 &= 0xFF7F;
-        ((S_818F9E48_6 *)(state->source))->unk_9C = one;
+        motion->flags &= 0xFF7F;
+        state->source->unk_9C = one;
         NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -1113,10 +1084,6 @@ void update_timed(TimedWaveParticleBody *state, void *position_out, void *effect
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
-
-typedef struct {
-    u8 bytes[12];
-} __attribute__((packed)) Copy12;
 
 typedef struct Pair {
     s32 a;
@@ -1266,10 +1233,6 @@ typedef struct Obj2DataView {
     u16 unk_1E;
 } Obj2DataView;
 
-typedef struct CursorView {
-    u8 pad_00[0x38];
-    u8 unk_38;
-} CursorView;
 
 typedef struct TmpSrcView {
     u8 pad_00[0x1C];
@@ -1304,54 +1267,6 @@ typedef struct EffectObject {
     u8 pad_24[0x16];
     Copy12 anim;
 } EffectObject;
-
-typedef struct ParticleState {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u16 unk_04;
-    u8 pad_06[0x4];
-    u16 unk_0A;
-    u8 pad_0C[0xE];
-    Copy12 anim;
-    u8 pad_26[0x2];
-    void *parent;
-    void *target;
-    void *source;
-    void *flash_state;
-    u8 pad_38[0x62];
-    u16 unk_9A;
-} ParticleState;
-
-typedef struct ProjectileSelf {
-    ParentView *parent;
-    SelfChildView *owner_data;
-    u8 pad_08[0x1];
-    u8 unk_09;
-    u16 state;
-    u8 pad_0C[0x6C];
-    u16 target_y;
-    u8 flags;
-    u8 frames_left;
-    u8 pad_7C[0x2];
-    s16 direction;
-    u8 pad_80[0x2];
-    u16 timer;
-    u8 pad_84[0x4];
-    s16 frames_copy;
-    s16 frames_squared;
-    u8 pad_8C[0x4];
-    s16 shrinking;
-    s16 pulse_ticks;
-    s16 pulse_period;
-    u16 pulse_step;
-    u8 pad_98[0x4];
-    s16 unk_9C;
-    u8 pad_9E[0x4];
-    Copy12 copy12;
-    u8 pad_AE[0xC];
-    u8 tile_x;
-    u8 tile_y;
-} ProjectileSelf;
 
 /* Update a projectile effect, spawn impact particles, and advance its cleanup state. */
 void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView *render_data)
@@ -1597,9 +1512,9 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                     particle_state = (ParticleState *)((u8 *)impact + 0x20);
                     index = 95;
                     clear_cursor = (u8 *)particle_state + 95;
-                    particle_state->unk_02 = 0x50;
-                    particle_state->unk_0A = 0x14;
-                    particle_state->unk_04 = 0;
+                    particle_state->end_frame = 0x50;
+                    particle_state->peak_frame = 0x14;
+                    particle_state->frame = 0;
                     particle_state->parent = parent;
                     particle_state->target = parent->unk_60.p2;
                     particle_state->source = self;
@@ -1723,9 +1638,9 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             impact = allocate_flagged_object_node(0x212);
             if (impact != 0) {
                 particle_state = (ParticleState *)((u8 *)impact + 0x20);
-                particle_state->unk_02 = 20;
-                particle_state->unk_0A = 10;
-                particle_state->unk_04 = 0;
+                particle_state->end_frame = 20;
+                particle_state->peak_frame = 10;
+                particle_state->frame = 0;
                 impact->callback = advance_grayscale_fade;
                 register_node(impact, project_sprite_chain);
                 particle_data = impact->render;

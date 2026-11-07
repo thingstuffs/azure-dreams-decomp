@@ -49,7 +49,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
     ActorRecord *player;
 
     if (initial_flags & 0x1000) {
-        actor_in->action_id.u = 14;
+        actor_in->action_id = 14;
         func_80172384(actor_in, actor_data_in, sprite_in, status_in);
         return;
     }
@@ -72,8 +72,8 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
 
     if (status_in->flags1C & 0x200) {
         if (*(u8 **)&sprite_in->frameTable == blume_direction_frames_2) {
-            actor_in->action_id.u = 13;
-            actor_in->action_phase.u = 1;
+            actor_in->action_id = 13;
+            actor_in->action_phase = 1;
             actor_in->unk_8C.word = 0;
             status_in->flags1C &= ~0x40000;
             return;
@@ -90,7 +90,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
         }
 
         {
-            u8 current_state = actor_in->action_id.u;
+            u8 current_state = actor_in->action_id;
             u32 next_state = 14;
 
             if (current_state != next_state) {
@@ -102,7 +102,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + status_in->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                actor_in->action_id.u = next_state;
+                actor_in->action_id = next_state;
             }
         }
 
@@ -183,7 +183,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             player = primary_actor_record;
             status_in->facing = facing;
-            if (player->action_id.u == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(actor_in, actor_data_in, sprite_in, D_801753F4, update_actor_dungeon_behavior_and_animation);
                 return;
             }

@@ -56,7 +56,7 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
         tile_state->frameTable = &beldo_frame_set_1;
         entity_state->unk_9E.s = 0;
         initialize_actor_sprite_and_animation(entity, world_state, tile_state, entity_id);
-        entity_state->action_id.u = 0xFF;
+        entity_state->action_id = 0xFF;
         entity_state->unk_9C = -1;
         entity_state->unk_8C.handler = &update_object_animation;
         entity_state->flags1C = (s32) (entity_state->flags1C | 0x40000);

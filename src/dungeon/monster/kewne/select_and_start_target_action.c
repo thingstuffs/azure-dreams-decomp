@@ -71,13 +71,13 @@ s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *ac
         {
             u8 new_action;
             s32 selected_mode = action_mode;
-            action_state->action_phase.u = 0;
+            action_state->action_phase = 0;
             if (selected_mode == 1) {
                 action_state->unk_8C.run = 0;
                 visual_data->frameTable = D_80175E50;
                 new_action = 0x11;
                 action_state->action_state_flags |= 8;
-                action_state->action_id.u = new_action;
+                action_state->action_id = new_action;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
             } else if (selected_mode == 2) {
@@ -85,13 +85,13 @@ s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *ac
                 visual_data->frameTable = kewne_frame_set_3;
                 new_action = 0x17;
                 action_state->action_state_flags |= 8;
-                action_state->action_id.u = new_action;
+                action_state->action_id = new_action;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
             } else {
                 action_state->unk_8C.run = 0;
                 visual_data->frameTable = kewne_frame_set;
-                action_state->action_id.u = 0x18;
+                action_state->action_id = 0x18;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
                 actor->flags1C &= 0xFFFBFFFF;

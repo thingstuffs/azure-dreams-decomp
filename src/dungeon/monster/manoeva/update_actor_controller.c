@@ -17,13 +17,12 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/manoeva_frames.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
+#include "dungeon/monster/grineut/path_motion.h"
 extern void select_sprite_entry(void *, u8, s32);
 extern s8 find_active_rect_containing_point(u8, u8);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 
-extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern void func_801737B8(void *, void *, void *, void *);
 void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);
 
@@ -45,7 +44,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
     ActorRecord *target_actor;
 
     if (dungeon_flags & 0x1000) {
-        actor_state_in->action_id.u = 14;
+        actor_state_in->action_id = 14;
         advance_stored_path_motion(actor_state_in, update_context_in, map_object, actor_data);
         return;
     }
@@ -65,8 +64,8 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
 
     if (((u32)actor_data->flags1C) & 0x200) {
         if (*(u8 **)&map_object->frameTable == D_80176650) {
-            actor_state_in->action_id.u = 13;
-            actor_state_in->action_phase.u = 1;
+            actor_state_in->action_id = 13;
+            actor_state_in->action_phase = 1;
             actor_state_in->unk_8C.word = 0;
             actor_data->flags1C &= ~0x40000;
             return;
@@ -84,7 +83,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
 
         {
             u8 default_state = 14;
-            if (actor_state_in->action_id.u != default_state) {
+            if (actor_state_in->action_id != default_state) {
                 if (*(u8 **)&map_object->frameTable != manoeva_frame_set_1) {
                     (map_object->frameTable) = manoeva_frame_set_1;
                     select_sprite_entry(
@@ -92,7 +91,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
                         manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                actor_state_in->action_id.u = default_state;
+                actor_state_in->action_id = default_state;
             }
         }
 
@@ -180,7 +179,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             target_actor = primary_actor_record;
             actor_data->facing = facing_angle;
-            if (target_actor->action_id.u == 0x11) {
+            if (target_actor->action_id == 0x11) {
                 begin_actor_spell_action(actor_state_in, update_context_in, map_object, D_80176660, manoeva_action_resume_address);
                 return;
             }

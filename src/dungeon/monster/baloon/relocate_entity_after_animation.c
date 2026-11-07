@@ -48,13 +48,13 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
     u8 old_y;
     u8 *animations;
 
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 7;
+            body->action_phase = 7;
             sprite->flags |= 0x6000;
             return;
         }
@@ -65,7 +65,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         ((ActorRecord *)object)->flags1C &= ~0x40000;
         body->unk_A0.value = 0;
         body->unk_90.parts.high.u -= 8;
-        body->action_phase.u++;
+        body->action_phase++;
         body->unk_B4.halves.high.u =
             position->z.unsigned_parts.integer + body->unk_90.parts.high.u;
         return;
@@ -76,7 +76,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
             D_800E23B8[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 2:
@@ -88,7 +88,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
             D_800E23C0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 3:
@@ -96,7 +96,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
             return;
         }
         body->action_timer.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 4:
@@ -105,7 +105,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         }
         particle_index = 0;
         body->action_timer.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         position->velocity_z = 0;
         body->unk_AC.value = 0;
         do {
@@ -157,14 +157,14 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
             return;
         }
         body->action_timer.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 6:
         position->z.unsigned_parts.integer = body->unk_B4.halves.high.u;
 
         body->action_timer.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 7:

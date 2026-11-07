@@ -51,7 +51,7 @@ void update_actor_facing_and_floor_contact(ActorRecord *body, ObjectPosition *mo
     }
 
     if ((u32)(body->flags14) & 0x00800000) {
-        if (body->action_id.u != 0x17) {
+        if (body->action_id != 0x17) {
             body->flags14 = (u32)((u32)body->flags14 & (0xFF7FFFFF));
             start_direction_based_action(body, motion, sprite, body);
         }
@@ -62,7 +62,7 @@ void update_actor_facing_and_floor_contact(ActorRecord *body, ObjectPosition *mo
         callback(body, motion, sprite, actor);
     }
 
-    barong_callbacks[body->action_id.u](body, motion, sprite, actor);
+    barong_callbacks[body->action_id](body, motion, sprite, actor);
 
     if ((s16)direction != actor->pending_turn_updates) {
         try_move_actor_to_valid_position(body, motion, sprite, actor);

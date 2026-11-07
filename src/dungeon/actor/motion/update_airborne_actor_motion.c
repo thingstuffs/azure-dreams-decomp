@@ -1,6 +1,7 @@
 
 struct ObjectPosition;
 #include "common.h"
+#include "slus.h"
 #include "dungeon/actor/motion.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -37,7 +38,6 @@ typedef struct S_800974DC_6 {
     s32 unk_0C;
 } S_800974DC_6;
 
-void select_record_entry_and_value(void *state, void *entries, short index);
 extern void *actor_default_frames[];
 extern u8 actor_alternate_frames[8];
 
@@ -49,7 +49,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
     u8 phase;
     EntityRec *linked_object;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     case 0:
         select_nearby_target_and_initialize_slot(NODE_HEADER(actor), motion, 8, 0x300);
@@ -63,7 +63,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         motion->velocity_y = (s32) (dir_y << 0x11);
         body->action_timer.u = 3U;
         body->action_state_flags = (u16) (body->action_state_flags & 0xFFF7);
-        body->action_phase.u = (u8) (body->action_phase.u + 1);
+        body->action_phase = (u8) (body->action_phase + 1);
         return;
     case 1:
         if (sprite->flags & 0x8000) {
@@ -89,7 +89,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
                 sprite->frameTable = actor_default_frames;
                 select_record_entry_and_value(sprite, *(void **)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
                     + 0x100) >> 7) & 0x1C)), 0);
-                body->action_phase.u = (u8) (body->action_phase.u + 1);
+                body->action_phase = (u8) (body->action_phase + 1);
             }
         }
     case 2:
@@ -105,7 +105,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         sprite->frameTable = actor_default_frames;
         select_record_entry_and_value(sprite, *(void **)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
-        body->action_phase.u = 3U;
+        body->action_phase = 3U;
         return;
     case 3:
     {
@@ -123,7 +123,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         coord = motion->y.w.i - 0x20;
         delta = ((u32)sprite->tile_y << 6) - (u32)coord;
         motion->velocity_y = (s32)(delta * 0x10000U) / (s16) body->action_timer.u;
-        body->action_phase.u = (u8) (body->action_phase.u + 1);
+        body->action_phase = (u8) (body->action_phase + 1);
         return;
     }
     case 4:

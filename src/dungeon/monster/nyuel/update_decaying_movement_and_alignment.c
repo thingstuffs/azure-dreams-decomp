@@ -17,14 +17,14 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
     s16 timer;
     s32 tracked_actor;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor_data);
         motion->velocity_x =
             dir_step_x[(actor_data->movement_facing >> 9) & 7] << 19;
         motion->velocity_y =
             dir_step_y[(actor_data->movement_facing >> 9) & 7] << 19;
-        action->action_phase.u++;
+        action->action_phase++;
 
         if (actor_data->hp == 0) {
             motion->velocity_z = 0;
@@ -35,7 +35,7 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
         }
         if (tile_state->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.s = 2;
+            action->action_phase = 2;
             return;
         }
         if (actor_data->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -65,7 +65,7 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
         }
         if (actor_data->hp != 0) {
             action->action_timer.s = 8;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
         motion->velocity_z = 0;

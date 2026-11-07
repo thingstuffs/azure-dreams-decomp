@@ -45,13 +45,13 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, ObjectPositio
     void *init_obj;
     s32 angle;
 
-    state = actor->action_phase.u;
+    state = actor->action_phase;
     switch (state) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        actor->action_phase.u = 1;
+        actor->action_phase = 1;
     case 1:
         if (actor_data->unk_49 != 0) {
             spawned_obj = allocate_flagged_object_node(0x12);
@@ -99,7 +99,7 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, ObjectPositio
         actor_data->flags1C |= 0x10000000;
         render->color.word = 0x808080;
         actor->action_timer.s = 0x10;
-        actor->action_phase.u++;
+        actor->action_phase++;
         play_sound_if_enabled(0x805);
         return;
     case 2:

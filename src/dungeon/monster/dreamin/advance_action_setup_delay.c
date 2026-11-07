@@ -22,11 +22,11 @@ void advance_action_setup_delay(ActorRecord *body, ObjectPosition *motion, Sprit
     s32 loaded_phase;
     u16 delay_ticks;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     case 0:
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 2;
+            body->action_phase = 2;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -39,9 +39,9 @@ void advance_action_setup_delay(ActorRecord *body, ObjectPosition *motion, Sprit
         select_sprite_entry(sprite,
             D_80173894[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        loaded_phase = body->action_phase.u;
+        loaded_phase = body->action_phase;
         body->action_timer.u = 0;
-        body->action_phase.u = loaded_phase + 1;
+        body->action_phase = loaded_phase + 1;
         return;
 
     case 1:
@@ -52,9 +52,9 @@ void advance_action_setup_delay(ActorRecord *body, ObjectPosition *motion, Sprit
         }
         play_sound_if_enabled(0x808);
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-        loaded_phase = body->action_phase.u;
+        loaded_phase = body->action_phase;
 
-        body->action_phase.u = loaded_phase + 1;
+        body->action_phase = loaded_phase + 1;
         return;
 
     case 2:

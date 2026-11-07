@@ -69,8 +69,8 @@ s32 begin_front_tile_attack(ActorRecord *body, ObjectPosition *unused, void *pos
     } else {
         entity->unk_60 = NULL;
     }
-    body->action_id.s = 0x11;
-    body->action_phase.s = 0;
+    body->action_id = 0x11;
+    body->action_phase = 0;
     body->unk_8C.word = 0;
     g_dungeon_status.active_actor = entity;
     body->unk_A4.halves.high.s = 0;

@@ -30,7 +30,7 @@ s32 update_boss_action_result(ActorRecord *body, ObjectPosition *position, Sprit
 
     switch (action_result) {
     case 0:
-        body->action_id.u = 14;
+        body->action_id = 14;
         update_actor_status_and_mp(entity_data);
         return 0;
 

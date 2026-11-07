@@ -40,7 +40,7 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
     S_80172798_5 *scratch_pointer;
 
     special = 0;
-    selection = (u8 *)(body->action_phase.u);
+    selection = (u8 *)(body->action_phase);
     switch ((u8)selection) {
     case 0:
         if ((((u32)actor->flags1C)) & ACTOR_PLAYER_SIDE) {
@@ -125,7 +125,7 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
                 return;
             }
             create_actor_linked_effect(actor);
-            body->action_phase.u++;
+            body->action_phase++;
             return;
         }
             motion->velocity_z = 0;
@@ -148,7 +148,7 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
             return;
         }
         sprite->flags &= 0xF7FF;
-        body->action_phase.u++;
+        body->action_phase++;
 
     case 2:
         if ((sprite->unk_04 == 7 &&

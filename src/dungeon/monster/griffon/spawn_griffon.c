@@ -87,7 +87,7 @@ void *spawn_griffon_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         }
         call_a1 = obj;
         initialize_actor_sprite_and_animation(call_a1, part_a, part_b, flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &griffon_slot_f_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

@@ -245,8 +245,7 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
 void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
 void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+#include "dungeon/monster/dragon/transition_effect.h"
 s32 dispatch_actor_path_state_and_relink_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void finish_actor_tile_move_and_check_trap(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void complete_actor_jump_to_destination(struct ActorRecord *jump, ObjectPosition *motion, void *map_entity, void *actor);

@@ -22,7 +22,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
     u16 settle_ticks;
     u8 phase;
 
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         action->action_state_flags = (u16) (action->action_state_flags | 8);
@@ -30,7 +30,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         if (sprite->flags & 0x8000) {
-            action->action_phase.u = 5U;
+            action->action_phase = 5U;
             action->action_timer.u = 0U;
             sprite->flags = (u16) (sprite->flags
                 | 0x6000);
@@ -39,7 +39,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         }
         motion->velocity_x = (s32) (dir_step_x[((u16)actor->facing >> 9) & 7] << 0x14);
         motion->velocity_y = (s32) (dir_step_y[((u16)actor->facing >> 9) & 7] << 0x14);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     case 1:
         motion->velocity_x = (s32) ((s32) motion->velocity_x >> 1);
@@ -50,7 +50,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         sprite->frameTable = &nyuel_frame_set_9;
         select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7) + (u32)&nyuel_frame_set_9), 0);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     case 2:
         motion->velocity_x = (s32) ((s32) motion->velocity_x >> 1);
@@ -62,7 +62,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         sprite->frameTable = &nyuel_frame_set_10;
         select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7) + (u32)&nyuel_frame_set_10), 0);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     case 3:
         if (sprite->unk_04 == 2) {
@@ -72,7 +72,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
                     u16 move_duration = 6;
                     action->action_timer.u = move_duration;
                 }
-                action->action_phase.u++;
+                action->action_phase++;
                 return;
             }
         }
@@ -83,7 +83,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
             + &nyuel_frame_set_4), 0);
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-        action->action_phase.u = 5U;
+        action->action_phase = 5U;
         action->action_timer.u = 0;
         return;
     case 4:
@@ -111,7 +111,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         sprite->frameTable = &nyuel_frame_set_4;
         select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7) + (u32)&nyuel_frame_set_4), 0);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     case 5:
         settle_ticks = action->action_timer.u - 1;

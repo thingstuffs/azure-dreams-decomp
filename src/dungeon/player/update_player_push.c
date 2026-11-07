@@ -49,7 +49,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
     ActorRecord *attachment;
     s32 *move_state;
 
-    action_state = actor->action_phase.u;
+    action_state = actor->action_phase;
     switch (action_state) {
     case 0:
         if (sprite->flags & 0xE000) {
@@ -88,14 +88,14 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
         attachment->flags1C = (s32) (attachment->flags1C | 0x100);
         ((ActorRecord *)(((PlayerRecord *)actor)->unk_124))->movement_facing = (u16) model->facing;
         ((ActorRecord *)(((PlayerRecord *)actor)->unk_124))->target = model;
-        actor->action_phase.u = (u8) (actor->action_phase.u + 1);
+        actor->action_phase = (u8) (actor->action_phase + 1);
         return;
     case 17:
         if (sprite->flags & 0xE000) {
             sprite->frameTable = D_800DD020;
             set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100)
                 >> 9) & 7) + D_800DD020), 0, 1);
-            actor->action_phase.u = (u8) (actor->action_phase.u + 1);
+            actor->action_phase = (u8) (actor->action_phase + 1);
         }
     case 18:
         move_state = &g_dungeon_status.turn_scale;
@@ -141,7 +141,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
         set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7)
             + player_push_loop_frames), 0, 1);
         actor->action_timer.u = 2U;
-        actor->action_phase.u = 0x13U;
+        actor->action_phase = 0x13U;
         return;
     case 19:
         settle_frames = (s16) actor->action_timer.u;

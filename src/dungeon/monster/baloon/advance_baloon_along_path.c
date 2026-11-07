@@ -69,7 +69,7 @@ void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, Spri
             initialize_angle_indexed_target(body, position, sprite, actor);
             body->unk_8C.word = 0;
         } else {
-            body->action_id.s = 0xF;
+            body->action_id = 0xF;
             body->unk_8C.word = 0;
         }
 

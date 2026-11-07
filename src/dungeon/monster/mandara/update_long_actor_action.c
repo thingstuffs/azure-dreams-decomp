@@ -71,7 +71,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
     s8 result;
 
     if (initial_flags & 0x1000) {
-        self_object->action_id.u = 0xE;
+        self_object->action_id = 0xE;
         advance_stored_entity_path(self_object, aux_entity, sprite, entity);
         return;
     }
@@ -102,8 +102,8 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
 
     if (((u32)entity->flags1C) & 0x200) {
         if (sprite->frameTable == mandara_frame_set_1) {
-            self_object->action_id.u = 0xD;
-            self_object->action_phase.u = 1;
+            self_object->action_id = 0xD;
+            self_object->action_phase = 1;
             self_object->unk_8C.word = 0;
             entity->flags1C &= ~0x40000;
             return;
@@ -121,7 +121,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
 
         {
             u32 state;
-            u32 current_state = self_object->action_id.u;
+            u32 current_state = self_object->action_id;
             state = 0xE;
             if (current_state != state) {
                 if (sprite->frameTable != mandara_direction_frames) {
@@ -130,7 +130,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                         mandara_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                self_object->action_id.u = state;
+                self_object->action_id = state;
             }
         }
 
@@ -373,7 +373,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                 &scratch);
             status_object = primary_actor_record;
             entity->facing = next_position;
-            if (status_object->action_id.u == 0x11) {
+            if (status_object->action_id == 0x11) {
                 begin_actor_spell_action(self_object, aux_entity, sprite, D_80175290, update_long_actor_action);
                 return;
             }

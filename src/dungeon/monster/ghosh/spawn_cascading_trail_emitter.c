@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "slus.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -13,7 +14,6 @@
 struct Dst;
 struct Elem;
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 /* Create an effect at the source position and play its sound. */
 void spawn_cascading_trail_emitter(void) {

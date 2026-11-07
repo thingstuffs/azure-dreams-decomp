@@ -15,12 +15,12 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
     s16 delay;
     s32 tracked_actor;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor_data);
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        action->action_phase.u++;
+        action->action_phase++;
 
         if (actor_data->hp == 0) {
             motion->velocity_z = 0;
@@ -31,7 +31,7 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
         }
         if (action_info->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.s = 2;
+            action->action_phase = 2;
             return;
         }
         if (actor_data->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -61,7 +61,7 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
             return;
         } else {
             action->action_timer.s = 2;
-            action->action_phase.u++;
+            action->action_phase++;
         }
         return;
 

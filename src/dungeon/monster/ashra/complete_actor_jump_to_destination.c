@@ -40,7 +40,7 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
     s32 actor_flags;
     s32 state;
 
-    state = jump->action_phase.u;
+    state = jump->action_phase;
     switch (state) {
     case 0:
         if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
@@ -55,7 +55,7 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
         motion->velocity_z = 0xFFEE0000;
         ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172258_0 *)jump)->unk_A8 = 0;
-        jump->action_phase.u++;
+        jump->action_phase++;
 
     case 1:
         frames_left = jump->action_timer.s;
@@ -82,7 +82,7 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;
             ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
-            jump->action_phase.u++;
+            jump->action_phase++;
         }
 
     case 2:
@@ -97,7 +97,7 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
                 sprite,
                 ashra_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            jump->action_phase.u++;
+            jump->action_phase++;
         }
     default:
         break;

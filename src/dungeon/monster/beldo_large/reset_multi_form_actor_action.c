@@ -10,7 +10,7 @@ void reset_multi_form_actor_action(void) {
     ActorRecord *state;
 
     state = beldo_actor_nodes[0] + 0x20;
-    state->action_id.s = 0;
-    state->action_phase.s = 0;
+    state->action_id = 0;
+    state->action_phase = 0;
     state->action_timer.s = 0;
 }

@@ -69,7 +69,7 @@ void update_entity_movement_and_ground_height(ActorRecord *body, ObjectPosition 
             update_callback(body, motion, sprite, body);
         }
     }
-    D_801746A0[body->action_id.u](body, motion, sprite, body);
+    D_801746A0[body->action_id](body, motion, sprite, body);
     {
         s32 state_compare;
 

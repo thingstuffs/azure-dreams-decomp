@@ -16,8 +16,8 @@ void begin_wake_nearby_monsters(ActorRecord *state_ptr, void *value, u8 *target_
     u8 *table;
 
     flags = state_ptr->unk_A0.parts.high;
-    state_ptr->action_id.s = 0x24;
-    state_ptr->action_phase.s = 0;
+    state_ptr->action_id = 0x24;
+    state_ptr->action_phase = 0;
     state_ptr->unk_8C.address = NULL;
     state_ptr->unk_A0.parts.high = flags & 0xFEFF;
     clear_player_linked_action_flags();

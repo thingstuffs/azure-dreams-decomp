@@ -1,4 +1,6 @@
 #include "shared/audio_commands.h"
+#include "sdk/abs.h"
+#include "sdk/rand.h"
 /* Dungeon tile actions, map boundary updates, actor transitions, and linked particle effects. */
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_7ce800.h"
@@ -825,7 +827,6 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s32 rand(void);
 
 typedef struct S807AF9A4 {
     u8 unk00[8];
@@ -972,7 +973,6 @@ void converge_particle_position_and_color(void *transition_arg, ObjectPosition *
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-s32 rand(void);                                /* extern */
 extern M2C_UNK view_marker_sprite_data;
 
 
@@ -1207,7 +1207,6 @@ void advance_reverse_direction_particle(void *motion_data, s16 *position) {
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800F7A38 */
 
-s32 rand(void);                                /* extern */
 extern M2C_UNK view_marker_sprite_data;
 
 typedef struct S_807B0238_2 {
@@ -1293,7 +1292,6 @@ void finish_active_object_action(void) {
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
-extern int abs(int);
 
 typedef struct S_807B040C_1 {
     u8 pad_00[0x1C];
@@ -1553,7 +1551,7 @@ void reset_active_object_action(void) {
 
     state = active_action_object + 0x20;
     state->action_timer.s = 0;
-    state->action_phase.s = 0;
+    state->action_phase = 0;
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
@@ -1586,7 +1584,6 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
 #define NULL 0
 #endif
 
-s32 rand(void);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800DEED0;
 

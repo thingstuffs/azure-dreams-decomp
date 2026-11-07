@@ -41,7 +41,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
     ObjectNodeHeader *scratch_pointer;
 
     is_special = 0;
-    item_slot = (u8 *)(body->action_phase.u);
+    item_slot = (u8 *)(body->action_phase);
     switch ((u8)item_slot) {
     case 0:
         if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
@@ -135,7 +135,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
                 return;
             }
             create_actor_linked_effect(actor);
-            body->action_phase.u++;
+            body->action_phase++;
             return;
 
         }
@@ -159,7 +159,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
             return;
         }
         sprite->flags &= 0xF7FF;
-        body->action_phase.u++;
+        body->action_phase++;
 
     case 2:
         if ((sprite->unk_04 == 3 &&

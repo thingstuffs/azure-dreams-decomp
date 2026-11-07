@@ -85,7 +85,7 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
         }
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &killer_slot_f_action_address;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

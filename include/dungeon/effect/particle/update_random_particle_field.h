@@ -55,29 +55,6 @@ typedef struct FallingParticleFieldSpellBody {
     u16 unk_14;
 } FallingParticleFieldSpellBody;
 
-typedef struct S_81934928_2 {
-    u8 pad_00[0x10];
-    void * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_81934928_2;   /* created in func_80024128 */
-
-typedef struct S_81934928_3 {
-    u8 pad_00[0xC];
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    u8 pad_12[0xC];
-    s16 unk_1E;
-    u8 pad_20[0x2];
-    s16 unk_22;
-    u8 pad_24[0x2];
-    s16 unk_26;
-} S_81934928_3;   /* part in func_80024128 */
-
-
-
-
 typedef struct {
     s32 word[6];
 } Copy24;
@@ -91,15 +68,11 @@ extern s32 D_80024740[];
 #define NULL 0
 #endif
 
-typedef struct S_81934C5C_0_pre {
-    u16 unk_00;
-} S_81934C5C_0_pre;   /* the 0x2 bytes before arg0 in func_8002445C, addressed as arg0[-1] */
-
-typedef struct S_81934C5C_0 {
+typedef struct FallingParticleEffectBody {
     void * unk_00;
     u8 pad_04[0x8];
     u16 unk_0C;
-    u8 pad_0E[0x2];
+    s16 unk_0E; /* initialized by the falling-particle creator */
     u16 unk_10;
     u8 pad_12[0xA];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_1C;   /* overlapping accesses */
@@ -112,7 +85,7 @@ typedef struct S_81934C5C_0 {
     u16 unk_48;
     u8 pad_4A[0x2];
     s16 unk_4C;
-} S_81934C5C_0;   /* arg0 in func_8002445C */
+} FallingParticleEffectBody;   /* particle node body passed to draw_red */
 
 typedef struct S_81934C5C_1 {
     u8 pad_00[0xE];
@@ -154,5 +127,5 @@ void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, 
 s16 sample_terrain_surface_height();
 s32 decrement_flagged_item_parameters(DungeonObject *object);
 void update_random_particle_field(FallingParticleFieldSpellBody *self, void *output);
-void draw_red(void *effect);
+void draw_red(FallingParticleEffectBody *effect);
 #endif

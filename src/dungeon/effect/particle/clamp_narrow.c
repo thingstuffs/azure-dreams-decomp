@@ -114,7 +114,7 @@ static __inline__ s16 clamp_narrow(s32 value)
 }
 
 /* Update trail motion, emit interpolated particles, and build fading trail segments. */
-void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74_11 *color) {
+void update_targeted_ribbon_trail(Rec_func_80167A98_arg0 *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74_11 *color) {
     u8 *motion_table;
     u8 *table_join;
     u8 *clamp_base;
@@ -193,17 +193,17 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
     s32 object_offset;
     s32 object_copy_index;
 
-    target_pos = ((Rec_func_80167A98_arg0 *)effect_data)->unk_24;
-    switch (((s16)(((Rec_func_80167A98_arg0 *)effect_data)->unk_12))) {
+    target_pos = effect_data->unk_24;
+    switch (((s16)(effect_data->unk_12))) {
     case 0:
-        velocity_y = ((Rec_func_80167A98_arg0 *)effect_data)->unk_60;
+        velocity_y = effect_data->unk_60;
         phase_threshold = 0;
-        ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C =
-            (s32) ((((Rec_func_80167A98_arg0 *)effect_data)->unk_5C * 4) / 5);
-        trail_index = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1C;
-        ((Rec_func_80167A98_arg0 *)effect_data)->unk_60 = (s32) ((velocity_y * 4) / 5);
-        ((Rec_func_80167A98_arg0 *)effect_data)->unk_64 =
-            (s32) ((((Rec_func_80167A98_arg0 *)effect_data)->unk_64 * 4) / 5);
+        effect_data->unk_5C =
+            (s32) ((effect_data->unk_5C * 4) / 5);
+        trail_index = effect_data->unk_1C;
+        effect_data->unk_60 = (s32) ((velocity_y * 4) / 5);
+        effect_data->unk_64 =
+            (s32) ((effect_data->unk_64 * 4) / 5);
         if (trail_index == 0)
             phase_threshold = 0x46;
         if (trail_index == 1)
@@ -211,29 +211,29 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
         if (trail_index == 2)
             phase_threshold = 0x1E;
         motion_table = (u8 *)0x80170000;
-        if (phase_threshold >= ((Rec_func_80167A98_arg0 *)effect_data)->unk_18) {
-            ((Rec_func_80167A98_arg0 *)effect_data)->unk_12 =
-                (s16) ((u16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_12 + 1);
+        if (phase_threshold >= effect_data->unk_18) {
+            effect_data->unk_12 =
+                (s16) ((u16) effect_data->unk_12 + 1);
             case_base = (u8 *)ribbon_vertices;
-            ((Rec_func_80167A98_arg0 *)effect_data)->unk_68 = (s32) ((s32) ((target_pos->unk_00
-                - (((Rec_func_80167A98_arg0 *)effect_data)->unk_5C * 0x14))
-                - (origin->unk_00 + (*(s16 *)(case_base + (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60))
+            effect_data->unk_68 = (s32) ((s32) ((target_pos->unk_00
+                - (effect_data->unk_5C * 0x14))
+                - (origin->unk_00 + (*(s16 *)(case_base + (effect_data->unk_1C * 0x60))
                 << 0x11))) >> 7);
-            ((Rec_func_80167A98_arg0 *)effect_data)->unk_6C = (s32) ((s32) ((target_pos->unk_04
-                - (((Rec_func_80167A98_arg0 *)effect_data)->unk_60 * 0x14))
-                - (origin->unk_04 + (*(s16 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + case_base + 2)
+            effect_data->unk_6C = (s32) ((s32) ((target_pos->unk_04
+                - (effect_data->unk_60 * 0x14))
+                - (origin->unk_04 + (*(s16 *)((effect_data->unk_1C * 0x60) + case_base + 2)
                 << 0x11))) >> 7);
-            scaled_z = (((Rec_func_80167A98_arg0 *)effect_data)->unk_64 * 0x14) + 0x200000;
-            ((Rec_func_80167A98_arg0 *)effect_data)->unk_70 = (s32) ((s32) ((target_pos->unk_08 - scaled_z)
-                - (origin->unk_08 + (*(s16 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + case_base + 4)
+            scaled_z = (effect_data->unk_64 * 0x14) + 0x200000;
+            effect_data->unk_70 = (s32) ((s32) ((target_pos->unk_08 - scaled_z)
+                - (origin->unk_08 + (*(s16 *)((effect_data->unk_1C * 0x60) + case_base + 4)
                 << 0x11))) >> 7);
-            ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = 0U;
+            effect_data->unk_1E = 0U;
             break;
         }
         break;
     case 1:
-        phase_tick = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E + 1;
-        ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = phase_tick;
+        phase_tick = effect_data->unk_1E + 1;
+        effect_data->unk_1E = phase_tick;
         if (phase_tick == 0xC) {
             create_ribbon_head_sprite(effect_data, origin, color);
             ((PlayerRecord *)primary_actor_record)->unk_10C = (u16) (((PlayerRecord *)primary_actor_record)->unk_10C | 1);
@@ -241,15 +241,15 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
             initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x601);
         }
-        if ((s16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E >= 0x10) {
-            ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 = 0;
+        if ((s16) effect_data->unk_1E >= 0x10) {
+            effect_data->unk_18 = 0;
         }
-        ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C = (s32) (((Rec_func_80167A98_arg0 *)effect_data)->unk_5C
-            + ((Rec_func_80167A98_arg0 *)effect_data)->unk_68);
-        ((Rec_func_80167A98_arg0 *)effect_data)->unk_60 = (s32) (((Rec_func_80167A98_arg0 *)effect_data)->unk_60
-            + ((Rec_func_80167A98_arg0 *)effect_data)->unk_6C);
-        ((Rec_func_80167A98_arg0 *)effect_data)->unk_64 = (s32) (((Rec_func_80167A98_arg0 *)effect_data)->unk_64
-            + ((Rec_func_80167A98_arg0 *)effect_data)->unk_70);
+        effect_data->unk_5C = (s32) (effect_data->unk_5C
+            + effect_data->unk_68);
+        effect_data->unk_60 = (s32) (effect_data->unk_60
+            + effect_data->unk_6C);
+        effect_data->unk_64 = (s32) (effect_data->unk_64
+            + effect_data->unk_70);
         break;
     default:
         motion_table = (u8 *)ribbon_vertices;
@@ -259,33 +259,33 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
     motion_table = (u8 *)ribbon_vertices;
 update_positions:
     table_join = motion_table;
-    move_x0 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C;
-    pos_x0 = (u16 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
+    move_x0 = effect_data->unk_5C;
+    pos_x0 = (u16 *)((effect_data->unk_1C * 0x60) + (s32)table_join);
     if (move_x0 < 0)
         move_x0 += 0xFFFF;
     *pos_x0 += move_x0 >> 0x10;
-    move_y0 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_60;
-    pos_y0 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
+    move_y0 = effect_data->unk_60;
+    pos_y0 = (void *)((effect_data->unk_1C * 0x60) + (s32)table_join);
     if (move_y0 < 0)
         move_y0 += 0xFFFF;
     pos_y0->unk_02 = (u16) (pos_y0->unk_02 + (move_y0 >> 0x10));
-    move_z0 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_64;
-    pos_z0 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
+    move_z0 = effect_data->unk_64;
+    pos_z0 = (void *)((effect_data->unk_1C * 0x60) + (s32)table_join);
     if (move_z0 < 0)
         move_z0 += 0xFFFF;
     pos_z0->unk_04 = (u16) (pos_z0->unk_04 + (move_z0 >> 0x10));
-    move_x1 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C;
-    pos_x1 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
+    move_x1 = effect_data->unk_5C;
+    pos_x1 = (void *)((effect_data->unk_1C * 0x60) + (s32)table_join);
     if (move_x1 < 0)
         move_x1 += 0xFFFF;
     pos_x1->unk_06 = (u16) (pos_x1->unk_06 + (move_x1 >> 0x10));
-    move_y1 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_60;
-    pos_y1 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
+    move_y1 = effect_data->unk_60;
+    pos_y1 = (void *)((effect_data->unk_1C * 0x60) + (s32)table_join);
     if (move_y1 < 0)
         move_y1 += 0xFFFF;
     pos_y1->unk_08 = (u16) (pos_y1->unk_08 + (move_y1 >> 0x10));
-    move_z1 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_64;
-    pos_z1 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
+    move_z1 = effect_data->unk_64;
+    pos_z1 = (void *)((effect_data->unk_1C * 0x60) + (s32)table_join);
     if (move_z1 < 0)
         move_z1 += 0xFFFF;
     clamp_pair = 0;
@@ -295,10 +295,10 @@ update_positions:
     do {
         clamp_axis = 0;
         do {
-            clamp_coord = (s16 *)(clamp_axis * 2 + (clamp_pair * 6 + (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60 + (s32)clamp_base)));
+            clamp_coord = (s16 *)(clamp_axis * 2 + (clamp_pair * 6 + (effect_data->unk_1C * 0x60 + (s32)clamp_base)));
             if (*clamp_coord >= 0x191)
                 *clamp_coord = limit_offset;
-            clamp_coord = (s16 *)(clamp_axis * 2 + (clamp_pair * 6 + (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60 + (s32)clamp_base)));
+            clamp_coord = (s16 *)(clamp_axis * 2 + (clamp_pair * 6 + (effect_data->unk_1C * 0x60 + (s32)clamp_base)));
             if (*clamp_coord < -0x190)
                 *clamp_coord = clamp_narrow(-0x190);
             clamp_axis += 1;
@@ -319,7 +319,7 @@ copy_pairs:
         do {
             copy_axis_offset = copy_axis * 2;
             copy_axis += 1;
-            copy_row = (u8 *)(((s32)copy_row_offset) + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60)
+            copy_row = (u8 *)(((s32)copy_row_offset) + ((effect_data->unk_1C * 0x60)
                 + (s32)((u8 *)table_base)));
             copy_dst = (u8 *)(copy_pair_offset + (s32)copy_row);
             copy_row -= 0xC;
@@ -339,11 +339,11 @@ copy_pairs:
         goto loop_2;
     particle_count = 0xA;
     interp_base = (u8 *)ribbon_vertices;
-    trail_row = (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + interp_base;
+    trail_row = (effect_data->unk_1C * 0x60) + interp_base;
     delta_x = (trail_row->unk_00 + trail_row->unk_06) - (trail_row->unk_18 + trail_row->unk_1E);
     delta_y = (trail_row->unk_02 + trail_row->unk_08) - (trail_row->unk_1A + trail_row->unk_20);
     delta_z = (trail_row->unk_04 + trail_row->unk_0A) - (trail_row->unk_1C + trail_row->unk_22);
-    if (((Rec_func_80167A98_arg0 *)effect_data)->unk_12 == 0)
+    if (effect_data->unk_12 == 0)
         particle_count = 3;
     history_index = 1;
     if (history_index < (particle_count + 1)) {
@@ -360,9 +360,9 @@ copy_pairs:
             step_y = sum_y / particle_count;
             step_z = sum_z / particle_count;
             step_x = sum_x / particle_count;
-            effect_object = effect_data - 0x20;
+            effect_object = NODE_HEADER(effect_data);
             particle_life = 0xA;
-            interp_row = (S_80167C74_10 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (u8 *)ribbon_vertices);
+            interp_row = (S_80167C74_10 *)((effect_data->unk_1C * 0x60) + (u8 *)ribbon_vertices);
             interp_y0 = interp_row->unk_1A;
             interp_y1 = interp_row->unk_20;
             interp_x1 = interp_row->unk_1E;
@@ -378,7 +378,7 @@ copy_pairs:
         } while (history_index < (particle_count + 1));
     }
     object_table_base = (u8 *)&ribbon_vertices;
-    head_pos = (S_80167C74_12 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_table_base);
+    head_pos = (S_80167C74_12 *)((effect_data->unk_1C * 0x60) + (s32)object_table_base);
     if ((head_pos->unk_00 != 0x190) && (head_pos->unk_02 != 0x190)
         && (head_pos->unk_04 != 0x190)) {
         object_index = 0;
@@ -431,10 +431,10 @@ copy_pairs:
                     for (;;) {
                         object_axis_offset = object_axis * 2;
                         *object_pos = *(u16 *)(object_axis_offset + (table_offset + (object_offset
-                            + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base))));
+                            + ((effect_data->unk_1C * 0x60) + (s32)object_base))));
                         object_axis += 1;
                         object_pos += 1;
-                        object_copy_index = object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60)
+                        object_copy_index = object_offset + ((effect_data->unk_1C * 0x60)
                             + (s32)object_base);
                         object_copy_index += 0xC;
                         object_axis_offset += table_offset + object_copy_index;
@@ -454,8 +454,8 @@ copy_pairs:
             history_offset += 0xC;
         } while (object_index < 7);
     }
-    life_left = (u16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 - 1;
-    ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 = life_left;
+    life_left = (u16) effect_data->unk_18 - 1;
+    effect_data->unk_18 = life_left;
     if ((life_left << 0x10) <= 0) {
         NODE_HEADER(effect_data)->flags = (u16) (NODE_HEADER(effect_data)->flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

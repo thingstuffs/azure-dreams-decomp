@@ -78,11 +78,11 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
 
 #define motion motion
 #define animation animation
-    jt_index = action_state->action_phase.u;
+    jt_index = action_state->action_phase;
     switch (jt_index) {
     case 0:
         actor->flags14 = (s32) (actor->flags14 & ~ACTOR_ELEMENT_MASK);
-        action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
+        action_state->action_phase = (u8) (action_state->action_phase + 1);
         D_800DF248[0] = 0;
         return;
     case 1:
@@ -98,7 +98,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             ((PlayerRecord *)action_state)->unk_F4 = 0;
         }
         action_state->action_state_flags = (u16) (action_state->action_state_flags & 0xDFFF);
-        action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
+        action_state->action_phase = (u8) (action_state->action_phase + 1);
     case 2:
         if (action_state->unk_A4.halves.high.u == 0) {
             select_nearby_target_and_initialize_slot(NODE_HEADER(actor), motion, 8, 0x300);
@@ -106,7 +106,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             set_sprite_animation_frame(animation, D_800DD068[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = 0;
-            action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
+            action_state->action_phase = (u8) (action_state->action_phase + 1);
             return;
         }
         break;
@@ -130,7 +130,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 ((S_800B348C_0 *)action_state)->unk_CC = next_animations;
             }
             action_state->action_state_flags = (u16) (action_state->action_state_flags & 0xFFF7);
-            action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
+            action_state->action_phase = (u8) (action_state->action_phase + 1);
             return;
         }
         break;
@@ -150,7 +150,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 }
                     ((S_800B348C_0 *)action_state)->unk_CC = next_v1;
             }
-            action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
+            action_state->action_phase = (u8) (action_state->action_phase + 1);
             return;
         }
         break;
@@ -158,11 +158,11 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             if (action_state->unk_A8.byte != 0) {
                 D_800DF248[0] = 1;
-                action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
+                action_state->action_phase = (u8) (action_state->action_phase + 1);
                 return;
             }
             action_state->action_timer.u = 4U;
-            action_state->action_phase.u = (u8) (action_state->action_phase.u + 0xA);
+            action_state->action_phase = (u8) (action_state->action_phase + 0xA);
             return;
         }
         break;
@@ -181,7 +181,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = player_attack_start_frames;
             action_state->action_timer.u = 2U;
-            action_state->action_phase.u = 7U;
+            action_state->action_phase = 7U;
             return;
         }
         break;
@@ -205,7 +205,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 (u16) (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xF7FF);
             action_state->action_timer.u = 4U;
             action_state->action_state_flags = (u16) (action_state->action_state_flags & 0xFFF7);
-            action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
+            action_state->action_phase = (u8) (action_state->action_phase + 1);
             allocate_payload_object(NODE_HEADER(action_state), ((PlayerRecord *)action_state)->unk_F4, 0x40);
             mix_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = mix_animations;
@@ -253,7 +253,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             set_sprite_animation_frame(animation, player_attack_start_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = player_attack_followup_frames;
-            action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
+            action_state->action_phase = (u8) (action_state->action_phase + 1);
         }
                 /* fallthrough */
     case 8:
@@ -269,7 +269,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 set_sprite_animation_frame(animation, player_attack_followup_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
                 ((S_800B348C_0 *)action_state)->unk_CC = player_attack_frames;
-                action_state->action_phase.u = 9U;
+                action_state->action_phase = 9U;
                 return;
             }
         }
@@ -295,7 +295,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 << 0x10) / (s16) action_state->action_timer.u);
 load_state_9b:
 bump_state_9b:
-            action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
+            action_state->action_phase = (u8) (action_state->action_phase + 1);
             return;
         }
         break;

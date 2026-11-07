@@ -39,9 +39,9 @@ void advance_actor_walk_animation(ActorRecord *owner, ObjectPosition *unused, Sp
         ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
         u8 *table = garuda_walk_direction_frames;
 
-        owner->action_id.s = 0x17;
+        owner->action_id = 0x17;
         owner->unk_8C.word = 0;
-        owner->action_phase.s = 0;
+        owner->action_phase = 0;
         (part->frameTable) = table;
         select_sprite_entry(
             part,

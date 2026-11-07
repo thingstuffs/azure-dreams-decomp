@@ -23,14 +23,14 @@ void advance_actor_hop_to_tile(ActorRecord *body, ObjectPosition *position, Spri
     s32 phase;
     u32 actor_flags;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     case 0:
         body->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         body->unk_A4.halves.low.s = 7;
         body->unk_A0.value = 0;
-        body->action_phase.u++;
+        body->action_phase++;
 
     case 1:
         body->unk_90.value -= body->unk_A0.value;
@@ -60,7 +60,7 @@ void advance_actor_hop_to_tile(ActorRecord *body, ObjectPosition *position, Spri
             body->unk_90.value = 0;
             body->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            body->action_phase.u++;
+            body->action_phase++;
         }
 
     case 2:
@@ -70,7 +70,7 @@ void advance_actor_hop_to_tile(ActorRecord *body, ObjectPosition *position, Spri
             position->velocity_y = 0;
             position->velocity_x = 0;
             set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
-            body->action_phase.u++;
+            body->action_phase++;
         }
 
     default:

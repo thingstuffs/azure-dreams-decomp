@@ -71,7 +71,7 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
     s32 state_changed;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 0xEU;
+        actor->action_id = 0xEU;
         advance_multi_form_turn_path(actor, context, sprite, entity);
         if (actor->unk_B0.bytes[0] != 1) {
             return;
@@ -129,7 +129,7 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
             }
             clear_mask = 0xFFFB0000U;
             state_changed = 1;
-            actor->action_id.u = flagged_pose;
+            actor->action_id = flagged_pose;
             goto block_32;
         case 0xE:
             if (*(s32 **)&sprite->frameTable == &beldo_large_frame_set_4) {
@@ -142,10 +142,10 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
             }
 block_31:
             clear_mask = 0xFFFB0000U;
-            actor->action_id.u = 0xDU;
+            actor->action_id = 0xDU;
             state_changed = 1;
 block_32:
-            actor->action_phase.s = (s8)state_changed;
+            actor->action_phase = (s8)state_changed;
             actor->unk_8C.word = 0;
             entity->flags1C = (s32) (entity->flags1C & (clear_mask | 0xFFFFU));
             return;
@@ -164,7 +164,7 @@ block_37:
         }
         {
             s16 idle_state = 0xE;
-            anim_state = actor->action_id.u;
+            anim_state = actor->action_id;
             if (anim_state != idle_state) {
                 anim_state = actor->unk_AC.byte;
                 switch (anim_state) {
@@ -197,7 +197,7 @@ block_37:
                     }
                     break;
                 }
-                actor->action_id.u = 0xEU;
+                actor->action_id = 0xEU;
                 actor->unk_9E.u = 0U;
                 actor->unk_A0.parts.low = (s16) ((rand() & 0x1F) + 0xF);
             }
@@ -309,7 +309,7 @@ block_37:
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             ActorRecord *owner = primary_actor_record;
             entity->facing = (s16)angle;
-            if (owner->action_id.u != 0x11) {
+            if (owner->action_id != 0x11) {
                 update_actor_status_and_mp(entity);
                 return;
             }

@@ -35,7 +35,7 @@ void advance_tile_movement_and_completion(ActorRecord *action, ObjectPosition *m
     u16 direction_aux;
     DungeonGlobalStatus *globals;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(map_entity->flags & 0x6000)) {
@@ -50,7 +50,7 @@ void advance_tile_movement_and_completion(ActorRecord *action, ObjectPosition *m
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
         action->unk_A4.value = 0;
-        action->action_phase.u++;
+        action->action_phase++;
 
     case 1:
         move_ticks = action->unk_9E.s;
@@ -84,7 +84,7 @@ void advance_tile_movement_and_completion(ActorRecord *action, ObjectPosition *m
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase.u++;
+            action->action_phase++;
         }
 
     case 2:
@@ -99,7 +99,7 @@ void advance_tile_movement_and_completion(ActorRecord *action, ObjectPosition *m
                 map_entity,
                 D_80174E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase.u++;
+            action->action_phase++;
         }
         break;
 

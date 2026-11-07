@@ -13,6 +13,6 @@ void process_global_effect_flags(ActorRecord *primary_record, ObjectPosition *un
     if ((g_game_work.pressed_buttons) & 0x200000) {
         enqueue_runtime_pool_script(&beldo_effect_pool_script);
         secondary_record->pending_turn_updates = 0;
-        primary_record->action_phase.s = 0;
+        primary_record->action_phase = 0;
     }
 }

@@ -100,7 +100,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
 
         child_slot = stable_object;
         outer_index = 0;
-        stable_object->action_id.u = 0xFF;
+        stable_object->action_id = 0xFF;
         stable_object->unk_9C = -1;
         stable_object->unk_8C.address = update_entity_movement_animation_and_ground;
         object->flags1C |= 0x40000;

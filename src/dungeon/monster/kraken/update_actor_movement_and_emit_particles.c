@@ -55,7 +55,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
     s32 component_work_2;
     u8 *particle_work;
 
-    if (actor->action_phase.u == 1) {
+    if (actor->action_phase == 1) {
         particle_or_dir_index = 6;
         particle_update = D_8017406C;
         do {
@@ -97,7 +97,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
     }
 
     particle_or_dir_index = (entity->unk_6A >> 9) & 7;
-    state = actor->action_phase.u;
+    state = actor->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -110,13 +110,13 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
         }
         if (sprite->flags & 0x8000) {
             actor->action_timer.s = 0;
-            actor->action_phase.u = 2;
+            actor->action_phase = 2;
             break;
         }
 
         motion->velocity_x = dir_step_x[particle_or_dir_index] << 18;
         motion->velocity_y = dir_step_y[particle_or_dir_index] << 18;
-        actor->action_phase.u++;
+        actor->action_phase++;
         state_timer = -1;
         if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             state_timer = 8;
@@ -143,7 +143,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
             break;
         }
         if (entity->unk_28 == 0) {
-            actor->action_phase.u = 0;
+            actor->action_phase = 0;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -151,7 +151,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
             break;
         }
         actor->action_timer.s = 8;
-        actor->action_phase.u++;
+        actor->action_phase++;
         break;
 
     case 2:

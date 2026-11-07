@@ -80,7 +80,7 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
-        result_copy->action_id.u = 0xFF;
+        result_copy->action_id = 0xFF;
         result_copy->unk_9C = -1;
         result_copy->unk_8C.address = &saber_behavior_entry;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);

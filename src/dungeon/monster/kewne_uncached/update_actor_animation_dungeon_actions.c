@@ -43,7 +43,7 @@ void update_actor_animation_dungeon_actions(ActorRecord *body, ObjectPosition *c
     u16 action;
 
     if (g_dungeon_status.flags & 0x1000) {
-        body->action_id.u = 0xE;
+        body->action_id = 0xE;
         func_80154510(body, context, sprite, actor);
         return;
     }
@@ -64,8 +64,8 @@ void update_actor_animation_dungeon_actions(ActorRecord *body, ObjectPosition *c
 
     if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_80157C90) {
-            body->action_id.u = 0xD;
-            body->action_phase.u = 1;
+            body->action_id = 0xD;
+            body->action_phase = 1;
             body->unk_8C.word = 0;
             actor->flags1C &= 0xFFFBFFFF;
             return;
@@ -82,12 +82,12 @@ void update_actor_animation_dungeon_actions(ActorRecord *body, ObjectPosition *c
         }
 
         {
-            u8 current_state = body->action_id.u;
+            u8 current_state = body->action_id;
             u32 idle_state = 0xE;
             void *current_anim;
 
             if (current_state != idle_state) {
-                body->action_id.u = idle_state;
+                body->action_id = idle_state;
                 body->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
@@ -197,7 +197,7 @@ void update_actor_animation_dungeon_actions(ActorRecord *body, ObjectPosition *c
                         &distance);
                     player = primary_actor_record;
                     actor->facing = facing;
-                    if (player->action_id.u == 0x11) {
+                    if (player->action_id == 0x11) {
                         begin_actor_spell_action(body, context, sprite, D_80157C88, D_80153FA4);
                         return;
                     }

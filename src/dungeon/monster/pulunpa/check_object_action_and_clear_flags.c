@@ -22,7 +22,7 @@ s32 check_object_action_and_clear_flags(ActorRecord *object, s32 query_x, void *
     if (override_bits == 0) {
         switch (action_result) {
         case 0:
-            saved_object->action_id.s = 0xE;
+            saved_object->action_id = 0xE;
             update_actor_status_and_mp(saved_object);
             return 0;
         case 2:

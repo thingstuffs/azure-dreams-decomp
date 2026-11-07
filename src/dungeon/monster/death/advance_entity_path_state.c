@@ -66,7 +66,7 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
                           entity->tile_y, &motion_state->action_state_flags);
     }
 
-    motion_state->action_id.s = 0xF;
+    motion_state->action_id = 0xF;
     motion_state->unk_8C.word = 0;
     path_state->flags1C |= 0x40000000;
 

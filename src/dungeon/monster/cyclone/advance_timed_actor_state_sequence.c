@@ -56,12 +56,12 @@ void advance_timed_actor_state_sequence(ActorRecord *action, ObjectPosition *pos
     u16 sprite_flags;
     u16 ticks_left;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
             sprite->flags = sprite_flags | 0x6000;
-            action->action_phase.u = 2;
+            action->action_phase = 2;
             return;
         }
         if (!(sprite->unk_04 == 1 && (sprite_flags & 0x1000)) && (sprite_flags & 0x6000) == 0) {
@@ -75,7 +75,7 @@ void advance_timed_actor_state_sequence(ActorRecord *action, ObjectPosition *pos
         }
         play_sound_if_enabled(0x80D);
         action->action_timer.u = 0x20;
-        action->action_phase.u = action->action_phase.u + 1;
+        action->action_phase = action->action_phase + 1;
         break;
 
     case 1:
@@ -87,7 +87,7 @@ void advance_timed_actor_state_sequence(ActorRecord *action, ObjectPosition *pos
             }
         }
         action->action_timer.u = 4;
-        action->action_phase.u = action->action_phase.u + 1;
+        action->action_phase = action->action_phase + 1;
         break;
 
     case 2:

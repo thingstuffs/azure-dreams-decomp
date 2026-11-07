@@ -108,8 +108,8 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
             ((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_11C = object;
         }
 
-        ((ActorRecord *)actor)->action_id.u = 0x12;
-        ((ActorRecord *)actor)->action_phase.u = 0;
+        ((ActorRecord *)actor)->action_id = 0x12;
+        ((ActorRecord *)actor)->action_phase = 0;
         ((ActorRecord *)actor)->unk_8C.address = 0;
         if (direction_table != 0) {
             (target->frameTable) = direction_table;

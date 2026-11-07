@@ -12,8 +12,9 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 
-extern int abs(int);
 
+#include "sdk/abs.h"
+#include "dungeon/monster/killer_frames.h"
 typedef struct ItemSlots {
     u8 pad_00[8];
     u8 first;
@@ -131,7 +132,6 @@ extern void create_two_row_object_group(void *, s16);
 
 extern u8 effect_update_tag[];
 extern u8 dungeon_action_resume_address;
-extern u8 killer_slot_f_default_frames[];
 extern u8 D_8016E078[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */

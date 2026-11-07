@@ -99,17 +99,17 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
     GameWork *input;
 
     input = &g_game_work;
-    action_state = ((ActorRecord *)actor)->action_id.u;
+    action_state = ((ActorRecord *)actor)->action_id;
     if (action_state != 0xE) {
         if (action_state != 0x17) {
             if (((ActorRecord *)actor)->unk_A0.parts.high & 0x100) {
                 begin_wake_nearby_monsters(actor, (s32)motion, sprite, stats);
                 return;
             }
-            ((ActorRecord *)actor)->action_id.u = 0xEU;
+            ((ActorRecord *)actor)->action_id = 0xEU;
             ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (((ActorRecord *)actor)->unk_A0.parts.high & 0xFEFF);
             ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
-            ((ActorRecord *)actor)->action_phase.s = 0;
+            ((ActorRecord *)actor)->action_phase = 0;
             ((ActorRecord *)actor)->unk_A4.halves.low.u = 0U;
             ((ObjectPosition *)motion)->velocity_y = 0;
             ((ObjectPosition *)motion)->velocity_x = 0;
@@ -380,7 +380,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                                             (u16) (((u16)((ActorRecord *)stats)->facing) + (generate_random_value() & 0xE00));
                                     }
                                     try_move_player(actor, motion, sprite, stats);
-                                    if (((ActorRecord *)actor)->action_id.u != 0xE) {
+                                    if (((ActorRecord *)actor)->action_id != 0xE) {
                                         return;
                                     }
                                 } else {
@@ -422,7 +422,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         if ((*(u16 *)0x80013714) & 9) {
                             ((ActorRecord *)actor)->unk_A4.halves.low.u = 0U;
                         }
-                        if (((ActorRecord *)actor)->action_id.u == 0xE) {
+                        if (((ActorRecord *)actor)->action_id == 0xE) {
                             idle_ticks = ((ActorRecord *)actor)->unk_A4.halves.low.u + 1;
                             ((ActorRecord *)actor)->unk_A4.halves.low.u = idle_ticks;
                             if ((s16) idle_ticks >= 0x3D) {

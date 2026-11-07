@@ -41,7 +41,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
     ObjectNodeHeader *target;
     SpriteFrameState *target_sprite;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     use_player = 0;
     switch (phase) {
     case 0:
@@ -129,7 +129,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
                 return;
             }
             body->action_timer.u = 0x13U;
-            body->action_phase.u = (u8) (body->action_phase.u + 1);
+            body->action_phase = (u8) (body->action_phase + 1);
             return;
         } else {
             motion->velocity_z = 0;
@@ -153,14 +153,14 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
             return;
         }
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
-        body->action_phase.u = (u8) (body->action_phase.u + 1);
+        body->action_phase = (u8) (body->action_phase + 1);
         play_sound_if_enabled(0x703);
     case 2:
         effect_ticks = body->action_timer.u - 1;
         body->action_timer.u = effect_ticks;
         if ((effect_ticks << 0x10) <= 0 || (sprite->flags & 0xE000)) {
             body->action_state_flags = (u16) (body->action_state_flags | 0x80);
-            body->action_phase.u = (u8) (body->action_phase.u + 1);
+            body->action_phase = (u8) (body->action_phase + 1);
             sprite->flags = (u16) (sprite->flags
                 | 0x800);
             body->action_timer.u = 0xFU;

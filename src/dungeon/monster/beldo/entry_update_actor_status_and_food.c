@@ -39,7 +39,7 @@ s32 replay_actor_direction_commands(ActorRecord *actor, ObjectPosition *action_c
         if (repeat_count < repeat_index) {
             beldo_effect_stream = entry + 2;
             beldo_command_ticks = 0;
-            saved_actor->action_phase.u = 0;
+            saved_actor->action_phase = 0;
         }
 
         saved_actor->facing = (command & 7) << 9;

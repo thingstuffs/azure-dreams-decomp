@@ -67,7 +67,7 @@ void advance_stored_actor_path(ActorRecord *body, ObjectPosition *unused, Sprite
         old_x, old_y, sprite->tile_x, sprite->tile_y,
         (u8 *)body + 0x98);
     actor->flags1C |= 0x40000000;
-    body->action_id.u = 0xF;
+    body->action_id = 0xF;
     body->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {

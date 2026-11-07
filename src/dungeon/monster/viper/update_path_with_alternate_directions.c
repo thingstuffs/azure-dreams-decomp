@@ -16,7 +16,7 @@
 #include "dungeon/item.h"
 #include "dungeon/item/state.h"
 
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+#include "dungeon/monster/dragon/transition_effect.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);

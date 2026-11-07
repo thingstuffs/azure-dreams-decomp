@@ -336,7 +336,6 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
-extern void advance_sprite_animation_and_textures(void *entity);
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
 void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive)
@@ -377,7 +376,6 @@ void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *pr
 struct Dst;
 struct Elem;
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 /* Spawn a burst of randomized particles and return the first particle. */
@@ -450,7 +448,6 @@ typedef struct S_800C5D80_0 {
     s32 unk_14;
 } S_800C5D80_0;   /* arg1 in advance_effect_motion_and_fade */
 
-extern void advance_sprite_animation_and_textures(void *entity);
 
 /* Advance effect motion, fade its color, and mark it finished when its timer expires. */
 void advance_effect_motion_and_fade(VerticalParticleBurstBody *effect_data, S_800C5D80_0 *motion,
@@ -492,7 +489,6 @@ typedef struct CounterBlock {
     u16 count;
 } CounterBlock;
 
-void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 /* Spawn twelve effects at the given position, optionally playing a sound. */

@@ -29,7 +29,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
     s32 accum;
     s32 timer;
 
-    state = work->action_phase.u;
+    state = work->action_phase;
     work->action_timer.u = (u16) (work->action_timer.u - 1);
     switch (state) {
     case 0:
@@ -37,7 +37,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
         play_sound_if_enabled(0x51C);
         flags = part_b->flags;
         if (flags & 0x8000) {
-            work->action_phase.u = 7;
+            work->action_phase = 7;
             return;
         }
         if (!(flags & 0xE000)) {
@@ -50,7 +50,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
         actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         work->unk_A0.value = 0;
         work->action_timer.u = 10;
-        work->action_phase.u++;
+        work->action_phase++;
         return;
     case 1:
     case 5:
@@ -74,7 +74,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
         work->unk_90.value = 0;
         work->action_state_flags = (u16) (work->action_state_flags & 0xFFF7);
         actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
-        work->action_phase.u++;
+        work->action_phase++;
         return;
     case 2:
     case 6:
@@ -86,7 +86,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
         part_b->frameTable = &D_80173FE0;
         select_sprite_entry(part_b, ((u8 *) ((u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
             + (u32) &D_80173FE0)))[0], 0);
-        work->action_phase.u++;
+        work->action_phase++;
         return;
     case 3:
         if (!(part_b->flags & 0xE000)) {
@@ -94,7 +94,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
         }
         part_b->frameTable = tyrant_frame_set_1;
         select_sprite_entry(part_b, tyrant_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        work->action_phase.u++;
+        work->action_phase++;
         return;
     case 7:
         if (!(part_b->flags & 0xE000)) {

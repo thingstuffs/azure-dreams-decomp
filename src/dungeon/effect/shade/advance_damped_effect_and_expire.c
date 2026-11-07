@@ -17,11 +17,11 @@ void advance_damped_effect_and_expire(FadeEffect *effect, s32 *motion)
     motion[4] /= 2;
     motion[5] /= 2;
 
-    effect->current.color.red = (effect->red * effect->remaining) /
+    effect->current.color.red = (effect->base_color.c.r * effect->remaining) /
                 effect->total;
-    effect->current.color.green = (effect->green * effect->remaining) /
+    effect->current.color.green = (effect->base_color.c.g * effect->remaining) /
                 effect->total;
-    effect->current.color.blue = (effect->blue * effect->remaining) /
+    effect->current.color.blue = (effect->base_color.c.b * effect->remaining) /
                 effect->total;
 
     ticks_left = (u16)effect->remaining - 1;

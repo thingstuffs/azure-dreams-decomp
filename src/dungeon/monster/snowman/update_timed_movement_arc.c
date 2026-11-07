@@ -36,7 +36,7 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
     u16 direction_aux;
     DungeonGlobalStatus *global_state;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -51,7 +51,7 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         body->unk_9E.s = 5;
         body->unk_A4.value = 0;
-        body->action_phase.u++;
+        body->action_phase++;
                         /* fallthrough */
     case 1:
         move_frames = body->unk_9E.s;
@@ -85,7 +85,7 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
             body->unk_90.value = 0;
             body->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            body->action_phase.u++;
+            body->action_phase++;
         }
                         /* fallthrough */
     case 2:
@@ -100,7 +100,7 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
                 sprite,
                 D_801579B8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->action_phase.u++;
+            body->action_phase++;
         }
         break;
     case 3:

@@ -1,4 +1,5 @@
 #include "dungeon/item/message.h"
+#include "slus.h"
 #include "shared/item_ids.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
@@ -77,7 +78,6 @@ typedef struct DdcbcEntry {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
-void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 #include "dungeon/player/item.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/item.h"

@@ -86,7 +86,7 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
             }
         }
         initialize_actor_sprite_and_animation(object, base_data, placement, (s16)(s32) init_flags);
-        extended_state->action_id.u = 0xFF;
+        extended_state->action_id = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C.address = &func_80158EA8;
         try_move_actor_to_valid_position(extended_state, base_data, placement, object_state);

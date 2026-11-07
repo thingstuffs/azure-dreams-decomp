@@ -10,7 +10,7 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
     s16 direction_scratch;
     s32 current_state;
 
-    switch (state->action_phase.u) {
+    switch (state->action_phase) {
     case 0:
     {
         u16 next_count;
@@ -27,7 +27,7 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         state->unk_9E.s = 5;
         state->unk_A4.value = 0;
-        state->action_phase.u += 1;
+        state->action_phase += 1;
     }
                     /* fall through */
     case 1:
@@ -78,7 +78,7 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
             state->unk_90.value = 0;
             state->action_state_flags &= 0xfff7;
             actor->flags1C |= ACTOR_GROUNDED;
-            state->action_phase.u += 1;
+            state->action_phase += 1;
         }
     }
                     /* fall through */
@@ -95,7 +95,7 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
             select_sprite_entry(sprite,
                           D_80174EB0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);
-            state->action_phase.u += 1;
+            state->action_phase += 1;
         }
         break;
     case 3:

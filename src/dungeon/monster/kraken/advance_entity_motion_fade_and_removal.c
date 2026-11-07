@@ -35,7 +35,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
     u32 sound_y;
     u8 brightness;
 
-    phase = state->action_phase.u;
+    phase = state->action_phase;
     direction_offset = ((u16) ((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
     velocity_x = dir_step_x[direction_offset >> 1];
     velocity_y = dir_step_y[direction_offset >> 1];
@@ -58,7 +58,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         motion->velocity_x = velocity_x << 0x10;
         motion->velocity_y = velocity_y << 0x10;
         motion->velocity_z = 0xFFF40000;
-        state->action_phase.u = state->action_phase.u + 1;
+        state->action_phase = state->action_phase + 1;
     }
     case 1:
         motion->velocity_z += 0x1C000;
@@ -70,7 +70,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        state->action_phase.u = state->action_phase.u + 1;
+        state->action_phase = state->action_phase + 1;
     case 2:
         status_flags = ((ActorRecord *)entity)->flags14;
         if (status_flags & 0x4000) {
@@ -82,14 +82,14 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
         sprite->clut -= 0x80;
-        state->action_phase.u = state->action_phase.u + 1;
+        state->action_phase = state->action_phase + 1;
     case 3:
         motion->velocity_z += 0x1C000;
         if (!(sprite->flags & 0x6000)) {
             return;
         }
         state->action_timer.u = 0x80U;
-        state->action_phase.u = state->action_phase.u + 1;
+        state->action_phase = state->action_phase + 1;
         return;
     case 4:
         ((ActorRecord *)entity)->flags1C |= 0x10000000;

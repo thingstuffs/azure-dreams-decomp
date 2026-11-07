@@ -1,6 +1,7 @@
 #include "shared/audio_commands.h"
 #include "slus/imports.h"
 #include "shared/actor_status_ids.h"
+#include "sdk/abs.h"
 /* Directional attack trails, target sprite distortion, and homing particles. */
 #include "modules/dungeon_ovl_1852800.h"
 #include "shared/sprite_frame_state.h"
@@ -22,7 +23,6 @@
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
 
-extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 secondary_sprite[];

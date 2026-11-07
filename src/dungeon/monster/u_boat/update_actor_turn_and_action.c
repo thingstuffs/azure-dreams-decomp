@@ -43,7 +43,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        entity->action_id.u = 0xE;
+        entity->action_id = 0xE;
         advance_aura_actor_turn_path(entity, context, sprite, actor);
         return;
     }
@@ -70,8 +70,8 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
 
     if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == uboat_action_frames) {
-            entity->action_id.u = 0xD;
-            entity->action_phase.u = 1;
+            entity->action_id = 0xD;
+            entity->action_phase = 1;
             entity->unk_8C.word = 0;
             actor->flags1C &= 0xFFFBFFFF;
             return;
@@ -87,8 +87,8 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
             return;
         }
 
-        if (entity->action_id.u != 0xE) {
-            entity->action_id.u = 0xE;
+        if (entity->action_id != 0xE) {
+            entity->action_id = 0xE;
         }
         if (entity->unk_B4.bytes[1] == 0) {
             void *anim_table = uboat_default_frames;
@@ -220,7 +220,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
                     &distance);
                 player = primary_actor_record;
                 actor->facing = facing;
-                if (player->action_id.u != 0x11) {
+                if (player->action_id != 0x11) {
                     update_actor_status_and_mp(actor);
                     return;
                 }

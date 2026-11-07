@@ -15,14 +15,12 @@
 #include "dungeon/player/object.h"
 #include "sdk/libc.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
+#include "dungeon/monster/grineut/path_motion.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-/* Bank copy of start_directional_actor_effect. */
-void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8017430C(void *, void *, void *, void *);
 
@@ -42,7 +40,7 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        body->action_id.u = 0xE;
+        body->action_id = 0xE;
         advance_stored_path_motion(body, position, sprite, actor);
         return;
     }
@@ -65,8 +63,8 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
 
     if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == barong_frame_set_2) {
-            body->action_id.u = 0xD;
-            body->action_phase.u = 1;
+            body->action_id = 0xD;
+            body->action_phase = 1;
             body->unk_8C.word = 0;
             actor->flags1C &= ~0x40000;
             return;
@@ -82,7 +80,7 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
             return;
         }
 
-        if (body->action_id.u != 0xE) {
+        if (body->action_id != 0xE) {
             u8 idle_state = 0xE;
 
             anim_table = barong_direction_frames;
@@ -94,7 +92,7 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
             }
             body->unk_9E.s = 0;
             body->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
-            body->action_id.u = idle_state;
+            body->action_id = idle_state;
         }
 
         body->action_state_flags &= 0xFFF3;
@@ -194,7 +192,7 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
                 &distance);
             player = primary_actor_record;
             actor->facing = heading;
-            if (player->action_id.u == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(body, position, sprite, barong_frame_set, barong_action_resume_address);
                 return;
             }

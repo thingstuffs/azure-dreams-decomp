@@ -86,7 +86,7 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
         if (callback != 0) {
             callback(body, motion, sprite, body);
         }
-        stealth_callbacks[body->action_id.u](body, motion, sprite, body);
+        stealth_callbacks[body->action_id](body, motion, sprite, body);
 
         if ((s16)old_mode != body->pending_turn_updates) {
             try_move_actor_to_valid_position(body, motion, sprite, body);

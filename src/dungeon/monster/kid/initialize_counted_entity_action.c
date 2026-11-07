@@ -22,13 +22,13 @@ void initialize_counted_entity_action(ActorRecord *entity_data, ObjectPosition *
 
     other->movement_queue_state &= 0x7F;
     entity->unk_8C.address = initialize_counted_entity_action;
-    entity->action_id.u = kind;
-    entity->action_phase.u = 0;
+    entity->action_id = kind;
+    entity->action_phase = 0;
     other->pending_turn_updates = 0;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(other) << 16) == 0)) {
         entity->unk_8C.address = 0;
-        entity->action_id.u = kind;
-        entity->action_phase.u = 0;
+        entity->action_id = kind;
+        entity->action_phase = 0;
         actor_action_reset_value = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }

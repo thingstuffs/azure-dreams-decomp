@@ -37,7 +37,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
     ObjectNodeHeader *target;
 
     special = 0;
-    state = action->action_phase.u;
+    state = action->action_phase;
     if ((u32)state >= 5) {
         return;
     }
@@ -121,8 +121,8 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
                 if (create_actor_spell_effect(actor, item_slot, special, (u8 *)action + 0x98) == 0) {
                 return;
         }
-        next_state = action->action_phase.u + 1;
-        action->action_phase.u = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
         }
 
@@ -146,7 +146,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->action_phase.u++;
+        action->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -156,9 +156,9 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
 
             flags = sprite->flags;
             if (flags & 0x8000) {
-                next_state = action->action_phase.u + 1;
+                next_state = action->action_phase + 1;
                 action->action_timer.u = 0;
-                action->action_phase.u = next_state;
+                action->action_phase = next_state;
                 return;
             }
             if (sprite->unk_04 == 2 && (flags & 0x1000)) {
@@ -172,7 +172,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
             action->action_timer.u = timer;
             if (timer <= 0) {
                 action->action_timer.u = 0;
-                action->action_phase.u++;
+                action->action_phase++;
                 sprite->flags &= 0xF7FF;
             }
             if (action->action_timer.s < 7) {
@@ -212,7 +212,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
             sprite->flags |= 0x800;
             action->action_timer.u = 0x20;
             action->action_state_flags |= 0x80;
-            action->action_phase.u++;
+            action->action_phase++;
             count = 0;
             do {
                 s32 brightness;

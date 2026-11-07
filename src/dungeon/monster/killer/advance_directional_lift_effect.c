@@ -48,7 +48,7 @@ void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition 
     s32 index;
     u16 timer;
 
-    state = action_record->action_phase.u;
+    state = action_record->action_phase;
     switch (state) {
     case 0:
         saved = get_unused_text_buffer();
@@ -62,7 +62,7 @@ void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition 
         display_text_with_fullwidth_adjustment(saved);
 
         if (status_record->flags & 0x8000) {
-            action_record->action_phase.u = 3;
+            action_record->action_phase = 3;
             action_record->action_timer.u = 0;
             status_record->flags |= 0x6000;
             resolve_attack_damage_and_effects(entity_data, status_record, entity_data->unk_2A, 1);
@@ -74,7 +74,7 @@ void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition 
         action_record->unk_90.value = 0;
         action_record->action_state_flags |= 8;
         motion_data->velocity_z = 0xFFF00000;
-        action_record->action_phase.u++;
+        action_record->action_phase++;
         break;
     case 1:
         value = motion_data->velocity_z + 0x20000;
@@ -88,7 +88,7 @@ void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition 
         select_sprite_entry(status_record, D_80174098[index & 7], 0);
         action_record->action_timer.u = 8;
         action_record->action_state_flags &= 0xFFF7;
-        action_record->action_phase.u++;
+        action_record->action_phase++;
         break;
     case 2:
         timer = action_record->action_timer.u - 1;
@@ -103,7 +103,7 @@ void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition 
         index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A + 0x100) >> 9;
         select_sprite_entry(status_record, D_801740A0[index & 7], 0);
 
-        action_record->action_phase.u++;
+        action_record->action_phase++;
         break;
     case 3:
         if (status_record->flags & 0xE000) {

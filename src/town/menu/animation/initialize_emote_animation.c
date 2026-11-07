@@ -1,10 +1,10 @@
 #include "common.h"
+#include "slus.h"
 #include "town/menu/object_setup.h"
 #include "town/event/object_setup.h"
 #include "m2c_compat.h"
 struct Dst;
 struct Elem;
-void select_record_entry_and_value(void *state, void *entries, short index); /* extern */
 #include "shared/sprite_source.h"
 #include "town/event/state.h"
 #include "town/data.h"

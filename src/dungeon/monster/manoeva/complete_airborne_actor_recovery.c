@@ -31,7 +31,7 @@ void complete_airborne_actor_recovery(ActorRecord *action, ObjectPosition *motio
     s32 axis_pos;
     DungeonGlobalStatus *action_counter;
 
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         timer_next = action->unk_9E.u - 1;
@@ -49,7 +49,7 @@ void complete_airborne_actor_recovery(ActorRecord *action, ObjectPosition *motio
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.u = 5;
         action->unk_A0.value = 0;
-        action->action_phase.u++;
+        action->action_phase++;
                         /* fallthrough */
 
     case 1:
@@ -79,7 +79,7 @@ void complete_airborne_actor_recovery(ActorRecord *action, ObjectPosition *motio
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase.u++;
+            action->action_phase++;
         }
                         /* fallthrough */
 
@@ -97,7 +97,7 @@ void complete_airborne_actor_recovery(ActorRecord *action, ObjectPosition *motio
                 sprite,
                 D_801765F8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase.u++;
+            action->action_phase++;
         }
         break;
     }

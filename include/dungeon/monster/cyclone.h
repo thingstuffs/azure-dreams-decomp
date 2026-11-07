@@ -7,6 +7,7 @@
 
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 cyclone_direction_frames[];
+extern u8 cyclone_view_direction_entries[];
 
 /* Radial motion state stored at node body +0. */
 typedef struct RandomizedMotionObjectBody {

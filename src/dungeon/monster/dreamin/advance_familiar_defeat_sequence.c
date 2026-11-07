@@ -27,7 +27,7 @@ void advance_familiar_defeat_sequence(ActorRecord *work, ObjectPosition *part_a,
     void *object;
     u8 state;
 
-    state = work->action_phase.u;
+    state = work->action_phase;
     switch (state) {
     case 0:
         result = append_entity_display_text(actor, first = get_unused_text_buffer());
@@ -43,7 +43,7 @@ void advance_familiar_defeat_sequence(ActorRecord *work, ObjectPosition *part_a,
             D_801738A4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x812);
-        work->action_phase.u = work->action_phase.u + 1;
+        work->action_phase = work->action_phase + 1;
         part_a->velocity_z = 0;
         part_a->velocity_y = 0;
         part_a->velocity_x = 0;

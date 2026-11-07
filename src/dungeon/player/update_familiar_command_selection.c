@@ -66,7 +66,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
     void *selection_data;
     ActorRecord *selection;
 
-    phase = state->action_phase.u;
+    phase = state->action_phase;
     switch (phase) {
     case FAMILIAR_COMMAND_OPEN:
         selection_ready = create_familiar_selection_marker(((void *)state) + 0x104);
@@ -85,7 +85,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
         } else {
             submit_script_with_registered_context(&D_80088970);
         }
-        state->action_phase.u = (u8) (state->action_phase.u + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
     case FAMILIAR_COMMAND_INPUT:
         selection_result = resolve_player_input_facing(state->unk_9E.s, ((void *)state) + 0xA2, (*(void **)((u8 *)state
             + 0x104)) + 0x2A);
@@ -179,7 +179,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
                         }
                     } else {
                         (*(void **)((u8 *)state + 0x104)) = NULL;
-                        state->action_phase.u = (u8) (state->action_phase.u + 1);
+                        state->action_phase = (u8) (state->action_phase + 1);
                         return;
                     }
                 }

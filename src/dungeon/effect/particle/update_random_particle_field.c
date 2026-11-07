@@ -54,7 +54,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
     Copy24 *copy_src;
     ActorRecord *effect;
     Copy24 *output_data;
-    S_81934928_3 *search_origin;
+    FallingParticleEffectBody *search_origin;
     void *target;
     ObjectNodeHeader *particle;
     s32 rand_quotient;
@@ -111,7 +111,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
                     value = 0;
                 }
                 search_origin->unk_0C = value;
-                search_origin->unk_1E = value;
+                search_origin->unk_1C.at02.v = value;
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
@@ -122,12 +122,12 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
                     value = 0;
                 }
                 search_origin->unk_0E = value;
-                search_origin->unk_22 = value;
+                search_origin->unk_20.at02.v = value;
 
                 value = self->unk_14 - 0x100;
                 search_origin->unk_10 = value;
-                search_origin->unk_26 = value;
-                ((S_81934928_2 *)particle)->unk_20 = self;
+                search_origin->unk_24.at02.v = value;
+                search_origin->unk_00 = self;
             }
             spawn_index--;
         } while (spawn_index >= 0);
@@ -183,7 +183,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
     }
 }
 /* Moves a particle toward the terrain, spawns a random impact sprite on contact, and retires it afterward. */
-void draw_red(void *effect) {
+void draw_red(FallingParticleEffectBody *effect) {
     s32 ticks_left;
     s32 surface_height;
     s16 state;
@@ -192,55 +192,55 @@ void draw_red(void *effect) {
     S_81934C5C_2 *impact_effect;
     S_81934C5C_1 *owner;
 
-    owner = ((S_81934C5C_0 *)effect)->unk_00;
-    ((S_81934C5C_0 *)effect)->unk_48 = (u16) (((S_81934C5C_0 *)effect)->unk_48 - 1);
+    owner = effect->unk_00;
+    effect->unk_48 = (u16) (effect->unk_48 - 1);
     owner->unk_0E = (u16) (owner->unk_0E | 0x8000);
-    state = ((S_81934C5C_0 *)effect)->unk_4C;
+    state = effect->unk_4C;
     switch (state) {
     case 0:
-        ((S_81934C5C_0 *)effect)->unk_48 = 3U;
-        ((S_81934C5C_0 *)effect)->unk_28.at02.v = -4;
-        ((S_81934C5C_0 *)effect)->unk_30.at02.v = 0x10;
-        ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
+        effect->unk_48 = 3U;
+        effect->unk_28.at02.v = -4;
+        effect->unk_30.at02.v = 0x10;
+        effect->unk_4C = (s16) ((u16) effect->unk_4C + 1);
 
                         /* fallthrough */
     case 1:
-        ((S_81934C5C_0 *)effect)->unk_1C.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_1C.at00.v
-            + ((S_81934C5C_0 *)effect)->unk_28.at00.v);
-        ticks_left = (s16)((S_81934C5C_0 *)effect)->unk_48;
-        ((S_81934C5C_0 *)effect)->unk_24.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_24.at00.v
-            + ((S_81934C5C_0 *)effect)->unk_30.at00.v);
+        effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v
+            + effect->unk_28.at00.v);
+        ticks_left = (s16)effect->unk_48;
+        effect->unk_24.at00.v = (s32) (effect->unk_24.at00.v
+            + effect->unk_30.at00.v);
         if (ticks_left > 0) {
             return;
         }
-        ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
+        effect->unk_4C = (s16) ((u16) effect->unk_4C + 1);
         return;
     case 2:
-        ((S_81934C5C_0 *)effect)->unk_1C.at00.v += ((S_81934C5C_0 *)effect)->unk_28.at00.v;
-        ((S_81934C5C_0 *)effect)->unk_0C += (((S_81934C5C_0 *)effect)->unk_28.at02.v * 3) >> 2;
-        ((S_81934C5C_0 *)effect)->unk_10 += (((S_81934C5C_0 *)effect)->unk_30.at02.v * 3) >> 2;
-        ((S_81934C5C_0 *)effect)->unk_24.at00.v += ((S_81934C5C_0 *)effect)->unk_30.at00.v;
-        surface_height = sample_terrain_surface_height(((S_81934C5C_0 *)effect)->unk_1C.at02.v,
-            ((S_81934C5C_0 *)effect)->unk_20.at02.v, -0x400);
+        effect->unk_1C.at00.v += effect->unk_28.at00.v;
+        effect->unk_0C += (effect->unk_28.at02.v * 3) >> 2;
+        effect->unk_10 += (effect->unk_30.at02.v * 3) >> 2;
+        effect->unk_24.at00.v += effect->unk_30.at00.v;
+        surface_height = sample_terrain_surface_height(effect->unk_1C.at02.v,
+            effect->unk_20.at02.v, -0x400);
         if (surface_height >= 0x201) {
-            if (((S_81934C5C_0 *)effect)->unk_24.at02.v > 0) {
-                ((S_81934C5C_0 *)effect)->unk_4C = 0xFF;
+            if (effect->unk_24.at02.v > 0) {
+                effect->unk_4C = 0xFF;
                 return;
             }
         }
-        if (surface_height >= ((S_81934C5C_0 *)effect)->unk_24.at02.v) {
+        if (surface_height >= effect->unk_24.at02.v) {
             return;
         }
-        ((S_81934C5C_0 *)effect)->unk_24.at02.v = surface_height;
+        effect->unk_24.at02.v = surface_height;
         impact_effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (impact_effect != 0) {
             impact_effect->unk_10 = &D_80024928;
-            impact_effect->unk_20 = ((S_81934C5C_0 *)effect)->unk_00;
+            impact_effect->unk_20 = effect->unk_00;
             register_node(impact_effect, project_sprite_chain);
             impact_sprite = impact_effect->unk_0C;
-            (((ObjectPosition *)impact_effect->unk_08))->x.v = (s32) ((S_81934C5C_0 *)effect)->unk_1C.at00.v;
-            (((ObjectPosition *)impact_effect->unk_08))->y.v = (s32) ((S_81934C5C_0 *)effect)->unk_20.at00.v;
-            (((ObjectPosition *)impact_effect->unk_08))->z.v = (s32) ((S_81934C5C_0 *)effect)->unk_24.at00.v;
+            (((ObjectPosition *)impact_effect->unk_08))->x.v = (s32) effect->unk_1C.at00.v;
+            (((ObjectPosition *)impact_effect->unk_08))->y.v = (s32) effect->unk_20.at00.v;
+            (((ObjectPosition *)impact_effect->unk_08))->z.v = (s32) effect->unk_24.at00.v;
             impact_sprite->scale_y = 0x500;
             impact_sprite->scale_x = 0x500;
             impact_sprite->flags = (u16) (impact_sprite->flags | 0xC);
@@ -258,20 +258,20 @@ void draw_red(void *effect) {
                 impact_sprite->frame_ticks = 0;
             }
         }
-        ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
+        effect->unk_4C = (s16) ((u16) effect->unk_4C + 1);
         return;
     case 3:
-        ((S_81934C5C_0 *)effect)->unk_0C = (u16) (((S_81934C5C_0 *)effect)->unk_0C
-            + ((s32) (((S_81934C5C_0 *)effect)->unk_28.at02.v * 3) >> 2));
-        final_display_y = ((S_81934C5C_0 *)effect)->unk_10 + ((s32) (((S_81934C5C_0 *)effect)->unk_30.at02.v * 3) >> 2);
-        ((S_81934C5C_0 *)effect)->unk_10 = final_display_y;
-        if (((S_81934C5C_0 *)effect)->unk_24.at02.v < (s16) final_display_y) {
-            ((S_81934C5C_0 *)effect)->unk_10 = (u16) ((S_81934C5C_0 *)effect)->unk_24.at02.v;
-            ((S_81934C5C_0 *)effect)->unk_4C = 0xFF;
+        effect->unk_0C = (u16) (effect->unk_0C
+            + ((s32) (effect->unk_28.at02.v * 3) >> 2));
+        final_display_y = effect->unk_10 + ((s32) (effect->unk_30.at02.v * 3) >> 2);
+        effect->unk_10 = final_display_y;
+        if (effect->unk_24.at02.v < (s16) final_display_y) {
+            effect->unk_10 = (u16) effect->unk_24.at02.v;
+            effect->unk_4C = 0xFF;
         }
         return;
     case 0xFF:
-        ((S_81934C5C_0_pre *)effect)[-1].unk_00 = (u16) (((S_81934C5C_0_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:

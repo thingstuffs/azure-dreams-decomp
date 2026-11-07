@@ -48,7 +48,7 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
     ObjectNodeHeader *action_state;
 
     special_motion = 0;
-    switch (state->action_phase.u) {
+    switch (state->action_phase) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -126,7 +126,7 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(effect_pos, (*motion - 1) % 3);
-            state->action_phase.u = state->action_phase.u + 1;
+            state->action_phase = state->action_phase + 1;
             return;
         }
 
@@ -150,7 +150,7 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
             return;
         }
         sprite->flags &= 0xF7FF;
-        state->action_phase.u = state->action_phase.u + 1;
+        state->action_phase = state->action_phase + 1;
                                 /* fallthrough */
     case 2:
         if ((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||

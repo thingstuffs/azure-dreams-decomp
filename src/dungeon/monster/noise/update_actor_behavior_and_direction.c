@@ -22,12 +22,11 @@
 #include "dungeon/modules.h"
 #include "dungeon/monster/noise_frames.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
+#include "dungeon/monster/grineut/path_motion.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174598(void *, void *, void *, void *);
 void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
@@ -43,7 +42,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        motion->action_id.u = 0xE;
+        motion->action_id = 0xE;
         advance_stored_path_motion(motion, render_ctx, map_entity, actor);
         return;
     }
@@ -62,8 +61,8 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
 
     if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
         if (map_entity->frameTable == noise_frame_set) {
-            motion->action_id.u = 0xD;
-            motion->action_phase.u = 1;
+            motion->action_id = 0xD;
+            motion->action_phase = 1;
             motion->unk_8C.word = 0;
             actor->flags1C &= ~0x40000;
             return;
@@ -83,7 +82,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
             u8 current_state;
             u8 idle_state;
 
-            current_state = motion->action_id.u;
+            current_state = motion->action_id;
             idle_state = 0xE;
             if (current_state != idle_state) {
                 anim_table = noise_direction_frames;
@@ -95,7 +94,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
                 }
                 motion->unk_9E.s = 0;
                 motion->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
-                motion->action_id.u = idle_state;
+                motion->action_id = idle_state;
             }
         }
 
@@ -178,7 +177,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
                         &direction_flags);
                     player = primary_actor_record;
                     actor->facing = facing_angle;
-                    if (player->action_id.u == 0x11) {
+                    if (player->action_id == 0x11) {
                         begin_actor_spell_action(motion, render_ctx, map_entity, noise_spell_frame_set, noise_ability_resume_address);
                         return;
                     }

@@ -71,7 +71,7 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
     u8 phase;
     u32 entity_flags;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     case 0:
         if ((sprite->flags & 0x6000) == 0) {
@@ -84,7 +84,7 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         body->unk_9E.s = 5;
         body->unk_A0.value = 0;
-        body->action_phase.u++;
+        body->action_phase++;
                 /* fallthrough */
     case 1:
         body->unk_90.value -= body->unk_A0.value;
@@ -110,7 +110,7 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
             body->action_state_flags &= 0xFFF7;
             body->unk_90.value = 0;
             entity->flags1C |= ACTOR_GROUNDED;
-            body->action_phase.u++;
+            body->action_phase++;
         }
                 /* fallthrough */
     case 2:
@@ -125,7 +125,7 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
         sprite->frameTable = (u32)D_801753DC;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(sprite, D_801753DC[facing_index & 7], 0);
-        body->action_phase.u = 3;
+        body->action_phase = 3;
         break;
     default:
         break;

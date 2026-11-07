@@ -14,33 +14,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800C542C_2_pre {
-    void * unk_00;
-    s32 unk_04;
-    u8 pad_08[0x10];
-} S_800C542C_2_pre;   /* the 0x18 bytes before arg0 in create_orbiting_teleport_effect, addressed as arg0[-1] */
-
-   /* target in create_orbiting_teleport_effect */
-
-   /* source in create_orbiting_teleport_effect */
-
-typedef struct S_800C542C_5 {
-    u8 pad_00[0x1C];
-    void * unk_1C;
-    s32 unk_20;
-    void * unk_24;
-    u8 pad_28[0x2];
-    s16 unk_2A;
-    s16 unk_2C;
-    s16 unk_2E;
-    s16 unk_30;
-    s16 unk_32;
-    u8 pad_34[0x2];
-    s16 unk_36;
-} S_800C542C_5;   /* record in create_orbiting_teleport_effect */
-
-
-
 extern u8 D_800DF630[];
 
 /* Creates and initializes a display object linked to its owner. */
@@ -48,14 +21,14 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
 {
     ObjectNodeHeader *object;
     SpriteFrameState *display;
-    MovingPosition *source;
+    ObjectPosition *source;
     ObjectPosition *target;
-    S_800C542C_5 *record;
+    OrbitingTeleportEffectBody *record;
     void *callback;
     s16 saved_mode;
     s16 initial_state;
     s32 direction_fixed;
-    s32 parent;
+    SpriteFrameState *parent;
 
     object = allocate_flagged_object_node(0x12);
     saved_mode = effect_mode;
@@ -69,26 +42,26 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
         display->source = D_800DF630;
         display->depth_bias = 0xC;
 
-        source = ((S_800C542C_2_pre *)owner)[-1].unk_00;
+        source = NODE_HEADER(owner)->position;
         target = object->position;
-        target->x.w.i = source->x;
-        target->y.w.i = source->y;
+        target->x.w.i = source->x.unsigned_parts.integer;
+        target->y.w.i = source->y.unsigned_parts.integer;
         record = NODE_BODY(object);
-        target->z.w.i = source->z;
+        target->z.w.i = source->z.unsigned_parts.integer;
 
-        record->unk_30 = effect_value;
+        record->effect_value = effect_value;
         direction_fixed = direction << 0x10;
-        record->unk_1C = source;
-        parent = ((S_800C542C_2_pre *)owner)[-1].unk_04;
-        record->unk_2E = (s16)(direction_fixed >> 5);
-        record->unk_24 = owner;
-        record->unk_20 = parent;
+        record->owner_position = source;
+        parent = NODE_HEADER(owner)->sprite;
+        record->orbit_angle = (s16)(direction_fixed >> 5);
+        record->owner = owner;
+        record->owner_sprite = parent;
         display->offset_x = 0x2000;
-        record->unk_32 = 0x400;
-        record->unk_2C = rand();
+        record->size_offset = 0x400;
+        record->orbit_offset_phase = rand();
 
         if (effect_mode == 1) {
-            record->unk_2A = 0;
+            record->phase_ticks = 0;
         } else {
             if (effect_mode == 0) {
                 play_sound_if_enabled(0x802);
@@ -97,10 +70,10 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
                 play_sound_if_enabled(0x802);
                 initial_state = 0x20;
             }
-            record->unk_2A = initial_state;
+            record->phase_ticks = initial_state;
         }
 
-        record->unk_36 = saved_mode;
+        record->exit_mode = saved_mode;
         ((Rec_D_80082E80 *)owner)->unk_14.at00_s32.v |= 0x100000;
     }
     return object;

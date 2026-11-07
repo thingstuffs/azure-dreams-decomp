@@ -73,7 +73,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
     u8 *companion;
 
     {
-        u32 state = action->action_phase.u;
+        u32 state = action->action_phase;
 
         switch (state) {
         case 0:
@@ -98,7 +98,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             tile_dy = target_tile_y - sprite_tile_y;
             tile_dy = __builtin_abs(tile_dy);
             action->action_timer.s = ((tile_dx + tile_dy) * 4) + 9;
-            action->action_phase.u++;
+            action->action_phase++;
             spend_actor_mp(effect_actor, effect_flags);
         }
 
@@ -177,7 +177,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
                 return;
             }
             action->action_timer.s = 0;
-            action->action_phase.u++;
+            action->action_phase++;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -188,7 +188,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_hop_frames[facing & 7], 0);
             action->action_timer.s = 0;
-            action->action_phase.u++;
+            action->action_phase++;
             clear_player_linked_action_flags();
             return;
 
@@ -201,7 +201,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
                 return;
             }
         }
-            action->action_phase.u++;
+            action->action_phase++;
             {
                 ActorRecord *player = dungeon_actor_ring_anchor;
 
@@ -230,17 +230,17 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             action->action_timer.s = 0;
 
             if ((((WorldStatePage *)0x80010000)->actionMode == 0) && (current_dungeon_floor == 0x28)) {
-                action->action_phase.u = 7;
+                action->action_phase = 7;
             } else if ((*((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
-                action->action_phase.u++;
+                action->action_phase++;
             } else {
-                action->action_phase.u = 7;
+                action->action_phase = 7;
             }
             return;
 
         case 5:
             action->action_timer.s = 0;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
 
         case 6:
@@ -275,7 +275,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             action->action_timer.s = 0;
-            action->action_phase.u = 0x14;
+            action->action_phase = 0x14;
             actor->action_flags &= 0x7FFF;
             break;
 
@@ -298,7 +298,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             ((S_80175CD8_5 *)scene)->unk_1C |= 0x40000000;
         }
             (*(s16 *)((u8 *)action + 0x96)) = 0x28;
-            action->action_phase.u++;
+            action->action_phase++;
 
             if ((dungeon_mode_state != 0) || (current_dungeon_floor != 0x28)) {
                 text_start = get_unused_text_buffer();
@@ -356,7 +356,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
                 return;
             }
             action->action_timer.s = 0;
-            action->action_phase.u++;
+            action->action_phase++;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -367,7 +367,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             action->unk_8C.word_ptr = update_actor_turn_behavior;
-            action->action_id.u = 0xE;
+            action->action_id = 0xE;
             g_dungeon_status.active_actor = 0;
             actor->flags1C |= 0x40000;
             action->action_state_flags &= 0xFFF7;

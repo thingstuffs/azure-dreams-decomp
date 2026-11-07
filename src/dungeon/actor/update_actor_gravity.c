@@ -38,7 +38,7 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
     if (callback != 0) {
         callback(update_obj, motion, ent, update_obj);
     }
-    actor_gravity_callbacks[update_obj->action_id.u](update_obj, motion, ent, update_obj);
+    actor_gravity_callbacks[update_obj->action_id](update_obj, motion, ent, update_obj);
 
     x = motion->x.v;
     dx = motion->velocity_x;

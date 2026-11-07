@@ -29,7 +29,7 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
     s32 random;
     s32 one;
 
-    state = script->action_phase.u;
+    state = script->action_phase;
     one = 1;
     switch (state) {
     case 0:
@@ -39,7 +39,7 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
             -dir_step_x[(actor->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
             -dir_step_y[(actor->movement_facing >> 9) & 7] << 15;
-        script->action_phase.u++;
+        script->action_phase++;
 
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -55,7 +55,7 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
             }
             script->unk_A8.s = -1;
             script->action_timer.s = 0;
-            script->action_phase.s = 2;
+            script->action_phase = 2;
             return;
         }
         timer = -1;
@@ -103,7 +103,7 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
             begin_actor_display_action(script, motion, tile, manoeva_frame_set);
         } else {
             script->action_timer.s = 8;
-            script->action_phase.u++;
+            script->action_phase++;
         }
         return;
     case 2:

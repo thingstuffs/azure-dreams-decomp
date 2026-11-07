@@ -74,7 +74,7 @@ void update_actor_animation_movement(ActorRecord *body, ObjectPosition *motion, 
             update_callback(body, motion, sprite, body);
         }
     }
-    D_801566A0[body->action_id.u](body, motion, sprite, body);
+    D_801566A0[body->action_id](body, motion, sprite, body);
     {
         s32 previous_state;
 

@@ -34,7 +34,7 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
     s32 entity_flags;
     u16 target_distance;
     DungeonGlobalStatus *shared_state;
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -49,7 +49,7 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
         action->unk_A4.value = 0;
-        action->action_phase.u++;
+        action->action_phase++;
     case 1:
         frames_left = action->unk_9E.s;
         action->unk_90.value -= action->unk_A4.value;
@@ -78,7 +78,7 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             entity->flags1C |= ACTOR_GROUNDED;
-            action->action_phase.u++;
+            action->action_phase++;
         }
     case 2:
         if (entity->flags1C & ACTOR_GROUNDED) {
@@ -92,7 +92,7 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
                 sprite,
                 D_8015CE14[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase.u++;
+            action->action_phase++;
         }
         break;
     case 3:

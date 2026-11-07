@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "slus.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -25,7 +26,6 @@ typedef struct S_80D65810_0 {
 
    /* input in create_origin_motion_effect */
 
-void select_record_entry_and_value(void *state, void *entries, short index);
 extern void update_effect_collision_and_lifetime(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */

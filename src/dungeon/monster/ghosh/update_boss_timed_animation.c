@@ -25,7 +25,7 @@ void update_boss_timed_animation(ActorRecord *actor, ObjectPosition *transform, 
     s32 state;
     u8 *anim_table;
 
-    state = actor->action_phase.u;
+    state = actor->action_phase;
     switch (state) {
     case 0:
         anim_table = ghosh_frame_bank + 0x4A7C;
@@ -41,7 +41,7 @@ void update_boss_timed_animation(ActorRecord *actor, ObjectPosition *transform, 
         ((S_801740F8_2 *)motion)->unk_1C &= 0xF7FFFFFF;
         actor->unk_9E.s = 5;
         actor->unk_A4.value = 0;
-        actor->action_phase.u++;
+        actor->action_phase++;
     case 1:
         timer = actor->unk_9E.s;
         actor->unk_90.value -= actor->unk_A4.value;
@@ -56,7 +56,7 @@ void update_boss_timed_animation(ActorRecord *actor, ObjectPosition *transform, 
             actor->unk_90.value = 0;
             actor->action_state_flags &= 0xFFF7;
             ((S_801740F8_2 *)motion)->unk_1C |= 0x08000000;
-            actor->action_phase.u++;
+            actor->action_phase++;
         }
     case 2:
         if (!(((S_801740F8_2 *)motion)->unk_1C & 0x08000000)) {
@@ -67,7 +67,7 @@ void update_boss_timed_animation(ActorRecord *actor, ObjectPosition *transform, 
         transform->velocity_y = 0;
         transform->velocity_x = 0;
         set_record_integer_tile_center(transform, animation->tile_x, animation->tile_y);
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
     case 3:
         if (*(u8 **)&animation->frameTable != ghosh_frame_set_8 - 0x50) {

@@ -52,7 +52,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
     s32 offset_x;
 
     use_player = 0;
-    switch (actor_state->action_phase.u) {
+    switch (actor_state->action_phase) {
     case 0:
         if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
@@ -140,7 +140,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
                 return;
             }
             actor_state->action_timer.u = 0;
-            actor_state->action_phase.u++;
+            actor_state->action_phase++;
             return;
         }
 
@@ -164,7 +164,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
             return;
         }
         sprite->flags &= 0xF7FF;
-        actor_state->action_phase.u++;
+        actor_state->action_phase++;
         play_sound_if_enabled(0x703);
                         /* fall through */
 
@@ -246,7 +246,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
             !(sprite->flags & 0xE000)) {
             return;
         }
-        actor_state->action_phase.u++;
+        actor_state->action_phase++;
         return;
     }
 

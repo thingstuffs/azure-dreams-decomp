@@ -25,7 +25,7 @@ extern void func_80174520(void *, void *, void *, void *);
 void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ctx, SpriteFrameState *anim, ActorRecord *entity) {
     s32 action_state;
 
-    action_state = actor->action_phase.u;
+    action_state = actor->action_phase;
     switch (action_state) {
     case 0:
     {
@@ -41,7 +41,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
         select_sprite_entry(anim,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
     }
 
@@ -57,7 +57,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            actor->action_phase.u++;
+            actor->action_phase++;
             return;
         }
 
@@ -128,7 +128,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
     case 2:
         if (anim->flags & 0xE000) {

@@ -99,7 +99,7 @@ void *allocate_object_with_child_render_data(s32 kind, s32 part_x, s32 part_y, s
 
         outer = stable_object;
         outer_index = 0;
-        stable_object->action_id.u = 0xFF;
+        stable_object->action_id = 0xFF;
         stable_object->unk_9C = -1;
         stable_object->unk_8C.address = D_8016B400;
         object->flags1C |= 0x40000;

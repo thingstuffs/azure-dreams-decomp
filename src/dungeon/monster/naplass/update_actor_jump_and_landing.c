@@ -30,7 +30,7 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
     s16 ticks_left;
     s32 actor_flags;
 
-    switch (jump->action_phase.u) {
+    switch (jump->action_phase) {
     case 0:
         if (!(map_entity->flags & 0x6000)) {
             break;
@@ -44,7 +44,7 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         jump->unk_A4.value = 0;
-        jump->action_phase.u++;
+        jump->action_phase++;
 
     case 1:
         jump_ticks = jump->action_timer.s;
@@ -71,7 +71,7 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            jump->action_phase.u++;
+            jump->action_phase++;
         }
 
     case 2:
@@ -86,7 +86,7 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
                 map_entity,
                 naplass_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            jump->action_phase.u++;
+            jump->action_phase++;
         }
 
     default:

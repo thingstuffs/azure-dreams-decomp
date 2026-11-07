@@ -93,7 +93,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
         initialize_actor_sprite_and_animation(obj, pin_part_a, part_b, saved_spawn_flags);
         index = 0;
         actor_value = part_b->clut;
-        pin_actor->action_id.u = 0xFF;
+        pin_actor->action_id = 0xFF;
         pin_actor->unk_9C = -1;
         pin_actor->unk_8C.address = D_80158F6C;
         pin_actor->unk_AC.halves.high.u = actor_value;

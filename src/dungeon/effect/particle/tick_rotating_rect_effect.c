@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/particle.h"
 
@@ -33,7 +34,7 @@ void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, ObjectPosition
     timer = effect->ticks_remaining - 1;
     effect->ticks_remaining = timer;
     if ((s16)timer <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

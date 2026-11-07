@@ -46,8 +46,8 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(A
     if ((try_claim_dungeon_action_slot(actor) << 0x10) != 0) {
         return -1;
     }
-    action_state->action_id.s = 0x11;
-    action_state->action_phase.s = 0;
+    action_state->action_id = 0x11;
+    action_state->action_phase = 0;
     action_state->unk_8C.word = 0;
     actor->unk_84 = 0x7C;
     actor->unk_85 = 0;

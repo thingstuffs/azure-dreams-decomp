@@ -29,13 +29,13 @@ void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused
     s32 state;
 
     work = &g_game_work;
-    state = context->action_phase.u;
+    state = context->action_phase;
     switch (state) {
     case 0:
         if (input->flags & 0xE000) {
             adjust_source_value_and_finalize(entity, D_800E0672);
             context->action_timer.u = 0x80;
-            context->action_phase.u++;
+            context->action_phase++;
         }
         break;
 
@@ -56,7 +56,7 @@ void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused
             snapshot_inventory_familiar_records();
             runtime_dispatch_state.flags16 = 0xC000;
             request_scene_state_with_parameters(6, 0, 0, 0, 0xC000);
-            context->action_phase.u++;
+            context->action_phase++;
             break;
         }
         break;

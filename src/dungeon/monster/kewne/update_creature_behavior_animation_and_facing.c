@@ -43,7 +43,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_actor_path_and_facing(actor, context, sprite, creature);
         return;
     }
@@ -65,8 +65,8 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
 
     if (((u32)creature->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_8016FEA0) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             creature->flags1C &= ~0x40000;
             return;
@@ -86,8 +86,8 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             void *current_anims;
             u8 *anim_table;
 
-            if (actor->action_id.u != 0xE) {
-                actor->action_id.u = 0xE;
+            if (actor->action_id != 0xE) {
+                actor->action_id = 0xE;
                 actor->unk_B0.halves.high.s = 0;
             }
 
@@ -208,7 +208,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                     &distance);
                 player = primary_actor_record;
                 creature->facing = facing_angle;
-                if (player->action_id.u == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8016FE98, update_creature_behavior_animation_and_facing);
                     return;
                 }
@@ -254,7 +254,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             }
         }
     } else if ((get_entity_effect_value(creature, STATUS_PARALYSIS) << 16) == 0) {
-        if (primary_actor_record->action_id.u == 0x17) {
+        if (primary_actor_record->action_id == 0x17) {
             update_kewne_charge_counter(actor, context, sprite, creature);
         }
     }

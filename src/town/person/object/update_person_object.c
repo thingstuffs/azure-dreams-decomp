@@ -7,7 +7,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
 #include "slus.h"
-void select_record_entry_and_value(void *state, void *entries, short index);
 #include "town/scene/object/unlink_scene_list_node_api.h"
 #include "town/person.h"
 #include "town/scene/object.h"

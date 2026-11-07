@@ -85,7 +85,7 @@ void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *positio
         actor->unk_BB = 1;
         enqueue_runtime_pool_script(beldo_effect_pool_script);
         actor->pending_turn_updates = 0;
-        actor->action_phase.u = 0;
+        actor->action_phase = 0;
     }
 
     flag_word = &(*(u16 *)0x80013714);
@@ -126,7 +126,7 @@ void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *positio
     if (active_callback != 0) {
         active_callback(body, position, sprite, actor);
     }
-    beldo_callbacks[body->action_id.u](body, position, sprite, actor);
+    beldo_callbacks[body->action_id](body, position, sprite, actor);
 
     saved_state = (s32)state_direction << 16;
     current_state = actor->pending_turn_updates;

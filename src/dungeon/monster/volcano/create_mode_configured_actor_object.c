@@ -74,7 +74,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
             }
             root->update_callback = func_8016AA58;
             initialize_actor_sprite_and_animation(root, position, arg3_part, (s16)held_flags);
-            arg2_work->action_id.u = 0xFF;
+            arg2_work->action_id = 0xFF;
             arg2_work->unk_9C = -1;
             try_move_actor_to_valid_position(arg2_work, position, arg3_part, result);
         }

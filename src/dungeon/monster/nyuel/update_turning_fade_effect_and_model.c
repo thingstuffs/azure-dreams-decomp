@@ -68,7 +68,6 @@ struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 dungeon_resource_buffer[];
 extern s16 D_80174F48[];
-void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
@@ -103,15 +102,15 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
     void *model;
 
     object = ((struct S_8003E2D8 *)&g_game_work);
-    state = sequence->action_phase.u;
+    state = sequence->action_phase;
     switch (state) {
     case 0:
-        sequence->action_phase.u = (u8)(sequence->action_phase.u + 1);
+        sequence->action_phase = (u8)(sequence->action_phase + 1);
         return;
     case 1:
         run_cd_image_commands(&nyuel_image_commands, &nyuel_image_load_done, 0);
         sequence->unk_A8.s = 0;
-        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
         target->unk_8A = (u16) (u16)(target->facing);
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (u16)(target->facing) + 0x100)
@@ -131,7 +130,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         Control_CD(0xFF, (s32) set_byte_one, &nyuel_effect_load_done);
         select_nearby_target_and_initialize_slot(NODE_HEADER(target), position, 8, 0x300);
         sequence->action_timer.u = 0x10U;
-        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
     case 3:
         fade_timer = sequence->action_timer.u;
         fade_ticks = fade_timer - 1;
@@ -142,7 +141,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             if (ready == 0) {
                 return;
             }
-            sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
+            sequence->action_phase = (u8) (sequence->action_phase + 1);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
@@ -177,17 +176,17 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         select_record_entry_and_value(effect_sprite, &dungeon_resource_buffer[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
         actor->flags = (u16) (actor->flags | 0x80);
         sequence->action_timer.u = 0U;
-        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
         create_cylindrical_effect(sequence, position, actor);
         return;
     case 5:
         object = sequence->unk_A4.address;
         object = object->unk_0C;
         if (object->unk_14 & 0xE000) {
-            sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
+            sequence->action_phase = (u8) (sequence->action_phase + 1);
         }
     case 6:
-        if (sequence->action_phase.u != 6) {
+        if (sequence->action_phase != 6) {
             return;
         }
         movement_done = create_status_linked_render_effect(position, D_80174FD0[0], D_80174F48[0], &staged_spawn_count);
@@ -195,7 +194,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             return;
         }
         sequence->action_timer.u = 0x10U;
-        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
         decrement_monster_entry_count(target->species, 3);
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
         unlink_entity_node(target);
@@ -209,7 +208,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             return;
         }
         sequence->action_timer.u = 0x10U;
-        sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
+        sequence->action_phase = (u8) (sequence->action_phase + 1);
         ((S_801749A8_11 *)target->target)->unk_2A =
             (u16) (u16)(target->facing);
         model = target->target;

@@ -20,18 +20,18 @@ void update_item_target_selection(PlayerRecord *state, ObjectPosition *unused_1,
 {
     void *operation;
 
-    switch (state->actor.action_phase.u) {
+    switch (state->actor.action_phase) {
     case ITEM_TARGET_OPEN:
         operation = create_item_target_selector(reference_tile_object.selected_item);
         state->unk_C8 = operation;
         if (operation == 0) {
             break;
         }
-        state->actor.action_phase.u++;
+        state->actor.action_phase++;
     case ITEM_TARGET_WAIT:
         if (((ObjectNodeHeader *)state->unk_C8)->flags & 0x8000) {
             state->unk_C8 = 0;
-            state->actor.action_phase.u++;
+            state->actor.action_phase++;
         }
         break;
     case ITEM_TARGET_RESTORE_INPUT:

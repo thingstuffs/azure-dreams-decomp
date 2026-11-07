@@ -52,14 +52,14 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
     u16 control_count;
     u8 state_index;
 
-    state_index = state->action_phase.u;
+    state_index = state->action_phase;
     switch (state_index) {
     case 0:
         work->velocity_z = 0;
         work->velocity_y = 0;
         work->velocity_x = 0;
         state->action_timer.s = 0;
-        state->action_phase.u++;
+        state->action_phase++;
         encounter_recovery_flag = 0;
         return;
 
@@ -67,7 +67,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
     {
         if (encounter_recovery_flag == 0) {
             state->action_timer.s = 0;
-            state->action_phase.u++;
+            state->action_phase++;
             (actor->frameTable) = beldo_large_frame_set_11;
             select_sprite_entry(actor,
                 beldo_large_frame_set_11[((g_game_work.view.camera_rotation.parts.viewAngle + ctx->facing + 0x100) >> 9) & 7],
@@ -77,7 +77,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
                 return;
             }
             state->action_timer.s = 0;
-            state->action_phase.u++;
+            state->action_phase++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             (actor->frameTable) = beldo_large_frame_set_11;
             select_sprite_entry(actor,
@@ -93,7 +93,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
         if ((s16)timer == 0x11) {
             resolve_attack_damage_and_effects(ctx, actor, ctx->facing, 1);
             state->action_timer.s = 0;
-            state->action_phase.u++;
+            state->action_phase++;
         }
         if (state->action_timer.s != 0xF) {
             return;
@@ -113,12 +113,12 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
                 0);
         }
         if (encounter_recovery_flag != 0) {
-            state_index = state->action_phase.u;
+            state_index = state->action_phase;
             state->action_timer.s = 0;
-            state->action_phase.u = state_index + 1;
+            state->action_phase = state_index + 1;
             return;
         }
-        state->action_phase.u += 2;
+        state->action_phase += 2;
         return;
 
     case 4:
@@ -127,8 +127,8 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
         if ((s16)timer < 0x28) {
             return;
         }
-        state_index = state->action_phase.u;
-        state->action_phase.u = state_index + 1;
+        state_index = state->action_phase;
+        state->action_phase = state_index + 1;
         return;
 
     case 5:
@@ -146,7 +146,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
                 ((SystemFlagWord *)&system_update_flags)->flags = global_flags | 8;
                 enqueue_runtime_pool_script(setup_data);
                 ctx->pending_turn_updates = 0;
-                state->action_phase.u = 0;
+                state->action_phase = 0;
 
                 for (object_index = 0; object_index < 2; object_index++) {
                     object = (*(void **)((*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC + object_index * 4));

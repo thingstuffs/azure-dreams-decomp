@@ -45,7 +45,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
     u8 tile_y;
     s16 fade_ticks;
 
-    state = actor_state->action_phase.u;
+    state = actor_state->action_phase;
     switch (state) {
     case 0:
         actor_base = NODE_HEADER(actor_state);
@@ -56,13 +56,13 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
         sprite->clut -= 0x80;
         sprite->flags |= 0xC;
         actor_data->flags1C = (u32)((u32)(actor_data->flags1C) | (ACTOR_REFRESH_GROUND));
-        actor_state->action_phase.u++;
+        actor_state->action_phase++;
                         /* fall through */
 
     case 1:
         fade_ticks = actor_state->action_timer.s;
         if (fade_ticks == 0) {
-            actor_state->action_phase.u++;
+            actor_state->action_phase++;
             break;
         }
         brightness = sprite->color.c.r;
@@ -87,8 +87,8 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
         sprite->clut += 0x80;
         sprite->flags &= 0xFFF3;
         create_terrain_scaled_actor_effect(actor_base, &actor_data->facing,
-                      &actor_state->action_id.u, &actor_state->action_state_flags);
-        actor_state->action_phase.u++;
+                      &actor_state->action_id, &actor_state->action_state_flags);
+        actor_state->action_phase++;
         break;
 
     case 3:

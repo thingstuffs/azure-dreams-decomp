@@ -136,12 +136,12 @@ void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *actio
                                   action_entry->unk_13);
             }
         }
-        entity->action_id.u = 0x12;
+        entity->action_id = 0x12;
     } else {
-        entity->action_id.u = 0x12;
+        entity->action_id = 0x12;
     }
 
-    entity->action_phase.u = 0;
+    entity->action_phase = 0;
     entity->unk_8C.word = 0;
 
     if (frame_table != 0) {

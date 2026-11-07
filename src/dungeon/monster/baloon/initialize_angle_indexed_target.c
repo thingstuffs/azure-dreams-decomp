@@ -13,8 +13,8 @@ extern u8 D_800E2360;
 
 /* Initializes state and configures the target using an angle-indexed table entry. */
 void initialize_angle_indexed_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *target, ActorRecord *angleSource) {
-    state->action_id.s = 0x10;
-    state->action_phase.s = 0;
+    state->action_id = 0x10;
+    state->action_phase = 0;
     target->frameTable = &D_800E2360;
     select_sprite_entry(target, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + angleSource->facing + 0x100) >> 9) & 7) + &D_800E2360),
         0);

@@ -207,7 +207,7 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
             actors_page = (S_8016B0E8_4 *)0x800E0000;
             inactive_mask = 0x80000000;
             actor->pending_turn_updates = 0U;
-            entity->action_phase.s = 0;
+            entity->action_phase = 0;
             entity->unk_B4.bytes[0] = 0U;
             do {
                 lookup_offset = actor_index * 4;
@@ -264,7 +264,7 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
         if (update_callback != 0) {
             update_callback(entity, motion, sprite, actor);
         }
-        ghosh_callbacks[entity->action_id.u](entity, motion, sprite, actor);
+        ghosh_callbacks[entity->action_id](entity, motion, sprite, actor);
         if ((s16) prior_state != (s8) actor->pending_turn_updates) {
             try_move_actor_to_valid_position(entity, motion, sprite, actor);
         }

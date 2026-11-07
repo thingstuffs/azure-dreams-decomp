@@ -60,7 +60,7 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 /* Update motion and terrain collisions, then settle at a target or finish falling. */
 /* Moves an item through terrain checks, settles it using four saved item bytes, or shrinks its falling
  * sprite. */
-void update_motion_and_terrain_collision(TossedItemMotionBody *motion, void *position, void *object_arg)
+void update_motion_and_terrain_collision(TossedItemMotionBody *motion, S_801747F0_1 *position, void *object_arg)
 {
     S_801747F0_2 *object = object_arg;
     u8 colors[4];
@@ -88,8 +88,8 @@ settle:
         if (motion->settle_started.s == 0) {
             motion->settle_started.u = (u16)(motion->settle_started.u + 1);
             cell_y = motion->cell_y.s;
-            dx = ((S_801747F0_1 *)position)->unk_0E - motion->cell_x.s;
-            target_cell_y = ((S_801747F0_1 *)position)->unk_12;
+            dx = position->unk_0E - motion->cell_x.s;
+            target_cell_y = position->unk_12;
             if (dx < 0) {
                 dx = -dx;
             }
@@ -124,30 +124,30 @@ settle:
             {
                 s32 step_x;
                 s32 offset_x;
-                step_x = ((S_801747F0_1 *)position)->unk_0E << 6;
-                offset_x = ((S_801747F0_1 *)position)->unk_00.at02.v - 0x20;
-                ((S_801747F0_1 *)position)->unk_00.at02.v = (u16)((S_801747F0_1 *)position)->unk_00.at02.v + (step_x
+                step_x = position->unk_0E << 6;
+                offset_x = position->unk_00.at02.v - 0x20;
+                position->unk_00.at02.v = (u16)position->unk_00.at02.v + (step_x
                     - offset_x) / frames_left;
             }
             {
                 s32 step_y;
                 s32 offset_y;
-                step_y = ((S_801747F0_1 *)position)->unk_12 << 6;
-                offset_y = ((S_801747F0_1 *)position)->unk_04.at02.v - 0x20;
-                ((S_801747F0_1 *)position)->unk_04.at02.v = (u16)((S_801747F0_1 *)position)->unk_04.at02.v + (step_y
+                step_y = position->unk_12 << 6;
+                offset_y = position->unk_04.at02.v - 0x20;
+                position->unk_04.at02.v = (u16)position->unk_04.at02.v + (step_y
                     - offset_y) / motion->settle_frames.s;
             }
-            ((S_801747F0_1 *)position)->unk_08.at02.v = (u16)((S_801747F0_1 *)position)->unk_08.at02.v +
-                ((((S_801747F0_1 *)position)->unk_16
-                    - ((S_801747F0_1 *)position)->unk_08.at02.v) / motion->settle_frames.s);
+            position->unk_08.at02.v = (u16)position->unk_08.at02.v +
+                ((position->unk_16
+                    - position->unk_08.at02.v) / motion->settle_frames.s);
         }
         if (motion->settle_frames.s <= 0) {
             colors[0] = motion->arg.index;
             colors[1] = motion->arg.group;
             colors[2] = motion->arg.param;
             colors[3] = motion->arg.flags;
-            place_item_at_valid_floor_position(((S_801747F0_1 *)position)->unk_0E, ((S_801747F0_1 *)position)->unk_12,
-                          ((S_801747F0_1 *)position)->unk_16, object->unk_08, colors);
+            place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
+                          position->unk_16, object->unk_08, colors);
             (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
@@ -158,7 +158,7 @@ settle:
     }
 fall:
     if (motion->phase.s == 2) {
-        ((S_801747F0_1 *)position)->unk_08.at00.v += motion->velocity_z;
+        position->unk_08.at00.v += motion->velocity_z;
         motion->velocity_z += motion->acceleration_z;
         next_scale = object->unk_1E - 0xC8;
         object->unk_1E = next_scale;
@@ -168,16 +168,16 @@ fall:
             s32 fall_cell_y;
             fall_cell_x = motion->cell_x.s;
             fall_cell_y = motion->cell_y.s;
-            height = ((S_801747F0_1 *)position)->unk_08.at02u.v;
-            fall_height = ((S_801747F0_1 *)position)->unk_08.at02.v;
+            height = position->unk_08.at02u.v;
+            fall_height = position->unk_08.at02.v;
             if ((sample_terrain_surface_height((fall_cell_x << 6) & 0xFFC0,
                                (fall_cell_y << 6) & 0xFFC0,
                                (s16)(height - 0x20)) - 7) < fall_height) {
-                ((S_801747F0_1 *)position)->unk_08.at02.v = sample_terrain_surface_height(
+                position->unk_08.at02.v = sample_terrain_surface_height(
                     (motion->cell_x.s << 6) & 0xFFC0,
                     (motion->cell_y.s << 6) & 0xFFC0,
-                    (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20));
-                ((S_801747F0_1 *)position)->unk_08.at00u.v = 0;
+                    (s16)(position->unk_08.at02p.v - 0x20));
+                position->unk_08.at00u.v = 0;
                 (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
@@ -192,9 +192,9 @@ fall:
         if (motion->phase.s != 0) {
             return;
         }
-        ((S_801747F0_1 *)position)->unk_00.at00.v += motion->velocity_x;
+        position->unk_00.at00.v += motion->velocity_x;
         motion->velocity_x += motion->acceleration_x;
-        ((S_801747F0_1 *)position)->unk_04.at00.v += motion->velocity_y;
+        position->unk_04.at00.v += motion->velocity_y;
         {
             s32 velocity_y;
             s32 accel_y;
@@ -206,21 +206,21 @@ fall:
         }
         direction = (motion->direction.s * 4) + directions;
         next_cell_x = motion->cell_x.s + direction->unk_00;
-        x = ((S_801747F0_1 *)position)->unk_00.at02.v;
+        x = position->unk_00.at02.v;
         if (next_cell_x == (x / 64)) {
             next_cell_y = motion->cell_y.s + direction->unk_02;
-            y = ((S_801747F0_1 *)position)->unk_04.at02.v;
+            y = position->unk_04.at02.v;
             if (next_cell_y == (y / 64)) {
-                if (((check_left_tile_and_center_height(((S_801747F0_1 *)position)->unk_00.at02u.v,
-                    ((S_801747F0_1 *)position)->unk_04.at02u.v,
-                                   ((S_801747F0_1 *)position)->unk_08.at02.v) << 16) != 0) ||
-                    sample_terrain_surface_height(((S_801747F0_1 *)position)->unk_00.at02u.v,
-                        ((S_801747F0_1 *)position)->unk_04.at02u.v,
-                                  ((S_801747F0_1 *)position)->unk_08.at02.v) >= 0x200) {
-                    ((S_801747F0_1 *)position)->unk_00.at00.v -= motion->velocity_x;
+                if (((check_left_tile_and_center_height(position->unk_00.at02u.v,
+                    position->unk_04.at02u.v,
+                                   position->unk_08.at02.v) << 16) != 0) ||
+                    sample_terrain_surface_height(position->unk_00.at02u.v,
+                        position->unk_04.at02u.v,
+                                  position->unk_08.at02.v) >= 0x200) {
+                    position->unk_00.at00.v -= motion->velocity_x;
                     motion->velocity_x = 0;
                     motion->acceleration_x = 0;
-                    ((S_801747F0_1 *)position)->unk_04.at00.v -= motion->velocity_y;
+                    position->unk_04.at00.v -= motion->velocity_y;
                     motion->velocity_y = 0;
                     motion->acceleration_y = 0;
                 } else {
@@ -231,28 +231,28 @@ fall:
                 object->unk_06 = 0;
             }
         }
-        ((S_801747F0_1 *)position)->unk_08.at00.v += motion->velocity_z;
+        position->unk_08.at00.v += motion->velocity_z;
         motion->velocity_z += motion->acceleration_z;
-        height_2 = ((S_801747F0_1 *)position)->unk_08.at02u.v;
-        flight_height = ((S_801747F0_1 *)position)->unk_08.at02.v;
+        height_2 = position->unk_08.at02u.v;
+        flight_height = position->unk_08.at02.v;
         if ((sample_terrain_surface_height((motion->cell_x.s << 6) & 0xFFC0,
                            (motion->cell_y.s << 6) & 0xFFC0,
                            (s16)(height_2 - 0x20)) - 0x10) < flight_height) {
-            ((S_801747F0_1 *)position)->unk_08.at02.v = sample_terrain_surface_height(
+            position->unk_08.at02.v = sample_terrain_surface_height(
                 (motion->cell_x.s << 6) & 0xFFC0,
                 (motion->cell_y.s << 6) & 0xFFC0,
-                (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20));
-            ((S_801747F0_1 *)position)->unk_08.at00u.v = 0;
+                (s16)(position->unk_08.at02p.v - 0x20));
+            position->unk_08.at00u.v = 0;
             motion->acceleration_y = 0;
             motion->velocity_y = 0;
             motion->acceleration_x = 0;
             motion->velocity_x = 0;
             motion->phase.u = motion->phase.u + 1;
             if ((find_valid_floor_item_position(motion->cell_x.s, motion->cell_y.s,
-                               (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20),
-                               (s16 *)((u8 *)position + 0xE),
-                               (s16 *)((u8 *)position + 0x12),
-                               (s16 *)((u8 *)position + 0x16)) << 16) == 0) {
+                               (s16)(position->unk_08.at02p.v - 0x20),
+                               &position->unk_0E,
+                               &position->unk_12,
+                               &position->unk_16) << 16) == 0) {
                 motion->phase.s = 2;
                 motion->velocity_z = 0xFFF80000;
             }

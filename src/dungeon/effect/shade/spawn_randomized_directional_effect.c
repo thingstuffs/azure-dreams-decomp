@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/fade_effect.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
 
@@ -11,29 +12,10 @@
 #define NULL 0
 #endif
 
-typedef struct S_800D5DCC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_800D5DCC_0;
-
 typedef struct S_800D5DCC_3 {
     s16 unk_00;
     s16 unk_02;
 } S_800D5DCC_3;
-
-typedef struct S_800D5DCC_7 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    s16 unk_34;
-} S_800D5DCC_7;
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_randomized_directional_effect */
 
@@ -51,7 +33,7 @@ void spawn_randomized_directional_effect(ObjectNodeHeader *source, short angle, 
     ObjectPosition *velocity_x;
     ObjectPosition *velocity_y;
     S_800D5DCC_3 *direction;
-    S_800D5DCC_7 *effect_state;
+    FadeEffect *effect_state;
     ObjectNodeHeader *effect;
 
     effect = allocate_list_node(0x211, &source->next);
@@ -80,11 +62,11 @@ void spawn_randomized_directional_effect(ObjectNodeHeader *source, short angle, 
         effect_state = NODE_BODY(effect);
         velocity_y = effect->position;
         velocity_y->velocity_y += direction->unk_02 * 0x160000;
-        effect_state->unk_14 = angle;
-        effect_state->unk_32 = 7;
-        effect_state->unk_34 = 7;
+        effect_state->seed_angle = angle;
+        effect_state->remaining = 7;
+        effect_state->total = 7;
         register_node(effect, D_800D5AC0);
-        ((S_800D5DCC_0 *)effect)->unk_20 = effect_value;
-        effect_state->unk_08 = effect_value;
+        effect_state->base_color.word = effect_value;
+        effect_state->output = effect_value;
     }
 }

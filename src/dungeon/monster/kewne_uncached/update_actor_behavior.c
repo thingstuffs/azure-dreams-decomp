@@ -34,7 +34,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
     u16 flags;
     s32 state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
@@ -43,7 +43,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         flags = object->flags;
         if (flags & 0x8000) {
             object->flags = flags | 0x6000;
-            action->action_phase.u = 2;
+            action->action_phase = 2;
             resolve_attack_damage_and_effects(actor, object, actor->facing, 1);
             return;
         }
@@ -58,7 +58,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         select_sprite_entry(object, *facing_ptr, 0);
         action->action_timer.u = 0;
         play_sound_if_enabled(0x808);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     }
 
@@ -128,7 +128,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, object->tile_x, object->tile_y);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     }
 

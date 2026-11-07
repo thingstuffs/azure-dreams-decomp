@@ -25,8 +25,8 @@ void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *a
         apply_camera_offset_and_select_target(NODE_HEADER(entity), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             action_state->unk_8C.word = 0;
-            action_state->action_id.s = 0x11;
-            action_state->action_phase.s = 0;
+            action_state->action_id = 0x11;
+            action_state->action_phase = 0;
             entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
             action_state->action_state_flags =
                 (u16) (action_state->action_state_flags & 0xFFF7);

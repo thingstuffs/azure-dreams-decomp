@@ -34,12 +34,12 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
     u32 work;
     void *call_actor;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     actor = actor_ptr;
     switch (state) {
     case 0:
         if (animation->flags & 0x8000) {
-            action->action_phase.u = 3;
+            action->action_phase = 3;
             animation->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
@@ -47,9 +47,9 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        current_state = action->action_phase.u;
+        current_state = action->action_phase;
         action->action_timer.u = 0;
-        action->action_phase.u = current_state + 1;
+        action->action_phase = current_state + 1;
         return;
     case 1:
         timer = action->action_timer.u + 1;
@@ -63,9 +63,9 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
                 ((S_80172F04_4 *)((u8 *)work))->unk_00,
                 0);
             play_sound_if_enabled(0x809);
-            current_state = action->action_phase.u;
+            current_state = action->action_phase;
             action->action_timer.u = 0;
-            action->action_phase.u = current_state + 1;
+            action->action_phase = current_state + 1;
             return;
         }
         return;
@@ -74,9 +74,9 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
         action->action_timer.u = timer;
         if (((s16)timer == 4) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
-            current_state = action->action_phase.u;
+            current_state = action->action_phase;
             action->action_timer.u = 0;
-            action->action_phase.u = current_state + 1;
+            action->action_phase = current_state + 1;
             return;
         }
         return;

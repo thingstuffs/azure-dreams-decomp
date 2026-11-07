@@ -38,8 +38,8 @@ void try_begin_put_down_carried_object(ActorRecord *state, EntityRec *target, Sp
         }
     }
     if (actor_or_can != 0) {
-        state->action_id.s = 0x1F;
-        state->action_phase.s = 0;
+        state->action_id = 0x1F;
+        state->action_phase = 0;
         state->unk_8C.word = 0;
         sprite->frameTable = player_put_down_frames;
         set_sprite_animation_frame(sprite, player_put_down_frames[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)) >> 9) & 7], 0, 1);

@@ -79,7 +79,7 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &naplass_slot_f_action_callback;
         part_b->flags |= 0xC;

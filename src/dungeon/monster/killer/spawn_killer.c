@@ -87,7 +87,7 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 
         initialize_actor_sprite_and_animation(created, position, part_b,
             (s16)original_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = killer_action_resume_address;
         try_move_actor_to_valid_position(actor, position,

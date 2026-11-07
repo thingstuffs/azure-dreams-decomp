@@ -26,7 +26,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
 
     s32 state;
 
-    state = actor->action_phase.u;
+    state = actor->action_phase;
     switch (state) {
     case 0:
     {
@@ -44,7 +44,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
     }
     case 1:
@@ -59,7 +59,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            actor->action_phase.u++;
+            actor->action_phase++;
             return;
         }
 
@@ -128,7 +128,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
     }
     case 2:

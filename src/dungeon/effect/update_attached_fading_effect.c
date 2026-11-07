@@ -27,11 +27,6 @@ typedef struct S_800B490C_0 {
     u16 unk_1C;
 } S_800B490C_0;   /* arg0 in update_attached_fading_effect */
 
-typedef struct S_800B490C_1 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_800B490C_1;
-
 
 
 
@@ -42,7 +37,7 @@ typedef struct S_800B490C_1 {
 extern s32 attached_fade_draw_address;
 
 /* Update an attached effect with damped vertical motion, fading, shrinking, and flashing. */
-void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
+void update_attached_fading_effect(S_800B490C_0 *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     s32 phase;
     s16 next_phase;
     s32 rebound_speed;
@@ -58,45 +53,45 @@ void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteF
     u16 next_scale;
     u8 brightness;
     u8 next_brightness;
-    S_800B490C_1 *parent;
+    ObjectNodeHeader *parent;
     ObjectPosition *parent_pos;
 
-    parent = ((S_800B490C_0 *)effect)->unk_00;
+    parent = effect->unk_00;
     if (parent != NULL) {
-        if (parent->unk_1E & 0x8000) {
-            ((S_800B490C_0 *)effect)->unk_00 = NULL;
-            ((S_800B490C_0 *)effect)->unk_14 = NULL;
+        if (parent->flags & 0x8000) {
+            effect->unk_00 = NULL;
+            effect->unk_14 = NULL;
         }
     }
-    if (((S_800B490C_0 *)effect)->unk_10 != 0) {
-        ((S_800B490C_0 *)effect)->unk_10 = (s16) ((u16) ((S_800B490C_0 *)effect)->unk_10 - 1);
+    if (effect->unk_10 != 0) {
+        effect->unk_10 = (s16) ((u16) effect->unk_10 - 1);
         return;
     }
-    parent_pos = ((S_800B490C_0 *)effect)->unk_14;
+    parent_pos = effect->unk_14;
     if (parent_pos != NULL) {
-        motion->x.w.i = ((u16)motion->x.w.i - (((S_800B490C_0 *)effect)->unk_18 - parent_pos->x.unsigned_parts.integer));
-        ((S_800B490C_0 *)effect)->unk_18 = (u16) ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->x;
-        motion->y.w.i = ((u16)motion->y.w.i - (((S_800B490C_0 *)effect)->unk_1A
-            - ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->y));
-        ((S_800B490C_0 *)effect)->unk_1A = (u16) ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->y;
-        motion->z.w.i = ((u16)motion->z.w.i - (((S_800B490C_0 *)effect)->unk_1C
-            - ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->z));
-        ((S_800B490C_0 *)effect)->unk_1C = (u16) ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->z;
+        motion->x.w.i = ((u16)motion->x.w.i - (effect->unk_18 - parent_pos->x.unsigned_parts.integer));
+        effect->unk_18 = (u16) ((MovingPosition *)(effect->unk_14))->x;
+        motion->y.w.i = ((u16)motion->y.w.i - (effect->unk_1A
+            - ((MovingPosition *)(effect->unk_14))->y));
+        effect->unk_1A = (u16) ((MovingPosition *)(effect->unk_14))->y;
+        motion->z.w.i = ((u16)motion->z.w.i - (effect->unk_1C
+            - ((MovingPosition *)(effect->unk_14))->z));
+        effect->unk_1C = (u16) ((MovingPosition *)(effect->unk_14))->z;
     }
-    phase = ((S_800B490C_0 *)effect)->unk_08;
+    phase = effect->unk_08;
     switch (phase) {
     case 0:
         motion->velocity_z = 0x200000;
         motion->z.w.i = ((u16)motion->z.w.i - 0x80);
-        ((S_800B490C_0 *)effect)->unk_04.at00.v = 0x200000;
+        effect->unk_04.at00.v = 0x200000;
         sprite->scale_y = 0x1000U;
         sprite->scale_x = 0x1000U;
-        register_node(effect - 0x20, &attached_fade_draw_address);
-        ((S_800B490C_0 *)effect)->unk_0A = 0x10U;
-        ((S_800B490C_0 *)effect)->unk_08 = (s16) ((u16) ((S_800B490C_0 *)effect)->unk_08 + 1);
+        register_node(NODE_HEADER(effect), &attached_fade_draw_address);
+        effect->unk_0A = 0x10U;
+        effect->unk_08 = (s16) ((u16) effect->unk_08 + 1);
     case 1:
-        fade_frames = ((S_800B490C_0 *)effect)->unk_0A - 1;
-        ((S_800B490C_0 *)effect)->unk_0A = fade_frames;
+        fade_frames = effect->unk_0A - 1;
+        effect->unk_0A = fade_frames;
         if ((s16) fade_frames > 0) {
             brightness = sprite->color.c.b;
             next_brightness = brightness + ((s32) (0x80 - brightness) / (s16) fade_frames);
@@ -104,23 +99,23 @@ void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteF
             sprite->color.c.g = next_brightness;
             sprite->color.c.r = next_brightness;
         } else {
-            next_phase = (u16) ((S_800B490C_0 *)effect)->unk_08 + 1;
-            ((S_800B490C_0 *)effect)->unk_08 = next_phase;
+            next_phase = (u16) effect->unk_08 + 1;
+            effect->unk_08 = next_phase;
         }
         break;
     case 3:
-        hold_frames = ((S_800B490C_0 *)effect)->unk_0A - 1;
-        ((S_800B490C_0 *)effect)->unk_0A = hold_frames;
+        hold_frames = effect->unk_0A - 1;
+        effect->unk_0A = hold_frames;
         if ((hold_frames << 0x10) <= 0) {
             update_value = 8;
-            ((S_800B490C_0 *)effect)->unk_0A = update_value;
-            next_phase = (u16) ((S_800B490C_0 *)effect)->unk_08 + 1;
-            ((S_800B490C_0 *)effect)->unk_08 = next_phase;
+            effect->unk_0A = update_value;
+            next_phase = (u16) effect->unk_08 + 1;
+            effect->unk_08 = next_phase;
         }
         break;
     case 4:
-        shrink_frames = ((S_800B490C_0 *)effect)->unk_0A - 1;
-        ((S_800B490C_0 *)effect)->unk_0A = shrink_frames;
+        shrink_frames = effect->unk_0A - 1;
+        effect->unk_0A = shrink_frames;
         if ((s16) shrink_frames > 0) {
             scale = sprite->scale_y;
             next_scale = scale + ((s32) (0 - scale) / (s16) shrink_frames);
@@ -137,8 +132,8 @@ void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteF
         break;
     }
     motion->z.v = (s32) (motion->z.v + motion->velocity_z);
-    frame = ((S_800B490C_0 *)effect)->unk_0C + 1;
-    ((S_800B490C_0 *)effect)->unk_0C = frame;
+    frame = effect->unk_0C + 1;
+    effect->unk_0C = frame;
     if (frame & 1) {
         velocity = motion->velocity_z;
         update_value = velocity >> 1;
@@ -148,24 +143,24 @@ void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteF
         }
         motion->velocity_z = update_value;
         if (damped_speed < 2) {
-            rebound_velocity = 0 - ((s32) ((S_800B490C_0 *)effect)->unk_04.at00.v >> 1);
-            ((S_800B490C_0 *)effect)->unk_04.at00.v = rebound_velocity;
+            rebound_velocity = 0 - ((s32) effect->unk_04.at00.v >> 1);
+            effect->unk_04.at00.v = rebound_velocity;
             motion->velocity_z = rebound_velocity;
-            rebound_speed = ((S_800B490C_0 *)effect)->unk_04.at02.v;
+            rebound_speed = effect->unk_04.at02.v;
             if (rebound_speed < 0) {
                 rebound_speed = 0 - rebound_speed;
             }
             if (rebound_speed < 2) {
-                if (((S_800B490C_0 *)effect)->unk_08 < 3) {
-                    ((S_800B490C_0 *)effect)->unk_08 = 3;
-                    ((S_800B490C_0 *)effect)->unk_0A = 8U;
+                if (effect->unk_08 < 3) {
+                    effect->unk_08 = 3;
+                    effect->unk_0A = 8U;
                 }
             }
         }
     }
-    if (((S_800B490C_0 *)effect)->unk_0E != 0) {
+    if (effect->unk_0E != 0) {
         update_value = 0x2CF0F0F0;
-        if (((S_800B490C_0 *)effect)->unk_0C & 3) {
+        if (effect->unk_0C & 3) {
             update_value = 0x2C404040;
         }
         sprite->color.word = update_value;

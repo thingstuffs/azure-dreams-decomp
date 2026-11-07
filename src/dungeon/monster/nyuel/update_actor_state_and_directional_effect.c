@@ -29,7 +29,7 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
     u8 *effect_table;
     s32 direction;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
     {
@@ -44,7 +44,7 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
         sprite->frameTable = initial_effects;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, initial_effects[direction & 7], 0);
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
     }
     case 1:

@@ -7,6 +7,7 @@
 #include "engine/graphics.h"
 #include "engine/menu.h"
 
+#include "sdk/rand.h"
 struct ObjectPosition;
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/screen/menu.h"
@@ -20,6 +21,7 @@ struct ObjectPosition;
 #include "dungeon/item.h"
 #include "dungeon/item/position.h"
 #include "dungeon/data.h"
+#include "dungeon/globals.h"
 
 typedef struct {
     u8 pad0[3];
@@ -620,7 +622,6 @@ void update_blinking_sprite_flash(void *state_arg, ObjectPosition *unused, void 
 #include "m2c_compat.h"
 
 extern void update_blinking_sprite_flash(void *state, ObjectPosition *unused, void *primitive);
-extern M2C_UNK visual_object_sprite_data;
 
 typedef struct S_800B8D64_0 {
     u8 pad_00[0x8];
@@ -2561,7 +2562,6 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
 #include "m2c_compat.h"
 #include "dungeon/effect/screen/actor_linked_particle.h"
 
-s32 rand(void);                                /* extern */
 struct DungeonObject;
 extern s32 draw_particle_effect_primitives(struct DungeonObject *object, u16 *position);
 
@@ -3178,7 +3178,7 @@ typedef struct OrbitingColorParticleBody {
     s16 mode;
     s16 count;
     s16 angle;
-    s16 unk_50;
+    u16 vertical_extent;
     u8 pad52[6];
     u16 delta;
 } OrbitingColorParticleBody;
@@ -3276,11 +3276,6 @@ typedef struct S_800BBDEC_0 {
 
    /* arg2 in draw_shaded_vertical_quad */
 
-typedef struct S_800BBDEC_4 {
-    u8 pad_00[0x50];
-    u16 unk_50;
-} S_800BBDEC_4;   /* arg0 in draw_shaded_vertical_quad */
-
 typedef struct S_800BBDEC_5 {
     u8 pad_00[0x4];
     union {
@@ -3313,7 +3308,7 @@ extern void SetPolyG4(void *);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Projects and queues a shaded quad with optional semitransparency. */
-void draw_shaded_vertical_quad(S_800BBDEC_4 *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value)
+void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value)
 {
     u8 *scratch = (u8 *)0x1F800000;
     void **render_ctx = (void **)((u8 *)(&g_game_work));
@@ -3341,7 +3336,7 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, ObjectPosition *position, S
 
     ((S_800BBDEC_0 *)scratch)->unk_7C = 0;
     ((S_800BBDEC_0 *)scratch)->unk_74 = 0;
-    end_z = -object->unk_50;
+    end_z = -object->vertical_extent;
     ((S_800BBDEC_0 *)scratch)->unk_88 = 0x10;
     ((S_800BBDEC_0 *)scratch)->unk_78 = 0x10;
     ((S_800BBDEC_0 *)scratch)->unk_80 = 0;
@@ -3392,8 +3387,8 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, ObjectPosition *position, S
 }
 #include "common.h"
 
-struct S_800BBDEC_4;
-extern void draw_shaded_vertical_quad(struct S_800BBDEC_4 *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value);
+struct OrbitingColorParticleBody;
+extern void draw_shaded_vertical_quad(struct OrbitingColorParticleBody *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value);
 
 /* Process each linked state using the signed halfword at data offset 6. */
 s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data) {
@@ -3421,10 +3416,10 @@ extern void update_orbiting_color_particle(struct OrbitingColorParticleBody *sta
 extern s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data);
 
 /* Creates an object and initializes its position, angle, and state. */
-void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48) {
-    s16 saved_value_50 = value_50;
-    s16 saved_value_58 = value_58;
-    s16 saved_value_48 = value_48;
+void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 vertical_extent, s16 angle_delta, s32 state_word, s16 shift) {
+    s16 saved_vertical_extent = vertical_extent;
+    s16 saved_angle_delta = angle_delta;
+    s16 saved_shift = shift;
     SpriteFrameState *transform;
     OrbitingColorParticleBody *state;
     ObjectNodeHeader *object;
@@ -3447,10 +3442,10 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
         transform->flags = (u16) (transform->flags | 0xC);
         state->angle = angle;
         state->count = 4;
-        state->unk_50 = (s16) saved_value_50;
+        state->vertical_extent = (u16) saved_vertical_extent;
         state->target_color.word = state_word;
-        state->delta = (s16) saved_value_58;
-        state->shift = (s16) saved_value_48;
+        state->delta = (s16) saved_angle_delta;
+        state->shift = (s16) saved_shift;
     }
     return object;
 }

@@ -64,7 +64,7 @@ void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &dragon_slot_f_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

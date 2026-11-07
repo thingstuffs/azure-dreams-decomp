@@ -61,7 +61,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
     if ((s32)duration < elapsed_ticks) {
         ghosh_command_stream = stream + 2;
         ghosh_command_ticks = 0;
-        obj->action_phase.s = 0;
+        obj->action_phase = 0;
     }
 
     angle = command_byte & 7;
@@ -79,7 +79,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         result = 0;
         return result;
     case 0xC0:
-        obj->action_phase.s = 0;
+        obj->action_phase = 0;
                         /* fall through */
     case 0xC8:
         update_boss_timed_animation(call_obj, context_arg, entity, obj);

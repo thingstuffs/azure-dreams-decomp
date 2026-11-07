@@ -34,9 +34,9 @@ void start_direction_based_action(ActorRecord *body, ObjectPosition *unused, Spr
         action_data = ((u8 *)(&g_dungeon_status));
         if (!(*(u16 *)(action_data + 2) & 0x2000)) {
             direction_table = D_801755B4;
-            body->action_id.s = 0x17;
+            body->action_id = 0x17;
             body->unk_8C.word = 0;
-            body->action_phase.s = 0;
+            body->action_phase = 0;
             body->action_timer.s = 0;
 
             animation->frameTable = direction_table;

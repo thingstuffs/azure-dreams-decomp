@@ -34,7 +34,7 @@ void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, Sprit
     if (callback != 0) {
         callback(object_base, motion, entity, object_base);
     }
-    floor_contact_callbacks[object_base->action_id.u](object_base, motion, entity, object_base);
+    floor_contact_callbacks[object_base->action_id](object_base, motion, entity, object_base);
 
     entity_flags = entity->flags;
     if (!(entity_flags & 0x8000)) {

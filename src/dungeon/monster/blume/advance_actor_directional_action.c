@@ -41,7 +41,7 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
     void *active_actor;
     s8 tile;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     actor = actor_in;
     switch (state) {
     case 0:
@@ -54,7 +54,7 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
                 0);
             counter = &g_dungeon_status;
             (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
-            controller->action_phase.u++;
+            controller->action_phase++;
             break;
         }
         break;
@@ -161,7 +161,7 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
         }
 
 
-        controller->action_phase.u++;
+        controller->action_phase++;
         break;
 
     case 2:

@@ -66,7 +66,7 @@ void *reset_actor_animation_state(ActorRecord *body)
         ((S_800D8590_0 *)parent)->unk_10 = (s32)D_800D8728 & 0x7FFFFFFF;
         object->unk_A8.s = body->species;
         body->species = MONSTER_FROG;
-        object->action_id.u = 0xFF;
+        object->action_id = 0xFF;
         object->unk_9C = -1;
         object->unk_8C.byte_ptr = update_actor_facing_animation;
         (*(void ** *)(child + 0x2C)) = actor_action_frames;

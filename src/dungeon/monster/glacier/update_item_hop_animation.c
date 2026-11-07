@@ -35,7 +35,7 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
     s32 actor_flags;
     DungeonGlobalStatus *global_base;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -51,7 +51,7 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
         action->unk_A4.value = 0;
-        action->action_phase.u++;
+        action->action_phase++;
                         /* fallthrough */
     case 1:
         action->unk_90.value -= action->unk_A4.value;
@@ -84,7 +84,7 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase.u++;
+            action->action_phase++;
         }
                         /* fallthrough */
     case 2:
@@ -102,7 +102,7 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
                 *(&D_801760C4 +
                   (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                 0);
-            action->action_phase.u++;
+            action->action_phase++;
         }
         break;
     case 3:

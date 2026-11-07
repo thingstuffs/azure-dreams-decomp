@@ -23,8 +23,8 @@ void begin_actor_turn_toward_target(ActorRecord *body, ObjectPosition *unused, v
         motion->flags14 &= 0xFFFDFFFF;
         return;
     }
-    body->action_id.s = 0x2A;
-    body->action_phase.s = 0;
+    body->action_id = 0x2A;
+    body->action_phase = 0;
     body->unk_8C.word = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     body->action_timer.s = 0x10;

@@ -16,7 +16,7 @@ void advance_banked_category_action(ActorRecord *object, ObjectPosition *unused_
     u32 bank;
     s32 (*callback)(s32, void *, s32, s32);
 
-    state = object->action_phase.u;
+    state = object->action_phase;
     if (state == 0 || state == 16) {
         callback_data = *(u8 **)((u8 *)object + 0x110);
         row_index = callback_data[1] - 1;
@@ -31,7 +31,7 @@ void advance_banked_category_action(ActorRecord *object, ObjectPosition *unused_
         }
         if (callback((s32)context | 0xA0000000, callback_data, 0, 0) != 0) {
             *(void **)((u8 *)object + 0x110) = 0;
-            object->action_phase.u += 1;
+            object->action_phase += 1;
             return;
         }
         return;

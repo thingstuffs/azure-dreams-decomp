@@ -9,21 +9,21 @@
 void initialize_actor_motion_transition(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 phase;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     if (phase != 0) {
         if (phase != 1) {
             return;
         }
     } else {
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 1U;
+            body->action_phase = 1U;
             sprite->flags |= 0x6000;
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        body->action_phase.u = (u8) (body->action_phase.u + 1);
+        body->action_phase = (u8) (body->action_phase + 1);
     }
     if (((sprite->unk_04 == 5) && (sprite->flags & 0x1000)) || (sprite->flags & 0x8000)) {
         play_sound_if_enabled(0x803);

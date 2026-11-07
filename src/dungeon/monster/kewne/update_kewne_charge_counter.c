@@ -29,9 +29,9 @@ void update_kewne_charge_counter(ActorRecord *actor_state, ObjectPosition *posit
             actor_state->unk_B0.halves.high.u = 0x3C;
             g_dungeon_status.activity_counts.parts.pending_action_count =
                 (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
-            actor_state->action_id.s = 0x19;
+            actor_state->action_id = 0x19;
             actor_state->unk_8C.word = 0;
-            actor_state->action_phase.s = 0;
+            actor_state->action_phase = 0;
             direction_frames = kewne_frame_set;
             sprite->frameTable = direction_frames;
             select_sprite_entry(sprite,

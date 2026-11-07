@@ -21,7 +21,7 @@ void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, S
     u8 *page_base;
     s32 state;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0xE000)) {
@@ -38,7 +38,7 @@ void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, S
             counter_value--;
             g_dungeon_status.activity_counts.parts.pending_action_count = counter_value;
         }
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 1:
@@ -53,7 +53,7 @@ void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, S
                 state = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
                 state++;
                 g_dungeon_status.activity_counts.parts.pending_action_count = state;
-                body->action_phase.u++;
+                body->action_phase++;
                 return;
             }
             actor->flags1C &= ~0x200;
@@ -157,7 +157,7 @@ void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, S
             g_dungeon_status.activity_counts.parts.pending_action_count = state;
         }
 
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 2:

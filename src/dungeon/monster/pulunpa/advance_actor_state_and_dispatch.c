@@ -29,7 +29,7 @@ void advance_actor_state_and_dispatch(ActorRecord *body, ObjectPosition *positio
 {
     u8 state;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
     {
@@ -130,7 +130,7 @@ void advance_actor_state_and_dispatch(ActorRecord *body, ObjectPosition *positio
         }
 
 increment_state:
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 2:

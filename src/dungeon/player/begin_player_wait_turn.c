@@ -22,9 +22,9 @@ void begin_player_wait_turn(ActorRecord *state, ObjectPosition *mode, void *spri
     s32 initial_state;
 
     initial_state = 0x1C;
-    state->action_id.s = initial_state;
+    state->action_id = initial_state;
     flags = &g_game_work;
-    state->action_phase.s = 0;
+    state->action_phase = 0;
     state->unk_8C.word = 0;
     if ((((SysPage *)0x80010000)->flags & 2) || ((flags->buttons & 0x20) && check_action_available_without_nearby_actor() != 0)) {
         g_dungeon_status.flags = (u16)(g_dungeon_status.flags | 0x80);

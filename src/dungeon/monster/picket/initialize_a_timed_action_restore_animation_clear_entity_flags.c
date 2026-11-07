@@ -26,7 +26,7 @@ void initialize_a_timed_action_restore_animation_clear_entity_flags(ActorRecord 
     u16 ticks_left;
     u8 state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         play_sound_if_enabled(0x50C);
@@ -34,7 +34,7 @@ void initialize_a_timed_action_restore_animation_clear_entity_flags(ActorRecord 
         create_and_initializes_display_source_position_appearance(context, animation, entity);
         entity->unk_48 = 0;
         entity->unk_49 = 0;
-        action->action_phase.u++;
+        action->action_phase++;
     case 1:
         break;
     default:

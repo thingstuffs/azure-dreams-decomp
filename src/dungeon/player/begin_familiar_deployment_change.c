@@ -14,8 +14,8 @@ void begin_familiar_deployment_change(ActorRecord *obj, s32 unused, void *displa
     s32 lookup_result;
     u16 saved_mode;
 
-    obj->action_id.s = 0x26;
-    obj->action_phase.s = 0;
+    obj->action_id = 0x26;
+    obj->action_phase = 0;
     obj->unk_8C.word = 0;
     (*(u8 **)((u8 *)display + 0x2C)) = direction_table;
     saved_mode = mode;

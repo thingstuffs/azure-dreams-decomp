@@ -95,7 +95,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
     y_step = *(s16 *)(direction_offset + (u8 *)dir_step_y);
     action->action_timer.u--;
 
-    if ((u32)(action->action_phase.u - 1) < 3U) {
+    if ((u32)(action->action_phase - 1) < 3U) {
         heading_byte = 15;
         particle_x_offset = (x_step << 5) - 8;
         do {
@@ -105,7 +105,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
                 particle_motion = NODE_BODY(particle);
                 particle->update_callback = D_801743EC;
                 sprite = particle->sprite;
-                if (action->action_phase.u < 3U) {
+                if (action->action_phase < 3U) {
                     particle_motion->unk_0C = ((u16) motion->x.w.i) + (rand() & 0xF) - 8;
                     random_offset = rand();
                     origin_x = -0x500;
@@ -151,12 +151,12 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         } while (heading_byte >= 0);
     }
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         flags = tile->flags;
         if (flags & 0x8000) {
-            action->action_phase.u = 0xFF;
+            action->action_phase = 0xFF;
             tile->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, tile, actor->facing, 1);
             return;
@@ -174,7 +174,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
             actor->flags1C &= 0xFFFBFFFF;
             action->action_timer.u = 4;
             motion->velocity_z = 0xFFFC0000;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
         return;
@@ -184,7 +184,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         motion->velocity_z = vertical_speed + (vertical_speed >> 2);
         if (action->action_timer.s <= 0) {
             action->action_timer.s = 3;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
         return;
@@ -205,7 +205,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         } else {
             return;
         }
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 3:
@@ -222,7 +222,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         if (action->action_timer.s <= 0) {
             motion->velocity_z = 0xFFF60000;
             action->action_timer.s = 0x14;
-            action->action_phase.u = 0xFF;
+            action->action_phase = 0xFF;
         }
         return;
 

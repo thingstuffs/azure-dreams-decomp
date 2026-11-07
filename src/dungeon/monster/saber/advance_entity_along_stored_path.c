@@ -32,7 +32,7 @@ void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion,
         return;
     }
 
-    if (body->action_id.u != 0xF) {
+    if (body->action_id != 0xF) {
         body->unk_90.value = 0;
         motion->velocity_z = 0;
         body->unk_9D.s = 0;
@@ -89,11 +89,11 @@ void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion,
             initialize_actor_facing_sprite(body, motion, sprite, state);
             body->unk_8C.word = 0;
         } else {
-            body->action_id.u = 0xF;
+            body->action_id = 0xF;
             body->unk_8C.word = 0;
         }
     } else {
-        body->action_id.u = 0xF;
+        body->action_id = 0xF;
         body->unk_8C.word = 0;
     }
     state->flags1C |= 0x40000000;

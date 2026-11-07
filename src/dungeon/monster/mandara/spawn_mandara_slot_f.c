@@ -103,7 +103,7 @@ void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16
 
         entry_index = 0;
         actor_value = part_b->clut;
-        pin_actor->action_id.u = 0xFF;
+        pin_actor->action_id = 0xFF;
         pin_actor->unk_9C = -1;
         pin_actor->unk_8C.address = D_8016AF6C;
         pin_actor->unk_AC.halves.high.u = actor_value;

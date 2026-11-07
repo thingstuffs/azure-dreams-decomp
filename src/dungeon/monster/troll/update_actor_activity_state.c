@@ -20,7 +20,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
     s8 floor;
 
     actor = actor_in;
-    state = task->action_phase.u;
+    state = task->action_phase;
     switch (state) {
     case 0:
         if (!(sprite_in->flags & 0xE000)) {
@@ -46,7 +46,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
         }
         starting_task = task;
         ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A--;
-        starting_task->action_phase.u++;
+        starting_task->action_phase++;
         func_80171BEC_returning(starting_task, task_id, sprite_in);
         return;
 
@@ -177,7 +177,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
             return;
         }
         ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A++;
-        task->action_phase.u++;
+        task->action_phase++;
 
         return;
 

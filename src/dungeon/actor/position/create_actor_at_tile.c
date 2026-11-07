@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "slus.h"
 #include "shared/actor_property_flags.h"
 #include "shared/monster_ids.h"
 #include "dungeon/level.h"
@@ -29,7 +30,6 @@ typedef struct S_800D1C70_0 {
     s8 unk_9C;
 } S_800D1C70_0;
 
-void select_record_entry_and_value(void *state, void *entries, short index);
 void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);

@@ -44,7 +44,7 @@ void update_put_down_carried_object(PlayerRecord *action, void *unused, S_8008F8
     S_8008F878_3 *target;
     ActorRecord *target_flags;
 
-    state = action->actor.action_phase.u;
+    state = action->actor.action_phase;
     if (state != 1) {
         if (state >= 2) {
             return;
@@ -68,12 +68,12 @@ void update_put_down_carried_object(PlayerRecord *action, void *unused, S_8008F8
                 saved_value = (*&held_item_record);
                 (*&held_item_record) = 0;
                 saved_held_item_word = saved_value;
-                action->actor.action_phase.u++;
+                action->actor.action_phase++;
             }
         }
     } else {
         if (action_data->unk_14 & 0x6000) {
-            action->actor.action_phase.u = 2U;
+            action->actor.action_phase = 2U;
             g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
             process_unflagged_linked_entries_alt(actor->next_actor_header);
             process_unflagged_linked_entries(actor->next_actor_header);

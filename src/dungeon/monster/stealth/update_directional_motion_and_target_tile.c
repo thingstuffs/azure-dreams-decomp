@@ -28,7 +28,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
     s32 origin_y;
     u8 state;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     direction = (entity->movement_facing >> 9) & 7;
 
     switch (state) {
@@ -38,7 +38,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
             ((s16 *)((s8 *)dir_step_x))[direction] << 16;
         motion->velocity_y =
             ((s16 *)((s8 *)dir_step_y))[direction] << 16;
-        body->action_phase.u++;
+        body->action_phase++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -49,7 +49,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
         }
         if (target->flags & 0x8000) {
             body->action_timer.s = 0;
-            body->action_phase.u = 2;
+            body->action_phase = 2;
             return;
         }
 
@@ -89,7 +89,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
             begin_actor_display_action(body, motion, target, D_80173D60);
         } else {
             body->action_timer.s = 8;
-            body->action_phase.u++;
+            body->action_phase++;
         }
         return;
 

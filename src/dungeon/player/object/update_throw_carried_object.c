@@ -76,7 +76,7 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
     u32 object_or_base;
     u8 *init_anim;
 
-    state = actor->action_phase.u;
+    state = actor->action_phase;
     switch (state) {
     case 0:
         init_anim = animation;
@@ -93,7 +93,7 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
             }
             /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
             set_sprite_animation_frame(init_anim, init_frame, 0, 1);
-            actor->action_phase.u++;
+            actor->action_phase++;
         }
         return;
 
@@ -106,7 +106,7 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
 
         action_result = measure_directional_stopping_distance(entity->facing, motion, animation, 8);
         if (action_result == 0) {
-            actor->action_phase.u++;
+            actor->action_phase++;
             return;
         }
         {
@@ -157,7 +157,7 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
             active_entry &= 7;
             active_entry += (s32)active_table;
             set_sprite_animation_frame(active_anim, *(u8 *)active_entry, 5, 1);
-            actor->action_phase.u++;
+            actor->action_phase++;
         }
         return;
 
@@ -171,7 +171,7 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
             motion->velocity_z = 0;
             next_anim = animation;
             if (entity->flags1C & 0x100000) {
-                actor->action_phase.u++;
+                actor->action_phase++;
             return;
             }
             ((SpriteAnimationTableView *)next_anim)->frame_table = player_throw_followup_frames;
@@ -181,7 +181,7 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
                 next_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
                 next_entry += (u32)player_throw_followup_frames;
                 set_sprite_animation_frame(next_anim, *(u8 *)next_entry, 0, 1);
-                actor->action_phase.u++;
+                actor->action_phase++;
             }
             return;
         }
@@ -202,6 +202,6 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
         }
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         set_sprite_animation_frame(animation, (*(u8 * *)(animation + (0x2C)))[direction], 0, 1);
-        actor->action_phase.u++;
+        actor->action_phase++;
     }
 }

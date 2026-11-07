@@ -48,7 +48,7 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
 #define context saved_context
 #define sprite sprite
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     saved_entity = entity;
 
     switch (state) {
@@ -65,7 +65,7 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
         sprite->frameTable = kid_alt_spawn_direction_frames;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + saved_entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, kid_alt_spawn_direction_frames[direction & 7], 0);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     }
 
@@ -79,7 +79,7 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
             (*(u32 *)((u8 *)saved_entity + 0x1C)) |= 0x40000;
             counter_state = (S_80173ED8_2 *)&g_dungeon_status.turn_scale;
             counter_state->unk_0A++;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
 
@@ -143,7 +143,7 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
         saved_entity->flags1C |= 0x40000;
         ((S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 2:

@@ -356,7 +356,7 @@ s32 check_global_data_byte_zero(void) {
 
 /* Return whether the current record's unk_9A value differs from 0x29. */
 s32 check_current_record_value_not_29(void) {
-    return dungeon_actor_ring_anchor->action_id.u != 0x29;
+    return dungeon_actor_ring_anchor->action_id != 0x29;
 }
 #include "common.h"
 #include "shared/object_flags.h"
@@ -1146,7 +1146,6 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
 }
 #include "common.h"
 
-extern void advance_sprite_animation_and_textures(void *);
 extern struct { s32 unk0; s32 pad[2]; } D_800814A0;
 
 /* Advances the accumulator and decrements the counter, setting flags on underflow. */
@@ -1184,7 +1183,6 @@ typedef struct {
     u16 kind;
 } Object;
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern void advance_panel_accumulator(void *counter_state, void *accumulator, void *update_arg);
 extern u8 shared_sprite_entries[16];

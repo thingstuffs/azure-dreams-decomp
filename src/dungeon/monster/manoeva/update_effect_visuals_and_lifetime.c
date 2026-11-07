@@ -45,7 +45,7 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
     }
 
     direction_index = body->pending_turn_updates;
-    entity_kind = body->action_id.u;
+    entity_kind = body->action_id;
     if (entity_kind != 0x17 && entity_kind != 0x19) {
         if (refresh_actor_facing_and_lifecycle(body, position, sprite, body) != 0) {
             return;
@@ -57,7 +57,7 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
         callback(body, position, sprite, actor);
     }
 
-    manoeva_callbacks[body->action_id.u](body, position, sprite, actor);
+    manoeva_callbacks[body->action_id](body, position, sprite, actor);
 
     if ((s16)direction_index != actor->pending_turn_updates) {
         try_move_actor_to_valid_position(body, position, sprite, actor);

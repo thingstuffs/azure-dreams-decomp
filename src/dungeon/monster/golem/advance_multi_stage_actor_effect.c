@@ -28,7 +28,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
     u16 flags3;
     u16 timer;
 
-    state = state_work->action_phase.u;
+    state = state_work->action_phase;
     switch (state) {
 
     case 0:
@@ -44,13 +44,13 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
-        state_work->action_phase.u++;
+        state_work->action_phase++;
         return;
 
     case 1:
         flags = object->flags;
         if (flags & 0x8000) {
-            state_work->action_phase.u = 4;
+            state_work->action_phase = 4;
             object->flags |= 0x6000;
             if (state_work->unk_AC.bytes[2] != 2) {
                 return;
@@ -66,7 +66,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
         }
         play_sound_if_enabled(0x808);
         state_work->unk_B0.address = create_randomized_offset_object(state_work, entity, object);
-        state_work->action_phase.u++;
+        state_work->action_phase++;
         return;
 
     case 2:
@@ -78,7 +78,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
             golem_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         object->flags |= 0x0800;
-        state_work->action_phase.u++;
+        state_work->action_phase++;
         return;
 
     case 3:

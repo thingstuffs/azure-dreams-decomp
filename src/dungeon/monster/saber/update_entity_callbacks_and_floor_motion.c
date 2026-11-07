@@ -56,7 +56,7 @@ void update_entity_callbacks_and_floor_motion(ActorRecord *body, ObjectPosition 
         callback(body, motion, sprite, body);
     }
 
-    saber_callbacks[body->action_id.u](body, motion, sprite, body);
+    saber_callbacks[body->action_id](body, motion, sprite, body);
 
     if ((s16)old_direction != body->pending_turn_updates) {
         try_move_actor_to_valid_position(body, motion, sprite, body);

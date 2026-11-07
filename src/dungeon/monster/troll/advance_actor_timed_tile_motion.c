@@ -12,11 +12,11 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
     s32 axis_pos;
     s32 axis_step;
 
-    switch (controller->action_phase.u) {
+    switch (controller->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         controller->action_timer.s = 6;
-        controller->action_phase.u = controller->action_phase.u + 1;
+        controller->action_phase = controller->action_phase + 1;
         if (actor->hp == 0) {
             transform->velocity_z = 0;
             transform->velocity_y = 0;
@@ -38,7 +38,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
                 return;
             }
             controller->action_timer.s = 0;
-            controller->action_phase.u = 3;
+            controller->action_phase = 3;
         }
         break;
     case 1:
@@ -55,7 +55,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
             transform->velocity_y =
                 dir_step_y[(actor->movement_facing >> 9) & 7] << 18;
             controller->action_timer.s = 12;
-            controller->action_phase.u = controller->action_phase.u + 1;
+            controller->action_phase = controller->action_phase + 1;
         }
         break;
     case 2:
@@ -98,7 +98,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
                 transform->velocity_z = 0;
                 transform->velocity_y = 0;
                 transform->velocity_x = 0;
-                controller->action_phase.u = controller->action_phase.u + 1;
+                controller->action_phase = controller->action_phase + 1;
             }
         }
         break;

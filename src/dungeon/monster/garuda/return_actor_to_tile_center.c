@@ -16,14 +16,14 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
     s16 frames_left;
     s32 tracked_actor;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         motion->velocity_x =
             -((s16 *)((s8 *)dir_step_x))[((u16)((s16)actor->movement_facing) >> 9) & 7] << 15;
         motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[((u16)((s16)actor->movement_facing) >> 9) & 7] << 15;
-        action->action_phase.u++;
+        action->action_phase++;
 
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -34,7 +34,7 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
         }
         if (entity->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.s = 2;
+            action->action_phase = 2;
             return;
         }
         if (actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -67,7 +67,7 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
             return;
         } else {
             action->action_timer.s = 8;
-            action->action_phase.u++;
+            action->action_phase++;
         }
         return;
 

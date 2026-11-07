@@ -60,14 +60,14 @@ s32 attempt_actor_transition(ActorRecord *state, ObjectPosition *action_id, Spri
         u16 state_flags;
 
         state_flags = state->action_state_flags;
-        state->action_phase.u = 0;
+        state->action_phase = 0;
         state->unk_8C.word = 0;
         if (state_flags & 0x8000) {
-            state->action_id.u = 0x17;
+            state->action_id = 0x17;
             actor->unk_84 = 0x10;
             actor->unk_85 = 0x10;
         } else {
-            state->action_id.u = 0x11;
+            state->action_id = 0x11;
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
         }
@@ -78,7 +78,7 @@ s32 attempt_actor_transition(ActorRecord *state, ObjectPosition *action_id, Spri
                   dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     actor->pending_turn_updates--;
-    if (state->action_id.u != 0x11) {
+    if (state->action_id != 0x11) {
         return transitioned;
     }
     prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

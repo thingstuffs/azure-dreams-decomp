@@ -22,17 +22,17 @@ s32 reset_actor_action_state(void *actor_data, ObjectPosition *unused, SpriteFra
 
     actor->movement_queue_state &= 0x7F;
     if (g_dungeon_status.flags & 0x2008) {
-        actor->action_id.s = 0xE;
+        actor->action_id = 0xE;
         return 1;
     }
     if (actor->flags1C & 0x20) {
-        actor->action_id.s = 0xE;
+        actor->action_id = 0xE;
         actor->flags1C &= ~0x200;
         return 0;
     }
 
-    actor->action_id.s = 0xD;
-    actor->action_phase.s = 0;
+    actor->action_id = 0xD;
+    actor->action_phase = 0;
     actor->unk_8C.word = 0;
     if (direction_frames != 0) {
         sprite->frameTable = direction_frames;

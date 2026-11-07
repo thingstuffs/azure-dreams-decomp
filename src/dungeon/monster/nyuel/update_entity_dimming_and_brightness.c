@@ -33,7 +33,7 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
     s32 state;
     u8 shade;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         shade = sprite->color.c.b - 0xC;
@@ -56,9 +56,9 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         {
-            u8 next_state = controller->action_phase.u + 1;
+            u8 next_state = controller->action_phase + 1;
 
-            controller->action_phase.u = next_state;
+            controller->action_phase = next_state;
             return;
         }
 
@@ -159,9 +159,9 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
         }
         controller->action_timer.u = 6;
         {
-            u8 next_state = controller->action_phase.u + 1;
+            u8 next_state = controller->action_phase + 1;
 
-            controller->action_phase.u = next_state;
+            controller->action_phase = next_state;
             return;
         }
 

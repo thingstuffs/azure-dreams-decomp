@@ -30,8 +30,8 @@ struct SpriteFrameState;
 
 /* Initialize state and configure the object using the direction lookup table. */
 void initialize_directional_action_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *object, ActorRecord *angle_source) {
-    state->action_id.u = 0x10;
-    state->action_phase.u = 0;
+    state->action_id = 0x10;
+    state->action_phase = 0;
     state->unk_9E.s = 2;
     object->frameTable = D_8017556C;
     select_sprite_entry(object,

@@ -84,7 +84,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
     direction_offset = counter & 0xE;
     direction_x_ptr += direction_offset;
     direction_x = *(s16 *)direction_x_ptr;
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     direction_y = dir_step_y[direction_offset >> 1];
 
     switch (phase) {
@@ -168,7 +168,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             action->unk_A8.s = -1;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
 
@@ -192,7 +192,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->action_phase.u++;
+        action->action_phase++;
     case 2:
         if (sprite->unk_04 == 1 &&
             (sprite->flags & 0x1000)) {

@@ -40,7 +40,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
     DungeonGlobalStatus *input_state;
     s32 state;
 
-    state = in_action->action_phase.u;
+    state = in_action->action_phase;
     switch (state) {
     case 0:
         if (in_sprite->flags & 0xE000) {
@@ -54,7 +54,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 0);
             system_state = &g_dungeon_status;
             (*(u16 *)&system_state->activity_counts.parts.pending_action_count)--;
-            in_action->action_phase.u++;
+            in_action->action_phase++;
             return;
         }
         return;
@@ -89,7 +89,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
 
                 (*(u16 *)&system_state->activity_counts.parts.pending_action_count)++;
             }
-            in_action->action_phase.u++;
+            in_action->action_phase++;
             return;
         }
 
@@ -195,7 +195,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             state_count++;
             system_state->activity_counts.parts.pending_action_count = state_count;
         }
-        in_action->action_phase.u++;
+        in_action->action_phase++;
         return;
     case 2:
         if (in_sprite->flags & 0xE000) {
@@ -206,7 +206,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             select_sprite_entry(in_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            in_action->action_phase.u++;
+            in_action->action_phase++;
             return;
         }
         return;

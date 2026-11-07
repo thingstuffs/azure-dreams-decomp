@@ -36,7 +36,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
     s32 ticks_left;
 
     use_global_target = 0;
-    switch (action_state->action_phase.u) {
+    switch (action_state->action_phase) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -115,7 +115,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_effect_groups(transform, sprite, actor, 0x10);
-            action_state->action_phase.u = action_state->action_phase.u + 1;
+            action_state->action_phase = action_state->action_phase + 1;
             return;
         }
 
@@ -139,7 +139,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
             return;
         }
         sprite->flags &= 0xF7FF;
-        action_state->action_phase.u = action_state->action_phase.u + 1;
+        action_state->action_phase = action_state->action_phase + 1;
                                         /* fallthrough */
     case 2:
         if ((sprite->unk_04 == 3 && (sprite->flags & 0x1000))

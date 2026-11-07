@@ -15,7 +15,7 @@ void dim_and_clear_flagged_effect(ActorRecord *effect, ObjectPosition *unused, S
     u8 intensity;
     void *effect_object;
 
-    if (effect->action_phase.u == 0) {
+    if (effect->action_phase == 0) {
         intensity = primitive->color.c.r - 0x10;
         primitive->color.c.b = intensity;
         primitive->color.c.g = intensity;

@@ -33,7 +33,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
     void *actor = in_actor;
     s32 state;
 
-    state = in_action->action_phase.u;
+    state = in_action->action_phase;
     switch (state) {
     case 0:
         if (in_sprite->flags & 0xE000) {
@@ -47,7 +47,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
-            in_action->action_phase.u++;
+            in_action->action_phase++;
         }
         return;
 
@@ -136,7 +136,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
-            in_action->action_phase.u++;
+            in_action->action_phase++;
             return;
         }
         break;

@@ -73,7 +73,7 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 14;
+        actor->action_id = 14;
         func_80174924(actor, context, sprite, creature);
         return;
     }
@@ -87,8 +87,8 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
     }
     if (creature->flags1C & ACTOR_ASLEEP) {
         if (sprite->frameTable == &pulunpa_frame_set_3) {
-            actor->action_id.u = 13;
-            actor->action_phase.s = 1;
+            actor->action_id = 13;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             creature->flags1C &= 0xFFFBFFFF;
             return;
@@ -102,11 +102,11 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
             begin_pushed_actor_move(actor, context, sprite, creature);
             return;
         }
-        if (actor->action_id.u != 14) {
+        if (actor->action_id != 14) {
             if (sprite->frameTable != (void *)pulunpa_frame_set_2) {
                 set_map(sprite, creature, pulunpa_frame_set_2);
             }
-            actor->action_id.u = 14;
+            actor->action_id = 14;
         }
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
         if (creature->hp_delta != 0) {

@@ -91,7 +91,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
 
         } while (0);
         initialize_actor_sprite_and_animation(saved_part_a, part_a, part_b, spawn_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &D_8015EE5C;
         actor->unk_A4.halves.low.s = -1;

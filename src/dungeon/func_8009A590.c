@@ -1,6 +1,6 @@
 #include "common.h"
-extern int abs(int);
 
+#include "sdk/abs.h"
 /* Returns the Chebyshev distance between two byte-sized coordinate pairs. */
 s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y) {
     end_x &= 0xFF;

@@ -21,8 +21,8 @@ void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameSt
     s16 tile_type;
     s16 slot_index;
 
-    state->action_id.s = 0x25;
-    state->action_phase.s = 0;
+    state->action_id = 0x25;
+    state->action_phase = 0;
     state->unk_8C.word = 0;
     clear_player_linked_action_flags();
     if (get_entity_effect_value(actor, STATUS_FROG) == 0) {
@@ -34,7 +34,7 @@ void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameSt
         slot_index = reserve_runtime_slot(6, 0x20);
         transition_runtime_slot_index = slot_index;
         runtime_transition_slots[slot_index].unk_6 = 1;
-        state->action_phase.s = 0x10;
+        state->action_phase = 0x10;
         return;
     }
     if (tile_type == 4) {

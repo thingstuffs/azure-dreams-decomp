@@ -59,7 +59,7 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
             cycle_map_cell_flags(next_x, next_y, new_cell_mask);
         }
         state->facing = heading;
-        body->action_id.s = 0xF;
+        body->action_id = 0xF;
         body->unk_8C.word = 0;
         (state->flags1C) = (s32) (state->flags1C | 0x40000000);
         if (g_dungeon_status.flags & 0x80) {

@@ -19,9 +19,9 @@ void start_directional_animation_if_allowed(ActorRecord *action_state, ObjectPos
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            action_state->action_id.s = 0x11;
+            action_state->action_id = 0x11;
             action_state->unk_8C.word = 0;
-            action_state->action_phase.s = 0;
+            action_state->action_phase = 0;
             (sprite->frameTable) = &nyuel_frame_set_8;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &nyuel_frame_set_8), 0);

@@ -35,7 +35,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
 
     direction = (actor->movement_facing >> 9) & 7;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         x_steps = (s16 *)((s8 *)dir_step_x);
@@ -44,7 +44,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             *(s16 *)((u8 *)x_steps + initial_step_offset) << 0x12;
         motion->velocity_y =
             dir_step_y[direction] << 0x12;
-        action->action_phase.u++;
+        action->action_phase++;
 
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -55,7 +55,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
         }
         if (sprite->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.u = 2;
+            action->action_phase = 2;
             return;
         }
 
@@ -100,7 +100,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             return;
         }
         action->action_timer.s = 4;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 2:

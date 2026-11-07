@@ -54,7 +54,7 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
     s32 rest_mode;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 0xEU;
+        actor->action_id = 0xEU;
         advance_actor_stored_path_2(actor, context, sprite, state);
         return;
     }
@@ -91,8 +91,8 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
         switch (transition_mode) {
         case 0xD:
             if (*(s32 **)&sprite->frameTable == &troll_kind13_direction_frames) {
-                actor->action_id.u = transition_mode;
-                actor->action_phase.s = 1;
+                actor->action_id = transition_mode;
+                actor->action_phase = 1;
                 actor->unk_8C.word = 0;
                 state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
                 return;
@@ -103,8 +103,8 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
             break;
         case 0xE:
             if (*(s32 **)&sprite->frameTable == &troll_kind14_direction_frames) {
-                actor->action_id.u = 0xDU;
-                actor->action_phase.s = 1;
+                actor->action_id = 0xDU;
+                actor->action_phase = 1;
                 actor->unk_8C.word = 0;
                 state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
                 return;
@@ -115,8 +115,8 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
             break;
         case 0xF:
             if (*(s32 **)&sprite->frameTable == &troll_kind15_direction_frames) {
-                actor->action_id.u = 0xDU;
-                actor->action_phase.s = 1;
+                actor->action_id = 0xDU;
+                actor->action_phase = 1;
                 actor->unk_8C.word = 0;
                 state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
                 return;
@@ -135,7 +135,7 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
             begin_pushed_actor_move(actor, context, sprite, state);
             return;
         }
-        if (actor->action_id.u != 0xE) {
+        if (actor->action_id != 0xE) {
             idle_mode = state->unk_48;
             switch (idle_mode) {
             case 0xD:
@@ -160,7 +160,7 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
                 }
                 break;
             }
-            actor->action_id.u = 0xEU;
+            actor->action_id = 0xEU;
         }
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
         if (state->hp_delta != 0) {
@@ -240,7 +240,7 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
         }
             player = primary_actor_record;
             state->facing = heading;
-            if (player->action_id.u != 0x11) {
+            if (player->action_id != 0x11) {
                 update_actor_status_and_mp(state);
                 return;
             }

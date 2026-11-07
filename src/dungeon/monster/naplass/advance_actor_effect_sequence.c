@@ -6,6 +6,7 @@
 #include "engine/node/allocation.h"
 #include "engine/graphics.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
 struct SpriteFrameState;
 #include "common.h"
 #include "engine/node/registration.h"
@@ -38,7 +39,6 @@ s16 get_tile_chebyshev_distance();
 
 void update_actor_status_and_mp(ActorRecord *entity);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition *position,struct SpriteFrameState *actor, void *model);
-extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern u8 effect_update_tag[];
 extern u8 naplass_action_continuation_address[];
 extern u8 D_801741EC[];
@@ -64,7 +64,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
     S_801732A4_8 *active_effect;
     TileObject *player_sprite;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     default:
         return;
@@ -75,7 +75,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         select_sprite_entry(sprite, naplass_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100)
             >> 9) & 7], 0);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        body->action_phase.u = (u8)(body->action_phase.u + 1);
+        body->action_phase = (u8)(body->action_phase + 1);
         return;
     case 1:
         sprite_flags = sprite->flags;
@@ -99,7 +99,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
                 if (body->action_state_flags & 0x8000) {
                     count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
                     g_dungeon_status.activity_counts.parts.pending_action_count = count;
-                    body->action_phase.u = (u8)(body->action_phase.u + 1);
+                    body->action_phase = (u8)(body->action_phase + 1);
                     return;
                 }
                 actor_state->flags1C = (s32)(actor_state->flags1C & ~ACTOR_ASLEEP);
@@ -107,7 +107,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
-            body->action_phase.u = (u8)(body->action_phase.u + 1);
+            body->action_phase = (u8)(body->action_phase + 1);
             return;
         }
         if (actor_state->hp_delta != 0) {
@@ -181,14 +181,14 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
                 actor_flags = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
                 g_dungeon_status.activity_counts.parts.pending_action_count = actor_flags;
             }
-            body->action_phase.u = (u8)(body->action_phase.u + 1);
+            body->action_phase = (u8)(body->action_phase + 1);
             return;
         }
         {
             actor_flags = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(actor_flags + 1);
         }
-        body->action_phase.u = (u8)(body->action_phase.u + 1);
+        body->action_phase = (u8)(body->action_phase + 1);
         return;
     case 2:
         if (!(sprite->flags & 0xE000))
@@ -196,7 +196,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         sprite->frameTable = D_801741EC;
         select_sprite_entry(sprite, D_801741EC[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100)
             >> 9) & 7], 0);
-        body->action_phase.u = (u8)(body->action_phase.u + 1);
+        body->action_phase = (u8)(body->action_phase + 1);
         return;
     case 3:
         if (!(sprite->flags & 0xE000))
@@ -204,7 +204,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         sprite->frameTable = D_801741F4;
         select_sprite_entry(sprite, D_801741F4[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100)
             >> 9) & 7], 0);
-        body->action_phase.u = (u8)(body->action_phase.u + 1);
+        body->action_phase = (u8)(body->action_phase + 1);
         new_effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
         ((Rec_func_801732A4_arg0 *)body)->unk_A0 = new_effect;
         /* BYTES: The action register is reused for the effect node after allocation. */
@@ -245,7 +245,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
             body->action_state_flags = (u16)(effect_flags & 0x7FFF);
             actor_state->facing = (s16)((Rec_func_801732A4_arg0 *)body)->unk_AA;
             actor_state->pending_turn_updates = (s8)((u8)actor_state->pending_turn_updates + 1);
-            body->action_phase.u = (u8)(body->action_phase.u + 1);
+            body->action_phase = (u8)(body->action_phase + 1);
             return;
         }
         body->unk_8C.address = naplass_action_continuation_address;

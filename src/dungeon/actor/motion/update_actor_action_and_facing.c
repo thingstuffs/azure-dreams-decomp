@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "slus.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -11,7 +12,6 @@
 #include "dungeon/actor.h"
 #include "engine/entity.h"
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern void *actor_default_frames[8];
 

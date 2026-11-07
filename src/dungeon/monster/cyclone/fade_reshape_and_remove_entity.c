@@ -21,14 +21,14 @@ void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position,
     u8 fade_phase;
     u16 frames_left;
 
-    fade_phase = body->action_phase.u;
+    fade_phase = body->action_phase;
     switch (fade_phase) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
 
-        body->action_phase.u = 1;
+        body->action_phase = 1;
         sprite->tpage_abr = 0x20;
         sprite->clut -= 0x80;
         sprite->flags |= 0xC;

@@ -369,15 +369,20 @@ s32 project_scaled_colored_point(ScaledPointRecord *record, ObjectPosition *posi
 #include "modules/dungeon_native_abi.h"
 
 /* The effect record the callback runs on (the object header precedes it). */
-typedef struct Bank1990800_1990fe8_EffectState {
-    u8 pad_00[0x32];
+typedef struct RisingPointEffectBody {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x8];
+    s16 unk_14;
+    u8 pad_16[0x1C];
     s16 countdown;
-    u8 pad_34[0x14];
+    s16 size_max;
+    u8 pad_36[0x12];
     s32 height_step;    /* added to the position's z when it is below the floor */
-} Bank1990800_1990fe8_EffectState;
+} RisingPointEffectBody;
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
-void advance_rising_quad_countdown(Bank1990800_1990fe8_EffectState *state, ObjectPosition *position)
+void advance_rising_quad_countdown(RisingPointEffectBody *state, ObjectPosition *position)
 {
     s16 countdown;
 
@@ -406,19 +411,6 @@ void advance_rising_quad_countdown(Bank1990800_1990fe8_EffectState *state, Objec
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
-/* The effect record (the object header precedes it). */
-typedef struct Bank1990800_19910a8_EffectRecord {
-    u8 pad_00[8];
-    s32 unk_08;         /* property_28 argument */
-    u8 pad_0C[8];
-    s16 unk_14;         /* property_34 argument */
-    u8 pad_16[0x1C];
-    s16 size;           /* both set to property_52 */
-    s16 size_max;
-    u8 pad_36[0x12];
-    s32 unk_48;         /* rand() + 0x10000 */
-} Bank1990800_19910a8_EffectRecord;
-
 extern s32 rand();
 
 /* Spawn and initialize an effect at a randomly offset position relative to the source. */
@@ -432,7 +424,7 @@ void spawn_random_offset_effect_record(
     s16 z_offset)
 {
     ObjectNodeHeader *effect;
-    Bank1990800_19910a8_EffectRecord *record;
+    RisingPointEffectBody *record;
     u16 jitter;
     u16 effect_pos;
 
@@ -455,10 +447,10 @@ void spawn_random_offset_effect_record(
         effect_pos += z_offset - 0x10;
         effect->position->z.w.i = effect_pos;
         record->unk_14 = property_34;
-        record->size = property_52;
+        record->countdown = property_52;
         record->size_max = property_52;
         register_node(effect, project_scaled_colored_point);
-        record->unk_48 = rand() + 0x10000;
+        record->height_step = rand() + 0x10000;
         record->unk_08 = property_28;
     }
 }
@@ -467,23 +459,8 @@ void spawn_random_offset_effect_record(
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_819711E0_0_pre {
-    u16 unk_00;
-} S_819711E0_0_pre;   /* the 0x2 bytes before arg0 in func_800249E0, addressed as arg0[-1] */
-
-typedef struct S_819711E0_1 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-} S_819711E0_1;   /* arg2 in func_800249E0 */
-
-   /* arg1 in func_800249E0 */
-
-   /* src in func_800249E0 */
-
 /* Decrement the timer, update scale and position, and flag completion at zero. */
-void follow_origin_and_fade_sprite(OriginFollowingFadeSpriteBody *state_arg, MovingPosition *position, S_819711E0_1 *scale) {
+void follow_origin_and_fade_sprite(OriginFollowingFadeSpriteBody *state_arg, MovingPosition *position, SpriteFrameState *sprite) {
     OriginFollowingFadeSpriteBody *state = state_arg;
     s32 scale_factor;
     u16 ticks_left;
@@ -493,9 +470,9 @@ void follow_origin_and_fade_sprite(OriginFollowingFadeSpriteBody *state_arg, Mov
     scale_factor = (s32) ((s32) (ticks_left << 16) >> 9) / (s16) state->fade_divisor;
     fading_quad_effect_updated = 1;
     state->ticks_remaining = ticks_left;
-    scale->unk_0E = (s8) scale_factor;
-    scale->unk_0D = (s8) scale_factor;
-    scale->unk_0C = (s8) scale_factor;
+    sprite->color.c.b = (u8) scale_factor;
+    sprite->color.c.g = (u8) scale_factor;
+    sprite->color.c.r = (u8) scale_factor;
 
     base_position = state->base_position;
     position->x = state->offset_x;
@@ -506,7 +483,7 @@ void follow_origin_and_fade_sprite(OriginFollowingFadeSpriteBody *state_arg, Mov
     position->z = (u16) (position->z + base_position->z);
 
     if ((s16)state->ticks_remaining <= 0) {
-        ((S_819711E0_0_pre *)state)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -519,7 +496,7 @@ typedef struct {
     s16 timer;
     s16 divisor;
     u16 phase;
-} Obj;
+} QuarterColorFadeBody;
 
 typedef struct {
     u8 pad0[8];
@@ -529,7 +506,7 @@ typedef struct {
 } Motion;
 
 /* Advance a timed effect, update its intensity and motion, and flag completion. */
-void fade_effect_color_by_quarter(Obj *effect, Motion *motion, s8 *render_data)
+void fade_effect_color_by_quarter(QuarterColorFadeBody *effect, Motion *motion, SpriteFrameState *render_data)
 {
     s32 intensity;
     u16 phase;
@@ -543,12 +520,12 @@ void fade_effect_color_by_quarter(Obj *effect, Motion *motion, s8 *render_data)
         advance_sprite_animation_and_textures(render_data);
     }
     intensity = (effect->timer << 7) / effect->divisor;
-    render_data[14] = intensity;
-    render_data[13] = intensity;
-    render_data[12] = intensity;
+    render_data->color.c.b = intensity;
+    render_data->color.c.g = intensity;
+    render_data->color.c.r = intensity;
     motion->value += motion->delta;
     if (effect->timer <= 0) {
-        ((u16 *)effect)[-1] |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -732,12 +709,6 @@ struct Bank1990800_19915d4_Object {
 s32 rand();
 extern u8 fading_sprite_entries[];
 
-typedef struct S_819715D4_0 {
-    u8 pad_00[0x38];
-    s16 unk_38;
-    s16 unk_3A;
-} S_819715D4_0;
-
 /* Creates a sprite object with randomized offsets from the source position. */
 void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, s16 base_x, s16 base_y, s16 base_z) {
     s32 random_value;
@@ -745,13 +716,13 @@ void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, Sprite
     SpriteFrameState *render_sprite;
     u16 *position;
     ObjectNodeHeader *object;
-    S_819715D4_0 *object_data;
+    QuarterColorFadeBody *object_data;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object_data = NODE_BODY(object);
-        object_data->unk_38 = 0x14;
-        object_data->unk_3A = 0x14;
+        object_data->timer = 0x14;
+        object_data->divisor = 0x14;
         object->update_callback = (u8 *)fade_effect_color_by_quarter;
         register_node(object, project_sprite_chain);
         sprite = object->sprite;

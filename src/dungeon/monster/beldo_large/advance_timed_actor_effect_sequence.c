@@ -45,12 +45,12 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
     s32 direction;
     SpriteFrameState *sprite = sprite_arg;
     ActorRecord *actor = actor_arg;
-    state = sequence->action_phase.u;
+    state = sequence->action_phase;
     switch (state) {
     case 0:
         create_layered_sprite_pulse(transform);
         sequence->action_timer.s = 5;
-        sequence->action_phase.s = sequence->action_phase.u + 1;
+        sequence->action_phase = sequence->action_phase + 1;
         play_sound_if_enabled(0x703);
         encounter_blink_update_flag[0] = 0;
         return;
@@ -61,9 +61,9 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
         if ((timer << 0x10) > 0 && !( sprite->flags & 0xE000)) {
             return;
         }
-        state = sequence->action_phase.u;
+        state = sequence->action_phase;
         sequence->action_timer.s = 0;
-        sequence->action_phase.s = state + 1;
+        sequence->action_phase = state + 1;
         return;
 
     case 2:
@@ -81,9 +81,9 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
             create_player_centered_sequence_effect(sequence, transform, sprite);
         }
         if (sequence->action_timer.s == 0xB) {
-            state = sequence->action_phase.u;
+            state = sequence->action_phase;
             sequence->action_timer.s = 0;
-            sequence->action_phase.s = state + 1;
+            sequence->action_phase = state + 1;
             return;
         }
         return;
@@ -115,9 +115,9 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
             anim_table = beldo_large_frame_set_2 + 0x18;
             break;
         default:
-            state = sequence->action_phase.u;
+            state = sequence->action_phase;
             sequence->action_timer.s = 0;
-            sequence->action_phase.s = state + 1;
+            sequence->action_phase = state + 1;
             return;
         }
         if (current_anim_table != anim_table) {
@@ -135,9 +135,9 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
             return;
         }
 advance:
-        state = sequence->action_phase.u;
+        state = sequence->action_phase;
         sequence->action_timer.s = 0;
-        sequence->action_phase.s = state + 1;
+        sequence->action_phase = state + 1;
         return;
 
     case 5:

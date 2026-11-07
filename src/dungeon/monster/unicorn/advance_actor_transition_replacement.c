@@ -128,20 +128,20 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
     u8 state;
     s32 next_state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
 
     case 0:
     {
-        next_state = action->action_phase.u + 1;
-        action->action_phase.u = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
     }
 
     case 1:
         run_cd_image_commands(D_80174E24, unicorn_image_load_done, 0);
         action->unk_B0.halves.low.s = 0;
-        action->action_phase.u++;
+        action->action_phase++;
         actor->unk_8A = ((S_80174704_1 *)actor)->unk_2A;
         actor->flags1C = (u32)((u32)actor->flags1C & (0xFFFBFFFF));
 
@@ -166,7 +166,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         Control_CD(0xFF, set_byte_one, unicorn_effect_load_done);
         select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
         action->action_timer.u = 0x10;
-        action->action_phase.u++;
+        action->action_phase++;
     }
 
     case 3:
@@ -182,7 +182,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
             if (cd_done == 0) {
                 return;
             }
-            action->action_phase.u++;
+            action->action_phase++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
@@ -233,8 +233,8 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         }
         entity->flags |= 0x80;
         action->action_timer.u = 0;
-        next_state = action->action_phase.u + 1;
-        action->action_phase.u = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
 
     case 5:
@@ -253,7 +253,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         object = ((S_80174704_3 *)object)->unk_0C;
         if (((S_80174704_3 *)object)->unk_14 & 0xE000) {
             action->action_timer.u = 0x10;
-            action->action_phase.u++;
+            action->action_phase++;
             decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
@@ -262,14 +262,14 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         }
 
     case 6:
-        if (action->action_phase.u != 6) {
+        if (action->action_phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, D_80174E40[0], D_80174E38[0], &staged_spawn_count) == 0) {
             return;
         }
         action->action_timer.u = 0x10;
-        action->action_phase.u++;
+        action->action_phase++;
         decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
@@ -285,7 +285,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
             return;
         }
         action->action_timer.u = 0x10;
-        action->action_phase.u++;
+        action->action_phase++;
         ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_2A;
         {
             u8 *replacement_actor = ((S_80174704_1 *)actor)->unk_60;

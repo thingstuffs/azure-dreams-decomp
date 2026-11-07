@@ -35,7 +35,7 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
     }
 
     move_state = 15;
-    if (actor->action_id.u != move_state) {
+    if (actor->action_id != move_state) {
         actor->unk_90.value = 0;
         position->velocity_z = 0;
         actor->unk_9D.u = 0;
@@ -88,10 +88,10 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
         if (!(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
             func_8016C698(actor, position, sprite, path);
         } else {
-            actor->action_id.u = 15;
+            actor->action_id = 15;
         }
     } else {
-        actor->action_id.u = move_state;
+        actor->action_id = move_state;
     }
 
     actor->unk_8C.word = 0;

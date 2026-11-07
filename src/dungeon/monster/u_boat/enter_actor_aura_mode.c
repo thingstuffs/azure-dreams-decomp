@@ -37,7 +37,7 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
     UBoatAuraEffectBody *effect_state;
     ObjectPosition *effect_position;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     case 0:
         position->velocity_z = 0;
@@ -96,7 +96,7 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
                               >> 9) & 7],
                           0);
             body->action_timer.u = 2;
-            body->action_phase.u++;
+            body->action_phase++;
             if (!(sprite->flags & 0x8000)) {
                 play_sound_if_enabled(0x800);
             }
@@ -115,7 +115,7 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
                               >> 9) & 7],
                           0);
             body->action_timer.u = 3;
-            body->action_phase.u++;
+            body->action_phase++;
         }
         if (!(sprite->flags & 0x8000)) {
             return;
@@ -130,7 +130,7 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
             body->unk_B0.bytes[2] = 0;
             body->unk_B4.bytes[0] = 0;
             body->unk_B0.bytes[3] = 0;
-            body->action_phase.u++;
+            body->action_phase++;
             body->action_state_flags &= 0xFFF7;
             sprite->depth_bias = 0;
             body->unk_8C.address = uboat_behavior_entry;

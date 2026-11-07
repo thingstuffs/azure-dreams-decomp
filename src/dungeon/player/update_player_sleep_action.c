@@ -36,14 +36,14 @@ void update_player_sleep_action(ActorRecord *controller, void *unused, SpriteAni
     GameWork *scene = &g_game_work;
 
     (void)unused;
-    switch (controller->action_phase.u) {
+    switch (controller->action_phase) {
     case 0:
         if (animation->flags & 0xE000) {
             animation->frame_table = &player_sleep_frames;
             set_sprite_animation_frame(animation, (&player_sleep_frames)[((s32)(scene->view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             controller->unk_8C.address = &D_8008B870;
-            controller->action_phase.u = (s8)(controller->action_phase.u + 1);
+            controller->action_phase = (s8)(controller->action_phase + 1);
         }
         break;
 
@@ -65,7 +65,7 @@ void update_player_sleep_action(ActorRecord *controller, void *unused, SpriteAni
                     0, 1);
                 controller->unk_8C.address = NULL;
                 g_dungeon_status.activity_counts.parts.pending_action_count += 1;
-                controller->action_phase.u += 1;
+                controller->action_phase += 1;
             } else {
                 process_unflagged_linked_entries_alt(actor->next_actor_header);
                 process_unflagged_linked_entries(actor->next_actor_header);

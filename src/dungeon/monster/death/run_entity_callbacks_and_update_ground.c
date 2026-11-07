@@ -70,7 +70,7 @@ void run_entity_callbacks_and_update_ground(ActorRecord *body, ObjectPosition *m
             update_callback(body, motion, sprite, body);
         }
     }
-    D_801686A0[body->action_id.u](body, motion, sprite, body);
+    D_801686A0[body->action_id](body, motion, sprite, body);
     {
         s32 previous_state;
 

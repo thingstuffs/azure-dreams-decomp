@@ -79,7 +79,7 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
-        result_copy->action_id.u = 0xFF;
+        result_copy->action_id = 0xFF;
         result_copy->unk_9C = -1;
         result_copy->unk_8C.address = &metal_action_resume_address;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);

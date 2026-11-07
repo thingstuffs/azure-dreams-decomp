@@ -102,12 +102,12 @@ void resolve_familiar_deployment_request(void *context_ptr_data, s32 unused_one,
             void *tail_selected;
             tail_selected = ((S_800956B8_2 *)((u8 *)context_ptr + index * 4))->unk_AC;
             st = tail_selected;
-            st->action_id.u = 2;
+            st->action_id = 2;
         } else {
             st = context_ptr->target;
-            st->action_id.u = 2;
+            st->action_id = 2;
         }
-        st->action_phase.u = 0;
+        st->action_phase = 0;
         st->unk_8C.word = 0;
         ((Rec_func_8008D024_arg0 *)context_ptr)->unk_110 = selection_ptr;
     }

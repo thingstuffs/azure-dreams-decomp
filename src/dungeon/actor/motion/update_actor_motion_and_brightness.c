@@ -28,7 +28,7 @@ void update_actor_motion_and_brightness(ActorRecord *body, ObjectPosition *motio
     if (entity_ref->unk_8C.run != NULL) {
         entity_ref->unk_8C.run(entity_ref, motion, sprite, entity_ref);
     }
-    actor_brightness_callbacks[entity_ref->action_id.u](entity_ref, motion, sprite, entity_ref);
+    actor_brightness_callbacks[entity_ref->action_id](entity_ref, motion, sprite, entity_ref);
     if (!(sprite->flags & 0x8000)) {
         if (!(sprite->flags & 0x40)) {
             advance_sprite_animation_and_textures(sprite);

@@ -38,9 +38,9 @@ void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord 
 
     actor->movement_queue_state &= 0x7F;
     if (!(flags->flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 16) == 0)) {
-        entity->action_id.s = 0x18;
+        entity->action_id = 0x18;
         entity->unk_8C.run = 0;
-        entity->action_phase.s = 0;
+        entity->action_phase = 0;
         sprite->frameTable = picket_frame_set_4;
         select_sprite_entry(sprite,
                       picket_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

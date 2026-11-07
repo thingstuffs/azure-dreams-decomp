@@ -20,9 +20,9 @@ void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition 
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)
         && (apply_camera_offset_and_select_target(NODE_HEADER(actor), context, 8, 0x300), ((try_claim_dungeon_action_slot(actor) << 0x10) == 0))) {
         action_state->unk_8C.word = 0;
-        action_state->action_phase.s = 0;
+        action_state->action_phase = 0;
         if (action_state->action_state_flags & 0x8000) {
-            action_state->action_id.s = 0x17;
+            action_state->action_id = 0x17;
             if (actor->flags1C & ACTOR_ANGRY) {
                 action_state->action_state_flags =
                     (u16) (action_state->action_state_flags | 0x4000);
@@ -35,7 +35,7 @@ void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition 
             actor->unk_84 = 0x7E;
             actor->unk_85 = 8;
         } else {
-            action_state->action_id.s = 0x11;
+            action_state->action_id = 0x11;
             actor->unk_84 = 0x7C;
             actor->unk_85 = 8;
         }

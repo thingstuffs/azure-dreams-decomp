@@ -438,7 +438,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
     void *resume_handler;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 14;
+        actor->action_id = 14;
         advance_entity_along_path_2(actor, context, sprite, status);
         return;
     }
@@ -457,8 +457,8 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
 
     if (((u32)status->flags1C) & ACTOR_ASLEEP) {
         if (*(u8 **)&sprite->frameTable == univern_alt_spawn_direction_frames) {
-            actor->action_id.u = 13;
-            actor->action_phase.u = 2;
+            actor->action_id = 13;
+            actor->action_phase = 2;
             actor->unk_8C.word = 0;
             status->flags1C &= ~0x40000;
             return;
@@ -474,8 +474,8 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
             return;
         }
 
-        if (actor->action_id.u != 14) {
-            actor->action_id.u = 14;
+        if (actor->action_id != 14) {
+            actor->action_id = 14;
         }
 
         if ((*(u8 **)&sprite->frameTable != univern_direction_frames) &&
@@ -560,7 +560,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
             target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(sprite->tile_x),(s16)(sprite->tile_y),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
             active_actor = primary_actor_record;
             status->facing = target_angle;
-            if (active_actor->action_id.u != 0x11) {
+            if (active_actor->action_id != 0x11) {
                 update_actor_status_and_mp(status);
                 return;
             }
@@ -662,7 +662,7 @@ void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, Sp
         old_x, old_y, entity->tile_x, entity->tile_y,
         (u8 *)motion + 0x98));
     path_state->flags1C = (u32)((u32)path_state->flags1C | (0x40000000));
-    motion->action_id.u = 0xF;
+    motion->action_id = 0xF;
     motion->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
@@ -937,8 +937,8 @@ s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
     apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->action_id.s = 0x11;
-        action_state->action_phase.s = 0;
+        action_state->action_id = 0x11;
+        action_state->action_phase = 0;
         action_state->unk_8C.run = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
@@ -959,9 +959,9 @@ void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, Sp
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(entity), context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
-            action_state->action_id.u = 0x11;
+            action_state->action_id = 0x11;
             action_state->unk_8C.handler = 0;
-            action_state->action_phase.u = 0;
+            action_state->action_phase = 0;
             select_sprite_entry(animation, *(*(u8 **)&animation->frameTable + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
                 + 0x100) >> 9) & 7)), 0);
             entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
@@ -989,7 +989,7 @@ s32 relink_univern_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
     }
     switch (state_type) {
     case 0:
-        entity->action_id.s = 0xE;
+        entity->action_id = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -1433,7 +1433,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
 
     direction = (actor->movement_facing >> 9) & 7;
 
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         if (actor->hp == 0) {
@@ -1446,7 +1446,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
 
         if (sprite->flags & 0x8000) {
             body->action_timer.s = 0;
-            body->action_phase.u = 2;
+            body->action_phase = 2;
             return;
         }
 
@@ -1456,7 +1456,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         body->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         actor->flags1C &= 0xFFFBFFFF;
-        body->action_phase.u++;
+        body->action_phase++;
 
         flight_timer = -1;
         if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -1488,7 +1488,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
             return;
         }
         if (actor->hp == 0) {
-            body->action_phase.u = 0;
+            body->action_phase = 0;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1496,7 +1496,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
             return;
         }
         body->action_timer.s = 8;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 2:
@@ -1926,7 +1926,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
 #define context saved_context
 #define sprite sprite
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     saved_entity = entity;
 #define entity saved_entity
     switch (state) {
@@ -1943,7 +1943,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
         (sprite->frameTable) = univern_frame_set_2;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite,(u8)(univern_frame_set_2[direction & 7]), 0);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     }
 
@@ -1957,7 +1957,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
             (*(u32 *)&entity->flags1C) |= 0x40000;
             counter_state = (R17_80173F10_S_80173ED8_2 *)&g_dungeon_status.turn_scale;
             counter_state->unk_0A++;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
 
@@ -2012,7 +2012,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((R17_80173F10_S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 2:

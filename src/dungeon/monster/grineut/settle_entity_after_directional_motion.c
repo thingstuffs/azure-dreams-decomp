@@ -25,13 +25,13 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
     s32 tracked_addr;
 
     direction = (entity->movement_facing >> 9) & 7;
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
-        body->action_phase.u++;
+        body->action_phase++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -42,7 +42,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
         }
         if (sprite->flags & 0x8000) {
             body->action_timer.s = 0;
-            body->action_phase.u = 3;
+            body->action_phase = 3;
             return;
         }
 
@@ -81,7 +81,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
                 sprite,
                 grineut_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            body->action_phase.u++;
+            body->action_phase++;
             return;
         }
 
@@ -98,7 +98,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
             grineut_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer.s = 8;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 3:

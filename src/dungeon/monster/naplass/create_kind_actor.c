@@ -70,7 +70,7 @@ void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s1
         }
         init_obj = obj;
         initialize_actor_sprite_and_animation(init_obj, part_a, part_b, kind_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &dispatch_ability_action;
         part_b->flags |= 0xC;

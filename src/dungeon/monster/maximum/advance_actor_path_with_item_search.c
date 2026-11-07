@@ -17,6 +17,7 @@
 #include "dungeon/item/state.h"
 #include "sdk/libc.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
@@ -26,7 +27,6 @@ extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *ri
 extern u32 find_nearest_floor_item_in_room(void *, s32, s16 *, s16 *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 
 extern s8 actor_turn_angle_offsets;
 

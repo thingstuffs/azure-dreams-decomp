@@ -3,6 +3,7 @@
 #include "shared/gpu_packets.h"
 #include "dungeon/monster/death.h"
 #include "common.h"
+#include "shared/fade_effect.h"
 #include "shared/game_work.h"
 
 typedef struct Scratch {
@@ -60,13 +61,6 @@ struct ObjectNodeHeader;
 
 /* Advance the effect motion, fade its color, and flag it near its target or when faded out. */
 typedef struct { s32 x,y,z,dx,dy,dz; } EffectMotion;
-typedef struct FadeEffect {
- u8 red,green,blue,pad03;
- union {struct {u8 red,green,blue,pad;} color;s32 packed;} current;
- s32 output;
- u8 pad0c[0x26];
- s16 remaining,total;
-} FadeEffect;
 /* Advance and damp motion; scale the current color by the remaining lifetime. */
 
    /* obj in func_80170D28 */

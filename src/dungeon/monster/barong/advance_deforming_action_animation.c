@@ -25,7 +25,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
     ActorRecord *actor = actor_in;
     u8 state;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
     {
@@ -39,7 +39,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
 
         timer = ++body->action_timer.u;
         if (timer >= 0x78) {
-            body->action_phase.u = 5;
+            body->action_phase = 5;
             body->action_timer.u = 0;
             return;
         }
@@ -50,7 +50,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
         }
         actor->flags14 = actor_flags & 0xFF7FFFFF;
         body->action_timer.u = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         (sprite->frameTable) = D_801755BC;
         select_sprite_entry(sprite,
             D_801755BC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -64,7 +64,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
             return;
         }
         body->action_timer.u = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         (sprite->frameTable) = barong_frame_set_3;
         select_sprite_entry(sprite,
             barong_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -81,7 +81,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
             return;
         }
         body->action_timer.u = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         sprite->flags &= 0xF7FF;
         return;
     }
@@ -132,7 +132,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
             return;
         }
         body->action_timer.u = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         (sprite->frameTable) = D_801755C4;
@@ -153,7 +153,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
             return;
         }
         body->action_timer.u = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
     }
 

@@ -37,7 +37,7 @@ s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_mo
     }
     else {
         input_flags = *(u16 *) 0x80013714;
-        if (((input_flags & 0xC) || (input_flags & 1)) || (actor->action_id.u == 0x19)) {
+        if (((input_flags & 0xC) || (input_flags & 1)) || (actor->action_id == 0x19)) {
             stopped = 1;
         }
         else

@@ -50,7 +50,7 @@ void update_color_cycling_pulse(ColorCyclingPulseBody *state, void *unused, Spri
         color->color.c.b = (s8) ((blue * (0x1E - (s16) state->ticks_remaining)) / 10);
     }
     if ((s16) state->ticks_remaining <= 0) {
-        (*(u16 *)((u8 *)state + -2)) = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
+        NODE_HEADER(state)->flags = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -77,7 +77,7 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
             old_x, old_y, actor->tile_x, actor->tile_y,
             &motion->action_state_flags);
     }
-    motion->action_id.u = 0xF;
+    motion->action_id = 0xF;
     motion->unk_8C.word = 0;
     move_state->flags1C = (u32)((u32)move_state->flags1C | (0x40000000));
 

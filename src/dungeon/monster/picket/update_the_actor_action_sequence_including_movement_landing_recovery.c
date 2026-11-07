@@ -52,7 +52,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
     dir_offset += (u32)dir_step_y;
     dir_y = *(s16 *)dir_offset;
     timer = action->action_timer.u;
-    state = action->action_phase.u;
+    state = action->action_phase;
     action->action_timer.u = timer - 1;
     special = 0;
     switch (state) {
@@ -167,9 +167,9 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             }
             motion->velocity_z = (s32)0xFFF30000;
             {
-                tail_state = action->action_phase.u;
+                tail_state = action->action_phase;
                 tail_state++;
-                action->action_phase.u = tail_state;
+                action->action_phase = tail_state;
                 return;
             }
         }
@@ -195,7 +195,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
 
     case 1:
         if (sprite->flags & 0x8000) {
-            action->action_phase.u = 16;
+            action->action_phase = 16;
             action->action_state_flags |= 0x80;
             return;
         }
@@ -207,7 +207,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             motion->velocity_y = dir_y << 18;
             motion->velocity_z = (s32)0xFFF30000;
             {
-                action->action_phase.u = action->action_phase.u + 1;
+                action->action_phase = action->action_phase + 1;
                 return;
             }
         }
@@ -221,7 +221,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->action_phase.u++;
+        action->action_phase++;
 
     case 3:
         motion->velocity_z += 0x30000;
@@ -233,7 +233,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             motion->velocity_x = dir_x << 19;
             motion->velocity_y = dir_y << 19;
             action->action_state_flags |= 0x80;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
 
@@ -259,7 +259,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
                 effect[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->action_state_flags &= 0xFFF7;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
 
@@ -282,7 +282,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             picket_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_timer.u = 10;
-        action->action_phase.u = action->action_phase.u + 1;
+        action->action_phase = action->action_phase + 1;
         return;
 
     case 6:
@@ -318,7 +318,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         sprite->flags |= 0x6000;
-        action->action_phase.u = 16;
+        action->action_phase = 16;
         return;
 
     case 16:

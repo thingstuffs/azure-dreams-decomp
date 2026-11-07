@@ -64,7 +64,7 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
             get_rounded_facing_and_rounding_flag(old_x, old_y, sprite->tile_x,
                           sprite->tile_y, (u8 *)motion + 0x98);
     }
-    motion->action_id.s = 0xF;
+    motion->action_id = 0xF;
     motion->unk_8C.word = 0;
     path->flags1C |= 0x40000000;
 

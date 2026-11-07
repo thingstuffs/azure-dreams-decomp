@@ -153,7 +153,7 @@ void *spawn_block_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
-        result_copy->action_id.u = 0xFF;
+        result_copy->action_id = 0xFF;
         result_copy->unk_9C = -1;
         result_copy->unk_8C.address = dispatch_block_turn_actions_slot_a;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
@@ -205,7 +205,7 @@ void update_block_motion_and_facing_slot_a(ActorRecord *entity, CL_CD7000_80170C
         callback(entity, motion, sprite, entity);
     }
 
-    D_8015133C[entity->action_id.u](entity, motion, sprite, entity);
+    D_8015133C[entity->action_id](entity, motion, sprite, entity);
 
     if ((s16)old_direction != entity->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion, sprite, entity);
@@ -383,7 +383,7 @@ void dispatch_block_turn_actions_slot_a(CL_CD7000_8017102C_S_8017102C_0 *state, 
     return;
    case 5: case 6: case 7:
     actor->unk_2A=get_rounded_facing_and_rounding_flag(sprite->tile.bytes.x,sprite->tile.bytes.y,reference_tile_object.tile_position.parts.tile_x,reference_tile_object.tile_position.parts.tile_y,&terrain_flags);
-    if(primary_actor_record->action_id.u==17) {
+    if(primary_actor_record->action_id==17) {
      begin_actor_spell_action(state,motion,sprite,D_801512EC,dispatch_block_turn_actions_slot_a);
      return;
     }
@@ -1106,7 +1106,7 @@ void update_block_spell_slot_a(ActorRecord *work, ObjectPosition *position, Spri
     CL_CD7000_80172BCC_S_func_80C953CC_9 *part;
     s32 alternate = 0;
 
-    switch (work->action_phase.u) {
+    switch (work->action_phase) {
     case 0:
         if (actor->unk_1C & ACTOR_PLAYER_SIDE) {
             switch (actor->unk_46 & 0x3FFF) {
@@ -1180,7 +1180,7 @@ void update_block_spell_slot_a(ActorRecord *work, ObjectPosition *position, Spri
             }
 
             if (create_actor_spell_effect(actor, part, alternate, &work->action_state_flags) != 0) {
-                work->action_phase.u++;
+                work->action_phase++;
             }
         } else {
             CL_CD7000_80172BCC_S_func_80C953CC_5 *active_actor;
@@ -1209,7 +1209,7 @@ void update_block_spell_slot_a(ActorRecord *work, ObjectPosition *position, Spri
         }
 
         entity->flags &= 0xF7FF;
-        work->action_phase.u++;
+        work->action_phase++;
         actor = allocate_flagged_object_node(0x212);
         if (actor != 0) {
             CL_CD7000_80172BCC_S_func_80C953CC_6 *transform;
@@ -1243,7 +1243,7 @@ void update_block_spell_slot_a(ActorRecord *work, ObjectPosition *position, Spri
             (entity->flags & 0xE000)) {
             work->action_timer.u = 0x20;
             work->action_state_flags |= 0x80;
-            work->action_phase.u++;
+            work->action_phase++;
         }
         break;
 

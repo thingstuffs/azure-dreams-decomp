@@ -32,7 +32,7 @@ void move_actor_to_tile_with_hop(void *action, ObjectPosition *motion, SpriteFra
     u16 action_ticks;
     u8 *anim_table;
 
-    state = ((ActorRecord *)action)->action_phase.u;
+    state = ((ActorRecord *)action)->action_phase;
     switch (state) {
     case 0:
         phase_ticks = ((ActorRecord *)action)->unk_9E.u - 1;
@@ -50,7 +50,7 @@ void move_actor_to_tile_with_hop(void *action, ObjectPosition *motion, SpriteFra
         ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
         ((ActorRecord *)action)->unk_9E.s = 5;
         ((ActorRecord *)action)->unk_A0.value = 0;
-        ((ActorRecord *)action)->action_phase.u++;
+        ((ActorRecord *)action)->action_phase++;
 
     case 1:
         move_ticks = ((ActorRecord *)action)->unk_9E.s;
@@ -78,7 +78,7 @@ void move_actor_to_tile_with_hop(void *action, ObjectPosition *motion, SpriteFra
             ((ActorRecord *)action)->unk_90.value = 0;
             ((ActorRecord *)action)->action_state_flags &= 0xFFF7;
             ((ActorRecord *)actor)->flags1C |= 0x08000000;
-            ((ActorRecord *)action)->action_phase.u++;
+            ((ActorRecord *)action)->action_phase++;
         }
 
     case 2:
@@ -94,7 +94,7 @@ void move_actor_to_tile_with_hop(void *action, ObjectPosition *motion, SpriteFra
                 sprite,
                 weadog_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            ((ActorRecord *)action)->action_phase.u++;
+            ((ActorRecord *)action)->action_phase++;
         }
         break;
 

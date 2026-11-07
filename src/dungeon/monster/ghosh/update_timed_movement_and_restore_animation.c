@@ -36,22 +36,22 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
     s32 shifted_timer;
     u8 *anim_table;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         body->action_timer.s = 12;
-        body->action_phase.u = (u8)(body->action_phase.u + 1);
+        body->action_phase = (u8)(body->action_phase + 1);
         if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             if (body->unk_B4.bytes[0] != 0) {
-                body->action_phase.u = 0;
+                body->action_phase = 0;
                 body->unk_8C.address = ghosh_action_resume_address;
                 return;
             }
-            body->action_phase.u = 0;
+            body->action_phase = 0;
             begin_actor_display_action(body, motion, sprite, D_801746CC);
             return;
         }
@@ -60,7 +60,7 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
             return;
         }
         body->action_timer.s = 0;
-        body->action_phase.u = (u32)final_state;
+        body->action_phase = (u32)final_state;
         return;
 
     case 1:
@@ -100,9 +100,9 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
             return;
         }
         timer = 4;
-        state_bits = body->action_phase.u;
+        state_bits = body->action_phase;
         body->action_timer.s = timer;
-        body->action_phase.u = (u8)(state_bits + 1);
+        body->action_phase = (u8)(state_bits + 1);
         return;
     case 2:
         timer = body->action_timer.s;
@@ -125,8 +125,8 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        state_bits = body->action_phase.u;
-        body->action_phase.u = (u8)(state_bits + 1);
+        state_bits = body->action_phase;
+        body->action_phase = (u8)(state_bits + 1);
         return;
 
     case 3:
@@ -139,12 +139,12 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             if (body->unk_B4.bytes[0] == 0) {
-                body->action_phase.u = 0;
+                body->action_phase = 0;
                 begin_actor_display_action(body, motion, sprite, D_801746CC);
                 return;
             } else {
                 u8 *result_bits = ghosh_action_resume_address;
-                body->action_phase.u = 0;
+                body->action_phase = 0;
                 body->unk_8C.address = result_bits;
                 return;
             }

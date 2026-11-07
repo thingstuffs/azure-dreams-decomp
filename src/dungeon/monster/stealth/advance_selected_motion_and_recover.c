@@ -49,7 +49,7 @@ void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPositi
     ObjectNodeHeader *action_state;
 
     use_player_target = 0;
-    switch (motion_state->action_phase.u) {
+    switch (motion_state->action_phase) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -128,7 +128,7 @@ void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPositi
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(saved_position, (*motion - 1) % 3);
-            motion_state->action_phase.u = motion_state->action_phase.u + 1;
+            motion_state->action_phase = motion_state->action_phase + 1;
             return;
         }
 
@@ -152,7 +152,7 @@ void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPositi
             return;
         }
         sprite->flags &= 0xF7FF;
-        motion_state->action_phase.u = motion_state->action_phase.u + 1;
+        motion_state->action_phase = motion_state->action_phase + 1;
                         /* fallthrough */
     case 2:
         if ((sprite->unk_04 == 5 && (sprite->flags & 0x1000)) ||

@@ -21,13 +21,13 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
     s32 timer_next;
     s32 timer_init;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity_data);
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        controller->action_phase.u++;
+        controller->action_phase++;
 
         if (entity_data->hp == 0) {
             motion->velocity_z = 0;
@@ -38,7 +38,7 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
         }
         if (actor->flags & 0x8000) {
             controller->action_timer.s = 0;
-            controller->action_phase.s = 2;
+            controller->action_phase = 2;
             return;
         }
 
@@ -67,7 +67,7 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
             return;
         }
         controller->action_timer.s = 1;
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
     case 2:
         timer_next = controller->action_timer.u - 1;

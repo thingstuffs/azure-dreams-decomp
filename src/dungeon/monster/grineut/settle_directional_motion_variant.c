@@ -23,13 +23,13 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
     s32 tracked_actor;
 
     direction = (actor->movement_facing >> 9) & 7;
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
-        action->action_phase.u++;
+        action->action_phase++;
 
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -40,7 +40,7 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
         }
         if (sprite->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.u = 3;
+            action->action_phase = 3;
             return;
         }
 
@@ -79,7 +79,7 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
                 sprite,
                 grineut_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
 
@@ -96,7 +96,7 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
             grineut_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_timer.s = 8;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 3:

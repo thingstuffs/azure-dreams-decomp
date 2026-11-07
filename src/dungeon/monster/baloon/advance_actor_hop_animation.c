@@ -27,7 +27,7 @@ void advance_actor_hop_animation(ActorRecord *body, ObjectPosition *position, Sp
     u16 timer_value;
     s32 phase;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     case 0:
         timer_value = body->unk_AA + 1;
@@ -43,7 +43,7 @@ void advance_actor_hop_animation(ActorRecord *body, ObjectPosition *position, Sp
         actor->flags1C &= 0xF7FFFFFF;
         body->unk_AA = 5;
         body->unk_A4.value = 0;
-        body->action_phase.u++;
+        body->action_phase++;
                         /* fallthrough */
     case 1:
         body->unk_90.value -= body->unk_A4.value;
@@ -66,7 +66,7 @@ void advance_actor_hop_animation(ActorRecord *body, ObjectPosition *position, Sp
             body->unk_90.parts.high.s = -0x10;
             body->action_state_flags &= 0xFFF7;
             actor->flags1C |= 0x08000000;
-            body->action_phase.u++;
+            body->action_phase++;
         }
                         /* fallthrough */
     case 2:
@@ -80,7 +80,7 @@ void advance_actor_hop_animation(ActorRecord *body, ObjectPosition *position, Sp
             select_sprite_entry(sprite,
                 D_800E2370[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->action_phase.u++;
+            body->action_phase++;
         }
         break;
         break;

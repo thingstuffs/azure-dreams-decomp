@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "slus.h"
 #include "shared/actor_property_flags.h"
 #include "shared/monster_ids.h"
 #include "engine/node/allocation.h"
@@ -18,7 +19,6 @@ struct ObjectNodeHeader;
 #include "dungeon/actor/state.h"
 #include "dungeon/player/object.h"
 
-void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 
 void advance_actor_status_turn_second(s32 actor, s32 action_context, s32 sprite, u8 *state);

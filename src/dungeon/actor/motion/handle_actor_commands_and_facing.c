@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "slus.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/animation.h"
 
@@ -18,7 +19,6 @@ struct SpriteFrameState;
 #include "dungeon/actor/motion.h"
 #include "engine/resource.h"
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 #include "dungeon/player.h"
 extern s32 begin_actor_attack();
 #include "dungeon/item.h"
@@ -70,17 +70,17 @@ void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
     s32 idle_state = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
     s32 command_state;
 
-    if (actor->action_id.u != idle_state) {
+    if (actor->action_id != idle_state) {
         sprite->frameTable = actor_default_frames;
         select_record_entry_and_value(sprite,
             *(void **)((u8 *)actor_default_frames +
                 ((((s32)(input->view.camera_rotation.parts.viewAngle +
                     actor_data->facing + 0x100)) >> 7) & 0x1C)),
             0);
-        actor->action_id.u = idle_state;
+        actor->action_id = idle_state;
         actor->unk_A0.parts.high &= 0xFEFF;
         sprite->flags &= 0xF7FF;
-        actor->action_phase.s = 0;
+        actor->action_phase = 0;
         actor->action_timer.s = 0;
         select_position_data_and_update_owner(sprite, actor_data);
     }
@@ -249,7 +249,7 @@ void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
                                 (generate_random_value() & 0xE00);
                         }
                         update_actor_movement_and_map_flags(actor, motion, sprite, actor_data);
-                        if (actor->action_id.u != 0x32) {
+                        if (actor->action_id != 0x32) {
                             return;
                         }
                     } else {

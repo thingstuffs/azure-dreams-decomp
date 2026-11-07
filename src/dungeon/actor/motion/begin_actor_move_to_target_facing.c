@@ -10,8 +10,8 @@ void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *positi
     u8 tile_y;
     s32 update_mask;
 
-    body->action_id.u = 0xB;
-    body->action_phase.u = 0;
+    body->action_id = 0xB;
+    body->action_phase = 0;
     body->unk_8C.handler = 0;
     tile_x = sprite->tile_x;
     tile_y = sprite->tile_y;

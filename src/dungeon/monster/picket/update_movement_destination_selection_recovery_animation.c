@@ -49,7 +49,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
     raw_direction = ((u16)actor->facing);
     direction_offset = raw_direction >> 8;
     direction_offset &= 0xE;
-    state_id = state->action_phase.u;
+    state_id = state->action_phase;
     x_step_ptr = (s16 *)((u8 *)x_step_ptr + direction_offset);
     direction_offset += (u32)((u8 *)dir_step_y);
     raw_direction = state_id < 6;
@@ -69,7 +69,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
         motion->velocity_y = (y_step << 19) + (y_step << 18);
         state->action_timer.u = 4;
         play_sound_if_enabled(0x80E);
-        state->action_phase.u++;
+        state->action_phase++;
     case 1:
         if (!(sprite->flags & 0x8000)) {
             state->action_timer.u--;
@@ -87,7 +87,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
         state->action_timer.u = 0;
         motion->velocity_x = (-x_step) << 18;
         motion->velocity_y = (-y_step) << 18;
-        state->action_phase.u++;
+        state->action_phase++;
         return;
 
     case 2:
@@ -101,11 +101,11 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
             picket_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             state->action_timer.u = 7;
-            state->action_phase.u = 5;
+            state->action_phase = 5;
             return;
         }
         actor->facing &= 0xFFF;
-        state->action_phase.u++;
+        state->action_phase++;
         return;
 
     case 3:
@@ -114,7 +114,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
             if ((actor->facing == 0x400) ||
                 (sprite->flags & 0x8000)) {
                 select_sprite_entry(sprite, 0x37, 0);
-                state->action_phase.u++;
+                state->action_phase++;
                 return;
             }
             if ((u32)(angle - 0x401) < 0x800) {
@@ -141,7 +141,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
             if (--attempts_left <= 0) {
                 sprite->tile_x = (u8)x_step;
                 sprite->tile_y = (u8)y_step;
-                state->action_phase.u++;
+                state->action_phase++;
                 return;
             }
             direction_offset = select_dungeon_spawn_tile(&sprite->tile_x, &sprite->tile_y);
@@ -157,7 +157,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
                 (s16)(((u16) motion->z.w.i) - 0x80));
             raw_direction = direction_offset < 0x201;
             if (raw_direction) {
-                state->action_phase.u++;
+                state->action_phase++;
                 return;
             }
         }

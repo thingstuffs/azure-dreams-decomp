@@ -36,7 +36,7 @@ s32 resolve_actor_movement_action(ActorRecord *entity, ObjectPosition *action_ct
     switch (action_result) {
     case 0:
         result = 0xE;
-        entity->action_id.s = result;
+        entity->action_id = result;
         update_actor_status_and_mp(actor);
         return 0;
     case 2:

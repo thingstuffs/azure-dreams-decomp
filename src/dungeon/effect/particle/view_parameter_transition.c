@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "slus.h"
 #include "shared/slus_callbacks.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -52,7 +53,6 @@ extern int abs(int);
 extern void *memcpy(void *, const void *, u32);
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector();
 extern s32 rand(void);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern const s16 D_80024038[8][2];
 extern u8 D_800252FC[12];
 extern s16 D_80025308;

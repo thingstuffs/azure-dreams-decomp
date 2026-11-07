@@ -81,7 +81,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
 
     if ((((s8)linked_state[0x13] - 1) < 0) ||
         (linked_state[0x13] == 0x1E) ||
-        (owner->action_phase.u != 0)) {
+        (owner->action_phase != 0)) {
         return;
     }
 
@@ -112,7 +112,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
     }
     begin_actor_flagged_action(linked_state, *(s32 *)(linked_state - 0x18),
                   *(s32 *)(linked_state - 0x14), linked_state);
-    owner->action_phase.u++;
+    owner->action_phase++;
 }
 
 /*
@@ -129,8 +129,8 @@ void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unus
     if ((has_pending_dungeon_activity(entity) << 16) == 0) {
         s32 direction;
 
-        action->action_id.s = 0x17;
-        action->action_phase.s = 0;
+        action->action_id = 0x17;
+        action->action_phase = 0;
         action->unk_8C.word = 0;
         animation->frameTable = D_80176670;
 
@@ -146,8 +146,8 @@ void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unus
 
 /* Resets state to code 0x19 and updates the associated record flags. */
 void reset_linked_entity_state(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *flag_record, ActorRecord *record) {
-    state->action_id.u = 0x19;
-    state->action_phase.u = 0;
+    state->action_id = 0x19;
+    state->action_phase = 0;
     state->unk_8C.handler = 0;
     flag_record->flags = (u16) (flag_record->flags & 0xF7FF);
     state->action_timer.u = 0;

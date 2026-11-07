@@ -47,10 +47,10 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
     u8 *current_anim;
     DungeonGlobalStatus *world_state;
 
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
         actor->hp_delta = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         encounter_recovery_flag = 0;
         body->action_timer.s = 6;
         if (body->unk_B0.bytes[0] < 2) {
@@ -79,7 +79,7 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
         motion->velocity_y =
             ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_y) + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
         body->action_timer.s = 8;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 2:
@@ -102,7 +102,7 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        body->action_phase.u++;
+        body->action_phase++;
 
         switch (body->unk_AC.byte) {
         case 0:
@@ -162,15 +162,15 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
             }
             if (actor->hp == 0) {
                 body->action_timer.s = 0;
-                body->action_phase.u += 2;
+                body->action_phase += 2;
                 return;
             }
             body->action_timer.s = 0;
-            body->action_phase.u++;
+            body->action_phase++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
-        body->action_phase.u += 2;
+        body->action_phase += 2;
         return;
 
     case 4:
@@ -178,7 +178,7 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
         if (frame_count < 0x50) {
             return;
         }
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 5:

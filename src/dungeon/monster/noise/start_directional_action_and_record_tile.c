@@ -15,10 +15,10 @@ void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectP
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            action_state->action_id.s = 0x17;
+            action_state->action_id = 0x17;
             action_state->action_timer.s = 0xF;
             action_state->unk_8C.word = 0;
-            action_state->action_phase.s = 0;
+            action_state->action_phase = 0;
             (sprite->frameTable) = &D_80174EC8;
             select_sprite_entry(
                 sprite,
@@ -62,7 +62,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
     s32 phase;
 
     owner = NODE_HEADER(effect_state);
-    phase = effect_state->action_phase.u;
+    phase = effect_state->action_phase;
     switch (phase) {
     case 0:
         position->velocity_z = 0;
@@ -73,7 +73,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
         if (((timer << 16) <= 0) ||
             (source_mesh->flags & 0x8000)) {
             effect_state->action_timer.u = 0;
-            effect_state->action_phase.u++;
+            effect_state->action_phase++;
             flags = source_mesh->flags;
             source_mesh->flags = flags & 0xF7FF;
         }
@@ -152,7 +152,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
 
         } while (++count < 1);
         effect_state->action_timer.u = 0x2D;
-        effect_state->action_phase.u++;
+        effect_state->action_phase++;
         return;
     case 2:
         if (source_mesh->flags & 0xE000) {
@@ -180,7 +180,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
             select_sprite_entry(source_mesh, ((u8 *)source_mesh->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 9) & 7], 0);
         }
-        effect_state->action_phase.u++;
+        effect_state->action_phase++;
         return;
     case 3:
         owner_link = actor->target;

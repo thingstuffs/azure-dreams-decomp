@@ -24,7 +24,7 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
     u16 target_distance;
     s32 phase;
 
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -42,7 +42,7 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
         actor->flags1C &= 0xF7FFFFFF;
         action->unk_A8.s = 5;
         action->unk_A4.value = 0;
-        action->action_phase.u++;
+        action->action_phase++;
                         /* fallthrough */
     case 1:
     {
@@ -78,7 +78,7 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
             action->unk_90.parts.high.s = -0x10;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= 0x08000000;
-            action->action_phase.u++;
+            action->action_phase++;
         }
     }
                         /* fallthrough */
@@ -97,7 +97,7 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
-            action->action_phase.u++;
+            action->action_phase++;
         }
         break;
     case 3:

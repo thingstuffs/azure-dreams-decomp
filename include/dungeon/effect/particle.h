@@ -19,7 +19,8 @@ void draw_ribbon_center_lines(struct RibbonLineGeometry *geometry, ObjectPositio
 void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias);
 void emit_parent_relative_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
 void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
-void update_converging_fading_particle(void *effect, ObjectPosition *position);
+struct S_80165164_1;
+void update_converging_fading_particle(struct S_80165164_1 *effect, ObjectPosition *position);
 /* Countdown state and the copied starting position for the clipped rotating sprites. */
 typedef struct RotatingClippedSpriteBody {
     u8 pad_00[0x18];
@@ -89,7 +90,7 @@ void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, ObjectPosition
 typedef struct ColorCyclingPulseBody {
     u8 pad_00[0x18];
     u16 ticks_remaining;
-    u8 pad_1A[0x2];
+    u16 initial_duration;
     u16 phase_index;
 } ColorCyclingPulseBody;
 void update_color_cycling_pulse(ColorCyclingPulseBody *state_data, void *unused, SpriteFrameState *color);

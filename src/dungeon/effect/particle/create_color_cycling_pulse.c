@@ -16,12 +16,6 @@ typedef struct {
 
 extern u8 D_80173B58[48];
 
-typedef struct S_8016738C_0 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    s16 unk_1A;
-} S_8016738C_0;   /* node in create_color_cycling_pulse */
-
    /* ctrl in create_color_cycling_pulse */
 
 
@@ -31,13 +25,13 @@ void create_color_cycling_pulse(ObjectPosition *origin)
     ObjectNodeHeader *object;
     ObjectPosition *position;
     SpriteFrameState *control;
-    S_8016738C_0 *node;
+    ColorCyclingPulseBody *node;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         node = NODE_BODY(object);
-        node->unk_18 = 0x1E;
-        node->unk_1A = 0x1E;
+        node->ticks_remaining = 0x1E;
+        node->initial_duration = 0x1E;
         (object->update_callback) = update_color_cycling_pulse;
         register_node(object, project_sprite_chain);
 

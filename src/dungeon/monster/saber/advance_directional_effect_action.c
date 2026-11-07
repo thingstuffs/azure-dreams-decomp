@@ -21,13 +21,13 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
     SaberTileOffsets offsets = saber_direction_tile_offsets;
     s32 coord_value;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         action->action_timer.s = 0x14;
-        action->action_phase.u++;
+        action->action_phase++;
         break;
 
     case 1:
@@ -84,7 +84,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
         if ((action->action_timer.s <= 0) ||
             (sprite->flags & 0x8000)) {
             action->action_timer.s = 0;
-            action->action_phase.u++;
+            action->action_phase++;
         }
         break;
 
@@ -102,7 +102,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
                     (*(u8 **)&sprite->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle +
                         actor->facing + 0x100) >> 9) & 7],
                     0);
-                action->action_phase.u++;
+                action->action_phase++;
             }
         }
         break;

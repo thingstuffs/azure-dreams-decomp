@@ -85,7 +85,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
 
     special_or_effect = 0;
     action_object = NODE_HEADER(body);
-    state = body->action_phase.u;
+    state = body->action_phase;
     if ((u32)state >= 5) {
         return;
     }
@@ -169,7 +169,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                 return;
             }
             body->action_timer.u = 0x11;
-            body->action_phase.u++;
+            body->action_phase++;
             return;
         }
 
@@ -193,7 +193,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
             return;
         }
         sprite->flags &= 0xF7FF;
-        body->action_phase.u++;
+        body->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -252,8 +252,8 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
             }
             if (body->action_timer.s <= 0 ||
                 (sprite->flags & 0xE000)) {
-                next_state = body->action_phase.u + 1;
-                body->action_phase.u = next_state;
+                next_state = body->action_phase + 1;
+                body->action_phase = next_state;
             }
         }
         return;
@@ -268,7 +268,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
             sprite->flags |= 0x100;
             body->unk_AC.halves.low.u = sprite->clut;
             sprite->clut = 0x7E80;
-            body->action_phase.u++;
+            body->action_phase++;
         }
 
     case 4:

@@ -1,11 +1,8 @@
 #include "sdk/libc.h"
 #include "common.h"
 #include "dungeon/effect/particle.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
-
-typedef struct S_80165164_1_pre {
-    u16 unk_00;
-} S_80165164_1_pre;   /* the 0x2 bytes before arg0 in update_converging_fading_particle, addressed as arg0[-1] */
 
 typedef struct S_80165164_1 {
     u8 unk_00;
@@ -37,7 +34,7 @@ typedef struct S_80165164_1 {
 
 
 /* Update effect motion and color, flagging it near its target or when fully faded. */
-void update_converging_fading_particle(void *effect, ObjectPosition *position) {
+void update_converging_fading_particle(S_80165164_1 *effect, ObjectPosition *position) {
     s16 fade_level;
     s32 scaled_red;
     s32 scaled_green;
@@ -46,32 +43,32 @@ void update_converging_fading_particle(void *effect, ObjectPosition *position) {
     s32 scaled_blue;
 
     position->x.v = (s32) (position->x.v
-        + ((S_80165164_1 *)effect)->unk_4C);
+        + effect->unk_4C);
     position->y.v = (s32) (position->y.v
-        + ((S_80165164_1 *)effect)->unk_50);
-    position->z.v = (s32) (position->z.v + ((S_80165164_1 *)effect)->unk_54);
-    ((S_80165164_1 *)effect)->unk_4C = (s32) (((S_80165164_1 *)effect)->unk_4C + ((S_80165164_1 *)effect)->unk_58);
-    ((S_80165164_1 *)effect)->unk_50 = (s32) (((S_80165164_1 *)effect)->unk_50 + ((S_80165164_1 *)effect)->unk_5C);
-    ((S_80165164_1 *)effect)->unk_54 = (s32) (((S_80165164_1 *)effect)->unk_54 + ((S_80165164_1 *)effect)->unk_60);
-    target_dx = abs(((S_80165164_1 *)effect)->unk_42 - position->x.w.i);
+        + effect->unk_50);
+    position->z.v = (s32) (position->z.v + effect->unk_54);
+    effect->unk_4C = (s32) (effect->unk_4C + effect->unk_58);
+    effect->unk_50 = (s32) (effect->unk_50 + effect->unk_5C);
+    effect->unk_54 = (s32) (effect->unk_54 + effect->unk_60);
+    target_dx = abs(effect->unk_42 - position->x.w.i);
     if (target_dx < 0x10) {
-        target_dy = abs(((S_80165164_1 *)effect)->unk_44 - position->y.w.i);
+        target_dy = abs(effect->unk_44 - position->y.w.i);
         if (target_dy < 0x10) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
     }
-    scaled_red = ((S_80165164_1 *)effect)->unk_00 * ((S_80165164_1 *)effect)->unk_32;
-    ((S_80165164_1 *)effect)->unk_04.at00.v = (s8) (scaled_red / 256);
-    scaled_green = ((S_80165164_1 *)effect)->unk_01 * ((S_80165164_1 *)effect)->unk_32;
-    ((S_80165164_1 *)effect)->unk_04.at01.v = (s8) (scaled_green / 256);
-    scaled_blue = ((S_80165164_1 *)effect)->unk_02 * ((S_80165164_1 *)effect)->unk_32;
-    ((S_80165164_1 *)effect)->unk_04.at02.v = (s8) (scaled_blue / 256);
-    fade_level = (u16) ((S_80165164_1 *)effect)->unk_32 - 8;
-    ((S_80165164_1 *)effect)->unk_32 = fade_level;
-    ((S_80165164_1 *)effect)->unk_08 = (s32) ((S_80165164_1 *)effect)->unk_04.at00u.v;
+    scaled_red = effect->unk_00 * effect->unk_32;
+    effect->unk_04.at00.v = (s8) (scaled_red / 256);
+    scaled_green = effect->unk_01 * effect->unk_32;
+    effect->unk_04.at01.v = (s8) (scaled_green / 256);
+    scaled_blue = effect->unk_02 * effect->unk_32;
+    effect->unk_04.at02.v = (s8) (scaled_blue / 256);
+    fade_level = (u16) effect->unk_32 - 8;
+    effect->unk_32 = fade_level;
+    effect->unk_08 = (s32) effect->unk_04.at00u.v;
     if ((fade_level << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

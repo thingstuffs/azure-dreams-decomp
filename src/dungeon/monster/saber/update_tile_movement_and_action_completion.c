@@ -35,7 +35,7 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
     u16 facing_aux;
     DungeonGlobalStatus *global_state;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
             break;
@@ -49,7 +49,7 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
         action->unk_A4.value = 0;
-        action->action_phase.u++;
+        action->action_phase++;
                         /* fall through */
 
     case 1:
@@ -84,7 +84,7 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase.u++;
+            action->action_phase++;
         }
                         /* fall through */
 
@@ -100,7 +100,7 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
                 sprite,
                 D_8016EE14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase.u++;
+            action->action_phase++;
         }
         break;
 

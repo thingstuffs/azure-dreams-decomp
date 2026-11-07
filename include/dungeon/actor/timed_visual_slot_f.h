@@ -6,6 +6,9 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
+extern u8 timed_visual_slot_f_return_frames[];
+extern u8 timed_visual_slot_f_wait_frames[];
+
 void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
 
 #endif

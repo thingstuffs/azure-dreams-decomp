@@ -85,7 +85,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
 
     effect_vectors_a = D_80170838;
     effect_vectors_b = D_8017084C;
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     default:
         return;
@@ -93,7 +93,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         body->unk_A8.u = (u16) ((u16)motion->x.w.i);
         body->unk_AA = (u16) ((u16)motion->y.w.i);
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 5U;
+            body->action_phase = 5U;
             sprite->flags = (u16) (sprite->flags | 0x6000);
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -109,8 +109,8 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         motion->velocity_y = (s32) ((s16) dir_step_y[direction_index] * 0x30000);
         sprite->frameTable = &D_80174A8C;
         select_sprite_entry(sprite, (&D_80174A8C)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        previous_state = body->action_phase.u;
-        body->action_phase.u = (u8) (previous_state + 1);
+        previous_state = body->action_phase;
+        body->action_phase = (u8) (previous_state + 1);
         return;
     case 1:
         if (!(sprite->flags & 0xE000)) {
@@ -121,8 +121,8 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         body->unk_90.value = 0;
         body->action_state_flags = (u16) (body->action_state_flags | 8);
         motion->velocity_z = 0xFFF40000;
-        previous_state = body->action_phase.u;
-        body->action_phase.u = (u8) (previous_state + 1);
+        previous_state = body->action_phase;
+        body->action_phase = (u8) (previous_state + 1);
         return;
     case 2:
         vertical_speed = motion->velocity_z + 0x20000;
@@ -136,7 +136,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         sprite->frameTable = viper_frame_set_4;
         select_sprite_entry(sprite, viper_frame_set_4[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         body->action_timer.u = 7;
-        body->action_phase.u = (u8) (body->action_phase.u + 1);
+        body->action_phase = (u8) (body->action_phase + 1);
         return;
     case 3:
         if (sprite->unk_04 < 3) {
@@ -207,7 +207,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         sprite->frameTable = viper_frame_set_3;
         select_sprite_entry(sprite, viper_frame_set_3[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         body->action_state_flags = (u16) (body->action_state_flags & 0xFFF7);
-        body->action_phase.u = (u8) (body->action_phase.u + 1);
+        body->action_phase = (u8) (body->action_phase + 1);
         return;
     case 4:
         if (!(sprite->flags & 0xE000)) {
@@ -218,8 +218,8 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         if (sprite->flags & 0x8000) {
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         }
-        previous_state = body->action_phase.u;
-        body->action_phase.u = (u8) (previous_state + 1);
+        previous_state = body->action_phase;
+        body->action_phase = (u8) (previous_state + 1);
         return;
     case 5:
         axis_distance = (s16) ((u16)motion->x.w.i);

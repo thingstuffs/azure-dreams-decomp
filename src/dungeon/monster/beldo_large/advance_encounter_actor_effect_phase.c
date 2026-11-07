@@ -89,7 +89,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
         count -= 1;
         link_slot -= 4;
     } while (count >= 0);
-    phase = effect->action_id.u;
+    phase = effect->action_id;
     switch (phase) {
     case 0:
     {
@@ -123,7 +123,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
             play_sound_if_enabled(0xB1);
         phase_active = ((s16)effect->action_timer.u < 120);
         if (phase_active == 0) {
-            effect->action_id.u = (u8)(effect->action_id.u + 1);
+            effect->action_id = (u8)(effect->action_id + 1);
             effect->action_timer.u = 0U;
         }
         break;
@@ -158,7 +158,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
             play_sound_if_enabled(0x817);
         phase_active = ((s16)effect->action_timer.u < 20);
         if (phase_active == 0) {
-            effect->action_id.u = (u8)(effect->action_id.u + 1);
+            effect->action_id = (u8)(effect->action_id + 1);
             effect->action_timer.u = 0U;
         }
         break;
@@ -190,11 +190,11 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
         }
         if ((s16)effect->action_timer.u < 0xE)
             break;
-        turn_phase = effect->action_id.u;
+        turn_phase = effect->action_id;
         effect->action_timer.u = 0U;
         table_page = (u32)beldo_large_direction_offsets;
         turn_phase = (u8)(turn_phase + 1);
-        effect->action_id.u = turn_phase;
+        effect->action_id = turn_phase;
         table_angle = heading->unk_2A;
         table_ptr = ((table_angle >> 7) & 0x1C);
         table_ptr += table_page;
@@ -211,7 +211,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
         if ((s16)move_ticks < 6)
             break;
         effect->action_timer.u = 0U;
-        effect->action_id.u = (u8)(effect->action_id.u + 1);
+        effect->action_id = (u8)(effect->action_id + 1);
         break;
     case 7:
         sprite->flags = (u16)(sprite->flags | 0x80);

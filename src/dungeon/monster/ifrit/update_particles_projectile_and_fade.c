@@ -85,7 +85,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
     rect = D_80170874;
 
     if (!(sprite->flags & 0x8000) &&
-        body->action_phase.u == 1) {
+        body->action_phase == 1) {
         particles_left = 3;
         particle_callback = tick_object_motion_and_expire;
         body->unk_A8.u += 0x12;
@@ -144,7 +144,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
         } while (particles_left >= 0);
     }
 
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             break;
@@ -154,7 +154,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
                 announce_familiar_defeat(entity);
             }
         }
-        body->action_phase.u++;
+        body->action_phase++;
                         /* fallthrough */
     case 1:
         if (!(sprite->flags & 0xE000)) {
@@ -181,7 +181,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
         sprite->color.word = 0x00C0C0C0;
         sprite->flags |= 0xC;
         sprite->clut -= 0x80;
-        body->action_phase.u++;
+        body->action_phase++;
         play_sound_if_enabled(0x806);
 
         spawned_object = allocate_list_node(0x12, &scene_object_list_anchor.next);
@@ -209,7 +209,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
         sprite->color.word += 0xFFEFEFF0;
         if (sprite->color.c.r < 0x11) {
             body->action_timer.u = 10;
-            body->action_phase.u++;
+            body->action_phase++;
         }
         break;
 

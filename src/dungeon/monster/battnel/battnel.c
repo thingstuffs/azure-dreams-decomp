@@ -95,7 +95,7 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
 
         } while (0);
         initialize_actor_sprite_and_animation(part_arg, part_a, part_b, spawn_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &D_80158E5C;
         actor->unk_A4.halves.low.s = -1;

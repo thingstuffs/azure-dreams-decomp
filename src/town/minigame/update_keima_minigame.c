@@ -1,5 +1,6 @@
 #include "shared/minigame_body.h"
 #include "town/minigame/keima.h"
+#include "sdk/abs.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/entity_objects.h"
@@ -10,7 +11,6 @@
 #include "town/person/effects.h"
 #include "town/minigame.h"
 #include "town/shop/object.h"
-extern int abs(int);
 
 /* The record behind a minigame object node (node + 0x20) and the base record D_800834B8 (the node's record half).
  * Its +0x14..+0x22 halfwords use the separate shared MinigameBody layout. */

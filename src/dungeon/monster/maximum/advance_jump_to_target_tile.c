@@ -25,7 +25,7 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
     s16 next_frames;
     s32 entity_flags;
 
-    jump_state = motion->action_phase.u;
+    jump_state = motion->action_phase;
     switch (jump_state) {
     case 0:
         if (motion->action_timer.s != 8) {
@@ -35,7 +35,7 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
         position->velocity_z = 0xFFEE0000;
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         motion->unk_A4.value = 0;
-        motion->action_phase.u++;
+        motion->action_phase++;
                         /* fall through */
     case 1:
         frames_left = motion->action_timer.s;
@@ -60,7 +60,7 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
             motion->unk_90.value = 0;
             motion->action_state_flags &= 0xFFF7;
             entity->flags1C |= ACTOR_GROUNDED;
-            motion->action_phase.u++;
+            motion->action_phase++;
         }
                         /* fall through */
     case 2:
@@ -70,7 +70,7 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
             position->velocity_y = 0;
             position->velocity_x = 0;
             set_record_integer_tile_center(position, target_tile->tile_x, target_tile->tile_y);
-            motion->action_phase.u++;
+            motion->action_phase++;
         }
         break;
     }

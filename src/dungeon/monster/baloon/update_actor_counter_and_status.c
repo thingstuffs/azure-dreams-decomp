@@ -16,8 +16,8 @@ void update_actor_counter_and_status(ActorRecord *body, ObjectPosition *motion, 
         apply_camera_offset_and_select_target(NODE_HEADER(actor), motion, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             body->unk_8C.word = 0;
-            body->action_id.s = 0x18;
-            body->action_phase.s = 0;
+            body->action_id = 0x18;
+            body->action_phase = 0;
             body->action_timer.s = 0;
             motion->velocity_z = 0;
             motion->velocity_y = 0;

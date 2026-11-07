@@ -53,7 +53,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        motion_in->action_id.u = 0xE;
+        motion_in->action_id = 0xE;
         advance_entity_path_state(motion_in, context_in, entity_in, actor_in);
         return;
     }
@@ -74,8 +74,8 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
 
     if (actor_in->flags1C & 0x200) {
         if (entity_in->frameTable == death_frame_set_2) {
-            motion_in->action_id.u = 0xD;
-            motion_in->action_phase.u = 1;
+            motion_in->action_id = 0xD;
+            motion_in->action_phase = 1;
             motion_in->unk_8C.word = 0;
             actor_in->flags1C &= 0xFFFBFFFF;
             return;
@@ -98,7 +98,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
             void *anim_table;
             s32 motion_value;
 
-            current_state = motion_in->action_id.u;
+            current_state = motion_in->action_id;
 
             next_state = 0xE;
             if (current_state != next_state) {
@@ -118,7 +118,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                     motion_in->unk_B0.value = 0;
                     ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
                 }
-                motion_in->action_id.u = next_state;
+                motion_in->action_id = next_state;
             }
         }
 
@@ -218,7 +218,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                 &direction_aux);
             player = primary_actor_record;
             actor_in->facing = heading;
-            if (player->action_id.u == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(motion_in, context_in, entity_in, death_frame_set_8, &death_action_resume_address);
                 return;
             }

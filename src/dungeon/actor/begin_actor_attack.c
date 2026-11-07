@@ -42,8 +42,8 @@ s32 begin_actor_attack(ActorRecord *body, s32 unused, void *action_param, Actor 
     if (actor->field1C & 0x400) {
         actor->field2A = (u16)actor->field2A + (generate_random_value() & 0xE00);
     }
-    body->action_id.s = 0x37;
-    body->action_phase.s = 0;
+    body->action_id = 0x37;
+    body->action_phase = 0;
     body->unk_8C.word = 0;
     g_dungeon_status.active_actor = actor;
     body->unk_A4.halves.high.s = 0;

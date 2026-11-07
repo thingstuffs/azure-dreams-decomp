@@ -122,7 +122,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_mode);
 
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = kraken_action_resume_address;
         ((ActorRecord *)work)->flags1C |= 0x00040000;

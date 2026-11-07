@@ -32,9 +32,9 @@ void start_actor_reaction_step(ActorRecord *owner, ObjectPosition *unused, Sprit
             }
         }
 
-        owner->action_id.u = 0x17;
+        owner->action_id = 0x17;
         owner->unk_8C.word = 0;
-        owner->action_phase.u = 0;
+        owner->action_phase = 0;
         owner->unk_A4.halves.high.u = 1;
         owner->action_timer.u = 0;
 

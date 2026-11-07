@@ -31,11 +31,11 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
     u16 old_timer;
     s32 display_owner_addr;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         action->action_timer.s = 4;
-        action->action_phase.u++;
+        action->action_phase++;
         if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -47,7 +47,7 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
             return;
         }
         action->action_timer.s = 0;
-        action->action_phase.u = 3;
+        action->action_phase = 3;
         return;
 
     case 1:
@@ -68,7 +68,7 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
         motion->velocity_y =
             dir_step_y[(entity->movement_facing >> 9) & 7] << 18;
         action->action_timer.s = 6;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 2:
@@ -106,7 +106,7 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 3:
@@ -125,7 +125,7 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
             g_dungeon_status.pending_display_owner = display_owner_addr & 0x7FFFFFFF;
         }
         action->unk_8C.address = barong_action_resume_address;
-        action->action_id.u = 0xE;
+        action->action_id = 0xE;
         return;
 
     default:

@@ -59,8 +59,8 @@ s32 attempt_target_action(ActorRecord *action_state, ObjectPosition *effect_arg,
     apply_camera_offset_and_select_target(NODE_HEADER(actor), effect_arg, 8, 0x300);
 
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->action_id.u = 0x11;
-        action_state->action_phase.u = 0;
+        action_state->action_id = 0x11;
+        action_state->action_phase = 0;
         action_state->unk_8C.run = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 4;

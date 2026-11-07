@@ -49,8 +49,8 @@ s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, Sprite
     apply_camera_offset_and_select_target(node_body - 0x20, position, 8, 0x300);
 
     if (try_claim_dungeon_action_slot(actor) == 0) {
-        body->action_id.u = 0x11;
-        body->action_phase.u = 0;
+        body->action_id = 0x11;
+        body->action_phase = 0;
         body->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 6;

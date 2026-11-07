@@ -22,10 +22,10 @@ void begin_player_menu_action(void *actor_data, ObjectPosition *unused_1, Sprite
                 return;
             }
         } else {
-            actor->action_id.u = 0x19;
+            actor->action_id = 0x19;
             play_sound_if_enabled(0x514);
             dungeon_menu_action_state[0] = action_value;
-            actor->action_phase.u = 0;
+            actor->action_phase = 0;
             actor->unk_8C.word = 0;
             reference_tile_object.unk_038 = 0;
             dungeon_floor_flags |= 0x2000;

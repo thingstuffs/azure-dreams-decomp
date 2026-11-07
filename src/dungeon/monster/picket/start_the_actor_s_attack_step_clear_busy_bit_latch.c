@@ -91,9 +91,9 @@ void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *owne
         }
         clear_byte_and_advance(anim);
         display_text_with_fullwidth_adjustment(session);
-        owner->action_id.s = 0x17;
+        owner->action_id = 0x17;
         owner->unk_8C.word = 0;
-        owner->action_phase.s = 0;
+        owner->action_phase = 0;
         part->frameTable = picket_frame_set_8;   /* the struct-member form `part->unk_2C = ...` is NOT byte-exact here: reorder-only 4 (same-multiset, one addiu+sw pair drifts) */
         select_sprite_entry(part, picket_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + (s16) actor->unk_2A + 0x100) >> 9) & 7], 0);
         actor->unk_6D = (u8) (actor->unk_6D - 1);

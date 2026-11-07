@@ -96,10 +96,10 @@ s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPo
         return -1;
     }
 
-    action_state->action_phase.s = 0;
+    action_state->action_phase = 0;
     action_state->unk_8C.run = 0;
     if (action_state->action_state_flags & 0x8000) {
-        action_state->action_id.s = 0x17;
+        action_state->action_id = 0x17;
         if (actor->flags1C & 0x1000) {
             action_state->action_state_flags |= 0x4000;
         } else {
@@ -110,7 +110,7 @@ s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPo
         actor->unk_84 = 0x7E;
         actor->unk_85 = 8;
     } else {
-        action_state->action_id.s = 0x11;
+        action_state->action_id = 0x11;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 8;
     }

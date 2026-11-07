@@ -63,13 +63,13 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
 
     velocity_table = *(PackedTable *)blume_slot_g_direction_steps;
 
-    switch (state->action_phase.u) {
+    switch (state->action_phase) {
     case 0:
         source_pos->velocity_z = 0;
         source_pos->velocity_y = 0;
         source_pos->velocity_x = 0;
         state->action_timer.u = 0;
-        state->action_phase.u++;
+        state->action_phase++;
         source_render->flags &= 0x9FFF;
 
     case 1:
@@ -266,7 +266,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
         if (source_render->flags & 0xE000) {
             void *active_object;
 
-            state->action_phase.u++;
+            state->action_phase++;
             active_object = actor->target;
             if (active_object != 0) {
                 toggle_attacker_target_status_pair(actor, active_object);
@@ -288,7 +288,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                 direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
                 select_sprite_entry(source_render, (*(u8 * *)&source_render->frameTable)[direction_index & 7], 0);
                 state->action_timer.u = 0x14;
-                state->action_phase.u++;
+                state->action_phase++;
             }
         }
         return;

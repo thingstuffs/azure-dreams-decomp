@@ -31,19 +31,19 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
     s32 state;
     s32 next_state;
 
-    state = ((ActorRecord *)animation)->action_phase.u;
+    state = ((ActorRecord *)animation)->action_phase;
     switch (state) {
     case 0:
         ((ActorRecord *)animation)->action_timer.s = 0x10;
         render->unk_1C &= 0xFFFBFFFF;
         (*(u16 *)((u8 *)animation + 0x98)) |= 8;
         if (system_update_flags & 2) {
-            ((ActorRecord *)animation)->action_phase.u = 2;
+            ((ActorRecord *)animation)->action_phase = 2;
             break;
         }
         render->unk_8A = 0x800 / ((ActorRecord *)animation)->action_timer.s;
-        next_state = ((ActorRecord *)animation)->action_phase.u + 1;
-        ((ActorRecord *)animation)->action_phase.u = next_state;
+        next_state = ((ActorRecord *)animation)->action_phase + 1;
+        ((ActorRecord *)animation)->action_phase = next_state;
         break;
     case 1:
         move_frames = ((ActorRecord *)animation)->action_timer.s - 2;
@@ -88,8 +88,8 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
             render->unk_88 = (u16)actor_hop_target_height;
             motion->z.unsigned_parts.integer = (u16)actor_hop_target_height;
             ((ActorRecord *)animation)->unk_90.parts.high.s = 0;
-            next_state = ((ActorRecord *)animation)->action_phase.u + 1;
-            ((ActorRecord *)animation)->action_phase.u = next_state;
+            next_state = ((ActorRecord *)animation)->action_phase + 1;
+            ((ActorRecord *)animation)->action_phase = next_state;
             break;
         }
         break;

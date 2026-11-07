@@ -40,7 +40,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
     s32 actor_flags;
     s8 target_room;
 
-    action_state = obj_arg->action_phase.u;
+    action_state = obj_arg->action_phase;
     switch (action_state) {
     case 0:
         if (!(target_arg->flags & 0xE000)) {
@@ -56,7 +56,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
         counter_value = ((u16)(counter_base->activity_counts.parts.pending_action_count));
         counter_value--;
         counter_base->activity_counts.parts.pending_action_count = counter_value;
-        obj_arg->action_phase.u++;
+        obj_arg->action_phase++;
         return;
 
     case 1:
@@ -152,7 +152,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
         counter_value = ((u16)(counter_base->activity_counts.parts.pending_action_count));
         counter_value++;
         counter_base->activity_counts.parts.pending_action_count = counter_value;
-        obj_arg->action_phase.u++;
+        obj_arg->action_phase++;
         return;
 
     case 2:

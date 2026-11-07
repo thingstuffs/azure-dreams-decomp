@@ -43,7 +43,7 @@ void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosit
     u16 behavior;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
@@ -64,8 +64,8 @@ void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosit
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_8015DC90) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
@@ -82,12 +82,12 @@ void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosit
         }
 
         {
-            u8 current_state = actor->action_id.u;
+            u8 current_state = actor->action_id;
             u32 next_state = 0xE;
             void *current_anim;
 
             if (current_state != next_state) {
-                actor->action_id.u = next_state;
+                actor->action_id = next_state;
                 actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
@@ -197,7 +197,7 @@ void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosit
                         &distance);
                     player = primary_actor_record;
                     entity->facing = facing_angle;
-                    if (player->action_id.u == 0x11) {
+                    if (player->action_id == 0x11) {
                         begin_actor_spell_action(actor, context, sprite, D_8015DC88, D_80159FA4);
                         return;
                     }

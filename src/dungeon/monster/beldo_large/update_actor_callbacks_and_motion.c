@@ -66,7 +66,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
         body->unk_B0.bytes[1] = 1;
         enqueue_runtime_pool_script(D_80173DDC);
         body->pending_turn_updates = 0;
-        body->action_phase.u = 0;
+        body->action_phase = 0;
     }
 
     if ((*(u16 *)0x80013714) & 8) {
@@ -114,7 +114,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
     if (update_callback != NULL) {
         update_callback(body, motion, sprite, actor);
     }
-    beldo_large_callbacks[body->action_id.u](body, motion, sprite, actor);
+    beldo_large_callbacks[body->action_id](body, motion, sprite, actor);
     if ((s16)initial_state != actor->pending_turn_updates) {
         try_move_actor_to_valid_position(body, motion, sprite, actor);
     }

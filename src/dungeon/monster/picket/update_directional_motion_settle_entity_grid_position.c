@@ -37,7 +37,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
 
     ticks_left = action->action_timer.u - 1;
     direction = (entity->movement_facing >> 9) & 7;
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     action->action_timer.s = ticks_left;
     switch (phase) {
     case 0:
@@ -48,7 +48,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
             *(s16 *)((u8 *)directions_x + launch_offset) << 0x12;
         motion->velocity_y =
             dir_step_y[direction] << 0x12;
-        action->action_phase.u++;
+        action->action_phase++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -59,7 +59,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
         }
         if (grid_pos->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.s = 2;
+            action->action_phase = 2;
             return;
         }
 
@@ -97,7 +97,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
             begin_actor_display_action(action, motion, grid_pos, picket_frame_set);
         } else {
             action->action_timer.s = 6;
-            action->action_phase.u++;
+            action->action_phase++;
         }
         return;
     case 2:

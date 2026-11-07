@@ -22,12 +22,11 @@
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/picket_frames.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern void func_80174060(void *, void *, void *, void *);
 extern void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *, ObjectPosition *, void *, void *);
 extern void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *, ObjectPosition *, void *, ActorRecord *);
@@ -46,7 +45,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
     u16 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_stored_entity_path(actor, context, sprite, entity);
         return;
     }
@@ -67,8 +66,8 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == picket_frame_set_6) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
@@ -84,7 +83,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
             return;
         }
 
-        if (actor->action_id.u != 0xE) {
+        if (actor->action_id != 0xE) {
             u8 actor_state = 0xE;
 
             anim_table = picket_frame_set_1;
@@ -94,7 +93,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
             }
-            actor->action_id.u = actor_state;
+            actor->action_id = actor_state;
         }
 
         actor->action_state_flags &= 0xFFF3;
@@ -186,7 +185,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
                 &distance);
             player = primary_actor_record;
             entity->facing = facing_angle;
-            if (player->action_id.u == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(actor, context, sprite, &picket_frame_set_9, update_dungeon_actor_behavior_facing_animation_state);
                 return;
             }

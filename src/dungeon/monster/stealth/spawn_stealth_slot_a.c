@@ -71,7 +71,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
             variant = generate_random_value() & 3;
         }
         initialize_actor_sprite_and_animation(object, part_a, part_b, spawn_flags);
-        ((ActorRecord *)work_copy)->action_id.u = 0xFF;
+        ((ActorRecord *)work_copy)->action_id = 0xFF;
         ((ActorRecord *)work_copy)->unk_9C = -1;
         ((ActorRecord *)work_copy)->unk_8C.address = &D_8014CF74;
         ((ActorRecord *)work_copy)->unk_A4.halves.low.s = -1;

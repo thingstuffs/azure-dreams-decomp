@@ -28,8 +28,8 @@ struct SpriteFrameState;
 
 // Initializes state and configures the context from an eight-way direction lookup.
 void initialize_eight_way_action_state(ActorRecord *body, ObjectPosition *unused, SpriteFrameState *context, ActorRecord *directionSource) {
-    body->action_id.u = 0x10;
-    body->action_phase.u = 0;
+    body->action_id = 0x10;
+    body->action_phase = 0;
     body->unk_A4.halves.low.s = 8;
     context->frameTable = D_8017387C;
     select_sprite_entry(context, D_8017387C[((g_game_work.view.camera_rotation.parts.viewAngle + directionSource->facing + 0x100) >> 9) & 7], 0);

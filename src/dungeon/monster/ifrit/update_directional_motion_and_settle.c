@@ -20,14 +20,14 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
     s32 tracked_addr;
 
     direction = (source->movement_facing >> 9) & 7;
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(source);
         motion->velocity_x =
             dir_step_x[direction] << 18;
         motion->velocity_y =
             dir_step_y[direction] << 18;
-        body->action_phase.u++;
+        body->action_phase++;
 
         if (source->hp == 0) {
             motion->velocity_z = 0;
@@ -38,7 +38,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
         }
         if (sprite->flags & 0x8000) {
             body->action_timer.s = 0;
-            body->action_phase.u = 2;
+            body->action_phase = 2;
             return;
         }
         if (source->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -72,7 +72,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
             return;
         } else {
             body->action_timer.s = 8;
-            body->action_phase.u++;
+            body->action_phase++;
         }
         return;
 

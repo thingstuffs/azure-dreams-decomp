@@ -9,7 +9,7 @@
 s32 resolve_actor_floor_trap_once(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 result;
 
-    if (body->action_phase.u == 0) {
+    if (body->action_phase == 0) {
         actor->movement_queue_state &= 0x7F;
         if (g_dungeon_status.flags & 0x2000) {
             return 0;
@@ -22,7 +22,7 @@ s32 resolve_actor_floor_trap_once(ActorRecord *body, ObjectPosition *position, S
         if ((result << 16) != 0) {
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.trap_counts.parts.pending_trap_count -= 1;
-            body->action_phase.u = 1;
+            body->action_phase = 1;
         }
     } else {
         result = 1;

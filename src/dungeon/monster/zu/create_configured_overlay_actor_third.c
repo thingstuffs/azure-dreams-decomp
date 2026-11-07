@@ -84,7 +84,7 @@ void *create_configured_overlay_actor_third(s16 flags, s16 kind_id, s16 variant,
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = D_80165138;
         work->flags1C |= 0x40000;

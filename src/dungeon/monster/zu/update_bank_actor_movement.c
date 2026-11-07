@@ -1,4 +1,5 @@
 #include "dungeon/effect/particle.h"
+#include "slus.h"
 #include "dungeon/level/room_flags.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
@@ -103,7 +104,7 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         }
         call_a0 = obj;
         initialize_actor_sprite_and_animation(call_a0, part_a, part_b, flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.handler = update_bank_actor_state;
         work->flags1C |= 0x40000;
@@ -123,7 +124,6 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 
 typedef ActorActionHandler Callback;
 
-extern void advance_sprite_animation_and_textures(void *);
 extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern Callback zu_callbacks[];
@@ -167,7 +167,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
     if (update_callback != 0) {
         update_callback(entity, motion_arg, sprite_arg, entity);
     }
-    zu_callbacks[entity->action_id.u](entity, motion_arg, sprite_arg, entity);
+    zu_callbacks[entity->action_id](entity, motion_arg, sprite_arg, entity);
     if ((s16)state_or_facing != entity->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion_arg, sprite_arg, entity);
     }
@@ -204,7 +204,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
             }
         }
 
-        if (entity->action_id.u != 8) {
+        if (entity->action_id != 8) {
             apply_monster_koyaw_data(object->flags1C, (u8 *)sprite_arg + 0xC);
         }
 
@@ -223,7 +223,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
                 {
                     s32 bob_wave = rsin(
                         (entity->unk_A0.halves.low.s << 12) / 40);
-                    if (entity->action_id.u == 0x12) {
+                    if (entity->action_id == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
@@ -290,7 +290,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
                 {
                     s32 bob_wave = rsin(
                         (entity->unk_A0.halves.low.s << 12) / 40);
-                    if (entity->action_id.u == 0x12) {
+                    if (entity->action_id == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
@@ -371,7 +371,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
     stats = stats_in;
 
     if (dungeon_flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_bank_actor_path(actor, context, sprite, stats_in);
         return;
     }
@@ -390,8 +390,8 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
 
     if (stats->flags1C & 0x200) {
         if (sprite->frameTable == zu_frame_set_1) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             stats->flags1C &= ~0x40000;
             return;
@@ -407,8 +407,8 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
             return;
         }
 
-        if (actor->action_id.u != 0xE) {
-            actor->action_id.u = 0xE;
+        if (actor->action_id != 0xE) {
+            actor->action_id = 0xE;
         }
 
         if (sprite->frameTable != zu_default_frames) {
@@ -494,7 +494,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
                         &angle_aux);
                     player = primary_actor_record;
                     stats->facing = facing_angle;
-                    if (player->action_id.u != 0x11) {
+                    if (player->action_id != 0x11) {
                         update_actor_status_and_mp(stats);
                         return;
                     }
@@ -609,7 +609,7 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
         old_x, old_y, entity_view->tile_x, entity_view->tile_y,
         (u8 *)body + 0x98);
     actor->flags1C |= 0x40000000;
-    body->action_id.u = 0xF;
+    body->action_id = 0xF;
     body->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
@@ -923,8 +923,8 @@ s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *mot
 
     apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-        action_state->action_id.u = 0x11;
-        action_state->action_phase.u = 0;
+        action_state->action_id = 0x11;
+        action_state->action_phase = 0;
         action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
@@ -953,9 +953,9 @@ void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *mot
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(entity), motion_param, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
-            action_state->action_id.u = 0x11;
+            action_state->action_id = 0x11;
             action_state->unk_8C.handler = 0;
-            action_state->action_phase.u = 0;
+            action_state->action_phase = 0;
             select_sprite_entry(sprite,
                           *((u8 *)sprite->frameTable + (((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)),
                           0);
@@ -991,7 +991,7 @@ s32 complete_actor_jump_to_destination(ActorRecord *actor, ObjectPosition *prima
     }
     switch (state_type) {
     case 0:
-        entity->action_id.u = 0xE;
+        entity->action_id = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -1149,13 +1149,13 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
     direction_x = *(s16 *)direction_x_table;
     setup_value = (s32)(direction_y_table + setup_value);
     direction_y = *(s16 *)setup_value;
-    state = body->action_phase.u;
+    state = body->action_phase;
     body->action_timer.u = body->action_timer.u - 1;
 
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 0xFF;
+            body->action_phase = 0xFF;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -1175,7 +1175,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         actor->flags1C = actor_flags;
         body->action_timer.u = 4;
         motion->velocity_z = 0xFFFD0000;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 1:
@@ -1184,9 +1184,9 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         if (body->action_timer.s > 0) {
             return;
         }
-        result = body->action_phase.u;
+        result = body->action_phase;
         body->action_timer.u = 8;
-        body->action_phase.u = result + 1;
+        body->action_phase = result + 1;
         return;
 
     case 2:
@@ -1215,7 +1215,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         motion->velocity_x = (direction_x << 18) + (direction_x << 17);
         motion->velocity_y = (direction_y << 18) + (direction_y << 17);
         play_sound_if_enabled(0x80E);
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 3:
@@ -1228,7 +1228,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         play_sound_if_enabled(0x808);
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
 
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 4:
@@ -1241,7 +1241,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         actor->flags1C |= 0x40000;
         actor->flags1C |= ACTOR_GROUNDED;
         body->action_timer.u = state;
-        body->action_phase.u = 0xFF;
+        body->action_phase = 0xFF;
         return;
 
     case 0xFF:
@@ -1361,7 +1361,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
     s32 slot_index;
     s32 item_id;
 
-    state = owner_input->action_phase.u;
+    state = owner_input->action_phase;
     special = 0;
     switch (state) {
     case 0:
@@ -1449,7 +1449,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
             create_source_positioned_object(motion_input, 4);
             play_sound_if_enabled(0x703);
             owner_input->action_timer.u = 4;
-            owner_input->action_phase.u++;
+            owner_input->action_phase++;
             owner_input->action_state_flags |= 8;
             (*(u32 *)&object->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
             object->flags1C = (u32)((u32)(object->flags1C) & (0xFFFBFFFF));
@@ -1476,7 +1476,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
             return;
         }
         actor_input->flags &= 0xF7FF;
-        owner_input->action_phase.u++;
+        owner_input->action_phase++;
                         /* fall through */
 
     case 2:
@@ -1549,7 +1549,7 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
     u16 timer;
     s32 timer_wide;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     direction = (entity->movement_facing >> 9) & 7;
 
     switch (state) {
@@ -1585,7 +1585,7 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             entity->flags1C = entity_flags;
         }
 
-        action->action_phase.u = action->action_phase.u + 1;
+        action->action_phase = action->action_phase + 1;
         timer_signed = -1;
         if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer_signed = 8;
@@ -1619,14 +1619,14 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             return;
         }
         if (entity->hp == 0) {
-            action->action_phase.u = 0;
+            action->action_phase = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->velocity_z = 0xFFFD0000;
             begin_actor_display_action(action, motion, sprite, zu_frame_set);
         } else {
             action->action_timer.s = 5;
-            action->action_phase.u = action->action_phase.u + 1;
+            action->action_phase = action->action_phase + 1;
         }
         return;
     case 2:
@@ -1714,7 +1714,7 @@ void slow_directional_motion(ActorRecord *effect_data, void *motion_data_arg, Sp
     motion_step = 0xC000;
     motion_value = (motion_data->unk_14) + motion_step;
     motion_data->unk_14 = motion_value;
-    state = effect_data->action_phase.u;
+    state = effect_data->action_phase;
 
     switch (state) {
     case 0:
@@ -1727,7 +1727,7 @@ void slow_directional_motion(ActorRecord *effect_data, void *motion_data_arg, Sp
         motion_data->unk_14 = state;
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0)
             return;
-        effect_data->action_phase.u++;
+        effect_data->action_phase++;
                         /* fall through */
     case 1:
     {
@@ -1762,14 +1762,14 @@ void slow_directional_motion(ActorRecord *effect_data, void *motion_data_arg, Sp
         sprite_flags |= 0xC;
         sprite_data->clut = sprite_x;
         sprite_data->flags = sprite_flags;
-        effect_data->action_phase.u++;
+        effect_data->action_phase++;
         return;
     }
     case 2:
         if (!(sprite_data->flags & 0x6000))
             return;
         effect_data->action_timer.s = 0x80;
-        effect_data->action_phase.u++;
+        effect_data->action_phase++;
         return;
     case 3:
     {
@@ -1868,7 +1868,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
     s32 actor_flags;
     s32 state;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0xE000)) {
@@ -1880,7 +1880,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
             0);
         ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A = ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A
         - 1;
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
     case 1:
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
@@ -1898,7 +1898,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
 
                 ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
                     ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
-                controller->action_phase.u++;
+                controller->action_phase++;
             }
             return;
         }
@@ -1972,7 +1972,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
 
             ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
                 ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
-            controller->action_phase.u++;
+            controller->action_phase++;
         }
         return;
     case 2:
@@ -2025,7 +2025,7 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
 #define context saved_context
 #define sprite sprite
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     saved_entity = entity;
 #define entity saved_entity
     switch (state) {
@@ -2042,7 +2042,7 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
         (*(void **)((u8 *)sprite + 0x2C)) = zu_frame_set_1;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, zu_frame_set_1[direction & 7], 0);
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
     }
 
@@ -2056,7 +2056,7 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
             (*(u32 *)&entity->flags1C) |= 0x40000;
             activity_counts = &g_dungeon_status;
             (*(u16 *)&activity_counts->activity_counts.parts.pending_action_count)++;
-            controller->action_phase.u++;
+            controller->action_phase++;
             return;
         }
 
@@ -2111,7 +2111,7 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
         ((EntityRec *)entity)->flags1C |= 0x40000;
         dungeon_state->pending_action_count++;
 
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
 
     case 2:
@@ -2242,7 +2242,6 @@ typedef struct {
     u16 pad;
 } OutputVector;
 
-extern void advance_sprite_animation_and_textures(void *);
 extern void transform_rotated_vertices(void *);
 
 /* Updates the effect's motion and fade, then marks it for removal. */
@@ -2341,8 +2340,8 @@ void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, Sp
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
         work->unk_8C.word = 0;
-        work->action_id.s = 0x17;
-        work->action_phase.s = 0;
+        work->action_id = 0x17;
+        work->action_phase = 0;
         if (actor->flags1C & ACTOR_CONFUSED) {
             flags = actor->flags14;
             if (!(flags & 0x80000000)) {
@@ -2414,7 +2413,7 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
     s32 next_state;
 
     state_input->unk_A0.parts.low--;
-    state = state_input->action_phase.u;
+    state = state_input->action_phase;
 
     switch (state) {
     case 0:
@@ -2423,9 +2422,9 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
             effect_data = (s32)actor_input->target;
             if (effect_data != 0) {
                 advance_eligible_actor_or_perform_action((ActorRecord *)effect_data, 0x10, 0x10);
-                state_input->action_phase.u = 2;
+                state_input->action_phase = 2;
             } else {
-                state_input->action_phase.u = 2;
+                state_input->action_phase = 2;
             }
             return;
         }
@@ -2455,11 +2454,11 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
         play_sound_if_enabled(0x815);
         {
 
-            next_state = state_input->action_phase.u;
+            next_state = state_input->action_phase;
             state = 0x1E;
             state_input->action_timer.s = state;
         }
-        state_input->action_phase.u = next_state + 1;
+        state_input->action_phase = next_state + 1;
         return;
     case 1:
         effect_data = (s32)actor_input->target;
@@ -2492,8 +2491,8 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
         select_sprite_entry(animation_input,
             D_80174B14[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
             0);
-        next_state = state_input->action_phase.u;
-        state_input->action_phase.u = next_state + 1;
+        next_state = state_input->action_phase;
+        state_input->action_phase = next_state + 1;
         return;
     case 2:
         if (animation_input->flags & 0xE000) {

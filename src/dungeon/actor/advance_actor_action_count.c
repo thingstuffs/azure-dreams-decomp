@@ -22,7 +22,7 @@ void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context
     s32 actor_flags;
     s32 state;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0xE000)) {
@@ -34,7 +34,7 @@ void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context
             *(void **)((u8 *)actor_action_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)),
             0);
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
     case 1:
         if (g_dungeon_status.flags & 0x1000) {
@@ -79,7 +79,7 @@ void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context
             0);
         actor->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
     case 2:
         if (!(sprite->flags & 0xE000)) {

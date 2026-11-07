@@ -76,7 +76,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
 
     s32 global_flags;
 
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if (sprite->flags & 0x8000) {
@@ -87,7 +87,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
                 global_flags = dungeon_floor_flags;
                 action->action_timer.u = finish_phase;
                 dungeon_floor_flags = global_flags | FLOOR_MAP_VIEW_HOLD;
-                action->action_phase.u = finish_phase;
+                action->action_phase = finish_phase;
             }
             sprite->flags = (u16) (sprite->flags | 0x6000);
             return;
@@ -112,7 +112,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
             select_sprite_entry(sprite, uboat_aura_start_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
             action->action_timer.u = 2U;
-            action->action_phase.u = (u8) (action->action_phase.u + 1);
+            action->action_phase = (u8) (action->action_phase + 1);
             sprite->depth_bias = 6;
             action->unk_A4.halves.high.u = (u16) actor->facing;
         }
@@ -158,7 +158,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         sprite->frameTable = uboat_aura_later_frames;
         select_sprite_entry(sprite, uboat_aura_later_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->action_timer.u = 3U;
-        action->action_phase.u = (u8) (action->action_phase.u + 1);
+        action->action_phase = (u8) (action->action_phase + 1);
         action->unk_B4.halves.high.u = (u16) ((u16)position->x.w.i);
         ((S_8017558C_0 *)action)->unk_B8 = (u16) ((u16)position->y.w.i);
         ((S_8017558C_0 *)action)->unk_BA = (u16) ((u16)actor->ground_height);
@@ -169,7 +169,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         if ((windup_timer << 0x10) > 0) {
             return;
         }
-        next_phase = action->action_phase.u;
+        next_phase = action->action_phase;
         action->action_timer.u = 0x1EU;
         action->unk_A8.s = 0;
         action->unk_B0.bytes[1] = 0U;
@@ -177,7 +177,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         action->unk_B4.bytes[0] = 0;
         action->unk_B0.bytes[3] = 0;
         next_phase += 1;
-        action->action_phase.u = next_phase;
+        action->action_phase = next_phase;
         return;
     case 3:
         update_actor_movement_history(action, position, sprite, actor);
@@ -234,7 +234,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
             sprite->frameTable = uboat_default_frames;
             select_sprite_entry(sprite, uboat_default_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             action->action_timer.u = 5U;
-            action->action_phase.u = (u8) (action->action_phase.u + 1);
+            action->action_phase = (u8) (action->action_phase + 1);
             if (action->unk_B0.bytes[0] != 0) {
                 return;
             }

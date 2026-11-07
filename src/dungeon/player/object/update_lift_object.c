@@ -71,7 +71,7 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
             return;
         }
 
-        state = effect_state->actor.action_phase.u;
+        state = effect_state->actor.action_phase;
         if (state == 0) {
             void *effect_target;
             s32 entity_flags;
@@ -87,7 +87,7 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
                     effect_target = animation;
                     if ((s16)wait_roll < 6) {
                         effect_state->actor.action_timer.u = 0x10;
-                        effect_state->actor.action_phase.u = effect_state->actor.action_phase.u + 1;
+                        effect_state->actor.action_phase = effect_state->actor.action_phase + 1;
                         return;
                     }
                 }
@@ -130,7 +130,7 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
                 saved_held_item_word = saved_global;
                 owner->actor.flags1C = owner->actor.flags1C & owner_mask;
             }
-            effect_state->actor.action_phase.u = effect_state->actor.action_phase.u + 1;
+            effect_state->actor.action_phase = effect_state->actor.action_phase + 1;
             return;
         }
 
@@ -149,14 +149,14 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
         return;
     }
 
-    state = effect_state->actor.action_phase.u;
+    state = effect_state->actor.action_phase;
     if (state == 0) {
         if (animation->unk_04 < 2) {
             return;
         }
         animation->flags |= 0x800;
         effect_state->actor.action_timer.u = 0x10;
-        effect_state->actor.action_phase.u = effect_state->actor.action_phase.u + 1;
+        effect_state->actor.action_phase = effect_state->actor.action_phase + 1;
         return;
     }
 

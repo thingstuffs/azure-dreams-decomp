@@ -4,8 +4,8 @@
 #include "shared/object_flags.h"
 #include "dungeon/effect/mesh.h"
 
-extern s32 rand(void);
 
+#include "sdk/rand.h"
 extern void func_80025090(void);
 extern void get_half_byte_length(void);
 extern void func_80025058(void);

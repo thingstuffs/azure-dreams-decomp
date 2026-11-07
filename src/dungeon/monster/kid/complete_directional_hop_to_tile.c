@@ -28,7 +28,7 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
 
     direction = (actor->movement_facing >> 9) & 7;
 
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         if (actor->hp == 0) {
@@ -41,7 +41,7 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
 
         if (sprite->flags & 0x8000) {
             body->action_timer.s = 0;
-            body->action_phase.u = 2;
+            body->action_phase = 2;
             return;
         }
 
@@ -51,7 +51,7 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
         body->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         actor->flags1C &= 0xFFFBFFFF;
-        body->action_phase.u++;
+        body->action_phase++;
 
         flight_timer = -1;
         if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -83,7 +83,7 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
             return;
         }
         if (actor->hp == 0) {
-            body->action_phase.u = 0;
+            body->action_phase = 0;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -91,7 +91,7 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
             return;
         }
         body->action_timer.s = 8;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 2:

@@ -78,10 +78,10 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
     u16 timer;
     s32 tail_value; /* MATCH: keep the shared-tail store value in retail's v0. */
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case PLAYER_ITEM_ALIGN:
-        if (body->action_id.u == 0x2C) {
+        if (body->action_id == 0x2C) {
             void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
             u8 *anim_table = player_carry_frames;
 
@@ -93,7 +93,7 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
                         actor->facing + 0x100) >> 9) & 7],
                 0,
                 1);
-            body->action_phase.u = body->action_phase.u + 1;
+            body->action_phase = body->action_phase + 1;
             return;
         }
 
@@ -118,7 +118,7 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
                                 actor->facing + 0x100) >> 9) & 7],
                         0,
                         1);
-                    body->action_phase.u = body->action_phase.u + 1;
+                    body->action_phase = body->action_phase + 1;
                     return;
                 }
             }
@@ -185,7 +185,7 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
         }
 
         body->action_timer.u = 0x1E;
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
         return;
     case PLAYER_ITEM_COMPLETE:
         if ((sprite->flags & 0x8000) ||

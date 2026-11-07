@@ -95,7 +95,7 @@ void update_monster_facing_and_contact(ActorRecord *body, ObjectPosition *motion
         callback(body, motion, sprite, actor);
     }
 
-    nyuel_callbacks[body->action_id.u](body, motion, sprite, actor);
+    nyuel_callbacks[body->action_id](body, motion, sprite, actor);
 
     if (old_direction != actor->pending_turn_updates) {
         try_move_actor_to_valid_position(body, motion, sprite, actor);

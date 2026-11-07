@@ -21,7 +21,7 @@ s32 update_actor_hop_and_grow(ActorRecord *state, ObjectPosition *motion, Sprite
     u16 scale;
     s16 frames_left;
 
-    phase = state->action_phase.u;
+    phase = state->action_phase;
     switch (phase) {
     case 0:
         state->action_timer.s = 0x10;
@@ -30,9 +30,9 @@ s32 update_actor_hop_and_grow(ActorRecord *state, ObjectPosition *motion, Sprite
             set_record_integer_tile_center(motion, params->tile_x, params->tile_y);
             params->scale_x = 0x1000;
             params->scale_y = 0x1000;
-            state->action_phase.u = 2;
+            state->action_phase = 2;
         } else {
-            state->action_phase.u = (u8) (state->action_phase.u + 1);
+            state->action_phase = (u8) (state->action_phase + 1);
             extra->unk_8A = 0x800 / state->action_timer.s;
         }
         return 0;
@@ -69,7 +69,7 @@ s32 update_actor_hop_and_grow(ActorRecord *state, ObjectPosition *motion, Sprite
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, params->tile_x, params->tile_y);
             state->unk_90.parts.high.s = -0x20;
-            state->action_phase.u = (u8) (state->action_phase.u + 1);
+            state->action_phase = (u8) (state->action_phase + 1);
         }
         return 0;
 

@@ -73,7 +73,7 @@ void update_monster_appearance_motion(ActorRecord *body, void *motion_arg, Sprit
             callback(body, motion, monster, body);
         }
     }
-    glacier_callbacks[(body->action_id.u)](body, motion, monster, body);
+    glacier_callbacks[(body->action_id)](body, motion, monster, body);
 
     if ((s16)old_direction != (body->pending_turn_updates)) {
         try_move_actor_to_valid_position(body, motion, monster, body);

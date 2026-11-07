@@ -33,7 +33,7 @@ void complete_airborne_actor_recovery(ActorRecord *body, ObjectPosition *motion,
     s32 phase;
     DungeonGlobalStatus *counter_base;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -48,7 +48,7 @@ void complete_airborne_actor_recovery(ActorRecord *body, ObjectPosition *motion,
         actor->flags1C &= 0xF7FFFFFF;
         motion->velocity_z = 0xFFF00000;
         body->unk_A0.value = 0;
-        body->action_phase.u++;
+        body->action_phase++;
     case 1:
         move_ticks = body->unk_A4.halves.low.s;
         body->unk_90.value =
@@ -77,7 +77,7 @@ void complete_airborne_actor_recovery(ActorRecord *body, ObjectPosition *motion,
             body->unk_90.value = 0;
             body->action_state_flags &= 0xFFF7;
             actor->flags1C |= 0x08000000;
-            body->action_phase.u++;
+            body->action_phase++;
         }
     case 2:
         if (actor->flags1C & 0x08000000) {
@@ -91,7 +91,7 @@ void complete_airborne_actor_recovery(ActorRecord *body, ObjectPosition *motion,
                 sprite,
                 D_8017388C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->action_phase.u++;
+            body->action_phase++;
         }
     }
 

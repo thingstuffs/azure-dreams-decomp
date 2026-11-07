@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/particle.h"
 
@@ -45,7 +46,7 @@ void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, O
     ticks_left = effect->ticks_remaining - 1;
     effect->ticks_remaining = ticks_left;
     if ((s16)ticks_left <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

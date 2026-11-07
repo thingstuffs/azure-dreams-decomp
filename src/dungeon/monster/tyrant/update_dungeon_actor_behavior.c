@@ -18,13 +18,13 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
 void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_work, ObjectPosition *entry_context, SpriteFrameState *position, ActorRecord *actor);
 s32 check_action_eligibility_updates_actor_state_directional_animation_success(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
-extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173900(void *, void *, void *, void *);
 extern void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
@@ -45,7 +45,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        actor_arg->action_id.u = 0xE;
+        actor_arg->action_id = 0xE;
         advance_stored_entity_path(actor_arg, context_arg, map_object_arg, actor_state_arg);
         return;
     }
@@ -69,8 +69,8 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
 
     if (((u32)actor_state_arg->flags1C) & ACTOR_ASLEEP) {
         if (map_object_arg->frameTable == D_80174000) {
-            actor_arg->action_id.u = 0xD;
-            actor_arg->action_phase.u = 1;
+            actor_arg->action_id = 0xD;
+            actor_arg->action_phase = 1;
             actor_arg->unk_8C.word = 0;
             actor_state_arg->flags1C &= ~0x40000;
             return;
@@ -86,7 +86,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             return;
         }
 
-        if (actor_arg->action_id.u != 0xE) {
+        if (actor_arg->action_id != 0xE) {
             u8 next_state = 0xE;
 
             anim_table = tyrant_direction_frames;
@@ -97,7 +97,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
                         >> 9) & 7],
                     0);
             }
-            actor_arg->action_id.u = next_state;
+            actor_arg->action_id = next_state;
         }
 
         actor_arg->action_state_flags &= 0xFFF3;
@@ -180,7 +180,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
                     &distance);
                 player = primary_actor_record;
                 actor_state_arg->facing = direction;
-                if (player->action_id.u == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor_arg, context_arg, map_object_arg, D_80173FF0, &tyrant_action_resume_address);
                     return;
                 }

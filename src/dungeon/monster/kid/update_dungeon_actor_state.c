@@ -19,11 +19,11 @@
 #include "dungeon/monster/kid_frames.h"
 
 
+#include "dungeon/monster/dragon/transition_effect.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void select_bank_actor_movement(void *, void *, void *, void *);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174218(void *, void *, void *, void *);
 
@@ -38,7 +38,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
     u32 dungeon_flags = g_dungeon_status.flags;
 
     if (dungeon_flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_stored_actor_path(actor, context, sprite_in, entity);
         return;
     }
@@ -60,8 +60,8 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
 
     if (((u32)entity->flags1C) & 0x200) {
         if (sprite_in->frameTable == kid_frame_set_4) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             entity->flags1C &= ~0x40000;
             return;
@@ -77,8 +77,8 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
             return;
         }
 
-        if (actor->action_id.u != 0xE) {
-            actor->action_id.u = 0xE;
+        if (actor->action_id != 0xE) {
+            actor->action_id = 0xE;
         }
 
         if ((sprite_in->frameTable != kid_direction_frames) &&
@@ -179,7 +179,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             player = primary_actor_record;
             entity->facing = direction;
-            if (player->action_id.u != 0x11) {
+            if (player->action_id != 0x11) {
                 update_actor_status_and_mp(entity);
                 return;
             }

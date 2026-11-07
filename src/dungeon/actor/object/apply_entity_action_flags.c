@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "slus.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/actor.h"
@@ -21,7 +22,6 @@
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void select_record_entry_and_value(void *state, void *entries, short index);     /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
  /* extern */
 extern s32 sprite_resource_pointer_slots[];

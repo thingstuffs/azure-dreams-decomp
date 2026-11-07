@@ -6,8 +6,8 @@
 
 /* Reset object state, clear flag 0x10, and invoke the state handlers. */
 void begin_throw_carried_object(ActorRecord *object, ObjectPosition *unused_context, SpriteFrameState *unused_sprite, ActorRecord *actor) {
-    object->action_id.s = 0x20;
-    object->action_phase.s = 0;
+    object->action_id = 0x20;
+    object->action_phase = 0;
     object->unk_8C.word = 0;
     play_sound_if_enabled(0x512);
     object->unk_A0.parts.high = (u16) (object->unk_A0.parts.high & 0xFFEF);

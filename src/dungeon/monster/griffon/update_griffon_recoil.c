@@ -24,7 +24,7 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
     s16 timer;
     s32 tracked_entity;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -32,7 +32,7 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
             -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
-        action->action_phase.u++;
+        action->action_phase++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -43,7 +43,7 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
         }
         if (sprite->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.u = 3;
+            action->action_phase = 3;
             return;
         }
 
@@ -85,7 +85,7 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
             sprite,
             griffon_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 2:
@@ -103,7 +103,7 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
             griffon_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         action->action_timer.s = 8;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 3:

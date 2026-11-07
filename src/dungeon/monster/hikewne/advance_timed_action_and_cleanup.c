@@ -21,7 +21,7 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
     u8 state;
     u16 timer;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     if ((u32)state >= 5) {
         return;
     }
@@ -32,9 +32,9 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
         if ((s16)timer < 4 && !(sprite->flags & 0x8000)) {
             return;
         }
-        state = action->action_phase.u;
+        state = action->action_phase;
         action->action_timer.u = 0;
-        action->action_phase.u = state + 1;
+        action->action_phase = state + 1;
         return;
 
     case 1:
@@ -47,11 +47,11 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
             sprite,
             hikewne_frame_set_16[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        state = action->action_phase.u;
+        state = action->action_phase;
         action->action_timer.u = 0;
         action->unk_A0.halves.high.s = 0;
         action->unk_9E.s = 0;
-        action->action_phase.u = state + 1;
+        action->action_phase = state + 1;
         return;
 
     case 2:
@@ -60,7 +60,7 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
         if ((s16)timer == 9 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             action->action_timer.u = 0;
-            action->action_phase.u++;
+            action->action_phase++;
         }
         if (action->action_timer.s != 6) {
             return;
@@ -69,9 +69,9 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
         return;
 
     case 3:
-        state = action->action_phase.u;
+        state = action->action_phase;
         action->action_timer.u = 0;
-        action->action_phase.u = state + 1;
+        action->action_phase = state + 1;
     case 4:
         if (!(sprite->flags & 0xE000)) {
             return;

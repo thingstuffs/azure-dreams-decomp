@@ -87,7 +87,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
             }
             result = action_ready;
 
-            action->action_phase.u = 0;
+            action->action_phase = 0;
             action->action_timer.u = 0;
             if (result != 0) {
                 S_8017237C_3 *active_actor = actor;
@@ -96,7 +96,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
                 u8 remaining_count;
 
                 action->unk_8C.run = 0;
-                action->action_id.u = 0x11;
+                action->action_id = 0x11;
                 facing = active_actor->unk_2A;
                 active_actor->unk_84 = 0x7C;
                 remaining_count = active_actor->unk_6D;

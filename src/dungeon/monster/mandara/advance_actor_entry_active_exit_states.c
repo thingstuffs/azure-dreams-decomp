@@ -50,7 +50,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
     s32 record_index;
     MandaraEntryEffectBody *effect_state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
@@ -105,7 +105,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             effect_state->frame = 0;
             effect_state->mode = 0;
         }
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     }
 
@@ -138,7 +138,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             }
         }
         sprite->clut = action->unk_AC.halves.high.u - 0x40;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
     }
 
@@ -198,7 +198,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             action->unk_AC.halves.high.u = sprite->clut + 0x40;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
 
@@ -307,7 +307,7 @@ second_call:
             effect_state->mode = 1;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        action->action_phase.u++;
+        action->action_phase++;
         action->unk_AC.halves.high.u = sprite->clut + 0x40;
         return;
     }

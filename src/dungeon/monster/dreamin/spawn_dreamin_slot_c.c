@@ -78,7 +78,7 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
             }
         }
         initialize_actor_sprite_and_animation(object, data_08, data_0c, init_flags);
-        extended_state->action_id.u = 0xFF;
+        extended_state->action_id = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C.address = &D_80158E68;
         try_move_actor_to_valid_position(extended_state, data_08, data_0c, state);

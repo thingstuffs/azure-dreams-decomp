@@ -39,7 +39,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
     DungeonGlobalStatus *counter_base;
     TileObject *floor_base;
 
-    if (controller->action_phase.u < 2U) {
+    if (controller->action_phase < 2U) {
         if (sprite->color.c.r >= 0x33U) {
             sprite->color.word += -0x30303;
         }
@@ -47,7 +47,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
         sprite->color.word += 0x30303;
     }
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         entity->flags1C |= 0x10000000;
@@ -62,7 +62,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
         counter_base = &g_dungeon_status;
         counter_base->activity_counts.parts.pending_action_count =
             ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
 
     case 1:
@@ -80,7 +80,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            controller->action_phase.u++;
+            controller->action_phase++;
             return;
         }
 
@@ -167,7 +167,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
             counter->unk_0A++;
         }
 
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
 
     case 2:

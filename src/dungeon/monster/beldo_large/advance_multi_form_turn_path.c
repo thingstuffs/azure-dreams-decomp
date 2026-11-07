@@ -93,7 +93,7 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
                   (movement->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
 
     movement->facing = direction;
-    actor->action_id.s = 0xF;
+    actor->action_id = 0xF;
     actor->unk_8C.word = 0;
     (movement->flags1C) |= ACTOR_REFRESH_GROUND;
 

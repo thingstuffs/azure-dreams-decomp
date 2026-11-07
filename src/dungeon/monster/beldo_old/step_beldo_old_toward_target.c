@@ -10,6 +10,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/stale_bank_imports.h"
 #include "dungeon/globals.h"
+#include "dungeon/monster/beldo_old.h"
 
 typedef struct S_8127C3E0_0 {
     u8 pad_00[0x2];

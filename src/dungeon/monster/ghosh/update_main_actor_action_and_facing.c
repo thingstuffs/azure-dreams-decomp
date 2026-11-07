@@ -62,15 +62,15 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
     u8 *tile_entry;
     ActorRecord *active_actor;
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 0xEU;
+        actor->action_id = 0xEU;
         advance_entity_along_path(actor, context, map_actor, entity);
         return;
     }
     if (entity->flags1C & ACTOR_ASLEEP) {
         if (*(u8 **)&map_actor->frameTable == ghosh_frame_set_12) {
             flag_mask_hi = (s32)0xFFFB0000;
-            actor->action_id.u = 0xDU;
-            actor->action_phase.s = 1;
+            actor->action_id = 0xDU;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             entity->flags1C &= flag_mask_hi | 0xFFFF;
             return;
@@ -87,7 +87,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
             begin_pushed_actor_move(action_actor, context, map_actor, entity);
             return;
         }
-        if (actor->action_id.u != 0xE) {
+        if (actor->action_id != 0xE) {
             if (actor->unk_B0.bytes[3] == 0) {
                 current_anim = map_actor->frameTable;
                 idle_anim = (u8 *)&ghosh_frame_set_3;
@@ -101,7 +101,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
                 action_data += (u32)idle_anim;
                 select_sprite_entry(map_actor, *action_data, 0);
             }
-            actor->action_id.u = 0xEU;
+            actor->action_id = 0xEU;
         }
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
         if (actor->unk_B4.bytes[0] == 0) {
@@ -191,7 +191,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
                 reference_tile_object.tile_position.parts.tile_y, &target_distance);
             active_actor = primary_actor_record;
             entity->facing = target_angle;
-            if (active_actor->action_id.u != 0x11) {
+            if (active_actor->action_id != 0x11) {
                 update_actor_status_and_mp(entity);
                 return;
             }

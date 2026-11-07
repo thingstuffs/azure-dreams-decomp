@@ -36,7 +36,7 @@ void update_jump_motion_2(ActorRecord *action_state, ObjectPosition *motion, Spr
     s32 y;
     u16 position[3];
 
-    phase = action_state->action_phase.u;
+    phase = action_state->action_phase;
     is_special = 0;
     switch (phase) {
     case 0:
@@ -119,7 +119,7 @@ void update_jump_motion_2(ActorRecord *action_state, ObjectPosition *motion, Spr
             sprite->flags &= 0xF7FF;
             create_two_row_object_group(position, (s16)(((s32)*action_data - 1) % 3));
             play_sound_if_enabled(0x703);
-            action_state->action_phase.u++;
+            action_state->action_phase++;
             return;
         }
 
@@ -143,7 +143,7 @@ void update_jump_motion_2(ActorRecord *action_state, ObjectPosition *motion, Spr
             return;
         }
         sprite->flags &= 0xF7FF;
-        action_state->action_phase.u++;
+        action_state->action_phase++;
 
     case 2:
         if (!((sprite->unk_04 == 3) &&

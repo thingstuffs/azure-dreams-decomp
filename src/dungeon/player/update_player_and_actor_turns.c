@@ -34,7 +34,6 @@ struct Elem;
 
 typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
-extern void select_record_entry_and_value(void *state, void *entries, short index);             /* extern */
 s16 get_entity_effect_value();                 /* extern */ /* Unprototyped: return_width */
 #include "engine/texture.h"
 extern short SD_Call(int flags);                     /* extern */

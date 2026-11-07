@@ -10,7 +10,8 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
 
 
 
-void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, SpriteFrameState *record, void *actor);
+struct S_800CABA8_0;
+void advance_damage_effect_and_particles(struct S_800CABA8_0 *effect, ObjectPosition *context, SpriteFrameState *record, void *actor);
 
 
 
@@ -42,7 +43,8 @@ typedef struct DroppedObjectMotionBody {
     u8 pad_A6[0x16];
 } DroppedObjectMotionBody;
 
-void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, void *tile);
+struct S_800A871C_4;
+void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, struct S_800A871C_4 *tile);
 
 struct StructArg0;
 struct StructArg2;

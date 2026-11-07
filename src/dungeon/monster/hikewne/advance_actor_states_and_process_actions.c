@@ -24,7 +24,7 @@ extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFr
 void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     s32 state;
 
-    state = actor->action_phase.u;
+    state = actor->action_phase;
     switch (state) {
     case 0:
     {
@@ -40,7 +40,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
         select_sprite_entry(animation,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
     }
     case 1:
@@ -55,7 +55,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            actor->action_phase.u++;
+            actor->action_phase++;
             return;
         }
 
@@ -115,7 +115,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        actor->action_phase.u++;
+        actor->action_phase++;
     }
         break;
     case 2:

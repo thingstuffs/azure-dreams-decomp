@@ -32,11 +32,11 @@ s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position,
     u8 tile_x;
     u8 tile_y;
 
-    state = animation->action_phase.u;
+    state = animation->action_phase;
     switch (state) {
     case 0:
         ((Rec_D_80082E80 *)object)->unk_6A = ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v & 0xFFF;
-        animation->action_phase.u++;
+        animation->action_phase++;
                 /* fall through */
     case 1:
         ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
@@ -66,7 +66,7 @@ s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position,
             animation->action_state_flags &= 0xFFF7;
             ((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v &= 0xFFFEFFFF;
             animation->action_timer.u = 0x10;
-            animation->action_phase.u++;
+            animation->action_phase++;
         }
         break;
     case 2:

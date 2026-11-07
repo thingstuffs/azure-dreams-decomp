@@ -19,7 +19,7 @@ void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition 
     DungeonGlobalStatus *world_state;
     u16 counter_value;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
     {
@@ -36,7 +36,7 @@ void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition 
         world_counters = &g_dungeon_status;
         (*(u16 *)&world_counters->activity_counts.parts.pending_action_count)--;
     }
-        body->action_phase.u++;
+        body->action_phase++;
         return;
     case 1:
     {
@@ -151,7 +151,7 @@ void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition 
                     g_dungeon_status.activity_counts.parts.pending_action_count = counter_value;
                 }
             }
-            body->action_phase.u++;
+            body->action_phase++;
             return;
         } else {
             {
@@ -174,7 +174,7 @@ void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition 
                     g_dungeon_status.activity_counts.parts.pending_action_count = counter_value;
                 }
             }
-            body->action_phase.u++;
+            body->action_phase++;
             return;
         }
     }
@@ -195,7 +195,7 @@ void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition 
 void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     s32 state;
 
-    state = actor->action_phase.u;
+    state = actor->action_phase;
     switch (state) {
     case 0:
     {
@@ -213,7 +213,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
         select_sprite_entry(animation,
             direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
     }
     case 1:
@@ -231,7 +231,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
             entity->flags1C |= 0x40000;
             status_page = &g_dungeon_status.turn_scale;
             ((S_8017409C_2 *)status_page)->unk_0A++;
-            actor->action_phase.u++;
+            actor->action_phase++;
             return;
         }
 
@@ -307,7 +307,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
         entity->flags1C = (u32)((u32)(entity->flags1C) | (0x40000));
         dungeon_state->unk_0A++;
     }
-        actor->action_phase.u++;
+        actor->action_phase++;
         return;
     case 2:
         if (animation->flags & 0xE000) {

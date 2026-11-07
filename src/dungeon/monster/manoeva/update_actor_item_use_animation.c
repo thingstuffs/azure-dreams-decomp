@@ -53,7 +53,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
     SpriteFrameState *target_sprite;
     ObjectNodeHeader *source_sprite;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     use_global_source = 0;
     switch (state) {
     case 0:
@@ -139,7 +139,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
             return;
         }
         create_actor_linked_effect(act);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -148,7 +148,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->action_phase.u++;
+        action->action_phase++;
 
     case 2:
         if (!(sprite->flags & 0xE000)) {
@@ -159,7 +159,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
             *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->facing + 0x100) >> 9) & 7) +
                     (uptr)D_80176648),
             0);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 3:
@@ -180,7 +180,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
             *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->facing + 0x100) >> 9) & 7) +
                     (uptr)manoeva_frame_set_2),
             0);
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 4:

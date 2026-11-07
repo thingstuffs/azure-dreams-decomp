@@ -84,7 +84,7 @@ void *create_randomized_flagged_object(s16 flags, s16 value_24, s16 value_25, s1
             }
         }
         initialize_actor_sprite_and_animation(((obj)), part_a, part_b, flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &griffon_slot_d_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

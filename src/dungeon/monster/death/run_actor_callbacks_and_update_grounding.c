@@ -72,7 +72,7 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
             update_callback(body, motion, sprite, body);
         }
     }
-    D_8016E6A0[body->action_id.u](body, motion, sprite, body);
+    D_8016E6A0[body->action_id](body, motion, sprite, body);
     {
         s32 state_compare;
 

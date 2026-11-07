@@ -87,7 +87,7 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
             }
         }
         initialize_actor_sprite_and_animation(object, base_data, placement, spawn_flags);
-        extended_state->action_id.u = 0xFF;
+        extended_state->action_id = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C.address = &func_80152E68;
         try_move_actor_to_valid_position(extended_state, base_data, placement, state);

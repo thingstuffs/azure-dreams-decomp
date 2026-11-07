@@ -47,7 +47,7 @@ void try_move_player(ActorRecord *move_state, s32 actor_id, SpriteFrameState *sp
     move_result = classify_adjacent_tile_height(actor->facing, actor_id, sprite,
                                 actor->unk_88, 0x20);
     if (move_result > 0) {
-        move_state->action_phase.u = 0;
+        move_state->action_phase = 0;
         update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y, 0x300);
         direction_index = ((u16)actor->facing >> 8) & 0xE;
         {
@@ -97,14 +97,14 @@ void try_move_player(ActorRecord *move_state, s32 actor_id, SpriteFrameState *sp
                         0, 1);
                 }
             }
-            move_state->action_id.s = 0xF;
+            move_state->action_id = 0xF;
             D_80083464[0] = 8;
         } else {
             move_state->action_state_flags |= 0xC;
             if (move_result < 4) {
                 move_state->unk_A0.parts.high |= 1;
             } else if ((move_result == 2) || (move_result == 4)) {
-                move_state->action_phase.u = 8;
+                move_state->action_phase = 8;
             }
             check_tile_entry_at_adjusted_height(move_state, actor_id, sprite, actor);
             D_80083464[0] = 8;
@@ -119,7 +119,7 @@ void try_move_player(ActorRecord *move_state, s32 actor_id, SpriteFrameState *sp
                                       0x100) >> 9) & 7],
                     0, 1);
             }
-            move_state->action_id.s = 0x10;
+            move_state->action_id = 0x10;
             {
                 register EntityRec *flag_actor;
                 flag_actor = actor;
@@ -137,7 +137,7 @@ void try_move_player(ActorRecord *move_state, s32 actor_id, SpriteFrameState *sp
                  move_state->action_timer.u = blocked_ticks,
                  (s16)blocked_ticks >= 0x15)) {
                 begin_player_push(move_state, actor_id, sprite, actor, (s32)move_result);
-                if (move_state->action_phase.u >= 0x10) {
+                if (move_state->action_phase >= 0x10) {
                     actor->flags1C |= ACTOR_REFRESH_GROUND;
                     return;
                 }

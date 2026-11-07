@@ -56,7 +56,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
     u32 idle_mode;
 
     if (g_dungeon_status.flags & 0x1000) {
-        entity->action_id.u = 0xEU;
+        entity->action_id = 0xEU;
         advance_stored_path_motion(entity, context, sprite, state);
         return;
     }
@@ -73,8 +73,8 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
     state_flags = state->flags1C;
     if (state_flags & 0x200) {
         if (sprite->frameTable == &nyuel_frame_set_1) {
-            entity->action_id.u = 0xDU;
-            entity->action_phase.s = 1;
+            entity->action_id = 0xDU;
+            entity->action_phase = 1;
             entity->unk_8C.word = 0;
             state->flags1C = (s32)(state->flags1C & 0xFFFBFFFF);
             sprite->color.c.b = 0x40;
@@ -93,7 +93,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
             begin_pushed_actor_move(entity, context, sprite, state);
             return;
         }
-        current_mode = entity->action_id.u;
+        current_mode = entity->action_id;
         idle_mode = 0xE;
         if (current_mode != idle_mode) {
             if (sprite->frameTable != nyuel_frame_set_2) {
@@ -101,7 +101,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
                 select_sprite_entry(sprite, nyuel_frame_set_2[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + state->facing
                     + 0x100) >> 9) & 7], 0);
             }
-            entity->action_id.u = idle_mode;
+            entity->action_id = idle_mode;
         }
         entity->action_state_flags = (u16)(entity->action_state_flags & 0xFFF3);
         if (state->hp_delta != 0) {
@@ -163,7 +163,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             reference_entity = primary_actor_record;
             state->facing = target_angle;
-            if (reference_entity->action_id.u == 0x11) {
+            if (reference_entity->action_id == 0x11) {
                 resume_handler = (s32 *)update_entity_actions_facing_and_animation;
                 begin_actor_spell_action(entity, context, sprite, &nyuel_frame_set_12, resume_handler);
                 return;

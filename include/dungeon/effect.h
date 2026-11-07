@@ -77,7 +77,9 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
 s32 take_map_item_slot(ActorRecord *object, s16 slot);
 void update_target_tracking_and_transition(void *tracker);
 
-void update_anchored_fading_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+struct S_800B45E0_0;
+struct S_800B490C_0;
+void update_anchored_fading_effect(struct S_800B45E0_0 *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_attached_fading_effect(struct S_800B490C_0 *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 #endif

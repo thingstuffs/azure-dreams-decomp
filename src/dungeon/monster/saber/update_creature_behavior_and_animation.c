@@ -13,13 +13,12 @@
 #include "dungeon.h"
 #include "dungeon/player/object.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 extern void choose_griffon_move(void *, void *, void *, void *);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 /* Bank copy of update_actor_state_after_map_check. */
 extern void func_801743E8(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
@@ -42,7 +41,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        actor_in->action_id.u = 0xE;
+        actor_in->action_id = 0xE;
         advance_entity_along_stored_path(actor_in, context_in, sprite, creature_in);
         return;
     }
@@ -61,8 +60,8 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
 
     if (((u32)creature_in->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == saber_direction_frames_2) {
-            actor_in->action_id.u = 0xD;
-            actor_in->action_phase.u = 1;
+            actor_in->action_id = 0xD;
+            actor_in->action_phase = 1;
             actor_in->unk_8C.word = 0;
             creature_in->flags1C &= 0xFFFBFFFF;
             return;
@@ -79,7 +78,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
         }
 
         {
-            u32 current_state = actor_in->action_id.u;
+            u32 current_state = actor_in->action_id;
             u32 next_state;
 
             next_state = 0xE;
@@ -93,7 +92,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
                 }
                 actor_in->unk_9E.s = 0;
                 actor_in->unk_A0.parts.low = 0x14;
-                actor_in->action_id.u = next_state;
+                actor_in->action_id = next_state;
             }
         }
 
@@ -185,7 +184,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
                     &distance);
                 player = primary_actor_record;
                 creature_in->facing = heading;
-                if (player->action_id.u == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor_in, context_in, sprite, saber_frame_set_2, &saber_behavior_entry);
                     return;
                 }

@@ -51,7 +51,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
     ObjectNodeHeader *action_state;
 
     use_player = 0;
-    switch (state->action_phase.u) {
+    switch (state->action_phase) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -126,7 +126,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
             }
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
-            state->action_phase.u = state->action_phase.u + 1;
+            state->action_phase = state->action_phase + 1;
             return;
         }
 
@@ -150,7 +150,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
             return;
         }
         sprite->flags &= 0xF7FF;
-        state->action_phase.u = state->action_phase.u + 1;
+        state->action_phase = state->action_phase + 1;
     case 2:
         if ((sprite->unk_04 == 6 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {

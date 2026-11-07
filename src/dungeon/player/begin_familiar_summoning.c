@@ -36,8 +36,8 @@ s32 begin_familiar_summoning(ActorRecord *record, s32 input1, void *pointer_inpu
 
     status = 0;
     child = ((PlayerRecord *)record)->unk_124;
-    record->action_id.s = 0x31;
-    record->action_phase.s = 0;
+    record->action_id = 0x31;
+    record->action_phase = 0;
     record->unk_8C.word = 0;
     if (child != 0) {
         value = child->unk_13;

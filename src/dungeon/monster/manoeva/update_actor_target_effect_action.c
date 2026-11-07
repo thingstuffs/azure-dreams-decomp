@@ -74,7 +74,7 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
     u16 ticks_left;
     u8 state;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     if (state >= 5U) {
         return;
     }
@@ -87,7 +87,7 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
         if (!(sprite_flags & 0x8000)) {
             play_sound_if_enabled(0x80D);
         }
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
         if (sprite->flags & 0x8000) {
             body->action_timer.u = 0;
             return;
@@ -155,7 +155,7 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
             return;
         }
 
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
     case 2:
         map_flags = actor->unk_14;
         sound_x = sprite->tile_x;
@@ -180,7 +180,7 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
             unlink_entity_node(actor);
             callback_flags = node_storage;
             callback_flags->unk_10 |= 0x80000000;
-            body->action_phase.u = body->action_phase.u + 1;
+            body->action_phase = body->action_phase + 1;
             return;
         }
 
@@ -223,14 +223,14 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
         sprite->flags |= 0x800;
         sprite->clut = sprite->clut + 0x80;
         sprite->flags &= 0xFFF3;
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
         return;
 
     case 4:
         {
 
-            body->action_id.u = 0x18;
-            body->action_phase.u = 0;
+            body->action_id = 0x18;
+            body->action_phase = 0;
             body->unk_8C.address = &transfer_linked_object_state;
             g_dungeon_status.activity_counts.parts.pending_action_count =
                 ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;

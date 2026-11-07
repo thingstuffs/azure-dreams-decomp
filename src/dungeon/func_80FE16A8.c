@@ -12,6 +12,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/level.h"
 
+#include "dungeon/monster/killer_frames.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
@@ -27,7 +28,6 @@ extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8016DA84(void *, void *, void *, void *);
 
 extern u8 dungeon_action_resume_address;
-extern u8 killer_slot_f_default_frames[];
 extern u8 D_8016E040[];
 extern u8 D_8016E070[];
 extern u8 bank_actor_default_frames[];
@@ -51,7 +51,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
     u32 dungeon_flags = g_dungeon_status.flags;
 
     if (dungeon_flags & 0x1000) {
-        body->action_id.u = 0xE;
+        body->action_id = 0xE;
         advance_stored_path_motion(body, position, sprite, actor);
         return;
     }
@@ -69,8 +69,8 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
 
     if (((u32)actor->flags1C) & 0x200) {
         if (sprite->frameTable == bank_actor_action_frames) {
-            body->action_id.u = 0xD;
-            body->action_phase.u = 1;
+            body->action_id = 0xD;
+            body->action_phase = 1;
             body->unk_8C.word = 0;
             actor->flags1C &= ~0x40000;
             return;
@@ -86,7 +86,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
             return;
         }
 
-        if (body->action_id.u != 0xE) {
+        if (body->action_id != 0xE) {
             u8 next_state = 0xE;
 
             anim_table = killer_slot_f_default_frames;
@@ -96,7 +96,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
-            body->action_id.u = next_state;
+            body->action_id = next_state;
         }
 
         body->action_state_flags &= 0xFFF3;
@@ -174,7 +174,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
                     &direction_aux);
                 global_actor = primary_actor_record;
                 actor->facing = direction;
-                if (global_actor->action_id.u == 0x11) {
+                if (global_actor->action_id == 0x11) {
                     begin_actor_spell_action(body, position, sprite, D_8016E070, &dungeon_action_resume_address);
                     return;
                 }

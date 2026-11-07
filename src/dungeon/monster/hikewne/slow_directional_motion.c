@@ -22,14 +22,14 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
     s32 state;
     s32 countdown;
 
-    switch (motion_state->action_phase.u) {
+    switch (motion_state->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
             -dir_step_x[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
         motion->velocity_y =
             -dir_step_y[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
-        motion_state->action_phase.u++;
+        motion_state->action_phase++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -40,7 +40,7 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
             motion_state->action_timer.s = 0;
-            motion_state->action_phase.u = 2;
+            motion_state->action_phase = 2;
             return;
         }
         timer = -1;
@@ -79,7 +79,7 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
             return;
         }
         motion_state->action_timer.s = 8;
-        motion_state->action_phase.u++;
+        motion_state->action_phase++;
         return;
 
     case 2:

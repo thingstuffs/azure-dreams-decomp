@@ -20,14 +20,14 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
     s32 target_x;
     s32 tracked_addr;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(source);
         motion->velocity_x =
             -dir_step_x[(source->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
             -dir_step_y[(source->movement_facing >> 9) & 7] << 15;
-        action->action_phase.u++;
+        action->action_phase++;
 
         if (source->hp == 0) {
             motion->velocity_z = 0;
@@ -38,7 +38,7 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
         }
         if (entity->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.s = 2;
+            action->action_phase = 2;
             return;
         }
         if (source->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -79,7 +79,7 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
             return;
         }
         action->action_timer.s = 8;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 2:

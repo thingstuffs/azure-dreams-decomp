@@ -24,7 +24,7 @@ s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, 
     }
     switch (state_type) {
     case 0:
-        entity->action_id.s = 0xE;
+        entity->action_id = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;

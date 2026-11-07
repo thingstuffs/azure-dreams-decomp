@@ -30,12 +30,12 @@ void begin_actor_exclusive_action(ActorRecord *entity, ObjectPosition *unused_1,
 
         state_or_flags = state->flags;
         if (state_or_flags & 0x2000) {
-            saved_entity->action_id.u = 14;
+            saved_entity->action_id = 14;
             return;
         }
         if (state->active_actor != entity) {
             if (state->active_actor != 0 || state->pending_display_owner != 0 || (state_or_flags & 8)) {
-                entity->action_id.u = 14;
+                entity->action_id = 14;
                 return;
             }
         }
@@ -43,7 +43,7 @@ void begin_actor_exclusive_action(ActorRecord *entity, ObjectPosition *unused_1,
         state_or_flags = (s32)&g_dungeon_status.turn_scale;
         if ((((DungeonGlobalStatus *)state_or_flags)->flags & 0x2000) ||
             ((DungeonGlobalStatus *)state_or_flags)->activity_counts.parts.pending_action_count != 0) {
-            saved_entity->action_id.u = 14;
+            saved_entity->action_id = 14;
             return;
         }
         ((DungeonGlobalStatus *)state_or_flags)->activity_counts.parts.pending_action_count =
@@ -58,8 +58,8 @@ void begin_actor_exclusive_action(ActorRecord *entity, ObjectPosition *unused_1,
             (*(u16 *)&state->activity_counts.parts.pending_action_count)++;
         }
         entity->unk_8C.word = 0;
-        entity->action_id.s = 0x19;
-        entity->action_phase.s = 0;
+        entity->action_id = 0x19;
+        entity->action_phase = 0;
         entity->action_timer.s = 0;
         entity->unk_B0.signed_bytes[3] = 0;
         entity->unk_B0.signed_bytes[1] = 0;

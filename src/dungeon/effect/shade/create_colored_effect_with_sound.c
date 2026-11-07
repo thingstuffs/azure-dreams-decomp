@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "slus.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -10,7 +11,6 @@ typedef struct Rec_func_800D4BD4_arg2 Rec_func_800D4BD4_arg2;
 
 typedef s32 M2C_UNK;
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param);
 #include "shared/sprite_source.h"
 #include "dungeon/system.h"

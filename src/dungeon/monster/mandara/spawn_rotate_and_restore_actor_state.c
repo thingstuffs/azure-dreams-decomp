@@ -102,7 +102,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
     s32 height;
     s32 ticks_left;
 
-    state = effect->action_phase.u;
+    state = effect->action_phase;
     switch (state) {
     case 0:
         spawned_object = scan_actor_along_heading(actor, sprite->tile_x,
@@ -114,11 +114,11 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         if (sprite->flags & 0x8000) {
-            effect->action_phase.u = 2;
+            effect->action_phase = 2;
             return;
         }
 
-        effect->action_phase.u = 1;
+        effect->action_phase = 1;
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
@@ -218,7 +218,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
         if ((ticks_left << 16) > 0) {
             return;
         }
-        effect->action_phase.u++;
+        effect->action_phase++;
         return;
 
     case 2:

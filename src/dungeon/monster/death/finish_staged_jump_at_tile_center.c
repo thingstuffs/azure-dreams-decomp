@@ -22,12 +22,12 @@ extern u8 D_8017464C[8];
 void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
 
     case 0:
         if (sprite->flags & 0x8000) {
-            action->action_phase.u = 5;
+            action->action_phase = 5;
             action->action_timer.u = 0;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
@@ -44,7 +44,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             D_8017464C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_timer.u = 8;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -64,7 +64,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         action->action_timer.u = 6;
         action->unk_AC.value = 0x80000;
         action->unk_B0.value = (s32)0xFFFE0000;
-        action->action_phase.u++;
+        action->action_phase++;
         motion->velocity_x =
             -dir_step_x[((u16)actor->facing >> 9) & 7] << 18;
         motion->velocity_y =
@@ -89,7 +89,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             }
         }
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-        action->action_phase.u++;
+        action->action_phase++;
         play_sound_if_enabled(0x804);
         return;
 
@@ -103,7 +103,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         select_sprite_entry(sprite,
             death_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_phase.u++;
+        action->action_phase++;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         action->unk_A4.value = 0;
@@ -119,7 +119,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             0);
         action->action_timer.u = 4;
         action->unk_A4.value = 0;
-        action->action_phase.u++;
+        action->action_phase++;
         {
             s32 target_x = sprite->tile_x << 6;
             s32 current_x = motion->x.w.i - 0x20;

@@ -18,12 +18,12 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
     direction_x = dir_step_x[direction_offset >> 1];
     direction_y = dir_step_y[direction_offset >> 1];
     body->action_timer.u--;
-    state = body->action_phase.u;
+    state = body->action_phase;
 
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 0xFF;
+            body->action_phase = 0xFF;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -47,7 +47,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         body->action_timer.u = 4;
         motion->velocity_z = (s32)0xFFFC0000;
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
         return;
 
     case 1:
@@ -63,9 +63,9 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
             *(&D_80174D84 +
               (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
             0);
-        next_state = body->action_phase.u;
+        next_state = body->action_phase;
         body->action_timer.u = 8;
-        body->action_phase.u = next_state + 1;
+        body->action_phase = next_state + 1;
         return;
 
     case 2:
@@ -90,7 +90,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
         motion->velocity_x = direction_x << 18;
         motion->velocity_y = direction_y << 18;
         play_sound_if_enabled(0x809);
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
         return;
 
     case 3:
@@ -101,7 +101,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
             return;
         }
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-        body->action_phase.u = body->action_phase.u + 1;
+        body->action_phase = body->action_phase + 1;
         return;
 
     case 4:
@@ -119,7 +119,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
         body->unk_90.value = 0;
         body->action_state_flags &= 0xFFF7;
         actor->flags1C |= ACTOR_GROUNDED;
-        body->action_phase.u = 0xFF;
+        body->action_phase = 0xFF;
         return;
 
     case 0xFF:

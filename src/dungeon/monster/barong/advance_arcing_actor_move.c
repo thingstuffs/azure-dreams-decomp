@@ -37,7 +37,7 @@ void advance_arcing_actor_move(ActorRecord *action, ObjectPosition *motion, Spri
     DungeonGlobalStatus *action_globals;
     u8 *idle_anims;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
@@ -56,7 +56,7 @@ void advance_arcing_actor_move(ActorRecord *action, ObjectPosition *motion, Spri
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_9E.s = 5;
         action->unk_A4.value = 0;
-        action->action_phase.u++;
+        action->action_phase++;
     }
                         /* fallthrough */
     case 1:
@@ -90,7 +90,7 @@ void advance_arcing_actor_move(ActorRecord *action, ObjectPosition *motion, Spri
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->action_phase.u++;
+            action->action_phase++;
         }
                         /* fallthrough */
     case 2:
@@ -109,7 +109,7 @@ void advance_arcing_actor_move(ActorRecord *action, ObjectPosition *motion, Spri
                 phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->scale_y = 0xC00;
-            action->action_phase.u++;
+            action->action_phase++;
         }
     }
         break;

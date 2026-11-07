@@ -37,7 +37,7 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
     u8 state;
 
     direction = (entity->movement_facing >> 9) & 7;
-    state = body->action_phase.u;
+    state = body->action_phase;
 
     switch (state) {
     case 0:
@@ -51,11 +51,11 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
         }
         if (sprite->flags & 0x8000) {
             body->action_timer.u = 0;
-            body->action_phase.u = 3;
+            body->action_phase = 3;
             return;
         }
         body->action_timer.u = 12;
-        body->action_phase.u++;
+        body->action_phase++;
     case 1:
         timer_or_state = body->action_timer.u - 1;
         body->action_timer.u = timer_or_state;
@@ -90,8 +90,8 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
         motion->velocity_x = velocity_x - (rounded_velocity_x >> 2);
         rounded_velocity_y = velocity_y;
         motion->velocity_y = velocity_y - (rounded_velocity_y / 4);
-        timer_or_state = body->action_phase.u + 1;
-        body->action_phase.u = timer_or_state;
+        timer_or_state = body->action_phase + 1;
+        body->action_phase = timer_or_state;
         return;
     case 2:
         direction_x_table = (s16 *)((s8 *)dir_step_x);
@@ -116,9 +116,9 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
             begin_actor_display_action(body, motion, sprite, dreamin_frame_set_1);
         } else {
             duration = 8;
-            timer_or_state = body->action_phase.u + 1;
+            timer_or_state = body->action_phase + 1;
             body->action_timer.u = duration;
-            body->action_phase.u = timer_or_state;
+            body->action_phase = timer_or_state;
         }
         return;
     case 3:

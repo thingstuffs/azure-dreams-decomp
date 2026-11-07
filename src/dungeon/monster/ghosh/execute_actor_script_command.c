@@ -77,7 +77,7 @@ s32 execute_actor_script_command(ActorRecord *actor_arg, ObjectPosition *action_
         break;
 
     case 0xF0:
-        if (actor->action_phase.u == 0) {
+        if (actor->action_phase == 0) {
             actor->facing = get_direction_toward_target_position(action_context) << 9;
             if (*(u8 **)&sprite->frameTable != ghosh_frame_set_9) {
                 sprite->frameTable = ghosh_frame_set_9;
@@ -92,7 +92,7 @@ s32 execute_actor_script_command(ActorRecord *actor_arg, ObjectPosition *action_
                 return 0;
             }
             actor->action_timer.s = 0;
-            actor->action_phase.u++;
+            actor->action_phase++;
             {
                 g_dungeon_status.activity_counts.parts.pending_action_count += 2;
             }

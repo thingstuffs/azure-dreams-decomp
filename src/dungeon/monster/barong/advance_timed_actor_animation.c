@@ -22,14 +22,14 @@ extern u8 D_80175584[];
 void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     if ((u32)state >= 5) {
         return;
     }
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            action->action_phase.u = 4;
+            action->action_phase = 4;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -38,7 +38,7 @@ void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, 
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         action->action_timer.u = 0;
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -54,14 +54,14 @@ void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, 
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             action->action_timer.u = 0;
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
         return;
 
     case 2:
         action->action_timer.u = 0;
-        action->action_phase.u++;
+        action->action_phase++;
 
     case 3:
         if ((s16)++action->action_timer.u == 7 ||

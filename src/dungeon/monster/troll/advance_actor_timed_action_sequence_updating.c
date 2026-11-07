@@ -27,7 +27,7 @@ void advance_actor_timed_action_sequence_updating(ActorRecord *action, ObjectPos
     s16 timer;
     u8 state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
 
     case 0:
@@ -35,7 +35,7 @@ void advance_actor_timed_action_sequence_updating(ActorRecord *action, ObjectPos
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         action->action_timer.u = 0;
-        action->action_phase.u++;
+        action->action_phase++;
         if (!(sprite->flags & 0x8000)) {
             return;
         }
@@ -47,7 +47,7 @@ void advance_actor_timed_action_sequence_updating(ActorRecord *action, ObjectPos
             return;
         }
         action->action_timer.u = 0;
-        action->action_phase.u++;
+        action->action_phase++;
         switch (actor->unk_48) {
         case 13:
             sprite->frameTable = D_8015DDDC;
@@ -66,7 +66,7 @@ void advance_actor_timed_action_sequence_updating(ActorRecord *action, ObjectPos
             select_sprite_entry(sprite,
                 D_8015DDEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->action_phase.u = 5;
+            action->action_phase = 5;
             play_sound_if_enabled(0x60C);
             return;
         default:
@@ -79,7 +79,7 @@ void advance_actor_timed_action_sequence_updating(ActorRecord *action, ObjectPos
         if ((timer == 5) || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             action->action_timer.u = 0;
-            action->action_phase.u++;
+            action->action_phase++;
         }
         if (action->action_timer.s == 3) {
             play_sound_if_enabled(0x804);
@@ -117,7 +117,7 @@ void advance_actor_timed_action_sequence_updating(ActorRecord *action, ObjectPos
         }
         sprite->flags &= 0xF7FF;
         action->action_timer.u = 0;
-        action->action_phase.u = 3;
+        action->action_phase = 3;
 
     case 4:
     default:

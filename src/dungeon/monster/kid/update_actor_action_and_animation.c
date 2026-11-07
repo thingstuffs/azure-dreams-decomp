@@ -33,7 +33,7 @@ void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPositio
     u16 ticks_left;
     s32 state;
 
-    state = controller_in->action_phase.u;
+    state = controller_in->action_phase;
     switch (state) {
     case 0:
         controller_in->unk_90.value += 0x100000;
@@ -49,7 +49,7 @@ void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPositio
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        controller_in->action_phase.u++;
+        controller_in->action_phase++;
         return;
 
     case 1:
@@ -155,7 +155,7 @@ void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPositio
 
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
-        controller_in->action_phase.u++;
+        controller_in->action_phase++;
         return;
 
     case 2:

@@ -66,7 +66,7 @@ void update_dungeon_actor_behavior(void *effect) {
     switch (state) {
     case 0:
         actor = dungeon_actor_ring_anchor;
-        if (actor->action_id.u != 0x11) {
+        if (actor->action_id != 0x11) {
             return;
         }
         actor->action_timer.u += 0x3C;

@@ -53,7 +53,7 @@ typedef struct S_8016E528_4 {
 /* Updates object motion, landing interpolation, and removal. */
 /* Waits before moving Ghosh's item, checks terrain, then places it using saved item bytes or shrinks its
  * falling sprite. */
-void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, void *position, void *object_arg) {
+void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, S_8016E528_2 *position, void *object_arg) {
     S_8016E528_1 *object = object_arg;
     u8 item_data[4];
     s32 fall_height;
@@ -91,8 +91,8 @@ repeat_settling:
     if (motion->unk_14 == 0) {
         motion->unk_14 = (s16) ((u16) motion->unk_14 + 1);
         tile_y = motion->unk_49;
-        x_distance = ((S_8016E528_2 *)position)->unk_0E - motion->unk_48;
-        target_y = ((S_8016E528_2 *)position)->unk_12;
+        x_distance = position->unk_0E - motion->unk_48;
+        target_y = position->unk_12;
         if (x_distance < 0) {
             x_distance = 0 - x_distance;
         }
@@ -127,30 +127,30 @@ repeat_settling:
         {
             s32 interp_target;
             s32 interp_current;
-            interp_target = ((S_8016E528_2 *)position)->unk_0E << 6;
-            interp_current = ((S_8016E528_2 *)position)->unk_00.at02.v - 0x20;
-            ((S_8016E528_2 *)position)->unk_00.at02.v = (s16) ((u16) ((S_8016E528_2 *)position)->unk_00.at02.v
+            interp_target = position->unk_0E << 6;
+            interp_current = position->unk_00.at02.v - 0x20;
+            position->unk_00.at02.v = (s16) ((u16) position->unk_00.at02.v
                 + (interp_target - interp_current) / (s16) ticks_left);
         }
         {
             s32 interp_target;
             s32 interp_current;
-            interp_target = ((S_8016E528_2 *)position)->unk_12 << 6;
-            interp_current = ((S_8016E528_2 *)position)->unk_04.at02.v - 0x20;
-            ((S_8016E528_2 *)position)->unk_04.at02.v = (s16) ((u16) ((S_8016E528_2 *)position)->unk_04.at02.v
+            interp_target = position->unk_12 << 6;
+            interp_current = position->unk_04.at02.v - 0x20;
+            position->unk_04.at02.v = (s16) ((u16) position->unk_04.at02.v
                 + (interp_target - interp_current) / (s16) motion->unk_1A);
         }
-        ((S_8016E528_2 *)position)->unk_08.at02.v = (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v
-            + ((s32) (((S_8016E528_2 *)position)->unk_16
-            - ((S_8016E528_2 *)position)->unk_08.at02.v) / (s16) motion->unk_1A));
+        position->unk_08.at02.v = (s16) ((u16) position->unk_08.at02.v
+            + ((s32) (position->unk_16
+            - position->unk_08.at02.v) / (s16) motion->unk_1A));
     }
     if ((s16) motion->unk_1A <= 0) {
         item_data[0] = motion->unk_44;
         item_data[1] = motion->unk_45;
         item_data[2] = motion->unk_46;
         item_data[3] = motion->unk_47;
-        place_item_at_valid_floor_position(((S_8016E528_2 *)position)->unk_0E, ((S_8016E528_2 *)position)->unk_12,
-            ((S_8016E528_2 *)position)->unk_16, object->unk_08, item_data);
+        place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
+            position->unk_16, object->unk_08, item_data);
         goto mark_removed;
     }
     if (object->unk_14 & 0x8000) {
@@ -161,22 +161,22 @@ check_falling:
         if (motion->unk_12 != 2) {
             break;
         }
-        ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
+        position->unk_08.at00.v = (s32) (position->unk_08.at00.v
             + motion->unk_54);
         motion->unk_54 = (s32) (motion->unk_54 + motion->unk_60);
         scale = object->unk_1E - 0xC8;
         object->unk_1E = scale;
         object->unk_1C = scale;
-        probe_height = ((S_8016E528_2 *)position)->unk_08.at02u.v;
-        fall_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
+        probe_height = position->unk_08.at02u.v;
+        fall_height = position->unk_08.at02.v;
         if ((sample_terrain_surface_height((motion->unk_48 << 6) & 0xFFC0,
             (motion->unk_49 << 6) & 0xFFC0, (s16) (probe_height - 0x20)) - 7) >= fall_height) {
             continue;
         }
-        ((S_8016E528_2 *)position)->unk_08.at02.v = sample_terrain_surface_height((motion->unk_48 << 6) & 0xFFC0,
-            (motion->unk_49 << 6) & 0xFFC0, (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v
+        position->unk_08.at02.v = sample_terrain_surface_height((motion->unk_48 << 6) & 0xFFC0,
+            (motion->unk_49 << 6) & 0xFFC0, (s16) ((u16) position->unk_08.at02.v
             - 0x20));
-        ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
+        position->unk_08.at00u.v = 0;
 mark_removed:
         NODE_HEADER(motion)->flags = (u16) (NODE_HEADER(motion)->flags | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -186,10 +186,10 @@ mark_removed:
             if (motion->unk_12 != 0) {
                 return;
             }
-            ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
+            position->unk_00.at00.v = (s32) (position->unk_00.at00.v
                 + motion->unk_4C);
             motion->unk_4C = (s32) (motion->unk_4C + motion->unk_58);
-            ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
+            position->unk_04.at00.v = (s32) (position->unk_04.at00.v
                 + motion->unk_50);
             {
                 void *table_data = ghosh_effect_direction_offsets;
@@ -198,20 +198,20 @@ mark_removed:
             motion->unk_50 = (s32) (motion->unk_50 + motion->unk_5C);
             direction_step = (S_8016E528_3 *)((motion->unk_18 * 4) + direction_table);
             next_tile = motion->unk_48 + direction_step->unk_00;
-            world_x = ((S_8016E528_2 *)position)->unk_00.at02.v;
+            world_x = position->unk_00.at02.v;
             if (next_tile == (world_x / 64)) {
                 next_tile = motion->unk_49 + direction_step->unk_02;
-                world_y = ((S_8016E528_2 *)position)->unk_04.at02.v;
+                world_y = position->unk_04.at02.v;
                 if (next_tile == (world_y / 64)) {
-                    if (((check_left_tile_and_center_height((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
-                        (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) << 0x10) != 0) ||
-                        sample_terrain_surface_height((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
-                        (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) >= 0x200) {
-                        ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
+                    if (((check_left_tile_and_center_height((u16) position->unk_00.at02.v,
+                        (u16) position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0) ||
+                        sample_terrain_surface_height((u16) position->unk_00.at02.v,
+                        (u16) position->unk_04.at02.v, position->unk_08.at02.v) >= 0x200) {
+                        position->unk_00.at00.v = (s32) (position->unk_00.at00.v
                             - motion->unk_4C);
                         motion->unk_4C = 0;
                         motion->unk_58 = 0;
-                        ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
+                        position->unk_04.at00.v = (s32) (position->unk_04.at00.v
                             - motion->unk_50);
                         motion->unk_50 = 0;
                         motion->unk_5C = 0;
@@ -224,24 +224,24 @@ mark_removed:
                     object->unk_06 = 0;
                 }
             }
-            ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v
                 + motion->unk_54);
             motion->unk_54 = (s32) (motion->unk_54 + motion->unk_60);
-            move_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
+            move_height = position->unk_08.at02.v;
             if ((sample_terrain_surface_height(((motion->unk_48 << 6) + 0x20) & 0xFFE0,
                 ((motion->unk_49 << 6) + 0x20) & 0xFFE0, move_height) - 0x10) < move_height) {
-                ((S_8016E528_2 *)position)->unk_08.at02.v = sample_terrain_surface_height(((motion->unk_48 << 6)
+                position->unk_08.at02.v = sample_terrain_surface_height(((motion->unk_48 << 6)
                     + 0x20) & 0xFFE0, ((motion->unk_49 << 6) + 0x20) & 0xFFE0,
-                    ((S_8016E528_2 *)position)->unk_08.at02.v);
-                ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
+                    position->unk_08.at02.v);
+                position->unk_08.at00u.v = 0;
                 motion->unk_5C = 0;
                 motion->unk_50 = 0;
                 motion->unk_58 = 0;
                 motion->unk_4C = 0;
                 motion->unk_12 = (s16) ((u16) motion->unk_12 + 1);
                 if ((find_valid_floor_item_position(motion->unk_48, motion->unk_49,
-                    (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v - 0x20), position + 0xE, position + 0x12,
-                    position + 0x16) << 0x10) == 0) {
+                    (s16) ((u16) position->unk_08.at02.v - 0x20), &position->unk_0E, &position->unk_12,
+                    &position->unk_16) << 0x10) == 0) {
                     motion->unk_12 = 2;
                     motion->unk_54 = 0xFFF80000;
                 }

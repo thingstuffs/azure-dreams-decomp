@@ -57,7 +57,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
             update_callback(body, motion, sprite, body);
         }
     }
-    tyrant_callbacks[body->action_id.u](body, motion, sprite, body);
+    tyrant_callbacks[body->action_id](body, motion, sprite, body);
 
     previous_state = (s32)state_direction << 16;
     current_state = body->pending_turn_updates;

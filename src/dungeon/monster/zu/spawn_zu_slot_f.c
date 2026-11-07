@@ -82,7 +82,7 @@ void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = D_8016B138;
         work->flags1C |= 0x40000;

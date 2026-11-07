@@ -23,7 +23,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
     u8 phase;
     GameWork *scene_state = &g_game_work;
 
-    phase = actor->action_phase.u;
+    phase = actor->action_phase;
     switch (phase) {
     case 0:
         heading = (u16)transform->facing & 0xFFF;
@@ -32,8 +32,8 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
             transform->facing = heading + 0x200;
             return;
         }
-        phase = actor->action_phase.u + 1;
-        actor->action_phase.u = phase;
+        phase = actor->action_phase + 1;
+        actor->action_phase = phase;
         return;
     case 1:
         if (actor->unk_90.parts.high.s == 0) {
@@ -47,8 +47,8 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
                 }
             }
-            phase = actor->action_phase.u + 1;
-            actor->action_phase.u = phase;
+            phase = actor->action_phase + 1;
+            actor->action_phase = phase;
             return;
         }
         if ((animation->flags & 0x8000) == 0) {
@@ -64,8 +64,8 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                 select_sprite_entry(animation, *(u8 *)animation_entry, 0);
             }
         }
-        phase = actor->action_phase.u + 1;
-        actor->action_phase.u = phase;
+        phase = actor->action_phase + 1;
+        actor->action_phase = phase;
         return;
     case 2:
         if (animation->flags & 0xE000) {
@@ -80,8 +80,8 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
                 }
             }
-            phase = actor->action_phase.u + 1;
-            actor->action_phase.u = phase;
+            phase = actor->action_phase + 1;
+            actor->action_phase = phase;
             return;
         }
         return;
@@ -99,11 +99,11 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
                 }
             }
-            phase = actor->action_phase.u + 1;
-            actor->action_phase.u = phase;
+            phase = actor->action_phase + 1;
+            actor->action_phase = phase;
             return;
         }
-        if (dungeon_actor_ring_anchor->action_id.u != 0x17) {
+        if (dungeon_actor_ring_anchor->action_id != 0x17) {
             {
                 u8 *animation_table = kewne_frame_set_4;
                 animation->frameTable = animation_table;
@@ -114,14 +114,14 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
                 }
             }
-            phase = actor->action_phase.u + 1;
-            actor->action_phase.u = phase;
+            phase = actor->action_phase + 1;
+            actor->action_phase = phase;
             return;
         }
         return;
     }
-        phase = actor->action_phase.u + 1;
-        actor->action_phase.u = phase;
+        phase = actor->action_phase + 1;
+        actor->action_phase = phase;
         return;
     case 4:
         if (animation->flags & 0xE000) {

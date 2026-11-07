@@ -88,7 +88,7 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
             actor->unk_8C.word = 0;
             state->flags1C |= ACTOR_REFRESH_GROUND;
         } else {
-            actor->action_id.s = 0xF;
+            actor->action_id = 0xF;
             actor->unk_8C.word = 0;
             state->flags1C |= ACTOR_REFRESH_GROUND;
         }

@@ -23,11 +23,11 @@ void advance_timed_directional_animation(ActorRecord *action_state, ObjectPositi
     u16 ticks_left;
     u8 phase;
 
-    phase = action_state->action_phase.u;
+    phase = action_state->action_phase;
     switch (phase) {
     case 0:
         if (animation->flags & 0x8000) {
-            action_state->action_phase.u = 1;
+            action_state->action_phase = 1;
             animation->flags |= 0x6000;
             action_state->action_timer.u = 1;
             break;
@@ -37,7 +37,7 @@ void advance_timed_directional_animation(ActorRecord *action_state, ObjectPositi
         select_sprite_entry(animation,
                       D_80174060[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
-        action_state->action_phase.u++;
+        action_state->action_phase++;
         break;
 
     case 1:

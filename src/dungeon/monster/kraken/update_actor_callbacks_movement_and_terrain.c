@@ -72,7 +72,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
             update_callback(body, motion, sprite_arg, body);
         }
         ((s32 (**)(void *, void *, void *, void *))&kraken_action_handlers)
-        [body->action_id.u](body, motion, sprite_arg, body);
+        [body->action_id](body, motion, sprite_arg, body);
         if ((s16)previous_state != (s8)((u8)body->pending_turn_updates)) {
             try_move_actor_to_valid_position(body, motion, sprite_arg, body);
         }

@@ -75,7 +75,7 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
             }
         }
         initialize_actor_sprite_and_animation(((obj)), part_a, part_b, flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.handler = &dispatch_actor_animation_and_action;
         work->flags1C |= 0x40000;

@@ -15,10 +15,10 @@
 #include "dungeon/modules.h"
 #include "dungeon/monster/hikewne.h"
 
+#include "dungeon/monster/grineut/path_motion.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void func_80173A84(void *, void *, void *, void *);
 
 extern u8 killer_action_resume_address;
@@ -42,7 +42,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
     u32 dungeon_flags = g_dungeon_status.flags;
 
     if (dungeon_flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_stored_path_motion(actor, context, sprite, entity);
         return;
     }
@@ -60,8 +60,8 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == killer_frame_set_2) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             entity->flags1C &= ~0x40000;
             return;
@@ -77,7 +77,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
             return;
         }
 
-        if (actor->action_id.u != 0xE) {
+        if (actor->action_id != 0xE) {
             u8 next_state = 0xE;
 
             anim_table = killer_direction_frames;
@@ -87,7 +87,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
             }
-            actor->action_id.u = next_state;
+            actor->action_id = next_state;
         }
 
         actor->action_state_flags &= 0xFFF3;
@@ -174,7 +174,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
                     &direction_aux);
                 global_actor = primary_actor_record;
                 entity->facing = direction;
-                if (global_actor->action_id.u == 0x11) {
+                if (global_actor->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80174070, &killer_action_resume_address);
                     return;
                 }

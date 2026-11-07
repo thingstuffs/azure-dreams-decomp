@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "slus.h"
 #include "shared/actor_property_flags.h"
 #include "shared/monster_ids.h"
 #include "engine/node/allocation.h"
@@ -19,7 +20,6 @@ struct ObjectNodeHeader;
 #endif
 
 
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 
 extern u8 D_800D4158;
@@ -84,7 +84,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
             tile_flags = 0x300;
         }
         cycle_map_cell_flags(sprite_tile_x, sprite_tile_y, tile_flags);
-        ((ActorRecord *)entity)->action_id.s = 0xE;
+        ((ActorRecord *)entity)->action_id = 0xE;
         ((ActorRecord *)entity)->unk_9C = -1;
         ((ActorRecord *)entity)->flags1C |= (ACTOR_REFRESH_GROUND | ACTOR_ASLEEP);
     }

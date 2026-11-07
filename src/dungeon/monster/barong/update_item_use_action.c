@@ -83,7 +83,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
     ObjectNodeHeader *target;
 
     is_special = 0;
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
@@ -174,8 +174,8 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animations[direction], 0);
             }
-            next_state = body->action_phase.u + 1;
-            body->action_phase.u = next_state;
+            next_state = body->action_phase + 1;
+            body->action_phase = next_state;
             sprite->flags |= 0x800;
             return;
         }
@@ -199,7 +199,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
             sprite->flags |= 0x800;
             return;
         }
-        body->action_phase.u++;
+        body->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -210,7 +210,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
             body->action_timer.u = timer;
             if (timer <= 0 || (sprite->flags & 0xE000)) {
                 body->action_state_flags |= 0x80;
-                body->action_phase.u++;
+                body->action_phase++;
                 sprite->flags |= 0x800;
                 body->action_timer.u = 0xF;
             }

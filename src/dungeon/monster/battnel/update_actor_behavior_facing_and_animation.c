@@ -12,13 +12,12 @@
 
 
 
+#include "dungeon/monster/dragon/transition_effect.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_stored_entity_path(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, void *path_state);
 extern void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173AC0(void *, void *, void *, void *);
 
@@ -46,7 +45,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        ((ActorRecord *)actor)->action_id.u = 0xE;
+        ((ActorRecord *)actor)->action_id = 0xE;
         advance_stored_entity_path(actor, context, sprite, status);
         return;
     }
@@ -65,8 +64,8 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
 
     if (((ActorRecord *)status)->flags1C & 0x200) {
         if (sprite->frameTable == D_80173D4C) {
-            ((ActorRecord *)actor)->action_id.u = 0xD;
-            ((ActorRecord *)actor)->action_phase.u = 1;
+            ((ActorRecord *)actor)->action_id = 0xD;
+            ((ActorRecord *)actor)->action_phase = 1;
             ((ActorRecord *)actor)->unk_8C.word = 0;
             ((ActorRecord *)status)->flags1C &= ~0x40000;
             return;
@@ -82,7 +81,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
             return;
         }
 
-        if (((ActorRecord *)actor)->action_id.u != 0xE) {
+        if (((ActorRecord *)actor)->action_id != 0xE) {
             u8 next_state = 0xE;
 
             if (sprite->frameTable != battnel_direction_frames) {
@@ -94,7 +93,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
                     D_80173D14[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)status)->facing + 0x100) >> 9) & 7],
                     0);
             }
-            ((ActorRecord *)actor)->action_id.u = next_state;
+            ((ActorRecord *)actor)->action_id = next_state;
         }
 
         ((ActorRecord *)actor)->action_state_flags &= 0xFFF3;
@@ -174,7 +173,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
                     &direction_aux);
                 global_actor = primary_actor_record;
                 ((ActorRecord *)status)->facing = direction;
-                if (global_actor->action_id.u == 0x11) {
+                if (global_actor->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80173D3C, update_actor_behavior_facing_and_animation_2);
                     return;
                 }

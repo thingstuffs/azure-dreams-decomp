@@ -20,8 +20,8 @@ void begin_actor_action(ActorRecord *state, ObjectPosition *world_pos, SpriteFra
             apply_camera_offset_and_select_target(NODE_HEADER(actor), world_pos, 8, 0x300);
             if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
                 state->unk_8C.word = 0;
-                state->action_id.s = 0x11;
-                state->action_phase.s = 0;
+                state->action_id = 0x11;
+                state->action_phase = 0;
                 state->action_timer.s = 0;
                 actor->pending_turn_updates--;
                 state->action_state_flags |= 8;

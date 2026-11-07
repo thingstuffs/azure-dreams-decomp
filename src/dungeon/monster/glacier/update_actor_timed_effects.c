@@ -20,14 +20,13 @@
 
 
 
+#include "dungeon/monster/dragon/transition_effect.h"
+#include "dungeon/monster/grineut/path_motion.h"
 extern s32 find_active_rect_containing_point(s32, s32);
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_object_rendering_and_params(void *, void *, void *);
-extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8017412C(void *, void *, void *, void *);
 extern void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
@@ -71,7 +70,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
     stats = stats_arg;
 
     if (initial_flags & 0x1000) {
-        ((ActorRecord *)actor)->action_id.u = 0xE;
+        ((ActorRecord *)actor)->action_id = 0xE;
         advance_stored_path_motion(actor, context, sprite, stats);
         return;
     }
@@ -92,8 +91,8 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
 
     if (((u32)((ActorRecord *)stats)->flags1C) & 0x200) {
         if (sprite->frameTable == glacier_frame_set_2) {
-            ((ActorRecord *)actor)->action_id.u = 0xD;
-            ((ActorRecord *)actor)->action_phase.u = 1;
+            ((ActorRecord *)actor)->action_id = 0xD;
+            ((ActorRecord *)actor)->action_phase = 1;
             ((ActorRecord *)actor)->unk_8C.word = 0;
             ((ActorRecord *)stats)->flags1C &= ~0x40000;
             return;
@@ -109,7 +108,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
             return;
         }
 
-        if (((ActorRecord *)actor)->action_id.u != 0xE) {
+        if (((ActorRecord *)actor)->action_id != 0xE) {
             u8 state = 0xE;
             u8 *state_table = glacier_direction_frames;
 
@@ -121,7 +120,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
             }
             ((ActorRecord *)actor)->unk_9E.s = 0;
             ((ActorRecord *)actor)->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
-            ((ActorRecord *)actor)->action_id.u = state;
+            ((ActorRecord *)actor)->action_id = state;
         }
 
         ((ActorRecord *)actor)->action_state_flags &= 0xFFF3;
@@ -202,7 +201,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
                     &distance);
                 player = primary_actor_record;
                 ((ActorRecord *)stats)->facing = heading;
-                if (player->action_id.u == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_801760DC, update_actor_timed_effects);
                     return;
                 }

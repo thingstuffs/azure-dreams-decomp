@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus.h"
 #include "shared/game_work.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/system.h"
@@ -6,7 +7,6 @@
 struct Dst;
 struct Elem;
 
-void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 extern u8 actor_alternate_frames[];
 
 typedef struct S_func_80097A68_0 {

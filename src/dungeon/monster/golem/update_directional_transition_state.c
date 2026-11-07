@@ -16,7 +16,7 @@ void update_directional_transition_state(ActorRecord *entity, ObjectPosition *po
     ActorRecord *actor)
 {
     GameWork *scene_data = &g_game_work;
-    u8 state = entity->action_phase.u;
+    u8 state = entity->action_phase;
 
     switch (state) {
     case 0:
@@ -25,7 +25,7 @@ void update_directional_transition_state(ActorRecord *entity, ObjectPosition *po
             select_sprite_entry(sprite,
                 golem_alt_direction_frames[((scene_data->view.camera_rotation.parts.viewAngle +
                     actor->facing + 0x100) >> 9) & 7], 0);
-            entity->action_phase.u++;
+            entity->action_phase++;
         }
         break;
     case 1:

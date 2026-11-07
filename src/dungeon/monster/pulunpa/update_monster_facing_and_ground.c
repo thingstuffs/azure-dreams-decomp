@@ -101,9 +101,9 @@ void update_monster_facing_and_ground(ActorRecord *body, ObjectPosition *motion,
     }
 
     if (body->unk_A4.bytes[3]) {
-        D_801763E0[body->action_id.u](body, motion, sprite, actor);
+        D_801763E0[body->action_id](body, motion, sprite, actor);
     } else {
-        D_80176380[body->action_id.u](body, motion, sprite, actor);
+        D_80176380[body->action_id](body, motion, sprite, actor);
     }
 
     if (old_direction != actor->pending_turn_updates) {

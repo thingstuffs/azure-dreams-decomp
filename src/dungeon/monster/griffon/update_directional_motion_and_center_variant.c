@@ -22,7 +22,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
     s16 timer;
     s32 tracked_entity;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -30,7 +30,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
-        controller->action_phase.u++;
+        controller->action_phase++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -41,7 +41,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
         }
         if (sprite->flags & 0x8000) {
             controller->action_timer.s = 0;
-            controller->action_phase.u = 3;
+            controller->action_phase = 3;
             return;
         }
 
@@ -82,7 +82,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             sprite,
             griffon_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
     case 2:
         motion->velocity_x +=
@@ -99,7 +99,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             griffon_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         controller->action_timer.s = 8;
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
     case 3:
         timer = controller->action_timer.s;

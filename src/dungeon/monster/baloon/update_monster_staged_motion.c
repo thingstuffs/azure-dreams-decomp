@@ -58,7 +58,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
     direction_table = baloon_motion_direction_vectors;
     actor = (u32)actor_ptr;
 
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
         if (sprite->flags & 0x8000) {
             break;
@@ -83,12 +83,12 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
             ((ActorRecord *)actor)->ground_height = 0;
         }
         {
-            u16 next_state = body->action_phase.u;
+            u16 next_state = body->action_phase;
             u16 state_or_height;
             s32 height_offset = body->unk_90.parts.high.u;
             s32 *sound_flags = &dungeon_floor_flags;
             body->unk_A0.value = 0;
-            body->action_phase.u = next_state + 1;
+            body->action_phase = next_state + 1;
             state_or_height = ((u16) motion->z.w.i);
             state_or_height += height_offset;
             body->unk_B4.halves.high.u = state_or_height;
@@ -98,7 +98,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
 
     case 1:
         body->action_timer.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         sprite->offset_y = 0xFFEC;
         sprite->scale_x = 0x800;
 
@@ -186,7 +186,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         }
 
         body->action_timer.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         sprite->angle_z = 0x800;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
@@ -238,7 +238,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
             return;
         }
 
-        body->action_phase.u = 4;
+        body->action_phase = 4;
         motion->velocity_z = 0;
         sprite->flags |= 0x80;
         return;
@@ -248,7 +248,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
             return;
         }
         body->action_timer.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 4:

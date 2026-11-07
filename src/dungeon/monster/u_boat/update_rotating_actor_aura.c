@@ -69,19 +69,19 @@ void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *pos
     }
         break;
     case 1:
-        if ((((ActorRecord *)entity_saved)->action_id.u == 0x19) ||
+        if ((((ActorRecord *)entity_saved)->action_id == 0x19) ||
             (((ActorRecord *)entity_saved)->unk_B4.bytes[1] == 0)) {
             effect->phase.u = state_bits + 1;
             effect->duration = 0x14;
             effect->ticks.s = 0x14;
         }
-        if (entity->action_id.u == 1) {
+        if (entity->action_id == 1) {
             effect->phase.s = 3;
             effect->duration = 0x14;
             effect->ticks.s = 0x14;
         }
         if ((((ActorRecord *)entity_saved)->flags14 & 0x100000) &&
-            (dungeon_actor_ring_anchor->action_id.u != 0x28)) {
+            (dungeon_actor_ring_anchor->action_id != 0x28)) {
             effect->phase.s = 3;
             effect->duration = 0x14;
             effect->ticks.s = 0x14;

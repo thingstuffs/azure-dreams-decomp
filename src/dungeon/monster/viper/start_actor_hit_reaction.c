@@ -18,8 +18,8 @@ void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteF
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 16) == 0)) {
         work->unk_8C.word = 0;
-        work->action_id.s = 0x17;
-        work->action_phase.s = 0;
+        work->action_id = 0x17;
+        work->action_phase = 0;
         if (actor->flags1C & ACTOR_CONFUSED) {
             value = actor->flags14;
             if (!(value & 0x80000000)) {

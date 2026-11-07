@@ -79,7 +79,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
             mode = generate_random_value() & 3;
         }
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = stealth_behavior_entry;
         actor->unk_A4.halves.low.s = -1;

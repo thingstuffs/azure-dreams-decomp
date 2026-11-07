@@ -48,7 +48,7 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
     s32 use_shared_object;
 
     special_mode = 0;
-    action_state = body->action_phase.u;
+    action_state = body->action_phase;
     switch (action_state) {
     case 0:
         if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
@@ -125,7 +125,7 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
             }
             if (create_actor_spell_effect(actor, item, special_mode, &body->action_state_flags)) {
                 create_actor_linked_effect(actor);
-                body->action_phase.u++;
+                body->action_phase++;
             }
             break;
         } else {
@@ -151,14 +151,14 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
             break;
         }
         sprite->flags &= 0xF7FF;
-        body->action_phase.u++;
+        body->action_phase++;
 
     case 2:
         if ((sprite->unk_04 == 3 &&
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             create_offset_actor_object(body, position, sprite);
-            body->action_phase.u++;
+            body->action_phase++;
         }
 
     case 3:

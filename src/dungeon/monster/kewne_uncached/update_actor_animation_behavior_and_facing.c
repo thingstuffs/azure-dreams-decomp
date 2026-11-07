@@ -42,7 +42,7 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_actor_path_and_facing(actor, actor_aux, sprite, entity);
         return;
     }
@@ -63,8 +63,8 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_80175C90) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
@@ -81,13 +81,13 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
         }
 
         {
-            u8 current_state = actor->action_id.u;
+            u8 current_state = actor->action_id;
             u32 idle_state = 0xE;
             void *current_anim;
             void *anim_table;
 
             if (current_state != idle_state) {
-                actor->action_id.u = idle_state;
+                actor->action_id = idle_state;
                 actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
@@ -202,7 +202,7 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
                     &distance);
                 player = primary_actor_record;
                 entity->facing = heading;
-                if (player->action_id.u == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor, actor_aux, sprite, D_80175C88, kewne_uncached_action_resume_address);
                     return;
                 }

@@ -33,11 +33,11 @@ void update_movement_animation_settles_actor_target_tile(ActorRecord *body, Obje
     direction_offset = ((u16)actor->facing >> 8) & 0xE;
     direction_x = dir_step_x[direction_offset >> 1];
     direction_y = dir_step_y[direction_offset >> 1];
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 0xFF;
+            body->action_phase = 0xFF;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -48,7 +48,7 @@ void update_movement_animation_settles_actor_target_tile(ActorRecord *body, Obje
             *(&picket_frame_set_7 +
               (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
             0);
-        body->action_phase.u++;
+        body->action_phase++;
         return;
     case 1:
         if ((sprite->unk_04 == state &&
@@ -61,7 +61,7 @@ void update_movement_animation_settles_actor_target_tile(ActorRecord *body, Obje
             body->action_timer.u = 4;
             motion->velocity_x = (direction_x << 23) / 5;
             motion->velocity_y = (direction_y << 23) / 5;
-            body->action_phase.u++;
+            body->action_phase++;
         }
         return;
     case 2:
@@ -81,7 +81,7 @@ void update_movement_animation_settles_actor_target_tile(ActorRecord *body, Obje
             return;
         }
         motion->velocity_z = 0;
-        body->action_phase.u = 0xFF;
+        body->action_phase = 0xFF;
         body->action_state_flags &= 0xFFF7;
         return;
     case 0xFF:

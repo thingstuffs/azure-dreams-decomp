@@ -35,8 +35,8 @@ void dispatch_target_action(ActorRecord *actor, s32 action_context, SpriteFrameS
                     return;
                 }
 
-                if (actor->action_id.u != 0xE) {
-                    actor->action_id.u = 0xE;
+                if (actor->action_id != 0xE) {
+                    actor->action_id = 0xE;
                 }
                 actor->action_state_flags &= 0xFFF3;
 

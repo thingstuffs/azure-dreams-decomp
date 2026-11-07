@@ -22,10 +22,10 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
     s32 align_frames;
     s16 next_frames;
 
-    switch (action->action_phase.u) {
+    switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        action->action_phase.u = action->action_phase.u + 1;
+        action->action_phase = action->action_phase + 1;
         if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -35,7 +35,7 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
         }
         if (sprite->flags & 0x8000) {
             action->action_timer.s = 0;
-            action->action_phase.u = 2;
+            action->action_phase = 2;
             return;
         }
         motion->velocity_x =
@@ -75,10 +75,10 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
             begin_actor_display_action(action, motion, sprite, D_80175E90);
             return;
         }
-        state = action->action_phase.u;
+        state = action->action_phase;
         motion_frames = 8;
         action->action_timer.s = motion_frames;
-        action->action_phase.u = state + 1;
+        action->action_phase = state + 1;
         return;
 
     case 2:

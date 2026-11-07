@@ -49,7 +49,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     void *resource;
     ObjectNodeHeader *target;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     item_or_audio_base = 0;
     if ((u32)state >= 5) {
         return;
@@ -121,12 +121,12 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     if (item_or_audio_base != 0 && !(actor->species & 0x80)) {
         create_linked_source_object(actor);
         create_linked_child_object(actor);
-        body->action_phase.u++;
+        body->action_phase++;
     } else {
         actor->species &= 0x7F;
         D_80175F6E &= 0xFF7F;
         create_actor_linked_effect(actor);
-        body->action_phase.u++;
+        body->action_phase++;
     }
     case 1:
     item_addr = (u8 *)(&D_80175F6E);
@@ -141,12 +141,12 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
             slot = (s16)resolve_alternate_spell_id(*(u16 *)item_addr & 0x7F);
             body->action_timer.s = D_80175F40[slot] - 0x10;
         }
-        body->action_phase.u++;
+        body->action_phase++;
         return;
     }
-    action_value = body->action_phase.u;
+    action_value = body->action_phase;
     action_value += 2;
-    body->action_phase.u = action_value;
+    body->action_phase = action_value;
     return;
 
     case 2:
@@ -167,7 +167,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
                   ((s32 *)(((audio_index << 17) >> 14) + audio_base))[1]);
     cd_param = read_stream_cue_start_offset();
     Control_CD(0x15, cd_param, 0);
-    body->action_phase.u++;
+    body->action_phase++;
 
     case 3:
     if (get_cd_command_queue_depth() != 0) {
@@ -175,7 +175,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
         return;
     }
     sprite->flags &= 0xF7FF;
-    body->action_phase.u++;
+    body->action_phase++;
 
     case 4:
     if (!(body->action_state_flags & 0x80)) {

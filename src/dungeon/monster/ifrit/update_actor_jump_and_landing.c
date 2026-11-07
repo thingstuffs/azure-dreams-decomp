@@ -41,7 +41,7 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
     DungeonGlobalStatus *global_counter;
 
     frame_path = *(PathTable *)D_80170838;
-    phase = motion->action_phase.u;
+    phase = motion->action_phase;
 
     switch (phase) {
     case 0:
@@ -49,9 +49,9 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
             motion->action_state_flags |= 8;
             position->velocity_z = 0xFFEE0000;
             actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-            phase_value = motion->action_phase.u;
+            phase_value = motion->action_phase;
             motion->unk_A0.value = 0;
-            motion->action_phase.u = phase_value + 1;
+            motion->action_phase = phase_value + 1;
         }
         break;
     case 1:
@@ -81,7 +81,7 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
             motion->unk_90.value = 0;
             motion->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            motion->action_phase.u++;
+            motion->action_phase++;
         }
                         /* fall through */
     case 2:
@@ -96,8 +96,8 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
                 sprite,
                 ifrit_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            phase_value = motion->action_phase.u;
-            motion->action_phase.u = phase_value + 1;
+            phase_value = motion->action_phase;
+            motion->action_phase = phase_value + 1;
         }
         break;
     }

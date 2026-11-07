@@ -46,7 +46,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
     u16 position[3];
     u16 ticks_left;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     use_player = 0;
     switch (state) {
     case 0:
@@ -124,7 +124,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(position, (s16)(((s32)*move_id - 1) % 3));
-            body->action_phase.u++;
+            body->action_phase++;
             return;
         }
 
@@ -144,7 +144,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
 
     case 1:
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 3;
+            body->action_phase = 3;
             return;
         }
         if (!(sprite->flags & 0x6000)) {
@@ -159,7 +159,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         body->action_timer.u = 8;
         motion->velocity_z = 0xFFF00000;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 2:
@@ -175,7 +175,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
             D_80174DA4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         motion->velocity_z = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 3:
@@ -184,7 +184,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
             return;
         }
         sprite->flags &= 0xF7FF;
-        body->action_phase.u++;
+        body->action_phase++;
 
     case 4:
         if (!(((sprite->unk_04 == 1) &&
@@ -205,7 +205,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
         body->action_state_flags &= 0xFFF7;
         actor->flags1C |= ACTOR_GROUNDED;
 
-        body->action_phase.u++;
+        body->action_phase++;
         return;
 
     case 5:
@@ -217,7 +217,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
             sprite,
             D_80174D94[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        body->action_phase.u = 0xFF;
+        body->action_phase = 0xFF;
         return;
 
     case 0xFF:

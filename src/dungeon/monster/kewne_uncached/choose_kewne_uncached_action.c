@@ -43,7 +43,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
     u16 action;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
@@ -64,8 +64,8 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_8016FC90) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
@@ -82,13 +82,13 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
         }
 
         {
-            u8 current_state = actor->action_id.u;
+            u8 current_state = actor->action_id;
             u32 next_state = 0xE;
             void *current_anim;
             void *anim_table;
 
             if (current_state != next_state) {
-                actor->action_id.u = next_state;
+                actor->action_id = next_state;
                 actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
@@ -203,7 +203,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                     &direction_flags);
                 player = primary_actor_record;
                 entity->facing = facing;
-                if (player->action_id.u == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8016FC88, D_8016BFA4);
                     return;
                 }

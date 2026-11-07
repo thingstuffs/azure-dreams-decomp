@@ -33,7 +33,7 @@ void advance_actor_action_and_direction(ActorRecord *action, ObjectPosition *con
     DungeonGlobalStatus *status;
     s32 actor_flags;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(sprite_in->flags & 0xE000)) {
@@ -50,7 +50,7 @@ void advance_actor_action_and_direction(ActorRecord *action, ObjectPosition *con
             counter_base->activity_counts.parts.pending_action_count =
                 ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
         }
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -141,7 +141,7 @@ void advance_actor_action_and_direction(ActorRecord *action, ObjectPosition *con
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-            action->action_phase.u++;
+            action->action_phase++;
             return;
         }
         (sprite_in->frameTable) = saber_action_direction_frames;
@@ -154,7 +154,7 @@ void advance_actor_action_and_direction(ActorRecord *action, ObjectPosition *con
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-        action->action_phase.u++;
+        action->action_phase++;
         return;
 
     case 2:

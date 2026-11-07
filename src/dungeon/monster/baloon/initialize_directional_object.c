@@ -73,9 +73,9 @@ s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *act
     }
 
     result = action_ready;
-    action_state->action_phase.u = 0;
+    action_state->action_phase = 0;
     if (result != 0) {
-        action_state->action_id.u = 0x11;
+        action_state->action_id = 0x11;
         action_state->unk_8C.word = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;

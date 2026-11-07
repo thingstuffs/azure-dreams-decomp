@@ -16,14 +16,14 @@ void initialize_the_visual_effect_advances_action_state(ActorRecord *action, Obj
     s32 one;
     s32 phase;
 
-    phase = action->action_phase.u;
+    phase = action->action_phase;
     one = 1;
     switch (phase) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        action->action_phase.s = (u8)one;
+        action->action_phase = (u8)one;
     case 1:
         if (entity->unk_49 != 0) {
             create_and_initializes_display_source_position_appearance(context, visual, entity);
@@ -37,7 +37,7 @@ void initialize_the_visual_effect_advances_action_state(ActorRecord *action, Obj
         entity->flags1C = entity->flags1C | 0x10000000;
         visual->unk_0C = 0x808080;
         action->action_timer.s = 0x10;
-        action->action_phase.s = (u8)(action->action_phase.u + 1);
+        action->action_phase = (u8)(action->action_phase + 1);
         play_sound_if_enabled(0x805);
         return;
     case 2:

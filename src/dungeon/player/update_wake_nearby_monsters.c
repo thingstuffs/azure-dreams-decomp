@@ -78,7 +78,7 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
         count_state->unk_04.n2 = frame_count - 1;
     }
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         if (!(((SpriteFrameState *)actor)->flags & 0xE000)) {
@@ -91,7 +91,7 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
             D_800DCFF8[((g_game_work.view.camera_rotation.parts.viewAngle + entry->facing + 0x100) >> 9) & 7],
             0,
             1);
-        controller->action_phase.u++;
+        controller->action_phase++;
         return;
 
     case 1:

@@ -31,7 +31,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
     s32 actor_flags;
     s32 direction_index;
 
-    state = context->action_phase.u;
+    state = context->action_phase;
     switch (state) {
     case 0:
         if (!(object_arg->flags & 0xE000)) {
@@ -46,7 +46,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + actor_arg->facing + 0x100) >> 9;
             select_sprite_entry(object_arg, beldo_large_frame_set_4[direction_index & 7], 0);
         }
-        context->action_phase.u++;
+        context->action_phase++;
         return;
     case 1:
         kind = context->unk_AC.byte;
@@ -69,7 +69,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
             }
             current_table = (u8 *)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
             g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
-            context->action_phase.u++;
+            context->action_phase++;
             return;
         }
         if (g_dungeon_status.flags & 0x1000) {
@@ -114,7 +114,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
         }
         current_table = (u8 *)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
-        context->action_phase.u++;
+        context->action_phase++;
         return;
     case 2:
         object = object_arg;

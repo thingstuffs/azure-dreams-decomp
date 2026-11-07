@@ -41,7 +41,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
     ObjectNodeHeader *target;
 
     flag = 0;
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
@@ -131,7 +131,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
                               (u8 *)body + 0x98) == 0) {
                 return;
             }
-            body->action_phase.u++;
+            body->action_phase++;
             return;
         } else {
             motion->velocity_z = 0;
@@ -155,11 +155,11 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
             return;
         }
         sprite->flags &= 0xF7FF;
-        body->action_phase.u++;
+        body->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
-        body->action_phase.u++;
+        body->action_phase++;
         body->action_state_flags &= 0xFFF7;
         actor->flags1C = (u32)((u32)actor->flags1C & (0xFFFBFFFF));
         motion->velocity_z = 0;
@@ -170,7 +170,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
 
     case 3:
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 7;
+            body->action_phase = 7;
             sprite->flags |= 0x6000;
             body->action_state_flags |= 0x80;
             return;
@@ -187,9 +187,9 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
             }
         }
         body->action_timer.u = 0;
-        stage = body->action_phase.u;
+        stage = body->action_phase;
         stage++;
-        body->action_phase.u = stage;
+        body->action_phase = stage;
         sprite->frameTable = D_800E2398;
         select_sprite_entry(sprite, D_800E2398[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         return;
@@ -207,7 +207,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
         body->action_state_flags |= 0x80;
         sprite->flags |= 0x800;
         body->action_timer.u = 0x12;
-        body->action_phase.u++;
+        body->action_phase++;
         effect_count = 0;
         do {
             spawn_angled_random_velocity_effect((u8 *)body - 0x20,
@@ -253,10 +253,10 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
         body->action_timer.u = 0;
         sprite->flags &= 0xF7FF;
         state = body->action_state_flags;
-        stage = body->action_phase.u;
+        stage = body->action_phase;
         stage++;
         state |= 8;
-        body->action_phase.u = stage;
+        body->action_phase = stage;
         body->action_state_flags = state;
         sprite->frameTable = baloon_fall_frames;
         select_sprite_entry(sprite, baloon_fall_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -267,7 +267,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
             body->unk_90.parts.high.u -= 4;
             return;
         }
-        body->action_phase.u++;
+        body->action_phase++;
 
     case 7:
         if (!(sprite->flags & 0xE000)) {

@@ -84,7 +84,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         }
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = update_actor_animation;
         ((ActorRecord *)work)->flags1C |= 0x00040000;

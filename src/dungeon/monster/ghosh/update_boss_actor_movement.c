@@ -60,7 +60,7 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
         entity->flags14 &= 0xFF7FFFFF;
         enqueue_runtime_pool_script(&D_800F8BBC);
         entity->pending_turn_updates = 0;
-        entity->action_phase.u = 0;
+        entity->action_phase = 0;
         entity->movement_queue_state &= 0x7F;
     }
 
@@ -99,7 +99,7 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
             update_callback(entity, motion, sprite, actor);
         }
     }
-    ghosh_action_handlers[entity->action_id.u](entity, motion, sprite, actor);
+    ghosh_action_handlers[entity->action_id](entity, motion, sprite, actor);
 
     if (old_direction != actor->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion, sprite, actor);

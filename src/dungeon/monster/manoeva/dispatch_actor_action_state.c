@@ -27,7 +27,7 @@ s32 dispatch_actor_action_state(ActorRecord *body, ObjectPosition *position, Spr
     if (state >= 0) {
         switch (state) {
         case 0:
-            saved_actor->action_id.s = 0xE;
+            saved_actor->action_id = 0xE;
             update_actor_status_and_mp(saved_actor);
             return 0;
         case 2:

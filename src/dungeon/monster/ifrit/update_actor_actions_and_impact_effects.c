@@ -99,7 +99,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
     s32 flags;
 
     special_mode = 0;
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
@@ -177,9 +177,9 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                 sprite->flags &= 0xF7FF;
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(pos, (s16)((*anim - 1) % 3));
-                current_state = body->action_phase.u;
+                current_state = body->action_phase;
                 body->action_timer.u = 30000;
-                body->action_phase.u = current_state + 1;
+                body->action_phase = current_state + 1;
                 return;
             }
             return;
@@ -205,7 +205,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
             return;
         }
         sprite->flags &= 0xF7FF;
-        body->action_phase.u++;
+        body->action_phase++;
     case 2:
         if (resolve_record_orientation_or_fallback(sprite->source, sprite, delta, 0) == 0) {
             delta[0] = delta[1] = delta[2] = 0;
@@ -295,7 +295,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                 sprite,
                 D_80174850[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->action_phase.u = body->action_phase.u + 1;
+            body->action_phase = body->action_phase + 1;
             return;
         }
         return;

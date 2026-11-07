@@ -13,8 +13,8 @@ void clear_high_flag_and_update_counter(ActorRecord *body, ObjectPosition *unuse
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)
         && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         body->unk_8C.word = 0;
-        body->action_id.s = 0x17;
-        body->action_phase.s = 0;
+        body->action_id = 0x17;
+        body->action_phase = 0;
         body->action_timer.s = 0;
         advance_status_timers(actor);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);

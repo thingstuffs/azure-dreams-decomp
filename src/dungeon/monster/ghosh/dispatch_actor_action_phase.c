@@ -34,7 +34,7 @@ s32 dispatch_actor_action_phase(ActorRecord *actor, ObjectPosition *position, Sp
     switch (action_state) {
     case 0:
         result = 0xE;
-        actor->action_id.s = result;
+        actor->action_id = result;
         update_actor_status_and_mp(base);
         return 0;
 

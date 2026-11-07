@@ -35,7 +35,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     s32 next_state;
     u8 state;
 
-    state = action->action_phase.u;
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
@@ -55,8 +55,8 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
             select_sprite_entry(entity, *(u8 *)effect_entry, 0);
             dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)--;
-            next_state = action->action_phase.u + 1;
-            action->action_phase.u = next_state;
+            next_state = action->action_phase + 1;
+            action->action_phase = next_state;
             return;
         }
 
@@ -76,8 +76,8 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry += (s32)local_table_1;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         action->action_timer.u = 0;
-        next_state = action->action_phase.u + 1;
-        action->action_phase.u = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
 
     }
@@ -96,8 +96,8 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry += (s32)local_table_2;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         action->action_timer.u = 0;
-        next_state = action->action_phase.u + 1;
-        action->action_phase.u = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
 
     }
@@ -192,7 +192,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         if ((entity->flags & 0x8000) != 0) {
             break;
         }
-        action->action_phase.u++;
+        action->action_phase++;
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)++;
@@ -222,8 +222,8 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry += (s32)local_table_4;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         action->action_timer.u = 0;
-        next_state = action->action_phase.u + 1;
-        action->action_phase.u = next_state;
+        next_state = action->action_phase + 1;
+        action->action_phase = next_state;
         return;
     }
 

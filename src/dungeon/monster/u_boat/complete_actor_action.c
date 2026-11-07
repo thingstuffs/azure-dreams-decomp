@@ -19,8 +19,8 @@ void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteF
         (try_claim_dungeon_action_slot(entity) << 16) == 0 &&
         (try_claim_dungeon_action_slot(entity) << 16) == 0) {
         actor->unk_8C.run = 0;
-        actor->action_id.s = 0x17;
-        actor->action_phase.s = 0;
+        actor->action_id = 0x17;
+        actor->action_phase = 0;
         actor->action_timer.s = 0;
         actor->unk_B0.bytes[3] = 0;
         actor->unk_B0.bytes[1] = 0;

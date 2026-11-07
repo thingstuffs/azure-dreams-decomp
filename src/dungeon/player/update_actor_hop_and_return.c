@@ -46,7 +46,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
     u16 hop_frames_left;
     u16 return_frames_left;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     case 0:
         delay_left = body->action_timer.u - 1;
@@ -58,7 +58,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         set_sprite_animation_frame(sprite, player_hop_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);
         body->action_state_flags = (u16) (body->action_state_flags | 0xC);
-        body->action_phase.u = (u8) (body->action_phase.u + 1);
+        body->action_phase = (u8) (body->action_phase + 1);
         play_sound_if_enabled(0x701);
         return;
     case 1:
@@ -77,7 +77,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);
         body->unk_90.parts.high.s = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
     case 2:
         if ((g_dungeon_status.active_actor) != 0) {
@@ -88,7 +88,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
             >> 9) & 7], 0, 1);
         return_duration = 8U;
         body->action_timer.u = return_duration;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
     case 3:
         frames_left = (s16) body->action_timer.u;
@@ -117,7 +117,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         }
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         body->unk_90.parts.high.s = 0;
-        body->action_phase.u = (u8) (body->action_phase.u + 1);
+        body->action_phase = (u8) (body->action_phase + 1);
         sprite->frameTable = player_landing_frame_set;
         set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);

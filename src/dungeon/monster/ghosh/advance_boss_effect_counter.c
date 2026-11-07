@@ -12,5 +12,5 @@ void advance_boss_effect_counter(void) {
     body = ghosh_scripted_actor + 1;
     object = body;
     object->action_timer.s = 0;
-    object->action_id.u = (u8) (object->action_id.u + 1);
+    object->action_id = (u8) (object->action_id + 1);
 }

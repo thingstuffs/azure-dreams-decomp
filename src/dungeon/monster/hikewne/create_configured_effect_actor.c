@@ -71,7 +71,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         }
 
         initialize_actor_sprite_and_animation(object, part_a, part_b, mask);
-        actor2->action_id.u = 0xFF;
+        actor2->action_id = 0xFF;
         actor2->unk_9C = -1;
         actor2->unk_8C.address = update_actor_behavior_animation_and_facing;
         actor->flags1C |= 0x40000;

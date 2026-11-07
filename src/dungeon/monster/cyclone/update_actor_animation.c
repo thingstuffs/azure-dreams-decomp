@@ -40,7 +40,7 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor_arg->action_id.u = 14;
+        actor_arg->action_id = 14;
         advance_path_motion(actor_arg, context_arg, sprite_arg, stats);
         return;
     }
@@ -63,8 +63,8 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
 
     if (stats->flags1C & 0x200) {
         if (*(u8 **)&sprite_arg->frameTable == cyclone_direction_frames) {
-            actor_arg->action_id.u = 13;
-            actor_arg->action_phase.u = 1;
+            actor_arg->action_id = 13;
+            actor_arg->action_phase = 1;
             actor_arg->unk_8C.word = 0;
             stats->flags1C &= ~0x40000;
             return;
@@ -80,8 +80,8 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
             return;
         }
 
-        if (actor_arg->action_id.u != 14) {
-            actor_arg->action_id.u = 14;
+        if (actor_arg->action_id != 14) {
+            actor_arg->action_id = 14;
         }
 
         if (*(u8 **)&sprite_arg->frameTable != cyclone_move_direction_frames) {
@@ -211,7 +211,7 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 ActorRecord *player = primary_actor_record;
                 stats->facing = heading;
-                if (player->action_id.u == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor_arg, context_arg, sprite_arg, cyclone_move_direction_frames, update_actor_animation);
                     return;
                 }

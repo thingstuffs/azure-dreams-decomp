@@ -14,8 +14,8 @@ void start_actor_attack(ActorRecord *action_state, ObjectPosition *check_arg, vo
         apply_camera_offset_and_select_target((s8 *)entity - 0x20, check_arg, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             action_state->unk_8C.word = 0;
-            action_state->action_id.s = 0x11;
-            action_state->action_phase.s = 0;
+            action_state->action_id = 0x11;
+            action_state->action_phase = 0;
             *(u8 *)((s8 *)entity + 0x6D) = *(u8 *)((s8 *)entity + 0x6D) - 1;
             prepare_directional_attack(entity, action_arg, *(s16 *)((s8 *)entity + 0x2A), 1, 0);
             *(u8 *)((s8 *)entity + 0x84) = 0x80;

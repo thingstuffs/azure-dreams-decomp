@@ -71,7 +71,7 @@ void move_toward_actor_tile_center(ActorRecord *body, Motion *motion, SpriteFram
     u8 phase;
     u32 entity_flags;
 
-    phase = body->action_phase.u;
+    phase = body->action_phase;
     switch (phase) {
     case 0:
         if ((sprite->flags & 0x6000) == 0) {
@@ -84,7 +84,7 @@ void move_toward_actor_tile_center(ActorRecord *body, Motion *motion, SpriteFram
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         body->unk_A4.halves.low.s = 5;
         body->unk_A0.value = 0;
-        body->action_phase.u++;
+        body->action_phase++;
                         /* fallthrough */
     case 1:
         body->unk_90.value -= body->unk_A0.value;
@@ -110,7 +110,7 @@ void move_toward_actor_tile_center(ActorRecord *body, Motion *motion, SpriteFram
             body->action_state_flags &= 0xFFF7;
             body->unk_90.value = 0;
             entity->flags1C |= ACTOR_GROUNDED;
-            body->action_phase.u++;
+            body->action_phase++;
         }
                         /* fallthrough */
     case 2:
@@ -125,7 +125,7 @@ void move_toward_actor_tile_center(ActorRecord *body, Motion *motion, SpriteFram
         sprite->frameTable = D_80174058;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(sprite, D_80174058[direction_index & 7], 0);
-        body->action_phase.u++;
+        body->action_phase++;
         break;
     default:
         break;

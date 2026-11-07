@@ -43,7 +43,7 @@ void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, Spr
     move_data = actor;
 
     if (initial_flags & 0x1000) {
-        body->action_id.u = 0xE;
+        body->action_id = 0xE;
         advance_baloon_along_path(body, (s32)position, sprite, move_data);
         return;
     }
@@ -65,8 +65,8 @@ void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, Spr
 
     if (((u32)move_data->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == baloon_frame_set_1) {
-            body->action_id.u = 0xD;
-            body->action_phase.u = 1;
+            body->action_id = 0xD;
+            body->action_phase = 1;
             body->unk_8C.word = 0;
             move_data->flags1C &= 0xFFFBFFFF;
             return;
@@ -83,13 +83,13 @@ void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, Spr
         }
 
         {
-            u8 current_state = body->action_id.u;
+            u8 current_state = body->action_id;
             u32 idle_state = 0xE;
             void *current_anim;
             void *anim_table;
 
             if (current_state != idle_state) {
-                body->action_id.u = idle_state;
+                body->action_id = idle_state;
             }
             current_anim = sprite->frameTable;
             anim_table = baloon_default_frames;
@@ -204,7 +204,7 @@ void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, Spr
                     &direction_flags);
                 player = primary_actor_record;
                 move_data->facing = heading;
-                if (player->action_id.u == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(body, position, sprite, baloon_attack_frames, update_actor_turn_behavior);
                     return;
                 }

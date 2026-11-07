@@ -46,7 +46,7 @@ void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPo
 #define context_arg context
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((ActorRecord *)actor_arg)->action_id.u = 14;
+        ((ActorRecord *)actor_arg)->action_id = 14;
         advance_actor_along_queued_path(actor_arg, context_arg, sprite, stats);
         return;
     }
@@ -66,8 +66,8 @@ void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPo
 
     if (((u32)stats->flags1C) & ACTOR_ASLEEP) {
         if (*(u8 **)&sprite->frameTable == hikewne_frame_set_2) {
-            ((ActorRecord *)actor_arg)->action_id.u = 13;
-            ((ActorRecord *)actor_arg)->action_phase.u = 1;
+            ((ActorRecord *)actor_arg)->action_id = 13;
+            ((ActorRecord *)actor_arg)->action_phase = 1;
             ((ActorRecord *)actor_arg)->unk_8C.word = 0;
             stats->flags1C &= ~0x40000;
             return;
@@ -83,8 +83,8 @@ void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPo
             return;
         }
 
-        if (((ActorRecord *)actor_arg)->action_id.u != 14) {
-            ((ActorRecord *)actor_arg)->action_id.u = 14;
+        if (((ActorRecord *)actor_arg)->action_id != 14) {
+            ((ActorRecord *)actor_arg)->action_id = 14;
         }
 
         if ((*(u8 **)&sprite->frameTable != hikewne_direction_frames) &&
@@ -184,7 +184,7 @@ void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPo
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             owner = primary_actor_record;
             stats->facing = angle;
-            if (owner->action_id.u == 0x11) {
+            if (owner->action_id == 0x11) {
                 callback = (void *)update_actor_behavior_animation_and_facing;
                 begin_actor_spell_action(actor_arg, context_arg, sprite, 0, callback);
                 return;

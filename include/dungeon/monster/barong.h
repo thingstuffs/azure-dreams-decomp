@@ -68,7 +68,8 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
 void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Callback entry points. */
-void update_motion_and_terrain_collision(TossedItemMotionBody *motion, void *position, void *object);
+struct S_801747F0_1;
+void update_motion_and_terrain_collision(TossedItemMotionBody *motion, struct S_801747F0_1 *position, void *object);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void start_direction_based_action(ActorRecord *body, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *actor);

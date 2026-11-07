@@ -48,7 +48,7 @@ typedef struct S_800CABA8_2 {
 extern u8 actor_motion_resume_address;
 
 /* Advances the actor rotation and color effect through fading and cleanup. */
-void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, SpriteFrameState *record, void *actor) {
+void advance_damage_effect_and_particles(S_800CABA8_0 *effect, ObjectPosition *context, SpriteFrameState *record, void *actor) {
     s16 fade_ticks_left;
     s16 restore_ticks;
     s16 restore_ticks_left;
@@ -77,87 +77,87 @@ void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, 
     void *actor_or_green_2;
 
     actor_or_green_2 = actor;
-    phase = ((S_800CABA8_0 *)effect)->unk_9B;
+    phase = effect->unk_9B;
     actor_state = actor_or_green_2;
     switch (phase) {
     case 0:
-        ((S_800CABA8_0 *)effect)->unk_B8 = 1;
+        effect->unk_B8 = 1;
         if (record->flags & 0x8000) {
             resolve_attack_damage_and_effects(actor_state, record, actor_state->unk_2A, 0);
-            ((S_800CABA8_0 *)effect)->unk_9B = 4U;
+            effect->unk_9B = 4U;
             return;
         }
-        ((S_800CABA8_0 *)effect)->unk_B0 = (u16) actor_state->unk_2A;
-        ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
+        effect->unk_B0 = (u16) actor_state->unk_2A;
+        effect->unk_9B = (u8) (effect->unk_9B + 1);
     case 1:
-        ((S_800CABA8_0 *)effect)->unk_98 |= 8;
-        effect_level = ((S_800CABA8_0 *)effect)->unk_A0.at02.v + 0x10;
-        ((S_800CABA8_0 *)effect)->unk_A0.at02.v = effect_level;
+        effect->unk_98 |= 8;
+        effect_level = effect->unk_A0.at02.v + 0x10;
+        effect->unk_A0.at02.v = effect_level;
         if ((s16) effect_level < 0x81) {
             return;
         }
         phase_or_ticks = 0x80U;
-        ((S_800CABA8_0 *)effect)->unk_A0.at02.v = phase_or_ticks;
-        phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
+        effect->unk_A0.at02.v = phase_or_ticks;
+        phase_or_ticks = effect->unk_9B;
         next_duration = 8;
-        ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
-        ((S_800CABA8_0 *)effect)->unk_9B = (u8) (phase_or_ticks + 1);
+        effect->timer.half.ticks = next_duration;
+        effect->unk_9B = (u8) (phase_or_ticks + 1);
         return;
     case 2:
-        effect_base = effect - 0x20;
-        ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v
-            - (((S_800CABA8_0 *)effect)->unk_A0.at00.v / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
-        spawn_salam_particles(effect_base, actor_state->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
+        effect_base = NODE_HEADER(effect);
+        effect->unk_A0.at00.v = (s32) (effect->unk_A0.at00.v
+            - (effect->unk_A0.at00.v / (s16) effect->timer.half.ticks));
+        spawn_salam_particles(effect_base, actor_state->unk_2A, effect->unk_AC.at00.v);
         create_source_linked_fading_effect(effect_base, 1);
-        red_2 = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
-        red_step = (s32) (0xE0 - red_2) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
-        fade_green = ((S_800CABA8_0 *)effect)->unk_AC.at01.v;
-        fade_ticks = ((S_800CABA8_0 *)effect)->timer.word >> 16;
+        red_2 = (u8) effect->unk_AC.at00.v;
+        red_step = (s32) (0xE0 - red_2) / (s16) effect->timer.half.ticks;
+        fade_green = effect->unk_AC.at01.v;
+        fade_ticks = effect->timer.word >> 16;
         green_step = (s32) (8 - fade_green) / fade_ticks;
         green_result = fade_green + green_step;
         red_result = red_2 + red_step;
-        ((S_800CABA8_0 *)effect)->unk_AC.at00u.v = (u8)red_result;
-        fade_blue = ((S_800CABA8_0 *)effect)->unk_AC.at02.v;
-        blue_step = (s32) (8 - fade_blue) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
-        ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8)green_result;
-        fade_ticks_left = (u16) ((S_800CABA8_0 *)effect)->timer.half.ticks - 1;
-        ((S_800CABA8_0 *)effect)->timer.half.ticks = fade_ticks_left;
-        ((S_800CABA8_0 *)effect)->unk_AC.at02.v = (u8) (fade_blue + blue_step);
+        effect->unk_AC.at00u.v = (u8)red_result;
+        fade_blue = effect->unk_AC.at02.v;
+        blue_step = (s32) (8 - fade_blue) / (s16) effect->timer.half.ticks;
+        effect->unk_AC.at01.v = (u8)green_result;
+        fade_ticks_left = (u16) effect->timer.half.ticks - 1;
+        effect->timer.half.ticks = fade_ticks_left;
+        effect->unk_AC.at02.v = (u8) (fade_blue + blue_step);
         if ((fade_ticks_left << 0x10) > 0) {
             return;
         }
         resolve_attack_damage_and_effects(actor_state, record, actor_state->unk_2A, 0);
-        phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
+        phase_or_ticks = effect->unk_9B;
         next_duration = 4;
-        ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
+        effect->timer.half.ticks = next_duration;
 
-        ((S_800CABA8_0 *)effect)->unk_9B = (u8) (phase_or_ticks + 1);
+        effect->unk_9B = (u8) (phase_or_ticks + 1);
         return;
     case 3:
-        if ((s16) ((S_800CABA8_0 *)effect)->unk_B0 != actor_state->unk_2A) {
+        if ((s16) effect->unk_B0 != actor_state->unk_2A) {
             actor_state->unk_2A = (s16) ((u16) actor_state->unk_2A + 0x200);
             rotation_done = 0;
         } else {
             rotation_done = 1;
         }
-        restore_ticks = ((S_800CABA8_0 *)effect)->timer.half.ticks;
+        restore_ticks = effect->timer.half.ticks;
         if (restore_ticks > 0) {
-            red = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
-            restore_green = ((S_800CABA8_0 *)effect)->unk_AC.at01.v;
-            restore_blue = ((S_800CABA8_0 *)effect)->unk_AC.at02.v;
-            ((S_800CABA8_0 *)effect)->unk_AC.at00u.v = (u8) (red + ((s32) (0x40 - red) / restore_ticks));
+            red = (u8) effect->unk_AC.at00.v;
+            restore_green = effect->unk_AC.at01.v;
+            restore_blue = effect->unk_AC.at02.v;
+            effect->unk_AC.at00u.v = (u8) (red + ((s32) (0x40 - red) / restore_ticks));
             actor_or_green = restore_green + ((s32) (0x40
-                - restore_green) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks);
-            ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8) actor_or_green;
-            ((S_800CABA8_0 *)effect)->unk_AC.at02.v = (u8) (restore_blue + ((s32) (0x40
-                - restore_blue) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
+                - restore_green) / (s16) effect->timer.half.ticks);
+            effect->unk_AC.at01.v = (u8) actor_or_green;
+            effect->unk_AC.at02.v = (u8) (restore_blue + ((s32) (0x40
+                - restore_blue) / (s16) effect->timer.half.ticks));
         } else {
-            ((S_800CABA8_0 *)effect)->timer.half.ticks = 0;
+            effect->timer.half.ticks = 0;
         }
-        phase_or_ticks = (u16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
+        phase_or_ticks = (u16) effect->timer.half.ticks;
         restore_ticks_left = phase_or_ticks - 1;
         phase_or_ticks = rotation_done;
-        ((S_800CABA8_0 *)effect)->timer.half.ticks = restore_ticks_left;
+        effect->timer.half.ticks = restore_ticks_left;
         if (phase_or_ticks == 0) {
             return;
         }
@@ -165,20 +165,20 @@ void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, 
         if (phase_or_ticks > 0) {
             return;
         }
-        ((S_800CABA8_0 *)effect)->unk_98 = (u16) (((S_800CABA8_0 *)effect)->unk_98 & 0xFFF7);
-        ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
+        effect->unk_98 = (u16) (effect->unk_98 & 0xFFF7);
+        effect->unk_9B = (u8) (effect->unk_9B + 1);
     case 4:
-        ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
+        effect->unk_A0.at02.v = 0U;
         set_record_integer_tile_center(context, record->tile_x, record->tile_y);
         g_dungeon_status.active_actor = 0;
         actor_state->unk_46 = (u16) ((actor_state->unk_46) & 0x7FFF);
         advance_status_timers(actor_state);
-        cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;
-        ((S_800CABA8_0 *)effect)->unk_B6 = cycles_left;
+        cycles_left = effect->unk_B6 - 1;
+        effect->unk_B6 = cycles_left;
         if ((cycles_left << 0x10) <= 0 || ((*(u16 *)0x80013714) & 8)) {
             set_actor_action_state_eight(effect, context, record);
         } else {
-            ((S_800CABA8_0 *)effect)->unk_8C = &actor_motion_resume_address;
+            effect->unk_8C = &actor_motion_resume_address;
         }
         return;
     default:

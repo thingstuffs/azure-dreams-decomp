@@ -247,8 +247,8 @@ typedef struct ActorRecord {
     /* 0x094 */ short unk_94;
     /* 0x096 */ union { unsigned short u; short s; unsigned char bytes[2]; } action_timer;
     /* 0x098 */ unsigned short action_state_flags;
-    /* 0x09A */ union { unsigned char u; signed char s; } action_id; /* action-table selector */
-    /* 0x09B */ union { unsigned char u; signed char s; } action_phase; /* phase within the selected action */
+    /* 0x09A */ unsigned char action_id; /* action-table selector */
+    /* 0x09B */ unsigned char action_phase; /* phase within the selected action */
     /* 0x09C */ signed char unk_9C;
     /* 0x09D */ union { signed char s; unsigned char u; } unk_9D;
     /* 0x09E */ union { short s; unsigned short u; } unk_9E;

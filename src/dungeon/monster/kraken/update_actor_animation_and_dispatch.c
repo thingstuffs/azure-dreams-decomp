@@ -21,6 +21,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/kraken_frames.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
 typedef struct {
     s8 pad_00[0x8C];
     void *unk_8C;
@@ -54,7 +55,6 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
-s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 update_entity_state_from_query(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
@@ -75,7 +75,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
     u16 *direction_aux_ptr;
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor->action_id.u = 0xEU;
+        actor->action_id = 0xEU;
         advance_actor_path_and_facing(actor, context, sprite, status);
         return;
     }
@@ -98,8 +98,8 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                     ActorRecord *reset_status = status;
                     s32 clear_mask = (s32)0xFFFB0000;
                     s32 flags;
-                    reset_actor->action_id.u = 0xDU;
-                    reset_actor->action_phase.s = 1;
+                    reset_actor->action_id = 0xDU;
+                    reset_actor->action_phase = 1;
                     reset_actor->unk_8C.word = 0;
                     flags = reset_status->flags1C;
                     clear_mask |= 0xFFFF;
@@ -118,8 +118,8 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
             begin_pushed_actor_move(actor, context, sprite, status);
             return;
         }
-        if (actor->action_id.u != 0xE) {
-            actor->action_id.u = 0xEU;
+        if (actor->action_id != 0xE) {
+            actor->action_id = 0xEU;
         }
         if (sprite->frameTable != &kraken_frame_set_1) {
             sprite->frameTable = &kraken_frame_set_1;
@@ -183,7 +183,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                     active_actor = primary_actor_record;
                     status->facing = angle;
-                    if (active_actor->action_id.u == 0x11) {
+                    if (active_actor->action_id == 0x11) {
                         next_handler = &update_actor_animation_and_dispatch;
                         begin_actor_spell_action(actor, context, sprite, &D_801741AC, next_handler);
                         return;

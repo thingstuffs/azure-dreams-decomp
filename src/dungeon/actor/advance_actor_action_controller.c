@@ -30,7 +30,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
 {
     s32 state;
 
-    state = ((ActorRecord *)controller)->action_phase.u;
+    state = ((ActorRecord *)controller)->action_phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0xE000) {
@@ -44,7 +44,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
-            ((ActorRecord *)controller)->action_phase.u++;
+            ((ActorRecord *)controller)->action_phase++;
         }
         return;
     case 1:
@@ -131,7 +131,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
-            ((ActorRecord *)controller)->action_phase.u++;
+            ((ActorRecord *)controller)->action_phase++;
             return;
         }
         break;

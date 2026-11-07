@@ -113,7 +113,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
 callback_done:
         obj->update_callback = update_monster_facing_and_contact;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, flags_copy);
-        actor->action_id.u = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

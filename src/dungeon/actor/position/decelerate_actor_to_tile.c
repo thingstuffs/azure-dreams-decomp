@@ -48,17 +48,17 @@ extern u8 D_800D20D8[];
 void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *info, ActorRecord *anim) {
     s32 phase;
 
-    phase = state->action_phase.u;
+    phase = state->action_phase;
     switch (phase) {
     case 0:
         apply_clamped_actor_value_delta(anim);
         motion->velocity_x = (s32)(dir_step_x[((anim->movement_facing >> 8) & 0xE) >> 1] << 15);
         motion->velocity_y = (s32)(dir_step_y[((anim->movement_facing >> 8) & 0xE) >> 1] << 15);
-        state->action_phase.u = state->action_phase.u + 1;
+        state->action_phase = state->action_phase + 1;
         if (anim->hp != 0) {
             if (info->flags & 0x8000) {
                 state->action_timer.s = 0;
-                state->action_phase.u = 2;
+                state->action_phase = 2;
                 return;
             }
             state->action_timer.s = 8;
@@ -97,7 +97,7 @@ void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, Sprite
             return;
         }
         state->action_timer.s = 8;
-        state->action_phase.u = state->action_phase.u + 1;
+        state->action_phase = state->action_phase + 1;
         return;
     }
 
@@ -128,7 +128,7 @@ void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, Sprite
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         state->unk_8C.address = D_800D20D8;
-        state->action_id.s = 0xE;
+        state->action_id = 0xE;
     }
     }
 

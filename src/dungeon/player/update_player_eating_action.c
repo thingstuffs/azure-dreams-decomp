@@ -52,7 +52,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
     u8 *animation_entry;
     u8 *animation_table;
 
-    state = controller->action_phase.u;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         if ((((g_game_work.view.camera_rotation.parts.viewAngle +
@@ -69,7 +69,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
                 *animation_entry,
                 0,
                 1);
-            controller->action_phase.u++;
+            controller->action_phase++;
             break;
         }
         transform->facing =
@@ -115,7 +115,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             play_sound_if_enabled(0x509);
         }
 
-        controller->action_phase.u++;
+        controller->action_phase++;
         break;
     case 2:
         if ((actor->flags & 0xE000) == 0) {

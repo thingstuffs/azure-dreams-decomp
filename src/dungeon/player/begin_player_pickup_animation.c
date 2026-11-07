@@ -23,8 +23,8 @@ void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *targe
     u8 *effect_state;
     s32 sound_id;
 
-    actor->action_id.s = 0x23;
-    actor->action_phase.s = 0;
+    actor->action_id = 0x23;
+    actor->action_phase = 0;
     actor->unk_8C.address = NULL;
 
     flags = actor->unk_A0.parts.high;

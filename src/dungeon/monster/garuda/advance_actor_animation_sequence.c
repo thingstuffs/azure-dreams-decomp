@@ -20,12 +20,12 @@ void advance_actor_animation_sequence(ActorRecord *body, ObjectPosition *motion,
     ActorRecord *actor) {
     u16 delay_ticks;
 
-    switch (body->action_phase.u) {
+    switch (body->action_phase) {
     case 0:
-        body->action_phase.u = 1;
+        body->action_phase = 1;
     case 1:
         if (sprite->flags & 0x8000) {
-            body->action_phase.u = 3;
+            body->action_phase = 3;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             break;
@@ -37,7 +37,7 @@ void advance_actor_animation_sequence(ActorRecord *body, ObjectPosition *motion,
         select_sprite_entry(sprite,
             D_801748B8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        body->action_phase.u++;
+        body->action_phase++;
         body->action_timer.u = 0;
         break;
     case 2:
@@ -48,7 +48,7 @@ void advance_actor_animation_sequence(ActorRecord *body, ObjectPosition *motion,
         }
         play_sound_if_enabled(0x808);
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-        body->action_phase.u++;
+        body->action_phase++;
         break;
     case 3:
         if (!(sprite->flags & 0xE000)) {

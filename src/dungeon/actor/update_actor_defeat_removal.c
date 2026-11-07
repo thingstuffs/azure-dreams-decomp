@@ -70,12 +70,12 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
     u8 green;
     void *entity = entity_data;
 
-    switch (state->action_phase.u) {
+    switch (state->action_phase) {
     case 0:
         if ((active_count = g_dungeon_status.activity_counts.parts.pending_action_count) != 0) {
             return 0;
         }
-        state->action_phase.u = 1U;
+        state->action_phase = 1U;
     case 1:
         sprite->tpage_abr = 0x20;
         sprite->clut = (u16) (sprite->clut - 0x80);
@@ -88,7 +88,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         play_sound_if_enabled(sound_id);
         sprite->color.word = 0x808080;
         state->action_timer.u = 0x10;
-        state->action_phase.u = (u8) (state->action_phase.u + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
     case 2:
         red = (u8) sprite->color.word;
         sprite->color.c.r = (s8) (red + ((s32) (0x20

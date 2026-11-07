@@ -102,7 +102,7 @@ void advance_effect_toward_target(ParentReturnEffectBody *effect, ObjectPosition
     if (x_distance < 0x10) {
         y_distance = abs(effect->target_y.s - position->y.w.i);
         if (y_distance < 0x10) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].flags | NODE_REMOVE);
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
     }
@@ -116,7 +116,7 @@ void advance_effect_toward_target(ParentReturnEffectBody *effect, ObjectPosition
     effect->fade_level = fade_level;
     effect->output_color = (s32) effect->color.packed;
     if ((fade_level << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].flags | NODE_REMOVE);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -132,17 +132,17 @@ void advance_damped_motion_and_fade_effect(FadeEffect *effect,EffectMotion *moti
  motion->dx/=2;
  motion->dy/=2;
  motion->dz/=2;
- red=effect->red*effect->remaining;
+ red=effect->base_color.c.r*effect->remaining;
  effect->current.color.red=red/effect->total;
- green=effect->green*effect->remaining;
+ green=effect->base_color.c.g*effect->remaining;
  effect->current.color.green=green/effect->total;
- blue=effect->blue*effect->remaining;
+ blue=effect->base_color.c.b*effect->remaining;
  effect->current.color.blue=blue/effect->total;
  remaining=effect->remaining-1;
  effect->remaining=remaining;
  effect->output=effect->current.packed;
  if(remaining<=0) {
-  *(u16 *)((u8 *)effect-2)|=NODE_REMOVE;
+  NODE_HEADER(effect)->flags|=NODE_REMOVE;
   object_flag_block.flags|=OBJECT_REMOVE_PENDING;
  }
 }

@@ -43,18 +43,18 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
 {
     u8 state;
 
-    state = body->action_phase.u;
+    state = body->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x8000)) {
             play_sound_if_enabled(0x80E);
         }
-        body->action_phase.u++;
+        body->action_phase++;
 
     case 1:
         if (sprite->flags & 0x8000) {
             body->action_timer.u = 0x100;
-            body->action_phase.u = 5;
+            body->action_phase = 5;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
@@ -73,7 +73,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
                 sprite,
                 D_80175E78[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->action_phase.u++;
+            body->action_phase++;
         }
 
     case 2:
@@ -97,7 +97,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
             return;
         }
         {
-            s32 current_state = body->action_phase.u;
+            s32 current_state = body->action_phase;
 
             body->action_timer.u = 0;
             if (current_state == 0) {
@@ -105,7 +105,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
             }
         }
         play_sound_if_enabled(0x808);
-        body->action_phase.u++;
+        body->action_phase++;
         create_parent_position_effect((u8 *)body - 0x20, (u8 *)actor + 0x2A,
                       (u8 *)body + 0x9B);
         return;
@@ -148,7 +148,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
         ((S_80172DDC_0 *)body)->unk_A8 = movement->velocity_x / 6;
         body->unk_AC.value = movement->velocity_y / 6;
         body->action_timer.u = 0;
-        body->action_phase.u++;
+        body->action_phase++;
         return;
     }
 

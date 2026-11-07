@@ -19,6 +19,7 @@
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/garuda_frames.h"
 
+#include "dungeon/monster/dragon/transition_effect.h"
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
@@ -27,7 +28,6 @@ extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
-extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173834(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[];
@@ -43,7 +43,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
     SpriteFrameState *sprite;
     u32 dungeon_flags = g_dungeon_status.flags;
     if (dungeon_flags & 0x1000) {
-        actor->action_id.u = 0xE;
+        actor->action_id = 0xE;
         advance_stored_entity_path(actor, context, sprite_arg, creature);
         return;
     }
@@ -61,8 +61,8 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
     sprite = sprite_arg;
     if ((u32)creature->flags1C & 0x200) {
         if ((sprite->frameTable) == garuda_frame_set_2) {
-            actor->action_id.u = 0xD;
-            actor->action_phase.u = 1;
+            actor->action_id = 0xD;
+            actor->action_phase = 1;
             actor->unk_8C.word = 0;
             creature->flags1C = (u32)((u32)creature->flags1C & (0xFFFBFFFF));
             return;
@@ -79,12 +79,12 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         {
             register void *current_anim;
             void *anim_table;
-            switch (actor->action_id.u) {
+            switch (actor->action_id) {
             case 0xE:
                 break;
 
             default:
-                actor->action_id.u = 0xE;
+                actor->action_id = 0xE;
                 break;
 
             }

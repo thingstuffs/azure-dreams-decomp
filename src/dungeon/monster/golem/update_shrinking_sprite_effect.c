@@ -95,7 +95,7 @@ void update_shrinking_sprite_effect(ActorRecord *body, ObjectPosition *motion, S
         callback(body, motion, sprite, actor);
     }
 
-    golem_behavior_handlers[body->action_id.u](body, motion, sprite, actor);
+    golem_behavior_handlers[body->action_id](body, motion, sprite, actor);
 
     if (old_direction != actor->pending_turn_updates) {
         try_move_actor_to_valid_position(body, motion, sprite, actor);
