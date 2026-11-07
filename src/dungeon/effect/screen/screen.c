@@ -32,7 +32,7 @@ extern CounterView sprite_effect_update_count;
 
 typedef struct S_800243C4_4 {
     u8 pad_00[0xC];
-    union { u8 u8; u32 u32; } unk_0C;   /* accessed as both */
+    u32 unk_0C;
 } S_800243C4_4;   /* arg2 in func_800243C4 */
 
 typedef struct S_800243C4_5 {
@@ -81,15 +81,15 @@ void advance_linked_segment_flash(ScreenTransitionEffectBody *effect, Rec_func_8
             return;
         }
     } else if (phase == 1) {
-        if (color->unk_0C.u8 < 0xC0) {
-            color->unk_0C.u32 += 0x202020;
+        if ((u8)color->unk_0C < 0xC0) {
+            color->unk_0C += 0x202020;
             return;
         }
         effect->unk_2C.u = phase_value + 1;
         return;
     } else if (phase == 2) {
-        color->unk_0C.u32 += 0xFFFBFBFC;
-        if (color->unk_0C.u8 == 0) {
+        color->unk_0C += 0xFFFBFBFC;
+        if ((u8)color->unk_0C == 0) {
             NODE_HEADER(effect)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

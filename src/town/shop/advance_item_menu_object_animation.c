@@ -57,7 +57,7 @@ void advance_item_menu_object_animation(ItemMenuTransition *object) {
     scaled_y = object->unk_14.high * object->animation_step;
     position->unk_0A = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_1E + (scaled_y / 4));
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
-    scaled_z = object->unk_18.half * object->animation_step;
+    scaled_z = object->unk_18 * object->animation_step;
     position->unk_0C = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_20 + (scaled_z / 4));
     ((S_800AE630_3 *)(((S_800AE630_2 *)object)->unk_D0))->unk_02 =
         (s16) ((object->animation_step * 256) - 0x400);

@@ -31,7 +31,7 @@ void create_color_cycling_pulse(ObjectPosition *origin)
     if (object != NULL) {
         node = NODE_BODY(object);
         node->ticks_remaining = 0x1E;
-        node->initial_duration = 0x1E;
+        node->unk_1A = 0x1E;
         (object->update_callback) = update_color_cycling_pulse;
         register_node(object, project_sprite_chain);
 

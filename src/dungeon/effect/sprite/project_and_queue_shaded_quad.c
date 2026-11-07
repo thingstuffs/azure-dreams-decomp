@@ -490,7 +490,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
         if ((check_adjacent_tile_height_clearance(((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02.v, ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at02.v,
             (s16) ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v, ((Row_8192365C_S_80024E5C_0 *)effect)->unk_88) << 0x10) == 0) {
             if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_60 != 0) {
-                target_position = ((Row_8192365C_S_80024E5C_4_pre *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))[-1].unk_00;
+                target_position = (Row_8192365C_S_80024E5C_3 *)NODE_HEADER(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88)->position;
                 sprite->depth_bias = 8;
                 if ((s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A == 0) {
                     delta_x = target_position->unk_00.at02.v;

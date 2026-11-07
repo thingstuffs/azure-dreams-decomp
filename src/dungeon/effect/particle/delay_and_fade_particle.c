@@ -66,10 +66,7 @@ typedef struct S_81850800_5 {
     } unk_08;
     s32 unk_0C;
     s32 unk_10;
-    union {
-        s32 unk_14_s32;
-        u16 unk_14_u16;
-    } unk_14;
+    s32 unk_14;
     u8 pad_18[0xC];
     u8 unk_24;
     u8 unk_25;
@@ -116,24 +113,6 @@ typedef struct S_81850800_7 {
         } unk_12_view_u16;
     } unk_10;
 } S_81850800_7;
-
-typedef struct S_81850800_8 {
-    void * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    union {
-        s32 unk_08_s32;
-        void * unk_08_ptr;
-    } unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_81850800_8;
 
 typedef struct S_81850800_9 {
     u8 pad_00[0x8];
@@ -217,7 +196,9 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
     timer = owner->unk_50 - 1;
     base_y = *(s16 *)base_y;
     step_y = base_y;
-    work = (S_81850800_8 *)((u8 *)caster_data - 0x20);
+    /* The caster's node header: work->source below is the header's position slot (+0x08). The same local
+       later holds sprite parts; a separate ObjectNodeHeader local changes register allocation. */
+    work = (SpriteFrameState *)NODE_HEADER(caster_data);
     mode = (s16)owner->unk_0A;
     owner->unk_50 = timer;
 
@@ -262,7 +243,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             dx = base_y - copy_value;
             base_y = caster_sprite->tile_y;
             facing_shift -= base_y;
-            if ((position->unk_14.unk_14_u16 & 0x8000) &&
+            if (((u16)position->unk_14 & 0x8000) &&
                 (sprite->flags & 0x8000)) {
                 owner->unk_0A = 2;
                 owner->unk_50 = 0;
@@ -435,7 +416,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                         effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
                         ((S_81850800_5 *)obj->unk_08)->unk_10 =
                             step_y * (rand() << 3);
-                        ((S_81850800_5 *)obj->unk_08)->unk_14.unk_14_s32 =
+                        ((S_81850800_5 *)obj->unk_08)->unk_14 =
                             0xFFF7FFFF - rand();
                         obj->unk_20 = owner;
                         effect_data.pointer->unk_48 = 2;

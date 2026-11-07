@@ -6,7 +6,8 @@ struct ObjectPosition;
 struct Unk818DAD38Owner;
 struct Unk818DAD38Target;
 void advance_target_growth_and_fade(struct Unk818DAD38Owner *, struct ObjectPosition *, SpriteFrameState *);
-void create_coordinate_sprite_object(void *);
+struct S_818DAE84_0;
+void create_coordinate_sprite_object(struct S_818DAE84_0 *);
 /* Retail callback 80024714 receives its entry in a0; a1/a2/a3 are overwritten before use. */
 void func_80024714(void *entry);
 #endif

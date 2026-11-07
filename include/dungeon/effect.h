@@ -66,7 +66,8 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
 void create_five_part_target_effect(u16 x, u16 y, s16 z);
 void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *owner);
 void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
-void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive);
+struct DampedParticleBurstBody;
+void damp_effect_motion_and_fade(struct DampedParticleBurstBody *body, s32 *motion, SpriteFrameState *primitive);
 void dispatch_action_callback_by_opcode(u8 *w);
 void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 void *func_8002522C(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
@@ -77,9 +78,8 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
 s32 take_map_item_slot(ActorRecord *object, s16 slot);
 void update_target_tracking_and_transition(void *tracker);
 
-struct S_800B45E0_0;
-struct S_800B490C_0;
-void update_anchored_fading_effect(struct S_800B45E0_0 *effect, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_attached_fading_effect(struct S_800B490C_0 *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+struct ActorValuePopupBody;
+void update_anchored_fading_effect(struct ActorValuePopupBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_attached_fading_effect(struct ActorValuePopupBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 #endif

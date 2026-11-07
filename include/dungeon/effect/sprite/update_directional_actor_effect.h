@@ -16,7 +16,8 @@ typedef struct FragmentSpawningEffectBody {
 } FragmentSpawningEffectBody;
 struct MainObject;
 struct DirectionalGridEffectBody;
-void update_directional_actor_effect(TimedTargetHitSpellBody *state, void *position);
+struct ObjectPosition;
+void update_directional_actor_effect(TimedTargetHitSpellBody *state, struct ObjectPosition *position);
 s32 create_counted_sprite_effect(void *first_item);
 void update_effect_and_spawn_fragments(struct MainObject *object);
 void mark_referenced_object_and_update_flags(FragmentSpawningEffectBody *entry, void *unused, SpriteFrameState *target);

@@ -24,7 +24,7 @@ typedef struct ApproachingImpactSpellBody {
     u8 pad_0C[0x2];
     u16 unk_0E;
     u16 unk_10;
-    union { s16 as_s16; u16 as_u16; } unk_12;
+    s16 unk_12;
     s16 unk_14;
 } ApproachingImpactSpellBody;
 typedef struct ovl_1930844_81910844_S_81910844_0_pre {

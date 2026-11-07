@@ -6,6 +6,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/scene.h"
 #include "engine/node.h"
@@ -60,7 +61,7 @@ typedef struct Vec16 {
 extern u8 *actor_direction_sprites;
 
 /* Follow the source, then brighten and move to the target over ten frames. */
-void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual_arg)
+void follow_source_then_seek_target(S_81976850_0 *effect, ObjectPosition *motion, void *visual_arg)
 {
     S_81976850_4 *visual = visual_arg;
     Vec16 delta;
@@ -76,19 +77,19 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
     u16 source_z;
     u8 brightness;
 
-    state = (s16)((S_81976850_0 *)effect)->unk_0C;
+    state = (s16)effect->unk_0C;
     switch (state) {
     case 0:
-        object = (u8 *)effect - 0x20;
+        object = NODE_HEADER(effect);
         register_node(object, project_sprite_chain);
-        ((S_81976850_0 *)effect)->unk_0C++;
+        effect->unk_0C++;
         /* Fall through to follow the source on the initialization frame. */
 
     case 1:
-        source = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_0C;
+        source = ((S_81976850_8 *)(effect->unk_00))->unk_0C;
         if ((((SpriteFrameState *)source)->flags & 0x8000) ||
             resolve_record_orientation_or_fallback(((SpriteFrameState *)source)->source, source, &delta, 0)) {
-            source_pos = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_08;
+            source_pos = ((S_81976850_8 *)(effect->unk_00))->unk_08;
             motion->x.w.i = source_pos->x;
             motion->y.w.i = source_pos->y;
             source_z = source_pos->z;
@@ -103,9 +104,9 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
             }
         }
 
-        if (((ObjectPosition *)(((S_81976850_0 *)effect)->unk_08))->x.w.frac & 0x80) {
-            ((S_81976850_0 *)effect)->unk_0E.s = 10;
-            ((S_81976850_0 *)effect)->unk_0C++;
+        if (((ObjectPosition *)(effect->unk_08))->x.w.frac & 0x80) {
+            effect->unk_0E.s = 10;
+            effect->unk_0C++;
         }
         break;
 
@@ -115,7 +116,7 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
         visual->unk_0D = brightness;
         visual->unk_0C = brightness;
 
-        target_pos = ((SpriteFrameState *)(((S_81976850_0 *)effect)->unk_04))->source;
+        target_pos = ((SpriteFrameState *)(effect->unk_04))->source;
         motion->velocity_x = target_pos->unk_00;
         (motion->velocity_y) = target_pos->unk_04;
 
@@ -137,19 +138,19 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
 
         motion->x.v +=
             (motion->velocity_x - motion->x.v) /
-            ((S_81976850_0 *)effect)->unk_0E.s;
+            effect->unk_0E.s;
 
         motion->y.v +=
             (motion->velocity_y - motion->y.v) /
-            ((S_81976850_0 *)effect)->unk_0E.s;
+            effect->unk_0E.s;
 
-        z_offset = rsin(((S_81976850_0 *)effect)->unk_0E.s * 0xAA) << 7;
+        z_offset = rsin(effect->unk_0E.s * 0xAA) << 7;
         motion->z.v +=
             (motion->velocity_z - motion->z.v) /
-            ((S_81976850_0 *)effect)->unk_0E.s - z_offset;
+            effect->unk_0E.s - z_offset;
 
-        frames_left = ((S_81976850_0 *)effect)->unk_0E.u - 1;
-        ((S_81976850_0 *)effect)->unk_0E.s = frames_left;
+        frames_left = effect->unk_0E.u - 1;
+        effect->unk_0E.s = frames_left;
         if (frames_left <= 0) {
             motion->x.v = motion->velocity_x;
             motion->y.v = motion->velocity_y;
@@ -163,6 +164,6 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
     default:
         break;
     }
-    ((S_81976850_0 *)effect)->unk_10++;
+    effect->unk_10++;
     visual->unk_1A += 0x300;
 }

@@ -52,5 +52,5 @@ void initialize_item_menu_linked_record_vectors(ItemMenuTransition *vectors, S_8
         vectors->unk_14.low = -0x60 - x;
     }
     vectors->unk_14.high = -0x40 - y;
-    vectors->unk_18.half = -0x200;
+    vectors->unk_18 = -0x200;
 }

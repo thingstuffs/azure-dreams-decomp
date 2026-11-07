@@ -25,7 +25,7 @@ typedef struct ReachableTileTravelBody {
     u8 pad_0C[0x2];
     u16 unk_0E;
     u16 unk_10;
-    union { s16 s; u16 u; } unk_12;
+    s16 unk_12;
     s16 unk_14;
     u8 pad_16[0x2];
     void * unk_18;

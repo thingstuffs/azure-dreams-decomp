@@ -571,9 +571,9 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         history->unk_50 = history->unk_48;
     }
     owner_ref = effect->parent_link;
-    effect->previous_x = motion->x.half.unk_02.u16;
-    effect->previous_y = motion->y.half.unk_06.u16;
-    effect->previous_z = motion->z.half.unk_0A.u16;
+    effect->previous_x = (u16)motion->x.half.unk_02;
+    effect->previous_y = (u16)motion->y.half.unk_06;
+    effect->previous_z = (u16)motion->z.half.unk_0A;
     if (owner_ref == 0) {
         state = effect->phase;
         switch (state) {
@@ -609,12 +609,12 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             step_y += coord_delta;
             effect->target_z = (u16) step_y;
             effect->timer = approach_frames;
-            height_numerator_2 = ((s16)effect->target_z - motion->z.half.unk_0A.s16) << 0x10;
+            height_numerator_2 = ((s16)effect->target_z - motion->z.half.unk_0A) << 0x10;
             height_frames = 16;
             motion->velocity_z.word = height_numerator_2 / height_frames;
             effect->phase = (s16) ((u16) effect->phase + 1);
         case 1:
-            aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
+            aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02, (s16) motion->y.half.unk_06,
                 (s16) effect->target_x.u16, (s16) effect->target_y.u16);
             approach_heading = effect->heading;
             if (approach_heading & 0x800) {
@@ -657,7 +657,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             approach_ticks = effect->timer - 1;
             effect->timer = approach_ticks;
             if ((approach_ticks << 0x10) <= 0) {
-                motion->z.half.unk_0A.u16 = effect->target_z;
+                motion->z.half.unk_0A = effect->target_z;
                 effect->timer = 0U;
                 motion->velocity_z.word = 0;
             }
@@ -673,7 +673,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             coord_delta = motion->z.word;
             boost_speed_x += step_y;
             motion->y.word = boost_speed_x;
-            boost_speed_x = motion->x.half.unk_02.s16;
+            boost_speed_x = motion->x.half.unk_02;
             coord_delta += step_z;
             motion->z.word = coord_delta;
             coord_delta = effect->target_x.s16;
@@ -681,13 +681,13 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if (__builtin_abs(boost_speed_x) >= 0x40) {
                 break;
             }
-            approach_gap_y = motion->y.half.unk_06.s16;
+            approach_gap_y = motion->y.half.unk_06;
             target_coord = effect->target_y.s16;
             approach_gap_y -= target_coord;
             if (__builtin_abs(approach_gap_y) >= 0x40) {
                 break;
             }
-            approach_gap_z = motion->z.half.unk_0A.s16;
+            approach_gap_z = motion->z.half.unk_0A;
             target_coord = (s16)effect->target_z;
             approach_gap_z -= target_coord;
             if (__builtin_abs(approach_gap_z) >= 0x40) {
@@ -709,7 +709,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             effect->phase = (s16) ((u16) effect->phase + 1);
             break;
         case 2:
-            aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
+            aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02, (s16) motion->y.half.unk_06,
                 (s16) effect->target_x.u16, (s16) effect->target_y.u16);
             travel_heading = effect->heading;
             if (travel_heading & 0x800) {
@@ -752,7 +752,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             travel_ticks = effect->timer - 1;
             effect->timer = travel_ticks;
             if ((travel_ticks << 0x10) <= 0) {
-                motion->z.half.unk_0A.u16 = effect->target_z;
+                motion->z.half.unk_0A = effect->target_z;
                 effect->timer = 0U;
                 motion->velocity_z.word = 0;
             }
@@ -770,7 +770,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             state2_stage = (*(void **)((u8 *)&primary_actor_record + 0));
             motion->z.word = coord_delta;
             state2_stage->unk_96 = 2;
-            travel_gap_x = motion->x.half.unk_02.s16;
+            travel_gap_x = motion->x.half.unk_02;
             target_coord = effect->target_x.s16;
             travel_gap_x -= target_coord;
             if (travel_gap_x < 0) {
@@ -779,7 +779,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if (travel_gap_x >= 0x20) {
                 break;
             }
-            travel_gap_y = motion->y.half.unk_06.s16;
+            travel_gap_y = motion->y.half.unk_06;
             target_coord = effect->target_y.s16;
             travel_gap_y -= target_coord;
             if (travel_gap_y < 0) {
@@ -820,9 +820,9 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
             motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
             motion->z.word = (s32) (motion->z.word + motion->velocity_z.word);
-            if ((s16) motion->z.half.unk_0A.u16 > ((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)((u8 *)&dungeon_actor_ring_anchor
+            if ((s16) motion->z.half.unk_0A > ((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)((u8 *)&dungeon_actor_ring_anchor
                 + 0)))->unk_88.s16) {
-                motion->z.half.unk_0A.u16 =
+                motion->z.half.unk_0A =
                     (u16) ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_88.s16;
             }
             launch_ticks = effect->timer - 1;
@@ -848,7 +848,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             motion->velocity_y.word = (s32) (rsin((s16) effect->heading) << 8);
             motion->velocity_z.word = 0;
             motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
-            world_x = motion->x.half.unk_02.s16;
+            world_x = motion->x.half.unk_02;
             motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
             motion->z.word = (s32) (motion->z.word + motion->velocity_z.word);
             if (world_x < 0) {
@@ -856,7 +856,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             }
             tile_div = world_x >> 6;
             effect->tile_x = (s16) tile_div;
-            world_y = motion->y.half.unk_06.s16;
+            world_y = motion->y.half.unk_06;
             next_tile_y = (world_y / 64);
             effect->tile_y = (s16) next_tile_y;
             if (effect->previous_tile_x == effect->tile_x) {
@@ -874,7 +874,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     if ((actor_data->unk_24 == effect->tile_x) &&
                         (actor_data->unk_25 == effect->tile_y)) {
                         hit_height_gap = hit_actor->unk_88;
-                        target_coord = motion->z.half.unk_0A.s16;
+                        target_coord = motion->z.half.unk_0A;
                         hit_height_gap -= target_coord;
                         if (hit_height_gap < 0) {
                             hit_height_gap = -hit_height_gap;
@@ -912,7 +912,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             target = effect->target;
             if (target != 0) {
                 related_motion = NODE_HEADER(target)->position;
-                aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
+                aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02, (s16) motion->y.half.unk_06,
                     related_motion->x.w.i, related_motion->y.w.i);
                 homing_heading = effect->heading;
                 if (homing_heading & 0x800) {
@@ -966,7 +966,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         state6_height = (u16)related_motion->z.w.i;
                         motion->velocity_z.word = 0;
                         state6_height -= 0x40;
-                        motion->z.half.unk_0A.u16 = state6_height;
+                        motion->z.half.unk_0A = state6_height;
                         effect->phase_counter = 0U;
                     }
                 } else {
@@ -977,14 +977,14 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     effect->phase_counter = bob_phase;
                     motion->velocity_z.half.unk_16 = (s16) (rsin(state6_spin_arg) >> 9);
                 }
-                target_gap_x = motion->x.half.unk_02.s16;
+                target_gap_x = motion->x.half.unk_02;
                 target_coord = related_motion->x.w.i;
                 target_gap_x -= target_coord;
                 if (target_gap_x < 0) {
                     target_gap_x = 0 - target_gap_x;
                 }
                 if (target_gap_x < 0x20) {
-                    target_gap_y = motion->y.half.unk_06.s16;
+                    target_gap_y = motion->y.half.unk_06;
                     target_coord = related_motion->y.w.i;
                     target_gap_y -= target_coord;
                     if (target_gap_y < 0) {
@@ -1023,7 +1023,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     } else {
                         related_motion = NODE_HEADER(new_target)->position;
                         effect->timer = 0x10U;
-                        state6_target_base = motion->z.half.unk_0A.s16;
+                        state6_target_base = motion->z.half.unk_0A;
                         height_value = related_motion->z.w.i;
                         state6_target_base += 0x40;
                         height_numerator = (height_value - state6_target_base) << 0x10;
@@ -1046,8 +1046,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             fade_speed_y = motion->velocity_y.word;
             motion->velocity_x.word = (s32) (fade_speed_x - (fade_speed_x >> 3));
             motion->velocity_y.word = (s32) (fade_speed_y - (fade_speed_y >> 3));
-            if ((effect->unk_3E - 0x10) < (s16) motion->z.half.unk_0A.u16) {
-                motion->z.half.unk_0A.u16 = (u16) ((u16) effect->unk_3E - 0x10);
+            if ((effect->unk_3E - 0x10) < (s16) motion->z.half.unk_0A) {
+                motion->z.half.unk_0A = (u16) ((u16) effect->unk_3E - 0x10);
             }
             motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
             motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
@@ -1106,8 +1106,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             frame_step = 1;
             effect->frame_step = frame_step;
         }
-        spawn_random_motion_particles((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
-            (s16) motion->z.half.unk_0A.u16, (s16) effect->heading, D_80026BD4[(s8) visual->frame_index]);
+        spawn_random_motion_particles((s16) motion->x.half.unk_02, (s16) motion->y.half.unk_06,
+            (s16) motion->z.half.unk_0A, (s16) effect->heading, D_80026BD4[(s8) visual->frame_index]);
         effect->update_count = (u16) (effect->update_count + 1);
         return;
     }
@@ -1123,11 +1123,11 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_08;
     if (owner_ref & 0x80000000) {
         owner_state = owner_ptr + 0x20;
-        visual->angle_z = (u16) ((s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16,
-            (s16) motion->y.half.unk_06.u16, related_motion->x.w.i,
+        visual->angle_z = (u16) ((s16)calculate_planar_heading((s16) motion->x.half.unk_02,
+            (s16) motion->y.half.unk_06, related_motion->x.w.i,
             related_motion->y.w.i) - 0x400);
         alternate_delta = related_motion->z.w.i;
-        alternate_value = motion->z.half.unk_0A.s16;
+        alternate_value = motion->z.half.unk_0A;
         alternate_delta -= alternate_value;
         alternate_scale = alternate_delta << 2;
         alternate_scale += alternate_delta;
@@ -1135,13 +1135,13 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         alternate_value = aim_angle + 0x400;
         visual->angle_x = (u16) alternate_value;
         visual->flags = (u16) actor_data->unk_14;
-        motion->x.half.unk_02.u16 = (u16) owner_state->unk_50;
-        motion->y.half.unk_06.u16 = (u16) owner_state->unk_52;
-        motion->z.half.unk_0A.u16 = (u16) owner_state->unk_54;
+        motion->x.half.unk_02 = (u16) owner_state->unk_50;
+        motion->y.half.unk_06 = (u16) owner_state->unk_52;
+        motion->z.half.unk_0A = (u16) owner_state->unk_54;
     } else {
-        motion->x.half.unk_02.u16 = (u16) related_motion->x.w.i;
-        motion->y.half.unk_06.u16 = (u16) related_motion->y.w.i;
-        motion->z.half.unk_0A.u16 = (u16) related_motion->z.w.i;
+        motion->x.half.unk_02 = (u16) related_motion->x.w.i;
+        motion->y.half.unk_06 = (u16) related_motion->y.w.i;
+        motion->z.half.unk_0A = (u16) related_motion->z.w.i;
         visual->angle_x = (u16) actor_data->unk_16;
         visual->angle_y = (u16) actor_data->unk_18;
         visual->angle_z = (u16) actor_data->unk_1A;

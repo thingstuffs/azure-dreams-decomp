@@ -51,15 +51,15 @@ extern M2C_UNK D_80024D58;
 
 extern void apply_attack_power_and_element_effects();
 
-void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *position_data);
+void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, ObjectPosition *position_data);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_19a8800_entry)(TimedTargetHitSpellBody *, void *) = update_directional_actor_effect;
+void (*const dungeon_19a8800_entry)(TimedTargetHitSpellBody *, ObjectPosition *) = update_directional_actor_effect;
 
 /* Advance a timed effect sequence, spawning objects and applying the effect to targets. */
-void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *position_data)
+void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, ObjectPosition *position_data)
 {
     s16 offset[3];
     ObjectNodeHeader *object;
@@ -80,9 +80,9 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *
     case 0:
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
-        ((ObjectPosition *)position_data)->x.v = ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->x.v;
-        ((ObjectPosition *)position_data)->y.v = ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->y.v;
-        ((ObjectPosition *)position_data)->z.v =
+        position_data->x.v = ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->x.v;
+        position_data->y.v = ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->y.v;
+        position_data->z.v =
             ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->z.v;
         state_data->spell.phase++;
     case 1:
@@ -107,18 +107,18 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *
                 ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = NODE_BODY(object);
 
-                ((ObjectPosition *)position_data)->x.v =
+                position_data->x.v =
                     ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->x.v +
                                       ((s32)offset[0] << 16);
-                spawn_data->unk_1C = ((ObjectPosition *)position_data)->x.v;
-                ((ObjectPosition *)position_data)->y.v =
+                spawn_data->unk_1C = position_data->x.v;
+                position_data->y.v =
                     ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->y.v +
                                       ((s32)offset[1] << 16);
-                spawn_data->unk_20 = ((ObjectPosition *)position_data)->y.v;
-                ((ObjectPosition *)position_data)->z.v =
+                spawn_data->unk_20 = position_data->y.v;
+                position_data->z.v =
                     ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->z.v +
                                       ((s32)offset[2] << 16);
-                spawn_data->unk_24 = ((ObjectPosition *)position_data)->z.v;
+                spawn_data->unk_24 = position_data->z.v;
             }
             state_data->spell.phase++;
         }
@@ -155,7 +155,7 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *
                 work = NODE_BODY(object);
                 ((S_81988800_3 *)work)->unk_04 = (((u8 *)actor)[0x24] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;
-                ((S_81988800_3 *)work)->unk_08.u16 = ((ObjectPosition *)position_data)->z.unsigned_parts.integer;
+                ((S_81988800_3 *)work)->unk_08.u16 = position_data->z.unsigned_parts.integer;
                 for (entry_index = 7; entry_index >= 0; entry_index--) {
                     ((S_81988800_3 *)work)->entries[entry_index].unk_02 = 0;
                     ((S_81988800_3 *)work)->entries[entry_index].unk_00 = 0;

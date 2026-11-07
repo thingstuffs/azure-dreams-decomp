@@ -16,7 +16,8 @@ void advance_centered_fading_effect(void *effect, ObjectPosition *position, void
 void advance_projectile_burst_and_impact(struct ProjectileBurstImpactBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 struct RibbonLineGeometry;
 void draw_ribbon_center_lines(struct RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias);
-void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias);
+struct S_801663AC_4;
+void draw_gouraud_textured_ribbon_quad(struct S_801663AC_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias);
 void emit_parent_relative_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
 void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
 struct ConvergingFadeBody;
@@ -90,7 +91,7 @@ void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, ObjectPosition
 typedef struct ColorCyclingPulseBody {
     u8 pad_00[0x18];
     u16 ticks_remaining;
-    u16 initial_duration;
+    u16 unk_1A;
     u16 phase_index;
 } ColorCyclingPulseBody;
 void update_color_cycling_pulse(ColorCyclingPulseBody *state_data, void *unused, SpriteFrameState *color);

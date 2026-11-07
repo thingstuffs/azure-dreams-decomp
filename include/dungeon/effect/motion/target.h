@@ -24,16 +24,6 @@ typedef struct Row_818E71DC_S_800249DC_2 {
     s32 unk_08;
 } Row_818E71DC_S_800249DC_2;   /* arg1 in func_800249DC */
 
-typedef struct Row_818E71DC_S_800249DC_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x6];
-    union { u8 u8; s32 s32; } unk_0C;   /* accessed as both */
-    u8 pad_10[0x4];
-    u16 unk_14;
-} Row_818E71DC_S_800249DC_3;   /* arg2 in func_800249DC */
-
 /* Advance the target, ease the position toward it, and update visual brightness and flags. */
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 

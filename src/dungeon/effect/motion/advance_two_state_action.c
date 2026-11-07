@@ -17,7 +17,7 @@ typedef struct S_8182718C_0 {
     u8 pad_04[0x44];
     u16 unk_48;
     u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
+    u16 unk_4C;
     u16 unk_4E;
 } S_8182718C_0;   /* arg0 in func_8182718C */
 
@@ -36,7 +36,7 @@ void advance_two_state_action(void *state_data_arg, void *unused, SpriteFrameSta
 
     linked_data = state_data->unk_00;
     linked_data->unk_52 = (s16) (linked_data->unk_52 | 0x8000);
-    state = state_data->unk_4C.s;
+    state = (s16)state_data->unk_4C;
     switch (state) {
     case 0: {
         u16 old_state;
@@ -46,10 +46,10 @@ void advance_two_state_action(void *state_data_arg, void *unused, SpriteFrameSta
         state_data->unk_48 = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
             register_node(state_data_arg - 0x20, project_sprite_chain);
-            old_state = state_data->unk_4C.u;
+            old_state = state_data->unk_4C;
             interval = state_data->unk_4E;
             state_data->unk_48 = interval;
-            state_data->unk_4C.u = (u16) (old_state + 1);
+            state_data->unk_4C = (u16) (old_state + 1);
         }
         break;
     }

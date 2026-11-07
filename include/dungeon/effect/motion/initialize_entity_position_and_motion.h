@@ -247,36 +247,31 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_1 {
     void * target;
 } ovl_19a332c_819835AC_S_819835AC_1;
 typedef struct ovl_19a332c_819835AC_S_819835AC_2 {
+    /* UNION: src/dungeon/effect/motion/initialize_entity_position_and_motion.c:463,574,666,671 - the callback's motion pointer supplies X halfword and full-word accesses. */
     union {
         s32 word;
         struct {
             u8 pad_00[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_02;
+            s16 unk_02;
         } half;
     } x;
+    /* UNION: src/dungeon/effect/motion/initialize_entity_position_and_motion.c:463,575,672,675 - the same motion pointer supplies Y halfword and full-word accesses. */
     union {
         s32 word;
         struct {
             u8 pad_04[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_06;
+            s16 unk_06;
         } half;
     } y;
+    /* UNION: src/dungeon/effect/motion/initialize_entity_position_and_motion.c:463,576,673,678 - the same motion pointer supplies Z halfword and full-word accesses. */
     union {
         s32 word;
         struct {
             u8 pad_08[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_0A;
+            s16 unk_0A;
         } half;
     } z;
+    /* UNION: src/dungeon/effect/motion/initialize_entity_position_and_motion.c:655,667,1074 - the same motion pointer reads the X velocity word and its high half. */
     union {
         s32 word;
         struct {
@@ -284,6 +279,7 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_2 {
             s16 unk_0E;
         } half;
     } velocity_x;
+    /* UNION: src/dungeon/effect/motion/initialize_entity_position_and_motion.c:656,668,1074 - the same motion pointer reads the Y velocity word and its high half. */
     union {
         s32 word;
         struct {
@@ -291,6 +287,7 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_2 {
             s16 unk_12;
         } half;
     } velocity_y;
+    /* UNION: src/dungeon/effect/motion/initialize_entity_position_and_motion.c:818,819,1075 - the same motion pointer writes the Z velocity high half and reads the full word. */
     union {
         s32 word;
         struct {

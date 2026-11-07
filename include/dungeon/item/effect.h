@@ -8,7 +8,8 @@
 struct EntityFields;
 struct SpriteFrameState;
 
-/* Body installed by create_orbiting_teleport_effect and consumed by its update callback. */
+/* Body initialized by create_orbiting_teleport_effect. The installed updater
+ * still uses its S_800C4F20_0/_10 views at the same offsets. */
 typedef struct OrbitingTeleportEffectBody {
     u8 pad_00[0x1C];
     ObjectPosition *owner_position;

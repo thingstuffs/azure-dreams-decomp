@@ -111,10 +111,7 @@ typedef struct S_func_800B1364_9 {
     u8 unk_00;
     s8 unk_01;
     s8 unk_02;
-    union {
-        s8 s8;
-        u8 u8;
-    } unk_03;
+    u8 unk_03;
 } S_func_800B1364_9;
 
 typedef struct S_func_800B1364_10 {
@@ -515,7 +512,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         item_entry = D_80010000_PTR->table[actor->unk_8A];
         item_entry->unk_01 = 0x13;
         species = (u8) *action->unk_C0;
-        item_entry->unk_03.s8 = save_slot;
+        item_entry->unk_03 = save_slot;
         item_entry->unk_02 = 0;
         item_entry->unk_00 = species;
         familiar_record_slots[save_slot] = save_data = (save_slot * 0x8C) + familiar_record_storage;
@@ -535,7 +532,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         }
         unlink_entity_node(finished_creature);
         item_entry = D_80010000_PTR->table[actor->unk_8A];
-        saved_creature = familiar_record_slots[item_entry->unk_03.u8 & 0x1F];
+        saved_creature = familiar_record_slots[item_entry->unk_03 & 0x1F];
         saved_creature->unk_14 = (s32) (saved_creature->unk_14 & ~0x4000);
         release_value = actor->unk_60;
         release_value[-1].unk_00 =

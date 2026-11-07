@@ -36,7 +36,8 @@ typedef struct ItemMenuTransition {
     s16 unk_0E;
     struct { s16 low, high; } unk_10;
     struct { s16 low, high; } unk_14;
-    union { s32 word; s16 half; } unk_18;
+    s16 unk_18;
+    u8 pad_1A[2];
     s32 end_row;
     s32 start_row;
     s32 animation_step;

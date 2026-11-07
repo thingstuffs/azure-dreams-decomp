@@ -57,7 +57,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
             if (i != 0) {
                 object_state->head = objects[0];
             }
-            object_state->unk_30.n = 0x10;
+            object_state->unk_30 = 0x10;
             object_state->unk_34 = angle;
             object_state->unk_36 = 7;
         } else {

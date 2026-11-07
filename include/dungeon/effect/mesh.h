@@ -103,7 +103,8 @@ typedef struct LinkedEffectControllerBody {
 
 
 
-void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual);
+struct S_81976850_0;
+void follow_source_then_seek_target(struct S_81976850_0 *effect, ObjectPosition *motion, void *visual);
 void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* Work passed to the target-tint sequence. The elapsed counter advances on

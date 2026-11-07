@@ -346,11 +346,6 @@ typedef struct Row_8192365C_S_80024E5C_3 {
     s32 unk_08;
 } Row_8192365C_S_80024E5C_3;   /* temp_a1 in func_80024E5C */
 
-typedef struct Row_8192365C_S_80024E5C_4_pre {
-    void * unk_00;
-    u8 pad_04[0x14];
-} Row_8192365C_S_80024E5C_4_pre;   /* the 0x18 bytes before ((Row_8192365C_S_80024E5C_0 *)arg0)->unk_88 in func_80024E5C, addressed as ((Row_8192365C_S_80024E5C_0 *)arg0)->unk_88[-1] */
-
 typedef struct Row_8192365C_S_80024E5C_4 {
     u8 pad_00[0x13];
     u8 unk_13;

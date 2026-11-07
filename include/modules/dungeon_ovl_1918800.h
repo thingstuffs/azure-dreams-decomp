@@ -37,10 +37,9 @@ s32 draw_linked_brightness_points(struct PointRecord *start_node, ObjectPosition
 s32 advance_effect_sequence(void);
 void create_random_jitter_child( ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void advance_record_counter(struct CountdownRecord *record);
-void process_five_context_entries_or_fallback(void *effect, void *unused, struct SpriteFrameState *output);
+void process_five_context_entries_or_fallback(struct ParticleState *effect, void *unused, struct SpriteFrameState *output);
 void advance_grayscale_fade(struct ParticleState *state, s32 unused, struct SpriteFrameState *out);
-struct TimedWaveParticleBody;
-void update_timed(struct TimedWaveParticleBody *state, void *position_out, struct SpriteFrameState *effect_arg);
+void update_timed(struct ParticleState *state, struct ObjectPosition *position_out, struct SpriteFrameState *effect_arg);
 void set_record_pair_to_one(struct ProjectileSelf *self, struct ObjectPosition *position, struct SpriteFrameState *render_data);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 rand(void);

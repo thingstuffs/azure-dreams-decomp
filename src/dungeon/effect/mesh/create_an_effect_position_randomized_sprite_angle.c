@@ -74,7 +74,7 @@ void * create_an_effect_position_randomized_sprite_angle(ApproachingImpactSpellB
         effect->header.update_callback = (void *)advance_shrinking_arc_effect;
         effect_state->owner = owner;
         effect_state->elapsed.u = 0;
-        effect_state->duration.u = owner->unk_12.as_u16;
+        effect_state->duration.u = (u16)owner->unk_12;
         sprite = effect->header.sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
@@ -923,28 +923,28 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
             z_base = motion->z.w.i + 0x300000;
             z_distance -= z_base;
             stack.offset.distance[2] = abs(z_distance);
-            state->unk_12.as_s16 = x_distance;
+            state->unk_12 = x_distance;
             do {
-                if ((s16) stack.offset.distance[step_count] > state->unk_12.as_s16) {
-                    state->unk_12.as_s16 = (s16) stack.offset.distance[step_count];
+                if ((s16) stack.offset.distance[step_count] > state->unk_12) {
+                    state->unk_12 = (s16) stack.offset.distance[step_count];
                 }
                 step_count += 1;
             } while (step_count < 3);
-            travel_frames = (s32) ((u16) state->unk_12.as_s16 << 0x10) >> 0x14;
-            state->unk_12.as_s16 = (s16) travel_frames;
+            travel_frames = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
+            state->unk_12 = (s16) travel_frames;
             if (travel_frames == 0) {
-                state->unk_12.as_s16 = 1;
+                state->unk_12 = 1;
             }
             motion->velocity_x = (destination->unk_00.at00.v
-                - motion->x.v) / state->unk_12.as_s16;
+                - motion->x.v) / state->unk_12;
             motion->velocity_y = (destination->unk_04.at00.v
-                - motion->y.v) / state->unk_12.as_s16;
+                - motion->y.v) / state->unk_12;
             entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
             z_table2 = entity_height_offsets[entity->unk_13] << 0x10;
             z_velocity = destination->unk_08.at00.v - z_table2;
             z_base2 = motion->z.v + 0x300000;
             z_velocity -= z_base2;
-            motion->velocity_z = z_velocity / state->unk_12.as_s16;
+            motion->velocity_z = z_velocity / state->unk_12;
             create_an_effect_position_randomized_sprite_angle(state, motion);
             next_state = (u16) state->spell.phase + 1;
         } else {
@@ -1013,19 +1013,19 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
             model -= motion->y.w.i;
             model = __builtin_abs(model);
             stack.offset.distance[1] = model;
-            state->unk_12.as_s16 = axis_delta;
+            state->unk_12 = axis_delta;
             if ((s16) stack.offset.distance[1] > (s16) axis_delta) {
-                state->unk_12.as_s16 = (s16) (u16) stack.offset.distance[1];
+                state->unk_12 = (s16) (u16) stack.offset.distance[1];
             }
-            travel_frames = (s32) ((u16) state->unk_12.as_s16 << 0x10) >> 0x14;
-            state->unk_12.as_s16 = (s16) travel_frames;
+            travel_frames = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
+            state->unk_12 = (s16) travel_frames;
             if (travel_frames == 0) {
-                state->unk_12.as_s16 = 1;
+                state->unk_12 = 1;
             }
             motion->velocity_x = (((ovl_1930844_81912154_S_80025954_12 *)(stack.motion))->unk_00
-                - motion->x.v) / state->unk_12.as_s16;
+                - motion->x.v) / state->unk_12;
             y_velocity = (destination->unk_04.at00.v
-                - motion->y.v) / state->unk_12.as_s16;
+                - motion->y.v) / state->unk_12;
             motion->velocity_z = 0;
             motion->velocity_y = y_velocity;
             create_an_effect_position_randomized_sprite_angle(state, motion);
@@ -1039,7 +1039,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
             + motion->velocity_y);
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        if ((s16) state->unk_10 < state->unk_12.as_s16) {
+        if ((s16) state->unk_10 < state->unk_12) {
             break;
         }
         create_and_initializes_copying_n_24_bytes_source_data(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
@@ -1078,7 +1078,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
             + motion->velocity_y);
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        if ((s16) state->unk_10 < state->unk_12.as_s16) {
+        if ((s16) state->unk_10 < state->unk_12) {
             break;
         }
         next_state = 5;

@@ -13,7 +13,7 @@
 
 /* Moves to a directional target, emits spiraling particles, and attempts a timed target effect before
    cleanup. */
-void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0800_10 *actor_state)
+void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0800_2 *motion_arg, Row_818E0800_S_818E0800_10 *actor_state)
 {
     void *actor;
     Row_818E0800_S_818E0800_3 *actor_base;
@@ -42,17 +42,17 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
     if (initial_state == 2) {
         target = ((Row_818E0800_S_818E0800_1 *)actor)->unk_60;
         if (target == 0) {
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at00.v =
+            motion_arg->unk_00.at00.v =
                 ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_00.at00.v;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at00.v =
+            motion_arg->unk_04.at00.v =
                 ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_04.at00.v;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at00.v =
+            motion_arg->unk_08.at00.v =
                 ((Row_818E0800_S_818E0800_13 *)(actor_base->unk_08))->unk_08;
         } else {
             entity = (u8 *)target - 0x20;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at00.v = (entity->position)->x.v;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at00.v = (entity->position)->y.v;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at00.v = (entity->position)->z.v;
+            motion_arg->unk_00.at00.v = (entity->position)->x.v;
+            motion_arg->unk_04.at00.v = (entity->position)->y.v;
+            motion_arg->unk_08.at00.v = (entity->position)->z.v;
         }
 
         particles_left = 5;
@@ -64,11 +64,11 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
                 render_state = entity->sprite;
                 entity->update_callback = shrink_spiraling_sprite_effect;
                 particle = NODE_BODY(entity);
-                particle->unk_0C = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v;
-                particle->unk_0E = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v;
+                particle->unk_0C = motion_arg->unk_00.at02.v;
+                particle->unk_0E = motion_arg->unk_04.at02.v;
                 {
                     s32 particle_z;
-                    particle_z = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at02.v;
+                    particle_z = motion_arg->unk_08.at02.v;
                     particle->unk_48 = 0;
                     particle->unk_16 = 0;
                     particle->unk_14 = 0;
@@ -116,45 +116,45 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = render_state->tile_x;
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = render_state->tile_y;
         }
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v =
+        motion_arg->unk_00.at02.v =
             ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_00.at02.v;
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v =
+        motion_arg->unk_04.at02.v =
             ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_04.at02.v;
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at02.v =
+        motion_arg->unk_08.at02.v =
             ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_0A;
         effect_arg->unk_50 = 8;
 
         {
             s32 delta_x = ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.u;
-            s32 origin_x = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v;
+            s32 origin_x = motion_arg->unk_00.at02.v;
             delta_x <<= 6;
             origin_x -= 0x20;
             delta_x -= origin_x;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_0C.at02.v = delta_x;
+            motion_arg->unk_0C.at02.v = delta_x;
         }
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_0C.at00.v /= ((s16)effect_arg->unk_50);
+        motion_arg->unk_0C.at00.v /= ((s16)effect_arg->unk_50);
         {
             s32 delta_y = ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.u;
-            s32 origin_y = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v - 0x20;
+            s32 origin_y = motion_arg->unk_04.at02.v - 0x20;
             delta_y <<= 6;
             delta_y -= origin_y;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_10.at02.v = delta_y;
+            motion_arg->unk_10.at02.v = delta_y;
         }
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_10.at00.v /= ((s16)effect_arg->unk_50);
+        motion_arg->unk_10.at00.v /= ((s16)effect_arg->unk_50);
         ground_z = (s16)(((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_0A - 0x30);
-        ground_z = sample_terrain_surface_height(((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v,
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v, ground_z);
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at02.v = ground_z - ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at02.v;
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at00.v /= ((s16)effect_arg->unk_50);
+        ground_z = sample_terrain_surface_height(motion_arg->unk_00.at02.v,
+            motion_arg->unk_04.at02.v, ground_z);
+        motion_arg->unk_14.at02.v = ground_z - motion_arg->unk_08.at02.v;
+        motion_arg->unk_14.at00.v /= ((s16)effect_arg->unk_50);
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         effect_arg->z.w.i = (u16)((u16)(effect_arg->z.w.i) + (1));
         return;
     case 1:
     {
         s32 next_timer;
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at00.v += ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_0C.at00.v;
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at00.v += ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_10.at00.v;
-        ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at00.v += ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at00.v;
+        motion_arg->unk_00.at00.v += motion_arg->unk_0C.at00.v;
+        motion_arg->unk_04.at00.v += motion_arg->unk_10.at00.v;
+        motion_arg->unk_08.at00.v += motion_arg->unk_14.at00.v;
         if (((s16)effect_arg->unk_50) > 0) {
             return;
         }

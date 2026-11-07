@@ -751,7 +751,7 @@ s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosi
         roll = rand();
         model = &seven_color_sprite_data;
         part->unk_12 = (s16)(roll % 7);
-        part->unk_14 = (u16) owner->unk_12.u;
+        part->unk_14 = (u16) owner->unk_12;
         part->unk_18.at00.v = (s32) owner->unk_18;
         render = obj->sprite;
         render->color.c.b = 0x80;
@@ -953,26 +953,26 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
             target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
             target_dz = abs(target_dz);
             frame.offset.distance[2] = (u16) target_dz;
-            state->unk_12.s = target_dx;
+            state->unk_12 = target_dx;
             do {
-                if (((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.s > state->unk_12.s) {
-                    state->unk_12.s = ((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.u;
+                if (((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.s > state->unk_12) {
+                    state->unk_12 = ((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.u;
                 }
                 index += 1;
                 target_delta_cursor += 1;
             } while (index < 3);
-            target_ticks = (s32) ((u16) state->unk_12.s << 0x10) >> 0x14;
-            state->unk_12.s = (s16) target_ticks;
+            target_ticks = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
+            state->unk_12 = (s16) target_ticks;
             if (target_ticks == 0) {
-                state->unk_12.s = 1;
+                state->unk_12 = 1;
             }
             motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
-                - motion_in->x.v) / (s16) state->unk_12.s);
+                - motion_in->x.v) / (s16) state->unk_12);
             motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
-                - motion_in->y.v) / (s16) state->unk_12.s);
+                - motion_in->y.v) / (s16) state->unk_12);
             motion_in->velocity_z =
                 (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
-                - motion_in->z.v) / (s16) state->unk_12.s);
+                - motion_in->z.v) / (s16) state->unk_12);
             spawn_owner_random_variant_effect(state, motion_in);
             next_phase = (u16) state->spell.phase + 1;
         } else {
@@ -1017,25 +1017,25 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
             frame.offset.distance[0] = abs(destination->unk_00.at02.v - motion_in->x.w.i);
             frame.offset.distance[1] = abs(destination->unk_04.at02.v - motion_in->y.w.i);
             frame.offset.distance[2] = abs(destination->unk_08.at02.v - motion_in->z.w.i);
-            state->unk_12.s = frame.offset.distance[0];
+            state->unk_12 = frame.offset.distance[0];
             do {
-                if (((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.s > state->unk_12.s) {
-                    state->unk_12.s = ((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.u;
+                if (((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.s > state->unk_12) {
+                    state->unk_12 = ((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.u;
                 }
                 index += 1;
                 path_delta_cursor += 1;
             } while (index < 3);
-            path_ticks = (s32) ((u16) state->unk_12.s << 0x10) >> 0x14;
-            state->unk_12.s = (s16) path_ticks;
+            path_ticks = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
+            state->unk_12 = (s16) path_ticks;
             if (path_ticks == 0) {
-                state->unk_12.s = 1;
+                state->unk_12 = 1;
             }
             motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
-                - motion_in->x.v) / (s16) state->unk_12.s);
+                - motion_in->x.v) / (s16) state->unk_12);
             motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
-                - motion_in->y.v) / (s16) state->unk_12.s);
+                - motion_in->y.v) / (s16) state->unk_12);
             motion_in->velocity_z = (s32) ((s32) (destination->unk_08.at00.v
-                - motion_in->z.v) / (s16) state->unk_12.s);
+                - motion_in->z.v) / (s16) state->unk_12);
             spawn_owned_random_spin_effect(state, motion_in);
             next_phase = 6;
         }
@@ -1046,7 +1046,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
         motion_in->x.v += motion_in->velocity_x;
         motion_in->y.v += motion_in->velocity_y;
         motion_in->z.v += motion_in->velocity_z;
-        if ((s16) state->unk_10 < state->unk_12.s) {
+        if ((s16) state->unk_10 < state->unk_12) {
             break;
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
@@ -1081,7 +1081,7 @@ advance_phase:
             + motion_in->velocity_y);
         motion_in->z.v = (s32) (motion_in->z.v
             + motion_in->velocity_z);
-        if ((s16) state->unk_10 < state->unk_12.s) {
+        if ((s16) state->unk_10 < state->unk_12) {
             break;
         }
         next_phase = 5;

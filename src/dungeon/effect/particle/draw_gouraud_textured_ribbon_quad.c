@@ -121,7 +121,7 @@ typedef struct {
 } MATRIX;
 
 /* Transform a textured quad and add it to the ordering table if visible. */
-void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
+void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
     S_801663AC_0 *scratch = (S_801663AC_0 *)0x1F800000;
     u8 *packet;
@@ -161,18 +161,18 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
     packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
     ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet + 0x34;
 
-    scratch->unk_B0 = ((S_801663AC_4 *)quad)->unk_74;
-    scratch->unk_B8 = ((S_801663AC_4 *)quad)->unk_7A;
-    scratch->unk_C0 = ((S_801663AC_4 *)quad)->unk_80;
-    scratch->unk_C8 = ((S_801663AC_4 *)quad)->unk_86;
-    scratch->unk_B2 = ((S_801663AC_4 *)quad)->unk_76;
-    scratch->unk_BA = ((S_801663AC_4 *)quad)->unk_7C;
-    scratch->unk_C2 = ((S_801663AC_4 *)quad)->unk_82;
-    scratch->unk_CA = ((S_801663AC_4 *)quad)->unk_88;
-    scratch->unk_B4 = ((S_801663AC_4 *)quad)->unk_78;
-    scratch->unk_BC = ((S_801663AC_4 *)quad)->unk_7E;
-    scratch->unk_C4 = ((S_801663AC_4 *)quad)->unk_84;
-    scratch->unk_CC = ((S_801663AC_4 *)quad)->unk_8A;
+    scratch->unk_B0 = quad->unk_74;
+    scratch->unk_B8 = quad->unk_7A;
+    scratch->unk_C0 = quad->unk_80;
+    scratch->unk_C8 = quad->unk_86;
+    scratch->unk_B2 = quad->unk_76;
+    scratch->unk_BA = quad->unk_7C;
+    scratch->unk_C2 = quad->unk_82;
+    scratch->unk_CA = quad->unk_88;
+    scratch->unk_B4 = quad->unk_78;
+    scratch->unk_BC = quad->unk_7E;
+    scratch->unk_C4 = quad->unk_84;
+    scratch->unk_CC = quad->unk_8A;
 
     ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
                              (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
@@ -240,10 +240,10 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
                 ((S_801663AC_5 *)packet)->unk_30.at01.v--;
             }
 
-            ((S_801663AC_5 *)packet)->unk_04.at00.v = ((S_801663AC_4 *)quad)->unk_00;
-            ((S_801663AC_5 *)packet)->unk_10 = ((S_801663AC_4 *)quad)->unk_04;
-            ((S_801663AC_5 *)packet)->unk_1C = ((S_801663AC_4 *)quad)->unk_08;
-            ((S_801663AC_5 *)packet)->unk_28 = ((S_801663AC_4 *)quad)->unk_0C;
+            ((S_801663AC_5 *)packet)->unk_04.at00.v = quad->unk_00;
+            ((S_801663AC_5 *)packet)->unk_10 = quad->unk_04;
+            ((S_801663AC_5 *)packet)->unk_1C = quad->unk_08;
+            ((S_801663AC_5 *)packet)->unk_28 = quad->unk_0C;
 
             SetPolyGT4(packet);
 

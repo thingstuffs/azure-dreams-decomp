@@ -10,7 +10,7 @@ typedef struct FadeEffect {
     union { struct { u8 red, green, blue, pad; } color; s32 packed; } current;
     s32 output;
     u8 pad0c[0x8];
-    u16 seed_angle; /* set by spawn_randomized_directional_effect */
+    u16 unk_14; /* set by spawn_randomized_directional_effect; no reader identified */
     u8 pad16[0x1c];
     s16 remaining, total;
 } FadeEffect;

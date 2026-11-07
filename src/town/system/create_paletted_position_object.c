@@ -66,7 +66,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, Kei
         primitive->angle_z = value;
         ((EffectScaleState *)object)->scale_enabled = field_28_value;
 
-        palette_value = settings->unk_4A.s;
+        palette_value = settings->unk_4A;
         tint_color = 0xC0C0C0;
         primitive->scale_y = palette_value;
         primitive->scale_x = palette_value;

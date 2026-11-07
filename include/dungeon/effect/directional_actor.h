@@ -177,6 +177,6 @@ s32 rand(void);
 void transform_rotated_vertices(void *);
 extern u8 directional_effect_entries[];
 extern u8 current_spell_effect_variant[];
-void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0800_10 *actor_state);
+void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0800_2 *motion_arg, Row_818E0800_S_818E0800_10 *actor_state);
 void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_80082E80 *sprite);
 #endif

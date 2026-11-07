@@ -60,7 +60,9 @@ typedef struct ImpactParticleWork {
 
 void scale_effect_by_phase(void *);
 void advance_effect_motion_and_animation(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
-void shrink_effect_and_spawn_particles(void *, void *);
+struct S_800247C0_0;
+struct S_800247C0_2;
+void shrink_effect_and_spawn_particles(struct S_800247C0_0 *, struct S_800247C0_2 *);
 s32 draw_linked_meshes(void *, void *, void *);
 void advance_rotating_ballistic_particle_and_expire(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
 struct OwnerFollowingWork;

@@ -155,7 +155,7 @@ extern void *merge_creature_abilities_and_state(void *, void *, s32); /* Unproto
 extern void * build_status_effect_name_list(void *, void *);
 
 /* Advance the paired-object sequence, animating both objects and displaying the result. */
-void advance_paired_object_sequence(void *sequence, void *position, void *actor, void *owner)
+void advance_paired_object_sequence(void *sequence, S_800253C0_10 *position, void *actor, S_800253C0_1 *owner)
 {
     void *message_id;
     GameWork *scene = &g_game_work;
@@ -206,18 +206,18 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
         u16 old_angle;
 
         turn_scene = &g_game_work;
-        old_angle = (u16)((S_800253C0_1 *)owner)->unk_2A;
+        old_angle = (u16)owner->unk_2A;
         index = ((turn_scene->view.camera_rotation.parts.viewAngle +
-            ((S_800253C0_1 *)owner)->unk_2A + 0x100) >> 9) & 7;
+            owner->unk_2A + 0x100) >> 9) & 7;
         if (index == 2) {
             ((S_800253C0_3 *)actor)->unk_2C = D_800DD148;
             anim_entry = D_800DD148 + ((((turn_scene->view.camera_rotation.parts.viewAngle +
-                ((S_800253C0_1 *)owner)->unk_2A) + 0x100) >> 9) & 7);
+                owner->unk_2A) + 0x100) >> 9) & 7);
             set_sprite_animation_frame(actor, *anim_entry, 0, 1);
             ((S_800253C0_0 *)sequence)->unk_9B = ((S_800253C0_0 *)sequence)->unk_9B + 1;
             return;
         }
-        ((S_800253C0_1 *)owner)->unk_2A = old_angle + 0x200;
+        owner->unk_2A = old_angle + 0x200;
         return;
     }
 
@@ -311,7 +311,7 @@ case 4:
                 coord_y / ((S_800253C0_0 *)sequence)->unk_96;
             {
                 s32 old_z = (s16)prim_m->unk_0A;
-                s32 z_delta = (s16)((S_800253C0_10 *)position)->unk_0A - old_z;
+                s32 z_delta = (s16)position->unk_0A - old_z;
                 prim_m->unk_0A = prim_m->unk_0A +
                     z_delta / ((S_800253C0_0 *)sequence)->unk_96;
             }
@@ -356,7 +356,7 @@ case 4:
                 prim_m->unk_02 = (x << 6) + 0x20;
                 y = (s32)((S_800253C0_8 *)actor)->unk_25 + snap_y[table_index >> 1];
                 prim_m->unk_06 = (y << 6) + 0x20;
-                prim_m->unk_0A = ((S_800253C0_10 *)position)->unk_0A;
+                prim_m->unk_0A = position->unk_0A;
                 final_slot = (u8 *)final_slot + 4;
                 object_index_m++;
             } while (object_index_m < 2);
@@ -376,8 +376,8 @@ case 4:
         if (ticks > 0) {
             return;
         }
-        create_and_link_six_offset_objects(((S_800253C0_10 *)position)->unk_02, ((S_800253C0_10 *)position)->unk_06,
-            (s16)((S_800253C0_10 *)position)->unk_0A, actor);
+        create_and_link_six_offset_objects(position->unk_02, position->unk_06,
+            (s16)position->unk_0A, actor);
         {
             coord_delta = 32;
             state = ((S_800253C0_0 *)sequence)->unk_9B;
@@ -462,7 +462,7 @@ case 4:
                     select_object_by_flags_and_keys(((S_800253C0_0 *)sequence)->unk_AC,
                     ((S_800253C0_0 *)sequence)->unk_B0,
                     &result_flags);
-                ((S_800253C0_1 *)owner)->unk_60 = object_m;
+                owner->unk_60 = object_m;
                 if (object_m != 0) {
                     void *other;
                     S_800253C0_4 *child_slot;
@@ -485,7 +485,7 @@ case 4:
                             y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)(index + step_y);
                             create_positioned_graphic_object((s16)((x << 6) + 0x20),
                                 (s16)((y << 6) + 0x20),
-                                ((S_800253C0_1 *)owner)->unk_88, slot_value, object_m);
+                                owner->unk_88, slot_value, object_m);
                         }
                         object_index_m++;
                     } while (object_index_m < 2);
@@ -560,7 +560,7 @@ case 4:
             }
         }
         {
-            object_m = ((S_800253C0_1 *)owner)->unk_60;
+            object_m = owner->unk_60;
             if (object_m != 0) {
                 void **first_slot;
                 void **text_slot;
@@ -628,7 +628,7 @@ loop_7:
                     y_table = (u8 *)((s8 *)dir_step_y);
                     y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)((s32)(index + (s32)y_table));
                     prim_m->unk_06 = (y << 6) + 0x20;
-                    z = ((S_800253C0_10 *)position)->unk_0A;
+                    z = position->unk_0A;
                     prim_m->unk_0A = z;
                     create_four_groups_of_angular_effects(prim_m->unk_02, prim_m->unk_06,
                         (s16)(z - 0x20), effect_size);
@@ -761,7 +761,7 @@ loop_7:
     case 12:
         ((S_800253C0_3 *)actor)->unk_2C = D_800DD150;
         anim_entry = D_800DD150 + ((((g_game_work.view.camera_rotation.parts.viewAngle +
-            ((S_800253C0_1 *)owner)->unk_2A) + 0x100) >> 9) & 7);
+            owner->unk_2A) + 0x100) >> 9) & 7);
         set_sprite_animation_frame(actor, *anim_entry, 0, 1);
         state = ((S_800253C0_0 *)sequence)->unk_9B;
         ((S_800253C0_0 *)sequence)->unk_9B = state + 1;

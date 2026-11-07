@@ -180,7 +180,7 @@ typedef struct S_819ACB28_1 {
 
 typedef struct S_819ACB28_4 {
     u8 pad_00[0xC];
-    union { u8 u8; u32 u32; } unk_0C;   /* accessed as both */
+    u32 unk_0C;
 } S_819ACB28_4;   /* packed_value in advance_effect_phases */
 
 typedef struct S_819ACB28_5 {
@@ -237,15 +237,15 @@ void advance_effect_phases(WarpPhaseEffectBody *object, Rec_func_800249DC_arg0 *
             return;
         }
     } else if (mode == 1) {
-        if (packed_value->unk_0C.u8 < 0xC0) {
-            packed_value->unk_0C.u32 += 0x202020;
+        if ((u8)packed_value->unk_0C < 0xC0) {
+            packed_value->unk_0C += 0x202020;
             return;
         }
         object->phase = mode_value + 1;
         return;
     } else if (mode == 2) {
-        packed_value->unk_0C.u32 += 0xFFEFEFF0;
-        if (packed_value->unk_0C.u8 == 0) {
+        packed_value->unk_0C += 0xFFEFEFF0;
+        if ((u8)packed_value->unk_0C == 0) {
             NODE_HEADER(object)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -1458,25 +1458,11 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
 #include "shared/object_flags.h"
 #include "records/Rec_func_80025D28_arg0.h"
 
-typedef struct S_80025D28_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80025D28_1;   /* arg1 in initialize_inventory_packet */
-
-typedef struct S_80025D28_2 {
-    u8 pad_00[0xD];
-    u8 unk_0D;
-} S_80025D28_2;   /* arg2 in initialize_inventory_packet */
-
 extern s32 rsin();
 extern s32 rcos();
 
 /* Update two animated points, fade their intensity, and flag expiration. */
-void initialize_inventory_packet(void *state, void *points, void *appearance) {
+void initialize_inventory_packet(Rec_func_80025D28_arg0 *state, ObjectPosition *points, SpriteFrameState *appearance) {
     s32 phase_angle;
     s32 phase_step;
     s32 side_offset_x;
@@ -1494,52 +1480,52 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
     u16 ticks_left;
     u8 intensity;
 
-    phase_step = ((Rec_func_80025D28_arg0 *)state)->unk_38;
+    phase_step = state->unk_38;
     phase_angle = (s16)(phase_step << 6);
     *warp_effect_counters = *warp_effect_counters + 1;
     start_wave_x = rsin(phase_angle);
-    ((S_80025D28_1 *)points)->unk_00 = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
-        ((s32)(start_wave_x * rcos(((Rec_func_80025D28_arg0 *)state)->unk_36
-            + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
+    points->x.v = (state->unk_1C << 0x10) +
+        ((s32)(start_wave_x * rcos(state->unk_36
+            + 0x400) * state->unk_3E) >> 7);
     start_wave_y = rsin(phase_angle);
-    ((S_80025D28_1 *)points)->unk_04 = (((Rec_func_80025D28_arg0 *)state)->unk_1E << 0x10) +
-        ((s32)(start_wave_y * rsin(((Rec_func_80025D28_arg0 *)state)->unk_36
-            + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
-    ((S_80025D28_1 *)points)->unk_08 = (((Rec_func_80025D28_arg0 *)state)->unk_20 << 0x10) +
-        ((rcos(phase_angle) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) << 5);
+    points->y.v = (state->unk_1E << 0x10) +
+        ((s32)(start_wave_y * rsin(state->unk_36
+            + 0x400) * state->unk_3E) >> 7);
+    points->z.v = (state->unk_20 << 0x10) +
+        ((rcos(phase_angle) * state->unk_3E) << 5);
     end_wave_x = rsin(phase_angle);
-    direction_x = rcos(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
-    side_direction_x = rcos(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
+    direction_x = rcos(state->unk_36 + 0x400);
+    side_direction_x = rcos(state->unk_36 + 0x800);
     radial_offset_x = end_wave_x * direction_x;
     do {
-        radial_offset_x *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
+        radial_offset_x *= state->unk_3E;
     } while (0);
-    side_offset_x = side_direction_x * ((Rec_func_80025D28_arg0 *)state)->unk_40;
-    ((S_80025D28_1 *)points)->unk_0C = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
+    side_offset_x = side_direction_x * state->unk_40;
+    points->velocity_x = (state->unk_1C << 0x10) +
         (radial_offset_x >> 7) + (side_offset_x << 6);
     end_wave_y = rsin(phase_angle, side_offset_x);
-    direction_y = rsin(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
-    side_direction_y = rsin(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
+    direction_y = rsin(state->unk_36 + 0x400);
+    side_direction_y = rsin(state->unk_36 + 0x800);
     radial_offset_y = end_wave_y * direction_y;
     do {
-        radial_offset_y *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
+        radial_offset_y *= state->unk_3E;
     } while (0);
-    side_offset_y = side_direction_y * ((Rec_func_80025D28_arg0 *)state)->unk_40;
-    ((S_80025D28_1 *)points)->unk_10 = (((Rec_func_80025D28_arg0 *)state)->unk_1E << 0x10) +
+    side_offset_y = side_direction_y * state->unk_40;
+    points->velocity_y = (state->unk_1E << 0x10) +
         (radial_offset_y >> 7) + (side_offset_y << 6);
-    ((S_80025D28_1 *)points)->unk_14 = (((Rec_func_80025D28_arg0 *)state)->unk_20 << 0x10) +
-        ((rcos(phase_angle, side_offset_y) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) << 5);
-    ((Rec_func_80025D28_arg0 *)state)->unk_40 = (u16)((Rec_func_80025D28_arg0 *)state)->unk_40 + 2;
-    ((Rec_func_80025D28_arg0 *)state)->unk_38 = (u16)((Rec_func_80025D28_arg0 *)state)->unk_38 + 1;
-    intensity = ((S_80025D28_2 *)appearance)->unk_0D;
-    ((S_80025D28_2 *)appearance)->unk_0D = intensity - (intensity >> 3);
-    ticks_left = ((Rec_func_80025D28_arg0 *)state)->unk_30 - 1;
-    ((Rec_func_80025D28_arg0 *)state)->unk_30 = ticks_left;
+    points->velocity_z = (state->unk_20 << 0x10) +
+        ((rcos(phase_angle, side_offset_y) * state->unk_3E) << 5);
+    state->unk_40 = (u16)state->unk_40 + 2;
+    state->unk_38 = (u16)state->unk_38 + 1;
+    intensity = appearance->color.c.g;
+    appearance->color.c.g = intensity - (intensity >> 3);
+    ticks_left = state->unk_30 - 1;
+    state->unk_30 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
-    ((Rec_func_80025D28_arg0 *)state)->unk_34 = ((Rec_func_80025D28_arg0 *)state)->unk_34 + 1;
+    state->unk_34 = state->unk_34 + 1;
 }
 
 /* MECHANISM: Natural long-lived arguments and results produce the retail 0x30 frame and s5/s4/s3/s2/s1/s0 roles.

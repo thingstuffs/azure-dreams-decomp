@@ -523,7 +523,7 @@ typedef struct S_800247C0_7 {
 } S_800247C0_7;   /* effect_state in shrink_effect_and_spawn_particles */
 
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
-void shrink_effect_and_spawn_particles(void *effect, void *origin)
+void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origin)
 {
     S_800247C0_7 *effect_state;
     u16 offset_x;
@@ -549,13 +549,13 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
     offset_x = (rand() & 0x3F) - 0x20;
     offset_y = (rand() & 0x3F) - 0x20;
     random_bits = rand();
-    object = ((S_800247C0_0 *)effect)->unk_20;
+    object = effect->unk_20;
     position = ((ObjectNodeHeader *)object)->position;
     sprite = ((ObjectNodeHeader *)object)->sprite;
-    ((S_800247C0_2 *)origin)->unk_00.at00.v = position->x.v;
-    ((S_800247C0_2 *)origin)->unk_04.at00.v = position->y.v;
+    origin->unk_00.at00.v = position->x.v;
+    origin->unk_04.at00.v = position->y.v;
     offset_z = (random_bits & 0x3F) - 0x20;
-    ((S_800247C0_2 *)origin)->unk_08.at00.v = position->z.v;
+    origin->unk_08.at00.v = position->z.v;
     scale_x = sprite->scale_x;
     object += 0x20;
     effect_state = object;
@@ -574,7 +574,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             sprite->scale_y = 0x800U;
         }
     }
-    if (((S_800247C0_0 *)effect)->unk_28 >= 0xB) {
+    if (effect->unk_28 >= 0xB) {
         particle_index = 0;
         for (; particle_index < 4; particle_index++) {
             object = allocate_flagged_object_node(0x212);
@@ -590,11 +590,11 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             sprite->flags |= 0xC;
             position = ((ObjectNodeHeader *)object)->position;
             position->x.w.i =
-                ((S_800247C0_2 *)origin)->unk_00.at02.v + offset_x;
+                origin->unk_00.at02.v + offset_x;
             ((ObjectNodeHeader *)object)->position->y.w.i =
-                ((S_800247C0_2 *)origin)->unk_04.at02.v + offset_y;
+                origin->unk_04.at02.v + offset_y;
             ((ObjectNodeHeader *)object)->position->z.w.i =
-                ((S_800247C0_2 *)origin)->unk_08.at02.v + offset_z - 0x10;
+                origin->unk_08.at02.v + offset_z - 0x10;
             velocity_x = 0 - ((s32)(offset_x << 0x10) >> 7);
             particle_state->unk_88 = velocity_x;
             particle_state->unk_8C =
@@ -622,15 +622,15 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             select_record_entry_and_value(sprite, effect_sprite_sources, 0);
         }
     }
-    timer = ((S_800247C0_0 *)effect)->unk_28;
+    timer = effect->unk_28;
     next_timer = timer - 1;
-    ((S_800247C0_0 *)effect)->unk_28 = next_timer;
+    effect->unk_28 = next_timer;
     if ((next_timer << 0x10) <= 0) {
-        ((S_800247C0_0 *)effect)->unk_28 = timer;
+        effect->unk_28 = timer;
         if (g_dungeon_status.pending_display_owner == NULL) {
-            g_dungeon_status.pending_display_owner = ((S_800247C0_0 *)effect)->unk_20;
+            g_dungeon_status.pending_display_owner = effect->unk_20;
         }
-        object = ((S_800247C0_0 *)effect)->unk_20;
+        object = effect->unk_20;
         set_or_clear_actor_status_slot(object + 0x20, 0x18, 0x14);
         effect_state->unk_28 = 0;
         completion_state = ((s32)dungeon_actor_ring_anchor);
@@ -646,7 +646,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-extern void shrink_effect_and_spawn_particles(void *effect, void *origin);
+extern void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origin);
 
 typedef struct S_80024AE8_0 {
     u8 pad_00[0x20];

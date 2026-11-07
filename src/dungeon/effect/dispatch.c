@@ -338,9 +338,8 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
 
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
-void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive)
+void damp_effect_motion_and_fade(DampedParticleBurstBody *body, s32 *motion, SpriteFrameState *primitive)
 {
-    DampedParticleBurstBody *body = effect;
     s16 remaining;
 
     motion[0] += motion[3];
@@ -362,7 +361,7 @@ void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *pr
             (body->unk_1C == 0)) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        NODE_HEADER(effect)->flags |= NODE_REMOVE;
+        NODE_HEADER(body)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

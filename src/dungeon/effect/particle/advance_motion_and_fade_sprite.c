@@ -920,11 +920,11 @@ void animate_jittering_five_point_effect(Entity *entity)
 typedef struct S_80024F40_0 {
     void * unk_00;
     u8 pad_04[0x30];
-    union { u8 u8; s32 s32; } unk_34;   /* accessed as both */
+    s32 unk_34;
     u8 pad_38[0xA];
     s16 unk_42;
     u8 pad_44[0x6];
-    union { s16 s; u16 u; } unk_4A;   /* accessed as both */
+    u16 unk_4A;
 } S_80024F40_0;   /* arg0 in fade_packed_object_color_to_zero */
 
 typedef struct S_80024F40_1 {
@@ -944,15 +944,15 @@ void fade_packed_object_color_to_zero(void *object_arg) {
         (u16)(linked_object->unk_52 | 0x8000);
     object->unk_42 =
         GetClut((rand() & 0xF) * 0x10, 0x1F8);
-    fade_state = object->unk_4A.s;
+    fade_state = (s16)object->unk_4A;
     switch (fade_state) {
     case 0:
-        if ((u8)object->unk_34.u8 < 0x31U) {
-            object->unk_34.s32 = 0;
-            object->unk_4A.u++;
+        if ((u8)object->unk_34 < 0x31U) {
+            object->unk_34 = 0;
+            object->unk_4A++;
             return;
         }
-        object->unk_34.s32 = object->unk_34.s32 - 0x303030;
+        object->unk_34 = object->unk_34 - 0x303030;
         break;
     case 1:
         (*(u16 *)((u8 *)object + -2)) =

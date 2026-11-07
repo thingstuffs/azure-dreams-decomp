@@ -153,18 +153,18 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
 
     case 2:
         if ((((u32)input->buttons) & 0x5000) != 0) {
-            u16 timer = state->timer.u;
-            state->timer.u = (u16)(timer - 1);
+            u16 timer = state->timer;
+            state->timer = (u16)(timer - 1);
             if ((s16)timer < 0) {
-                state->timer.u = 0;
+                state->timer = 0;
             }
         } else {
-            state->timer.u = 5;
+            state->timer = 5;
         }
 
         if ((((u32)input->pressed_buttons) & 0x1000) != 0 ||
             ((((u32)input->buttons) & 0x1000) != 0 &&
-             (s16)state->timer.s <= 0)) {
+             (s16)state->timer <= 0)) {
             if (state->count < 3) {
                 SD_Call(AUDIO_CURSOR_MOVE);
                 if ((u32)town_money[0] < 100U) {
@@ -178,7 +178,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
 
         if ((((u32)input->pressed_buttons) & 0x4000) != 0 ||
             ((((u32)input->buttons) & 0x4000) != 0 &&
-             (s16)state->timer.s <= 0)) {
+             (s16)state->timer <= 0)) {
             if (state->count >= 2) {
                 SD_Call(AUDIO_CURSOR_MOVE);
                 town_money[0] += 100;
@@ -188,7 +188,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
         }
 
         if ((((u32)input->pressed_buttons) & 0x20) != 0) {
-            state->timer.u = 10;
+            state->timer = 10;
             state->mode.s = 3;
             return;
         }
@@ -198,14 +198,14 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             return;
         }
         SD_Call(AUDIO_SLOT_START);
-        state->timer.u = 20;
+        state->timer = 20;
         state->mode.s = 4;
         return;
 
     case 3:
     {
-        u16 timer = (u16)(state->timer.u - 1);
-        state->timer.u = timer;
+        u16 timer = (u16)(state->timer - 1);
+        state->timer = timer;
         if ((s16)timer > 0) {
             return;
         }
@@ -217,9 +217,9 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
 
     case 4:
     {
-        u16 timer = (u16)(state->timer.u - 1);
+        u16 timer = (u16)(state->timer - 1);
         u8 *reel_slot;
-        state->timer.u = timer;
+        state->timer = timer;
         if ((s16)timer > 0) {
             return;
         }
@@ -238,7 +238,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
 
     case 5:
     {
-        s16 reel_index = state->timer.s;
+        s16 reel_index = (s16)state->timer;
         SlotObject *reel = state->slot[reel_index];
         if (reel->unk_24 != 3) {
             return;
@@ -260,14 +260,14 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             state->timer2.s == 0) {
             SlotObject *reel;
             SD_Call(AUDIO_SLOT_REEL_STOP);
-            reel = state->slot[state->timer.s];
+            reel = state->slot[(s16)state->timer];
             reel->unk_24 = 4;
             state->timer2.u = 10;
-            state->timer.u++;
+            state->timer++;
         }
         {
             index = 2;
-            if (state->timer.s != 3) {
+            if ((s16)state->timer != 3) {
                 return;
             }
             state->work = 0;
@@ -366,7 +366,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                 }
             }
             if (state->work == 0) {
-                state->timer.u = 10;
+                state->timer = 10;
                 state->count = 0;
                 state->mode.s = 3;
                 return;
@@ -423,17 +423,17 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     }
                 }
             }
-            state->timer.u = 0;
+            state->timer = 0;
             state->mode.s = 7;
             return;
         }
 
     case 7:
-        state->timer.u++;
-        if ((s16)state->timer.u == 9) {
+        state->timer++;
+        if ((s16)state->timer == 9) {
             initialize_town_context_action();
         }
-        if ((state->timer.u & 3) != 0) {
+        if ((state->timer & 3) != 0) {
             return;
         }
         {
@@ -443,7 +443,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     void *bet_display = (void *)slot_bet_display_object[0];
                     state->count = 0;
                     set_object_data_pointer_2(bet_display);
-                    state->timer.u = 10;
+                    state->timer = 10;
                     state->mode.s = 3;
                 }
                 state->flags &= (u16)~2;

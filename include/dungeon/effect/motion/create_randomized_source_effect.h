@@ -148,6 +148,7 @@ typedef struct Row_8191CD78_S_func_80024578_1 {
 } Row_8191CD78_S_func_80024578_1;
 
 typedef struct Row_8191CD78_S_func_80024578_2 {
+    /* UNION: src/dungeon/effect/motion/create_randomized_source_effect.c:269,307,346,471 - the callback's position pointer supplies both X halfword and full-word accesses. */
     union {
         s32 s32;
         struct {
@@ -155,6 +156,7 @@ typedef struct Row_8191CD78_S_func_80024578_2 {
             u16 unk_02;
         } parts_02;
     } x;
+    /* UNION: src/dungeon/effect/motion/create_randomized_source_effect.c:270,313,348,472 - the same position pointer supplies both Y halfword and full-word accesses. */
     union {
         s32 s32;
         struct {
@@ -162,6 +164,7 @@ typedef struct Row_8191CD78_S_func_80024578_2 {
             u16 unk_06;
         } parts_06;
     } y;
+    /* UNION: src/dungeon/effect/motion/create_randomized_source_effect.c:272,321,351,473,605 - the same position word is read through its high half; the target position alias is saved at :300. */
     union {
         s32 s32;
         struct {

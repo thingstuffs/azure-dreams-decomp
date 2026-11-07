@@ -14,11 +14,20 @@
 /* Colored point-effect payload at pooled node +0x20; point spawners allocate it with flags 0x211.
  * func_80024758 and create_random_jitter_child seed its color and motion/fade parameters. */
 typedef struct PointRecord { u8 pad_00[8]; u32 color; /* packed RGB/command word copied to the point tile before channel scaling */ u8 pad_0C[4]; s32 unk_10; s16 unk_14; /* spawner parameter; used as the direction-table index by advance_scattered_directional_particle */ u8 pad_16[0x1C]; s16 brightness; /* brightness/motion/lifetime parameter; point renderers scale by /128 or /256 depending on the callback */ } PointRecord;
-/* 1990800 renderer multiplies each color channel by scale / scale_max.
- * This is a larger record than the brightness-only PointRecord. */
-/* Colored point payload reached through pooled node +0x20 by project_scaled_colored_point.
- * The renderer borrows this view; its spawning initializer remains untraced. */
-typedef struct ScaledPointRecord { u8 pad_00[8]; u32 color; /* packed RGB/command word copied into the point tile */ u8 pad_0C[0x26]; s16 scale; /* brightness numerator applied independently to each RGB channel */ s16 scale_max; /* brightness denominator; rendered channel = source channel * scale / scale_max */ } ScaledPointRecord;
+/* spawn_random_offset_effect_record installs the countdown callback and the
+ * scaled point renderer on this pooled node body. The renderer multiplies
+ * each color channel by scale / scale_max. */
+typedef struct RisingPointEffectBody {
+    u8 pad_00[0x8];
+    u32 color;
+    u8 pad_0C[0x8];
+    s16 unk_14;
+    u8 pad_16[0x1C];
+    s16 scale;
+    s16 scale_max;
+    u8 pad_36[0x12];
+    s32 height_step;
+} RisingPointEffectBody;
 /* Twelve-byte point tile/draw-mode packet view allocated at the frame packet cursor.
  * Point renderers fill the tile form and append a draw-mode packet at the next cursor position. */
 typedef struct PointPacket { u32 tag; /* DMA chain address/count word; point tiles contain two command words */ u8 r; /* tile red modulation byte after brightness scaling */ u8 g; /* tile green modulation byte after brightness scaling */ u8 b; /* tile blue modulation byte after brightness scaling */ u8 code; /* tile GPU command byte; point renderers set 0x6A */ u32 data; /* packed projected screen X/Y for tiles; draw-mode form uses this word as command data */ } PointPacket;

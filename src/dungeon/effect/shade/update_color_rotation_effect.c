@@ -14,7 +14,7 @@ typedef struct S_818C3448_0_pre {
 typedef struct S_818C3448_0 {
     void * unk_00;
     u8 pad_04[0xA];
-    union { s16 s; u16 u; } unk_0E;   /* accessed as both */
+    u16 unk_0E;
     s16 unk_10;
     u16 unk_12;
     s16 unk_14;
@@ -82,8 +82,8 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
     visual->color.c.r = (s8) ((color_bias >> 2) << 7);
     visual->color.c.g = (s8) ((s32) (((s16) half_color - (((s32) ((s16) half_color + ((u32) (half_color << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
     visual->color.c.b = (s8) ((s32) ((color_bits - (half_color * 2)) << 0x10) >> 9);
-    phase = effect->unk_0E.s;
-    wait_phase = (u16) effect->unk_0E.s;
+    phase = (s16)effect->unk_0E;
+    wait_phase = effect->unk_0E;
     switch (phase) {
     case 0:
         full_scale = 0x1400;
@@ -102,15 +102,15 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
         if (elapsed < duration) {
             return;
         }
-        burst_phase = effect->unk_0E.u;
+        burst_phase = effect->unk_0E;
         effect->unk_10 = 0U;
-        effect->unk_0E.u = (u16) (burst_phase + 1);
+        effect->unk_0E = (u16) (burst_phase + 1);
         return;
     case 1:
         if ((s16) effect->unk_10 < 0xC) {
             return;
         }
-        effect->unk_0E.s = (s16) (wait_phase + 1);
+        effect->unk_0E = (s16) (wait_phase + 1);
         effect->unk_10 = 0;
         return;
     case 2:
@@ -128,9 +128,9 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
         if ((s16) effect->unk_10 < 0x21) {
             return;
         }
-        burst_phase = effect->unk_0E.u;
+        burst_phase = effect->unk_0E;
         effect->unk_10 = 0U;
-        effect->unk_0E.u = (u16) (burst_phase + 1);
+        effect->unk_0E = (u16) (burst_phase + 1);
         return;
     case 3:
         if (visual->flags & 0x6000) {

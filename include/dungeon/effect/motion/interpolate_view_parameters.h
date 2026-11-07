@@ -397,7 +397,7 @@ void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, 
 void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position);
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step);
 void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, struct SpriteFrameState *visual);
-void advance_radial_effect_state(void *motion, void *position,struct SpriteFrameState *effect);
+void advance_radial_effect_state(Row_8191740C_S_80024C0C_0 *motion, void *position, struct SpriteFrameState *effect);
 void *create_an_oriented_effect_between_position_owner(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos);
 void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform,struct SpriteFrameState *visual);
 void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);

@@ -138,10 +138,7 @@ typedef struct S_func_800241A8_6 {
             u8 unk_07;
         } as_u8_07;
     } unk_04;
-    union {
-        s16 as_s16_08;
-        u16 as_u16_08;
-    } unk_08;
+    s16 unk_08;
     u16 unk_0A;
     u16 unk_0C;
     u16 unk_0E;
@@ -162,10 +159,7 @@ typedef struct S_func_800241A8_6 {
         } as_u8_1D;
     } unk_1C;
     u8 pad_1E[0x2];
-    union {
-        s16 as_s16_20;
-        u16 as_u16_20;
-    } unk_20;
+    s16 unk_20;
     u16 unk_22;
     union {
         u16 as_u16_24;
@@ -274,20 +268,20 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
 
             ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
                                      &scratch->unk_C0, &scratch->unk_C8,
-                                     &packet->unk_08.as_s16_08, &packet->unk_10,
-                                     &packet->unk_18, &packet->unk_20.as_s16_20,
+                                     &packet->unk_08, &packet->unk_10,
+                                     &packet->unk_18, &packet->unk_20,
                                      (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
                                      ({ EmptyArg empty; empty; })) - depth_offset - 6;
             scratch->unk_100 = ot_index;
 
             if ((u32)ot_index < 0x1E0 &&
-                ((((u16)(packet->unk_08.as_u16_08 + 0x20) < 0x181) &&
+                ((((u16)((u16)packet->unk_08 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_0A + 0x20) < 0x121)) |
                  (((u16)(packet->unk_10 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_12 + 0x20) < 0x121)) |
                  (((u16)(packet->unk_18 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_1A + 0x20) < 0x121)) |
-                 (((u16)(packet->unk_20.as_u16_20 + 0x20) < 0x181) &&
+                 (((u16)((u16)packet->unk_20 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_22 + 0x20) < 0x121)))) {
                 packet->unk_00.unk_03 = 9;
                 packet->unk_04.as_u8_07.unk_07 = 0x2C;
@@ -337,7 +331,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
                 packet->unk_24.as_u16_24 = scratch->unk_18.as_u16_18 +
                                            scratch->unk_14.as_u16_14;
 
-                if (packet->unk_08.as_s16_08 > packet->unk_20.as_s16_20) {
+                if (packet->unk_08 > packet->unk_20) {
                     packet->unk_14.as_u8_14--;
                     packet->unk_24.as_u8_24--;
                 }
@@ -410,8 +404,8 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
 
             ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
                                      &scratch->unk_C0, &scratch->unk_C8,
-                                     &line->unk_08.as_s16_08, &line->unk_0C,
-                                     &line->unk_08.as_s16_08, &line->unk_0C,
+                                     &line->unk_08, &line->unk_0C,
+                                     &line->unk_08, &line->unk_0C,
                                      (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
                                      ({ EmptyArg empty; empty; })) - depth_offset - 6;
             scratch->unk_100 = ot_index;

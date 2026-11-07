@@ -6,38 +6,17 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/popup_body.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 
-typedef struct S_800B490C_0 {
-    void * unk_00;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    s16 unk_08;
-    u16 unk_0A;
-    u16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    void * unk_14;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-} S_800B490C_0;   /* arg0 in update_attached_fading_effect */
-
-
-
-
-   /* ((S_800B490C_0 *)arg0)->unk_14 in update_attached_fading_effect */
-
-
-
 extern s32 attached_fade_draw_address;
 
 /* Update an attached effect with damped vertical motion, fading, shrinking, and flashing. */
-void update_attached_fading_effect(S_800B490C_0 *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
+void update_attached_fading_effect(ActorValuePopupBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     s32 phase;
     s16 next_phase;
     s32 rebound_speed;
@@ -56,27 +35,27 @@ void update_attached_fading_effect(S_800B490C_0 *effect, ObjectPosition *motion,
     ObjectNodeHeader *parent;
     ObjectPosition *parent_pos;
 
-    parent = effect->unk_00;
+    parent = effect->owner;
     if (parent != NULL) {
         if (parent->flags & 0x8000) {
-            effect->unk_00 = NULL;
-            effect->unk_14 = NULL;
+            effect->owner = NULL;
+            effect->anchor_position = NULL;
         }
     }
     if (effect->unk_10 != 0) {
         effect->unk_10 = (s16) ((u16) effect->unk_10 - 1);
         return;
     }
-    parent_pos = effect->unk_14;
+    parent_pos = effect->anchor_position;
     if (parent_pos != NULL) {
         motion->x.w.i = ((u16)motion->x.w.i - (effect->unk_18 - parent_pos->x.unsigned_parts.integer));
-        effect->unk_18 = (u16) ((MovingPosition *)(effect->unk_14))->x;
+        effect->unk_18 = (u16) effect->anchor_position->x.unsigned_parts.integer;
         motion->y.w.i = ((u16)motion->y.w.i - (effect->unk_1A
-            - ((MovingPosition *)(effect->unk_14))->y));
-        effect->unk_1A = (u16) ((MovingPosition *)(effect->unk_14))->y;
+            - effect->anchor_position->y.unsigned_parts.integer));
+        effect->unk_1A = (u16) effect->anchor_position->y.unsigned_parts.integer;
         motion->z.w.i = ((u16)motion->z.w.i - (effect->unk_1C
-            - ((MovingPosition *)(effect->unk_14))->z));
-        effect->unk_1C = (u16) ((MovingPosition *)(effect->unk_14))->z;
+            - effect->anchor_position->z.unsigned_parts.integer));
+        effect->unk_1C = (u16) effect->anchor_position->z.unsigned_parts.integer;
     }
     phase = effect->unk_08;
     switch (phase) {

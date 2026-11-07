@@ -21,7 +21,7 @@ typedef struct KeimaState {
     s16 unk_44;
     s16 unk_46;
     u16 unk_48;
-    union { u16 s; s16 u; } unk_4A; /* (accessed as both) */
+    u16 unk_4A;
 } KeimaState;
 
 typedef union KeimaHalf { s16 s; u16 u; } KeimaHalf;

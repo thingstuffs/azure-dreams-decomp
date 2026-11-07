@@ -71,7 +71,9 @@ void build_install(void *base_matrix, struct S_8002593C_1 *position, struct S_80
 void fade_color_to_black(void *owner, ObjectPosition *unused, void *color_data);
 s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, struct Entry *initial_entry);
 void *create_copied_effect_object(void *source_data, MovingPosition *source_triplet, struct S_80025B78_4 *source_state);
-void initialize_inventory_packet(void *state, void *points, void *appearance);
+struct Rec_func_80025D28_arg0;
+struct SpriteFrameState;
+void initialize_inventory_packet(struct Rec_func_80025D28_arg0 *state, ObjectPosition *points, struct SpriteFrameState *appearance);
 void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param);
 void fade_effect_color_to_black(void *record, ObjectPosition *unused, struct EffectColor *color);
 void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);

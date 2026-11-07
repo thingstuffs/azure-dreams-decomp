@@ -2,6 +2,7 @@
 #include "shared/audio_commands.h"
 /* Visible shaded quad and point rendering, jittered sprites, and timed emission sequences. */
 #include "dungeon/effect/particle/project_and_queue_visible_shaded_quad.h"
+#include "shared/dungeon_effect_views.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
@@ -304,7 +305,7 @@ typedef struct Bank1990800_1990d98_Scratch80024598 {
  *
  * Shaded point primitive (code 0x6A, 3 words).
  */
-s32 project_scaled_colored_point(ScaledPointRecord *record, ObjectPosition *position)
+s32 project_scaled_colored_point(RisingPointEffectBody *record, ObjectPosition *position)
 {
     GpuContext **state_ptr;
     Bank1990800_1990d98_Scratch80024598 *scratch;
@@ -361,25 +362,11 @@ s32 project_scaled_colored_point(ScaledPointRecord *record, ObjectPosition *posi
 }
 
 #include "dungeon/effect/particle/project_and_queue_visible_shaded_quad.h"
-#include "shared/dungeon_effect_views.h"
 /* Selector 59, retail file [0x1990FE8, 0x19910A8); complete callable clone. */
 #include "dungeon/effect/particle.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 #include "modules/dungeon_native_abi.h"
-
-/* The effect record the callback runs on (the object header precedes it). */
-typedef struct RisingPointEffectBody {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 countdown;
-    s16 size_max;
-    u8 pad_36[0x12];
-    s32 height_step;    /* added to the position's z when it is below the floor */
-} RisingPointEffectBody;
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
 void advance_rising_quad_countdown(RisingPointEffectBody *state, ObjectPosition *position)
@@ -392,8 +379,8 @@ void advance_rising_quad_countdown(RisingPointEffectBody *state, ObjectPosition 
         position->z.v += state->height_step;
     }
 
-    countdown = (u16)state->countdown - 4;
-    state->countdown = countdown;
+    countdown = (u16)state->scale - 4;
+    state->scale = countdown;
     if ((countdown << 16) <= 0) {
         NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -447,11 +434,11 @@ void spawn_random_offset_effect_record(
         effect_pos += z_offset - 0x10;
         effect->position->z.w.i = effect_pos;
         record->unk_14 = property_34;
-        record->countdown = property_52;
-        record->size_max = property_52;
+        record->scale = property_52;
+        record->scale_max = property_52;
         register_node(effect, project_scaled_colored_point);
         record->height_step = rand() + 0x10000;
-        record->unk_08 = property_28;
+        record->color = property_28;
     }
 }
 

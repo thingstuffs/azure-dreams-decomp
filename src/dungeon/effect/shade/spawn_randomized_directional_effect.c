@@ -62,7 +62,7 @@ void spawn_randomized_directional_effect(ObjectNodeHeader *source, short angle, 
         effect_state = NODE_BODY(effect);
         velocity_y = effect->position;
         velocity_y->velocity_y += direction->unk_02 * 0x160000;
-        effect_state->seed_angle = angle;
+        effect_state->unk_14 = angle;
         effect_state->remaining = 7;
         effect_state->total = 7;
         register_node(effect, D_800D5AC0);

@@ -442,28 +442,28 @@ typedef struct S_818DAE84_1 {
 } S_818DAE84_1;   /* inner in create_coordinate_sprite_object */
 
 /* Updates progress from a countdown and sets completion flags when it expires. */
-void create_coordinate_sprite_object(void *state) {
+void create_coordinate_sprite_object(S_818DAE84_0 *state) {
     s32 remaining;
     s16 next_remaining;
     s32 progress;
     S_818DAE84_1 *linked_object;
 
-    linked_object = ((S_818DAE84_0 *)state)->unk_00;
+    linked_object = state->unk_00;
     linked_object->unk_52 = (u16)(linked_object->unk_52 | 0x8000);
 
-    progress = ((S_818DAE84_0 *)state)->unk_0C;
+    progress = state->unk_0C;
     if (progress < 0x50) {
         progress += 8;
     }
 
-    remaining = ((S_818DAE84_0 *)state)->unk_10;
-    ((S_818DAE84_0 *)state)->unk_0C = progress;
+    remaining = state->unk_10;
+    state->unk_0C = progress;
     if (remaining < 9) {
-        ((S_818DAE84_0 *)state)->unk_0C = remaining * 8;
+        state->unk_0C = remaining * 8;
     }
 
-    next_remaining = (u16)((S_818DAE84_0 *)state)->unk_10 - 1;
-    ((S_818DAE84_0 *)state)->unk_10 = next_remaining;
+    next_remaining = (u16)state->unk_10 - 1;
+    state->unk_10 = next_remaining;
     if ((next_remaining << 16) <= 0) {
         ((u16 *)state)[-1] = (u16)(((u16 *)state)[-1] | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

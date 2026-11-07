@@ -50,7 +50,7 @@ typedef struct S_800B7774_2 {
     u8 pad_2C[0x17];
     u8 unk_43;
     u8 pad_44[0x2];
-    union { u16 u; s16 s; } unk_46;   /* accessed as both */
+    u8 pad_46[2];
     u8 pad_48[0x18];
     s32 unk_60;
 } S_800B7774_2;

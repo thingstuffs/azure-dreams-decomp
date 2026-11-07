@@ -12,7 +12,7 @@ typedef struct S_80024CD4_0 {
     u16 unk_0A;
     u8 pad_0C[0xA];
     s16 unk_16;
-    union { u16 s; u16 u; s16 p; } unk_18;   /* accessed as both */
+    u16 unk_18;
     u16 unk_1A;
     u16 unk_1C;
     u8 pad_1E[0x4];
@@ -57,14 +57,14 @@ void move_linked_effect_along_path(void *effect, ObjectPosition *transform, Spri
         if (((S_80024CD4_0 *)effect)->unk_22 < 0x61) {
             call_transform = transform;
             base_value = ((S_80024CD4_0 *)effect)->unk_16;
-            decaying_value = ((S_80024CD4_0 *)effect)->unk_18.s;
+            decaying_value = ((S_80024CD4_0 *)effect)->unk_18;
             decaying_value = (u16) (decaying_value - ((s32) (decaying_value << 0x10) >> 0x13));
-            ((S_80024CD4_0 *)effect)->unk_18.u = decaying_value;
+            ((S_80024CD4_0 *)effect)->unk_18 = decaying_value;
             rising_value = ((S_80024CD4_0 *)effect)->unk_1C;
             rising_value += 0x80;
             ((S_80024CD4_0 *)effect)->unk_1C = rising_value;
             create_moving_fading_particle(call_transform, base_value,
-                ((S_80024CD4_0 *)effect)->unk_18.p, (s16) rising_value,
+                (s16)((S_80024CD4_0 *)effect)->unk_18, (s16) rising_value,
                 effect - 0x20);
         }
         ((S_80024CD4_0 *)effect)->unk_0A++;

@@ -29,7 +29,7 @@ typedef struct State8081FF68 {
     /* 0x4C */ void *slot[3];
     /* 0x58 */ s32 work;
     /* 0x5C */ union { u16 u; s16 s; } mode;
-    /* 0x5E */ union { u16 u; s16 s; } timer;
+    /* 0x5E */ u16 timer;
     /* 0x60 */ union { u16 u; s16 s; } timer2;
     /* 0x62 */ u16 flags;
     /* 0x64 */ u16 count;

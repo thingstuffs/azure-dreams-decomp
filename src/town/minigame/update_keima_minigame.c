@@ -293,7 +293,7 @@ loop_3:
                 keima_payout_remaining[0] = 0;
             }
             game->timer = 0x40U;
-            game->unk_4A.s = 0x400U;
+            game->unk_4A = 0x400U;
             game->unk_48 = 0U;
             dialog_args.x = 0x28;
             dialog_args.y = 0x58;
@@ -316,14 +316,14 @@ loop_3:
         transition_timer += 0x12C;
         scroll <<= 1;
         transition_timer += scroll;
-        scroll = game->unk_4A.s;
+        scroll = game->unk_4A;
         game->unk_48 = transition_timer;
         transition_timer = game->timer;
         scroll += 0x10;
         transition_timer -= 1;
         game->timer = transition_timer;
         transition_timer <<= 0x10;
-        game->unk_4A.s = scroll;
+        game->unk_4A = scroll;
         if (transition_timer <= 0) {
             s32 stage;
 
@@ -346,12 +346,12 @@ loop_3:
         transition_timer -= scroll;
         game->unk_48 = transition_timer;
         transition_timer = game->timer;
-        scroll = game->unk_4A.s;
+        scroll = game->unk_4A;
         transition_timer -= 1;
         game->timer = transition_timer;
         transition_timer <<= 0x10;
         scroll += 0x15E;
-        game->unk_4A.s = scroll;
+        game->unk_4A = scroll;
         if (transition_timer <= 0) {
             s32 stage;
 
@@ -367,8 +367,8 @@ loop_3:
         settle_timer = game->timer - 1;
         game->timer = settle_timer;
         settle_timer_signed = settle_timer << 0x10;
-        game->unk_4A.s = (u16) (game->unk_4A.s + ((s32) (0x1EDC
-            - (s16) game->unk_4A.s) >> 1));
+        game->unk_4A = (u16) (game->unk_4A + ((s32) (0x1EDC
+            - (s16) game->unk_4A) >> 1));
         if (settle_timer_signed <= 0) {
             s32 stage;
 
@@ -381,16 +381,16 @@ loop_3:
         break;
     case 8:
         transition_timer = 0x2001;
-        scroll = game->unk_4A.u;
+        scroll = (s16)game->unk_4A;
         phase_value = game->timer;
         transition_timer -= scroll;
         transition_timer >>= 1;
-        scroll = game->unk_4A.s;
+        scroll = game->unk_4A;
         phase_value -= 1;
         game->timer = phase_value;
         phase_value <<= 0x10;
         scroll += transition_timer;
-        game->unk_4A.s = scroll;
+        game->unk_4A = scroll;
         if (phase_value <= 0) {
             s32 stage;
 
