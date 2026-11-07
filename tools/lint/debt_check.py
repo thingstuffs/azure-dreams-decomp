@@ -36,6 +36,7 @@ INTEGER_TYPES = {
     'int16_t': ('signed', 16), 'uint16_t': ('unsigned', 16),
     'int32_t': ('signed', 32), 'uint32_t': ('unsigned', 32),
     'int64_t': ('signed', 64), 'uint64_t': ('unsigned', 64),
+    'char': ('signed', 8), 'signed char': ('signed', 8), 'unsigned char': ('unsigned', 8),
     'short': ('signed', 16), 'int': ('signed', 32),
     'unsigned short': ('unsigned', 16), 'unsigned int': ('unsigned', 32),
     'signed short': ('signed', 16), 'signed int': ('signed', 32),

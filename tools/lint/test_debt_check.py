@@ -230,6 +230,23 @@ typedef struct V {
             self.assertTrue(any('unions_total 4 > baseline 3' in p
                                 for p in D.check_baseline(changed, baseline)))
 
+    def test_char_spelled_unions_are_signedness_unions(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'src/test').mkdir(parents=True)
+            (root / 'include').mkdir()
+            (root / 'src/test/use.c').write_text('void f(void) {}\n')
+            (root / 'include/chars.h').write_text('''
+typedef struct C {
+    union { char s; unsigned char u; } plain;
+    union { signed char s; u8 u; } spelled;
+    union { unsigned char a; u8 b; } same;
+} C;
+''')
+            report = D.census(root)
+            self.assertEqual(report['signedness_unions_report']['count'], 2)
+            self.assertEqual(report['union_definitions_report']['count'], 3)
+
     def test_relabelling_retires_a_known_bad_site(self):
         text = 'typedef struct V { union { u16 s; s16 u; } field; } V;'
         _, bad = D.union_sites('include/test.h', text)

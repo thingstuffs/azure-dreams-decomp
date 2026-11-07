@@ -71,6 +71,93 @@ Only a complete, failure-free run may write a baseline. Review its diff before
 committing; do not raise counts just to silence a regression. The bundled
 baseline was measured with the compiler/flags recorded in that file.
 
+### Change closure lint (pre-landing)
+
+Linting only the touched TUs misses a retyped prototype in a header making an
+untouched caller pass an incompatible pointer. `lint_closure.py` lints every TU a
+change can affect, on BASE and on HEAD, and fails on any new warning site:
+
+```sh
+nice -n 10 python3 tools/lint/lint_closure.py BASE [HEAD] --port "$PORT" --plan   # closure only
+nice -n 10 python3 tools/lint/lint_closure.py BASE [HEAD] --port "$PORT" --jobs 2
+```
+
+The closure is: changed registered TUs (and the TUs that `#include` a changed `.c`
+fragment); TUs that include a changed header, transitively (one scan of `src/` and
+`include/`); and TUs that reference (call, install, take the address of) any function
+whose declaration or definition text changed, including users of header macros or
+inline bodies that name it. A header whose include closure is larger than `--cap`
+(default 300) contributes only the includers that reference an identifier its
+changed lines declare (function, field, typedef or macro name); the output says
+which headers were capped, and `--full` covers the rest. HEAD defaults to the
+`--root` working tree; a named HEAD revision that differs from it is extracted with
+`git archive` (only `src/` and `include/`), as BASE always is. The TU list comes from
+the `--root` registry, and renamed files are compared under their new names.
+
+Both sides compile the same closure with `lint_build.py`'s flags. Findings group by
+(file, function, warning class) as above; the gate compares the number of distinct
+warning **sites** in each group, so a header warning seen through one more including
+TU is not a regression, while one more bad argument in the same function is. Exit 1
+lists each group with new sites, and any compiler failure HEAD has that BASE did not.
+Renaming a function moves its warnings to a new group, so a rename also fails; the
+output then prints a `hint: possibly OLD renamed` line when a BASE group of the same
+file, class and site count vanished; a confirmed rename is not a regression.
+
+`--full --base-census DIR` runs the complete census on the `--root` checkout instead
+and compares it with a saved BASE census (the `lint_findings.tsv` and
+`lint_summary.json` of an earlier run; compiler, flags, modes and phases must
+match). `--save-census DIR` stores this run's census when it passes, as the base
+for the next landing. A full census takes about four minutes at four jobs.
+
+### Union ledger integrity
+
+`ledger_integrity.py BASE` checks `ledger/unions.jsonl` against BASE:
+
+- **loads** (always gating): the number of rows with non-zero per-member `loads`
+  must not drop, and no row with non-zero loads on BASE may become all-zero (what a
+  regeneration that drops the field does). A missing field counts as zero.
+- **retired_to_cast sites**, over the whole ledger: each `path:line[,n] CAST ...`
+  entry must name an existing line that contains CAST (whitespace ignored). CAST is
+  the first cast spelling after the location: `(s16)`, `(u16 *)`, `(S_x *)` or
+  `*(u8 *)&`. `,n` with n greater than the line is a second line, which must hold
+  CAST too; a smaller n is a count and is not checked. `{site, cast}` objects are
+  checked the same way. Entries without `path:line` (`path (former member sites)`,
+  `path (u16) (cast gone)`) are notes; `path:line` without a cast only needs the
+  line. `--fail-new` fails on stale entries that are new or held on BASE; `--fail-all`
+  fails on every stale entry; with neither, sites are reported only.
+- **weak evidence** (report only): retired rows with load data, by how many mapped
+  loads (lb, lbu, lh, lhu, lw; stores never vote) they rest on: fewer than 5, and
+  exactly 1, for the whole ledger and for rows newly retired since BASE.
+
+`--rederive` proposes current lines for stale entries: it follows each file's
+history from the newest commit where the entry held, through the diff to the current
+text, onto the same cast on the same field, or else takes the nearest line where
+that cast applies to the row's field. When the cast no longer exists (for example a
+retype removed it), the line number is dropped and the entry ends `(cast gone)`.
+Each proposal is labelled (`history`, `history-renamed` for a renamed member,
+`field`, `gone`) for review; `--write` applies them. Only `retired_to_cast` changes.
+
+```sh
+python3 tools/lint/ledger_integrity.py BASE --fail-new
+python3 tools/lint/ledger_integrity.py BASE --rederive          # review, then --write
+python3 -m unittest tools.lint.test_lint_closure tools.lint.test_ledger_integrity
+```
+
+### Recommended landing order
+
+1. In the batch finalize step, after the layout, debt and union checks: run
+   `lint_closure.py BASE --port "$PORT"` on the batch root (BASE = the master commit
+   the batch lands on), then `ledger_integrity.py BASE --fail-new` (it replaces a
+   check limited to the rows a batch changed, and also guards `loads`). Re-derive
+   stale lines with `--rederive` on the batch tree; line numbers recorded on a branch do not
+   survive merges.
+2. After each landing (or batch of landings): `lint_closure.py BASE --full
+   --base-census PREV --save-census NEXT --port "$PORT" --jobs 4`, which catches
+   anything a capped closure skipped and leaves the base for the next landing.
+3. `lint_build.py --check` against `baseline.json` is the long-term ratchet. It
+   fails until a reviewed `--write-baseline` records the current counts; until then
+   the per-landing no-increase gates above are what stop warning growth.
+
 ## Readability debt ratchet
 
 `debt_check.py` is a dependency-free lexical census of every physical
