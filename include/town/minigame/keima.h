@@ -12,8 +12,8 @@ typedef struct KeimaState {
     ObjectPosition *rec[4];              /* 0x00 */
     s16 *angle[4];                  /* 0x10: angle[0] = base record + 0x10, angle[i] = the node record's facing */
     ObjectNodeHeader *node[3];      /* 0x20: the node of ball i+1 (rec[i + 1]); angle[3] ends at 0x20 */
-    union { s16 s; u16 u; u16 p; } stage;   /* 0x2C (accessed as both) */
-    union { u16 s; s16 u; } timer;  /* 0x2E (accessed as both) */
+    u16 stage;   /* 0x2C */
+    u16 timer;  /* 0x2E */
     s16 flag[4];                    /* 0x30 */
     u8 pad_38[0x2];
     u16 flags;                      /* 0x3A */

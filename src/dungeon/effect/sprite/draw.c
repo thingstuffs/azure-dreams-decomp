@@ -453,19 +453,19 @@ s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *fi
         if (scratch->index < 0x1E0U) {
             ((Row_818F30EC_S_800248EC_2 *)tile)->unk_04.at00.v = point->unk_08.u;
 
-            color_value = (s32)tile->r * point->unk_32.s;
+            color_value = (s32)tile->r * point->unk_32;
             if (color_value < 0) {
                 color_value += 0x7F;
             }
             tile->r = color_value >> 7;
 
-            color_value = (s32)tile->g * point->unk_32.s;
+            color_value = (s32)tile->g * point->unk_32;
             if (color_value < 0) {
                 color_value += 0x7F;
             }
             tile->g = color_value >> 7;
 
-            color_value = (s32)tile->b * point->unk_32.s;
+            color_value = (s32)tile->b * point->unk_32;
             tile->b = (color_value / 128);
 
             ((Row_818F30EC_S_800248EC_2 *)tile)->unk_03 = 2;

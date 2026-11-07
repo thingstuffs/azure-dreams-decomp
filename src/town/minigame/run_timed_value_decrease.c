@@ -21,7 +21,7 @@ void run_timed_value_decrease(TimedValueDecreaseObject *sequence, ObjectPosition
     case 0:
     {
 
-        if (owner->stage.s != 3) {
+        if ((s16)owner->stage != 3) {
             break;
         }
         state = 0x18;
@@ -47,7 +47,7 @@ void run_timed_value_decrease(TimedValueDecreaseObject *sequence, ObjectPosition
         break;
 
     case 2:
-        if (owner->stage.s < 3) {
+        if ((s16)owner->stage < 3) {
             sequence->state.s = 0;
             target->y.v += 0x01400000;
         }

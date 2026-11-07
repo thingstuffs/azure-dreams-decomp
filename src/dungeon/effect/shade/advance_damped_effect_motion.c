@@ -6,17 +6,8 @@
 #include "m2c_compat.h"
 
 
-typedef struct S_800D4CB0_1 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-} S_800D4CB0_1;   /* arg2 in advance_damped_effect_motion */
-
-
 /* Advance and damp motion, fade the effect color, and flag expiration. */
-void advance_damped_effect_motion(void *effect, ObjectPosition *motion, void *color_arg) {
-    S_800D4CB0_1 *color = color_arg;
+void advance_damped_effect_motion(void *effect, ObjectPosition *motion, SpriteFrameState *color) {
     s16 ticks_left;
     FadingMotionParticleBody *effect_state;
 
@@ -27,16 +18,16 @@ void advance_damped_effect_motion(void *effect, ObjectPosition *motion, void *co
     motion->velocity_x /= 2;
     motion->velocity_y /= 2;
     motion->velocity_z /= 2;
-    color->unk_0C =
+    color->color.c.r =
         (s8) ((s32) (effect_state->color.c.r * effect_state->remaining_ticks) / effect_state->initial_ticks);
-    color->unk_0D =
+    color->color.c.g =
         (s8) ((s32) (effect_state->color.c.g * effect_state->remaining_ticks) / effect_state->initial_ticks);
-    color->unk_0E =
+    color->color.c.b =
         (s8) ((s32) (effect_state->color.c.b * effect_state->remaining_ticks) / effect_state->initial_ticks);
     ticks_left = (u16) effect_state->remaining_ticks - 1;
     effect_state->remaining_ticks = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
+        NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

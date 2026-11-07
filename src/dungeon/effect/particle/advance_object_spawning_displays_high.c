@@ -509,14 +509,14 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
             effect->timer = 0x10;
             effect->state = (u16)(effect->state + 1);
         }
-        if ((s16)effect->timer == 0x13) {
+        if (effect->timer == 0x13) {
             if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             } else {
                 play_sound_if_enabled(AUDIO_RESUME_CD);
             }
         }
-        if ((s16)effect->timer < 11) {
+        if (effect->timer < 11) {
             u8 *dungeon = ((u8 *)(&reference_tile_object));
             if (get_sprite_attachment_vector(F(dungeon, void *, 8), dungeon,
                               (u8 *)effect + 0xC, 0) != 0) {
@@ -602,7 +602,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                     }
                     particle_index++;
                 } while (particle_index < 4);
-                if ((s16)effect->timer < 6) {
+                if (effect->timer < 6) {
                     effect->midpoint_x =
                         ((s16)effect->attachment_x + (s16)effect->previous_x) / 2;
                     effect->midpoint_y =
@@ -709,7 +709,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
             }
         }
 
-        if ((s16)effect->timer != 11) {
+        if (effect->timer != 11) {
             return;
         }
         particle = allocate_flagged_object_node(0x212);
@@ -755,7 +755,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
         return;
 
     case 3:
-        if ((s16)effect->timer >= 13) {
+        if (effect->timer >= 13) {
             particle_index = 0;
             particle_script = advance_timed_effect_animation;
             spawn_data = ((u8 *)(&reference_tile_object));
@@ -826,20 +826,20 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                 F(animation_m, u32, 0x1C) |= 0x10000000;
                 {
                     model_color = NODE_HEADER(animation_m)->sprite;
-                    fade = (s16)effect->timer * 0x7F;
+                    fade = effect->timer * 0x7F;
                     if (fade < 0) {
                         fade += 15;
                     }
                     F(model_color, s8, 0xC) = (s8)((fade >> 4) - 0x80);
-                    fade = (16 - (s16)effect->timer) << 3;
+                    fade = (16 - effect->timer) << 3;
                     F(model_color, s8, 0xE) = (s8)fade;
                     F(model_color, s8, 0xD) = (s8)fade;
                 }
             }
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
-            effect->timer = (u16)(effect->timer - 1);
-            if ((s16)effect->timer >= 0) {
+            effect->timer = (u16)((u16)effect->timer - 1);
+            if (effect->timer >= 0) {
                 return;
             }
         }

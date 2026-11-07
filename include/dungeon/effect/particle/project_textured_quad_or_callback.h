@@ -39,7 +39,7 @@ typedef struct TargetParticleStatusSpellBody {
     u8 pad_7E[0x2];
     s16 unk_80;
     u8 pad_82[0x2];
-    u16 unk_84;
+    s16 unk_84;
     u8 pad_86[0x2];
     s16 unk_88;
     u8 pad_8A[0x12];

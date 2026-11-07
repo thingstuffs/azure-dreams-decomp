@@ -10,7 +10,7 @@ void animate_catalog_grid_to_detail(CatalogDisplay *request)
 {
     s32 action_index;
 
-    action_index = (s16)(request->unk_04.as_u16 - 1);
+    action_index = (s16)(request->unk_04 - 1);
     switch (action_index) {
     case 0:
         store_cached_value_at_pointer();

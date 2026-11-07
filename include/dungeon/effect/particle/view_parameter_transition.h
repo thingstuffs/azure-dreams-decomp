@@ -89,7 +89,7 @@ typedef struct MovingColorWork {
     u8 pad_7C[2];
     s16 direction;
     u8 pad_80[2];
-    union { s16 s; u16 u; } timer;
+    s16 timer;
     u8 pad_84[4];
     s16 initial_ticks;
     s16 ticks_squared;

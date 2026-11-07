@@ -55,13 +55,13 @@ typedef struct S_80173408_4 {
 /* Updates jump movement, animation, and landing across five states. */
 /* Animates Kewne's backward windup and arcing strike, applies damage at tick 10, then returns to its tile
  * and spends MP. */
-void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
+void update_jump_movement_and_landing(S_80173408_0 *jump, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     u32 step_x;
     s32 step_y;
     u8 state;
 
-    state = ((S_80173408_0 *)jump)->unk_9B;
+    state = jump->unk_9B;
     if ((u32)state >= 5) {
         return;
     }
@@ -69,7 +69,7 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
     case 0:
         {
             if (sprite->flags & 0x8000) {
-                ((S_80173408_0 *)jump)->unk_9B = 4;
+                jump->unk_9B = 4;
                 sprite->flags |= 0x6000;
                 resolve_attack_damage_and_effects(actor, sprite, ((S_80173408_2 *)actor)->unk_2A, 1);
                 return;
@@ -80,9 +80,9 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
             dir_step_x[((u16)((S_80173408_4 *)actor)->unk_2A >> 9) & 7] << 14;
         motion->velocity_y -=
             dir_step_y[((u16)((S_80173408_4 *)actor)->unk_2A >> 9) & 7] << 14;
-        ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
-        if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
-            ((S_80173408_0 *)jump)->unk_A0.at02.v = 0x30;
+        jump->unk_A0.at00.v += 0x60000;
+        if (jump->unk_A0.at02.v >= 0x31) {
+            jump->unk_A0.at02.v = 0x30;
         }
         if (!(sprite->flags & 0x6000)) {
             return;
@@ -90,7 +90,7 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if (((S_80173408_0 *)jump)->unk_A0.at02.v < 0x30) {
+        if (jump->unk_A0.at02.v < 0x30) {
             return;
         }
         sprite->frameTable = D_80175C48;
@@ -98,9 +98,9 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
             D_80175C48[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_80173408_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
             0);
         func_801753DC((u8 *)jump - 0x20, (u8 *)actor + 0x2A);
-        state = ((S_80173408_0 *)jump)->unk_9B;
-        ((S_80173408_0 *)jump)->unk_96 = 0;
-        ((S_80173408_0 *)jump)->unk_9B = state + 1;
+        state = jump->unk_9B;
+        jump->unk_96 = 0;
+        jump->unk_9B = state + 1;
         return;
 
     case 1:
@@ -123,10 +123,10 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
             step_y = (s32)y_entry << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((S_80173408_0 *)jump)->unk_96 * 170);
-            ((S_80173408_0 *)jump)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
-            timer = ((u16)((S_80173408_0 *)jump)->unk_96) + 1;
-            (*(u16 *)&((S_80173408_0 *)jump)->unk_96) = timer;
+            arc = -rsin(jump->unk_96 * 170);
+            jump->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
+            timer = ((u16)jump->unk_96) + 1;
+            (*(u16 *)&jump->unk_96) = timer;
             if (timer < 9) {
                 return;
             }
@@ -136,8 +136,8 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
             D_80175C50[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_80173408_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x808);
-        state = ((S_80173408_0 *)jump)->unk_9B;
-        ((S_80173408_0 *)jump)->unk_9B = state + 1;
+        state = jump->unk_9B;
+        jump->unk_9B = state + 1;
         return;
 
     case 2:
@@ -167,10 +167,10 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
             step_y = arc << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((S_80173408_0 *)jump)->unk_96 * 170);
-            ((S_80173408_0 *)jump)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
-            timer = ((u16)((S_80173408_0 *)jump)->unk_96) + 1;
-            (*(u16 *)&((S_80173408_0 *)jump)->unk_96) = timer;
+            arc = -rsin(jump->unk_96 * 170);
+            jump->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
+            timer = ((u16)jump->unk_96) + 1;
+            (*(u16 *)&jump->unk_96) = timer;
             if (timer < 13) {
                 return;
             }
@@ -188,20 +188,20 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
                 (((u16)((S_80173408_4 *)actor)->unk_2A >> 8) & 0xE)) << 18;
             velocity_y += velocity_y >> 2;
             motion->velocity_y = velocity_y;
-            ((S_80173408_0 *)jump)->unk_A8 = motion->velocity_x / 24;
-            ((S_80173408_0 *)jump)->unk_AC = motion->velocity_y / 24;
+            jump->unk_A8 = motion->velocity_x / 24;
+            jump->unk_AC = motion->velocity_y / 24;
         }
-        ((S_80173408_0 *)jump)->unk_96 = 12;
-        ((S_80173408_0 *)jump)->unk_9B++;
+        jump->unk_96 = 12;
+        jump->unk_9B++;
         return;
 
     case 3:
-        motion->velocity_x -= ((S_80173408_0 *)jump)->unk_A8;
-        motion->velocity_y -= ((S_80173408_0 *)jump)->unk_AC;
-        if (((S_80173408_0 *)jump)->unk_A0.at02.v > 0) {
-            ((S_80173408_0 *)jump)->unk_A0.at02u.v -= 0x10;
+        motion->velocity_x -= jump->unk_A8;
+        motion->velocity_y -= jump->unk_AC;
+        if (jump->unk_A0.at02.v > 0) {
+            jump->unk_A0.at02u.v -= 0x10;
         } else {
-            ((S_80173408_0 *)jump)->unk_A0.at02.v = 0;
+            jump->unk_A0.at02.v = 0;
         }
     case 4:
         if (!(sprite->flags & 0xE000)) {
@@ -212,7 +212,7 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        ((S_80173408_0 *)jump)->unk_8C = &kewne_uncached_action_resume_address;
+        jump->unk_8C = &kewne_uncached_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;

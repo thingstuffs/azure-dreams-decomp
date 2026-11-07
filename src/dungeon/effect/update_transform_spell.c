@@ -50,15 +50,15 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
     ObjectPosition *source_position;
 
     source_actor = spell->source;
-    spell->ticks.u++;
+    spell->ticks = (u16)spell->ticks + 1;
     switch (spell->phase) {
     case 0:
         source_sprite = NODE_HEADER(source_actor)->sprite;
         direction_byte_offset = ((u16)primary_actor_record->facing >> 8) & 0xE;
         source_actor->facing = get_rounded_facing_and_rounding_flag(source_sprite->tile_x, source_sprite->tile_y, D_80082E80.tile_x + D_8006CCD8[direction_byte_offset / 2], D_80082E80.tile_y + D_8006CCE8[direction_byte_offset / 2], &result_flags[0]);
-        spell->ticks.s = 0;
+        spell->ticks = 0;
         spell->phase++;
-        spell->direction.s = (source_actor->facing >> 9) & 7;
+        spell->direction = (source_actor->facing >> 9) & 7;
         spell->kind = 0;
         spell->visual = 0;
         sprite->color.word = 0x808080;
@@ -66,16 +66,16 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
     case 1:
         source_node = NODE_HEADER(source_actor);
         attachment_sprite = source_node->sprite;
-        if ((resolve_record_orientation_or_fallback(attachment_sprite->source, attachment_sprite, &travel.fields.distances[0].u, 0) != 0) || (source_node->sprite->flags & 0x8000)) {
+        if ((resolve_record_orientation_or_fallback(attachment_sprite->source, attachment_sprite, &travel.fields.distances[0], 0) != 0) || (source_node->sprite->flags & 0x8000)) {
             source_position = source_node->position;
             motion->x.w.i = source_position->x.w.i;
             motion->y.w.i = source_position->y.w.i;
             source_height = source_position->z.w.i;
             motion->z.w.i = source_height;
             if (!(source_node->sprite->flags & 0x8000)) {
-                motion->x.w.i = motion->x.w.i + travel.fields.distances[0].u;
-                motion->y.w.i = motion->y.w.i + travel.fields.distances[1].u;
-                motion->z.w.i = (u16)motion->z.w.i + travel.fields.distances[2].u;
+                motion->x.w.i = motion->x.w.i + (u16)travel.fields.distances[0];
+                motion->y.w.i = motion->y.w.i + (u16)travel.fields.distances[1];
+                motion->z.w.i = (u16)motion->z.w.i + (u16)travel.fields.distances[2];
             } else {
                 motion->z.w.i = source_height - 0x40;
             }
@@ -85,8 +85,8 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
                     spell->tile_x = D_80082E80.tile_x + D_8006CCD8[((u16)primary_actor_record->facing >> 9) & 7];
                     spell->tile_y = D_80082E80.tile_y + D_8006CCE8[((u16)primary_actor_record->facing >> 9) & 7];
                 } else {
-                    spell->tile_x = D_80082E80.tile_x + D_8006CCD8[spell->direction.s];
-                    spell->tile_y = D_80082E80.tile_y + D_8006CCE8[spell->direction.s];
+                    spell->tile_x = D_80082E80.tile_x + D_8006CCD8[spell->direction];
+                    spell->tile_y = D_80082E80.tile_y + D_8006CCE8[spell->direction];
                 }
                 tile_center_x = spell->tile_x;
                 tile_center_x = (tile_center_x << 6) + 0x20;
@@ -125,34 +125,34 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
                 axis_count = 1;
                 axis = &travel.halves[1];
                 x_distance = abs((s16)(u16)target->x.w.i - motion->x.w.i);
-                travel.fields.distances[0].u = x_distance;
+                travel.fields.distances[0] = x_distance;
                 y_distance = (s16)(u16)target->y.w.i - motion->y.w.i;
                 y_distance = abs(y_distance);
-                travel.fields.distances[1].u = y_distance;
+                travel.fields.distances[1] = y_distance;
                 z_distance = target->z.w.i - motion->z.w.i;
                 z_distance = abs(z_distance);
-                travel.fields.distances[2].u = z_distance;
-                spell->duration.s = x_distance;
+                travel.fields.distances[2] = z_distance;
+                spell->duration = x_distance;
                 do {
-                    if (axis[12].s > spell->duration.s) {
-                        spell->duration.u = axis[12].u;
+                    if (axis[12] > spell->duration) {
+                        spell->duration = (u16)axis[12];
                     }
                     axis_count++;
                     axis++;
                 } while (axis_count < 3);
-                duration_fixed = spell->duration.u << 0x10;
+                duration_fixed = (u16)spell->duration << 0x10;
                 duration_steps = (duration_fixed >> 0x14) + (duration_fixed >> 0x15);
-                spell->duration.s = duration_steps;
+                spell->duration = duration_steps;
                 if (duration_steps == 0) {
-                    spell->duration.s = 1;
+                    spell->duration = 1;
                 }
-                motion->velocity_x = (target->x.v - motion->x.v) / spell->duration.s;
-                motion->velocity_y = (target->y.v - motion->y.v) / spell->duration.s;
-                motion->velocity_z = (target->z.v - motion->z.v) / spell->duration.s;
-                allocate_display_object_and_copy_state(spell, motion, spell->duration.s);
-                allocate_display_object_and_copy_state(spell, motion, spell->duration.s);
-                allocate_display_object_and_copy_state(spell, motion, spell->duration.s);
-                spell->ticks.s = 0;
+                motion->velocity_x = (target->x.v - motion->x.v) / spell->duration;
+                motion->velocity_y = (target->y.v - motion->y.v) / spell->duration;
+                motion->velocity_z = (target->z.v - motion->z.v) / spell->duration;
+                allocate_display_object_and_copy_state(spell, motion, spell->duration);
+                allocate_display_object_and_copy_state(spell, motion, spell->duration);
+                allocate_display_object_and_copy_state(spell, motion, spell->duration);
+                spell->ticks = 0;
             }
         }
         break;
@@ -160,15 +160,15 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
         motion->x.v += motion->velocity_x;
         motion->y.v += motion->velocity_y;
         motion->z.v += motion->velocity_z;
-        if (spell->ticks.s >= spell->duration.s) {
+        if (spell->ticks >= spell->duration) {
             play_sound_if_enabled(0x300);
             spell->visual = create_randomized_transform_effect(spell, motion);
-            spell->ticks.s = 0;
+            spell->ticks = 0;
             spell->phase++;
         }
         break;
     case 3:
-        if (spell->ticks.s >= 0x31) {
+        if (spell->ticks >= 0x31) {
             if (spell->kind != 0) {
                 init_monster_from_stats(created_actor = create_actor_graphics_at_tile(spell->kind, spell->tile_x, spell->tile_y, spell->height), 0x35);
                 random_value = generate_random_value();
@@ -187,7 +187,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
                 visual->flags |= 0x8000;
                 D_800814A0 |= 0x8000;
             }
-            spell->ticks.s = 0;
+            spell->ticks = 0;
             spell->phase++;
         }
         break;
@@ -202,9 +202,9 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
         motion->x.v += motion->velocity_x;
         motion->y.v += motion->velocity_y;
         motion->z.v += motion->velocity_z;
-        if (spell->ticks.s >= spell->duration.s) {
+        if (spell->ticks >= spell->duration) {
             spell->phase = 4;
-            spell->ticks.s = 0;
+            spell->ticks = 0;
         }
         break;
     }

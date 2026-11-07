@@ -950,7 +950,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
     u16 heading;
 
     effect->unk_38 = effect->unk_38 + 1;
-    state = effect->spell.phase.s;
+    state = (s16)effect->spell.phase;
     context = context_arg;
     switch (state) {
     case 0:
@@ -959,7 +959,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
         player->action_timer.u = 20;
         reference_tile_object.depth_bias = 6;
         state_2 = (MovingPosition *)(&view_reference_entity);
-        effect->spell.phase.u = effect->spell.phase.u + 1;
+        effect->spell.phase = effect->spell.phase + 1;
         effect->unk_7C = state_2->x;
         effect->unk_7E = state_2->y;
         coord_z = state_2->z;
@@ -975,7 +975,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
         player_2->unk_A8.byte = effect->spell.spell_id;
         player = primary_actor_record;
         heading = ((u16)player->facing);
-        effect->spell.phase.u = effect->spell.phase.u + 1;
+        effect->spell.phase = effect->spell.phase + 1;
         effect->unk_38 = 0;
         effect->unk_34 = (heading >> 9) & 7;
         return;
@@ -985,7 +985,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
         effect->unk_2C = effect->unk_2C - 1;
         if ((s16)effect->unk_2C <= 0) {
             effect->unk_2C = 16;
-            effect->spell.phase.u = effect->spell.phase.u + 1;
+            effect->spell.phase = effect->spell.phase + 1;
             return;
         }
         if ((s16)effect->unk_2C == 26) {
@@ -1375,7 +1375,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
                     return;
                 }
             }
-            effect->spell.phase.u = next_state;
+            effect->spell.phase = next_state;
             return;
         }
     }

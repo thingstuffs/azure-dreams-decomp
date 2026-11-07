@@ -15,10 +15,10 @@ void decrement_effect_counter_by_twelve(RandomOffsetEffectObjectBody *object)
 {
     u16 counter;
 
-    counter = object->unk_32.u;
+    counter = object->unk_32;
     D_800259AC = 1;
     counter -= 12;
-    object->unk_32.u = counter;
+    object->unk_32 = counter;
     if ((counter << 16) <= 0) {
         ((u16 *)object)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -69,7 +69,7 @@ void create_random_offset_effect_object(
         z_pos += z_jitter;
         z_dest->z.w.i = (s16)z_pos + (s16)(held_z_offset - 0x10);
         state->unk_14 = field_14_value;
-        state->unk_32.s = field_32_value;
+        state->unk_32 = field_32_value;
         register_node(object, draw_linked_shaded_tiles);
         state->unk_50 = -0x2000;
         state->unk_08.p = payload;

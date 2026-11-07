@@ -96,8 +96,8 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
     sprite->color.c.r = 0x80;
     sprite->scale_y = 0x1000;
     sprite->scale_x = 0x1000;
-    effect_data->angle_x_step.s = (s16) ((rand() & 0x1FF) - 0x100);
-    effect_data->angle_y_step.s = (s16) ((rand() & 0x1FF) - 0x100);
-    effect_data->lifetime.s = (s16) ((rand() & 0x1F) + 0x20);
+    effect_data->angle_x_step = (s16) ((rand() & 0x1FF) - 0x100);
+    effect_data->angle_y_step = (s16) ((rand() & 0x1FF) - 0x100);
+    effect_data->lifetime = (s16) ((rand() & 0x1F) + 0x20);
     return;
 }

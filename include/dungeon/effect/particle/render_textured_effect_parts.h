@@ -98,7 +98,7 @@ typedef struct ProjectileBurstImpactBody {
     u8 pad_80[0x2];
     u16 unk_82;
     u16 unk_84;
-    u16 unk_86;
+    s16 unk_86;
     u8 pad_88[0x1A];
     s8 unk_A2;
     s8 unk_A3;

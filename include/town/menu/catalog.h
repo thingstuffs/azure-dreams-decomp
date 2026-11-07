@@ -16,11 +16,11 @@ struct CatalogNodeSlots;
 
 typedef struct CatalogDisplay {
     u8 pad_00[4];
-    union { s16 as_s16; u16 as_u16; } unk_04;
-    union { s16 as_s16; u16 as_u16; } unk_06;
-    union { s16 as_s16; u16 as_u16; } unk_08;
-    union { s8 as_s8; u8 as_u8; } unk_0A; /* catalog dispatch phase, stored through both byte views */
-    union { s8 as_s8; u8 as_u8; } unk_0B;
+    u16 unk_04;
+    s16 unk_06;
+    u16 unk_08;
+    u8 unk_0A; /* catalog dispatch phase, stored through both byte views */
+    u8 unk_0B;
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
@@ -28,7 +28,7 @@ typedef struct CatalogDisplay {
     u8 unk_10;
     u8 unk_11;
     u8 unk_12;
-    union { s8 as_s8; u8 as_u8; } unk_13;
+    u8 unk_13;
     u8 unk_14;
     u8 unk_15;
     u8 unk_16;

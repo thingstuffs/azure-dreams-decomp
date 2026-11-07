@@ -32,21 +32,21 @@ typedef struct ProjectileEffect {
     struct { u16 flags; } *animation;
     u8 pad_08;
     u8 variant;
-    union { s16 s; u16 u; } state;
+    u16 state;
     u8 pad_0C[0x68];
-    union { s16 s; u16 u; } target_x;
-    union { s16 s; u16 u; } target_y;
-    union { s16 s; u16 u; } target_z;
+    s16 target_x;
+    s16 target_y;
+    s16 target_z;
     u8 flags;
-    union { s8 s; u8 u; } travel_ticks;
+    s8 travel_ticks;
     u8 pad_7C[2];
-    union { s16 s; u16 u; } direction;
+    s16 direction;
     u8 pad_80[2];
-    union { s16 s; u16 u; } timer;
+    s16 timer;
     u8 pad_84[0xC];
     u8 red, green, blue;
     u8 pad_93[3];
-    union { s16 s; u16 u; } impact_phase;
+    s16 impact_phase;
     struct { u8 pad_98[8]; u8 unk_A0; u8 pad_A1[3]; } sprite_data;
     u8 next_tile_x;
     u8 next_tile_y;
@@ -55,8 +55,8 @@ typedef struct ProjectileEffect {
 /* State used by the expanding fade callback and its angle/height creator. */
 typedef struct ExpandingFadeEffectBody {
     u8 pad_00[0x4];
-    union { s16 s; u16 u; } unk_04;
-    union { s16 s; u16 u; } unk_06;
+    u16 unk_04;
+    u16 unk_06;
     union { s16 s; u16 u; } unk_08;
     u16 unk_0A;
     u8 pad_0C[0xF8];
@@ -93,7 +93,7 @@ typedef struct LinkedEffectControllerBody {
     union { s16 s; volatile u16 u; u16 p; } field28;
     u8 pad_2A[0x4];
     union { volatile s16 s; s16 u; u16 p; } field2E;
-    union { s16 s; u16 u; } field30;
+    u16 field30;
     u8 pad_32[0x6];
     s16 field38;
 } LinkedEffectControllerBody;
@@ -114,11 +114,11 @@ typedef struct TargetTintWork {
     struct { u16 flags; } *animation;
     u8 variant;
     u8 pad_09;
-    union { s16 s; u16 u; } phase;
+    u16 phase;
     u8 pad_0C[8];
     u16 facing;
     u16 elapsed;
-    union { s16 s; u16 u; } timer;
+    u16 timer;
 } TargetTintWork;
 
 void update_directional_actor_effect(TargetTintWork *state);

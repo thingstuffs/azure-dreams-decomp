@@ -29,7 +29,7 @@ typedef struct MinigameTransitionObject {
     /* 0x02 */ u8 pad_02[2];
     /* 0x04 */ void *object;
     /* 0x08 */ u8 pad_08[0x4C];
-    /* 0x54 */ union { s16 s; u16 u; } mode;
+    /* 0x54 */ s16 mode;
 } MinigameTransitionObject;
 
 /* Body for the minigame text value and its initialized display fields. */

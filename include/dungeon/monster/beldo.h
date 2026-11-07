@@ -7,6 +7,9 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/entity.h"
 
+struct S_8017256C_0;
+struct S_81275000_0;
+
 typedef struct AttachedSpriteWithOffsetBody {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -37,11 +40,11 @@ void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, void *motion, 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void update_actor_movement_and_height(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);
 
-void advance_actor_action_and_target(void *action, void *motion, SpriteFrameState *sprite, void *actor);
+void advance_actor_action_and_target(struct S_8017256C_0 *action, void *motion, SpriteFrameState *sprite, void *actor);
 void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *path);
 void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height);
 void update_actor_part_brightness(void *root_data, void *position_out, void *part_out);
-void update_beldo_attached_part(void *root_data, void *position_data, void *render_data);
+void update_beldo_attached_part(struct S_81275000_0 *root_data, void *position_data, void *render_data);
 void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 
 s32 replay_actor_direction_commands(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite);

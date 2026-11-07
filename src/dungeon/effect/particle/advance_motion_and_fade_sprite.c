@@ -27,15 +27,9 @@ typedef struct S_func_81856800_1 {
     void * unk_04;
     u8 pad_08[0x1];
     u8 unk_09;
-    union {
-        s16 s16_0A;
-        u16 u16_0A;
-    } unk_0A;
+    u16 unk_0A;
     u8 pad_0C[0x44];
-    union {
-        s16 s16_50;
-        u16 u16_50;
-    } unk_50;
+    u16 unk_50;
     u16 unk_52;
 } S_func_81856800_1;
 
@@ -208,7 +202,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
     s32 t8_reserve;
     s32 t9_reserve;
     object = action->unk_00;
-    state = action->unk_0A.s16_0A;
+    state = (s16)action->unk_0A;
     owner = ((S_func_81856800_4 *)NODE_HEADER(object))->unk_0C;
     object_base = (S_func_81856800_4 *)((u8 *)object - 32);
 
@@ -288,7 +282,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
                 index--;
             } while (index >= 0);
         }
-        state = action->unk_0A.s16_0A;
+        state = (s16)action->unk_0A;
     }
     switch (state) {
     case 0:
@@ -321,7 +315,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
             + coord_offset[1];
         motion_arg->unk_08.u16_0A.unk_0A = ((S_func_81856800_2 *)object_base->unk_08)->unk_08.u16_0A.unk_0A
             + coord_offset[2];
-        action->unk_50.u16_50 = 8;
+        action->unk_50 = 8;
         {
             s32 velocity;
             s32 position;
@@ -336,7 +330,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
         {
             s32 quotient;
 
-            quotient = motion_arg->unk_0C.s32_0C / action->unk_50.s16_50;
+            quotient = motion_arg->unk_0C.s32_0C / (s16)action->unk_50;
             motion_arg->unk_0C.s32_0C = quotient;
         }
         {
@@ -352,17 +346,17 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
         {
             s32 quotient;
 
-            quotient = motion_arg->unk_10.s32_10 / action->unk_50.s16_50;
+            quotient = motion_arg->unk_10.s32_10 / (s16)action->unk_50;
             motion_arg->unk_10.s32_10 = quotient;
         }
         height_limit = (s16)(((S_func_81856800_2 *)object_base->unk_08)->unk_08.u16_0A.unk_0A - 48);
         target_height = sample_terrain_surface_height(motion_arg->unk_00.u16_02.unk_02, motion_arg->unk_04.u16_06.unk_06, height_limit);
         motion_arg->unk_14.s16_16.unk_16 = target_height - motion_arg->unk_08.u16_0A.unk_0A;
-        motion_arg->unk_14.s32_14 /= action->unk_50.s16_50;
+        motion_arg->unk_14.s32_14 /= (s16)action->unk_50;
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-        next_state = action->unk_0A.u16_0A;
+        next_state = action->unk_0A;
         next_state++;
-        action->unk_0A.u16_0A = next_state;
+        action->unk_0A = next_state;
         return;
 
     case 1:
@@ -370,16 +364,16 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
         motion_arg->unk_00.s32_00 += motion_arg->unk_0C.s32_0C;
         motion_arg->unk_04.s32_04 += motion_arg->unk_10.s32_10;
         motion_arg->unk_08.s32_08 += motion_arg->unk_14.s32_14;
-        timer = action->unk_50.u16_50 - 1;
-        action->unk_50.u16_50 = timer;
+        timer = action->unk_50 - 1;
+        action->unk_50 = timer;
         next_timer = 10;
         if ((s16)timer > 0) {
             return;
         }
-        next_state = action->unk_0A.u16_0A;
-        action->unk_50.u16_50 = next_timer;
+        next_state = action->unk_0A;
+        action->unk_50 = next_timer;
         next_state++;
-        action->unk_0A.u16_0A = next_state;
+        action->unk_0A = next_state;
         return;
     }
 
@@ -387,13 +381,13 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
     {
         void *spawn_type;
         u8 *spawn_page;
-        timer = action->unk_50.u16_50 - 1;
-        action->unk_50.u16_50 = timer;
+        timer = action->unk_50 - 1;
+        action->unk_50 = timer;
         if ((s16)timer > 0) {
             return;
         }
         if (object->target == 0) {
-            action->unk_0A.u16_0A = 5;
+            action->unk_0A = 5;
             return;
         }
         index = 8;
@@ -417,11 +411,11 @@ case2_spawn_loop:
         if (index >= 0) {
             goto case2_spawn_loop;
         }
-        next_state = action->unk_0A.u16_0A;
+        next_state = action->unk_0A;
         next_timer = 8;
-        action->unk_50.u16_50 = next_timer;
+        action->unk_50 = next_timer;
         next_state++;
-        action->unk_0A.u16_0A = next_state;
+        action->unk_0A = next_state;
         return;
     }
 
@@ -430,7 +424,7 @@ case2_spawn_loop:
         s32 point_offset;
         S_func_81856800_11 *dst_point;
 
-        if (action->unk_50.s16_50 < 6) {
+        if ((s16)action->unk_50 < 6) {
             effect = allocate_list_node(0x201, &scene_object_list_anchor.next);
             if (effect != 0) {
                 part = (S_func_81856800_6 *)((u8 *)effect + 32);
@@ -443,7 +437,7 @@ case2_spawn_loop:
                 part->unk_08.u16_08 = motion_arg->unk_08.u16_0A.unk_0A;
                 part->unk_40 = GetTPage(0, 3, 0x2C0, 0x100);
                 part->unk_34 = 0x00707070;
-                if (action->unk_50.u16_50 & 1) {
+                if (action->unk_50 & 1) {
                     part->unk_38 = 0xA0;
                     part->unk_3A = 0;
                 } else {
@@ -504,8 +498,8 @@ case2_spawn_loop:
             }
         }
     }
-        timer = action->unk_50.u16_50 - 1;
-        action->unk_50.u16_50 = timer;
+        timer = action->unk_50 - 1;
+        action->unk_50 = timer;
         if ((s16)timer > 0) {
             return;
         }
@@ -514,11 +508,11 @@ case2_spawn_loop:
                           action->unk_09, 4,
                           object->facing, object, 2);
         }
-        next_state = action->unk_0A.u16_0A;
+        next_state = action->unk_0A;
         next_timer = 10;
-        action->unk_50.u16_50 = next_timer;
+        action->unk_50 = next_timer;
         next_state++;
-        action->unk_0A.u16_0A = next_state;
+        action->unk_0A = next_state;
         return;
 
     case 4:
@@ -557,14 +551,14 @@ case2_spawn_loop:
             particle_data->unk_48 = rand() & 3;
             particle_data->unk_4C = 0;
         }
-        timer = action->unk_50.u16_50 - 1;
-        action->unk_50.u16_50 = timer;
+        timer = action->unk_50 - 1;
+        action->unk_50 = timer;
         if ((s16)timer > 0) {
             return;
         }
-        next_state = action->unk_0A.u16_0A;
+        next_state = action->unk_0A;
         next_state++;
-        action->unk_0A.u16_0A = next_state;
+        action->unk_0A = next_state;
         return;
     }
 

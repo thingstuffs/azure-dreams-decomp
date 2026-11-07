@@ -4,6 +4,7 @@
 
 struct B32_818CF0E8_S_818CF0E8_1;
 struct B32_818CF0E8_S_818CF0E8_3;
+struct B32_818CF0E8_S_818CF0E8_9;
 
 #include "shared/entity.h"
 #include "common.h"
@@ -149,7 +150,7 @@ typedef struct B32_818CF0E8_S_818CF0E8_0_pre {
 } B32_818CF0E8_S_818CF0E8_0_pre;
 typedef struct B32_818CF0E8_S_818CF0E8_0 {
     s16 unk_00;
-    s16 unk_02;
+    u16 unk_02;
     s16 unk_04;
     u8 pad_06[0x2];
     s16 unk_08;
@@ -159,7 +160,7 @@ typedef struct B32_818CF0E8_S_818CF0E8_0 {
     u8 pad_18[0x14];
     void * unk_2C;
     void * unk_30;
-    void * unk_34;
+    struct B32_818CF0E8_S_818CF0E8_9 *unk_34;
     s16 unk_38;
     s16 unk_3A;
     s16 unk_3C;

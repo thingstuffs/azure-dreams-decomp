@@ -39,14 +39,14 @@ void create_brief_randomized_particle(S_80026978_1 *origin)
     SpriteFrameState *sprite;
     ObjectPosition *transform;
     BriefRandomParticleBody *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x136);
     if (effect != NULL) {
-        ((ProjectileObject *)effect)->update_callback = D_80026B00;
+        effect->update_callback = D_80026B00;
         register_node(effect, project_sprite_chain);
-        transform = ((ProjectileObject *)effect)->position;
-        sprite = ((ProjectileObject *)effect)->sprite;
+        transform = effect->position;
+        sprite = effect->sprite;
         effect_state = NODE_BODY(effect);
         spawn_x = (origin->unk_02 + (rand() % 40)) - 0x14;
         transform->x.w.i = spawn_x;

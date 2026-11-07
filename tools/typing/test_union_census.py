@@ -5,10 +5,141 @@ import subprocess
 import sys
 import unittest
 
-from tools.typing.union_census import census, main
+from tools.typing.union_census import (census, main, add_access_loads,
+                                       load_check, retain_retired_loads)
 
 
 class UnionCensusTests(unittest.TestCase):
+    def test_loads_count_retail_opcodes_and_report_majority(self):
+        row = dict(id='include/e.h::Effect.ticks', file='include/e.h', line=7,
+                   owner='Effect', path='ticks', status='retired',
+                   members=[{'name': 's', 'type': 's16'}, {'name': 'u', 'type': 'u16'}])
+        accesses = [dict(base_type='include/e.h:Effect', member_path='ticks',
+                         file='src/e.c', function='f', line=str(i), pc=str(4 * i),
+                         opcode=op, status='mapped', direction='r')
+                    for i, op in enumerate(('lh', 'lh', 'lh', 'lh', 'lhu'), 1)]
+        accesses.append(dict(accesses[0], line='8', pc='', opcode='', status='unmapped',
+                             declared_width='2', declared_sign='s'))
+        accesses.append(dict(accesses[0], line='9', pc='', opcode='', status='unmapped',
+                             direction='w', declared_width='2', declared_sign='s'))
+        add_access_loads([row], accesses)
+        self.assertEqual(row['loads']['s']['lh'], 4)
+        self.assertEqual(row['loads']['u']['lhu'], 1)
+        self.assertEqual(row['loads']['s']['unmapped'], 1)
+        self.assertEqual(load_check([row], {row['id']: 'u16'}),
+                         [(row['id'], 'disagree', 'u16', 4, 1, 1)])
+        self.assertEqual(load_check([row], {row['id']: 's16'}), [])
+
+    def test_live_union_uses_declaration_identity(self):
+        row = dict(id='include/e.h::Effect.ticks', file='include/e.h', line=7,
+                   owner='Effect', path='ticks', status='unproven',
+                   members=[{'name': 's', 'type': 's16'}, {'name': 'u', 'type': 'u16'}])
+        access = dict(base_type='@include/e.h:7:12', member_path='ticks.s',
+                      file='src/e.c', function='f', line='9', pc='4',
+                      opcode='lh', status='mapped', direction='r')
+        add_access_loads([row], [access])
+        self.assertEqual(row['loads']['s']['lh'], 1)
+        self.assertEqual(row['loads']['u']['lh'], 0)
+        self.assertEqual(load_check([row], {}), [(row['id'], 'insufficient', '', 1, 0, 0)])
+
+    def test_named_typedef_union_joins_typed_view_to_exact_owner(self):
+        row = dict(id='src/e.c::Half.Half', file='src/e.c', line=4,
+                   owner='Half', path='Half', status='unproven',
+                   count_basis='member_suffix_upper_bound',
+                   members=[{'name': 'bits', 'type': 'u16'},
+                            {'name': 'signed_value', 'type': 's16'}])
+        access = dict(base_type='src/e.c:Half', base_kind='view',
+                      base_expression='object->extent',
+                      member_path='object->extent.signed_value',
+                      file='src/e.c', function='f', line='14', pc='8',
+                      opcode='lh', status='mapped', direction='r')
+        wrong_type = dict(access, base_type='src/e.c:OtherHalf', pc='12')
+        nested = dict(access, member_path='object->extent.parts.signed_value', pc='16')
+        add_access_loads([row], [access, wrong_type, nested])
+        self.assertEqual(row['loads']['signed_value']['lh'], 1)
+        self.assertEqual(row['loads']['bits']['lh'], 0)
+
+    def test_retired_word_load_uses_declared_member_for_bucket_only(self):
+        row = dict(id='include/e.h::Effect.word', file='include/e.h', line=4,
+                   owner='Effect', path='word', status='retired',
+                   members=[{'name': 'signed', 'type': 's32'},
+                            {'name': 'unsigned', 'type': 'u32'}])
+        access = dict(base_type='include/e.h:Effect', member_path='word',
+                      file='src/e.c', function='f', line='8', pc='4', opcode='lw',
+                      status='mapped', direction='r', declared_sign='s')
+        add_access_loads([row], [access])
+        self.assertEqual(row['loads']['signed']['lw'], 1)
+        self.assertEqual(row['loads']['unsigned']['lw'], 0)
+        self.assertEqual(load_check([row], {row['id']: 's32'}),
+                         [(row['id'], 'insufficient', 's32', 0, 0, 0)])
+
+    def test_retired_alias_keeps_fuller_byte_proven_loads(self):
+        row = dict(id='include/e.h::Effect.stage', file='include/e.h', line=7,
+                   owner='Effect', path='stage', status='retired',
+                   members=[{'name': 's', 'type': 's16'},
+                            {'name': 'u', 'type': 'u16'},
+                            {'name': 'p', 'type': 'u16'}])
+        old = dict(row)
+        old['loads'] = {name: dict.fromkeys(
+            ('lb', 'lbu', 'lh', 'lhu', 'lw', 'sb', 'sh', 'sw', 'unmapped'), 0)
+            for name in ('s', 'u', 'p')}
+        old['loads']['s']['lh'] = 3
+        old['loads']['u']['lhu'] = 5
+        old['loads']['p']['lhu'] = 6
+        access = dict(base_type='include/e.h:Effect', member_path='stage',
+                      file='src/e.c', function='f', line='9', pc='4',
+                      opcode='lhu', status='mapped', direction='r')
+        add_access_loads([row], [access])
+        self.assertEqual(sum(v['lhu'] for v in row['loads'].values()), 0)
+        retain_retired_loads([row], {row['id']: old}, set())
+        self.assertEqual(row['loads'], old['loads'])
+        add_access_loads([row], [access])
+        retain_retired_loads([row], {row['id']: old}, {row['id']})
+        self.assertEqual(sum(v['lhu'] for v in row['loads'].values()), 0)
+
+    def test_regeneration_keeps_retired_alias_loads(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'include').mkdir()
+            (root / 'src').mkdir()
+            header = root / 'include' / 'e.h'
+            header.write_text('typedef unsigned short u16;\ntypedef struct Effect { u16 stage; } Effect;\n')
+            row = dict(id='include/e.h::Effect.stage', file='include/e.h', line=2,
+                       owner='Effect', path='stage', status='retired',
+                       members=[{'name': 's', 'type': 's16'},
+                                {'name': 'u', 'type': 'u16'},
+                                {'name': 'p', 'type': 'u16'}])
+            row['loads'] = {name: dict.fromkeys(
+                ('lb', 'lbu', 'lh', 'lhu', 'lw', 'sb', 'sh', 'sw', 'unmapped'), 0)
+                for name in ('s', 'u', 'p')}
+            row['loads']['s']['lh'] = 3
+            row['loads']['u']['lhu'] = 5
+            row['loads']['p']['lhu'] = 6
+            ledger = root / 'unions.jsonl'
+            ledger.write_text(json.dumps(row) + '\n')
+            sites = root / 'access_sites.tsv'
+            sites.write_text('base_type\tmember_path\tfile\tfunction\tline\tpc\topcode\tstatus\tdirection\n'
+                             'include/e.h:Effect\tstage\tsrc/e.c\tf\t9\t4\tlhu\tmapped\tr\n')
+            main(['--root', str(root), '--out', str(ledger), '--access-sites', str(sites)])
+            self.assertEqual(json.loads(ledger.read_text())['loads'], row['loads'])
+
+    def test_regeneration_without_access_sites_keeps_loads(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'src').mkdir()
+            (root / 'include').mkdir()
+            (root / 'src/use.c').write_text('union { short s; unsigned short u; } field;\n')
+            row, = census(root)
+            row['loads'] = {name: dict.fromkeys(
+                ('lb', 'lbu', 'lh', 'lhu', 'lw', 'sb', 'sh', 'sw', 'unmapped'), 0)
+                for name in ('s', 'u')}
+            row['loads']['s']['lh'] = 4
+            row['loads']['u']['lhu'] = 1
+            ledger = root / 'unions.jsonl'
+            ledger.write_text(json.dumps(row) + '\n')
+            main(['--root', str(root), '--out', str(ledger)])
+            self.assertEqual(json.loads(ledger.read_text())['loads'], row['loads'])
+
     def test_regeneration_preserves_byte_hold(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

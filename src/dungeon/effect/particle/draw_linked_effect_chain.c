@@ -223,11 +223,11 @@ void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_80
     s32 dy;
     s32 ticks_left;
 
-    ticks_left = effect->unk_3A;
+    ticks_left = (u16)effect->unk_3A;
     linked_effect_update_flag[0] = 1;
     effect->unk_3A = ticks_left - 1;
     advance_sprite_animation_and_textures(primitive);
-    brightness = ((s16)effect->unk_3A << 7) /
+    brightness = (effect->unk_3A << 7) /
             effect->unk_3C;
     primitive->color.c.b = brightness;
     primitive->color.c.g = brightness;
@@ -238,7 +238,7 @@ void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_80
     dy = motion->unk_10;
     motion->unk_00 = x + dx;
     motion->unk_04 = y + dy;
-    if ((s16)effect->unk_3A <= 0) {
+    if (effect->unk_3A <= 0) {
         ((Row_819A0EF0_S_800246F0_0_pre *)effect)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
@@ -274,22 +274,22 @@ void fade_quad_vertex_colors(void *fade_data)
     u16 ticks_left;
 
     fade = fade_data;
-    ticks_left = fade->unk_3A;
+    ticks_left = (u16)fade->unk_3A;
     linked_effect_update_flag[0] = 1;
     ticks_left--;
     fade->unk_3A = ticks_left;
     for (color_index = 0; color_index < 4; color_index++) {
         ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0C =
-            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1C * (s16)fade->unk_3A /
+            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1C * fade->unk_3A /
             fade->unk_3C;
         ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0D =
-            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1D * (s16)fade->unk_3A /
+            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1D * fade->unk_3A /
             fade->unk_3C;
         ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0E =
-            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1E * (s16)fade->unk_3A /
+            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1E * fade->unk_3A /
             fade->unk_3C;
     }
-    if ((s16)fade->unk_3A <= 0) {
+    if (fade->unk_3A <= 0) {
         (*(u16 *)((u8 *)fade + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

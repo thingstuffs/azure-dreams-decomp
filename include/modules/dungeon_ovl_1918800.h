@@ -26,8 +26,6 @@ extern const PackedVector wave_source_rect;
 extern const Copy24 wave_direction_steps;
 struct CountdownRecord;
 struct ParticleState;
-struct OutView;
-struct PacketView;
 struct PointRecord;
 struct Position;
 struct ProjectileSelf;
@@ -43,7 +41,7 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, struct
 void advance_grayscale_fade(struct ParticleState *state, s32 unused, struct SpriteFrameState *out);
 struct TimedWaveParticleBody;
 void update_timed(struct TimedWaveParticleBody *state, void *position_out, struct SpriteFrameState *effect_arg);
-void set_record_pair_to_one(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data);
+void set_record_pair_to_one(struct ProjectileSelf *self, struct ObjectPosition *position, struct SpriteFrameState *render_data);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 rand(void);
 #endif

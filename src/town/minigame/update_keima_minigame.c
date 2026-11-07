@@ -123,7 +123,7 @@ void update_keima_minigame(KeimaState *game) {
     MinigameBody *base_object;
     ObjectPosition *init_position;
 
-    state = game->stage.s;
+    state = game->stage;
     base_object = &scene_object_payload_alias;
     switch (state) {
     case 0:
@@ -170,20 +170,20 @@ loop_3:
             angle_slot = (KeimaState *) ((u8 *) angle_slot - 2);
         if (object_index >= 0)
             goto loop_3;
-        game->stage.s = (s16) ((u16) game->stage.s + 1);
+        game->stage = (s16) ((u16) game->stage + 1);
                         /* fallthrough */
     case 1:
-        start_timer = game->timer.s - 1;
-        game->timer.s = start_timer;
+        start_timer = game->timer - 1;
+        game->timer = start_timer;
         if ((start_timer << 0x10) <= 0) {
             base_object->unk_08 = 1;
-            game->timer.s = 0x20U;
-            game->stage.s = (s16) ((u16) game->stage.s + 1);
+            game->timer = 0x20U;
+            game->stage = (s16) ((u16) game->stage + 1);
             SD_Call(0x521);
         }
         break;
     case 2:
-        if ((s16) game->timer.s == 0x10) {
+        if ((s16) game->timer == 0x10) {
             SD_Call(0x700);
             SD_Call(0x702);
             object_index = 2;
@@ -194,12 +194,12 @@ loop_3:
                 ((MinigameBody *)(fall_object + 1))->unk_18 = phase_value;
             } while (object_index >= 0);
         }
-        if ((s16) game->timer.s < 0x10) {
+        if ((s16) game->timer < 0x10) {
             object_index = 3;
             partner_index = 0xFFF00000;
             do {
                 fall_position = game->rec[object_index];
-                timer_bits = game->timer.u;
+                timer_bits = (s16)game->timer;
                 pair_value = fall_position->x.v;
                 timer_bits <<= 0x10;
                 pair_value += partner_index;
@@ -212,17 +212,17 @@ loop_3:
                 object_index -= 1;
             } while (object_index >= 0);
         }
-        fall_timer = game->timer.s - 1;
-        game->timer.s = fall_timer;
+        fall_timer = game->timer - 1;
+        game->timer = fall_timer;
         if ((fall_timer << 0x10) <= 0) {
             s32 stage;
 
             base_object->unk_08 = 2;
-            stage = game->stage.u;
+            stage = game->stage;
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
-            game->timer.s = transition_timer;
-            game->stage.s = (s16) (stage + 1);
+            game->timer = transition_timer;
+            game->stage = (s16) (stage + 1);
         }
         break;
     case 3:
@@ -236,8 +236,8 @@ loop_3:
             }
             object_index -= 1;
         } while (object_index >= 0);
-        drop_timer = game->timer.s - 1;
-        game->timer.s = drop_timer;
+        drop_timer = game->timer - 1;
+        game->timer = drop_timer;
         if ((drop_timer << 0x10) <= 0) {
             s32 stage;
 
@@ -263,12 +263,12 @@ loop_3:
                 ((MinigameBody *)(game->node[bounce_x] + 1))->unk_22 = shuffle_value;
             } while (object_index >= 0);
             SD_Call(0x1702);
-            stage = game->stage.p;
-            game->stage.s = (s16) (stage + 1);
+            stage = game->stage;
+            game->stage = (s16) (stage + 1);
         }
         break;
     case 4:
-        game->timer.s = (u16) (game->timer.s + 1);
+        game->timer = (u16) (game->timer + 1);
         if (game->unk_46 >= 0) {
             s32 stage;
 
@@ -292,7 +292,7 @@ loop_3:
             if (winning_mask != object_index) {
                 keima_payout_remaining[0] = 0;
             }
-            game->timer.s = 0x40U;
+            game->timer = 0x40U;
             game->unk_4A.s = 0x400U;
             game->unk_48 = 0U;
             dialog_args.x = 0x28;
@@ -306,22 +306,22 @@ loop_3:
             dialog_args.unk_12 = 8;
             dialog_args.owner = game;
             func_80021120(&D_80022514, &dialog_args);
-            stage = game->stage.p;
-            game->stage.s = (s16) (stage + 1);
+            stage = game->stage;
+            game->stage = (s16) (stage + 1);
         }
         break;
     case 5:
         transition_timer = game->unk_48;
-        scroll = game->timer.s;
+        scroll = game->timer;
         transition_timer += 0x12C;
         scroll <<= 1;
         transition_timer += scroll;
         scroll = game->unk_4A.s;
         game->unk_48 = transition_timer;
-        transition_timer = game->timer.s;
+        transition_timer = game->timer;
         scroll += 0x10;
         transition_timer -= 1;
-        game->timer.s = transition_timer;
+        game->timer = transition_timer;
         transition_timer <<= 0x10;
         game->unk_4A.s = scroll;
         if (transition_timer <= 0) {
@@ -330,42 +330,42 @@ loop_3:
             if (keima_selection_mask[0] != 0) {
                 D_80024338 = create_dual_buffer_object(0, -0x50, 0x40);
             }
-            stage = game->stage.u;
+            stage = game->stage;
                                      /* MATCH: the state load precedes timer materialization. */
-            game->timer.s = 0x10;
-            game->stage.s = (s16) (stage + 1);
+            game->timer = 0x10;
+            game->stage = (s16) (stage + 1);
         }
         break;
     case 6:
         scroll = 0x10;
         transition_timer = game->unk_48;
-        phase_value = game->timer.s;
+        phase_value = game->timer;
         transition_timer += 0x12C;
         scroll -= phase_value;
         scroll <<= 3;
         transition_timer -= scroll;
         game->unk_48 = transition_timer;
-        transition_timer = game->timer.s;
+        transition_timer = game->timer;
         scroll = game->unk_4A.s;
         transition_timer -= 1;
-        game->timer.s = transition_timer;
+        game->timer = transition_timer;
         transition_timer <<= 0x10;
         scroll += 0x15E;
         game->unk_4A.s = scroll;
         if (transition_timer <= 0) {
             s32 stage;
 
-            stage = game->stage.u;
+            stage = game->stage;
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x21;
-            game->timer.s = transition_timer;
-            game->stage.s = (s16) (stage + 1);
+            game->timer = transition_timer;
+            game->stage = (s16) (stage + 1);
         }
         break;
     case 7:
         game->unk_48 = (u16) (game->unk_48 + 0xA0);
-        settle_timer = game->timer.s - 1;
-        game->timer.s = settle_timer;
+        settle_timer = game->timer - 1;
+        game->timer = settle_timer;
         settle_timer_signed = settle_timer << 0x10;
         game->unk_4A.s = (u16) (game->unk_4A.s + ((s32) (0x1EDC
             - (s16) game->unk_4A.s) >> 1));
@@ -373,21 +373,21 @@ loop_3:
             s32 stage;
 
             game->unk_48 = 0U;
-            stage = game->stage.u;
+            stage = game->stage;
             transition_timer = 0x10;
-            game->timer.s = transition_timer;
-            game->stage.s = (s16) (stage + 1);
+            game->timer = transition_timer;
+            game->stage = (s16) (stage + 1);
         }
         break;
     case 8:
         transition_timer = 0x2001;
         scroll = game->unk_4A.u;
-        phase_value = game->timer.s;
+        phase_value = game->timer;
         transition_timer -= scroll;
         transition_timer >>= 1;
         scroll = game->unk_4A.s;
         phase_value -= 1;
-        game->timer.s = phase_value;
+        game->timer = phase_value;
         phase_value <<= 0x10;
         scroll += transition_timer;
         game->unk_4A.s = scroll;
@@ -402,39 +402,39 @@ loop_3:
                 town_money[0] = gold_total;
                 set_object_data_pointer_2(payout_handle);
             }
-            stage = game->stage.u;
+            stage = game->stage;
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x8F;
-            game->timer.s = transition_timer;
-            game->stage.s = (s16) (stage + 1);
+            game->timer = transition_timer;
+            game->stage = (s16) (stage + 1);
         }
         break;
     case 9:
-        if ((s16) game->timer.s == 0x64) {
+        if ((s16) game->timer == 0x64) {
             SD_Call(0x702);
         }
-        result_timer = game->timer.s - 1;
-        game->timer.s = result_timer;
+        result_timer = game->timer - 1;
+        game->timer = result_timer;
         if ((result_timer << 0x10) <= 0) {
             SD_Call(0x72);
-            game->timer.s = 0x1EU;
+            game->timer = 0x1EU;
             game->flags = (u16) (game->flags | 0x8000);
-            game->stage.p = (u16) (game->stage.p + 1);
+            game->stage = (u16) (game->stage + 1);
         }
         break;
     case 10:
-        exit_timer = game->timer.s - 1;
-        game->timer.s = exit_timer;
+        exit_timer = game->timer - 1;
+        game->timer = exit_timer;
         if ((exit_timer << 0x10) <= 0) {
             s32 stage;
 
             base_object->unk_08 = 4;
-            stage = game->stage.p;
-            game->stage.s = (s16) (stage + 1);
+            stage = game->stage;
+            game->stage = (s16) (stage + 1);
         }
         break;
     }
-    if ((u32) ((u16) game->stage.s - 6) < 3U) {
+    if ((u32) ((u16) game->stage - 6) < 3U) {
         payout_amount = keima_payout_remaining[0];
         if (payout_amount >= 0x3E8) {
             payout_gold = town_money;
@@ -452,7 +452,7 @@ loop_3:
             *payout_gold = payout_carry;
         }
     }
-    effect_state = (u16) game->stage.s;
+    effect_state = (u16) game->stage;
     if ((u32) (effect_state - 5) < 5U) {
         object_index = (s16) effect_state < 9;
         func_80023E6C(0x50, game->unk_44, game, object_index);
@@ -461,7 +461,7 @@ loop_3:
         func_80023E6C(-0xA0, 4, game, object_index);
     }
     object_index = 0;
-    if (game->stage.s >= 4) {
+    if ((s16)game->stage >= 4) {
         object_slot = (MinigameSlot *)game;
 object_pairs:
         partner_index = object_index + 1;

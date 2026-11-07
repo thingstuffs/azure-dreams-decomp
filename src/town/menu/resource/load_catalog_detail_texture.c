@@ -30,18 +30,18 @@ void load_catalog_detail_texture(CatalogDisplay *loader_arg)
     s32 palette_rows;
     u8 load_state;
 
-    load_state = loader->unk_0B.as_u8;
+    load_state = loader->unk_0B;
     if (load_state != 0) {
         if (load_state != 1) {
             return;
         }
     } else {
         pack_tagged_resource_descriptor(8, catalog_texture_buffer, catalog_texture_request,
-                      catalog_texture_resources[loader->unk_13.as_u8][1]);
+                      catalog_texture_resources[loader->unk_13][1]);
         Control_CD(6, catalog_texture_request, 0);
         loader->unk_0D = 0;
         Control_CD(0xFF, resource_completion_callback_address, (u8 *)loader + 0xD);
-        loader->unk_0B.as_u8++;
+        loader->unk_0B++;
     }
     if (loader->unk_0D == 0) {
         return;
@@ -68,10 +68,10 @@ void load_catalog_detail_texture(CatalogDisplay *loader_arg)
     LoadImage(upload_rect, texture_pixels);
 
     ((CatalogDisplay *)((u8 *)loader + loader->unk_16))->choices[0] =
-        loader->unk_13.as_u8;
-    loader->unk_0A.as_u8 = 6;
-    loader->unk_0B.as_u8 = 0;
-    loader->unk_04.as_s16 = palette_rows;
-    loader->unk_06.as_s16 = 0x19;
+        loader->unk_13;
+    loader->unk_0A = 6;
+    loader->unk_0B = 0;
+    loader->unk_04 = palette_rows;
+    loader->unk_06 = 0x19;
 }
 

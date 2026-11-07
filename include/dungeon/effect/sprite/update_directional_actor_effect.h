@@ -8,7 +8,7 @@
 typedef struct TimedTargetHitSpellBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x44];
-    union { u16 u; s16 s; } unk_50;
+    s16 unk_50;
     union { s16 s; u16 u; } unk_52;
 } TimedTargetHitSpellBody;
 typedef struct FragmentSpawningEffectBody {

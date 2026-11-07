@@ -8,7 +8,7 @@ void reset_catalog_scroll_indicators(CatalogDisplay *controller) {
     ItemMenuPart **state = catalog_display_node_slots;
 
     controller->unk_0C = 1;
-    controller->unk_08.as_s16 = 0;
+    controller->unk_08 = 0;
     controller->unk_0E = 0;
     state[12]->handler = 0;
     state[13]->handler = 0;

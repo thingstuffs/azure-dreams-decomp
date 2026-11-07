@@ -129,6 +129,6 @@ void create_settings_controller(void) {
         object->update_callback = (void *)update_settings_effect;
         visual = NODE_BODY(object);
         visual->owner = parent_state;
-        visual->angle.s = 0xE00;
+        visual->angle = 0xE00;
     }
 }

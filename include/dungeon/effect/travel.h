@@ -19,15 +19,15 @@ typedef struct TrackingEffect {
     struct { u16 flags; } *animation;
     u8 pad_08;
     u8 variant;
-    union { s16 s; u16 u; } state;
+    u16 state;
     void *child;
     u16 target_x;
     u16 target_y;
-    union { s16 s; u16 u; } target_z;
+    s16 target_z;
     u8 flags;
     u8 pad_17;
     u16 tiles_left;
-    union { s16 s; u16 u; } direction;
+    s16 direction;
     u16 unk_1C;
     u8 pad_1E[2];
     TrackingTilePair current_tile;
@@ -45,7 +45,7 @@ typedef union BrighteningFollowerTarget {
 typedef struct BrighteningFollowerEffectBody {
     BrighteningFollowerTarget target;
     u8 pad_04[0x6];
-    union { s16 s; u16 u; } state;
+    u16 state;
     u8 pad_0C[0x10];
     u16 particle_count;
 } BrighteningFollowerEffectBody;
@@ -53,7 +53,7 @@ typedef struct BrighteningFollowerEffectBody {
 /* State for each ring particle emitted while follow_brighten is active. */
 typedef struct RisingFadingEmitterBody {
     u8 pad_00[0xA];
-    union { s16 s; u16 u; } state;
+    u16 state;
     u8 pad_0C[0x8];
     s16 height_limit;
     u8 pad_16[0x6];

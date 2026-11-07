@@ -19,7 +19,7 @@ void update_catalog_scroll_availability(CatalogDisplay *entry)
     } else {
         entry->unk_0E &= 0xFE;
     }
-    if (catalog_scroll_offset[0] < ((catalog_detail_images[entry->unk_13.as_u8].unk4 - 3) << 4)) {
+    if (catalog_scroll_offset[0] < ((catalog_detail_images[entry->unk_13].unk4 - 3) << 4)) {
         flags = entry->unk_0E | 2;
     } else {
         flags = entry->unk_0E & 0xFD;

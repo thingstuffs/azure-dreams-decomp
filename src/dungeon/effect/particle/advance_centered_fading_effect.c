@@ -15,7 +15,7 @@ typedef struct S_7FFE7804_0 {
     u8 unk_0D;
     u8 unk_0E;
     u8 pad_0F[0xF];
-    union { s16 s; u16 u; } unk_1E;   /* accessed as both */
+    s16 unk_1E;
     s16 unk_20;
     u8 pad_22[0x6];
     u16 unk_28;
@@ -62,22 +62,22 @@ void advance_centered_fading_effect(void *effect_arg, ObjectPosition *position, 
         position->y.w.i = arithmetic;
     }
     {
-        product = effect->unk_0C * effect->unk_1E.s;
+        product = effect->unk_0C * effect->unk_1E;
         arithmetic = effect->unk_20;
         color->unk_0C = product / arithmetic;
     }
     {
-        product = effect->unk_0D * effect->unk_1E.s;
+        product = effect->unk_0D * effect->unk_1E;
         arithmetic = effect->unk_20;
         color->unk_0D = product / arithmetic;
     }
     {
-        product = effect->unk_0E * effect->unk_1E.s;
+        product = effect->unk_0E * effect->unk_1E;
         arithmetic = effect->unk_20;
         color->unk_0E = product / arithmetic;
     }
-    life_left = effect->unk_1E.u - 1;
-    effect->unk_1E.s = life_left;
+    life_left = (u16)effect->unk_1E - 1;
+    effect->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + (-2))) = (u16) (((S_7FFE7804_0_pre *)effect)[-1].unk_00 | 0x8000);
         particle_object_flags |= 0x8000;

@@ -328,19 +328,19 @@ void *create_radial_effect_from_source(void *source_arg, Row_81917004_Copy24 *or
         position = *(Row_81917004_Copy24 * *)&effect->position;
         *position = *origin;
 
-        effect_state->unk_0E.u = source->unk_0E;
+        effect_state->unk_0E = source->unk_0E;
         effect_state->unk_10.u = source->unk_10;
 
-        direction_factor = rsin(effect_state->unk_0E.s);
+        direction_factor = rsin(effect_state->unk_0E);
         position->word[0] -= (scaled_factor = direction_factor >> 4) *
             (rsin(effect_state->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
 
-        direction_factor_2 = rsin(effect_state->unk_0E.s);
+        direction_factor_2 = rsin(effect_state->unk_0E);
         position->word[1] -= (scaled_factor = direction_factor_2 >> 4) *
             (rcos(effect_state->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
 
         position->word[2] -=
-            ((rcos(effect_state->unk_0E.s) >> 4) * ((step_word >> 16) + 2)) << 11;
+            ((rcos(effect_state->unk_0E) >> 4) * ((step_word >> 16) + 2)) << 11;
         return effect;
     }
 
@@ -433,7 +433,7 @@ void advance_radial_effect_state(void *motion, void *position_arg, SpriteFrameSt
 
     object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
     object->unk_14++;
-    state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.s;
+    state = (s16)((Row_8191740C_S_80024C0C_0 *)motion)->unk_04;
     switch (state) {
     case 0:
         effect->angle_z += 0x200;
@@ -468,7 +468,7 @@ void advance_radial_effect_state(void *motion, void *position_arg, SpriteFrameSt
             }
         }
         initialize_the_s_visual_state_apply_random_spherical_position_offset(motion, position_arg, effect);
-        ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.u++;
+        ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04++;
         break;
     case 1:
         if (effect->color.c.r != 0) {
@@ -575,7 +575,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
     owner = effect->unk_00;
     owner->unk_14 = (u16) (owner->unk_14 + 1);
     advance_sprite_animation_and_textures(visual);
-    effect->unk_06.u = (u16) (effect->unk_06.u + 1);
+    effect->unk_06 = (u16) ((u16)effect->unk_06 + 1);
     visual->angle_z = (u16) (visual->angle_z + 0x200);
     phase = effect->unk_04.s;
 
@@ -584,7 +584,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
     {
         u16 radius;
 
-        if (effect->unk_06.u & 1) {
+        if ((u16)effect->unk_06 & 1) {
             radius = effect->unk_0A + 2;
         } else {
             radius = effect->unk_0A + 1;
@@ -595,20 +595,20 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
         visual->color.c.b = brightness;
         visual->color.c.g = brightness;
         visual->color.c.r = brightness;
-        scale = effect->unk_06.s << 5;
+        scale = effect->unk_06 << 5;
         visual->scale_y = scale;
         visual->scale_x = scale;
         transform->unk_08.at02_u16.v =
             (u16) (transform->unk_08.at02_u16.v - 2);
     case 1:
-        if ((s16) effect->unk_06.u >= 0x20) {
-            effect->unk_06.u = 0U;
+        if ((s16) effect->unk_06 >= 0x20) {
+            effect->unk_06 = 0U;
             effect->unk_04.u =
                 (u16) (effect->unk_04.u + 1);
         }
         break;
     case 2:
-        if ((s16) effect->unk_06.u >=
+        if ((s16) effect->unk_06 >=
             effect->unk_08) {
             create_an_oriented_effect_between_position_owner(effect, transform);
             (*(u16 *)((u8 *)effect + (-2))) =
@@ -648,7 +648,7 @@ void * create_an_attached_effect_copied_transform_data_randomized_angle(void *ob
         ((Row_81917A70_S_80025270_0 *)effect)->unk_20 = (s32)object;
         state->unk_08 = (s16) (saved_index * 7);
         state->unk_04.s = 0;
-        state->unk_06.s = 0;
+        state->unk_06 = 0;
         state->unk_0A = 0;
         state->unk_0C = (s16) (saved_index * 0x600);
         state->unk_20 = src_transform->wordC;

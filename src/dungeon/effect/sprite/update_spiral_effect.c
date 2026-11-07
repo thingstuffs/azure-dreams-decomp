@@ -26,7 +26,7 @@ void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, Spri
     motion->y.v += velocity_y;
     motion->z.v += velocity_z;
 
-    state = effect->unk_4C.s;
+    state = effect->unk_4C;
     switch (state) {
     case 0:
         advance_sprite_animation_and_textures(sprite);
@@ -36,15 +36,15 @@ void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, Spri
         }
 
         motion->x.w.i = (s16)(effect->unk_0C +
-            ((rsin(effect->unk_18.s) *
+            ((rsin((s16)effect->unk_18) *
               effect->unk_1C.at02.v) >> 12));
         motion->y.w.i = (s16)(effect->unk_0E +
-            ((rcos(effect->unk_18.s) *
+            ((rcos((s16)effect->unk_18) *
               effect->unk_1C.at02.v) >> 12));
 
         motion->velocity_z += 0xFFFE0000 +
             ((rand() & 0xFF) << 9);
-        effect->unk_18.s = (s16)(effect->unk_18.u + 0x80 +
+        effect->unk_18 = (s16)(effect->unk_18 + 0x80 +
             (rand() & 0x3F));
 
         effect->unk_28 += effect->unk_34;
@@ -69,7 +69,7 @@ void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, Spri
         }
 
         if (motion->z.w.i < effect->unk_10 - 0x60) {
-            effect->unk_4C.u++;
+            effect->unk_4C++;
         }
         break;
     case 1:

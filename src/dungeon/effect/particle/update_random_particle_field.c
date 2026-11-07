@@ -66,7 +66,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
     s16 countdown;
     s32 page_value;
 
-    state = self->spell.phase.s;
+    state = self->spell.phase;
     effect = self->spell.caster;
     output_data = output;
     switch (state) {
@@ -84,7 +84,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
             page_value = ((u16)copy_page->z.w.i);
         }
         self->unk_0C = 0x3C;
-        self->spell.phase.u++;
+        self->spell.phase++;
         self->unk_14 = page_value;
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
     }
@@ -154,7 +154,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
         return;
     }
     self->unk_0C = 8;
-    self->spell.phase.u = 0xFF;
+    self->spell.phase = 0xFF;
     return;
 
     case 0xFF:

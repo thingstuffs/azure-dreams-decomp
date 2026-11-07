@@ -10,6 +10,6 @@ void increase_shared_byte_by_four_and_enter_state_eight(CatalogDisplay *controll
 
     state[9] += 4;
     if (state[9] % 16 == 0) {
-        controller->unk_0A.as_s8 = 8;
+        controller->unk_0A = 8;
     }
 }

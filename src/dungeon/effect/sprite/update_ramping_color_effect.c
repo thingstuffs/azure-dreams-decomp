@@ -38,7 +38,7 @@ void update_ramping_color_effect(OffsetColorEffectBody *effect) {
         scaled_value = product >> 0x10;
     }
 
-    effect->unk_08.s = scaled_value;
+    effect->unk_08 = scaled_value;
     phase = effect->unk_04.s16;
     if (phase >= 0x40) {
         NODE_HEADER(effect)->flags |= 0x8000;
@@ -46,11 +46,11 @@ void update_ramping_color_effect(OffsetColorEffectBody *effect) {
         return;
     }
     if (phase < 0x10) {
-        effect->unk_0E.u = effect->unk_04.u8 << 3;
+        effect->unk_0E = effect->unk_04.u8 << 3;
     } else if (phase < 0x30) {
-        effect->unk_0E.u = 0x80;
+        effect->unk_0E = 0x80;
     } else {
-        effect->unk_0E.u = -0x80 - ((phase - 0x30) * 8);
+        effect->unk_0E = -0x80 - ((phase - 0x30) * 8);
     }
 
     phase = effect->unk_04.s16 % 4;

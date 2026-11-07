@@ -16,44 +16,7 @@
 #include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/data.h"
-
-typedef struct S_801652FC_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    u8 pad_34[0xE];
-    u16 unk_42;
-    u16 unk_44;
-    u16 unk_46;
-    u8 pad_48[0x4];
-    s32 unk_4C;
-    s32 unk_50;
-    s32 unk_54;
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
-} S_801652FC_0;   /* tail in create_converging_fading_particle */
-
-typedef struct S_801652FC_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_801652FC_1;   /* obj in create_converging_fading_particle */
-
-typedef struct S_801652FC_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801652FC_2;   /* saved_arg0 in create_converging_fading_particle */
-
-   /* ((S_801652FC_1 *)obj)->unk_08 in create_converging_fading_particle */
-
-   /* ((S_801652FC_2 *)saved_arg0)->unk_08 in create_converging_fading_particle */
+#include "dungeon/effect/particle/converging_fade.h"
 
 extern void *allocate_list_node(s32, void *);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
@@ -63,12 +26,12 @@ void create_converging_fading_particle(
     void *source, s32 initial_value, s32 duration, s32 offset_x,
     s32 offset_y, s32 offset_z)
 {
-    S_801652FC_2 *source_obj = source;
+    ObjectNodeHeader *source_obj = source;
     s32 saved_offset_x = offset_x;
     s32 saved_offset_y = offset_y;
     s32 saved_offset_z = offset_z;
     ObjectNodeHeader *object;
-    S_801652FC_0 *state;
+    ConvergingFadeBody *state;
     s32 calculation;
     s32 quotient_x;
     s32 quotient_y;
@@ -81,49 +44,49 @@ void create_converging_fading_particle(
         object->update_callback = update_converging_fading_particle;
 
         object->position->x.w.i =
-            ((MovingPosition *)(source_obj->unk_08))->x + saved_offset_x;
+            source_obj->position->x.unsigned_parts.integer + saved_offset_x;
         object->position->y.w.i =
-            ((MovingPosition *)(source_obj->unk_08))->y + saved_offset_y;
+            source_obj->position->y.unsigned_parts.integer + saved_offset_y;
         object->position->z.w.i =
-            ((MovingPosition *)(source_obj->unk_08))->z + saved_offset_z - 40;
+            source_obj->position->z.unsigned_parts.integer + saved_offset_z - 40;
 
         state = NODE_BODY(object);
-        state->unk_42 = ((MovingPosition *)(source_obj->unk_08))->x;
-        state->unk_44 = ((MovingPosition *)(source_obj->unk_08))->y;
-        state->unk_46 = ((MovingPosition *)(source_obj->unk_08))->z;
+        state->target_x = source_obj->position->x.unsigned_parts.integer;
+        state->target_y = source_obj->position->y.unsigned_parts.integer;
+        state->target_z = source_obj->position->z.unsigned_parts.integer;
 
         quotient_x = -(saved_offset_x << 16) / ((s16)duration / 8);
         calculation = quotient_x / 2;
-        state->unk_4C = calculation;
+        state->velocity_x = calculation;
         calculation = -(saved_offset_y << 16);
         quotient_y = calculation / ((s16)duration / 8);
         calculation = quotient_y / 2;
-        state->unk_50 = calculation;
+        state->velocity_y = calculation;
         calculation = -(saved_offset_z << 16);
         quotient_z = calculation / ((s16)duration / 8);
         rounded_x = quotient_z / 2;
-        state->unk_54 = rounded_x;
+        state->velocity_z = rounded_x;
 
         rounded_x = quotient_x;
         if (rounded_x < 0) {
             rounded_x += 3;
         }
-        state->unk_58 = rounded_x >> 2;
+        state->acceleration_x = rounded_x >> 2;
 
         rounded_z = quotient_y;
         if (rounded_z < 0) {
             rounded_z += 3;
         }
-        state->unk_5C = rounded_z >> 2;
+        state->acceleration_y = rounded_z >> 2;
 
         rounded_z = quotient_z;
-        state->unk_60 = (rounded_z / 4);
+        state->acceleration_z = (rounded_z / 4);
 
-        state->unk_32 = duration;
+        state->fade_level = duration;
         register_node(object, child_particle_draw_address);
         rounded_x = initial_value;
-        ((S_801652FC_1 *)object)->unk_20 = rounded_x;
-        state->unk_08 = initial_value;
+        state->base_color.word = rounded_x;
+        state->draw_color = initial_value;
     }
 
 }

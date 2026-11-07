@@ -18,9 +18,9 @@ typedef struct S_81978428_3 {
 
 typedef struct S_81978428_6 {
     u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
+    u16 unk_02;
     u8 pad_04[0x2];
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
+    u16 unk_06;
     u8 pad_08[0x2];
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
 } S_81978428_6;   /* work in update_placed_effect_animation */
@@ -172,9 +172,9 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                 u8 tile_y;
 
                 tile_x = tile_map->tile_position.parts.tile_x;
-                target_pos->unk_02.s = (tile_x << 6) + 0x20;
+                target_pos->unk_02 = (tile_x << 6) + 0x20;
                 tile_y = tile_map->tile_position.parts.tile_y;
-                target_pos->unk_06.s = (tile_y << 6) + 0x20;
+                target_pos->unk_06 = (tile_y << 6) + 0x20;
             }
 
             for (step_count = 0; step_count < 8; step_count++) {
@@ -183,9 +183,9 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
 
                     player = primary_actor_record;
                     tile_step = dir_step_x[(((u16)player->facing) >> 9) & 7];
-                    target_pos->unk_02.u += tile_step << 6;
+                    target_pos->unk_02 += tile_step << 6;
                     tile_step_2 = dir_step_y[(((u16)player->facing) >> 9) & 7];
-                    target_pos->unk_06.u += tile_step_2 << 6;
+                    target_pos->unk_06 += tile_step_2 << 6;
                     target_pos->unk_0A.s = ((u16)player->ground_height);
                 }
                 target_pos->unk_0A.s = get_surface_height_at_record(target_pos);
@@ -195,15 +195,15 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                     target_pos->unk_0A.s = ((u16)player->ground_height);
                 }
 
-                if ((check_left_tile_and_center_height(target_pos->unk_02.s, target_pos->unk_06.s,
+                if ((check_left_tile_and_center_height(target_pos->unk_02, target_pos->unk_06,
                                     target_pos->unk_0A.u) << 16) != 0) {
                     ActorRecord *player;
 
                     player = primary_actor_record;
                     tile_step_3 = dir_step_x[(((u16)player->facing) >> 9) & 7];
-                    target_pos->unk_02.u -= tile_step_3 << 6;
+                    target_pos->unk_02 -= tile_step_3 << 6;
                     tile_step_4 = dir_step_y[(((u16)player->facing) >> 9) & 7];
-                    target_pos->unk_06.u -= tile_step_4 << 6;
+                    target_pos->unk_06 -= tile_step_4 << 6;
                     target_pos->unk_0A.s = ((u16)player->ground_height);
                     target_pos->unk_0A.s = get_surface_height_at_record(target_pos);
                     if (target_pos->unk_0A.u >= 0x201) {

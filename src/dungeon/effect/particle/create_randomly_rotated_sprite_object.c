@@ -91,22 +91,22 @@ void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_
 
     owner = step_state->target.owner;
     owner->field_14.u += 1;
-    step_state->update_count.u += 1;
+    step_state->update_count = (u16)step_state->update_count + 1;
 
     total = *(s32 *)((u8 *)accumulator + 8);
     increment = *(s32 *)((u8 *)accumulator + 0x14);
     *(s32 *)((u8 *)accumulator + 8) = total + increment;
-    if (step_state->update_count.s < 8) {
+    if (step_state->update_count < 8) {
         *(s32 *)((u8 *)accumulator + 0x14) *= 2;
     }
 
-    if (step_state->update_count.s == step_state->update_limit) {
+    if (step_state->update_count == step_state->update_limit) {
         target->scale_y >>= 1;
     }
 
     advance_sprite_animation_and_textures(target);
 
-    if (step_state->update_count.s > step_state->update_limit) {
+    if (step_state->update_count > step_state->update_limit) {
         *(u16 *)((u8 *)step_state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -132,7 +132,7 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
         object->update_callback = accelerate_and_expire_animated_sprite;
         state = NODE_BODY(object);
         state->target.state_value = state_value;
-        state->update_count.u = 0;
+        state->update_count = 0;
         state->update_limit = variant;
         sprite = object->sprite;
         sprite->color.c.b = 0x80;

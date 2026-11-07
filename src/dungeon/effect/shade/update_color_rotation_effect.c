@@ -15,7 +15,7 @@ typedef struct S_818C3448_0 {
     void * unk_00;
     u8 pad_04[0xA];
     union { s16 s; u16 u; } unk_0E;   /* accessed as both */
-    union { u16 s; s16 u; } unk_10;   /* accessed as both */
+    s16 unk_10;
     u16 unk_12;
     s16 unk_14;
 } S_818C3448_0;   /* arg0 in func_818C3448 */
@@ -68,7 +68,7 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
     owner->unk_0C = (u16) (owner->unk_0C + 1);
     next_tick = (s16) (effect->unk_12 + 1);
     color_cycle = next_tick;
-    effect->unk_10.s = (u16) (effect->unk_10.s + 1);
+    effect->unk_10 = (u16) ((u16)effect->unk_10 + 1);
     effect->unk_12 = (u16) next_tick;
     color_cycle = (color_cycle % 7) + 1;
     advance_sprite_animation_and_textures(visual);
@@ -87,7 +87,7 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
     switch (phase) {
     case 0:
         full_scale = 0x1400;
-        scale = (full_scale / (s16) effect->unk_14) * (s16) effect->unk_10.s;
+        scale = (full_scale / (s16) effect->unk_14) * (s16) effect->unk_10;
         visual->scale_y = scale;
         visual->scale_x = scale;
         position_x = motion->f0;
@@ -97,21 +97,21 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
         motion->f0 = position_x + velocity_x;
         motion->f4 = (s32) (motion->f4 + velocity_y);
         motion->f8 = (s32) (motion->f8 + velocity_z);
-        elapsed = effect->unk_10.u;
+        elapsed = effect->unk_10;
         duration = effect->unk_14;
         if (elapsed < duration) {
             return;
         }
         burst_phase = effect->unk_0E.u;
-        effect->unk_10.s = 0U;
+        effect->unk_10 = 0U;
         effect->unk_0E.u = (u16) (burst_phase + 1);
         return;
     case 1:
-        if ((s16) effect->unk_10.s < 0xC) {
+        if ((s16) effect->unk_10 < 0xC) {
             return;
         }
         effect->unk_0E.s = (s16) (wait_phase + 1);
-        effect->unk_10.u = 0;
+        effect->unk_10 = 0;
         return;
     case 2:
         create_dimmed_copy_effect(effect, motion, visual);
@@ -125,11 +125,11 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
             opposite_bias = angle + 0x17FF;
         }
         create_random_rotation_effect(effect, motion, (s16) (opposite_angle - ((opposite_bias >> 0xC) << 0xC)));
-        if ((s16) effect->unk_10.s < 0x21) {
+        if ((s16) effect->unk_10 < 0x21) {
             return;
         }
         burst_phase = effect->unk_0E.u;
-        effect->unk_10.s = 0U;
+        effect->unk_10 = 0U;
         effect->unk_0E.u = (u16) (burst_phase + 1);
         return;
     case 3:

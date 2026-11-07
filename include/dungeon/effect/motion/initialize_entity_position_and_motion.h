@@ -218,17 +218,11 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_1 {
         s16 s16;
         u16 u16;
     } target_y;
-    union {
-        s16 s16;
-        u16 u16;
-    } target_z;
+    u16 target_z;
     u8 pad_2E[0x2];
     s16 phase;
     u8 pad_32[0x2];
-    union {
-        s16 s16;
-        u16 u16;
-    } timer;
+    u16 timer;
     s16 frame_step;
     u16 heading;
     s16 max_frame;
@@ -478,11 +472,11 @@ typedef struct ovl_19a332c_81984AB0_S_81984AB0_0 {
 } ovl_19a332c_81984AB0_S_81984AB0_0;
 typedef struct ovl_19a332c_81984AF4_S_81984AF4_0 {
     s32 unk_00;
-    union { s8 s; u8 u; } unk_04;   
+    u8 unk_04;
     u8 pad_05[0x3];
     void * unk_08;
     u8 pad_0C[0x8];
-    union { u16 s; u16 u; } unk_14;   
+    u16 unk_14;
 } ovl_19a332c_81984AF4_S_81984AF4_0;
 typedef struct ovl_19a332c_81984AF4_S_81984AF4_1 {
     u8 pad_00[0xC];

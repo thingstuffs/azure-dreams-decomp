@@ -66,7 +66,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
     void **actor_slot;
 
     model_colors = color_data;
-    stage = effect->spell.phase.s;
+    stage = (s16)effect->spell.phase;
     effect->unk_16 = (u16) (effect->unk_16 + 1);
     switch (stage) {
     case 0:
@@ -77,7 +77,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
         draw_textured_ellipse(D_80024980, &upload_rect.rect, 1, 0);
         ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_F4 = directional_effect_sprite_data;
         create_timed_model_effect(NODE_HEADER(effect->spell.caster), effect->spell.context, 0, 0);
-        effect->spell.phase.s = (s16) ((u16) effect->spell.phase.s + 1);
+        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
     case 1:
         actor_slot = (void **) ((int *)(&primary_actor_record));
         if (!(*effect->spell.context & 0x80)) {
@@ -91,9 +91,9 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
         actor_state->unk_A9 = (u8) effect->spell.variant;
         actor_state = *actor_slot;
         D_800249A4 = 0;
-        ready_stage = effect->spell.phase.u;
+        ready_stage = effect->spell.phase;
         actor_param = actor_state->unk_2A;
-        effect->spell.phase.u = ready_stage + 1;
+        effect->spell.phase = ready_stage + 1;
         effect->unk_14.u = actor_param;
         break;
     case 2:
@@ -109,7 +109,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
         effect->unk_18 = 0x20;
         allocate_and_initialize_effect_object(NODE_HEADER(effect), effect->unk_14.s, effect->spell.variant,
             model_owner->target);
-        effect->spell.phase.s = (u16) effect->spell.phase.s + 1;
+        effect->spell.phase = (u16) effect->spell.phase + 1;
         break;
     case 3:
         model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_60;
@@ -141,9 +141,9 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
             model_colors = NODE_HEADER(model)->sprite;
             model_colors->color.word = 0x808080;
         }
-        fade_stage = effect->spell.phase.u;
+        fade_stage = effect->spell.phase;
         D_800249A4 = 1;
-        effect->spell.phase.u = fade_stage + 1;
+        effect->spell.phase = fade_stage + 1;
         break;
     case 4:
         if ((s16)D_800249A6[0] != 0) {
@@ -278,7 +278,7 @@ void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, ObjectPositi
 
 typedef struct SpawnPosition {
     u16 pad_00, x, pad_04, y, pad_08;
-    union { u16 bits; s16 signed_value; } z;
+    u16 z;
 } SpawnPosition;
 
 typedef struct SpawnSprite {
@@ -366,15 +366,15 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
         coordinate_y = ((origin->tile_position.parts.tile_y + dir_step_y[offset]) << 6) + 0x20;
         position->y = coordinate_y;
         state->y = coordinate_y;
-        state->z = position->z.bits = (u16)primary_actor_record->ground_height;
+        state->z = position->z = (u16)primary_actor_record->ground_height;
     } else {
         target_position = ((SpawnHeader *)target - 1)->position;
         state->x = position->x = target_position->x;
         state->y = position->y = target_position->y;
-        state->z = target_position->z.bits;
-        height = sample_terrain_surface_height(position->x, position->y, target_position->z.signed_value);
-        if ((s16)height > 0x200) height = target_position->z.bits;
-        position->z.bits = height;
+        state->z = target_position->z;
+        height = sample_terrain_surface_height(position->x, position->y, (s16)target_position->z);
+        if ((s16)height > 0x200) height = target_position->z;
+        position->z = height;
     }
     state->target = target;
     state->lifetime = 0x40;

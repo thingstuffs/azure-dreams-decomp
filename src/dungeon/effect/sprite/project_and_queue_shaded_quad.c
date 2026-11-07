@@ -451,7 +451,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
     u8 effect_id;
     Row_8192365C_S_80024E5C_3 *target_position;
 
-    initial_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
+    initial_state = (u16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
     (*(s16 *)shaded_effect_update_flag) = 1;
     if (initial_state < 3U) {
         sprite->color.c.b = 0x3C;
@@ -473,7 +473,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
             sprite->color.c.b = 0x80;
         }
     }
-    if ((s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 0) {
+    if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 0) {
         start_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = (u16) (start_frame + 1);
         if ((s16) start_frame >= 6) {
@@ -481,11 +481,11 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
             sprite->frameTable = shaded_quad_frame_set;
             select_sprite_entry(sprite, effect_id, 0);
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = 0U;
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 + 1);
+            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 = (u16) ((u16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 + 1);
             ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v = (u16) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v - 0x5A);
         }
     }
-    completion_state = (s16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
+    completion_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
     if (completion_state == 1) {
         if ((check_adjacent_tile_height_clearance(((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02.v, ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at02.v,
             (s16) ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v, ((Row_8192365C_S_80024E5C_0 *)effect)->unk_88) << 0x10) == 0) {
@@ -607,7 +607,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
         }
     }
 update_impact:
-    impact_state = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
+    impact_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
     if (impact_state == 2) {
         impact_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = impact_frame;
@@ -643,7 +643,7 @@ update_impact:
             sprite->flags = (u16) (sprite->flags | 0x80);
         }
     }
-    if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 3) {
+    if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 3) {
         burst_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = burst_frame;
         if ((s16) burst_frame < 0x12) {

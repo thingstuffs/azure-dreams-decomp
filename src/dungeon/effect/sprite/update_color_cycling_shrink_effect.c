@@ -8,10 +8,10 @@ typedef struct S_func_818BD74C_0 {
     void *unk_00;
     u8 pad_04[0xA];
     union { s16 s; u16 u; } unk_0E;
-    union { s16 s; u16 u; } unk_10;
+    s16 unk_10;
     u16 unk_12;
     s16 unk_14;
-    union { s16 s; u16 u; } unk_16;
+    u16 unk_16;
     void *unk_18;
 } S_func_818BD74C_0;
 
@@ -77,12 +77,12 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
     effect = effect_arg;
     owner = effect->unk_00;
     owner->unk_14 = (s16)(owner->unk_14 + 1);
-    state_ticks = effect->unk_10.u;
+    state_ticks = (u16)effect->unk_10;
     color_ticks = effect->unk_12;
-    effect->unk_10.u = (u16)(state_ticks + 1);
+    effect->unk_10 = (u16)(state_ticks + 1);
     effect->unk_12 = (u16)(color_ticks + 1);
-    angle = effect->unk_16.u;
-    effect->unk_16.u = (u16)(angle + 0x140);
+    angle = effect->unk_16;
+    effect->unk_16 = (u16)(angle + 0x140);
     if (effect->unk_0E.s != 0) {
         color_step = (s16)effect->unk_12;
         color_step = (s16)(color_step % 7);
@@ -112,20 +112,20 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
         pos_z = motion->unk_08;
         motion->unk_04 = pos_y + vel_y;
         motion->unk_08 = pos_z + vel_z;
-        if (effect->unk_10.s < effect->unk_14) {
+        if (effect->unk_10 < effect->unk_14) {
             return;
         }
-        effect->unk_10.s = 0;
+        effect->unk_10 = 0;
         effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
         return;
 
     case 1:
         sprite->unk_12 = 0;
         sprite->unk_14 = (u16)(sprite->unk_14 & 0xFEFF);
-        state_or_scale = (0x19 - effect->unk_10.s) << 8;
+        state_or_scale = (0x19 - effect->unk_10) << 8;
         sprite->unk_1E = state_or_scale;
         sprite->unk_1C = state_or_scale;
-        if (effect->unk_10.s < 0x10) {
+        if (effect->unk_10 < 0x10) {
             return;
         }
         random_value = (s16)rand();
@@ -133,19 +133,19 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
         scaled_magnitude = magnitude_table[((ActorRecord *)effect->unk_18)->species] * 3;
         create_channel_tinted_effect(effect, motion, (s16)random_value, 0 - (scaled_magnitude / 4));
         create_offset_color_effect(effect, motion, magnitude_table[((ActorRecord *)effect->unk_18)->species]);
-        effect->unk_10.s = 0;
+        effect->unk_10 = 0;
         effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
         return;
 
     case 2:
-        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), effect->unk_16.s);
-        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16.s + 0x400));
-        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16.s + 0x800));
-        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16.s + 0xC00));
-        if (effect->unk_10.s < 0x30) {
+        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)effect->unk_16);
+        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16 + 0x400));
+        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16 + 0x800));
+        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16 + 0xC00));
+        if (effect->unk_10 < 0x30) {
             return;
         }
-        effect->unk_10.s = 0;
+        effect->unk_10 = 0;
         *(u16 *)((u8 *)effect - 2) = (u16)(*(u16 *)((u8 *)effect - 2) | 0x8000);
         final_state = effect->unk_0E.u;
         {

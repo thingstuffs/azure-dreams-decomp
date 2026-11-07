@@ -31,7 +31,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
         if (test_three_axis_box_overlap(D_800243F0, position) != 0) {
             transition = 1;
         } else {
-            display->source = D_80024438[controller->mode.s];
+            display->source = D_80024438[controller->mode];
         }
     }
 
@@ -52,14 +52,14 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
         if (transition_pending) {
             if (((S_80021E88_4 *)(controller->object))->unk_22 == 3) {
                 object->flags |= 1;
-                display->source = D_80024444[controller->mode.s];
-                object->phase = controller->mode.u;
+                display->source = D_80024444[controller->mode];
+                object->phase = (u16)controller->mode;
             }
         }
         if (object->phase == 3) {
             return;
         }
-        if (((S_80021E88_4 *)(controller->object))->unk_22 == controller->mode.s) {
+        if (((S_80021E88_4 *)(controller->object))->unk_22 == controller->mode) {
             controller->state = 3;
             return;
         }
@@ -78,7 +78,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
         flags = object->flags;
         if (flags & 1) {
             object->flags = flags | 1;
-            display->source = D_80024444[controller->mode.s];
+            display->source = D_80024444[controller->mode];
         }
         return;
     default:

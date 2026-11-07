@@ -68,7 +68,7 @@ typedef struct AnimatedSpriteBurstBody {
 } AnimatedSpriteBurstBody;
 typedef struct VerticalAccelerationSpriteBody {
     union { void *owner; s32 state_value; } target;
-    union { u16 u; s16 s; } update_count;
+    s16 update_count;
     s16 update_limit;
 } VerticalAccelerationSpriteBody;
 struct B22_81893244_Func81893244Object {

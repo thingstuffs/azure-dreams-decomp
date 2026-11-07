@@ -11,7 +11,7 @@ struct Owner;
 void create_owner_color_sprite(struct Owner *owner, unsigned int color);
 
 
-void advance_damped_effect_motion(void *effect, ObjectPosition *motion, void *color);
+void advance_damped_effect_motion(void *effect, ObjectPosition *motion, SpriteFrameState *color);
 
 void *create_radial_effect_from_source(void *owner_body, void *source, int unused, int object_value);
 
@@ -31,8 +31,7 @@ void create_attached_effect(Rec_func_800247B8_arg0 *owner, void *unused_motion, 
 void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 
 #include "records/Rec_func_800D4BD4_arg1.h"
-#include "records/Rec_func_800D4BD4_arg2.h"
-void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position, s32 unused_spawn_context);
+void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, ObjectPosition *position, s32 unused_spawn_context);
 void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
 s32 draw_linked_depth_sliced_quads(void *payload, struct ObjectPosition *position, struct SpriteFrameState *render_state);

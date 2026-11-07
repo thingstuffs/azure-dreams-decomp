@@ -43,7 +43,7 @@ extern u8 D_80168ED0[];
 extern u8 D_80168ED8[];
 
 /* Updates a timed hop toward the target tile and handles actor recovery when the timer expires. */
-void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrameState *sprite, void *actor)
+void advance_timed_hop_and_recover(S_801670E0_0 *motion_state, void *motion, SpriteFrameState *sprite, void *actor)
 {
     u16 direction_aux;
     s32 state;
@@ -56,11 +56,11 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
     u16 action_ticks;
     u8 *anim_table;
 
-    state = ((S_801670E0_0 *)motion_state)->unk_9B;
+    state = motion_state->unk_9B;
     switch (state) {
     case 0:
-        phase_ticks = ((S_801670E0_0 *)motion_state)->unk_9E - 1;
-        ((S_801670E0_0 *)motion_state)->unk_9E = phase_ticks;
+        phase_ticks = motion_state->unk_9E - 1;
+        motion_state->unk_9E = phase_ticks;
         if ((phase_ticks << 16) != 0) {
             break;
         }
@@ -70,15 +70,15 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
             sprite,
             D_80168ED0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((S_801670E0_0 *)motion_state)->unk_98 |= 8;
+        motion_state->unk_98 |= 8;
         ((S_801670E0_1 *)actor)->unk_1C &= 0xF7FFFFFF;
-        (*(s16 *)&((S_801670E0_0 *)motion_state)->unk_9E) = 5;
-        ((S_801670E0_0 *)motion_state)->unk_A0 = 0;
-        ((S_801670E0_0 *)motion_state)->unk_9B++;
+        (*(s16 *)&motion_state->unk_9E) = 5;
+        motion_state->unk_A0 = 0;
+        motion_state->unk_9B++;
 
     case 1:
-        hop_ticks = ((s16)((S_801670E0_0 *)motion_state)->unk_9E);
-        ((S_801670E0_0 *)motion_state)->unk_90 -= ((S_801670E0_0 *)motion_state)->unk_A0;
+        hop_ticks = ((s16)motion_state->unk_9E);
+        motion_state->unk_90 -= motion_state->unk_A0;
         if (hop_ticks != 0) {
             target_x = sprite->tile_x;
             position_x = ((EntityRec *)motion)->x.w.i;
@@ -90,24 +90,24 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
             position_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
                 (((sprite->tile_y << 6) - position_y) << 16) /
-                ((s16)((S_801670E0_0 *)motion_state)->unk_9E);
-            ((S_801670E0_0 *)motion_state)->unk_A0 =
-                (-rsin(((s16)((S_801670E0_0 *)motion_state)->unk_9E) * 0x199)) << 10;
+                ((s16)motion_state->unk_9E);
+            motion_state->unk_A0 =
+                (-rsin(((s16)motion_state->unk_9E) * 0x199)) << 10;
         }
 
-        ((S_801670E0_0 *)motion_state)->unk_90 += ((S_801670E0_0 *)motion_state)->unk_A0;
-        phase_ticks = ((S_801670E0_0 *)motion_state)->unk_9E - 1;
-        ((S_801670E0_0 *)motion_state)->unk_9E = phase_ticks;
+        motion_state->unk_90 += motion_state->unk_A0;
+        phase_ticks = motion_state->unk_9E - 1;
+        motion_state->unk_9E = phase_ticks;
         if (phase_ticks < 0) {
-            ((S_801670E0_0 *)motion_state)->unk_90 = 0;
-            ((S_801670E0_0 *)motion_state)->unk_98 &= 0xFFF7;
+            motion_state->unk_90 = 0;
+            motion_state->unk_98 &= 0xFFF7;
             ((S_801670E0_1 *)actor)->unk_1C |= 0x08000000;
-            ((S_801670E0_0 *)motion_state)->unk_9B++;
+            motion_state->unk_9B++;
         }
 
     case 2:
         if (((S_801670E0_1 *)actor)->unk_1C & 0x08000000) {
-            ((S_801670E0_0 *)motion_state)->unk_98 &= 0xFFF7;
+            motion_state->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
@@ -118,7 +118,7 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
                 sprite,
                 D_80168ED8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            ((S_801670E0_0 *)motion_state)->unk_9B++;
+            motion_state->unk_9B++;
         }
         break;
 
@@ -136,8 +136,8 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
         break;
     }
 
-    action_ticks = ((S_801670E0_0 *)motion_state)->unk_96 - 1;
-    ((S_801670E0_0 *)motion_state)->unk_96 = action_ticks;
+    action_ticks = motion_state->unk_96 - 1;
+    motion_state->unk_96 = action_ticks;
     if ((s16)action_ticks > 0) {
         return;
     }
@@ -167,7 +167,7 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((S_801670E0_0 *)motion_state)->unk_8C = &D_80165CE8;
+        motion_state->unk_8C = &D_80165CE8;
         on_actor_status_updated(actor);
     }
 }

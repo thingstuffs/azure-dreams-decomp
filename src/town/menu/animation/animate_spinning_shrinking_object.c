@@ -28,10 +28,7 @@ typedef struct TownScratch {
     TownVec32 translation;
 } TownScratch;
 
-typedef union TownExtent {
-    u16 bits;
-    s16 signed_value;
-} TownExtent;
+typedef s16 TownExtent;
 
 typedef union TownReciprocal {
     u16 bits;
@@ -97,19 +94,19 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
     if (object->reciprocal.signed_value >= 0xFF)
         object->reciprocal.bits = 0xFF;
 
-    extent = object->extent.bits - 6;
-    object->extent.bits = extent;
+    extent = (u16)object->extent - 6;
+    object->extent = extent;
     if ((s16)extent < 0)
-        object->extent.bits = 0;
+        object->extent = 0;
 
     translation = &scratch->translation;
     PushMatrix();
     scratch->translation.x = point->x;
     scratch->translation.y = point->y;
     scratch->translation.z = point->z - (object->half_height / 2);
-    scratch->scale.x = object->extent.signed_value;
-    scratch->scale.y = object->extent.signed_value;
-    scratch->scale.z = object->extent.signed_value;
+    scratch->scale.x = object->extent;
+    scratch->scale.y = object->extent;
+    scratch->scale.z = object->extent;
 
     scratch->rotation.x = object->angle_x;
     scratch->rotation.y = object->angle_y;
@@ -132,7 +129,7 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
     PopMatrix();
     draw_random_tinted_quad_pair(object);
 
-    if (object->extent.signed_value == 0) {
+    if (object->extent == 0) {
         object->finished = 1;
         return 1;
     }

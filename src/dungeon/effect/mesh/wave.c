@@ -13,7 +13,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
 
-void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = set_record_pair_to_one;
+void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct ObjectPosition *position, struct SpriteFrameState *render_data) = set_record_pair_to_one;
 const PackedVector wave_texture_rect = {832,340,96,84};
 const PackedVector wave_source_rect = {832,256,96,84};
 const Copy24 wave_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
@@ -1113,40 +1113,6 @@ extern u8 current_spell_effect_variant[256];
 #include "dungeon/effect/screen.h"
 extern void try_apply_action_by_chance(void *, s32, s32);
 
-typedef struct BaseChildView {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-} BaseChildView;
-
-typedef struct BaseView {
-    u8 pad_00[0x8];
-    void * unk_08;
-    BaseChildView * unk_0C;
-} BaseView;
-
-typedef struct PacketView {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    union {
-        struct { u32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 v; } at00p;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x1]; u8 v; } at01u;
-        struct { u8 pad[0x2]; u8 v; } at02;
-        struct { u8 pad[0x2]; u8 v; } at02u;
-    } unk_0C;   /* overlapping accesses */
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} PacketView;
-
 typedef struct ParentHead {
     void * unk_00;
     u8 pad_04[0x10];
@@ -1174,29 +1140,6 @@ typedef struct ColorsView {
     u8 unk_15;
     u8 unk_16;
 } ColorsView;
-
-typedef struct OutView {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} OutView;
-
-typedef struct ObjHeadView {
-    void * unk_00;
-} ObjHeadView;
-
-typedef struct SrcView {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} SrcView;
 
 typedef struct ObjDataView {
     u8 pad_00[0x6];
@@ -1244,10 +1187,6 @@ typedef struct SelfChildView {
     u16 unk_00;
 } SelfChildView;
 
-typedef struct ParentLinkMinus18 {
-    void * unk_00;
-} ParentLinkMinus18;
-
 typedef struct ParentLink {
     u8 pad_00[0x13];
     u8 unk_13;
@@ -1269,12 +1208,12 @@ typedef struct EffectObject {
 } EffectObject;
 
 /* Update a projectile effect, spawn impact particles, and advance its cleanup state. */
-void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView *render_data)
+void set_record_pair_to_one(ProjectileSelf *self, ObjectPosition *position, SpriteFrameState *render_data)
 {
     ParentView *parent;
-    BaseView *parent_base;
-    SrcView *target_pos;
-    MovingPosition *origin;
+    ObjectNodeHeader *parent_base;
+    ObjectPosition *target_pos;
+    ObjectPosition *origin;
     OutPair out_pair;
     Copy24 velocities;
     s32 state;
@@ -1283,9 +1222,9 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
     EffectObject *impact;
     parent = self->parent;
     velocities = wave_direction_steps;
-    parent_base = (BaseView *)((u8 *)parent - 0x20);
+    parent_base = NODE_HEADER(parent);
     state = (s16)self->state;
-    origin = parent_base->unk_08;
+    origin = parent_base->position;
     switch (state) {
         s32 index;
         u32 reg_tmp;
@@ -1300,12 +1239,12 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         s32 packed_size;
         ColorsView *colors;
         s32 phase;
-        render_data->unk_0C.at00.v = 0x00808080;
+        render_data->color.word = 0x00808080;
         packed_pos = 0x1400340;
         self->copy12 = D_80026698;
         packed_size = 0x400040;
         colors = (ColorsView *)&D_800266A4;
-        render_data->unk_08 = (u32)((u8 *)self + 0xA2);
+        render_data->source = (u8 *)self + 0xA2;
         self->direction = (parent->unk_2A >> 9) & 7;
         colors->unk_10 = 0x80;
         colors->unk_11 = 0x80;
@@ -1334,44 +1273,44 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         s32 tile_distance;
         s32 tile;
 
-        step_result = get_sprite_attachment_vector(parent_base->unk_0C->unk_08,
-            parent_base->unk_0C, &out_pair, 0);
-        if (step_result == 0 && !(parent_base->unk_0C->unk_14 & 0x8000)) {
+        step_result = get_sprite_attachment_vector(parent_base->sprite->source,
+            parent_base->sprite, &out_pair, 0);
+        if (step_result == 0 && !(parent_base->sprite->flags & 0x8000)) {
             return;
         }
-        position->unk_00.at02.v = origin->x;
-        position->unk_04.at02.v = origin->y;
-        origin_z = origin->z;
-        position->unk_08.at02.v = origin_z;
-        if (!(parent_base->unk_0C->unk_14 & 0x8000)) {
-            position->unk_00.at02.v += out_pair.x;
-            position->unk_04.at02.v += out_pair.y;
-            position->unk_08.at02.v += out_pair.z;
+        position->x.unsigned_parts.integer = origin->x.unsigned_parts.integer;
+        position->y.unsigned_parts.integer = origin->y.unsigned_parts.integer;
+        origin_z = origin->z.unsigned_parts.integer;
+        position->z.unsigned_parts.integer = origin_z;
+        if (!(parent_base->sprite->flags & 0x8000)) {
+            position->x.unsigned_parts.integer += out_pair.x;
+            position->y.unsigned_parts.integer += out_pair.y;
+            position->z.unsigned_parts.integer += out_pair.z;
         } else {
-            position->unk_08.at02.v = origin_z - 0x40;
+            position->z.unsigned_parts.integer = origin_z - 0x40;
         }
         if (!(self->owner_data->unk_00 & 0x80)) {
             return;
         }
         if (!(self->flags & 4)) {
             register_node((u8 *)self - 0x20, project_sprite_chain);
-            render_data->unk_10 = 0x20;
-            render_data->unk_0C.at02.v = 0x20;
-            render_data->unk_0C.at00u.v = 0x20;
-            render_data->unk_14 |= 0x0C;
-            render_data->unk_0C.at01.v = 0xE0;
-            render_data->unk_1E = 2000;
-            render_data->unk_1C = 2000;
-            render_data->unk_14 &= 0xFFFC;
+            render_data->tpage_abr = 0x20;
+            render_data->color.c.b = 0x20;
+            render_data->color.c.r = 0x20;
+            render_data->flags |= 0x0C;
+            render_data->color.c.g = 0xE0;
+            render_data->scale_y = 2000;
+            render_data->scale_x = 2000;
+            render_data->flags &= 0xFFFC;
             self->flags |= 4;
             target = parent->unk_60.p;
         } else {
             target = parent->unk_60.p;
         }
         if (target != 0) {
-            target_pos = ((ObjHeadView *)(target - 0x18))->unk_00;
+            target_pos = NODE_HEADER(target)->position;
             target_height = entity_height_offsets[((ParentLink *)target)->unk_13];
-            self->target_y = target_pos->unk_08.at02.v - (target_height >> 1);
+            self->target_y = target_pos->z.unsigned_parts.integer - (target_height >> 1);
             parent_data = ((ParentHead *)parent)[-1].unk_00;
             self->tile_x = parent_data->unk_24
             + (u8)dir_step_x[self->direction];
@@ -1392,10 +1331,10 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             self->target_y = parent->unk_88 - 0x50;
             self->frames_left = 0x20;
         }
-        position->unk_0C = (s32)velocities.entries[self->direction].x << 16;
-        position->unk_10 = (u32)velocities.entries[self->direction].y << 16;
-        position->unk_14 = (((s32)(s16)self->target_y << 16)
-            - position->unk_08.at00.v)
+        position->velocity_x = (s32)velocities.entries[self->direction].x << 16;
+        position->velocity_y = (u32)velocities.entries[self->direction].y << 16;
+        position->velocity_z = (((s32)(s16)self->target_y << 16)
+            - position->z.v)
         / (s8)self->frames_left;
         self->timer = 0;
         self->shrinking = 0;
@@ -1439,31 +1378,31 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             create_random_jitter_child(emitter, direction, color, intensity, 0, 0, 0);
             index++;
         } while (index < 8);
-        hit_result = check_adjacent_tile_height_clearance(position->unk_00.at02.v, position->unk_04.at02.v,
-            position->unk_08.at02u.v, parent->unk_60.p2);
+        hit_result = check_adjacent_tile_height_clearance(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
+            position->z.w.i, parent->unk_60.p2);
         if (hit_result << 16) {
             (self->state) = 8;
             (self->timer) = 0;
-            render_data->unk_0C.at02u.v = 0;
-            render_data->unk_0C.at01u.v = 0;
-            render_data->unk_0C.at00p.v = 0;
+            render_data->color.c.b = 0;
+            render_data->color.c.g = 0;
+            render_data->color.c.r = 0;
             return;
         }
         {
             s32 scale_y;
-            angle = render_data->unk_1A;
+            angle = render_data->angle_z;
             angle += 0x400;
             if (angle >= 0x1001) {
                 angle -= 0x1000;
             }
-            render_data->unk_1A = angle;
+            render_data->angle_z = angle;
             shrinking = self->shrinking;
             if (shrinking == 0) {
-                render_data->unk_1C += self->pulse_step;
-                render_data->unk_1E += self->pulse_step;
+                render_data->scale_x += self->pulse_step;
+                render_data->scale_y += self->pulse_step;
             } else {
-                render_data->unk_1C -= self->pulse_step;
-                render_data->unk_1E -= self->pulse_step;
+                render_data->scale_x -= self->pulse_step;
+                render_data->scale_y -= self->pulse_step;
             }
         }
         pulse_ticks = self->pulse_ticks + 1;
@@ -1477,10 +1416,10 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             if (parent->unk_60.p != 0) {
                 self->state = 3;
                 self->timer = 0;
-                target_pos = ((ParentLinkMinus18 *)(parent->unk_60.p - 0x18))->unk_00;
-                position->unk_00.at02.v = target_pos->unk_00.at02.v;
-                position->unk_04.at02.v = target_pos->unk_04.at02.v;
-                position->unk_08.at02.v = target_pos->unk_08.at02.v
+                target_pos = NODE_HEADER(parent->unk_60.p)->position;
+                position->x.unsigned_parts.integer = target_pos->x.unsigned_parts.integer;
+                position->y.unsigned_parts.integer = target_pos->y.unsigned_parts.integer;
+                position->z.unsigned_parts.integer = target_pos->z.unsigned_parts.integer
                 - entity_height_offsets[((ParentLink *)(parent->unk_60.p))->unk_13];
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 flash = allocate_flagged_object_node(0x212);
@@ -1493,11 +1432,11 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                     flash_data->unk_10 = 0;
                     flash_data->unk_06 = 0;
                     flash_data->unk_14 |= 0x80;
-                    target_pos = ((ParentLinkMinus18 *)(parent->unk_60.p - 0x18))->unk_00;
+                    target_pos = NODE_HEADER(parent->unk_60.p)->position;
                     flash_pos = flash->position;
-                    flash_pos[0] = target_pos->unk_00.at00.v;
-                    flash_pos[1] = target_pos->unk_04.at00.v;
-                    flash_pos[2] = target_pos->unk_08.at00.v;
+                    flash_pos[0] = target_pos->x.v;
+                    flash_pos[1] = target_pos->y.v;
+                    flash_pos[2] = target_pos->z.v;
                     flash_data = flash->render;
                     flash_data->unk_1E = 0x1000;
                     flash_data->unk_1C = 0x1000;
@@ -1534,9 +1473,9 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                     impact_data->unk_06 = 6;
                     impact_data->unk_14 |= 0x80;
                     flash_pos = impact->position;
-                    flash_pos[0] = position->unk_00.at00.v;
-                    flash_pos[1] = position->unk_04.at00.v;
-                    flash_pos[2] = position->unk_08.at00.v + 0x400000;
+                    flash_pos[0] = position->x.v;
+                    flash_pos[1] = position->y.v;
+                    flash_pos[2] = position->z.v + 0x400000;
                     impact_data = impact->render;
                     impact_data->unk_1C = 0x2000;
                     impact_data->unk_1E = 0x1800;
@@ -1551,16 +1490,16 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 self->state = 8;
                 self->timer = 0;
             }
-            render_data->unk_0C.at02u.v = 0;
-            render_data->unk_0C.at01u.v = 0;
-            render_data->unk_0C.at00p.v = 0;
-            render_data->unk_1E = 0;
-            render_data->unk_1C = 0;
+            render_data->color.c.b = 0;
+            render_data->color.c.g = 0;
+            render_data->color.c.r = 0;
+            render_data->scale_y = 0;
+            render_data->scale_x = 0;
             return;
         }
-        position->unk_00.at00.v += position->unk_0C;
-        position->unk_04.at00.v += position->unk_10;
-        position->unk_08.at00.v += position->unk_14;
+        position->x.v += position->velocity_x;
+        position->y.v += position->velocity_y;
+        position->z.v += position->velocity_z;
         return;
     }
 
@@ -1596,11 +1535,11 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             flash_data->unk_14 = render_flags;
             flash_data->unk_10 = 0x20;
             flash_data->unk_14 = render_flags | 0x80;
-            target_pos = ((ParentLinkMinus18 *)(parent->unk_60.p - 0x18))->unk_00;
+            target_pos = NODE_HEADER(parent->unk_60.p)->position;
             flash_pos = impact->position;
-            flash_pos[0] = target_pos->unk_00.at00.v;
-            flash_pos[1] = target_pos->unk_04.at00.v;
-            flash_pos[2] = target_pos->unk_08.at00.v;
+            flash_pos[0] = target_pos->x.v;
+            flash_pos[1] = target_pos->y.v;
+            flash_pos[2] = target_pos->z.v;
             flash_data = impact->render;
             flash_data->unk_1E = 0x1000;
             flash_data->unk_1C = 0x1000;
@@ -1646,7 +1585,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 particle_data = impact->render;
                 particle_data->unk_10 = 0x20;
                 particle_data->unk_14 |= 0x0C;
-                target_pos = ((ParentLinkMinus18 *)(parent->unk_60.p - 0x18))->unk_00;
+                target_pos = NODE_HEADER(parent->unk_60.p)->position;
                 flash_pos = impact->position;
                 offset_radius = rand();
                 offset_sign = advance_effect_sequence();
@@ -1654,16 +1593,16 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 offset_radius += 16;
                 reg_tmp = (u32)((u8 *)(offset_radius * offset_sign));
                 angle = (s32)((u8 *)reg_tmp) << 16;
-                flash_pos[0] = target_pos->unk_00.at00.v + angle;
+                flash_pos[0] = target_pos->x.v + angle;
                 offset_radius = rand();
                 offset_sign = advance_effect_sequence();
                 offset_radius &= 0x1F;
                 offset_radius += 16;
                 reg_tmp = (u32)((u8 *)(offset_radius * offset_sign));
                 angle = (s32)((u8 *)reg_tmp) << 16;
-                flash_pos[1] = target_pos->unk_04.at00.v + angle;
+                flash_pos[1] = target_pos->y.v + angle;
                 height_random = rand();
-                flash_pos[2] = target_pos->unk_08.at00.v
+                flash_pos[2] = target_pos->z.v
                 - (entity_height_offsets[parent->unk_60.p[0x13]] << 15)
                 - ((height_random & 0x1F) << 16);
                 particle_data = impact->render;

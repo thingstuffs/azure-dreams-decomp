@@ -159,7 +159,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
         break;
 
     case 1:
-        case_value = ctrl->unk_72;
+        case_value = (s16)ctrl->unk_72;
         case_value += (case_value + 0x10) >> 4;
         ctrl->unk_72 = case_value;
         if (step < (s16)case_value) {
@@ -205,12 +205,12 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
         work->unk_1A = 0;
     case 4:
         dx = work->unk_22 == 2 ? 6 : 5;
-        value = ctrl->unk_72;
+        value = (s16)ctrl->unk_72;
         value -= value >> dx;
         ctrl->unk_72 = value;
         view->angle_z += value;
         work->unk_1A += (u16)ctrl->unk_72;
-        if (ctrl->unk_72 < (1 << dx)) {
+        if ((s16)ctrl->unk_72 < (1 << dx)) {
             ctrl->unk_74 = 0;
             ctrl->unk_70 = 5;
             break;
@@ -225,7 +225,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
         if ((case_value_3 & 3) == 0) {
             ctrl->unk_72 = (u16)(ctrl->unk_72 - 2);
         }
-        if (ctrl->unk_72 < 4) {
+        if ((s16)ctrl->unk_72 < 4) {
             ctrl->unk_70 = 0;
             break;
         }

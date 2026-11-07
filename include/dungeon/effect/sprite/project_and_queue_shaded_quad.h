@@ -290,7 +290,7 @@ typedef struct Row_8192365C_S_80024E5C_0_pre {
 typedef struct Row_8192365C_S_80024E5C_0 {
     u8 pad_00[0x56];
     u16 unk_56;
-    u16 unk_58;
+    s16 unk_58;
     u16 unk_5A;
     u16 unk_5C;
     u8 pad_5E[0x2];

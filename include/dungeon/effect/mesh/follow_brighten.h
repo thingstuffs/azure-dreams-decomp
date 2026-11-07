@@ -83,11 +83,11 @@ typedef struct ovl_18d0850_818B0C3C_S_8002443C_1 {
 } ovl_18d0850_818B0C3C_S_8002443C_1;
 typedef struct ovl_18d0850_818B0C3C_S_8002443C_2 {
     u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   
+    u16 unk_02;
     u8 pad_04[0x2];
-    union { u16 s; s16 u; } unk_06;   
+    u16 unk_06;
     u8 pad_08[0x2];
-    union { u16 s; s16 u; } unk_0A;   
+    u16 unk_0A;
 } ovl_18d0850_818B0C3C_S_8002443C_2;
 typedef struct
 {

@@ -5,13 +5,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct Rec_func_800D4BD4_arg2 Rec_func_800D4BD4_arg2;
-
 #include "common.h"
 
 typedef s32 M2C_UNK;
 
-void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param);
+void emit_particles_until_expired(void *emitter, ObjectPosition *position, s32 init_param);
 #include "shared/sprite_source.h"
 #include "dungeon/system.h"
 

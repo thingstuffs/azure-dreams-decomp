@@ -5,7 +5,6 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
-#include "records/Rec_func_800D4BD4_arg2.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/shade_callbacks_api.h"
@@ -17,7 +16,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Emit randomized particles at the parent-relative position and expire the emitter when its lifetime ends. */
-void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spawn_context) {
+void emit_randomized_relative_particles(void *emitter, ObjectPosition *position, M2C_UNK spawn_context) {
     s32 particle_index;
     u16 tick_or_offset;
     u16 life_left;
@@ -30,11 +29,11 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
     FadingMotionParticleBody *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
-    position->unk_02.as_s16 = (s16) (parent->position->x.unsigned_parts.integer
+    position->x.w.i = (s16) (parent->position->x.unsigned_parts.integer
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
-    position->unk_06.as_s16 = (s16) (parent->position->y.unsigned_parts.integer
+    position->y.w.i = (s16) (parent->position->y.unsigned_parts.integer
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
-    position->unk_0A.as_s16 = (s16) (parent->position->z.unsigned_parts.integer
+    position->z.w.i = (s16) (parent->position->z.unsigned_parts.integer
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     tick_or_offset = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = tick_or_offset;

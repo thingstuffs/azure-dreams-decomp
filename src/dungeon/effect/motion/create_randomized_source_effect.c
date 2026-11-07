@@ -247,7 +247,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
     s32 expanded_floor;
     SpriteFrameState *finished_render;
 
-    frame = effect->timer;
+    frame = (u16)effect->timer;
     state = (s16)effect->phase;
     actor = effect->caster;
     effect->timer = (u16)(frame + 1);
@@ -471,7 +471,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         position->x.s32 += position->velocity_x;
         position->y.s32 += position->velocity_y;
         position->z.s32 += position->velocity_z;
-        if ((s16)effect->timer < effect->unk_12) {
+        if (effect->timer < effect->unk_12) {
             break;
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
@@ -504,7 +504,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             (u16)(((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.parts_0A.unk_0A - effect->timer);
         ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing =
             (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing + 0x200);
-        if ((s16)effect->timer >= 28) {
+        if (effect->timer >= 28) {
             finished_render = effect->target_sprite;
 
             state = finished_render->angle_z;
@@ -518,7 +518,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
 
     case 7:
         ((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.parts_0A.unk_0A =
-            (u16)(((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.parts_0A.unk_0A + (s16)effect->timer * 4);
+            (u16)(((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.parts_0A.unk_0A + effect->timer * 4);
         ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing =
             (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing + 0x200);
         {
@@ -557,13 +557,13 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing =
             (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing + 0x200);
         index = 0;
-        if ((s16)effect->timer == 2) {
+        if (effect->timer == 2) {
             do {
                 create_randomized_source_effect(effect);
                 index++;
             } while (index < 8);
         }
-        if ((s16)effect->timer < 12) {
+        if (effect->timer < 12) {
             break;
         }
         effect->phase = (u16)(effect->phase + 1);
@@ -571,7 +571,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         break;
 
     case 9:
-        if ((s16)effect->timer < 4) {
+        if (effect->timer < 4) {
             break;
         }
         ((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.s32 = effect->saved_z;
@@ -598,15 +598,15 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
     case 2:
     case 11:
         create_scaled_rotating_effect(effect, position);
-        if ((s16)effect->timer < 15) {
+        if (effect->timer < 15) {
             break;
         }
         {
-            void *saved_height = ((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.ptr;
+            s32 saved_height = ((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.s32;
 
             effect->phase = (u16)(effect->phase + 1);
             effect->timer = 0;
-            effect->saved_z = (s32)saved_height;
+            effect->saved_z = saved_height;
         }
         break;
 
@@ -614,7 +614,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         position->x.s32 += position->velocity_x;
         position->y.s32 += position->velocity_y;
         position->z.s32 += position->velocity_z;
-        if ((s16)effect->timer < effect->unk_12) {
+        if (effect->timer < effect->unk_12) {
             break;
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
@@ -633,7 +633,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
 
     case 5:
     case 14:
-        if ((s16)effect->timer < 7) {
+        if (effect->timer < 7) {
             break;
         }
 
@@ -642,7 +642,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         break;
 
     case 15:
-        if ((s16)effect->timer >= 28) {
+        if (effect->timer >= 28) {
             play_sound_if_enabled(116);
             effect->phase = 10;
             effect->timer = 0;

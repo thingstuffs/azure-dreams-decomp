@@ -7,5 +7,5 @@
 /* Update the controller and set its state to one. */
 void enter_catalog_grid(CatalogDisplay *controller) {
     refresh_catalog_entry_grid(controller);
-    controller->unk_0A.as_s8 = 1;
+    controller->unk_0A = 1;
 }

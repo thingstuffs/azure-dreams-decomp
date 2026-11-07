@@ -104,10 +104,7 @@ void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32
 ObjectNodeHeader *create_randomized_transform_effect(void *owner_id, ObjectPosition *transform);
 /* The callback body installed by create_actor_spell_effect for resource 24.
  * ObjectNodeHeader precedes it; position and sprite remain separate records. */
-typedef union TransformHalf {
-    s16 s;
-    u16 u;
-} TransformHalf;
+typedef s16 TransformHalf;
 
 typedef struct TransformSpellState {
     ActorRecord *source;

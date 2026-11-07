@@ -464,7 +464,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
         } if ((s32)p < 4) goto loop_0;
         if ((check_adjacent_tile_height_clearance(pos->x.unsigned_parts.integer, pos->y.unsigned_parts.integer,
                            pos->z.w.i, entity->unk_30) << 0x10) != 0) {
-            ((B32_818CF0E8_S_818CF0E8_9 *)(entity->unk_34))->unk_86 = 1;
+            entity->unk_34->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
@@ -624,7 +624,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
             pos->y.v += entity->unk_50;
             pos->z.v += entity->unk_54;
             if (entity->unk_04 <= 0) {
-                ((B32_818CF0E8_S_818CF0E8_9 *)(entity->unk_34))->unk_86 = 1;
+                entity->unk_34->unk_86 = 1;
                 ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
@@ -632,7 +632,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
         }
     }
     if (entity->unk_00 == 1) {
-        if (entity->unk_02 == 0) {
+        if ((s16)entity->unk_02 == 0) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             drain_audio_commands_and_service_channels();
         }
@@ -744,7 +744,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
             }
             }
         }
-        if (entity->unk_02 >= 0x29) {
+        if ((s16)entity->unk_02 >= 0x29) {
             entity->unk_02 = 0;
             entity->unk_00 = (u16)entity->unk_00 + 1;
             if (try_trigger_target_record_effect(env->unk_60, 2, env) == 0) {
@@ -765,8 +765,8 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
         entity->unk_02 = (u16)entity->unk_02 + 1;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
-        if (entity->unk_02 >= 0x15) {
-            ((B32_818CF0E8_S_818CF0E8_9 *)(entity->unk_34))->unk_86 = 1;
+        if ((s16)entity->unk_02 >= 0x15) {
+            entity->unk_34->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;

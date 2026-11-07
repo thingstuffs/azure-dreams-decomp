@@ -70,13 +70,13 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *
     u8 *unused_fields;
     s32 timer;
 
-    timer = state_data->unk_50.u;
+    timer = (u16)state_data->unk_50;
     source = state_data->spell.caster;
     timer--;
-    state_data->unk_50.u = timer;
+    state_data->unk_50 = timer;
     work = (u8 *)source - 0x20;
 
-    switch (state_data->spell.phase.s) {
+    switch ((s16)state_data->spell.phase) {
     case 0:
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
@@ -84,13 +84,13 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *
         ((ObjectPosition *)position_data)->y.v = ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->y.v;
         ((ObjectPosition *)position_data)->z.v =
             ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->z.v;
-        state_data->spell.phase.u++;
+        state_data->spell.phase++;
     case 1:
     {
         S_81988800_6 *spawn_data;
         if (*state_data->spell.context & 0x80) {
             actor = (S_81988800_4 *)primary_actor_record;
-            state_data->unk_50.u = 10;
+            state_data->unk_50 = 10;
             actor->unk_A6--;
             actor->unk_A8 = state_data->spell.spell_id;
 
@@ -120,7 +120,7 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *
                                       ((s32)offset[2] << 16);
                 spawn_data->unk_24 = ((ObjectPosition *)position_data)->z.v;
             }
-            state_data->spell.phase.u++;
+            state_data->spell.phase++;
         }
         break;
     }
@@ -129,15 +129,15 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *
     {
         s32 effect_id;
         s32 variant;
-        if (state_data->unk_50.s <= 0) {
+        if (state_data->unk_50 <= 0) {
             variant = read_sound_mode_blocking_status(4);
             effect_id = 0x4300;
             if (variant != 2) {
                 effect_id = 0x300;
             }
             play_sound_if_enabled(effect_id);
-            state_data->unk_50.u = 13;
-            state_data->spell.phase.u++;
+            state_data->unk_50 = 13;
+            state_data->spell.phase++;
         }
         break;
     }
@@ -145,7 +145,7 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *
     case 3:
     {
         s32 entry_index;
-        if (state_data->unk_50.s <= 0) {
+        if (state_data->unk_50 <= 0) {
             object = allocate_list_node(0x302, &scene_object_list_anchor.next);
             if (object != 0) {
                 object->update_callback = update_segment;
@@ -161,17 +161,17 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *
                     ((S_81988800_3 *)work)->entries[entry_index].unk_00 = 0;
                 }
                 ((S_81988800_3 *)work)->unk_00 = state_data;
-                ((S_81988800_3 *)work)->unk_40.s = 0;
+                ((S_81988800_3 *)work)->unk_40 = 0;
             }
-            state_data->unk_50.u = 0x3D;
-            state_data->spell.phase.u++;
+            state_data->unk_50 = 0x3D;
+            state_data->spell.phase++;
         }
         break;
     }
 
     case 4:
     {
-        if (state_data->unk_50.s == 8) {
+        if (state_data->unk_50 == 8) {
             object = primary_actor_record;
             if (object != 0) {
 
@@ -189,7 +189,7 @@ loop:
             }
         }
 
-        if ((reference_tile_object.sprite_flags & 0x8000) || state_data->unk_50.s < 0) {
+        if ((reference_tile_object.sprite_flags & 0x8000) || state_data->unk_50 < 0) {
             if (state_data->unk_52.s & 0x8000) {
                 state_data->unk_52.u &= 0x7FFF;
             } else {
@@ -643,23 +643,23 @@ void update_segment(DirectionalGridEffectBody *effect) {
         }
     }
 
-    effect->unk_42.u--;
-    switch (effect->unk_40.s) {
+    effect->unk_42 = (u16)effect->unk_42 - 1;
+    switch ((s16)effect->unk_40) {
     case 0:
-        effect->unk_42.u = 0;
+        effect->unk_42 = 0;
         effect->unk_0C.word = 0;
-        effect->unk_40.s = effect->unk_40.u + 1;
+        effect->unk_40 = effect->unk_40 + 1;
                         /* fallthrough */
     case 1:
     {
         s32 color = effect->unk_0C.word;
-        s32 phase = effect->unk_42.s;
+        s32 phase = effect->unk_42;
         color += 0xC0C0C;
         effect->unk_0C.word = color;
         effect->entries[7].unk_00 = rsin(phase << 9) >> 7;
         if (effect->unk_0C.word > 0x60605F) {
-            effect->unk_42.u = 0x38;
-            effect->unk_40.u++;
+            effect->unk_42 = 0x38;
+            effect->unk_40++;
             return;
         }
         return;
@@ -673,7 +673,7 @@ void update_segment(DirectionalGridEffectBody *effect) {
             s32 index_squared = segment_index * segment_index;
             s32 speed_bias;
             segment_index--;
-            speed_bias = base_speed - effect->unk_42.u;
+            speed_bias = base_speed - (u16)effect->unk_42;
             base_speed -= 0x18;
             ((S_80024B20_3 *)segment)->unk_14 = speed_bias + ((index_squared >> 2) * 0x14);
             segment -= 6;
@@ -697,13 +697,13 @@ void update_segment(DirectionalGridEffectBody *effect) {
                 segment_index--;
             }
         }
-        if (effect->unk_42.s < 8) {
+        if (effect->unk_42 < 8) {
             effect->unk_0C.word += (s32)0xFFF3F3F4;
         }
-        if (effect->unk_42.s <= 0) {
-            state = effect->unk_40.u;
+        if (effect->unk_42 <= 0) {
+            state = effect->unk_40;
             state++;
-            effect->unk_40.u = state;
+            effect->unk_40 = state;
             return;
         }
         return;

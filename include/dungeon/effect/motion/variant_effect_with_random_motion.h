@@ -9,10 +9,10 @@ typedef struct VariantEffectWithRandomMotionBody {
     u8 pad_00[0x8];
     SpriteSourceEntry *sprite_entries;
     u8 pad_0C[0x4];
-    union { s16 s; u16 u; } lifetime;
+    u16 lifetime;
     s16 fade_color;
-    union { s16 s; u16 u; } angle_x_step;
-    union { s16 s; u16 u; } angle_y_step;
+    u16 angle_x_step;
+    u16 angle_y_step;
 } VariantEffectWithRandomMotionBody;
 
 #endif

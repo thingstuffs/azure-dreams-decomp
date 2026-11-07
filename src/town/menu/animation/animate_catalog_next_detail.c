@@ -19,7 +19,7 @@ extern Entry *catalog_display_node_slots[28];
 /* Resets the object or updates entry values and words according to its state. */
 void animate_catalog_next_detail(CatalogDisplay *obj)
 {
-    switch ((s16)(obj->unk_04.as_u16 - 1)) {
+    switch ((s16)(obj->unk_04 - 1)) {
     case 0:
         obj->parts.nodes[28]->handler = 0;
         reset_linked_value_records();

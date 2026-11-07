@@ -150,9 +150,9 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin_arg, s16 motion, 
         node->update_callback = node_type;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_04 = motion;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_06 = (s16) (-6 - (rand() % 5));
-        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 = (u16) origin->unk_02.s;
-        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A = (u16) origin->unk_06.s;
-        node_type = (s32 *)(origin->unk_0A.s);
+        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 = (u16) origin->unk_02;
+        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A = (u16) origin->unk_06;
+        node_type = (s32 *)(origin->unk_0A);
         sprite_mode = 0x7E09;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0C = (u16)node_type;
         sprite = node->sprite;

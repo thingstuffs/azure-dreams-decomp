@@ -1423,7 +1423,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
 
     owner = effect->owner;
     direction_steps = D_80024074;
-    state_index = effect->state.s;
+    state_index = (s16)effect->state;
     object = NODE_HEADER(owner);
     object_data = object->position;
 
@@ -1438,9 +1438,9 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
         {
             u16 facing = (u16)owner->facing;
             point_cloud_update_flag[0] = 1;
-            effect->direction.u = (facing >> 9) & 7;
+            effect->direction = (facing >> 9) & 7;
         }
-        effect->state.u += 1;
+        effect->state += 1;
 
     case 1:
         origin_sprite = object->sprite;
@@ -1482,15 +1482,15 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
         offset_value = 0x10;
         if (hit_target != 0) {
             object = PTR(hit_target, -0x18);
-            effect->target_x.u = U16(object, 2);
-            effect->target_y.u = U16(object, 6);
+            effect->target_x = U16(object, 2);
+            effect->target_y = U16(object, 6);
             {
                 s32 height = entity_height_offsets[U8(owner->target, 0x13)] + 0x20;
-                effect->target_z.u = U16(object, 0xA) - height;
+                effect->target_z = U16(object, 0xA) - height;
             }
             owner_sprite = PTR(owner, -0x14);
-            effect->next_tile_x = owner_sprite->tile_x + *(u8 *)&dir_step_x[effect->direction.s];
-            effect->next_tile_y = owner_sprite->tile_y + *(u8 *)&dir_step_y[effect->direction.s];
+            effect->next_tile_x = owner_sprite->tile_x + *(u8 *)&dir_step_x[effect->direction];
+            effect->next_tile_y = owner_sprite->tile_y + *(u8 *)&dir_step_y[effect->direction];
             {
                 s32 grid;
                 tile_distance = owner->target_tile_x;
@@ -1506,27 +1506,27 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
             if (tile_distance < 0) {
                 tile_distance = -tile_distance;
             }
-            effect->travel_ticks.u = tile_distance * 2 - 1;
+            effect->travel_ticks = tile_distance * 2 - 1;
         } else {
-            effect->travel_ticks.u = (u32)offset_value;
-            offset_value = (u16)direction_steps.p[effect->direction.s].x << 4;
+            effect->travel_ticks = (u32)offset_value;
+            offset_value = (u16)direction_steps.p[effect->direction].x << 4;
             {
                 s16 travel_ticks;
                 u16 y_step;
-                effect->target_x.u = (u16)motion->x.w.i + (u32)offset_value;
-                y_step = direction_steps.p[effect->direction.s].y;
-                travel_ticks = effect->travel_ticks.u;
+                effect->target_x = (u16)motion->x.w.i + (u32)offset_value;
+                y_step = direction_steps.p[effect->direction].y;
+                travel_ticks = (u8)effect->travel_ticks;
                 travel_ticks = (s8)travel_ticks;
-                effect->target_y.u = (u16)motion->y.w.i + y_step * (s8)travel_ticks;
+                effect->target_y = (u16)motion->y.w.i + y_step * (s8)travel_ticks;
             }
-            effect->target_z.u = (u16)owner->ground_height - 0x50;
+            effect->target_z = (u16)owner->ground_height - 0x50;
         }
 
-        motion->velocity_x = direction_steps.p[effect->direction.s].x << 16;
-        motion->velocity_y = direction_steps.p[effect->direction.s].y << 16;
-        motion->velocity_z = ((effect->target_z.s << 16) - motion->z.v) / effect->travel_ticks.s;
-        effect->timer.u = 0;
-        effect->state.u += 1;
+        motion->velocity_x = direction_steps.p[effect->direction].x << 16;
+        motion->velocity_y = direction_steps.p[effect->direction].y << 16;
+        motion->velocity_z = ((effect->target_z << 16) - motion->z.v) / effect->travel_ticks;
+        effect->timer = 0;
+        effect->state += 1;
         return;
 
     case 2:
@@ -1567,8 +1567,8 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
             if ((s16)check_adjacent_tile_height_clearance((u16)motion->x.w.i, (u16)motion->y.w.i, motion->z.w.i,
                                    owner->target) != 0) {
                 {
-                    effect->state.u = 7;
-                    effect->timer.u = 0;
+                    effect->state = 7;
+                    effect->timer = 0;
                     render_flags = sprite->flags;
                     render_flags |= 0x80;
                     sprite->flags = render_flags;
@@ -1576,22 +1576,22 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                 }
             }
 
-            effect->travel_ticks.u = effect->travel_ticks.u - 1;
-            if (effect->travel_ticks.s <= 0) {
+            effect->travel_ticks = (u8)effect->travel_ticks - 1;
+            if (effect->travel_ticks <= 0) {
                 if (owner->target != 0) {
                     {
-                        effect->state.u = 3;
-                        effect->timer.u = 0;
+                        effect->state = 3;
+                        effect->timer = 0;
                         object = PTR(owner->target, -0x18);
                         motion->x.w.i = U16(object, 2);
                         motion->y.w.i = U16(object, 6);
-                        motion->z.w.i = effect->target_z.u;
+                        motion->z.w.i = (u16)effect->target_z;
                         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                         return;
                     }
                 }
-                effect->state.u = 7;
-                effect->timer.u = 0;
+                effect->state = 7;
+                effect->timer = 0;
                 render_flags = sprite->flags;
                 sprite->color.c.b = 0;
                 sprite->color.c.g = 0;
@@ -1601,20 +1601,20 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                 return;
             }
 
-            motion->velocity_x = ((effect->target_x.s << 16) - motion->x.v) / effect->travel_ticks.s;
-            motion->velocity_y = ((effect->target_y.s << 16) - motion->y.v) / effect->travel_ticks.s;
-            motion->velocity_z = ((effect->target_z.s << 16) - motion->z.v) / effect->travel_ticks.s;
+            motion->velocity_x = ((effect->target_x << 16) - motion->x.v) / effect->travel_ticks;
+            motion->velocity_y = ((effect->target_y << 16) - motion->y.v) / effect->travel_ticks;
+            motion->velocity_z = ((effect->target_z << 16) - motion->z.v) / effect->travel_ticks;
             motion->x.v += motion->velocity_x;
             motion->y.v += motion->velocity_y;
             motion->z.v += motion->velocity_z;
         } while (1);
 
     case 3:
-        if (effect->impact_phase.s == 0) {
-            effect->impact_phase.u = 1;
+        if (effect->impact_phase == 0) {
+            effect->impact_phase = 1;
             effect->sprite_data.unk_A0 = effect->sprite_data.unk_A0 + 0x18;
         } else {
-            effect->impact_phase.u = 0;
+            effect->impact_phase = 0;
             effect->sprite_data.unk_A0 = effect->sprite_data.unk_A0 - 0x18;
         }
 
@@ -1641,25 +1641,25 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
         effect->blue = 0;
         effect->green = 0;
         effect->red = 0;
-        effect->state.u = 4;
-        effect->timer.u = 0;
+        effect->state = 4;
+        effect->timer = 0;
         return;
 
     case 4:
     {
-        u16 next_tick = effect->timer.u + 1;
+        u16 next_tick = (u16)effect->timer + 1;
         fade_out_tick = (s16)next_tick;
-        effect->timer.u = next_tick;
+        effect->timer = next_tick;
     }
         if (fade_out_tick < 0x14) {
             sprite->color.c.r = ((0x14 - fade_out_tick) * 0xE0) / 0x14;
-            sprite->color.c.g = ((0x14 - effect->timer.s) * 0xE0) / 0x14;
-            sprite->color.c.b = ((0x14 - effect->timer.s) * 0x20) / 0x14;
-            if (effect->impact_phase.s == 0) {
-                effect->impact_phase.u = 1;
+            sprite->color.c.g = ((0x14 - effect->timer) * 0xE0) / 0x14;
+            sprite->color.c.b = ((0x14 - effect->timer) * 0x20) / 0x14;
+            if (effect->impact_phase == 0) {
+                effect->impact_phase = 1;
                 effect->sprite_data.unk_A0 = effect->sprite_data.unk_A0 + 0x18;
             } else {
-                effect->impact_phase.u = 0;
+                effect->impact_phase = 0;
                 effect->sprite_data.unk_A0 = effect->sprite_data.unk_A0 - 0x18;
             }
 
@@ -1674,7 +1674,7 @@ loop_0:
                     base_color = 0x0020E0E0;
                     particle_color &= 0xFF;
                     brightness = particle_color | 0x80;
-                    create_terrain_seeking_colored_point(target, effect->direction.s, base_color, brightness, 0, 0, 0);
+                    create_terrain_seeking_colored_point(target, effect->direction, base_color, brightness, 0, 0, 0);
                 }
                 particle_index += 1;
             }
@@ -1684,19 +1684,19 @@ loop_0:
 
         }
 
-        effect->timer.u = 0;
-        effect->state.u += 1;
+        effect->timer = 0;
+        effect->state += 1;
         return;
 
     case 5:
-        effect->timer.u = effect->timer.u + 1;
-        blue_scaled = effect->timer.s * 0x20;
+        effect->timer = (u16)effect->timer + 1;
+        blue_scaled = effect->timer * 0x20;
         effect->blue = blue_scaled / 0x28;
-        green_scaled = effect->timer.s * 8;
-        green_scaled = (green_scaled - effect->timer.s) * 32;
+        green_scaled = effect->timer * 8;
+        green_scaled = (green_scaled - effect->timer) * 32;
         effect->green = green_scaled / 0x28;
-        red_scaled = effect->timer.s * 8;
-        red_scaled = (red_scaled - effect->timer.s) * 32;
+        red_scaled = effect->timer * 8;
+        red_scaled = (red_scaled - effect->timer) * 32;
         effect->red = red_scaled / 0x28;
 
         object = PTR(owner->target, -0x18);
@@ -1707,23 +1707,23 @@ loop_0:
                           (s16)(U16(object, 0xA) -
                                 (entity_height_offsets[U8(owner->target, 0x13)] >> 1)));
         }
-        if (effect->timer.s >= 0x28) {
-            effect->timer.u = 0;
-            effect->state.u += 1;
+        if (effect->timer >= 0x28) {
+            effect->timer = 0;
+            effect->state += 1;
             return;
         }
         return;
 
     case 6:
     {
-        u16 next_tick = effect->timer.u + 1;
+        u16 next_tick = (u16)effect->timer + 1;
         target_tick = (s16)next_tick;
-        effect->timer.u = next_tick;
+        effect->timer = next_tick;
     }
         if (target_tick >= 0x24) {
             effect->blue = ((0x46 - target_tick) * 0x20) / 0x23;
-            effect->green = ((0x46 - effect->timer.s) * 0xE0) / 0x23;
-            effect->red = ((0x46 - effect->timer.s) * 0xE0) / 0x23;
+            effect->green = ((0x46 - effect->timer) * 0xE0) / 0x23;
+            effect->red = ((0x46 - effect->timer) * 0xE0) / 0x23;
         }
 
         object = PTR(owner->target, -0x18);
@@ -1738,7 +1738,7 @@ loop_0:
         target = owner->target;
         U32(target, 0x1C) |= 0x10000000;
         target_data = PTR(target, -0x14);
-        if (effect->timer.s >= 0x24) {
+        if (effect->timer >= 0x24) {
             target_data->color.c.r -= 3;
             target_data->color.c.g -= 3;
             target_data->color.c.b += 2;
@@ -1747,7 +1747,7 @@ loop_0:
             target_data->color.c.g += 3;
             target_data->color.c.b -= 2;
         }
-        if (effect->timer.s < 0x46) {
+        if (effect->timer < 0x46) {
             return;
         }
 
@@ -1760,18 +1760,18 @@ loop_0:
         target_data->color.c.g = 0x80;
         target_data->color.c.r = 0x80;
         try_apply_wind_protection(owner->target, effect->variant, owner);
-        effect->timer.u = 0x14;
-        effect->state.u += 1;
+        effect->timer = 0x14;
+        effect->state += 1;
         return;
 
     case 7:
-        finish_tick = effect->timer.u;
-        effect->timer.u = finish_tick + 1;
+        finish_tick = (u16)effect->timer;
+        effect->timer = finish_tick + 1;
         if ((s16)finish_tick < 0x15) {
             return;
         }
         effect_busy = point_cloud_update_flag[0];
-        effect->timer.u = finish_tick;
+        effect->timer = finish_tick;
         if (effect_busy == 0) {
             S32(D_8007CCD8 + 13096, 0x346C) = 0;
             U16(effect, -2) |= 0x8000;

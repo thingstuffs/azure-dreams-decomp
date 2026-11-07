@@ -65,7 +65,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
     GpuRectBuffer texture_init;
 
     owner = self->owner;
-    state = self->state.s;
+    state = (s16)self->state;
     owner_base = NODE_HEADER(owner);
     owner_motion = owner_base->position;
     switch (state) {
@@ -77,11 +77,11 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
         part->scale_y = 0x800;
         part->scale_x = 0x800;
         part->source = D_800257E8;
-        self->direction.u = ((u16)owner->facing >> 9) & 7;
+        self->direction = ((u16)owner->facing >> 9) & 7;
         texture_init.words[0] = texture_flags;
         texture_init.words[1] = texture_size;
         draw_textured_ellipse(D_800257D0, &texture_init.rect, 1, 0);
-        self->state.u++;
+        self->state++;
 
     case 1:
         if (get_sprite_attachment_vector(owner_base->sprite->source,
@@ -128,11 +128,11 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             height_offset = height_table[target_type];
             height_offset += 0x20;
             target_height = target_position->z.unsigned_parts.integer;
-            self->target_z.u = target_height - height_offset;
+            self->target_z = target_height - height_offset;
 
             {
                 s16 direction;
-                direction = self->direction.s;
+                direction = self->direction;
                 owner_sprite = NODE_HEADER(owner)->sprite;
                 tile_coord = owner_sprite->tile_x + dir_step_x[direction];
                 self->current_tile.tile.x.u = tile_coord;
@@ -140,7 +140,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             }
             {
                 s16 direction;
-                direction = self->direction.s;
+                direction = self->direction;
                 tile_coord = owner_sprite->tile_y + dir_step_y[direction];
                 self->current_tile.tile.y.u = tile_coord;
                 self->previous_tile.tile.y.u = tile_coord;
@@ -166,15 +166,15 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             self->tiles_left = 8;
             self->target_x = (u16)motion->x.w.i;
             self->target_y = (u16)motion->y.w.i;
-            self->target_z.u = (u16)owner->ground_height - 0x50;
+            self->target_z = (u16)owner->ground_height - 0x50;
         }
-        direction_step = dir_step_x[self->direction.s];
+        direction_step = dir_step_x[self->direction];
         F(motion, s16, 0x0E) = direction_step << 3;
-        direction_step = dir_step_y[self->direction.s];
+        direction_step = dir_step_y[self->direction];
         F(motion, s16, 0x12) = direction_step << 3;
-        state_step = self->state.u;
+        state_step = self->state;
         self->unk_1C = 0;
-        self->state.u = state_step + 1;
+        self->state = state_step + 1;
         break;
 
     case 2:
@@ -221,7 +221,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             }
         }
 
-        z_delta = self->target_z.s << 16;
+        z_delta = self->target_z << 16;
         z_pos = motion->z.v;
         z_delta -= z_pos;
         z_delta >>= 3;
@@ -256,8 +256,8 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             F(owner, s16, 0x72) == self->current_tile.packed) {
             motion->x.w.i = self->target_x;
             motion->y.w.i = self->target_y;
-            motion->z.w.i = self->target_z.u;
-            self->state.u++;
+            motion->z.w.i = (u16)self->target_z;
+            self->state++;
             break;
         }
 
@@ -279,7 +279,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
                 break;
             }
         }
-        self->state.u = 0x10;
+        self->state = 0x10;
         break;
 
     case 3:
@@ -290,9 +290,9 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             break;
         }
         part->flags |= 0x80;
-        state_step = self->state.u;
+        state_step = self->state;
         state_step++;
-        self->state.u = state_step;
+        self->state = state_step;
 
     case 4:
         state_step = (long)self->child;
@@ -303,13 +303,13 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
         if (target != 0) {
             apply_indexed_effect_condition(target, self->variant, owner);
         }
-        self->state.u = 0x11;
+        self->state = 0x11;
         break;
 
     case 16:
         motion->x.v += motion->velocity_x;
         motion->y.v += motion->velocity_y;
-        z_delta = self->target_z.s << 16;
+        z_delta = self->target_z << 16;
         z_pos = motion->z.v;
         z_delta -= z_pos;
         z_delta >>= 3;
@@ -325,7 +325,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
         if (part->color.c.r >= 2) {
             break;
         }
-        self->state.u++;
+        self->state++;
         break;
 
     case 17:
@@ -359,13 +359,13 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
     s32 channel_value;
 
     tint_effect_update_count[0]++;
-    state = effect->state.s;
+    state = effect->state;
 
     switch (state) {
     case 0:
         object = effect->target.pointer;
         object->flags1C |= 0x10000000;
-        effect->state.u++;
+        effect->state++;
 
     case 1:
         color = ((S_81880F28_3_pre *)(effect->target.pointer))[-1].unk_00;
@@ -389,7 +389,7 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
         }
 
         if (tint_effect_phase_counts[0] < 14) {
-            effect->state.u++;
+            effect->state++;
         }
         break;
     case 2:
@@ -537,7 +537,7 @@ void advance_rising_fading_emitter(RisingFadingEmitterBody *effect, ObjectPositi
     u16 frame_count;
 
     tint_effect_update_count[0]++;
-    state = effect->state.s;
+    state = effect->state;
     if (state != 2) {
         if (state == 0) {
             frame_count = effect->initial_delay - 1;
@@ -545,12 +545,12 @@ void advance_rising_fading_emitter(RisingFadingEmitterBody *effect, ObjectPositi
             if ((s16)frame_count > 0) {
                 return;
             }
-            effect->state.u++;
+            effect->state++;
         }
         frame_count = effect->frame_count + 1;
         effect->frame_count = frame_count;
         if ((s16)frame_count >= 0x41) {
-            effect->state.u = 2;
+            effect->state = 2;
         }
     } else {
         primitive->color.word += 0xFFFBFBFC;

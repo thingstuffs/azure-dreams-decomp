@@ -44,19 +44,19 @@ void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorR
     B22_81893474_EffectState *owner;
     owner = effect->owner;
     owner->field_14.u = owner->field_14.u + 1;
-    effect->elapsed_ticks.u = effect->elapsed_ticks.u + 1;
+    effect->elapsed_ticks = (u16)effect->elapsed_ticks + 1;
     sprite->angle_z = (sprite->angle_z) + 0x10;
     rot = sprite->angle_z;
     sprite->angle_z = rot & 0xFFF;
-    switch (effect->phase.s) {
+    switch ((s16)effect->phase) {
     case 0:
-        if (effect->elapsed_ticks.s < effect->delay_ticks) {
+        if (effect->elapsed_ticks < effect->delay_ticks) {
             break;
         }
-        state = effect->phase.u;
-        effect->elapsed_ticks.u = 0;
+        state = effect->phase;
+        effect->elapsed_ticks = 0;
         state++;
-        effect->phase.u = state;
+        effect->phase = state;
         register_node(((u8 *) effect) - 0x20, project_sprite_chain);
         return;
 
@@ -64,26 +64,26 @@ void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorR
         quarter_turn = 0x400;
         *(s32 *)((u8 *) position + 0) =
             effect->start_x
-        + ((rsin((quarter_turn / effect->quarter_turn_ticks.s)
-            * effect->elapsed_ticks.s) >> 4)
+        + ((rsin((quarter_turn / effect->quarter_turn_ticks)
+            * effect->elapsed_ticks) >> 4)
             * (effect->offset_x >> 8));
         *(s32 *)((u8 *) position + 4) =
             effect->start_y
-        + ((rsin((quarter_turn / effect->quarter_turn_ticks.s)
-            * effect->elapsed_ticks.s) >> 4)
+        + ((rsin((quarter_turn / effect->quarter_turn_ticks)
+            * effect->elapsed_ticks) >> 4)
             * (effect->offset_y >> 8));
         *(s32 *)((u8 *) position + 8) =
             effect->start_z
-        + ((rsin((quarter_turn / effect->quarter_turn_ticks.s)
-            * effect->elapsed_ticks.s) >> 4)
+        + ((rsin((quarter_turn / effect->quarter_turn_ticks)
+            * effect->elapsed_ticks) >> 4)
             * (effect->offset_z >> 8));
-        if (effect->elapsed_ticks.s < effect->quarter_turn_ticks.s) {
+        if (effect->elapsed_ticks < effect->quarter_turn_ticks) {
             break;
         }
-        state = effect->phase.u;
-        effect->elapsed_ticks.u = 0;
+        state = effect->phase;
+        effect->elapsed_ticks = 0;
         state++;
-        effect->phase.u = state;
+        effect->phase = state;
         return;
 
     case 2:
@@ -101,7 +101,7 @@ void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorR
         if (((u16) scale) < 0x1801U) {
             break;
         }
-        effect->phase.u = effect->phase.u + 1;
+        effect->phase = effect->phase + 1;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -142,9 +142,9 @@ void *create_randomized_target_effect(TargetTravelStatusBody *source, ObjectPosi
         data = NODE_BODY(obj);
         obj->update_callback = (void *)update_rotating_fading_effect;
         data->owner = source;
-        data->phase.u = 0;
-        data->elapsed_ticks.u = 0;
-        data->quarter_turn_ticks.u = source->unk_12.as_u16;
+        data->phase = 0;
+        data->elapsed_ticks = 0;
+        data->quarter_turn_ticks = source->unk_12.as_u16;
 
         amplitude = rand() % 48;
         angle_x = rand() % 0x1000;
@@ -242,13 +242,13 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
     u16 elapsed;
 
     elapsed = effect->unk_10;
-    state = effect->spell.phase.s;
+    state = (s16)effect->spell.phase;
     source = effect->spell.caster;
     effect->unk_10 = elapsed + 1;
     switch (state) {
     case 0:
         effect->unk_10 = 0U;
-        effect->spell.phase.s = (s16) ((u16) effect->spell.phase.s + 1);
+        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
         effect->unk_0E = (u16) (((u16) ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_2A >> 9) & 7);
         appearance->color.word = 0x808080;
     case 1:
@@ -318,7 +318,7 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
             motion->velocity_z = (s32) ((s32) (destination->z.v
                 - motion->z.v) / (s16) effect->unk_12.as_s16);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-            effect->spell.phase.s += 1;
+            effect->spell.phase += 1;
         } else {
             u16 path_x;
             u16 path_y;
@@ -394,7 +394,7 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
                 - motion->y.v) / (s16) effect->unk_12.as_s16);
             motion->velocity_z = (s32) ((s32) (destination->z.v
                 - motion->z.v) / (s16) effect->unk_12.as_s16);
-            effect->spell.phase.s = 5;
+            effect->spell.phase = 5;
         }
         index = 0x1F;
         tile_x = (u8 *)effect + 0x7C;
@@ -411,7 +411,7 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
         }
         apply_large_random_value_gain(source->target, effect->spell.variant, source);
         effect->unk_10 = 0U;
-        effect->spell.phase.s = (s16) ((u16) effect->spell.phase.s + 1);
+        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
         break;
     case 4:
         if (effect->unk_14 != 0) {
@@ -432,7 +432,7 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
             break;
         }
         effect->unk_10 = 0U;
-        effect->spell.phase.s = (s16) ((u16) effect->spell.phase.s + 1);
+        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
         break;
     case 5:
         motion->x.v = (s32) (motion->x.v
@@ -445,13 +445,13 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
             break;
         }
         effect->unk_10 = 0U;
-        effect->spell.phase.s = (s16) ((u16) effect->spell.phase.s + 1);
+        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
         break;
     case 6:
         if ((s16) effect->unk_10 < 0x28) {
             break;
         }
-        effect->spell.phase.s = 4;
+        effect->spell.phase = 4;
         effect->unk_10 = 0U;
     default:
         break;

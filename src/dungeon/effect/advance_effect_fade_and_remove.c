@@ -42,11 +42,11 @@ void advance_effect_fade_and_remove(VariantEffectWithRandomMotionBody *effect, O
         }
     }
     primitive->angle_x = (u16) (primitive->angle_x
-        + effect->angle_x_step.u);
+        + effect->angle_x_step);
     primitive->angle_y = (u16) (primitive->angle_y
-        + effect->angle_y_step.u);
-    life_left = effect->lifetime.u - 1;
-    effect->lifetime.u = life_left;
+        + effect->angle_y_step);
+    life_left = effect->lifetime - 1;
+    effect->lifetime = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

@@ -18,7 +18,7 @@ void update_catalog(CatalogDisplay *state) {
         u32 handler_index;
         void (*initial_handler)(CatalogDisplay *);
 
-        handler_index = state->unk_0A.as_u8;
+        handler_index = state->unk_0A;
         initial_handler = D_80126B34[handler_index];
         initial_handler(state);
     }
@@ -30,17 +30,17 @@ void update_catalog(CatalogDisplay *state) {
     code_bits += middle_bits;
     packed_code += code_bits;
     code_bits = packed_code & 0xFF;
-    state->unk_13.as_s8 = packed_code;
+    state->unk_13 = packed_code;
     below_limit = code_bits < 0x38U;
     if (below_limit == 0) {
-        state->unk_13.as_s8 = 0x31;
+        state->unk_13 = 0x31;
     } else {
         below_limit = code_bits < 0x31U;
         if (below_limit == 0) {
-            state->unk_13.as_s8 = 0x30;
+            state->unk_13 = 0x30;
         }
     }
-    catalog_callbacks[state->unk_0A.as_u8](state);
+    catalog_callbacks[state->unk_0A](state);
 }
 
 /* MECHANISM: The true-space body uses a 24-byte frame and a local join at 0x8012677C, not a phantom

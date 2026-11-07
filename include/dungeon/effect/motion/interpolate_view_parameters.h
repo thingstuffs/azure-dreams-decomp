@@ -209,7 +209,7 @@ typedef struct Row_81917004_S_80024804_1 {
 
 typedef struct Row_81917004_S_80024804_3 {
     u8 pad_00[0xE];
-    union { u16 u; s16 s; } unk_0E;   /* accessed as both */
+    s16 unk_0E;
     union { u16 u; s16 s; } unk_10;   /* accessed as both */
 } Row_81917004_S_80024804_3;   /* work in func_80024804 */
 
@@ -222,7 +222,7 @@ typedef struct Row_81917234_S_80024A34_0 {
 /* Initialize the object's visual state and apply a random spherical position offset. */
 typedef struct Row_8191740C_S_80024C0C_0 {
     void * unk_00;
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
+    u16 unk_04;
     u8 pad_06[0x8];
     s16 unk_0E;
     s16 unk_10;
@@ -318,7 +318,7 @@ typedef struct Row_81917A70_S_80025270_0 {
 typedef struct AttachedRandomAngleEffectBody {
     void *unk_00;
     union { s16 s; u16 u; } unk_04;
-    union { u16 u; s16 s; } unk_06;
+    s16 unk_06;
     s16 unk_08;
     u16 unk_0A;
     s16 unk_0C;

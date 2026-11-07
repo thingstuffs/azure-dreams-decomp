@@ -11,7 +11,7 @@ typedef struct SpellEffectHeader {
     u16 *context;
     u8 spell_id;
     u8 variant;
-    union { s16 s; u16 u; } phase;
+    u16 phase;
 } SpellEffectHeader;
 
 #endif

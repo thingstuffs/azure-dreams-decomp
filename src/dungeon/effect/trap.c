@@ -439,14 +439,14 @@ void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect
     s32 target;
     s16 entry_index;
 
-    effect->x.u += D_8006CCD8[effect->direction];
-    effect->y.u += D_8006CCE8[effect->direction];
-    target = find_object_near_tile_height(effect->x.u, effect->y.u, effect->z.s);
+    effect->x = (u16)effect->x + D_8006CCD8[effect->direction];
+    effect->y = (u16)effect->y + D_8006CCE8[effect->direction];
+    target = find_object_near_tile_height((u16)effect->x, (u16)effect->y, effect->z);
     if (target) {
         apply_attack_power_and_element_effects(target, 6, dungeon_actor_ring_anchor->level, 9,
                       (s16)(effect->direction << 9), 0, 3);
     }
-    entry_index = find_entry_at_tile_coordinates(effect->x.s, effect->y.s, effect->z.s);
+    entry_index = find_entry_at_tile_coordinates(effect->x, effect->y, effect->z);
     if (entry_index >= 0) {
         if (((u8 *)floor_objects)[entry_index * 4] == 7) {
             take_map_item_slot(0, entry_index);
@@ -454,7 +454,7 @@ void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect
             U32(floor_objects, entry_index * 4) = 0;
         }
     }
-    entry_index = find_floor_item_at_world_position(effect->x.s, effect->y.s, effect->z.s);
+    entry_index = find_floor_item_at_world_position(effect->x, effect->y, effect->z);
     if (entry_index >= 0) {
         U32(((u8 *)dungeon_ground_items), entry_index * 4) = 0;
     }
@@ -766,39 +766,39 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
 
     effect = initialize_scene_object_in_buffer(0, (trap_resource_slot * 0xC8) + &dungeon_resource_buffer, 0xA);
     effect->resource = &D_800CC9BC;
-    effect->body.x.u = x;
-    effect->body.y.u = y;
-    effect->body.z.u = z;
+    effect->body.x = x;
+    effect->body.y = y;
+    effect->body.z = z;
     effect->body.ticks_remaining = 8;
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     part_index = 3;
     do {
         part = initialize_scene_object_in_buffer(0, (((trap_resource_slot * 5) + part_index) * 0x28) + (&dungeon_resource_buffer + 0x28), 0xA);
         part->resource = &D_800CC370;
-        part_x = effect->body.x.u;
+        part_x = (u16)effect->body.x;
         direction = part_index * 2;
-        part->body.x.u = part_x;
-        part_y = effect->body.y.u;
+        part->body.x = part_x;
+        part_y = (u16)effect->body.y;
         part_index -= 1;
-        part->body.y.u = part_y;
-        part_z = effect->body.z.u;
+        part->body.y = part_y;
+        part_z = (u16)effect->body.z;
         part->body.ticks_remaining = 8;
         part->body.direction = direction;
-        part->body.z.u = part_z;
+        part->body.z = part_z;
     } while (part_index >= 0);
     base_angle = (part_index << 0x1A) >> 0x10;
     first_base_angle = base_angle;
-    create_grid_effect_object(effect->body.x.s, effect->body.y.s, effect->body.z.s, first_base_angle, 0);
+    create_grid_effect_object(effect->body.x, effect->body.y, effect->body.z, first_base_angle, 0);
     part_index = 3;
-    create_grid_effect_object(effect->body.x.s, effect->body.y.s, effect->body.z.s, base_angle, 1);
+    create_grid_effect_object(effect->body.x, effect->body.y, effect->body.z, base_angle, 1);
     do {
         angle = (part_index << 0x1A) >> 0x10;
         first_angle = angle;
-        create_tile_center_quad_effect(effect->body.x.s, effect->body.y.s, effect->body.z.s, first_angle, 0, 0);
-        create_tile_center_quad_effect(effect->body.x.s, effect->body.y.s, effect->body.z.s, angle, 1, 1);
+        create_tile_center_quad_effect(effect->body.x, effect->body.y, effect->body.z, first_angle, 0, 0);
+        create_tile_center_quad_effect(effect->body.x, effect->body.y, effect->body.z, angle, 1, 1);
         part_index -= 1;
     } while (part_index >= 0);
-    target = find_object_near_tile_height(effect->body.x.u, effect->body.y.u, effect->body.z.s);
+    target = find_object_near_tile_height((u16)effect->body.x, (u16)effect->body.y, effect->body.z);
     if (target != 0) {
         apply_attack_power_and_element_effects(target, 0xC, dungeon_actor_ring_anchor->level, 9, 0x400, 0, 3);
     }
@@ -2091,7 +2091,7 @@ typedef struct S_800CE4E8_0 {
     s16 unk_68;
     u8 pad_6A[0x2];
     s16 unk_6C;
-    union { u16 s; s16 u; } unk_6E;   /* accessed as both */
+    s16 unk_6E;
 } S_800CE4E8_0;
 
    /* global_base in create_dual_grid_trap_effect */
@@ -2172,10 +2172,10 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
 
         ((S_800CE4E8_0 *)grid_data)->unk_6C = 0x10;
         ((S_800CE4E8_0 *)grid_data)->unk_68 = 0x20;
-        ((S_800CE4E8_0 *)grid_data)->unk_6E.s = offset_mode;
+        ((S_800CE4E8_0 *)grid_data)->unk_6E = offset_mode;
         initialize_timed_motion_step(0x20, 8);
 
-        if (((S_800CE4E8_0 *)grid_data)->unk_6E.u == 0) {
+        if (((S_800CE4E8_0 *)grid_data)->unk_6E == 0) {
             dungeon_floor_flags |= 0x80080000;
         } else {
             dungeon_floor_flags |= 0x40080000;
@@ -2452,7 +2452,7 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
     u16 delay_timer;
     AreaRecord *areas;
 
-    state = den_event->state.s;
+    state = (s16)den_event->state;
     if (state == 0) {
         u32 area_byte;
 
@@ -2537,11 +2537,11 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
                 } while (count >= 0);
             }
         }
-        next_state = den_event->state.u;
+        next_state = den_event->state;
         tail_value = 10;
         den_event->delay_timer = tail_value;
                  /* MATCH: keep the timer store before the state increment. */
-        den_event->state.u = next_state + 1;
+        den_event->state = next_state + 1;
     } else if (state == 1) {
         delay_timer = den_event->delay_timer - 1;
         den_event->delay_timer = delay_timer;
@@ -2551,11 +2551,11 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
         display_formatted_context_message(&D_800E1C3A);
         initialize_timed_motion_step(0xC, 0x18);
         play_sound_if_enabled(0x602);
-        next_state = den_event->state.u;
+        next_state = den_event->state;
         tail_value = 0x10;
         den_event->delay_timer = tail_value;
                  /* MATCH: keep the timer store before the state increment. */
-        den_event->state.u = next_state + 1;
+        den_event->state = next_state + 1;
     } else {
         delay_timer = den_event->delay_timer - 1;
         den_event->delay_timer = delay_timer;

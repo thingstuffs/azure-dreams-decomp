@@ -548,7 +548,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
 
             timer_copy = timer;
             duration_squared = timer * timer_copy;
-            effect_data->timer.s = 0;
+            effect_data->timer = 0;
             effect_data->state++;
             effect_data->initial_ticks = effect_data->flight_ticks.s;
             effect_data->ticks_squared = duration_squared;
@@ -606,7 +606,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
         if ((check_adjacent_tile_height_clearance(effect_pos->x.unsigned_parts.integer, effect_pos->y.unsigned_parts.integer,
                 effect_pos->z.w.i, PTR_AT(owner, 0x60)) << 16) != 0) {
             effect_data->state = 8;
-            effect_data->timer.s = 0;
+            effect_data->timer = 0;
             display->color.c.b = 0;
             display->color.c.g = 0;
             display->color.c.r = 0;
@@ -618,7 +618,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             if (PTR_AT(owner, 0x60) != 0) {
 
                 effect_data->state = 3;
-                effect_data->timer.s = 0;
+                effect_data->timer = 0;
                 copy_source = PTR_AT(PTR_AT(owner, 0x60), -0x18);
                 effect_pos->x.unsigned_parts.integer = U16_AT(copy_source, 0x02);
                 effect_pos->y.unsigned_parts.integer = U16_AT(copy_source, 0x06);
@@ -628,7 +628,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             }
 
             effect_data->state = 8;
-            effect_data->timer.s = 0;
+            effect_data->timer = 0;
             display->color.c.b = 0;
             display->color.c.g = 0;
             display->color.c.r = 0;
@@ -657,12 +657,12 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
 
             entity = NODE_BODY(source);
             {
-                u16 spawn_count = effect_data->timer.u;
+                u16 spawn_count = (u16)effect_data->timer;
                 S16_AT(entity, 0x0A) = 0x80;
                 S16_AT(entity, 0x02) = 8 - spawn_count;
             }
             {
-                s32 spawn_counter = effect_data->timer.s;
+                s32 spawn_counter = effect_data->timer;
                 S16_AT(entity, 0x0C) = spawn_counter << 9;
             }
             copy_source = PTR_AT(PTR_AT(owner, 0x60), -0x18);
@@ -698,10 +698,10 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             }
         }
 
-        effect_data->timer.s++;
-        if (effect_data->timer.s == 8) {
+        effect_data->timer = (u16)effect_data->timer + 1;
+        if (effect_data->timer == 8) {
             effect_data->state = 4;
-            effect_data->timer.s = 0;
+            effect_data->timer = 0;
         }
         break;
     }
@@ -711,12 +711,12 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
         s32 fade_frame;
         SpriteFrameState *target_display;
 
-        effect_data->timer.u++;
-        fade_frame = effect_data->timer.s;
+        effect_data->timer = (u16)effect_data->timer + 1;
+        fade_frame = effect_data->timer;
         if (fade_frame < 20) {
-            display->color.c.r = ((20 - effect_data->timer.s) * 0xE0) / 20;
-            display->color.c.g = ((20 - effect_data->timer.s) * 0x80) / 20;
-            display->color.c.b = ((20 - effect_data->timer.s) * 0x80) / 20;
+            display->color.c.r = ((20 - effect_data->timer) * 0xE0) / 20;
+            display->color.c.g = ((20 - effect_data->timer) * 0x80) / 20;
+            display->color.c.b = ((20 - effect_data->timer) * 0x80) / 20;
 
             if (effect_data->sprite_phase == 0) {
                 effect_data->sprite_phase = 1;
@@ -742,12 +742,12 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             }
         }
 
-        if (effect_data->timer.s >= 50) {
+        if (effect_data->timer >= 50) {
             u8 *target = PTR_AT(owner, 0x60);
 
             S32_AT(target, 0x1C) |= 0x10000000;
             target_display = PTR_AT(target, -0x14);
-            if (effect_data->timer.s >= 76) {
+            if (effect_data->timer >= 76) {
                 target_display->color.c.b += 3;
                 target_display->color.c.g += 3;
                 target_display->color.c.r -= 4;
@@ -758,7 +758,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             }
         }
 
-        if (effect_data->timer.s >= 101) {
+        if (effect_data->timer >= 101) {
             u8 *target = PTR_AT(owner, 0x60);
             target_display = PTR_AT(target, -0x14);
 
@@ -768,21 +768,21 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             target_display->color.c.r = 0x80;
             apply_random_actor_value_adjustment(PTR_AT(owner, 0x60), effect_data->variant, owner);
             effect_data->state = 8;
-            effect_data->timer.s = 0x1E;
+            effect_data->timer = 0x1E;
         }
         break;
     }
 
     case 8:
     {
-        u16 old_frame = effect_data->timer.u;
+        u16 old_frame = (u16)effect_data->timer;
         s16 next_frame = (s16)(old_frame + 1);
 
-        effect_data->timer.u = (u16)next_frame;
+        effect_data->timer = (u16)next_frame;
         if (next_frame >= 31) {
             {
                 s32 effect_active = D_80025308;
-                effect_data->timer.u = old_frame;
+                effect_data->timer = old_frame;
                 if (effect_active == 0) {
                     g_dungeon_status.active_actor = 0;
                     ((RotatingStatusPrefix *)effect_data)[-1].flags |= NODE_REMOVE;

@@ -2920,7 +2920,7 @@ typedef struct S_800BB55C_0_pre {
 
 typedef struct S_800BB55C_0 {
     u8 pad_00[0x4A];
-    union { s16 s; u16 u; } unk_4A;   /* accessed as both */
+    s16 unk_4A;
     s16 unk_4C;
     u16 unk_4E;
     s16 unk_50;
@@ -3018,10 +3018,10 @@ void update_five_point_effect(void *effect, ObjectPosition *position, s32 restor
         base_angle += 0x333;
         if (arc_length >= 0x1F) {
             ((DungeonWork *)effect)->field_30[point_index] = 0x1F;
-            if (((S_800BB55C_0 *)effect)->unk_4A.s == 0) {
+            if (((S_800BB55C_0 *)effect)->unk_4A == 0) {
                 if (((S_800BB55C_0 *)effect)->unk_60() != 0) {
                     ((S_800BB55C_0 *)effect)->unk_50 = 0x120;
-                    ((S_800BB55C_0 *)effect)->unk_4A.s = (s16) ((u16) ((S_800BB55C_0 *)effect)->unk_4A.s + 1);
+                    ((S_800BB55C_0 *)effect)->unk_4A = (s16) ((u16) ((S_800BB55C_0 *)effect)->unk_4A + 1);
                     play_sound_if_enabled(0x603);
                 }
             }
@@ -3030,7 +3030,7 @@ void update_five_point_effect(void *effect, ObjectPosition *position, s32 restor
     }
     draw_content_or_rect(NULL, NULL, draw_params, 1, NULL);
     ((S_800BB55C_0_pre *)effect)[-1].unk_00 = saved_link;
-    if (((S_800BB55C_0 *)effect)->unk_4A.s != 0) {
+    if (((S_800BB55C_0 *)effect)->unk_4A != 0) {
         ((S_800BB55C_0 *)effect)->unk_4E = (u16) (((S_800BB55C_0 *)effect)->unk_4E + 0x100);
         point_index = 0;
         do {
@@ -3044,13 +3044,13 @@ void update_five_point_effect(void *effect, ObjectPosition *position, s32 restor
         if (((S_800BB55C_0 *)effect)->unk_58 < 0x20) {
             ((S_800BB55C_0 *)effect)->unk_58 = (s16) ((u16) ((S_800BB55C_0 *)effect)->unk_58 + 1);
         }
-        if (((S_800BB55C_0 *)effect)->unk_4A.s == 1) {
+        if (((S_800BB55C_0 *)effect)->unk_4A == 1) {
             phase_ticks = ((S_800BB55C_0 *)effect)->unk_64 + 1;
             ((S_800BB55C_0 *)effect)->unk_64 = phase_ticks;
             if ((s16) phase_ticks >= 0x21) {
-                next_phase = ((S_800BB55C_0 *)effect)->unk_4A.u + 1;
+                next_phase = (u16)((S_800BB55C_0 *)effect)->unk_4A + 1;
                 ((S_800BB55C_0 *)effect)->unk_64 = 0x10U;
-                ((S_800BB55C_0 *)effect)->unk_4A.u = next_phase;
+                ((S_800BB55C_0 *)effect)->unk_4A = next_phase;
                 return;
             }
         } else {

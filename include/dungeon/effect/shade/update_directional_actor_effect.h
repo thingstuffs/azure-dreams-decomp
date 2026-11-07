@@ -146,7 +146,7 @@ typedef struct TexturedOffsetObjectBody {
     u16 unk_26;
     u8 pad_28[0x4];
     s16 unk_2C;
-    u16 unk_2E;
+    s16 unk_2E;
     u8 unk_30;
 } TexturedOffsetObjectBody;
 typedef TexturedOffsetObjectBody Row_8194CD5C_S_8002455C_0;

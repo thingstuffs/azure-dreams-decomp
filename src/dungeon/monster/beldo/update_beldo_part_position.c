@@ -60,7 +60,7 @@ typedef struct S_81275000_6 {
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 
 /* Updates part position, brightness, and flags from the owner and motion state. */
-void update_beldo_attached_part(void *root_data, void *position_data, void *render_data)
+void update_beldo_attached_part(S_81275000_0 *root_data, void *position_data, void *render_data)
 {
     s16 motion_offset[3];
     register MovingPosition *out_pos = position_data;
@@ -71,7 +71,7 @@ void update_beldo_attached_part(void *root_data, void *position_data, void *rend
     S_81275000_6 *motion_part;
     s8 phase;
 
-    owner = ((S_81275000_0 *)root_data)->unk_AC;
+    owner = root_data->unk_AC;
     source_pos = owner->unk_0C;
     transform = owner->unk_08;
 
@@ -85,16 +85,16 @@ void update_beldo_attached_part(void *root_data, void *position_data, void *rend
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, motion_offset,
-                      ((S_81275000_0 *)root_data)->unk_B6) != 0) {
+                      root_data->unk_B6) != 0) {
         out_pos->x +=
-            (motion_offset[0] + ((S_81275000_0 *)root_data)->unk_B0) / 2;
+            (motion_offset[0] + root_data->unk_B0) / 2;
         out_pos->y +=
-            (motion_offset[1] + ((S_81275000_0 *)root_data)->unk_B2) / 2;
+            (motion_offset[1] + root_data->unk_B2) / 2;
         out_pos->z +=
-            (motion_offset[2] + ((S_81275000_0 *)root_data)->unk_B4) / 2;
-        ((S_81275000_0 *)root_data)->unk_B0 = motion_offset[0];
-        ((S_81275000_0 *)root_data)->unk_B2 = motion_offset[1];
-        ((S_81275000_0 *)root_data)->unk_B4 = motion_offset[2];
+            (motion_offset[2] + root_data->unk_B4) / 2;
+        root_data->unk_B0 = motion_offset[0];
+        root_data->unk_B2 = motion_offset[1];
+        root_data->unk_B4 = motion_offset[2];
     }
 
     transform = render_part->source;
@@ -103,7 +103,7 @@ void update_beldo_attached_part(void *root_data, void *position_data, void *rend
     render_part->flags = source_pos->unk_14;
     transform->unk_01 &= 0xFE;
 
-    if (((S_81275000_0 *)root_data)->unk_B6 == 1) {
+    if (root_data->unk_B6 == 1) {
         phase = source_pos->unk_04.s8;
         {
             s32 intensity;
@@ -123,7 +123,7 @@ void update_beldo_attached_part(void *root_data, void *position_data, void *rend
         }
     }
 
-    if (((S_81275000_0 *)root_data)->unk_B6 == 2) {
+    if (root_data->unk_B6 == 2) {
         phase = source_pos->unk_04.s8;
         {
             s32 intensity;

@@ -7,10 +7,10 @@
 typedef struct AttachedParticleChainSpellBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x72];
-    union { s16 s; u16 u; } unk_7E;
+    s16 unk_7E;
     u8 pad_80[0x2];
     u16 unk_82;
-    union { u16 u; s16 s; } unk_84;
+    s16 unk_84;
     s16 unk_86;
     s16 unk_88;
     u8 pad_8A[0x6];

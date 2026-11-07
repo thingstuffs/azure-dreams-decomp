@@ -9,7 +9,7 @@
 
 /* Prepares an ellipse render region, follows the linked position, emits particles, and fades out the
  * effect. */
-void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, ovl_9c32d4_809A32D4_S_80174AD4_4 *effect_data)
+void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, SpriteFrameState *sprite)
 {
     ovl_9c32d4_809A32D4_LocalArgs draw_region;
     ovl_9c32d4_809A32D4_Actor *actor;
@@ -88,19 +88,19 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, ov
         register_node((u8 *)actor - 0x20, process_linked_mesh_states_mode_0);
         actor->state++;
     } else if (state == 3) {
-        decay_level = effect_data->unk_0C;
+        decay_level = sprite->color.c.r;
         if (decay_level != 0) {
             decay_level -= 8;
-            effect_data->unk_0C = decay_level;
+            sprite->color.c.r = decay_level;
             if (decay_level == 0) {
                 (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }
     } else {
-        rise_level = effect_data->unk_0C;
+        rise_level = sprite->color.c.r;
         if (rise_level < 0xC0) {
-            effect_data->unk_0C = rise_level + 0x20;
+            sprite->color.c.r = rise_level + 0x20;
         }
         if (actor->field16 != *actor->field10) {
             actor->state++;

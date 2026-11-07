@@ -48,7 +48,7 @@ void update_ring_effect(FollowingColorBlendEffectBody *state, S_819598B4_2 *valu
     u8 byteNext;
 
     sprite_effect_update_count[0]++;
-    stateId = state->unk_2C.s;
+    stateId = state->unk_2C;
     switch (stateId) {
     case 0:
         value1E = parameters->unk_1E;
@@ -74,9 +74,9 @@ void update_ring_effect(FollowingColorBlendEffectBody *state, S_819598B4_2 *valu
             parameters->unk_1E = 0x1000;
             parameters->unk_0C.at00u.v = 0x00808080;
             if (state->unk_3C != 0) {
-                state->unk_2C.s = 2;
+                state->unk_2C = 2;
             } else {
-                state->unk_2C.s++;
+                state->unk_2C++;
             }
         }
         break;
@@ -90,7 +90,7 @@ void update_ring_effect(FollowingColorBlendEffectBody *state, S_819598B4_2 *valu
                 state->unk_20);
         }
         state->unk_30 = 0x10;
-        state->unk_2C.s++;
+        state->unk_2C++;
         break;
     case 2:
         byteNext = parameters->unk_0C.at00.v;

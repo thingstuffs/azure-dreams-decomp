@@ -212,13 +212,13 @@ void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *pos
 
     counter_state = effect->unk_00.ptr;
     counter_state->unk_1A = (u16) (counter_state->unk_1A + 1);
-    effect->unk_2E = (u16) (effect->unk_2E + 0x100);
+    effect->unk_2E = (u16) ((u16)effect->unk_2E + 0x100);
     position->unk_00.at00.v = (s32) position->unk_0C;
     position->unk_04.at00.v = (s32) position->unk_10;
     position->unk_08.at00.v = (s32) position->unk_14;
-    local_offset.x = (s16) ((s32) ((rsin((s16)effect->unk_2E)
+    local_offset.x = (s16) ((s32) ((rsin(effect->unk_2E)
         >> 4) * effect->unk_2C) >> 8);
-    y_product = (rcos((s16)effect->unk_2E) >> 4) * effect->unk_2C;
+    y_product = (rcos(effect->unk_2E) >> 4) * effect->unk_2C;
     local_offset.z = 0;
     local_offset.y = (s16) (y_product >> 8);
     PushMatrix();
@@ -296,7 +296,7 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object)
         primitive->angle_x = scale_component >> 12;
         scale_component = data->unk_26;
         primitive->angle_y = scale_component >> 12;
-        angle_or_zero = data->unk_2E;
+        angle_or_zero = (u16)data->unk_2E;
         primitive->tpage_abr |= 0x20;
         primitive->flags |= 0xC;
         primitive->angle_z = angle_or_zero;
@@ -313,9 +313,9 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object)
         primitive_2->velocity_z = word_z;
         primitive_2->z.v = word_z;
 
-        local_offset[0] = ((rsin((s16)data->unk_2E) >> 4) *
+        local_offset[0] = ((rsin(data->unk_2E) >> 4) *
             data->unk_2C) >> 8;
-        local_offset[1] = ((rcos((s16)data->unk_2E) >> 4) *
+        local_offset[1] = ((rcos(data->unk_2E) >> 4) *
             data->unk_2C) >> 8;
         local_offset[2] = 0;
         PushMatrix();
@@ -462,12 +462,12 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
     ActorRecord *actor_value;
     Row_8194D354_S_80024B54_1 *actor_value_2;
 
-    state_or_heading = effect_arg->spell.phase.s;
+    state_or_heading = (s16)effect_arg->spell.phase;
     effect_arg->unk_10 = (u16)(effect_arg->unk_10 + 1);
     switch ((u32)state_or_heading) {
     case 0:
         effect_arg->unk_10 = 0U;
-        effect_arg->spell.phase.s++;
+        effect_arg->spell.phase++;
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
         allocate_effect_and_initialize_sprite(NODE_HEADER(effect_arg->spell.caster), effect_arg->spell.context, &D_800DE5DC);
     case 1:
@@ -476,7 +476,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
             primary_actor_record->unk_A4.halves.high.u--;
             primary_actor_record->unk_A8.byte = effect_arg->spell.spell_id;
             next_state_c1 = ((u16)primary_actor_record->facing);
-            effect_arg->spell.phase.s++;
+            effect_arg->spell.phase++;
             effect_arg->unk_0E = next_state_c1;
             if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
@@ -577,9 +577,9 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, phase, transform[0], transform[1], direction);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0xAAA), transform[0], transform[1], direction);
-        next_state_c2 = effect_arg->spell.phase.u;
+        next_state_c2 = effect_arg->spell.phase;
         effect_arg->unk_18 = 0x18U;
-        effect_arg->spell.phase.s = (s16)(next_state_c2 + 1);
+        effect_arg->spell.phase = (s16)(next_state_c2 + 1);
         break;
     case 3:
         actor_or_frame = effect_arg->unk_14;
@@ -638,8 +638,8 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
         }
         effect_pool = (s32 *)0x80080000;
         if (effect_arg->unk_1A != 0) {
-            next_state_c3 = effect_arg->spell.phase.u;
-            effect_arg->spell.phase.s = (s16)(next_state_c3 + 1);
+            next_state_c3 = effect_arg->spell.phase;
+            effect_arg->spell.phase = (s16)(next_state_c3 + 1);
             break;
         }
     case 4:

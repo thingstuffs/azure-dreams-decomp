@@ -345,7 +345,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
 
     rect = D_80024038;
     draw_rect = rising_effect_texture_rect;
-    state = effect->unk_00.s;
+    state = (s16)effect->unk_00;
     D_80025630 = 1;
 
     switch (state) {
@@ -362,30 +362,30 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
 
         transform->unk_1C -= 0x20;
         transform->unk_1E += 0x80;
-        timer = effect->unk_02.u + 1;
-        effect->unk_02.u = timer;
+        timer = effect->unk_02 + 1;
+        effect->unk_02 = timer;
         if (timer < 0x28) {
             return;
         }
-        next_state = effect->unk_00.u;
-        effect->unk_02.u = 0;
+        next_state = effect->unk_00;
+        effect->unk_02 = 0;
         next_state++;
-        effect->unk_00.u = next_state;
+        effect->unk_00 = next_state;
         return;
 
     case 1:
         transform->unk_1C += 0x140;
         position[2] -= 0x140000;
         transform->unk_1E -= 0x500;
-        timer = effect->unk_02.u + 1;
-        effect->unk_02.u = timer;
+        timer = effect->unk_02 + 1;
+        effect->unk_02 = timer;
         if (timer < 4) {
             return;
         }
-        next_state = effect->unk_00.u;
-        effect->unk_02.u = 0;
+        next_state = effect->unk_00;
+        effect->unk_02 = 0;
         next_state++;
-        effect->unk_00.u = next_state;
+        effect->unk_00 = next_state;
         return;
 
     case 2:
@@ -394,9 +394,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
         next_x = transform->unk_1C + 0x200;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = effect->unk_00.u;
+        next_state = effect->unk_00;
         next_state++;
-        effect->unk_00.u = next_state;
+        effect->unk_00 = next_state;
         return;
 
     case 3:
@@ -405,9 +405,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
         next_x = transform->unk_1C - 0x300;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = effect->unk_00.u;
+        next_state = effect->unk_00;
         next_state++;
-        effect->unk_00.u = next_state;
+        effect->unk_00 = next_state;
         return;
 
     case 4:
@@ -416,9 +416,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
         next_x = transform->unk_1C + 0x100;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = effect->unk_00.u;
+        next_state = effect->unk_00;
         next_state++;
-        effect->unk_00.u = next_state;
+        effect->unk_00 = next_state;
         return;
 
     case 5:
@@ -468,8 +468,8 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
         D_80025638[1] = 0;
         D_80025638[2] = 0;
         D_80025638[3] = 0;
-        effect->unk_02.u = 0;
-        effect->unk_00.u++;
+        effect->unk_02 = 0;
+        effect->unk_00++;
                         /* fallthrough */
 
     case 6:
@@ -479,7 +479,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
         entry = 0;
         do {
             draw_rect.x = D_80025648[entry] * 2 + 0x340;
-            order_index = entry + effect->unk_02.s;
+            order_index = entry + (s16)effect->unk_02;
             if (order_index >= 0x2C) {
                 order_index -= 0x2C;
             }
@@ -489,8 +489,8 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
             entry++;
         } while (entry < 0x30);
 
-        timer = effect->unk_02.u + 1;
-        effect->unk_02.u = timer;
+        timer = effect->unk_02 + 1;
+        effect->unk_02 = timer;
         if (timer < 0x2C) {
             return;
         }
@@ -518,7 +518,7 @@ typedef struct S_func_8190B2D0_0 {
     u8 pad_7C[0x2];
     s16 unk_7E;
     u8 pad_80[0x2];
-    u16 unk_82;
+    s16 unk_82;
     u8 pad_84[0x4];
     s16 unk_88;
     s16 unk_8A;
@@ -854,15 +854,15 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                     (u16)(angle - 4096);
             }
         }
-        effect->unk_82++;
-        frame = (s16)effect->unk_82;
+        effect->unk_82 = (u16)effect->unk_82 + 1;
+        frame = effect->unk_82;
         if (frame == 1) {
             capture_point.x = capture_rect.x + ((s16)capture_rect.w >> 1);
             capture_point.y = capture_rect.y + 72;
             draw_transformed_sprite_with_clip_rect(owner->unk_60, &capture_rect, &capture_point, 1,
                           frame);
         }
-        spawn_frame = (s16)effect->unk_82;
+        spawn_frame = effect->unk_82;
         if ((s16)spawn_frame != 4) {
             return;
         }
@@ -900,7 +900,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                     GetTPage(2, 1, 0x340, 0x100);
             }
         }
-        current_frame = (s16)effect->unk_82;
+        current_frame = effect->unk_82;
         if (current_frame != (s16)spawn_frame) {
             return;
         }
@@ -916,7 +916,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         s32 green_frame;
         S_func_8190B2D0_6 *target;
         SpriteFrameState *target_sprite;
-        effect->unk_82 = effect->unk_82 + 1;
+        effect->unk_82 = (u16)effect->unk_82 + 1;
         {
             u16 angle = sprite->angle_z + 400;
             sprite->angle_z = angle;
@@ -925,42 +925,42 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                     (u16)(angle - 4096);
             }
         }
-        if ((s16)effect->unk_82 < 42) {
+        if (effect->unk_82 < 42) {
             motion_or_child->unk_8.s32 -= 0x20000;
         }
-        if ((s16)effect->unk_82 == 81) {
+        if (effect->unk_82 == 81) {
             sprite->tpage_abr = 32;
             sprite->color.c.r = 54;
             sprite->color.c.g = 54;
             sprite->color.c.b = 54;
         }
-        if ((s16)effect->unk_82 >= 81) {
-            fade_frame = (s16)effect->unk_82;
+        if (effect->unk_82 >= 81) {
+            fade_frame = effect->unk_82;
             sprite->color.c.r = (u8)(((100 - fade_frame) * 54) / 20);
-            green_frame = (s16)effect->unk_82;
+            green_frame = effect->unk_82;
             sprite->color.c.g = (u8)(((100 - green_frame) * 54) / 20);
-            fade_frame = (s16)effect->unk_82;
+            fade_frame = effect->unk_82;
             sprite->color.c.b = (u8)(((100 - fade_frame) * 54) / 20);
         }
-        if ((s16)effect->unk_82 >= 0) {
+        if (effect->unk_82 >= 0) {
             target = owner->unk_60;
             target->unk_1C |= 0x10000000;
             target_sprite = ((S_func_8190B2D0_2 *)((u8 *)target - 32))->unk_C;
-            if ((s16)effect->unk_82 >= 43) {
-                if ((s16)effect->unk_82 < 64) {
+            if (effect->unk_82 >= 43) {
+                if (effect->unk_82 < 64) {
                     target_sprite->color.c.b += 3;
                     target_sprite->color.c.g += 3;
                     target_sprite->color.c.r += 3;
                 }
             } else {
-                if ((s16)effect->unk_82 == 41) {
+                if (effect->unk_82 == 41) {
                     target_sprite->color.c.b -= 60;
                     target_sprite->color.c.g -= 60;
                     target_sprite->color.c.r -= 60;
                 }
             }
         }
-        if ((s16)effect->unk_82 >= 100) {
+        if (effect->unk_82 >= 100) {
             S_func_8190B2D0_6 *finished_target;
             u32 clear_tint_mask;
             clear_tint_mask = 0xEFFFFFFF;
@@ -1002,7 +1002,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         s16 old_frame;
         s16 frame;
         s32 cleanup_pending;
-        old_frame = effect->unk_82;
+        old_frame = (u16)effect->unk_82;
         frame = old_frame + 1;
         effect->unk_82 = frame;
         if ((s16)frame < 31) {

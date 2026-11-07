@@ -602,14 +602,14 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             state0_height_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00;
             coord_delta += step_y;
             effect->target_y.u16 = (u16) coord_delta;
-            coord_delta = effect->target_z.u16;
+            coord_delta = effect->target_z;
             step_y = state0_height_actor->unk_88.u16;
             approach_frames = 0x10U;
             coord_delta -= 0x50;
             step_y += coord_delta;
-            effect->target_z.u16 = (u16) step_y;
-            effect->timer.u16 = approach_frames;
-            height_numerator_2 = (effect->target_z.s16 - motion->z.half.unk_0A.s16) << 0x10;
+            effect->target_z = (u16) step_y;
+            effect->timer = approach_frames;
+            height_numerator_2 = ((s16)effect->target_z - motion->z.half.unk_0A.s16) << 0x10;
             height_frames = 16;
             motion->velocity_z.word = height_numerator_2 / height_frames;
             effect->phase = (s16) ((u16) effect->phase + 1);
@@ -654,11 +654,11 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             }
             motion->velocity_x.word = (s32) (rcos((s16) effect->heading) << 8);
             motion->velocity_y.word = (s32) (rsin((s16) effect->heading) << 8);
-            approach_ticks = effect->timer.u16 - 1;
-            effect->timer.u16 = approach_ticks;
+            approach_ticks = effect->timer - 1;
+            effect->timer = approach_ticks;
             if ((approach_ticks << 0x10) <= 0) {
-                motion->z.half.unk_0A.u16 = effect->target_z.u16;
-                effect->timer.u16 = 0U;
+                motion->z.half.unk_0A.u16 = effect->target_z;
+                effect->timer = 0U;
                 motion->velocity_z.word = 0;
             }
             state1_global = ((ovl_19a332c_819835AC_S_819835AC_11 *) &primary_actor_record)->unk_00;
@@ -688,7 +688,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 break;
             }
             approach_gap_z = motion->z.half.unk_0A.s16;
-            target_coord = effect->target_z.s16;
+            target_coord = (s16)effect->target_z;
             approach_gap_z -= target_coord;
             if (__builtin_abs(approach_gap_z) >= 0x40) {
                 break;
@@ -700,11 +700,11 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             effect->target_x.u16 += (u16)state1_move->x.w.i;
             state1_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &primary_actor_record)->unk_00;
             effect->target_y.u16 += (u16)state1_move->y.w.i;
-            coord_delta = effect->target_z.u16;
+            coord_delta = effect->target_z;
             boost_speed_x = ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_88.u16;
             coord_delta -= 0x50;
             boost_speed_x += coord_delta;
-            effect->target_z.u16 = boost_speed_x;
+            effect->target_z = boost_speed_x;
             state1_actor->unk_A6 = state1_actor->unk_A6 - 1;
             effect->phase = (s16) ((u16) effect->phase + 1);
             break;
@@ -749,11 +749,11 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             }
             motion->velocity_x.word = (s32) (rcos((s16) effect->heading) << 8);
             motion->velocity_y.word = (s32) (rsin((s16) effect->heading) << 8);
-            travel_ticks = effect->timer.u16 - 1;
-            effect->timer.u16 = travel_ticks;
+            travel_ticks = effect->timer - 1;
+            effect->timer = travel_ticks;
             if ((travel_ticks << 0x10) <= 0) {
-                motion->z.half.unk_0A.u16 = effect->target_z.u16;
-                effect->timer.u16 = 0U;
+                motion->z.half.unk_0A.u16 = effect->target_z;
+                effect->timer = 0U;
                 motion->velocity_z.word = 0;
             }
             boost_speed_x = motion->x.word;
@@ -788,7 +788,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if (travel_gap_y >= 0x20) {
                 break;
             }
-            effect->timer.u16 = 4U;
+            effect->timer = 4U;
             state2_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00;
             effect->phase = (s16) ((u16) effect->phase + 1);
             ((ovl_19a332c_819835AC_S_819835AC_6 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &primary_actor_record)->unk_00)->unk_96 = 0;
@@ -825,8 +825,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 motion->z.half.unk_0A.u16 =
                     (u16) ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_88.s16;
             }
-            launch_ticks = effect->timer.u16 - 1;
-            effect->timer.u16 = launch_ticks;
+            launch_ticks = effect->timer - 1;
+            effect->timer = launch_ticks;
             if ((launch_ticks << 0x10) > 0) {
                 break;
             }
@@ -838,7 +838,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             tile_coord = tile_base->tile_position.parts.tile_y;
             effect->phase = 5;
             effect->tiles_left = 3U;
-            effect->timer.u16 = 0U;
+            effect->timer = 0U;
             effect->tile_y = (s16) tile_coord;
             effect->previous_tile_y = (u8) tile_coord;
             play_sound_if_enabled(tile_call_arg);
@@ -956,12 +956,12 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 } else {
                     effect->heading = aim_angle;
                 }
-                state6_timer_signed = effect->timer.s16;
+                state6_timer_signed = (s16)effect->timer;
 
-                state6_timer = effect->timer.u16;
+                state6_timer = effect->timer;
                 if (state6_timer_signed != 0) {
                     state6_next = state6_timer - 1;
-                    effect->timer.u16 = state6_next;
+                    effect->timer = state6_next;
                     if ((state6_next << 0x10) == 0) {
                         state6_height = (u16)related_motion->z.w.i;
                         motion->velocity_z.word = 0;
@@ -1022,7 +1022,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         effect->phase_counter = 8U;
                     } else {
                         related_motion = NODE_HEADER(new_target)->position;
-                        effect->timer.u16 = 0x10U;
+                        effect->timer = 0x10U;
                         state6_target_base = motion->z.half.unk_0A.s16;
                         height_value = related_motion->z.w.i;
                         state6_target_base += 0x40;
@@ -1333,33 +1333,33 @@ void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s3
     u32 clamp_flags;
     u8 index;
     ovl_19a332c_81984AF4_S_81984AF4_0 *obj = object;
-    s32 initial_index = obj->unk_04.s;
+    s32 initial_index = (s8)obj->unk_04;
     ovl_19a332c_81984AF4_S_81984AF4_1 *owner = obj->unk_08;
 
     obj->unk_00 =
         owner->unk_0C + (initial_index * 22);
     step = *index_step;
     if (step > 0) {
-        obj->unk_04.u = obj->unk_04.u + 1;
+        obj->unk_04 = obj->unk_04 + 1;
     } else if (step < 0) {
-        obj->unk_04.u =
-            obj->unk_04.u - 1;
+        obj->unk_04 =
+            obj->unk_04 - 1;
     }
-    index = (u8)obj->unk_04.s;
+    index = (u8)obj->unk_04;
     shifted_index = index << 24;
     if ((s8)index < (s16)min_index) {
-        clamp_flags = obj->unk_14.s | 0x4000;
-        obj->unk_04.s = min_index;
-        obj->unk_14.u = clamp_flags;
+        clamp_flags = obj->unk_14 | 0x4000;
+        obj->unk_04 = min_index;
+        obj->unk_14 = clamp_flags;
         return;
     }
     if ((s8)index > (s16)max_index) {
-        clamp_flags = obj->unk_14.s | 0x4000;
-        obj->unk_04.s = max_index;
-        obj->unk_14.u = clamp_flags;
+        clamp_flags = obj->unk_14 | 0x4000;
+        obj->unk_04 = max_index;
+        obj->unk_14 = clamp_flags;
         return;
     }
-    obj->unk_14.u &= 0xBFFF;
+    obj->unk_14 &= 0xBFFF;
 }
 
 /* Sets the current animation-entry address using the owner table base and a 0x16-byte stride. */

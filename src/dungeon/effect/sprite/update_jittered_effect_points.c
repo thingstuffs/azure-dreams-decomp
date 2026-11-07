@@ -22,9 +22,9 @@ typedef struct AttackSequenceController {
     void *unk_04;
     u8 unk_08;
     u8 unk_09;
-    union { s16 s; u16 u; } unk_0A;
+    u16 unk_0A;
     u8 pad_0C[0x44];
-    union { s16 s; u16 u; } unk_50;
+    s16 unk_50;
     union { s16 s; u16 u; } unk_52;
 } AttackSequenceController;
 
@@ -114,9 +114,9 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
     S_func_819A6800_4 *global_object;
     PlayerRecord *reloaded_object;
 
-    timer = sequence->unk_50.u - 1;
-    state = sequence->unk_0A.s;
-    sequence->unk_50.u = timer;
+    timer = (u16)sequence->unk_50 - 1;
+    state = (s16)sequence->unk_0A;
+    sequence->unk_50 = timer;
     switch (state) {
     case 0:
         global_slot = (u8 *)&D_800814A0[2];
@@ -144,14 +144,14 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             owner->unk_73 = sprite->tile_y;
         }
 
-        sequence->unk_0A.u++;
+        sequence->unk_0A++;
     case 1:
         if ((((S_func_819A6800_6 *)(sequence->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
 
         counter_object = GLOBAL_OBJECT;
-        sequence->unk_50.u = 10;
+        sequence->unk_50 = 10;
         counter_object->unk_A6--;
         counter_object->unk_A8 = sequence->unk_08;
         new_object = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -191,11 +191,11 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             ((JitteredPointSequenceBody *)NODE_BODY(record))->unk_00 = sequence;
             effect_data->unk_4C = 0;
         }
-        sequence->unk_0A.u++;
+        sequence->unk_0A++;
         return;
 
     case 2:
-        if ((s16)sequence->unk_50.u > 0) {
+        if ((s16)sequence->unk_50 > 0) {
             return;
         }
         {
@@ -208,17 +208,17 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             play_sound_if_enabled(mode);
         }
         {
-            u16 next_state = sequence->unk_0A.u;
+            u16 next_state = sequence->unk_0A;
             u16 ticks;
             ticks = 10;
-            sequence->unk_50.u = ticks;
-            sequence->unk_0A.u = next_state + 1;
+            sequence->unk_50 = ticks;
+            sequence->unk_0A = next_state + 1;
         }
         return;
 
     case 3:
     {
-        s16 timer_left = sequence->unk_50.s;
+        s16 timer_left = sequence->unk_50;
         if (timer_left == 7) {
             if (owner->unk_60.p != 0) {
                 record = allocate_list_node(0x302, &scene_object_list_anchor.next);
@@ -241,7 +241,7 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             }
         }
     }
-        if (sequence->unk_50.s == 4) {
+        if (sequence->unk_50 == 4) {
             apply_attack_power_and_element_effects(owner->unk_60.p,
                           10,
                           sequence->unk_09,
@@ -251,23 +251,23 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
                           2);
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0 &&
-            sequence->unk_50.s >= 0) {
+            sequence->unk_50 >= 0) {
             return;
         }
         {
-            u16 next_state5 = sequence->unk_0A.u;
+            u16 next_state5 = sequence->unk_0A;
             u16 cleanup_delay;
             cleanup_delay = 20;
-            sequence->unk_50.u = cleanup_delay;
-            sequence->unk_0A.u = next_state5 + 1;
+            sequence->unk_50 = cleanup_delay;
+            sequence->unk_0A = next_state5 + 1;
         }
         return;
 
     case 4:
-        if ((s16)sequence->unk_50.u > 0) {
+        if ((s16)sequence->unk_50 > 0) {
             return;
         }
-        sequence->unk_0A.u++;
+        sequence->unk_0A++;
         return;
 
     case 5:
@@ -341,11 +341,11 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
     owner = ((JitteredPointSequenceBody *)object)->unk_00;
     ((JitteredPointSequenceBody *)object)->unk_48 = (u16) (((JitteredPointSequenceBody *)object)->unk_48 - 1);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    phase = ((JitteredPointSequenceBody *)object)->unk_4C.s;
+    phase = ((JitteredPointSequenceBody *)object)->unk_4C;
     switch (phase) {
     case 0:
         ((JitteredPointSequenceBody *)object)->unk_48 = 0xAU;
-        ((JitteredPointSequenceBody *)object)->unk_4C.s = (s16) ((u16) ((JitteredPointSequenceBody *)object)->unk_4C.s + 1);
+        ((JitteredPointSequenceBody *)object)->unk_4C = (s16) ((u16) ((JitteredPointSequenceBody *)object)->unk_4C + 1);
                         /* fall through */
     case 1:
         if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
@@ -381,7 +381,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
         }
         if ((s16) ((JitteredPointSequenceBody *)object)->unk_48 <= 0) {
             ((JitteredPointSequenceBody *)object)->unk_48 = 8U;
-            ((JitteredPointSequenceBody *)object)->unk_4C.s = (s16) ((u16) ((JitteredPointSequenceBody *)object)->unk_4C.s + 1);
+            ((JitteredPointSequenceBody *)object)->unk_4C = (s16) ((u16) ((JitteredPointSequenceBody *)object)->unk_4C + 1);
         }
         break;
     case 2:

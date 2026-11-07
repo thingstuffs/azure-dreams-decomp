@@ -46,15 +46,15 @@ void update_directional_actor_effect(TargetTintWork *state_data)
     SpriteFrameState *child;
 
     state->elapsed++;
-    phase = state->phase.s;
+    phase = (s16)state->phase;
     effect_flags = &g_game_work;
     switch (phase) {
     case 0:
         U32_AT(MANAGER_PTR(), 0xF4) = (u32)D_80024A64;
         create_linked_effect_controller(NODE_HEADER(state->owner), state->animation);
-        result = state->phase.u;
+        result = state->phase;
         result++;
-        state->phase.u = result;
+        state->phase = result;
     case 1:
         result = (s32)state->animation;
         if ((U16_AT((void *)result, 0) & 0x80) == 0) {
@@ -64,7 +64,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
             ActorRecord *manager =
                 *(void **)(resident_globals_page + 0x14A8);
 
-            state->timer.u = 0x12;
+            state->timer = 0x12;
             result = manager->unk_A4.halves.high.u - 1;
             manager->unk_A4.halves.high.u = result;
         }
@@ -76,16 +76,16 @@ void update_directional_actor_effect(TargetTintWork *state_data)
         }
         U8_AT(MANAGER_PTR(), 0xA8) = state->variant;
         state->facing = U16_AT(MANAGER_PTR(), 0x2A);
-        state->phase.u++;
+        state->phase++;
         break;
 
     case 2:
-        state->timer.u--;
-        if ((s16)state->timer.u > 0) {
+        state->timer--;
+        if ((s16)state->timer > 0) {
             break;
         }
-        state->timer.u = 0x10;
-        state->phase.u++;
+        state->timer = 0x10;
+        state->phase++;
         break;
 
     case 3:
@@ -102,8 +102,8 @@ void update_directional_actor_effect(TargetTintWork *state_data)
             child->color.word = tint;
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
-            state->timer.u--;
-            if ((s16)state->timer.u >= 0) {
+            state->timer--;
+            if ((s16)state->timer >= 0) {
                 break;
             }
         }
@@ -118,7 +118,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
             entry->flags1C = entry_flags;
             child->color.word = tint;
         }
-        state->phase.u++;
+        state->phase++;
         break;
 
     case 4:
@@ -132,7 +132,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
-    if (state->phase.s >= 2) {
+    if ((s16)state->phase >= 2) {
         u8 *draw_data = (u8 *)&D_80024A70[2];
         GpuRectBuffer draw_params;
 
@@ -272,13 +272,13 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
             self->field2E.s = 8;
             tail_z = self->field28.u;
             target_node = 9;
-            self->field30.s = target_node;
+            self->field30 = target_node;
             self->field28.p = tail_z + 1;
         }
         return;
     case 1:
-        count = self->field30.u - 1;
-        self->field30.u = count;
+        count = self->field30 - 1;
+        self->field30 = count;
         if ((s16)count > 0) {
             return;
         }

@@ -10,12 +10,12 @@
 void finish_catalog_detail_transition(CatalogDisplay *state) {
     u16 next_count;
 
-    next_count = state->unk_04.as_u16 + 1;
-    state->unk_04.as_u16 = next_count;
-    if ((s16) next_count == state->unk_06.as_s16) {
+    next_count = state->unk_04 + 1;
+    state->unk_04 = next_count;
+    if ((s16) next_count == state->unk_06) {
         reset_catalog_scroll_indicators(state);
-        state->unk_0A.as_s8 = 8;
-        state->unk_06.as_s16 = 0;
-        state->unk_04.as_u16 = 0U;
+        state->unk_0A = 8;
+        state->unk_06 = 0;
+        state->unk_04 = 0U;
     }
 }

@@ -42,7 +42,7 @@ typedef struct JitteredPointSequenceBody {
     u8 pad_12[0x36];
     u16 unk_48;
     u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;
+    u16 unk_4C;
 } JitteredPointSequenceBody;
 
 /* Body shared by the ramping-color updater and its four-quad draw callback. */
@@ -50,10 +50,10 @@ typedef struct OffsetColorEffectBody {
     void *unk_00;
     union { u16 u16; s16 s16; u8 u8; } unk_04;
     s16 unk_06;
-    union { s16 s; u16 u; } unk_08;
+    u16 unk_08;
     s16 unk_0A;
     u16 unk_0C;
-    union { u8 u; s8 s; } unk_0E;
+    u8 unk_0E;
     u8 pad_0F[0xF1];
 } OffsetColorEffectBody;
 
@@ -64,7 +64,7 @@ typedef struct RandomOffsetEffectObjectBody {
     u8 pad_0C[0x8];
     s16 unk_14;
     u8 pad_16[0x1C];
-    union { s16 s; u16 u; } unk_32;
+    s16 unk_32;
     u8 pad_34[0x1C];
     s32 unk_50;
     u8 pad_54[0x8C];
@@ -92,8 +92,8 @@ typedef struct DirectionalGridEffectBody {
         s16 unk_02;
         s16 unk_04;
     } entries[8];
-    union { s16 s; u16 u; } unk_40;
-    union { s16 s; u16 u; } unk_42;
+    u16 unk_40;
+    s16 unk_42;
 } DirectionalGridEffectBody;
 
 /* Position, angle, velocity, and fade phase for radial spiral particles. */
@@ -103,7 +103,7 @@ typedef struct RadialEffectBody {
     u16 unk_0E;
     s16 unk_10;
     u8 pad_12[0x6];
-    union { s16 s; u16 u; } unk_18;
+    u16 unk_18;
     u8 pad_1A[0x2];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_1C;
     u8 pad_20[0x8];
@@ -111,7 +111,7 @@ typedef struct RadialEffectBody {
     u8 pad_2C[0x8];
     s32 unk_34;
     u8 pad_38[0x14];
-    union { s16 s; u16 u; } unk_4C;
+    u16 unk_4C;
 } RadialEffectBody;
 
 /* Rotating sprite state initialized by create_scaled_rotation_effect. */
@@ -136,7 +136,7 @@ typedef struct FollowingColorBlendEffectBody {
     s16 unk_1E;
     s16 unk_20;
     u8 pad_22[0xA];
-    union { s16 s; u16 u; } unk_2C;
+    u16 unk_2C;
     u8 pad_2E[0x2];
     s16 unk_30;
     u8 pad_32[0x6];

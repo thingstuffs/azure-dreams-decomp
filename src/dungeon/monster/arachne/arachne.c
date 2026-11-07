@@ -900,7 +900,7 @@ void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPositio
 }
 
 /* Arcs to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPosition *motion, SpriteFrameState *map_actor, ActorRecord *actor) {
+void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 target_distance;
     s32 frames_left;
     s16 next_timer;
@@ -910,12 +910,12 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPositi
     state = action->unk_9B;
     switch (state) {
     case 0:
-        if (!(map_actor->flags & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
-        map_actor->frameTable = D_80175A6C;
+        sprite->frameTable = D_80175A6C;
         select_sprite_entry(
-            map_actor,
+            sprite,
             D_80175A6C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->unk_98 |= 8;
@@ -929,13 +929,13 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPositi
         action->unk_90 -= action->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = map_actor->tile_x << 6;
+                s32 target_x = sprite->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = map_actor->tile_y << 6;
+                s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
@@ -958,10 +958,10 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPositi
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, map_actor->tile_x, map_actor->tile_y);
-            map_actor->frameTable = D_80175A74;
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+            sprite->frameTable = D_80175A74;
             select_sprite_entry(
-                map_actor,
+                sprite,
                 D_80175A74[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->unk_9B++;
@@ -975,7 +975,7 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPositi
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, map_actor->tile_x, map_actor->tile_y);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
@@ -999,12 +999,12 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPositi
             if (actor_flags & 0x20000) {
 
                 actor->facing = ((s16)get_rounded_facing_and_rounding_flag(
-                    map_actor->tile_x, map_actor->tile_y,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance));
             }
         }
 
-        if ((check_actor_floor_trap(map_actor, actor) << 16) > 0) {
+        if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
             action->unk_8C = ((void *)update_actor_state_and_select_target);
             on_actor_status_updated(actor);
         }

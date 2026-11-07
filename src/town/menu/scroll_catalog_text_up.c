@@ -9,6 +9,6 @@ void scroll_catalog_text_up(CatalogDisplay *controller) {
 
     state[9] -= 4;
     if (state[9] % 16 == 0) {
-        controller->unk_0A.as_s8 = 8;
+        controller->unk_0A = 8;
     }
 }

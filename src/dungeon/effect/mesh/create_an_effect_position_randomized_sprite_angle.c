@@ -873,13 +873,13 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
     s32 height;
     u16 end_tile_y;
 
-    phase = state->spell.phase.s;
+    phase = (s16)state->spell.phase;
     owner = state->spell.caster;
     state->unk_10 = (u16) (state->unk_10 + 1);
     switch ((u32)phase) {
     case 0:
         state->unk_10 = 0U;
-        state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
+        state->spell.phase = (s16) ((u16) state->spell.phase + 1);
         state->unk_0E = (u16) (((u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_2A >> 9) & 7);
         appearance->color.word = 0x808080;
     case 1:
@@ -946,7 +946,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
             z_velocity -= z_base2;
             motion->velocity_z = z_velocity / state->unk_12.as_s16;
             create_an_effect_position_randomized_sprite_angle(state, motion);
-            next_state = (u16) state->spell.phase.s + 1;
+            next_state = (u16) state->spell.phase + 1;
         } else {
             table_origin = dir_step_x;
             step_count = 0;
@@ -1045,12 +1045,12 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
         create_and_initializes_copying_n_24_bytes_source_data(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         state->unk_10 = 0U;
-        state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
+        state->spell.phase = (s16) ((u16) state->spell.phase + 1);
         break;
     case 3:
         if ((s16) state->unk_10 >= 8) {
             state->unk_10 = 0U;
-            state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
+            state->spell.phase = (s16) ((u16) state->spell.phase + 1);
             break;
         }
         state->unk_14 = 0;
@@ -1062,7 +1062,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
         apply_attack_power_and_element_effects(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60, 0x18, state->spell.variant, 1,
             (s32) (s16) (state->unk_0E << 9), owner, 1);
         state->unk_10 = 0U;
-        state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
+        state->spell.phase = (s16) ((u16) state->spell.phase + 1);
         break;
     case 5:
         if (state->unk_14 == 0) {
@@ -1083,7 +1083,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
         }
         next_state = 5;
     set_state:
-        state->spell.phase.s = next_state;
+        state->spell.phase = next_state;
         state->unk_10 = 0U;
     }
     state->unk_14 = 0;

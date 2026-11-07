@@ -39,7 +39,7 @@ void animate_catalog_detail_to_grid(CatalogDisplay *state)
     s32 initial_data;
     u16 data_value;
 
-    state_index = (s16)(state->unk_04.as_u16 - 8);
+    state_index = (s16)(state->unk_04 - 8);
     switch (state_index) {
     case 0:
         object_index = 0x1C;

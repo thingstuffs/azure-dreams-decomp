@@ -173,7 +173,7 @@ typedef struct TintParticleSequence {
     s16 midpoint_y;
     s16 midpoint_z;
     u8 pad_1E[2];
-    u16 timer;
+    s16 timer;
     u8 pad_22[4];
     u16 facing;
     u8 pad_28[2];

@@ -43,7 +43,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
     {
         owner_start = (u8 *)owner - 0x20;
     }
-    state = effect->spell.phase.s;
+    state = effect->spell.phase;
     owner_sprite = ((S_81844800_1_pre *)owner)[-1].unk_00;
     if (state != 0) {
         if (state < 5) {
@@ -86,7 +86,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
             } while (particles_left >= 0);
         }
     }
-    switch (effect->spell.phase.s) {
+    switch ((s16)effect->spell.phase) {
     case 0:
     {
         S_81844800_8_pre *target;
@@ -115,7 +115,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
                         ((ActorRecord *)owner)->facing,
                         owner,
                         2);
-                    effect->spell.phase.u = 5;
+                    effect->spell.phase = 5;
                     return;
                 }
             }
@@ -163,7 +163,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
             }
             motion->velocity_z /= (s16)effect->unk_50;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-            effect->spell.phase.u++;
+            effect->spell.phase++;
             return;
         }
     }
@@ -179,9 +179,9 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
         }
         {
             target_timer = 12;
-            state = effect->spell.phase.u;
+            state = effect->spell.phase;
             effect->unk_50 = target_timer;
-            effect->spell.phase.u = state + 1;
+            effect->spell.phase = state + 1;
             return;
         }
 
@@ -194,13 +194,13 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
         }
         if (((ActorRecord *)owner)->target == 0) {
             effect->unk_50 = 8;
-            effect->spell.phase.u = 5;
+            effect->spell.phase = 5;
             return;
         }
         target_timer = 10;
-        state = effect->spell.phase.u;
+        state = effect->spell.phase;
         effect->unk_50 = target_timer;
-        effect->spell.phase.u = state + 1;
+        effect->spell.phase = state + 1;
         return;
     }
 
@@ -277,9 +277,9 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
         }
         {
             u16 timer_reset = 8;
-            state_2 = effect->spell.phase.u;
+            state_2 = effect->spell.phase;
             effect->unk_50 = timer_reset;
-            effect->spell.phase.u = state_2 + 1;
+            effect->spell.phase = state_2 + 1;
             return;
         }
 
@@ -289,7 +289,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
         if ((state << 16) > 0) {
             return;
         }
-        effect->spell.phase.u++;
+        effect->spell.phase++;
         return;
 
     case 5:

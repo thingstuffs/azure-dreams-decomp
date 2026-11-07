@@ -166,7 +166,7 @@ typedef struct Row_819A0EF0_S_800246F0_0_pre {
 
 typedef struct RotatingDirectionalSpriteBody {
     u8 pad_00[0x3A];
-    u16 unk_3A;
+    s16 unk_3A;
     s16 unk_3C;
 } RotatingDirectionalSpriteBody;
 
@@ -203,7 +203,7 @@ typedef struct Row_819A0FC0_S_func_819A0FC0_2 {
 // Decrement the fade timer, update the primitive's brightness, and flag completion.
 typedef struct Row_819A1034_S_819A1034_0 {
     u8 pad_00[0x3A];
-    u16 unk_3A;
+    s16 unk_3A;
     s16 unk_3C;
 } Row_819A1034_S_819A1034_0;   /* base in func_80024834 */
 

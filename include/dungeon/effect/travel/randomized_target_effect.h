@@ -16,10 +16,10 @@ typedef struct RandomizedTargetEffectBody {
     s32 offset_x;
     s32 offset_y;
     s32 offset_z;
-    union { s16 s; u16 u; } phase;
-    union { s16 s; u16 u; } elapsed_ticks;
+    u16 phase;
+    s16 elapsed_ticks;
     s16 delay_ticks; /* elapsed ticks required before the travel phase */
-    union { s16 s; u16 u; } quarter_turn_ticks;
+    s16 quarter_turn_ticks;
 } RandomizedTargetEffectBody;
 
 #endif

@@ -3,7 +3,7 @@
 
 typedef struct S_80813294_0 {
     void * unk_00;
-    union { s16 s; u16 u; u16 p; } unk_04;   /* accessed as both */
+    u16 unk_04;
     u16 unk_06;
 } S_80813294_0;   /* arg0 in animate_hud_gauge */
 
@@ -21,26 +21,26 @@ typedef struct S_80813294_2 {
 void animate_hud_gauge(S_80813294_0 *record, s32 unused, S_80813294_1 *value_record) {
     s32 state;
 
-    state = record->unk_04.s;
+    state = (s16)record->unk_04;
     record->unk_06 = record->unk_06 - 1;
     switch (state) {
     case 0:
         if (((S_80813294_2 *)(record->unk_00))->unk_5C == 4) {
             record->unk_06 = 10;
-            record->unk_04.p = record->unk_04.u + 1;
+            record->unk_04 = record->unk_04 + 1;
         }
         break;
     case 1:
         value_record->unk_16 = value_record->unk_16 + 0x40;
         if ((s16)record->unk_06 <= 0) {
-            record->unk_04.p = record->unk_04.u + 1;
+            record->unk_04 = record->unk_04 + 1;
         }
         break;
     case 2:
         value_record->unk_16 = value_record->unk_16 - 0x18;
         if (value_record->unk_16 < 0x18U) {
             value_record->unk_16 = 0;
-            record->unk_04.s = 0;
+            record->unk_04 = 0;
         }
         break;
     }

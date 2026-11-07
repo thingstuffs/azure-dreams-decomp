@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter, defaultdict
+from copy import deepcopy
+import csv
 import json
 from pathlib import Path
 import re
@@ -42,6 +44,187 @@ WIDTHS = {
     'short': 16, 'signed short': 16, 'unsigned short': 16, 's16': 16, 'u16': 16,
     'int': 32, 'signed int': 32, 'unsigned int': 32, 's32': 32, 'u32': 32,
 }
+LOAD_OPS = ('lb', 'lbu', 'lh', 'lhu', 'lw', 'sb', 'sh', 'sw', 'unmapped')
+SIGNED_LOADS = ('lb', 'lh')
+UNSIGNED_LOADS = ('lbu', 'lhu')
+
+
+def empty_loads(members):
+    return {member['name']: dict.fromkeys(LOAD_OPS, 0) for member in members}
+
+
+def type_sign(typ):
+    typ = typ.strip()
+    if typ.startswith(('u8', 'u16', 'u32', 'unsigned ')):
+        return 'u'
+    if typ.startswith(('s8', 's16', 's32', 'signed ', 'short', 'int', 'char')):
+        return 's'
+    return ''
+
+
+def access_identity(access):
+    """Return a physical owner or anonymous union declaration from access census."""
+    base = access.get('base_type', '')
+    if base.startswith('@'):
+        match = re.fullmatch(r'@(.+):(\d+):\d+', base)
+        if match:
+            return ('line', match.group(1), int(match.group(2)))
+    if ':' in base:
+        path, owner = base.rsplit(':', 1)
+        return ('owner', path, owner)
+    return None
+
+
+def load_member(row, access):
+    """Match a joined access to one ledger member without lexical suffix guesses."""
+    identity = access_identity(access)
+    path = access.get('member_path', '').replace('->', '.')
+    parts = path.split('.')
+    prefix = row['path']
+    if identity == ('line', row['file'], row['line']):
+        if prefix and (len(parts) < 2 or parts[-2] != prefix):
+            return None
+        return parts[-1] if parts[-1] in row['loads'] else None
+    if identity != ('owner', row['file'], row['owner']):
+        return None
+    # Named typedef unions appear as typed views in access_census: their
+    # base_type is the union itself, while member_path includes the instance
+    # field (for example object->extent.signed_value). The exact base type
+    # identifies the declaration; the final path component is its member.
+    if row.get('count_basis') == 'member_suffix_upper_bound' and row['path'] == row['owner']:
+        if parts[-1] not in row['loads']:
+            return None
+        if len(parts) > 1:
+            base_tail = re.search(r'([A-Za-z_]\w*)(?:\[[^]]*\])?\s*$',
+                                  access.get('base_expression', ''))
+            if not base_tail or parts[-2] != base_tail.group(1):
+                return None
+        return parts[-1]
+    if prefix not in parts:
+        return None
+    i = len(parts) - 1 - parts[::-1].index(prefix)
+    if i + 1 < len(parts) and parts[i + 1] in row['loads']:
+        return parts[i + 1]
+    # A retired union has one field in the current source. Attribute a load
+    # only when its old member type uniquely names the retail width/sign.
+    if row['status'] != 'retired' or i + 1 != len(parts):
+        return None
+    op = access.get('opcode', '')
+    if op in ('lb', 'lbu', 'lh', 'lhu', 'lw'):
+        wanted = {'lb': ('s', 8), 'lbu': ('u', 8), 'lh': ('s', 16),
+                  'lhu': ('u', 16), 'lw': ('', 32)}[op]
+        if op == 'lw' and access.get('declared_sign') in ('s', 'u'):
+            wanted = (access['declared_sign'], 32)
+    elif access.get('declared_width'):
+        wanted = (access.get('declared_sign', ''), 8 * int(access['declared_width']))
+    else:
+        return None
+    matches = [m['name'] for m in row['members']
+               if WIDTHS.get(m['type']) == wanted[1] and
+               (wanted[0] == '' or type_sign(m['type']) == wanted[0])]
+    return matches[0] if len(matches) == 1 else None
+
+
+def add_access_loads(rows, accesses):
+    """Count byte-exact retail accesses; unjoined source accesses stay explicit."""
+    by_line = defaultdict(list)
+    by_owner = defaultdict(list)
+    for row in rows:
+        row['loads'] = empty_loads(row['members'])
+        by_line[row['file'], row['line']].append(row)
+        by_owner[row['file'], row['owner']].append(row)
+    seen = set()
+    for access in accesses:
+        identity = access_identity(access)
+        if identity is None:
+            continue
+        candidates = (by_line[identity[1], identity[2]] if identity[0] == 'line'
+                      else by_owner[identity[1], identity[2]])
+        for row in candidates:
+            member = load_member(row, access)
+            if member is None:
+                continue
+            # Stores do not vote for a signed field type. An unjoined store
+            # therefore does not reduce signed-load coverage either.
+            if access.get('direction') == 'w' and access.get('status') != 'mapped':
+                continue
+            # Separate physical placements are distinct retail images. Within
+            # one placement, each joined source access maps to one instruction.
+            key = (row['id'], member, access.get('recipe_output', ''),
+                   access.get('file', ''), access.get('function', ''),
+                   access.get('pc', ''), access.get('line', ''),
+                   access.get('direction', ''))
+            if access.get('status') == 'mapped' and access.get('pc') and key in seen:
+                continue
+            seen.add(key)
+            op = access.get('opcode', '') if access.get('status') == 'mapped' else ''
+            row['loads'][member][op if op in LOAD_OPS else 'unmapped'] += 1
+
+
+def retain_retired_loads(rows, previous, live_ids):
+    """Keep fuller pre-retirement joins when scalar aliases become ambiguous.
+
+    A retired union with two same-width, same-sign members cannot attribute
+    scalar retail loads to either old member.  Its byte-proven pre-retirement
+    joins remain valid even when the current source no longer names the union.
+    """
+    for row in rows:
+        if row['id'] in live_ids or row['status'] != 'retired':
+            continue
+        old = previous.get(row['id'], {}).get('loads')
+        if not old:
+            continue
+        old_mapped = sum(sum(v[op] for op in LOAD_OPS if op != 'unmapped')
+                         for v in old.values())
+        new_mapped = sum(sum(v[op] for op in LOAD_OPS if op != 'unmapped')
+                         for v in row['loads'].values())
+        if old_mapped > new_mapped:
+            row['loads'] = old
+
+
+def load_check(rows, declared_types):
+    """Report sign conflicts and insufficient mapped loads without gating."""
+    report = []
+    for row in rows:
+        signed = sum(v['lb'] + v['lh'] for v in row['loads'].values())
+        unsigned = sum(v['lbu'] + v['lhu'] for v in row['loads'].values())
+        mapped = signed + unsigned
+        unmapped = sum(v['unmapped'] for v in row['loads'].values())
+        if mapped < 5 or unmapped > .3 * (mapped + unmapped):
+            reason = 'insufficient'
+        else:
+            declared = declared_types.get(row['id'], '')
+            expected = 's' if signed > unsigned else 'u' if unsigned > signed else ''
+            reason = 'disagree' if expected and declared and type_sign(declared) not in ('', expected) else ''
+        if reason:
+            report.append((row['id'], reason, declared_types.get(row['id'], ''),
+                           signed, unsigned, unmapped))
+    return report
+
+
+def current_declared_types(root, rows):
+    """Read the current struct field type for retired rows; live unions have no single type."""
+    result = {}
+    by_file = defaultdict(list)
+    for row in rows:
+        if row['status'] == 'retired' and row['path']:
+            by_file[row['file']].append(row)
+    for rel, candidates in by_file.items():
+        source_path = root / rel
+        if not source_path.is_file():
+            continue
+        source = source_path.read_text(errors='replace')
+        tokens = score.lex(source)
+        pairs, _ = score.pairs_of(tokens)
+        aggs = aggregates(tokens, pairs)
+        for agg in aggs:
+            if agg['kind'] != 'struct' or not agg['name']:
+                continue
+            for member in member_decls(tokens, pairs, agg['body'], agg['end']):
+                for row in candidates:
+                    if agg['name'] == row['owner'] and member['name'] == row['path']:
+                        result[row['id']] = member['type'].strip()
+    return result
 
 
 def source_paths(root: Path):
@@ -256,25 +439,47 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument('--out', type=Path)
+    parser.add_argument('--access-sites', type=Path,
+                        help='access_census.py access_sites.tsv with byte-exact retail joins')
+    parser.add_argument('--check-loads', action='store_true',
+                        help='report sign disagreements and insufficient coverage; never fail')
     args = parser.parse_args(argv)
-    rows = census(args.root.resolve())
+    root = args.root.resolve()
+    rows = census(root)
     physical_count = len(rows)
     summary = Counter(r['kind'] for r in rows)
     if args.out:
+        previous = {}
+        current_ids = {row['id'] for row in rows}
         if args.out.exists():
             previous = {row['id']: row for line in args.out.read_text().splitlines()
                         if line.strip() for row in [json.loads(line)]}
-            current_ids = {row['id'] for row in rows}
             for row in rows:
                 old = previous.get(row['id'])
                 if old:
-                    for key in ('status', 'evidence', 'retired_to_cast', 'hold_reason'):
+                    for key in ('status', 'evidence', 'retired_to_cast', 'hold_reason', 'loads'):
                         if key in old:
                             row[key] = old[key]
-            rows.extend(old for key, old in previous.items() if key not in current_ids)
+            rows.extend(deepcopy(old) for key, old in previous.items() if key not in current_ids)
             rows.sort(key=lambda row: (row['file'], row['line'], row['id']))
+        if args.access_sites:
+            with args.access_sites.open(newline='') as stream:
+                add_access_loads(rows, csv.DictReader(stream, delimiter='\t'))
+            retain_retired_loads(rows, previous, current_ids)
+        else:
+            for row in rows:
+                row.setdefault('loads', empty_loads(row['members']))
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(''.join(json.dumps(r, sort_keys=True) + '\n' for r in rows))
+    elif args.access_sites:
+        with args.access_sites.open(newline='') as stream:
+            add_access_loads(rows, csv.DictReader(stream, delimiter='\t'))
+    else:
+        for row in rows:
+            row['loads'] = empty_loads(row['members'])
+    if args.check_loads:
+        for entry in load_check(rows, current_declared_types(root, rows)):
+            print('\t'.join(map(str, entry)))
     print(f'{physical_count} union definitions: ' + ', '.join(f'{k}={v}' for k, v in sorted(summary.items())))
 
 

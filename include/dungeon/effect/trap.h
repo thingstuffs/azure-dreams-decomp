@@ -31,7 +31,7 @@ typedef struct BouncingTrapEffectBody {
 typedef struct ClampEntryAndCreateEffectNodeBody {
     u8 pad_00[0x4];
     u16 delay_timer;
-    union { s16 s; u16 u; } state;
+    u16 state;
     u8 pad_08[0x4];
     s16 entry_index;
 } ClampEntryAndCreateEffectNodeBody;
@@ -58,9 +58,9 @@ void tick_trap_effect_countdown(TrapOwnedTimedEffectBody *effect);
 
 /* Position and direction carried by each segment of the five-part target effect. */
 typedef struct FivePartTargetEffectBody {
-    union { s16 s; u16 u; } x;
-    union { s16 s; u16 u; } y;
-    union { s16 s; u16 u; } z;
+    s16 x;
+    s16 y;
+    s16 z;
     u8 direction;
     u8 ticks_remaining;
 } FivePartTargetEffectBody;

@@ -135,7 +135,7 @@ typedef struct Row_8191CD78_S_func_80024578_1 {
     u16 phase;
     u8 pad_0C[0x2];
     u16 direction;
-    u16 timer;
+    s16 timer;
     s16 unk_12;
     s16 child_updates;
     u16 target_ground_height;
@@ -164,7 +164,6 @@ typedef struct Row_8191CD78_S_func_80024578_2 {
     } y;
     union {
         s32 s32;
-        void *ptr;
         struct {
             u8 pad_08[0x2];
             u16 unk_0A;

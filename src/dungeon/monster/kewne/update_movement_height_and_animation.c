@@ -52,14 +52,14 @@ typedef struct S_801728A8_4 {
 } S_801728A8_4;   /* arg3 in update_movement_height_and_animation */
 
 /* Updates movement, height, and animation through the action states. */
-void update_movement_height_and_animation(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
+void update_movement_height_and_animation(S_801728A8_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 direction_x_2;
     u32 step_x;
     s32 step_y;
     u8 state;
 
-    state = ((S_801728A8_0 *)action)->unk_9B;
+    state = action->unk_9B;
     if ((u32)state >= 5) {
         return;
     }
@@ -67,7 +67,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
     case 0:
         {
             if (sprite->flags & 0x8000) {
-                ((S_801728A8_0 *)action)->unk_9B = 4;
+                action->unk_9B = 4;
                 sprite->flags |= 0x6000;
                 resolve_attack_damage_and_effects(actor, sprite, ((S_801728A8_2 *)actor)->unk_2A, 1);
                 return;
@@ -78,9 +78,9 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             dir_step_x[((u16)((S_801728A8_4 *)actor)->unk_2A >> 9) & 7] << 14;
         motion->velocity_y -=
             dir_step_y[((u16)((S_801728A8_4 *)actor)->unk_2A >> 9) & 7] << 14;
-        ((S_801728A8_0 *)action)->unk_A0.at00.v += 0x60000;
-        if (((S_801728A8_0 *)action)->unk_A0.at02.v >= 0x31) {
-            ((S_801728A8_0 *)action)->unk_A0.at02.v = 0x30;
+        action->unk_A0.at00.v += 0x60000;
+        if (action->unk_A0.at02.v >= 0x31) {
+            action->unk_A0.at02.v = 0x30;
         }
         if (!(sprite->flags & 0x6000)) {
             return;
@@ -88,7 +88,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if (((S_801728A8_0 *)action)->unk_A0.at02.v < 0x30) {
+        if (action->unk_A0.at02.v < 0x30) {
             return;
         }
         sprite->frameTable = D_80175E58;
@@ -96,9 +96,9 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             D_80175E58[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_801728A8_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
             0);
         create_three_linked_palette_objects((u8 *)action - 0x20, (u8 *)actor + 0x2A);
-        state = ((S_801728A8_0 *)action)->unk_9B;
-        ((S_801728A8_0 *)action)->unk_96 = 0;
-        ((S_801728A8_0 *)action)->unk_9B = state + 1;
+        state = action->unk_9B;
+        action->unk_96 = 0;
+        action->unk_9B = state + 1;
         return;
 
     case 1:
@@ -112,10 +112,10 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             step_y = dir_step_y[direction_offset >> 1] << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((S_801728A8_0 *)action)->unk_96 * 170);
-            ((S_801728A8_0 *)action)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
-            timer = ((u16)((S_801728A8_0 *)action)->unk_96) + 1;
-            (*(u16 *)&((S_801728A8_0 *)action)->unk_96) = timer;
+            arc = -rsin(action->unk_96 * 170);
+            action->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
+            timer = ((u16)action->unk_96) + 1;
+            (*(u16 *)&action->unk_96) = timer;
             if (timer < 9) {
                 return;
             }
@@ -125,8 +125,8 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             D_80175E60[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_801728A8_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x808);
-        state = ((S_801728A8_0 *)action)->unk_9B;
-        ((S_801728A8_0 *)action)->unk_9B = state + 1;
+        state = action->unk_9B;
+        action->unk_9B = state + 1;
         return;
 
     case 2:
@@ -141,7 +141,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             s32 velocity_x;
             s32 velocity_y;
 
-            if (((S_801728A8_0 *)action)->unk_96 == 10) {
+            if (action->unk_96 == 10) {
                 resolve_attack_damage_and_effects(actor, sprite, ((s16)((S_801728A8_4 *)actor)->unk_2A), 1);
             }
             directions_x = (s16 *)((s8 *)dir_step_x);
@@ -155,10 +155,10 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             step_y = arc << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((S_801728A8_0 *)action)->unk_96 * 170);
-            ((S_801728A8_0 *)action)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
-            timer = ((u16)((S_801728A8_0 *)action)->unk_96) + 1;
-            (*(u16 *)&((S_801728A8_0 *)action)->unk_96) = timer;
+            arc = -rsin(action->unk_96 * 170);
+            action->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
+            timer = ((u16)action->unk_96) + 1;
+            (*(u16 *)&action->unk_96) = timer;
             if (timer < 13) {
                 return;
             }
@@ -176,20 +176,20 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
                 (((u16)((S_801728A8_4 *)actor)->unk_2A >> 8) & 0xE)) << 18;
             velocity_y += velocity_y >> 2;
             motion->velocity_y = velocity_y;
-            ((S_801728A8_0 *)action)->unk_A8 = motion->velocity_x / 24;
-            ((S_801728A8_0 *)action)->unk_AC = motion->velocity_y / 24;
+            action->unk_A8 = motion->velocity_x / 24;
+            action->unk_AC = motion->velocity_y / 24;
         }
-        ((S_801728A8_0 *)action)->unk_96 = 12;
-        ((S_801728A8_0 *)action)->unk_9B++;
+        action->unk_96 = 12;
+        action->unk_9B++;
         return;
 
     case 3:
-        motion->velocity_x -= ((S_801728A8_0 *)action)->unk_A8;
-        motion->velocity_y -= ((S_801728A8_0 *)action)->unk_AC;
-        if (((S_801728A8_0 *)action)->unk_A0.at02.v > 0) {
-            ((S_801728A8_0 *)action)->unk_A0.at02u.v -= 0x10;
+        motion->velocity_x -= action->unk_A8;
+        motion->velocity_y -= action->unk_AC;
+        if (action->unk_A0.at02.v > 0) {
+            action->unk_A0.at02u.v -= 0x10;
         } else {
-            ((S_801728A8_0 *)action)->unk_A0.at02.v = 0;
+            action->unk_A0.at02.v = 0;
         }
     case 4:
         if (!(sprite->flags & 0xE000)) {
@@ -200,10 +200,10 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        ((S_801728A8_0 *)action)->unk_8C = &kewne_action_resume_address;
+        action->unk_8C = &kewne_action_resume_address;
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
-        ((S_801728A8_0 *)action)->unk_98 &= 0xFFF7;
+        action->unk_98 &= 0xFFF7;
         advance_status_timers(actor);
     }
 }

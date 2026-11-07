@@ -9,7 +9,6 @@ struct ObjectNodeHeader;
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
-#include "records/Rec_func_800D4BD4_arg2.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
 
@@ -25,7 +24,7 @@ typedef struct S_800D4DE8_8 {
 } S_800D4DE8_8;   /* ((Rec_func_800D4BD4_arg1 *)arg0)->unk_00 in emit_particles_until_expired */
 
 /* Emit particles around the parent position and retire the emitter when its lifetime expires. */
-void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param) {
+void emit_particles_until_expired(void *emitter, ObjectPosition *position, s32 init_param) {
     s32 particle_index;
     u16 age;
     u16 life_left;
@@ -35,13 +34,13 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     FadingMotionParticleBody *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
-    position->unk_02.as_s16 =
+    position->x.w.i =
         (s16)(parent->position->x.unsigned_parts.integer +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
-    position->unk_06.as_s16 =
+    position->y.w.i =
         (s16)(parent->position->y.unsigned_parts.integer +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
-    position->unk_0A.as_s16 =
+    position->z.w.i =
         (s16)(parent->position->z.unsigned_parts.integer +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     age = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;

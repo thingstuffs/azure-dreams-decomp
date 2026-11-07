@@ -1022,19 +1022,19 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
 
 typedef struct S_80025160_0 {
     u8 pad_00[0xA];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+    u16 unk_0A;
     u8 pad_0C[0xA];
     s16 unk_16;
     union { u16 s; u16 u; s16 p; } unk_18;   /* accessed as both */
     u16 unk_1A;
-    union { u16 s; u16 u; } unk_1C;   /* accessed as both */
+    u16 unk_1C;
     u8 pad_1E[0x4];
     s16 unk_22;
 } S_80025160_0;   /* arg0 in advance_the_effect_state_updates_motion_sets_display_color */
 
 typedef struct S_80025160_1 {
     u8 pad_00[0x6];
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
+    u16 unk_06;
     u8 pad_08[0x4];
     u8 unk_0C;
     u8 unk_0D;
@@ -1086,28 +1086,28 @@ void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s3
     S_80025160_3 *flags_page;
 
     COUNTER = COUNTER + 1;
-    state = ((S_80025160_0 *)effect)->unk_0A.s;
+    state = (s16)((S_80025160_0 *)effect)->unk_0A;
 
     switch (state) {
     case 0:
-        value = visual->unk_06.s + 0x80;
-        visual->unk_06.s = value;
+        value = visual->unk_06 + 0x80;
+        visual->unk_06 = value;
         if ((s16)value > 0x100) {
-            visual->unk_06.s = 0x100;
+            visual->unk_06 = 0x100;
             if (((S_80025160_0 *)effect)->unk_22 < 0x61) {
                 damped_value = ((S_80025160_0 *)effect)->unk_18.s;
-                angle = ((S_80025160_0 *)effect)->unk_1C.s;
+                angle = ((S_80025160_0 *)effect)->unk_1C;
                 effect_param = ((S_80025160_0 *)effect)->unk_16;
                 damped_value = damped_value - ((s32)(damped_value << 16) >> 19);
                 ((S_80025160_0 *)effect)->unk_18.u = damped_value;
                 angle = angle + 0x80;
                 owner = (u8 *)effect - 0x20;
-                ((S_80025160_0 *)effect)->unk_1C.u = angle;
+                ((S_80025160_0 *)effect)->unk_1C = angle;
                 angle_shifted = angle << 16;
                 create_object_offset(context, effect_param, ((S_80025160_0 *)effect)->unk_18.p,
                               angle_shifted >> 16, owner);
             }
-            ((S_80025160_0 *)effect)->unk_0A.u++;
+            ((S_80025160_0 *)effect)->unk_0A++;
             if (((S_80025160_0 *)effect)->unk_22 == 0x6F) {
                 D_80026328[0] = 1;
             }
@@ -1116,9 +1116,12 @@ void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s3
     case 1:
         flag_page = (S_80025160_2 *)0x80020000;
         if (flag_page->unk_6328 != 0) {
-            visual->unk_06.u = -0x100;
+            {
+                s16 signed_ramp = -0x100;
+                visual->unk_06 = signed_ramp;
+            }
             ((S_80025160_0 *)effect)->unk_1A = 0x10;
-            ((S_80025160_0 *)effect)->unk_0A.u++;
+            ((S_80025160_0 *)effect)->unk_0A++;
         }
         break;
     case 2:
@@ -1127,11 +1130,11 @@ void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s3
         if ((value << 16) > 0) {
             break;
         }
-        ((S_80025160_0 *)effect)->unk_0A.u++;
+        ((S_80025160_0 *)effect)->unk_0A++;
                         /* fall through */
     case 3:
-        value = visual->unk_06.s + 0x80;
-        visual->unk_06.s = value;
+        value = visual->unk_06 + 0x80;
+        visual->unk_06 = value;
         if ((value << 16) >= 0) {
             flags_page = (S_80025160_3 *)0x80080000;
             NODE_HEADER(effect)->flags |= 0x8000;

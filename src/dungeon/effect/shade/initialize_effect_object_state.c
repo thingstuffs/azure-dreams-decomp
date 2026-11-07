@@ -3,7 +3,6 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
-#include "records/Rec_func_800D4BD4_arg2.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/shade.h"
@@ -14,7 +13,7 @@
 extern s32 fading_sprite_entries;
 
 /* Initialize object state and rendering data from the source and position. */
-void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position, s32 unused_spawn_context)
+void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, ObjectPosition *position, s32 unused_spawn_context)
 {
     SpriteFrameState *render_config;
     SpriteFrameState *render_data;
@@ -30,9 +29,9 @@ void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_
     render_config->tpage_abr = 0x20;
     render_config->flags = render_config->flags | 0xC;
     object_position = object->position;
-    object_position->x.w.i = position->unk_02.as_u16;
-    object_position->y.w.i = position->unk_06.as_u16;
-    object_position->z.w.i = position->unk_0A.as_u16;
+    object_position->x.w.i = position->x.unsigned_parts.integer;
+    object_position->y.w.i = position->y.unsigned_parts.integer;
+    object_position->z.w.i = position->z.unsigned_parts.integer;
     render_data = object->sprite;
     render_data->scale_y = 0x800;
     render_data->scale_x = 0x800;

@@ -15,7 +15,7 @@ typedef struct S_81976850_0 {
     void * unk_00;
     void * unk_04;
     void * unk_08;
-    union { s16 s; u16 u; } unk_0C;   /* accessed as both */
+    u16 unk_0C;
     union { s16 s; u16 u; } unk_0E;   /* accessed as both */
     u16 unk_10;
 } S_81976850_0;   /* arg0 in func_81976850 */
@@ -76,12 +76,12 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
     u16 source_z;
     u8 brightness;
 
-    state = ((S_81976850_0 *)effect)->unk_0C.s;
+    state = (s16)((S_81976850_0 *)effect)->unk_0C;
     switch (state) {
     case 0:
         object = (u8 *)effect - 0x20;
         register_node(object, project_sprite_chain);
-        ((S_81976850_0 *)effect)->unk_0C.u++;
+        ((S_81976850_0 *)effect)->unk_0C++;
         /* Fall through to follow the source on the initialization frame. */
 
     case 1:
@@ -105,7 +105,7 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
 
         if (((ObjectPosition *)(((S_81976850_0 *)effect)->unk_08))->x.w.frac & 0x80) {
             ((S_81976850_0 *)effect)->unk_0E.s = 10;
-            ((S_81976850_0 *)effect)->unk_0C.u++;
+            ((S_81976850_0 *)effect)->unk_0C++;
         }
         break;
 

@@ -1190,7 +1190,7 @@ void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, Object
 
     obj = effect->spell.caster;
     copy = textured_quad_octant_offsets;
-    state = effect->spell.phase.s;
+    state = (s16)effect->spell.phase;
     base = (S_800259D8_1 *)((u8 *)obj - 0x20);
     entry = base->unk_08;
     switch (state) {
@@ -1210,9 +1210,9 @@ void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, Object
             sprite->source = (u8 *)effect + 0xA2;
             init_value = (((S_800259D8_3 *)obj)->unk_2A >> 9) & 7;
             (&sphere_particle_effect_updated)[0] = 1;
-            init_count = effect->spell.phase.u + 1;
+            init_count = effect->spell.phase + 1;
             effect->unk_80 = init_value;
-            effect->spell.phase.u = init_count;
+            effect->spell.phase = init_count;
         }
     case 1:
         result = get_sprite_attachment_vector(
@@ -1318,7 +1318,7 @@ L0_adjust_z:
             effect->unk_7C;
         effect->unk_84 = 0;
         effect->unk_9C = 55;
-        effect->spell.phase.u++;
+        effect->spell.phase++;
         i = 0;
         do {
             ObjectNodeHeader *spawn;
@@ -1399,7 +1399,7 @@ L0_adjust_z:
                 goto L1_calc;
             }
             if (((S_800259D8_3 *)obj)->unk_60 != 0) {
-                effect->spell.phase.u = 3;
+                effect->spell.phase = 3;
                 effect->unk_84 = 0;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
                 entity->x.unsigned_parts.integer = entry->unk_00.at02u.v;
@@ -1409,7 +1409,7 @@ L0_adjust_z:
                 return;
             }
         }
-        effect->spell.phase.u = 7;
+        effect->spell.phase = 7;
         effect->unk_84 = 0;
         sprite->color.c.b = 0;
         sprite->color.c.g = 0;
@@ -1480,17 +1480,17 @@ L1_calc:
                 work->source = (u8 *)spawn + 0x4C;
             }
         }
-        effect->spell.phase.u = 4;
+        effect->spell.phase = 4;
         effect->unk_84 = 0;
         return;
 
     case 4:
-        count = effect->unk_84 + 1;
+        count = (u16)effect->unk_84 + 1;
         effect->unk_84 = count;
         if (count < 30) {
-            sprite->color.c.r = ((30 - (s16)effect->unk_84) * 0x80) / 30;
-            sprite->color.c.g = ((30 - (s16)effect->unk_84) * 0x80) / 30;
-            sprite->color.c.b = ((30 - (s16)effect->unk_84) * 0xE0) / 30;
+            sprite->color.c.r = ((30 - effect->unk_84) * 0x80) / 30;
+            sprite->color.c.g = ((30 - effect->unk_84) * 0x80) / 30;
+            sprite->color.c.b = ((30 - effect->unk_84) * 0xE0) / 30;
             if (effect->unk_A0 == 0) {
                 effect->unk_A0 = 1;
                 effect->unk_AA += 0x18;
@@ -1509,7 +1509,7 @@ L1_calc:
                 }
             }
         }
-        effect->spell.phase.u++;
+        effect->spell.phase++;
         effect->unk_84 = 0;
         sprite->flags |= 0x80;
         return;
@@ -1520,7 +1520,7 @@ L1_calc:
         }
         {
             effect->unk_84 = 0;
-            effect->spell.phase.u++;
+            effect->spell.phase++;
             return;
         }
 
@@ -1528,12 +1528,12 @@ L1_calc:
     {
         void *fade_node;
         S_800259D8_11 *fade_entry;
-        count = effect->unk_84 + 1;
+        count = (u16)effect->unk_84 + 1;
         effect->unk_84 = count;
         fade_node = ((S_800259D8_3 *)obj)->unk_60;
         ((S_800259D8_10 *)fade_node)->unk_1C |= 0x10000000;
         fade_entry = ((S_800259D8_10_pre *)fade_node)[-1].unk_00;
-        if ((s16)effect->unk_84 >= 36) {
+        if (effect->unk_84 >= 36) {
             fade_entry->unk_0C += 2;
             fade_entry->unk_0D += 2;
             fade_entry->unk_0E -= 3;
@@ -1542,7 +1542,7 @@ L1_calc:
             fade_entry->unk_0D -= 2;
             fade_entry->unk_0E += 3;
         }
-        if ((s16)effect->unk_84 < 71) {
+        if (effect->unk_84 < 71) {
             return;
         }
         {
@@ -1556,12 +1556,12 @@ L1_calc:
             apply_random_duration_actor_status(((S_800259D8_3 *)obj)->unk_60, effect->spell.variant, obj);
         }
         effect->unk_84 = 13;
-        effect->spell.phase.u++;
+        effect->spell.phase++;
         return;
     }
 
     case 7:
-        old_count = effect->unk_84;
+        old_count = (u16)effect->unk_84;
         effect->unk_84 = old_count + 1;
         if ((s16)old_count < 15) {
             return;

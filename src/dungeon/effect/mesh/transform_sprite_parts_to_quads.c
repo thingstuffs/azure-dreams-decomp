@@ -56,7 +56,7 @@ typedef struct S_800D07C8_0 {
    /* global_page->table[0] in transform_sprite_parts_to_quads */
 
 typedef struct S_800D07C8_4 {
-    union { u8 u; s8 s; } unk_00;   /* accessed as both */
+    u8 unk_00;
 } S_800D07C8_4;
 
 typedef struct S_800D07C8_5_pre {
@@ -132,12 +132,12 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
     scratch->unk_24 = sprite->flags;
     for (;;) {
         part_uv = part + 8;
-        if (!(((S_800D07C8_4 *)part)->unk_00.u & 0x20)) {
+        if (!(((S_800D07C8_4 *)part)->unk_00 & 0x20)) {
             scratch->unk_08.s32 = (*(part_uv + 0));
             scratch->unk_0C.s32 = (*(part_uv + 1));
             scratch->unk_10.s32 = (*(part_uv + 2));
             scratch->unk_14.s32 = (*(part_uv + 3));
-            if ((((S_800D07C8_4 *)part)->unk_00.u ^ scratch->unk_24) & 1) {
+            if ((((S_800D07C8_4 *)part)->unk_00 ^ scratch->unk_24) & 1) {
                 vertex_x = (0 - (s8)(*(part_uv + -6))) - scratch->unk_108;
                 scratch->unk_80 = vertex_x;
                 scratch->unk_70 = vertex_x;
@@ -152,7 +152,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                 scratch->unk_88 = vertex_x;
                 scratch->unk_78 = vertex_x;
             }
-            if ((((S_800D07C8_4 *)part)->unk_00.u ^ scratch->unk_24) & 2) {
+            if ((((S_800D07C8_4 *)part)->unk_00 ^ scratch->unk_24) & 2) {
                 vertex_y = (0 - (s8)(*(part_uv + -5))) - scratch->unk_10A;
                 scratch->unk_7A = vertex_y;
                 scratch->unk_72 = vertex_y;
@@ -277,7 +277,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
             }
         }
 
-        if (((S_800D07C8_4 *)part)->unk_00.s >= 0) {
+        if ((s8)((S_800D07C8_4 *)part)->unk_00 >= 0) {
             part += 0xC;
         } else {
             break;
