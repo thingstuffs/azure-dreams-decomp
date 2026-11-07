@@ -2038,42 +2038,28 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
     state_slot = (u8 **)((s8 *)(&g_game_work));
 
     PushMatrix();
-    rotation = scratch;
-    rotation = (u8 *)((u32)rotation | 0x100);
-    local_matrix = scratch;
-    local_matrix = (u8 *)((u32)local_matrix | 0xD0);
+    rotation = (u8 *)0x1F800100;
+    local_matrix = (u8 *)0x1F8000D0;
     ((S_800BA414_0 *)scratch)->unk_100 = 0;
     ((S_800BA414_0 *)scratch)->unk_104 = 0;
     RotMatrix(rotation, local_matrix);
-    view_matrix = scratch;
-    view_matrix = (u8 *)((u32)view_matrix | 0x11C);
+    view_matrix = (u8 *)0x1F80011C;
     ReadRotMatrix(view_matrix);
-    view_matrix = scratch;
-    view_matrix = (u8 *)((u32)view_matrix | 0x11C);
-    local_matrix = scratch;
-    local_matrix = (u8 *)((u32)local_matrix | 0xD0);
-    combined_matrix = scratch;
-    combined_matrix = (u8 *)((u32)combined_matrix | 0x50);
+    view_matrix = (u8 *)0x1F80011C;
+    local_matrix = (u8 *)0x1F8000D0;
+    combined_matrix = (u8 *)0x1F800050;
     CompMatrix(view_matrix, local_matrix, combined_matrix);
-    combined_matrix = scratch;
-    combined_matrix = (u8 *)((u32)combined_matrix | 0x50);
+    combined_matrix = (u8 *)0x1F800050;
     SetTransMatrix(combined_matrix);
-    combined_matrix = scratch;
-    combined_matrix = (u8 *)((u32)combined_matrix | 0x50);
+    combined_matrix = (u8 *)0x1F800050;
     SetRotMatrix(combined_matrix);
 
-    depth_cue = scratch;
-    depth_cue = (u8 *)((u32)depth_cue | 0x90);
-    transform_flags = scratch;
-    transform_flags = (u8 *)((u32)transform_flags | 0x94);
-    vertex_0 = scratch;
-    vertex_0 = (u8 *)((u32)vertex_0 | 0x70);
-    vertex_1 = scratch;
-    vertex_1 = (u8 *)((u32)vertex_1 | 0x78);
-    vertex_2 = scratch;
-    vertex_2 = (u8 *)((u32)vertex_2 | 0x80);
-    vertex_3 = scratch;
-    vertex_3 = (u8 *)((u32)vertex_3 | 0x88);
+    depth_cue = (u8 *)0x1F800090;
+    transform_flags = (u8 *)0x1F800094;
+    vertex_0 = (u8 *)0x1F800070;
+    vertex_1 = (u8 *)0x1F800078;
+    vertex_2 = (u8 *)0x1F800080;
+    vertex_3 = (u8 *)0x1F800088;
     ot_index = (RotAverage4(vertex_0, vertex_1, vertex_2, vertex_3,
                               prim + 8, prim + 0xC, prim + 0x10, prim + 0x14,
                               depth_cue, transform_flags) -
@@ -3093,11 +3079,6 @@ extern void update_five_point_effect(void *effect, ObjectPosition *position, s32
 extern s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data);
 extern M2C_UNK familiar_restore_sprite_data;
 
-typedef struct S_800BBA40_3 {
-    u8 pad_00[0x60];
-    s32 unk_60;
-} S_800BBA40_3;
-
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
 void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c,
     s32 setup_word_60) {
@@ -3140,7 +3121,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
         angle = -0x400;
         setup_cursor->unk_5C = setup_word_5c;
         angle_index = 0;
-        ((S_800BBA40_3 *)setup_cursor)->unk_60 = setup_word_60;
+        setup_cursor->unk_60 = (s32 (*)())(unsigned long)setup_word_60;
         do {
             setup_cursor->point_angles[angle_index] = angle;
             angle += 0x999;

@@ -884,12 +884,6 @@ void create_terrain_seeking_colored_point(
 
    /* r0 in func_800251E8 */
 
-typedef struct S_8187B9E8_3 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8187B9E8_3;   /* r1 in func_800251E8 */
-
 s32 rsin(s32);
 s32 rcos(s32);
 
@@ -904,10 +898,10 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
     s32 angle_b;
     s32 plane_radius;
     u32 component;
-    MovingPosition *position;
-    ProjectileObject *effect;
+    ObjectPosition *position;
+    ObjectNodeHeader *effect;
     RandomRadialVectorEffectBody *state;
-    S_8187B9E8_3 *scale;
+    SpriteFrameState *scale;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
@@ -926,12 +920,12 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
             point_count++;
         } while (point_count < 0x17);
         position = effect->position;
-        position->x = position_x;
-        position->y = position_y;
-        position->z = position_z;
+        position->x.unsigned_parts.integer = position_x;
+        position->y.unsigned_parts.integer = position_y;
+        position->z.unsigned_parts.integer = position_z;
         scale = effect->sprite;
-        scale->unk_1E = 0x1000;
-        scale->unk_1C = 0x1000;
+        scale->scale_y = 0x1000;
+        scale->scale_x = 0x1000;
         state->unk_14 = 0x17;
         effect->update_callback = rotate_point_cloud_until_expired;
         state->unk_A0 = (rand() & 0x3F) + 0x3C;

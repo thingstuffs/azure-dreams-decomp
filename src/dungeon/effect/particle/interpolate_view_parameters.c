@@ -26,31 +26,31 @@ extern u8 current_spell_effect_variant;
 extern u8 directional_sprite_entries[];
 
 /* Moves and animates an expanding sprite, removing it when its lifetime ends or its hidden flag is set. */
-void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object)
+void interpolate_view_parameters(B31_818C8824_EffectState *state, ObjectPosition *position, SpriteFrameState *object)
 {
     u16 life;
 
-    position[0] += state->x;
-    position[1] += state->y;
+    position->x.v += state->x;
+    position->y.v += state->y;
     moving_particle_effect_updated = 1;
-    position[2] += state->z;
+    position->z.v += state->z;
     advance_sprite_animation_and_textures(object);
-    object->field1C += 0x80;
-    object->field1E += 0x80;
+    object->scale_x += 0x80;
+    object->scale_y += 0x80;
     life = state->life - 1;
     state->life = life;
     if ((life << 16) <= 0) {
-        ((B31_818C8824_S_818C8824_0_pre *)state)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(state)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (object->flags & 0x8000) {
-        ((B31_818C8824_S_818C8824_0_pre *)state)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(state)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
    /* Advance effect motion and lifetime, updating its object and marking completion. */
-void advance_accelerating_particle(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924_EffectObject *object)
+void advance_accelerating_particle(B31_818C8924_EffectState *effect, ObjectPosition *position, SpriteFrameState *object)
 {
     u16 timer;
     u16 life;
@@ -58,9 +58,9 @@ void advance_accelerating_particle(B31_818C8924_EffectState *effect, s32 *positi
     effect->x += effect->vx;
     effect->y += effect->vy;
     effect->z += effect->vz;
-    position[0] += effect->x;
-    position[1] += effect->y;
-    position[2] += effect->z;
+    position->x.v += effect->x;
+    position->y.v += effect->y;
+    position->z.v += effect->z;
 
     moving_particle_effect_updated = 1;
     timer = effect->timer + 1;
@@ -69,17 +69,17 @@ void advance_accelerating_particle(B31_818C8924_EffectState *effect, s32 *positi
         advance_sprite_animation_and_textures(object);
     }
 
-    object->field1C += 200;
-    object->field1E += 200;
+    object->scale_x += 200;
+    object->scale_y += 200;
 
     life = effect->life - 1;
     effect->life = life;
     if ((life << 16) <= 0) {
-        ((B31_818C8924_S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (object->flags & 0x8000) {
-        ((B31_818C8924_S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -158,7 +158,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(B31_818C8A70_
                 effect->unk_02 = 0U;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             } else {
-                ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
+                NODE_HEADER(effect)->flags |= 0x8000;
                 object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             }
         }
@@ -167,7 +167,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(B31_818C8A70_
             position->unk_04.at00.v = (s32) (position->unk_04.at00.v + effect->unk_5C);
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v + effect->unk_60);
         } else {
-            ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
+            NODE_HEADER(effect)->flags |= 0x8000;
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
         }
@@ -285,7 +285,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(B31_818C8A70_
         fade_ticks = effect->unk_02 + 1;
         effect->unk_02 = fade_ticks;
         if ((s16) fade_ticks >= 0x15) {
-            ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
+            NODE_HEADER(effect)->flags |= 0x8000;
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
     }

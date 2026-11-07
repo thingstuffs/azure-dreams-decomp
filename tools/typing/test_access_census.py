@@ -6,7 +6,7 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
-from access_census import instructions, join, stable_parameter_registers, summarize, symbol_aliases, kind, shared_sign_rows, merge_site_rows, measure, exact_debug_sections, parameter_aliases, object_types_for_function, raw_local_registers, local_registers_for_function, recipes, main
+from access_census import instructions, join, stable_parameter_registers, summarize, symbol_aliases, kind, shared_sign_rows, merge_site_rows, measure, exact_debug_sections, parameter_aliases, object_types_for_function, raw_local_registers, local_registers_for_function, raw_stack_locals, stack_offsets_for_function, recipes, main, proven_register_bases, width_consistency
 import field_census as F
 
 
@@ -45,6 +45,9 @@ class AccessCensusTests(unittest.TestCase):
         unknown['node'] = 'v:local'
         rows = join(duplicate + [unknown], ops, regs)
         self.assertEqual([r['status'] for r in rows], ['ambiguous', 'ambiguous', 'unmapped'])
+        self.assertEqual([r['reason'] for r in rows[:2]], ['no_unique_source_access'] * 2)
+        held = join([self.site(4, 2, 1, 'u')], [], exact_section=False)
+        self.assertEqual(summarize(held)['unjoined_by_reason'], {'no_exact_section': 1})
 
     def test_direct_argument_compound_read_write(self):
         dis = '''Disassembly of section .text.func_12345678:
@@ -118,6 +121,209 @@ class AccessCensusTests(unittest.TestCase):
         f['escaped_locals'] = ['v:copy']
         self.assertNotIn('v:rebased', parameter_aliases(f))
 
+    def test_proven_move_rebase_stack_reload_and_header_macro(self):
+        dis = '''Disassembly of section .text.f:
+   0: 00804021 move t0,a0
+   4: 25090008 addiu t1,t0,8
+/tmp/src/a.c:9
+   8: 91220004 lbu v0,4(t1)
+   c: afa40010 sw a0,16(sp)
+  10: 8fa80010 lw t0,16(sp)
+/tmp/src/a.c:10
+  14: 95020002 lhu v0,2(t0)
+  18: 2488ffe0 addiu t0,a0,-32
+/tmp/src/a.c:11
+  1c: 9502001e lhu v0,30(t0)
+'''
+        ops = instructions(dis)['.text.f']
+        f = {'sites': []}
+        bases = proven_register_bases(dis, '.text.f', f, {}, ops)
+        sites = [self.site(9, 12, 1, 'u'), self.site(10, 2, 2, 'u'),
+                 self.site(11, -2, 2, 'u')]
+        sites[2]['spell'] = 'macro'
+        rows = join(sites, ops, stable_parameter_registers(dis)['.text.f'],
+                    proven_bases=bases)
+        self.assertEqual([r['opcode'] for r in rows], ['lbu', 'lhu', 'lhu'])
+
+    def test_pointer_chain_requires_unique_source_load(self):
+        dis = '''Disassembly of section .text.f:
+/tmp/src/a.c:4
+   0: 8c880004 lw t0,4(a0)
+/tmp/src/a.c:5
+   4: 91020002 lbu v0,2(t0)
+'''
+        pointer = self.site(4, 4, 4, 'p')
+        child = self.site(5, 2, 1, 'u')
+        child['node'] = ('F', 'p:f:0', 4)
+        ops = instructions(dis)['.text.f']
+        f = {'sites': [pointer, child]}
+        bases = proven_register_bases(dis, '.text.f', f, {}, ops)
+        rows = join(f['sites'], ops, proven_bases=bases)
+        self.assertEqual([r['opcode'] for r in rows], ['lw', 'lbu'])
+        f['sites'].append(dict(pointer))
+        bases = proven_register_bases(dis, '.text.f', f, {}, ops)
+        self.assertEqual(join([child], ops, proven_bases=bases)[0]['status'], 'unmapped')
+
+    def test_global_pointer_load_requires_symbol_relocation(self):
+        dis = '''Disassembly of section .text.f:
+/tmp/src/a.c:5
+   0: 8f880000 lw t0,0(gp)
+      0: R_MIPS_GPREL16 g_actor
+   4: 91020002 lbu v0,2(t0)
+'''
+        site = self.site(5, 2, 1, 'u')
+        site['node'] = ('F', 'g:g_actor', 0)
+        ops = instructions(dis)['.text.f']
+        bases = proven_register_bases(dis, '.text.f', {'sites': [site]}, {}, ops)
+        self.assertEqual(join([site], ops, proven_bases=bases)[0]['opcode'], 'lbu')
+        self.assertEqual(join([site], ops, proven_bases=proven_register_bases(
+            dis.replace('g_actor', 'other'), '.text.f', {'sites': [site]}, {}, ops))[0]['status'],
+            'unmapped')
+
+    def test_direct_global_requires_matching_hi_lo_relocations(self):
+        dis = '''Disassembly of section .text.f:
+   0: 3c020000 lui v0,0x0
+      0: R_MIPS_HI16 D_80083460
+/tmp/src/a.c:5
+   4: 9443001e lhu v1,30(v0)
+      4: R_MIPS_LO16 D_80083460
+'''
+        site = self.site(5, 30, 2, 'u')
+        site['node'] = 'g:g_dungeon_status'
+        ops = instructions(dis)['.text.f']
+        aliases = {'D_80083460': 'g_dungeon_status'}
+        bases = proven_register_bases(dis, '.text.f', {'sites': [site]}, {}, ops,
+                                      global_symbols=aliases)
+        self.assertEqual(join([site], ops, proven_bases=bases)[0]['opcode'], 'lhu')
+        literal = dict(site, node='g:D_80083460')
+        bases = proven_register_bases(dis, '.text.f', {'sites': [literal]}, {}, ops)
+        self.assertEqual(join([literal], ops, proven_bases=bases)[0]['opcode'], 'lhu')
+        for changed in (dis.replace('R_MIPS_HI16 D_80083460', 'R_MIPS_HI16 D_80083461'),
+                        dis.replace('R_MIPS_LO16 D_80083460', 'R_MIPS_LO16 D_80083461'),
+                        dis.replace('R_MIPS_LO16 D_80083460', 'R_MIPS_LO16 D_80083460+0x2')):
+            bases = proven_register_bases(changed, '.text.f', {'sites': [site]}, {}, ops,
+                                          global_symbols=aliases)
+            self.assertEqual(join([site], ops, proven_bases=bases)[0]['status'], 'unmapped')
+
+    def test_global_address_from_hi_lo_addiu(self):
+        dis = '''Disassembly of section .text.f:
+   0: 3c020000 lui v0,0x0
+      0: R_MIPS_HI16 D_80083460
+   4: 24480000 addiu t0,v0,0
+      4: R_MIPS_LO16 D_80083460
+/tmp/src/a.c:5
+   8: 91020002 lbu v0,2(t0)
+'''
+        site = self.site(5, 2, 1, 'u')
+        site['node'] = 'g:g_dungeon_status'
+        ops = instructions(dis)['.text.f']
+        bases = proven_register_bases(dis, '.text.f', {'sites': [site]}, {}, ops,
+                                      global_symbols={'D_80083460': 'g_dungeon_status'})
+        self.assertEqual(join([site], ops, proven_bases=bases)[0]['opcode'], 'lbu')
+
+    def test_global_half_address_does_not_cross_branch_or_overwrite(self):
+        site = self.site(5, 2, 2, 'u')
+        site['node'] = 'g:g_dungeon_status'
+        prefix = '''Disassembly of section .text.f:
+   0: 3c020000 lui v0,0x0
+      0: R_MIPS_HI16 D_80083460
+'''
+        suffix = '''/tmp/src/a.c:5
+   c: 94420002 lhu v0,2(v0)
+      c: R_MIPS_LO16 D_80083460
+'''
+        for middle in ('   4: 10000001 b c <f+0xc>\n   8: 00000000 nop\n',
+                       '   4: 00801021 move v0,a0\n   8: 00000000 nop\n'):
+            dis = prefix + middle + suffix
+            ops = instructions(dis)['.text.f']
+            bases = proven_register_bases(dis, '.text.f', {'sites': [site]}, {}, ops,
+                                          global_symbols={'D_80083460': 'g_dungeon_status'})
+            self.assertEqual(join([site], ops, proven_bases=bases)[0]['status'], 'unmapped')
+
+    def test_same_line_claim_precedes_global_cross_line_fallback(self):
+        local = self.site(5, 2, 2, 'u')
+        global_site = dict(self.site(10, 2, 2, 'u'), node='g:g_dungeon_status',
+                           base='g_dungeon_status')
+        op = dict(pc=4, line=5, offset=2, width=2, rw='r', reg='s0',
+                  opcode='lhu', sign='u')
+        rows = join([local, global_site], [op], {'s0': (0, float('inf'))},
+                    proven_bases={4: (('global', 'g_dungeon_status'), 0)})
+        self.assertEqual([r['status'] for r in rows], ['mapped', 'unmapped'])
+
+    def test_stack_overwrite_and_branch_target_revoke_proof(self):
+        dis = '''Disassembly of section .text.f:
+   0: afa40010 sw a0,16(sp)
+   4: afa00010 sw zero,16(sp)
+   8: 8fa80010 lw t0,16(sp)
+/tmp/src/a.c:5
+   c: 91020002 lbu v0,2(t0)
+'''
+        site = self.site(5, 2, 1, 'u')
+        ops = instructions(dis)['.text.f']
+        bases = proven_register_bases(dis, '.text.f', {'sites': [site]}, {}, ops)
+        self.assertEqual(join([site], ops, proven_bases=bases)[0]['status'], 'unmapped')
+        branch = '''Disassembly of section .text.f:
+   0: 00804021 move t0,a0
+   4: 10000001 b 10 <f+0x10>
+   8: 00000000 nop
+/tmp/src/a.c:5
+  10: 91020002 lbu v0,2(t0)
+'''
+        ops = instructions(branch)['.text.f']
+        bases = proven_register_bases(branch, '.text.f', {'sites': [site]}, {}, ops)
+        self.assertEqual(join([site], ops, proven_bases=bases)[0]['status'], 'unmapped')
+
+    def test_raw_stack_local_object_offset(self):
+        raw = '''\t.ent\tf
+\t.frame\t$sp,32,$31
+\t.def\tpoint;\t.val\t-16;\t.scl\t1;\t.type\t0x8;\t.endef
+\t.end\tf
+'''
+        site = self.site(5, 2, 2, 's')
+        site['node'] = 'o:src/a.c:f:point:1'
+        func = {'sites': [site]}
+        stacks = stack_offsets_for_function(func, raw_stack_locals(raw)['f'])
+        self.assertEqual(stacks, {site['node']: -16})
+        dis = '''Disassembly of section .text.f:
+   0: 27bdffe0 addiu sp,sp,-32
+/tmp/src/a.c:5
+   4: 87a20012 lh v0,18(sp)
+'''
+        ops = instructions(dis)['.text.f']
+        bases = proven_register_bases(dis, '.text.f', func, {}, ops, stacks)
+        self.assertEqual(join([site], ops, proven_bases=bases, stack_locals=stacks)[0]['opcode'], 'lh')
+        restored = dis.replace('/tmp/src/a.c:5', '   2: 27bd0020 addiu sp,sp,32\n/tmp/src/a.c:5')
+        ops = instructions(restored)['.text.f']
+        bases = proven_register_bases(restored, '.text.f', func, {}, ops, stacks)
+        self.assertEqual(join([site], ops, proven_bases=bases, stack_locals=stacks)[0]['status'],
+                         'unmapped')
+
+    def test_fifth_callback_argument_loaded_from_o32_stack_slot(self):
+        site = self.site(5, 2, 1, 'u')
+        site['node'] = 'p:f:4'
+        dis = '''Disassembly of section .text.f:
+   0: 27bdffe0 addiu sp,sp,-32
+   4: 8fa80030 lw t0,48(sp)
+/tmp/src/a.c:5
+   8: 91020002 lbu v0,2(t0)
+'''
+        ops = instructions(dis)['.text.f']
+        bases = proven_register_bases(dis, '.text.f', {'sites': [site]}, {}, ops)
+        self.assertEqual(join([site], ops, proven_bases=bases)[0]['opcode'], 'lbu')
+
+    def test_width_consistency_uses_record_layout(self):
+        db = sqlite3.connect(':memory:')
+        db.execute('CREATE TABLE record_member (record TEXT, name TEXT, off INTEGER, size INTEGER, depth INTEGER)')
+        db.execute('INSERT INTO record_member VALUES (?,?,?,?,?)', ('ActorRecord', 'field', 4, 2, 0))
+        row = join([self.site(5, 4, 2, 'u')], [dict(line=5, offset=4, width=2, rw='r',
+                    reg='a0', pc=0, opcode='lhu', sign='u')], {'a0': (0, float('inf'))})[0]
+        self.assertEqual(width_consistency([row], db), (1, []))
+        db.execute('UPDATE record_member SET size=1')
+        checked, bad = width_consistency([row], db)
+        self.assertEqual((checked, len(bad)), (1, 1))
+        db.execute('UPDATE record_member SET size=NULL')
+        self.assertEqual(width_consistency([row], db), (0, []))
+
     def test_source_extraction_records_unknown_local_reassignment(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -131,6 +337,22 @@ class AccessCensusTests(unittest.TestCase):
         local = next(node for node in facts['functions'][0]['local_writes'] if ':q:' in node)
         self.assertEqual(len(facts['functions'][0]['local_writes'][local]), 2)
         self.assertNotIn(local, parameter_aliases(facts['functions'][0]))
+
+    def test_four_byte_local_aggregate_keeps_address_and_register_member(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'include').mkdir()
+            (root / 'src').mkdir()
+            (root / 'src/a.c').write_text(
+                'void f(char *p) { union { char *v; } state = {p}; state.v[2] = 1; }')
+            facts = F.extract_tu((td, 'src/a.c'))
+        self.assertIsNone(facts['error'])
+        func = facts['functions'][0]
+        pointer = next(s for s in func['sites'] if s['field'] == 'v')
+        self.assertTrue(pointer['node'].startswith('o:'))
+        raw = {'state': ['v1']}
+        locations = local_registers_for_function(func, raw)
+        self.assertEqual(locations[('F', pointer['node'], 0)], 'v1')
 
     def test_compiler_register_local_requires_same_debug_line(self):
         raw = '''\t.ent\tf

@@ -1084,6 +1084,23 @@ def access_report_lines(access):
     return lines
 
 
+def access_summary_from_sites(path):
+    """Read a cached access census without invoking its compiler or parser."""
+    source = mapped = agreement = 0
+    by_kind, source_by_kind = Counter(), Counter()
+    with path.open(newline='') as stream:
+        for row in csv.DictReader(stream, delimiter='\t'):
+            source += 1
+            kind = row['base_kind']
+            source_by_kind[kind] += 1
+            if row['status'] == 'mapped':
+                mapped += 1
+                by_kind[kind] += 1
+                agreement += int(row['agreement'])
+    return dict(source_sites=source, mapped=mapped, agreement=agreement,
+                by_kind=by_kind, source_by_kind=source_by_kind)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=TOOLS.parent)
@@ -1093,6 +1110,8 @@ def main(argv=None):
     parser.add_argument('--summary', action='store_true')
     parser.add_argument('--access-summary', type=Path,
                         help='report-only access_census.py access_summary.json; never ratcheted')
+    parser.add_argument('--access-sites', type=Path,
+                        help='report-only cached access_census.py access_sites.tsv; never ratcheted')
     parser.add_argument('--no-report-cache', action='store_true',
                         help='recompute all lexical report rows when using --summary')
     parser.add_argument('--macro-casts', action='store_true',
@@ -1184,7 +1203,12 @@ def main(argv=None):
             if key != 'note':
                 print(f'{key} (report only)\t{value}')
         access_path = args.access_summary or args.root / 'out/access_summary.json'
-        if access_path.is_file():
+        sites_path = args.access_sites or args.root / 'out/access_sites.tsv'
+        if args.access_sites or (not access_path.is_file() and sites_path.is_file()):
+            access = access_summary_from_sites(sites_path)
+            for line in access_report_lines(access):
+                print(line)
+        elif access_path.is_file():
             access = json.loads(access_path.read_text())
             for line in access_report_lines(access):
                 print(line)

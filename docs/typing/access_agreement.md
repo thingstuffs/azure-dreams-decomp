@@ -15,9 +15,28 @@ The source access must have a parameter base held in a saved register from one
 line, register offset, width and read/write direction. Compound read/write
 expressions become two rows. Ambiguous accesses and values optimized away remain `unmapped` or
 `ambiguous` in `access_sites.tsv`; they are never assigned an opcode by order.
+The instruction-level proof also follows straight-line pointer copies,
+constant rebases, and stack spill/reloads at known stack offsets. A pointer
+loaded from an object field becomes a base only when one pointer-typed source
+access and one word load identify the same debug line and parent offset.
+Direct stack-object fields use one source local and one raw GCC stack-location
+record in an `$sp` frame; the object offset and instruction stack offset must
+resolve to the same entry-stack address.
+Fifth and later pointer parameters use their o32 entry-stack slots beginning
+at `entry_sp+16`, until a branch, call, or store revokes the slot proof.
+Global pointer loads require a matching `R_MIPS_GPREL16` symbol relocation.
+Direct global-object bases can also be proven by one matching `R_MIPS_HI16`
+and `R_MIPS_LO16` pair on a `lui` plus a memory instruction or `addiu`.
+Unique aliases in `config/names.tsv` connect old relocation symbols to source
+names. Pairs split by control flow remain held.
+Branch targets, calls, unknown writes, and overwritten stack slots revoke
+the derived proof. All newly joined sites still require an exact executable
+section and a unique source/instruction pair.
 The second pass admits a cross-line scheduler move only when the entire
 function has exactly one source access and one retail instruction for the
-proven register, offset, width and direction. A local pointer can use that
+proven register, offset, width and direction. An opcode already claimed by
+a same-line source access is reserved before this fallback is considered.
+A local pointer can use that
 parameter proof only when the source facts show one known assignment from a
 parameter or another such local, no later write, and no address escape. Its
 constant rebase is included in the instruction offset comparison.
@@ -63,6 +82,12 @@ measure for each measured folder, and `access_disagreements.tsv` lists declared
 signs that differ from the majority mapped load sign for the field.
 `access_summary.json` and the report-only debt lines also show exact-join
 coverage by base kind.
+`access_sites.tsv` includes a mutually exclusive `reason` for each held row;
+`access_summary.json` counts those reasons in `unjoined_by_reason`.
+`width_mismatches.tsv` independently compares mapped direct named fields to
+top-level `record_member` layout sizes, and `width_consistency` in the summary
+gives the checked and mismatch counts. The check excludes arrays, nested
+paths, anonymous views, and fields without one unambiguous declared size.
 Anonymous nested structs inherit their named object's base kind; accesses
 through signedness or width union members remain union puns.
 
@@ -86,7 +111,8 @@ still needs the byte-exact gate.
 implementation and the content of all `src/` and `include/` headers, so a
 landing with unchanged inputs reuses the prior analysis. `--no-report-cache`
 forces a complete recomputation. The access lines read the already generated
-`access_summary.json` and never trigger a census compile.
+`access_summary.json` or a path supplied with `--access-sites` and never
+trigger a census compile.
 
 `view_match.py --access-sites` also writes `shared_view_shadow_candidates.tsv`.
 It lists mapped view loads at the same offset and width as a field of one of the

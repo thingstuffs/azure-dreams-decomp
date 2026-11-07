@@ -103,9 +103,9 @@ s32 handle_project_queue_textured_triangle_per_vertex_colors(s32 vertex_color0, 
     packet->type = 9;
     packet->unk7 = 0x36;
     packet->random = GetTPage(0, 3, 0x300, 0x100);
-    screen_xy1 = (void *)((u32)scratch | 0x74);
-    screen_xy2 = (void *)((u32)scratch | 0x78);
-    depth_cue = (void *)((u32)scratch | 8);
+    screen_xy1 = (void *)0x1F800074;
+    screen_xy2 = (void *)0x1F800078;
+    depth_cue = (void *)0x1F800008;
     transform_flags = scratch;
     packet->clut = 0x7DCF;
     packet->color0 = 0xC0;
@@ -126,7 +126,7 @@ s32 handle_project_queue_textured_triangle_per_vertex_colors(s32 vertex_color0, 
 
     vertex_offset = effect_position_source;
     scratch->x0 = (scratch->vx0 + vertex_offset[0]) >> 16;
-    transform_flags = (void *)((u32)transform_flags | 0xC);
+    transform_flags = (void *)0x1F80000C;
     scratch->x1 = (scratch->vx1 + vertex_offset[0]) >> 16;
     scratch->x2 = (scratch->vx2 + vertex_offset[0]) >> 16;
     scratch->y0 = (scratch->vy0 + vertex_offset[1]) >> 16;
@@ -137,8 +137,8 @@ s32 handle_project_queue_textured_triangle_per_vertex_colors(s32 vertex_color0, 
     scratch->z2 = (scratch->vz2 + vertex_offset[2]) >> 16;
 
     scratch->ordering_index = func_80065530(
-        (void *)((u32)scratch | 0x10), (void *)((u32)scratch | 0x18),
-        (void *)((u32)scratch | 0x20), (void *)((u32)scratch | 0x70),
+        (void *)0x1F800010, (void *)0x1F800018,
+        (void *)0x1F800020, (void *)0x1F800070,
         screen_xy1, screen_xy2, depth_cue, transform_flags);
 
     packet->u8 = scratch->out0;

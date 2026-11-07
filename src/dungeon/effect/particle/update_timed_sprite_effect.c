@@ -34,8 +34,8 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
     s32 tile_dy;
     ProjectileTargetTransform target_pos;
     s16 launch_offset[3];
-    ProjectileObject *caster_obj;
-    ProjectileSprite *caster_sprite;
+    ObjectNodeHeader *caster_obj;
+    SpriteFrameState *caster_sprite;
     ProjectileActor *target;
     s32 step_x;
     s32 step_y;
@@ -55,8 +55,8 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
     s32 direction_offset;
     caster = effect->caster;
     target = (ProjectileActor *)caster->unk_2A.u;
-    caster_obj = (ProjectileObject *)((u8 *)caster - 0x20);
-    caster_sprite = ((ProjectileObject *)((u8 *)caster - 0x20))->sprite;
+    caster_obj = NODE_HEADER(caster);
+    caster_sprite = NODE_HEADER(caster)->sprite;
     direction_offset = ((u32)target) >> 8;
     direction_offset &= 0xE;
     step_x = *(s16 *)(direction_x + direction_offset);
@@ -67,30 +67,30 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
         do {
             particle_or_y = (s32)allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle_or_y != 0) {
-                sprite_or_x = (s32)((ProjectileObject *)particle_or_y)->sprite;
-                ((ProjectileObject *)particle_or_y)->update_callback = update_timed_sprite_effect;
-                ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->position)->x.s =
+                sprite_or_x = (s32)((ObjectNodeHeader *)particle_or_y)->sprite;
+                ((ObjectNodeHeader *)particle_or_y)->update_callback = update_timed_sprite_effect;
+                ((ProjectileMotion *)((ObjectNodeHeader *)particle_or_y)->position)->x.s =
                     motion->x.s + (((rand() & 0x3FF) - 511) << 9);
-                ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->position)->y.s =
+                ((ProjectileMotion *)((ObjectNodeHeader *)particle_or_y)->position)->y.s =
                     motion->y.s + (((rand() & 0x3FF) - 511) << 9);
-                ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->position)->z.s =
+                ((ProjectileMotion *)((ObjectNodeHeader *)particle_or_y)->position)->z.s =
                     motion->z.s + (((rand() & 0x3FF) - 511) << 9);
                 if (effect->phase.s == 2) {
-                    ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->position)->velocity_x =
+                    ((ProjectileMotion *)((ObjectNodeHeader *)particle_or_y)->position)->velocity_x =
                         motion->velocity_x >> 2;
-                    ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->position)->velocity_y =
+                    ((ProjectileMotion *)((ObjectNodeHeader *)particle_or_y)->position)->velocity_y =
                         motion->velocity_y >> 2;
-                    ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->position)->x.s +=
+                    ((ProjectileMotion *)((ObjectNodeHeader *)particle_or_y)->position)->x.s +=
                         (step_x << 21) -
                         (((step_x * effect->phase_ticks.s) << 20) / 12);
-                    ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->position)->y.s +=
+                    ((ProjectileMotion *)((ObjectNodeHeader *)particle_or_y)->position)->y.s +=
                         (step_y << 21) -
                         (((step_y * effect->phase_ticks.s) << 20) / 12);
                     particle_data = (ProjectileParticle *)((u8 *)particle_or_y + 0x20);
                 } else {
                     particle_data = (ProjectileParticle *)((u8 *)particle_or_y + 0x20);
                 }
-                ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->position)->velocity_z = -rand() << 1;
+                ((ProjectileMotion *)((ObjectNodeHeader *)particle_or_y)->position)->velocity_z = -rand() << 1;
                 ((ProjectileSprite *)sprite_or_x)->unk_1E = 0x1000;
                 ((ProjectileSprite *)sprite_or_x)->unk_1C = 0x1000;
                 ((ProjectileSprite *)sprite_or_x)->unk_14 |= 0xC;
@@ -125,7 +125,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
                           caster_obj->sprite, launch_offset, 0) == 0) {
             launch_offset[1] = 0;
             launch_offset[0] = 0;
-            launch_offset[2] = (caster_sprite->unk_14 & 0x8000) ? -48 : 0;
+            launch_offset[2] = (caster_sprite->flags & 0x8000) ? -48 : 0;
         }
         motion->x.s = ((ProjectileMotion *)caster_obj->position)->x.s +
                               ((s32)launch_offset[0] << 16);
@@ -135,9 +135,9 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
                               ((s32)launch_offset[2] << 16);
         register_node((u8 *)effect - 0x20, draw_animated_projectile_quads);
         range = (s16)get_definition_entry_byte_13(7);
-        offset_y = caster_sprite->unk_24;
+        offset_y = caster_sprite->tile_x;
         target = scan_actor_along_heading(caster, offset_y,
-                                       caster_sprite->unk_25,
+                                       caster_sprite->tile_y,
                                        caster->unk_2A.s, range);
         caster->unk_60.p = target;
         if (target == 0) {
@@ -145,8 +145,8 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
             tile_dy = distance;
             tile_dx = distance;
             while (distance < get_definition_entry_byte_13(7)) {
-                index_or_x = (caster_sprite->unk_24 + tile_dx) * 64 + 32;
-                offset_y = (caster_sprite->unk_25 + tile_dy) * 64 + 32;
+                index_or_x = (caster_sprite->tile_x + tile_dx) * 64 + 32;
+                offset_y = (caster_sprite->tile_y + tile_dy) * 64 + 32;
                 sprite_or_x = index_or_x & 0xFFFF;
                 {
                     s32 probe_y;
@@ -164,10 +164,10 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
                 distance++;
                 tile_dx += step_x;
             }
-            caster->unk_72.u = caster_sprite->unk_24 + step_x * distance;
-            target_tile = caster_sprite->unk_25 + step_y * distance;
+            caster->unk_72.u = caster_sprite->tile_x + step_x * distance;
+            target_tile = caster_sprite->tile_y + step_y * distance;
         } else {
-            sprite_or_x = (s32)((ProjectileObject *)((u8 *)target - 0x20))->sprite;
+            sprite_or_x = (s32)NODE_HEADER(target)->sprite;
             if ((((ProjectileSprite *)sprite_or_x)->unk_14 & 0x8000) && (effect_sprite->unk_14 & 0x8000)) {
                 effect->phase.s = 3;
                 return;

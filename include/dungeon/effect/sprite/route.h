@@ -145,9 +145,6 @@ typedef struct {
     u8 value;
     u8 pad;
 } B32_818CFB74_ByteEntry;
-typedef struct B32_818CF0E8_S_818CF0E8_0_pre {
-    u16 unk_00;
-} B32_818CF0E8_S_818CF0E8_0_pre;
 typedef struct B32_818CF0E8_S_818CF0E8_0 {
     s16 unk_00;
     u16 unk_02;

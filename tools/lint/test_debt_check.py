@@ -39,6 +39,19 @@ void after(void)
 
 
 class MacroCastReport(unittest.TestCase):
+    def test_cached_access_sites_summary(self):
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / 'access_sites.tsv'
+            path.write_text('base_kind\tstatus\tagreement\n'
+                            'named record\tmapped\t1\n'
+                            'named record\tunmapped\t0\n'
+                            'view\tmapped\t0\n')
+            report = D.access_summary_from_sites(path)
+        self.assertEqual((report['source_sites'], report['mapped'], report['agreement']),
+                         (3, 2, 1))
+        self.assertEqual(report['source_by_kind']['named record'], 2)
+        self.assertIn('1/2\t50.00%', D.access_report_lines(report)[0])
+
     def test_access_summary_is_report_only(self):
         lines = D.access_report_lines({'source_sites': 8, 'mapped': 4, 'agreement': 3,
                                        'by_kind': {'view': 1, 'named record': 3},

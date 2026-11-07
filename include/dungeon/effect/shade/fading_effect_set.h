@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_80024264_arg1.h"
 #include "shared/gpu_packets.h"
@@ -25,14 +26,6 @@ typedef struct ovl_188898c_81868A64_S_81868A64_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } ovl_188898c_81868A64_S_81868A64_0;
-typedef struct ovl_188898c_81868A64_S_81868A64_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} ovl_188898c_81868A64_S_81868A64_3;
 /* Stage, spiral parameters, source owner, and grayscale intensity for the expanding effect. */
 typedef struct CoordinateSpriteObjectBody {
     u16 unk_00;
@@ -236,8 +229,8 @@ extern u8 D_80025368[];
 extern s32 check_layer_offset_height();
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
-void advance_fading_effect(void *effect, void *position, void *render_data);
-void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity);
+void advance_fading_effect(void *effect, ObjectPosition *position, SpriteFrameState *render_data);
+void create_randomized_grayscale_effect(s32 user_data, ObjectPosition *source_pos, u8 intensity);
 void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *position);
 void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords);
 void shrink_and_brighten_effect(DelayAndFadeParticleBody *state_ref, void *unused, SpriteFrameState *effect);

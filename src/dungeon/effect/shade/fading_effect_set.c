@@ -34,37 +34,37 @@ void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
 
 /* Expands and fades a sprite while stepping its height by -8, removing it at zero intensity or
    animation completion. */
-void advance_fading_effect(void *effect, void *position, void *render_data)
+void advance_fading_effect(void *effect, ObjectPosition *position, SpriteFrameState *render_data)
 {
     u8 *effect_state = *(u8 **)effect;
     u16 coordinate;
     u8 intensity;
 
     *(u16 *)(effect_state + 0x14) = *(u16 *)(effect_state + 0x14) + 1;
-    coordinate = *(u16 *)((u8 *)render_data + 0x1E);
-    intensity = *((u8 *)render_data + 0xE);
+    coordinate = render_data->scale_y;
+    intensity = render_data->color.c.b;
     coordinate += 0x400;
     intensity -= 4;
-    *(u16 *)((u8 *)render_data + 0x1E) = coordinate;
-    *(u16 *)((u8 *)render_data + 0x1C) = coordinate;
-    *((u8 *)render_data + 0xE) = intensity;
-    *((u8 *)render_data + 0xD) = intensity;
-    *((u8 *)render_data + 0xC) = intensity;
+    render_data->scale_y = coordinate;
+    render_data->scale_x = coordinate;
+    render_data->color.c.b = intensity;
+    render_data->color.c.g = intensity;
+    render_data->color.c.r = intensity;
     if (intensity == 0) {
-        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
-    *(u16 *)((u8 *)position + 0xA) -= 8;
+    position->z.unsigned_parts.integer -= 8;
     advance_sprite_animation_and_textures(render_data);
-    if (*(u16 *)((u8 *)render_data + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+    if (render_data->flags & 0x6000) {
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
 /* Creates a gray sprite with the supplied intensity at the source coordinates and a small randomized
    height offset. */
-void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity) {
+void create_randomized_grayscale_effect(s32 user_data, ObjectPosition *source_pos, u8 intensity) {
     SpriteFrameState *render_state;
     ObjectPosition *effect_pos;
     ovl_188898c_81868A64_S_81868A64_0 *effect;
@@ -85,9 +85,9 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
         render_state->flags = (u16) (render_state->flags | 0x10C);
         register_node(effect, project_sprite_chain);
         effect_pos = effect->unk_08;
-        effect_pos->x.w.i = (u16) source_pos->unk_02;
-        effect_pos->y.w.i = (u16) source_pos->unk_06;
-        effect_pos->z.w.i = (s16) ((source_pos->unk_0A + (rand() % 17)) - 8);
+        effect_pos->x.w.i = (u16) source_pos->x.unsigned_parts.integer;
+        effect_pos->y.w.i = (u16) source_pos->y.unsigned_parts.integer;
+        effect_pos->z.w.i = (s16) ((source_pos->z.unsigned_parts.integer + (rand() % 17)) - 8);
     }
 }
 
@@ -198,7 +198,7 @@ void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *p
     case 3:
 
         ((ovl_188898c_81868B84_S_81868B84_3 *)(effect->unk_0C))->unk_16 = 1;
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ovl_188898c_81868B84_S_81868B84_0_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags |= 0x8000;
         {
             ObjectFlagBlock *global_flags;
             global_flags = &object_flag_block;

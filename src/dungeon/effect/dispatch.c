@@ -1047,10 +1047,10 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
     ScratchPad *scratch = (ScratchPad *)0x1F800000;
     u8 *state;
     GameWork *render_globals;
-    s32 packet_next;
+    QuadPrim *packet_next;
     s16 local_y;
     s16 local_x;
-    s32 (*draw_callback)(s32, void *, void *, void *, s32);
+    s32 (*draw_callback)(s32, void *, void *, void *, QuadPrim *);
     s32 top_visible;
     s32 three_visible;
     s32 top_dx;
@@ -1124,7 +1124,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
     *(u16 *)(scratch->b + 0x000) = (u16)(*(u16 *)((u8 *)position + 2));
     *(u16 *)(scratch->b + 0x002) = (u16)(*(u16 *)((u8 *)position + 6));
     *(u16 *)(scratch->b + 0x004) = (u16)(*(u16 *)((u8 *)position + 0xA));
-    packet_next = *(s32 *)(state + 0x8D0);
+    packet_next = *(QuadPrim **)(state + 0x8D0);
     scratch->w[48] = RotTransPers(scratch, scratch->b + 0xB8, scratch->b + 0x90, scratch->b + 0x94);
     matrix_or_u = (s32)sprite_projection_matrix;
     sprite->flags = (u16)(sprite->flags | 0x8000);
@@ -1259,32 +1259,32 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
                     bottom_x = ((s16)center_x + (s16)*(u16 *)(scratch->b + 0x0F8)) << 0x10;
                     do {
                         top_left_visible = 0;
-                        ((QuadPrim *)packet_next)->x0 = (u16)(top_x >> 0x10);
-                        ((QuadPrim *)packet_next)->x1 = (u16)((s32)(top_x + top_x_step) >> 0x10);
-                        ((QuadPrim *)packet_next)->x2 = (u16)(bottom_x >> 0x10);
-                        ((QuadPrim *)packet_next)->x3 = (u16)((s32)(bottom_x + bottom_x_step) >> 0x10);
-                        ((QuadPrim *)packet_next)->y0 = (u16)(left_y >> 0x10);
-                        ((QuadPrim *)packet_next)->y1 = (u16)(right_y >> 0x10);
-                        ((QuadPrim *)packet_next)->y2 = (u16)((s32)(left_y + left_y_step) >> 0x10);
-                        ((QuadPrim *)packet_next)->y3 = (s16)bottom_y;
-                        if ((u32)((((QuadPrim *)packet_next)->x0 + 0x20) & 0xFFFF) < 0x181U) {
-                            clip_y = (((QuadPrim *)packet_next)->y0 + 0x20) & 0xFFFF;
+                        packet_next->x0 = (u16)(top_x >> 0x10);
+                        packet_next->x1 = (u16)((s32)(top_x + top_x_step) >> 0x10);
+                        packet_next->x2 = (u16)(bottom_x >> 0x10);
+                        packet_next->x3 = (u16)((s32)(bottom_x + bottom_x_step) >> 0x10);
+                        packet_next->y0 = (u16)(left_y >> 0x10);
+                        packet_next->y1 = (u16)(right_y >> 0x10);
+                        packet_next->y2 = (u16)((s32)(left_y + left_y_step) >> 0x10);
+                        packet_next->y3 = (s16)bottom_y;
+                        if ((u32)((packet_next->x0 + 0x20) & 0xFFFF) < 0x181U) {
+                            clip_y = (packet_next->y0 + 0x20) & 0xFFFF;
                             top_left_visible = clip_y < 0x121U;
                         }
                         visible_or_result = 0;
-                        if ((u32)((((QuadPrim *)packet_next)->x1 + 0x20) & 0xFFFF) < 0x181U) {
-                            clip_y = (((QuadPrim *)packet_next)->y1 + 0x20) & 0xFFFF;
+                        if ((u32)((packet_next->x1 + 0x20) & 0xFFFF) < 0x181U) {
+                            clip_y = (packet_next->y1 + 0x20) & 0xFFFF;
                             visible_or_result = clip_y < 0x121U;
                         }
                         bottom_left_visible = 0;
                         top_visible = top_left_visible | visible_or_result;
-                        if ((u32)((((QuadPrim *)packet_next)->x2 + 0x20) & 0xFFFF) < 0x181U) {
-                            clip_y = (((QuadPrim *)packet_next)->y2 + 0x20) & 0xFFFF;
+                        if ((u32)((packet_next->x2 + 0x20) & 0xFFFF) < 0x181U) {
+                            clip_y = (packet_next->y2 + 0x20) & 0xFFFF;
                             bottom_left_visible = clip_y < 0x121U;
                         }
                         bottom_right_visible = 0;
                         three_visible = top_visible | bottom_left_visible;
-                        if ((u32)((((QuadPrim *)packet_next)->x3 + 0x20) & 0xFFFF) < 0x181U) {
+                        if ((u32)((packet_next->x3 + 0x20) & 0xFFFF) < 0x181U) {
                             bottom_right_visible = bottom_clip_y < 0x121U;
                         }
                         if ((three_visible | bottom_right_visible) != 0) {
@@ -1303,40 +1303,40 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
                             if (v_end >= 0x100) {
                                 v_end = 0xFF;
                             }
-                            ((QuadPrim *)packet_next)->u0 = (s8)matrix_or_u;
-                            ((QuadPrim *)packet_next)->v0 = (s8)texture_v;
-                            ((QuadPrim *)packet_next)->u1 = (s8)u_end;
-                            ((QuadPrim *)packet_next)->v1 = (s8)texture_v;
-                            ((QuadPrim *)packet_next)->u2 = (s8)matrix_or_u;
-                            ((QuadPrim *)packet_next)->v2 = (s8)v_end;
-                            ((QuadPrim *)packet_next)->u3 = (s8)u_end;
-                            ((QuadPrim *)packet_next)->v3 = (s8)v_end;
-                            ((QuadPrim *)packet_next)->len = 9;
+                            packet_next->u0 = (s8)matrix_or_u;
+                            packet_next->v0 = (s8)texture_v;
+                            packet_next->u1 = (s8)u_end;
+                            packet_next->v1 = (s8)texture_v;
+                            packet_next->u2 = (s8)matrix_or_u;
+                            packet_next->v2 = (s8)v_end;
+                            packet_next->u3 = (s8)u_end;
+                            packet_next->v3 = (s8)v_end;
+                            packet_next->len = 9;
                             clut = sprite->clut;
                             sprite->flags = (u16)(sprite->flags & 0x7FFF);
                             clut += ((S_800C6B40_1 *)part)->unk_06;
-                            ((QuadPrim *)packet_next)->clut = (s16)clut;
+                            packet_next->clut = (s16)clut;
                             if (sprite->tpage_abr != 0) {
                                 tpage = sprite->tpage_abr + (((S_800C6B40_1 *)part)->unk_04 & 0xFF9F);
                             } else {
                                 tpage = ((S_800C6B40_1 *)part)->unk_04;
                             }
-                            ((QuadPrim *)packet_next)->tpage = tpage;
-                            ((QuadPrim *)packet_next)->unk_04.color = (s32)sprite->color.word;
-                            ((QuadPrim *)packet_next)->unk_04.at03.code = 0x2C;
+                            packet_next->tpage = tpage;
+                            packet_next->unk_04.color = (s32)sprite->color.word;
+                            packet_next->unk_04.at03.code = 0x2C;
                             draw_flags = *(u16 *)(scratch->b + 0x024);
                             if (draw_flags & 8) {
                                 if (!(draw_flags & 4)) {
                                     command = 0x2C;
-                                    ((QuadPrim *)packet_next)->unk_04.at03.code = command;
+                                    packet_next->unk_04.at03.code = command;
                                 } else {
                                     command = 0x2E;
-                                    ((QuadPrim *)packet_next)->unk_04.at03.code = command;
+                                    packet_next->unk_04.at03.code = command;
                                 }
                             }
                             AddPrim((u8 *)*(u32 *)(scratch->b + 0x020) + ((u32)*(u32 *)(scratch->b + 0x0C0) * 4),
                                 packet_next);
-                            packet_next += 0x28;
+                            packet_next = (QuadPrim *)((u8 *)packet_next + 0x28);
                         }
                         column += 1;
                         matrix_or_u += u_step;
@@ -1351,14 +1351,14 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
                     right_y = saved_right_y;
                 } while (row < 4);
             } else {
-                draw_callback = (s32 (*)(s32, void *, void *, void *, s32))((S_800C6B40_1 *)part)->unk_08.at00u.v;
+                draw_callback = (s32 (*)(s32, void *, void *, void *, QuadPrim *))((S_800C6B40_1 *)part)->unk_08.at00u.v;
                 if (draw_callback != NULL) {
                     visible_or_result = draw_callback(context, position, sprite, part, packet_next);
                     kseg_base = 0x80000000;
                     if (visible_or_result > 0) {
                         part = (void *)(visible_or_result | kseg_base);
                     } else {
-                        packet_next = visible_or_result;
+                        packet_next = (QuadPrim *)visible_or_result;
                     }
                 }
             }
@@ -1367,7 +1367,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
         } while (part_flags >= 0);
         PopMatrix();
     }
-    *(s32 *)(*(u32 *)&render_globals->draw_buffer + 0x8D0) = packet_next;
+    *(QuadPrim **)(*(u32 *)&render_globals->draw_buffer + 0x8D0) = packet_next;
 }
 #include "common.h"
 #include "shared/object_node.h"

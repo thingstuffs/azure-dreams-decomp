@@ -34,7 +34,7 @@ typedef struct Object {
 extern u8 D_80165580;
 
 /* Creates a gray half-scale spark at the source position plus the supplied offsets. */
-void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {
+void create_offset_half_scale_spark(ObjectPosition *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {
     ObjectNodeHeader *obj;
     SpriteFrameState *sprite;
     s32 z_fixed;
@@ -53,10 +53,10 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
             ObjectPosition *position;
 
             position = obj->position;
-            position->x.v = *(s32 *)((u8 *)source_position + 0);
-            position->y.v = *(s32 *)((u8 *)source_position + 4);
+            position->x.v = source_position->x.v;
+            position->y.v = source_position->y.v;
             x = ((u16)(position->x.w.i));
-            z_fixed = *(s32 *)((u8 *)source_position + 8);
+            z_fixed = source_position->z.v;
             position->x.w.i = (u16)(x + x_offset);
             y = ((u16)(position->y.w.i));
             position->z.v = z_fixed;

@@ -688,7 +688,10 @@ class FunctionFacts:
                 else:
                     t = qtype(e)
                     r = self.T.resolve(t)
-                    if r.endswith('*') or self.T.size(t) == 4:
+                    # A four-byte aggregate is still an object. Treating it
+                    # as a scalar pointer loses the address of its members,
+                    # including single-pointer local unions kept in a register.
+                    if r.endswith('*') or (self.T.size(t) == 4 and self.T.record(t) is None):
                         node = 'v:%s:%s:%s:%s' % (self.file, self.name, e['name'], e['id'])
                         self.locals[e['id']] = ('ptr', node)
                         self.type_var(node, t)

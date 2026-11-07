@@ -10,6 +10,7 @@
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 #include "sdk/libc.h"
+struct ObjectPosition;
 typedef struct B31_818C8FD0_S_func_818C8FD0_1 {
     void *unk_00;
     void *unk_04;
@@ -151,9 +152,6 @@ typedef struct B31_818C8A70_S_818C8A70_7_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } B31_818C8A70_S_818C8A70_7_pre;
-typedef struct B31_818C8924_S_818C8924_0_pre {
-    u16 unk_00;
-} B31_818C8924_S_818C8924_0_pre;
 typedef struct {
     u8 pad0[2];
     u16 life;
@@ -167,16 +165,6 @@ typedef struct {
     s32 vz;
 } B31_818C8924_EffectState;
 typedef struct {
-    u8 pad0[0x14];
-    u16 flags;
-    u8 pad16[6];
-    u16 field1C;
-    u16 field1E;
-} B31_818C8924_EffectObject;
-typedef struct B31_818C8824_S_818C8824_0_pre {
-    u16 unk_00;
-} B31_818C8824_S_818C8824_0_pre;
-typedef struct {
     u8 pad0[2];
     u16 life;
     u8 pad4[0x58 - 4];
@@ -184,15 +172,8 @@ typedef struct {
     s32 y;
     s32 z;
 } B31_818C8824_EffectState;
-typedef struct {
-    u8 pad0[0x14];
-    u16 flags;
-    u8 pad16[6];
-    u16 field1C;
-    u16 field1E;
-} B31_818C8824_EffectObject;
-void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object);
-void advance_accelerating_particle(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924_EffectObject *object);
+void interpolate_view_parameters(B31_818C8824_EffectState *state, struct ObjectPosition *position, SpriteFrameState *object);
+void advance_accelerating_particle(B31_818C8924_EffectState *effect, struct ObjectPosition *position, SpriteFrameState *object);
 void update_a_moving_effect_spawns_particles_advances_timed_phases(B31_818C8A70_S_818C8A70_0 *effect, B31_818C8A70_S_818C8A70_4 *position);
 void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part);
 void select_record_entry_and_value(void *state, void *entries, short index);

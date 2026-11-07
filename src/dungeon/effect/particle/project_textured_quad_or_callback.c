@@ -404,12 +404,12 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
     *(u16 *)(scratch + 0xA4) = *(u16 *)((u8 *)material + 0x16);
     *(u16 *)(scratch + 0xA8) = *(u16 *)((u8 *)material + 0x1A);
     *(u16 *)(scratch + 0xA6) = *(u16 *)((u8 *)material + 0x18);
-    RotMatrix((u8 *)((u32)scratch | 0xA4), (u8 *)((u32)scratch | 0x74));
+    RotMatrix((u8 *)0x1F8000A4, (u8 *)0x1F800074);
     ReadRotMatrix(&view_matrix[0]);
-    CompMatrix(&view_matrix[0], (u8 *)((u32)scratch | 0x74), (u8 *)((u32)scratch | 0x54));
-    ScaleMatrix((u8 *)((u32)scratch | 0x54), (u8 *)((u32)scratch | 0x34));
-    SetTransMatrix((u8 *)((u32)scratch | 0x54));
-    SetRotMatrix((u8 *)((u32)scratch | 0x54));
+    CompMatrix(&view_matrix[0], (u8 *)0x1F800074, (u8 *)0x1F800054);
+    ScaleMatrix((u8 *)0x1F800054, (u8 *)0x1F800034);
+    SetTransMatrix((u8 *)0x1F800054);
+    SetRotMatrix((u8 *)0x1F800054);
     texture = *(u8 **)((u8 *)material + 8);
     *(u16 *)(scratch + 0x28) = *(u16 *)((u8 *)material + 0x14);
     for (;;) {

@@ -8,15 +8,14 @@
 #include "shared/object_node.h"
 
 typedef struct S_800D50FC_0 {
-    u16 unk_00;
-    u8 pad_02[0xC];
+    u8 pad_00[0xC];
+    u8 unk_0C;
+    u8 unk_0D;
     u8 unk_0E;
-    u8 unk_0F;
-    u8 unk_10;
-    u8 pad_11[0xF];
-    u16 unk_20;
-    s16 unk_22;
-} S_800D50FC_0;   /* arg0 in update_effect_motion_and_color; pointer addresses record offset 0x2 */
+    u8 pad_0F[0xF];
+    u16 unk_1E;
+    s16 unk_20;
+} S_800D50FC_0;   /* body fields read by update_effect_motion_and_color */
 
 typedef struct S_800D50FC_3 {
     u8 pad_00[0x14A0];
@@ -31,7 +30,7 @@ void update_effect_motion_and_color(void *effect, ObjectPosition *motion, Sprite
     u16 life_left;
     u32 phase;
 
-    phase = ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 & 7;
+    phase = ((S_800D50FC_0 *)effect)->unk_1E & 7;
     switch (phase) {
     case 1:
     case 2:
@@ -53,14 +52,11 @@ void update_effect_motion_and_color(void *effect, ObjectPosition *motion, Sprite
     motion->x.v = (s32) (motion->x.v + motion->velocity_x);
     motion->y.v = (s32) (motion->y.v + motion->velocity_y);
     motion->z.v = (s32) (motion->z.v + motion->velocity_z);
-    color->color.c.r = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_0E * (s16) ((S_800D50FC_0 *)((u8 *)effect
-        - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
-    color->color.c.g = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_0F * (s16) ((S_800D50FC_0 *)((u8 *)effect
-        - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
-    color->color.c.b = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_10 * (s16) ((S_800D50FC_0 *)((u8 *)effect
-        - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
-    life_left = ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 - 1;
-    ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 = life_left;
+    color->color.c.r = (s8) ((s32) (((S_800D50FC_0 *)effect)->unk_0C * (s16) ((S_800D50FC_0 *)effect)->unk_1E) / (s16) ((S_800D50FC_0 *)effect)->unk_20);
+    color->color.c.g = (s8) ((s32) (((S_800D50FC_0 *)effect)->unk_0D * (s16) ((S_800D50FC_0 *)effect)->unk_1E) / (s16) ((S_800D50FC_0 *)effect)->unk_20);
+    color->color.c.b = (s8) ((s32) (((S_800D50FC_0 *)effect)->unk_0E * (s16) ((S_800D50FC_0 *)effect)->unk_1E) / (s16) ((S_800D50FC_0 *)effect)->unk_20);
+    life_left = ((S_800D50FC_0 *)effect)->unk_1E - 1;
+    ((S_800D50FC_0 *)effect)->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         u32 page;
 

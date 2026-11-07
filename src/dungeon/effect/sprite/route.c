@@ -404,8 +404,6 @@ void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
-   /* the 0x2 bytes before entity in update_chasing_star_effect, addressed as entity[-1] */
-
    /* entity in update_chasing_star_effect */
 
    /* pos in update_chasing_star_effect */
@@ -421,8 +419,6 @@ void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_
    /* p in update_chasing_star_effect */
 
    /* env in update_chasing_star_effect */
-
-   /* the 0x18 bytes before ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30 in update_chasing_star_effect, addressed as ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30[-1] */
 
    /* ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34 in update_chasing_star_effect */
 
@@ -465,7 +461,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
         if ((check_adjacent_tile_height_clearance(pos->x.unsigned_parts.integer, pos->y.unsigned_parts.integer,
                            pos->z.w.i, entity->unk_30) << 0x10) != 0) {
             entity->unk_34->unk_86 = 1;
-            ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(entity)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
@@ -625,7 +621,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
             pos->z.v += entity->unk_54;
             if (entity->unk_04 <= 0) {
                 entity->unk_34->unk_86 = 1;
-                ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
+                NODE_HEADER(entity)->flags |= 0x8000;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
@@ -767,7 +763,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
         gfx->unk_1E -= 0x32;
         if ((s16)entity->unk_02 >= 0x15) {
             entity->unk_34->unk_86 = 1;
-            ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(entity)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

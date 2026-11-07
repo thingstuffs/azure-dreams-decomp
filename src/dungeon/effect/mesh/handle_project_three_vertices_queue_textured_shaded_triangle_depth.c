@@ -95,7 +95,6 @@ s32 handle_project_three_vertices_queue_textured_shaded_triangle_depth(s32 verte
     void *screen_xy1;
     void *screen_xy2;
     void *depth_cue_out;
-    void *scratch_base;
     u32 ordering_link;
 
     state = g_game_work.draw_buffer;
@@ -106,10 +105,9 @@ s32 handle_project_three_vertices_queue_textured_shaded_triangle_depth(s32 verte
     packet->type = 9;
     packet->unk7 = 0x36;
     texture_page = GetTPage(0, 3, 0x300, 0x100);
-    screen_xy1 = (void *)((u32)scratch | 0x74);
-    screen_xy2 = (void *)((u32)scratch | 0x78);
-    depth_cue_out = (void *)((u32)scratch | 8);
-    scratch_base = scratch;
+    screen_xy1 = (void *)0x1F800074;
+    screen_xy2 = (void *)0x1F800078;
+    depth_cue_out = (void *)0x1F800008;
     packet->random = texture_page;
     packet->unkE = 0x7DCF;
     texture_u = 0xC0;
@@ -142,9 +140,9 @@ s32 handle_project_three_vertices_queue_textured_shaded_triangle_depth(s32 verte
     scratch->z2 = (scratch->vz2 + vertex_offset[2]) >> 16;
 
     scratch->ordering_index = func_80065530(
-        (void *)((u32)scratch | 0x10), (void *)((u32)scratch | 0x18),
-        (void *)((u32)scratch | 0x20), (void *)((u32)scratch | 0x70),
-        screen_xy1, screen_xy2, depth_cue_out, (void *)((u32)scratch_base | 0xC));
+        (void *)0x1F800010, (void *)0x1F800018,
+        (void *)0x1F800020, (void *)0x1F800070,
+        screen_xy1, screen_xy2, depth_cue_out, (void *)0x1F80000C);
 
     packet->u8 = scratch->out0;
     packet->uA = scratch->out1;

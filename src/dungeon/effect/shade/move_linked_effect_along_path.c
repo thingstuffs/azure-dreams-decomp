@@ -65,7 +65,7 @@ void move_linked_effect_along_path(void *effect, ObjectPosition *transform, Spri
             ((S_80024CD4_0 *)effect)->unk_1C = rising_value;
             create_moving_fading_particle(call_transform, base_value,
                 (s16)((S_80024CD4_0 *)effect)->unk_18, (s16) rising_value,
-                effect - 0x20);
+                &NODE_HEADER(effect)->next);
         }
         ((S_80024CD4_0 *)effect)->unk_0A++;
         if (((S_80024CD4_0 *)effect)->unk_22 == 0x6F) {

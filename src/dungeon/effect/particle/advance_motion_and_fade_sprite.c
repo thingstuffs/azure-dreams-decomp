@@ -572,7 +572,7 @@ case2_spawn_loop:
             return;
         }
         g_dungeon_status.active_actor = 0;
-        ((u16 *)((u8 *)action - 2))[0] |= NODE_REMOVE;
+        NODE_HEADER(action)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     }
@@ -955,8 +955,7 @@ void fade_packed_object_color_to_zero(void *object_arg) {
         object->unk_34 = object->unk_34 - 0x303030;
         break;
     case 1:
-        (*(u16 *)((u8 *)object + -2)) =
-            (u16)(((u16 *)object)[-1] | NODE_REMOVE);
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }

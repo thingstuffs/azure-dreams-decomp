@@ -38,6 +38,7 @@ MEM = re.compile(r'^\s*([a-z0-9]+),(-?(?:0x[0-9a-f]+|\d+))\(([a-z0-9]+)\)')
 RAW_ENT = re.compile(r'^\s*\.ent\s+([A-Za-z_][A-Za-z_0-9]*)\s*$')
 RAW_END = re.compile(r'^\s*\.end\s+')
 RAW_REGISTER = re.compile(r'^\s*\.def\s+([A-Za-z_][A-Za-z_0-9]*);\s*\.val\s+(\d+);\s*\.scl\s+4;')
+RAW_STACK = re.compile(r'^\s*\.def\s+([A-Za-z_][A-Za-z_0-9]*);\s*\.val\s+(-?\d+);\s*\.scl\s+1;')
 REGISTER_NUMBERS = {2: 'v0', 3: 'v1', **{i + 4: f'a{i}' for i in range(4)},
                     **{i + 8: f't{i}' for i in range(8)},
                     **{i + 16: f's{i}' for i in range(8)}, 24: 't8', 25: 't9'}
@@ -170,6 +171,40 @@ def raw_local_registers(assembly):
     return result
 
 
+def raw_stack_locals(assembly):
+    """Read frame-relative GCC local-object locations for `$sp` frames."""
+    current = None
+    stack_frame = False
+    result = defaultdict(lambda: defaultdict(list))
+    for line in assembly.splitlines():
+        match = RAW_ENT.match(line)
+        if match:
+            current, stack_frame = match.group(1), False
+            continue
+        if RAW_END.match(line):
+            current, stack_frame = None, False
+            continue
+        if current and re.match(r'^\s*\.frame\s+\$sp,', line):
+            stack_frame = True
+        match = RAW_STACK.match(line)
+        if current and stack_frame and match:
+            result[current][match.group(1)].append(int(match.group(2)))
+    return result
+
+
+def stack_offsets_for_function(func, raw):
+    """Bind one source local object to one compiler stack slot by name."""
+    objects = defaultdict(set)
+    for site in func['sites']:
+        node = site.get('node')
+        while isinstance(node, tuple) and len(node) == 3 and node[0] == 'F':
+            node = node[1]
+        if isinstance(node, str) and node.startswith('o:'):
+            objects[node.rsplit(':', 2)[-2]].add(node)
+    return {next(iter(nodes)): locations[0] for name, nodes in objects.items()
+            if len(nodes) == len(locations := raw.get(name, [])) == 1}
+
+
 def local_registers_for_function(func, raw):
     """Require one source local and one compiler location for a local name."""
     nodes = defaultdict(set)
@@ -177,6 +212,12 @@ def local_registers_for_function(func, raw):
         node = site.get('node')
         if isinstance(node, str) and node.startswith('v:'):
             nodes[node.rsplit(':', 2)[-2]].add(node)
+        elif (isinstance(node, str) and node.startswith('o:') and
+              site.get('delta') == 0 and site.get('width') == 4 and
+              site.get('sign') == 'p'):
+            # A four-byte aggregate's pointer member at offset zero shares
+            # the raw GCC register location of the aggregate itself.
+            nodes[node.rsplit(':', 2)[-2]].add(('F', node, 0))
     result = {}
     for name, candidates in nodes.items():
         registers = raw.get(name, [])
@@ -302,8 +343,224 @@ def parameter_aliases(func):
     return {node: alias for node in writes if (alias := resolve(node, set())) is not None}
 
 
+def canonical_base(node, aliases, stack_locals=None):
+    """Express a source base in terms of an argument or a pointer field load."""
+    if isinstance(node, str):
+        match = re.fullmatch(r'p:.+:(\d+)', node)
+        if match:
+            return ('arg', int(match.group(1))), 0
+        if node.startswith('g:'):
+            return ('global', node[2:]), 0
+        if stack_locals and node in stack_locals:
+            return ('stack',), stack_locals[node]
+        if node in aliases:
+            arg, delta = aliases[node]
+            return ('arg', arg), delta
+    if isinstance(node, tuple) and len(node) == 3 and node[0] == 'F':
+        parent = canonical_base(node[1], aliases, stack_locals)
+        if parent:
+            key, delta = parent
+            return ('field', key, delta + node[2]), 0
+    return None
+
+
+def stack_object_base(node):
+    if isinstance(node, str):
+        return node.startswith('o:')
+    return isinstance(node, tuple) and len(node) == 3 and node[0] == 'F' and stack_object_base(node[1])
+
+
+def proven_register_bases(disassembly, section, func, aliases, opcodes=None, stack_locals=None,
+                          global_symbols=None):
+    """Track straight-line pointer values and exact, unique pointer field loads.
+
+    The state is discarded at control-flow edges and calls. Stack slots are
+    tracked only at constant offsets from the entry stack pointer. A pointer
+    load becomes a new base only when one source pointer access on that debug
+    line identifies its parent and offset; an opcode's position is never used
+    to choose between source accesses.
+    """
+    pointer_sources = defaultdict(list)
+    line_loads = Counter((op['line'], op['offset']) for op in (opcodes or [])
+                         if op['opcode'] == 'lw')
+    branch_targets = set()
+    global_loads = {}
+    high_relocations = {}
+    low_relocations = {}
+    global_symbols = global_symbols or {}
+    scan_section = None
+    previous_pc = None
+    sp_writes = []
+    for raw in disassembly.splitlines():
+        match = SECTION.match(raw)
+        if match:
+            scan_section = match.group(1)
+            continue
+        match = INST.match(raw)
+        if scan_section != section:
+            continue
+        if match:
+            previous_pc = int(match.group(1), 16)
+            pieces = [part.strip() for part in match.group(3).split(',')]
+            if pieces and pieces[0] == 'sp' and match.group(2) not in OPS:
+                sp_writes.append((previous_pc, match.group(2), pieces))
+        relocation = re.match(r'^\s*[0-9a-f]+:\s+R_MIPS_GPREL16\s+([A-Za-z_]\w*)', raw)
+        if relocation and previous_pc is not None:
+            global_loads[previous_pc] = relocation.group(1)
+        relocation = re.match(r'^\s*[0-9a-f]+:\s+R_MIPS_(HI16|LO16)\s+([A-Za-z_]\w*)\s*$', raw)
+        if relocation and previous_pc is not None:
+            (high_relocations if relocation.group(1) == 'HI16' else low_relocations)[previous_pc] = relocation.group(2)
+        if match and match.group(2).startswith(('b', 'j')):
+            target = re.search(r'(?:^|,)\s*([0-9a-f]+)\s*<', match.group(3))
+            if target:
+                branch_targets.add(int(target.group(1), 16))
+    negative_sp = []
+    unsafe_sp = False
+    for pc, op, pieces in sp_writes:
+        if op != 'addiu' or len(pieces) != 3 or pieces[1] != 'sp':
+            unsafe_sp = True
+            break
+        try:
+            amount = int(pieces[2], 0)
+        except ValueError:
+            unsafe_sp = True
+            break
+        if amount < 0:
+            negative_sp.append(pc)
+    if len(negative_sp) > 1 or (negative_sp and negative_sp[0] != 0):
+        unsafe_sp = True
+    for site in func['sites']:
+        if (site.get('rw') != 'r' or site.get('width') != 4 or
+                site.get('sign') != 'p' or site.get('line') is None or
+                site.get('delta') is None):
+            continue
+        base = canonical_base(site.get('node'), aliases, stack_locals)
+        if base:
+            pointer_sources[(site['line'], base[0], base[1] + site['delta'])].append(site)
+    current_section = None
+    line = None
+    registers = {f'a{i}': (('arg', i), 0) for i in range(4)}
+    if not unsafe_sp:
+        registers['sp'] = (('stack',), 0)
+    stack = {16 + 4 * i: (('arg', 4 + i), 0) for i in range(8)} if not unsafe_sp else {}
+    high_halves = {}
+    sp_delta = 0
+    result = {}
+    for raw in disassembly.splitlines():
+        match = SECTION.match(raw)
+        if match:
+            current_section, line = match.group(1), None
+            registers = {f'a{i}': (('arg', i), 0) for i in range(4)}
+            if not unsafe_sp:
+                registers['sp'] = (('stack',), 0)
+            stack = ({16 + 4 * i: (('arg', 4 + i), 0) for i in range(8)}
+                     if not unsafe_sp else {})
+            high_halves = {}
+            sp_delta = None if unsafe_sp else 0
+            continue
+        if current_section != section:
+            continue
+        match = LINE.match(raw.strip())
+        if match:
+            line = int(match.group(1))
+            continue
+        match = INST.match(raw)
+        if not match:
+            continue
+        pc, op, operand = int(match.group(1), 16), match.group(2), match.group(3).strip()
+        if pc in branch_targets:
+            registers = {'sp': (('stack',), sp_delta)} if sp_delta is not None else {}
+            stack.clear()
+            high_halves.clear()
+        args = [p.strip() for p in operand.split(',')]
+        mem = MEM.match(operand) if op in OPS else None
+        if mem:
+            reg, offset, base_reg = mem.group(1), int(mem.group(2), 0), mem.group(3)
+            provenance = registers.get(base_reg)
+            if provenance:
+                result[pc] = provenance
+            # A matching HI16/LO16 relocation identifies a direct global
+            # object access even when the assembler prints a zero high half.
+            symbol = low_relocations.get(pc)
+            if symbol and high_halves.get(base_reg) == symbol:
+                result[pc] = (('global', global_symbols.get(symbol, symbol)), 0)
+            if op in ('sw', 'sh', 'sb', 'swl', 'swr'):
+                if base_reg == 'sp' and sp_delta is not None:
+                    slot = sp_delta + offset
+                    if op == 'sw' and reg in registers:
+                        stack[slot] = registers[reg]
+                    else:
+                        stack.pop(slot, None)
+                else:
+                    # A store through an unknown alias could modify a pointer
+                    # field. Do not reuse a field-load provenance past it.
+                    registers = {r: v for r, v in registers.items() if v[0][0] != 'field'}
+                continue
+        if op.startswith(('b', 'j')):
+            registers = {'sp': (('stack',), sp_delta)} if sp_delta is not None else {}
+            stack.clear()
+            high_halves.clear()
+            continue
+        if not args:
+            continue
+        dest = args[0]
+        if not re.fullmatch(r'(?:[astv][0-9]|t[89]|sp|fp)', dest):
+            continue
+        previous_high = high_halves.get(dest)
+        high_halves.pop(dest, None)
+        if op == 'lui' and pc in high_relocations:
+            high_halves[dest] = high_relocations[pc]
+        value = None
+        if op == 'move' and len(args) == 2:
+            value = registers.get(args[1])
+        elif op in ('addu', 'or') and len(args) == 3:
+            if args[2] == 'zero':
+                value = registers.get(args[1])
+            elif args[1] == 'zero':
+                value = registers.get(args[2])
+        elif op == 'addiu' and len(args) == 3:
+            try:
+                amount = int(args[2], 0)
+            except ValueError:
+                amount = None
+            symbol = low_relocations.get(pc)
+            if symbol and high_halves.get(args[1]) == symbol:
+                value = (('global', global_symbols.get(symbol, symbol)), 0)
+            elif symbol and dest == args[1] and previous_high == symbol:
+                value = (('global', global_symbols.get(symbol, symbol)), 0)
+            elif amount is not None:
+                if dest == args[1] == 'sp':
+                    if amount > 0:
+                        sp_delta = None
+                        stack.clear()
+                    elif sp_delta is not None:
+                        sp_delta += amount
+                        value = (('stack',), sp_delta)
+                elif args[1] in registers:
+                    key, delta = registers[args[1]]
+                    value = (key, delta + amount)
+        elif op == 'lw' and mem:
+            if base_reg == 'sp' and sp_delta is not None:
+                value = stack.get(sp_delta + offset)
+            if value is None and base_reg == 'gp' and pc in global_loads:
+                value = (('field', ('global', global_loads[pc]), 0), 0)
+            if value is None and line is not None and provenance and line_loads[line, offset] == 1:
+                key, delta = provenance
+                candidates = pointer_sources.get((line, key, delta + offset), [])
+                if len(candidates) == 1:
+                    value = (('field', key, delta + offset), 0)
+        if dest == 'sp' and value is None:
+            sp_delta = None
+            stack.clear()
+        if value is None:
+            registers.pop(dest, None)
+        else:
+            registers[dest] = value
+    return result
+
+
 def join(sites, opcodes, parameter_registers=None, object_types=None, aliases=None,
-         local_registers=None):
+         local_registers=None, proven_bases=None, exact_section=True, stack_locals=None):
     """Bijective exact joins, including unique cross-line scheduler moves.
 
     The fallback omits the debug line only when the complete function has one
@@ -314,65 +571,117 @@ def join(sites, opcodes, parameter_registers=None, object_types=None, aliases=No
     object_types = object_types or {}
     aliases = aliases or {}
     local_registers = local_registers or {}
-    sources, retail = defaultdict(list), defaultdict(list)
-    source_shape, retail_shape = defaultdict(list), defaultdict(list)
-    bounds, crossline = {}, set()
-    missing = []
+    proven_bases = proven_bases or {}
+    stack_locals = stack_locals or {}
     expanded = [dict(s, rw=direction) for s in sites
                 for direction in (('r', 'w') if s['rw'] == 'rw' else (s['rw'],))]
+    by_static, by_proven = defaultdict(list), defaultdict(list)
+    for index, op in enumerate(opcodes):
+        by_static[(op['offset'], op['width'], op['rw'], op['reg'])].append(index)
+        base = proven_bases.get(op['pc'])
+        if base:
+            by_proven[(base[0], base[1] + op['offset'], op['width'], op['rw'])].append(index)
+
+    facts = []
+    source_shapes = Counter()
     for s in expanded:
-        node = s.get('node') or ''
-        param = re.fullmatch(r'p:.+:(\d+)', node) if isinstance(node, str) else None
-        identity = (int(param.group(1)), 0) if param else aliases.get(node)
-        if node in local_registers:
-            regs, delta, end, permit_crossline = [local_registers[node]], s.get('delta'), float('inf'), False
-        else:
-            regs = [reg for reg, (arg, _) in parameter_registers.items() if identity and arg == identity[0]]
-            saved = [reg for reg in regs if reg.startswith('s')]
-            if saved:
-                regs = saved
-            delta = s['delta'] + identity[1] if identity and s.get('delta') is not None else None
-            end = parameter_registers[regs[0]][1] if len(regs) == 1 else 0
-            permit_crossline = True
-        if s.get('line') is not None and s.get('delta') is not None and s.get('width') and len(regs) == 1:
-            key = (s['line'], delta, s['width'], s['rw'], regs[0])
-            sources[key].append(s)
-            source_shape[key[1:]].append(s)
-            bounds[key] = min(bounds.get(key, float('inf')), end)
-            if permit_crossline:
-                crossline.add(key)
-        else:
-            missing.append(s)
-    for op in opcodes:
-        retail[(op['line'], op['offset'], op['width'], op['rw'], op['reg'])].append(op)
-        retail_shape[(op['offset'], op['width'], op['rw'], op['reg'])].append(op)
+        node = s.get('node')
+        base = canonical_base(node, aliases, stack_locals)
+        local = local_registers.get(node)
+        static = None
+        shape = None
+        if s.get('delta') is not None and s.get('width'):
+            if local:
+                static = (s['delta'], s['width'], s['rw'], local, float('inf'))
+            elif base and base[0][0] == 'arg':
+                regs = [reg for reg, (arg, _) in parameter_registers.items() if arg == base[0][1]]
+                saved = [reg for reg in regs if reg.startswith('s')]
+                if saved:
+                    regs = saved
+                if len(regs) == 1:
+                    reg = regs[0]
+                    static = (s['delta'] + base[1], s['width'], s['rw'], reg,
+                              parameter_registers[reg][1])
+            if base:
+                shape = (base[0], base[1] + s['delta'], s['width'], s['rw'])
+                source_shapes[shape] += 1
+        facts.append((static, shape, bool(local)))
+
+    def candidate_ops(index, same_line):
+        s = expanded[index]
+        static, shape, _ = facts[index]
+        found = set()
+        if static:
+            offset, width, rw, reg, end = static
+            found.update(i for i in by_static.get((offset, width, rw, reg), [])
+                         if opcodes[i]['pc'] < end and
+                         (not same_line or opcodes[i]['line'] == s.get('line')))
+        if shape:
+            found.update(i for i in by_proven.get(shape, [])
+                         if not same_line or opcodes[i]['line'] == s.get('line'))
+        return found
+
+    candidates = [candidate_ops(i, True) if s.get('line') is not None else set()
+                  for i, s in enumerate(expanded)]
+    same_line_claimed = set().union(*candidates) if candidates else set()
+    for i, s in enumerate(expanded):
+        _, shape, local = facts[i]
+        if candidates[i] or shape is None or local or source_shapes[shape] != 1:
+            continue
+        whole = candidate_ops(i, False)
+        if len(whole) == 1 and next(iter(whole)) not in same_line_claimed:
+            candidates[i] = whole
+    claimants = defaultdict(list)
+    for i, choices in enumerate(candidates):
+        for op_index in choices:
+            claimants[op_index].append(i)
+    line_shapes = {(op['line'], op['offset'], op['width'], op['rw']) for op in opcodes}
+    retail_shapes = {(op['offset'], op['width'], op['rw']) for op in opcodes}
     emitted = []
-    for key, rows in list(sources.items()) + [(None, [s]) for s in missing]:
-        matches = [op for op in retail.get(key, []) if op['pc'] < bounds[key]] if key else []
-        status = 'mapped' if len(rows) == len(matches) == 1 else 'ambiguous' if matches else 'unmapped'
-        if key in crossline and status == 'unmapped':
-            shape = key[1:]
-            whole = [op for op in retail_shape.get(shape, [])
-                     if op['pc'] < bounds[key]]
-            if len(source_shape[shape]) == len(whole) == 1:
-                matches, status = whole, 'mapped'
-        for s in rows:
-            op = matches[0] if status == 'mapped' else None
-            object_type = object_types.get(s.get('node'), '') if isinstance(s.get('node'), str) else ''
-            base_kind = kind(s, object_type)
-            declared = s['sign']
-            agreement = bool(op and base_kind == 'named record' and s['width'] == op['width'] and
-                             (op['rw'] == 'w' or op['sign'] == '?' or declared == op['sign']))
-            emitted.append(dict(function=s['func'], file=s['file'], line=s['line'],
-                                base_type=s.get('decl') or s.get('ctype') or '', base_kind=base_kind,
-                                object_type=object_type,
-                                base_expression=s.get('base') or '', member_path=member_path(s),
-                                offset=s['delta'], declared_width=s['width'], declared_sign=declared,
-                                direction=s['rw'], opcode=op['opcode'] if op else '',
-                                retail_sign=op['sign'] if op else '', pc=op['pc'] if op else '',
-                                consumer=op.get('consumer', '') if op else '',
-                                consumer_sign=op.get('consumer_sign', '') if op else '',
-                                status=status, agreement=int(agreement)))
+    for i, s in enumerate(expanded):
+        choices = candidates[i]
+        mapped = len(choices) == 1 and len(claimants[next(iter(choices))]) == 1
+        op = opcodes[next(iter(choices))] if mapped else None
+        status = 'mapped' if mapped else 'ambiguous' if choices else 'unmapped'
+        if mapped:
+            reason = ''
+        elif not exact_section:
+            reason = 'no_exact_section'
+        elif len(choices) > 1:
+            reason = 'no_unique_retail_opcode'
+        elif choices:
+            reason = 'no_unique_source_access'
+        elif s.get('line') is None:
+            reason = 'no_debug_line'
+        elif s.get('delta') is None or not s.get('width'):
+            reason = 'unknown_source_offset_or_width'
+        elif stack_object_base(s.get('node')):
+            reason = 'stack_local'
+        elif s['spell'] in ('macro', 'F_macro'):
+            reason = 'macro_expansion'
+        elif facts[i][0] is None and facts[i][1] is None:
+            reason = 'base_not_proven'
+        elif (s['line'], s['delta'], s['width'], s['rw']) in line_shapes:
+            reason = 'base_register_not_proven'
+        elif (s['delta'], s['width'], s['rw']) in retail_shapes:
+            reason = 'debug_line_or_rebase'
+        else:
+            reason = 'no_matching_retail_access'
+        object_type = object_types.get(s.get('node'), '') if isinstance(s.get('node'), str) else ''
+        base_kind = kind(s, object_type)
+        declared = s['sign']
+        agreement = bool(op and base_kind == 'named record' and s['width'] == op['width'] and
+                         (op['rw'] == 'w' or op['sign'] == '?' or declared == op['sign']))
+        emitted.append(dict(function=s['func'], file=s['file'], line=s['line'],
+                            base_type=s.get('decl') or s.get('ctype') or '', base_kind=base_kind,
+                            object_type=object_type,
+                            base_expression=s.get('base') or '', member_path=member_path(s),
+                            offset=s['delta'], declared_width=s['width'], declared_sign=declared,
+                            direction=s['rw'], opcode=op['opcode'] if op else '',
+                            retail_sign=op['sign'] if op else '', pc=op['pc'] if op else '',
+                            consumer=op.get('consumer', '') if op else '',
+                            consumer_sign=op.get('consumer_sign', '') if op else '',
+                            status=status, reason=reason, agreement=int(agreement)))
     return emitted
 
 
@@ -410,7 +719,8 @@ def unresolved_source_rows(root, source):
     if facts['error']:
         return [], f'{source}: clang: {facts["error"]}'
     return [row for func in facts['functions']
-            for row in join(func['sites'], [], object_types=object_types_for_function(func))], None
+            for row in join(func['sites'], [], object_types=object_types_for_function(func),
+                            exact_section=False)], None
 
 
 @lru_cache(maxsize=4)
@@ -423,6 +733,15 @@ def symbol_aliases(root):
         if len(parts) >= 3:
             aliases[parts[2]].add(parts[1])
     return {name: next(iter(old)) for name, old in aliases.items() if len(old) == 1}
+
+
+@lru_cache(maxsize=4)
+def relocation_aliases(root):
+    """Return only old symbols with one declared source spelling."""
+    names = defaultdict(set)
+    for source, old in symbol_aliases(root).items():
+        names[old].add(source)
+    return {old: next(iter(source)) for old, source in names.items() if len(source) == 1}
 
 
 def measure(root, source, db, out, selected=None):
@@ -459,7 +778,7 @@ def measure(root, source, db, out, selected=None):
         debug = tmp / 'debug.o'
         raw_path = tmp / 'registers.s'
         compile_debug_with_raw(tool_root, cwd, input_path, debug, raw_path, version, flags, maspsx)
-        dis = run(['mipsel-linux-gnu-objdump', '-d', '-l', str(debug)], root)
+        dis = run(['mipsel-linux-gnu-objdump', '-d', '-r', '-l', str(debug)], root)
         debug_ops = instructions(dis)
         registers = stable_parameter_registers(dis)
         exact = exact_debug_sections(built, debug, root, tmp)
@@ -490,17 +809,23 @@ def measure(root, source, db, out, selected=None):
                     assign[f['func']] = name
         rows = []
         raw_registers = (raw_local_registers(raw_path.read_text())
-                         if any(isinstance(site.get('node'), str) and site['node'].startswith('v:')
+                         if any(isinstance(site.get('node'), str) and site['node'].startswith(('v:', 'o:'))
                                 for f in funcs for site in f['sites']) else {})
+        raw_stacks = raw_stack_locals(raw_path.read_text())
         for f in funcs:
             s = assign.get(f['func'])
             object_types = object_types_for_function(f)
             if s:
+                aliases = parameter_aliases(f)
+                stacks = stack_offsets_for_function(f, raw_stacks.get(f['func'], {}))
                 rows.extend(join(f['sites'], debug_ops.get(s, []), registers.get(s), object_types,
-                                 parameter_aliases(f),
-                                 local_registers_for_function(f, raw_registers.get(f['func'], {}))))
+                                 aliases,
+                                 local_registers_for_function(f, raw_registers.get(f['func'], {})),
+                                 proven_register_bases(dis, s, f, aliases, debug_ops.get(s, []), stacks,
+                                                       relocation_aliases(str(root))),
+                                 stack_locals=stacks))
             else:
-                rows.extend(join(f['sites'], [], object_types=object_types))
+                rows.extend(join(f['sites'], [], object_types=object_types, exact_section=False))
         missing = len(funcs) - len(assign)
         return rows, f'{source}: {missing} functions have no exact section mapping' if missing else None
 
@@ -514,8 +839,37 @@ def summarize(rows):
                 agreement_pct=100 * agrees / len(mapped) if mapped else None,
                 by_kind=dict(sorted(by_kind.items())),
                 source_by_kind=dict(sorted(source_by_kind.items())),
+                unjoined_by_reason=dict(sorted(Counter(r.get('reason') or 'unclassified_previous'
+                                                        for r in rows if r['status'] != 'mapped').items())),
                 coverage_by_kind={kind: 100 * by_kind[kind] / count
                                   for kind, count in sorted(source_by_kind.items())})
+
+
+def width_consistency(rows, db):
+    """Check direct named fields against independent record layout sizes."""
+    declared = defaultdict(set)
+    for record, name, offset, size in db.execute(
+            'SELECT record,name,off,size FROM record_member WHERE depth=0'):
+        if size is not None:
+            declared[record, name, offset].add(size)
+    checked, mismatches = 0, []
+    for row in rows:
+        if row['status'] != 'mapped' or row['base_kind'] != 'named record':
+            continue
+        path = row['member_path']
+        if not path or '.' in path or '[' in path or not isinstance(row.get('offset'), int):
+            continue
+        record = row['base_type']
+        offset = row['offset'] + 32 if record == 'ObjectNodeHeader' and row['offset'] < 0 else row['offset']
+        sizes = declared.get((record, path, offset), set())
+        if len(sizes) != 1:
+            continue
+        checked += 1
+        opcode_width = OPS[row['opcode']][0]
+        if opcode_width != next(iter(sizes)):
+            mismatches.append((row['file'], row['line'], row['function'], record,
+                               path, offset, next(iter(sizes)), opcode_width, row['opcode']))
+    return checked, mismatches
 
 
 SHARED = ('ActorRecord', 'TownObjectRecord', 'ObjectNodeHeader')
@@ -714,7 +1068,7 @@ def main(argv=None):
                                      (f' [recipe {output}]' if len(placements) > 1 else ''))
     cols = ['function', 'physical_tu', 'recipe_output', 'file', 'line', 'base_type', 'base_kind', 'object_type', 'base_expression',
             'member_path', 'offset', 'declared_width', 'declared_sign', 'direction',
-            'opcode', 'retail_sign', 'pc', 'consumer', 'consumer_sign', 'status', 'agreement']
+            'opcode', 'retail_sign', 'pc', 'consumer', 'consumer_sign', 'status', 'reason', 'agreement']
     with (out / 'access_sites.tsv').open('w', newline='') as stream:
         writer = csv.DictWriter(stream, cols, delimiter='\t', lineterminator='\n')
         writer.writeheader()
@@ -736,6 +1090,13 @@ def main(argv=None):
                          'function', 'opcode', 'declared_sign'])
         writer.writerows(disagreement_rows(rows))
     result = dict(summarize(rows), holds=holds)
+    checked, mismatches = width_consistency(rows, db)
+    result['width_consistency'] = {'checked': checked, 'mismatches': len(mismatches)}
+    with (out / 'width_mismatches.tsv').open('w', newline='') as stream:
+        writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
+        writer.writerow(['file', 'line', 'function', 'record', 'field', 'offset',
+                         'declared_size', 'opcode_width', 'opcode'])
+        writer.writerows(mismatches)
     (out / 'access_summary.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result))
     return int(bool(holds))
