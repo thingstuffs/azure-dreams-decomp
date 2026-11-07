@@ -12,6 +12,5 @@ extern s32 spu_address_unit_shift;
 
 u32 _spu_note2pitch(u16 center_note, u16 center_fine, u16 note, u16 fine);
 u32 _spu_pitch2note(u16 center_note, u16 center_fine, u16 pitch);
-void apply_spu_voice_attributes(SpuVoiceAttr_ *attr);
 
 #endif

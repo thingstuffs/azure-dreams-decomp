@@ -120,22 +120,43 @@ for the next landing. A full census takes about four minutes at four jobs.
   entry must name an existing line that contains CAST (whitespace ignored). CAST is
   the first cast spelling after the location: `(s16)`, `(u16 *)`, `(S_x *)` or
   `*(u8 *)&`. `,n` with n greater than the line is a second line, which must hold
-  CAST too; a smaller n is a count and is not checked. `{site, cast}` objects are
+  CAST too; a smaller n is a span of n lines from the line. `{site, cast}` objects are
   checked the same way. Entries without `path:line` (`path (former member sites)`,
   `path (u16) (cast gone)`) are notes; `path:line` without a cast only needs the
-  line. `--fail-new` fails on stale entries that are new or held on BASE; `--fail-all`
-  fails on every stale entry; with neither, sites are reported only.
+  line.
+- **field rule**, on every entry that holds its cast: the cited span (the line or
+  lines, the `,n` lines, plus the next line after a pointer cast or a cast that ends
+  its line) must reference the row's field, `->field` or `.field` for the last
+  component of the row's path. Accepted classes: `field`; `alias` (a named member of
+  the row such as GridPoint `x`/`y`, or a field in the same declarator list as the
+  row's, `u16 angle_x, angle_y, angle_z;`); `named` (the entry's own text names the
+  referenced member: `(u16) value cast of y`, `(s16)effect->ticks_left`, a dict
+  entry's `to`); `renamed` (the path is `unk_XX`/`field_XX` and the cast applies to a
+  member that a record of the cited file, per clang record layouts, places at offset
+  XX); `typedef` (a typedef or variable row, path == owner, whose span names the
+  owner or a member declared with that type). Reported only: `renamed?` (a
+  differently named member whose offset could not be checked), `typedef?`, `nofield`
+  (the cast applies to a local, an array element or a call). Failing: `wrong`, a cast
+  of another member stands on the line, the row's field and its aliases are nowhere
+  in the span, and no rename is possible (every cast is on an `unk_XX` member, the
+  owner's record in the row's file still declares the field, or the layouts place
+  the member elsewhere). `--no-layouts` skips clang; renames are then `renamed?`.
+- `--fail-new` fails on entries stale or `wrong` on HEAD that were neither on BASE
+  (same entry, BASE text, HEAD's record layouts); `--fail-all` fails on every stale
+  or `wrong` entry; with neither, sites are reported only. `--list` also prints the
+  report-only classes.
 - **weak evidence** (report only): retired rows with load data, by how many mapped
   loads (lb, lbu, lh, lhu, lw; stores never vote) they rest on: fewer than 5, and
   exactly 1, for the whole ledger and for rows newly retired since BASE.
 
-`--rederive` proposes current lines for stale entries: it follows each file's
-history from the newest commit where the entry held, through the diff to the current
-text, onto the same cast on the same field, or else takes the nearest line where
-that cast applies to the row's field. When the cast no longer exists (for example a
-retype removed it), the line number is dropped and the entry ends `(cast gone)`.
-Each proposal is labelled (`history`, `history-renamed` for a renamed member,
-`field`, `gone`) for review; `--write` applies them. Only `retired_to_cast` changes.
+`--rederive` proposes current lines for stale and `wrong` entries: it follows each
+file's history from the newest commit where the entry held (cast and field), through
+the diff to the current text, or else takes the nearest line holding that cast; a
+line that fails the field rule is never chosen. When no such line is left (for
+example a retype removed the cast), the line number is dropped and the entry ends
+`(cast gone)`. Each proposal is labelled (`history`, `history-renamed` when the line
+passes only through a proven rename, `history+field`, `field`, `gone`) for review;
+`--write` applies them. Only `retired_to_cast` changes.
 
 ```sh
 python3 tools/lint/ledger_integrity.py BASE --fail-new

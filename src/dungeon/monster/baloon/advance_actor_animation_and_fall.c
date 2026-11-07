@@ -53,23 +53,23 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
         select_sprite_entry(sprite,
             D_800E2380[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase++;
         return;
 
     case 2:
         {
             s32 duration = 10;
-            u16 timer = action->action_timer.u + 1;
+            u16 timer = action->action_timer + 1;
 
-            action->action_timer.u = timer;
+            action->action_timer = timer;
             if ((s16)timer == duration || (sprite->flags & 0x8000)) {
                 resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-                action->action_timer.u = duration;
+                action->action_timer = duration;
                 action->action_phase++;
                 sprite->flags |= 0x0800;
             }
-            if (action->action_timer.s == 9) {
+            if ((s16)(action->action_timer) == 9) {
                 play_sound_if_enabled(0x809);
                 return;
             }
@@ -77,10 +77,10 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
         }
 
     case 3:
-        if (action->action_timer.s > 0) {
-            u16 timer = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            u16 timer = action->action_timer - 1;
 
-            action->action_timer.u = timer;
+            action->action_timer = timer;
             if ((timer << 16) != 0) {
                 return;
             }

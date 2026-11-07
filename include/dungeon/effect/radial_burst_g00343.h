@@ -33,7 +33,6 @@ extern s32 rand(void);
 /* param_width floor: keep this local s16 declaration; the owner prototype changes this call's argument setup. */
 extern void spawn_opposite_offset_effect(DungeonEffect *, s16);
 /* sub in spawn_randomized_radial_burst */
-extern void register_node(void *, void *);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern s32 directional_sprite_entries;

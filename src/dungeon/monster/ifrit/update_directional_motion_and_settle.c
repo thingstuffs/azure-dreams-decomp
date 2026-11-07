@@ -37,7 +37,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
             return;
         }
         if (sprite->flags & 0x8000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase = 2;
             return;
         }
@@ -46,7 +46,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
         } else {
             timer = -1;
         }
-        body->action_timer.s = timer;
+        body->action_timer = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -56,12 +56,12 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
             dir_step_x[direction] << 14;
         motion->velocity_y -=
             dir_step_y[direction] << 14;
-        if (body->action_timer.s > 0) {
-            body->action_timer.s = body->action_timer.u - 1;
+        if ((s16)(body->action_timer) > 0) {
+            body->action_timer = body->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
         }
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             return;
         }
         if (source->hp == 0) {
@@ -71,13 +71,13 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
             begin_actor_display_action(body, motion, sprite, &D_80174838);
             return;
         } else {
-            body->action_timer.s = 8;
+            body->action_timer = 8;
             body->action_phase++;
         }
         return;
 
     case 2:
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
@@ -91,8 +91,8 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
                 motion->velocity_y = ((target_y - current_y) << 15) >> 1;
             }
         }
-        timer = body->action_timer.u - 1;
-        body->action_timer.s = timer;
+        timer = body->action_timer - 1;
+        body->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

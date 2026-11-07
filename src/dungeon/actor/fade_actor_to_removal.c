@@ -43,7 +43,7 @@ s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFram
         entity->flags1C = (s32) (entity->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
         visual->color.word = 0x808080;
-        state->action_timer.s = 0x10;
+        state->action_timer = 0x10;
         state->action_phase = (u8) (state->action_phase + 1);
     case 1:
         break;
@@ -51,15 +51,15 @@ s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFram
         return 0;
     }
     red = visual->color.c.r;
-    fade_frames = state->action_timer.s;
+    fade_frames = (state->action_timer);
     visual->color.c.r = (u8) (red + ((s32) (0x20 - red) / fade_frames));
     green = visual->color.c.g;
     blue = visual->color.c.b;
-    fade_frames = state->action_timer.s;
+    fade_frames = (state->action_timer);
     visual->color.c.g = (u8) (green + ((s32) (0x20 - green) / fade_frames));
-    visual->color.c.b = (u8) (blue + ((s32) (0x20 - blue) / (s16) state->action_timer.s));
-    frames_left = (u16) state->action_timer.s - 1;
-    state->action_timer.s = frames_left;
+    visual->color.c.b = (u8) (blue + ((s32) (0x20 - blue) / (s16) state->action_timer));
+    frames_left = (u16) state->action_timer - 1;
+    state->action_timer = frames_left;
     if (!(((frames_left << 0x10) > 0) && ((visual->flags & 0x8000) == 0))) {
         entity_ref = ((s32)g_dungeon_status.pending_display_owner);
         if (entity_ref == NODE_HEADER(entity)) {

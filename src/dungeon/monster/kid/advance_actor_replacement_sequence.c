@@ -149,15 +149,15 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         (*(s8 *)&kid_effect_load_done) = 0;
         Control_CD(0xFF, set_byte_one, &kid_effect_load_done);
         select_nearby_target_and_initialize_slot((s32)(((u8 *)actor - 0x20)), position, 8, 0x300);
-        state->action_timer.u = 0x10U;
+        state->action_timer = 0x10U;
         state->action_phase = (u8) (state->action_phase + 1);
     case 3:
-        previous_ticks = state->action_timer.u;
+        previous_ticks = state->action_timer;
         fade_ticks = previous_ticks - 1;
-        state->action_timer.u = fade_ticks;
+        state->action_timer = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
             effect_ready = ((S_80174B20_2 *)(&kid_effect_load_done))->unk_00;
-            state->action_timer.u = previous_ticks;
+            state->action_timer = previous_ticks;
             if (effect_ready == 0) {
                 return;
             }
@@ -168,11 +168,11 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         color_index = lookup_masked_byte_table(actor);
         target_color = actor_effect_color_targets[color_index];
         scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->unk_00
-            - scene_color->view.tint.parts.tint_r) / (s16) state->action_timer.u));
+            - scene_color->view.tint.parts.tint_r) / (s16) state->action_timer));
         scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->unk_01
-            - scene_color->view.tint.parts.tint_g) / (s16) state->action_timer.u));
+            - scene_color->view.tint.parts.tint_g) / (s16) state->action_timer));
         scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->unk_02
-            - scene_color->view.tint.parts.tint_b) / (s16) state->action_timer.u));
+            - scene_color->view.tint.parts.tint_b) / (s16) state->action_timer));
         return;
     case 4:
         effect = allocate_flagged_object_node(0x12);
@@ -202,7 +202,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         select_record_entry_and_value(sprite, &dungeon_resource_buffer[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
         entity->flags = (u16) (entity->flags | 0x80);
         ray_index = 1;
-        state->action_timer.u = 0U;
+        state->action_timer = 0U;
         state->action_phase = (u8) (state->action_phase + 1);
         do {
             create_randomly_rotated_offset_effect(state, position, entity, (s16) (ray_index << 0xA));
@@ -214,7 +214,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         sprite = state->unk_AC.address;
         sprite = sprite->unk_0C.u;
         if (sprite->unk_14 & 0xE000) {
-            state->action_timer.u = 0x10U;
+            state->action_timer = 0x10U;
             state->action_phase = (u8) (state->action_phase + 1);
             decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
@@ -229,7 +229,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         if (create_status_linked_render_effect(position, D_80175220, D_80175218, &staged_spawn_count) == 0) {
             return;
         }
-        state->action_timer.u = 0x10U;
+        state->action_timer = 0x10U;
         state->action_phase = (u8) (state->action_phase + 1);
         decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
@@ -243,7 +243,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         if (new_actor == NULL) {
             return;
         }
-        state->action_timer.u = 0x10U;
+        state->action_timer = 0x10U;
         state->action_phase = (u8) (state->action_phase + 1);
         ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((u16)actor->facing);
         replacement = actor->target;
@@ -252,8 +252,8 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
             + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
     case 8:
-        finish_ticks = state->action_timer.u - 1;
-        state->action_timer.u = finish_ticks;
+        finish_ticks = state->action_timer - 1;
+        state->action_timer = finish_ticks;
         if ((finish_ticks << 0x10) > 0) {
             return;
         }

@@ -682,17 +682,14 @@ s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 s32 select_sprite_entry();
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
-void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 void advance_sprite_animation_and_textures(void *entity);
 s32 rsin(s32);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
@@ -700,7 +697,6 @@ s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_rec
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 check_directional_move_and_terrain();
 struct Ent *prepare_directional_attack();
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"
 struct Entry;
@@ -711,7 +707,6 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 s32 get_cd_command_queue_depth(void);
 void unlink_entity_node();
-void * detach_record_and_update_slot_state(void *record);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);
@@ -747,7 +742,6 @@ s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *create_status_linked_render_effect();
-s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 child_texture_entries[];
 extern u8 flame_direction_frames[];
 extern u8 flame_alt_direction_frames[];

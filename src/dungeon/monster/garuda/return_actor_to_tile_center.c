@@ -33,7 +33,7 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
             return;
         }
         if (entity->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -42,7 +42,7 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
         } else {
             frames_left = -1;
         }
-        action->action_timer.s = frames_left;
+        action->action_timer = frames_left;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
 
@@ -51,12 +51,12 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
             ((s16 *)((s8 *)dir_step_x))[((u16)((s16)actor->movement_facing) >> 9) & 7] << 10;
         motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[((u16)((s16)actor->movement_facing) >> 9) & 7] << 10;
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (entity->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -66,13 +66,13 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
             begin_actor_display_action(action, motion, entity, &D_801748C0);
             return;
         } else {
-            action->action_timer.s = 8;
+            action->action_timer = 8;
             action->action_phase++;
         }
         return;
 
     case 2:
-        frames_left = action->action_timer.s;
+        frames_left = (action->action_timer);
         if (frames_left != 0) {
             {
                 s32 target_x = entity->tile_x << 6;
@@ -87,11 +87,11 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
 
                 motion->velocity_y =
                     ((target_y - current_y) << 15) /
-                    action->action_timer.s;
+                    (s16)(action->action_timer);
             }
         }
-        frames_left = action->action_timer.u - 1;
-        action->action_timer.s = frames_left;
+        frames_left = action->action_timer - 1;
+        action->action_timer = frames_left;
         if ((s32)(frames_left << 16) > 0) {
             return;
         }

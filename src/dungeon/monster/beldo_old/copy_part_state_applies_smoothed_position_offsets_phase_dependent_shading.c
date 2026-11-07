@@ -2,6 +2,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/stale_bank_imports.h"
 #include "dungeon/data.h"
+#include "dungeon/monster/beldo_old.h"
 
 typedef struct S_8127B000_0_pre {
     u16 unk_00;
@@ -64,8 +65,6 @@ typedef struct S_8127B000_6 {
     s32 unk_08;
 } S_8127B000_6;   /* callee_part in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
-void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(void *root_arg, void *output_transform, void *target_part)
-;
 /* Copies part state and applies smoothed position offsets and phase-dependent shading. */
 void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(void *root_arg, void *output_transform, void *target_part)
 {

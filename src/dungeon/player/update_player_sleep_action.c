@@ -48,9 +48,9 @@ void update_player_sleep_action(ActorRecord *controller, void *unused, SpriteAni
         break;
 
     case 1:
-        if (!(controller->action_timer.u & 0x1F)) {
+        if (!(controller->action_timer & 0x1F)) {
             event_code = 0x50F;
-            if (controller->action_timer.u & 0x20) {
+            if (controller->action_timer & 0x20) {
                 event_code = 0x50E;
             }
             play_sound_if_enabled(event_code);
@@ -86,5 +86,5 @@ void update_player_sleep_action(ActorRecord *controller, void *unused, SpriteAni
         break;
     }
 
-    controller->action_timer.u += 1;
+    controller->action_timer += 1;
 }

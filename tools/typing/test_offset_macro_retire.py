@@ -61,7 +61,7 @@ class Planner(unittest.TestCase):
         return [(u['start'], u['end']) for u in M.file_uses(TEXT, access)]
 
     def test_spelling(self):
-        self.assertEqual(M.member_spelling('body', 'action_phase.u'), 'body->action_phase.u')
+        self.assertEqual(M.member_spelling('body', 'action_phase'), 'body->action_phase')
         self.assertEqual(M.member_spelling('&work', 'depth'), 'work.depth')
         self.assertEqual(M.member_spelling('a + 1', 'x'), '(a + 1)->x')
         self.assertEqual(M.member_spelling('(o->target)', 'x'), 'o->target->x')
@@ -70,14 +70,14 @@ class Planner(unittest.TestCase):
 
     def test_rewrite_and_definition_removal(self):
         s = self.spans()
-        rows = [row(s[0], 'U8', 'p_o', 'action_phase.u', 'body'),
+        rows = [row(s[0], 'U8', 'p_o', 'action_phase', 'body'),
                 row(s[1], 'S16', 'p_o', 'x', 'raw', cls='base_untyped'),
                 row(s[2], 'U8', 'p_o', 'tile_x', '((u8 *)body)', leaf='body'),
                 row(s[3], 'F', 'p_t_o', 'depth', '&work'),
                 row(s[4], 'F', 'p_t_o', 'facing', 'body')]
         new, n, removed, skipped = M.plan_file(TEXT, rows)
         self.assertEqual((n, removed, skipped), (4, 2, []))
-        self.assertIn('    body->action_phase.u = 1;\n', new)
+        self.assertIn('    body->action_phase = 1;\n', new)
         self.assertIn('    S16(raw, 2) = body->tile_x;\n', new)
         self.assertIn('    work.depth = body->facing;\n', new)
         self.assertNotIn('#define U8', new)

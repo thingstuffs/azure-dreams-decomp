@@ -86,7 +86,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
                 0);
             part->frame_ticks = 1;
             obj->unk_A0.parts.high = 0;
-            obj->unk_9E.s = 0;
+            obj->unk_9E = 0;
         }
 
         state->flags1C |= 0x40000;
@@ -106,7 +106,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
             previous_amount = (u16)obj->unk_90.parts.high.s;
             pending_amount = obj->unk_A0.parts.high;
             obj->unk_A0.parts.high = 0;
-            obj->unk_9E.s = 0;
+            obj->unk_9E = 0;
             obj->unk_90.parts.high.s = previous_amount - pending_amount;
             func_801736B8(obj, motion, part, state);
             return;

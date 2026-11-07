@@ -102,7 +102,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.halves.high.s = 0;
-                    actor->unk_9E.s = 0;
+                    actor->unk_9E = 0;
                 }
             } else {
                 anim_table = D_8016FC30;
@@ -113,7 +113,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.halves.high.s = 0;
-                    actor->unk_9E.s = 0;
+                    actor->unk_9E = 0;
                 }
             }
         }
@@ -133,7 +133,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
             base_height = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
             actor->unk_A0.halves.high.s = 0;
-            actor->unk_9E.s = 0;
+            actor->unk_9E = 0;
             actor->unk_90.parts.high.s = base_height;
             func_8016F078(actor, context, sprite, entity);
             return;

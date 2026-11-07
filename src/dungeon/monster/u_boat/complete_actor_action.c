@@ -21,7 +21,7 @@ void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteF
         actor->unk_8C.run = 0;
         actor->action_id = 0x17;
         actor->action_phase = 0;
-        actor->action_timer.s = 0;
+        actor->action_timer = 0;
         actor->unk_B0.bytes[3] = 0;
         actor->unk_B0.bytes[1] = 0;
         actor->unk_B0.bytes[2] = 0;

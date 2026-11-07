@@ -52,38 +52,38 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    action->action_timer.u = 0U;
+    action->action_timer = 0U;
     action->action_phase = (u8) (action->action_phase + 1);
     return;
 
     case 1:
-    wait_tick = action->action_timer.u + 1;
-    action->action_timer.u = wait_tick;
+    wait_tick = action->action_timer + 1;
+    action->action_timer = wait_tick;
     if (((s16) wait_tick != 4) && !(sprite->flags & 0x8000)) {
         return;
     }
     (sprite->frameTable) = &noise_frame_set_1;
     select_sprite_entry(sprite, noise_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
 
-    action->action_timer.u = 0U;
+    action->action_timer = 0U;
     action->action_phase = (u8) (action->action_phase + 1);
     return;
 
     case 2:
-    effect_tick = action->action_timer.u + 1;
-    action->action_timer.u = effect_tick;
+    effect_tick = action->action_timer + 1;
+    action->action_timer = effect_tick;
     if (((s16) effect_tick == 0x11) || (sprite->flags & 0x8000)) {
-        action->action_timer.u = 0U;
+        action->action_timer = 0U;
         action->action_phase = (u8) (action->action_phase + 1);
     }
-    if (((s16) action->action_timer.u == 0xB) || (sprite->flags & 0x8000)) {
+    if (((s16) action->action_timer == 0xB) || (sprite->flags & 0x8000)) {
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
     }
     if (sprite->flags & 0xE000) {
         (sprite->frameTable) = &D_80174E90;
         select_sprite_entry(sprite, D_80174E90[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     }
-    spawn_tick = action->action_timer.u;
+    spawn_tick = action->action_timer;
     if ((u32) (spawn_tick - 9) < 5U) {
         if ((s16) spawn_tick == 9) {
             play_sound_if_enabled(0x810);
@@ -125,7 +125,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                     effect_motion->z.w.i = (u16) (((u16)(effect_motion->z.w.i))
                         + spawn_offset[2]);
                 }
-                effect_motion->velocity_z = (s32) (((0xD - (s16) action->action_timer.u)
+                effect_motion->velocity_z = (s32) (((0xD - (s16) action->action_timer)
                     << 0x11) + 0xFFE80000);
                 effect_data->unk_B4 = 0xC000;
                 effect_motion->velocity_x =

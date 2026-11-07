@@ -18,7 +18,7 @@ void update_actor_counter_and_status(ActorRecord *body, ObjectPosition *motion, 
             body->unk_8C.word = 0;
             body->action_id = 0x18;
             body->action_phase = 0;
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;

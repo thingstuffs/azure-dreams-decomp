@@ -504,14 +504,14 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     motion->unk_8C.word = 0;
     state->flags1C = (u32)((u32)(state->flags1C) | (0x40000000));
     if (g_dungeon_status.flags & 0x80) {
-        motion->action_timer.s = 0;
+        motion->action_timer = 0;
         return;
     }
-    motion->action_timer.s = 8;
+    motion->action_timer = 8;
     {
         s32 step_count = state->movement_queue_state;
         if (step_count > 0) {
-            motion->action_timer.s = 8 / step_count;
+            motion->action_timer = 8 / step_count;
         }
     }
     return;
@@ -919,7 +919,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
         select_sprite_entry(map_entry, D_801752CC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->action_state_flags = (u16) (action->action_state_flags | 8);
         actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
-        action->unk_9E.s = 5;
+        action->unk_9E = 5;
         action->unk_A0.value = 0;
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_A4.halves.high.s = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
@@ -927,7 +927,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
         action->unk_A8.u = (u16) ((u16)motion->z.w.i);
                         /* fall through */
     case 1:
-        move_frames = action->unk_9E.s;
+        move_frames = (s16)(action->unk_9E);
         action->unk_90.value = (s32) (action->unk_90.value - action->unk_A0.value);
         if (move_frames != 0) {
             move_value = map_entry->tile_x;
@@ -941,16 +941,16 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
             move_operand -= 0x20;
             move_value <<= 6;
             move_value -= move_operand;
-            move_operand = action->unk_9E.s;
+            move_operand = (s16)(action->unk_9E);
             move_value = (move_value << 0x10) / move_operand;
             motion->velocity_y = move_value;
             if (action->unk_A4.halves.low.s == 3) {
-                action->unk_A0.value = (s32) ((0 - rsin(action->unk_9E.s * 0x155))
+                action->unk_A0.value = (s32) ((0 - rsin((s16)(action->unk_9E) * 0x155))
                     << 9);
                 action->unk_90.value += action->unk_A0.value;
             } else {
                 motion->velocity_z = 0;
-                height_frame = action->unk_9E.s;
+                height_frame = (action->unk_9E);
                 switch (height_frame) {
                 case 6:
                     flags_mask = 0xF7FF0000;
@@ -982,8 +982,8 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
                 }
             }
         }
-        next_move_frame = (u16) action->unk_9E.s - 1;
-        action->unk_9E.s = next_move_frame;
+        next_move_frame = (u16) action->unk_9E - 1;
+        action->unk_9E = next_move_frame;
         if (next_move_frame < 0) {
             action->unk_90.value = 0;
             action->action_state_flags = (u16) (action->action_state_flags & 0xFFF7);
@@ -1008,8 +1008,8 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
     default:
         break;
     }
-    timer_or_flags = action->action_timer.u - 1;
-    action->action_timer.u = timer_or_flags;
+    timer_or_flags = action->action_timer - 1;
+    action->action_timer = timer_or_flags;
     if ((timer_or_flags << 0x10) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -1078,23 +1078,23 @@ void complete_timed_actor_animation(ActorRecord *action, ObjectPosition *motion,
             D_801752DC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         next_state = action->action_phase;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         next_state++;
         action->action_phase = next_state;
         return;
     case 2:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if (action->action_timer.s == 6) {
+        if ((s16)(action->action_timer) == 6) {
             play_sound_if_enabled(0x808);
         }
-        if (action->action_timer.s == 8) {
+        if ((s16)(action->action_timer) == 8) {
             sprite->flags |= 0x0800;
         }
-        if (action->action_timer.s == 15 ||
+        if ((s16)(action->action_timer) == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             next_state = action->action_phase;
@@ -1258,7 +1258,7 @@ void advance_actor_item_action_effect(ActorRecord *work, ObjectPosition *positio
         if ((entity->unk_04 == 5 &&
              (entity->flags & 0x1000)) ||
             (entity->flags & 0xE000)) {
-            work->action_timer.u = 0x20;
+            work->action_timer = 0x20;
             work->action_state_flags |= 0x80;
             work->action_phase++;
         }
@@ -1267,7 +1267,7 @@ void advance_actor_item_action_effect(ActorRecord *work, ObjectPosition *positio
     case 3:
         part = (CB_80172BCC_S_func_80C953CC_9 *)((u8 *)((s32 *)&g_dungeon_status.active_actor) - 0x0C);
         if (part->unk_0C == 0) {
-            work->action_timer.u = 0;
+            work->action_timer = 0;
         }
         if (!(entity->flags & 0xE000)) {
             break;
@@ -1323,14 +1323,14 @@ void update_block_value_reaction(ActorRecord *state, ObjectPosition *motion, Spr
         state->action_phase = state->action_phase + 1;
         if (entity->hp != 0) {
             if (action->flags & 0x8000) {
-                state->action_timer.s = 0;
+                state->action_timer = 0;
                 state->action_phase = 2;
                 return;
             }
             wait_ticks = -1U;
             if (entity->flags1C & 0x228)
                 wait_ticks = 8;
-            state->action_timer.s = wait_ticks;
+            state->action_timer = wait_ticks;
         } else {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1339,14 +1339,14 @@ void update_block_value_reaction(ActorRecord *state, ObjectPosition *motion, Spr
             return;
         }
     case 1:
-        if (state->action_timer.s > 0) {
-            ticks_left = state->action_timer.u - 1;
-            state->action_timer.s = ticks_left;
+        if ((s16)(state->action_timer) > 0) {
+            ticks_left = state->action_timer - 1;
+            state->action_timer = ticks_left;
         } else {
             if (action->flags & 0x6000)
-                state->action_timer.s = 0;
+                state->action_timer = 0;
         }
-        if (state->action_timer.s != 0)
+        if ((s16)(state->action_timer) != 0)
             return;
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -1356,12 +1356,12 @@ void update_block_value_reaction(ActorRecord *state, ObjectPosition *motion, Spr
             return;
         }
         initialize_timed_motion_step(1, 1);
-        state->action_timer.s = 8;
+        state->action_timer = 8;
         state->action_phase = state->action_phase + 1;
         return;
     case 2:
-        ticks_left = state->action_timer.u - 1;
-        state->action_timer.s = ticks_left;
+        ticks_left = state->action_timer - 1;
+        state->action_timer = ticks_left;
         if ((ticks_left << 0x10) > 0)
             return;
         motion->velocity_z = 0;

@@ -253,10 +253,10 @@ void update_block_motion_and_facing_slot_a(ActorRecord *entity, CL_CD7000_80170C
     motion->unk_04.at00.v += motion->unk_10;
 
     if (entity->action_state_flags & 8) {
-        entity->unk_9D.u = 0;
+        entity->unk_9D = 0;
     } else {
-        motion->unk_14 += entity->unk_9D.s * 0x14000;
-        entity->unk_9D.u++;
+        motion->unk_14 += (s8)(entity->unk_9D) * 0x14000;
+        entity->unk_9D++;
     }
 
     entity->unk_90.value += motion->unk_14;
@@ -278,7 +278,7 @@ void update_block_motion_and_facing_slot_a(ActorRecord *entity, CL_CD7000_80170C
 
                 motion->unk_14 = 0;
                 actor->flags1C |= 0x08000000;
-                entity->unk_9D.u = 0;
+                entity->unk_9D = 0;
             }
             if (actor->flags1C & 0x40000000) {
                 actor->flags1C &= 0xBFFFFFFF;
@@ -1241,7 +1241,7 @@ void update_block_spell_slot_a(ActorRecord *work, ObjectPosition *position, Spri
         if ((entity->unk_04 == 5 &&
              (entity->flags & 0x1000)) ||
             (entity->flags & 0xE000)) {
-            work->action_timer.u = 0x20;
+            work->action_timer = 0x20;
             work->action_state_flags |= 0x80;
             work->action_phase++;
         }
@@ -1250,7 +1250,7 @@ void update_block_spell_slot_a(ActorRecord *work, ObjectPosition *position, Spri
     case 3:
         part = (CL_CD7000_80172BCC_S_func_80C953CC_9 *)((u8 *)((s32 *)&g_dungeon_status.active_actor) - 0x0C);
         if (part->unk_0C == 0) {
-            work->action_timer.u = 0;
+            work->action_timer = 0;
         }
         if (!(entity->flags & 0xE000)) {
             break;

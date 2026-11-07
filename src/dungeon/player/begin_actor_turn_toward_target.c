@@ -27,7 +27,7 @@ void begin_actor_turn_toward_target(ActorRecord *body, ObjectPosition *unused, v
     body->action_phase = 0;
     body->unk_8C.word = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
-    body->action_timer.s = 0x10;
+    body->action_timer = 0x10;
     actor->unk_2C.as_pu8 = actor_attack_frames;
     set_sprite_animation_frame(actor_arg, actor_attack_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + motion->facing + 0x100)
         >> 9) & 7], 0, 1);

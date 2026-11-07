@@ -35,7 +35,7 @@ void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion,
     if (body->action_id != 0xF) {
         body->unk_90.value = 0;
         motion->velocity_z = 0;
-        body->unk_9D.s = 0;
+        body->unk_9D = 0;
     }
 
     if (state->movement_queue_state <= state->unk_8A) {
@@ -98,15 +98,15 @@ void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion,
     }
     state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        body->action_timer.s = 0;
+        body->action_timer = 0;
         return;
     }
 
-    body->action_timer.s = 8;
+    body->action_timer = 8;
     {
         s32 step_count = state->movement_queue_state;
         if (step_count > 0) {
-            body->action_timer.s = 8 / step_count;
+            body->action_timer = 8 / step_count;
         }
     }
 }

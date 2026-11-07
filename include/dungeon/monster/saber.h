@@ -64,4 +64,6 @@ void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position,
 
 void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 target_height);
 
+void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
+
 #endif

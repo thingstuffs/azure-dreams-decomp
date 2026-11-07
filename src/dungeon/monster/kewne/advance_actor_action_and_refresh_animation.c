@@ -83,7 +83,7 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
                 value = actor->unk_90.parts.high.u;
                 value_offset = actor->unk_A0.parts.high;
                 actor->unk_A0.parts.high = 0;
-                actor->unk_9E.s = 0;
+                actor->unk_9E = 0;
                 actor->unk_90.parts.high.u = value - value_offset;
                 update_actor_state_after_map_check(actor, context, render_record, actor_state);
                 return;

@@ -82,8 +82,8 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         if (!(sprite_flags & 0x8000)) {
             if (sprite_flags & 0x6000) {
                 sprite->flags = (u16)(sprite_flags & 0x9FFF);
-                count = body->action_timer.u + 1;
-                body->action_timer.u = count;
+                count = body->action_timer + 1;
+                body->action_timer = count;
                 if (count & 1) {
                     play_sound_if_enabled(0x51B);
                 }

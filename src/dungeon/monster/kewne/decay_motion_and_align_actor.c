@@ -34,7 +34,7 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
             return;
         }
         if (sprite->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -46,7 +46,7 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
         if (actor->flags1C & 0x228) {
             motion_frames = 8;
         }
-        action->action_timer.s = motion_frames;
+        action->action_timer = motion_frames;
 
 
     case 1:
@@ -59,13 +59,13 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
         motion->velocity_x = x_velocity - (x_rounding >> 2);
         z_rounding = z_velocity;
         motion->velocity_y = z_velocity - (z_rounding / 4);
-        if (action->action_timer.s > 0) {
-            next_frames = action->action_timer.u - 1;
-            action->action_timer.s = next_frames;
+        if ((s16)(action->action_timer) > 0) {
+            next_frames = action->action_timer - 1;
+            action->action_timer = next_frames;
         } else if (sprite->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -77,12 +77,12 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
         }
         state = action->action_phase;
         motion_frames = 8;
-        action->action_timer.s = motion_frames;
+        action->action_timer = motion_frames;
         action->action_phase = state + 1;
         return;
 
     case 2:
-        align_frames = action->action_timer.s;
+        align_frames = (s16)(action->action_timer);
         if (align_frames != 0) {
             tile_coord = sprite->tile_x;
             tile_coord <<= 6;
@@ -92,10 +92,10 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
                                    align_frames;
             center_offset = motion->y.w.i - 0x20;
             motion->velocity_y = ((((sprite->tile_y) << 6) - center_offset) << 15) /
-                                    action->action_timer.s;
+                                    (s16)(action->action_timer);
         }
-        next_frames = (u16)action->action_timer.s - 1;
-        action->action_timer.s = next_frames;
+        next_frames = (u16)action->action_timer - 1;
+        action->action_timer = next_frames;
         if ((next_frames << 16) > 0) {
             return;
         }

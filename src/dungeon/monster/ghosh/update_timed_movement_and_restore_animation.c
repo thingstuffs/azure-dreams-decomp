@@ -40,7 +40,7 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        body->action_timer.s = 12;
+        body->action_timer = 12;
         body->action_phase = (u8)(body->action_phase + 1);
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -59,14 +59,14 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
         if (!(sprite->flags & 0x8000)) {
             return;
         }
-        body->action_timer.s = 0;
+        body->action_timer = 0;
         body->action_phase = (u32)final_state;
         return;
 
     case 1:
-        timer_bits = body->action_timer.u;
+        timer_bits = body->action_timer;
         timer_bits--;
-        body->action_timer.u = timer_bits;
+        body->action_timer = timer_bits;
         timer = (s16)timer_bits;
         if (timer >= 11) {
             motion->velocity_x =
@@ -101,11 +101,11 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
         }
         timer = 4;
         state_bits = body->action_phase;
-        body->action_timer.s = timer;
+        body->action_timer = timer;
         body->action_phase = (u8)(state_bits + 1);
         return;
     case 2:
-        timer = body->action_timer.s;
+        timer = (body->action_timer);
         if (timer != 0) {
             tile_x = sprite->tile_x << 6;
             offset_x = motion->x.w.i - 32;
@@ -113,12 +113,12 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
             tile_y = sprite->tile_y << 6;
             offset_y = motion->y.w.i - 32;
             motion->velocity_y =
-            ((tile_y - offset_y) << 16) / body->action_timer.s;
+            ((tile_y - offset_y) << 16) / (s16)(body->action_timer);
         }
-        saved_timer = body->action_timer.u;
+        saved_timer = body->action_timer;
         next_timer = (s16)(saved_timer - 1);
         shifted_timer = (s32)saved_timer << 16;
-        body->action_timer.s = next_timer;
+        body->action_timer = next_timer;
         if (shifted_timer > 0) {
             return;
         }

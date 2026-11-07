@@ -52,7 +52,7 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
         actor->hp_delta = 0;
         body->action_phase++;
         encounter_recovery_flag = 0;
-        body->action_timer.s = 6;
+        body->action_timer = 6;
         if (body->unk_B0.bytes[0] < 2) {
             return;
         }
@@ -63,7 +63,7 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
         return;
 
     case 1:
-        frame_count = --body->action_timer.u;
+        frame_count = --body->action_timer;
         if (frame_count > 0) {
             motion->velocity_x =
                 ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_x) + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
@@ -78,12 +78,12 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
             ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_x) + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
         motion->velocity_y =
             ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_y) + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         body->action_phase++;
         return;
 
     case 2:
-        frame_count = body->action_timer.s;
+        frame_count = (body->action_timer);
         if (frame_count != 0) {
             tile_pos = sprite->unk_24 << 6;
             offset_pos = motion->x.w.i;
@@ -94,9 +94,9 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
             offset_pos = motion->y.w.i;
             offset_pos -= 0x20;
             motion->velocity_y =
-                ((tile_pos - offset_pos) << 16) / body->action_timer.s;
+                ((tile_pos - offset_pos) << 16) / (s16)(body->action_timer);
         }
-        if (body->action_timer.s-- > 0) {
+        if ((s16)(body->action_timer--) > 0) {
             return;
         }
         motion->velocity_z = 0;
@@ -161,11 +161,11 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
                 return;
             }
             if (actor->hp == 0) {
-                body->action_timer.s = 0;
+                body->action_timer = 0;
                 body->action_phase += 2;
                 return;
             }
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
@@ -174,7 +174,7 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
         return;
 
     case 4:
-        frame_count = ++body->action_timer.u;
+        frame_count = ++body->action_timer;
         if (frame_count < 0x50) {
             return;
         }

@@ -624,10 +624,10 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         motion_in->y.v = motion_y + velocity_y;
         if (!(entity->flags1C & 0x40000) && !(actor_in->action_state_flags & 8)) {
             motion_in->velocity_z = (s32) (motion_in->velocity_z
-                + (actor_in->unk_9D.s * 0x14000));
-            actor_in->unk_9D.u += 1;
+                + ((s8)(actor_in->unk_9D) * 0x14000));
+            actor_in->unk_9D += 1;
         } else {
-            actor_in->unk_9D.s = 0;
+            actor_in->unk_9D = 0;
         }
         actor_in->unk_90.value = (s32) (actor_in->unk_90.value
             + motion_in->velocity_z);
@@ -664,18 +664,18 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                 if (!(sprite->flags & 0x40)
                     && (sprite->frameTable == &kewne_uncached_frame_set_1)) {
                     if ((*(u16 *)&sprite->unk_04) == 0x100) {
-                        actor_in->unk_9E.u = 0U;
+                        actor_in->unk_9E = 0U;
                         actor_in->unk_A0.value = 0;
                     }
                     if ((u32) ((u8) sprite->unk_04 - 1) < 4U) {
-                        bob_phase = actor_in->unk_9E.u;
-                        actor_in->unk_9E.u = (u16) (bob_phase + 1);
+                        bob_phase = actor_in->unk_9E;
+                        actor_in->unk_9E = (u16) (bob_phase + 1);
                         actor_in->unk_A0.value =
                             (s32) (actor_in->unk_A0.value
                             + (rsin((s16) bob_phase * 0xAA) << 5));
                     } else {
-                        bob_phase_wide = actor_in->unk_9E.u;
-                        actor_in->unk_9E.u = (u16) (bob_phase_wide + 1);
+                        bob_phase_wide = actor_in->unk_9E;
+                        actor_in->unk_9E = (u16) (bob_phase_wide + 1);
                         actor_in->unk_A0.value =
                             (s32) (actor_in->unk_A0.value
                             + (rsin((s16) bob_phase_wide * 0xAA) << 6));
@@ -697,7 +697,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                 s32 landing_offset;
 
                 landing_offset = actor_in->unk_A0.value;
-                actor_in->unk_9E.u = 0U;
+                actor_in->unk_9E = 0U;
                 actor_in->unk_A0.value = 0;
                 actor_in->unk_90.value = (s32) (actor_in->unk_90.value
                     - landing_offset);
@@ -707,7 +707,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                         - (u16)entity->ground_height;
                     if ((s16) landing_delta < actor_in->unk_90.parts.high.s) {
                         actor_in->unk_90.parts.high.s = (s16) landing_delta;
-                        actor_in->unk_9D.s = 0;
+                        actor_in->unk_9D = 0;
                         motion_in->velocity_z = 0;
                         entity->flags1C |= 0x08000000;
                     }
@@ -727,7 +727,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
             entity->flags1C = fixed_entity_flags;
             if (!(fixed_entity_flags & 0x40000)) {
                 bob_offset = actor_in->unk_A0.value;
-                actor_in->unk_9E.u = 0U;
+                actor_in->unk_9E = 0U;
                 actor_in->unk_A0.value = 0;
                 actor_in->unk_90.value = (s32) (actor_in->unk_90.value
                     - bob_offset);
@@ -737,7 +737,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                         - (u16)entity->ground_height;
                     if ((s16) ground_delta < actor_in->unk_90.parts.high.s) {
                         actor_in->unk_90.parts.high.s = (s16) ground_delta;
-                        actor_in->unk_9D.s = 0;
+                        actor_in->unk_9D = 0;
                         motion_in->velocity_z = 0;
                         entity->flags1C |= 0x08000000;
                     }
@@ -746,18 +746,18 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                 if (!(sprite->flags & 0x40)
                     && (sprite->frameTable == &kewne_uncached_frame_set_1)) {
                     if ((*(u16 *)&sprite->unk_04) == 0x100) {
-                        actor_in->unk_9E.u = 0U;
+                        actor_in->unk_9E = 0U;
                         actor_in->unk_A0.value = 0;
                     }
                     if ((u32) ((u8) sprite->unk_04 - 1) < 4U) {
-                        fixed_bob_phase = actor_in->unk_9E.u;
-                        actor_in->unk_9E.u = (u16) (fixed_bob_phase + 1);
+                        fixed_bob_phase = actor_in->unk_9E;
+                        actor_in->unk_9E = (u16) (fixed_bob_phase + 1);
                         actor_in->unk_A0.value =
                             (s32) (actor_in->unk_A0.value
                             + (rsin((s16) fixed_bob_phase * 0xAA) << 5));
                     } else {
-                        fixed_bob_phase_wide = actor_in->unk_9E.u;
-                        actor_in->unk_9E.u = (u16) (fixed_bob_phase_wide + 1);
+                        fixed_bob_phase_wide = actor_in->unk_9E;
+                        actor_in->unk_9E = (u16) (fixed_bob_phase_wide + 1);
                         actor_in->unk_A0.value =
                             (s32) (actor_in->unk_A0.value
                             + (rsin((s16) fixed_bob_phase_wide * 0xAA) << 6));

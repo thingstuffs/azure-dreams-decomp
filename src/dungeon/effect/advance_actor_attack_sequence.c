@@ -161,14 +161,14 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 action_state->action_phase = (u8) (action_state->action_phase + 1);
                 return;
             }
-            action_state->action_timer.u = 4U;
+            action_state->action_timer = 4U;
             action_state->action_phase = (u8) (action_state->action_phase + 0xA);
             return;
         }
         break;
     case 15:
-        attack_delay = action_state->action_timer.u - 1;
-        action_state->action_timer.u = attack_delay;
+        attack_delay = action_state->action_timer - 1;
+        action_state->action_timer = attack_delay;
         if (((attack_delay << 0x10) <= 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
             sound_id = 0x606;
             if ((actor->unk_4C) != 0) {
@@ -180,7 +180,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             set_sprite_animation_frame(animation, *(attack_animations + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                 >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = player_attack_start_frames;
-            action_state->action_timer.u = 2U;
+            action_state->action_timer = 2U;
             action_state->action_phase = 7U;
             return;
         }
@@ -193,8 +193,8 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         motion->velocity_x = 0;
         motion->velocity_y = 0;
         motion->velocity_z = 0;
-        mix_delay = action_state->action_timer.u - 1;
-        action_state->action_timer.u = mix_delay;
+        mix_delay = action_state->action_timer - 1;
+        action_state->action_timer = mix_delay;
         D_800DF244[0] = vertical_velocity;
         if ((s16)mix_delay < 0) {
             resume_direction_offset = ((u16) actor->facing >> 8) & 0xE;
@@ -203,7 +203,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             motion->velocity_z = vertical_velocity;
             ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v =
                 (u16) (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xF7FF);
-            action_state->action_timer.u = 4U;
+            action_state->action_timer = 4U;
             action_state->action_state_flags = (u16) (action_state->action_state_flags & 0xFFF7);
             action_state->action_phase = (u8) (action_state->action_phase + 1);
             allocate_payload_object(NODE_HEADER(action_state), ((PlayerRecord *)action_state)->unk_F4, 0x40);
@@ -218,11 +218,11 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         break;
     case 7:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000) {
-            action_state->action_timer.u = 0U;
+            action_state->action_timer = 0U;
         } else {
-            action_state->action_timer.u = (u16) (action_state->action_timer.u - 1);
+            action_state->action_timer = (u16) (action_state->action_timer - 1);
         }
-        if (action_state->action_timer.s == 0) {
+        if ((s16)(action_state->action_timer) == 0) {
             if (((PlayerRecord *)action_state)->unk_102 == 0) {
                 s32 attack_target;
 
@@ -247,7 +247,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 }
             }
         }
-        if (((s16) action_state->action_timer.u <= 0)
+        if (((s16) action_state->action_timer <= 0)
             && (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000)) {
             (*(u8 **)((u8 *)animation + 0x2C)) = player_attack_start_frames;
             set_sprite_animation_frame(animation, player_attack_start_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
@@ -264,7 +264,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             if (action_state->unk_A8.byte != 0) {
                 action_state->unk_A8.byte = 0U;
             }
-            if ((s16) action_state->action_timer.u <= 0) {
+            if ((s16) action_state->action_timer <= 0) {
                 (*(u8 **)((u8 *)animation + 0x2C)) = player_attack_followup_frames;
                 set_sprite_animation_frame(animation, player_attack_followup_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
@@ -284,15 +284,15 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             (*(u8 **)((u8 *)animation + 0x2C)) = player_attack_frames;
             set_sprite_animation_frame(animation, player_attack_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
-            action_state->action_timer.u = 2U;
+            action_state->action_timer = 2U;
             delta_x = ((Rec_D_80082E80 *)animation)->unk_24 << 6;
             delta_y = motion->x.w.i;
             delta_y -= 0x20;
             delta_x -= delta_y;
-            motion->velocity_x = (s32) ((delta_x << 0x10) / (s16) action_state->action_timer.u);
+            motion->velocity_x = (s32) ((delta_x << 0x10) / (s16) action_state->action_timer);
             delta_y = motion->y.w.i - 0x20;
             motion->velocity_y = (s32) ((s32) (((((Rec_D_80082E80 *)animation)->unk_25 << 6) - delta_y)
-                << 0x10) / (s16) action_state->action_timer.u);
+                << 0x10) / (s16) action_state->action_timer);
 load_state_9b:
 bump_state_9b:
             action_state->action_phase = (u8) (action_state->action_phase + 1);
@@ -305,8 +305,8 @@ bump_state_9b:
         DungeonGlobalStatus *end_base;
         s32 end_mask;
         s32 end_timer_state;
-        return_delay = action_state->action_timer.u - 1;
-        action_state->action_timer.u = return_delay;
+        return_delay = action_state->action_timer - 1;
+        action_state->action_timer = return_delay;
         if (((return_delay << 0x10) <= 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -329,7 +329,7 @@ bump_state_9b:
             if (end_timer_state == 0) {
                 end_base->active_actor = 0;
             }
-            action_state->action_timer.u = 0U;
+            action_state->action_timer = 0U;
         }
         break;
     }

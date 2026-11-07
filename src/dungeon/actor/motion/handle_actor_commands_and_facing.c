@@ -81,7 +81,7 @@ void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
         actor->unk_A0.parts.high &= 0xFEFF;
         sprite->flags &= 0xF7FF;
         actor->action_phase = 0;
-        actor->action_timer.s = 0;
+        actor->action_timer = 0;
         select_position_data_and_update_owner(sprite, actor_data);
     }
 
@@ -235,7 +235,7 @@ void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
                 return;
             }
 
-            input_angle = resolve_player_input_facing(actor->unk_9E.s,
+            input_angle = resolve_player_input_facing((actor->unk_9E),
                 flags_ptr, (u8 *)actor_data + 0x2A);
             if (input_angle != 0xFFF) {
                 actor_data->facing = input_angle;
@@ -253,10 +253,10 @@ void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
                             return;
                         }
                     } else {
-                        actor->action_timer.s = 0;
+                        actor->action_timer = 0;
                     }
                 } else {
-                    actor->action_timer.s = 0;
+                    actor->action_timer = 0;
                 }
             }
 

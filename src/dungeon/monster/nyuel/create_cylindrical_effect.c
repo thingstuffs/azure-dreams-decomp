@@ -73,7 +73,7 @@ void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin)
         lifetime = 50;
         init_entity = entity;
         sub->field_1A = lifetime;
-        sub->field_1C = source->action_timer.u;
+        sub->field_1C = source->action_timer;
         entity->header.update_callback = callback;
         register_node(&init_entity->header, project_sprite_chain);
 

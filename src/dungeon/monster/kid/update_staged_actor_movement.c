@@ -93,7 +93,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
     x_step_base = x_step_entry;
     x_step = *(s16 *)((u8 *)((az_uptr)direction_offset + (az_uptr)x_step_base));
     y_step = *(s16 *)(direction_offset + (u8 *)dir_step_y);
-    action->action_timer.u--;
+    action->action_timer--;
 
     if ((u32)(action->action_phase - 1) < 3U) {
         heading_byte = 15;
@@ -172,7 +172,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
             action->action_state_flags |= 8;
             actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
             actor->flags1C &= 0xFFFBFFFF;
-            action->action_timer.u = 4;
+            action->action_timer = 4;
             motion->velocity_z = 0xFFFC0000;
             action->action_phase++;
             return;
@@ -182,8 +182,8 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
     case 1:
         vertical_speed = motion->velocity_z;
         motion->velocity_z = vertical_speed + (vertical_speed >> 2);
-        if (action->action_timer.s <= 0) {
-            action->action_timer.s = 3;
+        if ((s16)(action->action_timer) <= 0) {
+            action->action_timer = 3;
             action->action_phase++;
             return;
         }
@@ -196,8 +196,8 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         z_speed = motion->velocity_z;
         motion->velocity_y = y_speed - (y_speed >> 2);
         motion->velocity_z = z_speed - (z_speed >> 2);
-        if (action->action_timer.s <= 0) {
-            action->action_timer.s = 7;
+        if ((s16)(action->action_timer) <= 0) {
+            action->action_timer = 7;
             motion->velocity_x = x_step << 0x12;
             motion->velocity_y = y_step << 0x12;
             motion->velocity_z = 0x30000;
@@ -211,17 +211,17 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
     case 3:
         motion->velocity_x += x_step << 0x12;
         motion->velocity_y += y_step << 0x12;
-        if (action->action_timer.s < 2) {
+        if ((s16)(action->action_timer) < 2) {
             motion->velocity_y = 0;
             motion->velocity_x = 0;
         }
-        if (action->action_timer.s == 1) {
+        if ((s16)(action->action_timer) == 1) {
             resolve_attack_damage_and_effects(actor, tile, actor->facing, 1);
             play_sound_if_enabled(0x808);
         }
-        if (action->action_timer.s <= 0) {
+        if ((s16)(action->action_timer) <= 0) {
             motion->velocity_z = 0xFFF60000;
-            action->action_timer.s = 0x14;
+            action->action_timer = 0x14;
             action->action_phase = 0xFF;
         }
         return;
@@ -239,12 +239,12 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         return_speed <<= 0xF;
         return_speed >>= 1;
         motion->velocity_y = return_speed;
-        if (action->action_timer.s >= 0xA) {
+        if ((s16)(action->action_timer) >= 0xA) {
             motion->velocity_z += 0x10000;
         } else {
             motion->velocity_z = -action->unk_90.parts.high.s << 0xD;
         }
-        if (action->action_timer.s > 0 && !(tile->flags & 0x8000)) {
+        if ((s16)(action->action_timer) > 0 && !(tile->flags & 0x8000)) {
             return;
         }
         motion->velocity_y = 0;

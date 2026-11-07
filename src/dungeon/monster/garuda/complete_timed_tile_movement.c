@@ -127,8 +127,8 @@ void complete_timed_tile_movement(ActorRecord *action, ObjectPosition *motion, S
         break;
     }
 
-    action_ticks = action->action_timer.u - 1;
-    action->action_timer.u = action_ticks;
+    action_ticks = action->action_timer - 1;
+    action->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
     }

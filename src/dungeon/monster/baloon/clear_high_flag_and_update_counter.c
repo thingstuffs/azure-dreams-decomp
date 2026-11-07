@@ -15,7 +15,7 @@ void clear_high_flag_and_update_counter(ActorRecord *body, ObjectPosition *unuse
         body->unk_8C.word = 0;
         body->action_id = 0x17;
         body->action_phase = 0;
-        body->action_timer.s = 0;
+        body->action_timer = 0;
         advance_status_timers(actor);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
     }

@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level/tile_flags.h"
@@ -950,7 +951,6 @@ void compact_item_entry_table(s32 entry_index) {
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-void unlink_entity_node(struct EntityLinkNode *node);
 s32 check_neighbor_tile_blocking();
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s32 x, s32 y_in, s16 value);
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);

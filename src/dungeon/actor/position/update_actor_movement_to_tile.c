@@ -30,9 +30,9 @@ s32 update_actor_movement_to_tile(ActorRecord *move_state_arg, void *motion_arg,
     s32 adjusted_y;
 
     if (g_dungeon_status.flags & 0x80) {
-        move_state->action_timer.s = 0;
+        move_state->action_timer = 0;
     }
-    frames_left = move_state->action_timer.s;
+    frames_left = (move_state->action_timer);
     if (frames_left != 0) {
         tile_x = target_tile->unk_24;
         scaled_x = tile_x << 6;
@@ -46,10 +46,10 @@ s32 update_actor_movement_to_tile(ActorRecord *move_state_arg, void *motion_arg,
         motion->velocity_y =
             (s32)(((s32)(((target_tile->unk_25 << 6) - adjusted_y)
                          << 0x10)) /
-                  (s16)move_state->action_timer.s);
+                  (s16)move_state->action_timer);
     }
-    next_frames = (u16)move_state->action_timer.s - 1;
-    move_state->action_timer.s = next_frames;
+    next_frames = (u16)move_state->action_timer - 1;
+    move_state->action_timer = next_frames;
     if ((next_frames << 0x10) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;

@@ -22,6 +22,6 @@ void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *positi
     update_map_cell_flags_with_item_limit(tile_x, tile_y, update_mask);
     body->action_state_flags = (u16)(body->action_state_flags | 8);
     actor->flags1C = (s32)(actor->flags1C & 0xFFFBFFFF);
-    body->action_timer.u = 0;
+    body->action_timer = 0;
     actor->movement_facing = (u16)((ActorRecord *)actor->target)->facing;
 }

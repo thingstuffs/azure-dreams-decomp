@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "shared/actor_status_ids.h"
 #include "shared/actor_property_flags.h"
 #include "common.h"
@@ -12,7 +13,6 @@
 #include "dungeon/system.h"
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void unlink_entity_node(void *);
 
 
 /* Fades and reshapes the sprite, then removes the entity when the effect ends. */
@@ -35,24 +35,24 @@ void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position,
         ((ActorRecord *)entity)->flags1C |= 0x10000000;
         play_sound_if_enabled(0x805);
         sprite->color.word = 0x00808080;
-        body->action_timer.s = 0xC;
+        body->action_timer = 0xC;
     case 1:
         break;
     default:
         return;
     }
 
-    sprite->color.c.r -= sprite->color.c.r / body->action_timer.s;
-    sprite->color.c.g -= sprite->color.c.g / body->action_timer.s;
-    sprite->color.c.b -= sprite->color.c.b / body->action_timer.s;
+    sprite->color.c.r -= sprite->color.c.r / (s16)(body->action_timer);
+    sprite->color.c.g -= sprite->color.c.g / (s16)(body->action_timer);
+    sprite->color.c.b -= sprite->color.c.b / (s16)(body->action_timer);
 
     sprite->scale_x >>= 2;
     sprite->scale_y >>= 1;
     sprite->scale_x *= 3;
     sprite->scale_y *= 3;
 
-    frames_left = body->action_timer.u - 1;
-    body->action_timer.u = frames_left;
+    frames_left = body->action_timer - 1;
+    body->action_timer = frames_left;
     if (((s32)frames_left << 16) > 0) {
         if ((sprite->flags & 0x8000) == 0) {
             return;

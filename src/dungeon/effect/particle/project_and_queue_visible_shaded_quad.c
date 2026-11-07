@@ -7,6 +7,7 @@
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "sdk/memory.h"
 #include "slus.h"
 #include "dungeon/system.h"
 
@@ -943,7 +944,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
     case 0:
         player = primary_actor_record;
         ((PlayerRecord *)player)->unk_F4 = 0;
-        player->action_timer.u = 20;
+        player->action_timer = 20;
         reference_tile_object.depth_bias = 6;
         state_2 = (MovingPosition *)(&view_reference_entity);
         effect->spell.phase = effect->spell.phase + 1;

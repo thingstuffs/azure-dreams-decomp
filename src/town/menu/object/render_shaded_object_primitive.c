@@ -3,11 +3,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 #include "town/menu/object.h"
-void PushMatrix(void);                            /* extern */
-void PopMatrix(void);                            /* extern */
-void SetRotMatrix(void *);                      /* extern */
-void SetTransMatrix(void *);                      /* extern */
-void RotTransSV(void *, void *, void *);     /* extern */
+#include "sdk/libgte.h"
 
 
    /* the 0x2 bytes before arg0 in render_shaded_object_primitive, addressed as arg0[-1] */

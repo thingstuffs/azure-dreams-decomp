@@ -34,7 +34,7 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
     switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        action->action_timer.s = 4;
+        action->action_timer = 4;
         action->action_phase++;
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -46,13 +46,13 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
         if (!(sprite->flags & 0x8000)) {
             return;
         }
-        action->action_timer.s = 0;
+        action->action_timer = 0;
         action->action_phase = 3;
         return;
 
     case 1:
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if (timer > 0) {
             motion->velocity_x =
                 dir_step_x[(entity->movement_facing >> 9) & 7] << 19;
@@ -67,7 +67,7 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
             dir_step_x[(entity->movement_facing >> 9) & 7] << 18;
         motion->velocity_y =
             dir_step_y[(entity->movement_facing >> 9) & 7] << 18;
-        action->action_timer.s = 6;
+        action->action_timer = 6;
         action->action_phase++;
         return;
 
@@ -80,7 +80,7 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
             return;
         }
 
-        timer = action->action_timer.s;
+        timer = (action->action_timer);
         if (timer != 0) {
             {
                 s32 target_coord = sprite->tile_x << 6;
@@ -95,11 +95,11 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
 
                 motion->velocity_y =
                     ((target_coord - current_coord) << 16) /
-                    action->action_timer.s;
+                    (s16)(action->action_timer);
             }
         }
-        old_timer = action->action_timer.u;
-        action->action_timer.s = old_timer - 1;
+        old_timer = action->action_timer;
+        action->action_timer = old_timer - 1;
         if ((s32)(old_timer << 16) > 0) {
             return;
         }

@@ -97,7 +97,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             tile_dx = __builtin_abs(tile_dx);
             tile_dy = target_tile_y - sprite_tile_y;
             tile_dy = __builtin_abs(tile_dy);
-            action->action_timer.s = ((tile_dx + tile_dy) * 4) + 9;
+            action->action_timer = ((tile_dx + tile_dy) * 4) + 9;
             action->action_phase++;
             spend_actor_mp(effect_actor, effect_flags);
         }
@@ -141,42 +141,42 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             target_x = ((reference_tile_object.tile_position.parts.tile_x << 6) + 0x20) << 16;
             target_y = ((reference_tile_object.tile_position.parts.tile_y << 6) + 0x20) << 16;
             target_z = view_reference_entity.z.v - 0x600000;
-            approach_ticks = action->action_timer.s;
+            approach_ticks = (s16)(action->action_timer);
             if (approach_ticks >= 0xE) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 9);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (action->action_timer.s - 9);
+                    ((s16)(action->action_timer) - 9);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    (action->action_timer.s - 9);
+                    ((s16)(action->action_timer) - 9);
             } else if (approach_ticks >= 0xB) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 7);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (action->action_timer.s - 7);
+                    ((s16)(action->action_timer) - 7);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    (action->action_timer.s - 7);
+                    ((s16)(action->action_timer) - 7);
             } else if (approach_ticks >= 5) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 2);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (action->action_timer.s - 2);
+                    ((s16)(action->action_timer) - 2);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    (action->action_timer.s - 2);
+                    ((s16)(action->action_timer) - 2);
             } else {
                 motion->velocity_x = (target_x
                     - motion->x.v) / approach_ticks;
                 motion->velocity_y = (target_y - motion->y.v) /
-                    action->action_timer.s;
+                    (s16)(action->action_timer);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    action->action_timer.s;
+                    (s16)(action->action_timer);
             }
-            ticks_left = action->action_timer.u - 1;
-            action->action_timer.s = ticks_left;
+            ticks_left = action->action_timer - 1;
+            action->action_timer = ticks_left;
             if ((ticks_left << 16) != 0) {
                 return;
             }
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase++;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -187,16 +187,16 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             sprite->frameTable = baloon_hop_frames;
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_hop_frames[facing & 7], 0);
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase++;
             clear_player_linked_action_flags();
             return;
 
         case 3:
         {
-            u16 old_timer = action->action_timer.u;
+            u16 old_timer = action->action_timer;
 
-            action->action_timer.s = old_timer + 1;
+            action->action_timer = old_timer + 1;
             if ((s16)old_timer < 7) {
                 return;
             }
@@ -205,7 +205,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             {
                 ActorRecord *player = dungeon_actor_ring_anchor;
 
-                action->action_timer.s = 0;
+                action->action_timer = 0;
                 player->flags14 |= 0x100000;
             }
             play_sound_if_enabled(0x603);
@@ -220,14 +220,14 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             scene->z.v += fall_speed;
         }
             {
-                u16 old_timer = action->action_timer.u;
+                u16 old_timer = action->action_timer;
 
-                action->action_timer.s = old_timer + 1;
+                action->action_timer = old_timer + 1;
                 if ((s16)old_timer < 0x1B) {
                     return;
                 }
             }
-            action->action_timer.s = 0;
+            action->action_timer = 0;
 
             if ((((WorldStatePage *)0x80010000)->actionMode == 0) && (current_dungeon_floor == 0x28)) {
                 action->action_phase = 7;
@@ -239,7 +239,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             return;
 
         case 5:
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase++;
             return;
 
@@ -274,7 +274,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 0x14;
             actor->action_flags &= 0x7FFF;
             break;
@@ -320,42 +320,42 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             target_x = ((sprite->tile_x << 6) + 0x20) << 16;
             target_y = ((sprite->tile_y << 6) + 0x20) << 16;
             target_z = (action->unk_B4.halves.low.s - 0x20) << 16;
-            return_ticks = action->action_timer.s;
+            return_ticks = (s16)(action->action_timer);
             if (return_ticks >= 0xE) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 9);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (action->action_timer.s - 9);
+                    ((s16)(action->action_timer) - 9);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    (action->action_timer.s - 9);
+                    ((s16)(action->action_timer) - 9);
             } else if (return_ticks >= 0xB) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 7);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (action->action_timer.s - 7);
+                    ((s16)(action->action_timer) - 7);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    (action->action_timer.s - 7);
+                    ((s16)(action->action_timer) - 7);
             } else if (return_ticks >= 5) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 2);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (action->action_timer.s - 2);
+                    ((s16)(action->action_timer) - 2);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    (action->action_timer.s - 2);
+                    ((s16)(action->action_timer) - 2);
             } else {
                 motion->velocity_x = (target_x - motion->x.v) / return_ticks;
                 motion->velocity_y = (target_y - motion->y.v) /
-                    action->action_timer.s;
+                    (s16)(action->action_timer);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    action->action_timer.s;
+                    (s16)(action->action_timer);
             }
 
-            ticks_left = action->action_timer.u - 1;
-            action->action_timer.s = ticks_left;
+            ticks_left = action->action_timer - 1;
+            action->action_timer = ticks_left;
             if ((ticks_left << 16) != 0) {
                 return;
             }
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase++;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -376,7 +376,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             select_sprite_entry(sprite, baloon_default_frames[facing & 7], 0);
             sprite->frame_ticks = 1;
             action->unk_A0.parts.high = 0;
-            action->unk_9E.s = 0;
+            action->unk_9E = 0;
             action->unk_90.parts.high.s = -0x20;
             actor->ground_height = action->unk_B4.halves.low.u;
             motion->x.w.i = (sprite->tile_x << 6) + 0x20;

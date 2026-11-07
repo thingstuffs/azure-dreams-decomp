@@ -71,14 +71,14 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
     path_state->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
-        motion_state->action_timer.u = 0;
+        motion_state->action_timer = 0;
         return;
     }
 
-    motion_state->action_timer.u = 8;
+    motion_state->action_timer = 8;
     step_count = path_state->movement_queue_state;
     if (step_count > 0) {
-        motion_state->action_timer.u = 8 / step_count;
+        motion_state->action_timer = 8 / step_count;
     }
 
     return;

@@ -1,6 +1,7 @@
 /* SPU transfer size and address limits, plus completion-event polling. */
 #include "engine/audio/spu/sound_transfer_helpers.h"
 #include "engine/audio/spu.h"
+#include "sdk/libapi.h"
 
 
 

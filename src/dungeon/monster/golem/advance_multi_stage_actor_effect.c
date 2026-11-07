@@ -32,8 +32,8 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
     switch (state) {
 
     case 0:
-        timer = state_work->action_timer.u - 1;
-        state_work->action_timer.u = timer;
+        timer = state_work->action_timer - 1;
+        state_work->action_timer = timer;
         if ((s16)timer > 0) {
             return;
         }

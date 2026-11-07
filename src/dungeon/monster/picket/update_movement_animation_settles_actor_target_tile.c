@@ -58,26 +58,26 @@ void update_movement_animation_settles_actor_target_tile(ActorRecord *body, Obje
             body->unk_90.value = 0;
             body->action_state_flags |= 8;
             motion->velocity_z = (s32)0xFFF50000;
-            body->action_timer.u = 4;
+            body->action_timer = 4;
             motion->velocity_x = (direction_x << 23) / 5;
             motion->velocity_y = (direction_y << 23) / 5;
             body->action_phase++;
         }
         return;
     case 2:
-        frames_left = body->action_timer.u - 1;
-        body->action_timer.u = frames_left;
+        frames_left = body->action_timer - 1;
+        body->action_timer = frames_left;
         if ((s16)frames_left == 3) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
 
-        motion->velocity_z += (5 - body->action_timer.s) << 16;
-        if (body->action_timer.s < 3) {
+        motion->velocity_z += (5 - (s16)(body->action_timer)) << 16;
+        if ((s16)(body->action_timer) < 3) {
             motion->velocity_z = 0;
         }
         motion->velocity_x -= (motion->velocity_x << 2) / 5;
         motion->velocity_y -= (motion->velocity_y << 2) / 5;
-        if (body->action_timer.s > 0) {
+        if ((s16)(body->action_timer) > 0) {
             return;
         }
         motion->velocity_z = 0;

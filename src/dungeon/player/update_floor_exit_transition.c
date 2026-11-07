@@ -89,7 +89,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
     switch (phase) {
     case 0:
         slot_index = 1;
-        state->actor.action_timer.u = 0U;
+        state->actor.action_timer = 0U;
         create_map_position_object((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20);
         type_values = &actor_event_values;
         slot_cursor = (s32 *)state + 1;
@@ -104,8 +104,8 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
         } while (slot_index >= 0);
         state->actor.action_phase = (u8) (state->actor.action_phase + 1);
     case 1:
-        wait_ticks = state->actor.action_timer.u + 1;
-        state->actor.action_timer.u = wait_ticks;
+        wait_ticks = state->actor.action_timer + 1;
+        state->actor.action_timer = wait_ticks;
         if ((s16) wait_ticks < 0x3D) {
             break;
         }

@@ -246,7 +246,7 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
              (action_sprite->flags & 0x1000)) ||
             (action_sprite->flags & 0xE000)) {
             action_sprite->flags |= 0x800;
-            controller->action_timer.u = 0x14;
+            controller->action_timer = 0x14;
             controller->action_phase = controller->action_phase + 1;
             return;
         }
@@ -257,12 +257,12 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
             s16 timer;
 
             if ((g_dungeon_status.active_actor) == 0) {
-                controller->action_timer.u = 0;
+                controller->action_timer = 0;
             }
-            timer = controller->action_timer.u - 1;
-            controller->action_timer.u = timer;
+            timer = controller->action_timer - 1;
+            controller->action_timer = timer;
             if (timer <= 0) {
-                controller->action_timer.u = 0;
+                controller->action_timer = 0;
                 action_sprite->flags &= 0xF7FF;
             }
             if (!(action_sprite->flags & 0xE000)) {

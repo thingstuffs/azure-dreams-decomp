@@ -37,7 +37,7 @@ void start_direction_based_action(ActorRecord *body, ObjectPosition *unused, Spr
             body->action_id = 0x17;
             body->unk_8C.word = 0;
             body->action_phase = 0;
-            body->action_timer.s = 0;
+            body->action_timer = 0;
 
             animation->frameTable = direction_table;
             data_page = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;

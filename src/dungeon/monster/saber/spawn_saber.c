@@ -9,8 +9,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/actor/animation.h"
+#include "engine/node.h"
 
-void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
 s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
 

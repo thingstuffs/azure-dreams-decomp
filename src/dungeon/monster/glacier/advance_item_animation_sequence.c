@@ -48,12 +48,12 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         current_state = action->action_phase;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase = current_state + 1;
         return;
     case 1:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if (((s16)timer == 4) || (animation->flags & 0x8000)) {
             animation->frameTable = D_801760CC;
             work = g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100;
@@ -64,18 +64,18 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
                 0);
             play_sound_if_enabled(0x809);
             current_state = action->action_phase;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase = current_state + 1;
             return;
         }
         return;
     case 2:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if (((s16)timer == 4) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             current_state = action->action_phase;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase = current_state + 1;
             return;
         }

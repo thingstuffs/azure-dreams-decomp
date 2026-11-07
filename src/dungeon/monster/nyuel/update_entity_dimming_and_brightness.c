@@ -157,7 +157,7 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
 
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
-        controller->action_timer.u = 6;
+        controller->action_timer = 6;
         {
             u8 next_state = controller->action_phase + 1;
 
@@ -173,8 +173,8 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
         sprite->color.c.b = shade;
         sprite->color.c.g = shade;
         sprite->color.c.r = shade;
-        fade_ticks = controller->action_timer.u - 1;
-        controller->action_timer.u = fade_ticks;
+        fade_ticks = controller->action_timer - 1;
+        controller->action_timer = fade_ticks;
         if ((fade_ticks << 16) > 0) {
             return;
         }

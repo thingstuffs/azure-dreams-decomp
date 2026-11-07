@@ -1,4 +1,5 @@
 #include "sdk/libetc.h"
+#include "sdk/libapi.h"
 /* Resident helpers for rendering, resource loading, text, menu state and sound command dispatch. */
 #include "script_symbols.h"
 #include "slus/resource_transition_task.h"

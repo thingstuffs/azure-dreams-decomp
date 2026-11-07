@@ -49,30 +49,30 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
     switch (state) {
     case 0:
         create_layered_sprite_pulse(transform);
-        sequence->action_timer.s = 5;
+        sequence->action_timer = 5;
         sequence->action_phase = sequence->action_phase + 1;
         play_sound_if_enabled(0x703);
         encounter_blink_update_flag[0] = 0;
         return;
 
     case 1:
-        timer = sequence->action_timer.u - 1;
-        sequence->action_timer.s = timer;
+        timer = sequence->action_timer - 1;
+        sequence->action_timer = timer;
         if ((timer << 0x10) > 0 && !( sprite->flags & 0xE000)) {
             return;
         }
         state = sequence->action_phase;
-        sequence->action_timer.s = 0;
+        sequence->action_timer = 0;
         sequence->action_phase = state + 1;
         return;
 
     case 2:
-        timer = sequence->action_timer.u + 1;
-        sequence->action_timer.s = timer;
+        timer = sequence->action_timer + 1;
+        sequence->action_timer = timer;
         if ((s16)timer == 1) {
             create_eight_part_textured_ribbon(sequence, transform, sprite, ((&view_reference_entity)));
         }
-        if (sequence->action_timer.s == 2) {
+        if ((s16)(sequence->action_timer) == 2) {
             effect_actor = primary_actor_record;
             ((PlayerRecord *)effect_actor)->unk_10C |= 1;
             effect_actor->movement_facing = ((u16)effect_actor->facing) + 0x800;
@@ -80,9 +80,9 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
             play_sound_if_enabled(0x601);
             create_player_centered_sequence_effect(sequence, transform, sprite);
         }
-        if (sequence->action_timer.s == 0xB) {
+        if ((s16)(sequence->action_timer) == 0xB) {
             state = sequence->action_phase;
-            sequence->action_timer.s = 0;
+            sequence->action_timer = 0;
             sequence->action_phase = state + 1;
             return;
         }
@@ -116,7 +116,7 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
             break;
         default:
             state = sequence->action_phase;
-            sequence->action_timer.s = 0;
+            sequence->action_timer = 0;
             sequence->action_phase = state + 1;
             return;
         }
@@ -128,15 +128,15 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
         goto advance;
 
     case 4:
-        old_timer = sequence->action_timer.u;
+        old_timer = sequence->action_timer;
         next_timer = old_timer + 1;
-        sequence->action_timer.s = next_timer;
+        sequence->action_timer = next_timer;
         if (old_timer < 0x50) {
             return;
         }
 advance:
         state = sequence->action_phase;
-        sequence->action_timer.s = 0;
+        sequence->action_timer = 0;
         sequence->action_phase = state + 1;
         return;
 

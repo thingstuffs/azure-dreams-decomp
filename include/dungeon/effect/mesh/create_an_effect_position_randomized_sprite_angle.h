@@ -347,7 +347,6 @@ typedef struct ovl_1930844_81912154_LocalStack {
     GteOffset offset;
 } ovl_1930844_81912154_LocalStack;
 s32 rsin(s32);
-extern s32 register_node(void *, void *);
 extern s32 func_8004491C(void *, void *);
 extern s32 rand(void);
 extern u8 D_800DE720[9];

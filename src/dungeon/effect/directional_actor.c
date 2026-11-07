@@ -1,3 +1,4 @@
+#include "engine/node/registration.h"
 #include "shared/audio_commands.h"
 /* Directional actor effects and their spiraling particle animation. */
 #include "shared/entity.h"

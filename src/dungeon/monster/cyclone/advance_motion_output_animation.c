@@ -8,6 +8,7 @@ struct ObjectPosition;
 #include "sdk/libgte.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/cyclone/bobbing_motion.h"
+#include "dungeon/monster/cyclone.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 

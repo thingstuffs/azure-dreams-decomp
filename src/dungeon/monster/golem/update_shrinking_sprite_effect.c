@@ -105,10 +105,10 @@ void update_shrinking_sprite_effect(ActorRecord *body, ObjectPosition *motion, S
     motion->y.v += motion->velocity_y;
 
     if (body->action_state_flags & 8) {
-        body->unk_9D.u = 0;
+        body->unk_9D = 0;
     } else {
-        motion->velocity_z += body->unk_9D.s * 0x14000;
-        body->unk_9D.u++;
+        motion->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        body->unk_9D++;
     }
 
     body->unk_90.value += motion->velocity_z;
@@ -130,7 +130,7 @@ void update_shrinking_sprite_effect(ActorRecord *body, ObjectPosition *motion, S
 
                 motion->velocity_z = 0;
                 actor->flags1C |= 0x08000000;
-                body->unk_9D.u = 0;
+                body->unk_9D = 0;
             }
 
             if (actor->flags1C & 0x40000000) {

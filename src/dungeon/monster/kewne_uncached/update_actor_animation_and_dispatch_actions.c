@@ -102,7 +102,7 @@ void update_actor_animation_and_dispatch_actions(ActorRecord *actor, ObjectPosit
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.halves.high.s = 0;
-                    actor->unk_9E.s = 0;
+                    actor->unk_9E = 0;
                 }
             } else {
                 anim_table = D_80151C30;
@@ -113,7 +113,7 @@ void update_actor_animation_and_dispatch_actions(ActorRecord *actor, ObjectPosit
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.halves.high.s = 0;
-                    actor->unk_9E.s = 0;
+                    actor->unk_9E = 0;
                 }
             }
         }
@@ -133,7 +133,7 @@ void update_actor_animation_and_dispatch_actions(ActorRecord *actor, ObjectPosit
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
             height_delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
             actor->unk_A0.halves.high.s = 0;
-            actor->unk_9E.s = 0;
+            actor->unk_9E = 0;
             actor->unk_90.parts.high.s = height_delta;
             func_80151078(actor, actor_aux, sprite, entity);
             return;

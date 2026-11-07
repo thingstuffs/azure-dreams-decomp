@@ -106,7 +106,6 @@ typedef struct Row_818EDB60_Work {
 /* Updates a timed rectangle effect, fading its color in and out and marking completion. */
 void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
-void register_node(void *, void *);
 void func_8004491C(void *, void *);
 
 void draw_effect_and_restore_clip(s32 draw_data, struct Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);

@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "dungeon/system/random.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
@@ -18,7 +19,6 @@ extern u8 entity_spawn_variant_code;
 
 extern void init_monster_from_stats(void *, s32);
 struct EntityLinkNode;
-extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 /* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */

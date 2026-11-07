@@ -10,6 +10,7 @@
 extern void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/data.h"
+#include "dungeon/monster/viper.h"
 
 /* Start the actor's hit reaction: clear its flags, give it a random spin and arm the matching sprite frame. */
 void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor) {
@@ -28,7 +29,7 @@ void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteF
                 actor->facing = (u16)(((u16)actor->facing) + ((generate_random_value() & 7) << 9));
             }
         }
-        work->action_timer.s = 0;
+        work->action_timer = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
         (part_b->frameTable) = viper_frame_set_1;

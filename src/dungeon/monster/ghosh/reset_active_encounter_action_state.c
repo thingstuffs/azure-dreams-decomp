@@ -12,5 +12,5 @@ void reset_active_encounter_action_state(void) {
     body = ghosh_actor_node + 1;
     state = body;
     state->action_phase = 0;
-    state->action_timer.s = 0;
+    state->action_timer = 0;
 }

@@ -1264,7 +1264,7 @@ void start_selected_move_and_reset_action(ActorRecord *action, ObjectPosition *p
             }
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
-            action->action_timer.u = 0xE;
+            action->action_timer = 0xE;
             action->action_phase++;
             return;
         }
@@ -1292,8 +1292,8 @@ void start_selected_move_and_reset_action(ActorRecord *action, ObjectPosition *p
         action->action_phase++;
 
     case 2:
-        recovery_ticks = action->action_timer.u - 1;
-        action->action_timer.u = recovery_ticks;
+        recovery_ticks = action->action_timer - 1;
+        action->action_timer = recovery_ticks;
         if ((s32)(recovery_ticks << 16) > 0) {
             if (!(sprite->flags & 0xE000)) {
                 return;
@@ -1367,7 +1367,7 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
             return;
         }
         if (tile_state->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -1376,7 +1376,7 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
         } else {
             timer = -1;
         }
-        action->action_timer.s = timer;
+        action->action_timer = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -1386,12 +1386,12 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
             dir_step_x[direction] << 14;
         motion->velocity_y -=
             dir_step_y[direction] << 14;
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (tile_state->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -1402,12 +1402,12 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
             begin_actor_display_action(action, motion, tile_state, flame_frame_set_1);
             return;
         }
-        action->action_timer.s = 8;
+        action->action_timer = 8;
         action->action_phase++;
         return;
 
     case 2:
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             {
                 s32 target_coord = tile_state->tile_x << 6;
                 s32 current_coord = motion->x.w.i - 0x20;
@@ -1423,8 +1423,8 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
             motion->velocity_x += motion->velocity_x >> 1;
             motion->velocity_y += motion->velocity_y >> 1;
         }
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -1614,7 +1614,7 @@ void update_actor_state_by_flags(ActorRecord *in_actor, ObjectPosition *in_conte
         (in_sprite->frameTable) = flame_alt_direction_frames;
         select_sprite_entry(in_sprite,(u8)(flame_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + in_entity->facing + 0x100) >> 9) & 7]),
             0);
-        in_actor->action_timer.u = 0;
+        in_actor->action_timer = 0;
         {
             u16 counter_value;
 
@@ -2714,7 +2714,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
         flame_effect_load_done[0] = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), flame_effect_load_done);
         select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
-        action->action_timer.s = 0x10;
+        action->action_timer = 0x10;
         action->action_phase++;
         /* fallthrough */
 
@@ -2724,11 +2724,11 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             R06_80175270_S_80175270_3 *target_color;
             u8 effect_done;
 
-            frames_left = action->action_timer.u;
-            action->action_timer.u = frames_left - 1;
+            frames_left = action->action_timer;
+            action->action_timer = frames_left - 1;
             if ((s16)(frames_left - 1) <= 0) {
                 effect_done = flame_effect_load_done[0];
-                action->action_timer.u = frames_left;
+                action->action_timer = frames_left;
                 if (effect_done != 0) {
                     action->action_phase++;
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
@@ -2737,9 +2737,9 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
                 return;
             }
             target_color = (R06_80175270_S_80175270_3 *)((u8 **)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
-            work->unk_A8 += (target_color->unk_00 - work->unk_A8) / action->action_timer.s;
-            work->unk_A9 += (target_color->unk_01 - work->unk_A9) / action->action_timer.s;
-            work->unk_AA += (target_color->unk_02 - work->unk_AA) / action->action_timer.s;
+            work->unk_A8 += (target_color->unk_00 - work->unk_A8) / (s16)(action->action_timer);
+            work->unk_A9 += (target_color->unk_01 - work->unk_A9) / (s16)(action->action_timer);
+            work->unk_AA += (target_color->unk_02 - work->unk_AA) / (s16)(action->action_timer);
             return;
         }
 
@@ -2778,7 +2778,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             }
             select_record_entry_and_value(effect_sprite, dungeon_resource_buffer + ((s32 *)D_80175904)[asset_index], 0);
             entity->flags |= 0x80;
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase++;
             create_sixteen_segment_ring(action, position, entity);
             return;
@@ -2789,7 +2789,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             work = ((void **)flame_transition_object)[0];
             work = work->unk_0C.p;
             if (work->unk_14 & 0xE000) {
-                action->action_timer.s = 0x10;
+                action->action_timer = 0x10;
                 action->action_phase++;
                 decrement_monster_entry_count(actor->species, 3);
                 update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
@@ -2807,7 +2807,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             if (create_status_linked_render_effect(position, ((s32 *)D_80175928)[0], (s16)((s16 *)D_8017591C)[0], staged_spawn_count) == 0) {
                 return;
             }
-            action->action_timer.s = 0x10;
+            action->action_timer = 0x10;
             action->action_phase++;
             decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
@@ -2826,7 +2826,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             if ((actor->target = advance_staged_entity_load(entity, actor)) == 0) {
                 return;
             }
-            action->action_timer.s = 0x10;
+            action->action_timer = 0x10;
             action->action_phase++;
             ((R06_80175270_S_80175270_9 *)actor->target)->unk_2A = (u16)actor->facing;
             child = actor->target;
@@ -2840,8 +2840,8 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
     case 8:
         {
 
-            action->action_timer.u--;
-            if (action->action_timer.s > 0) {
+            action->action_timer--;
+            if ((s16)(action->action_timer) > 0) {
                 return;
             }
             ((R06_80175270_S_80175270_9 *)actor->target)->unk_2A = (u16)actor->unk_8A;

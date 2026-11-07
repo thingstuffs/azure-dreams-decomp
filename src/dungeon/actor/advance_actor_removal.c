@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "engine/entity/effect_slots.h"
@@ -98,7 +99,6 @@ typedef struct {
 
 s32 get_entity_class();
 struct DungeonItemEntry;
-void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s16 find_entity_slot_by_field_ac();

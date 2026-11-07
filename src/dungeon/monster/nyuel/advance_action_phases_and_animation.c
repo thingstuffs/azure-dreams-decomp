@@ -31,7 +31,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         motion->velocity_x = 0;
         if (sprite->flags & 0x8000) {
             action->action_phase = 5U;
-            action->action_timer.u = 0U;
+            action->action_timer = 0U;
             sprite->flags = (u16) (sprite->flags
                 | 0x6000);
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
@@ -70,7 +70,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
                 resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
                 {
                     u16 move_duration = 6;
-                    action->action_timer.u = move_duration;
+                    action->action_timer = move_duration;
                 }
                 action->action_phase++;
                 return;
@@ -84,11 +84,11 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
             + &nyuel_frame_set_4), 0);
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         action->action_phase = 5U;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         return;
     case 4:
-        move_ticks = action->action_timer.u - 1;
-        action->action_timer.u = move_ticks;
+        move_ticks = action->action_timer - 1;
+        action->action_timer = move_ticks;
         if ((s16) move_ticks > 0) {
             {
                 s32 target_coord = sprite->tile_x << 6;
@@ -98,7 +98,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
             {
                 s32 target_coord = sprite->tile_y << 6;
                 s32 current_coord = motion->y.w.i - 0x20;
-                motion->velocity_y = ((target_coord - current_coord) << 0x10) / action->action_timer.s;
+                motion->velocity_y = ((target_coord - current_coord) << 0x10) / (s16)(action->action_timer);
             }
         } else {
             motion->velocity_z = 0;
@@ -114,8 +114,8 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
         action->action_phase++;
         return;
     case 5:
-        settle_ticks = action->action_timer.u - 1;
-        action->action_timer.u = settle_ticks;
+        settle_ticks = action->action_timer - 1;
+        action->action_timer = settle_ticks;
         if ((s16) settle_ticks > 0) {
             {
                 s32 target_coord = sprite->tile_x << 6;
@@ -125,7 +125,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
             {
                 s32 target_coord = sprite->tile_y << 6;
                 s32 current_coord = motion->y.w.i - 0x20;
-                motion->velocity_y = ((target_coord - current_coord) << 0x10) / action->action_timer.s;
+                motion->velocity_y = ((target_coord - current_coord) << 0x10) / (s16)(action->action_timer);
             }
         } else {
             motion->velocity_z = 0;

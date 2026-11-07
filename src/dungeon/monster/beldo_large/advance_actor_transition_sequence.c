@@ -58,7 +58,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
         work->velocity_z = 0;
         work->velocity_y = 0;
         work->velocity_x = 0;
-        state->action_timer.s = 0;
+        state->action_timer = 0;
         state->action_phase++;
         encounter_recovery_flag = 0;
         return;
@@ -66,7 +66,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
     case 1:
     {
         if (encounter_recovery_flag == 0) {
-            state->action_timer.s = 0;
+            state->action_timer = 0;
             state->action_phase++;
             (actor->frameTable) = beldo_large_frame_set_11;
             select_sprite_entry(actor,
@@ -76,7 +76,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
             if (D_80175DC0 == 0) {
                 return;
             }
-            state->action_timer.s = 0;
+            state->action_timer = 0;
             state->action_phase++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             (actor->frameTable) = beldo_large_frame_set_11;
@@ -88,14 +88,14 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
     }
 
     case 2:
-        timer = state->action_timer.u + 1;
-        state->action_timer.u = timer;
+        timer = state->action_timer + 1;
+        state->action_timer = timer;
         if ((s16)timer == 0x11) {
             resolve_attack_damage_and_effects(ctx, actor, ctx->facing, 1);
-            state->action_timer.s = 0;
+            state->action_timer = 0;
             state->action_phase++;
         }
-        if (state->action_timer.s != 0xF) {
+        if ((s16)(state->action_timer) != 0xF) {
             return;
         }
         play_sound_if_enabled(0x804);
@@ -114,7 +114,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
         }
         if (encounter_recovery_flag != 0) {
             state_index = state->action_phase;
-            state->action_timer.s = 0;
+            state->action_timer = 0;
             state->action_phase = state_index + 1;
             return;
         }
@@ -122,8 +122,8 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
         return;
 
     case 4:
-        timer = state->action_timer.u + 1;
-        state->action_timer.u = timer;
+        timer = state->action_timer + 1;
+        state->action_timer = timer;
         if ((s16)timer < 0x28) {
             return;
         }

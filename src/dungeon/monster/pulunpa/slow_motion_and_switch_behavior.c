@@ -20,6 +20,7 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
 {
     s32 mark_value;
     s32 tracked_entity;
+    s32 signed_timer;
 
     mark_value = 1;
     switch (body->action_phase) {
@@ -51,25 +52,26 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
         }
 
         if (sprite->flags & 0x8000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase = 2;
             return;
         }
-        body->action_timer.s =
+        signed_timer =
             (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) ? 8 : -1;
+        body->action_timer = signed_timer;
                         /* fall through */
 
     case 1:
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
 
-        if (body->action_timer.s > 0) {
-            body->action_timer.s = body->action_timer.u - 1;
+        if ((s16)(body->action_timer) > 0) {
+            body->action_timer = body->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
         }
 
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -90,7 +92,7 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
             begin_actor_display_action(body, motion, sprite, D_80176318);
             return;
         }
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         body->action_phase++;
         return;
 
@@ -102,7 +104,7 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
         s16 frames_left;
         u16 next_timer;
 
-        frames_left = body->action_timer.s;
+        frames_left = (body->action_timer);
         if (frames_left > 0) {
             x_step = sprite->tile_x << 6;
             position_offset = motion->x.w.i - 0x20;
@@ -112,11 +114,11 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
             motion->velocity_x = x_step;
             y_distance = (sprite->tile_y << 6) - position_offset;
             motion->velocity_y =
-                (y_distance << 16) / body->action_timer.s;
+                (y_distance << 16) / (s16)(body->action_timer);
         }
 
-        next_timer = body->action_timer.u - 1;
-        body->action_timer.s = next_timer;
+        next_timer = body->action_timer - 1;
+        body->action_timer = next_timer;
         if ((s32)(next_timer << 16) > 0) {
             return;
         }

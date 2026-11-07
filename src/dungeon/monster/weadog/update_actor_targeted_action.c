@@ -173,7 +173,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
     case 2:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
             action->action_state_flags |= 0x80;
             return;
@@ -181,22 +181,22 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
 
         if ((sprite->unk_04 == 2) && (sprite_flags & 0x1000)) {
             sprite->flags = sprite_flags | 0x800;
-            action->action_timer.u = 0x16;
+            action->action_timer = 0x16;
         }
         if (sprite->unk_04 < 2) {
             return;
         }
 
-        timer = action->action_timer.u - 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s16)timer <= 0) {
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
         }
-        if (action->action_timer.s == 2) {
+        if ((s16)(action->action_timer) == 2) {
             action->action_state_flags |= 0x80;
         }
-        if (action->action_timer.s < 0xA) {
+        if ((s16)(action->action_timer) < 0xA) {
             return;
         }
 
@@ -214,7 +214,7 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
                 particle_origin,
                 particle_zero,
                 particle_color,
-                (s16)(action->action_timer.u - 2),
+                (s16)(action->action_timer - 2),
                 offset_x,
                 offset_y,
                 offset_z);
@@ -224,17 +224,17 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
         } while (1);
 
     case 3:
-        action->action_timer.u = 0x14;
+        action->action_timer = 0x14;
         action->action_phase++;
 
     case 4:
         if ((g_dungeon_status.active_actor) == 0) {
-            action->action_timer.u = 0;
+            action->action_timer = 0;
         }
-        timer = action->action_timer.u - 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s16)timer <= 0) {
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if (!(sprite->flags & 0xE000)) {

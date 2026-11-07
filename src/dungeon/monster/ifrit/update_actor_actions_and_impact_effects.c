@@ -178,7 +178,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(pos, (s16)((*anim - 1) % 3));
                 current_state = body->action_phase;
-                body->action_timer.u = 30000;
+                body->action_timer = 30000;
                 body->action_phase = current_state + 1;
                 return;
             }
@@ -213,7 +213,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
         if ((sprite->unk_04 == 3 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            body->action_timer.u = 6;
+            body->action_timer = 6;
             body->action_state_flags |= 0x80;
             if (!(sprite->flags & 0x8000)) {
                 flags = body->action_state_flags;
@@ -243,8 +243,8 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
             }
         }
 
-        timer = body->action_timer.u - 1;
-        body->action_timer.u = timer;
+        timer = body->action_timer - 1;
+        body->action_timer = timer;
         if ((s32)(timer << 16) <= 0) {
             body->action_state_flags &= 0x7FFF;
             sprite->flags &= 0xF7FF;

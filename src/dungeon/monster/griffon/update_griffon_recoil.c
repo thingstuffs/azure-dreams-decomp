@@ -42,7 +42,7 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
             return;
         }
         if (sprite->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 3;
             return;
         }
@@ -52,7 +52,7 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
         } else {
             timer = -1;
         }
-        action->action_timer.s = timer;
+        action->action_timer = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -64,13 +64,13 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
         motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
 
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
 
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -102,12 +102,12 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
             sprite,
             griffon_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer.s = 8;
+        action->action_timer = 8;
         action->action_phase++;
         return;
 
     case 3:
-        timer = action->action_timer.s;
+        timer = (action->action_timer);
         if (timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -118,12 +118,12 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / action->action_timer.s;
+                    ((target_y - current_y) << 15) / (s16)(action->action_timer);
             }
         }
 
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

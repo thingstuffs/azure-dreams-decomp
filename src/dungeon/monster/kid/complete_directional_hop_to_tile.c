@@ -40,7 +40,7 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
         }
 
         if (sprite->flags & 0x8000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase = 2;
             return;
         }
@@ -57,7 +57,7 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
         if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             flight_timer = 8;
         }
-        body->action_timer.s = flight_timer;
+        body->action_timer = flight_timer;
 
         velocity_x = motion->velocity_x;
         rounded_velocity_x = velocity_x;
@@ -74,12 +74,12 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
         motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if (body->action_timer.s > 0) {
-            body->action_timer.u--;
+        if ((s16)(body->action_timer) > 0) {
+            body->action_timer--;
         } else if (sprite->flags & 0x6000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
         }
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -90,13 +90,13 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
             begin_actor_display_action(body, motion, sprite, D_80175158);
             return;
         }
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         body->action_phase++;
         return;
 
     case 2:
         motion->velocity_z = 0xFFFE0000;
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             s32 tile_delta;
             s32 position;
 
@@ -117,9 +117,9 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
         }
 
         {
-            s16 landing_timer = (u16)body->action_timer.s - 1;
+            s16 landing_timer = (u16)body->action_timer - 1;
 
-            body->action_timer.s = landing_timer;
+            body->action_timer = landing_timer;
             if (landing_timer > 0) {
                 return;
             }

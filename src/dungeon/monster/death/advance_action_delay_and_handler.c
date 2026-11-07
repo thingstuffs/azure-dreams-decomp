@@ -30,7 +30,7 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
             return;
         }
         if (action_info->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -39,18 +39,18 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
         } else {
             delay = -1;
         }
-        action->action_timer.s = delay;
+        action->action_timer = delay;
                         /* fall through */
 
     case 1:
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (action_info->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (actor_data->hp == 0) {
@@ -60,18 +60,18 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
             begin_actor_display_action(action, motion, action_info, death_frame_set);
             return;
         } else {
-            action->action_timer.s = 2;
+            action->action_timer = 2;
             action->action_phase++;
         }
         return;
 
     case 2:
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             motion->velocity_y = 0;
             motion->velocity_x = 0;
         }
-        delay = action->action_timer.u - 1;
-        action->action_timer.s = delay;
+        delay = action->action_timer - 1;
+        action->action_timer = delay;
         if ((s32)(delay << 16) > 0) {
             return;
         }

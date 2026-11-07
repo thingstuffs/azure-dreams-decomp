@@ -74,7 +74,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        actor->action_timer.u = 0xE;
+        actor->action_timer = 0xE;
         actor->unk_AC.byte = 0;
         actor->unk_AC.bytes[1] = 0;
         actor->action_phase++;
@@ -130,12 +130,12 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             }
         }
 
-        timer = actor->action_timer.u - 1;
-        actor->action_timer.u = timer;
+        timer = actor->action_timer - 1;
+        actor->action_timer = timer;
         if (timer > 0 && !(animation->flags & 0x8000)) {
             return;
         }
-        actor->action_timer.u = 0x78;
+        actor->action_timer = 0x78;
         actor->action_phase++;
         return;
 
@@ -144,17 +144,17 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
              (animation->flags & 0x1000)) ||
             (animation->flags & 0x8000)) {
             animation->flags |= 0x800;
-            actor->action_timer.u = 0x23;
+            actor->action_timer = 0x23;
         }
 
-        timer = actor->action_timer.u - 1;
-        actor->action_timer.u = timer;
+        timer = actor->action_timer - 1;
+        actor->action_timer = timer;
         if (timer <= 0 || (animation->flags & 0x8000)) {
-            actor->action_timer.u = 0;
+            actor->action_timer = 0;
             animation->flags &= 0xF7FF;
         }
 
-        if (!(actor->action_timer.s != 0x0A && !(animation->flags & 0x8000))) {
+        if (!((s16)(actor->action_timer) != 0x0A && !(animation->flags & 0x8000))) {
             directions = glacier_direction_offsets;
             actor->unk_AC.bytes[1] = 0;
             x = motion->x.w.i +
@@ -216,7 +216,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                     [((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
-        actor->action_timer.u = 0;
+        actor->action_timer = 0;
         if (((s8)actor->unk_AC.bytes[1]) == 0) {
             actor->action_phase++;
             return;
@@ -226,9 +226,9 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
 
     case 3:
     {
-        s16 spin_timer = actor->action_timer.u + 1;
+        s16 spin_timer = actor->action_timer + 1;
 
-        actor->action_timer.u = spin_timer;
+        actor->action_timer = spin_timer;
         if ((spin_timer & 3) == 0) {
 
             spin_angle = entity->facing;
@@ -240,20 +240,20 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             entity->facing = spin_angle;
         }
     }
-        if (actor->action_timer.s != 0x13) {
+        if ((s16)(actor->action_timer) != 0x13) {
             return;
         }
-        actor->action_timer.u = 0;
+        actor->action_timer = 0;
         actor->action_phase++;
         return;
 
     case 4:
-        timer = actor->action_timer.u + 1;
-        actor->action_timer.u = timer;
+        timer = actor->action_timer + 1;
+        actor->action_timer = timer;
         if (timer < 0x0A && !(animation->flags & 0x8000)) {
             return;
         }
-        actor->action_timer.u = 0;
+        actor->action_timer = 0;
         actor->action_phase++;
         (animation->frameTable) = glacier_frame_set_1;
         select_sprite_entry(animation,
@@ -267,26 +267,26 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             select_sprite_entry(animation,
                 glacier_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            actor->action_timer.u = 0;
+            actor->action_timer = 0;
             actor->action_phase++;
         }
         return;
 
     case 6:
-        timer = actor->action_timer.u + 1;
-        actor->action_timer.u = timer;
+        timer = actor->action_timer + 1;
+        actor->action_timer = timer;
         if (timer < 0x14 && !(animation->flags & 0x8000)) {
             return;
         }
-        actor->action_timer.u = 0;
+        actor->action_timer = 0;
         actor->action_phase++;
         return;
 
     case 7:
     {
-        s16 spin_timer = actor->action_timer.u + 1;
+        s16 spin_timer = actor->action_timer + 1;
 
-        actor->action_timer.u = spin_timer;
+        actor->action_timer = spin_timer;
         if ((spin_timer & 3) == 0) {
 
             spin_angle = entity->facing;
@@ -298,10 +298,10 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             entity->facing = spin_angle;
         }
     }
-        if (actor->action_timer.s != 0x13) {
+        if ((s16)(actor->action_timer) != 0x13) {
             return;
         }
-        actor->action_timer.u = 0;
+        actor->action_timer = 0;
         actor->action_phase++;
         return;
 
@@ -309,7 +309,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
         if (actor->unk_AC.signed_byte != 0x4D) {
             return;
         }
-        actor->action_timer.u = 0;
+        actor->action_timer = 0;
         actor->action_phase++;
         return;
 
@@ -320,11 +320,11 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
         (entity->action_flags) &= 0x7FFF;
 
     case 16:
-        timer = actor->action_timer.u + 1;
-        actor->action_timer.u = timer;
+        timer = actor->action_timer + 1;
+        actor->action_timer = timer;
         if (timer >= 0x1E) {
             actor->action_phase = 9;
-            actor->action_timer.u = 0;
+            actor->action_timer = 0;
         }
         return;
 

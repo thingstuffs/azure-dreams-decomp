@@ -19,7 +19,7 @@ void reset_actor_action_state_after_completion(ActorRecord *action_state, Object
             action_state->action_phase = 0;
             advance_status_timers(entity);
             entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
-            action_state->action_timer.s = 0;
+            action_state->action_timer = 0;
         }
     }
 }

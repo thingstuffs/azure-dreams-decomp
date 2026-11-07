@@ -60,7 +60,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
                 return;
             }
         } else {
-            heading_or_coord = resolve_player_input_facing(actor->unk_9E.s, ((void *)actor) + 0xA2, ((void *)model) + 0x2A) << 0x10;
+            heading_or_coord = resolve_player_input_facing((actor->unk_9E), ((void *)actor) + 0xA2, ((void *)model) + 0x2A) << 0x10;
             if ((heading_or_coord >> 0x10) == 0xFFF) {
                 return;
             }
@@ -76,8 +76,8 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
     case 16:
         ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (dir_step_x[((u16) model->facing >> 9) & 7] * 8);
         ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (dir_step_y[((u16) model->facing >> 9) & 7] * 8);
-        start_frames_left = actor->action_timer.u - 1;
-        actor->action_timer.u = start_frames_left;
+        start_frames_left = actor->action_timer - 1;
+        actor->action_timer = start_frames_left;
         if ((start_frames_left << 0x10) > 0) {
             return;
         }
@@ -140,11 +140,11 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
         sprite->frameTable = player_push_loop_frames;
         set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7)
             + player_push_loop_frames), 0, 1);
-        actor->action_timer.u = 2U;
+        actor->action_timer = 2U;
         actor->action_phase = 0x13U;
         return;
     case 19:
-        settle_frames = (s16) actor->action_timer.u;
+        settle_frames = (s16) actor->action_timer;
         if (settle_frames != 0) {
             {
                 s32 delta;
@@ -163,11 +163,11 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
                 delta = sprite->tile_y << 6;
                 delta -= origin;
                 ((S_80092018_3 *)motion)->unk_10.at00.v = (s32) ((delta
-                    << 0x10) / (s16) actor->action_timer.u);
+                    << 0x10) / (s16) actor->action_timer);
             }
-            if (actor->action_timer.s != 0) {
-                settle_frames_left = actor->action_timer.u - 1;
-                actor->action_timer.u = settle_frames_left;
+            if ((s16)(actor->action_timer) != 0) {
+                settle_frames_left = actor->action_timer - 1;
+                actor->action_timer = settle_frames_left;
                 if ((settle_frames_left << 0x10) == 0) {
                     ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
                     ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
@@ -179,7 +179,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
             if (!(anim_flags & 0x6000)) {
                 return;
             }
-            if (actor->action_timer.s != 0) {
+            if ((s16)(actor->action_timer) != 0) {
                 return;
             }
         }

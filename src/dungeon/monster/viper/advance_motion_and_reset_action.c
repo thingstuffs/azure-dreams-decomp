@@ -17,6 +17,7 @@
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "dungeon/data.h"
+#include "dungeon/monster/viper.h"
 
 typedef struct S_80172F5C_3 {
     u8 pad_00[0x24];
@@ -160,12 +161,12 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
         if ((sprite->unk_04 == 7 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
             sprite->flags |= 0x800;
-            state->action_timer.u = 8;
+            state->action_timer = 8;
         }
-        wait_ticks = state->action_timer.u - 1;
-        state->action_timer.u = wait_ticks;
+        wait_ticks = state->action_timer - 1;
+        state->action_timer = wait_ticks;
         if ((s16)wait_ticks <= 0) {
-            state->action_timer.u = 0;
+            state->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {

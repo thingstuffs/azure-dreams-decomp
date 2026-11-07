@@ -40,7 +40,6 @@ extern struct S_800491F4 *card_boot_link_message_display_entries(void *ptr);
 extern void card_boot_initialize_dialog_draw_nodes(void *context, s32 value);
 extern s32 card_boot_close_message_dialog(s32 flagLinkedRecord);
 extern void register_node(void *base, void *handler);
-extern struct ObjectNodeHeader *find_active_list_node(void *base);
 extern void bzero(void *ptr, s32 size);
 extern u8 D_80022CD8[];
 extern u8 menu_backdrop_tag[];

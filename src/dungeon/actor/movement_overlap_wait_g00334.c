@@ -49,6 +49,6 @@ void begin_actor_overlap_wait(ActorRecord *entity, void *unused_1, void *unused_
     entity->action_id = 3;
     entity->action_phase = 0;
     entity->unk_8C.word = 0;
-    entity->action_timer.s = 4;
+    entity->action_timer = 4;
     g_dungeon_status.activity_counts.parts.pending_action_count += 1;
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Integrity checks on ledger/unions.jsonl against a BASE revision.
 
-    ledger_integrity.py BASE [--fail-new | --fail-all] [--list] [--rederive [--write]]
+    ledger_integrity.py BASE [--fail-new | --fail-all] [--list] [--no-layouts] [--rederive [--write]]
 
 (a) loads: the number of rows with any non-zero per-member `loads` must not drop, and
     no row whose loads were non-zero on BASE may become all-zero (a regeneration that
@@ -11,26 +11,56 @@
     must name an existing line that contains CAST (whitespace-insensitive).  CAST is the
     first cast spelling of the text after the location: `(s16)`, `(u16 *)`, `(T *)`,
     `*(u8 *)&`.  `,n` with n > line names a second line, which must hold CAST too; a
-    smaller n is a count or column and is not checked.  Dict entries {site, cast} are
-    checked the same way.  Entries with no `path:line` (for example `path (former member
-    sites)`) are notes; `path:line` with no cast spelling only needs the line to exist.
-    --fail-new fails on entries stale on HEAD that were not stale on BASE (same entry,
-    BASE text); --fail-all fails on every stale entry.  Without either flag (b) reports.
-(c) weak evidence (report only): retired rows that carry load counts, by how many
+    smaller n is a span of n lines starting at the line (only the first must hold CAST).
+    Dict entries {site, cast} are checked the same way.  Entries with no `path:line` (for
+    example `path (former member sites)`) are notes; `path:line` with no cast spelling only
+    needs the line to exist.
+(c) field rule, on every entry that passes (b): the cited span must reference the row's
+    field, `->field` or `.field` for the last component of the row's path.  The span is
+    the cited line(s) or the `,n` lines, plus the next line when the cast is a pointer
+    cast or ends its line.  Classes, accepted:
+      field     the row's field is referenced
+      alias     a named member of the row (GridPoint x/y), or a field declared in the
+                same declarator list as the row's (`u16 angle_x, angle_y, angle_z;`)
+      named     the entry's own text names the member that is referenced
+                (`(u16) value cast of y`, `(s16)effect->ticks_left`, a dict entry's `to`)
+      renamed   the row's path is an `unk_XX`/`field_XX` name and a cast on the line
+                applies to a member that a record of the file places at offset XX
+                (clang record layouts of the cited file)
+      typedef   a typedef or variable row (path == owner): the span names the owner, or a
+                member the file's records declare with that type
+    report only:
+      renamed?  a cast applies to a differently named member whose offset could not be
+                checked (no layouts, or the member is not in any record of the file)
+      typedef?  a typedef row whose span names neither the type nor a member of that type
+      nofield   the casts on the line apply to no member (a local, an array, a call)
+    failing:
+      wrong     a cast of another member stands on the line, the row's field (and every
+                alias) is nowhere in the span, and no rename is possible: every cast is
+                on an `unk_XX` member, the owner's record in the row's file still
+                declares the field, or the layouts place the member at another offset
+    --fail-new fails on entries stale on HEAD, or `wrong` on HEAD, that were neither stale
+    nor `wrong` on BASE (same entry, BASE text; BASE uses HEAD's record layouts);
+    --fail-all fails on every stale or `wrong` entry.  Without either flag (b) and (c)
+    report.  --no-layouts skips clang: renames are then `renamed?`.
+(d) weak evidence (report only): retired rows that carry load counts, by how many
     mapped loads (lb, lbu, lh, lhu, lw; stores never vote) the decision rests on.
 
---rederive proposes a current line for each stale entry: the nearest line holding the
-same cast spelling applied to the row's field, following the file's history from the
-newest committed version where the entry held, unique per row; when no such cast is
-left the line number is dropped and the entry is marked `(cast gone)`.  --write applies the proposals.
+--rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
+the same cast spelling that passes the field rule, following the file's history from the
+newest committed version where the entry held (cast and field), unique per row; a line that
+fails the field rule is never chosen.  When no such cast is left the line number is dropped
+and the entry is marked `(cast gone)`.  --write applies the proposals.
 """
 from __future__ import annotations
 
 import argparse
 import collections
 import json
+import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 
@@ -41,6 +71,20 @@ CAST = re.compile(r'\*\s*\([^()]*\*\s*\)\s*&'
                   r'|\(\s*(?:(?:const|struct|union|enum|unsigned|signed|volatile)\s+)*'
                   r'[A-Za-z_]\w*(?:\s+[A-Za-z_]\w*)*\s*(?:\*\s*)*\)')
 GONE = '(cast gone)'
+IDENT = re.compile(r'[A-Za-z_]\w*')
+UNK = re.compile(r'^(?:unk|field)_?([0-9A-Fa-f]+)$')
+# Union member names that say how a field is read, not which field it is.
+GENERIC = {'s', 'u', 'p', 'i', 'w', 'h', 'b', 'f', 's8', 'u8', 's16', 'u16', 's32', 'u32',
+           'word', 'signed_word', 'whole', 'signed_whole', 'half', 'halves', 'bytes', 'parts',
+           'fields', 'as_s16', 'as_u16', 'as_s32', 'as_u32', 'bits', 'signed_value', 'value',
+           'raw', 'ptr', 'addr', 'integer', 'unsigned_parts', 'signed_parts'}
+PROSE_STOP = {'value', 'cast', 'casts', 'of', 'and', 'or', 'the', 'a', 'an', 'width', 'sign',
+              'signed', 'unsigned', 'read', 'reads', 'store', 'stores', 'load', 'loads', 'both',
+              'half', 'word', 'byte', 'view', 'gone', 'line', 'lines', 'site', 'sites', 'member',
+              'former', 'branch', 'already', 'stale', 'on', 'in', 'to', 'at', 'from', 'with'}
+ACCEPTED = ('field', 'alias', 'named', 'renamed', 'typedef')
+REPORTED = ('renamed?', 'typedef?', 'nofield')
+FIELD_CLASSES = ACCEPTED + REPORTED + ('wrong',)
 
 
 def squash(text):
@@ -48,7 +92,7 @@ def squash(text):
 
 
 def parse_entry(entry):
-    """dict(kind=note|site|nocast|unparsed, path, line, second, extra, cast, rest)."""
+    """dict(kind=note|site|nocast|unparsed, path, line, second, extra, cast, rest, to)."""
     if isinstance(entry, dict):
         site = entry.get('site', '')
         match = SITE.match(site) if isinstance(site, str) else None
@@ -56,7 +100,8 @@ def parse_entry(entry):
             return dict(kind='unparsed')
         cast = CAST.match(str(entry.get('cast', '')).strip())
         return dict(kind='site' if cast else 'nocast', path=match['path'], line=int(match['line']),
-                    second=None, extra=None, cast=cast.group(0) if cast else None, rest='')
+                    second=None, extra=None, cast=cast.group(0) if cast else None, rest='',
+                    to=entry.get('to') if isinstance(entry.get('to'), str) else None)
     if not isinstance(entry, str):
         return dict(kind='unparsed')
     match = SITE.match(entry.strip())
@@ -67,7 +112,7 @@ def parse_entry(entry):
     cast = CAST.match(rest.strip())
     return dict(kind='site' if cast else 'nocast', path=match['path'], line=line,
                 second=n if n and n > line else None, extra=n if n and n <= line else None,
-                cast=cast.group(0) if cast else None, rest=rest)
+                cast=cast.group(0) if cast else None, rest=rest, to=None)
 
 
 class Texts:
@@ -109,6 +154,318 @@ def check_entry(entry, texts):
 STALE = ('stale', 'noline', 'nofile')
 
 
+# ---------------------------------------------------------------- record layouts
+
+class Layouts:
+    """clang record layouts of a cited C file: [(record, member, offset, type)], cached.
+
+    Offsets are relative to the record each `Dumping AST Record Layout` block describes,
+    nested members included; a failed or skipped run gives None."""
+
+    LINE = re.compile(r'^\s*(\d+)(?::\d+-\d+)? \| (\s*)(.*)$')
+    ARGS = ['--target=mipsel-unknown-none', '-fsyntax-only', '-w', '-ferror-limit=0', '-Wno-everything']
+
+    def __init__(self, root, enabled=True):
+        self.root = Path(root)
+        self.clang = os.environ.get('LEDGER_INTEGRITY_CLANG', 'clang')
+        self.enabled = enabled and shutil.which(self.clang) is not None
+        self.cache = {}
+
+    def get(self, path):
+        if not self.enabled or not path.endswith('.c'):
+            return None
+        if path not in self.cache:
+            result = subprocess.run([self.clang, *self.ARGS, '-I', 'include', '-Xclang',
+                                     '-fdump-record-layouts-complete', path],
+                                    cwd=self.root, capture_output=True)
+            text = result.stdout.decode(errors='replace')
+            self.cache[path] = self.parse(text) if 'Dumping AST Record Layout' in text else None
+        return self.cache[path]
+
+    @classmethod
+    def parse(cls, text):
+        members = []
+        for block in text.split('*** Dumping AST Record Layout')[1:]:
+            lines = [line for line in block.splitlines() if cls.LINE.match(line)]
+            if not lines:
+                continue
+            head = cls.LINE.match(lines[0])
+            record = head.group(3).split()[-1]
+            for line in lines[1:]:
+                m = cls.LINE.match(line)
+                body = m.group(3).strip()
+                if ' ' not in body:
+                    continue
+                kind, name = body.rsplit(' ', 1)
+                members.append((record, name, int(m.group(1)), kind))
+        return members
+
+
+def type_name(kind):
+    """`const TransformHalf[3]` -> `TransformHalf`."""
+    kind = re.sub(r'\[[^\]]*\]', '', kind).replace('*', ' ')
+    words = [w for w in kind.split() if w not in ('const', 'volatile', 'struct', 'union', 'enum')]
+    return words[-1] if words else ''
+
+
+# ---------------------------------------------------------------- the field rule
+
+def accesses(text, name):
+    return re.search(r'(?:->|\.)\s*' + re.escape(name) + r'\b', text or '') is not None
+
+
+def token_pattern(token):
+    return re.compile(r'\s*'.join(map(re.escape, token)))
+
+
+def skip_balanced(text, i, open_, close):
+    depth = 0
+    while i < len(text):
+        if text[i] == open_:
+            depth += 1
+        elif text[i] == close:
+            depth -= 1
+            if depth == 0:
+                return i + 1
+        i += 1
+    return i
+
+
+def operand_members(text, i):
+    """Member names of the access chain an operator ending at i applies to.
+
+    `(s16)p->a.b` gives [a, b]; `((S *)p)->f` gives [f] (the closing parenthesis of the
+    cast's own group is crossed); `(u16)d[i]` and `(s16)award` give []."""
+    n, depth = len(text), 0
+    while i < n:
+        while i < n and text[i].isspace():
+            i += 1
+        if i >= n:
+            return []
+        cast = CAST.match(text, i) if text[i] == '(' else None
+        # `(T)x` is a cast when an operand follows; `(x)->f` is a parenthesized operand.
+        if cast and re.match(r'\s*(?:[A-Za-z_(*&~!]|-(?!>))', text[cast.end():]):
+            i = cast.end()
+        elif text[i] == '(':
+            depth, i = depth + 1, i + 1
+        elif text[i] in '*&-~!+':
+            i += 1
+        else:
+            break
+    m = IDENT.match(text, i)
+    if not m:
+        return []
+    i, names = m.end(), []
+    while i < n:
+        while i < n and text[i].isspace():
+            i += 1
+        if text.startswith('->', i) or text.startswith('.', i):
+            i += 2 if text.startswith('->', i) else 1
+            while i < n and text[i].isspace():
+                i += 1
+            m = IDENT.match(text, i)
+            if not m:
+                break
+            names.append(m.group())
+            i = m.end()
+        elif text.startswith('[', i):
+            i = skip_balanced(text, i, '[', ']')
+        elif text.startswith('(', i):
+            i = skip_balanced(text, i, '(', ')')
+        elif text.startswith(')', i):
+            j = i + 1
+            while j < n and text[j].isspace():
+                j += 1
+            if depth > 0:
+                depth, i = depth - 1, i + 1
+            elif text.startswith(('->', '.', '['), j):
+                i = j
+            else:
+                break
+        elif depth > 0:
+            # `((T *)(base + k))->f`: the rest of the group is arithmetic; the member
+            # access after its closing parenthesis applies to the whole group.
+            level = 0
+            while i < n and not (text[i] == ')' and level == 0):
+                level += {'(': 1, ')': -1}.get(text[i], 0)
+                i += 1
+        else:
+            break
+    return names
+
+
+def cast_targets(text, token, limit=None):
+    """[member chain] for each occurrence of token (squashed) starting before limit."""
+    out = []
+    for match in token_pattern(token).finditer(text or ''):
+        if limit is not None and match.start() >= limit:
+            break
+        out.append(operand_members(text, match.end()))
+    return out
+
+
+def cast_fields(text, token):
+    """Members the casts on this text apply to: `(s16)p->f` and `((T *)p)->f` give f."""
+    return {name for chain in cast_targets(text, token) for name in chain}
+
+
+def with_next(lines, i):
+    """0-based line i joined with the following line (casts split across a line break)."""
+    return lines[i] + (' ' + lines[i + 1] if i + 1 < len(lines) else '')
+
+
+def row_field(row):
+    return (row.get('path') or '').split('.')[-1]
+
+
+def is_typedef_row(row):
+    return bool(row.get('path')) and row.get('path') == row.get('owner')
+
+
+def field_names(row):
+    names = {row_field(row)}
+    names |= {m.get('name') for m in row.get('members') or [] if m.get('name')}
+    return {n for n in names if n}
+
+
+def member_aliases(row):
+    return {m.get('name') for m in row.get('members') or []
+            if m.get('name') and m.get('name') not in GENERIC and m.get('name') != row_field(row)}
+
+
+def owner_declarations(row, texts):
+    """Declarator lists of the owner's record in the row's file, one per declaration:
+    `u16 angle_x, angle_y, angle_z;` gives [angle_x, angle_y, angle_z]."""
+    owner = row.get('owner')
+    lines = texts.lines(row.get('file') or '') if row.get('file') else None
+    if not lines or not owner:
+        return []
+    text = '\n'.join(lines)
+    blocks = []
+    for m in re.finditer(r'\b(?:struct|union)\s*(\w*)\s*\{', text):
+        end = skip_balanced(text, m.end() - 1, '{', '}')
+        tail = re.match(r'\s*(\w+)', text[end:])
+        if m.group(1) == owner or (tail and tail.group(1) == owner):
+            blocks.append(text[m.end():end - 1])
+    out = []
+    for body in blocks:
+        for statement in re.sub(r'\{[^{}]*\}', ' ', body).split(';'):
+            parts = [re.sub(r'\[[^\]]*\]|:\s*\d+', '', p).replace('*', ' ').split()
+                     for p in statement.split(',')]
+            names = [words[-1] for words in parts if words and IDENT.fullmatch(words[-1])]
+            if names:
+                out.append(names)
+    return out
+
+
+def prose_names(parsed):
+    """Member names the entry's own text spells: `(u16) value cast of y`, `(s16)effect->x`."""
+    names = set()
+    rest = parsed.get('rest') or ''
+    if parsed.get('cast'):
+        cast = CAST.match(rest.strip())
+        rest = rest.strip()[cast.end():] if cast else rest
+    rest = rest.replace(GONE, ' ')
+    for m in re.finditer(r'(?:->|\.)\s*([A-Za-z_]\w*)', rest):
+        names.add(m.group(1))
+    names |= {w for w in IDENT.findall(re.sub(r'(?:->|\.)\s*[A-Za-z_]\w*', ' ', rest))
+              if w.lower() not in PROSE_STOP and not w.isdigit()}
+    if parsed.get('to'):
+        names.add(parsed['to'])
+    return names
+
+
+def span_numbers(parsed, lines):
+    numbers = [parsed['line']] + ([parsed['second']] if parsed.get('second') else [])
+    if parsed.get('extra'):
+        numbers = list(range(parsed['line'], parsed['line'] + parsed['extra']))
+    return [n for n in numbers if 1 <= n <= len(lines)]
+
+
+def context_numbers(parsed, lines, token):
+    """The span plus the next line where a pointer cast or a line-ending cast continues."""
+    numbers = span_numbers(parsed, lines)
+    out = list(numbers)
+    pointer = token.endswith('*)') or token.endswith('&')
+    for n in numbers:
+        line = lines[n - 1]
+        last = None
+        for last in token_pattern(token).finditer(line):
+            pass
+        ends = last is not None and not line[last.end():].strip(' \t()')
+        if (pointer or ends) and n + 1 <= len(lines) and n + 1 not in out:
+            out.append(n + 1)
+    return out
+
+
+def classify_lines(row, parsed, lines, layouts=None, texts=None, cache=None):
+    """Field-rule class of one parsed `site` entry against these file lines."""
+    token = squash(parsed['cast'])
+    field = row_field(row)
+    span = span_numbers(parsed, lines)
+    if not span:
+        return 'wrong'
+    context = ' \n '.join(lines[n - 1] for n in context_numbers(parsed, lines, token))
+    if is_typedef_row(row):
+        owner = row['owner']
+        if re.search(r'\b' + re.escape(owner) + r'\b', context):
+            return 'typedef'
+        members = layouts.get(parsed['path']) if layouts else None
+        typed = {name for _, name, _, kind in members or () if type_name(kind) == owner}
+        return 'typedef' if any(accesses(context, name) for name in typed) else 'typedef?'
+    if accesses(context, field):
+        return 'field'
+    key = row.get('id')
+    if cache is not None and key in cache:
+        aliases, declared = cache[key]
+    else:
+        declarations = owner_declarations(row, texts) if texts else []
+        declared = {name for names in declarations for name in names}
+        aliases = member_aliases(row) | {name for names in declarations if field in names
+                                         for name in names if name != field}
+        if cache is not None:
+            cache[key] = aliases, declared
+    if any(accesses(context, name) for name in aliases):
+        return 'alias'
+    if any(accesses(context, name) for name in prose_names(parsed) - GENERIC):
+        return 'named'
+    targets = set()
+    for n in span:
+        text = with_next(lines, n - 1)
+        for chain in cast_targets(text, token, limit=len(lines[n - 1])):
+            targets |= {name for name in chain if name not in GENERIC}
+    if not targets:
+        return 'nofield'
+    named = {t for t in targets if not UNK.match(t)}
+    if not named or field in declared:
+        # Every cast is on an unk_XX member (whose name is its offset), or the owner's
+        # record still declares the row's field under its own name: no rename happened.
+        return 'wrong'
+    members = layouts.get(parsed['path']) if layouts else None
+    if members is None:
+        return 'renamed?'
+    unk = UNK.match(field)
+    present = {name for _, name, _, _ in members}
+    if unk:
+        offset = int(unk.group(1), 16)
+        if any(name in named and off == offset for _, name, off, _ in members):
+            return 'renamed'
+        return 'wrong' if named & present else 'renamed?'
+    # A named row field that the file's records still declare was not renamed away.
+    return 'wrong' if field in present and named & present else 'renamed?'
+
+
+def field_class(row, entry, texts, layouts=None, cache=None):
+    """Field-rule class of an entry that passes check_entry, or None (not a cast site)."""
+    parsed = parse_entry(entry)
+    if parsed['kind'] != 'site':
+        return None
+    lines = texts.lines(parsed['path'])
+    if not lines:
+        return None
+    return classify_lines(row, parsed, lines, layouts, texts, cache)
+
+
 def read_ledger(text):
     return [json.loads(line) for line in text.splitlines() if line.strip()]
 
@@ -136,27 +493,34 @@ def check_loads(base_rows, head_rows):
     return dict(base=base_n, head=head_n, zeroed=zeroed, dropped=dropped, problems=problems)
 
 
-def check_sites(head_rows, head_texts, base_rows=None, base_texts=None):
-    """Per-entry results on HEAD, and which stale ones are new against BASE."""
+def check_sites(head_rows, head_texts, base_rows=None, base_texts=None, layouts=None):
+    """Per-entry results on HEAD (stale, or flagged by the field rule), which are new
+    against BASE, and counts: (results, status counts, field-class counts)."""
     base_entries = {}
     for row in base_rows or ():
         base_entries[row['id']] = [json.dumps(e, sort_keys=True) for e in row.get('retired_to_cast') or []]
-    results, counts = [], collections.Counter()
-    base_cache = {}
+    results, counts, fields = [], collections.Counter(), collections.Counter()
+    base_cache, alias_cache, base_alias_cache = {}, {}, {}
     for row in head_rows:
         for entry in row.get('retired_to_cast') or []:
             status = check_entry(entry, head_texts)
             counts[status] += 1
-            if status not in STALE:
+            fclass = field_class(row, entry, head_texts, layouts, alias_cache) if status == 'ok' else None
+            if fclass:
+                fields[fclass] += 1
+            if status not in STALE and fclass not in REPORTED + ('wrong',):
                 continue
             key = json.dumps(entry, sort_keys=True)
             new = True
             if base_texts is not None and key in base_entries.get(row['id'], ()):
-                if key not in base_cache:
-                    base_cache[key] = check_entry(entry, base_texts)
-                new = base_cache[key] not in STALE
-            results.append(dict(id=row['id'], entry=entry, status=status, new=new))
-    return results, counts
+                if (row['id'], key) not in base_cache:
+                    base_status = check_entry(entry, base_texts)
+                    base_class = (field_class(row, entry, base_texts, layouts, base_alias_cache)
+                                  if base_status == 'ok' else None)
+                    base_cache[(row['id'], key)] = base_status in STALE or base_class == 'wrong'
+                new = not base_cache[(row['id'], key)]
+            results.append(dict(id=row['id'], entry=entry, status=status, field=fclass, new=new))
+    return results, counts, fields
 
 
 def weak_evidence(rows, base_rows=None):
@@ -173,27 +537,6 @@ def weak_evidence(rows, base_rows=None):
 
 
 # ---------------------------------------------------------------- re-derivation
-
-def field_names(row):
-    names = {row.get('path', '').split('.')[-1]}
-    names |= {m.get('name') for m in row.get('members') or [] if m.get('name')}
-    return {n for n in names if n}
-
-
-def cast_fields(text, token):
-    """Members the casts on this text apply to: `(s16)p->f` and `((T *)p)->f` give f."""
-    fields = set()
-    for match in re.compile(r'\s*'.join(map(re.escape, token))).finditer(text or ''):
-        field = re.search(r'(?:->|\.)\s*([A-Za-z_]\w*)', text[match.end():match.end() + 120])
-        if field:
-            fields.add(field[1])
-    return fields
-
-
-def with_next(lines, i):
-    """0-based line i joined with the following line (casts split across a line break)."""
-    return lines[i] + (' ' + lines[i + 1] if i + 1 < len(lines) else '')
-
 
 class History:
     """Committed versions of a file, newest first, to find where a stale entry was last true."""
@@ -214,11 +557,13 @@ class History:
             self.texts[(rev, path)] = Texts(self.root, rev).lines(path)
         return self.texts[(rev, path)]
 
-    def anchor(self, path, numbers, token):
-        """(rev, lines) of the newest version whose numbered lines all hold token."""
+    def anchor(self, path, numbers, token, holds=None):
+        """(rev, lines) of the newest version whose numbered lines all hold token (and,
+        given holds(lines), pass it: the entry's field is referenced there)."""
         for rev in self.revisions(path):
             lines = self.lines(rev, path)
-            if lines and all(0 < n <= len(lines) and token in squash(lines[n - 1]) for n in numbers):
+            if lines and all(0 < n <= len(lines) and token in squash(lines[n - 1]) for n in numbers) \
+                    and (holds is None or holds(lines)):
                 return rev, lines
         return None, None
 
@@ -229,63 +574,73 @@ class History:
         return self.opcodes[(rev, path)]
 
 
-def map_line(opcodes, new, n, token, fields):
-    """(current line or None, projected line, field matched) for old line n through the diff."""
+def map_line(opcodes, new, n, token, accept):
+    """(current line or None, projected line, class) for old line n through the diff.
+
+    accept(line) gives the field-rule class of the entry moved to that current line; a
+    line whose class is not accepted is never returned."""
     i = n - 1
     for tag, i1, i2, j1, j2 in opcodes:
         if not i1 <= i < i2:
             continue
         projected = j1 + (i - i1) * max(1, j2 - j1) // max(1, i2 - i1) + 1
         if tag == 'equal':
-            return j1 + (i - i1) + 1, j1 + (i - i1) + 1, True
-        block = [j for j in range(max(0, j1 - 2), min(len(new), j2 + 2)) if token in squash(new[j])]
-        if not block:
-            return None, projected, False
-        same = [j for j in block if cast_fields(with_next(new, j), token) & fields]
-        best = min(same or block, key=lambda j: abs(j + 1 - projected))
-        return best + 1, projected, bool(same)
-    return None, n, False
+            line = j1 + (i - i1) + 1
+            how = accept(line)
+            return (line, line, how) if how in ACCEPTED else (None, line, None)
+        block = [j + 1 for j in range(max(0, j1 - 2), min(len(new), j2 + 2)) if token in squash(new[j])]
+        ok = [(j, accept(j)) for j in block]
+        ok = [(j, how) for j, how in ok if how in ACCEPTED]
+        if not ok:
+            return None, projected, None
+        best, how = min(ok, key=lambda item: abs(item[0] - projected))
+        return best, projected, how
+    return None, n, None
 
 
-def relocate(row, entries, texts, history=None):
-    """{entry: (replacement, how)} for a row's stale string entries; duplicates share one result.
+def relocate(row, entries, texts, history=None, layouts=None):
+    """{entry: (replacement, how)} for a row's stale or wrong string entries; duplicates share one result.
 
     how: 'history' (followed from the newest committed text where the entry held, through the
-    diff to the current text, onto the same field), 'history-renamed' (the matching diff block
-    holds the cast but on a differently named member: review), 'history+field' or 'field'
-    (nearest line where the cast applies to the row's field) or 'gone' (no such cast left)."""
+    diff to the current text, onto a line that passes the field rule), 'history-renamed' (as
+    history, but the line passes only through a proven rename: review), 'history+field' or
+    'field' (nearest line holding the cast that passes the field rule) or 'gone' (no such
+    line left)."""
+    cache = {}
     cited = set()
     for entry in row.get('retired_to_cast') or []:
         parsed = parse_entry(entry)
-        if parsed['kind'] == 'site' and check_entry(entry, texts) == 'ok':
-            for n in (parsed['line'], parsed['second']):
-                if n:
-                    cited.add((parsed['path'], squash(parsed['cast']), n))
+        if parsed['kind'] == 'site' and check_entry(entry, texts) == 'ok' \
+                and field_class(row, entry, texts, layouts, cache) in ACCEPTED:
+            for n in span_numbers(parsed, texts.lines(parsed['path']) or []):
+                cited.add((parsed['path'], squash(parsed['cast']), n))
     out = {}
     for entry in sorted(set(entries), key=lambda e: (parse_entry(e)['path'], parse_entry(e)['line'])):
         parsed = parse_entry(entry)
         path, token = parsed['path'], squash(parsed['cast'])
         lines = texts.lines(path) or []
         numbers = [parsed['line']] + ([parsed['second']] if parsed['second'] else [])
-        fields = field_names(row)
-        rev, old = history.anchor(path, numbers, token) if history else (None, None)
-        if old:
-            for n in numbers:
-                fields |= cast_fields(with_next(old, n - 1), token)
-        near = [i + 1 for i, t in enumerate(lines) if token in squash(t)
-                and cast_fields(with_next(lines, i), token) & fields]
+
+        def at(line, the_lines=lines, the_layouts=layouts):
+            moved = dict(parsed, line=line, second=None)
+            return classify_lines(row, moved, the_lines, the_layouts, texts, cache)
+
+        def held(old_lines):
+            return all(at(n, old_lines, None) in ('field', 'alias', 'named', 'typedef') for n in numbers)
+        rev, old = history.anchor(path, numbers, token, held) if history else (None, None)
+        near = [i + 1 for i, t in enumerate(lines) if token in squash(t) and at(i + 1) in ACCEPTED]
 
         def free(n):
             return n is not None and (path, token, n) not in cited
 
-        def nearest(pool, target, window=None):
-            pool = [n for n in pool if free(n) and (window is None or abs(n - target) <= window)]
+        def nearest(pool, target):
+            pool = [n for n in pool if free(n)]
             return min(pool, key=lambda n: (abs(n - target), n)) if pool else None
         found, how = [], 'history' if old else 'field'
         for n in numbers:
-            choice, target, matched = (map_line(history.diff(rev, path, old, lines), lines, n, token, fields)
-                                       if old else (None, n, False))
-            if free(choice) and not matched:
+            choice, target, cls = (map_line(history.diff(rev, path, old, lines), lines, n, token, at)
+                                   if old else (None, n, None))
+            if free(choice) and cls == 'renamed':
                 how = 'history-renamed'
             if not free(choice):
                 choice = nearest(near, target)
@@ -305,18 +660,18 @@ def relocate(row, entries, texts, history=None):
     return out
 
 
-def rederive(rows, results, texts, history=None):
+def rederive(rows, results, texts, history=None, layouts=None):
     by_row = collections.defaultdict(list)
     for result in results:
         if isinstance(result['entry'], str) and parse_entry(result['entry'])['kind'] == 'site' \
-                and result['status'] in ('stale', 'noline'):
+                and (result['status'] in ('stale', 'noline') or result.get('field') == 'wrong'):
             by_row[result['id']].append(result['entry'])
     changes = []
     for row in rows:
         stale = by_row.get(row['id'])
         if not stale:
             continue
-        mapping = relocate(row, stale, texts, history)
+        mapping = relocate(row, stale, texts, history, layouts)
         new_list = []
         for entry in row['retired_to_cast']:
             if entry in mapping:
@@ -337,9 +692,12 @@ def main(argv=None):
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument('--ledger', default=LEDGER)
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument('--fail-new', action='store_true', help='fail on retired_to_cast entries newly stale on HEAD')
-    mode.add_argument('--fail-all', action='store_true', help='fail on every stale retired_to_cast entry')
-    parser.add_argument('--list', action='store_true', help='list every stale entry and weak row')
+    mode.add_argument('--fail-new', action='store_true',
+                      help='fail on retired_to_cast entries newly stale or newly wrong-field on HEAD')
+    mode.add_argument('--fail-all', action='store_true', help='fail on every stale or wrong-field entry')
+    parser.add_argument('--list', action='store_true', help='list every flagged entry and weak row')
+    parser.add_argument('--no-layouts', action='store_true',
+                        help='do not run clang for record layouts (renames become renamed?)')
     parser.add_argument('--rederive', action='store_true', help='propose current lines for stale entries')
     parser.add_argument('--write', action='store_true', help='with --rederive, rewrite the ledger')
     args = parser.parse_args(argv)
@@ -350,10 +708,11 @@ def main(argv=None):
         parser.error(f'cannot read {args.ledger} at {args.base}: {shown.stderr.strip()}')
     base_rows = read_ledger(shown.stdout)
     head_texts, base_texts = Texts(root), Texts(root, args.base)
+    layouts = Layouts(root, not args.no_layouts)
 
     if args.rederive:
-        results, _ = check_sites(head_rows, head_texts)
-        changes = rederive(head_rows, results, head_texts, History(root))
+        results, _, _ = check_sites(head_rows, head_texts, layouts=layouts)
+        changes = rederive(head_rows, results, head_texts, History(root), layouts)
         for change in changes:
             print(f"{change['how']:8} {change['id']}\n    {change['old']}\n -> {change['new']}")
         tally = collections.Counter(c['how'] for c in changes)
@@ -364,15 +723,20 @@ def main(argv=None):
         return 0
 
     loads = check_loads(base_rows, head_rows)
-    results, counts = check_sites(head_rows, head_texts, base_rows, base_texts)
+    results, counts, fields = check_sites(head_rows, head_texts, base_rows, base_texts, layouts)
     weak = weak_evidence(head_rows, base_rows)
-    stale = [r for r in results]
-    new_stale = [r for r in results if r['new']]
+    stale = [r for r in results if r['status'] in STALE]
+    wrong = [r for r in results if r['field'] == 'wrong']
+    reported = [r for r in results if r['field'] in REPORTED]
+    new_bad = [r for r in stale + wrong if r['new']]
     print(f"loads: rows with non-zero loads {loads['base']} -> {loads['head']}; zeroed {len(loads['zeroed'])}; "
           f"dropped rows {len(loads['dropped'])}")
     print('retired_to_cast: ' + ', '.join(f'{k} {counts[k]}' for k in
           ('ok', 'stale', 'noline', 'nofile', 'note', 'unparsed')) +
-          f'; stale on HEAD {len(stale)} (new vs BASE {len(new_stale)})')
+          f'; stale on HEAD {len(stale)} (new vs BASE {sum(1 for r in stale if r["new"])})')
+    print('field rule: ' + ', '.join(f'{k} {fields[k]}' for k in FIELD_CLASSES) +
+          f'; wrong on HEAD {len(wrong)} (new vs BASE {sum(1 for r in wrong if r["new"])})' +
+          ('' if layouts.enabled else ' [no record layouts]'))
     w = weak['all']
     line = (f"weak evidence (report only): retired {weak['retired']}, with load data {w['rows']}, "
             f"<5 mapped loads {w['under5']}, exactly 1 {w['one']}; no load data {weak['no_load_data']}")
@@ -380,18 +744,27 @@ def main(argv=None):
         n = weak['newly_retired']
         line += f"; newly retired vs BASE {n['rows']} (<5 {n['under5']}, 1 {n['one']})"
     print(line)
-    listed = stale if args.list or args.fail_all else new_stale if args.fail_new else stale[:10]
+    flagged = stale + wrong
+    if args.list:
+        listed = flagged + reported
+    elif args.fail_all:
+        listed = flagged
+    elif args.fail_new:
+        listed = new_bad
+    else:
+        listed = flagged[:10]
     for r in listed:
-        print(f"  {'NEW ' if r['new'] else ''}{r['status'].upper()} {r['id']}: {r['entry']}")
-    if not (args.list or args.fail_all or args.fail_new) and len(stale) > 10:
-        print(f'  ... {len(stale) - 10} more (--list)')
+        label = r['status'].upper() if r['status'] in STALE else r['field'].upper()
+        print(f"  {'NEW ' if r['new'] and r in flagged else ''}{label} {r['id']}: {r['entry']}")
+    if not (args.list or args.fail_all or args.fail_new) and len(flagged) > 10:
+        print(f'  ... {len(flagged) - 10} more (--list)')
     if args.list:
         for row in head_rows:
             if row.get('status') == 'retired' and 0 < mapped_loads(row) < 5:
                 print(f'  WEAK {mapped_loads(row)} {row["id"]}')
     for problem in loads['problems']:
         print('LOADS ' + problem)
-    failed = bool(loads['problems']) or (args.fail_all and stale) or (args.fail_new and new_stale)
+    failed = bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))
     return 1 if failed else 0
 

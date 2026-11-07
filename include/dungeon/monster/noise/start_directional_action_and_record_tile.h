@@ -83,7 +83,6 @@ typedef struct {
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 
 extern void * find_eligible_actor_at_tile_and_height();
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern s32 RotTransPers(void *, void *, void *, void *);
 

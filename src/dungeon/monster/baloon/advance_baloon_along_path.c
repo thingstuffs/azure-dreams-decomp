@@ -31,7 +31,7 @@ void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, Spri
                 sprite,
                 baloon_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->unk_9E.s = 0;
+            body->unk_9E = 0;
         }
 
         x = sprite->tile_x;
@@ -75,14 +75,14 @@ void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, Spri
 
         (actor->flags1C) |= ACTOR_REFRESH_GROUND;
         if (g_dungeon_status.flags & 0x80) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             return;
         }
 
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         x = actor->movement_queue_state;
         if (x > 0) {
-            body->action_timer.s = 8 / x;
+            body->action_timer = 8 / x;
         }
     }
 

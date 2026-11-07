@@ -1,3 +1,4 @@
+#include "engine/node/registration.h"
 #include "shared/entity.h"
 /* Jittered shaded particle creation and countdown-based removal. */
 #include "shared/object_node.h"

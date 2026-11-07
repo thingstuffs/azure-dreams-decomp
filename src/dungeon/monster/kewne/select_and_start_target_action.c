@@ -109,7 +109,7 @@ s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *ac
             stored_amount = action_state->unk_90.parts.high.u;
             pending_amount = action_state->unk_A0.parts.high;
             action_state->unk_A0.parts.high = 0;
-            action_state->unk_9E.s = 0;
+            action_state->unk_9E = 0;
             action_state->unk_90.parts.high.s = stored_amount - pending_amount;
             return action_mode;
         }

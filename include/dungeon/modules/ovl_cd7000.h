@@ -14,7 +14,6 @@ void *spawn_block_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
 void update_block_motion_and_facing_slot_a(ActorRecord *entity, CL_CD7000_80170C24_S_80170C24_2 *motion, SpriteFrameState *sprite);
 void dispatch_block_turn_actions_slot_a(CL_CD7000_8017102C_S_8017102C_0 *state, void *motion, CL_CD7000_8017102C_S_8017102C_2 *sprite, CL_CD7000_8017102C_S_8017102C_1 *actor);
 void advance_block_path_slot_a(void *motion, s32 update_param, void *entity, void *state);
-void choose_block_move_slot_a(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 void begin_block_hop_slot_a(CL_CD7000_80171F58_S_80171F58_0 *state, void *unused_position, CL_CD7000_80171F58_S_80171F58_1 *render_state, CL_CD7000_80171F58_S_80171F58_2 *entity);
 s32 try_begin_block_attack_slot_a(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
 void begin_block_attack_slot_a(CL_CD7000_80172180_S_80172180_1 *state, s32 position, CL_CD7000_80172180_S_80172180_2 *render_state, void *entity);

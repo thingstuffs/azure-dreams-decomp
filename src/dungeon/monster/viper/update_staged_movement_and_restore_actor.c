@@ -16,10 +16,12 @@
 #include "dungeon/system.h"
 #include "engine/scene.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/node/allocation.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/data.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/monster/viper.h"
 
 typedef struct {
     s16 x;
@@ -135,7 +137,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         motion->velocity_y = (s32) ((s32) (0 - motion->velocity_y) >> 1);
         sprite->frameTable = viper_frame_set_4;
         select_sprite_entry(sprite, viper_frame_set_4[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        body->action_timer.u = 7;
+        body->action_timer = 7;
         body->action_phase = (u8) (body->action_phase + 1);
         return;
     case 3:
@@ -195,8 +197,8 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
                 }
             }
         }
-        ticks_left = body->action_timer.u - 1;
-        body->action_timer.u = ticks_left;
+        ticks_left = body->action_timer - 1;
+        body->action_timer = ticks_left;
         if ((ticks_left << 0x10) == 0 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             play_sound_if_enabled(0x808);

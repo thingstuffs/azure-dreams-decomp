@@ -152,10 +152,10 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
     motion->y.v += motion->velocity_y;
 
     if (entity->action_state_flags & 8) {
-        entity->unk_9D.u = 0;
+        entity->unk_9D = 0;
     } else {
-        motion->velocity_z += entity->unk_9D.s * 0x14000;
-        entity->unk_9D.u++;
+        motion->velocity_z += (s8)(entity->unk_9D) * 0x14000;
+        entity->unk_9D++;
     }
     entity->unk_90.value += motion->velocity_z;
 
@@ -175,7 +175,7 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
                 }
                 motion->velocity_z = 0;
                 actor->flags1C |= 0x08000000;
-                entity->unk_9D.u = 0;
+                entity->unk_9D = 0;
             }
 
             if (actor->flags1C & 0x40000000) {

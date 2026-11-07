@@ -208,14 +208,14 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
         *(u32 *)&entity->scale_x |= 0x10000000;
         sprite->color.word += 0xFFEFEFF0;
         if (sprite->color.c.r < 0x11) {
-            body->action_timer.u = 10;
+            body->action_timer = 10;
             body->action_phase++;
         }
         break;
 
     case 3:
-        frames_left = body->action_timer.u - 1;
-        body->action_timer.u = frames_left;
+        frames_left = body->action_timer - 1;
+        body->action_timer = frames_left;
         if ((s16)frames_left > 0) {
             break;
         }

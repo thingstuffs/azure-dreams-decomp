@@ -17,7 +17,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
     direction_offset = ((u16)actor->facing >> 8) & 0xE;
     direction_x = dir_step_x[direction_offset >> 1];
     direction_y = dir_step_y[direction_offset >> 1];
-    body->action_timer.u--;
+    body->action_timer--;
     state = body->action_phase;
 
     switch (state) {
@@ -45,7 +45,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
         }
         body->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        body->action_timer.u = 4;
+        body->action_timer = 4;
         motion->velocity_z = (s32)0xFFFC0000;
         body->action_phase = body->action_phase + 1;
         return;
@@ -53,7 +53,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
     case 1:
         body->unk_90.value += motion->velocity_z;
         motion->velocity_z += motion->velocity_z >> 2;
-        if (body->action_timer.s > 0) {
+        if ((s16)(body->action_timer) > 0) {
             return;
         }
 
@@ -64,7 +64,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
               (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
             0);
         next_state = body->action_phase;
-        body->action_timer.u = 8;
+        body->action_timer = 8;
         body->action_phase = next_state + 1;
         return;
 
@@ -78,15 +78,15 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
         motion->velocity_y = velocity_y - (velocity_y >> 3);
         motion->velocity_z = velocity_z - (velocity_z >> 3);
     }
-        if (body->action_timer.s == 4) {
+        if ((s16)(body->action_timer) == 4) {
             motion->velocity_x = 0;
             motion->velocity_y = 0;
             motion->velocity_z = 0;
         }
-        if (body->action_timer.s > 0) {
+        if ((s16)(body->action_timer) > 0) {
             return;
         }
-        body->action_timer.u = 4;
+        body->action_timer = 4;
         motion->velocity_x = direction_x << 18;
         motion->velocity_y = direction_y << 18;
         play_sound_if_enabled(0x809);
@@ -97,7 +97,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
         body->unk_90.value += 0xC0000;
         motion->velocity_x += direction_x << 18;
         motion->velocity_y += direction_y << 18;
-        if (body->action_timer.s > 0) {
+        if ((s16)(body->action_timer) > 0) {
             return;
         }
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);

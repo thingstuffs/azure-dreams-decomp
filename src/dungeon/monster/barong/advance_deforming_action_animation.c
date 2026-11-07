@@ -37,10 +37,10 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
         facing_angle = (facing_angle << 16) >> 7;
         actor->facing = facing_angle;
 
-        timer = ++body->action_timer.u;
+        timer = ++body->action_timer;
         if (timer >= 0x78) {
             body->action_phase = 5;
-            body->action_timer.u = 0;
+            body->action_timer = 0;
             return;
         }
 
@@ -49,7 +49,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
             return;
         }
         actor->flags14 = actor_flags & 0xFF7FFFFF;
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         body->action_phase++;
         (sprite->frameTable) = D_801755BC;
         select_sprite_entry(sprite,
@@ -63,7 +63,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
         if (!(sprite->flags & 0x6000)) {
             return;
         }
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         body->action_phase++;
         (sprite->frameTable) = barong_frame_set_3;
         select_sprite_entry(sprite,
@@ -76,11 +76,11 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
     {
         s16 timer;
 
-        timer = ++body->action_timer.u;
+        timer = ++body->action_timer;
         if (timer < 0xF) {
             return;
         }
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         body->action_phase++;
         sprite->flags &= 0xF7FF;
         return;
@@ -92,7 +92,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
         s32 scale_y;
         s16 timer;
 
-        timer = ++body->action_timer.u;
+        timer = ++body->action_timer;
         if (timer < 3) {
             scale_x = sprite->scale_x - 0x258;
             scale_y = sprite->scale_y + 0x258;
@@ -128,10 +128,10 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
             }
         }
 
-        if (body->action_timer.s < 0x14) {
+        if ((s16)(body->action_timer) < 0x14) {
             return;
         }
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         body->action_phase++;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
@@ -148,11 +148,11 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
     {
         s16 timer;
 
-        timer = ++body->action_timer.u;
+        timer = ++body->action_timer;
         if (timer < 9) {
             return;
         }
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         body->action_phase++;
         return;
     }

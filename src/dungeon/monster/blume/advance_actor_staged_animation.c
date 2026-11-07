@@ -40,13 +40,13 @@ void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *mo
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         phase_value = action->action_phase;
-        action->action_timer.u = 0U;
+        action->action_timer = 0U;
         action->action_phase = (u8) (phase_value + 1);
         return;
 
     case 1:
-        elapsed_ticks = action->action_timer.u + 1;
-        action->action_timer.u = elapsed_ticks;
+        elapsed_ticks = action->action_timer + 1;
+        action->action_timer = elapsed_ticks;
         if ((s16) elapsed_ticks != 4 && !(animation->flags & 0xE000)) {
             return;
         }
@@ -54,19 +54,19 @@ void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *mo
         select_sprite_entry(animation, D_801753E4[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
         play_sound_if_enabled(0x808);
         phase_value = action->action_phase;
-        action->action_timer.u = 0U;
+        action->action_timer = 0U;
         action->action_phase = (u8) (phase_value + 1);
         return;
 
     case 2:
-        phase_value = action->action_timer.u + 1;
-        action->action_timer.u = phase_value;
+        phase_value = action->action_timer + 1;
+        action->action_timer = phase_value;
         if ((s16) phase_value != 4 && !(animation->flags & 0xE000)) {
             return;
         }
         resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
         phase_value = action->action_phase;
-        action->action_timer.u = 0U;
+        action->action_timer = 0U;
         action->action_phase = (u8) (phase_value + 1);
         return;
 

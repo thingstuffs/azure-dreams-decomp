@@ -49,14 +49,14 @@ void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition 
         select_sprite_entry(sprite,
             weadog_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase++;
         return;
     }
 
     case 1:
-        if ((s16)++action->action_timer.u == 5) {
-            action->action_timer.u = 0;
+        if ((s16)++action->action_timer == 5) {
+            action->action_timer = 0;
             action->action_phase++;
             sprite->flags |= 0x0800;
             return;
@@ -64,9 +64,9 @@ void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition 
         return;
 
     case 2:
-        if ((s16)++action->action_timer.u == 6 ||
+        if ((s16)++action->action_timer == 6 ||
             (sprite->flags & 0xE000)) {
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x804);
@@ -75,18 +75,18 @@ void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition 
         return;
 
     case 3:
-        if ((s16)++action->action_timer.u == 5 ||
+        if ((s16)++action->action_timer == 5 ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x0800;
         }
-        if (action->action_timer.s == 12 ||
+        if ((s16)(action->action_timer) == 12 ||
             (sprite->flags & 0xE000)) {
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
             sprite->flags &= 0xF7FF;
         }
         call_actor = actor;
-        if (action->action_timer.s == 1 ||
+        if ((s16)(action->action_timer) == 1 ||
             (sprite->flags & 0xE000)) {
             call_sprite = sprite;
             resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);

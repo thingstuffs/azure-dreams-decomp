@@ -69,7 +69,7 @@ void update_dungeon_actor_behavior(void *effect) {
         if (actor->action_id != 0x11) {
             return;
         }
-        actor->action_timer.u += 0x3C;
+        actor->action_timer += 0x3C;
         U16_AT(effect, 0x18) = 0;
         U16_AT(effect, 0x12)++;
         actor->unk_A8.byte = enabled;

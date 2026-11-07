@@ -22,7 +22,6 @@ typedef struct S_800A0504_0 {
     u8 unk_01;
 } S_800A0504_0;
 
-void *create_an_position_initializes_graphics_state();
 
 extern TownRecord shop_record_queue[20];
 

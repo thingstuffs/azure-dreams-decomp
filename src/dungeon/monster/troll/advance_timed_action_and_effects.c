@@ -32,19 +32,19 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase++;
         if (!(animation->flags & 0x8000)) {
             return;
         }
 
     case 1:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if ((timer != 4) && !(animation->flags & 0x8000)) {
             return;
         }
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase++;
         switch (actor->unk_48) {
         case 13:
@@ -72,14 +72,14 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
         }
 
     case 2:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if ((timer == 5) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
         }
-        if (action->action_timer.s == 3) {
+        if ((s16)(action->action_timer) == 3) {
             play_sound_if_enabled(0x804);
             return;
         }
@@ -96,25 +96,25 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
         return;
 
     case 5:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if ((timer == 10) || (animation->flags & 0x8000)) {
             animation->flags |= 0x0800;
             play_sound_if_enabled(0x804);
             create_targeted_motion_effect(action, motion, animation, actor);
             create_actor_action_effect(action, motion, animation, actor);
         }
-        if ((action->action_timer.s == 12) ||
+        if (((s16)(action->action_timer) == 12) ||
             (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing,
                 action->unk_AA);
         }
-        if ((action->action_timer.s != 20) &&
+        if (((s16)(action->action_timer) != 20) &&
             !(animation->flags & 0x8000)) {
             break;
         }
         animation->flags &= 0xF7FF;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase = 3;
 
     case 4:

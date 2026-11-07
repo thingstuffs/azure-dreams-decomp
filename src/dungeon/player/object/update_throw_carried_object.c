@@ -98,8 +98,8 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
         return;
 
     case 1:
-        countdown = actor->action_timer.u - 1;
-        actor->action_timer.u = countdown;
+        countdown = actor->action_timer - 1;
+        actor->action_timer = countdown;
         if (countdown > 0) {
             return;
         }

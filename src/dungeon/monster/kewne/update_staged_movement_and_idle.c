@@ -53,7 +53,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
 
     case 1:
         if (sprite->flags & 0x8000) {
-            body->action_timer.u = 0x100;
+            body->action_timer = 0x100;
             body->action_phase = 5;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -99,7 +99,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
         {
             s32 current_state = body->action_phase;
 
-            body->action_timer.u = 0;
+            body->action_timer = 0;
             if (current_state == 0) {
                 return;
             }
@@ -124,9 +124,9 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
             (s32)*(s16 *)(direction_y +
                 (((u16)actor->facing >> 8) & 0xE)) << 17;
 
-        body->unk_A0.value -= (s32)body->action_timer.s << 17;
-        timer = body->action_timer.u + 1;
-        body->action_timer.u = timer;
+        body->unk_A0.value -= (s32)(s16)(body->action_timer) << 17;
+        timer = body->action_timer + 1;
+        body->action_timer = timer;
         if ((s16)timer < 9) {
             return;
         }
@@ -147,7 +147,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
                 (((u16)actor->facing >> 8) & 0xE)) << 20;
         ((S_80172DDC_0 *)body)->unk_A8 = movement->velocity_x / 6;
         body->unk_AC.value = movement->velocity_y / 6;
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         body->action_phase++;
         return;
     }
@@ -156,13 +156,13 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
         movement->velocity_x -= ((S_80172DDC_0 *)body)->unk_A8;
         movement->velocity_y -= body->unk_AC.value;
         body->unk_A0.value =
-            rsin(body->action_timer.s * 146) * 160 + 0x100000;
+            rsin((s16)(body->action_timer) * 146) * 160 + 0x100000;
 
     case 5:
     {
-        u16 timer = body->action_timer.u + 1;
+        u16 timer = body->action_timer + 1;
 
-        body->action_timer.u = timer;
+        body->action_timer = timer;
         if ((s16)timer < 7 && !(sprite->flags & 0x8000)) {
             return;
         }

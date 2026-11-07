@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "dungeon/item/message.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/object_links.h"
@@ -23,7 +24,6 @@
 void runtime_map_type_16_entry_code();                      /* extern */
 s32 begin_sprite_resource_load_with_completion_flag(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                   /* extern */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
-void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/level.h"

@@ -146,13 +146,13 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
             ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            action_state->action_timer.u = 0xE;
+            action_state->action_timer = 0xE;
             action_state->action_state_flags |= 0x80;
         }
-        ticks_left = action_state->action_timer.u - 1;
-        action_state->action_timer.u = ticks_left;
+        ticks_left = action_state->action_timer - 1;
+        action_state->action_timer = ticks_left;
         if ((s16)ticks_left <= 0) {
-            action_state->action_timer.u = 0;
+            action_state->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {

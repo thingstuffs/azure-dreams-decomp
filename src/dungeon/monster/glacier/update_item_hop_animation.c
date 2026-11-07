@@ -49,7 +49,7 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->unk_9E.s = 5;
+        action->unk_9E = 5;
         action->unk_A4.value = 0;
         action->action_phase++;
                         /* fallthrough */
@@ -57,7 +57,7 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
         action->unk_90.value -= action->unk_A4.value;
         sprite->scale_x = 0xC00;
         sprite->scale_y = 0x1400;
-        move_frames = action->unk_9E.s;
+        move_frames = (s16)(action->unk_9E);
         if (move_frames != 0) {
             target_x = sprite->tile_x;
             position_component = motion->x.w.i;
@@ -68,17 +68,17 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
             position_component = motion->y.w.i - 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - position_component) << 16) /
-                action->unk_9E.s;
+                (s16)(action->unk_9E);
             action->unk_A4.value =
-                (-rsin(action->unk_9E.s * 0x199)) << 9;
+                (-rsin((s16)(action->unk_9E) * 0x199)) << 9;
         }
 
         height = action->unk_90.value;
         height_offset = action->unk_A4.value;
-        frame_count = action->unk_9E.u;
+        frame_count = action->unk_9E;
         height += height_offset;
         frame_count -= 1;
-        action->unk_9E.u = frame_count;
+        action->unk_9E = frame_count;
         action->unk_90.value = height;
         if ((frame_count << 16) < 0) {
             action->unk_90.value = 0;
@@ -111,8 +111,8 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
         break;
     }
 
-    action_timer = action->action_timer.u - 1;
-    action->action_timer.u = action_timer;
+    action_timer = action->action_timer - 1;
+    action->action_timer = action_timer;
     if ((action_timer << 16) > 0) {
         return;
     }

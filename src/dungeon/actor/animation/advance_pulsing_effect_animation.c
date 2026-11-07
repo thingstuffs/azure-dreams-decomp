@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -27,7 +28,6 @@ typedef struct {
     u16 value_1e;
 } Motion;
 
-extern void unlink_entity_node(void *node);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/player/object.h"
 

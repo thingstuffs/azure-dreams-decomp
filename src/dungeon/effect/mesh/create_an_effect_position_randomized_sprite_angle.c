@@ -1,3 +1,4 @@
+#include "engine/node/registration.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 /* Five-point effect geometry, orbiting animation, and movement toward an attack target. */

@@ -20,9 +20,6 @@
 
 /* Sparse views for fields not covered by the existing record types. */
 
-
-typedef long long s64;
-
 typedef struct S_func_81008664_1 {
     u8 pad_00[0x8C];
     s32 *unk_8C;

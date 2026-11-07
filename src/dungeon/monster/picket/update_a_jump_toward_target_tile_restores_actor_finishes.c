@@ -47,7 +47,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
         jump_state->unk_A0.value = 0;
         jump_state->action_phase++;
     case 1:
-        frames_left = jump_state->action_timer.s;
+        frames_left = (s16)(jump_state->action_timer);
         jump_state->unk_90.value -= jump_state->unk_A0.value;
         if (frames_left != 0) {
             {
@@ -61,13 +61,13 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    jump_state->action_timer.s;
+                    (s16)(jump_state->action_timer);
             }
             jump_state->unk_A0.value += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
         jump_state->unk_90.value += jump_state->unk_A0.value;
-        if (jump_state->action_timer.s < 2) {
+        if ((s16)(jump_state->action_timer) < 2) {
             jump_state->unk_90.value = 0;
             jump_state->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
@@ -89,8 +89,8 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_
         }
     }
 
-    next_timer = jump_state->action_timer.u - 1;
-    jump_state->action_timer.s = next_timer;
+    next_timer = jump_state->action_timer - 1;
+    jump_state->action_timer = next_timer;
     if ((next_timer << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;

@@ -70,7 +70,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
             kraken_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         state_zero_counter_base = &g_dungeon_status;
-        entity->action_timer.u = 0;
+        entity->action_timer = 0;
         count = ((u16)state_zero_counter_base->activity_counts.parts.pending_action_count) - 1;
         state_zero_counter_base->activity_counts.parts.pending_action_count = count;
         entity->action_phase++;
@@ -108,12 +108,12 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
                 return;
             }
 
-            timer = entity->action_timer.u - 1;
-            entity->action_timer.u = timer;
+            timer = entity->action_timer - 1;
+            entity->action_timer = timer;
             if ((timer << 16) <= 0) {
                 body_part->unk_04 &= 0x7FFF;
                 select_sprite_entry(part_anim, 0x27, 0);
-                entity->action_timer.u = (rand() & 0xF) + 0x20;
+                entity->action_timer = (rand() & 0xF) + 0x20;
             }
             if (part_anim->flags & 0x6000) {
                 body_part->unk_04 |= 0x8000;
@@ -162,7 +162,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
             body_part->unk_04 |= 0x8000;
             if (!(sprite->flags & 0x8000)) {
                 animate_counter_base = (u8 *)3;
-                entity->action_timer.u = (s32)animate_counter_base;
+                entity->action_timer = (s32)animate_counter_base;
                 entity->action_state_flags &= 0xBFFF;
                 animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
                 count = ((u16)(animate_counter_base->activity_counts.parts.pending_action_count)) + 1;
@@ -180,7 +180,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
             body_part->unk_04 |= 0x8000;
             if (!(sprite->flags & 0x8000)) {
                 animate_counter_base = (u8 *)3;
-                entity->action_timer.u = (s32)animate_counter_base;
+                entity->action_timer = (s32)animate_counter_base;
                 entity->action_state_flags &= 0xBFFF;
                 animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
                 count = ((u16)(animate_counter_base->activity_counts.parts.pending_action_count)) + 1;
@@ -191,8 +191,8 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
             break;
         }
     case 2:
-        timer = entity->action_timer.u - 1;
-        entity->action_timer.u = timer;
+        timer = entity->action_timer - 1;
+        entity->action_timer = timer;
         if ((timer << 16) <= 0) {
             entity->action_state_flags |= 0x4000;
             motion->velocity_z = 0xFFF80000;

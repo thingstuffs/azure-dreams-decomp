@@ -38,8 +38,8 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
     phase = action->action_phase;
     switch (phase) {
     case 0:
-        phase_timer = action->unk_9E.u - 1;
-        action->unk_9E.u = phase_timer;
+        phase_timer = action->unk_9E - 1;
+        action->unk_9E = phase_timer;
         if ((phase_timer << 16) != 0) {
             break;
         }
@@ -51,12 +51,12 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
             0);
         action->action_state_flags |= 8;
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->unk_9E.s = 5;
+        action->unk_9E = 5;
         action->unk_A0.value = 0;
         action->action_phase++;
 
     case 1:
-        move_ticks = action->unk_9E.s;
+        move_ticks = (s16)(action->unk_9E);
         action->unk_90.value -= action->unk_A0.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -69,14 +69,14 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
             position_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - position_y) << 16) /
-                action->unk_9E.s;
+                (s16)(action->unk_9E);
             action->unk_A0.value =
-                (-rsin(action->unk_9E.s * 0x199)) << 10;
+                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
         }
 
         action->unk_90.value += action->unk_A0.value;
-        phase_timer = action->unk_9E.u - 1;
-        action->unk_9E.u = phase_timer;
+        phase_timer = action->unk_9E - 1;
+        action->unk_9E = phase_timer;
         if (phase_timer < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
@@ -115,8 +115,8 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
         break;
     }
 
-    action_timer = action->action_timer.u - 1;
-    action->action_timer.u = action_timer;
+    action_timer = action->action_timer - 1;
+    action->action_timer = action_timer;
     if ((s16)action_timer > 0) {
         return;
     }

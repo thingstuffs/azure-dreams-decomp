@@ -63,13 +63,13 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
         body->unk_8C.word = 0;
         (state->flags1C) = (s32) (state->flags1C | 0x40000000);
         if (g_dungeon_status.flags & 0x80) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             return;
         }
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         step_count = (u8) ((s8)state->movement_queue_state);
         if ((s32) step_count > 0) {
-            body->action_timer.s = (s16) (8 / (s32) step_count);
+            body->action_timer = (s16) (8 / (s32) step_count);
         }
     }
 }

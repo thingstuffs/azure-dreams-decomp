@@ -27,13 +27,13 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
     }
     switch (state) {
     case 0:
-        timer = action->action_timer.u;
-        action->action_timer.u = timer + 1;
+        timer = action->action_timer;
+        action->action_timer = timer + 1;
         if ((s16)timer < 4 && !(sprite->flags & 0x8000)) {
             return;
         }
         state = action->action_phase;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase = state + 1;
         return;
 
@@ -48,21 +48,21 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
             hikewne_frame_set_16[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         state = action->action_phase;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->unk_A0.halves.high.s = 0;
-        action->unk_9E.s = 0;
+        action->unk_9E = 0;
         action->action_phase = state + 1;
         return;
 
     case 2:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if ((s16)timer == 9 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
         }
-        if (action->action_timer.s != 6) {
+        if ((s16)(action->action_timer) != 6) {
             return;
         }
         play_sound_if_enabled(0x808);
@@ -70,7 +70,7 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
 
     case 3:
         state = action->action_phase;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase = state + 1;
     case 4:
         if (!(sprite->flags & 0xE000)) {

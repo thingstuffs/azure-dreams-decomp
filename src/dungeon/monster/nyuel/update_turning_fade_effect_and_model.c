@@ -129,15 +129,15 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         nyuel_effect_load_done[0] = 0;
         Control_CD(0xFF, (s32) set_byte_one, &nyuel_effect_load_done);
         select_nearby_target_and_initialize_slot(NODE_HEADER(target), position, 8, 0x300);
-        sequence->action_timer.u = 0x10U;
+        sequence->action_timer = 0x10U;
         sequence->action_phase = (u8) (sequence->action_phase + 1);
     case 3:
-        fade_timer = sequence->action_timer.u;
+        fade_timer = sequence->action_timer;
         fade_ticks = fade_timer - 1;
-        sequence->action_timer.u = fade_ticks;
+        sequence->action_timer = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
             ready = nyuel_effect_load_done[0];
-            sequence->action_timer.u = fade_timer;
+            sequence->action_timer = fade_timer;
             if (ready == 0) {
                 return;
             }
@@ -147,11 +147,11 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         }
         target_color = (S_801749A8_3 *)actor_effect_color_targets[lookup_masked_byte_table(target)];
         object->unk_A8 = (u8) (object->unk_A8 + ((s32) (target_color->unk_00
-            - object->unk_A8) / (s16) sequence->action_timer.u));
+            - object->unk_A8) / (s16) sequence->action_timer));
         object->unk_A9 = (u8) (object->unk_A9 + ((s32) (target_color->unk_01
-            - object->unk_A9) / (s16) sequence->action_timer.u));
+            - object->unk_A9) / (s16) sequence->action_timer));
         object->unk_AA = (u8) (object->unk_AA + ((s32) (target_color->unk_02
-            - object->unk_AA) / (s16) sequence->action_timer.u));
+            - object->unk_AA) / (s16) sequence->action_timer));
         return;
     case 4:
         effect_node = allocate_flagged_object_node(0x12);
@@ -175,7 +175,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         }
         select_record_entry_and_value(effect_sprite, &dungeon_resource_buffer[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
         actor->flags = (u16) (actor->flags | 0x80);
-        sequence->action_timer.u = 0U;
+        sequence->action_timer = 0U;
         sequence->action_phase = (u8) (sequence->action_phase + 1);
         create_cylindrical_effect(sequence, position, actor);
         return;
@@ -193,7 +193,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         if (movement_done == 0) {
             return;
         }
-        sequence->action_timer.u = 0x10U;
+        sequence->action_timer = 0x10U;
         sequence->action_phase = (u8) (sequence->action_phase + 1);
         decrement_monster_entry_count(target->species, 3);
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
@@ -207,7 +207,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         if (model_addr == 0) {
             return;
         }
-        sequence->action_timer.u = 0x10U;
+        sequence->action_timer = 0x10U;
         sequence->action_phase = (u8) (sequence->action_phase + 1);
         ((S_801749A8_11 *)target->target)->unk_2A =
             (u16) (u16)(target->facing);
@@ -217,8 +217,8 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
         sprite->flags = (u16) (sprite->flags & 0xFFFE);
     case 8:
-        ticks_left = sequence->action_timer.u - 1;
-        sequence->action_timer.u = ticks_left;
+        ticks_left = sequence->action_timer - 1;
+        sequence->action_timer = ticks_left;
         if (ticks_left > 0) {
             return;
         }

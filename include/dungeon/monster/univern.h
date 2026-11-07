@@ -284,16 +284,13 @@ s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 
-void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 void advance_sprite_animation_and_textures(void *entity);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
@@ -301,7 +298,6 @@ s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_rec
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 check_directional_move_and_terrain();
 struct Ent *prepare_directional_attack();
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"
 struct ObjectNodeHeader;
@@ -310,7 +306,6 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 s32 get_cd_command_queue_depth(void);
 void unlink_entity_node();
-void * detach_record_and_update_slot_state(void *record);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);
@@ -323,7 +318,6 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
 s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, struct S_800AC480_3 *height_state);
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
-s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 univern_frame_set[];
 extern u8 view_facing_angle_alias[];
 extern u8 child_texture_entries[];

@@ -38,7 +38,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
             return;
         }
         if (tile->flags & 0x8000) {
-            motion_state->action_timer.s = 0;
+            motion_state->action_timer = 0;
             motion_state->action_phase = 2;
             return;
         }
@@ -46,7 +46,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
         if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             frames_left = 8;
         }
-        motion_state->action_timer.s = frames_left;
+        motion_state->action_timer = frames_left;
     case 1:
         velocity_or_entity = motion->velocity_x;
         division_bias = velocity_or_entity;
@@ -59,13 +59,13 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
         division_bias = y_velocity;
         motion->velocity_y = y_velocity - (division_bias / 4);
 
-        if (motion_state->action_timer.s > 0) {
-            motion_state->action_timer.s = motion_state->action_timer.u - 1;
+        if ((s16)(motion_state->action_timer) > 0) {
+            motion_state->action_timer = motion_state->action_timer - 1;
         } else if (tile->flags & 0x6000) {
-            motion_state->action_timer.s = 0;
+            motion_state->action_timer = 0;
         }
 
-        if (motion_state->action_timer.s != 0) {
+        if ((s16)(motion_state->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -75,12 +75,12 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
             begin_actor_display_action(motion_state, motion, tile, &D_801764B0);
             return;
         } else {
-            motion_state->action_timer.s = 8;
+            motion_state->action_timer = 8;
             motion_state->action_phase++;
             return;
         }
     case 2:
-        frames_left = motion_state->action_timer.s;
+        frames_left = (motion_state->action_timer);
         if (frames_left > 0) {
             s32 tile_coord;
             s32 coord_offset;
@@ -94,11 +94,11 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
             coord_offset -= 0x20;
             tile_coord = tile->tile_y << 6;
             motion->velocity_y =
-                ((tile_coord - coord_offset) << 16) / motion_state->action_timer.s;
+                ((tile_coord - coord_offset) << 16) / (s16)(motion_state->action_timer);
         }
 
-        next_timer = motion_state->action_timer.u - 1;
-        motion_state->action_timer.s = next_timer;
+        next_timer = motion_state->action_timer - 1;
+        motion_state->action_timer = next_timer;
         if ((next_timer << 16) > 0) {
             return;
         }

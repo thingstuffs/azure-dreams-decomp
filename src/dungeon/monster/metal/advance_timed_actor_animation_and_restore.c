@@ -34,12 +34,12 @@ void advance_timed_actor_animation_and_restore(ActorRecord *action, ObjectPositi
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase++;
         return;
 
     case 1:
-        if ((s16)++action->action_timer.u == 4 ||
+        if ((s16)++action->action_timer == 4 ||
             (sprite->flags & 0x8000)) {
             sprite->frameTable = D_801742F0;
             select_sprite_entry(sprite,
@@ -47,31 +47,31 @@ void advance_timed_actor_animation_and_restore(ActorRecord *action, ObjectPositi
                 0);
             sprite->flags |= 0x0800;
         }
-        if (action->action_timer.s == 7 ||
+        if ((s16)(action->action_timer) == 7 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
             return;
         }
         return;
 
     case 2:
-        if ((s16)++action->action_timer.u == 2) {
+        if ((s16)++action->action_timer == 2) {
             sprite->flags |= 0x0800;
         }
-        if (action->action_timer.s == 8 ||
+        if ((s16)(action->action_timer) == 8 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x808);
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
             return;
         }
         return;
 
     case 3:
-        if ((s16)++action->action_timer.u == 2) {
+        if ((s16)++action->action_timer == 2) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             action->action_phase++;
         }

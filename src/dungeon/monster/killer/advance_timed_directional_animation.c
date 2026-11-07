@@ -29,10 +29,10 @@ void advance_timed_directional_animation(ActorRecord *action_state, ObjectPositi
         if (animation->flags & 0x8000) {
             action_state->action_phase = 1;
             animation->flags |= 0x6000;
-            action_state->action_timer.u = 1;
+            action_state->action_timer = 1;
             break;
         }
-        action_state->action_timer.u = 7;
+        action_state->action_timer = 7;
         animation->frameTable = D_80174060;
         select_sprite_entry(animation,
                       D_80174060[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -41,8 +41,8 @@ void advance_timed_directional_animation(ActorRecord *action_state, ObjectPositi
         break;
 
     case 1:
-        ticks_left = action_state->action_timer.u - 1;
-        action_state->action_timer.u = ticks_left;
+        ticks_left = action_state->action_timer - 1;
+        action_state->action_timer = ticks_left;
         if (((ticks_left << 16) == 0) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             play_sound_if_enabled(0x804);

@@ -310,12 +310,12 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
         motion->y.v = (s32) (motion->y.v
             + motion->velocity_y);
         if (entity->action_state_flags & 8) {
-            entity->unk_9D.s = 0;
+            entity->unk_9D = 0;
         } else {
             motion->velocity_z = (s32) (motion->velocity_z
-                + (entity->unk_9D.s * 0x14000));
-            fall_ticks = (u8) entity->unk_9D.s + 1;
-            entity->unk_9D.s = (s8) fall_ticks;
+                + ((s8)(entity->unk_9D) * 0x14000));
+            fall_ticks = (u8) entity->unk_9D + 1;
+            entity->unk_9D = (s8) fall_ticks;
         }
         motion_position = entity->unk_90.value;
         motion_delta = motion->velocity_z;
@@ -339,7 +339,7 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
                     }
                     motion->velocity_z = 0;
                     actor->flags1C = (s32) (actor->flags1C | 0x08000000);
-                    entity->unk_9D.s = 0;
+                    entity->unk_9D = 0;
                 }
                 actor_flags = actor->flags1C;
                 if (actor_flags & 0x40000000) {

@@ -81,7 +81,7 @@ s32 begin_front_tile_attack(ActorRecord *body, ObjectPosition *unused, void *pos
     if (check_action_available_without_nearby_actor() != 0) {
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x80);
     }
-    body->action_timer.s = 6;
+    body->action_timer = 6;
     ((PlayerRecord *)body)->unk_102 = 0;
     return 0;
 }

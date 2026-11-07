@@ -38,7 +38,7 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
     if (actor->action_id != move_state) {
         actor->unk_90.value = 0;
         position->velocity_z = 0;
-        actor->unk_9D.u = 0;
+        actor->unk_9D = 0;
     }
 
     if (path->movement_queue_state <= path->unk_8A) {
@@ -97,13 +97,13 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
     actor->unk_8C.word = 0;
     path->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        actor->action_timer.s = 0;
+        actor->action_timer = 0;
         return;
     }
 
-    actor->action_timer.s = 8;
+    actor->action_timer = 8;
     tile_x = path->movement_queue_state;
     if (tile_x > 0) {
-        actor->action_timer.s = 8 / tile_x;
+        actor->action_timer = 8 / tile_x;
     }
 }

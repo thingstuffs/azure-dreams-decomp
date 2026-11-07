@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "dungeon/monster/kid.h"
 #include "shared/object_flags.h"
@@ -12,7 +13,6 @@ struct EntityLinkNode;
 
 
 
-void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
    /* the 0x2 bytes before arg3 in advance_fading_directional_entity, addressed as arg3[-1] */
@@ -81,18 +81,18 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
         if (!(sprite->flags & 0x6000)) {
             return;
         }
-        body->action_timer.u = 0x80U;
+        body->action_timer = 0x80U;
         body->action_phase = body->action_phase + 1;
         return;
     case 4:
         ((ActorRecord *)entity)->flags1C |= 0x10000000;
         motion->velocity_z += 0x20000;
-        brightness = (u8)body->action_timer.u;
+        brightness = (u8)body->action_timer;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;
         sprite->color.c.r = brightness;
-        next_brightness = body->action_timer.u - 0x18;
-        body->action_timer.u = next_brightness;
+        next_brightness = body->action_timer - 0x18;
+        body->action_timer = next_brightness;
         if ((s16)next_brightness >= 0x18) {
             return;
         }

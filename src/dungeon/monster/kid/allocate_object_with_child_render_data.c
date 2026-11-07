@@ -105,7 +105,7 @@ void *allocate_object_with_child_render_data(s32 kind, s32 part_x, s32 part_y, s
         object->flags1C |= 0x40000;
         stable_object->unk_90.parts.high.s = -0x20;
         stable_object->unk_A8.s = 0;
-        stable_object->unk_9E.s = 1;
+        stable_object->unk_9E = 1;
         stable_object->action_state_flags |= 0x4000;
 
         do {
@@ -159,7 +159,7 @@ void *allocate_object_with_child_render_data(s32 kind, s32 part_x, s32 part_y, s
             {
                 s32 child_count;
 
-                child_count = stable_object->unk_9E.s;
+                child_count = (s16)(stable_object->unk_9E);
                 outer_index++;
                 if (outer_index >= child_count) {
                     break;

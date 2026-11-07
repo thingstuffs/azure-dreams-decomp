@@ -187,10 +187,10 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
     motion->y.v += motion->velocity_y;
 
     if (entity->action_state_flags & 8) {
-        entity->unk_9D.s = 0;
+        entity->unk_9D = 0;
     } else {
-        motion->velocity_z += entity->unk_9D.s * 0x14000;
-        entity->unk_9D.s = (u8)entity->unk_9D.s + 1;
+        motion->velocity_z += (s8)entity->unk_9D * 0x14000;
+        entity->unk_9D = (u8)entity->unk_9D + 1;
     }
     entity->unk_90.value += motion->velocity_z;
 
@@ -206,11 +206,11 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
                 entity->unk_90.value = 0;
                 motion->velocity_z = 0;
                 entity_base->flags1C |= 0x08000000;
-                entity->unk_9D.s = 0;
+                entity->unk_9D = 0;
             } else {
                 motion->velocity_z = 0;
                 entity_base->flags1C |= 0x08000000;
-                entity->unk_9D.s = 0;
+                entity->unk_9D = 0;
                 entity->unk_90.parts.high.s = ground_height - (u16)(entity_base->ground_height);
             }
 
@@ -563,14 +563,14 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
     }
     state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        action->action_timer.s = 0;
+        action->action_timer = 0;
         return;
     }
 
-    action->action_timer.s = 8;
+    action->action_timer = 8;
     step_count = state->movement_queue_state;
     if (step_count > 0) {
-        action->action_timer.s = 8 / step_count;
+        action->action_timer = 8 / step_count;
     }
 }
 
@@ -1030,8 +1030,8 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         }
         break;
     }
-    action_ticks = action->action_timer.u - 1;
-    action->action_timer.u = action_ticks;
+    action_ticks = action->action_timer - 1;
+    action->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
     }
@@ -1090,7 +1090,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
     case 0:
         if (sprite->flags & 0x8000) {
             action->action_phase = 3;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             sprite->flags |= 0x6000;
             return;
         }
@@ -1109,7 +1109,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
             s32 next_state;
 
             next_state = action->action_phase;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             next_state++;
             action->action_phase = next_state;
             return;
@@ -1129,7 +1129,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
             s32 next_state;
 
             next_state = action->action_phase;
-            action->action_timer.u = 4;
+            action->action_timer = 4;
             next_state++;
             action->action_phase = next_state;
             return;
@@ -1144,7 +1144,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
         select_sprite_entry(sprite,
             griffon_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer.u = 0x14;
+        action->action_timer = 0x14;
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
@@ -1158,10 +1158,10 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
         }
 
     case 3:
-        ticks_left = action->action_timer.u;
+        ticks_left = action->action_timer;
         vertical_speed = motion->velocity_z;
         ticks_left--;
-        action->action_timer.u = ticks_left;
+        action->action_timer = ticks_left;
         if ((s16)ticks_left < 12) {
             vertical_speed += 0x1400;
         } else {
@@ -1170,7 +1170,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
         motion->velocity_z = vertical_speed;
         action->unk_90.value += vertical_speed;
 
-        if ((s16)action->action_timer.u == 0x11) {
+        if ((s16)action->action_timer == 0x11) {
             s32 direction_step;
             s16 *x_steps;
             s16 *x_step;
@@ -1202,13 +1202,13 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
             (sprite->flags & 0x8000)) {
             motion->velocity_x =
                 ((((sprite->tile_x << 6) + 0x20) << 16) -
-                 motion->x.v) / (s16)action->action_timer.u;
+                 motion->x.v) / (s16)action->action_timer;
             motion->velocity_y =
                 ((((sprite->tile_y << 6) + 0x20) << 16) -
-                 motion->y.v) / (s16)action->action_timer.u;
+                 motion->y.v) / (s16)action->action_timer;
         }
 
-        if (((s16)action->action_timer.u > 0) &&
+        if (((s16)action->action_timer > 0) &&
             !(sprite->flags & 0x8000)) {
             return;
         }
@@ -1366,15 +1366,15 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
             (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            action->action_timer.u = 0x10;
+            action->action_timer = 0x10;
             action->action_state_flags |= 0x80;
         }
 
         {
-            u16 timer = action->action_timer.u - 1;
-            action->action_timer.u = timer;
+            u16 timer = action->action_timer - 1;
+            action->action_timer = timer;
             if ((s16)timer <= 0) {
-                action->action_timer.u = 0;
+                action->action_timer = 0;
                 sprite->flags &= 0xF7FF;
             }
         }
@@ -1446,7 +1446,7 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
             return;
         }
         if (sprite->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 3;
             return;
         }
@@ -1456,7 +1456,7 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
         } else {
             move_timer = -1;
         }
-        action->action_timer.s = move_timer;
+        action->action_timer = move_timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -1468,13 +1468,13 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
         motion->velocity_y +=
             dir_step_y[(entity->movement_facing >> 9) & 7] << 14;
 
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)action->action_timer > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
 
-        if (action->action_timer.s != 0) {
+        if ((s16)action->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -1506,12 +1506,12 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
             sprite,
             griffon_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer.s = 8;
+        action->action_timer = 8;
         action->action_phase++;
         return;
 
     case 3:
-        move_timer = action->action_timer.s;
+        move_timer = (s16)action->action_timer;
         if (move_timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -1522,12 +1522,12 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / action->action_timer.s;
+                    ((target_y - current_y) << 15) / (s16)action->action_timer;
             }
         }
 
-        move_timer = action->action_timer.u - 1;
-        action->action_timer.s = move_timer;
+        move_timer = action->action_timer - 1;
+        action->action_timer = move_timer;
         if ((s32)(move_timer << 16) > 0) {
             return;
         }
@@ -2136,7 +2136,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
         griffon_effect_load_done[0] = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), griffon_effect_load_done);
         select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
-        effect_state->action_timer.s = 0x10;
+        effect_state->action_timer = 0x10;
         effect_state->action_phase++;
 
     case 3:
@@ -2145,11 +2145,11 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             u8 effect_ready;
             R08_80174648_S_80174648_3 *target_color;
 
-            frames_left = effect_state->action_timer.u;
-            effect_state->action_timer.u = frames_left - 1;
+            frames_left = effect_state->action_timer;
+            effect_state->action_timer = frames_left - 1;
             if ((s16)(frames_left - 1) <= 0) {
                 effect_ready = griffon_effect_load_done[0];
-                effect_state->action_timer.u = frames_left;
+                effect_state->action_timer = frames_left;
                 if (effect_ready != 0) {
                     effect_state->action_phase++;
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
@@ -2159,11 +2159,11 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             }
             target_color = ((void * *)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
             effect_work->unk_A8 += (target_color->unk_00
-                - effect_work->unk_A8) / effect_state->action_timer.s;
+                - effect_work->unk_A8) / (s16)effect_state->action_timer;
             effect_work->unk_A9 += (target_color->unk_01
-                - effect_work->unk_A9) / effect_state->action_timer.s;
+                - effect_work->unk_A9) / (s16)effect_state->action_timer;
             effect_work->unk_AA += (target_color->unk_02
-                - effect_work->unk_AA) / effect_state->action_timer.s;
+                - effect_work->unk_AA) / (s16)effect_state->action_timer;
             return;
         }
 
@@ -2197,7 +2197,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             }
             select_record_entry_and_value(effect_work, dungeon_resource_buffer + (s32)((void * *)D_80174CFC)[variant], 0);
             entity->flags |= 0x80;
-            effect_state->action_timer.s = 0;
+            effect_state->action_timer = 0;
             effect_state->action_phase++;
             create_positioned_sprite_effect(effect_state, position, entity);
             return;
@@ -2208,7 +2208,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             effect_work = effect_state->unk_AC.address;
             effect_work = effect_work->unk_0C.p;
             if (effect_work->unk_14 & 0xE000) {
-                effect_state->action_timer.s = 0x10;
+                effect_state->action_timer = 0x10;
                 effect_state->action_phase++;
                 decrement_monster_entry_count(actor->species, 3);
                 update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
@@ -2226,7 +2226,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             if (create_status_linked_render_effect(position, ((void * *)griffon_transition_sprite_source)[0], ((s16 *)D_80174D14)[0], ((s32 *)staged_spawn_count)) == 0) {
                 return;
             }
-            effect_state->action_timer.s = 0x10;
+            effect_state->action_timer = 0x10;
             effect_state->action_phase++;
             decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
@@ -2245,7 +2245,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             if ((actor->target = advance_staged_entity_load(entity, actor)) == 0) {
                 return;
             }
-            effect_state->action_timer.s = 0x10;
+            effect_state->action_timer = 0x10;
             effect_state->action_phase++;
             ((R08_80174648_S_80174648_10 *)actor->target)->unk_2A = (u16)(actor->facing);
             child_or_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_60.i;
@@ -2261,8 +2261,8 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
     case 8:
         {
 
-            effect_state->action_timer.u--;
-            if (effect_state->action_timer.s > 0) {
+            effect_state->action_timer--;
+            if ((s16)effect_state->action_timer > 0) {
                 return;
             }
             ((R08_80174648_S_80174648_10 *)actor->target)->unk_2A = ((R08_80174648_S_80174648_1 *)actor)->unk_8A;

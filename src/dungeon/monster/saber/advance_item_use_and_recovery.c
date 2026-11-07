@@ -168,7 +168,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
             if (create_actor_spell_effect(actor, item_slot, special_or_effect, (u8 *)body + 0x98) == 0) {
                 return;
             }
-            body->action_timer.u = 0x11;
+            body->action_timer = 0x11;
             body->action_phase++;
             return;
         }
@@ -200,8 +200,8 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
         {
             s16 timer;
 
-            timer = body->action_timer.u - 1;
-            body->action_timer.u = timer;
+            timer = body->action_timer - 1;
+            body->action_timer = timer;
             if (timer == 0xB || (sprite->flags & 0xE000)) {
                 effect_handle = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect_handle != 0) {
@@ -242,15 +242,15 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                 }
             }
 
-            if (body->action_timer.s == 0xB ||
+            if ((s16)(body->action_timer) == 0xB ||
                 (sprite->flags & 0xE000)) {
                 sprite->flags |= 0x800;
             }
-            if (body->action_timer.s == 0 ||
+            if ((s16)(body->action_timer) == 0 ||
                 (sprite->flags & 0xE000)) {
                 sprite->flags &= 0xF7FF;
             }
-            if (body->action_timer.s <= 0 ||
+            if ((s16)(body->action_timer) <= 0 ||
                 (sprite->flags & 0xE000)) {
                 next_state = body->action_phase + 1;
                 body->action_phase = next_state;
@@ -263,7 +263,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
             sprite->flags |= 0x800;
-            body->action_timer.u = 0x14;
+            body->action_timer = 0x14;
             body->action_state_flags |= 0x80;
             sprite->flags |= 0x100;
             body->unk_AC.halves.low.u = sprite->clut;
@@ -276,15 +276,15 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
             s16 timer;
 
             if ((g_dungeon_status.active_actor) == 0) {
-                body->action_timer.u = 0;
+                body->action_timer = 0;
             }
-            timer = body->action_timer.u - 1;
-            body->action_timer.u = timer;
+            timer = body->action_timer - 1;
+            body->action_timer = timer;
             if (timer <= 0) {
-                body->action_timer.u = 0;
+                body->action_timer = 0;
                 sprite->flags &= 0xF7FF;
             }
-            if (body->action_timer.s == 0x12) {
+            if ((s16)(body->action_timer) == 0x12) {
                 sprite->flags &= 0xFEFF;
                 sprite->clut = body->unk_AC.halves.low.u;
             }

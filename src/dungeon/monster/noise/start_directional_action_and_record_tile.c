@@ -16,7 +16,7 @@ void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectP
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id = 0x17;
-            action_state->action_timer.s = 0xF;
+            action_state->action_timer = 0xF;
             action_state->unk_8C.word = 0;
             action_state->action_phase = 0;
             (sprite->frameTable) = &D_80174EC8;
@@ -68,11 +68,11 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        timer = effect_state->action_timer.u - 1;
-        effect_state->action_timer.u = timer;
+        timer = effect_state->action_timer - 1;
+        effect_state->action_timer = timer;
         if (((timer << 16) <= 0) ||
             (source_mesh->flags & 0x8000)) {
-            effect_state->action_timer.u = 0;
+            effect_state->action_timer = 0;
             effect_state->action_phase++;
             flags = source_mesh->flags;
             source_mesh->flags = flags & 0xF7FF;
@@ -151,7 +151,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
             effect_mesh->depth_bias = 4;
 
         } while (++count < 1);
-        effect_state->action_timer.u = 0x2D;
+        effect_state->action_timer = 0x2D;
         effect_state->action_phase++;
         return;
     case 2:
@@ -164,8 +164,8 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
             }
         }
         if (!(source_mesh->flags & 0x8000)) {
-            timer = effect_state->action_timer.u - 1;
-            effect_state->action_timer.u = timer;
+            timer = effect_state->action_timer - 1;
+            effect_state->action_timer = timer;
             if ((timer << 16) > 0) {
                 return;
             }

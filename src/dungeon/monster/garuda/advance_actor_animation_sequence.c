@@ -38,11 +38,11 @@ void advance_actor_animation_sequence(ActorRecord *body, ObjectPosition *motion,
             D_801748B8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         body->action_phase++;
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         break;
     case 2:
-        delay_ticks = body->action_timer.u + 1;
-        body->action_timer.u = delay_ticks;
+        delay_ticks = body->action_timer + 1;
+        body->action_timer = delay_ticks;
         if ((s16)delay_ticks != 2) {
             break;
         }

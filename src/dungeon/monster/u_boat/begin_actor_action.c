@@ -22,7 +22,7 @@ void begin_actor_action(ActorRecord *state, ObjectPosition *world_pos, SpriteFra
                 state->unk_8C.word = 0;
                 state->action_id = 0x11;
                 state->action_phase = 0;
-                state->action_timer.s = 0;
+                state->action_timer = 0;
                 actor->pending_turn_updates--;
                 state->action_state_flags |= 8;
                 prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

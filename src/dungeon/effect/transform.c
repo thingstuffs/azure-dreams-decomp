@@ -1,3 +1,4 @@
+#include "engine/node/registration.h"
 /* Copied-motion sprite creation with random rotation and timed grayscale growth. */
 #include "dungeon/effect/transform.h"
 #include "shared/object_node.h"

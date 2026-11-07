@@ -34,7 +34,7 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
             return;
         }
         if (tile_state->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -43,7 +43,7 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
         } else {
             timer = -1;
         }
-        action->action_timer.s = timer;
+        action->action_timer = timer;
                         /* fall through */
 
     case 1:
@@ -55,16 +55,16 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
             s32 velocity_y = motion->velocity_y;
             motion->velocity_y = velocity_y - velocity_y / 4;
         }
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (tile_state->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (actor_data->hp != 0) {
-            action->action_timer.s = 8;
+            action->action_timer = 8;
             action->action_phase++;
             return;
         }
@@ -75,7 +75,7 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
         return;
 
     case 2:
-        timer = action->action_timer.s;
+        timer = (action->action_timer);
         if (timer > 0) {
             {
                 s32 target_pos = tile_state->tile_x << 6;
@@ -87,11 +87,11 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
                 s32 target_pos = tile_state->tile_y << 6;
                 s32 current_pos = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_pos - current_pos) << 16) / action->action_timer.s;
+                    ((target_pos - current_pos) << 16) / (s16)(action->action_timer);
             }
         }
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

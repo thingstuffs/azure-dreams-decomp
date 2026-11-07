@@ -101,7 +101,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             effect_state->image_data_06 = 1;
             effect_state->duration.s = 8;
             effect_state->image_data_02 = (s16)facing >> 6;
-            action->action_timer.u = 8;
+            action->action_timer = 8;
             effect_state->frame = 0;
             effect_state->mode = 0;
         }
@@ -130,8 +130,8 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
                 ((angle_shifted >> 19) + 0x100)) -
             action->unk_AC.halves.low.u;
 
-        timer = action->action_timer.u - 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s16)timer > 0) {
             if (!(sprite->flags & 0x8000)) {
                 return;
@@ -190,7 +190,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
                 effect_state->image_data_06 = 1;
                 effect_state->duration.s = 8;
                 effect_state->image_data_02 = (s16)facing >> 6;
-                action->action_timer.u = 8;
+                action->action_timer = 8;
                 effect_state->frame = 0;
                 effect_state->mode = 1;
             }
@@ -302,7 +302,7 @@ second_call:
             effect_state->image_data_06 = 1;
             effect_state->duration.s = 8;
             effect_state->image_data_02 = (s16)angle >> 6;
-            action->action_timer.u = 8;
+            action->action_timer = 8;
             effect_state->frame = 0;
             effect_state->mode = 1;
         }
@@ -334,8 +334,8 @@ second_call:
             action->unk_AC.halves.low.u;
 
         if (!(sprite->flags & 0x8000)) {
-            timer = action->action_timer.u - 1;
-            action->action_timer.u = timer;
+            timer = action->action_timer - 1;
+            action->action_timer = timer;
             if ((s16)timer > 0) {
                 return;
             }

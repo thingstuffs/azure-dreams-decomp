@@ -74,25 +74,25 @@ void advance_timed_actor_state_sequence(ActorRecord *action, ObjectPosition *pos
             show_entity_message(0, actor);
         }
         play_sound_if_enabled(0x80D);
-        action->action_timer.u = 0x20;
+        action->action_timer = 0x20;
         action->action_phase = action->action_phase + 1;
         break;
 
     case 1:
-        ticks_left = action->action_timer.u - 1;
-        action->action_timer.u = ticks_left;
+        ticks_left = action->action_timer - 1;
+        action->action_timer = ticks_left;
         if ((ticks_left << 16) != 0) {
             if (!(sprite->flags & 0x8000)) {
                 break;
             }
         }
-        action->action_timer.u = 4;
+        action->action_timer = 4;
         action->action_phase = action->action_phase + 1;
         break;
 
     case 2:
-        ticks_left = action->action_timer.u - 1;
-        action->action_timer.u = ticks_left;
+        ticks_left = action->action_timer - 1;
+        action->action_timer = ticks_left;
         if ((ticks_left << 16) != 0) {
             if (!(sprite->flags & 0xE000)) {
                 return;

@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "engine/entity/effect_slots.h"
@@ -15,7 +16,6 @@
 
 struct EntityLinkNode;
 
-void unlink_entity_node(struct EntityLinkNode *node); /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 typedef struct S_800AD058_1 {
@@ -87,20 +87,20 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         }
         play_sound_if_enabled(sound_id);
         sprite->color.word = 0x808080;
-        state->action_timer.u = 0x10;
+        state->action_timer = 0x10;
         state->action_phase = (u8) (state->action_phase + 1);
     case 2:
         red = (u8) sprite->color.word;
         sprite->color.c.r = (s8) (red + ((s32) (0x20
-            - red) / (s16)state->action_timer.u));
+            - red) / (s16)state->action_timer));
         green = sprite->color.c.g;
         blue = sprite->color.c.b;
         sprite->color.c.g = (u8) (green + ((s32) (0x20
-            - green) / (s16)state->action_timer.u));
+            - green) / (s16)state->action_timer));
         sprite->color.c.b = (u8) (blue + ((s32) (0x20
-            - blue) / (s16)state->action_timer.u));
-        fade_ticks = (u16)state->action_timer.u - 1;
-        state->action_timer.u = fade_ticks;
+            - blue) / (s16)state->action_timer));
+        fade_ticks = (u16)state->action_timer - 1;
+        state->action_timer = fade_ticks;
         if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((sprite->flags & 0x8000) != 0))) {
             if (!(((ActorRecord *)entity)->flags14 & 0x20000000)) {
                 DungeonGlobalStatus *shared_state = &g_dungeon_status;
@@ -142,18 +142,18 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         return finished;
 
     case 3:
-        orbit_offset = (((s16)state->action_timer.u) * rcos(((S_800AD058_1 *)sprite)->unk_27
+        orbit_offset = (((s16)state->action_timer) * rcos(((S_800AD058_1 *)sprite)->unk_27
             << 7)) << 5;
         position->x.v += (s32) ((view_reference_entity.x.v + orbit_offset
             - position->x.v) >> 2);
-        orbit_offset = (((s16)state->action_timer.u) * rsin(((S_800AD058_1 *)sprite)->unk_27
+        orbit_offset = (((s16)state->action_timer) * rsin(((S_800AD058_1 *)sprite)->unk_27
             << 7)) << 5;
         position->y.v += (s32) ((view_reference_entity.y.v + orbit_offset
             - position->y.v) >> 2);
         {
             s32 vertical_step;
 
-            vertical_step = rsin(((s16)state->action_timer.u) * 8) >> 6;
+            vertical_step = rsin(((s16)state->action_timer) * 8) >> 6;
             ((ActorRecord *)entity)->ground_height = (s16) ((u16) ((ActorRecord *)entity)->ground_height +
                 ((view_reference_entity.z.w.i - vertical_step - ((ActorRecord *)entity)->ground_height)
                     >> 4));
@@ -161,12 +161,12 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         scale_x = sprite->scale_x;
         scale_y = sprite->scale_y;
         sprite->scale_x = (u16) (scale_x
-            - ((s32) scale_x / (s16)state->action_timer.u));
+            - ((s32) scale_x / (s16)state->action_timer));
         sprite->scale_y = (u16) (scale_y
-            - ((s32) scale_y / (s16)state->action_timer.u));
+            - ((s32) scale_y / (s16)state->action_timer));
         ((S_800AD058_1 *)sprite)->unk_27 = (u8) (((S_800AD058_1 *)sprite)->unk_27 + 1);
-        spiral_ticks = (u16)state->action_timer.u - 1;
-        state->action_timer.u = spiral_ticks;
+        spiral_ticks = (u16)state->action_timer - 1;
+        state->action_timer = spiral_ticks;
         finished = 0;
         if ((spiral_ticks << 0x10) <= 0) {
             DungeonGlobalStatus *shared_state = &g_dungeon_status;

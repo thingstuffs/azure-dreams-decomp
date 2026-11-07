@@ -24,7 +24,7 @@ width and the member path `cast_fold.same_access` accepts).  Classes:
 
   direct_field   a typed struct base with a named member giving exactly the same access (union views
                  and signed/unsigned alternates picked by same_access; plain stores may take the other
-                 signedness of the same width): `U8(body, 0x9B)` -> `body->action_phase.u`
+                 signedness of the same width): `U8(body, 0x9B)` -> `body->action_phase`
   node_header    a negative offset from an object body that is an exact ObjectNodeHeader member
                  (`U16_AT(effect, -2)` -> `NODE_HEADER(effect)->flags`, the shared/object_node.h accessor)
   needs_member   a typed struct base, offset known, but no member starts there (gap / pad / inside an

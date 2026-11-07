@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "shared/actor_status_ids.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -40,7 +41,6 @@ typedef struct S_800D34CC_2 {
 } S_800D34CC_2;   /* data in update_actor_fade_state */
 
 
-void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 
 /* Waits for pending actions, shrinks and darkens the actor sprite, then detaches the actor and clears

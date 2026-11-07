@@ -58,8 +58,8 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
         if (sprite->flags & 0x8000) {
             body->unk_90.parts.high.u = 0;
         }
-        phase_ticks = body->action_timer.u + 1;
-        body->action_timer.u = phase_ticks;
+        phase_ticks = body->action_timer + 1;
+        body->action_timer = phase_ticks;
         if (((s16)phase_ticks == 1) || (sprite->flags & 0x8000)) {
             body->unk_B4.bytes[1] = 1;
             allocation_head_address = NODE_HEADER(body);
@@ -95,7 +95,7 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
                           uboat_aura_start_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                               >> 9) & 7],
                           0);
-            body->action_timer.u = 2;
+            body->action_timer = 2;
             body->action_phase++;
             if (!(sprite->flags & 0x8000)) {
                 play_sound_if_enabled(0x800);
@@ -106,25 +106,25 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
         }
 
     case 1:
-        first_delay = body->action_timer.u - 1;
-        body->action_timer.u = first_delay;
+        first_delay = body->action_timer - 1;
+        body->action_timer = first_delay;
         if (((first_delay << 0x10) <= 0) || (sprite->flags & 0xE000)) {
             (sprite->frameTable) = uboat_aura_later_frames;
             select_sprite_entry(sprite,
                           uboat_aura_later_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                               >> 9) & 7],
                           0);
-            body->action_timer.u = 3;
+            body->action_timer = 3;
             body->action_phase++;
         }
         if (!(sprite->flags & 0x8000)) {
             return;
         }
     case 2:
-        second_delay = body->action_timer.u - 1;
-        body->action_timer.u = second_delay;
+        second_delay = body->action_timer - 1;
+        body->action_timer = second_delay;
         if (((second_delay << 0x10) <= 0) || (sprite->flags & 0x8000)) {
-            body->action_timer.u = 0x1E;
+            body->action_timer = 0x1E;
             body->unk_A8.s = 0;
             body->unk_B0.bytes[1] = 0;
             body->unk_B0.bytes[2] = 0;

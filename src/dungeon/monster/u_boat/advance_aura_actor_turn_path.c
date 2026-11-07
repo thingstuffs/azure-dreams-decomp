@@ -93,13 +93,13 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
             state->flags1C |= ACTOR_REFRESH_GROUND;
         }
         if (g_dungeon_status.flags & 0x80) {
-            actor->action_timer.s = 0;
+            actor->action_timer = 0;
             return;
         }
-        actor->action_timer.s = 8;
+        actor->action_timer = 8;
         step_count = state->movement_queue_state;
         if ((s32)step_count > 0) {
-            actor->action_timer.s = 8 / (s32)step_count;
+            actor->action_timer = 8 / (s32)step_count;
         }
     }
 }

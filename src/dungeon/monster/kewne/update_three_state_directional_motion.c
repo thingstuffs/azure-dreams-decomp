@@ -55,7 +55,7 @@ void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *
         sprite->frameTable = D_80175E88;
         facing_ptr = &D_80175E88[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7];
         select_sprite_entry(sprite, *facing_ptr, 0);
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         play_sound_if_enabled(0x808);
         action->action_phase++;
         return;
@@ -69,11 +69,11 @@ void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *
         s32 next_y;
         s32 signed_value;
 
-        anim_table = action->action_timer.u;
+        anim_table = action->action_timer;
         direction_base = (u8 *)&dir_step_x;
         next_frame = anim_table + 1;
         anim_table -= 3;
-        action->action_timer.u = next_frame;
+        action->action_timer = next_frame;
         direction_offset = ((u16)actor->facing >> 8) & 0xE;
         anim_table = (u32)anim_table < 8U;
         direction_base = (direction_offset + direction_base);

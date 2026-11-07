@@ -101,7 +101,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
                     0);
                 sprite->frame_ticks = 1;
                 is_active = entity->unk_B0.bytes[0];
-                entity->unk_9E.s = 0;
+                entity->unk_9E = 0;
                 entity->unk_A0.parts.high = 0;
             } else {
                 is_active = entity->unk_B0.bytes[0];
@@ -127,7 +127,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
             begin_actor_move_to_target_facing(entity, context, sprite, actor);
             height_delta = entity->unk_90.parts.high.u - entity->unk_A0.parts.high;
             entity->unk_A0.parts.high = 0;
-            entity->unk_9E.s = 0;
+            entity->unk_9E = 0;
             entity->unk_90.parts.high.s = height_delta;
             update_actor_action_transition(entity, context, sprite, actor);
             return;

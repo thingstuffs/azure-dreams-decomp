@@ -133,8 +133,8 @@ void try_move_player(ActorRecord *move_state, s32 actor_id, SpriteFrameState *sp
     } else {
         if (move_result < 0) {
             if ((system_update_flags & 1) ||
-                (blocked_ticks = move_state->action_timer.u + 1,
-                 move_state->action_timer.u = blocked_ticks,
+                (blocked_ticks = move_state->action_timer + 1,
+                 move_state->action_timer = blocked_ticks,
                  (s16)blocked_ticks >= 0x15)) {
                 begin_player_push(move_state, actor_id, sprite, actor, (s32)move_result);
                 if (move_state->action_phase >= 0x10) {

@@ -139,7 +139,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
                               ((u8 *)actor_state + 0x98)) == 0) {
                 return;
             }
-            actor_state->action_timer.u = 0;
+            actor_state->action_timer = 0;
             actor_state->action_phase++;
             return;
         }
@@ -172,8 +172,8 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
     {
         u16 timer;
 
-        timer = actor_state->action_timer.u + 1;
-        actor_state->action_timer.u = timer;
+        timer = actor_state->action_timer + 1;
+        actor_state->action_timer = timer;
         if ((s16)timer == 3) {
             ObjectNodeHeader *effect;
 
@@ -223,7 +223,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
             }
         }
 
-        if (actor_state->action_timer.s == 0x10) {
+        if ((s16)(actor_state->action_timer) == 0x10) {
             u8 *anim_table;
             s32 direction_index;
 
@@ -236,13 +236,13 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
             }
         }
 
-        if (actor_state->action_timer.s == 0x13 ||
+        if ((s16)(actor_state->action_timer) == 0x13 ||
             (sprite->flags & 0xE000)) {
             actor_state->action_state_flags |= 0x80;
             play_sound_if_enabled(0x81B);
         }
 
-        if (actor_state->action_timer.s < 0x19 &&
+        if ((s16)(actor_state->action_timer) < 0x19 &&
             !(sprite->flags & 0xE000)) {
             return;
         }
@@ -258,7 +258,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
         if (action_status->unk_0C != 0) {
             return;
         }
-        actor_state->action_timer.u = 0;
+        actor_state->action_timer = 0;
         if (action_status->unk_0C != 0) {
             return;
         }

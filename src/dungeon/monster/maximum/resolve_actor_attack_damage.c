@@ -219,13 +219,13 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
         if ((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags = (u16) (sprite->flags | 0x800);
-            actor->action_timer.u = 3U;
+            actor->action_timer = 3U;
             actor->action_state_flags = (u16) (actor->action_state_flags | 0x80);
         }
-        ticks_left = actor->action_timer.u - 1;
-        actor->action_timer.u = ticks_left;
+        ticks_left = actor->action_timer - 1;
+        actor->action_timer = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            actor->action_timer.u = 0U;
+            actor->action_timer = 0U;
             sprite->flags = (u16) (sprite->flags & 0xF7FF);
         }
         if (!(sprite->flags & 0xE000)) {

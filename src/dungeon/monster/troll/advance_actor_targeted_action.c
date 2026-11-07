@@ -128,7 +128,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
                 (u8 *)action + 0x98) == 0) {
                 return;
             }
-            action->action_timer.u = 0x16;
+            action->action_timer = 0x16;
             action->unk_AC.halves.high.s = 0xE;
             action->action_phase++;
             return;
@@ -159,7 +159,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
 
     case 2:
         step = 0;
-        if (!(action->action_timer.u & 1) &&
+        if (!(action->action_timer & 1) &&
             action->unk_AC.halves.high.s != 0) {
             action->unk_AC.halves.high.u--;
         }
@@ -167,11 +167,11 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
             spawn_random_color_burst_particle(action, transform, sprite, actor);
         }
 
-        if (action->action_timer.s == 0x16) {
+        if ((s16)(action->action_timer) == 0x16) {
             spawn_growing_rotating_flash(action, transform, sprite);
         }
-        ticks_left = action->action_timer.u - 1;
-        action->action_timer.u = ticks_left;
+        ticks_left = action->action_timer - 1;
+        action->action_timer = ticks_left;
         if ((s32)(ticks_left << 16) > 0 &&
             !(sprite->flags & 0xE000)) {
             return;
@@ -182,7 +182,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
 
     case 3:
         if (D_8008346C == 0) {
-            action->action_timer.u = 0;
+            action->action_timer = 0;
         }
         if (!(sprite->flags & 0xE000)) {
             return;

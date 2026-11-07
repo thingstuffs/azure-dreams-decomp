@@ -90,7 +90,7 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
-            body->unk_9E.s = 0;
+            body->unk_9E = 0;
             body->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
             body->action_id = idle_state;
         }

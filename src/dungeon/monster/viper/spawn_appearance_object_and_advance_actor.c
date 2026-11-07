@@ -12,6 +12,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/viper.h"
 
 
 typedef struct S_8017390C_3 {
@@ -98,7 +99,7 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, ObjectPositio
         render->flags |= 0xC;
         actor_data->flags1C |= 0x10000000;
         render->color.word = 0x808080;
-        actor->action_timer.s = 0x10;
+        actor->action_timer = 0x10;
         actor->action_phase++;
         play_sound_if_enabled(0x805);
         return;

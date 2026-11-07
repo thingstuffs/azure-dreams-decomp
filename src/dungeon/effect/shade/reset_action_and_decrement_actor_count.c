@@ -21,7 +21,7 @@ void reset_action_and_decrement_actor_count(ActorRecord *action_state, ObjectPos
         action_state->unk_8C.word = 0;
         action_state->action_id = 0x18;
         action_state->action_phase = 0;
-        action_state->action_timer.s = 0;
+        action_state->action_timer = 0;
         action_state->unk_B0.bytes[3] = 0;
         action_state->unk_B0.bytes[1] = 0;
         action_state->unk_B0.bytes[2] = 0;

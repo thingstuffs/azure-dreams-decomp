@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "shared/actor_status_ids.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/actor_status_flags.h"
@@ -31,7 +32,6 @@ typedef struct S_800BE6F0_0_pre {
 #include "dungeon/player/item.h"
 #include "dungeon/player/object.h"
 struct EntityLinkNode;
-void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect.h"

@@ -34,7 +34,7 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
             return;
         }
         if (tile->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -43,7 +43,7 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
         } else {
             timer = -1;
         }
-        action->action_timer.s = timer;
+        action->action_timer = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -52,12 +52,12 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
     case 1:
         motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (tile->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -67,12 +67,12 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
             begin_actor_display_action(action, motion, tile, &D_80175268);
             return;
         }
-        action->action_timer.s = 8;
+        action->action_timer = 8;
         action->action_phase++;
         return;
 
     case 2:
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             {
                 s32 target_x;
                 s32 current_x;
@@ -92,8 +92,8 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
                     ((target_z - current_z) << 15) >> 1;
             }
         }
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

@@ -28,7 +28,7 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
     jump_state = motion->action_phase;
     switch (jump_state) {
     case 0:
-        if (motion->action_timer.s != 8) {
+        if ((s16)(motion->action_timer) != 8) {
             break;
         }
         motion->action_state_flags |= 8;
@@ -38,7 +38,7 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
         motion->action_phase++;
                         /* fall through */
     case 1:
-        frames_left = motion->action_timer.s;
+        frames_left = (s16)(motion->action_timer);
         motion->unk_90.value -= motion->unk_A4.value;
         if (frames_left != 0) {
             s32 coord;
@@ -51,12 +51,12 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
             position->velocity_x = ((coord - axis_origin) << 16) / frames_left;
             coord2 = target_tile->tile_y << 6;
             axis_origin2 = position->y.w.i - 0x20;
-            position->velocity_y = ((coord2 - axis_origin2) << 16) / motion->action_timer.s;
+            position->velocity_y = ((coord2 - axis_origin2) << 16) / (s16)(motion->action_timer);
             motion->unk_A4.value += position->velocity_z;
             position->velocity_z += 0x40000;
         }
         motion->unk_90.value += motion->unk_A4.value;
-        if (motion->action_timer.s < 3) {
+        if ((s16)(motion->action_timer) < 3) {
             motion->unk_90.value = 0;
             motion->action_state_flags &= 0xFFF7;
             entity->flags1C |= ACTOR_GROUNDED;
@@ -75,8 +75,8 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
         break;
     }
 
-    next_frames = (u16)motion->action_timer.s - 1;
-    motion->action_timer.s = next_frames;
+    next_frames = (u16)motion->action_timer - 1;
+    motion->action_timer = next_frames;
     if ((next_frames << 16) <= 0) {
         position->velocity_z = 0;
         position->velocity_y = 0;

@@ -21,5 +21,5 @@ void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position,
         >> 9) & 7) + &D_80174E04), 0);
     body->unk_90.value = 0;
     position->velocity_z = 0;
-    body->unk_9D.s = 0;
+    body->unk_9D = 0;
 }

@@ -19,6 +19,7 @@
 #include "dungeon/level.h"
 #include "engine/node.h"
 #include "dungeon/data.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 typedef struct S_8017558C_0 {
     u8 pad_00[0x8C];
@@ -85,7 +86,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
                 pack_and_submit_cell_height_levels();
                 finish_phase = 5;
                 global_flags = dungeon_floor_flags;
-                action->action_timer.u = finish_phase;
+                action->action_timer = finish_phase;
                 dungeon_floor_flags = global_flags | FLOOR_MAP_VIEW_HOLD;
                 action->action_phase = finish_phase;
             }
@@ -111,13 +112,13 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
             sprite->frameTable = uboat_aura_start_frames;
             select_sprite_entry(sprite, uboat_aura_start_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
-            action->action_timer.u = 2U;
+            action->action_timer = 2U;
             action->action_phase = (u8) (action->action_phase + 1);
             sprite->depth_bias = 6;
             action->unk_A4.halves.high.u = (u16) actor->facing;
         }
-        effect_timer = action->action_timer.u + 1;
-        action->action_timer.u = effect_timer;
+        effect_timer = action->action_timer + 1;
+        action->action_timer = effect_timer;
         if ((s16) effect_timer != 1) {
             return;
         }
@@ -148,8 +149,8 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         effect_sprite->source = uboat_aura_sprite_data;
         return;
     case 1:
-        start_timer = action->action_timer.u - 1;
-        action->action_timer.u = start_timer;
+        start_timer = action->action_timer - 1;
+        action->action_timer = start_timer;
         if ((start_timer << 0x10) > 0) {
             if (!(sprite->flags & 0xE000)) {
                 return;
@@ -157,20 +158,20 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         }
         sprite->frameTable = uboat_aura_later_frames;
         select_sprite_entry(sprite, uboat_aura_later_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        action->action_timer.u = 3U;
+        action->action_timer = 3U;
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_B4.halves.high.u = (u16) ((u16)position->x.w.i);
         ((S_8017558C_0 *)action)->unk_B8 = (u16) ((u16)position->y.w.i);
         ((S_8017558C_0 *)action)->unk_BA = (u16) ((u16)actor->ground_height);
         return;
     case 2:
-        windup_timer = action->action_timer.u - 1;
-        action->action_timer.u = windup_timer;
+        windup_timer = action->action_timer - 1;
+        action->action_timer = windup_timer;
         if ((windup_timer << 0x10) > 0) {
             return;
         }
         next_phase = action->action_phase;
-        action->action_timer.u = 0x1EU;
+        action->action_timer = 0x1EU;
         action->unk_A8.s = 0;
         action->unk_B0.bytes[1] = 0U;
         action->unk_B0.bytes[2] = 0;
@@ -186,8 +187,8 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         restore_phase = action->unk_B0.bytes[1];
         switch (restore_phase) {
         case 0:
-            restore_timer = action->action_timer.u + 1;
-            action->action_timer.u = restore_timer;
+            restore_timer = action->action_timer + 1;
+            action->action_timer = restore_timer;
             if ((s16) restore_timer == 1) {
                 position->x.w.i = (u16) action->unk_B4.halves.high.u;
                 position->y.w.i = (u16) ((S_8017558C_0 *)action)->unk_B8;
@@ -198,20 +199,20 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
                 select_indirect_table_entry(sprite, (*(u8 * *)&sprite->frameTable)[view_dir], sprite->unk_04);
                 action->unk_94 = view_dir;
             }
-            if ((s16) action->action_timer.u < 0x10) {
+            if ((s16) action->action_timer < 0x10) {
                 return;
             }
-            action->action_timer.u = 0U;
+            action->action_timer = 0U;
             action->unk_B0.bytes[1] = (u8) (action->unk_B0.bytes[1] + 1);
             sprite->flags = (u16) (sprite->flags & 0x9F7F);
             return;
         case 1:
-            pause_timer = action->action_timer.u;
-            action->action_timer.u = (u16) (pause_timer + 1);
+            pause_timer = action->action_timer;
+            action->action_timer = (u16) (pause_timer + 1);
             if ((s16) pause_timer < 4) {
                 return;
             }
-            action->action_timer.u = 0U;
+            action->action_timer = 0U;
             action->unk_B0.bytes[1] = (u8) (action->unk_B0.bytes[1] + 1);
             sprite->frameTable = u_boat_aura_frames;
             select_sprite_entry(sprite, u_boat_aura_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -233,7 +234,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
             }
             sprite->frameTable = uboat_default_frames;
             select_sprite_entry(sprite, uboat_default_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-            action->action_timer.u = 5U;
+            action->action_timer = 5U;
             action->action_phase = (u8) (action->action_phase + 1);
             if (action->unk_B0.bytes[0] != 0) {
                 return;
@@ -243,8 +244,8 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         }
         return;
     case 5:
-        finish_timer = action->action_timer.u;
-        action->action_timer.u = (u16) (finish_timer - 1);
+        finish_timer = action->action_timer;
+        action->action_timer = (u16) (finish_timer - 1);
         if ((finish_timer << 0x10) > 0) {
             return;
         }

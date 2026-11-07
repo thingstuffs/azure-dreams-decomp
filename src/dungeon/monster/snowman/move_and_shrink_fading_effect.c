@@ -549,7 +549,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
                         animations[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                actor_arg->unk_9E.s = 0;
+                actor_arg->unk_9E = 0;
                 actor_arg->unk_A0.parts.low = 0x14;
                 actor_arg->action_id = next_state;
             }
@@ -688,7 +688,7 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
     if (body->action_id != 0xF) {
         body->unk_90.value = 0;
         motion->velocity_z = 0;
-        body->unk_9D.s = 0;
+        body->unk_9D = 0;
     }
 
     if (state->movement_queue_state <= state->unk_8A) {
@@ -751,15 +751,15 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
     }
     state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        body->action_timer.s = 0;
+        body->action_timer = 0;
         return;
     }
 
-    body->action_timer.s = 8;
+    body->action_timer = 8;
     {
         s32 step_count = state->movement_queue_state;
         if (step_count > 0) {
-            body->action_timer.s = 8 / step_count;
+            body->action_timer = 8 / step_count;
         }
     }
 }
@@ -1163,12 +1163,12 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->unk_9E.s = 5;
+        action->unk_9E = 5;
         action->unk_A4.value = 0;
         action->action_phase++;
 
     case 1:
-        move_ticks = action->unk_9E.s;
+        move_ticks = (s16)(action->unk_9E);
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -1182,18 +1182,18 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                action->unk_9E.s;
+                (s16)(action->unk_9E);
 
             action->unk_A4.value =
-                (-rsin(action->unk_9E.s * 0x199)) << 10;
+                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;
         height_step = action->unk_A4.value;
-        next_move_ticks = action->unk_9E.u;
+        next_move_ticks = action->unk_9E;
         height_offset += height_step;
         next_move_ticks -= 1;
-        action->unk_9E.u = next_move_ticks;
+        action->unk_9E = next_move_ticks;
         action->unk_90.value = height_offset;
         if ((next_move_ticks << 16) < 0) {
             action->unk_90.value = 0;
@@ -1228,8 +1228,8 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             0);
     }
 
-    action_ticks = action->action_timer.u - 1;
-    action->action_timer.u = action_ticks;
+    action_ticks = action->action_timer - 1;
+    action->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
     }
@@ -1293,12 +1293,12 @@ void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPositi
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase++;
         return;
     case 1:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if (((s16)timer == 4) || (sprite->flags & 0x8000)) {
             u8 *direction_table = snowman_attack_frames;
 
@@ -1306,20 +1306,20 @@ void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPositi
             select_sprite_entry(sprite,
                           direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
             return;
         }
         return;
     case 2:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if (((s16)timer == 7) || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
         }
-        if (action->action_timer.s == 5) {
+        if ((s16)(action->action_timer) == 5) {
             play_sound_if_enabled(0x808);
             return;
         }
@@ -1438,8 +1438,8 @@ use_kind:
             }
         }
         if (create_actor_spell_effect(action, kind_data,(s16)(effect_flags), (u8 *)actor + 0x98)) {
-            actor->action_timer.u = 0x18;
-            actor->unk_9E.u = 4;
+            actor->action_timer = 0x18;
+            actor->unk_9E = 4;
             actor->action_phase++;
             return;
         }
@@ -1484,32 +1484,32 @@ case 2:
         particle_index++;
     } while (particle_index < 5);
 
-    actor->unk_9E.u--;
-    if ((s16)actor->unk_9E.u == 1) {
+    actor->unk_9E--;
+    if ((s16)actor->unk_9E == 1) {
         tile_arg->flags |= 0x800;
     }
-    if (actor->action_timer.s == 5) {
+    if ((s16)(actor->action_timer) == 5) {
         tile_arg->flags &= 0xF7FF;
     }
-    actor->action_timer.u--;
-    if ((s16)actor->action_timer.u > 0 &&
+    actor->action_timer--;
+    if ((s16)actor->action_timer > 0 &&
         !(tile_arg->flags & 0xE000)) {
         return;
     }
     actor->action_state_flags |= 0x80;
     actor->action_phase++;
     tile_arg->flags |= 0x800;
-    actor->action_timer.u = 0x14;
+    actor->action_timer = 0x14;
     return;
 
 case 3:
     kind_data = ((u8 *)(&g_dungeon_status));
     if (((R10_80173280_S_80173280_7 *)kind_data)->unk_0C == 0) {
-        actor->action_timer.u = 0;
+        actor->action_timer = 0;
     }
-    actor->action_timer.u--;
-    if ((s16)actor->action_timer.u <= 0) {
-        actor->action_timer.u = 0;
+    actor->action_timer--;
+    if ((s16)actor->action_timer <= 0) {
+        actor->action_timer = 0;
         tile_arg->flags &= 0xF7FF;
     }
     if (!(tile_arg->flags & 0xE000)) {
@@ -1573,7 +1573,7 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        action->action_timer.s = 4;
+        action->action_timer = 4;
         action->action_phase++;
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -1585,7 +1585,7 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
         if (!(entity->flags & 0x8000)) {
             return;
         }
-        action->action_timer.s = 0;
+        action->action_timer = 0;
         action->action_phase = 3;
         return;
 
@@ -1593,8 +1593,8 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
     {
         s16 frames_left;
 
-        frames_left = action->action_timer.u - 1;
-        action->action_timer.s = frames_left;
+        frames_left = action->action_timer - 1;
+        action->action_timer = frames_left;
         if (frames_left > 0) {
             motion->velocity_x =
                 dir_step_x[(actor->movement_facing >> 9) & 7] << 19;
@@ -1609,7 +1609,7 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
             dir_step_x[(actor->movement_facing >> 9) & 7] << 18;
         motion->velocity_y =
             dir_step_y[(actor->movement_facing >> 9) & 7] << 18;
-        action->action_timer.s = 6;
+        action->action_timer = 6;
         action->action_phase++;
         return;
     }
@@ -1627,17 +1627,17 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
             s32 origin_y;
             u16 previous_frames;
 
-            return_frames = action->action_timer.s;
+            return_frames = (action->action_timer);
             if (return_frames != 0) {
                 motion->velocity_x =
                     (((entity->tile_x << 6) - ({ motion->x.w.i - 0x20; })) << 16) / return_frames;
                 origin_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     (((entity->tile_y << 6) - origin_y) << 16) /
-                    action->action_timer.s;
+                    (s16)(action->action_timer);
             }
-            previous_frames = action->action_timer.u;
-            action->action_timer.s = previous_frames - 1;
+            previous_frames = action->action_timer;
+            action->action_timer = previous_frames - 1;
             if ((s32)(previous_frames << 16) > 0) {
                 return;
             }
@@ -2111,12 +2111,12 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        action->action_timer.s = 0x14;
+        action->action_timer = 0x14;
         action->action_phase++;
         break;
 
     case 1:
-        if ((--action->action_timer.s == 0x11) ||
+        if (((s16)(--action->action_timer) == 0x11) ||
             (sprite->flags & 0x8000)) {
             R10_80174898_OffsetPair *direction_offset;
             u16 flags;
@@ -2138,12 +2138,12 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
             target_x = target_x & 0xFFFF;
             prepare_directional_attacks_for_neighbor_entities(entity, target_x, offset_coord & 0xFFFF, height);
         }
-        if ((action->action_timer.s == 0x0A) ||
+        if (((s16)(action->action_timer) == 0x0A) ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x606);
         }
-        if ((action->action_timer.s == 9) ||
+        if (((s16)(action->action_timer) == 9) ||
             (sprite->flags & 0x8000)) {
             R10_80174898_OffsetPair *direction_offset;
             u16 angle;
@@ -2164,9 +2164,9 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
             x = target_x & 0xFFFF;
             resolve_linked_attack_hits_and_particle_bursts(entity, x, offset_coord & 0xFFFF, height);
         }
-        if ((action->action_timer.s <= 0) ||
+        if (((s16)(action->action_timer) <= 0) ||
             (sprite->flags & 0x8000)) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase++;
         }
         break;

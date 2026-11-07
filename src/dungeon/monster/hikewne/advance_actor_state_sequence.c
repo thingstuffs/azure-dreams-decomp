@@ -75,7 +75,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         next_state = action->action_phase + 1;
         action->action_phase = next_state;
         return;
@@ -85,7 +85,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     case 2:
     {
         u8 *local_table_2;
-        if ((s16)action->action_timer.u++ < 2) {
+        if ((s16)action->action_timer++ < 2) {
             return;
         }
         local_table_2 = hikewne_frame_set_2;
@@ -95,7 +95,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         next_state = action->action_phase + 1;
         action->action_phase = next_state;
         return;
@@ -145,7 +145,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
                     remaining_amount = action->unk_90.parts.high.u;
                     remaining_amount -= action->unk_A0.parts.high;
                     action->unk_A0.parts.high = 0;
-                    action->unk_9E.u = 0;
+                    action->unk_9E = 0;
                     action->unk_90.parts.high.u = remaining_amount;
                     update_directional_sprite_state_and_signals(action, context, entity, actor);
                     return;
@@ -221,7 +221,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         next_state = action->action_phase + 1;
         action->action_phase = next_state;
         return;
@@ -230,7 +230,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     case 5:
     {
         u8 *local_table_5;
-        if ((s16)action->action_timer.u++ < 4) {
+        if ((s16)action->action_timer++ < 4) {
             return;
         }
 

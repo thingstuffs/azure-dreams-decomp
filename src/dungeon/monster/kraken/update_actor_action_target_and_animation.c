@@ -163,7 +163,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
             {
                 state = 6;
 
-                action->action_timer.u = (u16)state;
+                action->action_timer = (u16)state;
             }
             action->action_phase = (u8) (current_state + 1);
             return;
@@ -191,8 +191,8 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
         action->action_phase = (u8) (action->action_phase + 1);
 
     case 2:
-        ticks_left = action->action_timer.u - 1;
-        action->action_timer.u = ticks_left;
+        ticks_left = action->action_timer - 1;
+        action->action_timer = ticks_left;
         if ((ticks_left << 0x10) > 0) {
             if (!(sprite->flags & 0xE000)) {
                 return;

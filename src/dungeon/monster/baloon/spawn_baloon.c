@@ -59,7 +59,7 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         actor = work;
         part_b->frameTable = baloon_default_frames;
         part_b->tile_x = saved_kind_id;
-        work->unk_9E.s = 0;
+        work->unk_9E = 0;
 
         if (kind == 1) {
             left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

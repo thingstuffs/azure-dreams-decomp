@@ -40,7 +40,6 @@ extern s16 town_sequence_command[];
 extern s16 SD_Call(s32 flags);
 /* Functions defined in this translation unit. */
 void copy_selected_sound_pair(void *output);
-s16 *build_four_value_entry_result(s32 unused, s32 index);
 void load_pending_sound_record(void);
 void apply_sound_selections_and_update(void);
 

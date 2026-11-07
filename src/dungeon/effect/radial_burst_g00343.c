@@ -1,3 +1,4 @@
+#include "engine/node/registration.h"
 /* Radial burst (G00343). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800B10B4. */
 #include "dungeon/effect/radial_burst_g00343.h"

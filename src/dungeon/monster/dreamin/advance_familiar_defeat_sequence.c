@@ -9,6 +9,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/item/message.h"
+#include "dungeon/monster/dreamin.h"
 
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern void try_apply_action_by_chance(void *, s32, s32);

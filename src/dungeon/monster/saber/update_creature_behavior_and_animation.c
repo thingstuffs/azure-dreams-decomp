@@ -90,7 +90,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                actor_in->unk_9E.s = 0;
+                actor_in->unk_9E = 0;
                 actor_in->unk_A0.parts.low = 0x14;
                 actor_in->action_id = next_state;
             }

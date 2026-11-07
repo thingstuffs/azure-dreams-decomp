@@ -157,25 +157,25 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
             flags = sprite->flags;
             if (flags & 0x8000) {
                 next_state = action->action_phase + 1;
-                action->action_timer.u = 0;
+                action->action_timer = 0;
                 action->action_phase = next_state;
                 return;
             }
             if (sprite->unk_04 == 2 && (flags & 0x1000)) {
                 sprite->flags = flags | 0x800;
-                action->action_timer.u = 0x16;
+                action->action_timer = 0x16;
             }
             if (sprite->unk_04 < 2) {
                 return;
             }
-            timer = action->action_timer.u - 1;
-            action->action_timer.u = timer;
+            timer = action->action_timer - 1;
+            action->action_timer = timer;
             if (timer <= 0) {
-                action->action_timer.u = 0;
+                action->action_timer = 0;
                 action->action_phase++;
                 sprite->flags &= 0xF7FF;
             }
-            if (action->action_timer.s < 7) {
+            if ((s16)(action->action_timer) < 7) {
                 return;
             }
         }
@@ -210,7 +210,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            action->action_timer.u = 0x20;
+            action->action_timer = 0x20;
             action->action_state_flags |= 0x80;
             action->action_phase++;
             count = 0;
@@ -228,12 +228,12 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
             s16 timer;
 
             if ((g_dungeon_status.active_actor) == 0) {
-                action->action_timer.u = 0;
+                action->action_timer = 0;
             }
-            timer = action->action_timer.u - 1;
-            action->action_timer.u = timer;
+            timer = action->action_timer - 1;
+            action->action_timer = timer;
             if (timer <= 0) {
-                action->action_timer.u = 0;
+                action->action_timer = 0;
                 sprite->flags &= 0xF7FF;
             }
             if (!(sprite->flags & 0xE000)) {

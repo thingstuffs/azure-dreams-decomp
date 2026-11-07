@@ -40,7 +40,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
             return;
         }
         if (sprite->flags & 0x8000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase = 3;
             return;
         }
@@ -50,7 +50,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
         } else {
             timer = -1;
         }
-        body->action_timer.s = timer;
+        body->action_timer = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -59,13 +59,13 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
         motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if (body->action_timer.s > 0) {
-            body->action_timer.s = body->action_timer.u - 1;
+        if ((s16)(body->action_timer) > 0) {
+            body->action_timer = body->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
         }
 
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -96,12 +96,12 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
             sprite,
             grineut_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         body->action_phase++;
         return;
 
     case 3:
-        timer = body->action_timer.s;
+        timer = (body->action_timer);
         if (timer != 0) {
             {
                 s32 target_coord = sprite->tile_x << 6;
@@ -112,12 +112,12 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
                 s32 target_coord = sprite->tile_y << 6;
                 s32 current_coord = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_coord - current_coord) << 15) / body->action_timer.s;
+                    ((target_coord - current_coord) << 15) / (s16)(body->action_timer);
             }
         }
 
-        timer = body->action_timer.u - 1;
-        body->action_timer.s = timer;
+        timer = body->action_timer - 1;
+        body->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

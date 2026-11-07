@@ -15,8 +15,8 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
     {
         u16 next_count;
 
-        next_count = state->unk_9E.u - 1;
-        state->unk_9E.s = next_count;
+        next_count = state->unk_9E - 1;
+        state->unk_9E = next_count;
         if ((next_count << 16) > 0)
             break;
         sprite->frameTable = D_80174EA8;
@@ -25,7 +25,7 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
                       0);
         state->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        state->unk_9E.s = 5;
+        state->unk_9E = 5;
         state->unk_A4.value = 0;
         state->action_phase += 1;
     }
@@ -40,20 +40,20 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
         u16 next_count;
 
         state->unk_90.value -= state->unk_A4.value;
-        frames_left = state->unk_9E.s;
+        frames_left = (state->unk_9E);
         if (frames_left != 0) {
             target_x = sprite->tile_x << 6;
             current_x = motion->x.w.i - 0x20;
             motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y = (((sprite->tile_y << 6) - current_y) << 16) /
-                               state->unk_9E.s;
-            frames_left = state->unk_9E.s;
+                               (s16)(state->unk_9E);
+            frames_left = (state->unk_9E);
             state->unk_A4.value = (-rsin(frames_left * 0x199)) << 9;
         }
 
         state->unk_90.value += state->unk_A4.value;
-        scale_frame = state->unk_9E.s;
+        scale_frame = (state->unk_9E);
         switch (scale_frame) {
         case 5:
             sprite->scale_x = 0xc00;
@@ -72,8 +72,8 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
             sprite->scale_y = 0x1000;
             break;
         }
-        next_count = state->unk_9E.u - 1;
-        state->unk_9E.s = next_count;
+        next_count = state->unk_9E - 1;
+        state->unk_9E = next_count;
         if ((next_count << 16) < 0) {
             state->unk_90.value = 0;
             state->action_state_flags &= 0xfff7;
@@ -107,8 +107,8 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
     {
         u16 next_timer;
 
-        next_timer = state->action_timer.u - 1;
-        state->action_timer.s = next_timer;
+        next_timer = state->action_timer - 1;
+        state->action_timer = next_timer;
         if ((next_timer << 16) <= 0) {
             s32 actor_flags;
 

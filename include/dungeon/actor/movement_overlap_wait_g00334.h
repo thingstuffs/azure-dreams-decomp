@@ -16,7 +16,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void begin_actor_random_warp(void *entity, void *unused, void *position, void *entity_state);
 
 /* Functions defined in this translation unit. */
-s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
 void begin_actor_overlap_wait(struct ActorRecord *entity, void *unused_1, void *unused_2, void *unused_3);
 
 #endif

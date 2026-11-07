@@ -75,10 +75,10 @@ void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *mo
 
         if (!((body->flags1C) & 0x40000) &&
             !((body->action_state_flags) & 8)) {
-            motion->velocity_z += (body->unk_9D.s) * 0x14000;
-            (body->unk_9D.u) += 1;
+            motion->velocity_z += ((s8)(body->unk_9D)) * 0x14000;
+            (body->unk_9D) += 1;
         } else {
-            (body->unk_9D.u) = 0;
+            (body->unk_9D) = 0;
         }
     }
 
@@ -131,7 +131,7 @@ void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *mo
                         ((u16)state->ground_height);
                 if (landing_delta < (body->unk_90.parts.high.s)) {
                     (body->unk_90.parts.high.s) = landing_delta;
-                    (body->unk_9D.u) = 0;
+                    (body->unk_9D) = 0;
                     motion->velocity_z = 0;
                     state->flags1C |= 0x08000000;
                 }
@@ -179,7 +179,7 @@ void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *mo
                         ((u16)state->ground_height);
                 if (floor_delta < (body->unk_90.parts.high.s)) {
                     (body->unk_90.parts.high.s) = floor_delta;
-                    (body->unk_9D.u) = 0;
+                    (body->unk_9D) = 0;
                     motion->velocity_z = 0;
                     state->flags1C |= 0x08000000;
                 }

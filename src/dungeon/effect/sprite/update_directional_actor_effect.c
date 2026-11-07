@@ -1,4 +1,5 @@
 /* Timed target effects, textured quad rendering, scattered fragments, and segment animation. */
+#include "slus.h"
 #include "shared/sprite_frame_state.h"
 #include "sdk/libgte.h"
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"

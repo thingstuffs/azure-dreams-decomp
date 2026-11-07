@@ -88,10 +88,10 @@ void run_entity_callbacks_and_update_ground(ActorRecord *body, ObjectPosition *m
 
     if (!(body->flags1C & 0x40000) &&
         !(body->action_state_flags & 8)) {
-        motion->velocity_z += body->unk_9D.s * 0x14000;
-        body->unk_9D.u++;
+        motion->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        body->unk_9D++;
     } else {
-        body->unk_9D.u = 0;
+        body->unk_9D = 0;
     }
     body->unk_90.value += motion->velocity_z;
     initial_sprite_flags = sprite->flags;
@@ -178,7 +178,7 @@ void run_entity_callbacks_and_update_ground(ActorRecord *body, ObjectPosition *m
                         ((u16)entity_base->ground_height);
                 if (ground_height < body->unk_90.parts.high.s) {
                     body->unk_90.parts.high.s = ground_height;
-                    body->unk_9D.u = 0;
+                    body->unk_9D = 0;
                     motion->velocity_z = 0;
                     entity_base->flags1C |= 0x08000000;
                 }
@@ -209,7 +209,7 @@ void run_entity_callbacks_and_update_ground(ActorRecord *body, ObjectPosition *m
                         ((u16)entity_base->ground_height);
                 if (ground_height < body->unk_90.parts.high.s) {
                     body->unk_90.parts.high.s = ground_height;
-                    body->unk_9D.u = 0;
+                    body->unk_9D = 0;
                     motion->velocity_z = 0;
                     entity_base->flags1C |= 0x08000000;
                 }

@@ -102,7 +102,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.parts.high = 0;
-                    actor->unk_9E.s = 0;
+                    actor->unk_9E = 0;
                 }
             } else {
                 anim_table = D_8016FE40;
@@ -113,7 +113,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.parts.high = 0;
-                    actor->unk_9E.s = 0;
+                    actor->unk_9E = 0;
                 }
             }
         }
@@ -133,7 +133,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             begin_actor_move_to_target_facing(actor, context, sprite, creature);
             base_offset = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
-            actor->unk_9E.s = 0;
+            actor->unk_9E = 0;
             actor->unk_90.parts.high.s = base_offset;
             func_8016E574(actor, context, sprite, creature);
             return;

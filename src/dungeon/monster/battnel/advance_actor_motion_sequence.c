@@ -156,13 +156,13 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
         if ((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            state->action_timer.u = 0x6;
+            state->action_timer = 0x6;
             state->action_state_flags |= 0x80;
         }
-        ticks_left = state->action_timer.u - 1;
-        state->action_timer.u = ticks_left;
+        ticks_left = state->action_timer - 1;
+        state->action_timer = ticks_left;
         if ((s16)ticks_left <= 0) {
-            state->action_timer.u = 0;
+            state->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {

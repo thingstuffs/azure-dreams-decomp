@@ -115,7 +115,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
             ((ObjectPosition *)motion)->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
         }
-        ((ActorRecord *)actor)->action_timer.s = 0;
+        ((ActorRecord *)actor)->action_timer = 0;
         select_position_data_and_update_owner(sprite, stats);
     }
     g_dungeon_status.flags = (u16) (g_dungeon_status.flags & 0xFF7F);
@@ -328,7 +328,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         func_8002534C(actor, motion, sprite, stats);
                         return;
                     case 0xC8:
-                        ((ActorRecord *)actor)->action_timer.s =
+                        ((ActorRecord *)actor)->action_timer =
                             (s16) (command->unk_00 & 0x7F);
                         begin_parameterized_actor_action(actor, motion, sprite, &D_800DD148, 2);
                         return;
@@ -367,7 +367,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     if ((((u32)input->buttons) & 0x10) || !(((u32)input->buttons) & 3)
                         || (begin_familiar_command_selection(actor, motion, sprite, (((u32) ((u32)input->buttons) >> 1) ^ 1) & 1, 0)
                         == 0)) {
-                        input_angle = resolve_player_input_facing(((ActorRecord *)actor)->unk_9E.s, actor + 0xA2, stats
+                        input_angle = resolve_player_input_facing((((ActorRecord *)actor)->unk_9E), actor + 0xA2, stats
                             + 0x2A);
                         if (input_angle != 0xFFF) {
                             ((ActorRecord *)stats)->facing = (u16) input_angle;
@@ -384,10 +384,10 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                                         return;
                                     }
                                 } else {
-                                    ((ActorRecord *)actor)->action_timer.s = 0;
+                                    ((ActorRecord *)actor)->action_timer = 0;
                                 }
                             } else {
-                                ((ActorRecord *)actor)->action_timer.s = 0;
+                                ((ActorRecord *)actor)->action_timer = 0;
                             }
                         }
                         button_bits = ((u32)input->buttons);

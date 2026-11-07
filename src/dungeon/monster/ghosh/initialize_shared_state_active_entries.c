@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/dungeon_floor.h"
@@ -21,7 +22,6 @@ typedef struct {
 } __attribute__((packed)) Unaligned32;
 
 extern void clear_actor_pending_update_markers(void *state);
-extern void unlink_entity_node(void *node);
 
 extern u8 D_80174B38[];
 extern Unaligned32 D_80174C58;

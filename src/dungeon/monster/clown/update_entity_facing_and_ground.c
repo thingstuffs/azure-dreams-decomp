@@ -335,7 +335,7 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
                     0);
                 map_object->frame_ticks = 1;
                 actor->unk_A0.parts.high = 0;
-                actor->unk_9E.s = 0;
+                actor->unk_9E = 0;
             }
         }
 
@@ -354,7 +354,7 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
             begin_actor_move_to_target_facing(actor, actor_context, map_object, creature);
             offset_delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
-            actor->unk_9E.s = 0;
+            actor->unk_9E = 0;
             actor->unk_90.parts.high.s = offset_delta;
             update_clown_parent_motion(actor, actor_context, map_object, creature);
             return;
@@ -522,14 +522,14 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
     path_state->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
-        motion_state->action_timer.u = 0;
+        motion_state->action_timer = 0;
         return;
     }
 
-    motion_state->action_timer.u = 8;
+    motion_state->action_timer = 8;
     step_count = path_state->movement_queue_state;
     if (step_count > 0) {
-        motion_state->action_timer.u = 8 / step_count;
+        motion_state->action_timer = 8 / step_count;
     }
 
     return;
@@ -923,13 +923,13 @@ void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, 
         anim->frameTable = clown_frame_set;
         select_sprite_entry(anim,(u8)(clown_frame_set[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase++;
         play_sound_if_enabled(0x804);
         return;
     case 2:
-        ticks = action->action_timer.u + 1;
-        action->action_timer.u = ticks;
+        ticks = action->action_timer + 1;
+        action->action_timer = ticks;
         if (((s16)ticks == 8) || (anim->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, anim,(s16)(actor->facing),(s16)(1));
         }
@@ -1318,7 +1318,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
                 value = actor->unk_90.parts.high.u;
                 value_offset = actor->unk_A0.parts.high;
                 actor->unk_A0.parts.high = 0;
-                actor->unk_9E.s = 0;
+                actor->unk_9E = 0;
                 actor->unk_90.parts.high.u = value - value_offset;
                 update_clown_parent_motion(actor, context, render_record, actor_state);
                 return;
@@ -1441,7 +1441,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
             stored_value = actor->unk_90.parts.high.u;
             pending_decrement = actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
-            actor->unk_9E.u = 0;
+            actor->unk_9E = 0;
             actor->unk_90.parts.high.u = stored_value - pending_decrement;
             update_clown_parent_motion(actor, context, animation, entity);
             return;

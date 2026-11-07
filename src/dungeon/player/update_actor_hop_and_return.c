@@ -49,8 +49,8 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
     phase = body->action_phase;
     switch (phase) {
     case 0:
-        delay_left = body->action_timer.u - 1;
-        body->action_timer.u = delay_left;
+        delay_left = body->action_timer - 1;
+        body->action_timer = delay_left;
         if ((s16) delay_left >= 9) {
             return;
         }
@@ -62,14 +62,14 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         play_sound_if_enabled(0x701);
         return;
     case 1:
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             position->x.v = (s32) (position->x.v + (rcos(actor->facing + 0x400) << 6));
             position->y.v = (s32) (position->y.v + (rsin(actor->facing + 0x400) << 6));
-            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin((s16) body->action_timer.u
+            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin((s16) body->action_timer
                 << 8)) >> 8);
         }
-        hop_frames_left = body->action_timer.u - 1;
-        body->action_timer.u = hop_frames_left;
+        hop_frames_left = body->action_timer - 1;
+        body->action_timer = hop_frames_left;
         if ((hop_frames_left << 0x10) > 0) {
             return;
         }
@@ -87,11 +87,11 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         set_sprite_animation_frame(sprite, player_hop_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);
         return_duration = 8U;
-        body->action_timer.u = return_duration;
+        body->action_timer = return_duration;
         body->action_phase++;
         return;
     case 3:
-        frames_left = (s16) body->action_timer.u;
+        frames_left = (s16) body->action_timer;
         if (frames_left != 0) {
             target_x = sprite->tile_x << 6;
             current_x = position->x.w.i - 0x20;
@@ -102,16 +102,16 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
             {
                 s32 y_numerator = (y_step - y_origin) << 0x10;
 
-                y_remaining = body->action_timer.s;
+                y_remaining = (s16)(body->action_timer);
                 y_step = y_numerator / y_remaining;
             }
             y_work = position->y.v + y_step;
             position->y.v = y_work;
-            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin((s16) body->action_timer.u
+            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin((s16) body->action_timer
                 << 8)) >> 8);
         }
-        return_frames_left = body->action_timer.u - 1;
-        body->action_timer.u = return_frames_left;
+        return_frames_left = body->action_timer - 1;
+        body->action_timer = return_frames_left;
         if ((return_frames_left << 0x10) > 0) {
             return;
         }

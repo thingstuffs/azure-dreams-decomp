@@ -34,8 +34,8 @@ void complete_airborne_actor_recovery(ActorRecord *action, ObjectPosition *motio
     phase = action->action_phase;
     switch (phase) {
     case 0:
-        timer_next = action->unk_9E.u - 1;
-        action->unk_9E.u = timer_next;
+        timer_next = action->unk_9E - 1;
+        action->unk_9E = timer_next;
         if ((s16)timer_next > 0) {
             break;
         }
@@ -47,14 +47,14 @@ void complete_airborne_actor_recovery(ActorRecord *action, ObjectPosition *motio
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->unk_9E.u = 5;
+        action->unk_9E = 5;
         action->unk_A0.value = 0;
         action->action_phase++;
                         /* fallthrough */
 
     case 1:
         action->unk_90.value -= action->unk_A0.value;
-        move_ticks = action->unk_9E.s;
+        move_ticks = (action->unk_9E);
         if (move_ticks != 0) {
             tile_delta = sprite->tile_x << 6;
             axis_pos = motion->x.w.i;
@@ -67,14 +67,14 @@ void complete_airborne_actor_recovery(ActorRecord *action, ObjectPosition *motio
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             motion->velocity_y =
-                (tile_delta << 16) / action->unk_9E.s;
+                (tile_delta << 16) / (s16)(action->unk_9E);
             action->unk_A0.value =
-                (-rsin(action->unk_9E.s * 0x199)) << 9;
+                (-rsin((s16)(action->unk_9E) * 0x199)) << 9;
         }
 
         action->unk_90.value += action->unk_A0.value;
-        timer_next = action->unk_9E.u - 1;
-        action->unk_9E.u = timer_next;
+        timer_next = action->unk_9E - 1;
+        action->unk_9E = timer_next;
         if ((s16)timer_next < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
@@ -102,8 +102,8 @@ void complete_airborne_actor_recovery(ActorRecord *action, ObjectPosition *motio
         break;
     }
 
-    timer_next = action->action_timer.u - 1;
-    action->action_timer.u = timer_next;
+    timer_next = action->action_timer - 1;
+    action->action_timer = timer_next;
     if ((s16)timer_next <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;

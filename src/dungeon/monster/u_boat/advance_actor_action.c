@@ -80,7 +80,7 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
             action_value = action->unk_90.parts.high.u;
             value_offset = action->unk_A0.parts.high;
             action->unk_A0.parts.high = 0;
-            action->unk_9E.s = 0;
+            action->unk_9E = 0;
             action->unk_90.parts.high.u = action_value - value_offset;
             update_actor_action_transition(action, context, sprite, entity);
             return;

@@ -127,10 +127,10 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
     motion->y.unk_04 += motion->velocity_y;
 
     if (body->action_state_flags & 8) {
-        body->unk_9D.s = 0;
+        body->unk_9D = 0;
     } else {
-        motion->unk_14 += body->unk_9D.s * 0x14000;
-        body->unk_9D.s = (u8)body->unk_9D.s + 1;
+        motion->unk_14 += (s8)(body->unk_9D) * 0x14000;
+        body->unk_9D = (u8)body->unk_9D + 1;
     }
     body->unk_90.value += motion->unk_14;
 
@@ -147,11 +147,11 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
                     body->unk_90.value = 0;
                     motion->unk_14 = 0;
                     entity->flags1C |= 0x08000000;
-                    body->unk_9D.s = 0;
+                    body->unk_9D = 0;
                 } else {
                     motion->unk_14 = 0;
                     entity->flags1C |= 0x08000000;
-                    body->unk_9D.s = 0;
+                    body->unk_9D = 0;
                     body->unk_90.parts.high.s = ground_height - (u16)(entity->ground_height);
                 }
             }

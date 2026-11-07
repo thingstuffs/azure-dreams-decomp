@@ -166,16 +166,16 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
             (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            body->action_timer.u = 1;
+            body->action_timer = 1;
             body->action_state_flags |= 0x80;
         }
         {
             s16 wait_ticks;
 
-            wait_ticks = body->action_timer.u - 1;
-            body->action_timer.u = wait_ticks;
+            wait_ticks = body->action_timer - 1;
+            body->action_timer = wait_ticks;
             if (wait_ticks <= 0) {
-                body->action_timer.u = 0;
+                body->action_timer = 0;
                 sprite->flags &= 0xF7FF;
             }
         }

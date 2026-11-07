@@ -144,12 +144,12 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            action->action_timer.u = 3;
+            action->action_timer = 3;
             action->action_state_flags |= 0x80;
         }
-        action->action_timer.u--;
-        if ((s16)action->action_timer.u <= 0) {
-            action->action_timer.u = 0;
+        action->action_timer--;
+        if ((s16)action->action_timer <= 0) {
+            action->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if (sprite->flags & 0xE000) {

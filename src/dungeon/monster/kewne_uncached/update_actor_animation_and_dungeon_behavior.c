@@ -99,7 +99,7 @@ void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosit
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.halves.high.s = 0;
-                    actor->unk_9E.s = 0;
+                    actor->unk_9E = 0;
                 }
             } else {
                 void *idle_anim = kewne_uncached_frame_set_2;
@@ -110,7 +110,7 @@ void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosit
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.halves.high.s = 0;
-                    actor->unk_9E.s = 0;
+                    actor->unk_9E = 0;
                 }
             }
         }
@@ -130,7 +130,7 @@ void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosit
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
             movement_delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
             actor->unk_A0.halves.high.s = 0;
-            actor->unk_9E.s = 0;
+            actor->unk_9E = 0;
             actor->unk_90.parts.high.s = movement_delta;
             func_8015D078(actor, context, sprite, entity);
             return;

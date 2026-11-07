@@ -517,15 +517,15 @@ void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *con
     controller->unk_8C.word = 0;
     state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        controller->action_timer.s = 0;
+        controller->action_timer = 0;
         return;
     }
 
-    controller->action_timer.s = 8;
+    controller->action_timer = 8;
     {
         s32 step_count = state->movement_queue_state;
         if (step_count > 0) {
-            controller->action_timer.s = 8 / step_count;
+            controller->action_timer = 8 / step_count;
         }
     }
 }
@@ -1041,8 +1041,8 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
     dir_offset = ((u16)(actor->facing) >> 8) & 0xE;
     dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
     dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
-    timer = body->action_timer.u - 1;
-    body->action_timer.u = timer;
+    timer = body->action_timer - 1;
+    body->action_timer = timer;
 
     switch (state) {
     case 0:
@@ -1061,7 +1061,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             0);
         next_state = body->action_phase;
         timer = 8;
-        body->action_timer.u = timer;
+        body->action_timer = timer;
         next_state += 1;
         body->action_phase = next_state;
         return;
@@ -1083,7 +1083,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
             sprite->flags |= 0x800;
-            body->action_timer.u = 0x10;
+            body->action_timer = 0x10;
             if (resolve_record_orientation_or_fallback(*(s32 *)&sprite->source, sprite, effect_offset,(s16)(0)) == 0) {
                 effect_offset[2] = 0;
                 effect_offset[1] = 0;
@@ -1116,9 +1116,9 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             play_sound_if_enabled(0x813);
         }
-        if (body->action_timer.s > 0)
+        if ((s16)(body->action_timer) > 0)
             return;
-        body->action_timer.u = 8;
+        body->action_timer = 8;
         sprite->flags &= 0xF7FF;
         next_state = body->action_phase;
         next_state += 1;
@@ -1130,7 +1130,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
         sprite->frameTable = arachne_move_direction_frames;
         select_sprite_entry(sprite,(u8)(arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
-        body->action_timer.u = state;
+        body->action_timer = state;
         body->action_phase = 0xFF;
         return;
     case 0xFF:
@@ -1141,7 +1141,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             (s32)((((sprite->tile_y << 6) + 0x20) << 16) -
                   position->y.v) >> 1;
         if ((sprite->flags & 0xE000) ||
-            (body->action_timer.s <= 0)) {
+            ((s16)(body->action_timer) <= 0)) {
             position->velocity_z = 0;
             position->velocity_y = 0;
             position->velocity_x = 0;
@@ -1280,13 +1280,13 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
         if ((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            action->action_timer.u = 0x20;
+            action->action_timer = 0x20;
             action->action_state_flags |= 0x80;
         }
-        wait_ticks = action->action_timer.u - 1;
-        action->action_timer.u = wait_ticks;
+        wait_ticks = action->action_timer - 1;
+        action->action_timer = wait_ticks;
         if ((s16)wait_ticks <= 0) {
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {
@@ -1471,7 +1471,7 @@ void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12
         object->flags |= 0x10000000;
         entity->table = D_80175AA4;
         body->unk_A4.halves.low.u = 0x80;
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + object->angle + 0x100) >> 9) & 7;
         select_sprite_entry(entity,(u8)(entity->table[direction_index]), 0);
         body->action_phase++;
@@ -1484,15 +1484,15 @@ void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12
             entity->field10 = 0x60;
             entity->value = 0xF0F0F0;
         }
-        countdown = body->action_timer.u - 1;
-        body->action_timer.u = countdown;
+        countdown = body->action_timer - 1;
+        body->action_timer = countdown;
         if (countdown >= 0) {
             entity->flags |= 0x800;
         } else {
             entity->flags &= 0xF7FF;
             timer = body->unk_A4.halves.low.u + 0x60;
             body->unk_A4.halves.low.u = timer;
-            body->action_timer.u = (u16)((timer << 16) >> 24);
+            body->action_timer = (u16)((timer << 16) >> 24);
         }
         if ((entity->type == 2) && (entity->flags & 0x1000)) {
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + object->angle + 0x100) >> 9) & 7;
@@ -2682,17 +2682,17 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
         (*arachne_effect_load_done) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), arachne_effect_load_done);
         select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
-        sequence->action_timer.u = 0x10;
+        sequence->action_timer = 0x10;
         sequence->action_phase++;
         create_offset_effect(sequence, position, record);
 
     case 3:
-        timer = sequence->action_timer.u;
+        timer = sequence->action_timer;
         next_timer = timer - 1;
-        sequence->action_timer.u = next_timer;
+        sequence->action_timer = next_timer;
         if ((s16)next_timer <= 0) {
             cd_ready = (*arachne_effect_load_done);
-            sequence->action_timer.u = timer;
+            sequence->action_timer = timer;
             if (cd_ready == 0) {
                 return;
             }
@@ -2703,11 +2703,11 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
         color_index = lookup_masked_byte_table(actor);
         target_color = ((u8 * *)actor_effect_color_targets)[color_index];
         scene_color->view.tint.parts.tint_r += ((s32)target_color[0]
-            - scene_color->view.tint.parts.tint_r) / sequence->action_timer.s;
+            - scene_color->view.tint.parts.tint_r) / (s16)(sequence->action_timer);
         scene_color->view.tint.parts.tint_g += ((s32)target_color[1]
-            - scene_color->view.tint.parts.tint_g) / sequence->action_timer.s;
+            - scene_color->view.tint.parts.tint_g) / (s16)(sequence->action_timer);
         scene_color->view.tint.parts.tint_b += ((s32)target_color[2]
-            - scene_color->view.tint.parts.tint_b) / sequence->action_timer.s;
+            - scene_color->view.tint.parts.tint_b) / (s16)(sequence->action_timer);
         return;
 
     case 4:
@@ -2736,7 +2736,7 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
         }
         select_record_entry_and_value(model, dungeon_resource_buffer + ((s32 *)D_80175B14)[(s16)effect_index], 0);
         record->flags |= 0x80;
-        sequence->action_timer.u = 0;
+        sequence->action_timer = 0;
         next_state = sequence->action_phase + 1;
 store_next_state:
         sequence->action_phase = next_state;
@@ -2746,7 +2746,7 @@ store_next_state:
         node = ((R12_80175470_S_80175470_0 *)sequence)->unk_A8;
         model = node->unk_0C;
         if (model->flags & 0xE000) {
-            sequence->action_timer.u = 0x10;
+            sequence->action_timer = 0x10;
             sequence->action_phase++;
             decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(record->tile_x, record->tile_y, 0x300);
@@ -2762,7 +2762,7 @@ store_next_state:
         if (!create_status_linked_render_effect(position, (*(void * *)D_80175B28), (*(s16 *)D_80175B20), ((s32 *)staged_spawn_count))) {
             return;
         }
-        sequence->action_timer.u = 0x10;
+        sequence->action_timer = 0x10;
         sequence->action_phase++;
         decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(record->tile_x, record->tile_y, 0x300);
@@ -2776,7 +2776,7 @@ store_next_state:
         if (actor->target == 0) {
             return;
         }
-        sequence->action_timer.u = 0x10;
+        sequence->action_timer = 0x10;
         sequence->action_phase++;
         ((R12_80175470_S_80175470_5 *)(actor->target))->unk_2A = actor->facing;
         model = ((R12_80175470_S_80175470_5_pre *)(actor->target))[-1].unk_00;
@@ -2787,8 +2787,8 @@ store_next_state:
         model->flags &= 0xFFFE;
 
     case 8:
-        next_timer = sequence->action_timer.u - 1;
-        sequence->action_timer.u = next_timer;
+        next_timer = sequence->action_timer - 1;
+        sequence->action_timer = next_timer;
         if ((s16)next_timer > 0) {
             return;
         }

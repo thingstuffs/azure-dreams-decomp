@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/tile_object.h"
@@ -33,7 +34,6 @@ typedef struct {
     void *handler;    /* 0x371C */
 } SysWork;
 
-extern void unlink_entity_node(void *);
 extern void clear_actor_action_markers(u8 *state);
 
 extern s8 spell_effect_selector_cache;

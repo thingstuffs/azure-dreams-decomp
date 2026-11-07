@@ -58,7 +58,7 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
         jump->action_phase++;
 
     case 1:
-        frames_left = jump->action_timer.s;
+        frames_left = (s16)(jump->action_timer);
         jump->unk_90.value -= ((S_80172258_0 *)jump)->unk_A8;
         if (frames_left != 0) {
             {
@@ -72,13 +72,13 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    jump->action_timer.s;
+                    (s16)(jump->action_timer);
             }
             ((S_80172258_0 *)jump)->unk_A8 += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
         jump->unk_90.value += ((S_80172258_0 *)jump)->unk_A8;
-        if (jump->action_timer.s < 2) {
+        if ((s16)(jump->action_timer) < 2) {
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;
             ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
@@ -103,8 +103,8 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
         break;
     }
 
-    next_timer = jump->action_timer.u - 1;
-    jump->action_timer.s = next_timer;
+    next_timer = jump->action_timer - 1;
+    jump->action_timer = next_timer;
     if ((next_timer << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;

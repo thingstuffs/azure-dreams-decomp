@@ -109,7 +109,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
             break;
         }
         if (sprite->flags & 0x8000) {
-            actor->action_timer.s = 0;
+            actor->action_timer = 0;
             actor->action_phase = 2;
             break;
         }
@@ -121,7 +121,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
         if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             state_timer = 8;
         }
-        actor->action_timer.s = state_timer;
+        actor->action_timer = state_timer;
         velocity_x = motion->velocity_x;
         motion->velocity_x = velocity_x - velocity_x / 4;
         velocity_y = motion->velocity_y;
@@ -131,15 +131,15 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
     case 1:
         motion->velocity_x -= dir_step_x[particle_or_dir_index] << 14;
         motion->velocity_y -= dir_step_y[particle_or_dir_index] << 14;
-        timer = actor->action_timer.s;
+        timer = (s16)(actor->action_timer);
         if (timer > 0) {
-            actor->action_timer.s = actor->action_timer.u - 1;
+            actor->action_timer = actor->action_timer - 1;
         } else {
             if (sprite->flags & 0x6000) {
-                actor->action_timer.s = 0;
+                actor->action_timer = 0;
             }
         }
-        if (actor->action_timer.s != 0) {
+        if ((s16)(actor->action_timer) != 0) {
             break;
         }
         if (entity->unk_28 == 0) {
@@ -150,12 +150,12 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
             begin_actor_display_action(actor, motion, sprite, kraken_frame_set);
             break;
         }
-        actor->action_timer.s = 8;
+        actor->action_timer = 8;
         actor->action_phase++;
         break;
 
     case 2:
-        if (actor->action_timer.s != 0) {
+        if ((s16)(actor->action_timer) != 0) {
             speed_work = sprite->tile_x;
             component_work = motion->x.w.i;
             speed_work <<= 6;
@@ -181,8 +181,8 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
             speed_work += component_work;
             motion->velocity_y = speed_work;
         }
-        next_timer = actor->action_timer.u - 1;
-        actor->action_timer.s = next_timer;
+        next_timer = actor->action_timer - 1;
+        actor->action_timer = next_timer;
         if ((next_timer << 16) <= 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;

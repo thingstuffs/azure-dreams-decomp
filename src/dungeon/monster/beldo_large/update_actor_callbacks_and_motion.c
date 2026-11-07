@@ -153,10 +153,10 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
     if (body->action_state_flags & 8) {
-        body->unk_9D.u = 0;
+        body->unk_9D = 0;
     } else {
-        motion->velocity_z += body->unk_9D.s * 0x14000;
-        body->unk_9D.u++;
+        motion->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        body->unk_9D++;
     }
     body->unk_90.value += motion->velocity_z;
 
@@ -178,7 +178,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
             }
             motion->velocity_z = 0;
             actor->flags1C |= ACTOR_GROUNDED;
-            body->unk_9D.u = 0;
+            body->unk_9D = 0;
         }
         actor_flags = actor->flags1C;
         if (actor_flags & 0x40000000) {

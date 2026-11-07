@@ -54,12 +54,12 @@ void hop_actor_and_restore_scale(ActorRecord *action, ObjectPosition *motion, Sp
         sprite->scale_y = 0x1000;
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->unk_9E.s = 5;
+        action->unk_9E = 5;
         action->unk_A4.value = 0;
         action->action_phase++;
     }
     case 1:
-        move_ticks = action->unk_9E.s;
+        move_ticks = (s16)(action->unk_9E);
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -72,18 +72,18 @@ void hop_actor_and_restore_scale(ActorRecord *action, ObjectPosition *motion, Sp
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                action->unk_9E.s;
+                (s16)(action->unk_9E);
 
             action->unk_A4.value =
-                (-rsin(action->unk_9E.s * 0x199)) << 10;
+                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;
         height_delta = action->unk_A4.value;
-        next_move_ticks = action->unk_9E.u;
+        next_move_ticks = action->unk_9E;
         height_offset += height_delta;
         next_move_ticks -= 1;
-        action->unk_9E.u = next_move_ticks;
+        action->unk_9E = next_move_ticks;
         action->unk_90.value = height_offset;
         if ((next_move_ticks << 16) < 0) {
             action->unk_90.value = 0;
@@ -123,8 +123,8 @@ void hop_actor_and_restore_scale(ActorRecord *action, ObjectPosition *motion, Sp
         break;
     }
 
-    action_ticks = action->action_timer.u - 1;
-    action->action_timer.u = action_ticks;
+    action_ticks = action->action_timer - 1;
+    action->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
     }

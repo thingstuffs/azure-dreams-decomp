@@ -47,11 +47,11 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
             0);
         action->action_state_flags |= 8;
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->unk_9E.s = 5;
+        action->unk_9E = 5;
         action->unk_A4.value = 0;
         action->action_phase++;
     case 1:
-        frames_left = action->unk_9E.s;
+        frames_left = (s16)(action->unk_9E);
         action->unk_90.value -= action->unk_A4.value;
         if (frames_left != 0) {
             target_x = sprite->tile_x;
@@ -63,16 +63,16 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                action->unk_9E.s;
+                (s16)(action->unk_9E);
             action->unk_A4.value =
-                (-rsin(action->unk_9E.s * 0x199)) << 10;
+                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
         }
         height = action->unk_90.value;
         height_offset = action->unk_A4.value;
-        next_frame = action->unk_9E.u;
+        next_frame = action->unk_9E;
         height += height_offset;
         next_frame -= 1;
-        action->unk_9E.u = next_frame;
+        action->unk_9E = next_frame;
         action->unk_90.value = height;
         if ((next_frame << 16) < 0) {
             action->unk_90.value = 0;
@@ -105,8 +105,8 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
             saber_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
     }
-    action_timer = action->action_timer.u - 1;
-    action->action_timer.u = action_timer;
+    action_timer = action->action_timer - 1;
+    action->action_timer = action_timer;
     if ((action_timer << 16) > 0) {
         return;
     }

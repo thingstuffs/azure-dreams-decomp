@@ -739,14 +739,14 @@ void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, Spr
     }
     state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        action->action_timer.s = 0;
+        action->action_timer = 0;
         return;
     }
 
-    action->action_timer.s = 8;
+    action->action_timer = 8;
     step_count = state->movement_queue_state;
     if (step_count > 0) {
-        action->action_timer.s = 8 / step_count;
+        action->action_timer = 8 / step_count;
     }
 }
 #include "dungeon/monster/volcano.h"
@@ -1011,26 +1011,26 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, SpriteF
         }
         anim->action_state_flags |= 8;
         (*(u32 *)&actor_state->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
-        anim->unk_9E.s = 5;
+        anim->unk_9E = 5;
         anim->unk_A0.value = 0;
         anim->action_phase++;
                         /* fall through */
     case 1:
-        hop_frames = anim->unk_9E.s;
+        hop_frames = (s16)(anim->unk_9E);
         anim->unk_90.value -= anim->unk_A0.value;
         if (hop_frames != 0) {
             motion->velocity_x =
                 (((actor->tile_x << 6) - ({ motion->x.w.i - 0x20; })) << 16) / hop_frames;
             motion->velocity_y =
                 (((actor->tile_y << 6) - (tile_origin_y = motion->y.w.i - 0x20)) << 16) /
-                anim->unk_9E.s;
+                (s16)(anim->unk_9E);
             anim->unk_A0.value =
-                (-rsin(anim->unk_9E.s * 0x199)) << 9;
+                (-rsin((s16)(anim->unk_9E) * 0x199)) << 9;
         }
 
         anim->unk_90.value += anim->unk_A0.value;
-        next_hop_frames = anim->unk_9E.u - 1;
-        anim->unk_9E.s = next_hop_frames;
+        next_hop_frames = anim->unk_9E - 1;
+        anim->unk_9E = next_hop_frames;
         if (next_hop_frames < 0) {
             anim->unk_90.value = 0;
             anim->action_state_flags &= 0xFFF7;
@@ -1057,8 +1057,8 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, SpriteF
         break;
     }
 
-    move_frames = anim->action_timer.u - 1;
-    anim->action_timer.u = move_frames;
+    move_frames = anim->action_timer - 1;
+    anim->action_timer = move_frames;
     if ((s16)move_frames <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -1311,7 +1311,7 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
         } else {
             timer = -1;
         }
-        action->action_timer.s = timer;
+        action->action_timer = timer;
                         /* fall through */
 
     case 1:
@@ -1323,16 +1323,16 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
             s32 velocity_y = motion->velocity_y;
             motion->velocity_y = velocity_y - velocity_y / 4;
         }
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (tile_state->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (entity->hp != 0) {
-            action->action_timer.s = 8;
+            action->action_timer = 8;
             action->action_phase++;
             return;
         }
@@ -1343,7 +1343,7 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
         return;
 
     case 2:
-        timer = action->action_timer.s;
+        timer = (action->action_timer);
         if (timer > 0) {
             {
                 s32 target_x = tile_state->tile_x << 6;
@@ -1355,11 +1355,11 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
                 s32 target_y = tile_state->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 16) / action->action_timer.s;
+                    ((target_y - current_y) << 16) / (s16)(action->action_timer);
             }
         }
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

@@ -32,19 +32,19 @@ void update_boss_timed_animation(ActorRecord *actor, ObjectPosition *transform, 
         }
         actor->action_state_flags |= 8;
         motion->flags1C &= 0xF7FFFFFF;
-        actor->unk_9E.s = 5;
+        actor->unk_9E = 5;
         actor->unk_A4.value = 0;
         actor->action_phase++;
     case 1:
-        timer = actor->unk_9E.s;
+        timer = (s16)actor->unk_9E;
         actor->unk_90.value -= actor->unk_A4.value;
         if (timer != 0) {
             actor->unk_A4.value = -rsin(timer * 0x199) << 10;
         }
 
         actor->unk_90.value += actor->unk_A4.value;
-        next_timer = (u16)actor->unk_9E.s - 1;
-        actor->unk_9E.s = next_timer;
+        next_timer = (u16)actor->unk_9E - 1;
+        actor->unk_9E = next_timer;
         if (next_timer < 0) {
             actor->unk_90.value = 0;
             actor->action_state_flags &= 0xFFF7;

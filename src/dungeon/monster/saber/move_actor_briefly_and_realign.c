@@ -30,7 +30,7 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        action->action_timer.s = 12;
+        action->action_timer = 12;
         action->action_phase++;
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -40,14 +40,14 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
             return;
         }
         if (actor->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 3;
         }
         return;
 
     case 1:
-        timer_bits = action->action_timer.u - 1;
-        action->action_timer.u = timer_bits;
+        timer_bits = action->action_timer - 1;
+        action->action_timer = timer_bits;
         timer = timer_bits;
         if (timer >= 11) {
             motion->velocity_x =
@@ -76,7 +76,7 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
         }
         next_state = action->action_phase;
         timer = 4;
-        action->action_timer.s = timer;
+        action->action_timer = timer;
         action->action_phase = next_state + 1;
         return;
 
@@ -88,7 +88,7 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
             begin_actor_display_action(action, motion, actor, saber_frame_set);
             return;
         }
-        timer = action->action_timer.s;
+        timer = (action->action_timer);
         if (timer != 0) {
             target_x = actor->tile_x << 6;
             current_x = motion->x.w.i - 0x20;
@@ -96,10 +96,10 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
             target_y = actor->tile_y << 6;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y =
-                ((target_y - current_y) << 16) / action->action_timer.s;
+                ((target_y - current_y) << 16) / (s16)(action->action_timer);
         }
-        timer_bits = action->action_timer.u;
-        action->action_timer.u = timer_bits - 1;
+        timer_bits = action->action_timer;
+        action->action_timer = timer_bits - 1;
         if ((s32)(timer_bits << 16) > 0) {
             return;
         }

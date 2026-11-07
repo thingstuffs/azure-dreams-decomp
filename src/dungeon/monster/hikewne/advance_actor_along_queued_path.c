@@ -82,15 +82,15 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
     move_state->flags1C = (u32)((u32)move_state->flags1C | (0x40000000));
 
     if (g_dungeon_status.flags & 0x80) {
-        motion->action_timer.u = 0;
+        motion->action_timer = 0;
         return;
     }
 
-    motion->action_timer.u = 8;
+    motion->action_timer = 8;
     {
         s32 step_count = move_state->movement_queue_state;
         if (step_count > 0) {
-            motion->action_timer.u = 8 / step_count;
+            motion->action_timer = 8 / step_count;
         }
     }
 }

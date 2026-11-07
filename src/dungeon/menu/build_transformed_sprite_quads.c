@@ -127,7 +127,6 @@ typedef struct S_8009E798_6 {
 
    /* ret_state in build_transformed_sprite_quads */
 
-extern void RotTransSV(void *, void *, void *);
 
 extern u8 upper_draw_context[16];
 

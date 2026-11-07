@@ -37,7 +37,7 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
                 do {
                     state->unk_B0.bytes[1] = active_step;
                 } while (0);
-                state->action_timer.u = 4U;
+                state->action_timer = 4U;
                 sprite->frameTable = u_boat_aura_frames;
                 select_sprite_entry(sprite, u_boat_aura_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
@@ -46,8 +46,8 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
                     return;
                 }
             }
-            start_ticks = state->action_timer.u;
-            state->action_timer.u = (u16)(start_ticks - 1);
+            start_ticks = state->action_timer;
+            state->action_timer = (u16)(start_ticks - 1);
             if (((start_ticks << 0x10) <= 0) || (sprite->flags & 0xE000)) {
                 motion->velocity_z = 0;
                 motion->velocity_y = 0;
@@ -59,7 +59,7 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
                 sprite->frameTable = uboat_default_frames;
                 select_sprite_entry(sprite, uboat_default_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
-                state->action_timer.u = 5U;
+                state->action_timer = 5U;
                 state->action_phase++;
                 state->unk_B0.bytes[1]++;
                 if (state->unk_B0.bytes[0] == 0) {
@@ -71,8 +71,8 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
             return;
         }
     }
-    finish_ticks = state->action_timer.u;
-    state->action_timer.u = (u16)(finish_ticks - 1);
+    finish_ticks = state->action_timer;
+    state->action_timer = (u16)(finish_ticks - 1);
     if (((finish_ticks << 0x10) <= 0) || (sprite->flags & 0xE000)) {
         sprite->depth_bias = 0;
         state->unk_8C.address = uboat_behavior_entry;

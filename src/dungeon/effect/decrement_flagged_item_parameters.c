@@ -1,3 +1,4 @@
+#include "engine/node/registration.h"
 /* Tinted actor sprite copies and their timed effect completion. */
 #include "shared/entity.h"
 #include "dungeon/effect/decrement_flagged_item_parameters.h"

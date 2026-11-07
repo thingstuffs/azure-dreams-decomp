@@ -36,7 +36,7 @@ void initialize_the_visual_effect_advances_action_state(ActorRecord *action, Obj
         visual->unk_14 = (u16)(visual->unk_14 | 0xC);
         entity->flags1C = entity->flags1C | 0x10000000;
         visual->unk_0C = 0x808080;
-        action->action_timer.s = 0x10;
+        action->action_timer = 0x10;
         action->action_phase = (u8)(action->action_phase + 1);
         play_sound_if_enabled(0x805);
         return;

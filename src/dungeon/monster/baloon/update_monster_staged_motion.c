@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "dungeon/monster/baloon.h"
 #include "shared/sprite_frame_state.h"
@@ -24,7 +25,6 @@ typedef struct {
 } __attribute__((packed)) LocalTable;
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
@@ -97,13 +97,13 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         }
 
     case 1:
-        body->action_timer.s = 0;
+        body->action_timer = 0;
         body->action_phase++;
         sprite->offset_y = 0xFFEC;
         sprite->scale_x = 0x800;
 
     case 2:
-        switch ((s16)body->action_timer.s) {
+        switch ((s16)body->action_timer) {
         case 0:
             break;
 
@@ -181,11 +181,11 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
             }
         }
 
-        if ((s16)(body->action_timer.u++) < 0x2D) {
+        if ((s16)(body->action_timer++) < 0x2D) {
             return;
         }
 
-        body->action_timer.s = 0;
+        body->action_timer = 0;
         body->action_phase++;
         sprite->angle_z = 0x800;
         motion->velocity_y = 0;
@@ -244,15 +244,15 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         return;
 
     case 3:
-        if ((s16)(body->action_timer.u++) < 0x1E) {
+        if ((s16)(body->action_timer++) < 0x1E) {
             return;
         }
-        body->action_timer.s = 0;
+        body->action_timer = 0;
         body->action_phase++;
         return;
 
     case 4:
-        if ((s16)(body->action_timer.u++) < 0xA) {
+        if ((s16)(body->action_timer++) < 0xA) {
             return;
         }
         if (((ActorRecord *)actor)->flags14 & 0x4000) {

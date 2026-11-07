@@ -666,15 +666,15 @@ void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, Sp
     motion->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
-        motion->action_timer.u = 0;
+        motion->action_timer = 0;
         return;
     }
 
-    motion->action_timer.u = 8;
+    motion->action_timer = 8;
     {
         s32 step_count = path_state->movement_queue_state;
         if (step_count > 0) {
-            motion->action_timer.u = 8 / step_count;
+            motion->action_timer = 8 / step_count;
         }
     }
 }
@@ -1445,7 +1445,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         }
 
         if (sprite->flags & 0x8000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase = 2;
             return;
         }
@@ -1462,7 +1462,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             flight_timer = 8;
         }
-        body->action_timer.s = flight_timer;
+        body->action_timer = flight_timer;
 
         velocity_x = motion->velocity_x;
         rounded_velocity_x = velocity_x;
@@ -1479,12 +1479,12 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         motion->velocity_x -= dir_step_x[direction] << 14;
         motion->velocity_y -= dir_step_y[direction] << 14;
 
-        if (body->action_timer.s > 0) {
-            body->action_timer.u--;
+        if ((s16)(body->action_timer) > 0) {
+            body->action_timer--;
         } else if (sprite->flags & 0x6000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
         }
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -1495,13 +1495,13 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
             begin_actor_display_action(body, motion, sprite, D_801744AC);
             return;
         }
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         body->action_phase++;
         return;
 
     case 2:
         motion->velocity_z = 0xFFFE0000;
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             s32 tile_delta;
             s32 position;
 
@@ -1522,9 +1522,9 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         }
 
         {
-            s16 landing_timer = (u16)body->action_timer.s - 1;
+            s16 landing_timer = (u16)body->action_timer - 1;
 
-            body->action_timer.s = landing_timer;
+            body->action_timer = landing_timer;
             if (landing_timer > 0) {
                 return;
             }

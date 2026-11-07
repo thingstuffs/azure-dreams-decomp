@@ -49,7 +49,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
     switch (state) {
     case 0:
         actor_base = NODE_HEADER(actor_state);
-        actor_state->action_timer.s = 0x10;
+        actor_state->action_timer = 0x10;
         register_node(actor_base, process_linked_states_mode_zero);
         sprite->color.word = 0x08000000;
         sprite->tpage_abr = 0x20;
@@ -60,7 +60,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
                         /* fall through */
 
     case 1:
-        fade_ticks = actor_state->action_timer.s;
+        fade_ticks = (actor_state->action_timer);
         if (fade_ticks == 0) {
             actor_state->action_phase++;
             break;
@@ -70,7 +70,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
         sprite->color.c.r = brightness;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;
-        actor_state->action_timer.u--;
+        actor_state->action_timer--;
         break;
 
     case 2:

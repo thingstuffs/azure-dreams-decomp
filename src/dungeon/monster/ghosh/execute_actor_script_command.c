@@ -91,7 +91,7 @@ s32 execute_actor_script_command(ActorRecord *actor_arg, ObjectPosition *action_
                               D_8016EEBC) == 0) {
                 return 0;
             }
-            actor->action_timer.s = 0;
+            actor->action_timer = 0;
             actor->action_phase++;
             {
                 g_dungeon_status.activity_counts.parts.pending_action_count += 2;

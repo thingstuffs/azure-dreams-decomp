@@ -1,3 +1,4 @@
+#include "engine/node/registration.h"
 /* Linked particle creation with jittered coordinates, color, and lifetime settings. */
 #include "shared/object_node.h"
 #include "dungeon/effect/particle/get_a_random_sign_either.h"

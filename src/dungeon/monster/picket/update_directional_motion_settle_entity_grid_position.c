@@ -35,10 +35,10 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
     s32 target_y;
     s32 current_y;
 
-    ticks_left = action->action_timer.u - 1;
+    ticks_left = action->action_timer - 1;
     direction = (entity->movement_facing >> 9) & 7;
     phase = action->action_phase;
-    action->action_timer.s = ticks_left;
+    action->action_timer = ticks_left;
     switch (phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -58,7 +58,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
             return;
         }
         if (grid_pos->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -67,7 +67,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
         if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             duration = 8;
         }
-        action->action_timer.s = duration;
+        action->action_timer = duration;
 
         velocity_x = motion->velocity_x;
         biased_velocity_x = velocity_x;
@@ -87,7 +87,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
             *(s16 *)((u8 *)directions_x + decel_offset) << 0xE;
         motion->velocity_y -= *direction_y << 0xE;
 
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -96,7 +96,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
             motion->velocity_x = 0;
             begin_actor_display_action(action, motion, grid_pos, picket_frame_set);
         } else {
-            action->action_timer.s = 6;
+            action->action_timer = 6;
             action->action_phase++;
         }
         return;
@@ -109,7 +109,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y = (target_y - current_y) << 0x10 >> 1;
 
-            if (action->action_timer.s > 0) {
+            if ((s16)(action->action_timer) > 0) {
                 return;
             }
         }

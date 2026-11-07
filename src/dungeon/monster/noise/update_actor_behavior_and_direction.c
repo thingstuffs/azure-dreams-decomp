@@ -24,10 +24,10 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 #include "dungeon/monster/grineut/path_motion.h"
+#include "dungeon/monster/hikewne.h"
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174598(void *, void *, void *, void *);
 void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
@@ -92,7 +92,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                motion->unk_9E.s = 0;
+                motion->unk_9E = 0;
                 motion->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
                 motion->action_id = idle_state;
             }

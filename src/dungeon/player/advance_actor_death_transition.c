@@ -34,14 +34,14 @@ void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused
     case 0:
         if (input->flags & 0xE000) {
             adjust_source_value_and_finalize(entity, D_800E0672);
-            context->action_timer.u = 0x80;
+            context->action_timer = 0x80;
             context->action_phase++;
         }
         break;
 
     case 1:
-        remaining = context->action_timer.u - 1;
-        context->action_timer.u = remaining;
+        remaining = context->action_timer - 1;
+        context->action_timer = remaining;
         if ((remaining << 0x10) > 0) {
             break;
         }

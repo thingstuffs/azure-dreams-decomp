@@ -613,7 +613,6 @@ struct S_80047738;
 
 extern s32 check_entity_interaction_compatibility();
 extern s32 check_layer_offset_height();
-extern s32 display_text_with_fullwidth_adjustment(s8 *);
 extern s32 generate_random_value(void);
 extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -628,7 +627,6 @@ extern s32 update_actor_hop_and_shrink(void *,struct ObjectPosition *,struct Spr
 
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,SpriteFrameState *,void *);
-extern s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);

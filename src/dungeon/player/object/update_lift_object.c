@@ -86,7 +86,7 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
                     wait_roll = random_dungeon_range_16(0, 0x10);
                     effect_target = animation;
                     if ((s16)wait_roll < 6) {
-                        effect_state->actor.action_timer.u = 0x10;
+                        effect_state->actor.action_timer = 0x10;
                         effect_state->actor.action_phase = effect_state->actor.action_phase + 1;
                         return;
                     }
@@ -103,8 +103,8 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
         if (state == 1) {
             lift_jitter_offsets[0] = (rand() & 0xF) - 8;
             lift_jitter_offsets[1] = (rand() & 0xF) - 8;
-            ticks_left = effect_state->actor.action_timer.u - 1;
-            effect_state->actor.action_timer.u = ticks_left;
+            ticks_left = effect_state->actor.action_timer - 1;
+            effect_state->actor.action_timer = ticks_left;
             if ((s16)ticks_left > 0) {
                 return;
             }
@@ -155,13 +155,13 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
             return;
         }
         animation->flags |= 0x800;
-        effect_state->actor.action_timer.u = 0x10;
+        effect_state->actor.action_timer = 0x10;
         effect_state->actor.action_phase = effect_state->actor.action_phase + 1;
         return;
     }
 
-    ticks_left = effect_state->actor.action_timer.u - 1;
-    effect_state->actor.action_timer.u = ticks_left;
+    ticks_left = effect_state->actor.action_timer - 1;
+    effect_state->actor.action_timer = ticks_left;
     if ((s16)ticks_left > 0) {
         return;
     }

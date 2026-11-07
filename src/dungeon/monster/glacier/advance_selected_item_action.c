@@ -166,7 +166,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
             if (create_actor_spell_effect(actor, selection, is_special, (u8 *)body + 0x98) == 0) {
                 return;
             }
-            body->action_timer.u = 10;
+            body->action_timer = 10;
             body->action_phase++;
             play_sound_if_enabled(0x703);
             return;
@@ -196,7 +196,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
             return;
         }
         sprite->flags &= 0xF7FF;
-        body->action_timer.u = 10;
+        body->action_timer = 10;
         body->action_phase++;
         {
             ObjectNodeHeader *effect_object;
@@ -245,8 +245,8 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
         {
             u16 timer;
 
-            timer = body->action_timer.u - 1;
-            body->action_timer.u = timer;
+            timer = body->action_timer - 1;
+            body->action_timer = timer;
             if ((s16)timer > 0 && !(sprite->flags & 0xE000)) {
                 return;
             }
@@ -260,18 +260,18 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
             sprite->flags |= 0x800;
-            body->action_timer.u = 0x14;
+            body->action_timer = 0x14;
         }
         {
             u16 timer;
 
             if ((g_dungeon_status.active_actor) == 0) {
-                body->action_timer.u = 0;
+                body->action_timer = 0;
             }
-            timer = body->action_timer.u - 1;
-            body->action_timer.u = timer;
+            timer = body->action_timer - 1;
+            body->action_timer = timer;
             if ((s16)timer <= 0) {
-                body->action_timer.u = 0;
+                body->action_timer = 0;
                 sprite->flags &= 0xF7FF;
             }
             if (!(sprite->flags & 0xE000)) {

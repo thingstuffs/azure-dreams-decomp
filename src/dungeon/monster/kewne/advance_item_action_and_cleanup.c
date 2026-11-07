@@ -139,7 +139,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
             s32 slot;
 
             slot = (s16)resolve_alternate_spell_id(*(u16 *)item_addr & 0x7F);
-            body->action_timer.s = D_80175F40[slot] - 0x10;
+            body->action_timer = D_80175F40[slot] - 0x10;
         }
         body->action_phase++;
         return;
@@ -150,11 +150,11 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     return;
 
     case 2:
-    body->action_timer.u -= animation_tick_scale;
-    if (body->action_timer.s < 3) {
+    body->action_timer -= animation_tick_scale;
+    if ((s16)(body->action_timer) < 3) {
         sprite->flags &= 0xF7FF;
     }
-    if (body->action_timer.s > 0) {
+    if ((s16)(body->action_timer) > 0) {
         return;
     }
     item_id = D_80175F6E & 0x7F;

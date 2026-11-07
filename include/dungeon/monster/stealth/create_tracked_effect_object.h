@@ -40,7 +40,6 @@ extern void func_8015EF74(ActorRecord *actor_in, ObjectPosition *actor_data_in, 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void unlink_node(struct ObjectNodeHeader *node);
 extern void func_80044A50(struct ObjectNodeHeader *node);
 
 void * create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value0A);

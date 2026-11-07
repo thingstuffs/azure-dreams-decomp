@@ -100,8 +100,8 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
 
         if (secondary->flags1C & 0x40000) {
             if (!(part->flags & 0x40)) {
-                u16 phase = body->unk_9E.u;
-                body->unk_9E.u = phase + 1;
+                u16 phase = body->unk_9E;
+                body->unk_9E = phase + 1;
                 body->unk_A0.value += rsin((s16)phase * 0xAA) << 5;
             }
 
@@ -120,7 +120,7 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
             }
         } else {
             s32 height_adjustment = body->unk_A0.value;
-            body->unk_9E.u = 0;
+            body->unk_9E = 0;
             body->unk_A0.value = 0;
             body->unk_90.value -= height_adjustment;
             if (!(body->action_state_flags & 8)) {

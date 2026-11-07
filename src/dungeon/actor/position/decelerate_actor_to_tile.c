@@ -57,11 +57,11 @@ void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, Sprite
         state->action_phase = state->action_phase + 1;
         if (anim->hp != 0) {
             if (info->flags & 0x8000) {
-                state->action_timer.s = 0;
+                state->action_timer = 0;
                 state->action_phase = 2;
                 return;
             }
-            state->action_timer.s = 8;
+            state->action_timer = 8;
         } else {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -84,8 +84,8 @@ void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, Sprite
         velocity_y = motion->velocity_y;
         biased_dy = velocity_y;
         motion->velocity_y = velocity_y - (biased_dy / 4);
-        frames_left = state->action_timer.s - 1;
-        state->action_timer.s = frames_left;
+        frames_left = (state->action_timer) - 1;
+        state->action_timer = frames_left;
         if ((s32)(frames_left << 16) > 0) {
             return;
         }
@@ -96,7 +96,7 @@ void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, Sprite
             begin_actor_display_action(state, motion, info, 0);
             return;
         }
-        state->action_timer.s = 8;
+        state->action_timer = 8;
         state->action_phase = state->action_phase + 1;
         return;
     }
@@ -106,17 +106,17 @@ void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, Sprite
         s16 frames_left;
         u16 next_frames;
 
-        frames_left = state->action_timer.s;
+        frames_left = (state->action_timer);
         if (frames_left != 0) {
             s32 origin_x;
             s32 origin_y;
 
             motion->velocity_x = (s32)(((((s32)info->tile_x << 6) - (origin_x = motion->x.w.i - 0x20)) << 15) / frames_left);
             origin_y = motion->y.w.i - 0x20;
-            motion->velocity_y = (s32)(((((s32)info->tile_y << 6) - origin_y) << 15) / state->action_timer.s);
+            motion->velocity_y = (s32)(((((s32)info->tile_y << 6) - origin_y) << 15) / (s16)(state->action_timer));
         }
-        next_frames = state->action_timer.s - 1;
-        state->action_timer.s = next_frames;
+        next_frames = (state->action_timer) - 1;
+        state->action_timer = next_frames;
         if ((s32)(next_frames << 16) > 0) {
             return;
         }

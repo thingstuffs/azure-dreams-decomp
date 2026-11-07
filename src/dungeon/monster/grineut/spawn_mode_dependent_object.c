@@ -555,14 +555,14 @@ void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, 
     }
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        action->action_timer.s = 0;
+        action->action_timer = 0;
         return;
     }
 
-    action->action_timer.s = 8;
+    action->action_timer = 8;
     step_count = ((R07_80171570_S_80171570_0 *)state)->unk_71.u;
     if (step_count > 0) {
-        action->action_timer.s = 8 / step_count;
+        action->action_timer = 8 / step_count;
     }
 }
 
@@ -1023,8 +1023,8 @@ void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         }
         break;
     }
-    action_ticks = body->action_timer.u - 1;
-    body->action_timer.u = action_ticks;
+    action_ticks = body->action_timer - 1;
+    body->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
     }
@@ -1089,7 +1089,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
     case 0:
         if (sprite->flags & 0x8000) {
             action->action_phase = 3;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -1111,7 +1111,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         select_sprite_entry(sprite,
             (*(grineut_frame_set_3 + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase += 1;
         return;
 
@@ -1125,16 +1125,16 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
             select_sprite_entry(sprite,
                 (*(D_80174170 + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
-            action->action_timer.u = 0x14;
+            action->action_timer = 0x14;
             action->action_phase += 1;
             return;
         }
         return;
 
     case 2:
-        timer = action->action_timer.u - 1;
+        timer = action->action_timer - 1;
         z_velocity = motion->velocity_z;
-        action->action_timer.u = timer;
+        action->action_timer = timer;
         if (timer < 12) {
             z_velocity += 0x1400;
         } else {
@@ -1143,7 +1143,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         motion->velocity_z = z_velocity;
         action->unk_90.value += z_velocity;
 
-        if ((s16)action->action_timer.u == 0x11) {
+        if ((s16)action->action_timer == 0x11) {
             play_sound_if_enabled(0x808);
             direction = ((u16)actor->facing >> 9) & 7;
             speed_component = dir_step_x[direction] * 0x30000;
@@ -1163,13 +1163,13 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
             (sprite->flags & 0x8000)) {
             motion->velocity_x =
                 ((((sprite->tile_x << 6) + 0x20) << 16) -
-                 motion->x.v) / (s16)action->action_timer.u;
+                 motion->x.v) / (s16)action->action_timer;
             motion->velocity_y =
                 ((((sprite->tile_y << 6) + 0x20) << 16) -
-                 motion->y.v) / (s16)action->action_timer.u;
+                 motion->y.v) / (s16)action->action_timer;
         }
 
-        if (((s16)action->action_timer.u <= 0) ||
+        if (((s16)action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
             action->action_phase += 1;
             return;
@@ -1177,7 +1177,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         return;
 
     case 3:
-        if (((s16)action->action_timer.u <= 0) ||
+        if (((s16)action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1365,15 +1365,15 @@ copy_existing:
             (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            body->action_timer.u = 0x10;
+            body->action_timer = 0x10;
             body->action_state_flags |= 0x80;
         }
 
         {
-            u16 anim_timer = body->action_timer.u - 1;
-            body->action_timer.u = anim_timer;
+            u16 anim_timer = body->action_timer - 1;
+            body->action_timer = anim_timer;
             if ((s16)anim_timer <= 0) {
-                body->action_timer.u = 0;
+                body->action_timer = 0;
                 sprite->flags &= 0xF7FF;
             }
         }
@@ -1443,7 +1443,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
             return;
         }
         if (sprite->flags & 0x8000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase = 3;
             return;
         }
@@ -1453,7 +1453,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         } else {
             timer = -1;
         }
-        body->action_timer.s = timer;
+        body->action_timer = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -1462,13 +1462,13 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         motion->velocity_x -= dir_step_x[direction] << 14;
         motion->velocity_y -= dir_step_y[direction] << 14;
 
-        if (body->action_timer.s > 0) {
-            body->action_timer.s = body->action_timer.u - 1;
+        if ((s16)(body->action_timer) > 0) {
+            body->action_timer = body->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
         }
 
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -1498,12 +1498,12 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
             sprite,
             grineut_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         body->action_phase++;
         return;
 
     case 3:
-        timer = body->action_timer.s;
+        timer = (body->action_timer);
         if (timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -1514,12 +1514,12 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / body->action_timer.s;
+                    ((target_y - current_y) << 15) / (s16)(body->action_timer);
             }
         }
 
-        timer = body->action_timer.u - 1;
-        body->action_timer.s = timer;
+        timer = body->action_timer - 1;
+        body->action_timer = timer;
         if ((timer << 16) > 0) {
             return;
         }

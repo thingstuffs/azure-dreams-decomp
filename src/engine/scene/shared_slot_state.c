@@ -2,6 +2,9 @@
 #include "engine/scene/gp_shared_slots.h"
 #include "engine/scene.h"
 #include "engine/text.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "sdk/libetc.h"
 
 
 

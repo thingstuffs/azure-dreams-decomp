@@ -88,7 +88,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
             result = action_ready;
 
             action->action_phase = 0;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             if (result != 0) {
                 S_8017237C_3 *active_actor = actor;
                 void *action_target = target;

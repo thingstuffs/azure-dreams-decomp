@@ -149,7 +149,7 @@ void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPositio
                 return;
             }
         }
-        controller_in->action_timer.u = 3;
+        controller_in->action_timer = 3;
         controller_in->action_state_flags &= 0xBFFF;
         {
 
@@ -159,8 +159,8 @@ void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPositio
         return;
 
     case 2:
-        ticks_left = controller_in->action_timer.u - 1;
-        controller_in->action_timer.u = ticks_left;
+        ticks_left = controller_in->action_timer - 1;
+        controller_in->action_timer = ticks_left;
         if ((ticks_left << 16) <= 0) {
             controller_in->action_state_flags |= 0x4000;
             motion->velocity_z = 0xFFEC0000;

@@ -1,6 +1,7 @@
 /* Relinked copy of town/dispatch_first_rejected_entry (dispatch_first_rejected_entry.c); retail differs only at relocation sites. */
 #include "town/scene.h"
 #include "town/devkit/flag_test_imports.h"
+#include "town/shop/state.h"
 
 typedef s32 (*Callback)(s32);
 
@@ -18,4 +19,3 @@ s32 dispatch_first_rejected_entry_b(void) {
     return ((Callback *)(D_000008D8 + 0x6DC))
     [((s8 *)(D_000008D8 + 0x6E4))[index]](index);
 }
-#include "town/shop/state.h"

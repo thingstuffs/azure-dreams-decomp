@@ -61,17 +61,17 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         dir_y = dir_step_y[dir_offset >> 1];
         motion->velocity_z = 0xFFEBC000;
         motion->velocity_y = (s32) (dir_y << 0x11);
-        body->action_timer.u = 3U;
+        body->action_timer = 3U;
         body->action_state_flags = (u16) (body->action_state_flags & 0xFFF7);
         body->action_phase = (u8) (body->action_phase + 1);
         return;
     case 1:
         if (sprite->flags & 0x8000) {
-            body->action_timer.u = 0U;
+            body->action_timer = 0U;
         } else {
-            body->action_timer.u = (u16) (body->action_timer.u - 1);
+            body->action_timer = (u16) (body->action_timer - 1);
         }
-        if (body->action_timer.s == 0) {
+        if ((s16)(body->action_timer) == 0) {
             if (((PlayerRecord *)body)->unk_102 == 0) {
                 actor->unk_20 = 1;
                 if (resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1) == 0) {
@@ -84,7 +84,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
                 }
             }
         }
-        if ((s16) body->action_timer.u <= 0) {
+        if ((s16) body->action_timer <= 0) {
             if (sprite->flags & 0xE000) {
                 sprite->frameTable = actor_default_frames;
                 select_record_entry_and_value(sprite, *(void **)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
@@ -99,7 +99,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if ((s16) body->action_timer.u > 0) {
+        if ((s16) body->action_timer > 0) {
             return;
         }
         sprite->frameTable = actor_default_frames;
@@ -115,20 +115,20 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
             return;
         }
         motion->velocity_z = 0;
-        body->action_timer.u = 2U;
+        body->action_timer = 2U;
         delta = (u32)sprite->tile_x << 6;
         coord = motion->x.w.i - 0x20;
         delta -= (u32)coord;
-        motion->velocity_x = (s32)(delta * 0x10000U) / (s16) body->action_timer.u;
+        motion->velocity_x = (s32)(delta * 0x10000U) / (s16) body->action_timer;
         coord = motion->y.w.i - 0x20;
         delta = ((u32)sprite->tile_y << 6) - (u32)coord;
-        motion->velocity_y = (s32)(delta * 0x10000U) / (s16) body->action_timer.u;
+        motion->velocity_y = (s32)(delta * 0x10000U) / (s16) body->action_timer;
         body->action_phase = (u8) (body->action_phase + 1);
         return;
     }
     case 4:
-        ticks_left = body->action_timer.u - 1;
-        body->action_timer.u = ticks_left;
+        ticks_left = body->action_timer - 1;
+        body->action_timer = ticks_left;
         if ((ticks_left << 0x10) > 0 && !(sprite->flags & 0x8000)) {
             return;
         }
@@ -140,7 +140,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
         ((S_800974DC_0 *)body)->unk_8C = &handle_actor_commands_and_facing;
         g_dungeon_status.active_actor = 0;
-        body->action_timer.u = 0U;
+        body->action_timer = 0U;
         return;
     }
 }

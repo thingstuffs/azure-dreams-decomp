@@ -12,7 +12,6 @@
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
-extern void RotTransSV(void *in, void *out, void *flag);
 
 /* Draw the sprite list as textured quads with optional horizontal and vertical flips. */
 void draw_sprite_list(void)

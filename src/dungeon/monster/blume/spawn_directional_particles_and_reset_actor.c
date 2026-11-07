@@ -68,12 +68,12 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
         source_pos->velocity_z = 0;
         source_pos->velocity_y = 0;
         source_pos->velocity_x = 0;
-        state->action_timer.u = 0;
+        state->action_timer = 0;
         state->action_phase++;
         source_render->flags &= 0x9FFF;
 
     case 1:
-        frame = state->action_timer.s;
+        frame = (state->action_timer);
         if (frame == 0 || frame == 7) {
             s16 particle_index;
 
@@ -110,7 +110,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         u32 direction_offset;
 
                         motion = NODE_BODY(particle);
-                        motion->lifetime = 0x28 - state->action_timer.u;
+                        motion->lifetime = 0x28 - state->action_timer;
                         motion->unk_9B = 0;
                         render = particle->sprite;
                         particle->update_callback = update_damped_height_effect;
@@ -202,7 +202,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         u32 direction_offset;
 
                         motion = NODE_BODY(particle);
-                        motion->unk_24 = 0x19 - state->action_timer.u;
+                        motion->unk_24 = 0x19 - state->action_timer;
                         motion->unk_00 = 0;
                         particle->update_callback = update_growing_colliding_effect;
                         register_node(particle, project_sprite_chain);
@@ -262,7 +262,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
             }
         }
 
-        state->action_timer.u++;
+        state->action_timer++;
         if (source_render->flags & 0xE000) {
             void *active_object;
 
@@ -287,7 +287,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                 source_render->flags &= 0xF7FF;
                 direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
                 select_sprite_entry(source_render, (*(u8 * *)&source_render->frameTable)[direction_index & 7], 0);
-                state->action_timer.u = 0x14;
+                state->action_timer = 0x14;
                 state->action_phase++;
             }
         }
@@ -297,8 +297,8 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
         {
             u16 timer;
 
-            timer = state->action_timer.u;
-            state->action_timer.u = timer - 1;
+            timer = state->action_timer;
+            state->action_timer = timer - 1;
             if ((s16)timer <= 0 || (source_render->flags & 0xE000)) {
                 spend_actor_mp(actor, 0x1000);
                 state->unk_8C.address = blume_action_resume_address;

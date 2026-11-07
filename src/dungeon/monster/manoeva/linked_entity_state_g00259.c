@@ -137,7 +137,7 @@ void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unus
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         select_sprite_entry(animation, D_80176670[direction], 0);
 
-        action->action_timer.s = 0;
+        action->action_timer = 0;
         entity->flags1C |= 0x10000000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         entity->action_flags &= 0x7FFF;
@@ -150,6 +150,6 @@ void reset_linked_entity_state(ActorRecord *state, ObjectPosition *unused, Sprit
     state->action_phase = 0;
     state->unk_8C.handler = 0;
     flag_record->flags = (u16) (flag_record->flags & 0xF7FF);
-    state->action_timer.u = 0;
+    state->action_timer = 0;
     record->flags1C = (s32) (record->flags1C | 0x10000000);
 }

@@ -35,8 +35,8 @@ void update_hop_to_tile_and_complete(void *action, ObjectPosition *motion, Sprit
     state = ((ActorRecord *)action)->action_phase;
     switch (state) {
     case 0:
-        phase_timer = ((ActorRecord *)action)->unk_9E.u - 1;
-        ((ActorRecord *)action)->unk_9E.u = phase_timer;
+        phase_timer = ((ActorRecord *)action)->unk_9E - 1;
+        ((ActorRecord *)action)->unk_9E = phase_timer;
         if ((phase_timer << 16) != 0) {
             break;
         }
@@ -48,12 +48,12 @@ void update_hop_to_tile_and_complete(void *action, ObjectPosition *motion, Sprit
             0);
         ((ActorRecord *)action)->action_state_flags |= 8;
         ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
-        ((ActorRecord *)action)->unk_9E.s = 5;
+        ((ActorRecord *)action)->unk_9E = 5;
         ((ActorRecord *)action)->unk_A0.value = 0;
         ((ActorRecord *)action)->action_phase++;
 
     case 1:
-        move_ticks = ((ActorRecord *)action)->unk_9E.s;
+        move_ticks = (s16)((ActorRecord *)action)->unk_9E;
         ((ActorRecord *)action)->unk_90.value -= ((ActorRecord *)action)->unk_A0.value;
         if (move_ticks != 0) {
             tile_x = sprite->tile_x;
@@ -66,14 +66,14 @@ void update_hop_to_tile_and_complete(void *action, ObjectPosition *motion, Sprit
             position_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - position_y) << 16) /
-                ((ActorRecord *)action)->unk_9E.s;
+                (s16)((ActorRecord *)action)->unk_9E;
             ((ActorRecord *)action)->unk_A0.value =
-                (-rsin(((ActorRecord *)action)->unk_9E.s * 0x199)) << 10;
+                (-rsin((s16)((ActorRecord *)action)->unk_9E * 0x199)) << 10;
         }
 
         ((ActorRecord *)action)->unk_90.value += ((ActorRecord *)action)->unk_A0.value;
-        phase_timer = ((ActorRecord *)action)->unk_9E.u - 1;
-        ((ActorRecord *)action)->unk_9E.u = phase_timer;
+        phase_timer = ((ActorRecord *)action)->unk_9E - 1;
+        ((ActorRecord *)action)->unk_9E = phase_timer;
         if (phase_timer < 0) {
             ((ActorRecord *)action)->unk_90.value = 0;
             ((ActorRecord *)action)->action_state_flags &= 0xFFF7;
@@ -112,8 +112,8 @@ void update_hop_to_tile_and_complete(void *action, ObjectPosition *motion, Sprit
         break;
     }
 
-    action_timer = ((ActorRecord *)action)->action_timer.u - 1;
-    ((ActorRecord *)action)->action_timer.u = action_timer;
+    action_timer = ((ActorRecord *)action)->action_timer - 1;
+    ((ActorRecord *)action)->action_timer = action_timer;
     if ((s16)action_timer > 0) {
         return;
     }

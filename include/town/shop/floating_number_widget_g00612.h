@@ -101,7 +101,6 @@ extern u8 money_label_text[16];
 void initialize_templated_state_and_position(s32, s32, s32, s32, s32);
 extern s32 display_block_defaults[4];
 /* object in create_dual_buffer_object */
-extern void *create_callback_pair_default(s32);
 extern void *process_context_with_selector_4(void *);
 extern void register_node(void *, void *);
 extern void lower_value_toward_target(struct ObjectNodeHeader *object);

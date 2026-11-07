@@ -23,7 +23,7 @@ void advance_actor_action_animation_to_completion(ActorRecord *action, ObjectPos
     s32 state;
 
     state = action->action_phase;
-    action->action_timer.u--;
+    action->action_timer--;
     switch (state) {
     case 0:
         if (animation->flags & 0x8000) {

@@ -157,15 +157,15 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
             0);
         body->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        body->action_timer.u = 8;
+        body->action_timer = 8;
         motion->velocity_z = 0xFFF00000;
         body->action_phase++;
         return;
 
     case 2:
         motion->velocity_z += 0x10000;
-        ticks_left = body->action_timer.u - 1;
-        body->action_timer.u = ticks_left;
+        ticks_left = body->action_timer - 1;
+        body->action_timer = ticks_left;
         if ((s32)(ticks_left << 16) > 0) {
             return;
         }
@@ -192,7 +192,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
               (sprite->flags & 0xE000))) {
             return;
         }
-        body->action_timer.u = 3;
+        body->action_timer = 3;
         body->action_state_flags |= 0x80;
         if (!(sprite->flags & 0xE000)) {
             return;

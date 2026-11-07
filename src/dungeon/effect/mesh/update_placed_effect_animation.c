@@ -127,7 +127,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             player_page = (u8 *)0x80080000;
             player_state = (ActorRecord *)(*(u8 **)(player_page + 0x14A8));
             self->timer = 10;
-            player_state->action_timer.u = 8;
+            player_state->action_timer = 8;
             player_state->unk_A4.halves.high.u--;
             player_state->unk_A8.byte = self->kind;
             facing_player = *(u8 **)(player_page + 0x14A8);

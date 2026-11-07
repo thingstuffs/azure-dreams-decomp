@@ -100,7 +100,7 @@ void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, Spr
                     0);
                 sprite->frame_ticks = 1;
                 body->unk_A0.parts.high = 0;
-                body->unk_9E.s = 0;
+                body->unk_9E = 0;
             }
         }
 
@@ -119,7 +119,7 @@ void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, Spr
             begin_actor_move_to_target_facing(body, position, sprite, move_data);
             base_height = body->unk_90.parts.high.u - body->unk_A0.parts.high;
             body->unk_A0.parts.high = 0;
-            body->unk_9E.s = 0;
+            body->unk_9E = 0;
             body->unk_90.parts.high.s = base_height;
             func_8017531C(body, position, sprite, move_data);
             return;

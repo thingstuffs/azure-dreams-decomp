@@ -10,7 +10,6 @@
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 
-extern void RotTransSV(void *v0, void *out, void *flag);
 
 /* Transforms a flipped point using local scale, rotation, and offsets, then adjusts for view angles. */
 void runtime_transform_sprite_attachment_point(void *transform, void *point, void *result)

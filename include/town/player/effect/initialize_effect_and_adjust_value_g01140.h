@@ -99,7 +99,6 @@ extern s32 D_800D0CC0[];
 /* extern */
 /* extern */
 /* extern */
-void store_position_and_compute_delta(s32 *);
 void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);
 /* extern */
 s32 update_object_and_clear_status_fields();

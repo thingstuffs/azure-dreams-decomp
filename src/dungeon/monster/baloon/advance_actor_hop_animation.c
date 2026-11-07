@@ -90,13 +90,13 @@ void advance_actor_hop_animation(ActorRecord *body, ObjectPosition *position, Sp
             select_sprite_entry(sprite,
                 baloon_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->unk_9E.s = 0;
+            body->unk_9E = 0;
         }
         break;
     }
 
-    timer_value = body->action_timer.u - 1;
-    body->action_timer.u = timer_value;
+    timer_value = body->action_timer - 1;
+    body->action_timer = timer_value;
     if (((s32)timer_value << 16) <= 0) {
         s32 actor_flags;
 

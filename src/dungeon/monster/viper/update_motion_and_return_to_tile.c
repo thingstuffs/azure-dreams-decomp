@@ -8,6 +8,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/viper.h"
 
 extern u8 viper_action_continuation_address;
 
@@ -34,7 +35,7 @@ void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motio
             return;
         }
         if (tile->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -43,7 +44,7 @@ void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motio
         } else {
             timer = -1;
         }
-        action->action_timer.s = timer;
+        action->action_timer = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -53,12 +54,12 @@ void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motio
             ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -=
             ((s16 *)((s8 *)dir_step_y))[direction] << 14;
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (tile->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -68,12 +69,12 @@ void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motio
             begin_actor_display_action(action, motion, tile, viper_frame_set);
             return;
         }
-        action->action_timer.s = 8;
+        action->action_timer = 8;
         action->action_phase++;
         return;
 
     case 2:
-        timer = action->action_timer.s;
+        timer = (action->action_timer);
         if (timer != 0) {
             {
                 s32 target_x = tile->tile_x << 6;
@@ -86,11 +87,11 @@ void update_motion_and_return_to_tile(ActorRecord *action, ObjectPosition *motio
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((target_y - current_y) << 15) /
-                    action->action_timer.s;
+                    (s16)(action->action_timer);
             }
         }
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

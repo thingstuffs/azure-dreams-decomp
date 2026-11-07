@@ -92,6 +92,5 @@ extern void add_entity_position_to_menu_vector(void *, void *);
 /* Functions defined in this translation unit. */
 void copy_even_halfwords_3(S_800AA044_0 *dst, S_800AA044_1 *src);
 void transform_vector(s32 transform, void *vector, void *transformed);
-void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform);
 
 #endif

@@ -60,7 +60,7 @@ void begin_actor_exclusive_action(ActorRecord *entity, ObjectPosition *unused_1,
         entity->unk_8C.word = 0;
         entity->action_id = 0x19;
         entity->action_phase = 0;
-        entity->action_timer.s = 0;
+        entity->action_timer = 0;
         entity->unk_B0.signed_bytes[3] = 0;
         entity->unk_B0.signed_bytes[1] = 0;
         entity->unk_B0.signed_bytes[2] = 0;

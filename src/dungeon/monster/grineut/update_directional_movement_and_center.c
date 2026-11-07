@@ -39,7 +39,7 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
             break;
         }
         if (actor->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 3;
             break;
         }
@@ -49,7 +49,7 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
         } else {
             timer = -1;
         }
-        action->action_timer.s = timer;
+        action->action_timer = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -58,13 +58,13 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
         motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (actor->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
 
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             break;
         }
         if (entity->hp == 0) {
@@ -94,12 +94,12 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
             actor,
             grineut_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer.s = 8;
+        action->action_timer = 8;
         action->action_phase++;
         break;
         break;
     case 3:
-        timer = action->action_timer.s;
+        timer = (action->action_timer);
         if (timer != 0) {
             {
                 s32 tile_x = actor->tile_x << 6;
@@ -110,12 +110,12 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
                 s32 tile_y = actor->tile_y << 6;
                 s32 offset_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((tile_y - offset_y) << 15) / action->action_timer.s;
+                    ((tile_y - offset_y) << 15) / (s16)(action->action_timer);
             }
         }
 
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

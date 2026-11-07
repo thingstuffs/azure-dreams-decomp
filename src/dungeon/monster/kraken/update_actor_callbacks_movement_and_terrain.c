@@ -81,10 +81,10 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
         if (!(body->flags1C & 0x40000) &&
             !(body->action_state_flags & 8)) {
             motion->velocity_z = motion->velocity_z +
-                (body->unk_9D.s * 0x14000);
-            body->unk_9D.u++;
+                ((s8)(body->unk_9D) * 0x14000);
+            body->unk_9D++;
         } else {
-            body->unk_9D.s = 0;
+            body->unk_9D = 0;
         }
 
         body->unk_90.value = body->unk_90.value +
@@ -158,7 +158,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                         ((u16)actor_base->ground_height);
                     if (floor_offset < body->unk_90.parts.high.s) {
                         body->unk_90.parts.high.s = floor_offset;
-                        body->unk_9D.s = 0;
+                        body->unk_9D = 0;
                         motion->velocity_z = 0;
                         actor_base->flags1C |= 0x08000000;
                     }
@@ -185,7 +185,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                         ((u16)actor_base->ground_height);
                     if (floor_offset < body->unk_90.parts.high.s) {
                         body->unk_90.parts.high.s = floor_offset;
-                        body->unk_9D.s = 0;
+                        body->unk_9D = 0;
                         motion->velocity_z = 0;
                         actor_base->flags1C |= 0x08000000;
                     }

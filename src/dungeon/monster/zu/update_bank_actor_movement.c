@@ -177,10 +177,10 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
 
     if (!(entity->flags1C & 0x40000) &&
         !(entity->action_state_flags & 8)) {
-        motion_arg->velocity_z += entity->unk_9D.s * 0x14000;
-        entity->unk_9D.u++;
+        motion_arg->velocity_z += (s8)entity->unk_9D * 0x14000;
+        entity->unk_9D++;
     } else {
-        entity->unk_9D.u = 0;
+        entity->unk_9D = 0;
     }
     entity->unk_90.value += motion_arg->velocity_z;
     sprite_flags = sprite_arg->flags;
@@ -255,7 +255,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
                     (s16)(((u16)object->ground_height) - 0x20)) - object->ground_height;
                 if (entity->unk_90.parts.high.s > ground_delta) {
                     entity->unk_90.parts.high.s = ground_delta;
-                    entity->unk_9D.u = 0;
+                    entity->unk_9D = 0;
                     motion_arg->velocity_z = 0;
                     object->flags1C |= 0x08000000;
                 }
@@ -280,7 +280,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
                     (s16)(((u16)object->ground_height) - 0x20)) - object->ground_height;
                 if (entity->unk_90.parts.high.s > ground_delta) {
                     entity->unk_90.parts.high.s = ground_delta;
-                    entity->unk_9D.u = 0;
+                    entity->unk_9D = 0;
                     motion_arg->velocity_z = 0;
                     object->flags1C |= 0x08000000;
                 }
@@ -613,15 +613,15 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
     body->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         return;
     }
 
-    body->action_timer.u = 8;
+    body->action_timer = 8;
     {
         s32 step_count = actor->movement_queue_state;
         if (step_count > 0) {
-            body->action_timer.u = 8 / step_count;
+            body->action_timer = 8 / step_count;
         }
     }
 }
@@ -1150,7 +1150,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
     setup_value = (s32)(direction_y_table + setup_value);
     direction_y = *(s16 *)setup_value;
     state = body->action_phase;
-    body->action_timer.u = body->action_timer.u - 1;
+    body->action_timer = body->action_timer - 1;
 
     switch (state) {
     case 0:
@@ -1173,7 +1173,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         actor_flags &= setup_value;
         actor_flags &= operand;
         actor->flags1C = actor_flags;
-        body->action_timer.u = 4;
+        body->action_timer = 4;
         motion->velocity_z = 0xFFFD0000;
         body->action_phase++;
         return;
@@ -1181,11 +1181,11 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
     case 1:
         velocity_y = motion->velocity_z;
         motion->velocity_z = velocity_y + (velocity_y >> 2);
-        if (body->action_timer.s > 0) {
+        if ((s16)body->action_timer > 0) {
             return;
         }
         result = body->action_phase;
-        body->action_timer.u = 8;
+        body->action_timer = 8;
         body->action_phase = result + 1;
         return;
 
@@ -1196,7 +1196,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         velocity_z = motion->velocity_z;
         motion->velocity_y = operand_3 - (operand_3 >> 3);
         motion->velocity_z = velocity_z - (velocity_z >> 3);
-        if ((body->action_timer.s == 4) ||
+        if (((s16)body->action_timer == 4) ||
             (sprite->flags & 0x8000)) {
             motion->velocity_x = 0;
             motion->velocity_y = 0;
@@ -1205,13 +1205,13 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             select_sprite_entry(sprite, zu_frame_set_2[direction_index & 7], 0);
         }
-        if (body->action_timer.s > 0) {
+        if ((s16)body->action_timer > 0) {
             return;
         }
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        body->action_timer.u = 4;
+        body->action_timer = 4;
         motion->velocity_x = (direction_x << 18) + (direction_x << 17);
         motion->velocity_y = (direction_y << 18) + (direction_y << 17);
         play_sound_if_enabled(0x80E);
@@ -1222,7 +1222,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         body->unk_90.value += 0x80000;
         motion->velocity_x += direction_x << 18;
         motion->velocity_y += direction_y << 18;
-        if (body->action_timer.s > 0) {
+        if ((s16)body->action_timer > 0) {
             return;
         }
         play_sound_if_enabled(0x808);
@@ -1240,7 +1240,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         body->action_state_flags &= 0xFFF7;
         actor->flags1C |= 0x40000;
         actor->flags1C |= ACTOR_GROUNDED;
-        body->action_timer.u = state;
+        body->action_timer = state;
         body->action_phase = 0xFF;
         return;
 
@@ -1255,7 +1255,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         delta_z -= operand_2;
         motion->velocity_y = (delta_z << 15) >> 1;
         if (!(sprite->flags & 0x8000) &&
-            (body->action_timer.s != 0)) {
+            ((s16)body->action_timer != 0)) {
             index = 9;
             do {
                 particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -1448,7 +1448,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
             actor_input->flags &= 0xF7FF;
             create_source_positioned_object(motion_input, 4);
             play_sound_if_enabled(0x703);
-            owner_input->action_timer.u = 4;
+            owner_input->action_timer = 4;
             owner_input->action_phase++;
             owner_input->action_state_flags |= 8;
             (*(u32 *)&object->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -1482,8 +1482,8 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
     case 2:
         owner_input->unk_90.parts.high.s +=
             (-0x30 - owner_input->unk_90.parts.high.s) >> 3;
-        owner_input->action_timer.u--;
-        if (owner_input->action_timer.s > 0) {
+        owner_input->action_timer--;
+        if ((s16)owner_input->action_timer > 0) {
             if ((actor_input->flags & 0xE000) == 0) {
                 return;
             }
@@ -1590,7 +1590,7 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
         if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer_signed = 8;
         }
-        action->action_timer.s = timer_signed;
+        action->action_timer = timer_signed;
 
         velocity_x = motion->velocity_x;
         rounded_vx = velocity_x;
@@ -1607,15 +1607,15 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             ((s16 *)((s8 *)dir_step_x))[direction] << 15;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 15;
 
-        timer_signed = action->action_timer.s;
-        timer_wide = action->action_timer.u;
+        timer_signed = (s16)action->action_timer;
+        timer_wide = action->action_timer;
         if (timer_signed > 0) {
-            action->action_timer.u = timer_wide - 1;
+            action->action_timer = timer_wide - 1;
         } else if (sprite->flags & 0x6000) {
-            action->action_timer.u = 0;
+            action->action_timer = 0;
         }
 
-        if (action->action_timer.s != 0) {
+        if ((s16)action->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -1625,13 +1625,13 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             motion->velocity_z = 0xFFFD0000;
             begin_actor_display_action(action, motion, sprite, zu_frame_set);
         } else {
-            action->action_timer.s = 5;
+            action->action_timer = 5;
             action->action_phase = action->action_phase + 1;
         }
         return;
     case 2:
         motion->velocity_z = 0xFFFD0000;
-        if (action->action_timer.s != 0) {
+        if ((s16)action->action_timer != 0) {
             s32 tile_coord;
             s32 position_offset;
 
@@ -1645,8 +1645,8 @@ void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, Sprite
             motion->velocity_y = (tile_coord - position_offset) << 15;
         }
 
-        timer = action->action_timer.u - 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((timer << 16) > 0) {
             return;
         }
@@ -1768,7 +1768,7 @@ void slow_directional_motion(ActorRecord *effect_data, void *motion_data_arg, Sp
     case 2:
         if (!(sprite_data->flags & 0x6000))
             return;
-        effect_data->action_timer.s = 0x80;
+        effect_data->action_timer = 0x80;
         effect_data->action_phase++;
         return;
     case 3:
@@ -1782,12 +1782,12 @@ void slow_directional_motion(ActorRecord *effect_data, void *motion_data_arg, Sp
         u8 tile_y;
 
         ((ActorRecord *)object_data)->flags1C |= 0x10000000;
-        brightness = effect_data->action_timer.bytes[0];
+        brightness = (u8)effect_data->action_timer;
         sprite_data->color.c.b = brightness;
         sprite_data->color.c.g = brightness;
         sprite_data->color.c.r = brightness;
-        fade_level = effect_data->action_timer.u - 0x10;
-        effect_data->action_timer.u = fade_level;
+        fade_level = effect_data->action_timer - 0x10;
+        effect_data->action_timer = fade_level;
         if ((s16)fade_level >= 0x10)
             return;
         linked_object = ((s32)g_dungeon_status.pending_display_owner);
@@ -1894,7 +1894,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
                 actor->flags1C = actor_flags & ~0x200;
                 controller->unk_8C.address = update_bank_actor_state;
             } else {
-                controller->action_timer.u = 3;
+                controller->action_timer = 3;
 
                 ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
                     ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
@@ -1968,7 +1968,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
             actor->flags1C = actor_flags & ~0x200;
             controller->unk_8C.address = update_bank_actor_state;
         } else {
-            controller->action_timer.u = 3;
+            controller->action_timer = 3;
 
             ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
                 ((TrailHeightView *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
@@ -1976,8 +1976,8 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
         }
         return;
     case 2:
-        controller->action_timer.u--;
-        if (controller->action_timer.s <= 0) {
+        controller->action_timer--;
+        if ((s16)controller->action_timer <= 0) {
             motion->velocity_z = 0xFFF00000;
         }
         if (!(sprite->flags & 0xE000)) {
@@ -2456,33 +2456,33 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
 
             next_state = state_input->action_phase;
             state = 0x1E;
-            state_input->action_timer.s = state;
+            state_input->action_timer = state;
         }
         state_input->action_phase = next_state + 1;
         return;
     case 1:
         effect_data = (s32)actor_input->target;
         if (effect_data != 0) {
-            timer = state_input->action_timer.s;
+            timer = (s16)state_input->action_timer;
             if (timer >= 0x12) {
                 effect_object = NODE_HEADER(actor_input->target);
                 if (timer < 0x17) {
                     effect_object->sprite->scale_x = effect_values_1c.value[timer - 0x12];
-                    effect_object->sprite->scale_y = effect_values_1e.value[state_input->action_timer.s
+                    effect_object->sprite->scale_y = effect_values_1e.value[(s16)state_input->action_timer
                         - 0x12];
                 }
             }
         }
 
-        if (state_input->action_timer.s == 0x14) {
+        if ((s16)state_input->action_timer == 0x14) {
             effect_data = (s32)actor_input->target;
             if (effect_data != 0) {
                 advance_eligible_actor_or_perform_action((ActorRecord *)effect_data, 0x10, 0x10);
             }
         }
 
-        timer = state_input->action_timer.u - 1;
-        state_input->action_timer.s = timer;
+        timer = state_input->action_timer - 1;
+        state_input->action_timer = timer;
         if (timer > 0) {
             return;
         }

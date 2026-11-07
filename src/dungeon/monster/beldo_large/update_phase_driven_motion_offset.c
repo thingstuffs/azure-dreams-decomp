@@ -28,37 +28,37 @@ void update_phase_driven_motion_offset(ActorRecord *state, ObjectPosition *outpu
     command_table = command->unk_2C;
     if (command_table == &beldo_large_frame_set_8) {
         if (command->unk_04 == 0x100) {
-            state->unk_9E.u = 0U;
+            state->unk_9E = 0U;
             state->unk_A0.value = 0;
         }
         if ((u32) ((u8) command->unk_04 - 1) < 4U) {
-            slow_count = state->unk_9E.u++;
+            slow_count = state->unk_9E++;
             signed_count = slow_count;
             phase = signed_count * 0xAA;
             state->unk_A0.value += rsin(phase) << 5;
         } else {
-            slow_count = state->unk_9E.u++;
+            slow_count = state->unk_9E++;
             signed_count = slow_count;
             phase = signed_count * 0xAA;
             state->unk_A0.value += rsin(phase) << 6;
         }
     } else if (command_table == &beldo_large_frame_set_14) {
         if (command->unk_04 == 0x100) {
-            state->unk_9E.u = 0U;
+            state->unk_9E = 0U;
             state->unk_A0.value = 0;
         }
         if ((u32) ((u8) command->unk_04 - 1) < 4U) {
-            fast_count = state->unk_9E.u;
-            state->unk_9E.u = fast_count + 1;
+            fast_count = state->unk_9E;
+            state->unk_9E = fast_count + 1;
             signed_count = fast_count;
             phase = signed_count * 0x155;
             fast_count++;
             state->unk_A0.value += rsin(phase) << 5;
         } else {
-            fast_wide_count = state->unk_9E.u;
+            fast_wide_count = state->unk_9E;
             signed_count = fast_wide_count++;
             phase = signed_count * 0x155;
-            state->unk_9E.u = fast_wide_count;
+            state->unk_9E = fast_wide_count;
             state->unk_A0.value += rsin(phase) << 6;
         }
     }

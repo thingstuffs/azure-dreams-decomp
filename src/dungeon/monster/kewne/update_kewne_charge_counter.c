@@ -41,7 +41,7 @@ void update_kewne_charge_counter(ActorRecord *actor_state, ObjectPosition *posit
             actor->flags1C = (s32)(actor->flags1C & 0xFFFBFFFF);
             counter_value = actor_state->unk_90.parts.high.u - actor_state->unk_A0.parts.high;
             actor_state->unk_A0.parts.high = 0;
-            actor_state->unk_9E.s = 0;
+            actor_state->unk_9E = 0;
             actor_state->unk_90.parts.high.u = counter_value;
         }
     }

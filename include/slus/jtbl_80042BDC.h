@@ -91,7 +91,6 @@ extern void           func_80041E70(S_80042BDC *ent);
 
 /* Dispatch entity actions, update flags, and create a replacement entity when requested. */
 
-void end_status_effect_message(S_80042BDC *ent, s16 action);
 void func_80042BDC(S_80042BDC *ent, s16 action);
 
 #endif

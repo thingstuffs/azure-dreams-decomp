@@ -166,14 +166,14 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x0800;
-            body->action_timer.u = 1;
+            body->action_timer = 1;
             body->action_state_flags |= 0x0080;
         }
 
-        remaining_ticks = body->action_timer.u - 1;
-        body->action_timer.u = remaining_ticks;
+        remaining_ticks = body->action_timer - 1;
+        body->action_timer = remaining_ticks;
         if ((s16)remaining_ticks <= 0) {
-            body->action_timer.u = 0;
+            body->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if (!(sprite->flags & 0xE000)) {

@@ -13,6 +13,7 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 #include "sdk/libgte.h"
+#include "dungeon/monster/pulunpa.h"
 
 extern s32 pulunpa_variant_action_address;
 extern u8 D_80176338[];
@@ -36,7 +37,7 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *moti
                 0);
             body->action_state_flags |= 8;
             actor->flags1C &= ~ACTOR_GROUNDED;
-            body->unk_9E.s = 5;
+            body->unk_9E = 5;
             body->unk_A0.value = 0;
             body->action_phase++;
         } else {
@@ -52,7 +53,7 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *moti
         s32 x_velocity;
 
         body->unk_90.value -= body->unk_A0.value;
-        move_ticks = body->unk_9E.s;
+        move_ticks = (body->unk_9E);
         if (move_ticks != 0) {
             target_delta = sprite->tile_x << 6;
             axis_pos = motion_arg->x.w.i - 0x20;
@@ -65,15 +66,15 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *moti
             target_delta = sprite->tile_y << 6;
             target_delta -= axis_pos;
             motion_arg->velocity_y =
-                (target_delta << 16) / body->unk_9E.s;
+                (target_delta << 16) / (s16)(body->unk_9E);
 
             body->unk_A0.value =
-                (-rsin(body->unk_9E.s * 409)) << 9;
+                (-rsin((s16)(body->unk_9E) * 409)) << 9;
         }
 
         body->unk_90.value += body->unk_A0.value;
-        move_ticks = body->unk_9E.u - 1;
-        body->unk_9E.s = move_ticks;
+        move_ticks = body->unk_9E - 1;
+        body->unk_9E = move_ticks;
         if (move_ticks < 0) {
             body->unk_90.value = 0;
             body->action_state_flags &= 0xFFF7;
@@ -110,8 +111,8 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *moti
         s16 action_ticks;
         u32 actor_flags;
 
-        action_ticks = body->action_timer.u - 1;
-        body->action_timer.s = action_ticks;
+        action_ticks = body->action_timer - 1;
+        body->action_timer = action_ticks;
         if (action_ticks > 0) {
             return;
         }

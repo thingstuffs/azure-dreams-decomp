@@ -373,14 +373,14 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
         body->unk_8C.word = 0;
         state->flags1C |= 0x40000000;
         if (g_dungeon_status.flags & 0x80) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             return;
         }
 
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         step_count = state->movement_queue_state;
         if (step_count > 0) {
-            body->action_timer.s = 8 / step_count;
+            body->action_timer = 8 / step_count;
         }
     }
 }

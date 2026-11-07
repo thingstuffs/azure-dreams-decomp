@@ -43,5 +43,6 @@ void NormalColorCol(void *, void *, void *);
 s32 ReadGeomScreen(void);
 
 void func_80065034(void *, void *, void *);
+void RotTransSV(void *, void *, void *);
 
 #endif

@@ -48,8 +48,8 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        timer = action_work->action_timer.u + 1;
-        action_work->action_timer.u = timer;
+        timer = action_work->action_timer + 1;
+        action_work->action_timer = timer;
         if (((s16)timer < 0x14) && !(sprite->flags & 0x8000)) {
             return;
         }
@@ -57,10 +57,10 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
         sprite->frameTable = animations;
         select_sprite_entry(sprite,
             animations[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        action_work->action_timer.u = 0x14;
+        action_work->action_timer = 0x14;
         action_work->action_phase = action_work->action_phase + 1;
     case 1:
-        if ((action_work->action_timer.s == 0x13) || (sprite->flags & 0x8000)) {
+        if (((s16)(action_work->action_timer) == 0x13) || (sprite->flags & 0x8000)) {
             if (!(sprite->flags & 0x8000)) {
                 play_sound_if_enabled(0x707);
             }
@@ -106,11 +106,11 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
                 spawned_sprite->source = D_80077C50;
             }
         }
-        if ((action_work->action_timer.s == 0x12) || (sprite->flags & 0x8000)) {
+        if (((s16)(action_work->action_timer) == 0x12) || (sprite->flags & 0x8000)) {
             sprite->flags |= 0x800;
         }
-        timer = action_work->action_timer.u - 1;
-        action_work->action_timer.u = timer;
+        timer = action_work->action_timer - 1;
+        action_work->action_timer = timer;
         if (((s32)(timer << 16) <= 0) || (sprite->flags & 0x8000)) {
             action_work->action_phase = action_work->action_phase + 1;
             sprite->flags &= 0xF7FF;
@@ -121,12 +121,12 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
         if (((sprite->unk_04 == state) && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
             sprite->flags |= 0x800;
-            action_work->action_timer.u = 0x23;
+            action_work->action_timer = 0x23;
         }
-        timer = action_work->action_timer.u - 1;
-        action_work->action_timer.u = timer;
+        timer = action_work->action_timer - 1;
+        action_work->action_timer = timer;
         if (((s32)(timer << 16) <= 0) || (sprite->flags & 0x8000)) {
-            action_work->action_timer.u = 0;
+            action_work->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if (!(sprite->flags & 0xE000)) {

@@ -140,13 +140,13 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
         previous_state = actor->action_phase;
         {
             animation_flags = 0x10U;
-            actor->action_timer.u = animation_flags;
+            actor->action_timer = animation_flags;
             actor->action_phase = (u8) (previous_state + 1);
             return;
         }
     case 4:
-        ticks_left = actor->action_timer.u - 1;
-        actor->action_timer.u = ticks_left;
+        ticks_left = actor->action_timer - 1;
+        actor->action_timer = ticks_left;
         if ((ticks_left << 0x10) > 0) {
             return;
         }

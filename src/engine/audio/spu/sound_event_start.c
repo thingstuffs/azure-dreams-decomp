@@ -2,6 +2,7 @@
 
 #include "engine/audio/spu/sound_event_service.h"
 #include "engine/audio/spu.h"
+#include "sdk/libapi.h"
 
 /* Starts the SPU callback/event service once when it is not already active. */
 void SpuStart(void)

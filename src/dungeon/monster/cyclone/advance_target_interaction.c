@@ -75,13 +75,13 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
         }
         play_sound_if_enabled(0x708);
         timer = 0x20;
-        action->action_timer.u = timer;
+        action->action_timer = timer;
         action->action_phase++;
         break;
 
     case 1:
-        timer = action->action_timer.u - 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((timer << 16) == 0 || (sprite->flags & 0x8000)) {
             if (actor->flags14 & ACTOR_PARTY_MEMBER) {
                 target = actor->target;
@@ -102,14 +102,14 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                     request_random_slot_effect(target);
                 }
             }
-            action->action_timer.u = 4;
+            action->action_timer = 4;
             action->action_phase++;
         }
         break;
 
     case 2:
-        timer = action->action_timer.u - 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((timer << 16) == 0 || (sprite->flags & 0xE000)) {
             spend_actor_mp(actor, 0x400);
             set_record_integer_tile_center(scene, sprite->tile_x, sprite->tile_y);

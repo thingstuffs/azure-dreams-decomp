@@ -28,7 +28,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
     case 0:
         if (sprite->flags & 0x8000) {
             action->action_phase = 5;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -43,15 +43,15 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         select_sprite_entry(sprite,
             D_8017464C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer.u = 8;
+        action->action_timer = 8;
         action->action_phase++;
         return;
 
     case 1:
     {
-        u16 timer = action->action_timer.u;
+        u16 timer = action->action_timer;
 
-        action->action_timer.u = timer - 1;
+        action->action_timer = timer - 1;
         if ((s16)timer > 0 && !(sprite->flags & 0xE000)) {
             return;
         }
@@ -61,7 +61,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             death_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x707);
-        action->action_timer.u = 6;
+        action->action_timer = 6;
         action->unk_AC.value = 0x80000;
         action->unk_B0.value = (s32)0xFFFE0000;
         action->action_phase++;
@@ -74,16 +74,16 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
     case 2:
         action->unk_A4.value += action->unk_AC.value;
         action->unk_AC.value += action->unk_B0.value;
-        if (action->action_timer.s < 2) {
+        if ((s16)(action->action_timer) < 2) {
             motion->velocity_x =
                 dir_step_x[((u16)actor->facing >> 9) & 7] << 19;
             motion->velocity_y =
                 dir_step_y[((u16)actor->facing >> 9) & 7] << 19;
         }
         {
-            u16 timer = action->action_timer.u;
+            u16 timer = action->action_timer;
 
-            action->action_timer.u = timer - 1;
+            action->action_timer = timer - 1;
             if ((s16)timer > 0 && !(sprite->flags & 0xE000)) {
                 return;
             }
@@ -117,7 +117,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         select_sprite_entry(sprite,
             death_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer.u = 4;
+        action->action_timer = 4;
         action->unk_A4.value = 0;
         action->action_phase++;
         {
@@ -125,20 +125,20 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             s32 current_x = motion->x.w.i - 0x20;
 
             motion->velocity_x = ((target_x - current_x) << 16)
-            / action->action_timer.s;
+            / (s16)(action->action_timer);
         }
         {
             s32 target_y = sprite->tile_y << 6;
             s32 current_y = motion->y.w.i - 0x20;
 
             motion->velocity_y = ((target_y - current_y) << 16)
-            / action->action_timer.s;
+            / (s16)(action->action_timer);
         }
         return;
 
     case 5:
     {
-        s16 timer = action->action_timer.s;
+        s16 timer = (action->action_timer);
 
         if (timer != 0) {
             {
@@ -152,11 +152,11 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16)
-                / action->action_timer.s;
+                / (s16)(action->action_timer);
             }
         }
     }
-        action->action_timer.u--;
+        action->action_timer--;
         if (!(sprite->flags & 0xE000)) {
             return;
         }

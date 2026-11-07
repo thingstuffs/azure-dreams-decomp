@@ -53,7 +53,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         actor2 = actor;
         part_b->frameTable = handler;
         part_b->tile_x = value_at_24;
-        actor->unk_9E.s = 0;
+        actor->unk_9E = 0;
 
         if (kind == 1) {
             flags14 = actor->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

@@ -15,7 +15,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
     switch (controller->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        controller->action_timer.s = 6;
+        controller->action_timer = 6;
         controller->action_phase = controller->action_phase + 1;
         if (actor->hp == 0) {
             transform->velocity_z = 0;
@@ -37,13 +37,13 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
             if ((entity->flags & 0x8000) == 0) {
                 return;
             }
-            controller->action_timer.s = 0;
+            controller->action_timer = 0;
             controller->action_phase = 3;
         }
         break;
     case 1:
-        timer = (u16)controller->action_timer.u - 1;
-        controller->action_timer.s = timer;
+        timer = (u16)controller->action_timer - 1;
+        controller->action_timer = timer;
         if (timer > 0) {
             transform->velocity_x =
                 dir_step_x[(actor->movement_facing >> 9) & 7] << 18;
@@ -54,7 +54,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
                 dir_step_x[(actor->movement_facing >> 9) & 7] << 18;
             transform->velocity_y =
                 dir_step_y[(actor->movement_facing >> 9) & 7] << 18;
-            controller->action_timer.s = 12;
+            controller->action_timer = 12;
             controller->action_phase = controller->action_phase + 1;
         }
         break;
@@ -76,7 +76,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
                 break;
             }
         } else {
-            timer = controller->action_timer.s;
+            timer = (controller->action_timer);
             if (timer != 0) {
                 axis_step = entity->tile_x;
                 axis_pos = transform->x.w.i;
@@ -88,12 +88,12 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
                 transform->velocity_x = axis_step;
                 axis_pos -= 0x20;
                 axis_step = (entity->tile_y << 6) - axis_pos;
-                axis_step = (axis_step << 16) / controller->action_timer.s;
+                axis_step = (axis_step << 16) / (s16)(controller->action_timer);
                 transform->velocity_y = axis_step;
             }
 
-            old_timer = controller->action_timer.u;
-            controller->action_timer.s = old_timer - 1;
+            old_timer = controller->action_timer;
+            controller->action_timer = old_timer - 1;
             if ((s32)(old_timer << 16) <= 0) {
                 transform->velocity_z = 0;
                 transform->velocity_y = 0;

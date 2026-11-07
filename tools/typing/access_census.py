@@ -379,6 +379,15 @@ def proven_register_bases(disassembly, section, func, aliases, opcodes=None, sta
     load becomes a new base only when one source pointer access on that debug
     line identifies its parent and offset; an opcode's position is never used
     to choose between source accesses.
+
+    Direct globals come from a `lui rt,%hi(sym)` / `%lo(sym)` pair. These are
+    REL objects, so objdump prints no addend: the LO16 addend is the
+    instruction's own immediate. `addiu rt,rs,%lo(sym)` therefore yields
+    global+immediate, while a memory access `lbu rt,%lo(sym)(rs)` yields
+    global+0 because join() adds the access's own offset (that same
+    immediate). The pair is held (no base) when the `lui` immediate is
+    non-zero, since the addend then has a high half the LO16 does not show,
+    or when either instruction carries more than one relocation.
     """
     pointer_sources = defaultdict(list)
     line_loads = Counter((op['line'], op['offset']) for op in (opcodes or [])
@@ -387,6 +396,7 @@ def proven_register_bases(disassembly, section, func, aliases, opcodes=None, sta
     global_loads = {}
     high_relocations = {}
     low_relocations = {}
+    relocation_counts = Counter()
     global_symbols = global_symbols or {}
     scan_section = None
     previous_pc = None
@@ -407,6 +417,8 @@ def proven_register_bases(disassembly, section, func, aliases, opcodes=None, sta
         relocation = re.match(r'^\s*[0-9a-f]+:\s+R_MIPS_GPREL16\s+([A-Za-z_]\w*)', raw)
         if relocation and previous_pc is not None:
             global_loads[previous_pc] = relocation.group(1)
+        if previous_pc is not None and re.match(r'^\s*[0-9a-f]+:\s+R_MIPS_', raw):
+            relocation_counts[previous_pc] += 1
         relocation = re.match(r'^\s*[0-9a-f]+:\s+R_MIPS_(HI16|LO16)\s+([A-Za-z_]\w*)\s*$', raw)
         if relocation and previous_pc is not None:
             (high_relocations if relocation.group(1) == 'HI16' else low_relocations)[previous_pc] = relocation.group(2)
@@ -414,6 +426,12 @@ def proven_register_bases(disassembly, section, func, aliases, opcodes=None, sta
             target = re.search(r'(?:^|,)\s*([0-9a-f]+)\s*<', match.group(3))
             if target:
                 branch_targets.add(int(target.group(1), 16))
+    # More than one relocation on an instruction leaves its HI16/LO16 pairing
+    # ambiguous; such an instruction never proves a global base.
+    for pc in [pc for pc in high_relocations if relocation_counts[pc] != 1]:
+        del high_relocations[pc]
+    for pc in [pc for pc in low_relocations if relocation_counts[pc] != 1]:
+        low_relocations[pc] = None
     negative_sp = []
     unsafe_sp = False
     for pc, op, pieces in sp_writes:
@@ -481,9 +499,12 @@ def proven_register_bases(disassembly, section, func, aliases, opcodes=None, sta
                 result[pc] = provenance
             # A matching HI16/LO16 relocation identifies a direct global
             # object access even when the assembler prints a zero high half.
+            # The access's own immediate is the LO16 addend; join() adds it.
             symbol = low_relocations.get(pc)
-            if symbol and high_halves.get(base_reg) == symbol:
+            if symbol and high_halves.get(base_reg) == (symbol, 0):
                 result[pc] = (('global', global_symbols.get(symbol, symbol)), 0)
+            elif pc in low_relocations:
+                result.pop(pc, None)
             if op in ('sw', 'sh', 'sb', 'swl', 'swr'):
                 if base_reg == 'sp' and sp_delta is not None:
                     slot = sp_delta + offset
@@ -508,8 +529,13 @@ def proven_register_bases(disassembly, section, func, aliases, opcodes=None, sta
             continue
         previous_high = high_halves.get(dest)
         high_halves.pop(dest, None)
-        if op == 'lui' and pc in high_relocations:
-            high_halves[dest] = high_relocations[pc]
+        if op == 'lui' and pc in high_relocations and len(args) == 2:
+            try:
+                high = int(args[1], 0)
+            except ValueError:
+                high = None
+            if high is not None:
+                high_halves[dest] = (high_relocations[pc], high)
         value = None
         if op == 'move' and len(args) == 2:
             value = registers.get(args[1])
@@ -524,10 +550,12 @@ def proven_register_bases(disassembly, section, func, aliases, opcodes=None, sta
             except ValueError:
                 amount = None
             symbol = low_relocations.get(pc)
-            if symbol and high_halves.get(args[1]) == symbol:
-                value = (('global', global_symbols.get(symbol, symbol)), 0)
-            elif symbol and dest == args[1] and previous_high == symbol:
-                value = (('global', global_symbols.get(symbol, symbol)), 0)
+            pair = previous_high if dest == args[1] else high_halves.get(args[1])
+            if pc in low_relocations:
+                # %lo(sym): the immediate is the addend. Hold the pair when the
+                # lui carried a high half or the pairing is not unique.
+                if symbol and amount is not None and pair == (symbol, 0):
+                    value = (('global', global_symbols.get(symbol, symbol)), amount)
             elif amount is not None:
                 if dest == args[1] == 'sp':
                     if amount > 0:

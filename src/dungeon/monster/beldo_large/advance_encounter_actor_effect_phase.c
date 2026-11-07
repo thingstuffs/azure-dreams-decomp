@@ -98,7 +98,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
         heading->unk_2A = get_rounded_facing_and_rounding_flag(
             sprite->tile_x, sprite->tile_y,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
-        effect->action_timer.u = (u16)(effect->action_timer.u + 1);
+        effect->action_timer = (u16)(effect->action_timer + 1);
         height = sprite->scale_y;
         height = (u16)(height - 0x14);
         sprite->scale_y = height;
@@ -119,12 +119,12 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
             count += 1;
             shrink_source = NODE_HEADER(effect);
         } while (count < 6);
-        if ((s16)effect->action_timer.u == 1)
+        if ((s16)effect->action_timer == 1)
             play_sound_if_enabled(0xB1);
-        phase_active = ((s16)effect->action_timer.u < 120);
+        phase_active = ((s16)effect->action_timer < 120);
         if (phase_active == 0) {
             effect->action_id = (u8)(effect->action_id + 1);
-            effect->action_timer.u = 0U;
+            effect->action_timer = 0U;
         }
         break;
     }
@@ -146,29 +146,29 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
             count += 1;
             burst_source = NODE_HEADER(effect);
         } while (count < 6);
-        burst_ticks = effect->action_timer.u + 1;
-        effect->action_timer.u = burst_ticks;
+        burst_ticks = effect->action_timer + 1;
+        effect->action_timer = burst_ticks;
         if (!(burst_ticks & 1)) {
             burst_x = (rand() & 0x1F) - 0xF;
             burst_x = (s16)(((s32)burst_x << 16) >> 16);
             burst_y = (s16)((rand() & 0x1F) - 0xF);
             create_offset_half_scale_spark(position, burst_x, burst_y, (s16)((0 - (rand() & 0x1F)) - 0xA));
         }
-        if (!(effect->action_timer.u & 7))
+        if (!(effect->action_timer & 7))
             play_sound_if_enabled(0x817);
-        phase_active = ((s16)effect->action_timer.u < 20);
+        phase_active = ((s16)effect->action_timer < 20);
         if (phase_active == 0) {
             effect->action_id = (u8)(effect->action_id + 1);
-            effect->action_timer.u = 0U;
+            effect->action_timer = 0U;
         }
         break;
     }
     case 2:
-        sustain_ticks = effect->action_timer.u + 1;
-        effect->action_timer.u = sustain_ticks;
+        sustain_ticks = effect->action_timer + 1;
+        effect->action_timer = sustain_ticks;
         if (!(sustain_ticks & 7))
             play_sound_if_enabled(0x817);
-        if (!(effect->action_timer.u & 1)) {
+        if (!(effect->action_timer & 1)) {
             random_bits = rand();
             sustain_x = (random_bits & 0x1F) - 0xF;
             sustain_x = (s16)(((s32)sustain_x << 16) >> 16);
@@ -178,8 +178,8 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
         }
         break;
     case 4:
-        turn_ticks = effect->action_timer.u + 1;
-        effect->action_timer.u = turn_ticks;
+        turn_ticks = effect->action_timer + 1;
+        effect->action_timer = turn_ticks;
         if (((s16)turn_ticks == 3) || ((s16)turn_ticks == 6) || ((s16)turn_ticks == 9) || ((s16)turn_ticks == 0xC)) {
             angle = heading->unk_2A;
             turned_angle = angle - 0x200;
@@ -188,10 +188,10 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
                 angle += 0x1000;
             heading->unk_2A = angle;
         }
-        if ((s16)effect->action_timer.u < 0xE)
+        if ((s16)effect->action_timer < 0xE)
             break;
         turn_phase = effect->action_id;
-        effect->action_timer.u = 0U;
+        effect->action_timer = 0U;
         table_page = (u32)beldo_large_direction_offsets;
         turn_phase = (u8)(turn_phase + 1);
         effect->action_id = turn_phase;
@@ -206,11 +206,11 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
     case 5:
         position->x.v = (s32)(position->x.v + position->velocity_x);
         position->y.v = (s32)(position->y.v + position->velocity_y);
-        move_ticks = effect->action_timer.u + 1;
-        effect->action_timer.u = move_ticks;
+        move_ticks = effect->action_timer + 1;
+        effect->action_timer = move_ticks;
         if ((s16)move_ticks < 6)
             break;
-        effect->action_timer.u = 0U;
+        effect->action_timer = 0U;
         effect->action_id = (u8)(effect->action_id + 1);
         break;
     case 7:

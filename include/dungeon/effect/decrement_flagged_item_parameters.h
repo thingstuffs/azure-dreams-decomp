@@ -16,7 +16,6 @@
 s32 resolve_record_orientation_or_fallback(s32, void *, void *, s32);
 void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
-void register_node(void *, void *);
 void func_8004491C(void *, void *);
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 void func_80047784(void *, u8, s32);

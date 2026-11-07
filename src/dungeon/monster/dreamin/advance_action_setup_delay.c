@@ -40,13 +40,13 @@ void advance_action_setup_delay(ActorRecord *body, ObjectPosition *motion, Sprit
             D_80173894[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         loaded_phase = body->action_phase;
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         body->action_phase = loaded_phase + 1;
         return;
 
     case 1:
-        delay_ticks = body->action_timer.u + 1;
-        body->action_timer.u = delay_ticks;
+        delay_ticks = body->action_timer + 1;
+        body->action_timer = delay_ticks;
         if ((s16)delay_ticks != 10) {
             return;
         }

@@ -76,7 +76,7 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
             create_offset_directional_effect(action, motion, animation);
             play_sound_if_enabled(0x80E);
             action->action_phase++;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
         }
         return;
 
@@ -89,8 +89,8 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
                     motion->velocity_z = 0;
         }
 
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if (((s16)timer == 5) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             play_sound_if_enabled(0x808);

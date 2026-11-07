@@ -56,7 +56,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         step_z = dir_step_y[direction_index >> 1];
         owner_sprite = (u8 *)owner + 0x28;
     }
-    action->action_timer.u--;
+    action->action_timer--;
     switch (action->action_phase) {
     case 0:
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
@@ -145,7 +145,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
             create_source_positioned_object(motion, 3);
             play_sound_if_enabled(0x703);
             state_value = action->action_phase;
-            action->action_timer.u = 6;
+            action->action_timer = 6;
             action->action_phase = state_value + 1;
             return;
         }
@@ -176,11 +176,11 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         action->action_phase++;
 
     case 2:
-        if (action->action_timer.s > 0 &&
+        if ((s16)(action->action_timer) > 0 &&
             !(sprite->flags & 0xE000)) {
             return;
         }
-        action->action_timer.u = 7;
+        action->action_timer = 7;
         action->action_state_flags |= 0x80;
         if (sprite->flags & 0x8000) {
             next_state = 0x10;
@@ -191,15 +191,15 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         return;
 
     case 3:
-        if (action->action_timer.s < 4) {
+        if ((s16)(action->action_timer) < 4) {
             motion->velocity_x = -step_x << 18;
             motion->velocity_y = -step_z << 18;
         }
-        if (action->action_timer.s > 0) {
+        if ((s16)(action->action_timer) > 0) {
             return;
         }
         next_state = 4;
-        action->action_timer.u = next_state;
+        action->action_timer = next_state;
         next_state = 0x10;
         action->action_phase = next_state;
         return;
@@ -218,7 +218,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
             motion->velocity_y = (target_z - current_z) << 14;
         }
         if (!(owner_sprite->flags & 0x8000) &&
-            action->action_timer.s > 0) {
+            (s16)(action->action_timer) > 0) {
             return;
         }
         motion->velocity_z = 0;

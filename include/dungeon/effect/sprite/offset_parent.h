@@ -56,7 +56,6 @@ typedef union Row_818E6F98_WorkOutput {
 int abs(int);
 void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
-void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 get_definition_entry_byte_13(s16 entry_index);

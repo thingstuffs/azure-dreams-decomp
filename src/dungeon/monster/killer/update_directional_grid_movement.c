@@ -37,7 +37,7 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
             return;
         }
         if (entity->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -46,7 +46,7 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
         } else {
             timer = -1;
         }
-        action->action_timer.s = timer;
+        action->action_timer = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -63,12 +63,12 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
             motion->velocity_y +=
                 *(s16 *)(y_table + table_offset) << 14;
         }
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (entity->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (source->hp == 0) {
@@ -78,24 +78,24 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
             begin_actor_display_action(action, motion, entity, &D_80174068);
             return;
         }
-        action->action_timer.s = 8;
+        action->action_timer = 8;
         action->action_phase++;
         return;
 
     case 2:
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             target_x = entity->tile_x << 6;
             current_x = motion->x.w.i - 0x20;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_x =
                 ((target_x - current_x) << 15) /
-                action->action_timer.s;
+                (s16)(action->action_timer);
             motion->velocity_y =
                 (((entity->tile_y << 6) - current_y) << 15) /
-                action->action_timer.s;
+                (s16)(action->action_timer);
         }
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

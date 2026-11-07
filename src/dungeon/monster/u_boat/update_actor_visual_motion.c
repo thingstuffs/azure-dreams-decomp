@@ -88,10 +88,10 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
 
     if (!((*(u32 *)((u8 *)body + (0x1C))) & 0x40000) &&
         !(body->action_state_flags & 8)) {
-        motion_arg->velocity_z += body->unk_9D.s * 0x14000;
-        body->unk_9D.u++;
+        motion_arg->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        body->unk_9D++;
     } else {
-        body->unk_9D.u = 0;
+        body->unk_9D = 0;
     }
     body->unk_90.value += motion_arg->velocity_z;
     part_flags = sprite->flags;
@@ -133,7 +133,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
                 *(unsigned char **)&sprite->frameTable == uboat_default_frames) {
                 s32 bob_signed;
 
-                bob_step = body->unk_9E.u++;
+                bob_step = body->unk_9E++;
                 bob_signed = (s32)bob_step << 16;
                 bob_signed >>= 16;
                 bob_phase = bob_signed * 0x55;
@@ -153,7 +153,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
             }
         } else {
             s32 bob_offset = body->unk_A0.value;
-            body->unk_9E.u = 0;
+            body->unk_9E = 0;
             body->unk_A0.value = 0;
             body->unk_90.value -= bob_offset;
             if (!(body->action_state_flags & 8)) {
@@ -163,7 +163,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
                         ((u16)base->ground_height);
                 if (ground_height < body->unk_90.parts.high.s) {
                     body->unk_90.parts.high.s = ground_height;
-                    body->unk_9D.u = 0;
+                    body->unk_9D = 0;
                     motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
                 }
@@ -181,7 +181,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
         base->flags1C = special_flags;
         if (!(special_flags & 0x40000)) {
             s32 bob_offset = body->unk_A0.value;
-            body->unk_9E.u = 0;
+            body->unk_9E = 0;
             body->unk_A0.value = 0;
             body->unk_90.value -= bob_offset;
             if (!(body->action_state_flags & 8)) {
@@ -191,7 +191,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
                         ((u16)base->ground_height);
                 if (ground_height < body->unk_90.parts.high.s) {
                     body->unk_90.parts.high.s = ground_height;
-                    body->unk_9D.u = 0;
+                    body->unk_9D = 0;
                     motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
                 }
@@ -201,7 +201,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
                 *(unsigned char **)&sprite->frameTable == uboat_default_frames) {
                 s32 bob_signed;
 
-                bob_step = body->unk_9E.u++;
+                bob_step = body->unk_9E++;
                 bob_signed = (s32)bob_step << 16;
                 bob_signed >>= 16;
                 bob_phase = bob_signed * 0x55;

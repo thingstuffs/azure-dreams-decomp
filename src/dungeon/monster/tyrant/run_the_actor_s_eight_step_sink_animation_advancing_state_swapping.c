@@ -30,7 +30,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
     s32 timer;
 
     state = work->action_phase;
-    work->action_timer.u = (u16) (work->action_timer.u - 1);
+    work->action_timer = (u16) (work->action_timer - 1);
     switch (state) {
     case 0:
     case 4:
@@ -49,14 +49,14 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
         part_a->velocity_z = 0xFFF00000;
         actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         work->unk_A0.value = 0;
-        work->action_timer.u = 10;
+        work->action_timer = 10;
         work->action_phase++;
         return;
     case 1:
     case 5:
         accum = work->unk_90.value;
         value = work->unk_A0.value;
-        timer = work->action_timer.s;
+        timer = (s16)(work->action_timer);
         work->unk_90.value = accum - value;
         if (timer != 0) {
             accum = value;
@@ -66,7 +66,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
         }
         accum = work->unk_90.value;
         value = work->unk_A0.value;
-        timer = work->action_timer.s;
+        timer = (s16)(work->action_timer);
         work->unk_90.value = accum + value;
         if (timer > 0) {
             return;

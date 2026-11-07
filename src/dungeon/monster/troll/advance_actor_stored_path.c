@@ -113,14 +113,14 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
     }
     (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C) |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        movement->action_timer.s = 0;
+        movement->action_timer = 0;
         return;
     }
 
-    movement->action_timer.s = 8;
+    movement->action_timer = 8;
     x = ((T_80172CC0_S_80172CC0_0 *)state)->unk_71.u;
     if (x > 0) {
-        movement->action_timer.s = 8 / x;
+        movement->action_timer = 8 / x;
     }
 }
 

@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -15,7 +16,6 @@ typedef struct {
 } D_80083460_t;
 
 
-extern void unlink_entity_node(struct EntityLinkNode *node);
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
 
@@ -42,15 +42,15 @@ s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position,
         ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
         position->velocity_z -= 0x10000;
 
-        ticks_left = animation->action_timer.u - 1;
-        animation->action_timer.u = ticks_left;
+        ticks_left = animation->action_timer - 1;
+        animation->action_timer = ticks_left;
         if ((s16)ticks_left > 0) {
             return 0;
         }
 
         position->velocity_z = 0;
         set_record_integer_tile_center(position, tile->tile_x, tile->tile_y);
-        animation->action_timer.u = 0x10;
+        animation->action_timer = 0x10;
 
         if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -65,14 +65,14 @@ s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position,
                 -0x400);
             animation->action_state_flags &= 0xFFF7;
             ((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v &= 0xFFFEFFFF;
-            animation->action_timer.u = 0x10;
+            animation->action_timer = 0x10;
             animation->action_phase++;
         }
         break;
     case 2:
         ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
-        ticks_left = animation->action_timer.u - 1;
-        animation->action_timer.u = ticks_left;
+        ticks_left = animation->action_timer - 1;
+        animation->action_timer = ticks_left;
         if ((s16)ticks_left > 0) {
             return 0;
         }

@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -18,7 +19,6 @@ typedef struct S_800B2FAC_0 {
 } S_800B2FAC_0;   /* arg2 in update_flagged_target_tile */
 
 struct EntityLinkNode;
-void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 s32 distribute_experience_awards();                      /* extern */
 

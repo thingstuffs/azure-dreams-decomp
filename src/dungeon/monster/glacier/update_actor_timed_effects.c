@@ -118,7 +118,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
                     state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)stats)->facing + 0x100) >> 9) & 7],
                     0);
             }
-            ((ActorRecord *)actor)->unk_9E.s = 0;
+            ((ActorRecord *)actor)->unk_9E = 0;
             ((ActorRecord *)actor)->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
             ((ActorRecord *)actor)->action_id = state;
         }
@@ -265,15 +265,15 @@ ordinary_cleanup:
                 select_sprite_entry(sprite,
                     main_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)stats)->facing + 0x100) >> 9) & 7],
                     0);
-                ((ActorRecord *)actor)->unk_9E.s = 0;
+                ((ActorRecord *)actor)->unk_9E = 0;
                 ((ActorRecord *)actor)->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
             }
         }
 
         if (sprite->frameTable == main_table) {
-            s16 idle_timer = ((ActorRecord *)actor)->unk_9E.u;
+            s16 idle_timer = ((ActorRecord *)actor)->unk_9E;
 
-            ((ActorRecord *)actor)->unk_9E.u = idle_timer + 1;
+            ((ActorRecord *)actor)->unk_9E = idle_timer + 1;
             if (idle_timer >= ((s16)((ActorRecord *)actor)->unk_A0.parts.low)) {
                 ObjectNodeHeader *object;
                 GlacierProjectedDepthBody *object_data;
@@ -327,7 +327,7 @@ ordinary_cleanup:
         select_sprite_entry(sprite,
             state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)stats)->facing + 0x100) >> 9) & 7],
             0);
-        ((ActorRecord *)actor)->unk_9E.s = 0;
+        ((ActorRecord *)actor)->unk_9E = 0;
         ((ActorRecord *)actor)->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
     }
 }

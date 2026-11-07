@@ -128,7 +128,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
             if (create_actor_spell_effect(actor, ability, use_player, ((void *)body) + 0x98) == 0) {
                 return;
             }
-            body->action_timer.u = 0x13U;
+            body->action_timer = 0x13U;
             body->action_phase = (u8) (body->action_phase + 1);
             return;
         } else {
@@ -156,16 +156,16 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
         body->action_phase = (u8) (body->action_phase + 1);
         play_sound_if_enabled(0x703);
     case 2:
-        effect_ticks = body->action_timer.u - 1;
-        body->action_timer.u = effect_ticks;
+        effect_ticks = body->action_timer - 1;
+        body->action_timer = effect_ticks;
         if ((effect_ticks << 0x10) <= 0 || (sprite->flags & 0xE000)) {
             body->action_state_flags = (u16) (body->action_state_flags | 0x80);
             body->action_phase = (u8) (body->action_phase + 1);
             sprite->flags = (u16) (sprite->flags
                 | 0x800);
-            body->action_timer.u = 0xFU;
+            body->action_timer = 0xFU;
         }
-        if ((u32) (body->action_timer.u - 9) >= 6U) {
+        if ((u32) (body->action_timer - 9) >= 6U) {
             return;
         }
         effect_count = 0;
@@ -177,12 +177,12 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
         return;
     case 3:
         if ((g_dungeon_status.active_actor) == 0) {
-            body->action_timer.u = 0U;
+            body->action_timer = 0U;
         }
-        finish_ticks = body->action_timer.u - 1;
-        body->action_timer.u = finish_ticks;
+        finish_ticks = body->action_timer - 1;
+        body->action_timer = finish_ticks;
         if ((finish_ticks << 0x10) <= 0) {
-            body->action_timer.u = 0U;
+            body->action_timer = 0U;
             sprite->flags =
                 (u16) (sprite->flags & 0xF7FF);
         }

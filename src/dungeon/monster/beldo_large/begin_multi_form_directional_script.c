@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sys_flags.h"
@@ -22,7 +23,6 @@ typedef struct {
     u16 counter;      /* 0x0A */
 } DungeonCounters;
 
-extern void unlink_entity_node(void *);
 extern void func_80164BA4(void *);
 
 extern u8 D_80173C8C[];

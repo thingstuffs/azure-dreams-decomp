@@ -103,10 +103,10 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
     position->y.v += position->velocity_y;
 
     if (body->action_state_flags & 8) {
-        body->unk_9D.u = 0;
+        body->unk_9D = 0;
     } else {
-        position->velocity_z += body->unk_9D.s * 0x14000;
-        body->unk_9D.u++;
+        position->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        body->unk_9D++;
     }
 
     body->unk_90.value += position->velocity_z;
@@ -127,7 +127,7 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
                 }
 
                 position->velocity_z = 0;
-                body->unk_9D.u = 0;
+                body->unk_9D = 0;
                 actor->flags1C |= 0x08000000;
             }
 

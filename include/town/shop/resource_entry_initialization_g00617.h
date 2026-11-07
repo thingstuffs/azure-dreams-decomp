@@ -14,7 +14,6 @@ typedef struct S_800B2964_0 {
 
 /* extern */
 
-void *create_callback_pair_default();
 /* extern */
 
 struct UA32;

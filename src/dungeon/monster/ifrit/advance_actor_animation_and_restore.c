@@ -23,7 +23,7 @@ void advance_actor_animation_and_restore(ActorRecord *action, ObjectPosition *ac
     s32 state;
 
     state = action->action_phase;
-    action->action_timer.u--;
+    action->action_timer--;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {

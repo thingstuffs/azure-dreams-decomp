@@ -24,12 +24,12 @@ void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, Objec
     case 0:
         animation->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        animation->unk_9E.s = 5;
+        animation->unk_9E = 5;
         animation->unk_A0.value = 0;
         animation->action_phase++;
                         /* fall through */
     case 1:
-        arc_ticks = animation->unk_9E.s;
+        arc_ticks = (s16)(animation->unk_9E);
         animation->unk_90.value -= animation->unk_A0.value;
         if (arc_ticks != 0) {
             target_x = tile->tile_x;
@@ -44,18 +44,18 @@ void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, Objec
             world_y -= 0x20;
             motion->velocity_y =
                 (((tile->tile_y << 6) - world_y) << 16) /
-                animation->unk_9E.s;
+                (s16)(animation->unk_9E);
 
             animation->unk_A0.value =
-                (-rsin(animation->unk_9E.s * 0x199)) << 10;
+                (-rsin((s16)(animation->unk_9E) * 0x199)) << 10;
         }
 
         height = animation->unk_90.value;
         arc_offset = animation->unk_A0.value;
-        next_arc_ticks = animation->unk_9E.u;
+        next_arc_ticks = animation->unk_9E;
         height += arc_offset;
         next_arc_ticks -= 1;
-        animation->unk_9E.u = next_arc_ticks;
+        animation->unk_9E = next_arc_ticks;
         animation->unk_90.value = height;
         if ((next_arc_ticks << 16) < 0) {
             animation->unk_90.value = 0;
@@ -78,8 +78,8 @@ void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, Objec
         break;
     }
 
-    ticks_left = animation->action_timer.u - 1;
-    animation->action_timer.u = ticks_left;
+    ticks_left = animation->action_timer - 1;
+    animation->action_timer = ticks_left;
     if ((ticks_left << 16) > 0) {
         return;
     }

@@ -98,18 +98,18 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
     (movement->flags1C) |= ACTOR_REFRESH_GROUND;
 
     if (g_dungeon_status.flags & 0x80) {
-        actor->action_timer.s = 0;
+        actor->action_timer = 0;
         return;
     }
 
     if (actor->unk_B0.bytes[0] != 0) {
-        actor->action_timer.s = 0x10;
+        actor->action_timer = 0x10;
     } else {
-        actor->action_timer.s = 8;
+        actor->action_timer = 8;
     }
     step_count = movement->movement_queue_state;
     if (step_count > 0) {
-        actor->action_timer.s =
-            actor->action_timer.s / step_count;
+        actor->action_timer =
+            (s16)(actor->action_timer) / step_count;
     }
 }

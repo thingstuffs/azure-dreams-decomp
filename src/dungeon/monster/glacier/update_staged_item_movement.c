@@ -20,7 +20,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        action->action_timer.u = 4;
+        action->action_timer = 4;
         action->action_phase++;
         if (actor->hp == 0) {
             motion->velocity_z = 0;
@@ -32,13 +32,13 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
         if (!(target->flags & 0x8000)) {
             return;
         }
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase = 3;
         return;
 
     case 1:
-        timer = action->action_timer.u - 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if (timer > 0) {
             motion->velocity_x =
                 dir_step_x[(actor->movement_facing >> 9) & 7] << 19;
@@ -53,7 +53,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
             dir_step_x[(actor->movement_facing >> 9) & 7] << 18;
         motion->velocity_y =
             dir_step_y[(actor->movement_facing >> 9) & 7] << 18;
-        action->action_timer.u = 12;
+        action->action_timer = 12;
         action->action_phase++;
         return;
 
@@ -66,7 +66,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
             return;
         }
         {
-            s16 motion_timer = action->action_timer.s;
+            s16 motion_timer = (action->action_timer);
 
             if (motion_timer != 0) {
                 {
@@ -81,14 +81,14 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
                     s32 current_y = motion->y.w.i - 0x20;
 
                     motion->velocity_y = ((target_y - current_y) << 16)
-                    / action->action_timer.s;
+                    / (s16)(action->action_timer);
                 }
             }
         }
         {
-            u16 countdown = action->action_timer.u;
+            u16 countdown = action->action_timer;
 
-            action->action_timer.u = countdown - 1;
+            action->action_timer = countdown - 1;
             if ((countdown << 16) > 0) {
                 return;
             }

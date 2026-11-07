@@ -21,7 +21,6 @@ typedef struct {
 extern TownRecord D_800D1178;
 extern TownRecord D_800D119C;
 
-extern void transform_and_queue_mesh_quads();
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 

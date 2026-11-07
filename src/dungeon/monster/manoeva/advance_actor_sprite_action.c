@@ -49,15 +49,15 @@ void advance_actor_sprite_action(ActorRecord *action, ObjectPosition *motion, Sp
                 D_80176600[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             create_action_sprite_effect(NODE_HEADER(action));
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
             play_sound_if_enabled(0x804);
             return;
         }
         break;
     case 2:
-        frame_count = action->action_timer.u + 1;
-        action->action_timer.u = frame_count;
+        frame_count = action->action_timer + 1;
+        action->action_timer = frame_count;
 
         if ((s16)frame_count == state ||
             (sprite->flags & 0x8000)) {

@@ -54,13 +54,13 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
         sprite->scale_y = 0x1000;
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->unk_9E.s = 5;
+        action->unk_9E = 5;
         action->unk_A4.value = 0;
         action->action_phase++;
     }
                         /* fall through */
     case 1:
-        move_frames = action->unk_9E.s;
+        move_frames = (s16)(action->unk_9E);
         action->unk_90.value -= action->unk_A4.value;
         if (move_frames != 0) {
             target_x = sprite->tile_x;
@@ -73,18 +73,18 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
             world_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - world_y) << 16) /
-                action->unk_9E.s;
+                (s16)(action->unk_9E);
 
             action->unk_A4.value =
-                (-rsin(action->unk_9E.s * 0x199)) << 10;
+                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
         }
 
         height = action->unk_90.value;
         height_offset = action->unk_A4.value;
-        move_count = action->unk_9E.u;
+        move_count = action->unk_9E;
         height += height_offset;
         move_count -= 1;
-        action->unk_9E.u = move_count;
+        action->unk_9E = move_count;
         action->unk_90.value = height;
         if ((move_count << 16) < 0) {
             action->unk_90.value = 0;
@@ -127,8 +127,8 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
         break;
     }
 
-    action_timer = action->action_timer.u - 1;
-    action->action_timer.u = action_timer;
+    action_timer = action->action_timer - 1;
+    action->action_timer = action_timer;
     if ((action_timer << 16) > 0) {
         return;
     }

@@ -622,7 +622,6 @@ void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
@@ -633,7 +632,6 @@ s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 struct Ent *prepare_directional_attack();
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"
 struct Entry;
@@ -647,7 +645,6 @@ s32 resolve_record_orientation_or_fallback();
 s32 get_cd_command_queue_depth(void);
 void create_two_row_object_group(void *payload, s16 value_scale);
 void unlink_entity_node();
-void * detach_record_and_update_slot_state(void *record);
 s32 update_actor_hop_and_shrink(void *animation, struct ObjectPosition *motion, SpriteFrameState *scale, void *render);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);

@@ -35,4 +35,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
 
 void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
+#include "shared/dungeon_moving_views.h"
+void update_effect_fade_and_history(void *effect, MovingPosition *position, SpriteFrameState *primitive);
+
 #endif

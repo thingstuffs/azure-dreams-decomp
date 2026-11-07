@@ -221,6 +221,54 @@ class AccessCensusTests(unittest.TestCase):
                                       global_symbols={'D_80083460': 'g_dungeon_status'})
         self.assertEqual(join([site], ops, proven_bases=bases)[0]['opcode'], 'lbu')
 
+    ADDEND = '''Disassembly of section .text.f:
+   0: 3c020000 lui v0,0x0
+      0: R_MIPS_HI16 D_80083460
+   4: 24480020 addiu t0,v0,32
+      4: R_MIPS_LO16 D_80083460
+/tmp/src/a.c:5
+   8: 91020002 lbu v0,2(t0)
+'''
+
+    def addend_join(self, dis, offset):
+        site = dict(self.site(5, offset, 1, 'u'), node='g:g_dungeon_status')
+        ops = instructions(dis)['.text.f']
+        bases = proven_register_bases(dis, '.text.f', {'sites': [site]}, {}, ops,
+                                      global_symbols={'D_80083460': 'g_dungeon_status'})
+        return bases, join([site], ops, proven_bases=bases)[0]
+
+    def test_hi_lo_addiu_immediate_is_the_lo16_addend(self):
+        # objdump prints no '+addend' for these REL objects: the LO16 addend
+        # is the addiu immediate, so lbu 2(t0) reads global+34, not global+2.
+        bases, row = self.addend_join(self.ADDEND, 34)
+        self.assertEqual(bases[8], (('global', 'g_dungeon_status'), 32))
+        self.assertEqual((row['status'], row['opcode']), ('mapped', 'lbu'))
+        self.assertEqual(self.addend_join(self.ADDEND, 2)[1]['status'], 'unmapped')
+        same = self.ADDEND.replace('addiu t0,v0,32', 'addiu v0,v0,32').replace('lbu v0,2(t0)', 'lbu v0,2(v0)')
+        self.assertEqual(self.addend_join(same, 34)[0][8], (('global', 'g_dungeon_status'), 32))
+
+    def test_hi_lo_addiu_held_on_high_half_or_ambiguous_pairing(self):
+        high = self.ADDEND.replace('3c020000 lui v0,0x0', '3c020001 lui v0,0x1')
+        bases, row = self.addend_join(high, 34)
+        self.assertNotIn(8, bases)
+        self.assertEqual(row['status'], 'unmapped')
+        self.assertEqual(self.addend_join(high, 0x10022)[1]['status'], 'unmapped')
+        twice = self.ADDEND.replace('      4: R_MIPS_LO16 D_80083460\n',
+                                    '      4: R_MIPS_LO16 D_80083460\n      4: R_MIPS_LO16 D_80083460\n')
+        bases, row = self.addend_join(twice, 34)
+        self.assertNotIn(8, bases)
+        self.assertEqual(row['status'], 'unmapped')
+        direct = '''Disassembly of section .text.f:
+   0: 3c020001 lui v0,0x1
+      0: R_MIPS_HI16 D_80083460
+/tmp/src/a.c:5
+   4: 90430022 lbu v1,34(v0)
+      4: R_MIPS_LO16 D_80083460
+'''
+        self.assertEqual(self.addend_join(direct, 34)[1]['status'], 'unmapped')
+        self.assertEqual(self.addend_join(direct.replace('lui v0,0x1', 'lui v0,0x0'), 34)[1]['status'],
+                         'mapped')
+
     def test_global_half_address_does_not_cross_branch_or_overwrite(self):
         site = self.site(5, 2, 2, 'u')
         site['node'] = 'g:g_dungeon_status'

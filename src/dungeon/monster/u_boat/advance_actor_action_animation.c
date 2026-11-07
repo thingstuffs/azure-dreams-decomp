@@ -72,7 +72,7 @@ void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_i
             value_before_reset = action->unk_90.parts.high.u;
             reset_offset = action->unk_A0.parts.high;
             action->unk_A0.parts.high = 0;
-            action->unk_9E.s = 0;
+            action->unk_9E = 0;
             action->unk_90.parts.high.u = value_before_reset - reset_offset;
             update_actor_action_transition(action, actor_index, sprite, actor);
             return;

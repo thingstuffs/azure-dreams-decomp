@@ -2,6 +2,7 @@
 #define TOWN_SCENE_POSITION_ENTRIES_H
 
 #include "common.h"
+#include "town/scene/motion.h"
 
 typedef struct ScenePositionEntry {
     s16 id;
@@ -10,7 +11,6 @@ typedef struct ScenePositionEntry {
 } ScenePositionEntry;
 
 s32 find_entry_8_index_or_assert(void *entries, s32 entry_id);
-s32 apply_entry_position(ScenePositionEntry *entries, void *object, void *context, s32 selection);
 /* Placed entry points for apply_entry_position. */
 s32 func_80018044(ScenePositionEntry *entries, void *object, void *context, s32 selection);
 s32 func_800181C8(ScenePositionEntry *entries, void *object, void *context, s32 selection);

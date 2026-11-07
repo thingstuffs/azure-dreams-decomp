@@ -31,19 +31,19 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase++;
         if (!(sprite->flags & 0x8000)) {
             return;
         }
 
     case 1:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if ((timer != 4) && !(sprite->flags & 0x8000)) {
             return;
         }
-        action->action_timer.u = 0;
+        action->action_timer = 0;
         action->action_phase++;
         switch (entity->unk_48) {
         case 13:
@@ -71,14 +71,14 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
         }
 
     case 2:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if ((timer == 5) || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity, sprite, entity->facing, 1);
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase++;
         }
-        if (action->action_timer.s == 3) {
+        if ((s16)(action->action_timer) == 3) {
             play_sound_if_enabled(0x804);
             return;
         }
@@ -95,23 +95,23 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
         return;
 
     case 5:
-        timer = action->action_timer.u + 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
         if ((timer == 10) || (sprite->flags & 0x8000)) {
             sprite->flags |= 0x0800;
             play_sound_if_enabled(0x804);
             create_targeted_motion_effect(action, motion, sprite, entity);
             create_actor_action_effect(action, motion, sprite, entity);
         }
-        if ((action->action_timer.s == 12) ||
+        if (((s16)(action->action_timer) == 12) ||
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity, sprite, entity->facing,
                 action->unk_AA);
         }
-        if ((action->action_timer.s == 20) ||
+        if (((s16)(action->action_timer) == 20) ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             action->action_phase = 3;
         }
     case 4:

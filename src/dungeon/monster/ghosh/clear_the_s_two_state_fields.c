@@ -12,5 +12,5 @@ void clear_the_s_two_state_fields(void) {
     body = ghosh_scripted_actor + 1;
     state = body;
     state->action_id = 0;
-    state->action_timer.s = 0;
+    state->action_timer = 0;
 }

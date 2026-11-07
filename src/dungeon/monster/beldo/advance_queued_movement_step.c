@@ -33,7 +33,7 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
             0);
         sprite->frame_ticks = 1;
         motion->unk_A0.parts.high = 0;
-        motion->unk_9E.s = 0;
+        motion->unk_9E = 0;
     }
 
     if (sprite->tile_x == path->path_x[path->unk_8A] &&
@@ -69,13 +69,13 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
     path->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {
-        motion->action_timer.s = 0;
+        motion->action_timer = 0;
         return;
     }
 
-    motion->action_timer.s = 8;
+    motion->action_timer = 8;
     step_count = path->movement_queue_state;
     if (step_count > 0) {
-        motion->action_timer.s = 8 / step_count;
+        motion->action_timer = 8 / step_count;
     }
 }

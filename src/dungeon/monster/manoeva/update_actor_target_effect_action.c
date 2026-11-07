@@ -89,21 +89,21 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
         }
         body->action_phase = body->action_phase + 1;
         if (sprite->flags & 0x8000) {
-            body->action_timer.u = 0;
+            body->action_timer = 0;
             return;
         }
-        body->action_timer.u = 0x10;
+        body->action_timer = 0x10;
         return;
 
     case 1:
-        if (!(body->action_timer.u & 3)) {
+        if (!(body->action_timer & 3)) {
             if (!(sprite->flags & 0x8000)) {
                 spawn_offset_motion_object(body, context, sprite, 0);
                 spawn_offset_motion_object(body, context, sprite, 1);
             }
         }
-        ticks_left = body->action_timer.u - 1;
-        body->action_timer.u = ticks_left;
+        ticks_left = body->action_timer - 1;
+        body->action_timer = ticks_left;
         if ((s16)ticks_left > 0) {
             return;
         }

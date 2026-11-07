@@ -120,8 +120,8 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
     {
         u16 action_ticks;
 
-        action_ticks = action->action_timer.u - 1;
-        action->action_timer.u = action_ticks;
+        action_ticks = action->action_timer - 1;
+        action->action_timer = action_ticks;
         if ((action_ticks << 16) > 0) {
             return;
         }

@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -11,7 +12,6 @@ struct EntityLinkNode;
 
 
 
-void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s16 sample_terrain_surface_height();
 
@@ -88,17 +88,17 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         if (!(sprite->flags & 0x6000)) {
             return;
         }
-        state->action_timer.u = 0x80U;
+        state->action_timer = 0x80U;
         state->action_phase = state->action_phase + 1;
         return;
     case 4:
         ((ActorRecord *)entity)->flags1C |= 0x10000000;
-        brightness = (u8)state->action_timer.u;
+        brightness = (u8)state->action_timer;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;
         sprite->color.c.r = brightness;
-        next_brightness = state->action_timer.u - 0x18;
-        state->action_timer.u = next_brightness;
+        next_brightness = state->action_timer - 0x18;
+        state->action_timer = next_brightness;
         if ((s16)next_brightness >= 0x18) {
             return;
         }

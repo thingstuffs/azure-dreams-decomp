@@ -11,6 +11,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/dreamin.h"
 
 extern u8 dreamin_action_continuation_address[];
 extern u8 D_80173884[];
@@ -95,8 +96,8 @@ void complete_airborne_actor_recovery(ActorRecord *body, ObjectPosition *motion,
         }
     }
 
-    remaining_ticks = body->action_timer.u - 1;
-    body->action_timer.u = remaining_ticks;
+    remaining_ticks = body->action_timer - 1;
+    body->action_timer = remaining_ticks;
     if ((remaining_ticks << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;

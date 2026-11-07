@@ -151,13 +151,13 @@ void advance_actor_motion_and_reset_action(ActorRecord *action_state, ObjectPosi
         if ((sprite->unk_04 == 5 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            action_state->action_timer.u = 0x20;
+            action_state->action_timer = 0x20;
             action_state->action_state_flags |= 0x80;
         }
-        wait_frames = action_state->action_timer.u - 1;
-        action_state->action_timer.u = wait_frames;
+        wait_frames = action_state->action_timer - 1;
+        action_state->action_timer = wait_frames;
         if ((s16)wait_frames <= 0) {
-            action_state->action_timer.u = 0;
+            action_state->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {

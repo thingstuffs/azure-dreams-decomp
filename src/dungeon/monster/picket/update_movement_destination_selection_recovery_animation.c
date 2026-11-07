@@ -67,13 +67,13 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
             picket_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         motion->velocity_x = (x_step << 19) + (x_step << 18);
         motion->velocity_y = (y_step << 19) + (y_step << 18);
-        state->action_timer.u = 4;
+        state->action_timer = 4;
         play_sound_if_enabled(0x80E);
         state->action_phase++;
     case 1:
         if (!(sprite->flags & 0x8000)) {
-            state->action_timer.u--;
-            if (state->action_timer.s > 0) {
+            state->action_timer--;
+            if ((s16)(state->action_timer) > 0) {
                 return;
             }
         }
@@ -84,7 +84,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
         select_sprite_entry(sprite,
             picket_frame_set_8[((*(s16 *)(((u8 *)(&reference_tile_object)) + 0x3A8) +
                 actor->facing + 0x100) >> 9) & 7], 0);
-        state->action_timer.u = 0;
+        state->action_timer = 0;
         motion->velocity_x = (-x_step) << 18;
         motion->velocity_y = (-y_step) << 18;
         state->action_phase++;
@@ -100,7 +100,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
         select_sprite_entry(sprite,
             picket_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
-            state->action_timer.u = 7;
+            state->action_timer = 7;
             state->action_phase = 5;
             return;
         }
@@ -133,7 +133,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
         attempts_left = 0x40;
         world = &reference_tile_object;
         level = floor_generation_state;
-        state->action_timer.u = 0;
+        state->action_timer = 0;
         x_step = sprite->tile_x;
         y_step = sprite->tile_y;
 
@@ -164,14 +164,14 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
 
     case 5:
         {
-            sprite->scale_x = D_80174FC4[state->action_timer.s];
-            sprite->scale_y = D_80174FD4[state->action_timer.s];
-            if (state->action_timer.s == 4) {
+            sprite->scale_x = D_80174FC4[(s16)(state->action_timer)];
+            sprite->scale_y = D_80174FD4[(s16)(state->action_timer)];
+            if ((s16)(state->action_timer) == 4) {
                 play_sound_if_enabled(0x705);
             }
             if (!(sprite->flags & 0x8000)) {
-                state->action_timer.u++;
-                if (state->action_timer.s < 8) {
+                state->action_timer++;
+                if ((s16)(state->action_timer) < 8) {
                     return;
                 }
             }

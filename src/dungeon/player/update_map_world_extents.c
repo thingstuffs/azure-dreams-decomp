@@ -184,13 +184,13 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
             display_text_with_fullwidth_adjustment(text_root);
         }
 
-        body->action_timer.u = 0x1E;
+        body->action_timer = 0x1E;
         body->action_phase = body->action_phase + 1;
         return;
     case PLAYER_ITEM_COMPLETE:
         if ((sprite->flags & 0x8000) ||
-            (timer = body->action_timer.u - 1,
-             body->action_timer.u = timer,
+            (timer = body->action_timer - 1,
+             body->action_timer = timer,
              (s32)(timer << 16) <= 0)) {
             if (((S_800927E4_0 *)body)->unk_110 != 0) {
                 begin_deferred_player_item_effect(body, actor_id, sprite, actor);

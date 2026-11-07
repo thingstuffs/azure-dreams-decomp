@@ -27,6 +27,10 @@ at `entry_sp+16`, until a branch, call, or store revokes the slot proof.
 Global pointer loads require a matching `R_MIPS_GPREL16` symbol relocation.
 Direct global-object bases can also be proven by one matching `R_MIPS_HI16`
 and `R_MIPS_LO16` pair on a `lui` plus a memory instruction or `addiu`.
+The objects use REL relocations, so the LO16 addend is the instruction's own
+immediate: `addiu rt,rs,%lo(sym)` gives the global plus that immediate, and a
+memory access adds its displacement as usual. A pair is held when the `lui`
+immediate is non-zero or either instruction carries more than one relocation.
 Unique aliases in `config/names.tsv` connect old relocation symbols to source
 names. Pairs split by control flow remain held.
 Branch targets, calls, unknown writes, and overwritten stack slots revoke

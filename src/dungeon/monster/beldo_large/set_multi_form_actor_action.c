@@ -12,5 +12,5 @@ void set_multi_form_actor_action(s8 state_id) {
     state = beldo_actor_nodes[0] + 0x20;
     state->action_id = state_id;
     state->action_phase = 0;
-    state->action_timer.s = 0;
+    state->action_timer = 0;
 }

@@ -158,13 +158,13 @@ void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPositi
         if ((sprite->unk_04 == 5 && (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            motion_state->action_timer.u = 0x20;
+            motion_state->action_timer = 0x20;
             motion_state->action_state_flags |= 0x80;
         }
-        recovery_ticks = motion_state->action_timer.u - 1;
-        motion_state->action_timer.u = recovery_ticks;
+        recovery_ticks = motion_state->action_timer - 1;
+        motion_state->action_timer = recovery_ticks;
         if ((s16)recovery_ticks <= 0) {
-            motion_state->action_timer.u = 0;
+            motion_state->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {

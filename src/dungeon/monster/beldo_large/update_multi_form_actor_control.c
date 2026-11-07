@@ -198,7 +198,7 @@ block_37:
                     break;
                 }
                 actor->action_id = 0xEU;
-                actor->unk_9E.u = 0U;
+                actor->unk_9E = 0U;
                 actor->unk_A0.parts.low = (s16) ((rand() & 0x1F) + 0xF);
             }
         }

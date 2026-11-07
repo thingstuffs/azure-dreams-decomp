@@ -94,33 +94,33 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
 
             next_state = state_input->action_phase;
             state = 0x1E;
-            state_input->action_timer.u = state;
+            state_input->action_timer = state;
         }
         state_input->action_phase = next_state + 1;
         return;
     case 1:
         effect_data = actor_input->target;
         if (effect_data != 0) {
-            timer = ((s16)state_input->action_timer.u);
+            timer = ((s16)state_input->action_timer);
             if (timer >= 0x12) {
                 effect_object = (ObjectNodeHeader *)((u8 *)(long)effect_data - 0x20);
                 if (timer < 0x17) {
                     effect_object->sprite->scale_x = effect_values_1c.value[timer - 0x12];
-                    effect_object->sprite->scale_y = effect_values_1e.value[((s16)state_input->action_timer.u)
+                    effect_object->sprite->scale_y = effect_values_1e.value[((s16)state_input->action_timer)
                         - 0x12];
                 }
             }
         }
 
-        if (((s16)state_input->action_timer.u) == 0x14) {
+        if (((s16)state_input->action_timer) == 0x14) {
             effect_data = actor_input->target;
             if (effect_data != 0) {
                 func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
             }
         }
 
-        timer = state_input->action_timer.u - 1;
-        state_input->action_timer.u = timer;
+        timer = state_input->action_timer - 1;
+        state_input->action_timer = timer;
         if (timer > 0) {
             return;
         }

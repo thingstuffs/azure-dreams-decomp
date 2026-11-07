@@ -1,3 +1,4 @@
+#include "dungeon/level/unlink_entity_node_api.h"
 #include "shared/monster_ids.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
@@ -21,7 +22,6 @@ struct EntityLinkNode;
 
 s16 find_matching_initial_stat_slot(); /* Unprototyped: retail call passes more arguments than the callee reads */
 void copy_entity_record();
-void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 typedef struct {
     u8 pad_00[0x10];

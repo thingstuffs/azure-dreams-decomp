@@ -495,15 +495,15 @@ void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, Spr
     body->unk_8C.word = 0;
     state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        body->action_timer.s = 0;
+        body->action_timer = 0;
         return;
     }
 
-    body->action_timer.s = 8;
+    body->action_timer = 8;
     {
         s32 step_count = state->movement_queue_state;
         if (step_count > 0) {
-            body->action_timer.s = 8 / step_count;
+            body->action_timer = 8 / step_count;
         }
     }
 }
@@ -907,7 +907,7 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
         jump->action_phase++;
 
     case 1:
-        frames_left = jump->action_timer.s;
+        frames_left = (s16)(jump->action_timer);
         jump->unk_90.value -= jump->unk_A0.value;
         if (frames_left != 0) {
             {
@@ -921,13 +921,13 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    jump->action_timer.s;
+                    (s16)(jump->action_timer);
             }
             jump->unk_A0.value += motion->velocity_z;
             motion->velocity_z += 0x38000;
         }
         jump->unk_90.value += jump->unk_A0.value;
-        if (jump->action_timer.s < 2) {
+        if ((s16)(jump->action_timer) < 2) {
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;
             ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
@@ -952,8 +952,8 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
         break;
     }
 
-    next_timer = jump->action_timer.u - 1;
-    jump->action_timer.s = next_timer;
+    next_timer = jump->action_timer - 1;
+    jump->action_timer = next_timer;
     if ((next_timer << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -1017,7 +1017,7 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *
     SpriteFrameState *effect_sprite;
     R03_80172620_Copy24 *effect_transform;
 
-    body->action_timer.u--;
+    body->action_timer--;
     state = body->action_phase;
     switch (state) {
     case 0:
@@ -1252,13 +1252,13 @@ void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, S
             ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            body->action_timer.u = 0x3;
+            body->action_timer = 0x3;
             body->action_state_flags |= 0x80;
         }
-        delay = body->action_timer.u - 1;
-        body->action_timer.u = delay;
+        delay = body->action_timer - 1;
+        body->action_timer = delay;
         if ((s16)delay <= 0) {
-            body->action_timer.u = 0;
+            body->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }
         if ((sprite->flags & 0xE000) == 0) {
@@ -1324,7 +1324,7 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
             return;
         }
         if (sprite->flags & 0x8000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase = 2;
             return;
         }
@@ -1333,7 +1333,7 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
         if (source->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
-        body->action_timer.s = timer;
+        body->action_timer = timer;
 
         {
             s32 velocity = motion->velocity_x;
@@ -1368,11 +1368,11 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
             }
         }
 
-        if (body->action_timer.s > 0) {
-            body->action_timer.s = body->action_timer.u - 1;
+        if ((s16)(body->action_timer) > 0) {
+            body->action_timer = body->action_timer - 1;
         } else {
             if (sprite->flags & 0x6000) {
-                body->action_timer.s = 0;
+                body->action_timer = 0;
             }
 
             if (source->hp != 0) {
@@ -1394,7 +1394,7 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
             }
         }
 
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             return;
         }
         if (source->hp == 0) {
@@ -1402,12 +1402,12 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
             begin_actor_display_action(body, motion, sprite, D_80173CC4);
             return;
         }
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         body->action_phase++;
         return;
 
     case 2:
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             {
                 s32 tile_pos = sprite->tile_x << 6;
                 s32 current_pos = motion->x.w.i - 0x20;
@@ -1422,8 +1422,8 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
             }
         }
 
-        timer = body->action_timer.u - 1;
-        body->action_timer.s = timer;
+        timer = body->action_timer - 1;
+        body->action_timer = timer;
         if ((timer << 16) > 0) {
             return;
         }

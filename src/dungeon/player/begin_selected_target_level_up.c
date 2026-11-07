@@ -35,7 +35,7 @@ s32 begin_selected_target_level_up(ActorRecord *actor_state, void *action_arg, v
             D_80080AA0 = 1;
             scene_music_hold = 0;
         }
-        actor_state->action_timer.s = 0x78;
+        actor_state->action_timer = 0x78;
         raise_entity_level(target, 1);
     }
     return 1;

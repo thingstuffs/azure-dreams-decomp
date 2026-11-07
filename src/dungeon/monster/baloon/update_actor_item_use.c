@@ -186,7 +186,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
                 return;
             }
         }
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         stage = body->action_phase;
         stage++;
         body->action_phase = stage;
@@ -198,15 +198,15 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
     {
         s16 timer;
 
-        timer = body->action_timer.u;
-        body->action_timer.u = timer + 1;
+        timer = body->action_timer;
+        body->action_timer = timer + 1;
         if (timer < 12 && !(sprite->flags & 0xE000)) {
             return;
         }
     }
         body->action_state_flags |= 0x80;
         sprite->flags |= 0x800;
-        body->action_timer.u = 0x12;
+        body->action_timer = 0x12;
         body->action_phase++;
         effect_count = 0;
         do {
@@ -218,9 +218,9 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
 
     case 5:
         if ((g_dungeon_status.active_actor) == 0) {
-            body->action_timer.u = 0;
+            body->action_timer = 0;
         }
-        if (body->action_timer.s >= 10) {
+        if ((s16)(body->action_timer) >= 10) {
             effect_count = 0;
             do {
                 spawn_angled_random_velocity_effect((u8 *)body - 0x20,
@@ -228,7 +228,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
                 effect_count++;
             } while ((s16)effect_count < 3);
         }
-        if ((u32)(body->action_timer.u - 10) < 7) {
+        if ((u32)(body->action_timer - 10) < 7) {
             s16 angle;
 
             for (angle = 0; angle < 0x1000; angle += 0x200) {
@@ -244,13 +244,13 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
         {
             s16 timer;
 
-            timer = body->action_timer.u - 1;
-            body->action_timer.u = timer;
+            timer = body->action_timer - 1;
+            body->action_timer = timer;
             if (timer > 0 && !(sprite->flags & 0xE000)) {
                 return;
             }
         }
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         sprite->flags &= 0xF7FF;
         state = body->action_state_flags;
         stage = body->action_phase;
@@ -283,7 +283,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
                 sprite,
                 baloon_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->unk_9E.u = 0;
+            body->unk_9E = 0;
             body->action_state_flags |= 8;
             actor->flags1C = (u32)((u32)actor->flags1C | (0x40000));
             body->unk_90.parts.high.s = -0x20;

@@ -47,7 +47,7 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
         jump->action_phase++;
 
     case 1:
-        jump_ticks = jump->action_timer.s;
+        jump_ticks = (s16)(jump->action_timer);
         jump->unk_90.value -= jump->unk_A4.value;
         if (jump_ticks != 0) {
             {
@@ -61,13 +61,13 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    jump->action_timer.s;
+                    (s16)(jump->action_timer);
             }
             jump->unk_A4.value += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
         jump->unk_90.value += jump->unk_A4.value;
-        if (jump->action_timer.s < 2) {
+        if ((s16)(jump->action_timer) < 2) {
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
@@ -93,8 +93,8 @@ void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, Sp
         break;
     }
 
-    ticks_left = jump->action_timer.u - 1;
-    jump->action_timer.s = ticks_left;
+    ticks_left = jump->action_timer - 1;
+    jump->action_timer = ticks_left;
     if ((ticks_left << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;

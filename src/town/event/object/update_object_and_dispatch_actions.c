@@ -6,6 +6,7 @@
 #include "town/event.h"
 #include "town/event/object.h"
 #include "town/player/motion.h"
+#include "town/player/position.h"
 
 struct TownObj;
 struct TownVec;

@@ -64,7 +64,7 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
                 if ((angle & 0x3FF) == 0) {
                     motion->unk_B0.bytes[1] = 1;
                     motion->unk_B0.bytes[2] = 0;
-                    motion->action_timer.u = 0;
+                    motion->action_timer = 0;
                     break;
                 }
             } else if ((angle & 0x3FF) == 0) {
@@ -72,7 +72,7 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
                     u16 next_state;
 
                     next_state = 0x1E;
-                    motion->action_timer.u = next_state;
+                    motion->action_timer = next_state;
                     next_state = motion->unk_B0.bytes[3];
                     history = motion->unk_AC.address;
                     motion->unk_B0.bytes[2] = 0;
@@ -97,9 +97,9 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
 
         case 1:
         {
-            u16 timer = motion->action_timer.u;
+            u16 timer = motion->action_timer;
 
-            motion->action_timer.u = timer - 1;
+            motion->action_timer = timer - 1;
             if ((timer << 16) <= 0) {
                 motion->unk_B0.bytes[2] = 0;
             }
@@ -113,7 +113,7 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
                 object->facing = 0;
             }
             motion->unk_B0.bytes[2] = 1;
-            motion->action_timer.u = 1;
+            motion->action_timer = 1;
             motion->unk_B4.bytes[0]++;
             break;
 
@@ -130,21 +130,21 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
                 break;
             }
             if (check_forward_collision_and_height(position, object) != 0) {
-                motion->action_timer.u = 0x1E;
+                motion->action_timer = 0x1E;
                 motion->unk_B0.bytes[2] = 0;
                 motion->unk_B0.bytes[1] = 0;
                 motion->unk_B0.bytes[3]++;
                 break;
             }
-            motion->action_timer.u = 3;
+            motion->action_timer = 3;
             motion->unk_B0.bytes[2]++;
                                     /* fall through */
 
         case 1:
         {
-            u16 timer = motion->action_timer.u;
+            u16 timer = motion->action_timer;
 
-            motion->action_timer.u = timer - 1;
+            motion->action_timer = timer - 1;
             if ((timer << 16) <= 0) {
                 motion->unk_B0.bytes[2] = 0;
             }
@@ -244,15 +244,15 @@ state1_call:
                         object->facing = 0;
                     }
                     next_phase = motion->unk_B0.bytes[2];
-                    motion->action_timer.u = 0;
+                    motion->action_timer = 0;
                     motion->unk_B0.bytes[2] = next_phase + 1;
                     break;
 
                 case 1:
                 {
-                    u16 timer = motion->action_timer.u;
+                    u16 timer = motion->action_timer;
 
-                    motion->action_timer.u = timer - 1;
+                    motion->action_timer = timer - 1;
                     if ((timer << 16) > 0) {
                         break;
                     }
@@ -264,7 +264,7 @@ state1_call:
                             object->facing = 0;
                         }
                         next_phase = motion->unk_B0.bytes[2];
-                        motion->action_timer.u = 0;
+                        motion->action_timer = 0;
                         motion->unk_B0.bytes[2] = next_phase + 1;
                         break;
                     }
@@ -284,7 +284,7 @@ state1_case2:
                 switch (turn_phase) {
                 case 0:
                     motion->unk_B0.bytes[2] = (turn_phase == 0);
-                    motion->action_timer.u = 3;
+                    motion->action_timer = 3;
                                             /* fall through */
 
                 case 1:
@@ -294,8 +294,8 @@ state1_case2:
                     (position->x.w.i) = actor_direction_step_pairs[direction].x * 16 + (((u16)(position->x.w.i)));
                     (position->y.w.i) = actor_direction_step_pairs[direction].y * 16 + (((u16)(position->y.w.i)));
 
-                    timer = motion->action_timer.u;
-                    motion->action_timer.u = timer - 1;
+                    timer = motion->action_timer;
+                    motion->action_timer = timer - 1;
                     if ((timer << 16) > 0) {
                         break;
                     }
@@ -352,15 +352,15 @@ state1_minus_angle:
                         object->facing = old_angle + 0xE00;
                     }
                     next_phase = motion->unk_B0.bytes[2];
-                    motion->action_timer.u = 0;
+                    motion->action_timer = 0;
                     motion->unk_B0.bytes[2] = next_phase + 1;
                     break;
 
                 case 1:
                 {
-                    u16 timer = motion->action_timer.u;
+                    u16 timer = motion->action_timer;
 
-                    motion->action_timer.u = timer - 1;
+                    motion->action_timer = timer - 1;
                     if ((timer << 16) > 0) {
                         break;
                     }
@@ -390,7 +390,7 @@ state1_minus_angle:
         record->flags |= 0x80;
         motion->unk_90.parts.high.u = 0;
         motion->unk_B0.bytes[1] = 0;
-        motion->action_timer.u = 0;
+        motion->action_timer = 0;
         motion->unk_A0.parts.high = 0;
         pack_and_submit_cell_height_levels();
         dungeon_floor_flags |= FLOOR_MAP_VIEW_HOLD;
@@ -405,15 +405,15 @@ state3_test:
         {
             u16 next_state = motion->unk_B0.bytes[1];
 
-            motion->action_timer.u = 10;
+            motion->action_timer = 10;
             motion->unk_B0.bytes[1] = next_state + 1;
         }
 
         case 1:
         {
-            u16 timer = motion->action_timer.u;
+            u16 timer = motion->action_timer;
 
-            motion->action_timer.u = timer - 1;
+            motion->action_timer = timer - 1;
             if ((timer << 16) > 0) {
                 break;
             }
@@ -423,29 +423,29 @@ state3_test:
 
         case 2:
             record->flags |= 0x80;
-            motion->action_timer.u = 20;
+            motion->action_timer = 20;
             motion->unk_B0.bytes[1]++;
             break;
 
         case 3:
         {
-            u16 timer = motion->action_timer.u;
+            u16 timer = motion->action_timer;
 
-            motion->action_timer.u = timer - 1;
+            motion->action_timer = timer - 1;
             if ((timer << 16) > 0) {
                 break;
             }
         }
 
-            motion->action_timer.u = 20;
+            motion->action_timer = 20;
             motion->unk_B0.bytes[1]++;
             break;
 
         case 4:
         {
-            u16 timer = motion->action_timer.u;
+            u16 timer = motion->action_timer;
 
-            motion->action_timer.u = timer - 1;
+            motion->action_timer = timer - 1;
             if ((timer << 16) > 0) {
                 break;
             }
@@ -455,7 +455,7 @@ state3_test:
             record->flags |= 0x80;
             motion->unk_90.parts.high.u = 0;
             motion->unk_B0.bytes[1] = 0;
-            motion->action_timer.u = 0;
+            motion->action_timer = 0;
             motion->unk_A0.parts.high = 0;
             pack_and_submit_cell_height_levels();
             dungeon_floor_flags |= FLOOR_MAP_VIEW_HOLD;

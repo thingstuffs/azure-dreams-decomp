@@ -39,7 +39,7 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
-            motion_state->action_timer.s = 0;
+            motion_state->action_timer = 0;
             motion_state->action_phase = 2;
             return;
         }
@@ -47,7 +47,7 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
         if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
-        motion_state->action_timer.s = timer;
+        motion_state->action_timer = timer;
                         /* fall through */
 
     case 1:
@@ -62,13 +62,13 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
         rounded_velocity = velocity_z;
         motion->velocity_y = velocity_z - (rounded_velocity / 4);
 
-        if (motion_state->action_timer.s > 0) {
-            motion_state->action_timer.u = motion_state->action_timer.u - 1;
+        if ((s16)(motion_state->action_timer) > 0) {
+            motion_state->action_timer = motion_state->action_timer - 1;
         } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
-            motion_state->action_timer.s = 0;
+            motion_state->action_timer = 0;
         }
 
-        if (motion_state->action_timer.s != 0) {
+        if ((s16)(motion_state->action_timer) != 0) {
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
@@ -78,12 +78,12 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
             begin_actor_display_action(motion_state, motion, tile_state, &hikewne_motion_frame_set);
             return;
         }
-        motion_state->action_timer.s = 8;
+        motion_state->action_timer = 8;
         motion_state->action_phase++;
         return;
 
     case 2:
-        timer = motion_state->action_timer.s;
+        timer = (motion_state->action_timer);
         if (timer != 0) {
             s32 tile_coord;
             s32 offset_coord;
@@ -97,11 +97,11 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
             offset_coord -= 0x20;
             tile_coord = tile_state->unk_25 << 6;
             motion->velocity_y =
-                ((tile_coord - offset_coord) << 15) / motion_state->action_timer.s;
+                ((tile_coord - offset_coord) << 15) / (s16)(motion_state->action_timer);
         }
 
-        countdown = motion_state->action_timer.u - 1;
-        motion_state->action_timer.s = countdown;
+        countdown = motion_state->action_timer - 1;
+        motion_state->action_timer = countdown;
         if ((countdown << 16) > 0) {
             return;
         }

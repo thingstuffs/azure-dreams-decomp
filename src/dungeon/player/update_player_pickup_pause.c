@@ -12,12 +12,12 @@ void update_player_pickup_pause(ActorRecord *object) {
 
     switch (state) {
     case 0:
-        object->action_timer.u = 0x10;
+        object->action_timer = 0x10;
         object->action_phase++;
         break;
     case 1:
-        timer = object->action_timer.u - 1;
-        object->action_timer.u = timer;
+        timer = object->action_timer - 1;
+        object->action_timer = timer;
         if ((s16)timer >= 0) {
             if ((shared_data->pressed_buttons) == 0) {
                 return;

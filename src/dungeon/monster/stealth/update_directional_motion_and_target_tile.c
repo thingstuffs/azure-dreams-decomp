@@ -48,7 +48,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
             return;
         }
         if (target->flags & 0x8000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase = 2;
             return;
         }
@@ -57,7 +57,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
         if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             initial_timer = 8;
         }
-        body->action_timer.s = initial_timer;
+        body->action_timer = initial_timer;
 
         velocity_x = motion->velocity_x;
         biased_x = velocity_x;
@@ -73,13 +73,13 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
         motion->velocity_y -=
             ((s16 *)((s8 *)dir_step_y))[direction] << 13;
 
-        if (body->action_timer.s > 0) {
-            body->action_timer.u = body->action_timer.u - 1;
+        if ((s16)(body->action_timer) > 0) {
+            body->action_timer = body->action_timer - 1;
         } else if (target->flags & 0x6000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
         }
 
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -88,13 +88,13 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
             motion->velocity_x = 0;
             begin_actor_display_action(body, motion, target, D_80173D60);
         } else {
-            body->action_timer.s = 8;
+            body->action_timer = 8;
             body->action_phase++;
         }
         return;
 
     case 2:
-        return_timer = body->action_timer.s;
+        return_timer = (body->action_timer);
         if (return_timer != 0) {
             target_x = target->tile_x << 6;
             origin_x = motion->x.w.i - 0x20;
@@ -104,11 +104,11 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
             origin_y = motion->y.w.i - 0x20;
             motion->velocity_y =
                 ((target_y - origin_y) << 15) /
-                body->action_timer.s;
+                (s16)(body->action_timer);
         }
 
-        next_timer = body->action_timer.u - 1;
-        body->action_timer.u = next_timer;
+        next_timer = body->action_timer - 1;
+        body->action_timer = next_timer;
         if (next_timer > 0) {
             return;
         }

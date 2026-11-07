@@ -33,7 +33,7 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
             return;
         }
         if (sprite->flags & 0x8000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
             body->action_phase = 2;
             return;
         }
@@ -42,7 +42,7 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
         } else {
             timer = -1;
         }
-        body->action_timer.s = timer;
+        body->action_timer = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -52,12 +52,12 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
             dir_step_x[direction] << 14;
         motion->velocity_y -=
             dir_step_y[direction] << 14;
-        if (body->action_timer.s > 0) {
-            body->action_timer.s = body->action_timer.u - 1;
+        if ((s16)(body->action_timer) > 0) {
+            body->action_timer = body->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            body->action_timer.s = 0;
+            body->action_timer = 0;
         }
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -67,12 +67,12 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
             begin_actor_display_action(body, motion, sprite, &D_80174D5C);
             return;
         }
-        body->action_timer.s = 8;
+        body->action_timer = 8;
         body->action_phase++;
         return;
 
     case 2:
-        if (body->action_timer.s != 0) {
+        if ((s16)(body->action_timer) != 0) {
             {
                 s32 tile_x;
                 s32 current_x;
@@ -92,8 +92,8 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
                     ((tile_y - current_y) << 15) >> 1;
             }
         }
-        timer = body->action_timer.u - 1;
-        body->action_timer.s = timer;
+        timer = body->action_timer - 1;
+        body->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -141,7 +141,7 @@ void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, 
             }
         }
         play_sound_if_enabled(0x805);
-        body->action_timer.u = 4;
+        body->action_timer = 4;
         body->action_phase++;
         sprite->clut -= 0x80;
                         /* fallthrough */
@@ -152,8 +152,8 @@ void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, 
     }
 
     *(s32 *)&entity->scale_x |= 0x10000000;
-    fade_delay = body->action_timer.u - 1;
-    body->action_timer.u = fade_delay;
+    fade_delay = body->action_timer - 1;
+    body->action_timer = fade_delay;
     if ((s16)fade_delay <= 0) {
         if (sprite->color.c.r >= 0x10) {
             sprite->color.word += 0xFFEFEFF0;

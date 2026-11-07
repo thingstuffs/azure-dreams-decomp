@@ -32,6 +32,5 @@ struct S_80048660 {
 extern u16 sprite_pack_row_cursor;
 extern u16 sprite_pack_column_cursor;
 extern u16 sprite_pack_max_row_step;
-void sound_advance_shared_scroll_coordinates(struct S_80048660 *state);
 
 #endif

@@ -51,9 +51,9 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
     dir_x = *(s16 *)((u8 *)dir_x_table + dir_offset);
     dir_offset += (u32)dir_step_y;
     dir_y = *(s16 *)dir_offset;
-    timer = action->action_timer.u;
+    timer = action->action_timer;
     state = action->action_phase;
-    action->action_timer.u = timer - 1;
+    action->action_timer = timer - 1;
     special = 0;
     switch (state) {
 
@@ -152,7 +152,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             play_sound_if_enabled(0x703);
             create_two_effect_groups(motion, sprite, actor, 10);
             action->unk_90.value = 0;
-            action->action_timer.u = 2;
+            action->action_timer = 2;
             action->action_state_flags |= 8;
             {
                 s32 back_x;
@@ -199,7 +199,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             action->action_state_flags |= 0x80;
             return;
         }
-        if (action->action_timer.s <= 0) {
+        if ((s16)(action->action_timer) <= 0) {
             motion->velocity_x = 0;
             motion->velocity_y = 0;
             motion->velocity_z = 0;
@@ -250,7 +250,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            action->action_timer.u = 4;
+            action->action_timer = 4;
             sprite->scale_x = 0x1400;
             sprite->scale_y = 0x0C00;
             effect = picket_frame_set_1;
@@ -268,20 +268,20 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
         s32 ticks;
         s32 ticks_squared;
 
-        ticks = action->action_timer.s;
+        ticks = (s16)(action->action_timer);
         ticks_squared = ticks * ticks;
         ticks = 0x1000 + ticks_squared * 300;
         sprite->scale_x = ticks;
         sprite->scale_y = 0x1000 - ticks_squared * 200;
     }
-        if (action->action_timer.s > 0) {
+        if ((s16)(action->action_timer) > 0) {
             return;
         }
         sprite->frameTable = picket_frame_set_2;
         select_sprite_entry(sprite,
             picket_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer.u = 10;
+        action->action_timer = 10;
         action->action_phase = action->action_phase + 1;
         return;
 
@@ -311,7 +311,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
                 (target_coord - current_coord) << 14;
         }
     }
-        if (action->action_timer.s > 0) {
+        if ((s16)(action->action_timer) > 0) {
             return;
         }
         motion->velocity_z = 0;

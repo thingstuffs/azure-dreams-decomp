@@ -34,7 +34,7 @@ void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, Ac
         body->action_phase = (u8) (body->action_phase + 1);
         ((EntityRec *)motion)->unk_0C = (u32) (rcos(((s16)actor->movement_facing)) << 9);
         ((EntityRec *)motion)->unk_10 = (s32) (rsin(((s16)actor->movement_facing)) << 9);
-        body->action_timer.u = 0xCU;
+        body->action_timer = 0xCU;
     }
     if (((Rec_func_8008ACDC_arg0 *)body)->unk_10C & 1) {
         begin_player_damage_reaction(body, motion, sprite, actor);
@@ -42,26 +42,26 @@ void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, Ac
     }
     if ((((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == player_damage_frames_2)
         && (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-        anim_frames = body->action_timer.u - 1;
-        body->action_timer.u = anim_frames;
+        anim_frames = body->action_timer - 1;
+        body->action_timer = anim_frames;
         if ((anim_frames << 0x10) > 0) {
             set_sprite_animation_frame(sprite, ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 9) & 7], 0, 1);
         }
     }
-    frames_left = (s16) body->action_timer.u;
+    frames_left = (s16) body->action_timer;
     if (frames_left > 0) {
         pos_x = ((EntityRec *)motion)->x.v;
         pos_y = ((EntityRec *)motion)->y.v;
         ((EntityRec *)motion)->x.v = (s32) (pos_x + ((s32) ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20)
             << 0x10) - pos_x) / frames_left));
         ((EntityRec *)motion)->y.v = (s32) (pos_y + ((s32) ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20)
-            << 0x10) - pos_y) / (s16) body->action_timer.u));
+            << 0x10) - pos_y) / (s16) body->action_timer));
         velocity_x = ((u32)((EntityRec *)motion)->unk_0C);
         ((EntityRec *)motion)->unk_0C = (u32) ((s32) (velocity_x + (velocity_x >> 0x1F)) >> 1);
         ((EntityRec *)motion)->unk_10 = (s32) ((s32) ((EntityRec *)motion)->unk_10 / 2);
-        move_frames = body->action_timer.u - 1;
-        body->action_timer.u = move_frames;
+        move_frames = body->action_timer - 1;
+        body->action_timer = move_frames;
         if ((move_frames << 0x10) == 0) {
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0U;
@@ -86,7 +86,7 @@ void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, Ac
             }
         }
         next_timer = 8U;
-        body->action_timer.u = next_timer;
+        body->action_timer = next_timer;
         body->unk_8C.address = handle_player_input;
     }
 }

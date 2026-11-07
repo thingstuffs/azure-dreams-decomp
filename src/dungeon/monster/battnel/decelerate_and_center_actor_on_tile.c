@@ -54,7 +54,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             return;
         }
         if (sprite->flags & 0x8000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
             action->action_phase = 2;
             return;
         }
@@ -63,7 +63,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
         if (actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
-        action->action_timer.s = timer;
+        action->action_timer = timer;
 
         velocity_x = motion->velocity_x;
         biased_velocity_x = velocity_x;
@@ -84,12 +84,12 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             *(s16 *)((u8 *)x_steps + brake_step_offset) << 0xF;
         motion->velocity_y -= *y_step << 0xF;
 
-        if (action->action_timer.s > 0) {
-            action->action_timer.s = action->action_timer.u - 1;
+        if ((s16)(action->action_timer) > 0) {
+            action->action_timer = action->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -99,12 +99,12 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             begin_actor_display_action(action, motion, sprite, &D_80173D24);
             return;
         }
-        action->action_timer.s = 4;
+        action->action_timer = 4;
         action->action_phase++;
         return;
 
     case 2:
-        if (action->action_timer.s != 0) {
+        if ((s16)(action->action_timer) != 0) {
             target_x = sprite->tile_x << 6;
             offset_x = motion->x.w.i - 0x20;
             motion->velocity_x = (target_x - offset_x) << 0x10 >> 1;
@@ -113,8 +113,8 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             motion->velocity_y = (target_y - offset_y) << 0x10 >> 1;
         }
 
-        timer = action->action_timer.u - 1;
-        action->action_timer.s = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

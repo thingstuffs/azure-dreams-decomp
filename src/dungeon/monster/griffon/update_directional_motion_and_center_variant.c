@@ -40,7 +40,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             return;
         }
         if (sprite->flags & 0x8000) {
-            controller->action_timer.s = 0;
+            controller->action_timer = 0;
             controller->action_phase = 3;
             return;
         }
@@ -50,7 +50,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
         } else {
             timer = -1;
         }
-        controller->action_timer.s = timer;
+        controller->action_timer = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -61,13 +61,13 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
         motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
 
-        if (controller->action_timer.s > 0) {
-            controller->action_timer.s = controller->action_timer.u - 1;
+        if ((s16)(controller->action_timer) > 0) {
+            controller->action_timer = controller->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            controller->action_timer.s = 0;
+            controller->action_timer = 0;
         }
 
-        if (controller->action_timer.s != 0) {
+        if ((s16)(controller->action_timer) != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -98,11 +98,11 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             sprite,
             griffon_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        controller->action_timer.s = 8;
+        controller->action_timer = 8;
         controller->action_phase++;
         return;
     case 3:
-        timer = controller->action_timer.s;
+        timer = (controller->action_timer);
         if (timer != 0) {
             {
                 s32 tile_x = sprite->tile_x << 6;
@@ -113,12 +113,12 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
                 s32 tile_y = sprite->tile_y << 6;
                 s32 offset_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((tile_y - offset_y) << 15) / controller->action_timer.s;
+                    ((tile_y - offset_y) << 15) / (s16)(controller->action_timer);
             }
         }
 
-        timer = controller->action_timer.u - 1;
-        controller->action_timer.s = timer;
+        timer = controller->action_timer - 1;
+        controller->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

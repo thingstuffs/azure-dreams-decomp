@@ -132,7 +132,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
 
             if (create_actor_spell_effect(actor, action_slot, target_mode,
                               ((u8 *)action + 0x98)) != 0) {
-                action->action_timer.s = 8;
+                action->action_timer = 8;
                 action->action_phase++;
             }
             return;
@@ -163,8 +163,8 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
                         /* fall through */
 
     case 2:
-        action->action_timer.u--;
-        if ((s16)action->action_timer.u > 0 &&
+        action->action_timer--;
+        if ((s16)action->action_timer > 0 &&
             !(sprite->flags & 0xE000)) {
             return;
         }
@@ -174,7 +174,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
 
     case 3:
         if ((g_dungeon_status.active_actor) == 0) {
-            action->action_timer.s = 0;
+            action->action_timer = 0;
         }
         if (!(sprite->flags & 0xE000)) {
             return;

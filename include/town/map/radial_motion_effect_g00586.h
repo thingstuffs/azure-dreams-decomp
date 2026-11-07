@@ -64,6 +64,5 @@ s32 rand(void);
 
 /* Functions defined in this translation unit. */
 void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags);
-void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s32 count);
 
 #endif

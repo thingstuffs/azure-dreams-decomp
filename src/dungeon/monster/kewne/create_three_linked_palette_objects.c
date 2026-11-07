@@ -19,8 +19,6 @@ typedef struct S_80174910_9 {
     u8 * unk_08;
 } S_80174910_9;   /* ((S_80174910_6 *)arg0)->unk_0C in create_three_linked_palette_objects */
 
-extern void update_effect_fade_and_history();
-
 typedef struct S_80174910_1 {
     u8 pad_00[0xC];
     void *unk_0C;

@@ -37,7 +37,7 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
             return;
         }
         if (actor->flags & 0x8000) {
-            controller->action_timer.s = 0;
+            controller->action_timer = 0;
             controller->action_phase = 2;
             return;
         }
@@ -46,17 +46,17 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
         if (entity_data->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer_init = 8;
         }
-        controller->action_timer.s = timer_init;
+        controller->action_timer = timer_init;
     case 1:
-        timer_signed = controller->action_timer.s;
-        timer_unsigned = controller->action_timer.u;
+        timer_signed = (s16)(controller->action_timer);
+        timer_unsigned = controller->action_timer;
         if (timer_signed > 0) {
-            controller->action_timer.s = timer_unsigned - 1;
+            controller->action_timer = timer_unsigned - 1;
         } else if (actor->flags & 0x6000) {
-            controller->action_timer.s = 0;
+            controller->action_timer = 0;
         }
 
-        if (controller->action_timer.s != 0) {
+        if ((s16)(controller->action_timer) != 0) {
             return;
         }
         if (entity_data->hp == 0) {
@@ -66,12 +66,12 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
             begin_actor_display_action(controller, motion, actor, 0);
             return;
         }
-        controller->action_timer.s = 1;
+        controller->action_timer = 1;
         controller->action_phase++;
         return;
     case 2:
-        timer_next = controller->action_timer.u - 1;
-        controller->action_timer.s = timer_next;
+        timer_next = controller->action_timer - 1;
+        controller->action_timer = timer_next;
         if ((timer_next << 16) > 0) {
             return;
         }

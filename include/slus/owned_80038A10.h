@@ -23,12 +23,10 @@ struct Func80038A10State {
 extern Func80038A10State *current_message_window_state;
 struct RuntimeContext;
 extern s32 interpret_script_opcodes_until_action_changes(struct RuntimeContext *, u8 *);
-extern void update_message_window(Func80038A10State *);
 extern void func_80038A10(Func80038A10State *);
 
 /* Processes the current state until processing stops or its handler changes. */
 
-void update_message_window(Func80038A10State *input_state);
 void func_80038A10(Func80038A10State *input_state);
 
 #endif

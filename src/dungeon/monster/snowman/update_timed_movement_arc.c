@@ -49,12 +49,12 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
             0);
         body->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        body->unk_9E.s = 5;
+        body->unk_9E = 5;
         body->unk_A4.value = 0;
         body->action_phase++;
                         /* fallthrough */
     case 1:
-        move_frames = body->unk_9E.s;
+        move_frames = (s16)(body->unk_9E);
         body->unk_90.value -= body->unk_A4.value;
         if (move_frames != 0) {
             target_x = sprite->tile_x;
@@ -68,18 +68,18 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                body->unk_9E.s;
+                (s16)(body->unk_9E);
 
             body->unk_A4.value =
-                (-rsin(body->unk_9E.s * 0x199)) << 10;
+                (-rsin((s16)(body->unk_9E) * 0x199)) << 10;
         }
 
         height_offset = body->unk_90.value;
         arc_offset = body->unk_A4.value;
-        next_frames = body->unk_9E.u;
+        next_frames = body->unk_9E;
         height_offset += arc_offset;
         next_frames -= 1;
-        body->unk_9E.u = next_frames;
+        body->unk_9E = next_frames;
         body->unk_90.value = height_offset;
         if ((next_frames << 16) < 0) {
             body->unk_90.value = 0;
@@ -114,8 +114,8 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
         break;
     }
 
-    action_timer = body->action_timer.u - 1;
-    body->action_timer.u = action_timer;
+    action_timer = body->action_timer - 1;
+    body->action_timer = action_timer;
     if ((action_timer << 16) > 0) {
         return;
     }

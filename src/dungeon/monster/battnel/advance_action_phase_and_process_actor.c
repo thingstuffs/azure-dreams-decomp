@@ -6,6 +6,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/battnel.h"
 
 extern void unlink_entity_node(void *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);

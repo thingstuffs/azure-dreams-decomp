@@ -111,14 +111,12 @@ typedef struct {
 extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 rand(void);
 extern s32 refresh_actor_facing_and_lifecycle();
-extern s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
 extern u8 actor_action_resume_address;
 extern u8 actor_movement_frames[];
 extern Callback actor_contact_callbacks[];
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
 
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 extern void *actor_action_frames[];
 /* Load-bearing second view of D_80082E80: the asm label gives cc1 a distinct SYMBOL_REF ("*D_80082E80") so cse

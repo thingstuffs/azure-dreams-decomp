@@ -211,26 +211,26 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
         flags = sprite->flags;
         if (flags & 0x8000) {
             next_state = body->action_phase;
-            body->action_timer.u = 0;
+            body->action_timer = 0;
             next_state++;
             body->action_phase = next_state;
             return;
         }
         if (sprite->unk_04 == 2 && (flags & 0x1000)) {
             sprite->flags = flags | 0x800;
-            body->action_timer.u = 0x16;
+            body->action_timer = 0x16;
         }
         if (sprite->unk_04 < 2) {
             return;
         }
-        timer = body->action_timer.u - 1;
-        body->action_timer.u = timer;
+        timer = body->action_timer - 1;
+        body->action_timer = timer;
         if (timer <= 0) {
-            body->action_timer.u = 0;
+            body->action_timer = 0;
             body->action_phase++;
             sprite->flags &= 0xF7FF;
         }
-        if (body->action_timer.s >= 7) {
+        if ((s16)(body->action_timer) >= 7) {
             i = 0;
             do {
                 s32 brightness;
@@ -257,7 +257,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
             u16 timer;
             u16 flags;
 
-            timer = body->action_timer.u;
+            timer = body->action_timer;
             if (!(timer & 1) || (s16)timer < 0x13) {
                 return;
             }
@@ -295,7 +295,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            body->action_timer.u = 0x14;
+            body->action_timer = 0x14;
             body->action_state_flags |= 0x80;
             body->action_phase++;
             i = 0;
@@ -320,14 +320,14 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
         s16 timer;
 
         if ((g_dungeon_status.active_actor) == 0) {
-            body->action_timer.u = 0;
+            body->action_timer = 0;
         }
-        timer = body->action_timer.u - 1;
-        body->action_timer.u = timer;
+        timer = body->action_timer - 1;
+        body->action_timer = timer;
         if (timer > 0 && !(sprite->flags & 0xE000)) {
             return;
         }
-        body->action_timer.u = 0;
+        body->action_timer = 0;
         sprite->flags &= 0xF7FF;
         next_state = body->action_phase;
         next_state++;

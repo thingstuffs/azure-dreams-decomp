@@ -111,7 +111,7 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
                 {
                     g_dungeon_status.movement_frames_left = 8;
                     obj->action_id = 0x36;
-                    obj->action_timer.u = 2;
+                    obj->action_timer = 2;
                     S32(map, 0x1C) |= 0x40000000;
                     append_packed_action_record(map, 8, 0, 0);
                 }

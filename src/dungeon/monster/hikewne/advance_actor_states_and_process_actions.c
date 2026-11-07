@@ -87,7 +87,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
             stored_value = actor->unk_90.parts.high.u;
             pending_decrement = actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
-            actor->unk_9E.u = 0;
+            actor->unk_9E = 0;
             actor->unk_90.parts.high.u = stored_value - pending_decrement;
             update_directional_sprite_state_and_signals(actor, context, animation, entity);
             return;

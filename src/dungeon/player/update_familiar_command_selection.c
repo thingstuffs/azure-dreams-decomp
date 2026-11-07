@@ -87,7 +87,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
         }
         state->action_phase = (u8) (state->action_phase + 1);
     case FAMILIAR_COMMAND_INPUT:
-        selection_result = resolve_player_input_facing(state->unk_9E.s, ((void *)state) + 0xA2, (*(void **)((u8 *)state
+        selection_result = resolve_player_input_facing((state->unk_9E), ((void *)state) + 0xA2, (*(void **)((u8 *)state
             + 0x104)) + 0x2A);
         selection_code = (s16) selection_result;
         if (selection_code != 0xFFF) {

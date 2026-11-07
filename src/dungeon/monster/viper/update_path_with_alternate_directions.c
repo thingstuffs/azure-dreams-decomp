@@ -17,6 +17,7 @@
 #include "dungeon/item/state.h"
 
 #include "dungeon/monster/dragon/transition_effect.h"
+#include "dungeon/monster/viper.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);

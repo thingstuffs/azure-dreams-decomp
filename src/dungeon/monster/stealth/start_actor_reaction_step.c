@@ -36,7 +36,7 @@ void start_actor_reaction_step(ActorRecord *owner, ObjectPosition *unused, Sprit
         owner->unk_8C.word = 0;
         owner->action_phase = 0;
         owner->unk_A4.halves.high.u = 1;
-        owner->action_timer.u = 0;
+        owner->action_timer = 0;
 
         part->flags |= 0xC;
         part->clut -= 0x80;

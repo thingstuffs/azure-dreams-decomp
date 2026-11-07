@@ -1550,7 +1550,7 @@ void reset_active_object_action(void) {
     ActorRecord *state;
 
     state = active_action_object + 0x20;
-    state->action_timer.s = 0;
+    state->action_timer = 0;
     state->action_phase = 0;
 }
 #include "modules/dungeon_ovl_7ce800.h"

@@ -72,10 +72,10 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
 
     if (!((*(u32 *)((u8 *)body + 0x1C)) & 0x40000) &&
         !(body->action_state_flags & 8)) {
-        motion->velocity_z += body->unk_9D.s * 0x14000;
-        body->unk_9D.u++;
+        motion->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        body->unk_9D++;
     } else {
-        body->unk_9D.u = 0;
+        body->unk_9D = 0;
     }
     body->unk_90.value += motion->velocity_z;
     sprite_flags = sprite->flags;
@@ -115,7 +115,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
             masked_flags &= 0x40000;
             if (!masked_flags) {
                 s32 offset = body->unk_A0.value;
-                body->unk_9E.u = 0;
+                body->unk_9E = 0;
                 body->unk_A0.value = 0;
                 body->unk_90.value -= offset;
                 if (!(body->action_state_flags & 8)) {
@@ -125,7 +125,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                     ground_delta = ground_height - ((u16)entity_state->ground_height);
                     if (ground_delta < body->unk_90.parts.high.s) {
                         body->unk_90.parts.high.s = ground_delta;
-                        body->unk_9D.u = 0;
+                        body->unk_9D = 0;
                         motion->velocity_z = 0;
                         entity_state->flags1C |= 0x08000000;
                     }
@@ -134,9 +134,9 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                 if (!(sprite->flags & 0x40)) {
                     if (*(u8 **)&sprite->frameTable == hikewne_frame_set_14) {
                         if (*(u16 *)&sprite->unk_04 == 0x100) {
-                            body->unk_9E.u = 0;
+                            body->unk_9E = 0;
                         }
-                        bob_tick = body->unk_9E.u++;
+                        bob_tick = body->unk_9E++;
                         bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                         bob_angle = bob_phase * 0xE3;
                         body->unk_A0.value = rsin(bob_angle) << 7;
@@ -146,7 +146,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                                 + entity_state->facing + 0x100) >> 9) & 7], 0);
                         }
                     } else if (*(u8 **)&sprite->frameTable == hikewne_frame_set_15) {
-                        bob_tick = body->unk_9E.u++;
+                        bob_tick = body->unk_9E++;
                         bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                         bob_angle = bob_phase * 0xE3;
                         body->unk_A0.value = rsin(bob_angle) << 7;
@@ -182,7 +182,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
         entity_state->flags1C &= 0xF7FFFFFF;
         if (!(((u32)entity_state->flags1C) & 0x40000)) {
             bob_offset = body->unk_A0.value;
-            body->unk_9E.u = 0;
+            body->unk_9E = 0;
             body->unk_A0.value = 0;
             body->unk_90.value -= bob_offset;
             if (!(body->action_state_flags & 8)) {
@@ -192,7 +192,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                 ground_delta = ground_height - ((u16)entity_state->ground_height);
                 if (ground_delta < body->unk_90.parts.high.s) {
                     body->unk_90.parts.high.s = ground_delta;
-                    body->unk_9D.u = 0;
+                    body->unk_9D = 0;
                     motion->velocity_z = 0;
                     entity_state->flags1C |= 0x08000000;
                 }
@@ -201,9 +201,9 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
             if (!(sprite->flags & 0x40)) {
                 if (*(u8 **)&sprite->frameTable == hikewne_frame_set_14) {
                     if (*(u16 *)&sprite->unk_04 == 0x100) {
-                        body->unk_9E.u = 0;
+                        body->unk_9E = 0;
                     }
-                    bob_tick = body->unk_9E.u++;
+                    bob_tick = body->unk_9E++;
                     bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                     bob_angle = bob_phase * 0xE3;
                     body->unk_A0.value = rsin(bob_angle) << 7;
@@ -213,7 +213,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                             + entity_state->facing + 0x100) >> 9) & 7], 0);
                     }
                 } else if (*(u8 **)&sprite->frameTable == hikewne_frame_set_15) {
-                    bob_tick = body->unk_9E.u++;
+                    bob_tick = body->unk_9E++;
                     bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                     bob_angle = bob_phase * 0xE3;
                     body->unk_A0.value = rsin(bob_angle) << 7;

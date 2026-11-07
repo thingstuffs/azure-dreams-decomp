@@ -155,16 +155,16 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            body->action_timer.u = 1;
+            body->action_timer = 1;
             body->action_state_flags |= 0x80;
         }
         {
             s16 timer;
 
-            timer = body->action_timer.u - 1;
-            body->action_timer.u = timer;
+            timer = body->action_timer - 1;
+            body->action_timer = timer;
             if (timer <= 0) {
-                body->action_timer.u = 0;
+                body->action_timer = 0;
                 sprite->flags &= 0xF7FF;
             }
         }

@@ -34,7 +34,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             u8 *animation_ids;
 
             action->action_phase = 5;
-            action->action_timer.u = 0;
+            action->action_timer = 0;
             record->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
 
@@ -53,7 +53,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        action->action_timer.u = 2;
+        action->action_timer = 2;
         action->action_state_flags &= 0xFFF7;
         action->action_phase++;
         return;
@@ -64,13 +64,13 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         s16 *direction_y;
         u16 timer;
 
-        timer = action->action_timer.u;
-        action->action_timer.u = timer - 1;
+        timer = action->action_timer;
+        action->action_timer = timer - 1;
         if ((s16)timer > 0 && !(record->flags & 0x8000)) {
             return;
         }
 
-        action->action_timer.u = 0x12;
+        action->action_timer = 0x12;
         direction_x = (s16 *)((s8 *)dir_step_x);
         action->action_phase++;
         direction_y = (s16 *)((s8 *)dir_step_y);
@@ -91,13 +91,13 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         s8 entity_kind;
         u16 timer;
 
-        if (action->action_timer.s == 0xB) {
+        if ((s16)(action->action_timer) == 0xB) {
             motion->velocity_x = 0;
             motion->velocity_y = 0;
         }
 
         eight = 8;
-        if (action->action_timer.s == eight) {
+        if ((s16)(action->action_timer) == eight) {
             u8 *animation_ids;
 
             animation_ids = u_boat_frame_set_1;
@@ -133,10 +133,10 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             } while (particles_left >= 0);
         }
 
-        timer = action->action_timer.u;
-        action->action_timer.u = timer - 1;
+        timer = action->action_timer;
+        action->action_timer = timer - 1;
         if ((s16)timer <= 0 || (record->flags & 0x8000)) {
-            action->action_timer.u = 4;
+            action->action_timer = 4;
             action->action_phase++;
         }
 
@@ -151,8 +151,8 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
     {
         s16 timer;
 
-        timer = action->action_timer.u - 1;
-        action->action_timer.u = timer;
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
         if (timer == 3 || (record->flags & 0x8000)) {
             u8 *animation_ids;
 
@@ -172,11 +172,11 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             }
         }
 
-        if (action->action_timer.s > 0 &&
+        if ((s16)(action->action_timer) > 0 &&
             !(record->flags & 0x8000)) {
             return;
         }
-        action->action_timer.u = 2;
+        action->action_timer = 2;
         action->action_phase++;
         return;
     }
@@ -185,12 +185,12 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
     {
         u16 timer;
 
-        timer = action->action_timer.u;
-        action->action_timer.u = timer - 1;
+        timer = action->action_timer;
+        action->action_timer = timer - 1;
         if ((s16)timer > 0 && !(record->flags & 0x8000)) {
             return;
         }
-        action->action_timer.u = 6;
+        action->action_timer = 6;
         action->action_phase++;
         return;
     }
@@ -201,7 +201,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         s32 axis_position;
         s16 timer;
 
-        timer = action->action_timer.s;
+        timer = (action->action_timer);
         if (timer != 0) {
             distance = record->tile_x << 6;
             axis_position = motion->x.w.i;
@@ -214,11 +214,11 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             axis_position -= 0x20;
             distance -= axis_position;
             motion->velocity_y =
-                (distance << 16) / action->action_timer.s;
+                (distance << 16) / (s16)(action->action_timer);
         }
 
-        action->action_timer.u--;
-        if (action->action_timer.s > 0 &&
+        action->action_timer--;
+        if ((s16)(action->action_timer) > 0 &&
             !(record->flags & 0x8000)) {
             return;
         }

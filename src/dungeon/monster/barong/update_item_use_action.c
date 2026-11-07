@@ -164,7 +164,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
             if (create_actor_spell_effect(actor, item_slot, is_special, (u8 *)body + 0x98) == 0) {
                 return;
             }
-            body->action_timer.u = 0x11;
+            body->action_timer = 0x11;
             {
                 u8 *animations;
                 s32 direction;
@@ -206,15 +206,15 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
         {
             s16 timer;
 
-            timer = body->action_timer.u - 1;
-            body->action_timer.u = timer;
+            timer = body->action_timer - 1;
+            body->action_timer = timer;
             if (timer <= 0 || (sprite->flags & 0xE000)) {
                 body->action_state_flags |= 0x80;
                 body->action_phase++;
                 sprite->flags |= 0x800;
-                body->action_timer.u = 0xF;
+                body->action_timer = 0xF;
             }
-            if (body->action_timer.s == 8) {
+            if ((s16)(body->action_timer) == 8) {
                 u8 *animations;
                 s32 direction;
 
@@ -224,7 +224,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animations[direction], 0);
             }
-            if (body->action_timer.s < 2) {
+            if ((s16)(body->action_timer) < 2) {
                 return;
             }
         }
@@ -328,12 +328,12 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
             s16 timer;
 
             if ((g_dungeon_status.active_actor) == 0) {
-                body->action_timer.u = 0;
+                body->action_timer = 0;
             }
-            timer = body->action_timer.u - 1;
-            body->action_timer.u = timer;
+            timer = body->action_timer - 1;
+            body->action_timer = timer;
             if (timer <= 0) {
-                body->action_timer.u = 0;
+                body->action_timer = 0;
                 sprite->flags &= 0xF7FF;
             }
             if (!(sprite->flags & 0xE000)) {

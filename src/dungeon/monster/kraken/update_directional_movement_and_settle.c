@@ -33,8 +33,8 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
     dir_x = dir_step_x[dir_offset >> 1];
     dir_y = dir_step_y[dir_offset >> 1];
     state = action->action_phase;
-    ticks_left = action->action_timer.u - 1;
-    action->action_timer.u = ticks_left;
+    ticks_left = action->action_timer - 1;
+    action->action_timer = ticks_left;
 
     switch (state) {
     case 0:
@@ -58,7 +58,7 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
                 0);
             motion->velocity_x = (dir_x << 18) + (dir_x << 17);
             motion->velocity_y = (dir_y << 18) + (dir_y << 17);
-            action->action_timer.u = 8;
+            action->action_timer = 8;
             play_sound_if_enabled(0x607);
             action->action_phase++;
         }
