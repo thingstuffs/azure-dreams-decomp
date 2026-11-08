@@ -22,7 +22,6 @@ extern void service_cd_command_queue(void);
 extern s32 update_vsync_frame_id(s32 id_mode);
 extern void func_80044618(int);
 extern short SD_Call(int a0);
-extern void request_scene_dispatch_state(int);
 extern void sound_set_cd_playback_volume_scale(short saved_setting);
 extern void sound_set_sequence_volume_scale(short);
 extern void sound_set_voice_gain_scale(short a0);

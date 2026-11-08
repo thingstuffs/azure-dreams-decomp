@@ -8,17 +8,8 @@
 #include "slus.h"
 #include "town/map/motion.h"
 
-typedef struct {
-    s32 f0;
-    s32 f4;
-    s32 f8;
-    s32 fc;
-    s32 f10;
-    s32 f14;
-} State1;
-
 /* Update effect motion, size and brightness, then mark it finished. */
-void update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, SpriteFrameState *sprite) {
+void update_effect_motion_size_and_brightness(void *effect_fields, ObjectPosition *position, SpriteFrameState *sprite) {
     TownBurstParticleBody *body = effect_fields;
     s16 state;
     s32 fade_end_state;
@@ -35,9 +26,9 @@ void update_effect_motion_size_and_brightness(void *effect_fields, SignedPositio
         sprite->scale_y = size;
         sprite->scale_x = size;
         sprite->color.word = (s32) (sprite->color.word + 0x80808);
-        position->x = (s16) ((u16) position->x + ((s32) (body->target_x - position->x) >> 2));
-        position->y = (s16) ((u16) position->y + ((s32) (body->target_y - position->y) >> 2));
-        position->z = (s16) ((u16) position->z + ((s32) (body->target_z - position->z) >> 2));
+        position->x.w.i = (s16) ((u16) position->x.w.i + ((s32) (body->target_x - position->x.w.i) >> 2));
+        position->y.w.i = (s16) ((u16) position->y.w.i + ((s32) (body->target_y - position->y.w.i) >> 2));
+        position->z.w.i = (s16) ((u16) position->z.w.i + ((s32) (body->target_z - position->z.w.i) >> 2));
         grow_end_state = 0xFF;
         if (!((s16) body->ticks_left > 0)) {
             body->phase = grow_end_state;
@@ -46,13 +37,13 @@ void update_effect_motion_size_and_brightness(void *effect_fields, SignedPositio
 
     case 1:
     {
-        State1 *motion = (State1 *)position;
-        motion->f0 = motion->f0 + motion->fc;
-        motion->f4 = motion->f4 + motion->f10;
-        motion->f8 = motion->f8 + motion->f14;
-        motion->fc = motion->fc - (motion->fc >> 3);
-        motion->f10 = motion->f10 - (motion->f10 >> 3);
-        motion->f14 = motion->f14 - (motion->f14 >> 3);
+        ObjectPosition *motion = position;
+        motion->x.v = motion->x.v + motion->velocity_x;
+        motion->y.v = motion->y.v + motion->velocity_y;
+        motion->z.v = motion->z.v + motion->velocity_z;
+        motion->velocity_x = motion->velocity_x - (motion->velocity_x >> 3);
+        motion->velocity_y = motion->velocity_y - (motion->velocity_y >> 3);
+        motion->velocity_z = motion->velocity_z - (motion->velocity_z >> 3);
     }
         sprite->color.word = (s32) (sprite->color.word + 0xFFF7F7F8);
         fade_end_state = 0xFF;

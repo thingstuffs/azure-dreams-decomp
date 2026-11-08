@@ -829,7 +829,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         s32 x_delta, y_distance, y_delta;
         (creature->facing) = action_result;
         ability_flags |= 0x8000;
-        creature->unk_A8.u = target_x;
+        creature->unk_A8 = target_x;
         target_x <<= 16;
         target_x >>= 16;
         creature->unk_AA = target_y;
@@ -1090,7 +1090,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
 
     case MONSTER_PULUNPA:
     if (creature->unk_A4.bytes[3] != 0) {
-        if (creature->unk_A8.byte == 0) {
+        if ((u8)(creature->unk_A8) == 0) {
             STEPVEC(neighbor);
             target = neighbor;
             if (target != NULL) {

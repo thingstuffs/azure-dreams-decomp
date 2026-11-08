@@ -3,6 +3,7 @@
  */
 #include "town/scene/resource/resource_value_table_contains_g01112.h"
 #include "town/scene/resource.h"
+#include "engine/scene.h"
 
 /* Return whether the zero-terminated table contains the target value. */
 s32 resource_value_table_contains(void *target_value) {

@@ -87,9 +87,6 @@ typedef struct B22_818931B8_S_818931B8_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } B22_818931B8_S_818931B8_2;
-typedef struct B22_818930F8_S_818930F8_0_pre {
-    u16 unk_00;
-} B22_818930F8_S_818930F8_0_pre;
 typedef struct B22_818930F8_S_818930F8_0 {
     void * unk_00;
     u16 unk_04;
@@ -181,9 +178,6 @@ typedef struct {
     unsigned len: 8;
     u8 r0, g0, b0, code;
 } B22_81892C5C_P_TAG;
-typedef struct B22_81892BF8_S_81892BF8_0_pre {
-    u16 unk_00;
-} B22_81892BF8_S_81892BF8_0_pre;
 typedef struct B22_81892BF8_S_81892BF8_1 {
     u8 pad_00[0x14];
     u16 unk_14;

@@ -41,7 +41,6 @@ extern s32 check_entity_interaction_compatibility(void *, void *);
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern void select_sprite_entry(void *, u8, s32);
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 
 /* Functions defined in this translation unit. */
 void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *event_context, SpriteFrameState *sprite, ActorRecord *actor);

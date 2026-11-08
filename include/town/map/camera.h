@@ -40,7 +40,6 @@ void restart_or_update_midpoint_tracking(TownCameraState *state);
 void reset_or_advance_target_midpoint(TownCameraState *state);
 void tcame_chase_set(void);
 void tcame_chase2_set(void);
-void tcame_chase_fix(IntVector3 *target);
 void tcame_chase_fix_reset(void);
 void tcame_chase_tgt_reset(void);
 void tcame_lock(void);

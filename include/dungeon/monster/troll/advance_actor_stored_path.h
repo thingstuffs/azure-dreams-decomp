@@ -184,7 +184,6 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height();
 extern struct Ent *prepare_directional_attack(void *, void *, s16, s16, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility(void *, void *);
 extern s32 troll_stored_path_frames;
 extern s32 troll_frame_set;

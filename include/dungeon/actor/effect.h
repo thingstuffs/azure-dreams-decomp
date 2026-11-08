@@ -5,7 +5,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
-void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_state, void *owner);
+void *create_owner_linked_pulsing_effect(ObjectPosition *spawn_pos, ActorRecord *source_state, void *owner);
 
 
 

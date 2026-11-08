@@ -29,7 +29,6 @@ typedef struct S_80035888_6 {
 
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
-extern void runtime_initialize_state_value(void *, s32);
 extern void copy_window_params(struct Container *container, struct Source *source);
 extern void func_800375C0(void *, void *);
 extern void prepend_embedded_object_node(void *, void *);

@@ -26,7 +26,6 @@ extern void sort_entries_by_category(void *);
 extern void SD_Call(s32);
 extern void set_item_menu_entry_coordinates(ItemMenuObject *object);
 void fade_color_to_gray(ItemMenuPart *part, s32 stop_at_gray);
-s32 advance_timed_tagged_stream(FrameState *state);
 extern s32 item_menu_record_callback[];
 
 /* Functions defined in this translation unit. */

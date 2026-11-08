@@ -10,7 +10,7 @@
 #include "dungeon/monster/killer.h"
 
 extern u8 killer_action_resume_address;
-extern s32 D_80174068;
+extern u8 D_80174068[];
 
 /* Updates directional movement, then stops or returns the entity to its grid position. */
 void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *source) {
@@ -33,7 +33,7 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, &D_80174068);
+            begin_actor_display_action(action, motion, entity, D_80174068);
             return;
         }
         if (entity->flags & 0x8000) {
@@ -75,7 +75,7 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, &D_80174068);
+            begin_actor_display_action(action, motion, entity, D_80174068);
             return;
         }
         action->action_timer = 8;

@@ -2,6 +2,7 @@
 /* Shaded particles, terrain collisions, chasing-star trails, and owner-following effects. */
 #include "dungeon/effect/sprite/route.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/sprite.h"
@@ -169,7 +170,7 @@ void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *obj
 
     object->unk_32 -= 8;
     if (object->unk_32 <= 0) {
-        ((u16 *)object)[-1] |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -285,12 +286,12 @@ void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, void *position, S
     ticks_left = state->remaining - 1;
     state->remaining = ticks_left;
     if ((s16)ticks_left <= 0) {
-        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (object->flags & 0x8000) {
-        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -308,7 +309,7 @@ void update_actor_effect_sequence(ChasingStarEffectBody *record)
     counter--;
     record->remaining = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)((u8 *)record - 2) |= NODE_REMOVE;
+        NODE_HEADER(record)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -389,11 +390,11 @@ void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_
     life_left = state->unk_02 - 1;
     state->unk_02 = life_left;
     if ((life_left << 0x10) <= 0) {
-        ((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (sprite->flags & 0x8000) {
-        ((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

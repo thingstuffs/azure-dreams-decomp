@@ -116,4 +116,6 @@ void shuffle_enabled_item_category_pointers(void);
 #include "shared/dungeon_item_entries.h"
 int resolve_record_value(DungeonItemEntry *record);
 
+s32 format_item_name(u8 *text_target, DungeonItemEntry *item);
+
 #endif

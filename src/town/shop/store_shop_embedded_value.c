@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_effect_views.h"
 #include "town/shop.h"
+#include "slus.h"
 
 
 

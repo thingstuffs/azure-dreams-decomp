@@ -72,7 +72,7 @@ void update_dungeon_actor_behavior(void *effect) {
         actor->action_timer += 0x3C;
         U16_AT(effect, 0x18) = 0;
         U16_AT(effect, 0x12)++;
-        actor->unk_A8.byte = enabled;
+        (*(u8 *)&actor->unk_A8) = enabled;
         beldo_actor_nodes[0x47] = 0;
         return;
     case 1:

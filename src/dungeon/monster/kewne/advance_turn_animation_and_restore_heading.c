@@ -132,7 +132,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                 select_sprite_entry(animation, animation_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) transform->facing
                     + 0x100) >> 9) & 7], 0);
             }
-            actor->unk_8C.word_ptr = kewne_action_resume_address;
+            actor->unk_8C.byte_ptr = kewne_action_resume_address;
             transform->facing = (u16) actor->unk_B0.halves.low.u;
             actor->unk_B0.halves.high.s = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

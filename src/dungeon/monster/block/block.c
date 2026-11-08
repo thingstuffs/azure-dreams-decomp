@@ -519,7 +519,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data) {
+void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -551,12 +551,12 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
+            current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_x, position_data->tile_y);
             blocker = (EntityRec *)current_angle;
             if (blocker != 0) {
                 SpriteFrameState *blocker_owner = ((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
-                    position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                    position_data->tile_x, position_data->tile_y,
                     blocker_owner->tile_x, blocker_owner->tile_y,
                     &move_data->action_state_flags);
                 actor_data->facing = target_angle;
@@ -568,7 +568,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                 actor_data->facing += (generate_random_value() & 7) << 9;
             }
         } else {
-            if (probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing) != 0) {
+            if (probe_directional_neighbor(actor_data, position_data->tile_x, position_data->tile_y, actor_data->facing) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -591,24 +591,24 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                         (u16)dir_step_y[offset_index >> 1];
                 }
 
-                if (position_data->tile_position.parts.tile_x == (u16)target_x &&
-                    position_data->tile_position.parts.tile_y == (u16)target_y) {
+                if (position_data->tile_x == (u16)target_x &&
+                    position_data->tile_y == (u16)target_y) {
                     actor_data->movement_queue_state &= 0x7F;
                     return;
                 }
 
                 turn_data = (u8 *)&move_data->action_state_flags;
                 target_angle = (s16)get_rounded_facing_and_rounding_flag(
-                    position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                    position_data->tile_x, position_data->tile_y,
                     (s16)target_x, (s16)target_y, (u16 *)turn_data);
                 actor_data->facing = target_angle;
                 if (check_movement_clearance_and_height(target_angle, position_data, actor_data, 0x20) <= 0) {
                     actor_data->facing = (s16)get_rounded_facing_and_rounding_flag(
-                        position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                        position_data->tile_x, position_data->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (u16 *)turn_data);
                 }
                 if ((s16)test_neighbor_position_relation(
-                        position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                        position_data->tile_x, position_data->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     limit_detour = 1;
                 }
@@ -617,19 +617,19 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                               &move_data->action_state_flags);
             }
         }
-    } else if (position_data->room_index >= 0 &&
-               dungeon_rooms[position_data->room_index].flags & ROOM_HOLY_BEAM) {
+    } else if ((s8)position_data->room_index >= 0 &&
+               dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
         select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
-        current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
+        current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_x, position_data->tile_y, actor_data->facing);
         blocker = (EntityRec *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
                     ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
-                    position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                    position_data->tile_x, position_data->tile_y,
                     (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
@@ -639,16 +639,16 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
         if (actor_data->flags1C & ACTOR_PLAYER_AWARE) {
             TileObject *target_position = &reference_tile_object;
             actor_data->facing = (s16)get_rounded_facing_and_rounding_flag(
-                position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                position_data->tile_x, position_data->tile_y,
                 target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y, &move_data->action_state_flags);
             if ((s16)test_neighbor_position_relation(
-                    position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                    position_data->tile_x, position_data->tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
                 if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
                             ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
-                            position_data->tile_position.parts.tile_x,
-                                position_data->tile_position.parts.tile_y,
+                            position_data->tile_x,
+                                position_data->tile_y,
                             (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
                         actor_data->movement_queue_state &= 0x7F;
                         return;
@@ -684,12 +684,12 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
 
             actor_data->facing = trial_angle;
             /* remember the cell in the actor's trail of visited cells */
-            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x74] = position_data->tile_position.parts.tile_x;
-            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x7C] = position_data->tile_position.parts.tile_y;
+            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x74] = position_data->tile_x;
+            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x7C] = position_data->tile_y;
             actor_data->movement_queue_state++;
 
             update_map_cell_flags_with_item_limit(
-                position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                position_data->tile_x, position_data->tile_y,
                 (actor_data->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
 
             {
@@ -698,18 +698,18 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                 x_step = (u8 *)((s8 *)dir_step_x);
                 step_offset = (((u16)(actor_data->facing)) >> 8) & 0xE;
                 x_step += step_offset;
-                position_data->tile_position.parts.tile_x += *x_step;
-                position_data->tile_position.parts.tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
+                position_data->tile_x += *x_step;
+                position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
             }
 
             cycle_map_cell_flags(
-                position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                position_data->tile_x, position_data->tile_y,
                 (actor_data->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
             break;
         }
 
         if (turn_index == 0 &&
-            *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_position.parts.tile_x) {
+            *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_x) {
             {
                 ObjectNodeHeader *previous_node;
                 void *previous_body;
@@ -746,8 +746,8 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
     }
 
     turn_index = sample_terrain_surface_height(
-        (position_data->tile_position.parts.tile_x << 6) | 0x20,
-        (position_data->tile_position.parts.tile_y << 6) | 0x20,
+        (position_data->tile_x << 6) | 0x20,
+        (position_data->tile_y << 6) | 0x20,
         (s16)((u16)actor_data->ground_height - 0x20));
     if (turn_index < 0x200) {
         actor_data->ground_height = turn_index;
@@ -924,7 +924,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_A4.halves.high.s = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
             (map_entry->tile_y << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
-        action->unk_A8.u = (u16) ((u16)motion->z.w.i);
+        action->unk_A8 = (u16) ((u16)motion->z.w.i);
                         /* fall through */
     case 1:
         move_frames = (s16)(action->unk_9E);
@@ -955,26 +955,26 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
                 case 6:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0xFFFE0000 - ((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8.u) << 0x10));
+                        - (s16) action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 5:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0 - ((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8.u) << 0x10));
+                        - (s16) action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 4:
                     scaled_height_delta = (action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8.u) * 3;
+                        - (s16) action->unk_A8) * 3;
                     action->unk_90.value = (s32) (0 - ((scaled_height_delta / 4) << 0x10));
                     actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
                     break;
                 case 3:
                     action->unk_90.value = (s32) (0 - ((((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8.u) * 2) / 5) << 0x10));
+                        - (s16) action->unk_A8) * 2) / 5) << 0x10));
                     break;
                 default:
                     action->unk_90.value = 0;

@@ -3,9 +3,11 @@
 #include "shared/object_node.h"
 #include "dungeon/item.h"
 #include "dungeon/item/itemwin.h"
+#include "records/Rec_func_80025D28_arg0.h"
 #include "shared/item_ids.h"
 #include "shared/object_flags.h"
 #include "engine/graphics.h"
+#include "engine/texture.h"
 
 
 /*

@@ -101,7 +101,7 @@ void *allocate_object_and_child_display_items(s32 kind, s32 part_x, s32 part_y, 
         stable_object->unk_8C.address = D_8016B3A8;
         object->flags1C |= 0x40000;
         stable_object->unk_90.parts.high.s = -48;
-        stable_object->unk_A8.s = 0;
+        stable_object->unk_A8 = 0;
         stable_object->unk_9E = 1;
         stable_object->action_state_flags |= 0x4000;
 

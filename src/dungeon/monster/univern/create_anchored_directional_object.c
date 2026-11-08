@@ -480,11 +480,11 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
 
         if ((*(u8 **)&sprite->frameTable != univern_direction_frames) &&
             (*(u8 **)&sprite->frameTable != univern_alt_direction_frames)) {
-            actor->unk_A8.s = 0;
+            actor->unk_A8 = 0;
             (sprite->frameTable) = univern_alt_direction_frames;
             select_sprite_entry(
                 sprite,(u8)(univern_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 9) & 7]),
-                actor->unk_A8.s);
+                (actor->unk_A8));
         }
 
         status->flags1C |= 0x40000;
@@ -498,7 +498,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
 
         if (((u32)status->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, status);
-            actor->unk_A8.s = 0;
+            actor->unk_A8 = 0;
             update_univern_parent_motion(actor, context, sprite, status);
             return;
         }
@@ -633,7 +633,7 @@ void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, Sp
             entity,
             univern_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + path_state->facing + 0x100) >> 9) & 7],
             0);
-        motion->unk_A8.s = 0;
+        motion->unk_A8 = 0;
     }
 
     old_x = entity->tile_x;
@@ -2044,7 +2044,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
 void update_univern_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = ((u8 *)update_entity_movement_and_ground_height);
+            actor->unk_8C.handler = update_entity_movement_and_ground_height;
             return;
         }
     } else if (*(u8 **)&entity->frameTable == univern_alt_spawn_direction_frames &&

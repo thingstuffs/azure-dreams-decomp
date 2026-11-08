@@ -365,7 +365,6 @@ typedef struct {
 extern M2C_UNK D_800789B8;
 extern char *D_8002946C[];
 char *copy_indexed_menu_string(char *resource, s32 index, s32 unused_data, s32 unused_size);
-void *create_callback_pair_default();
 void * func_8004B404(int value);
 extern void strncpy();
 extern u8 D_800287EC[];
@@ -391,7 +390,6 @@ extern void strncat(void *, void *, s32);
 extern s32 func_8004DC14(void *, s32);
 extern void flag_optional_object_for_removal(void *);
 extern s32 D_8002503C;
-S_800491F4 *build_reverse_indexed_chain(S_800491F4 **, u8 *, s32);
 extern u8 menu_context_chain_indices[16];
 extern u8 menu_entry_chain_indices[4];
 extern ovl_1831cd8_81813050_Template0 display_block_defaults;

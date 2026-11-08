@@ -25,15 +25,15 @@ typedef struct TownMoveGlobal {
 extern TownMoveGlobal town_actor_control;
 
 /* Applies the enabled movement offsets, adding the z offset only when positive. */
-void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(IntVector3 *out) {
+void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(ObjectPosition *out) {
     s32 z_offset;
 
     if (town_actor_control.enabled != 0) {
-        out->x += town_actor_control.middle->inner->x;
-        out->y += town_actor_control.middle->inner->y;
+        out->x.v += town_actor_control.middle->inner->x;
+        out->y.v += town_actor_control.middle->inner->y;
         z_offset = town_actor_control.middle->inner->z;
         if (z_offset > 0) {
-            out->z += z_offset;
+            out->z.v += z_offset;
         }
     }
 }

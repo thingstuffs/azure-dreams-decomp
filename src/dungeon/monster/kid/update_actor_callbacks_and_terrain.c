@@ -163,11 +163,11 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                     if (object_arg->flags & 0x6000) {
                         actor_arg->action_state_flags = (u16) (actor_arg->action_state_flags | 0x8000);
                         if (((SpriteAnimationTableView *)object_arg)->frame_table == kid_direction_frames) {
-                            actor_arg->unk_A8.s = 0;
+                            actor_arg->unk_A8 = 0;
                         }
                     }
-                    bob_offset = rsin((actor_arg->unk_A8.s << 0xC) / 20) >> 0xA;
-                    actor_arg->unk_A8.s = (s16) ((u16) actor_arg->unk_A8.s + 1);
+                    bob_offset = rsin(((s16)(actor_arg->unk_A8) << 0xC) / 20) >> 0xA;
+                    actor_arg->unk_A8 = (s16) ((u16) actor_arg->unk_A8 + 1);
                 }
                 if (!(actor_arg->action_state_flags & 8)) {
                     hover_ground_offset = (s16) (sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
@@ -184,7 +184,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 }
             } else {
                 motion_flags = actor_arg->action_state_flags;
-                actor_arg->unk_A8.s = 0;
+                actor_arg->unk_A8 = 0;
                 actor_arg->action_state_flags = (u16) (motion_flags & 0x7FFF);
                 if (!(motion_flags & 8)) {
                     ground_offset = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
@@ -207,7 +207,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
             hidden_actor_flags = actor_base->flags1C & 0xF7FFFFFF;
             actor_base->flags1C = hidden_actor_flags;
             if (!(hidden_actor_flags & 0x40000)) {
-                actor_arg->unk_A8.s = 0;
+                actor_arg->unk_A8 = 0;
                 actor_arg->unk_90.parts.high.s = (s16) ((u16) actor_arg->unk_90.parts.high.s
                     - bob_offset);
                 bob_offset = 0;
@@ -260,11 +260,11 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                     if (object_arg->flags & 0x6000) {
                         actor_arg->action_state_flags = (u16) (actor_arg->action_state_flags | 0x8000);
                         if (((SpriteAnimationTableView *)object_arg)->frame_table == kid_direction_frames) {
-                            actor_arg->unk_A8.s = 0;
+                            actor_arg->unk_A8 = 0;
                         }
                     }
-                    bob_offset = rsin((actor_arg->unk_A8.s << 0xC) / 20) >> 0xA;
-                    actor_arg->unk_A8.s = (s16) ((u16) actor_arg->unk_A8.s + 1);
+                    bob_offset = rsin(((s16)(actor_arg->unk_A8) << 0xC) / 20) >> 0xA;
+                    actor_arg->unk_A8 = (s16) ((u16) actor_arg->unk_A8 + 1);
                 }
                 if (!(actor_arg->action_state_flags & 8)) {
                     hidden_hover_offset = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
@@ -280,7 +280,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                     }
                 }
             }
-            actor_arg->unk_A8.s = 0;
+            actor_arg->unk_A8 = 0;
             actor_arg->action_state_flags = (u16) (actor_arg->action_state_flags & 0x7FFF);
         }
         height_flags = actor_base->flags1C;

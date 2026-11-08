@@ -119,10 +119,6 @@ typedef struct Vec3 {
     s16 z;
 } Vec3;
 
-typedef struct S_81844F2C_0_pre {
-    u16 unk_00;
-} S_81844F2C_0_pre;   /* the 0x2 bytes before base in func_8002472C, addressed as base[-1] */
-
 typedef struct S_81844F2C_0 {
     void * unk_00;
     u16 unk_04;

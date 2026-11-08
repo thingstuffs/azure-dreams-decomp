@@ -4,6 +4,7 @@
 #include "town/scene/paired_value_dispatch_g00647.h"
 #include "town/scene.h"
 #include "town/scene/hooks.h"
+#include "engine/object.h"
 
 /* Run setup, assign the retrieved object handler when present, and return -1. */
 s32 run_setup_and_get_object_handler(s32 context, s32 value, s32 options) {

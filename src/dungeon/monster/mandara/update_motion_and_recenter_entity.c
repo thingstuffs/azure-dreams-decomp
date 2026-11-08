@@ -9,7 +9,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-extern s32 D_80175268;
+extern u8 D_80175268[];
 
 /* Updates directional motion, then recenters the entity on its tile and finishes the action. */
 void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {
@@ -30,7 +30,7 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, tile, &D_80175268);
+            begin_actor_display_action(action, motion, tile, D_80175268);
             return;
         }
         if (tile->flags & 0x8000) {
@@ -64,7 +64,7 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, tile, &D_80175268);
+            begin_actor_display_action(action, motion, tile, D_80175268);
             return;
         }
         action->action_timer = 8;

@@ -56,7 +56,7 @@ void fade_linked_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused_
     }
     if ((s16)((u16)effect->remaining) <= 0) {
         ((S_81994800_2 *)(((effect->slot_index * 2) + ((u8 *)effect->owner))))->unk_46 = 0;
-        (*(u16 *)((u8 *)effect + -2)) = (u16)(NODE_HEADER(effect)->flags | NODE_REMOVE);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -276,7 +276,7 @@ void fade_the_primitive_flag_effect_countdown_expires(void *effect, void *unused
     }
 
     if (*(s16 *)((u8 *)effect + 0x2A) <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -429,7 +429,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             actor = primary_actor_record;
             state->countdown = 0x14;
             actor->unk_A4.halves.high.u -= 1; /* halfword counter at +0xA6 (high half of unk_A4) */
-            actor->unk_A8.byte = (u8) state->event_id;
+            (*(u8 *)&actor->unk_A8) = (u8) state->event_id;
             actor_facing = (u16)primary_actor_record->facing;
             state->phase++;
             state->ticks = 0;

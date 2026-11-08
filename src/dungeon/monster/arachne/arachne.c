@@ -900,14 +900,14 @@ void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPositio
 }
 
 /* Arcs to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 target_distance;
     s32 frames_left;
     s16 next_timer;
     s32 actor_flags;
     s32 state;
 
-    state = action->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -918,15 +918,15 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPositi
             sprite,
             D_80175A6C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        action->unk_98 |= 8;
+        action->action_state_flags |= 8;
         motion->velocity_z = 0xFFF00000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->unk_A0 = 0;
-        action->unk_9B++;
+        action->unk_A0.value = 0;
+        action->action_phase++;
                         /* fallthrough */
     case 1:
-        frames_left = action->unk_96.s;
-        action->unk_90 -= action->unk_A0;
+        frames_left = ((s16)action->action_timer);
+        action->unk_90.value -= action->unk_A0.value;
         if (frames_left != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -939,22 +939,22 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPositi
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    action->unk_96.s;
+                    ((s16)action->action_timer);
             }
-            action->unk_A0 += motion->velocity_z;
+            action->unk_A0.value += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
-        action->unk_90 += action->unk_A0;
-        if (action->unk_96.s < 0) {
-            action->unk_90 = 0;
-            action->unk_98 &= 0xFFF7;
+        action->unk_90.value += action->unk_A0.value;
+        if (((s16)action->action_timer) < 0) {
+            action->unk_90.value = 0;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            action->unk_9B++;
+            action->action_phase++;
         }
                         /* fallthrough */
     case 2:
         if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
-            action->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -964,13 +964,13 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPositi
                 sprite,
                 D_80175A74[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->unk_9B++;
+            action->action_phase++;
         }
         break;
     }
 
-    next_timer = action->unk_96.u - 1;
-    action->unk_96.s = next_timer;
+    next_timer = action->action_timer - 1;
+    action->action_timer = next_timer;
     if ((next_timer << 16) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -1005,7 +1005,7 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPositi
         }
 
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            action->unk_8C = ((void *)update_actor_state_and_select_target);
+            action->unk_8C.address = ((void *)update_actor_state_and_select_target);
             on_actor_status_updated(actor);
         }
     }
@@ -1787,7 +1787,7 @@ void resume_actor_target_selection_after_status_animation(ActorRecord *controlle
 void update_arachne_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = ((u8 *)update_actor_state_and_select_target);
+            actor->unk_8C.handler = update_actor_state_and_select_target;
             return;
         }
     } else if (entity->frameTable == arachne_alt_direction_frames &&

@@ -92,7 +92,7 @@ void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPositio
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(controller_in, motion, sprite, actor);
-                controller_in->unk_A8.s = 0;
+                controller_in->unk_A8 = 0;
                 func_80174218(controller_in, motion, sprite, actor);
                 return;
             }
@@ -169,7 +169,7 @@ void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPositio
             return;
         }
         motion->velocity_z = 0;
-        controller_in->unk_A8.s = 0;
+        controller_in->unk_A8 = 0;
         sprite->frameTable = kid_direction_frames;
         select_sprite_entry(sprite,
             kid_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

@@ -86,7 +86,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
         actor_counters = *actor_slot;
         effect->unk_18 = 0x12;
         actor_counters->unk_A4.halves.high.u = (u16) (actor_counters->unk_A4.halves.high.u - 1);
-        actor_counters->unk_A8.byte = (u8) effect->spell.spell_id;
+        (*(u8 *)&actor_counters->unk_A8) = (u8) effect->spell.spell_id;
         actor_state = *actor_slot;
         actor_state->unk_A9 = (u8) effect->spell.variant;
         actor_state = *actor_slot;

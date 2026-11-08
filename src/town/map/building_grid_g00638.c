@@ -32,7 +32,7 @@ void update_active_building_entries(void) {
 }
 
 /* Clears the 128-halfword grid and initializes its building scene objects. */
-void clear_and_initialize_building_grid(s32 grid) {
+void clear_and_initialize_building_grid(void *grid) {
     clear_halfword_grid_128(grid);
     initialize_building_scene_objects(grid);
 }

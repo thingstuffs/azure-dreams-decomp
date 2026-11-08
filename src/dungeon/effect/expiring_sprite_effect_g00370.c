@@ -109,7 +109,7 @@ void update_expiring_sprite_effect(RadialEffectSegmentBody *effect, S_800D6C18_2
     effect->unk_0C = ticks_left;
     global_base = (s32 *) 0x80080000;
     if ((ticks_left << 0x10) <= 0) {
-        ((S_800D6C18_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D6C18_0_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         global_base[0x14A0 / 4] |= 0x8000;
     }
 }

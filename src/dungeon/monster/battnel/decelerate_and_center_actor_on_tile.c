@@ -13,7 +13,7 @@
 extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"
 #include "engine/graphics.h"
-extern s32 D_80173D24;
+extern u8 D_80173D24[];
 
 /* Apply directional movement, slow it down, and return the actor to its tile center. */
 void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -50,7 +50,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, sprite, &D_80173D24);
+            begin_actor_display_action(action, motion, sprite, D_80173D24);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -96,7 +96,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, sprite, &D_80173D24);
+            begin_actor_display_action(action, motion, sprite, D_80173D24);
             return;
         }
         action->action_timer = 4;

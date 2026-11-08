@@ -135,7 +135,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
         }
 
         if (((u32)entity->flags14) & 0x20000) {
-            switch (self_object->unk_A8.s) {
+            switch ((s16)(self_object->unk_A8)) {
             case 0:
                 if (sprite->frameTable != mandara_frame_set) {
                     g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -145,7 +145,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     sprite->flags &= 0x9FFF;
                     self_object->unk_A4.halves.high.u = 300;
                 }
-                self_object->unk_A8.u++;
+                self_object->unk_A8++;
                 return;
 
             case 1:
@@ -161,11 +161,11 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     set_record_integer_tile_center(aux_entity,
                         sprite->tile_x, sprite->tile_y);
                     entity->flags14 &= ~0x20000;
-                    self_object->unk_A8.u = 0;
+                    self_object->unk_A8 = 0;
                     return;
                 }
                 if (((u32)entity->flags14) & 0x1000000) {
-                    self_object->unk_A8.u++;
+                    self_object->unk_A8++;
                     sprite->frameTable = mandara_frame_set;
                     select_sprite_entry(sprite,
                         mandara_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -232,7 +232,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                         aux_entity->velocity_y = 0;
                         aux_entity->velocity_x = 0;
                         self_object->unk_A4.halves.high.u = 4;
-                        self_object->unk_A8.u++;
+                        self_object->unk_A8++;
                         return;
                     }
                 }
@@ -249,7 +249,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     aux_entity->velocity_y = 0;
                     aux_entity->velocity_x = 0;
                     self_object->unk_A4.halves.high.u = 3;
-                    self_object->unk_A8.u++;
+                    self_object->unk_A8++;
                     return;
                 }
                 return;
@@ -287,7 +287,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     select_sprite_entry(sprite,
                         mandara_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
-                    self_object->unk_A8.u = 0;
+                    self_object->unk_A8 = 0;
                     return;
                 }
                 return;

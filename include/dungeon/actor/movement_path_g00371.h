@@ -115,7 +115,6 @@ extern u8 actor_action_resume_address;
 extern u8 actor_movement_frames[];
 extern Callback actor_contact_callbacks[];
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 can_entity_gain_level(void *);
 
 
 extern void *actor_action_frames[];

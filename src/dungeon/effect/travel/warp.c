@@ -79,7 +79,7 @@ void run_warp_effect_sequence(EventState *event) {
         warp_attack_option = event_option;
         warp_attack_event = event->source;
         ((PlayerRecord *)object)->unk_F4 = 0;
-        object->unk_A8.byte = ((u8 *)event)[8];
+        (*(u8 *)&object->unk_A8) = ((u8 *)event)[8];
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
         event->state++;
     }

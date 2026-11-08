@@ -5,6 +5,7 @@
 #include "town/shop/item.h"
 #include "town/shop/position.h"
 #include "town/shop_callbacks_api.h"
+#include "slus.h"
 
 /* Initialize UI resources and position five rows of display elements. */
 void initialize_shop_window_layout(ShopWindow *ui) {

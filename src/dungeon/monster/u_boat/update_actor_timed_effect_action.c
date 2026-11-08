@@ -172,7 +172,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         }
         next_phase = action->action_phase;
         action->action_timer = 0x1EU;
-        action->unk_A8.s = 0;
+        action->unk_A8 = 0;
         action->unk_B0.bytes[1] = 0U;
         action->unk_B0.bytes[2] = 0;
         action->unk_B4.bytes[0] = 0;

@@ -7,7 +7,6 @@
 
 extern void *town_resource_ids[];
 extern u8 D_80080EA8[];
-extern void file_load_com(void *object);
 extern u8 town_resource_queue[15];
 extern void *town_resource_descriptors[16];
 

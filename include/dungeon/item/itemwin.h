@@ -6,7 +6,6 @@ struct DisplayPositionWords;
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80025850_arg0.h"
-#include "records/Rec_func_80025D28_arg0.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 typedef void (*DispatchFunc)(void *context, void *self);
@@ -214,7 +213,6 @@ extern void set_object_data_pointer(void *object);
 extern s32 advance_index_with_single_wrap(s32 selection_step, s32 unk8, s32 value);
 extern u8 D_800789B8[9];
 extern s32 inventory_shared_entry_value;
-S_800491F4 *build_reverse_indexed_chain(S_800491F4 **, u8 *, s32);
 extern u8 item_window_chain_indices[13];
 extern ovl_1830850_81810D9C_S_8002E5D8 display_block_defaults;
 extern ovl_1830850_81810D9C_S_8002E5E8 display_vector_defaults;
@@ -244,7 +242,6 @@ void inventory_clear_entry_value(ovl_1830850_81810C4C_S_80025C4C_0 *entry);
 void set_destination_byte_pointer(ovl_1830850_81810C58_S_80025C58_0 *dest);
 void *inventory_initialize_five_shared_entries(void *entryBuffer);
 void inventory_initialize_packet_and_set_flag(ovl_1830850_81810CD8_S_80025CD8_0 *packet);
-void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet);
 S_800491F4 *inventory_create_context_entry_13(S_800491F4 **context);
 void inventory_initialize_owner_patch_and_state(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
                    ovl_1830850_81810D9C_S_8002E5E8 *state);

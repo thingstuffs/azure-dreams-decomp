@@ -43,7 +43,6 @@ extern u8 resource_queue_input_buffer[0x10];
 extern void *runtime_texture_resource_handle;
 
 extern s32 relocate_sprite_metadata_pointers(void *object_addr);
-extern void patch_sprite_packet_texture_and_palette_ids(void *a0, u16 a1, u16 a2, u16 a3);
 
 /* Advances the effect state, applies a fixed effect, and publishes the state pointer. */
 

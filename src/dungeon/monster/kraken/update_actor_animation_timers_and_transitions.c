@@ -103,7 +103,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(entity, motion, sprite, actor);
-                entity->unk_A8.u = 0;
+                entity->unk_A8 = 0;
                 func_80173D10(entity, motion, sprite, actor);
                 return;
             }
@@ -202,7 +202,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
         }
         state_two_counter_base = (TrailHeightView *)&g_dungeon_status.turn_scale;
         motion->velocity_z = 0;
-        entity->unk_A8.u = 0;
+        entity->unk_A8 = 0;
         state_two_counter_base->unk_0A--;
 
         break;

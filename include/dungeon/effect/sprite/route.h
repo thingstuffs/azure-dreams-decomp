@@ -243,9 +243,6 @@ typedef struct B32_818CEDC8_S_818CEDC8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
 } B32_818CEDC8_S_818CEDC8_0;
-typedef struct B32_818CEDC8_S_818CEDC8_1_pre {
-    u16 unk_00;
-} B32_818CEDC8_S_818CEDC8_1_pre;
 typedef struct B32_818CEDC8_S_818CEDC8_1 {
     u8 pad_00[0x2];
     u16 unk_02;

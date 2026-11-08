@@ -181,7 +181,6 @@ extern s32 memset();
 extern char * func_8004EAC4(u8 *buffer, char *code, s32 slot_index);
 extern void strcpy(s32, s32);
 extern s32 text_editor_packet_payload;
-S_800491F4 *build_reverse_indexed_chain(S_800491F4 **, u8 *, s32);
 extern u8 menu_selection_chain_indices[5];
 extern ovl_1831370_818117D8_S_8002E5D8 display_block_defaults;
 extern ovl_1831370_818117D8_S_8002E5E8 display_vector_defaults;

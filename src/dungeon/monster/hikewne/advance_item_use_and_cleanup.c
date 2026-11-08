@@ -26,21 +26,7 @@ extern void create_directional_template_effect(void *, void *, void *, void *);
 
 extern u8 D_80174110[];
 
-typedef struct S_80172A48_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    u16 unk_9E;
-    u8 pad_A0[0x2];
-    s16 unk_A2;
-} S_80172A48_0;   /* arg0 in advance_item_use_and_cleanup */
+
 
    /* the 0x14 bytes before active in advance_item_use_and_cleanup, addressed as active[-1] */
 
@@ -49,7 +35,7 @@ typedef struct S_80172A48_0 {
 /* Advance item use through effect activation, actor animation, and cleanup. */
 /* Starts a targeted spell, waits for loading, emits directional effects, and restores the actor after
  * either sequence. */
-void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, SpriteFrameState *actor, void *item)
+void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, void *item)
 {
     register u8 *effect_slot;
     s16 is_special;
@@ -60,7 +46,7 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
     MovingTile *linked;
 
     is_special = 0;
-    state = action->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if ((*(u32 *)((u8 *)item + 0x1C)) & ACTOR_PLAYER_SIDE) {
@@ -108,7 +94,7 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
         }
 
         if (*effect_slot != 0) {
-            action->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             {
                 s32 special_target;
 
@@ -147,11 +133,11 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
             }
 
             effect_special = is_special;
-            if (create_actor_spell_effect(item, effect_slot, effect_special, (u8 *)action + 0x98) == 0) {
+            if (create_actor_spell_effect(item, effect_slot, effect_special, &action->action_state_flags) == 0) {
                 return;
             }
-            action->unk_96 = 0;
-            action->unk_9B++;
+            action->action_timer = 0;
+            action->action_phase++;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -161,7 +147,7 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
             if (effect_special == 1) {
                 return;
             }
-            action->unk_9B = 0x10;
+            action->action_phase = 0x10;
             return;
         }
 
@@ -173,7 +159,7 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(item);
         (*((u8 *)item + 0x6D))--;
-        action->unk_8C = update_actor_behavior_animation_and_facing;
+        action->unk_8C.handler = update_actor_behavior_animation_and_facing;
         (*((u8 *)item + 0x73)) = 0;
         (*((u8 *)item + 0x72)) = 0;
         (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
@@ -185,40 +171,40 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
             return;
         }
         actor->flags &= 0xF7FF;
-        action->unk_9B++;
+        action->action_phase++;
 
     case 2:
     {
         s16 timer;
 
-        timer = action->unk_96;
-        action->unk_96 = timer + 1;
+        timer = action->action_timer;
+        action->action_timer = timer + 1;
         if ((s16)timer < 8) {
             if (!(actor->flags & 0x8000)) {
                 return;
             }
         }
     }
-        next_state = action->unk_9B;
-        action->unk_96 = 0;
+        next_state = action->action_phase;
+        action->action_timer = 0;
         next_state++;
-        action->unk_9B = next_state;
+        action->action_phase = next_state;
         return;
 
     case 3:
-        if (action->unk_A2 != 0) {
+        if ((s16)action->unk_A0.parts.high != 0) {
             s16 timer;
 
-            timer = action->unk_96;
-            action->unk_96 = timer + 1;
+            timer = action->action_timer;
+            action->action_timer = timer + 1;
             if ((s16)timer < 15) {
                 if (!(actor->flags & 0x8000)) {
                     return;
                 }
             }
         }
-        action->unk_96 = 0;
-        action->unk_9B++;
+        action->action_timer = 0;
+        action->action_phase++;
         play_sound_if_enabled(0x703);
         (actor->frameTable) = D_80174110;
         select_sprite_entry(actor,
@@ -231,8 +217,8 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
         {
             s16 timer;
 
-            timer = action->unk_96;
-            action->unk_96 = timer + 1;
+            timer = action->action_timer;
+            action->action_timer = timer + 1;
             if ((s16)timer < 3) {
                 if (!(actor->flags & 0xE000)) {
                     return;
@@ -240,7 +226,7 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
             }
         }
         actor->flags |= 0x800;
-        action->unk_9B++;
+        action->action_phase++;
         return;
 
     case 5:
@@ -248,23 +234,23 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
         {
             s16 timer;
 
-            timer = action->unk_96;
-            action->unk_96 = timer + 1;
+            timer = action->action_timer;
+            action->action_timer = timer + 1;
             if ((s16)timer < 10) {
                 if (!(actor->flags & 0x8000)) {
                     return;
                 }
             }
         }
-        action->unk_96 = 0;
-        action->unk_9B++;
+        action->action_timer = 0;
+        action->action_phase++;
         actor->flags &= 0xF7FF;
         return;
 
     case 6:
-        action->unk_96 = 0;
-        action->unk_98 |= 0x80;
-        action->unk_9B++;
+        action->action_timer = 0;
+        action->action_state_flags |= 0x80;
+        action->action_phase++;
         return;
 
     case 7:
@@ -275,7 +261,7 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
-        action->unk_9B++;
+        action->action_phase++;
         if (*(u8 **)&actor->frameTable == hikewne_direction_frames) {
             return;
         }
@@ -288,7 +274,7 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
                 0);
         }
         action->unk_9E = 0;
-        action->unk_92 = -0x20;
+        action->unk_90.parts.high.s = -0x20;
         return;
 
     case 8:
@@ -298,7 +284,7 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        action->unk_8C = update_actor_behavior_animation_and_facing;
+        action->unk_8C.handler = update_actor_behavior_animation_and_facing;
         advance_status_timers(item);
         (*((u8 *)item + 0x73)) = 0;
         (*((u8 *)item + 0x72)) = 0;
@@ -314,38 +300,38 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
             return;
         }
         actor->flags &= 0xF7FF;
-        action->unk_9B++;
+        action->action_phase++;
 
     case 17:
     {
         s16 timer;
 
-        timer = action->unk_96;
-        action->unk_96 = timer + 1;
+        timer = action->action_timer;
+        action->action_timer = timer + 1;
         if ((s16)timer < 8 &&
             !(actor->flags & 0x8000)) {
             return;
         }
     }
-        next_state = action->unk_9B;
-        action->unk_96 = 0;
+        next_state = action->action_phase;
+        action->action_timer = 0;
         next_state++;
-        action->unk_9B = next_state;
+        action->action_phase = next_state;
         return;
 
     case 18:
-        if (action->unk_A2 != 0) {
+        if ((s16)action->unk_A0.parts.high != 0) {
             s16 timer;
 
-            timer = action->unk_96;
-            action->unk_96 = timer + 1;
+            timer = action->action_timer;
+            action->action_timer = timer + 1;
             if ((s16)timer < 15 &&
                 !(actor->flags & 0x8000)) {
                 return;
             }
         }
-        action->unk_96 = 0;
-        action->unk_9B++;
+        action->action_timer = 0;
+        action->action_phase++;
         play_sound_if_enabled(0x703);
                     /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
         (actor->frameTable) = (u8 *)((u32)hikewne_frame_set_17 - 8);
@@ -360,46 +346,46 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
         {
             s16 timer;
 
-            timer = action->unk_96;
-            action->unk_96 = timer + 1;
+            timer = action->action_timer;
+            action->action_timer = timer + 1;
             if ((s16)timer < 2 &&
                 !(actor->flags & 0xE000)) {
                 return;
             }
         }
         actor->flags |= 0x800;
-        next_state = action->unk_9B;
+        next_state = action->action_phase;
         next_state++;
-        action->unk_9B = next_state;
+        action->action_phase = next_state;
         return;
 
     case 20:
         actor->flags |= 0x800;
-        if (((s16)action->unk_96) < 5) {
+        if (((s16)action->action_timer) < 5) {
             create_directional_template_effect(action, motion, actor, item);
         }
         {
             s16 timer;
 
-            timer = action->unk_96;
-            action->unk_96 = timer + 1;
+            timer = action->action_timer;
+            action->action_timer = timer + 1;
             if ((s16)timer < 10 &&
                 !(actor->flags & 0x8000)) {
                 return;
             }
         }
-        action->unk_96 = 0;
-        action->unk_9B++;
+        action->action_timer = 0;
+        action->action_phase++;
         actor->flags &= 0xF7FF;
-        action->unk_98 |= 0x80;
+        action->action_state_flags |= 0x80;
         return;
 
     case 21:
         if (!(actor->flags & 0xE000)) {
             return;
         }
-        action->unk_96 = 0;
-        action->unk_9B++;
+        action->action_timer = 0;
+        action->action_phase++;
         {
 
             (actor->frameTable) = hikewne_frame_set_17;
@@ -414,22 +400,22 @@ void advance_item_use_and_cleanup(S_80172A48_0 *action, ObjectPosition *motion, 
     {
         s16 timer;
 
-        timer = action->unk_96;
-        action->unk_96 = timer + 1;
+        timer = action->action_timer;
+        action->action_timer = timer + 1;
         if ((s16)timer < 5) {
             return;
         }
     }
-        next_state = action->unk_9B;
-        action->unk_96 = 0;
+        next_state = action->action_phase;
+        action->action_timer = 0;
         next_state++;
-        action->unk_9B = next_state;
+        action->action_phase = next_state;
         return;
 
     case 23:
         next_state = 6;
-        action->unk_96 = 0;
-        action->unk_9B = next_state;
+        action->action_timer = 0;
+        action->action_phase = next_state;
         return;
     default:
         return;

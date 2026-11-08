@@ -8,9 +8,6 @@ struct ObjectNodeHeader;
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "dungeon/effect/particle.h"
-typedef struct S_81940800_0_pre {
-    u16 unk_00;
-} S_81940800_0_pre;
 typedef struct S_81940800_1 {
     u8 pad_00[0x6];
     s16 unk_06;

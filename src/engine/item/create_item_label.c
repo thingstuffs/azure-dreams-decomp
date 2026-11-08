@@ -12,7 +12,6 @@
 /* format_item_name: init routine for the freshly-allocated 0x104-byte object,
  * takes the object pointer and this function's original argument. Returns
  * nonzero on success. */
-extern s32 format_item_name(u8 *a0, DungeonItemEntry *a1);
 
 /* func_8004B1A4 (code5.c): sets a "used" flag bit on a 16-bit
  * flags field 2 bytes before the object pointer, plus a global flags word. */

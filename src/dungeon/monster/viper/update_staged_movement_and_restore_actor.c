@@ -92,7 +92,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
     default:
         return;
     case 0:
-        body->unk_A8.u = (u16) ((u16)motion->x.w.i);
+        body->unk_A8 = (u16) ((u16)motion->x.w.i);
         body->unk_AA = (u16) ((u16)motion->y.w.i);
         if (sprite->flags & 0x8000) {
             body->action_phase = 5U;
@@ -225,7 +225,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         return;
     case 5:
         axis_distance = (s16) ((u16)motion->x.w.i);
-        start_coord = (s16) body->unk_A8.u;
+        start_coord = (s16) body->unk_A8;
         axis_distance = axis_distance - start_coord;
         if (axis_distance < 0) {
             axis_distance = 0 - axis_distance;
@@ -243,7 +243,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         } else {
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         }
-        if ((s16) ((u16)motion->x.w.i) != (s16) body->unk_A8.u) {
+        if ((s16) ((u16)motion->x.w.i) != (s16) body->unk_A8) {
             return;
         }
         if ((s16) ((u16)motion->y.w.i) != (s16) body->unk_AA) {

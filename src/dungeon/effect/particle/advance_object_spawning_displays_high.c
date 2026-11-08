@@ -51,7 +51,7 @@ void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused,
     }
     if ((s16)((u16)effect->remaining) <= 0) {
         ((S_81940800_2 *)(((effect->slot_index * 2) + ((u8 *)effect->owner))))->unk_46 = 0;
-        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81940800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -75,7 +75,7 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
 
     copy_dst = (u8 *)&rect_table;
     copy_src = (u8 *)&high_particle_texture_rects;
-    if ((u32)copy_src & 3) {
+    if ((unsigned long)copy_src & 3) {
         copy_end = copy_src + sizeof(RectTable);
         do {
             *(PackedBlock *)copy_dst = *(PackedBlock *)copy_src;
@@ -142,7 +142,7 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
     timer = (*(u16 *)((u8 *)owner + 0x2A)) - 1;
     owner->timer = timer;
     if ((s16)timer <= 0) {
-        (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
+        NODE_HEADER(owner)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -238,7 +238,7 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
             ((u8 *)tile)[3] = 2;
             tile->code = 0x6A;
             ((GpuLinkTag *)&tile->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
-            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)tile;
+            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)(unsigned long)tile;
 
             draw_mode = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
@@ -246,7 +246,7 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
             SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 
             ((GpuLinkTag *)&draw_mode->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
-            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
+            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)(unsigned long)draw_mode;
         }
 
         /* the preceding header's +0x18 holds the next node */
@@ -274,7 +274,7 @@ void lower_timed_effect_position(Entity *entity, State *state)
     remainingTimer = entity->timer - 8;
     entity->timer = remainingTimer;
     if (remainingTimer <= 0) {
-        ((u16 *)entity)[-1] |= NODE_REMOVE;
+        NODE_HEADER(entity)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -329,8 +329,7 @@ void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_sta
     remaining_ticks = (s16)countdown_state->ticks_remaining;
     tint_particle_effect_updated = 1;
     if (remaining_ticks <= 0) {
-        *(u16 *)((u8 *)countdown_state - 2) =
-            (u16)(*(u16 *)((u8 *)countdown_state - 2) | NODE_REMOVE);
+        NODE_HEADER(countdown_state)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -342,7 +341,7 @@ void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *han
     object->timer--;
     advance_sprite_animation_and_textures(handlerContext);
     if (object->timer <= 0) {
-        ((u16 *)object)[-1] |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -473,7 +472,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
             ActorRecord *actor = primary_actor_record;
             effect->timer = (u16)((u32)(0x14));
             actor->unk_A4.halves.high.u = (u16)(actor->unk_A4.halves.high.u - 1);
-            actor->unk_A8.byte = effect->variant;
+            (*(u8 *)&actor->unk_A8) = effect->variant;
         }
         component = F(primary_actor_record, u16, 0x2A);
         effect->state = (u16)(effect->state + 1);

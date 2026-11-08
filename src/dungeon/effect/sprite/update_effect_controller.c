@@ -45,10 +45,6 @@ typedef struct S_func_800D7FB8_4 {
     s32 unk_04;
 } S_func_800D7FB8_4;
 
-typedef struct S_func_800D7FB8_7 {
-    u16 unk_00;
-} S_func_800D7FB8_7;
-
 extern u8 directional_sprite_entries[];
 
 
@@ -109,8 +105,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
         controller->unk_02 = finish_timer;
         if ((finish_timer << 0x10) <= 0) {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-            ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 =
-                (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
+            NODE_HEADER(controller)->flags |= NODE_REMOVE;
             object_flag_block.flags =
                 object_flag_block.flags | 0x8000;
         }

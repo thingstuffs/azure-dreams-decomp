@@ -49,7 +49,7 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
 
     if (effect->unk14 & 0x6000) {
         if (state->unk04 != 0) {
-            *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+            NODE_HEADER(state)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         } else {

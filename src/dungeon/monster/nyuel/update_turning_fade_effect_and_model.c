@@ -109,7 +109,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         return;
     case 1:
         run_cd_image_commands(&nyuel_image_commands, &nyuel_image_load_done, 0);
-        sequence->unk_A8.s = 0;
+        sequence->unk_A8 = 0;
         sequence->action_phase = (u8) (sequence->action_phase + 1);
         target->unk_8A = (u16) (u16)(target->facing);
     case 2:

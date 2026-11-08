@@ -3,6 +3,7 @@
 #include "engine/audio/commands.h"
 #include "shared/game_work.h"
 #include "engine/entity.h"
+#include "shared/entity.h"
 #include "slus/data.h"
 #include "slus.h"
 
@@ -44,15 +45,9 @@ s32 clamp_sound_value_to_seven_bits(s16 value) {
     return value;
 }
 
-typedef struct {
-    u8 pad00[0x11];
-    u8 unk11;
-} Struct1;
-
-
 /* Look up a signed table value using the entry byte field plus an index offset. */
-s32 lookup_level_experience_threshold(Struct1 *entry, s16 index_offset) {
-    return entity_level_thresholds[entry->unk11 + index_offset];
+s32 lookup_level_experience_threshold(ActorRecord *entry, s16 index_offset) {
+    return entity_level_thresholds[entry->level + index_offset];
 }
 
 /* Indexes item_display_icon_words through primary_packet_limit_indices. */

@@ -17,7 +17,6 @@
     "apply_spu_voice_attributes::src/engine/audio/spu/jtbl.c::src/engine/audio/sequence/sound_set_indexed_voice_volumes.c::return_type",
     "bank_selector_no_op::src/dungeon/level/height.c::src/dungeon/player/dispatch_dungeon_category_action.c::arity",
     "build_reverse_indexed_chain::src/engine/texture/build_reverse_indexed_chain.c::include/dungeon/menu_cache.h::return_type",
-    "card_boot_refresh_five_slot_selection::src/frontend/libcard/card_boot_refresh_five_slot_selection.c::include/dungeon/actor/value_adjustment.h::arity",
     "card_dev_commit_pending_value::src/frontend/card/card_dev_commit_pending_value.c::src/frontend/card/save/complete_object_operation.c::arity",
     "card_dev_commit_pending_value::src/frontend/card/card_dev_commit_pending_value.c::src/frontend/card/save/process_object_entry_batch.c::arity",
     "card_dev_create_save_screen::src/frontend/card/card_dev_create_save_screen.c::src/frontend/card/menu/card_boot_clear_menu_state.c::return_type+param_kind",

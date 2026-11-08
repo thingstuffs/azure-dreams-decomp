@@ -1,4 +1,5 @@
 #include "dungeon/actor/value_adjustment.h"
+#include "frontend/libcard.h"
 
 
 /* Tries to halve the actor's byte at 0x26, displaying a message and value popup for the result. */

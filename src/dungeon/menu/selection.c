@@ -7,6 +7,7 @@
 #include "engine/graphics.h"
 #include "engine/resource.h"
 #include "engine/text.h"
+#include "engine/texture.h"
 
 
 /* Sets the linked entry halfword at offset 8 to index times eight minus 0x18. */

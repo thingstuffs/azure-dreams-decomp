@@ -38,11 +38,11 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
             motion->velocity_x = 0;
             if (body->unk_A4.bytes[3] != 0) {
                 begin_actor_display_action(body, motion, sprite, D_80176378);
-                if (body->unk_A8.byte != 0) {
+                if ((u8)(body->unk_A8) != 0) {
                     u8 *mark_base;
 
                     mark_base = ((u8 *)dungeon_actor_ring_anchor);
-                    mark_base += body->unk_A8.byte;
+                    mark_base += (u8)(body->unk_A8);
                     mark_base[0xF9] = mark_value;
                 }
                 return;
@@ -80,11 +80,11 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
             motion->velocity_x = 0;
             if (body->unk_A4.bytes[3] != 0) {
                 begin_actor_display_action(body, motion, sprite, D_80176378);
-                if (body->unk_A8.byte != 0) {
+                if ((u8)(body->unk_A8) != 0) {
                     u8 *mark_base;
 
                     mark_base = ((u8 *)dungeon_actor_ring_anchor);
-                    mark_base += body->unk_A8.byte;
+                    mark_base += (u8)(body->unk_A8);
                     mark_base[0xF9] = 1;
                 }
                 return;

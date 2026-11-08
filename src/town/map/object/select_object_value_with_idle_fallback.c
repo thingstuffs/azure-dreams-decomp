@@ -2,6 +2,7 @@
 #include "shared/object_index_slots.h"
 #include "engine/script.h"
 #include "town/map/object.h"
+#include "town/map.h"
 
 extern s32 runtime_script_state[];
 

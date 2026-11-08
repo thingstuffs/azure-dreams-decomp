@@ -138,7 +138,7 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
             axis = 0;
             do {
                 dest_coord = axis * 2;
-                shape_row = (u8 *)(effect->unk_1C * 0x60 + (s32)ribbon_vertices);
+                shape_row = (u8 *)ribbon_vertices + effect->unk_1C * 0x60;
                 endpoint = (u8 *)(edge * 6 + (long)shape_row);
                 start_coord = (s16 *)dest_coord;
                 start_coord = (s16 *)((u8 *)start_coord + (s32)endpoint);

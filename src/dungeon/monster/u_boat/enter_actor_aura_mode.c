@@ -125,7 +125,7 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
         body->action_timer = second_delay;
         if (((second_delay << 0x10) <= 0) || (sprite->flags & 0x8000)) {
             body->action_timer = 0x1E;
-            body->unk_A8.s = 0;
+            body->unk_A8 = 0;
             body->unk_B0.bytes[1] = 0;
             body->unk_B0.bytes[2] = 0;
             body->unk_B4.bytes[0] = 0;

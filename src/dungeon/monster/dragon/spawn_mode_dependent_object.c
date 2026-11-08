@@ -796,7 +796,7 @@ s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPos
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor) {
+void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
@@ -804,7 +804,7 @@ void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *a
             action_state->action_id = 0x11;
             action_state->unk_8C.run = 0;
             action_state->action_phase = 0;
-            (*(s32 **)((u8 *)sprite + 0x2C)) = dragon_direction_frames;
+            sprite->frameTable = dragon_direction_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + dragon_direction_frames), 0);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
@@ -1718,7 +1718,7 @@ void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, Sprite
 void update_dragon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = ((u8 *)dispatch_monster_move_attack_spell);
+            actor->unk_8C.handler = dispatch_monster_move_attack_spell;
             return;
         }
     } else if (entity->frameTable == dragon_alt_direction_frames &&

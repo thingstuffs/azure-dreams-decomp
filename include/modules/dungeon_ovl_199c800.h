@@ -9,6 +9,6 @@ struct Actor;
 struct Vec3;
 struct Sprite;
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(struct Actor *, struct Vec3 *, struct Sprite *);
-void move_sprite_until_animation_ends(void *, void *, void *);
+void move_sprite_until_animation_ends(void *, ObjectPosition *, SpriteFrameState *);
 
 #endif

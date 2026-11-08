@@ -258,7 +258,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         motion->velocity_z = 0;
         action->action_state_flags &= 0xFFF7;
         actor->flags1C |= ACTOR_GROUNDED;
-        action->unk_A8.s = 7;
+        action->unk_A8 = 7;
         idle_frames = kid_alt_direction_frames;
         (tile->frameTable) = idle_frames;
         idle_angle = g_game_work.view.camera_rotation.parts.viewAngle + actor->facing;

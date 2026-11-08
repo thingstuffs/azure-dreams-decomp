@@ -77,10 +77,6 @@ typedef struct Scratch80024124 {
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/slus_callbacks.h"
-typedef struct S_8196B4A4_5 {
-    u8 pad_00[0x26];
-    s16 unk_26;
-} S_8196B4A4_5;
 typedef struct {
     u8 bytes[0x20];
 } LocalPoints;
@@ -88,9 +84,6 @@ typedef struct {
     s16 x;
     u16 y;
 } LocalPoint;
-typedef struct S_8196BF24_0_pre {
-    u16 unk_00;
-} S_8196BF24_0_pre;
 typedef struct S_8196BF24_0 {
     u8 pad_00[0x2C];
     u16 unk_2C;
@@ -111,9 +104,6 @@ typedef struct S_8196BFB0_2 {
     u16 unk_1C;
     u16 unk_1E;
 } S_8196BFB0_2;
-typedef struct S_8196BE48_0_pre {
-    u16 unk_00;
-} S_8196BE48_0_pre;
 typedef struct S_8196BE48_0 {
     u8 pad_00[0x2C];
     u16 unk_2C;
@@ -200,14 +190,6 @@ typedef struct {
     u8 bytes[12];
 } Template12 __attribute__((packed));
 typedef struct {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 z;
-} Position;
-typedef struct {
     u8 pad0[6];
     s16 unk6;
     void *image;
@@ -274,9 +256,6 @@ typedef struct S_8196ACE4_0 {
         struct { u8 pad[0x2]; u16 v; } at02u;
     } unk_08;   /* overlapping accesses */
 } S_8196ACE4_0;
-typedef struct S_8196ACE4_1_pre {
-    u16 unk_00;
-} S_8196ACE4_1_pre;
 typedef struct S_8196ACE4_2 {
     u8 pad_00[0x69B4];
     s16 unk_69B4;
@@ -285,10 +264,6 @@ typedef struct S_8196ACE4_4 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
 } S_8196ACE4_4;
-typedef struct S_8196B780_5 {
-    u8 pad_00[0x26];
-    s16 unk_26;
-} S_8196B780_5;
 typedef struct PositionRef {
     u8 pad0[2];
     u16 x;
@@ -320,38 +295,17 @@ typedef struct EffectState {
     u8 pad_00[0x2C];
     s16 size_x;
     s16 size_y;
-    u8 pad_30[0x64];
+    u8 pad_30[0x8];
+    Template12 sprite_template;
+    u8 pad_44[0x50];
     s32 seed;
     u8 pad_98[0x8];
     s32 scale;
 } EffectState;
-typedef struct Vec3u16 {
-    u8 pad_00[0x2];
-    u16 x;
-    u8 pad_04[0x2];
-    u16 y;
-    u8 pad_08[0x2];
-    u16 z;
-} Vec3u16;
-typedef struct RenderState {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 flags;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} RenderState;
 typedef struct Effect {
  u8 pad0[8];
- union { Vec3u16 *position; Position *pos; } coordinates;
- union { RenderState *render; Sprite *sprite; } visual;
+ struct ObjectPosition *coordinates;
+ union { Sprite *sprite; SpriteFrameState *sprite_frame; } visual;
  union { void *handler; void (*update)(); } callback;
  u8 pad14[0xC];
  union { EffectState state; Motion motion; } payload;
@@ -364,7 +318,7 @@ extern PackedVec3 staged_particle_sprite_data;
 s32 rand(void);
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y, s16 offset_z);
+void create_lingering_ballistic_sprite(Work *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y, s16 offset_z);
 void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *transform);
 void advance_particle_emitting_projectile(StagedParticleEffectBody *object, struct ObjectPosition *position, void *render_state);
 void update_timed(void *effect_data, s32 unused, void *sprite);
@@ -374,7 +328,7 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
 void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner);
 void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg);
 void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite);
-void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
+void create_brief_ballistic_sprite(Work *source, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
 void shrink_particle_emitting_projectile(StagedParticleEffectBody *effect, struct ObjectPosition *position, SpriteFrameState *sprite);
 void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused, u8 *primitive);
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual);

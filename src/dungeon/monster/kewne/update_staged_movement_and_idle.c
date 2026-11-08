@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "dungeon/monster/kewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -19,24 +20,7 @@ extern u8 kewne_action_resume_address[9];
 extern u8 D_80175E78[8];
 extern u8 D_80175E80[8];
 
-typedef struct S_80172DDC_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_A0;   /* overlapping accesses */
-    u8 pad_A4[0x4];
-    s32 unk_A8;
-    s32 unk_AC;
-} S_80172DDC_0;   /* arg0 in update_staged_movement_and_idle */
+
 
 /* Updates the actor's staged movement, animation, and return to idle. */
 void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement, SpriteFrameState *sprite, ActorRecord *actor)
@@ -106,7 +90,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
         }
         play_sound_if_enabled(0x808);
         body->action_phase++;
-        create_parent_position_effect((u8 *)body - 0x20, (u8 *)actor + 0x2A,
+        create_parent_position_effect((EntityRec *)NODE_HEADER(body), &actor->facing,
                       (u8 *)body + 0x9B);
         return;
 
@@ -145,7 +129,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
         movement->velocity_y =
             -*(s16 *)(direction_y +
                 (((u16)actor->facing >> 8) & 0xE)) << 20;
-        ((S_80172DDC_0 *)body)->unk_A8 = movement->velocity_x / 6;
+        (*(s32 *)&body->unk_A8) = movement->velocity_x / 6;
         body->unk_AC.value = movement->velocity_y / 6;
         body->action_timer = 0;
         body->action_phase++;
@@ -153,7 +137,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
     }
 
     case 4:
-        movement->velocity_x -= ((S_80172DDC_0 *)body)->unk_A8;
+        movement->velocity_x -= (*(s32 *)&body->unk_A8);
         movement->velocity_y -= body->unk_AC.value;
         body->unk_A0.value =
             rsin((s16)(body->action_timer) * 146) * 160 + 0x100000;

@@ -2,6 +2,7 @@
 
 #include "slus/gp_d92c_owned.h"
 #include "engine/camera.h"
+#include "engine/resource.h"
 
 /* Detects a held button combination, waits for sound work, then restores volumes and resets game state. */
 int update_shoulder_button_angle(void)

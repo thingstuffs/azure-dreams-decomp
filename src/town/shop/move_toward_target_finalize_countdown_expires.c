@@ -14,6 +14,7 @@
 #include "town/shop.h"
 #include "town/scene.h"
 #include "town/scene/motion.h"
+#include "engine/object.h"
 
 typedef struct { s32 words[21]; } TownRecord;
 

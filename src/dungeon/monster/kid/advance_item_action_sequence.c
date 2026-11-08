@@ -234,7 +234,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
 
                 if (animation != alternate_animation && (sprite->flags & 0x6000)) {
                     owner_flags->unk_04 |= 0x8000;
-                    action->unk_A8.u = 0;
+                    action->unk_A8 = 0;
                     if (*(u8 **)&sprite->frameTable == kid_frame_set_1) {
                         next_animation = alternate_animation;
                     }

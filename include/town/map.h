@@ -80,7 +80,7 @@ void build_map_variant_entry_list(void);
 /* building_grid_g00638.c */
 void clear_halfword_grid_128(s16 *grid);
 void update_active_building_entries(void);
-void clear_and_initialize_building_grid(s32 grid);
+void clear_and_initialize_building_grid(void *grid);
 
 /* came_bright_set.c */
 void came_bright_set(u32 brightness);
@@ -225,7 +225,7 @@ void initialize_building_graphics(void);
 void initialize_building_region_resources(void);
 
 /* initialize_building_scene_objects.c */
-void initialize_building_scene_objects(s32 draw_param);
+void initialize_building_scene_objects(void *draw_param);
 
 /* initialize_building_selection_handler.c */
 void initialize_building_selection_handler(void);

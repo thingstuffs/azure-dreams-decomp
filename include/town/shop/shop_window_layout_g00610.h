@@ -69,7 +69,6 @@ typedef struct S_800B1390_1 {
     s32 unk_24;
 } S_800B1390_1;
 
-void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *, struct S8004CBFC_a1 *, int *);
 void process_shop_record_and_subrecord(u8 *);
 void position_shop_row_widgets(ShopWindow *menu);
 extern M2C_UNK D_800788E0;

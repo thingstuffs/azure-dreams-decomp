@@ -15,7 +15,6 @@ extern void func_80047784(void *, u8, s32);
 extern struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
 extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility(void *, s32);
 extern u8 tyrant_direction_frames[];
 s32 check_action_eligibility_updates_actor_state_directional_animation_success(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);

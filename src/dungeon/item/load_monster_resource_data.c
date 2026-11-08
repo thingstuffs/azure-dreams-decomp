@@ -4,6 +4,7 @@
 #include "sdk/libc.h"
 #include "slus.h"
 #include "dungeon/data.h"
+#include "dungeon/item.h"
 
 extern u8 D_80164800[];
 extern u8 D_8016A800[];

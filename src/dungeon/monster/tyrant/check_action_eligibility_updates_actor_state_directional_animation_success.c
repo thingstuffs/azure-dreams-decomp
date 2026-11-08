@@ -3,6 +3,7 @@
 #include "dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.h"
 #include "shared/actor_action_flags.h"
 #include "dungeon/effect.h"
+#include "dungeon/player/object.h"
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
 s32 check_action_eligibility_updates_actor_state_directional_animation_success(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor) {

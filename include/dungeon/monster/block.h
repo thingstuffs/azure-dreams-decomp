@@ -969,7 +969,7 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
 void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *monster);
 void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param, SpriteFrameState *entity, ActorRecord *state);
-void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data);
+void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void begin_directional_actor_animation(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *render_state, ActorRecord *entity);
 s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor);
 void begin_unchecked_directional_attack(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);

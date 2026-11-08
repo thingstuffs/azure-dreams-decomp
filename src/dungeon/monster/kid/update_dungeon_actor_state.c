@@ -23,8 +23,8 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void select_bank_actor_movement(void *, void *, void *, void *);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
+extern void select_bank_actor_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern void func_80174218(void *, void *, void *, void *);
 
 extern u8 D_80175150[];
@@ -85,11 +85,11 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
             (sprite_in->frameTable != kid_alt_direction_frames)) {
             u8 *anim_table = kid_direction_frames;
 
-            actor->unk_A8.s = 0;
+            actor->unk_A8 = 0;
             (sprite_in->frameTable) = anim_table;
             select_sprite_entry(sprite_in,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
-                actor->unk_A8.s);
+                (s16)(actor->unk_A8));
         }
 
         entity->flags1C |= 0x40000;
@@ -103,7 +103,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
 
         if (((u32)entity->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite_in, entity);
-            actor->unk_A8.s = 0;
+            actor->unk_A8 = 0;
             func_80174218(actor, context, sprite_in, entity);
             return;
         }

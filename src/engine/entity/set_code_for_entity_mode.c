@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "engine/entity.h"
 
 /* a one-byte code; an extern, so absolute (lui/sb) in ASPSX */
 extern u8 entity_spawn_variant_code;

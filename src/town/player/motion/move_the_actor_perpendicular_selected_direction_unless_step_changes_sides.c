@@ -23,9 +23,8 @@ extern void func_800652AC(IntVector3 *, IntVector3 *, IntVector3 *);
  * Forms a perpendicular step of sine/cosine times 32 from the held input direction and applies it
  * only when the side-test sign is unchanged after movement.
  */
-void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(void *position_data)
+void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(ObjectPosition *position_data)
 {
-    MotionDeltaView *actor = position_data;
     IntVector3 direction;
     IntVector3 step;
     IntVector3 position;
@@ -46,14 +45,14 @@ void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(v
     direction.y = rcos(direction_index);
     direction.z = 0;
 
-    fixed_coord = actor->velocity_x;
+    fixed_coord = position_data->velocity_x;
     if (fixed_coord < 0) {
         fixed_coord += 0xFFF;
     }
     position.x = fixed_coord >> 12;
 
     direction_ptr = &direction;
-    fixed_coord = actor->velocity_y;
+    fixed_coord = position_data->velocity_y;
     if (fixed_coord < 0) {
         fixed_coord += 0xFFF;
     }
@@ -73,14 +72,14 @@ void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(v
         step.y = direction.x << 5;
     }
 
-    fixed_coord = actor->velocity_x + step.x;
+    fixed_coord = position_data->velocity_x + step.x;
     if (fixed_coord < 0) {
         fixed_coord += 0xFFF;
     }
     position.x = fixed_coord >> 12;
 
     direction_ptr = &direction;
-    fixed_coord = actor->velocity_y + step.y;
+    fixed_coord = position_data->velocity_y + step.y;
     if (fixed_coord < 0) {
         fixed_coord += 0xFFF;
     }
@@ -98,6 +97,6 @@ void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(v
         return;
     }
 
-    actor->velocity_x += step.x;
-    actor->velocity_y += step.y;
+    position_data->velocity_x += step.x;
+    position_data->velocity_y += step.y;
 }

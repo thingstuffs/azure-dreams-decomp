@@ -3,6 +3,7 @@
 #include "records/Rec_func_800AAE98_arg0.h"
 #include "town/map/position/read_map_cell_at_tile_g01115.h"
 #include "town/person.h"
+#include "town/map.h"
 
 
 

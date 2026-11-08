@@ -125,7 +125,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             begin_deferred_player_item_effect(controller, action_id, actor, transform);
             return;
         }
-        controller->unk_8C.word = (s32)handle_player_input;
+        controller->unk_8C.address = handle_player_input;
         break;
     }
 }

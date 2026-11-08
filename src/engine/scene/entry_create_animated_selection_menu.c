@@ -7,6 +7,7 @@
 #include "engine/scene.h"
 #include "engine/sprite.h"
 #include "slus/data.h"
+#include "slus.h"
 
 typedef struct S_80050BA4_s1
 {
@@ -33,10 +34,7 @@ typedef struct S_80050BA4_sub
 }
 S_80050BA4_sub;
 
-extern void *link_seventeen_indexed_entries(void *a0);
 extern void init_gauge_object(void *a0, void *a1);
-extern void enqueue_script_message_command(void);
-extern void invoke_leading_object_callback(struct VtableObj *object, void *position, void *sprite);
 
 /*
  * Creates an owner and its companion object, flagging failed setup for cleanup.

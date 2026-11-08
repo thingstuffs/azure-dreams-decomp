@@ -972,12 +972,12 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             0);
         action->action_state_flags |= 8;
         ((R08_8017245C_S_80172478_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
-        action->unk_A8.s = 5;
+        action->unk_A8 = 5;
         action->unk_A4.value = 0;
         action->action_phase++;
 
     case 1:
-        move_ticks = action->unk_A8.s;
+        move_ticks = (s16)(action->unk_A8);
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -991,18 +991,18 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                action->unk_A8.s;
+                (s16)(action->unk_A8);
 
             action->unk_A4.value =
-                (-rsin(action->unk_A8.s * 0x199)) << 10;
+                (-rsin((s16)(action->unk_A8) * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;
         arc_offset = action->unk_A4.value;
-        next_move_ticks = action->unk_A8.u;
+        next_move_ticks = action->unk_A8;
         height_offset += arc_offset;
         next_move_ticks -= 1;
-        action->unk_A8.u = next_move_ticks;
+        action->unk_A8 = next_move_ticks;
         action->unk_90.value = height_offset;
         if ((next_move_ticks << 16) >= 0) {
             break;
@@ -1849,7 +1849,7 @@ void resume_actor_effect_behavior_after_status_animation(ActorRecord *controller
 void update_griffon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = ((u8 *)update_actor_behavior_and_effect);
+            actor->unk_8C.handler = update_actor_behavior_and_effect;
             return;
         }
     } else if (entity->frameTable == griffon_frame_set_3 &&

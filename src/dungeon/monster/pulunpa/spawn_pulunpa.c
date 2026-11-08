@@ -97,7 +97,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
         initialize_actor_sprite_and_animation(part, coord, state, arg0_copy);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_A8.byte = 0;
+        (*(u8 *)&actor->unk_A8) = 0;
         try_move_actor_to_valid_position(actor, coord, state, work);
     }
     return work;

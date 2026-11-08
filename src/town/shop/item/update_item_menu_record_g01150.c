@@ -4,6 +4,7 @@
 #include "shared/audio_commands.h"
 #include "town/shop/item/update_item_menu_record_g01150.h"
 #include "town/shop/item.h"
+#include "engine/graphics.h"
 
 /* Run the record update sequence and process its stored value. */
 void update_item_menu_record(ItemMenuObject *record) {

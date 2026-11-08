@@ -14,28 +14,9 @@
 #include "dungeon/item.h"
 #include "sdk/libgte.h"
 
-typedef struct S_801670E0_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    u16 unk_9E;
-    s32 unk_A0;
-} S_801670E0_0;   /* arg0 in advance_timed_hop_and_recover */
 
-typedef struct S_801670E0_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_801670E0_1;   /* arg3 in advance_timed_hop_and_recover */
+
+
 
 extern s32 D_80165CE8;
 extern u8 D_80168EB8[];
@@ -43,7 +24,7 @@ extern u8 D_80168ED0[];
 extern u8 D_80168ED8[];
 
 /* Updates a timed hop toward the target tile and handles actor recovery when the timer expires. */
-void advance_timed_hop_and_recover(S_801670E0_0 *motion_state, void *motion, SpriteFrameState *sprite, void *actor)
+void advance_timed_hop_and_recover(ActorRecord *motion_state, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 direction_aux;
     s32 state;
@@ -56,7 +37,7 @@ void advance_timed_hop_and_recover(S_801670E0_0 *motion_state, void *motion, Spr
     u16 action_ticks;
     u8 *anim_table;
 
-    state = motion_state->unk_9B;
+    state = motion_state->action_phase;
     switch (state) {
     case 0:
         phase_ticks = motion_state->unk_9E - 1;
@@ -68,17 +49,17 @@ void advance_timed_hop_and_recover(S_801670E0_0 *motion_state, void *motion, Spr
         sprite->frameTable = D_80168ED0;
         select_sprite_entry(
             sprite,
-            D_80168ED0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80168ED0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        motion_state->unk_98 |= 8;
-        ((S_801670E0_1 *)actor)->unk_1C &= 0xF7FFFFFF;
-        (*(s16 *)&motion_state->unk_9E) = 5;
-        motion_state->unk_A0 = 0;
-        motion_state->unk_9B++;
+        motion_state->action_state_flags |= 8;
+        actor->flags1C &= 0xF7FFFFFF;
+        motion_state->unk_9E = 5;
+        motion_state->unk_A0.value = 0;
+        motion_state->action_phase++;
 
     case 1:
         hop_ticks = ((s16)motion_state->unk_9E);
-        motion_state->unk_90 -= motion_state->unk_A0;
+        motion_state->unk_90.value -= motion_state->unk_A0.value;
         if (hop_ticks != 0) {
             target_x = sprite->tile_x;
             position_x = ((EntityRec *)motion)->x.w.i;
@@ -91,23 +72,23 @@ void advance_timed_hop_and_recover(S_801670E0_0 *motion_state, void *motion, Spr
             ((EntityRec *)motion)->unk_10 =
                 (((sprite->tile_y << 6) - position_y) << 16) /
                 ((s16)motion_state->unk_9E);
-            motion_state->unk_A0 =
+            motion_state->unk_A0.value =
                 (-rsin(((s16)motion_state->unk_9E) * 0x199)) << 10;
         }
 
-        motion_state->unk_90 += motion_state->unk_A0;
+        motion_state->unk_90.value += motion_state->unk_A0.value;
         phase_ticks = motion_state->unk_9E - 1;
         motion_state->unk_9E = phase_ticks;
         if (phase_ticks < 0) {
-            motion_state->unk_90 = 0;
-            motion_state->unk_98 &= 0xFFF7;
-            ((S_801670E0_1 *)actor)->unk_1C |= 0x08000000;
-            motion_state->unk_9B++;
+            motion_state->unk_90.value = 0;
+            motion_state->action_state_flags &= 0xFFF7;
+            actor->flags1C |= 0x08000000;
+            motion_state->action_phase++;
         }
 
     case 2:
-        if (((S_801670E0_1 *)actor)->unk_1C & 0x08000000) {
-            motion_state->unk_98 &= 0xFFF7;
+        if (actor->flags1C & 0x08000000) {
+            motion_state->action_state_flags &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
@@ -116,9 +97,9 @@ void advance_timed_hop_and_recover(S_801670E0_0 *motion_state, void *motion, Spr
             sprite->frameTable = D_80168ED8;
             select_sprite_entry(
                 sprite,
-                D_80168ED8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80168ED8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            motion_state->unk_9B++;
+            motion_state->action_phase++;
         }
         break;
 
@@ -128,7 +109,7 @@ void advance_timed_hop_and_recover(S_801670E0_0 *motion_state, void *motion, Spr
             sprite->frameTable = anim_table;
             select_sprite_entry(
                 sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -136,8 +117,8 @@ void advance_timed_hop_and_recover(S_801670E0_0 *motion_state, void *motion, Spr
         break;
     }
 
-    action_ticks = motion_state->unk_96 - 1;
-    motion_state->unk_96 = action_ticks;
+    action_ticks = motion_state->action_timer - 1;
+    motion_state->action_timer = action_ticks;
     if ((s16)action_ticks > 0) {
         return;
     }
@@ -153,21 +134,21 @@ void advance_timed_hop_and_recover(S_801670E0_0 *motion_state, void *motion, Spr
         g_dungeon_status.activity_counts.parts.pending_movement_count--;
     }
 
-    actor_flags = ((s32)((S_801670E0_1 *)actor)->unk_1C);
+    actor_flags = ((s32)actor->flags1C);
     if (actor_flags & 0x2000) {
-        if (((S_801670E0_1 *)actor)->unk_46 & 0x8000) {
-            ((S_801670E0_1 *)actor)->unk_46 &= 0x7FFF;
+        if (actor->action_flags & 0x8000) {
+            actor->action_flags &= 0x7FFF;
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            ((S_801670E0_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
+            actor->facing = get_rounded_facing_and_rounding_flag(
                 sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
         }
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        motion_state->unk_8C = &D_80165CE8;
+        motion_state->unk_8C.word_ptr = &D_80165CE8;
         on_actor_status_updated(actor);
     }
 }

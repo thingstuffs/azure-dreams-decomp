@@ -19,7 +19,7 @@ void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state, ObjectPositio
     remaining_ticks = state->unk_02.u;
     ((s16 *)particle_update_flag)[0] = 1;
     if (remaining_ticks <= 0) {
-        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -48,7 +48,7 @@ void advance_timed_visual_effect(ParticleCleanupEffectBody *state, void *positio
     object = state->unk_30;
     (*(s16 *)particle_update_flag) = 1;
     if ((u32)(((Row_818FEF80_S_818FEF80_1 *)object)->unk_13 - 0x33) < 4U) {
-        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
@@ -197,7 +197,7 @@ void update_tiled_fade_effect(ParticleCleanupEffectBody *effect, void *offset_st
             effect->unk_02.u = 0;
             effect->unk_00.u++;
             ((Row_818FF19C_S_818FF19C_3 *)effect->unk_34)->unk_90 = 1;
-            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

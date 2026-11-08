@@ -4,6 +4,8 @@
 #include "dungeon/menu.h"
 #include "dungeon/menu/entries.h"
 #include "shared/object_flags.h"
+#include "engine/resource.h"
+#include "engine/texture.h"
 
 
 /* Clears the two words referenced by the menu state destination pointers. */

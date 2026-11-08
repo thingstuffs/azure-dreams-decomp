@@ -1492,7 +1492,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
 void update_clown_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = ((u8 *)update_actor_state_and_dispatch_transition);
+            actor->unk_8C.handler = update_actor_state_and_dispatch_transition;
             return;
         }
     } else if (*(u8 **)&entity->frameTable == clown_alt_direction_frames &&

@@ -30,7 +30,7 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
     s32 offset_x;
     s32 tile_y;
     s32 offset_y;
-    u8 *final_state;
+    u8 final_state;
     s32 state_bits;
     u16 saved_timer;
     s32 shifted_timer;
@@ -55,12 +55,12 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
             begin_actor_display_action(body, motion, sprite, D_801746CC);
             return;
         }
-        final_state = (u8 *)3;
+        final_state = 3;
         if (!(sprite->flags & 0x8000)) {
             return;
         }
         body->action_timer = 0;
-        body->action_phase = (u32)final_state;
+        body->action_phase = final_state;
         return;
 
     case 1:

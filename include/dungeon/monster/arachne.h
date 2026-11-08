@@ -113,18 +113,7 @@ typedef struct R12_801720B4_S_80172628_0 {
     u8 pad_72[0x28];
     s8 unk_9A;
 } R12_801720B4_S_80172628_0;
-typedef struct R12_80172290_S_80172290_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    s32 unk_A0;
-} R12_80172290_S_80172290_0;
+
 
 typedef struct R12_80172654_S_80172654_0 {
     u8 pad_00[0x8C];
@@ -681,7 +670,6 @@ s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *create_status_linked_render_effect();
-s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 arachne_direction_frames[];
 extern u8 arachne_alt_direction_frames[];
 extern u8 D_80175AAC[];
@@ -717,7 +705,7 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, SpriteFrameState *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
-void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void check_boss_effect_threshold(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);

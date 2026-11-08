@@ -4,6 +4,7 @@
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/state.h"
 
 /* Update callback, action continuation and frame tables (default, then the
  * sleeping set).  They are the shared dragon/arachne code and data at this bank's

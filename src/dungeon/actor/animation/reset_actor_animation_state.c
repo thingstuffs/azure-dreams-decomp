@@ -53,9 +53,9 @@ void *reset_actor_animation_state(ActorRecord *body)
 
         if ((body->species == MONSTER_PULUNPA) &&
             (body->unk_A4.bytes[3] != 0) &&
-            (body->unk_A8.byte != 0)) {
+            ((u8)(body->unk_A8) != 0)) {
             map = *(u8 * *)&dungeon_actor_ring_anchor;
-            map_index = body->unk_A8.byte;
+            map_index = (u8)(body->unk_A8);
             map += map_index;
             map[0xF9] = 1;
         }
@@ -64,7 +64,7 @@ void *reset_actor_animation_state(ActorRecord *body)
         object = (ActorRecord *)(parent + 0x20);
         object->unk_AC.value = ((S_800D8590_0 *)parent)->unk_10;
         ((S_800D8590_0 *)parent)->unk_10 = (s32)D_800D8728 & 0x7FFFFFFF;
-        object->unk_A8.s = body->species;
+        object->unk_A8 = body->species;
         body->species = MONSTER_FROG;
         object->action_id = 0xFF;
         object->unk_9C = -1;

@@ -10,7 +10,7 @@
 #include "dungeon/monster/ifrit.h"
 
 extern s32 ifrit_action_resume_address;
-extern s32 D_80174838;
+extern u8 D_80174838[];
 
 /* Updates directional motion and settles the entity at its grid position. */
 void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *source)
@@ -33,7 +33,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, &D_80174838);
+            begin_actor_display_action(body, motion, sprite, D_80174838);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -68,7 +68,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, &D_80174838);
+            begin_actor_display_action(body, motion, sprite, D_80174838);
             return;
         } else {
             body->action_timer = 8;

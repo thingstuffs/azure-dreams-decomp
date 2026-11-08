@@ -1,4 +1,5 @@
 #include "shared/dungeon_effect_state.h"
+#include "shared/object_node.h"
 #include "shared/audio_commands.h"
 /* Rotating sprites, vertical motion, ring rendering, and staged particle bursts and impacts. */
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
@@ -28,7 +29,7 @@ void advance_accelerating_spin_effect(B22_81892800_Entity *entity, B22_81892800_
     timer = (u16)entity->timer + 1;
     entity->timer = timer;
     if (entity->limit < timer) {
-        entity[-1].limit |= 0x8000;
+        NODE_HEADER(entity)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -107,7 +108,7 @@ void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_
     advance_sprite_animation_and_textures(target);
 
     if (step_state->update_count > step_state->update_limit) {
-        *(u16 *)((u8 *)step_state - 2) |= NODE_REMOVE;
+        NODE_HEADER(step_state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -165,7 +166,7 @@ void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state) {
     incrementedCount = counter_state->frame.frame_count + 1;
     counter_state->frame.frame_count = incrementedCount;
     if ((s16) incrementedCount >= counter_state->frame_limit) {
-        ((B22_81892BF8_S_81892BF8_0_pre *)counter_state)[-1].unk_00 = (u16) (((B22_81892BF8_S_81892BF8_0_pre *)counter_state)[-1].unk_00 | 0x8000);
+        NODE_HEADER(counter_state)->flags |= NODE_REMOVE;
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -367,7 +368,7 @@ void emit_animated_transform_copies(void *state_arg, ObjectPosition *draw_contex
         create_timed_transform_copy_effect(state->unk_00, draw_context, 8, (s16) ((frame * 0x10) - 0x40));
     }
     if ((s16) state->unk_04 > state->unk_06) {
-        ((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 = (u16) (((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 | 0x8000);
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -389,7 +390,7 @@ void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931
     source->unk_0A = (u16) (source->unk_0A - 4);
     advance_sprite_animation_and_textures(target);
     if (target->flags & 0x6000) {
-        ((u16 *)entry)[-1] |= 0x8000;
+        NODE_HEADER(entry)->flags |= NODE_REMOVE;
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

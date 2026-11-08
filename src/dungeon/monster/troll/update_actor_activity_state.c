@@ -416,9 +416,9 @@ increment_state:
  * Selects Troll's normal or status frames for item kinds 13-15 and current MP, then updates
  * movement and floor traps.
  */
-void update_directional_action_display(T_801759A0_Obj0 *actor, ObjectPosition *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
+void update_directional_action_display(T_801759A0_Obj0 *actor, ObjectPosition *context, SpriteFrameState *display_arg, T_801759A0_Obj3 *state_arg)
 {
-    SpriteFrameState *display= display_arg;
+    SpriteFrameState *display = display_arg;
     T_801759A0_Obj3 *state = state_arg;
     u8 *selected_table;
     u8 *current_table;

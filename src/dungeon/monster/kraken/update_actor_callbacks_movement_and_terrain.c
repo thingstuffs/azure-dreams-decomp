@@ -148,7 +148,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                 }
             } else {
                 s32 height_adjustment = body->unk_AC.value;
-                body->unk_A8.s = 0;
+                body->unk_A8 = 0;
                 body->unk_AC.value = 0;
                 body->unk_90.value -= height_adjustment;
                 if (!(body->action_state_flags & 8)) {
@@ -175,7 +175,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
             if (!(static_flags & 0x40000)) {
 
                 s32 height_adjustment = body->unk_AC.value;
-                body->unk_A8.s = 0;
+                body->unk_A8 = 0;
                 body->unk_AC.value = 0;
                 body->unk_90.value -= height_adjustment;
                 if (!(body->action_state_flags & 8)) {

@@ -180,7 +180,7 @@ s32 get_definition_entry_byte_13(s16 entry_index) {
 }
 
 /* Selects a usable ability or adjacent attack and sets the angle toward the target. */
-s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
+s32 choose_usable_ability_or_attack(ActorRecord *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
 {
     u16 tile_flags;
     s32 slots_checked;
@@ -188,7 +188,7 @@ s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
     s16 best_score;
     s16 line_valid;
     Entity *actor_entity;
-    Actor *self;
+    ActorRecord *self;
     Entity *target_entity;
     DefEntry *ability;
     u8 ability_id;
@@ -211,11 +211,11 @@ s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
 
     selected_action = -1;
     best_score = -0x100;
-    *out_angle = actor->field2a;
+    *out_angle = (u16)actor->facing;
     self = actor;
     target_entity = *(Entity **)((u8 *)target - 0x14);
     actor_entity = *(Entity **)((u8 *)self - 0x14);
-    if (abs(actor->coord88 - target->coord88) >= 0x40) {
+    if (abs(actor->ground_height - target->coord88) >= 0x40) {
         return -1;
     }
     line_valid = check_row_column_or_diagonal_alignment(actor_entity, target_entity);
@@ -224,7 +224,7 @@ s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
     *out_angle = angle;
     if (prefer_ability == 0 && distance == 1) {
         if ((s16)check_diagonal_side_height((u16)((s16)angle >> 9), actor_entity->x, actor_entity->y,
-                actor->coord88 - 0x20) != 0) {
+                actor->ground_height - 0x20) != 0) {
             return 8;
         }
     }
@@ -232,14 +232,14 @@ s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
     if (!(flags & 0x10000)) {
         actor->flags14 = flags | 0x10000;
         if ((s16)get_tile_chebyshev_distance(&reference_tile_object, actor_entity) < 0x11
-            && ((actor->flags14 & (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER)) || !(self->status98 & 0x10) || !(generate_random_value() & 0xF))
+            && ((actor->flags14 & (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER)) || !(self->action_state_flags & 0x10) || !(generate_random_value() & 0xF))
             && !(generate_random_value() & 3) && (s16)get_entity_effect_value(actor, STATUS_MAGIC_BIND) == 0) {
-            self->status98 |= 0x11;
+            self->action_state_flags |= 0x11;
         } else {
-            self->status98 &= 0xFFFE;
+            self->action_state_flags &= 0xFFFE;
         }
     }
-    if (self->status98 & 1) {
+    if (self->action_state_flags & 1) {
         slot = g_dungeon_status.turn_counter & 3;
         for (slots_checked = 0; slots_checked < 3; slots_checked++, slot++) {
             if (slot == 3) {
@@ -284,7 +284,7 @@ s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
                 dir = (*out_angle >> 9) & 7;
                 for (steps = 0; steps < distance; steps++) {
                     get_offset_map_cell_value_and_flags(x, y, dir, &tile_flags);
-                    move_flags = actor->flags1c;
+                    move_flags = actor->flags1C;
                     if (!(move_flags & 0x410)) {
                         path_flags = (s16)tile_flags;
                         if (move_flags & 0x2000) {
@@ -309,7 +309,7 @@ s32 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
     }
     if (prefer_ability != 0 && distance == 1) {
         if ((s16)check_diagonal_side_height((u16)((s16)*out_angle >> 9), actor_entity->x, actor_entity->y,
-                actor->coord88 - 0x20) != 0) {
+                actor->ground_height - 0x20) != 0) {
             if (selected_action < 0) {
                 selected_action = 8;
             }

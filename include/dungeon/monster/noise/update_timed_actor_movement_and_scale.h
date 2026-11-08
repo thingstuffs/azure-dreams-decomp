@@ -23,7 +23,6 @@ extern s32 rsin(s32 value);
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *sprite, u8 value, s32 zero);
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 void func_800A9A04(void *actor);

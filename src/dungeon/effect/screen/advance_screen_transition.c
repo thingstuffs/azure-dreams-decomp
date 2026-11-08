@@ -73,7 +73,7 @@ void advance_screen_transition(State *ctx)
     object = primary_actor_record;
     ((PlayerRecord *)object)->unk_F4 = screen_effect_sprite_entries;
     object->action_timer = 0x14;
-    object->unk_A8.byte = ctx->field_8;
+    (*(u8 *)&object->unk_A8) = ctx->field_8;
     ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
 
     ctx->state++;

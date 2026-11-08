@@ -109,7 +109,7 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
         switch (actor->unk_AC.bytes[2]) {
         case 1:
             source = motion->unk_4C;
-            tile_x = actor->unk_A8.s;
+            tile_x = (s16)(actor->unk_A8);
             direction_offset = (source->unk_2A.u >> 8) & 0xE;
             direction_table = dir_step_x;
             motion->unk_28.half.unk_2A =

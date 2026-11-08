@@ -63,9 +63,9 @@ void apply_random_actor_value_adjustment(void *state, void *unused, void *visual
 
         slot_offset = *(s16 *)((u8 *)state + 0x50) * 2;
         owner_addr = *(s32 *)((u8 *)state + 0x7C);
-        owner_slot = (s16 *)(slot_offset + owner_addr + 0x64);
+        owner_slot = (s16 *)(unsigned long)(slot_offset + owner_addr + 0x64);
         *owner_slot = 0;
-        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -124,7 +124,7 @@ s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first
             ((GpuLinkTag *)&tile->tag)->len = 2;
             tile->code = 0x6A;
             ((GpuLinkTag *)&tile->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
-            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)tile;
+            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)(unsigned long)tile;
 
             draw_mode = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
@@ -132,7 +132,7 @@ s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first
             SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 
             ((GpuLinkTag *)&draw_mode->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
-            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
+            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)(unsigned long)draw_mode;
         }
 
         next_node = NODE_HEADER(point)->chain_next;
@@ -161,7 +161,7 @@ void advance_counter_and_propagate_target_flags(void *object)
     counter -= 8;
     *(u16 *)(object_bytes + 50) = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)(object_bytes - 2) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -290,14 +290,14 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
     life_left = (u16) ((RandomizedPalettedSpriteBody *)effect)->unk_2C - 1;
     ((RandomizedPalettedSpriteBody *)effect)->unk_2C = life_left;
     if ((life_left << 0x10) <= 0) {
-        ((S_8196ACE4_1_pre *)effect)[-1].unk_00 = (u16) (((S_8196ACE4_1_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         {
             S_8196ACE4_4 *status_page = (S_8196ACE4_4 *)0x80080000;
             status_page->unk_14A0 |= 0x8000;
         }
     }
     if (sprite->flags & 0x8000) {
-        ((S_8196ACE4_1_pre *)effect)[-1].unk_00 = (u16) (((S_8196ACE4_1_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         {
             S_8196ACE4_4 *status_page = (S_8196ACE4_4 *)0x80080000;
             status_page->unk_14A0 |= 0x8000;
@@ -346,7 +346,7 @@ void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, 
         motion->unk_2C = 0;
     }
     if ((s16)motion->unk_2C <= 0) {
-        (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
+        NODE_HEADER(motion)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -374,7 +374,7 @@ void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused,
     }
 
     if ((s16)effect->unk_2C <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -396,12 +396,12 @@ void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unu
         state->size_y = size;
         effect->callback.handler = advance_colliding_particle_sprite;
         register_node(effect, project_sprite_chain);
-        render = effect->visual.render;
+        render = effect->visual.sprite_frame;
         render->flags |= 0xC;
         render->tpage_abr = 0x60;
         render->flags |= 2;
         render->depth_bias = 0;
-        position = effect->coordinates.position;
+        position = effect->coordinates;
         position->x.w.i = x;
         position->y.w.i = y;
         position->z.w.i = z;
@@ -419,7 +419,7 @@ void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unu
         (position->z).unsigned_parts.integer += (jitter);
         state->seed = rand();
         state->scale = 0x1000;
-        render = effect->visual.render;
+        render = effect->visual.sprite_frame;
         render->scale_x = 0xC00;
         render->scale_y = 0xC00;
         render->color.c.b = 0x80;
@@ -444,7 +444,7 @@ void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unu
    /* arg0 in func_8196B4A4 */
 
 /* Spawns a sprite effect with randomized position and motion based on the source direction. */
-void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
+void create_lingering_ballistic_sprite(Work *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z)
 {
     LocalPoints direction_points;
@@ -488,11 +488,11 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
         motion->unk_94 = -0x60000;
         motion->unk_A0 = 0x20000;
         direction = directions;
-        direction_index = source->unk_26;
+        direction_index = source->table_index;
         direction += direction_index;
         motion->unk_8C = direction->x << 18;
         direction = directions;
-        direction_index = source->unk_26;
+        direction_index = source->table_index;
         direction += direction_index;
         motion->unk_90 = direction->y << 18;
 
@@ -530,7 +530,7 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
    /* arg0 in func_8196B780 */
 
 /* Spawns an effect with randomized position and direction-based motion. */
-void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y,
+void create_brief_ballistic_sprite(Work *source, s32 unused_1, s32 unused_2, s16 x, s16 y,
                    s16 z)
 {
     LocalPoints points;
@@ -574,11 +574,11 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
         motion->unk_94 = -0x60000;
         motion->unk_A0 = 0x20000;
         point = point_base;
-        point_index = source->unk_26;
+        point_index = source->table_index;
         point += point_index;
         motion->unk_8C = point->x << 18;
         point = point_base;
-        point_index = source->unk_26;
+        point_index = source->table_index;
         point += point_index;
         motion->unk_90 = point->y << 18;
 
@@ -628,7 +628,7 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
 
     copy_dst = (u8 *)&slot_rects;
     copy_src = (u8 *)&target_particle_texture_rects;
-    if ((u32)copy_src & 3) {
+    if ((unsigned long)copy_src & 3) {
         copy_end = copy_src + sizeof(RectTable);
         do {
             *(PackedBlock *)copy_dst = *(PackedBlock *)copy_src;
@@ -696,7 +696,7 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
     ticks_left = owner->unk_2C - 1;
     owner->unk_2C = ticks_left;
     if ((s16)ticks_left <= 0) {
-        (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
+        NODE_HEADER(owner)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -778,7 +778,7 @@ void update_timed(void *effect_data, s32 unused, void *sprite) {
         }
     }
     if ((s16)((S_8196BE48_0 *)effect)->unk_2C <= 0) {
-        (*(u16 *)(effect + -2)) = (u16)(((S_8196BE48_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -798,7 +798,7 @@ void shrink_effect_and_step_texture(void *effect_arg, s32 unused, S_8196BF24_1 *
         effect->unk_41 = (u8)(effect->unk_41 - 0x20);
     }
     if ((s16)effect->unk_2C <= 0) {
-        ((S_8196BF24_0_pre *)effect)[-1].unk_00 = (u16)(((S_8196BF24_0_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -965,11 +965,11 @@ void shrink_particle_emitting_projectile(StagedParticleEffectBody *effect, Objec
     life_left = effect->unk_2C - 1;
     effect->unk_2C = life_left;
     if ((life_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (sprite->flags & 0x8000) {
-        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -1048,7 +1048,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->unk10 = 32;
                         sprite->flags |= 0xC;
                         sprite->unk6 = -4;
-                        pos = effect->coordinates.pos;
+                        pos = effect->coordinates;
                         pos->x.w.i = work->x;
                         local_y = work->y;
                         pos->y.w.i = local_y;
@@ -1061,8 +1061,8 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->b = 0x80;
                         sprite->g = 0x80;
                         sprite->r = 0x80;
-                        *(Template12 *)&effect->payload.motion.pad0[0x38] = D_80026990;
-                        sprite->image = &effect->payload.motion.pad0[0x38];
+                        effect->payload.state.sprite_template = D_80026990;
+                        sprite->image = &effect->payload.state.sprite_template;
                     }
                 }
 
@@ -1076,7 +1076,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->unk10 = 32;
                         sprite->flags |= 0xC;
                         sprite->unk6 = -4;
-                        pos = effect->coordinates.pos;
+                        pos = effect->coordinates;
                         pos->x.w.i = work->x;
                         local_y = work->y;
                         pos->y.w.i = local_y;
@@ -1089,8 +1089,8 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->b = 0x80;
                         sprite->g = 0x80;
                         sprite->r = 0x80;
-                        *(Template12 *)&effect->payload.motion.pad0[0x38] = D_8002699C;
-                        sprite->image = &effect->payload.motion.pad0[0x38];
+                        effect->payload.state.sprite_template = D_8002699C;
+                        sprite->image = &effect->payload.state.sprite_template;
                     }
                 }
 
@@ -1155,7 +1155,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             motion->vel_y += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
                             random = func_80069EF8();
                             motion->vel_z += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
-                            pos = effect->coordinates.pos;
+                            pos = effect->coordinates;
                             pos->x.w.i = work->x;
                             local_y = work->y;
                             pos->y.w.i = local_y;
@@ -1168,8 +1168,8 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             sprite->b = 0x80;
                             sprite->g = 0x80;
                             sprite->r = 0x80;
-                            *(Template12 *)&effect->payload.motion.pad0[0x38] = D_800269A8;
-                            sprite->image = &effect->payload.motion.pad0[0x38];
+                            effect->payload.state.sprite_template = D_800269A8;
+                            sprite->image = &effect->payload.state.sprite_template;
                         }
                         if (work->timer == spawn_timer) {
                             effect = allocate_flagged_object_node(0x212);
@@ -1192,7 +1192,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 motion->vel_y += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
                                 random = func_80069EF8();
                                 motion->vel_z += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
-                                pos = effect->coordinates.pos;
+                                pos = effect->coordinates;
                                 pos->x.w.i = work->x;
                                 local_y = work->y;
                                 pos->y.w.i = local_y;
@@ -1205,8 +1205,8 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 sprite->b = 0x80;
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
-                                *(Template12 *)&effect->payload.motion.pad0[0x38] = D_800269A8;
-                                sprite->image = &effect->payload.motion.pad0[0x38];
+                                effect->payload.state.sprite_template = D_800269A8;
+                                sprite->image = &effect->payload.state.sprite_template;
                             }
                         }
                     }
@@ -1224,7 +1224,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     sprite = effect->visual.sprite;
                     sprite->unk10 = 32;
                     sprite->flags |= 0xC;
-                    pos = effect->coordinates.pos;
+                    pos = effect->coordinates;
                     pos->x.w.i = work->x;
                     local_y = work->y;
                     pos->y.w.i = local_y;
@@ -1237,8 +1237,8 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     sprite->b = 0x80;
                     sprite->g = 0x80;
                     sprite->r = 0x80;
-                    *(Template12 *)&effect->payload.motion.pad0[0x38] = D_8002699C;
-                    sprite->image = &effect->payload.motion.pad0[0x38];
+                    effect->payload.state.sprite_template = D_8002699C;
+                    sprite->image = &effect->payload.state.sprite_template;
                 }
             }
             if (work->timer >= 13) {

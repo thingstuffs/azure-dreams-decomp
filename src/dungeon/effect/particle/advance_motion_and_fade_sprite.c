@@ -906,7 +906,7 @@ void animate_jittering_five_point_effect(Entity *entity)
     {
         u32 *flags_page;
         flags_page = (u32 *)0x80080000;
-        *(u16 *)((u8 *)entity - 2) |= 0x8000;
+        NODE_HEADER(entity)->flags |= NODE_REMOVE;
         flags_page[0x528] |= 0x8000;
     }
         return;

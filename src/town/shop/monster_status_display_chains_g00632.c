@@ -3,6 +3,7 @@
 #include "town/shop/monster_status_display_chains_g00632.h"
 #include "town/shop.h"
 #include "town/shop/state.h"
+#include "engine/texture.h"
 
 /*
  * Calls build_reverse_indexed_chain with (struct S_800491F4 * *)nodes,

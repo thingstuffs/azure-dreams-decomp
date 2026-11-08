@@ -4,6 +4,7 @@
 #include "dungeon/monster/noise/update_timed_actor_movement_and_scale.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/item.h"
+#include "dungeon/player/object.h"
 
 /* Updates timed actor movement and sprite scaling, then handles completion. */
 void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

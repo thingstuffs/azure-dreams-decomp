@@ -1,14 +1,11 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/sprite.h"
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "slus.h"
-
-typedef struct S_800D81D4_0_pre {
-    u16 unk_00;
-} S_800D81D4_0_pre;   /* the 0x2 bytes before arg0 in update_orbiting_effect_particle, addressed as arg0[-1] */
 
 typedef struct S_800D81D4_0 {
     u8 pad_00[0xC];
@@ -128,7 +125,7 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
         effect->unk_4C++;
         break;
     case 6:
-        ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
     motion->unk_02 = (s16) (effect->unk_0C + ((s32) (rsin((s16) effect->unk_18) * effect->unk_1C.at02.v)

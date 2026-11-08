@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_item_entries.h"
+#include "engine/menu.h"
 
 /* struct occupying an 84-byte (0x54) slot in the fixed-address table at 0x800102F0;
    only offset 0x11 accessed here. The retail asm materialises the table base via

@@ -219,7 +219,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
         if ((*(M2C_UNK * *)&sprite->frameTable) != kraken_frame_set_1) {
             if (sprite->flags & 0x6000) {
                 visual_flags->unk_04 = (u16) (visual_flags->unk_04 | 0x8000);
-                action->unk_A8.s = 0;
+                action->unk_A8 = 0;
                 sprite->frameTable = kraken_frame_set_1;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                     + kraken_frame_set_1), 0);

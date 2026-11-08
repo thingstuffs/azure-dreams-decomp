@@ -1879,7 +1879,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
 void update_flame_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = ((u8 *)initialize_destination_state);
+            actor->unk_8C.handler = initialize_destination_state;
             return;
         }
     } else if (*(u8 **)&entity->frameTable == flame_alt_direction_frames &&

@@ -101,7 +101,7 @@ void apply_pending_table_entry(s32 index, s32 entryValue);
 
 #include "shared/vector.h"
 #include "town/player/record.h"
-void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(IntVector3 *out);
+void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(ObjectPosition *out);
 void copy_current_record_components_3(void *output);
 void dispatch_parameterized_or_default(s32 handler_param);
 u32 view_relative_angle_sector(s32 angle);

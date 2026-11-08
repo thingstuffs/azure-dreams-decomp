@@ -167,7 +167,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             }
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
-            action->unk_A8.s = -1;
+            *(s16 *)&action->unk_A8 = -1;
             action->action_phase++;
             return;
         }
@@ -196,7 +196,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
     case 2:
         if (sprite->unk_04 == 1 &&
             (sprite->flags & 0x1000)) {
-            action->unk_A8.u = 4;
+            action->unk_A8 = 4;
         }
         if ((u32)(((u8)(sprite->unk_04)) - 1) < 2U &&
             sprite->frameTable != naplass_frame_set_1) {
@@ -206,8 +206,8 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
                 coords[5] = 0;
                 coords[4] = 0;
             }
-            action->unk_A8.u--;
-            if ((s16)action->unk_A8.u >= 0) {
+            action->unk_A8--;
+            if ((s16)action->unk_A8 >= 0) {
                 counter = 9;
                 effect_base = secondary_sprite;
                 for (; counter >= 0; counter--) {

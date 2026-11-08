@@ -53,7 +53,7 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
             if (random == 0) {
                 create_knockback_travel_object(script, motion, tile, actor);
             }
-            script->unk_A8.s = -1;
+            *(s16 *)&script->unk_A8 = -1;
             script->action_timer = 0;
             script->action_phase = 2;
             return;
@@ -64,9 +64,9 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
         }
         script->action_timer = timer;
         if (random != 0) {
-            script->unk_A8.s = -1;
+            *(s16 *)&script->unk_A8 = -1;
         } else {
-            script->unk_A8.s = one;
+            script->unk_A8 = one;
         }
                         /* fall through */
     case 1:
@@ -81,8 +81,8 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
         adjusted = value2;
         motion->velocity_y = value2 - (adjusted / 4);
 
-        timer = script->unk_A8.u - 1;
-        script->unk_A8.s = timer;
+        timer = script->unk_A8 - 1;
+        script->unk_A8 = timer;
         if ((timer << 16) == 0) {
             create_knockback_travel_object(script, motion, tile, actor);
         }
@@ -120,8 +120,8 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
                 (s16)(script->action_timer);
         }
 
-        timer = script->unk_A8.u - 1;
-        script->unk_A8.s = timer;
+        timer = script->unk_A8 - 1;
+        script->unk_A8 = timer;
         if ((timer << 16) == 0) {
             create_knockback_travel_object(script, motion, tile, actor);
         }

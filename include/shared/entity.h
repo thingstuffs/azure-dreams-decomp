@@ -264,7 +264,7 @@ typedef struct ActorRecord {
         void *address; /* kraken links its child ObjectNodeHeader through this scratch slot */
         unsigned char *byte_address; /* byte-addressed callback scratch pointer */
     } unk_A4; /* callback scratch with word/halfword/byte views */
-    /* 0x0A8 */ union { unsigned char byte; short s; unsigned short u; } unk_A8; /* saved species or callback scratch */
+    /* 0x0A8 */ unsigned short unk_A8; /* saved species or callback scratch */
     /* 0x0AA */ short unk_AA;
     /* 0x0AC */ union { void *address; int value; unsigned char byte; signed char signed_byte; ActorScratchHalves halves; unsigned char bytes[4]; } unk_AC; /* familiar slot 0 or callback scratch */
     /* 0x0B0 */ union { void *address; int value; unsigned char bytes[4]; signed char signed_bytes[4]; ActorScratchHalves halves; } unk_B0; /* familiar slot 1 or callback scratch, including byte +0xB3 */

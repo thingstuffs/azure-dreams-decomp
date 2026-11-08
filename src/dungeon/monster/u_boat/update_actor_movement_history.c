@@ -169,9 +169,9 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
             motion->unk_B0.bytes[3] = 2;
         } else {
             {
-                u16 elapsed_ticks = motion->unk_A8.u;
+                u16 elapsed_ticks = motion->unk_A8;
 
-                motion->unk_A8.u = elapsed_ticks + 1;
+                motion->unk_A8 = elapsed_ticks + 1;
                 if ((signed short)elapsed_ticks >= 300) {
                     motion->unk_B0.bytes[3] = 3;
                     motion->unk_B0.bytes[1] = 0;

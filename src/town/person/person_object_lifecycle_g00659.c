@@ -71,7 +71,7 @@ void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *mo
 }
 
 /* Update the object's flag and dispatch its current state handler. */
-void dispatch_object_state(void *object, void *context, void *dispatch_data) {
+void dispatch_object_state(TownObjectRecord *object, void *context, void *dispatch_data) {
     TownObjectRecord *object_bytes = object;
     u8 state;
 

@@ -575,10 +575,6 @@ void create_timed_model_effect(ObjectNodeHeader *owner, u16 *context, void *chil
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_800B8CF0_0_pre {
-    u16 unk_00;
-} S_800B8CF0_0_pre;   /* the 0x2 bytes before arg0 in update_blinking_sprite_flash, addressed as arg0[-1] */
-
 typedef struct S_800B8CF0_0 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -603,7 +599,7 @@ void update_blinking_sprite_flash(void *state_arg, ObjectPosition *unused, void 
     ticks_left = state->unk_02 - 1;
     state->unk_02 = (u16) ticks_left;
     if (((ticks_left << 16) >> 16) <= 0) {
-        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B8CF0_0_pre *)state)[-1].unk_00 | NODE_REMOVE);
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
@@ -1849,13 +1845,13 @@ void *create_item_target_selector(u8 *selection_data) {
                 } else {
                     part_state->f2C = selection_data;
                 }
-                if (is_selectable_menu_target(((ActorRecord *)(global_page->unk_3D7C))->unk_AC.value) != 0) {
+                if (is_selectable_menu_target(((ActorRecord *)(global_page->unk_3D7C))->unk_AC.address) != 0) {
                     part_state->fE = 8;
                     part_state->f0 = global_page->unk_3D7C + 0xAC;
                     if (part_state->f12 == last_part) {
                         sprite->fC = 0x101080;
                     }
-                } else if (is_selectable_menu_target(((ActorRecord *)(global_page->unk_3D7C))->unk_B0.value) != 0) {
+                } else if (is_selectable_menu_target(((ActorRecord *)(global_page->unk_3D7C))->unk_B0.address) != 0) {
                     part_state->fE = 8;
                     part_state->f0 = global_page->unk_3D7C + 0xB0;
                     if (part_state->f12 == last_part) {
@@ -2131,10 +2127,6 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-typedef struct S_800BA6B8_0_pre {
-    u16 unk_00;
-} S_800BA6B8_0_pre;   /* the 0x2 bytes before arg0 in update_pulsing_sprite_color, addressed as arg0[-1] */
-
 typedef struct S_800BA6B8_0 {
     u8 pad_00[0x30];
     u8 unk_30;
@@ -2159,7 +2151,7 @@ void update_pulsing_sprite_color(void *channel_config_arg, void *unused, void *o
     S_800BA6B8_1 *output = output_arg;
 
     if (D_800DF37C != 0) {
-        (*(u16 *)((u8 *)channel_config + -2)) = (u16) (((S_800BA6B8_0_pre *)channel_config)[-1].unk_00 | NODE_REMOVE);
+        NODE_HEADER(channel_config)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     channel_value = (rsin(g_game_work.unk_004 << 8) >> 7) - 0x80;
@@ -2381,12 +2373,6 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct DungeonRoot DungeonRoot;
-struct DungeonRoot {
-    u8 pad[0x8D0];
-    s32 cursor;
-};
-
 typedef struct DungeonObject DungeonObject;
 struct DungeonObject {
     void *state;
@@ -2416,11 +2402,6 @@ typedef struct S_800BABA8_0 {
     s8 unk_17;
 } S_800BABA8_0;   /* dst in draw_particle_effect_primitives */
 
-typedef struct S_800BABA8_1 {
-    u8 pad_00[0x8D0];
-    s32 unk_8D0;
-} S_800BABA8_1;   /* *(DungeonRoot **)global_field in draw_particle_effect_primitives */
-
 struct Scratch_800B5448 {
     u16 values[3];
     u8 pad06[0x1A];
@@ -2446,10 +2427,10 @@ extern s16 func_80069EF8(void);
 
 /* Advances particle levels and emits colored effect primitives into the dungeon display list. */
 s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
-    DungeonRoot *root =
-        *(DungeonRoot **)((u8 *)(&g_game_work));
+    GpuContext *root =
+        *(GpuContext **)((u8 *)(&g_game_work));
     GameWork *root_slot = &g_game_work;
-    s32 packet_cursor = root->cursor;
+    u8 *packet_cursor = root->packetCursor;
     Scratch_800B5448 *scratch;
     s16 particle = 0;
     u8 *scratch_90 = (u8 *)0x1F800090;
@@ -2460,9 +2441,8 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
     scratch = (Scratch_800B5448 *)0x1F800000;
     scratch->base = ((u8 *)root_slot->draw_buffer) + 0xB0;
     scratch->values[0] = position[1];
-    scratch_94 = (u8 *)scratch;
     scratch->values[1] = position[3];
-    scratch_94 = (u8 *)((u32)scratch_94 | 0x94);
+    scratch_94 = (u8 *)0x1F800094;
     scratch->values[2] = position[5];
     do {
         {
@@ -2537,7 +2517,7 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
             }
         }
     } while ((particle = particle + 1) < 32);
-    ((S_800BABA8_1 *)(root_slot->draw_buffer))->unk_8D0 = packet_cursor;
+    ((GpuContext *)(root_slot->draw_buffer))->packetCursor = packet_cursor;
     {
         s32 result = 0;
         return result;

@@ -567,7 +567,7 @@ extern s16 direction_y_offsets[];
 s16 find_active_rect_containing_point(u16, u16);
 
 /* Check a directional move against map bounds, collisions, monsters, and floor height. */
-s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_offset) {
+s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, ActorRecord *body, u16 height_offset) {
     StackU16 collision;
     s16 monster_index;
     /* The actor is finished before the floor-height samples begin. */
@@ -624,7 +624,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
                     tile_y8 = actor_or_height->y;
                     coord_or_height = tile_x8;
                     offset_work = tile_y8;
-                    height = body->height;
+                    height = (u16)body->ground_height;
                     coord_or_height <<= 6;
                     coord_work_2 = coord_or_height + 0x20;
                     tile_coord = (s16)coord_work_2 >> 6;
@@ -658,7 +658,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
                                                        (actor_or_height->y + *y_step) & 0xFFFF),
                          (monster_index < 0)) ||
                         !(dungeon_rooms[monster_index].flags & ROOM_HOLY_BEAM) ||
-                        (result = 0, ((body->flags & 0x2000) != 0)))) {
+                        (result = 0, ((body->flags1C & 0x2000) != 0)))) {
                         return result;
                     }
                     if (collision.value & 0x3300) {
@@ -675,7 +675,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
                             y_or_direction = target_y_u16 >> 6;
                             target_height = (s16)((s32)actor_or_height);
                             if (target_height >= 0x201) {
-                                target_height = (s16)body->height;
+                                target_height = body->ground_height;
                             }
                             /* Target X is dead after the tile argument is formed. */
                             target_x = find_eligible_actor_at_tile_and_height(body, tile_coord, y_or_direction, target_height);

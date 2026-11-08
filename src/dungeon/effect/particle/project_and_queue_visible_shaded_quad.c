@@ -960,7 +960,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
         player_2 = primary_actor_record;
         effect->unk_2C = 33;
         player_2->unk_A4.halves.high.u = player_2->unk_A4.halves.high.u - 1;
-        player_2->unk_A8.byte = effect->spell.spell_id;
+        (*(u8 *)&player_2->unk_A8) = effect->spell.spell_id;
         player = primary_actor_record;
         heading = ((u16)player->facing);
         effect->spell.phase = effect->spell.phase + 1;

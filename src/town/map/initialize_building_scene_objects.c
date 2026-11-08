@@ -14,19 +14,19 @@ typedef struct {
 extern Event6 D_800D1910[];
 extern u8 town_map_variants[];
 extern u8 town_map_selection_state[12];
-extern u8 D_80126494[12];
-extern u8 D_8012669C[12];
-extern u8 D_80126884[12];
-extern u8 D_80126A6C[12];
-extern u8 D_80126C54[12];
-extern u8 D_80126E3C[12];
-extern u8 D_80127024[12];
-extern u8 D_80127FA8[12];
+extern u16 D_80126494[];
+extern u16 D_8012669C[];
+extern u16 D_80126884[];
+extern u16 D_80126A6C[];
+extern u16 D_80126C54[];
+extern u16 D_80126E3C[];
+extern u16 D_80127024[];
+extern u16 D_80127FA8[];
 
 void ** scale_coordinates_and_append_pointers(s32, s32, s32, s32, void *);
 
 /* Draws the active town entry and its state-dependent overlays. */
-void initialize_building_scene_objects(s32 draw_param) {
+void initialize_building_scene_objects(void *draw_param) {
     Event6 *event;
     Event6 *event_table;
     u8 *draw_state;

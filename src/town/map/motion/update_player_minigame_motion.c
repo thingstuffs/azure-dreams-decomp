@@ -80,7 +80,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
     controls = ((s32 *)&g_game_work.draw_buffer);
     course = actor->course;
     progress = &actor->progress;
-    apply_the_enabled_movement_offsets_adding_z_offset_only_positive((struct IntVector3 *)(motion));
+    apply_the_enabled_movement_offsets_adding_z_offset_only_positive(motion);
     update_the_s_field_10_using_callee_8008_fe_90(&town_motion_list);
     add_motion_deltas_to_position(motion);
     motion->x.v = (s32) (motion->x.v + actor->impulse_x);

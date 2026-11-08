@@ -40,7 +40,6 @@ extern Vec3 display_vector_defaults;
 extern M2C_UNK D_800E2804;
 extern Template0 D_800E2828[9];
 extern M2C_UNK D_800E28B8;
-extern void *create_callback_pair_default(s32);
 extern void register_node(void *, void *);
 extern void initialize_complemented_state(void *);
 extern s32 run_object_setup_and_finalize(void *, s32);

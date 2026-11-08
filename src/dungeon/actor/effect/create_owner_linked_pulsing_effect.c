@@ -16,14 +16,6 @@ struct ObjectNodeHeader;
 #include "dungeon/actor.h"
 #include "dungeon/level.h"
 
-typedef struct S_800CB82C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800CB82C_2;   /* arg0 in create_owner_linked_pulsing_effect */
-
 typedef struct S_800CB82C_4 {
     u8 pad_00[0x8];
     u8 unk_08;
@@ -58,8 +50,8 @@ extern M2C_UNK D_800E03BC;
 extern u8 active_spell_parameters;
 
 /* Create and register an object using the spawn position, source state, and owner. */
-void *create_owner_linked_pulsing_effect(void *spawn_pos_arg, EntityRec *source_state, void *owner) {
-    S_800CB82C_2 *spawn_pos = spawn_pos_arg;
+void *create_owner_linked_pulsing_effect(ObjectPosition *spawn_pos_arg, ActorRecord *source_state, void *owner) {
+    ObjectPosition *spawn_pos = spawn_pos_arg;
     u16 object_flags;
     s32 global_flags;
     SpriteFrameState *map_data;
@@ -74,9 +66,9 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos_arg, EntityRec *source_
         object->update_callback = &update_owner_linked_pulsing_effect;
         register_node(object, project_sprite_chain);
         position = object->position;
-        position->x.w.i = (u16) spawn_pos->unk_02;
-        position->y.w.i = (u16) spawn_pos->unk_06;
-        position->z.w.i = (u16) spawn_pos->unk_08.at02.v;
+        position->x.w.i = (u16) spawn_pos->x.unsigned_parts.integer;
+        position->y.w.i = (u16) spawn_pos->y.unsigned_parts.integer;
+        position->z.w.i = (u16) spawn_pos->z.unsigned_parts.integer;
         map_data = object->sprite;
         map_data->source = &D_800E03BC;
         map_data->flags = (u16) (map_data->flags | 0xC);
@@ -90,12 +82,12 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos_arg, EntityRec *source_
         owner_map = ((SpriteLinkPrefixView *)owner)[-1].sprite;
         object_state->unk_72 = (u8) owner_map->tile_x;
         object_state->unk_73 = (u8) owner_map->tile_y;
-        object_state->unk_88 = (u16) ((u16)source_state->unk_88);
+        object_state->unk_88 = (u16) ((u16)source_state->ground_height);
         object_state->unk_13 = 0xFF;
         object_state->unk_14 = (s32) source_state->flags14;
         object_state->unk_1C = (s32) source_state->flags1C;
         object_state->unk_2A = (s16) (((Rec_D_800287A4 *)owner)->unk_2A - 0x800);
-        object_state->unk_90 = (s32) spawn_pos->unk_08.at00.v;
+        object_state->unk_90 = (s32) spawn_pos->z.v;
         if (create_actor_spell_effect(object_state, ((void *)object) + 0x28, 0, ((void *)object) + 0xB8) == 0) {
             object_flags = object->flags | 0x8000;
             global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

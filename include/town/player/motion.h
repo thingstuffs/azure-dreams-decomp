@@ -42,7 +42,7 @@ void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *posi
 /* move_player_toward_target_with_timer.c */
 
 /* move_the_actor_perpendicular_selected_direction_unless_step_changes_sides.c */
-void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(void *position_data);
+void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(ObjectPosition *position_data);
 
 /* move_value_toward.c */
 s32 move_value_toward_300(TownObjectRecord *record, ObjectPosition *field_ptr, struct SpriteFrameState *other_value);

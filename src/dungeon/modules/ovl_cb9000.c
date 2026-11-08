@@ -905,7 +905,7 @@ void update_block_hop_slot_f(ActorRecord *action, ObjectPosition *motion, Sprite
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_A4.halves.high.s = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
             (map_entry->tile_y << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
-        action->unk_A8.u = (u16) ((u16)motion->z.w.i);
+        action->unk_A8 = (u16) ((u16)motion->z.w.i);
                         /* fall through */
     case 1:
         move_frames = (s16)(action->unk_9E);
@@ -936,26 +936,26 @@ void update_block_hop_slot_f(ActorRecord *action, ObjectPosition *motion, Sprite
                 case 6:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0xFFFE0000 - ((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8.u) << 0x10));
+                        - (s16) action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 5:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0 - ((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8.u) << 0x10));
+                        - (s16) action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 4:
                     scaled_height_delta = (action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8.u) * 3;
+                        - (s16) action->unk_A8) * 3;
                     action->unk_90.value = (s32) (0 - ((scaled_height_delta / 4) << 0x10));
                     actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
                     break;
                 case 3:
                     action->unk_90.value = (s32) (0 - ((((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8.u) * 2) / 5) << 0x10));
+                        - (s16) action->unk_A8) * 2) / 5) << 0x10));
                     break;
                 default:
                     action->unk_90.value = 0;

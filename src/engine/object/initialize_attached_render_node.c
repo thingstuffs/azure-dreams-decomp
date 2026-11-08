@@ -2,6 +2,7 @@
 #include "engine/object/render_words.h"
 
 #include "common.h"
+#include "engine/object.h"
 
 /* Retail bytes at assets/3E018.bin + 0x161A0; current ownership reconstruction only. */
 s32 attached_node_initial_word_14 = 0x01DE03E0;

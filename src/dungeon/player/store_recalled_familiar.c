@@ -70,7 +70,7 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
         source_record = *record_slot;
     }
     if ((get_entity_effect_value(source_record, STATUS_FROG) << 0x10) != 0) {
-        source_record->species = source_record->unk_A8.byte;
+        source_record->species = (source_record->unk_A8);
     }
     record_storage = &familiar_record_storage[((((record_index * 8) + record_index) * 4) - record_index) * 4];
     *record_slot = record_storage;

@@ -474,7 +474,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
         if (*effect_arg->spell.context & 0x80) {
             effect_arg->unk_18 = 0xAU;
             primary_actor_record->unk_A4.halves.high.u--;
-            primary_actor_record->unk_A8.byte = effect_arg->spell.spell_id;
+            (*(u8 *)&primary_actor_record->unk_A8) = effect_arg->spell.spell_id;
             next_state_c1 = ((u16)primary_actor_record->facing);
             effect_arg->spell.phase++;
             effect_arg->unk_0E = next_state_c1;

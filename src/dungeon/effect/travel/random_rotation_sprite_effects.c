@@ -33,8 +33,7 @@ void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, void *mo
     tick_count = state->ticks.u + 1;
     state->ticks.u = tick_count;
     if (state->lifetime.s < (s16)tick_count) {
-        *(u16 *)((s8 *)state - 2) =
-            (u16)(*(u16 *)((s8 *)state - 2) | NODE_REMOVE);
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -88,7 +87,7 @@ void handle_increment_entry_counters_process_target_propagate_status_flags(Rando
     entry->ticks_remaining += 1;
     advance_sprite_animation_and_textures(target);
     if (target ->flags & 0x6000) {
-        *(u16 *)((u8 *)entry - 2) |= NODE_REMOVE;
+        NODE_HEADER(entry)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -148,7 +147,7 @@ void advance_the_entry_counters_trigger_count_milestones_update_target(CountedSp
         s32 *global_page;
 
         global_page = (s32 *)0x80080000;
-        ((ovl_18b8824_81898B70_S_80024370_0_pre *)entry)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(entry)->flags |= NODE_REMOVE;
         ((ovl_18b8824_81898B70_S_80024370_2 *)global_page)->unk_14A0 |= 0x8000;
         break;
     }
@@ -208,7 +207,7 @@ void mark_owner_on_target_completion(SpriteEffectWithDataBody *object_ref, s32 u
     object->field_14.u += 1;
     advance_sprite_animation_and_textures(target);
     if (target ->flags & 0x6000) {
-        *(u16 *)((u8 *)object_ref - 2) |= NODE_REMOVE;
+        NODE_HEADER(object_ref)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -40,7 +40,7 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
         }
         action->action_state_flags |= 8;
         actor->flags1C &= 0xF7FFFFFF;
-        action->unk_A8.s = 5;
+        action->unk_A8 = 5;
         action->unk_A4.value = 0;
         action->action_phase++;
                         /* fallthrough */
@@ -49,7 +49,7 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
         s32 move_ticks;
         s16 next_move_ticks;
 
-        move_ticks = action->unk_A8.s;
+        move_ticks = (s16)(action->unk_A8);
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             s32 tile_delta;
@@ -66,14 +66,14 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             motion->velocity_y =
-                (tile_delta << 16) / action->unk_A8.s;
+                (tile_delta << 16) / (s16)(action->unk_A8);
             action->unk_A4.value =
-                -rsin(action->unk_A8.s * 0x199) << 9;
+                -rsin((s16)(action->unk_A8) * 0x199) << 9;
         }
 
         action->unk_90.value += action->unk_A4.value;
-        next_move_ticks = (u16)action->unk_A8.s - 1;
-        action->unk_A8.s = next_move_ticks;
+        next_move_ticks = (u16)action->unk_A8 - 1;
+        action->unk_A8 = next_move_ticks;
         if (next_move_ticks < 0) {
             action->unk_90.parts.high.s = -0x10;
             action->action_state_flags &= 0xFFF7;

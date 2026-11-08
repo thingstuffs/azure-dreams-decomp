@@ -15,7 +15,6 @@ typedef struct {
 extern Func8003C6F8Entry runtime_resource_directory[];
 extern void *runtime_resource_load_target;
 
-extern void file_load_com(void *data);
 
 /* Stores data in the selected entry, activates its pointers, and applies a mode-specific flag. */
 

@@ -15,7 +15,6 @@
 /* extern */
 
 struct S_800491F4;
-extern struct S_800491F4 *build_reverse_indexed_chain(struct S_800491F4 **node_table, u8 *indices, s32 index_limit);
 extern u8 monster_status_chain_indices[];
 /* extern */
 void initialize_display_entry(s32, void *, s32);

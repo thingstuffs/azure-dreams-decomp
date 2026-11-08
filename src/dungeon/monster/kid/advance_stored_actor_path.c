@@ -38,7 +38,7 @@ void advance_stored_actor_path(ActorRecord *body, ObjectPosition *unused, Sprite
             sprite,
             kid_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        body->unk_A8.s = 0;
+        body->unk_A8 = 0;
     }
 
     old_x = sprite->tile_x;

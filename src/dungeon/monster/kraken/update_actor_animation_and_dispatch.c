@@ -127,7 +127,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                 >> 9) & 7)), 0);
             sprite->frame_ticks = 1;
             actor->unk_AC.halves.high.s = 0;
-            actor->unk_A8.s = 0;
+            actor->unk_A8 = 0;
         }
         status->flags1C = (s32) (status->flags1C | 0x40000);
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF7);
@@ -138,7 +138,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
         }
         if (status->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, status);
-            actor->unk_A8.s = 0;
+            actor->unk_A8 = 0;
             func_80173D10(actor, context, sprite, status);
             return;
         }

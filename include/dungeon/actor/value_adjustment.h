@@ -25,7 +25,6 @@ s32 display_text_with_fullwidth_adjustment(void *text);
 s32 generate_random_value(void);
 void func_80024658(void);
 void func_8002469C(void);
-void card_boot_refresh_five_slot_selection(void);
 void func_800250A4(void);
 void func_8002536C(void);
 void func_8002561C(void);

@@ -16,7 +16,7 @@ typedef struct Page8008 {
  * Shrinks the sprite in staged steps, moves it vertically in state 2, and marks the effect for
  * removal in state 3.
  */
-void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, ObjectPosition *position, Rec_func_800AA258_arg2 *visual, void *unused_actor)
+void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, ObjectPosition *position, SpriteFrameState *visual, void *unused_actor)
 {
     s32 state;
     u16 size_or_state;
@@ -27,7 +27,7 @@ void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, ObjectP
 
     switch (state) {
     case 0:
-        if (visual->unk_14 & 0x8000) {
+        if (visual->flags & 0x8000) {
             effect->state = 3;
             return;
         }
@@ -35,9 +35,9 @@ void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, ObjectP
         effect->state++;
                         /* fall through */
     case 1:
-        size_or_state = visual->unk_1E - 0x50;
-        visual->unk_1E = size_or_state;
-        visual->unk_1C = size_or_state;
+        size_or_state = visual->scale_y - 0x50;
+        visual->scale_y = size_or_state;
+        visual->scale_x = size_or_state;
         if (effect->timer.u < 0) {
             state = 2;
             size_or_state = effect->state;
@@ -48,9 +48,9 @@ void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, ObjectP
         return;
     case 2:
         position->z.v += 0x28000;
-        size_or_state = visual->unk_1E - 0x80;
-        visual->unk_1E = size_or_state;
-        visual->unk_1C = size_or_state;
+        size_or_state = visual->scale_y - 0x80;
+        visual->scale_y = size_or_state;
+        visual->scale_x = size_or_state;
         if (effect->timer.u < 0) {
             size_or_state = effect->state;
             size_or_state++;

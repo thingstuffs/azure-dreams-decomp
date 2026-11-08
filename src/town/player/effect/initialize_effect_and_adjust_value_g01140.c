@@ -15,6 +15,7 @@
 #include "engine/node.h"
 #include "engine/window.h"
 #include "town/player/record.h"
+#include "town/map.h"
 
 /* Initialize the object and adjust its record value before final setup. */
 void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s32 init_value) {
@@ -33,7 +34,7 @@ void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s3
 
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
 void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition *record, SpriteFrameState *sprite) {
-    apply_the_enabled_movement_offsets_adding_z_offset_only_positive((struct IntVector3 *)(record));
+    apply_the_enabled_movement_offsets_adding_z_offset_only_positive(record);
     update_the_s_field_10_using_callee_8008_fe_90(&town_motion_list);
     add_motion_deltas_to_position(record);
     update_object_and_clear_status_fields(record);

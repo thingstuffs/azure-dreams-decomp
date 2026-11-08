@@ -1,21 +1,17 @@
 #include "town/map/state_callbacks_api.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/sprite_frame_state.h"
 #include "engine/node.h"
 
-typedef struct town_inactive_object {
+struct town_inactive_object {
     s8 pad00[0x98];
     u8 *field_98;
     u8 *field_9C;
-} Obj;
-
-typedef struct town_inactive_state {
-    u8 pad00[0x1A];
-    u16 field_1A;
-} State;
+};
 
 /* Mark inactive objects or advance their wrapped 12-bit state value. */
-void update_inactive_object_state(Obj *obj, void *unused, State *state)
+void update_inactive_object_state(struct town_inactive_object *obj, void *unused, SpriteFrameState *sprite)
 {
     s32 t;
     if (*obj->field_98 == 0) {
@@ -25,7 +21,7 @@ void update_inactive_object_state(Obj *obj, void *unused, State *state)
         return;
     }
 
-    state->field_1A += *(s8 *)(obj->field_9C + 0x97);
-    t = state->field_1A;
-    state->field_1A = t & 0xFFF;
+    sprite->angle_z += *(s8 *)(obj->field_9C + 0x97);
+    t = sprite->angle_z;
+    sprite->angle_z = t & 0xFFF;
 }

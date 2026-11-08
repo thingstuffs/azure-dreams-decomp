@@ -16,7 +16,7 @@ void dispatch_status_triggered_update(TownObjectRecord *handler_arg, void *conte
 /* Registered code-address alias for dispatch_status_triggered_update. */
 void person_table_handler_address(void *handler_arg, void *context, SpriteFlagsView *status);
 
-void dispatch_object_state(void *object, void *context, void *dispatch_data);
+void dispatch_object_state(TownObjectRecord *object, void *context, void *dispatch_data);
 
 void clear_record_indexed_flag(TownObjectRecord *state, s32 unused_context, void *unused_state_context);
 void clear_record_indexed_byte(void *state, s32 unused_context, void *unused_state_context);

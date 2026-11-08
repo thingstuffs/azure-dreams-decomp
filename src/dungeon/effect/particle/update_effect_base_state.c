@@ -364,7 +364,7 @@ void update_effect_base_state(s32 effect_or_count) {
         effect.v->unk_2C = saved + 1;
         return;
     case 2:
-        ((S_81844F2C_0_pre *)effect.v)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect.v)->flags |= NODE_REMOVE;
         page = (u8 *)0x80080000;
         ((S_81844F2C_4 *)page)->unk_14A0 |= 0x8000;
     }
@@ -589,7 +589,7 @@ void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, VecState *m
         }
         if (sprite->color.c.r <= effect->brightness_step.s) {
             sprite->color.word = 0;
-            *(u16 *)((s8 *)effect - 2) |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

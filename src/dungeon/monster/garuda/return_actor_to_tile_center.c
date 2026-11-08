@@ -9,7 +9,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-extern s32 D_801748C0;
+extern u8 D_801748C0[];
 
 /* Applies backward motion, then returns the actor to its tile center or starts the next action. */
 void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *actor) {
@@ -29,7 +29,7 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, &D_801748C0);
+            begin_actor_display_action(action, motion, entity, D_801748C0);
             return;
         }
         if (entity->flags & 0x8000) {
@@ -63,7 +63,7 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, &D_801748C0);
+            begin_actor_display_action(action, motion, entity, D_801748C0);
             return;
         } else {
             action->action_timer = 8;

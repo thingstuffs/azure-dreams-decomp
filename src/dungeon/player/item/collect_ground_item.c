@@ -30,12 +30,6 @@ typedef struct Ctx {
     s16 mode;
 } Ctx;
 
-typedef struct Item {
-    u8 pad[0x24];
-    u8 kind;
-    u8 sub;
-} Item;
-
 typedef struct Unit {
     u8 pad[0x88];
     s16 id;
@@ -60,7 +54,7 @@ s32 get_scaled_byte_value(DungeonItemEntry *);
 void update_map_cell_flags_with_item_limit(s32, s32, s32);
 
 /* Picks up an item, applying special effects or moving it into inventory. */
-s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
+s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *unit) {
     GameWork *sys;
     s32 item_lookup;
     s16 item_id;
@@ -90,13 +84,13 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
     s32 item_kind;
 
     sys = &g_game_work;
-    item_lookup = find_floor_item_at_world_position(item->kind, item->sub, unit->id);
+    item_lookup = find_floor_item_at_world_position(sprite->tile_x, sprite->tile_y, unit->id);
     item_id = item_lookup;
     if (item_id < 0) {
         if (ctx->mode < 0) {
             return 1;
         }
-        begin_player_trap_trigger(ctx, text, item, unit);
+        begin_player_trap_trigger(ctx, text, sprite, unit);
         return 0;
     }
     message_handle = get_unused_text_buffer();

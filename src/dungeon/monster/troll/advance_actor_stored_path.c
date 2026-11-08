@@ -7,6 +7,7 @@
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/player/object.h"
 
 /* Advances the actor along its stored path and updates its movement state. */
 void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state) {

@@ -156,7 +156,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         break;
     case 5:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
-            if (action_state->unk_A8.byte != 0) {
+            if ((u8)(action_state->unk_A8) != 0) {
                 D_800DF248[0] = 1;
                 action_state->action_phase = (u8) (action_state->action_phase + 1);
                 return;
@@ -212,7 +212,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             set_sprite_animation_frame(animation, *(mix_animations + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                 >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = player_attack_start_frames;
-            apply_effect_bonuses(action_state->unk_A8.byte, actor->target, actor);
+            apply_effect_bonuses((u8)(action_state->unk_A8), actor->target, actor);
             return;
         }
         break;
@@ -228,8 +228,8 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
 
                 attack_target = resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
                 if (attack_target != 0) {
-                    update_attached_effect_state(action_state->unk_A8.byte, attack_target, actor);
-                    action_state->unk_A8.byte = 0U;
+                    update_attached_effect_state((u8)(action_state->unk_A8), attack_target, actor);
+                    (*(u8 *)&action_state->unk_A8) = 0U;
                 } else {
                     attack_target = (s32)actor->target;
                     if (attack_target != 0) {
@@ -261,8 +261,8 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            if (action_state->unk_A8.byte != 0) {
-                action_state->unk_A8.byte = 0U;
+            if ((u8)(action_state->unk_A8) != 0) {
+                (*(u8 *)&action_state->unk_A8) = 0U;
             }
             if ((s16) action_state->action_timer <= 0) {
                 (*(u8 **)((u8 *)animation + 0x2C)) = player_attack_followup_frames;

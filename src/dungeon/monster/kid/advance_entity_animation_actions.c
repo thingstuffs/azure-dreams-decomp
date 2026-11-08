@@ -104,7 +104,7 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
 
         if (((u32)saved_entity->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(action, context, sprite, saved_entity);
-            action->unk_A8.s = 0;
+            action->unk_A8 = 0;
             func_80174218(action, context, sprite, saved_entity);
             return;
         }

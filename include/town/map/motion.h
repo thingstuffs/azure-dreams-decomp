@@ -27,7 +27,7 @@ void initialize_object_motion_and_animation(void *object_data, ObjectPosition *m
 void update_effect_motion_and_fade(void *effect, void *motion_data, void *display_data);
 
 /* update_effect_motion_size_and_brightness.c */
-void update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, SpriteFrameState *sprite);
+void update_effect_motion_size_and_brightness(void *effect_fields, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* update_fading_effect_motion.c */
 void update_fading_effect_motion(FadingEffectMotionObject *effect, ObjectPosition *motion, SpriteFrameState *primitive);

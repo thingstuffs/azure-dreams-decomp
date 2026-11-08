@@ -646,9 +646,9 @@ extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
 extern s16 actor_turn_angle_offsets[];
 
 /* Selects a movement direction and updates the actor's position and movement state.
- * move_data: the movement record (turn flags at +0x98, turn side at +0x9C); position_data: the grid cell
+ * move_data: the movement record (turn flags at +0x98, turn side at +0x9C); position_data: the sprite tile
  * the actor stands on; actor_data: the actor. */
-void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data)
+void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
@@ -681,12 +681,12 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
+            current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_x, position_data->tile_y);
             blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
                 EntityRec *blocker_owner = (EntityRec *)NODE_HEADER(blocker)->sprite;
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
-                    position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                    position_data->tile_x, position_data->tile_y,
                     blocker_owner->tileX, blocker_owner->tileY,
                     &move_data->action_state_flags);
                 actor_data->facing = target_angle;
@@ -698,7 +698,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                 actor_data->facing += (generate_random_value() & 7) << 9;
             }
         } else {
-            if (probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing) != 0) {
+            if (probe_directional_neighbor(actor_data, position_data->tile_x, position_data->tile_y, actor_data->facing) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -721,24 +721,24 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                         *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
                 }
 
-                if (position_data->tile_position.parts.tile_x == (u16)target_x &&
-                    position_data->tile_position.parts.tile_y == (u16)target_y) {
+                if (position_data->tile_x == (u16)target_x &&
+                    position_data->tile_y == (u16)target_y) {
                     actor_data->movement_queue_state &= 0x7F;
                     return;
                 }
 
                 turn_data = (u8 *)&move_data->action_state_flags;
                 target_angle = (s16)get_rounded_facing_and_rounding_flag(
-                    position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                    position_data->tile_x, position_data->tile_y,
                     (s16)target_x, (s16)target_y, (u16 *)turn_data);
                 actor_data->facing = target_angle;
                 if (check_directional_move_and_terrain(target_angle, position_data, actor_data, 0x20) <= 0) {
                     actor_data->facing = (s16)get_rounded_facing_and_rounding_flag(
-                        position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                        position_data->tile_x, position_data->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (u16 *)turn_data);
                 }
                 if ((s16)test_neighbor_position_relation(
-                        position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                        position_data->tile_x, position_data->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     limit_detour = 1;
                 }
@@ -747,19 +747,19 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                               &move_data->action_state_flags);
             }
         }
-    } else if (position_data->room_index >= 0 &&
-               dungeon_rooms[position_data->room_index].flags & ROOM_HOLY_BEAM) {
+    } else if ((s8)position_data->room_index >= 0 &&
+               dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
         select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
-        current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
+        current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_x, position_data->tile_y, actor_data->facing);
         blocker = (ActorRecord *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
                     ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
-                    position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                    position_data->tile_x, position_data->tile_y,
                     (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
@@ -769,16 +769,16 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
         if (actor_data->flags1C & ACTOR_PLAYER_AWARE) {
             TileObject *target_position = &reference_tile_object;
             actor_data->facing = (s16)get_rounded_facing_and_rounding_flag(
-                position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                position_data->tile_x, position_data->tile_y,
                 target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y, &move_data->action_state_flags);
             if ((s16)test_neighbor_position_relation(
-                    position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                    position_data->tile_x, position_data->tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
                 if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
                             ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
-                            position_data->tile_position.parts.tile_x,
-                                position_data->tile_position.parts.tile_y,
+                            position_data->tile_x,
+                                position_data->tile_y,
                             (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
                         actor_data->movement_queue_state &= 0x7F;
                         return;
@@ -814,12 +814,12 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
 
             actor_data->facing = trial_angle;
             /* remember the cell in the actor's trail of visited cells */
-            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x74] = position_data->tile_position.parts.tile_x;
-            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x7C] = position_data->tile_position.parts.tile_y;
+            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x74] = position_data->tile_x;
+            (((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))[0x7C] = position_data->tile_y;
             actor_data->movement_queue_state++;
 
             update_map_cell_flags_with_item_limit(
-                position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                position_data->tile_x, position_data->tile_y,
                 (actor_data->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
 
             {
@@ -828,18 +828,18 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                 x_step = (u8 *)((s8 *)dir_step_x);
                 step_offset = (((u16)(actor_data->facing)) >> 8) & 0xE;
                 x_step += step_offset;
-                position_data->tile_position.parts.tile_x += *x_step;
-                position_data->tile_position.parts.tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
+                position_data->tile_x += *x_step;
+                position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
             }
 
             cycle_map_cell_flags(
-                position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
+                position_data->tile_x, position_data->tile_y,
                 (actor_data->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
             break;
         }
 
         if (turn_index == 0 &&
-            *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_position.parts.tile_x) {
+            *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_x) {
             if ((s16)check_entity_relation(actor_data,
                     (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                 return;
@@ -857,7 +857,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C = position_data->room_index;
+        move_data->unk_9C = (s8)position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -867,8 +867,8 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
     }
 
     turn_index = sample_terrain_surface_height(
-        (position_data->tile_position.parts.tile_x << 6) | 0x20,
-        (position_data->tile_position.parts.tile_y << 6) | 0x20,
+        (position_data->tile_x << 6) | 0x20,
+        (position_data->tile_y << 6) | 0x20,
         (s16)((u16)actor_data->ground_height - 0x20));
     if (turn_index < 0x200) {
         actor_data->ground_height = turn_index;
@@ -977,7 +977,7 @@ void update_actor_status_and_mp(ActorRecord *entity);
 /* Update entity state and flags according to the state query result. */
 /* Relinks Zu's state, updates movement or status as needed, and returns 1 only when dungeon activity
  * allows a new action. */
-s32 complete_actor_jump_to_destination(ActorRecord *actor, ObjectPosition *primary_context, void *secondary_context, s32 force_move) {
+s32 complete_actor_jump_to_destination(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */

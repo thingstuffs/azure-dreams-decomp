@@ -5,6 +5,7 @@
 #include "common.h"
 #include "engine/node.h"
 #include "shared/sprite_frame_state.h"
+#include "engine/effect.h"
 
 typedef struct {
     u8 unk_00[0x0C];

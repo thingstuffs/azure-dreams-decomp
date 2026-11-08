@@ -1,14 +1,9 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
 #include "dungeon/effect/sprite.h"
-
-typedef struct S_800F62BC_0_pre {
-    u16 unk_00;
-} S_800F62BC_0_pre;   /* the 0x2 bytes before state in update_pulsing_actor_color, addressed as state[-1] */
-
-
 
 extern u8 D_80173AF8;
 
@@ -42,7 +37,7 @@ void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, Obje
         fade_ticks = (u16) state->fade_ticks - 1;
         state->fade_ticks = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
-            (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800F62BC_0_pre *)state)[-1].unk_00 | NODE_REMOVE);
+            NODE_HEADER(state)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }

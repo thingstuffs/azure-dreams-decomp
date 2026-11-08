@@ -31,11 +31,6 @@ typedef struct S_800D6AD4_5 {
     s16 unk_34;
 } S_800D6AD4_5;
 
-typedef struct S_800D6C18_0_pre {
-    u16 unk_00;
-} S_800D6C18_0_pre;
-
-/* the 0x2 bytes before arg0 in update_expiring_sprite_effect, addressed as arg0[-1] */
 typedef struct S_800D6C18_1 {
     u8 pad_00[0x14];
     u32 unk_14;

@@ -19,7 +19,6 @@ typedef struct SaveImage {
 
 extern s16 current_dungeon_floor;
 extern u8 level_module_read_descriptor_a[];
-void request_scene_dispatch_state(s16 requested_state);
 extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 extern void drain_cd_command_queue(void);
 extern char level_module_read_descriptor_b[];

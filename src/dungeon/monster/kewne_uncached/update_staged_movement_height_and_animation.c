@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "dungeon/monster/kewne_uncached.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -22,42 +23,26 @@ extern u8 kewne_uncached_action_resume_address[9];
 extern u8 D_80175C68[8];
 extern u8 D_80175C70[8];
 
-typedef struct S_80173930_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_A0;   /* overlapping accesses */
-    u8 pad_A4[0x4];
-    s32 unk_A8;
-    s32 unk_AC;
-} S_80173930_0;   /* arg0 in update_staged_movement_height_and_animation */
+
 
 /* Updates the actor's staged movement, height, and directional animation. */
-void update_staged_movement_height_and_animation(S_80173930_0 *motion, ObjectPosition *velocity, SpriteFrameState *sprite, ActorRecord *actor)
+void update_staged_movement_height_and_animation(ActorRecord *motion, ObjectPosition *velocity, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 state;
 
-    state = motion->unk_9B;
+    state = motion->action_phase;
     switch (state) {
 
     case 0:
         if (!(sprite->flags & 0x8000)) {
             play_sound_if_enabled(0x80E);
         }
-        motion->unk_9B++;
+        motion->action_phase++;
 
     case 1:
         if (sprite->flags & 0x8000) {
-            motion->unk_96 = 0x100;
-            motion->unk_9B = 5;
+            motion->action_timer = 0x100;
+            motion->action_phase = 5;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
@@ -76,16 +61,16 @@ void update_staged_movement_height_and_animation(S_80173930_0 *motion, ObjectPos
                 sprite,
                 D_80175C68[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            motion->unk_9B++;
+            motion->action_phase++;
         }
 
     case 2:
     {
-        u16 height = motion->unk_A0.at02.v + 0x10;
+        u16 height = motion->unk_A0.parts.high + 0x10;
 
-        motion->unk_A0.at02.v = height;
+        motion->unk_A0.parts.high = height;
         if ((s16)height >= 0x31) {
-            motion->unk_A0.at02.v = 0x30;
+            motion->unk_A0.parts.high = 0x30;
             velocity->velocity_y = 0;
             velocity->velocity_x = 0;
         }
@@ -96,21 +81,21 @@ void update_staged_movement_height_and_animation(S_80173930_0 *motion, ObjectPos
         velocity->velocity_z = 0;
         velocity->velocity_y = 0;
         velocity->velocity_x = 0;
-        if (motion->unk_A0.at02u.v < 0x30) {
+        if ((s16)motion->unk_A0.parts.high < 0x30) {
             return;
         }
         {
-            s32 current_state = motion->unk_9B;
+            s32 current_state = motion->action_phase;
 
-            motion->unk_96 = 0;
+            motion->action_timer = 0;
             if (current_state == 0) {
                 return;
             }
         }
         play_sound_if_enabled(0x808);
-        motion->unk_9B++;
-        create_parent_attached_effect((u8 *)motion - 0x20, (u8 *)actor + 0x2A,
-                      (u8 *)motion + 0x9B);
+        motion->action_phase++;
+        create_parent_attached_effect(NODE_HEADER(motion), &actor->facing,
+                      &motion->action_phase);
         return;
 
     case 3:
@@ -127,9 +112,9 @@ void update_staged_movement_height_and_animation(S_80173930_0 *motion, ObjectPos
             (s32)*(s16 *)(direction_y +
                 (((u16)actor->facing >> 8) & 0xE)) << 17;
 
-        motion->unk_A0.at00.v -= (s32)((s16)motion->unk_96) << 17;
-        frame = motion->unk_96 + 1;
-        motion->unk_96 = frame;
+        motion->unk_A0.value -= (s32)((s16)motion->action_timer) << 17;
+        frame = motion->action_timer + 1;
+        motion->action_timer = frame;
         if ((s16)frame < 9) {
             return;
         }
@@ -148,24 +133,24 @@ void update_staged_movement_height_and_animation(S_80173930_0 *motion, ObjectPos
         velocity->velocity_y =
             -*(s16 *)(direction_y +
                 (((u16)actor->facing >> 8) & 0xE)) << 20;
-        motion->unk_A8 = velocity->velocity_x / 6;
-        motion->unk_AC = velocity->velocity_y / 6;
-        motion->unk_96 = 0;
-        motion->unk_9B++;
+        (*(s32 *)&motion->unk_A8) = velocity->velocity_x / 6;
+        motion->unk_AC.value = velocity->velocity_y / 6;
+        motion->action_timer = 0;
+        motion->action_phase++;
         return;
     }
 
     case 4:
-        velocity->velocity_x -= motion->unk_A8;
-        velocity->velocity_y -= motion->unk_AC;
-        motion->unk_A0.at00.v =
-            rsin(((s16)motion->unk_96) * 146) * 160 + 0x100000;
+        velocity->velocity_x -= (*(s32 *)&motion->unk_A8);
+        velocity->velocity_y -= motion->unk_AC.value;
+        motion->unk_A0.value =
+            rsin(((s16)motion->action_timer) * 146) * 160 + 0x100000;
 
     case 5:
     {
-        u16 frame = motion->unk_96 + 1;
+        u16 frame = motion->action_timer + 1;
 
-        motion->unk_96 = frame;
+        motion->action_timer = frame;
         if ((s16)frame < 7 && !(sprite->flags & 0x8000)) {
             return;
         }
@@ -175,7 +160,7 @@ void update_staged_movement_height_and_animation(S_80173930_0 *motion, ObjectPos
         velocity->velocity_x = 0;
         set_record_integer_tile_center(velocity, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        motion->unk_8C = kewne_uncached_action_resume_address;
+        motion->unk_8C.byte_ptr = kewne_uncached_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

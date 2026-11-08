@@ -22,6 +22,8 @@
 #include "town/player/input.h"
 #include "town/player/position_handlers.h"
 #include "town/scene/hooks.h"
+#include "town/map.h"
+#include "engine/object.h"
 
 /* Initialize the town scene and configure its object for the current mode. */
 void initialize_scene_for_mode(void)

@@ -27,7 +27,7 @@ typedef struct {
 } Coord;
 
 extern s32 entity_level_thresholds[];
-s32 choose_usable_ability_or_attack(struct Actor *actor, struct Actor *target, u16 *out_angle, s32 prefer_ability);
+s32 choose_usable_ability_or_attack(ActorRecord *actor, struct Actor *target, u16 *out_angle, s32 prefer_ability);
 s32 choose_best_eligible_entry(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/actor/effect.h"
 #include "dungeon/player/object.h"

@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "dungeon/menu.h"
 #include "dungeon/menu_callbacks_api.h"
+#include "engine/resource.h"
 
 /* Initialize nine records and vectors from templates, setting each record's last byte to 4. */
 void initialize_nine_records_and_vectors(u8 *object) {

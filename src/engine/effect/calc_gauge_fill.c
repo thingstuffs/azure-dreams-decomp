@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "engine/effect.h"
 
 extern s32 lookup_level_experience_threshold(ActorRecord *entry, s16 index_offset);
 
