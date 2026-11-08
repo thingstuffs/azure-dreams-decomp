@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_1960800_H
 
 struct ObjectNodeHeader;
+typedef struct S_8003DF74_Vec SpriteAttachmentVector;
 #include "shared/dungeon_effect_views.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
@@ -104,20 +105,6 @@ typedef struct {
     unsigned char pad_00[8];
     s32 position;
 } State;
-typedef struct Data {
-    u16 pad0;
-    u16 x;
-    u16 pad4;
-    u16 y;
-    u16 pad8;
-    u16 z;
-} Data;
-typedef struct Object {
-    u8 pad0[8];
-    Data *data;
-    u8 padC[4];
-    void *callback;
-} Object;
 typedef struct {
     u8 pad[0x2A];
     s16 timer;
@@ -146,7 +133,7 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner);
 void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite);
 s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition *first_position);
 void lower_timed_effect_position(Entity *entity, State *state);
-void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
+void handle_spawn_initialize_randomized_offset_parent(struct ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_state, ObjectPosition *unused, SpriteFrameState *animation_state);
 void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext);
 void decrement_object_counter(PackedSpriteEffectBody *object);

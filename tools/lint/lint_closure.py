@@ -26,6 +26,12 @@ as do compiler failures on HEAD that BASE did not have.
 Full mode runs the complete lint_build census on --root and compares it with a cached
 BASE census directory (lint_findings.tsv + lint_summary.json from a previous run);
 --save-census copies this run's census for the next landing.
+
+After the warning gate, decl_agreement checks every declaration of each function whose
+declaration or definition changed (block-scope externs and other headers included)
+against the HEAD definition and fails on a newly disagreeing one; GCC's census cannot
+see a stale local prototype whose call keeps the warning it already had.
+--no-decl-check skips it.
 """
 from __future__ import annotations
 
@@ -477,6 +483,7 @@ def main(argv=None):
     parser.add_argument('--list', action='store_true', help='with --plan, list the closure TUs')
     parser.add_argument('--full', action='store_true', help='full census on HEAD against --base-census')
     parser.add_argument('--base-census', type=Path, help='lint_build output directory of the BASE full census')
+    parser.add_argument('--no-decl-check', action='store_true', help='skip the declaration agreement check')
     parser.add_argument('--save-census', type=Path, help='with --full, copy this census here for the next landing')
     args = parser.parse_args(argv)
     if args.out is not None:
@@ -521,7 +528,7 @@ def run(args, parser):
         return 0
     if not plan['closure']:
         print('closure empty: nothing to lint')
-        return 0
+        return 0 if args.no_decl_check else decl_check(args, root, head_tree, plan['functions'], plan['renames'])
     base_tree = materialize(root, args.base, out / 'base_tree')
     head_tus = [tu for tu in plan['closure'] if (head_tree / tu).is_file()]
     base_tus = sorted({plan['renames'].get(tu, tu) for tu in plan['closure']})
@@ -536,7 +543,15 @@ def run(args, parser):
           f'{len(head_failures)} failed jobs')
     write_json(out / 'closure_result.json', dict(plan=plan, base_findings=base_findings,
                head_findings=head_findings, base_failures=base_failures, head_failures=head_failures))
-    return report(base_findings, head_findings, base_failures, head_failures, plan['renames'], started)
+    code = report(base_findings, head_findings, base_failures, head_failures, plan['renames'], started)
+    if not args.no_decl_check:
+        code |= decl_check(args, root, head_tree, plan['functions'], plan['renames'])
+    return code
+
+
+def decl_check(args, root, head_tree, names, renames):
+    import decl_agreement
+    return decl_agreement.check_change(root, args.base, head_tree, set(names), renames)
 
 
 def write_json(path, data):
@@ -605,6 +620,10 @@ def run_full(args, root, out, started):
     renames = {new: old for status, old, new in changes(root, args.base, None) if status == 'R'}
     result = report(read_census(base_dir), read_census(census), base_failures, head_failures,
                     renames, started)
+    if not args.no_decl_check:
+        import decl_agreement
+        names = decl_agreement.changed_function_names(root, args.base, None)
+        result |= decl_agreement.check_change(root, args.base, root, names, renames)
     if args.save_census and result == 0 and code == 0:
         args.save_census.mkdir(parents=True, exist_ok=True)
         for name in ('lint_findings.tsv', 'lint_summary.json', 'lint_compile_failures.tsv', 'lint_units.tsv'):

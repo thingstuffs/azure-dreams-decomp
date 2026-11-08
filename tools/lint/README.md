@@ -431,3 +431,14 @@ The `audio_command_owners` group joins the command FIFO feature with its audio
 and entity imports. The owner declares one count halfword and 32 payload
 halfwords. `test_resident_bit_return.py` compiles a real result-using caller
 with GCC O0, GCC O2 and Clang O2 to guard the resident-bit query return contract.
+
+## Declaration agreement
+
+`tools/lint/decl_agreement.py BASE [HEAD] --fail-new` compares every declaration of
+each function whose declaration or definition changed (file-scope prototypes, block-scope
+`extern` lines, other headers) with the HEAD definition, after normalising whitespace,
+parameter names, `struct` tags, scalar typedefs and array parameters. A disagreement that
+did not exist on BASE fails. The warning census cannot catch this case: a stale local
+prototype leaves the same GCC diagnostic at the same site. `lint_closure.py` runs the check
+after its warning gate (`--no-decl-check` skips it). Tests: `python3 -m unittest
+tools.lint.test_decl_agreement`.

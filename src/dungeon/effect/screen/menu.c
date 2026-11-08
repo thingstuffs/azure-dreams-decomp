@@ -23,6 +23,8 @@ struct ObjectPosition;
 #include "dungeon/data.h"
 #include "dungeon/globals.h"
 
+extern s32 register_node(); /* draw-registration call forms carry opaque callback keys */
+
 typedef struct {
     u8 pad0[3];
     u8 type;
@@ -158,8 +160,8 @@ void draw_textured_ellipse_segments(DungeonPosition *position, DungeonParameters
     s32 packet_order;
     s32 scratch;
     GpuContext **state_slot;
-    packet_order = (s32)(((u8 *)(&g_game_work)) - 0x3160);
-    cursor = (*((GpuContext **) (((u8 *)packet_order) + 0x3160)))->packetCursor;
+    packet_order = (s32)(unsigned long)(((u8 *)(&g_game_work)) - 0x3160);
+    cursor = (*((GpuContext **) (((u8 *)(unsigned long)packet_order) + 0x3160)))->packetCursor;
     scratchpad = (EllipseWork *) 0x1F800000;
     scratchpad->prev_z = 0;
     scratchpad->cur_z = 0;
@@ -289,7 +291,6 @@ typedef struct ShortVec {
 extern void *actor_direction_sprites;
 
 extern void *resolve_record_orientation_or_fallback(void *, void *, ShortVec *, s16);
-extern s32 rsin(s32, ...);
 extern void spawn_blinking_sprite_flash(s16, s16, s16);
 typedef struct FuncInput {
     u16 unk0;
@@ -438,8 +439,8 @@ void update_arcing_effect(ArcingEffectBody *motion, S_800B8830_3 *coords, S_800B
 
         entry_addr = ((g_game_work.view.camera_rotation.parts.viewAngle +
                   primary_actor_record->facing + 0x100) >> 7) & 0x1C;
-        entry_addr += (s32)actor_direction_sprites;
-        entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;
+        entry_addr += (s32)(unsigned long)actor_direction_sprites;
+        entry = ((S_800B8830_8 *)((void *)(unsigned long)entry_addr))->unk_00;
         if (resolve_record_orientation_or_fallback(entry, ((S_800B8830_12 *)(motion->unk_04))->unk_0C, &delta, 0) != NULL) {
             target_pos[0] += (s32)delta.x << 16;
             target_pos[1] += (s32)delta.y << 16;
@@ -923,7 +924,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
     s32 (*callback)(void *, s32, void *, void *, void *);
     SpritePartWork *scratch = (SpritePartWork *)0x1F800000;
     SpriteFrameState *sprite = NODE_HEADER(context)->sprite;
-    s32 callback_arg = (s32)NODE_HEADER(context)->position;
+    s32 callback_arg = (s32)(unsigned long)NODE_HEADER(context)->position;
     s16 saved_mode = draw_mode;
     GpuContext *root = g_game_work.draw_buffer;
     SpritePartCommand *part = sprite->source;
@@ -1215,9 +1216,9 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                 callback_result = callback(context, callback_arg, sprite, part, packet);
                 if (callback_result > 0) {
                     u32 cached_base = 0x80000000;
-                    part = (SpritePartCommand *)(callback_result | cached_base);
+                    part = (SpritePartCommand *)(unsigned long)(callback_result | cached_base);
                 } else {
-                    packet = (SpritePartQuad *)callback_result;
+                    packet = (SpritePartQuad *)(unsigned long)callback_result;
                 }
             }
         }
@@ -1519,8 +1520,8 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 height_base = work->node;
                 current_height = work->y.whole;
                 entity = height_base->entity;
-                entity = (Entity *)(u32)entity->kind;
-                entity = (Entity *)((u8 *)entity + (u32)entity_height_offsets);
+                entity = (Entity *)(unsigned long)entity->kind;
+                entity = (Entity *)((u8 *)entity + (u32)(unsigned long)entity_height_offsets);
                 height_step = (target_pos[2] - ((s32)*(u8 *)entity << 16) - current_height) / (work->timer);
                 height_step -= (trig_value * work->timer) << 6;
                 work->y.whole += height_step;
@@ -1540,11 +1541,11 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 s32 target_height;
                 height_base = work->node;
                 entity = height_base->entity;
-                height_addr = (u8 *)(u32)entity->kind;
+                height_addr = (u8 *)(unsigned long)entity->kind;
                 target_height = entity->height;
-                height_addr += (u32)entity_height_offsets;
-                height_base = (Node *)(u32)*height_addr;
-                target_height -= (s32)(u32)height_base;
+                height_addr += (u32)(unsigned long)entity_height_offsets;
+                height_base = (Node *)(unsigned long)*height_addr;
+                target_height -= (s32)(unsigned long)height_base;
                 if (entity->flags & 0x40000) {
                     target_height -= 0x40;
                 }
@@ -1822,7 +1823,7 @@ void *create_item_target_selector(u8 *selection_data) {
 
             if (part_index == 0) {
                 select_nearby_target_and_initialize_slot(objects[0], transform, 8, camera_depth_target[0]);
-                sprite->f8 = (void *)lookup_item_category_mapped_value(selection_data[1], selection_data[0]);
+                sprite->f8 = (void *)(unsigned long)lookup_item_category_mapped_value(selection_data[1], selection_data[0]);
             } else if (part_index == 1) {
                 sprite->f8 = D_800DF368;
             } else {
@@ -2007,7 +2008,7 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
     u8 *vertex_1;
     u8 *vertex_2;
     u8 *mode_ptr;
-    u8 *mode_zero;
+    s32 mode_zero;
     u8 *vertex_3;
     u8 *transform_flags;
     u8 *depth_cue;
@@ -2871,12 +2872,6 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, vo
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
 
-typedef struct S_800BB55C_0_pre {
-    s32 unk_00;
-    u8 pad_04[0xE];
-    u16 unk_12;
-} S_800BB55C_0_pre;   /* the 0x14 bytes before arg0 in update_five_point_effect, addressed as arg0[-1] */
-
 typedef struct FivePointEffectBody {
     u8 pad_00[0x18];
     s32 initial_color;
@@ -2911,7 +2906,7 @@ typedef struct S_800BB55C_3 {
    /* global_ptr in update_five_point_effect */
 
 /* Draws a growing five-point pattern and updates its rotating fade-out effect. */
-void update_five_point_effect(void *effect, ObjectPosition *position, s32 restore_link) {
+void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *position, s32 restore_link) {
     s32 draw_params[2];
     s16 start_xy[2];
     s16 end_xy[2];
@@ -2923,7 +2918,7 @@ void update_five_point_effect(void *effect, ObjectPosition *position, s32 restor
     s32 start_angle = -0x400;
     s32 radius_decay;
     register s32 packet_or_angle;
-    s32 packet_or_angle_2;
+    SpriteFrameState *packet_or_angle_2;
     s32 saved_link;
     s32 segment_index;
     s32 point_index;
@@ -2938,10 +2933,10 @@ void update_five_point_effect(void *effect, ObjectPosition *position, s32 restor
 
     draw_params[0] = 0x01000340;
     draw_params[1] = 0x460044;
-    packet_or_angle_2 = effect + 0xC;
+    packet_or_angle_2 = (SpriteFrameState *)&effect->pad_00[0xC];
     advance_sprite_animation_and_textures(packet_or_angle_2);
     saved_link = restore_link;
-    ((S_800BB55C_0_pre *)effect)[-1].unk_00 = packet_or_angle_2;
+    NODE_HEADER(effect)->sprite = packet_or_angle_2;
     draw_content_or_rect(NULL, NULL, draw_params, 0, effect);
     base_angle = start_angle;
     for (point_index = 0; point_index < 5; point_index++) {
@@ -2955,11 +2950,11 @@ void update_five_point_effect(void *effect, ObjectPosition *position, s32 restor
         end_xy[1] = end_y;
         arc_angle = calculate_planar_heading(start_xy[0], start_xy[1], end_xy[0], end_y);
         line_angle = arc_angle;
-        end_xy[0] = (u16) start_xy[0] + ((s32) (rcos(line_angle) * ((FivePointEffectBody *)effect)->point_radii[point_index])
+        end_xy[0] = (u16) start_xy[0] + ((s32) (rcos(line_angle) * effect->point_radii[point_index])
             >> 0xB);
-        end_xy[1] = (u16) start_xy[1] + ((s32) (rsin(line_angle) * ((FivePointEffectBody *)effect)->point_radii[point_index])
+        end_xy[1] = (u16) start_xy[1] + ((s32) (rsin(line_angle) * effect->point_radii[point_index])
             >> 0xB);
-        ((FivePointEffectBody *)effect)->point_angles[point_index] = base_angle;
+        effect->point_angles[point_index] = base_angle;
         base_angle += 0x999;
         draw_content_or_rect(start_xy, end_xy, draw_params, 0, NULL);
     }
@@ -2970,7 +2965,7 @@ void update_five_point_effect(void *effect, ObjectPosition *position, s32 restor
         start_xy[0] = (rcos((s16) packet_or_angle) >> 7) + 0x362;
         start_xy[1] = (rsin((s16) packet_or_angle) >> 7) + 0x122;
         arc_angle = base_angle;
-        for (segment_index = 0; segment_index < ((FivePointEffectBody *)effect)->point_radii[point_index]; segment_index++) {
+        for (segment_index = 0; segment_index < effect->point_radii[point_index]; segment_index++) {
             packet_or_angle = arc_angle + 0x19;
             arc_angle = packet_or_angle;
             packet_or_angle <<= 16;
@@ -2981,58 +2976,58 @@ void update_five_point_effect(void *effect, ObjectPosition *position, s32 restor
             start_xy[0] = (u16) end_xy[0];
             start_xy[1] = (u16) end_xy[1];
         }
-        arc_length = (u16) ((FivePointEffectBody *)effect)->point_radii[point_index] + 1;
-        ((FivePointEffectBody *)effect)->point_radii[point_index] = arc_length;
+        arc_length = (u16) effect->point_radii[point_index] + 1;
+        effect->point_radii[point_index] = arc_length;
         base_angle += 0x333;
         if (arc_length >= 0x1F) {
-            ((FivePointEffectBody *)effect)->point_radii[point_index] = 0x1F;
-            if (((FivePointEffectBody *)effect)->unk_4A == 0) {
-                if (((FivePointEffectBody *)effect)->unk_60() != 0) {
-                    ((FivePointEffectBody *)effect)->unk_50 = 0x120;
-                    ((FivePointEffectBody *)effect)->unk_4A = (s16) ((u16) ((FivePointEffectBody *)effect)->unk_4A + 1);
+            effect->point_radii[point_index] = 0x1F;
+            if (effect->unk_4A == 0) {
+                if (effect->unk_60() != 0) {
+                    effect->unk_50 = 0x120;
+                    effect->unk_4A = (s16) ((u16) effect->unk_4A + 1);
                     play_sound_if_enabled(0x603);
                 }
             }
-            ((FivePointEffectBody *)effect)->unk_4C = 0x20;
+            effect->unk_4C = 0x20;
         }
     }
     draw_content_or_rect(NULL, NULL, draw_params, 1, NULL);
-    ((S_800BB55C_0_pre *)effect)[-1].unk_00 = saved_link;
-    if (((FivePointEffectBody *)effect)->unk_4A != 0) {
-        ((FivePointEffectBody *)effect)->unk_4E = (u16) (((FivePointEffectBody *)effect)->unk_4E + 0x100);
+    NODE_HEADER(effect)->sprite = (SpriteFrameState *)(unsigned long)saved_link;
+    if (effect->unk_4A != 0) {
+        effect->unk_4E = (u16) (effect->unk_4E + 0x100);
         point_index = 0;
         do {
             point_index = point_index + 1;
-            rotation = ((FivePointEffectBody *)effect)->unk_4E + 0x400;
-            ((FivePointEffectBody *)effect)->unk_4E = rotation;
+            rotation = effect->unk_4E + 0x400;
+            effect->unk_4E = rotation;
             create_orbiting_color_particle(position->x.w.i, position->y.w.i, position->z.w.i, (s16) rotation,
-                (s32) ((FivePointEffectBody *)effect)->unk_50, (s32) ((FivePointEffectBody *)effect)->unk_58,
-                ((FivePointEffectBody *)effect)->unk_5C, 6);
+                (s32) effect->unk_50, (s32) effect->unk_58,
+                effect->unk_5C, 6);
         } while (point_index < 4);
-        if (((FivePointEffectBody *)effect)->unk_58 < 0x20) {
-            ((FivePointEffectBody *)effect)->unk_58 = (s16) ((u16) ((FivePointEffectBody *)effect)->unk_58 + 1);
+        if (effect->unk_58 < 0x20) {
+            effect->unk_58 = (s16) ((u16) effect->unk_58 + 1);
         }
-        if (((FivePointEffectBody *)effect)->unk_4A == 1) {
-            phase_ticks = ((FivePointEffectBody *)effect)->unk_64 + 1;
-            ((FivePointEffectBody *)effect)->unk_64 = phase_ticks;
+        if (effect->unk_4A == 1) {
+            phase_ticks = effect->unk_64 + 1;
+            effect->unk_64 = phase_ticks;
             if ((s16) phase_ticks >= 0x21) {
-                next_phase = (u16)((FivePointEffectBody *)effect)->unk_4A + 1;
-                ((FivePointEffectBody *)effect)->unk_64 = 0x10U;
-                ((FivePointEffectBody *)effect)->unk_4A = next_phase;
+                next_phase = (u16)effect->unk_4A + 1;
+                effect->unk_64 = 0x10U;
+                effect->unk_4A = next_phase;
                 return;
             }
         } else {
-            red = (u8) ((FivePointEffectBody *)effect)->unk_5C;
-            color = effect + 0x5C;
-            color->unk_00 = (u8) (red - ((s32) red / (s16) ((FivePointEffectBody *)effect)->unk_64));
+            red = (u8) effect->unk_5C;
+            color = (S_800BB55C_3 *)&effect->unk_5C;
+            color->unk_00 = (u8) (red - ((s32) red / (s16) effect->unk_64));
             green = color->unk_01;
-            color->unk_01 = (u8) (green - ((s32) green / (s16) ((FivePointEffectBody *)effect)->unk_64));
+            color->unk_01 = (u8) (green - ((s32) green / (s16) effect->unk_64));
             blue = color->unk_02;
-            color->unk_02 = (u8) (blue - ((s32) blue / (s16) ((FivePointEffectBody *)effect)->unk_64));
-            radius_decay = (s16) ((FivePointEffectBody *)effect)->unk_50 / (s16) ((FivePointEffectBody *)effect)->unk_64;
-            ((FivePointEffectBody *)effect)->unk_50 = (s16) ((u16) ((FivePointEffectBody *)effect)->unk_50 - radius_decay);
-            fade_ticks = ((FivePointEffectBody *)effect)->unk_64 - 1;
-            ((FivePointEffectBody *)effect)->unk_64 = fade_ticks;
+            color->unk_02 = (u8) (blue - ((s32) blue / (s16) effect->unk_64));
+            radius_decay = (s16) effect->unk_50 / (s16) effect->unk_64;
+            effect->unk_50 = (s16) ((u16) effect->unk_50 - radius_decay);
+            fade_ticks = effect->unk_64 - 1;
+            effect->unk_64 = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | OBJECT_REMOVE_PENDING);
@@ -3055,7 +3050,7 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data) {
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
-extern void update_five_point_effect(void *effect, ObjectPosition *position, s32 restore_link);
+extern void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *position, s32 restore_link);
 extern s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data);
 extern M2C_UNK familiar_restore_sprite_data;
 
