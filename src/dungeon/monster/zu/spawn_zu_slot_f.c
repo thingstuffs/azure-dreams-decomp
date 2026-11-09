@@ -87,7 +87,7 @@ void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         actor->unk_8C.address = D_8016B138;
         work->flags1C |= 0x40000;
         actor->unk_A0.parts.low = 0;
-        actor->unk_90.parts.high.s = -0x30;
+        actor->unk_90.parts.high = -0x30;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

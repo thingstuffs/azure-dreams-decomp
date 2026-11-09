@@ -137,10 +137,10 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
     if (!(body->action_state_flags & 4)) {
         ground_height = sample_terrain_surface_height(motion->x.unk_02.unk_02,
                                motion->y.unk_06.unk_06,
-                               (s16)((u16)(entity->ground_height) - 0x20));
+                               (s16)(entity->ground_height - 0x20));
         if ((s16)ground_height < 0x200) {
-            base_height = (s16)(u16)(entity->ground_height);
-            if (body->unk_90.parts.high.s + base_height < (s16)ground_height) {
+            base_height = entity->ground_height;
+            if (body->unk_90.parts.high + base_height < (s16)ground_height) {
                 entity->flags1C &= 0xF7FFFFFF;
             } else {
                 if ((s16)ground_height >= base_height) {
@@ -152,7 +152,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
                     motion->unk_14 = 0;
                     entity->flags1C |= 0x08000000;
                     body->unk_9D = 0;
-                    body->unk_90.parts.high.s = ground_height - (u16)(entity->ground_height);
+                    body->unk_90.parts.high = ground_height - entity->ground_height;
                 }
             }
             entity_flags = entity->flags1C;
@@ -161,9 +161,9 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
                 ground_height = sample_terrain_surface_height(
                     (sprite->tile_x << 6) | 0x20,
                     (sprite->tile_y << 6) | 0x20,
-                    (s16)((u16)(entity->ground_height) - 0x20));
-                body->unk_90.parts.high.s +=
-                    (u16)(entity->ground_height) - ground_height;
+                    (s16)(entity->ground_height - 0x20));
+                body->unk_90.parts.high +=
+                    entity->ground_height - ground_height;
                 entity->ground_height = ground_height;
             }
         } else {
@@ -174,7 +174,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
     }
 
     motion->z =
-        (u16)(entity->ground_height) + body->unk_90.parts.high.u;
+        entity->ground_height + body->unk_90.parts.high;
     sprite->flags |= 0x40;
 
     return;

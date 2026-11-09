@@ -88,7 +88,7 @@ void apply_effect_bonuses(s16 effect_id, ActorRecord *unused_arg, ActorRecord *r
             + 1);
         s32 flags = record->flags14 | ACTOR_ELEMENT_FIRE;
         record->flags14 = flags;
-        record->unk_20 = (s16) ((u16) record->unk_20 + value_bonus);
+        record->unk_20 = record->unk_20 + value_bonus;
         return;
     }
     case 1:
@@ -98,7 +98,7 @@ void apply_effect_bonuses(s16 effect_id, ActorRecord *unused_arg, ActorRecord *r
             + 1);
         s32 flags = record->flags14 | ACTOR_ELEMENT_WATER;
         record->flags14 = flags;
-        record->unk_20 = (s16) ((u16) record->unk_20 + value_bonus);
+        record->unk_20 = record->unk_20 + value_bonus;
         return;
     }
     case 2:
@@ -108,7 +108,7 @@ void apply_effect_bonuses(s16 effect_id, ActorRecord *unused_arg, ActorRecord *r
             + 1);
         s32 flags = record->flags14 | ACTOR_ELEMENT_WIND;
         record->flags14 = flags;
-        record->unk_20 = (s16) ((u16) record->unk_20 + value_bonus);
+        record->unk_20 = record->unk_20 + value_bonus;
         return;
     }
     case 6:

@@ -366,7 +366,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
         coordinate_y = ((origin->tile_position.parts.tile_y + dir_step_y[offset]) << 6) + 0x20;
         position->y = coordinate_y;
         state->y = coordinate_y;
-        state->z = position->z = (u16)primary_actor_record->ground_height;
+        state->z = position->z = primary_actor_record->ground_height;
     } else {
         target_position = ((SpawnHeader *)target - 1)->position;
         state->x = position->x = target_position->x;

@@ -125,7 +125,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                             body->unk_A0.parts.low = 0;
                             body->unk_AC.value = 0;
                         }
-                        if (((s16)body->unk_A0.parts.low) < 5) {
+                        if ((body->unk_A0.parts.low) < 5) {
                             body->unk_AC.value += -0x33333;
                         } else {
                             body->unk_AC.value += 0x12492;
@@ -135,15 +135,15 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                 if (!(body->action_state_flags & 8)) {
                     hover_floor_offset = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                         motion->y.unsigned_parts.integer,
-                        (s16)(((u16)actor_base->ground_height) - 0x20)) -
+                        (s16)(actor_base->ground_height - 0x20)) -
                         ((u16)actor_base->ground_height);
-                    if (body->unk_90.parts.high.s > ((s16)hover_floor_offset - 0x20)) {
-                        body->unk_90.parts.high.s =
-                            body->unk_90.parts.high.u - 8;
-                    } else if (body->unk_90.parts.high.s <
+                    if (body->unk_90.parts.high > ((s16)hover_floor_offset - 0x20)) {
+                        body->unk_90.parts.high =
+                            body->unk_90.parts.high - 8;
+                    } else if (body->unk_90.parts.high <
                                ((s16)hover_floor_offset - 0x28)) {
-                        body->unk_90.parts.high.s =
-                            body->unk_90.parts.high.u + 8;
+                        body->unk_90.parts.high =
+                            body->unk_90.parts.high + 8;
                     }
                 }
             } else {
@@ -154,10 +154,10 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                 if (!(body->action_state_flags & 8)) {
                     floor_offset = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                         motion->y.unsigned_parts.integer,
-                        (s16)(((u16)actor_base->ground_height) - 0x20)) -
-                        ((u16)actor_base->ground_height);
-                    if (floor_offset < body->unk_90.parts.high.s) {
-                        body->unk_90.parts.high.s = floor_offset;
+                        (s16)(actor_base->ground_height - 0x20)) -
+                        actor_base->ground_height;
+                    if (floor_offset < body->unk_90.parts.high) {
+                        body->unk_90.parts.high = floor_offset;
                         body->unk_9D = 0;
                         motion->velocity_z = 0;
                         actor_base->flags1C |= 0x08000000;
@@ -181,10 +181,10 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                 if (!(body->action_state_flags & 8)) {
                     floor_offset = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                         motion->y.unsigned_parts.integer,
-                        (s16)(((u16)actor_base->ground_height) - 0x20)) -
-                        ((u16)actor_base->ground_height);
-                    if (floor_offset < body->unk_90.parts.high.s) {
-                        body->unk_90.parts.high.s = floor_offset;
+                        (s16)(actor_base->ground_height - 0x20)) -
+                        actor_base->ground_height;
+                    if (floor_offset < body->unk_90.parts.high) {
+                        body->unk_90.parts.high = floor_offset;
                         body->unk_9D = 0;
                         motion->velocity_z = 0;
                         actor_base->flags1C |= 0x08000000;
@@ -201,7 +201,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                             body->unk_A0.parts.low = 0;
                             body->unk_AC.value = 0;
                         }
-                        if (((s16)body->unk_A0.parts.low) < 5) {
+                        if ((body->unk_A0.parts.low) < 5) {
                             body->unk_AC.value += -0x33333;
                         } else {
                             body->unk_AC.value += 0x12492;
@@ -211,14 +211,14 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                 if (!(body->action_state_flags & 8)) {
                     hover_floor_offset = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                         motion->y.unsigned_parts.integer,
-                        (s16)(((u16)actor_base->ground_height) - 0x20)) -
+                        (s16)(actor_base->ground_height - 0x20)) -
                         ((u16)actor_base->ground_height);
-                    if (body->unk_90.parts.high.s > ((s16)hover_floor_offset - 0x20)) {
-                        body->unk_90.parts.high.s =
-                            body->unk_90.parts.high.u - 8;
-                    } else if (body->unk_90.parts.high.s < ((s16)hover_floor_offset - 0x28)) {
-                        body->unk_90.parts.high.s =
-                            body->unk_90.parts.high.u + 8;
+                    if (body->unk_90.parts.high > ((s16)hover_floor_offset - 0x20)) {
+                        body->unk_90.parts.high =
+                            body->unk_90.parts.high - 8;
+                    } else if (body->unk_90.parts.high < ((s16)hover_floor_offset - 0x28)) {
+                        body->unk_90.parts.high =
+                            body->unk_90.parts.high + 8;
                     }
                 }
             }
@@ -229,15 +229,15 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
             tile_height = sample_terrain_surface_height(
                 (sprite_arg->tile_x << 6) | 0x20,
                 (sprite_arg->tile_y << 6) | 0x20,
-                (s16)(((u16)actor_base->ground_height) - 0x20));
+                (s16)(actor_base->ground_height - 0x20));
             if (tile_height < 0x200) {
-                body->unk_90.parts.high.s = (u16)body->unk_90.parts.high.s +
-                    (((u16)actor_base->ground_height) - tile_height);
+                body->unk_90.parts.high = body->unk_90.parts.high +
+                    (actor_base->ground_height - tile_height);
                 actor_base->ground_height = tile_height;
             }
         }
         motion->z.w.i = body->unk_AC.halves.high.u +
-            (((u16)actor_base->ground_height) + (u16)body->unk_90.parts.high.s);
+            (actor_base->ground_height + body->unk_90.parts.high);
         sprite_arg->flags |= 0x40;
     }
 

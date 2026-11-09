@@ -19,7 +19,7 @@ void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *eve
     u8 *direction_frames;
 
     actor->movement_queue_state =
-        (u8)(actor->movement_queue_state & 0x7F);
+        actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2008)) {
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             actor_base = NODE_HEADER(actor);
@@ -104,12 +104,12 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
         floor_y = (((try_y + *y_step) << 6) + 0x20) & 0xFFE0;
         floor_height = sample_terrain_surface_height(floor_x,
                               floor_y,
-                              (s16)(((u16)actor->ground_height) - 0x20));
+                              (s16)(actor->ground_height - 0x20));
         if (floor_height >= 0x201) {
             action_state->unk_B0.halves.high.u--;
             return 3;
         }
-        if ((u16)(floor_height - ((u16)actor->ground_height) + 0x3F) >= 0x7F) {
+        if ((u16)(floor_height - actor->ground_height + 0x3F) >= 0x7F) {
             action_state->unk_B0.halves.high.u--;
             return 3;
         }
@@ -165,7 +165,7 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
     u8 *frame_table;
     s32 direction;
 
-    actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         {
             void *actor_base = NODE_HEADER(actor);
@@ -188,7 +188,7 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
 
 /* Clear the actor flag and, when allowed, start a directional animation and update its action state. */
 void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *animation, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -206,7 +206,7 @@ void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPositi
 
 /* Attempt an actor action and initialize its state and directional animation on success. */
 void attempt_actor_directional_action(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_ctx, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {

@@ -137,14 +137,14 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
             s32 motion_value;
 
             begin_actor_move_to_target_facing(motion_in, context_in, entity_in, actor_in);
-            base_offset = motion_in->unk_90.parts.high.u;
+            base_offset = motion_in->unk_90.parts.high;
             offset_delta = motion_in->unk_A4.halves.high.u;
             motion_value = motion_in->unk_A4.value;
             motion_in->unk_A4.halves.high.s = 0;
             ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
             motion_in->unk_AC.value = 0;
             motion_in->unk_B0.value = 0;
-            motion_in->unk_90.parts.high.u = base_offset - offset_delta;
+            motion_in->unk_90.parts.high = base_offset - offset_delta;
             ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
             func_801743F0(motion_in, context_in, entity_in, actor_in);
             return;

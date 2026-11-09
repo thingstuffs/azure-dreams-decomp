@@ -1,9 +1,10 @@
 #include "common.h"
+#include "shared/entity.h"
 
 extern s32 query_lowered_transform_position(void *);
 
 /* Return the signed low halfword of the query result, clamped to at most zero. */
-s32 get_clamped_transform_coordinate(void *object) {
+s32 get_clamped_transform_coordinate(ObjectPosition *object) {
     s32 result;
 
     result = query_lowered_transform_position(object);

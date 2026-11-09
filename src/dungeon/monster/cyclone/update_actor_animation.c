@@ -118,7 +118,7 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
 
         if (stats->flags1C & 0x80000) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite_arg, stats);
-            actor_arg->unk_90.parts.high.u -= actor_arg->unk_A4.halves.high.u;
+            actor_arg->unk_90.parts.high -= actor_arg->unk_A4.halves.high.u;
             actor_arg->unk_A4.halves.high.u = 0;
             actor_arg->unk_AC.halves.low.u = 0;
             func_80174520(actor_arg, context_arg, sprite_arg, stats);

@@ -152,7 +152,7 @@ case 2:
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
         spawn = load_monster_code_module(entity->species, spawned, 1);
         spawned = spawn(6, entity_data[0x24], entity_data[0x25],
-                        (s16)(((u16)entity->ground_height) - 0x20));
+                        (s16)(entity->ground_height - 0x20));
         if (spawned == NULL) {
             return 0;
         }
@@ -262,7 +262,7 @@ case 2:
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
         spawn = load_monster_code_module(entity->species, replacement, 1);
         replacement = spawn(1, entity_data[0x24], entity_data[0x25],
-                        (s16)(((u16)entity->ground_height) - 0x20));
+                        (s16)(entity->ground_height - 0x20));
         if (replacement != NULL) {
             ((S_800A504C_4 *)replacement)->unk_14 |= ACTOR_PARTY_MEMBER;
             offset = find_entity_slot_by_field_ac(entity);

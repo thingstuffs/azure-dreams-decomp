@@ -50,7 +50,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         if ((flags & 0x6000) == 0) {
             return;
         }
-        if (action->unk_90.parts.high.s != 0) {
+        if (action->unk_90.parts.high != 0) {
             return;
         }
         object->frameTable = D_80175C78;

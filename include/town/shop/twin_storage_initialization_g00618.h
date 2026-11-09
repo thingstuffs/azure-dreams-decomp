@@ -39,6 +39,5 @@ void came_bright_set(u32 brightness);
 /* Functions defined in this translation unit. */
 void initialize_record_table_and_group(ItemMenuInputObject *record);
 void *open_twin_souko(s32 option);
-void apply_record_values_and_process_record(ItemMenuInputObject *record);
 
 #endif

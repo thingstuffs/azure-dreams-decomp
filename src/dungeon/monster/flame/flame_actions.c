@@ -570,10 +570,10 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
             s16 adjusted_offset;
 
             begin_actor_move_to_target_facing(actor, actor_context, sprite, creature);
-            adjusted_offset = actor->unk_90.parts.high.u - actor->unk_B4.halves.high.u;
+            adjusted_offset = actor->unk_90.parts.high - actor->unk_B4.halves.high.u;
             actor->unk_B4.halves.high.s = 0;
             ((R06_8017140C_S_8017140C_0 *)actor)->unk_B8 = 0;
-            actor->unk_90.parts.high.s = adjusted_offset;
+            actor->unk_90.parts.high = adjusted_offset;
             update_flame_parent_motion(actor, actor_context, sprite, creature);
             return;
         }
@@ -1020,7 +1020,7 @@ s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, Sp
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
 void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -1063,13 +1063,13 @@ s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -1093,11 +1093,11 @@ void finish_actor_tile_move_then_initialize_destination(ActorRecord *state, Obje
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
             state->unk_8C.word_ptr = ((s32 *)initialize_destination_state);
             if (g_dungeon_status.flags & 0x80) {
-                state->unk_90.parts.high.s = -0x20;
+                state->unk_90.parts.high = -0x20;
             }
         }
     } else if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.parts.high.s = -0x20;
+        state->unk_90.parts.high = -0x20;
     }
 }
 
@@ -1673,11 +1673,11 @@ void update_actor_state_by_flags(ActorRecord *in_actor, ObjectPosition *in_conte
             if (entity_flags & 0x80000) {
 
                 begin_actor_move_to_target_facing(in_actor, context, in_sprite, in_entity);
-                stat_value = in_actor->unk_90.parts.high.u;
+                stat_value = in_actor->unk_90.parts.high;
                 stat_delta = in_actor->unk_B4.halves.high.u;
                 in_actor->unk_B4.halves.high.u = 0;
                 ((R06_801734B0_S_801734B0_5 *)in_actor)->unk_B8 = 0;
-                in_actor->unk_90.parts.high.u = stat_value - stat_delta;
+                in_actor->unk_90.parts.high = stat_value - stat_delta;
                 update_flame_parent_motion(in_actor, context, in_sprite, in_entity);
                 return;
             }
@@ -1822,11 +1822,11 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
             u16 pending_delta;
 
             begin_actor_move_to_target_facing(entity, context, anim, actor);
-            entity_value = entity->unk_90.parts.high.u;
+            entity_value = entity->unk_90.parts.high;
             pending_delta = entity->unk_B4.halves.high.u;
             entity->unk_B4.halves.high.u = 0;
             ((R06_801738E0_S_801738E0_0 *)entity)->unk_B8 = 0;
-            entity->unk_90.parts.high.u = entity_value - pending_delta;
+            entity->unk_90.parts.high = entity_value - pending_delta;
             update_flame_parent_motion(entity, context, anim, actor);
             return;
         }
@@ -1894,7 +1894,7 @@ void update_flame_parent_motion(ActorRecord *actor, ObjectPosition *action, Spri
  * Runs update_thrown_actor_travel and installs initialize_destination_state only when it succeeds
  * and the signed floor-trap check returns positive.
  */
-void create_randomized_rotated_effect(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_thrown_actor_travel_then_initialize_destination(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = initialize_destination_state;

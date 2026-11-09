@@ -4,6 +4,7 @@
 
 #include "sdk/libc.h"
 #include "engine/text.h"
+#include "town/minigame.h"
 
 // Clamp the value to 999999 and format it into the text buffer.
 void update_minigame_text_value(MinigameTextValueObject *text_value)

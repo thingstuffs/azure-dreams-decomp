@@ -5,6 +5,7 @@
 #include "town/menu.h"
 #include "town/menu/catalog.h"
 #include "engine/item.h"
+#include "town/scene.h"
 
 typedef struct {
     void *field_0;
@@ -31,7 +32,6 @@ extern s8 animation_tick_scale;
 extern s8 catalog_display_node_slots;
 
 extern void SD_Call(s32);
-extern void remove_scene_runtime_callback(void);
 
 /* Handles input to update object selections, action states, and exit behavior. */
 void handle_catalog_grid_input(Object *object)

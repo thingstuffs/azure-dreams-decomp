@@ -57,7 +57,7 @@ s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1
 }
 
 /* Find a movement direction, record the tile, and update the actor's position and height. */
-void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *tile, ActorRecord *actor) {
+void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0 *tile, ActorRecord *actor) {
     s16 next_heading;
     s16 height;
     s16 scan_result;
@@ -75,19 +75,19 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     if (!(g_dungeon_status.flags & 0x2000)) {
         return;
     }
-    update_actor_proximity_flag(tile, actor, 3, 6, motion + 0x9C);
+    update_actor_proximity_flag(tile, actor, 3, 6, &body->unk_9C);
     tile_type = tile->unk_26;
     if (tile_type >= 0 && (dungeon_rooms[tile_type].flags & ROOM_HOLY_BEAM)) {
-        select_actor_route_target(tile, ((ActorRecord *)motion)->unk_9C, (void *)actor, motion + 0x98);
+        select_actor_route_target(tile, body->unk_9C, (void *)actor, &body->action_state_flags);
     } else if (!(actor->action_flags & 0x8000)) {
-        select_actor_route_target(tile, ((ActorRecord *)motion)->unk_9C, (void *)actor, motion + 0x98);
+        select_actor_route_target(tile, body->unk_9C, (void *)actor, &body->action_state_flags);
     }
     scan_result = 0;
     heading_offsets = actor_turn_angle_offsets;
     map_state = &reference_tile_object;
     for (; scan_result < 8; scan_result++) {
         heading = actor->facing;
-        if (((ActorRecord *)motion)->action_state_flags & 2) {
+        if (body->action_state_flags & 2) {
             heading_offset = heading_offsets[scan_result];
             next_heading = heading - heading_offset;
         } else {
@@ -112,24 +112,24 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     }
 
     if (scan_result >= 8) {
-        actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+        actor->movement_queue_state = actor->movement_queue_state & 0x7F;
         actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         update_actor_status_and_mp(actor);
         return;
     }
     actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
-    ((ActorRecord *)motion)->unk_9C = (s8) (u8) tile->unk_26;
+    body->unk_9C = (s8) (u8) tile->unk_26;
     actor->pending_turn_updates = (u8) ((u8) actor->pending_turn_updates - 1);
     g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
     if (actor->pending_turn_updates == 0) {
-        actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+        actor->movement_queue_state = actor->movement_queue_state & 0x7F;
         return;
     }
     scan_result = (s16)sample_terrain_surface_height((tile->unk_24.at00.v << 6) | 0x20, (tile->unk_24.at01.v << 6) | 0x20,
-        (s16) ((u16) actor->ground_height - 0x20));
+        (s16) (actor->ground_height - 0x20));
     height = scan_result;
     if (height < 0x200) {
-        actor->ground_height = (u16) scan_result;
+        actor->ground_height = scan_result;
     }
 }
 

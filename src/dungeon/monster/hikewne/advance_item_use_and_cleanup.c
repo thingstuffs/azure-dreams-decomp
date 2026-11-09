@@ -192,7 +192,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         return;
 
     case 3:
-        if ((s16)action->unk_A0.parts.high != 0) {
+        if (action->unk_A0.parts.high != 0) {
             s16 timer;
 
             timer = action->action_timer;
@@ -274,7 +274,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
                 0);
         }
         action->unk_9E = 0;
-        action->unk_90.parts.high.s = -0x20;
+        action->unk_90.parts.high = -0x20;
         return;
 
     case 8:
@@ -320,7 +320,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         return;
 
     case 18:
-        if ((s16)action->unk_A0.parts.high != 0) {
+        if (action->unk_A0.parts.high != 0) {
             s16 timer;
 
             timer = action->action_timer;

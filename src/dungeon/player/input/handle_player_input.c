@@ -107,7 +107,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                 return;
             }
             ((ActorRecord *)actor)->action_id = 0xEU;
-            ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (((ActorRecord *)actor)->unk_A0.parts.high & 0xFEFF);
+            ((ActorRecord *)actor)->unk_A0.parts.high = ((ActorRecord *)actor)->unk_A0.parts.high & 0xFEFF;
             ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
             ((ActorRecord *)actor)->action_phase = 0;
             ((ActorRecord *)actor)->unk_A4.halves.low.u = 0U;
@@ -163,9 +163,9 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
             flags_page = (u16 *) 0x80010000;
             input_flags = flags_page[0x1B8A];
             if (input_flags & 1) {
-                ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (action_flags & 0xFFFE);
+                ((ActorRecord *)actor)->unk_A0.parts.high = action_flags & 0xFFFE;
                 if (action_flags & 0x200) {
-                    ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (action_flags & 0xFDFE);
+                    ((ActorRecord *)actor)->unk_A0.parts.high = action_flags & 0xFDFE;
                     command = advance_monster_timed_sequence();
                     if (command == NULL) {
                         return;
@@ -329,7 +329,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         return;
                     case 0xC8:
                         ((ActorRecord *)actor)->action_timer =
-                            (s16) (command->unk_00 & 0x7F);
+                            command->unk_00 & 0x7F;
                         begin_parameterized_actor_action(actor, motion, sprite, &D_800DD148, 2);
                         return;
                     case 0xD8:
@@ -353,7 +353,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     if ((((ActorRecord *)actor)->unk_A0.parts.high & 0x200) && ((has_pending_actor_or_turn_action(stats) << 0x10) == 0)
                         && !(g_dungeon_status.flags & 4)) {
                         ((ActorRecord *)actor)->unk_A0.parts.high =
-                            (u16) (((ActorRecord *)actor)->unk_A0.parts.high & 0xFDFF);
+                            ((ActorRecord *)actor)->unk_A0.parts.high & 0xFDFF;
                         if ((lookup_definition_pair_value(((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y) << 0x10)
                             != 0) {
                             begin_player_menu_action(actor, motion, sprite, &player_menu_action_data);
@@ -374,7 +374,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                             if (!(((u32)input->buttons) & 0x10)) {
                                 move_flags = ((ActorRecord *)actor)->unk_A0.parts.high;
                                 if (!(move_flags & 0x400)) {
-                                    ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (move_flags & 0xFFFE);
+                                    ((ActorRecord *)actor)->unk_A0.parts.high = move_flags & 0xFFFE;
                                     if (((ActorRecord *)stats)->flags1C & 0x400) {
                                         ((ActorRecord *)stats)->facing =
                                             (u16) (((u16)((ActorRecord *)stats)->facing) + (generate_random_value() & 0xE00));
@@ -393,7 +393,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         button_bits = ((u32)input->buttons);
                         if ((button_bits & 0x30) == 0x30) {
                             ((ActorRecord *)actor)->unk_A0.parts.high =
-                                (u16) (((ActorRecord *)actor)->unk_A0.parts.high & 0xFFFE);
+                                ((ActorRecord *)actor)->unk_A0.parts.high & 0xFFFE;
                             begin_player_wait_turn(actor, motion, sprite, stats);
                             return;
                         }
@@ -402,12 +402,12 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         if (angle_or_flags != 0) {
                             angle_or_flags = button_bits & 0x40;
                             if (angle_or_flags == 0) {
-                                ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (button_flags & 0xFFBF);
+                                ((ActorRecord *)actor)->unk_A0.parts.high = button_flags & 0xFFBF;
                             }
                         } else {
                             angle_or_flags = button_bits & 0x40;
                             if (angle_or_flags != 0) {
-                                ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (button_flags & 0xFFFE);
+                                ((ActorRecord *)actor)->unk_A0.parts.high = button_flags & 0xFFFE;
                                 if (!(((u32)input->buttons) & 0x20)) {
                                     if ((begin_front_tile_attack(actor, motion, sprite, stats) << 0x10) != 0) {
                                         break;
@@ -439,7 +439,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
         default:
             turn_flags = ((ActorRecord *)actor)->unk_A0.parts.high;
             if (turn_flags & 1) {
-                ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (turn_flags & 0xFFFE);
+                ((ActorRecord *)actor)->unk_A0.parts.high = turn_flags & 0xFFFE;
                 (*(u8 **)((u8 *)sprite + 0x2C)) = player_landing_frame_set;
                 set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                     + (s16) ((u16)((ActorRecord *)stats)->facing) + 0x100) >> 9) & 7], 0, 1);

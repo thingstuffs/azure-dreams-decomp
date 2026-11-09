@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
+#include "town/scene/flags.h"
 #include "town/scene.h"
 
 extern u8 D_80018A58[];

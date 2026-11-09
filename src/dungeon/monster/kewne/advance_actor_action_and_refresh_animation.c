@@ -80,11 +80,11 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(actor, context, render_record, actor_state);
-                value = actor->unk_90.parts.high.u;
+                value = actor->unk_90.parts.high;
                 value_offset = actor->unk_A0.parts.high;
                 actor->unk_A0.parts.high = 0;
                 actor->unk_9E = 0;
-                actor->unk_90.parts.high.u = value - value_offset;
+                actor->unk_90.parts.high = value - value_offset;
                 update_actor_state_after_map_check(actor, context, render_record, actor_state);
                 return;
             }

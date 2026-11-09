@@ -9,7 +9,6 @@
 #include "sdk/libgte.h"
 
 typedef struct EffectState EffectState;
-typedef struct EffectWork EffectWork;
 
 struct EffectState {
     s16 type;
@@ -20,17 +19,7 @@ struct EffectState {
     s16 current;
     s16 angle;
     s16 mode;
-    EffectWork *work;
-};
-
-struct EffectWork {
-    s16 pad_00;
-    s16 value;
-    s16 pad_04;
-    s16 height;
-    s32 position;
-    s8 pad_0c[8];
-    s32 offset;
+    ObjectPosition *work; /* the emitter source position (create_timed_paired_particle_emitter -> tick_paired_particle_emitter) */
 };
 
 /* Updates effect brightness, paired color values, and motion through three stages. */
@@ -128,14 +117,14 @@ void animate_orbiting_effect_particle(EffectState *state, ObjectPosition *work, 
         state->phase = next_phase;
         next_angle = state->angle + (rsin((next_phase << 16) >> 8) >> 6);
         state->angle = next_angle;
-        work->x.w.i = state->work->value + ((rcos((s16)next_angle) * state->current) >> 12);
+        work->x.w.i = state->work->x.w.i + ((rcos((s16)next_angle) * state->current) >> 12);
     }
 
     {
         s32 height_product;
 
         height_product = rsin((s16)state->angle) * state->current;
-        work->y.w.i = state->work->height + (height_product >> 12);
+        work->y.w.i = state->work->y.w.i + (height_product >> 12);
         work->z.v += work->velocity_z;
     }
 }

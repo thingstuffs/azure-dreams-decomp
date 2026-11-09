@@ -1191,7 +1191,7 @@ void update_dropped_object_motion(DroppedObjectMotionBody *object, register Obje
             source_height = ((MovingPosition *)(object->unk_8C.address))->z + offset.distance[2];
             height_source = primary_actor_record;
             motion->z.w.i = (s16) (source_height + 8);
-            (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->ground_height);
+            (*(u16 *)((u8 *)object_data + (0x88))) = height_source->ground_height;
         } else if (object->unk_A2 != 0) {
             if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000) {
                 world_page = (S_800A871C_15 *)0x800E0000;

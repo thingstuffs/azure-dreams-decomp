@@ -4,11 +4,10 @@
 #include "shared/town_object.h"
 #include "town/player.h"
 #include "town/player/object.h"
+#include "town/player/motion.h"
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern s32 move_value_toward_300();
-
 
 /* Initialize the record and set its handler and initial value. */
 void initialize_record_with_handler_and_countdown_800(TownObjectRecord *record, ObjectPosition *position, SpriteFrameState *init_context) {

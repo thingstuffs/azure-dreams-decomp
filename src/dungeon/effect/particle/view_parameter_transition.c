@@ -778,7 +778,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
         u16 old_frame = effect_data->timer;
         s16 next_frame = (s16)(old_frame + 1);
 
-        effect_data->timer = (u16)next_frame;
+        effect_data->timer = next_frame;
         if (next_frame >= 31) {
             {
                 s32 effect_active = D_80025308;

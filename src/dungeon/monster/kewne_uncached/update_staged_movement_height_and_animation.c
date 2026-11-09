@@ -81,7 +81,7 @@ void update_staged_movement_height_and_animation(ActorRecord *motion, ObjectPosi
         velocity->velocity_z = 0;
         velocity->velocity_y = 0;
         velocity->velocity_x = 0;
-        if ((s16)motion->unk_A0.parts.high < 0x30) {
+        if (motion->unk_A0.parts.high < 0x30) {
             return;
         }
         {

@@ -62,5 +62,5 @@ void update_phase_driven_motion_offset(ActorRecord *state, ObjectPosition *outpu
             state->unk_A0.value += rsin(phase) << 6;
         }
     }
-    output->z.w.i = (s16) ((((Rec_D_80175D54 *)beldo_script_node)->unk_A8 + state->unk_90.parts.high.u) - state->unk_A0.parts.high);
+    output->z.w.i = (s16) ((((Rec_D_80175D54 *)beldo_script_node)->unk_A8 + state->unk_90.parts.high) - state->unk_A0.parts.high);
 }

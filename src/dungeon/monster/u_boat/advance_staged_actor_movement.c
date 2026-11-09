@@ -166,7 +166,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             select_sprite_entry(record,
                 animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            action->unk_90.parts.high.s = -0x20;
+            action->unk_90.parts.high = -0x20;
             if (action->unk_B0.bytes[0] == 0) {
                 create_owner_linked_directional_object(action, motion, record);
             }

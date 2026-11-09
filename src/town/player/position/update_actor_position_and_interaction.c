@@ -20,7 +20,6 @@ void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unused,void *setup_value);
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
-void handle_adjust_vector_toward_selected_angle_limit_magnitude();
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"

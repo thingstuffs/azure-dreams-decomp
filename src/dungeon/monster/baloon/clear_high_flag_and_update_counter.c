@@ -9,7 +9,7 @@
 
 /* Clears the object's high flag bit and conditionally resets state and decrements its counter. */
 void clear_high_flag_and_update_counter(ActorRecord *body, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)
         && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         body->unk_8C.word = 0;

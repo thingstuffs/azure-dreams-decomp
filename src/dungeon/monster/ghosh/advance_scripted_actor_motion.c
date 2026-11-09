@@ -117,7 +117,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
     switch (state) {
     case 0:
         initial_timer = actor->action_timer;
-        actor->action_timer = (u16) (initial_timer + 1);
+        actor->action_timer = initial_timer + 1;
         if ((s16) initial_timer < 0x1E) {
             break;
         }
@@ -128,7 +128,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
     case 1:
         motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
         tail_test = (u16)actor->action_timer + 1;
-        actor->action_timer = (u16) tail_test;
+        actor->action_timer = tail_test;
         tail_test = (s16) tail_test < 0x28;
         if (!tail_test) {
             actor->action_timer = 0U;
@@ -182,11 +182,11 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
         motion->unk_0C.unk_0C = 0;
         actor->unk_9E = 0U;
         actor->unk_A0.parts.high = 0U;
-        actor->unk_90.parts.high.s = -0x20;
+        actor->unk_90.parts.high = -0x20;
         break;
     case 9:
         path_start_timer = actor->action_timer;
-        actor->action_timer = (u16) (path_start_timer + 1);
+        actor->action_timer = path_start_timer + 1;
         if ((s16) path_start_timer < 7) {
             break;
         }
@@ -207,7 +207,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
     case 10:
         if (actor->action_timer <= 0) {
             path_table = ghosh_motion_path;
-            actor->action_timer = (u16) ((path_table[actor->unk_B4.halves.low.s * 2] * 4) + 1);
+            actor->action_timer = (path_table[actor->unk_B4.halves.low.s * 2] * 4) + 1;
             path_direction = path_table[actor->unk_B4.halves.low.s * 2 + 1] & 7;
             path_vector = &direction_vectors.pair[path_direction];
             motion->unk_0C.unk_0E.unk_0E = (s16) (path_vector->x * 0x10);
@@ -216,7 +216,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             if (path_angle == beldo->unk_2A) {
                 motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
                 motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
-                actor->action_timer = (u16) (actor->action_timer - 1);
+                actor->action_timer = actor->action_timer - 1;
             }
             beldo->unk_2A = path_angle;
             if ((path_table[actor->unk_B4.halves.low.s * 2 + 1] & 0xF8) == 0xF8) {
@@ -241,9 +241,9 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
                 create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
                 path_particle_count += 1;
             } while (path_particle_count < 0x14);
-            actor->action_timer = (u16) (actor->action_timer - 1);
+            actor->action_timer = actor->action_timer - 1;
         } else {
-            actor->action_timer = (u16) (actor->action_timer - 1);
+            actor->action_timer = actor->action_timer - 1;
         }
         break;
     case 11:
@@ -306,10 +306,10 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
     case 8:
     case 13:
         bob_phase = actor->unk_9E;
-        actor->unk_9E = (u16) (bob_phase + 1);
+        actor->unk_9E = bob_phase + 1;
         actor->unk_A0.value = (s32) (actor->unk_A0.value + (rsin((s16) bob_phase * 0x55) * 0x10));
         motion->unk_0A = (u16) (beldo->unk_88
-            + ((u16)actor->unk_90.parts.high.s) - actor->unk_A0.parts.high);
+            + (actor->unk_90.parts.high) - actor->unk_A0.parts.high);
         break;
     case 14:
         animation_timer = actor->action_timer + 1;
@@ -391,7 +391,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
         break;
     case 17:
         spin_timer = actor->action_timer + 1;
-        actor->action_timer = (u16) spin_timer;
+        actor->action_timer = spin_timer;
         if (spin_timer < 0xE) {
             if (!(spin_timer & 1)) {
                 previous_angle = (u16) beldo->unk_2A;

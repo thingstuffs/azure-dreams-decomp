@@ -11,7 +11,6 @@
 #include "engine/node.h"
 #include "town/menu.h"
 
-extern void run_record_handler_if_active(void *record, s32 context, s32 update_data);
 extern M2C_UNK D_800F842C;
 
 /* Initialize the object and reset its state before completing setup. */

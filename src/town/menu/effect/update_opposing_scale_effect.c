@@ -3,6 +3,7 @@
 #include "sdk/libgte.h"
 #include "town/menu.h"
 #include "shared/sprite_frame_state.h"
+#include "town/menu/effect.h"
 
 /* extern */
 

@@ -34,7 +34,7 @@ void advance_actor_walk_animation(ActorRecord *owner, ObjectPosition *unused, Sp
     s32 current_value;
     s32 adjusted_value;
 
-    actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) &&
         ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
         u8 *table = garuda_walk_direction_frames;

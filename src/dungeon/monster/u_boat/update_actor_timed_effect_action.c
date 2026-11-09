@@ -96,19 +96,19 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        height_delta = sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) (((u16)actor->ground_height)
+        height_delta = sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) (actor->ground_height
             - 0x20));
-        height = ((u16)actor->ground_height);
+        height = actor->ground_height;
         height_delta -= height;
-        if (action->unk_90.parts.high.s >= height_delta) {
-            action->unk_90.parts.high.u = (u16) height_delta;
+        if (action->unk_90.parts.high >= height_delta) {
+            action->unk_90.parts.high = height_delta;
         } else {
-            action->unk_90.parts.high.u = action->unk_90.parts.high.u + 0xC;
-            if (height_delta < (s16) action->unk_90.parts.high.u) {
-                action->unk_90.parts.high.u = (u16) height_delta;
+            action->unk_90.parts.high = action->unk_90.parts.high + 0xC;
+            if (height_delta < action->unk_90.parts.high) {
+                action->unk_90.parts.high = height_delta;
             }
         }
-        if (action->unk_90.parts.high.s == 0) {
+        if (action->unk_90.parts.high == 0) {
             sprite->frameTable = uboat_aura_start_frames;
             select_sprite_entry(sprite, uboat_aura_start_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
@@ -139,7 +139,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         effect_position = effect->position;
         effect_position->x.w.i = (u16) ((u16)position->x.w.i);
         effect_position->y.w.i = (u16) ((u16)position->y.w.i);
-        effect_position->z.w.i = (u16) ((u16)actor->ground_height);
+        effect_position->z.w.i = actor->ground_height;
         effect_sprite = effect->sprite;
         effect_sprite->scale_y = 0xA00;
         effect_sprite->scale_x = 0xA00;
@@ -162,7 +162,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_B4.halves.high.u = (u16) ((u16)position->x.w.i);
         ((S_8017558C_0 *)action)->unk_B8 = (u16) ((u16)position->y.w.i);
-        ((S_8017558C_0 *)action)->unk_BA = (u16) ((u16)actor->ground_height);
+        ((S_8017558C_0 *)action)->unk_BA = actor->ground_height;
         return;
     case 2:
         windup_timer = action->action_timer - 1;

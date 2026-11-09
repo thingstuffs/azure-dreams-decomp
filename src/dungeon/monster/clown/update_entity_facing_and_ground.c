@@ -353,10 +353,10 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
             s16 offset_delta;
 
             begin_actor_move_to_target_facing(actor, actor_context, map_object, creature);
-            offset_delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            offset_delta = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.s = offset_delta;
+            actor->unk_90.parts.high = offset_delta;
             update_clown_parent_motion(actor, actor_context, map_object, creature);
             return;
         }
@@ -489,9 +489,9 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
 
     if (entity->tile_x == path_state->path_x[path_state->unk_8A] &&
         entity->tile_y == path_state->path_y[path_state->unk_8A]) {
-        hp = motion_state->unk_90.parts.high.u;
+        hp = motion_state->unk_90.parts.high;
         energy = ((R16_80171574_S_80171FC8_0 *)path_state)->unk_88;
-        motion_state->unk_90.parts.high.u = hp + 0x20;
+        motion_state->unk_90.parts.high = hp + 0x20;
         step_index = ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u;
         path_state->ground_height = energy - 0x20;
         path_state->unk_8A = step_index + 1;
@@ -810,7 +810,7 @@ s32 initialize_transition_action(ActorRecord *action_state, ObjectPosition *acti
  * emitting body code; source-based byte indexing preserves the final call operands.
  */
 void begin_eligible_actor_action(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), context, 8, 0x300);
         if ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0) {
@@ -852,13 +852,13 @@ s32 relink_clown_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -882,11 +882,11 @@ void finish_actor_tile_move_then_dispatch_transition(ActorRecord *state, void *m
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
             state->unk_8C.word_ptr = ((s32 *)update_actor_state_and_dispatch_transition);
             if (g_dungeon_status.flags & 0x80) {
-                state->unk_90.parts.high.s = -0x20;
+                state->unk_90.parts.high = -0x20;
             }
         }
     } else if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.parts.high.s = -0x20;
+        state->unk_90.parts.high = -0x20;
     }
 }
 
@@ -1316,11 +1316,11 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(actor, context, render_record, actor_state);
-                value = actor->unk_90.parts.high.u;
+                value = actor->unk_90.parts.high;
                 value_offset = actor->unk_A0.parts.high;
                 actor->unk_A0.parts.high = 0;
                 actor->unk_9E = 0;
-                actor->unk_90.parts.high.u = value - value_offset;
+                actor->unk_90.parts.high = value - value_offset;
                 update_clown_parent_motion(actor, context, render_record, actor_state);
                 return;
             }
@@ -1439,11 +1439,11 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
             u16 pending_decrement;
 
             begin_actor_move_to_target_facing(actor, context, animation, entity);
-            stored_value = actor->unk_90.parts.high.u;
+            stored_value = actor->unk_90.parts.high;
             pending_decrement = actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.u = stored_value - pending_decrement;
+            actor->unk_90.parts.high = stored_value - pending_decrement;
             update_clown_parent_motion(actor, context, animation, entity);
             return;
         }

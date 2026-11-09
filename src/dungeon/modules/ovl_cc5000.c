@@ -264,16 +264,16 @@ void update_block_motion_and_facing_slot_d(ActorRecord *entity, ObjectPosition *
     if (!(entity->action_state_flags & 4)) {
         floor_height = sample_terrain_surface_height((u16)motion->x.w.i,
                               (u16)motion->y.w.i,
-                              (s16)((u16)actor->ground_height - 0x20));
+                              (s16)(actor->ground_height - 0x20));
         if (floor_height < 0x200) {
             actor_height = actor->ground_height;
-            if (entity->unk_90.parts.high.s + actor_height < floor_height) {
+            if (entity->unk_90.parts.high + actor_height < floor_height) {
                 actor->flags1C &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
                     entity->unk_90.value = 0;
                 } else {
-                    entity->unk_90.parts.high.s = floor_height - (u16)actor->ground_height;
+                    entity->unk_90.parts.high = floor_height - actor->ground_height;
                 }
 
                 motion->velocity_z = 0;
@@ -284,8 +284,8 @@ void update_block_motion_and_facing_slot_d(ActorRecord *entity, ObjectPosition *
                 actor->flags1C &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                                       (sprite->tile_y << 6) | 0x20,
-                                      (s16)((u16)actor->ground_height - 0x20));
-                entity->unk_90.parts.high.s += (u16)actor->ground_height - floor_height;
+                                      (s16)(actor->ground_height - 0x20));
+                entity->unk_90.parts.high += actor->ground_height - floor_height;
                 actor->ground_height = floor_height;
             }
         } else {
@@ -296,7 +296,7 @@ void update_block_motion_and_facing_slot_d(ActorRecord *entity, ObjectPosition *
     }
 
     motion->z.w.i =
-        (u16)actor->ground_height + entity->unk_90.parts.high.u;
+        actor->ground_height + entity->unk_90.parts.high;
     sprite->flags |= 0x40;
 
 }
@@ -622,7 +622,7 @@ void choose_block_move_slot_d(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
             if (check_diagonal_side_height(
                     ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
-                    (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
+                    (s16)(actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -641,7 +641,7 @@ void choose_block_move_slot_d(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
                             ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                             position_data->tile_position.parts.tile_x,
                                 position_data->tile_position.parts.tile_y,
-                            (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
+                            (s16)(actor_data->ground_height - 0x20)) != 0) {
                         actor_data->movement_queue_state &= 0x7F;
                         return;
                     }
@@ -731,7 +731,7 @@ void choose_block_move_slot_d(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
     turn_index = sample_terrain_surface_height(
         (position_data->tile_position.parts.tile_x << 6) | 0x20,
         (position_data->tile_position.parts.tile_y << 6) | 0x20,
-        (s16)((u16)actor_data->ground_height - 0x20));
+        (s16)(actor_data->ground_height - 0x20));
     if (turn_index < 0x200) {
         actor_data->ground_height = turn_index;
     }
@@ -801,7 +801,7 @@ s32 try_begin_block_attack_slot_d(Rec_func_800A9E70_arg0 *action_state, ObjectPo
 
 /* Claims the actor action slot and starts a directional attack when dungeon activity allows it. */
 void begin_block_attack_slot_d(CL_CC5000_80172180_S_80172180_1 *state, s32 position, CL_CC5000_80172180_S_80172180_2 *render_state, ActorRecord *entity) {
-    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
     if (!(dungeon_status_flags_alias & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(entity), position, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
@@ -904,8 +904,8 @@ void update_block_hop_slot_d(ActorRecord *action, ObjectPosition *motion, Sprite
         action->unk_A0.value = 0;
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_A4.halves.high.s = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
-            (map_entry->tile_y << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
-        action->unk_A8 = (u16)motion->z.w.i;
+            (map_entry->tile_y << 6) | 0x20, (s16) (actor->ground_height - 0x20));
+        action->unk_A8 = motion->z.w.i;
                         /* fall through */
     case 1:
         move_frames = action->unk_9E;
@@ -1645,9 +1645,9 @@ void update_block_parent_motion_slot_d(S_80173A38_0 *state, void *position, Spri
  * Installs the local turn-action dispatcher after thrown travel completes and the signed
  * floor-trap check returns positive.
  */
-void finish_block_thrown_travel_slot_d(S_80173B00_0 *state,void *position,void *render_state,void *entity) {
+void finish_block_thrown_travel_slot_d(ActorRecord *state,void *position,void *render_state,void *entity) {
     if ((update_thrown_actor_travel(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
-        state->CL_CC5000_80173B00_handler = dispatch_block_turn_actions_slot_d;
+        state->unk_8C.handler = dispatch_block_turn_actions_slot_d;
     }
 }
 
@@ -2212,7 +2212,7 @@ void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner
 
 /* Starts action 23 once pending dungeon activity allows it, clearing the actor movement and turn state. */
 void begin_block_action_23_slot_d(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, ActorRecord *entity) {
-    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
     state->CL_CC5000_80174B3C_handler = begin_block_action_23_slot_d;
     state->action = 0x17;
     state->action_tick = 0;

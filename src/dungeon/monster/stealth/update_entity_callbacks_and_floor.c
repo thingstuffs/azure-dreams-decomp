@@ -161,10 +161,10 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
         body->unk_90.value += motion->velocity_z;
         if (!(body->action_state_flags & 4)) {
             sample_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
-                                          (s16)(((u16)state_alias->ground_height) - 0x20));
+                                          (s16)(state_alias->ground_height - 0x20));
             if ((s16)sample_height < 0x200) {
-                base_height = ((u16)state_alias->ground_height);
-                if ((body->unk_90.parts.high.s + base_height) < (s16)sample_height) {
+                base_height = state_alias->ground_height;
+                if ((body->unk_90.parts.high + base_height) < (s16)sample_height) {
                     state_alias->flags1C &= 0xF7FFFFFF;
                 } else {
                     if ((s16)sample_height >= base_height) {
@@ -176,7 +176,7 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
                         motion->velocity_z = 0;
                         state_alias->flags1C |= 0x08000000;
                         body->unk_9D = 0;
-                        body->unk_90.parts.high.s = (s16)sample_height - ((u16)state_alias->ground_height);
+                        body->unk_90.parts.high = (s16)sample_height - state_alias->ground_height;
                     }
                 }
                 state_flags = state_alias->flags1C;
@@ -184,18 +184,18 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
                     state_alias->flags1C = state_flags & 0xBFFFFFFF;
                     sample_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                                                  (sprite->tile_y << 6) | 0x20,
-                                                 (s16)(((u16)state_alias->ground_height) - 0x20));
-                    body->unk_90.parts.high.s += ((u16)state_alias->ground_height) - sample_height;
+                                                 (s16)(state_alias->ground_height - 0x20));
+                    body->unk_90.parts.high += state_alias->ground_height - sample_height;
                     state_alias->ground_height = sample_height;
                 }
-                motion->z.w.i = ((u16)state_alias->ground_height) + body->unk_90.parts.high.u;
+                motion->z.w.i = state_alias->ground_height + body->unk_90.parts.high;
                 sprite->flags |= 0x40;
                 return;
             }
         }
         state_alias->flags1C &= 0xF7FFFFFF;
 
-        motion->z.w.i = ((u16)state_alias->ground_height) + body->unk_90.parts.high.u;
+        motion->z.w.i = state_alias->ground_height + body->unk_90.parts.high;
         sprite->flags |= 0x40;
     }
 

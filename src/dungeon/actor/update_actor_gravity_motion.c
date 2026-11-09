@@ -71,14 +71,14 @@ void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosit
             (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20))) < 0x200) {
             base_height_u = (*(u16 *)((u8 *)update_obj + (0x88)));
             base_height = update_obj->ground_height;
-            if (body->unk_90.parts.high.s + base_height < ground_height) {
+            if (body->unk_90.parts.high + base_height < ground_height) {
                 u16 object_flags = body->action_state_flags;
                 body->action_state_flags = object_flags;
             } else {
                 if (ground_height >= base_height) {
                     body->unk_90.value = 0;
                 } else {
-                    body->unk_90.parts.high.s = ground_height - base_height_u;
+                    body->unk_90.parts.high = ground_height - base_height_u;
                 }
                 motion->velocity_z = 0;
                 (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x08000000;
@@ -93,14 +93,14 @@ void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosit
                 tile_y = (ent->tile_y << 6) | 0x20;
                 ground_height = sample_terrain_surface_height(
                     tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
-                body->unk_90.parts.high.s += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
+                body->unk_90.parts.high += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
                 update_obj->ground_height = ground_height;
             }
     } else {
         (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;
     }
 
-    motion->z.w.i = (*(u16 *)((u8 *)update_obj + (0x88))) + body->unk_90.parts.high.u;
+    motion->z.w.i = (*(u16 *)((u8 *)update_obj + (0x88))) + body->unk_90.parts.high;
     ent->flags |= 0x40;
     (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x200;
 }

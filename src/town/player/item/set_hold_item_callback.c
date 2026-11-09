@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/player/item.h"
+#include "town/player/state.h"
 
-extern void select_next_item_state();
 extern s32 *town_player_action_callback;
 
 /* Selects select_next_item_state as town_player_action_callback and returns zero. */

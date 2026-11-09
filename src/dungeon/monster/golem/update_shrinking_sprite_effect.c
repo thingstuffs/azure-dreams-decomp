@@ -116,16 +116,16 @@ void update_shrinking_sprite_effect(ActorRecord *body, ObjectPosition *motion, S
     if (!(body->action_state_flags & 4)) {
         floor_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                               motion->y.unsigned_parts.integer,
-                              (s16)(((u16)actor->ground_height) - 0x20));
+                              (s16)(actor->ground_height - 0x20));
         if (floor_height < 0x200) {
             actor_height = actor->ground_height;
-            if (body->unk_90.parts.high.s + actor_height < floor_height) {
+            if (body->unk_90.parts.high + actor_height < floor_height) {
                 actor->flags1C &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
                     body->unk_90.value = 0;
                 } else {
-                    body->unk_90.parts.high.s = floor_height - ((u16)actor->ground_height);
+                    body->unk_90.parts.high = floor_height - actor->ground_height;
                 }
 
                 motion->velocity_z = 0;
@@ -137,8 +137,8 @@ void update_shrinking_sprite_effect(ActorRecord *body, ObjectPosition *motion, S
                 actor->flags1C &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                                       (sprite->tile_y << 6) | 0x20,
-                                      (s16)(((u16)actor->ground_height) - 0x20));
-                body->unk_90.parts.high.s += ((u16)actor->ground_height) - floor_height;
+                                      (s16)(actor->ground_height - 0x20));
+                body->unk_90.parts.high += actor->ground_height - floor_height;
                 actor->ground_height = floor_height;
             }
         } else {
@@ -149,7 +149,7 @@ void update_shrinking_sprite_effect(ActorRecord *body, ObjectPosition *motion, S
     }
 
     motion->z.unsigned_parts.integer =
-        ((u16)actor->ground_height) + body->unk_90.parts.high.u;
+        actor->ground_height + body->unk_90.parts.high;
     sprite->flags |= 0x40;
 
 }

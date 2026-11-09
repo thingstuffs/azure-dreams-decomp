@@ -166,7 +166,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             self->tiles_left = 8;
             self->target_x = (u16)motion->x.w.i;
             self->target_y = (u16)motion->y.w.i;
-            self->target_z = (u16)owner->ground_height - 0x50;
+            self->target_z = owner->ground_height - 0x50;
         }
         direction_step = dir_step_x[self->direction];
         F(motion, s16, 0x0E) = direction_step << 3;

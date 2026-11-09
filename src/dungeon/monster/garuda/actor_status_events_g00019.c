@@ -89,11 +89,11 @@ void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, S
             if (status_flags & 0x80000) {
 
                 begin_actor_move_to_target_facing(body, context, sprite, actor);
-                current_value = body->unk_90.parts.high.u;
+                current_value = body->unk_90.parts.high;
                 value_adjustment = body->unk_A4.halves.high.u;
                 body->unk_A4.halves.high.u = 0;
                 body->unk_B0.halves.high.u = 0;
-                body->unk_90.parts.high.u = current_value - value_adjustment;
+                body->unk_90.parts.high = current_value - value_adjustment;
                 func_80173834(body, context, sprite, actor);
                 return;
             }
@@ -246,11 +246,11 @@ void advance_entity_directional_events(void *entity_arg, ObjectPosition *context
             u16 pending_decrease;
 
             begin_actor_move_to_target_facing(entity_arg, context, sprite, actor);
-            previous_total = entity->unk_90.parts.high.u;
+            previous_total = entity->unk_90.parts.high;
             pending_decrease = entity->unk_A4.halves.high.u;
             entity->unk_A4.halves.high.u = 0;
             entity->unk_B0.halves.high.u = 0;
-            entity->unk_90.parts.high.u = previous_total - pending_decrease;
+            entity->unk_90.parts.high = previous_total - pending_decrease;
             func_80173834(entity, context, sprite, actor);
             return;
         }

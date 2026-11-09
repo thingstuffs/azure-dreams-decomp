@@ -130,10 +130,10 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
             s16 adjusted_angle;
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
-            adjusted_angle = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            adjusted_angle = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.s = adjusted_angle;
+            actor->unk_90.parts.high = adjusted_angle;
             func_80175078(actor, actor_aux, sprite, entity);
             return;
         }

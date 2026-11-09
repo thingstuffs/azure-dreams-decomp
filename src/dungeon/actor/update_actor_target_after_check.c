@@ -21,6 +21,6 @@ void update_actor_target_after_check(ActorRecord *state, ObjectPosition *motion,
         state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.parts.high.s = 0;
+        state->unk_90.parts.high = 0;
     }
 }

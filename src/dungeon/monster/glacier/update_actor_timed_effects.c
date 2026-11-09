@@ -25,7 +25,7 @@
 extern s32 find_active_rect_containing_point(s32, s32);
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void initialize_object_rendering_and_params(void *, void *, ObjectPosition *);
+extern void initialize_object_rendering_and_params(ObjectNodeHeader *, void *, ObjectPosition *);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8017412C(void *, void *, void *, void *);
@@ -274,7 +274,7 @@ ordinary_cleanup:
             s16 idle_timer = ((ActorRecord *)actor)->unk_9E;
 
             ((ActorRecord *)actor)->unk_9E = idle_timer + 1;
-            if (idle_timer >= ((s16)((ActorRecord *)actor)->unk_A0.parts.low)) {
+            if (idle_timer >= (((ActorRecord *)actor)->unk_A0.parts.low)) {
                 ObjectNodeHeader *object;
                 GlacierProjectedDepthBody *object_data;
 

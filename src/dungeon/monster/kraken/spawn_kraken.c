@@ -85,9 +85,9 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
 
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C.address = (void *)func_8016B1A4;
+        actor->unk_8C.handler = func_8016B1A4;
         ((S_8016A86C_1 *)work)->unk_1C |= 0x00040000;
-        actor->unk_90.parts.high.s = -16;
+        actor->unk_90.parts.high = -16;
         flags = actor->action_state_flags;
         actor->unk_A8 = 0;
         actor->unk_9E = 1;

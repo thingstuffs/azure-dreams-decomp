@@ -39,12 +39,6 @@ typedef struct S_800AB778_25 {
 } S_800AB778_25;   /* ((S_800AB778_23 *)(((S_800AB778_20 *)page16)->unk_3D7C))->unk_110 in advance_actor_removal */
 
 
-typedef struct S_800AB778_1 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_800AB778_1;   /* arg0 in advance_actor_removal */
 
 
 typedef struct S_800AB778_6 {
@@ -120,7 +114,7 @@ extern void *familiar_record_slots[];
 extern D_800E3E48_Entry familiar_record_storage[];
 
 /* Advance actor removal, updating its visual effects and clearing its references. */
-s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, SpriteFrameState *visual, void *actor) {
+s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, SpriteFrameState *visual, void *actor) {
     s32 effect_flags;
     s16 actor_slot16;
     s16 fade_ticks;
@@ -162,7 +156,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
         return 0;
     }
 
-    state_or_type = state->unk_9B;
+    state_or_type = state->action_phase;
     switch (state_or_type) {
     case 0:
     {
@@ -177,7 +171,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         next_state = 3;
-        state->unk_9B = next_state;
+        state->action_phase = next_state;
         break;
     }
 
@@ -197,8 +191,8 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
                 (s32)state4_event
                     == ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x)))->unk_AC,
                     event_mode);
-            state->unk_96 = 0;
-            state->unk_9B = 0x10;
+            state->action_timer = 0;
+            state->action_phase = 0x10;
             break;
         }
         if (visual->clut == 0) {
@@ -206,26 +200,26 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
         }
         visual->tpage_abr = 0x20;
         visual->flags |= 0xC;
-        state->unk_96 = 0x10;
+        state->action_timer = 0x10;
         ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v |= 0x10000000;
-        state->unk_9B++;
+        state->action_phase++;
         break;
 
     case 4:
         visual->color.c.r -=
-            (s32)visual->color.c.r / state->unk_96;
+            (s32)visual->color.c.r / state->action_timer;
         visual->color.c.g -=
-            (s32)visual->color.c.g / state->unk_96;
+            (s32)visual->color.c.g / state->action_timer;
         visual->color.c.b -=
-            (s32)visual->color.c.b / state->unk_96;
+            (s32)visual->color.c.b / state->action_timer;
         scale_x = visual->scale_x;
         visual->scale_x = scale_x +
-            ((s32)(0x400 - scale_x) / state->unk_96);
+            ((s32)(0x400 - scale_x) / state->action_timer);
         scale_y = visual->scale_y;
         visual->scale_y = scale_y +
-            ((s32)(0x400 - scale_y) / state->unk_96);
-        fade_ticks = ((u16)state->unk_96) - 1;
-        state->unk_96 = fade_ticks;
+            ((s32)(0x400 - scale_y) / state->action_timer);
+        fade_ticks = state->action_timer - 1;
+        state->action_timer = fade_ticks;
         if (((fade_ticks << 0x10) > 0) &&
             !(visual->flags & 0x8000)) {
             return 0;

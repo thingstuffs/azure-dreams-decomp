@@ -104,7 +104,7 @@ void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_by
         stable_object->unk_9C = -1;
         stable_object->unk_8C.address = D_8015F400;
         object->flags1C |= 0x40000;
-        stable_object->unk_90.parts.high.s = -0x20;
+        stable_object->unk_90.parts.high = -0x20;
         stable_object->unk_A8 = 0;
         stable_object->unk_9E = 1;
         stable_object->action_state_flags |= 0x4000;

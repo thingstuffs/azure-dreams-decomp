@@ -9,6 +9,7 @@ extern M2C_UNK D_800D0690;
 #include "shared/sprite_source.h"
 #include "town/event/state.h"
 #include "town/data.h"
+#include "town/menu/effect.h"
 extern M2C_UNK D_800D6A58;
 
 /* Initialize the object's sprite, scene data, and behavior. */

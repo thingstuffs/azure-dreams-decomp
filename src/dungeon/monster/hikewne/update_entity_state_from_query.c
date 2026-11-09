@@ -33,13 +33,13 @@ s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, 
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;

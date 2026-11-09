@@ -12,7 +12,6 @@ typedef struct {
 
 
 extern void SD_Call(s32);
-extern void update_catalog_scroll_availability(CatalogDisplay *);
 
 extern ImageList catalog_detail_images[];
 

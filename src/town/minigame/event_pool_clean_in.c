@@ -14,7 +14,6 @@
 #endif
 
 extern M2C_UNK D_8007789C;
-extern void update_motion_spawn_particles();
 
 /* event_pool_clean_in: creates the pool cleaning object and initializes its motion and display. */
 s32 event_pool_clean_in(void)

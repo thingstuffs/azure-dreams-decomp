@@ -33,7 +33,7 @@ void create_randomly_rotated_offset_effect(ActorRecord *node, s32 tile_x, s32 ti
     void *owner;
 
     owner = ((S_80174800_0_pre *)head)[-1].unk_00;
-    node = (ActorRecord *)((u8 *)(unsigned long)actor->next_actor_header + 0x20);
+    node = NODE_BODY(actor->next_actor_header);
     while (node != head) {
         SpriteFrameState *tile = ((S_80174800_1_pre *)node)[-1].unk_04;
         ObjectPosition *height_data = ((S_80174800_1_pre *)node)[-1].unk_00;

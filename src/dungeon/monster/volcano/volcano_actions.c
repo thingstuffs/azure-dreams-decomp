@@ -549,7 +549,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                         if (target_record->flags1C & 0x2000) {
                             if ((s16)get_actor_height_difference(target_record, actor) < 0x81) {
                                 if ((check_diagonal_side_height((actor->facing >> 9) & 0xFFFF, tile->tile_x,
-                                    tile->tile_y, (s16) ((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                    tile->tile_y, (s16) (actor->ground_height - 0x20)) << 16) != 0) {
                                     actor->movement_queue_state &= 0x7F;
                                     return;
                                 }
@@ -568,7 +568,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                          << 16) != 0) {
                         if ((s16)get_actor_height_difference(primary_actor_record, actor) < 0x81) {
                             if ((check_diagonal_side_height((actor->facing >> 9) & 0xFFFF, tile->tile_x,
-                                tile->tile_y, (s16) ((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                tile->tile_y, (s16) (actor->ground_height - 0x20)) << 16) != 0) {
                                 actor->movement_queue_state &= 0x7F;
                                 return;
                             }
@@ -657,7 +657,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
         return;
     }
     {
-        turn_index = sample_terrain_surface_height((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20, (s16) ((u16)actor->ground_height - 0x20));
+        turn_index = sample_terrain_surface_height((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20, (s16) (actor->ground_height - 0x20));
         if (turn_index < 0x200) {
             actor->ground_height = turn_index;
         }
@@ -777,7 +777,7 @@ s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *ac
     ActorRecord *move_heading;
     u16 flags;
 
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
@@ -822,7 +822,7 @@ s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *ac
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
 void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -1766,7 +1766,7 @@ void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context,
 
         global_flags = object_flag_block.flags;
         direction_bits = (u16)(creature->facing) >> 8;
-        creature_height = (u16)(creature->ground_height);
+        creature_height = creature->ground_height;
         object_flag_block.flags = global_flags | 0x8000;
 
         x_offsets = (u8 *)((s8 *)dir_step_x);
@@ -1779,7 +1779,7 @@ void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context,
             (s16)(creature_height - 0x20));
 
         if (creature->ground_height < spawn_height) {
-            spawn_height = (u16)(creature->ground_height);
+            spawn_height = creature->ground_height;
         }
 
         object_flag = (u32)(creature->flags1C) & ACTOR_PLAYER_SIDE;
@@ -1878,13 +1878,13 @@ s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, Spr
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -2034,7 +2034,7 @@ void * create_directional_effect_object(ActorRecord *source, ObjectPosition *ini
             world_y = (s32)((tile_origin->tile_y + *(u16 *)((u8 *)dir_step_y + direction_offset)) << 0x10) >> 0xA;
             position->unk_02 = (s16)(world_x + 0x20);
             position->unk_06 = (s16)(world_y + 0x20);
-            height_limit = sample_terrain_surface_height(world_x & 0xFFC0, world_y & 0xFFC0, (s16)((u16)(source->ground_height) - 0x20)) << 0x10;
+            height_limit = sample_terrain_surface_height(world_x & 0xFFC0, world_y & 0xFFC0, (s16)(source->ground_height - 0x20)) << 0x10;
             if (height_limit < position->unk_08) {
                 position->unk_08 = height_limit;
             }

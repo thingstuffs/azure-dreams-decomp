@@ -174,7 +174,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
                 ((check_diagonal_side_height(
                       ((actor->facing >> 9) & 0xFFFF),
                       position->tile_x, position->tile_y,
-                      (s16)((u16)actor->ground_height - 0x20)) << 16) != 0)) {
+                      (s16)(actor->ground_height - 0x20)) << 16) != 0)) {
                 actor->movement_queue_state &= 0x7F;
                 return;
             }
@@ -195,7 +195,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
                         if ((check_diagonal_side_height(
                                 ((actor->facing >> 9) & 0xFFFF),
                                 position->tile_x, position->tile_y,
-                                (s16)((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                (s16)(actor->ground_height - 0x20)) << 16) != 0) {
                             actor->movement_queue_state &= 0x7F;
                             return;
                         }
@@ -309,7 +309,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
     attempt = sample_terrain_surface_height(
         (position->tile_x << 6) | 0x20,
         (position->tile_y << 6) | 0x20,
-        (s16)((u16)actor->ground_height - 0x20));
+        (s16)(actor->ground_height - 0x20));
     if (attempt < 0x200) {
         actor->ground_height = attempt;
     }

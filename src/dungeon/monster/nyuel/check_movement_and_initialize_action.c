@@ -28,7 +28,7 @@ s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPositi
     ActorRecord *move_heading;
     u16 flags;
 
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }

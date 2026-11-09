@@ -242,7 +242,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         if (action->action_timer >= 0xA) {
             motion->velocity_z += 0x10000;
         } else {
-            motion->velocity_z = -action->unk_90.parts.high.s << 0xD;
+            motion->velocity_z = -action->unk_90.parts.high << 0xD;
         }
         if (action->action_timer > 0 && !(tile->flags & 0x8000)) {
             return;

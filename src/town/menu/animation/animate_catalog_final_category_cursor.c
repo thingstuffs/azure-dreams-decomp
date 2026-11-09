@@ -1,6 +1,7 @@
 #include "town/menu/catalog.h"
 #include "common.h"
 #include "town/menu.h"
+#include "town/menu/animation.h"
 
 typedef struct HalfFields {
     u8 pad0[4];

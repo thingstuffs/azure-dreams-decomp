@@ -114,16 +114,16 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
     if (!(body->action_state_flags & 4)) {
         floor_height = sample_terrain_surface_height(position->x.w.i,
                               position->y.w.i,
-                              (s16)(((u16)actor->ground_height) - 0x20));
+                              (s16)(actor->ground_height - 0x20));
         if (floor_height < 0x200) {
             actor_height = actor->ground_height;
-            if (body->unk_90.parts.high.s + actor_height < floor_height) {
+            if (body->unk_90.parts.high + actor_height < floor_height) {
                 actor->flags1C &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
                     body->unk_90.value = 0;
                 } else {
-                    body->unk_90.parts.high.s = floor_height - ((u16)actor->ground_height);
+                    body->unk_90.parts.high = floor_height - actor->ground_height;
                 }
 
                 position->velocity_z = 0;
@@ -136,9 +136,9 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
                 floor_height = sample_terrain_surface_height(
                     (sprite->tile_x << 6) | 0x20,
                     (sprite->tile_y << 6) | 0x20,
-                    (s16)(((u16)actor->ground_height) - 0x20));
-                body->unk_90.parts.high.s +=
-                    ((u16)actor->ground_height) - floor_height;
+                    (s16)(actor->ground_height - 0x20));
+                body->unk_90.parts.high +=
+                    actor->ground_height - floor_height;
                 actor->ground_height = floor_height;
             }
         } else {
@@ -149,7 +149,7 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
     }
 
     position->z.w.i =
-        ((u16)actor->ground_height) + body->unk_90.parts.high.u;
+        actor->ground_height + body->unk_90.parts.high;
     sprite->flags |= 0x40;
 
 }

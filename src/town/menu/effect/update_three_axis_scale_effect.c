@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
+#include "town/menu/effect.h"
 
 typedef struct S_800A70EC_0 {
     u8 pad_00[0x50];

@@ -199,7 +199,7 @@ block_37:
                 }
                 actor->action_id = 0xEU;
                 actor->unk_9E = 0U;
-                actor->unk_A0.parts.low = (s16) ((rand() & 0x1F) + 0xF);
+                actor->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
             }
         }
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
@@ -269,7 +269,7 @@ block_37:
             }
             if (system_update_flags & 8) {
                 advance_actor_effect_sequence_2(actor, context, sprite);
-                entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+                entity->movement_queue_state = entity->movement_queue_state & 0x7F;
                 update_actor_status_and_mp(entity);
                 entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
                 return;

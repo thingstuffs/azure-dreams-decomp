@@ -131,10 +131,10 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
             s16 position_delta;
 
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
-            position_delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            position_delta = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.s = position_delta;
+            actor->unk_90.parts.high = position_delta;
             func_8015C574(actor, context, sprite, entity);
             return;
         }

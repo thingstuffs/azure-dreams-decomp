@@ -180,9 +180,9 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
 
             floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                   ((u16)motion->y.w.i),
-                                  (s16)((u16)actor->ground_height - 0x20));
-            if ((body->unk_90.parts.high.s -
-                 (s16)(floor_height - (u16)actor->ground_height)) != 0) {
+                                  (s16)(actor->ground_height - 0x20));
+            if ((body->unk_90.parts.high -
+                 (s16)(floor_height - actor->ground_height)) != 0) {
                 return;
             }
         }
@@ -263,8 +263,8 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
         return;
 
     case 6:
-        if (body->unk_90.parts.high.s >= -0x1F) {
-            body->unk_90.parts.high.u -= 4;
+        if (body->unk_90.parts.high >= -0x1F) {
+            body->unk_90.parts.high -= 4;
             return;
         }
         body->action_phase++;
@@ -286,7 +286,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
             body->unk_9E = 0;
             body->action_state_flags |= 8;
             actor->flags1C = (u32)((u32)actor->flags1C | (0x40000));
-            body->unk_90.parts.high.s = -0x20;
+            body->unk_90.parts.high = -0x20;
             sprite->flags &= 0xFFF3;
         }
         {

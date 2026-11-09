@@ -70,7 +70,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
             paused_callback(actor_arg, motion_arg, object_arg, ({ void *actor_value = (actor_arg);  actor_value; }));
             return;
         }
-        actor_arg->movement_queue_state = (u8) (actor_arg->movement_queue_state & 0x7F);
+        actor_arg->movement_queue_state = actor_arg->movement_queue_state & 0x7F;
         return;
     }
     state_or_facing = (s8) actor_arg->pending_turn_updates;
@@ -172,14 +172,14 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 if (!(actor_arg->action_state_flags & 8)) {
                     hover_ground_offset = (s16) (sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
                         motion_arg->y.unsigned_parts.integer,
-                        (s16) (((u16)actor_base->ground_height) - 0x20))
-                        - ((u16)actor_base->ground_height));
-                    if (actor_arg->unk_90.parts.high.s > (hover_ground_offset - 0x20)) {
-                        actor_arg->unk_90.parts.high.s =
-                            (s16) (((u16) actor_arg->unk_90.parts.high.s) - 8);
-                    } else if (actor_arg->unk_90.parts.high.s < (hover_ground_offset - 0x2A)) {
-                        actor_arg->unk_90.parts.high.s =
-                            (s16) (((u16) actor_arg->unk_90.parts.high.s) + 8);
+                        (s16) (actor_base->ground_height - 0x20))
+                        - actor_base->ground_height);
+                    if (actor_arg->unk_90.parts.high > (hover_ground_offset - 0x20)) {
+                        actor_arg->unk_90.parts.high =
+                            (actor_arg->unk_90.parts.high) - 8;
+                    } else if (actor_arg->unk_90.parts.high < (hover_ground_offset - 0x2A)) {
+                        actor_arg->unk_90.parts.high =
+                            (actor_arg->unk_90.parts.high) + 8;
                     }
                 }
             } else {
@@ -189,12 +189,12 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 if (!(motion_flags & 8)) {
                     ground_offset = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
                         motion_arg->y.unsigned_parts.integer,
-                        (s16) (((u16)actor_base->ground_height) - 0x20));
+                        (s16) (actor_base->ground_height - 0x20));
                     ground_height = (s16) ground_offset;
                     base_height = actor_base->ground_height;
                     ground_offset_2 = (s32) ground_height - base_height;
-                    if (ground_offset_2 < actor_arg->unk_90.parts.high.s) {
-                        actor_arg->unk_90.parts.high.s = ground_offset_2;
+                    if (ground_offset_2 < actor_arg->unk_90.parts.high) {
+                        actor_arg->unk_90.parts.high = ground_offset_2;
                         actor_arg->unk_9D = 0;
                         motion_arg->velocity_z = 0;
                         actor_base->flags1C = actor_base->flags1C | 0x08000000;
@@ -208,18 +208,18 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
             actor_base->flags1C = hidden_actor_flags;
             if (!(hidden_actor_flags & 0x40000)) {
                 actor_arg->unk_A8 = 0;
-                actor_arg->unk_90.parts.high.s = (s16) ((u16) actor_arg->unk_90.parts.high.s
-                    - bob_offset);
+                actor_arg->unk_90.parts.high = actor_arg->unk_90.parts.high
+                    - bob_offset;
                 bob_offset = 0;
                 if (!(actor_arg->action_state_flags & 8)) {
                     ground_offset_3 = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
                         motion_arg->y.unsigned_parts.integer,
-                        (s16) (((u16)actor_base->ground_height) - 0x20));
+                        (s16) (actor_base->ground_height - 0x20));
                     hidden_ground_height = (s16) ground_offset_3;
                     hidden_base_height = actor_base->ground_height;
                     ground_offset_4 = (s32) hidden_ground_height - hidden_base_height;
-                    if (ground_offset_4 < actor_arg->unk_90.parts.high.s) {
-                        actor_arg->unk_90.parts.high.s = ground_offset_4;
+                    if (ground_offset_4 < actor_arg->unk_90.parts.high) {
+                        actor_arg->unk_90.parts.high = ground_offset_4;
                         actor_arg->unk_9D = 0;
                         motion_arg->velocity_z = 0;
                         actor_base->flags1C = actor_base->flags1C | 0x08000000;
@@ -269,14 +269,14 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 if (!(actor_arg->action_state_flags & 8)) {
                     hidden_hover_offset = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
                         motion_arg->y.unsigned_parts.integer,
-                        (s16) (((u16)actor_base->ground_height) - 0x20)) - ((u16)actor_base->ground_height);
-                    height_offset = actor_arg->unk_90.parts.high.s;
+                        (s16) (actor_base->ground_height - 0x20)) - actor_base->ground_height;
+                    height_offset = actor_arg->unk_90.parts.high;
                     if (height_offset > (hidden_hover_offset - 0x20)) {
-                        actor_arg->unk_90.parts.high.s =
-                            (s16) (((u16) actor_arg->unk_90.parts.high.s) - 8);
+                        actor_arg->unk_90.parts.high =
+                            (actor_arg->unk_90.parts.high) - 8;
                     } else if (height_offset < (hidden_hover_offset - 0x2A)) {
-                        actor_arg->unk_90.parts.high.s =
-                            (s16) (((u16) actor_arg->unk_90.parts.high.s) + 8);
+                        actor_arg->unk_90.parts.high =
+                            (actor_arg->unk_90.parts.high) + 8;
                     }
                 }
             }
@@ -288,15 +288,15 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
             actor_base->flags1C = (s32) (height_flags & 0xBFFFFFFF);
             tile_height = sample_terrain_surface_height((object_arg->tile_x << 6) | 0x20,
                 (object_arg->tile_y << 6) | 0x20,
-                (s16) (((u16)actor_base->ground_height) - 0x20));
+                (s16) (actor_base->ground_height - 0x20));
             if (tile_height < 0x200) {
-                actor_arg->unk_90.parts.high.s = (s16) ((u16) actor_arg->unk_90.parts.high.s
-                    + (((u16)actor_base->ground_height) - tile_height));
-                actor_base->ground_height = (u16) tile_height;
+                actor_arg->unk_90.parts.high = actor_arg->unk_90.parts.high
+                    + (actor_base->ground_height - tile_height);
+                actor_base->ground_height = tile_height;
             }
         }
         display_height = (s32) (((u16)actor_base->ground_height)
-            + (u16) actor_arg->unk_90.parts.high.s + bob_offset);
+            + (u16) actor_arg->unk_90.parts.high + bob_offset);
         motion_arg->z.w.i = (s16) display_height;
         object_arg->flags = (u16) (object_arg->flags | 0x40);
     }

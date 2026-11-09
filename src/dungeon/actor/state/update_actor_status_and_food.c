@@ -17,7 +17,7 @@ void update_actor_status_and_mp(ActorRecord *entity) {
     s8 updates_left;
     u8 entity_type;
 
-    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2800)) {
         if (entity->pending_turn_updates != 0) {
             do {

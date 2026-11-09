@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/person/motion.h"
 #include "town.h"
+#include "town/person/state.h"
 
 typedef struct town_person_countdown_state {
     u8 pad_00[0x50];

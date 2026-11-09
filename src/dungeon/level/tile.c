@@ -224,7 +224,7 @@ void process_flagged_nodes_and_clear_global_bit(void) {
 
 /* Marks an actor processed and moves it beside the anchor in the actor ring unless already marked. */
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
-    u8 * link_bits;
+    ObjectNodeHeader *link_bits;
     u8 * link_bits_2;
     s32 state_flags;
     s32 anchor_flags;
@@ -249,11 +249,11 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     unlink_entity_node((void *)link_bits_2);
 
     prev_link = (s32)(unsigned long)anchor->next_actor_header;
-    entry->next_actor_header = (void *)(unsigned long)prev_link;
+    entry->next_actor_header = (ObjectNodeHeader *)(unsigned long)prev_link;
     prev_node = (void *)(prev_link + 0x20);
     link_bits = prev_node->previous_actor_header;
     entry->previous_actor_header = link_bits;
-    link_bits = (u8 *)NODE_HEADER(entry);
+    link_bits = NODE_HEADER(entry);
     prev_node->previous_actor_header = link_bits;
     anchor->next_actor_header = link_bits;
     return 1;
@@ -624,7 +624,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, ActorRec
                     tile_y8 = actor_or_height->y;
                     coord_or_height = tile_x8;
                     offset_work = tile_y8;
-                    height = (u16)body->ground_height;
+                    height = body->ground_height;
                     coord_or_height <<= 6;
                     coord_work_2 = coord_or_height + 0x20;
                     tile_coord = (s16)coord_work_2 >> 6;

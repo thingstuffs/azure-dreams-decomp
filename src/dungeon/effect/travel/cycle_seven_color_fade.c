@@ -962,7 +962,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
                 target_delta_cursor += 1;
             } while (index < 3);
             target_ticks = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
-            state->unk_12 = (s16) target_ticks;
+            state->unk_12 = target_ticks;
             if (target_ticks == 0) {
                 state->unk_12 = 1;
             }
@@ -1026,7 +1026,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
                 path_delta_cursor += 1;
             } while (index < 3);
             path_ticks = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
-            state->unk_12 = (s16) path_ticks;
+            state->unk_12 = path_ticks;
             if (path_ticks == 0) {
                 state->unk_12 = 1;
             }

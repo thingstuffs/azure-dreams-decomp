@@ -141,7 +141,7 @@ void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_w
                 } else if ((check_diagonal_side_height(
                          ((actor->facing >> 9) & 0xFFFF),
                          position->tile_x, position->tile_y,
-                         (s16)((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                         (s16)(actor->ground_height - 0x20)) << 16) != 0) {
                     turn_flags = (s32)PTR_AT(target_link, -0x14);
 
                     actor->facing = get_rounded_facing_and_rounding_flag(
@@ -155,7 +155,7 @@ void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_w
                         if ((check_diagonal_side_height(
                                  ((actor->facing >> 9) & 0xFFFF),
                                  position->tile_x, position->tile_y,
-                                 (s16)((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                 (s16)(actor->ground_height - 0x20)) << 16) != 0) {
                             actor->movement_queue_state &= 0x7F;
                             return;
                         }
@@ -175,7 +175,7 @@ void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_w
                             if ((check_diagonal_side_height(
                                      ((actor->facing >> 9) & 0xFFFF),
                                      position->tile_x, position->tile_y,
-                                     (s16)((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                     (s16)(actor->ground_height - 0x20)) << 16) != 0) {
                                 actor->movement_queue_state &= 0x7F;
                                 return;
                             }
@@ -265,7 +265,7 @@ void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_w
     step_index = sample_terrain_surface_height(
         (position->tile_x << 6) | 0x20,
         (position->tile_y << 6) | 0x20,
-        (s16)((u16)actor->ground_height - 0x20));
+        (s16)(actor->ground_height - 0x20));
     if (step_index < 0x200) {
         actor->ground_height = step_index;
     }

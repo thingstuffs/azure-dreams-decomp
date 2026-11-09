@@ -20,7 +20,7 @@ Ent *prepare_directional_attack(); /* extern */
  * and prepares damage.
  */
 void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *entity) {
-    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(entity), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {

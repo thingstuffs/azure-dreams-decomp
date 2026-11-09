@@ -5,10 +5,9 @@
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
 #include "town/player/object.h"
+#include "town/player.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern void move_player_toward_target(void *state, ObjectPosition *object);
-
 
 /* Clears the object's indexed flag and updates its state and handler. */
 void reset_indexed_object_and_set_handler(TownObjectRecord *object, ObjectPosition *context, void *ptr2) {

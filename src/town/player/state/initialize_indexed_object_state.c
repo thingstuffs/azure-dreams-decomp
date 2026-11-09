@@ -4,6 +4,7 @@
 #include "shared/object_index_slots.h"
 #include "shared/town_handler.h"
 #include "town/player/object.h"
+#include "town/player/state.h"
 
 typedef struct Struct_func_8009BDDC_arg0 {
     /* 0x00 */ s8 unk0[4];

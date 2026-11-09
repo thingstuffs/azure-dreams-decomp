@@ -38,8 +38,8 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
 
     if (sprite->tile_x == path->path_x[path->unk_8A] &&
         sprite->tile_y == path->path_y[path->unk_8A]) {
-        u16 remaining_offset = ((u16)path->ground_height);
-        motion->unk_90.parts.high.u += 0x20;
+        u16 remaining_offset = path->ground_height;
+        motion->unk_90.parts.high += 0x20;
         path->ground_height = remaining_offset - 0x20;
         path->unk_8A++;
     } else {

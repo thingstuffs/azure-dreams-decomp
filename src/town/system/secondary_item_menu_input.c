@@ -19,9 +19,6 @@ void sort_entries_by_category(S_8004AFE8 **entries);
 
 
 extern void SD_Call(s32);
-extern void update_active_entry_and_notify_handlers(s8 *state, s32 input);
-extern void decrement_entry_and_notify_handlers(void *);
-extern s32 move_item_to_list(void *);
 static void sort_selected_record_entries(void *);
 
 /*

@@ -416,14 +416,14 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner)
     s32 lookup_id;
     s32 found_id;
     s32 target_x;
-    void *current;
+    ActorRecord *current;
     SpriteFrameState *entry_data;
     s32 distance;
     s32 radius;
     s32 target_y;
 
     found_id = find_active_rect_containing_point((u16)x, (u16)y);
-    current = (u8 *)((ActorRecord *)owner)->next_actor_header + 0x20;
+    current = NODE_BODY(((ActorRecord *)owner)->next_actor_header);
     if (current != end) {
         lookup_id = (s16)found_id;
         target_x = (s16)x;
@@ -449,7 +449,7 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner)
                     }
                 }
             }
-            current = (u8 *)((ActorRecord *)current)->next_actor_header + 0x20;
+            current = NODE_BODY(current->next_actor_header);
         } while (current != end);
     }
     return NULL;

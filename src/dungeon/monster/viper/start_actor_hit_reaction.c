@@ -16,7 +16,7 @@ extern void select_sprite_entry(void *, u8, s32);
 void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor) {
     s32 value;
 
-    actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 16) == 0)) {
         work->unk_8C.word = 0;
         work->action_id = 0x17;

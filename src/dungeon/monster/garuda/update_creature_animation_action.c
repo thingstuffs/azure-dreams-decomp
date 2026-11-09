@@ -109,10 +109,10 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         if ((u32)creature->flags1C & 0x80000) {
             s16 adjusted_offset;
             begin_actor_move_to_target_facing(actor, context, sprite, creature);
-            adjusted_offset = actor->unk_90.parts.high.u - actor->unk_A4.halves.high.u;
+            adjusted_offset = actor->unk_90.parts.high - actor->unk_A4.halves.high.u;
             actor->unk_A4.halves.high.s = 0;
             actor->unk_B0.halves.high.s = 0;
-            actor->unk_90.parts.high.s = adjusted_offset;
+            actor->unk_90.parts.high = adjusted_offset;
             func_80173834(actor, context, sprite, creature);
             return;
         }

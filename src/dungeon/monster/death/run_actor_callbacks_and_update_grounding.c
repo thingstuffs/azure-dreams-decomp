@@ -156,16 +156,16 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
 
             adjustment = body->action_state_flags & 8;
             if (adjustment == 0) {
-                height_offset = body->unk_90.parts.high.s;
-                height_bits = body->unk_90.parts.high.u;
+                height_offset = body->unk_90.parts.high;
+                height_bits = body->unk_90.parts.high;
                 if (adjustment < height_offset) {
                     adjustment = height_bits - 8;
-                    body->unk_90.parts.high.s = adjustment;
+                    body->unk_90.parts.high = adjustment;
                 } else {
                     adjustment = height_offset < -8;
                     if (adjustment != 0) {
                         adjustment = height_bits + 8;
-                        body->unk_90.parts.high.s = adjustment;
+                        body->unk_90.parts.high = adjustment;
                     }
                 }
             }
@@ -182,10 +182,10 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
             if (height_offset == 0) {
                 floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(((u16)actor_base->ground_height) - 0x20)) -
-                        ((u16)actor_base->ground_height);
-                if (floor_height < body->unk_90.parts.high.s) {
-                    body->unk_90.parts.high.s = floor_height;
+                                      (s16)(actor_base->ground_height - 0x20)) -
+                        actor_base->ground_height;
+                if (floor_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = floor_height;
                     body->unk_9D = 0;
                     motion->velocity_z = 0;
                     actor_base->flags1C |= 0x08000000;
@@ -213,10 +213,10 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
             if (height_offset == 0) {
                 floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(((u16)actor_base->ground_height) - 0x20)) -
-                        ((u16)actor_base->ground_height);
-                if (floor_height < body->unk_90.parts.high.s) {
-                    body->unk_90.parts.high.s = floor_height;
+                                      (s16)(actor_base->ground_height - 0x20)) -
+                        actor_base->ground_height;
+                if (floor_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = floor_height;
                     body->unk_9D = 0;
                     motion->velocity_z = 0;
                     actor_base->flags1C |= 0x08000000;
@@ -242,16 +242,16 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
 
             adjustment = body->action_state_flags & 8;
             if (adjustment == 0) {
-                height_offset_2 = body->unk_90.parts.high.s;
-                height_bits = body->unk_90.parts.high.u;
+                height_offset_2 = body->unk_90.parts.high;
+                height_bits = body->unk_90.parts.high;
                 if (adjustment < height_offset_2) {
                     adjustment = height_bits - 8;
-                    body->unk_90.parts.high.s = adjustment;
+                    body->unk_90.parts.high = adjustment;
                 } else {
                     adjustment = height_offset_2 < -8;
                     if (adjustment != 0) {
                         adjustment = height_bits + 8;
-                        body->unk_90.parts.high.s = adjustment;
+                        body->unk_90.parts.high = adjustment;
                     }
                 }
             }
@@ -262,16 +262,16 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
         actor_base->flags1C = actor_flags & 0xBFFFFFFF;
         floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                               (sprite->tile_y << 6) | 0x20,
-                              (s16)(((u16)actor_base->ground_height) - 0x20));
+                              (s16)(actor_base->ground_height - 0x20));
         if (floor_height < 0x200) {
-            body->unk_90.parts.high.s =
-                (u16)body->unk_90.parts.high.s +
-                (((u16)actor_base->ground_height) - floor_height);
+            body->unk_90.parts.high =
+                body->unk_90.parts.high +
+                (actor_base->ground_height - floor_height);
             actor_base->ground_height = floor_height;
         }
     }
-    motion->z.w.i = ((u16)actor_base->ground_height) +
-                             (u16)body->unk_90.parts.high.s -
+    motion->z.w.i = actor_base->ground_height +
+                             body->unk_90.parts.high -
                              body->unk_A4.halves.high.u;
     sprite->flags |= 0x40;
 }

@@ -126,7 +126,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
         actor->unk_9C = -1;
         actor->unk_8C.address = kraken_action_resume_address;
         ((ActorRecord *)work)->flags1C |= 0x00040000;
-        actor->unk_90.parts.high.s = -16;
+        actor->unk_90.parts.high = -16;
         flags = actor->action_state_flags;
         actor->unk_A8 = 0;
         actor->unk_9E = 1;

@@ -65,7 +65,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     case 1:
     {
         u8 *local_table_1;
-        if (action->unk_90.parts.high.s != 0) {
+        if (action->unk_90.parts.high != 0) {
             return;
         }
         local_table_1 = hikewne_frame_set_1;
@@ -142,11 +142,11 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
                     u16 remaining_amount;
 
                     begin_actor_move_to_target_facing(action, context, entity, actor);
-                    remaining_amount = action->unk_90.parts.high.u;
+                    remaining_amount = action->unk_90.parts.high;
                     remaining_amount -= action->unk_A0.parts.high;
                     action->unk_A0.parts.high = 0;
                     action->unk_9E = 0;
-                    action->unk_90.parts.high.u = remaining_amount;
+                    action->unk_90.parts.high = remaining_amount;
                     update_directional_sprite_state_and_signals(action, context, entity, actor);
                     return;
                 }

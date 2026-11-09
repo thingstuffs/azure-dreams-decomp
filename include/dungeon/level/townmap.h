@@ -119,7 +119,9 @@ extern u8 town_map_status;
 extern void *register_node(void *, void *);
 extern void *func_8004491C(void *, void *);
 extern void copy_window_params(void *, u32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void func_800375C0(void *, u32);
+struct Container;
+struct Source;
+extern void func_800375C0(struct Container *container, struct Source *source);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void unlink_node_if_registered(void *);
 extern void func_80033D08(void *);

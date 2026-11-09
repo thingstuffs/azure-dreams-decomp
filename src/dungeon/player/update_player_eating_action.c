@@ -93,7 +93,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             position->y.w.i =
                 (actor->tile_y << 6) + 0x20;
             position->z.w.i =
-                ((u16)transform->ground_height) - 0x30;
+                transform->ground_height - 0x30;
             spawned_state = NODE_BODY(spawned);
             spawned_state->unk_A8 = 0x1E;
             spawned_state->unk_AA = 2;

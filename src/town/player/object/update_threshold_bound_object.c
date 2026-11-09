@@ -17,7 +17,6 @@ typedef struct TownObject {
     s32 state;
 } TownObject;
 
-extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(ObjectPosition *arg);
 #include "town/player/action_initializers.h"
 
 /* Updates a town object based on its table value, limit, and a global flag. */

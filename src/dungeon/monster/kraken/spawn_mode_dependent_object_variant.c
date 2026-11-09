@@ -86,7 +86,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
         actor->unk_9C = -1;
         actor->unk_8C.handler = func_801591A4;
         ((S_8015886C_1 *)work)->unk_1C |= 0x00040000;
-        actor->unk_90.parts.high.s = -16;
+        actor->unk_90.parts.high = -16;
         flags = actor->action_state_flags;
         actor->unk_A8 = 0;
         actor->unk_9E = 1;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/town_object.h"
+#include "town/menu/state.h"
 
 typedef struct S_800A24A8_1 {
     u8 pad_00[0x10];

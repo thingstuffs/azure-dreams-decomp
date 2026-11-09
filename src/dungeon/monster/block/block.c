@@ -631,7 +631,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
             if (check_diagonal_side_height(
                     ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                     position_data->tile_x, position_data->tile_y,
-                    (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
+                    (s16)(actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -650,7 +650,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                             ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                             position_data->tile_x,
                                 position_data->tile_y,
-                            (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
+                            (s16)(actor_data->ground_height - 0x20)) != 0) {
                         actor_data->movement_queue_state &= 0x7F;
                         return;
                     }
@@ -749,7 +749,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
     turn_index = sample_terrain_surface_height(
         (position_data->tile_x << 6) | 0x20,
         (position_data->tile_y << 6) | 0x20,
-        (s16)((u16)actor_data->ground_height - 0x20));
+        (s16)(actor_data->ground_height - 0x20));
     if (turn_index < 0x200) {
         actor_data->ground_height = turn_index;
     }
@@ -820,7 +820,7 @@ s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *m
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
 void begin_unchecked_directional_attack(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity) {
-    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
     if (!(dungeon_status_flags_alias & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(entity), position, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
@@ -861,13 +861,13 @@ s32 resolve_actor_action_readiness(ActorRecord *entity_arg, ObjectPosition *prim
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -924,8 +924,8 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
         action->unk_A0.value = 0;
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_A4.halves.high.s = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
-            (map_entry->tile_y << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
-        action->unk_A8 = (u16)motion->z.w.i;
+            (map_entry->tile_y << 6) | 0x20, (s16) (actor->ground_height - 0x20));
+        action->unk_A8 = motion->z.w.i;
                         /* fall through */
     case 1:
         move_frames = action->unk_9E;
@@ -1903,7 +1903,7 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
 }
 
 /* Traverses linked effect nodes and projects each node's visible quad into render packets. */
-s32 advance_boss_command_stream(void *point, ObjectPosition *position, void *color) {
+s32 project_linked_effect_quads(void *point, ObjectPosition *position, void *color) {
  void *next;
  for (;;) {
   project_visible_effect_quad(point,position,color,0);
@@ -1917,7 +1917,7 @@ s32 advance_boss_command_stream(void *point, ObjectPosition *position, void *col
 }
 
 /* Fades radial segment colors, emits a particle burst, moves the segments outward, and expires them. */
-void create_angular_offset_effect(u8 *effect, ObjectPosition *position, s32 effect_param)
+void update_radial_effect_band(u8 *effect, ObjectPosition *position, s32 effect_param)
 {
     s16 state;
     s16 life_left;
@@ -2094,8 +2094,8 @@ void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, ObjectPosition 
 
                 ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_2C =
                     init_value - owner->unk_A4;
-                ((CB_80174724_S_80C96F24_3 *)effect)->unk_10 = create_angular_offset_effect;
-                register_node(effect, advance_boss_command_stream);
+                ((CB_80174724_S_80C96F24_3 *)effect)->unk_10 = update_radial_effect_band;
+                register_node(effect, project_linked_effect_quads);
 
                 render_state = (CB_80174724_S_80C96F24_4 *)((CB_80174724_S_80C96F24_3 *)effect)->unk_0C;
                 render_state->unk_10 = 0x20;
@@ -2251,7 +2251,7 @@ void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, ObjectPosition 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
 void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *unused_render_state, ActorRecord *entity) {
-    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
     state->unk_8C.handler = wait_actor_activity_then_complete;
     state->action_id = 0x17;
     state->action_phase = 0;

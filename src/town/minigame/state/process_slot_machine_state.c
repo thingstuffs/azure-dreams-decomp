@@ -154,7 +154,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
     case 2:
         if ((((u32)input->buttons) & 0x5000) != 0) {
             u16 timer = state->timer;
-            state->timer = (u16)(timer - 1);
+            state->timer = timer - 1;
             if ((s16)timer < 0) {
                 state->timer = 0;
             }

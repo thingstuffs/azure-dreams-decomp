@@ -1,5 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 #include "town/scene/response_checks.h"
+#include "town/scene/flags.h"
 
 /*
  * Returns scene_result_fallback on the negative-threshold check; otherwise queries D_8001A934 with

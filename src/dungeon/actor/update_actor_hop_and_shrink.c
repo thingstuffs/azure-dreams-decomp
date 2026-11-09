@@ -87,7 +87,7 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
             (*(s32 *)((u8 *)motion + 0x14)) = 0;
             render->unk_88 = (u16)actor_hop_target_height;
             motion->z.unsigned_parts.integer = (u16)actor_hop_target_height;
-            ((ActorRecord *)animation)->unk_90.parts.high.s = 0;
+            ((ActorRecord *)animation)->unk_90.parts.high = 0;
             next_state = ((ActorRecord *)animation)->action_phase + 1;
             ((ActorRecord *)animation)->action_phase = next_state;
             break;

@@ -32,8 +32,8 @@ void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, Ac
     if (body->action_phase == 0) {
         apply_clamped_actor_value_delta(actor);
         body->action_phase = (u8) (body->action_phase + 1);
-        ((EntityRec *)motion)->unk_0C = (u32) (rcos(((s16)actor->movement_facing)) << 9);
-        ((EntityRec *)motion)->unk_10 = (s32) (rsin(((s16)actor->movement_facing)) << 9);
+        ((EntityRec *)motion)->unk_0C = (u32) (rcos((actor->movement_facing)) << 9);
+        ((EntityRec *)motion)->unk_10 = (s32) (rsin((actor->movement_facing)) << 9);
         body->action_timer = 0xCU;
     }
     if (((Rec_func_8008ACDC_arg0 *)body)->unk_10C & 1) {

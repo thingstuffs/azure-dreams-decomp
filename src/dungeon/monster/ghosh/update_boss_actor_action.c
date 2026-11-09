@@ -75,7 +75,7 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
                 == 0)) {
                 if (system_update_flags & 8) {
                     advance_boss_command_stream(actor, context, sprite);
-                    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+                    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
                     update_actor_status_and_mp(entity);
                     entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
                     return;
@@ -89,7 +89,7 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
             }
         }
         entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         update_actor_status_and_mp(entity);
         advance_boss_actor_movement_state(actor, context, sprite, entity);
     }

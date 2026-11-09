@@ -157,4 +157,13 @@ struct Copy20;
 void create_tako_projectile(struct Copy20 *init_data, s32 pos_y, s32 unused_effect_arg);
 s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);
 
+#include "shared/dungeon_effect_views.h"
+struct Motion;
+void create_eight_linked_scene_sprites(struct TownCollectionSequence *owner);
+void create_rotating_layered_line_cage(struct TownCollectionSequence *effect);
+void finalize_keima_resource_operation(void);
+void finalize_town_resource_operation(void);
+void initialize_resource_selector_six(void);
+void update_motion_spawn_particles(EffectPhaseTimer16 *state, struct Motion *motion, SpriteFrameState *sprite_data);
+
 #endif

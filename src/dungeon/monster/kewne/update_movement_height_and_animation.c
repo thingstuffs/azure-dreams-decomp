@@ -52,7 +52,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
         motion->velocity_y -=
             dir_step_y[((u16)actor->facing >> 9) & 7] << 14;
         action->unk_A0.value += 0x60000;
-        if ((s16)action->unk_A0.parts.high >= 0x31) {
+        if (action->unk_A0.parts.high >= 0x31) {
             action->unk_A0.parts.high = 0x30;
         }
         if (!(sprite->flags & 0x6000)) {
@@ -61,7 +61,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if ((s16)action->unk_A0.parts.high < 0x30) {
+        if (action->unk_A0.parts.high < 0x30) {
             return;
         }
         sprite->frameTable = D_80175E58;
@@ -159,7 +159,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
     case 3:
         motion->velocity_x -= (*(s32 *)&action->unk_A8);
         motion->velocity_y -= action->unk_AC.value;
-        if ((s16)action->unk_A0.parts.high > 0) {
+        if (action->unk_A0.parts.high > 0) {
             action->unk_A0.parts.high -= 0x10;
         } else {
             action->unk_A0.parts.high = 0;

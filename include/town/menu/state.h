@@ -17,4 +17,8 @@ void initialize_item_menu_state(ItemMenuObject *object, ItemMenuStateNode *owner
 
 void initialize_indexed_render_state(void *object, ObjectPosition *unused, struct SpriteFrameState *render_state);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+struct CatalogDisplay;
+void initialize_catalog_state(struct CatalogDisplay *state);
+
 #endif

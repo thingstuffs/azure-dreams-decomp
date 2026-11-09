@@ -139,7 +139,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                         if (target_record->flags1C & 0x2000) {
                             if (get_actor_height_difference(target_record, actor) < 0x81) {
                                 if ((check_diagonal_side_height((actor->facing >> 9) & 0xFFFF, tile->tile_x,
-                                    tile->tile_y, (s16) ((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                    tile->tile_y, (s16) (actor->ground_height - 0x20)) << 16) != 0) {
                                     actor->movement_queue_state &= 0x7F;
                                     return;
                                 }
@@ -158,7 +158,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                          << 16) != 0) {
                         if (get_actor_height_difference(primary_actor_record, actor) < 0x81) {
                             if ((check_diagonal_side_height((actor->facing >> 9) & 0xFFFF, tile->tile_x,
-                                tile->tile_y, (s16) ((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                tile->tile_y, (s16) (actor->ground_height - 0x20)) << 16) != 0) {
                                 actor->movement_queue_state &= 0x7F;
                                 return;
                             }
@@ -238,7 +238,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
         return;
     }
     {
-        turn_index = sample_terrain_surface_height((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20, (s16) ((u16)actor->ground_height - 0x20));
+        turn_index = sample_terrain_surface_height((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20, (s16) (actor->ground_height - 0x20));
         if (turn_index < 0x200) {
             actor->ground_height = turn_index;
         }

@@ -22,7 +22,7 @@ typedef struct S_8016CB80_0 {
     u8 * unk_8C;
     s32 unk_90;
     u8 pad_94[0x2];
-    u16 unk_96;
+    s16 unk_96;
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;

@@ -260,9 +260,9 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
                 (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
             packet->unk_08 = scratch->unk_F0 + scratch->unk_B8;
             packet->unk_0A = (s16) (scratch->unk_F2 + scratch->unk_BA);
-            packet->unk_10 = (s16) (scratch->unk_F4 + scratch->unk_B8);
+            packet->unk_10 = (scratch->unk_F4 + scratch->unk_B8);
             packet->unk_12 = (s16) (scratch->unk_F6 + scratch->unk_BA);
-            packet->unk_18 = (s16) (scratch->unk_F8 + scratch->unk_B8);
+            packet->unk_18 = (scratch->unk_F8 + scratch->unk_B8);
             packet->unk_1A = (s16) (scratch->unk_FA + scratch->unk_BA);
             packet->unk_20 = scratch->unk_FC + scratch->unk_B8;
             packet->unk_22 = (s16) (scratch->unk_FE + scratch->unk_BA);
@@ -367,8 +367,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             wrapped_v_offset = -0x30;
             second_addr = (s32) packet & addr_mask;
             packet->unk_08 = packet->unk_08 + 0x40;
-            packet->unk_10 = (u16) ((u16)packet->unk_10 + 0x40);
-            packet->unk_18 = (u16) ((u16)packet->unk_18 + 0x40);
+            packet->unk_10 = (packet->unk_10 + 0x40);
+            packet->unk_18 = (packet->unk_18 + 0x40);
             packet->unk_20 = packet->unk_20 + 0x40;
             packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
             second_link = scratch->unk_20;
@@ -427,9 +427,9 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             packet->unk_08 =
                 (u16) (packet->unk_08 + 0x40);
             packet->unk_10 =
-                (u16) ((u16)packet->unk_10 + 0x40);
+                (packet->unk_10 + 0x40);
             packet->unk_18 =
-                (u16) ((u16)packet->unk_18 + 0x40);
+                (packet->unk_18 + 0x40);
             packet->unk_20 =
                 (u16) (packet->unk_20 + 0x40);
             packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);

@@ -127,10 +127,10 @@ table_done:
             s16 base_height;
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
-            base_height = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            base_height = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.s = base_height;
+            actor->unk_90.parts.high = base_height;
             func_80163078(actor, actor_aux, sprite, entity);
             return;
         }

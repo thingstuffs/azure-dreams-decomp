@@ -6,12 +6,9 @@
 #include "shared/dungeon_effect_views.h"
 #include "town/event/state.h"
 #include "town/player/object.h"
+#include "town/map.h"
 
    /* arg1 in initialize_record_pointers_and_clear_state */
-
-
-
-extern void trigger_action_and_finish_record(u16 *record);
 
 /* Initialize the record pointers and clear the associated state field. */
 void initialize_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite) {

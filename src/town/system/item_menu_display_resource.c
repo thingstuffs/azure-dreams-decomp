@@ -7,6 +7,7 @@
 extern s32 display_vector_defaults[];
 #include "shared/object_flags.h"
 #include "town/shop.h"
+#include "engine/graphics.h"
 /* object in create_item_menu_child_at_position */
 
 typedef struct S_800AEFD8_1 {
@@ -22,7 +23,6 @@ extern void *link_item_menu_display_entries(void *entries);
 extern void initialize_item_menu_list_display(void *payload, void *parent, s32 resource_id, s32 resource_data,
                           s32 x, s32 y, s32 context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void register_node(void *object, void *callback);
-extern int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
 
 /* Allocates menu display entries, copies the default vector, and shares it among the entries on success. */
 static s32 load_item_menu_display_resource(void *object, s32 resource_id) {

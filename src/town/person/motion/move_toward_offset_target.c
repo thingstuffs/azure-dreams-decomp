@@ -9,6 +9,7 @@ typedef struct town_offset_target_object { u8 pad0[0x6C]; u16 timer; } TownObjec
 extern TownContext *person_offset_target_owner;
 #include "town/person/object_setup.h"
 #include "town/person/object.h"
+#include "town/person/motion.h"
 
 /* Move toward the offset target position and finish when the timer expires. */
 void move_toward_offset_target(TownObject *object, TownPosition *position, void *finish_arg)

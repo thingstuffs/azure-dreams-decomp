@@ -93,7 +93,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
     colour[0] = brightness;
     append_map_dot_tile(player[0x24], player[0x25], firstColour, firstContext);
 
-    entry = ((u8 *)head->next_actor_header) + 0x20;
+    entry = NODE_BODY(head->next_actor_header);
     colour[1] = 0;
     if (entry != head) {
         for (; entry != head; entry = *(u8 **)(entry + 0x5c) + 0x20) {

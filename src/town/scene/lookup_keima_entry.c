@@ -1,4 +1,5 @@
 #include "town/scene/entry_requests.h"
+#include "town/scene/flags.h"
 #include "town/scene.h"
 #include "town/data.h"
 

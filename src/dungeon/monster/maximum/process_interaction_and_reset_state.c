@@ -24,6 +24,6 @@ void process_interaction_and_reset_state(ActorRecord *body, ObjectPosition *posi
         body->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        body->unk_90.parts.high.s = 0;
+        body->unk_90.parts.high = 0;
     }
 }

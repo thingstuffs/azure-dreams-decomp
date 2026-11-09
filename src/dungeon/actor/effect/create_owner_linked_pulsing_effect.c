@@ -82,7 +82,7 @@ void *create_owner_linked_pulsing_effect(ObjectPosition *spawn_pos_arg, ActorRec
         owner_map = ((SpriteLinkPrefixView *)owner)[-1].sprite;
         object_state->unk_72 = (u8) owner_map->tile_x;
         object_state->unk_73 = (u8) owner_map->tile_y;
-        object_state->unk_88 = (u16) ((u16)source_state->ground_height);
+        object_state->unk_88 = source_state->ground_height;
         object_state->unk_13 = 0xFF;
         object_state->unk_14 = (s32) source_state->flags14;
         object_state->unk_1C = (s32) source_state->flags1C;

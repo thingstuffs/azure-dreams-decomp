@@ -28,7 +28,7 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
     s32 move_flag;
     ActorRecord *state = actor;
 
-    if ((((s8)state->movement_queue_state) > 0) && ((s32) (u8) ((s8)state->movement_queue_state)
+    if ((((s8)state->movement_queue_state) > 0) && ((s32) state->movement_queue_state
         > state->unk_8A)) {
         if (sprite->frameTable != cyclone_move_direction_frames) {
             (sprite->frameTable) = cyclone_move_direction_frames;
@@ -67,7 +67,7 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
             return;
         }
         body->action_timer = 8;
-        step_count = (u8) ((s8)state->movement_queue_state);
+        step_count = (state->movement_queue_state);
         if ((s32) step_count > 0) {
             body->action_timer = 8 / (s32) step_count;
         }

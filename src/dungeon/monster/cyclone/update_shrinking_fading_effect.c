@@ -240,8 +240,8 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
                         transform_arg->y.unsigned_parts.integer += offset.distance[1];
                         height_offset = offset.distance[2];
                         anim->unk_B0.halves.high.u = height_offset;
-                        anim->unk_90.parts.high.u =
-                            transform_arg->z.unsigned_parts.integer - ((u16)actor->ground_height) +
+                        anim->unk_90.parts.high =
+                            transform_arg->z.unsigned_parts.integer - actor->ground_height +
                             (s16)height_offset / 2;
                     }
                 }
@@ -275,7 +275,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             scale = sprite->scale_y + 0x100;
             sprite->scale_y = scale;
             sprite->scale_x = scale;
-            anim->unk_90.parts.high.u += (s16)anim->unk_B0.halves.high.u >> 4;
+            anim->unk_90.parts.high += (s16)anim->unk_B0.halves.high.u >> 4;
             return;
         }
         anim->unk_AC.halves.high.u = 4;

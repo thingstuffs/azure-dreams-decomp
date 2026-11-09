@@ -58,13 +58,13 @@ void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, Sprit
         floor_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
                               (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
         if (floor_height < 0x200) {
-            if (object->unk_90.parts.high.s + object_base->ground_height < floor_height) {
+            if (object->unk_90.parts.high + object_base->ground_height < floor_height) {
                 object->action_state_flags &= 0xFFFF;   /* BYTES: +0x98 no-op write-back: retail reads the field, the unchanged store compiles away (decision 39) */
             } else {
                 if (floor_height >= object_base->ground_height) {
                     object->unk_90.value = 0;
                 } else {
-                    object->unk_90.parts.high.s = floor_height - (*(u16 *)((u8 *)object_base + (0x88)));
+                    object->unk_90.parts.high = floor_height - (*(u16 *)((u8 *)object_base + (0x88)));
                 }
                 motion->velocity_z = 0;
                 (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x08000000;
@@ -77,7 +77,7 @@ void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, Sprit
                     (entity->tile_x << 6) | 0x20,
                     (entity->tile_y << 6) | 0x20,
                     (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
-                object->unk_90.parts.high.u += (*(u16 *)((u8 *)object_base + (0x88))) - floor_height;
+                object->unk_90.parts.high += (*(u16 *)((u8 *)object_base + (0x88))) - floor_height;
                 object_base->ground_height = floor_height;
             }
         } else {
@@ -88,7 +88,7 @@ void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, Sprit
     }
 
     motion->z.unsigned_parts.integer = (*(u16 *)((u8 *)object_base + (0x88)))
-        + object->unk_90.parts.high.u;
+        + object->unk_90.parts.high;
     entity->flags |= 0x40;
     (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x200;
 }

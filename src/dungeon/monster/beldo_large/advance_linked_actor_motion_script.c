@@ -314,7 +314,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
                 target_state->unk_2A) * 0x28));
             motion_in->y.w.i = (s16) (target_pos->unk_04.at02.v + ((s16) SP1_Y_AT(offset_base,
                 target_state->unk_2A) * 0x28));
-            state_in->unk_90.parts.high.s = -0x18;
+            state_in->unk_90.parts.high = -0x18;
             state_in->unk_9E = 0;
             state_in->unk_A0.value = 0;
             angle_input_m = target_state->unk_2A;
@@ -412,13 +412,13 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
         {
             s32 height_offset;
             u16 next_frame;
-            height_offset = state_in->unk_90.parts.high.u;
+            height_offset = (u16)state_in->unk_90.parts.high;
             next_frame = state_in->action_timer;
             height_offset = height_offset - 2;
             next_frame = next_frame + 1;
             arc_frame = next_frame;
             state_in->action_timer = arc_frame;
-            state_in->unk_90.parts.high.u = height_offset;
+            state_in->unk_90.parts.high = height_offset;
         }
         if ((s16) arc_frame >= 0x28) {
             state_in->action_timer = 0U;
@@ -518,7 +518,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
         }
         if (state_in->action_timer >= 0x2D) {
             state_in->action_timer = 0U;
-            state_in->unk_90.parts.high.s = -0x18;
+            state_in->unk_90.parts.high = -0x18;
             state_in->unk_9E = 0;
             state_in->unk_A0.value = 0;
             state_in->action_id = (u8) (state_in->action_id + 1);
@@ -650,7 +650,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
             owner_height = owner_state->unk_88;
             state_in->unk_9E = 0;
             state_in->unk_A0.value = 0;
-            state_in->unk_90.parts.high.u = (u16) (frame_or_height - owner_height);
+            state_in->unk_90.parts.high = frame_or_height - owner_height;
             facing_angle = owner_state->unk_2A;
             quarter_turn = facing_angle + 0x400;
             facing_angle = quarter_turn;

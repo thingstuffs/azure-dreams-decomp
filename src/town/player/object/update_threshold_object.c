@@ -5,6 +5,7 @@
 #include "town/player/coordinates.h"
 #include "town/player.h"
 #include "town/player/position.h"
+#include "town/player/object.h"
 struct TownObj;
 struct TownVec;
 
@@ -14,8 +15,6 @@ typedef struct {
     u8 padC[8];
     s32 field_14;
 } TownObject;
-
-extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(ObjectPosition *);
 
 /* Updates a town object based on its computed threshold and the global flag. */
 void update_threshold_object(void *context, ObjectPosition *object, void *update_data)

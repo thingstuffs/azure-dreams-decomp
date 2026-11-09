@@ -128,10 +128,10 @@ void update_actor_animation_dungeon_actions(ActorRecord *body, ObjectPosition *c
             s16 adjusted_offset;
 
             begin_actor_move_to_target_facing(body, context, sprite, actor);
-            adjusted_offset = body->unk_90.parts.high.u - body->unk_A0.parts.high;
+            adjusted_offset = body->unk_90.parts.high - body->unk_A0.parts.high;
             body->unk_A0.parts.high = 0;
             body->unk_9E = 0;
-            body->unk_90.parts.high.s = adjusted_offset;
+            body->unk_90.parts.high = adjusted_offset;
             func_80157078(body, context, sprite, actor);
             return;
         }

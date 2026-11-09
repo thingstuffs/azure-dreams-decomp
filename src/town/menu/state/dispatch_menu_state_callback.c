@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/menu/state.h"
 /* Node update callback: hands the body, position and sprite the active-node pass supplies to the
  * handler in the body's first word (initialize_randomized_motion_vector, which then installs
  * advance_motion_and_reset_appearance; both take all three). */

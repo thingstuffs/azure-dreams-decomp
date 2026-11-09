@@ -86,7 +86,7 @@ void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 v
         actor->unk_9C = -1;
         actor->unk_8C.handler = &update_creature_animation_action;
         work->flags1C |= 0x40000;
-        actor->unk_90.parts.high.s = -0x18;
+        actor->unk_90.parts.high = -0x18;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

@@ -1507,7 +1507,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                 travel_ticks = (s8)travel_ticks;
                 effect->target_y = (u16)motion->y.w.i + y_step * (s8)travel_ticks;
             }
-            effect->target_z = (u16)owner->ground_height - 0x50;
+            effect->target_z = owner->ground_height - 0x50;
         }
 
         motion->velocity_x = direction_steps.p[effect->direction].x << 16;

@@ -131,10 +131,10 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             s16 base_offset;
 
             begin_actor_move_to_target_facing(actor, context, sprite, creature);
-            base_offset = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            base_offset = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.s = base_offset;
+            actor->unk_90.parts.high = base_offset;
             func_8016E574(actor, context, sprite, creature);
             return;
         }

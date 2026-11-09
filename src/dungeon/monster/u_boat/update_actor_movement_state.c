@@ -32,9 +32,9 @@ void update_actor_movement_state(ActorRecord *body, ObjectPosition *motion, Spri
     }
 
     if (g_dungeon_status.flags & 0x80) {
-        body->unk_90.parts.high.s = -0x20;
+        body->unk_90.parts.high = -0x20;
         if (body->unk_B4.bytes[1] != 0) {
-            body->unk_90.parts.high.s = 0;
+            body->unk_90.parts.high = 0;
         }
     }
 }

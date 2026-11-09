@@ -400,7 +400,7 @@ void create_linked_effect_controller(ObjectNodeHeader *node_value, void *child_v
         child->field10.u = callback;
         node->field20 = node_value;
         child->field04 = &scene_object_list_anchor.next;
-        source_value = ((u16)source->ground_height);
+        source_value = source->ground_height;
         child->field0C = child_value;
         child->field08 = node;
         child->field38 = source_value;

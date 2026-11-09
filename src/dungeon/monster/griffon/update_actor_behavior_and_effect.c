@@ -198,10 +198,10 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
     if (!(entity->action_state_flags & 4)) {
         ground_height = ((s16)sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                                motion->y.unsigned_parts.integer,
-                               (s16)((u16)(entity_base->ground_height) - 0x20)));
+                               (s16)(entity_base->ground_height - 0x20)));
         if (ground_height < 0x200) {
-            base_height = (s16)(u16)(entity_base->ground_height);
-            if (entity->unk_90.parts.high.s + base_height < ground_height) {
+            base_height = entity_base->ground_height;
+            if (entity->unk_90.parts.high + base_height < ground_height) {
                 entity_base->flags1C &= 0xF7FFFFFF;
             } else if (ground_height >= base_height) {
                 entity->unk_90.value = 0;
@@ -212,7 +212,7 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
                 motion->velocity_z = 0;
                 entity_base->flags1C |= 0x08000000;
                 entity->unk_9D = 0;
-                entity->unk_90.parts.high.s = ground_height - (u16)(entity_base->ground_height);
+                entity->unk_90.parts.high = ground_height - entity_base->ground_height;
             }
 
             entity_flags = entity_base->flags1C;
@@ -221,9 +221,9 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
                 ground_height = ((s16)sample_terrain_surface_height(
                     (sprite->tile_x << 6) | 0x20,
                     (sprite->tile_y << 6) | 0x20,
-                    (s16)((u16)(entity_base->ground_height) - 0x20)));
-                entity->unk_90.parts.high.s +=
-                    (u16)(entity_base->ground_height) - ground_height;
+                    (s16)(entity_base->ground_height - 0x20)));
+                entity->unk_90.parts.high +=
+                    entity_base->ground_height - ground_height;
                 entity_base->ground_height = ground_height;
             }
         } else {
@@ -235,7 +235,7 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
 
     entity_base = (ActorRecord *)((u8 *)entity_base + 0x88);
     motion->z.w.i =
-        *(u16 *)entity_base + entity->unk_90.parts.high.u;
+        *(u16 *)entity_base + entity->unk_90.parts.high;
     sprite->flags |= 0x40;
 
     return;
@@ -864,7 +864,7 @@ s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, Object
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
 void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -906,13 +906,13 @@ s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -940,7 +940,7 @@ void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, Obje
         state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.parts.high.s = 0;
+        state->unk_90.parts.high = 0;
     }
 }
 

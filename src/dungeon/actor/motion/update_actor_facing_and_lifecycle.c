@@ -109,13 +109,13 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
                 s32 min_height = -0x20;
                 s16 height;
                 sample_terrain_surface_height(((u16) motion->x.w.i), ((u16) motion->y.w.i),
-                    (s16)(((u16)secondary->ground_height) - 0x20));
-                height = body->unk_90.parts.high.s;
+                    (s16)(secondary->ground_height - 0x20));
+                height = body->unk_90.parts.high;
                 if (min_height < height) {
-                    body->unk_90.parts.high.u -= 8;
+                    body->unk_90.parts.high -= 8;
                 }
                 else if (height < -0x28) {
-                    body->unk_90.parts.high.u += 8;
+                    body->unk_90.parts.high += 8;
                 }
             }
         } else {
@@ -126,16 +126,16 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
             if (!(body->action_state_flags & 8)) {
                 target_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                     ((u16) motion->y.w.i),
-                    (s16)(((u16)secondary->ground_height) - 0x20)) -
-                    ((u16)secondary->ground_height);
-                old_height = body->unk_90.parts.high.u;
-                if (body->unk_90.parts.high.s < target_height) {
-                    body->unk_90.parts.high.u = old_height + 8;
-                    if (target_height < body->unk_90.parts.high.s) {
-                        body->unk_90.parts.high.s = target_height;
+                    (s16)(secondary->ground_height - 0x20)) -
+                    secondary->ground_height;
+                old_height = body->unk_90.parts.high;
+                if (body->unk_90.parts.high < target_height) {
+                    body->unk_90.parts.high = old_height + 8;
+                    if (target_height < body->unk_90.parts.high) {
+                        body->unk_90.parts.high = target_height;
                     }
                 } else {
-                    body->unk_90.parts.high.s = target_height;
+                    body->unk_90.parts.high = target_height;
                 }
             }
         }
@@ -158,15 +158,15 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
             target_height = sample_terrain_surface_height(
                 (part->tile_x << 6) | 0x20,
                 (part->tile_y << 6) | 0x20,
-                (s16)(((u16)secondary->ground_height) - 0x20));
+                (s16)(secondary->ground_height - 0x20));
             if (target_height < 0x200) {
-                body->unk_90.parts.high.u += ((u16)secondary->ground_height) - target_height;
+                body->unk_90.parts.high += secondary->ground_height - target_height;
                 secondary->ground_height = target_height;
             }
         }
     }
 
-    motion->z.w.i = ((u16)secondary->ground_height) +
-        body->unk_90.parts.high.u - body->unk_A0.parts.high;
+    motion->z.w.i = secondary->ground_height +
+        body->unk_90.parts.high - body->unk_A0.parts.high;
     part->flags |= 0x40;
 }

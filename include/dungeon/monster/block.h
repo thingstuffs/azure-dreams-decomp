@@ -445,10 +445,6 @@ typedef struct S_80173A38_0 {
 /* extern */
                 /* extern */
 
-typedef struct S_80173B00_0 {
-    u8 pad_00[0x8C];
-    ActorActionHandler CB_80173B00_handler;
-} S_80173B00_0;   /* state in func_80173B00 */
 
 /* Run this action and restore the main state CB_80173B00_handler after completion. */
 
@@ -973,8 +969,8 @@ void resume_actor_after_fade(ActorRecord *state, ObjectPosition *position, Sprit
 void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, SpriteFrameState *primitive);
 void create_randomized_rotated_effect(void *unused_context, ObjectPosition *source_pos, s32 unused_value, s16 scale);
 void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position, void *render_info, s16 depth_bias);
-s32 advance_boss_command_stream(void *point, ObjectPosition *position, void *color);
-void create_angular_offset_effect(u8 *effect, ObjectPosition *position, s32 effect_param);
+s32 project_linked_effect_quads(void *point, ObjectPosition *position, void *color);
+void update_radial_effect_band(u8 *effect, ObjectPosition *position, s32 effect_param);
 void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, struct ObjectPosition *origin, void *entity);
 void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *unused_render_state, ActorRecord *entity);
 void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input);

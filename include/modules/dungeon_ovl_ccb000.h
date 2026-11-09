@@ -569,10 +569,6 @@ typedef struct CL_CCB000_80173A38_S_80173A38_2 {
 /* extern */
                 /* extern */
 
-typedef struct S_80173B00_0 {
-    u8 pad_00[0x8C];
-    void (*CL_CCB000_80173B00_handler)(void *,void *,void *,void *);
-} S_80173B00_0;   /* state in func_8015BB00 */
 
 /* Run this action and restore the main state CL_CCB000_80173B00_handler after completion. */
 
@@ -1081,7 +1077,7 @@ void func_8015B364(S_80173364_0 *state,void *position,void *render_state,void *e
 void func_8015B39C(void *action, void *context, void *sprite_in, void *actor_in);
 void func_8015B72C(void *actor_in, s32 actor_index, void *target, void *entity_in);
 void func_8015BA38(S_80173A38_0 *state, void *position, SpriteFrameState *sprite, CL_CCB000_80173A38_S_80173A38_2 *actor);
-void func_8015BB00(S_80173B00_0 *state,void *position,void *render_state,void *entity);
+void func_8015BB00(ActorRecord *state,void *position,void *render_state,void *entity);
 void func_8015BB64(S_80173B64_0 *state,void *position,void *render_state,void *entity);
 void func_8015BB9C(S_80173B9C_0 *state,void *position,void *render_state,void *entity);
 void func_8015BBD4(S_80173BD4_0 *state,void *position,void *render_state,void *entity);

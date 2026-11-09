@@ -34,7 +34,7 @@ void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, 
     }
 
     if (g_dungeon_status.flags & 0x80) {
-        entity_ptr->unk_90.parts.high.s = -0x20;
+        entity_ptr->unk_90.parts.high = -0x20;
     }
 }
 

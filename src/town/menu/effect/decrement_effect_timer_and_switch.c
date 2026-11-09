@@ -1,9 +1,10 @@
 #include "common.h"
 #include "engine/node/registration.h"
 #include "m2c_compat.h"
+#include "town/menu.h"
+#include "town/menu/effect.h"
 
 /* extern */
-extern void decrement_record_timer_and_reset();
 
 typedef struct S_800A7774_0 {
     u8 pad_00[0x50];

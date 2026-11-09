@@ -7,8 +7,6 @@
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "shared/sprite_frame_state.h"
-extern void update_actor_movement_actions();
-
 
 /* Reset and initialize the record with its handler and a count of six. */
 void init_movement_action(TownObjectRecord *record, void *unused, SpriteFrameState *sprite) {

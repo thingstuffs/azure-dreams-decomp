@@ -11,5 +11,5 @@ void reset_record_to_state_34(ActorRecord *state, void *unused_context, struct S
     record->action_id = 0x34;
     record->action_phase = 0;
     record->unk_8C.word = 0;
-    record->unk_A0.parts.high = (u16) (record->unk_A0.parts.high & 0xFFFE);
+    record->unk_A0.parts.high = record->unk_A0.parts.high & 0xFFFE;
 }

@@ -2,6 +2,7 @@
 #include "shared/item_menu.h"
 #include "town/menu/catalog.h"
 #include "town/menu.h"
+#include "town/menu/animation.h"
 
 typedef struct Inner {
     u16 pad0;

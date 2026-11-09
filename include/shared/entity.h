@@ -209,14 +209,14 @@ typedef struct ActorRecord {
     } unk_50; /* Step 0b: one word, read as two halfwords or as the player's shield record pointer */
     /* 0x054 */ int status_flags; /* derived-effect mask; bits 1..4 double HP/MP/attack/defense baselines, capped at 255 by apply_entity_effects */
     /* 0x058 */ void * previous_actor_header; /* previous live actor list entry, pointing to its ObjectNodeHeader */
-    /* 0x05C */ void *next_actor_header; /* next live actor list entry, stored as the address of its ObjectNodeHeader */
+    /* 0x05C */ struct ObjectNodeHeader *next_actor_header; /* next live actor list entry: its ObjectNodeHeader (check_entity_relation and clear_entry_flag_and_link_owner store node headers; readers take NODE_BODY) */
     /* 0x060 */ void * target; /* borrowed actor-body target; while lifted, this is the carrier backlink rather than an attack target */
     /* 0x064 */ short hp_delta; /* signed pending HP delta; effective HP is hp + unk_64 before applying queued damage */
     /* 0x066 */ unsigned char max_mp; /* effective maximum MP; doubled template MP is capped at 255 */
     /* 0x067 */ unsigned char unk_67;
     /* 0x068 */ unsigned char base_attack; /* effective baseline attack; doubled template attack is capped at 255 */
     /* 0x069 */ unsigned char base_defense; /* effective baseline defense; doubled template defense is capped at 255 */
-    /* 0x06A */ unsigned short movement_facing; /* queued movement angle copied to facing; 0x1000 units per turn */
+    /* 0x06A */ short movement_facing; /* queued movement angle copied to facing; 0x1000 units per turn */
     /* 0x06C */ unsigned char unk_6C;
     /* 0x06D */ signed char pending_turn_updates; /* queued turn updates; update_actor_status_and_mp spends MP and advances status timers once per decrement */
     /* 0x06E */ short unk_6E; /* scaled by apply_entity_effects and apply_scaled_entity_velocity (observed 0x100..0x200) */
@@ -242,8 +242,8 @@ typedef struct ActorRecord {
     } unk_8C;
     /* 0x090 */ union {
         int value;
-        struct { unsigned short low; union { short s; unsigned short u; } high; } parts;
-    } unk_90; /* callback scratch word; signed and unsigned high-half accesses */
+        struct { unsigned short low; short high; } parts;
+    } unk_90; /* callback scratch word; its high half is signed (unsigned reads take value casts) */
     /* 0x094 */ short unk_94;
     /* 0x096 */ short action_timer;
     /* 0x098 */ unsigned short action_state_flags;
@@ -256,8 +256,8 @@ typedef struct ActorRecord {
      * the same ActorRecord body reads and writes the high half and updates the whole scratch word. */
     /* 0x0A0 */ union {
         int value;
-        struct { unsigned short low; unsigned short high; } parts;
-    } unk_A0; /* callback scratch word; signed halfword reads use value casts */
+        struct { short low; short high; } parts;
+    } unk_A0; /* callback scratch word with signed halves */
     /* 0x0A4 */ union {
         int value; /* landing uses it for accumulated 16.16 vertical displacement */
         ActorScratchHalves halves;

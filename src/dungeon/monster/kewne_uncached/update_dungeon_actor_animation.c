@@ -128,10 +128,10 @@ state_done:
             s16 delta;
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, actor_data);
-            delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            delta = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.s = delta;
+            actor->unk_90.parts.high = delta;
             func_80169078(actor, actor_aux, sprite, actor_data);
             return;
         }

@@ -59,8 +59,8 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                        ((s16 *)((s8 *)dir_step_x))[direction]) << 6) + 0x20) & 0xFFE0,
                     (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction]) << 6) + 0x20) & 0xFFE0,
-                    (s16)(((u16)actor->ground_height) - 0x20));
-                if ((u16)(terrain_height - ((u16)actor->ground_height) + 0x3F) >= 0x7F) {
+                    (s16)(actor->ground_height - 0x20));
+                if ((u16)(terrain_height - actor->ground_height + 0x3F) >= 0x7F) {
                     action->unk_AC.bytes[3] = 1;
                 }
             } else {
@@ -146,7 +146,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                    (s16)(((u16)actor->ground_height) - 0x20));
+                    (s16)(actor->ground_height - 0x20));
                 arc_sample = rsin(action->action_timer << 7);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
@@ -248,7 +248,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                    (s16)(((u16)actor->ground_height) - 0x20));
+                    (s16)(actor->ground_height - 0x20));
                 arc_sample = rsin(action->action_timer << 8);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;

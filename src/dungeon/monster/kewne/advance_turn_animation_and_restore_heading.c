@@ -36,7 +36,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
         actor->action_phase = phase;
         return;
     case 1:
-        if (actor->unk_90.parts.high.s == 0) {
+        if (actor->unk_90.parts.high == 0) {
             {
                 u8 *animation_table = kewne_frame_set_4;
                 animation->frameTable = animation_table;

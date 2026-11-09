@@ -455,7 +455,14 @@ Sign decisions (R17): raw lbu/lhu counts are a biased vote because a signed fiel
 increments, masks, same-width copies and shifts.  `tools/typing/sign_trial.py include/x.h::Record.field` flips the
 declared sign, strips the casts to the new type on that field and recompiles the users through the recipe's
 compiler cell, reporting per function identical or differs plus the recommendation (FLIP_CLEAN, FLIP_BETTER, TIE,
-KEEP); `--check-removal` removes each minority cast alone and lists the NO-OP ones.  Run it in a private clone with
+KEEP); `--check-removal` removes each minority cast alone and lists the NO-OP ones (`--identity` adds casts to the
+declared type itself, `--stores` casts on the whole stored value of a plain store).  Casts are found on any base the
+resolver can type, including cast chains `(s16)((T *)p)->field` and stacked casts `(u16) (s16)r->field`, and a field
+spec may name a member of nested anonymous structs and unions (`Record.word.parts.high`).  `--place` counts the casts
+the opposite declaration needs: it flips the field, strips every 8/16-bit cast on it, restores the old meaning in each
+function whose code differs (uncast reads take a cast to the old type) and prunes those casts one at a time while the
+code stays identical (`--apply` leaves the flipped tree written when every function is identical); compare its count
+with the casts `--check-removal` keeps under the current declaration.  Run it in a private clone with
 `--build-root` pointing at a tree that holds build/.state and toolchain/ (a run takes minutes on a busy box).
 `union_census.load_check` now votes per access width (a byte view's lbu no longer counts for a halfword) and reports
 `biased` when an unsigned declaration's lead rests on lbu/lhu loads with no unsigned-only consumer (access_sites.tsv

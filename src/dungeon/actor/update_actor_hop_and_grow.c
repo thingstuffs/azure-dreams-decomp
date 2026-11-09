@@ -55,7 +55,7 @@ s32 update_actor_hop_and_grow(ActorRecord *state, ObjectPosition *motion, Sprite
             }
         }
         if (state->action_timer != 0) {
-            motion->velocity_z = ((-(rsin(state->action_timer << 6) >> 4) - (height_offset = state->unk_90.parts.high.s + 0x20))
+            motion->velocity_z = ((-(rsin(state->action_timer << 6) >> 4) - (height_offset = state->unk_90.parts.high + 0x20))
                 << 16) / state->action_timer;
         }
         scale = params->scale_x + extra->unk_8A;
@@ -68,7 +68,7 @@ s32 update_actor_hop_and_grow(ActorRecord *state, ObjectPosition *motion, Sprite
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, params->tile_x, params->tile_y);
-            state->unk_90.parts.high.s = -0x20;
+            state->unk_90.parts.high = -0x20;
             state->action_phase = (u8) (state->action_phase + 1);
         }
         return 0;

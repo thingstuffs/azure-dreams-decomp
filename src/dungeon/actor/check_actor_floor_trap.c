@@ -52,7 +52,7 @@ s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target)
 
         dungeon_state = &g_dungeon_status;
         if (dungeon_state->flags & 0x1000) {
-            adjustment = ((s8)target->movement_queue_state);
+            adjustment = (target->movement_queue_state);
             if (adjustment > 0) {
                 cost = adjustment - (u16)target->unk_8A;
                 entry_index = (u16)dungeon_state->activity_counts.parts.pending_movement_count;

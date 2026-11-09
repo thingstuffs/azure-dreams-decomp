@@ -379,7 +379,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
         base.x = view_reference_entity.x.w.i;
         base.y = view_reference_entity.y.w.i;
         entity = dungeon_actor_ring_anchor;
-        base.z = ((u16)entity->ground_height) - 0x50;
+        base.z = entity->ground_height - 0x50;
         index =
             ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
 

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "sdk/libc.h"
 #include "town/map.h"
+#include "town/player.h"
 
 typedef struct {
     s32 x;

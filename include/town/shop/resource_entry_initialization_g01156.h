@@ -73,6 +73,5 @@ UA32 **acquire_resource_and_initialize_state(ItemMenuInputObject *state);
 void fill_item_value_buffer(ItemMenuInputObject *table);
 void initialize_record_table_and_group(ItemMenuInputObject *record);
 void * open_twin_souko(s32 option);
-void apply_record_values_and_process_record(ItemMenuInputObject *record);
 
 #endif

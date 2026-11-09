@@ -20,7 +20,7 @@ extern u8 naplass_frame_set_4[8];
 
 /* Start the actor's directional animation and update its action state when allowed. */
 void start_naplass_status_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
         action_state->action_id = 0xD;
         action_state->unk_8C.handler = 0;

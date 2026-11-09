@@ -77,11 +77,11 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
         }
         if (entity_flags & 0x80000) {
             begin_actor_move_to_target_facing(action, context, sprite, entity);
-            action_value = action->unk_90.parts.high.u;
+            action_value = action->unk_90.parts.high;
             value_offset = action->unk_A0.parts.high;
             action->unk_A0.parts.high = 0;
             action->unk_9E = 0;
-            action->unk_90.parts.high.u = action_value - value_offset;
+            action->unk_90.parts.high = action_value - value_offset;
             update_actor_action_transition(action, context, sprite, entity);
             return;
         }

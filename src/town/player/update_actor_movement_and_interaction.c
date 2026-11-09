@@ -28,8 +28,6 @@ void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "town/player/object/entity_record_fields.h"                      /* extern */
 #include "town/player.h"
 #include "town/event/motion.h"
-extern void update_motion_toward_shared_target();
-
 
 struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;
 extern void *town_target_record;

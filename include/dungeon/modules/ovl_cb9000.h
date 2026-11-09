@@ -33,7 +33,7 @@ void finish_block_hop_grow_slot_f(S_80173364_0 *state,void *position,void *rende
 void update_block_status_animation_slot_f(void *action, ObjectPosition *context, SpriteFrameState *sprite_in, struct ActorRecord *actor_in);
 void wait_block_mp_recovery_slot_f(void *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in);
 void update_block_parent_motion_slot_f(S_80173A38_0 *state, void *position, SpriteFrameState *sprite, struct ActorRecord *actor);
-void finish_block_thrown_travel_slot_f(S_80173B00_0 *state,void *position,void *render_state,void *entity);
+void finish_block_thrown_travel_slot_f(ActorRecord *state,void *position,void *render_state,void *entity);
 void finish_block_terrain_move_slot_f(S_80173B64_0 *state,void *position,void *render_state,void *entity);
 void finish_block_spinning_fall_slot_f(S_80173B9C_0 *state,void *position,void *render_state,void *entity);
 void finish_block_fade_in_slot_f(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);

@@ -48,7 +48,7 @@ s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosit
     void *target;
 
     target = NULL;
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     reference_found = (s32) target;
     if ((g_dungeon_status.flags & 0x2008) || ((has_pending_actor_or_turn_action(actor) << 0x10) != 0)) {
         result = -1;

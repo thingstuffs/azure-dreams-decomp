@@ -27,11 +27,10 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
     SpriteFrameState *object;
     s16 height;
 
-    scratch = (s32)(unsigned long)((ActorRecord *)current)->next_actor_header;
     sentinel = current;
     filter_24 = wanted_24;
     filter_25 = wanted_25;
-    current = (u8 *)scratch + 0x20;
+    current = NODE_BODY(((ActorRecord *)current)->next_actor_header);
     if (current != sentinel) {
         scratch = height_center << 0x10;
         target_height = scratch >> 0x10;
@@ -51,8 +50,7 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
                     return entry;
                 }
             }
-            scratch = (s32)(unsigned long)((ActorRecord *)current)->next_actor_header;
-            current = (u8 *)scratch + 0x20;
+            current = NODE_BODY(((ActorRecord *)current)->next_actor_header);
         } while (current != sentinel);
     }
 

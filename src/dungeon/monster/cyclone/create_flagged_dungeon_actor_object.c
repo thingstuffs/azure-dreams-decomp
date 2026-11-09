@@ -88,7 +88,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         actor->unk_9C = -1;
         actor->unk_8C.address = update_actor_animation;
         ((ActorRecord *)work)->flags1C |= 0x00040000;
-        actor->unk_90.parts.high.s = -32;
+        actor->unk_90.parts.high = -32;
 
         {
             u8 *cursor = (part_b->source);

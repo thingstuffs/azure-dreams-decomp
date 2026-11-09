@@ -121,10 +121,10 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                 if (!(body->action_state_flags & 8)) {
                     ground_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                         ((u16) motion->y.w.i),
-                        (s16)(((u16)entity_state->ground_height) - 0x20));
-                    ground_delta = ground_height - ((u16)entity_state->ground_height);
-                    if (ground_delta < body->unk_90.parts.high.s) {
-                        body->unk_90.parts.high.s = ground_delta;
+                        (s16)(entity_state->ground_height - 0x20));
+                    ground_delta = ground_height - entity_state->ground_height;
+                    if (ground_delta < body->unk_90.parts.high) {
+                        body->unk_90.parts.high = ground_delta;
                         body->unk_9D = 0;
                         motion->velocity_z = 0;
                         entity_state->flags1C |= 0x08000000;
@@ -160,16 +160,16 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
 
                 if (!(body->action_state_flags & 8)) {
                     s32 height_work = -0x20;
-                    height_offset = body->unk_90.parts.high.s;
-                    entity_flags = body->unk_90.parts.high.u;
+                    height_offset = body->unk_90.parts.high;
+                    entity_flags = (u16)body->unk_90.parts.high;
                     if (height_work < height_offset) {
                         height_work = entity_flags - 8;
-                        body->unk_90.parts.high.s = height_work;
+                        body->unk_90.parts.high = height_work;
                     } else {
                         height_work = height_offset < -0x28;
                         if (height_work) {
                             height_work = entity_flags + 8;
-                            body->unk_90.parts.high.s = height_work;
+                            body->unk_90.parts.high = height_work;
                         }
                     }
                 }
@@ -188,10 +188,10 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
             if (!(body->action_state_flags & 8)) {
                 ground_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                     ((u16) motion->y.w.i),
-                    (s16)(((u16)entity_state->ground_height) - 0x20));
-                ground_delta = ground_height - ((u16)entity_state->ground_height);
-                if (ground_delta < body->unk_90.parts.high.s) {
-                    body->unk_90.parts.high.s = ground_delta;
+                    (s16)(entity_state->ground_height - 0x20));
+                ground_delta = ground_height - entity_state->ground_height;
+                if (ground_delta < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = ground_delta;
                     body->unk_9D = 0;
                     motion->velocity_z = 0;
                     entity_state->flags1C |= 0x08000000;
@@ -227,16 +227,16 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
 
             if (!(body->action_state_flags & 8)) {
                 s32 height_work = -0x20;
-                height_offset = body->unk_90.parts.high.s;
-                entity_flags = body->unk_90.parts.high.u;
+                height_offset = body->unk_90.parts.high;
+                entity_flags = (u16)body->unk_90.parts.high;
                 if (height_work < height_offset) {
                     height_work = entity_flags - 8;
-                    body->unk_90.parts.high.s = height_work;
+                    body->unk_90.parts.high = height_work;
                 } else {
                     height_work = height_offset < -0x28;
                     if (height_work) {
                         height_work = entity_flags + 8;
-                        body->unk_90.parts.high.s = height_work;
+                        body->unk_90.parts.high = height_work;
                     }
                 }
             }
@@ -248,16 +248,16 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
         ground_height = sample_terrain_surface_height(
             (sprite->tile_x << 6) | 0x20,
             (sprite->tile_y << 6) | 0x20,
-            (s16)(((u16)entity_state->ground_height) - 0x20));
+            (s16)(entity_state->ground_height - 0x20));
         if (ground_height < 0x200) {
-            body->unk_90.parts.high.s =
-                (((u16)entity_state->ground_height) - ground_height) +
-                body->unk_90.parts.high.u;
+            body->unk_90.parts.high =
+                (entity_state->ground_height - ground_height) +
+                body->unk_90.parts.high;
             entity_state->ground_height = ground_height;
         }
     }
 
-    motion->z.w.i = ((u16)entity_state->ground_height) +
-        body->unk_90.parts.high.u - body->unk_A0.parts.high;
+    motion->z.w.i = entity_state->ground_height +
+        body->unk_90.parts.high - body->unk_A0.parts.high;
     sprite->flags |= 0x40;
 }

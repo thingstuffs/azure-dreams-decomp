@@ -73,7 +73,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
                                position->z.w.i);
         ((ActorRecord *)entity)->ground_height = ground_height;
         ((ActorRecord *)entity)->unk_90.value = 0;
-        ((ActorRecord *)entity)->unk_90.parts.high.s = spawn_height - ground_height;
+        ((ActorRecord *)entity)->unk_90.parts.high = spawn_height - ground_height;
         sprite->color.word = 0x2C808080;
         sprite->flags |= 0x8000;
         clear_entry_flag_and_link_owner(object);

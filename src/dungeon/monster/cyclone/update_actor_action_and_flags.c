@@ -86,11 +86,11 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
             u16 stat_delta;
 
             begin_actor_move_to_target_facing(actor, action_ctx, anim, entity);
-            stat_value = actor->unk_90.parts.high.u;
+            stat_value = actor->unk_90.parts.high;
             stat_delta = actor->unk_A4.halves.high.u;
             actor->unk_A4.halves.high.u = 0;
             actor->unk_AC.halves.low.u = 0;
-            actor->unk_90.parts.high.u = stat_value - stat_delta;
+            actor->unk_90.parts.high = stat_value - stat_delta;
             func_80174520(actor, action_ctx, anim, entity);
             return;
         }

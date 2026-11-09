@@ -8,8 +8,6 @@
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 town_action_reset_byte;
-extern void tick_countdown_or_advance_cursor();
-
 
 /* Initializes an object with default state and clears the shared flag. */
 void initialize_object_with_countdown_400(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {

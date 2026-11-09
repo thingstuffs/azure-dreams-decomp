@@ -857,7 +857,7 @@ s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
 void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -899,13 +899,13 @@ s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -933,7 +933,7 @@ void move_grineut_to_tile(ActorRecord *state, ObjectPosition *context, SpriteFra
         state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.parts.high.s = 0;
+        state->unk_90.parts.high = 0;
     }
 }
 

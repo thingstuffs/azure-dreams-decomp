@@ -92,7 +92,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
     default:
         return;
     case 0:
-        body->unk_A8 = (u16)motion->x.w.i;
+        body->unk_A8 = motion->x.w.i;
         body->unk_AA = (u16) ((u16)motion->y.w.i);
         if (sprite->flags & 0x8000) {
             body->action_phase = 5U;

@@ -21,11 +21,6 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/ghosh_frames.h"
 
-typedef struct {
-    u8 before_callback[0x8C];
-    void *callback;
-} CallbackOwner;
-
 typedef struct S_8016B778_3 {
     u8 pad_00[0x58];
     s32 unk_58;
@@ -127,7 +122,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
         }
         if (entity->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, map_actor, entity);
-            install_actor_action_handler_after_floor_trap_check((CallbackOwner *)actor, context, map_actor, entity);
+            install_actor_action_handler_after_floor_trap_check(actor, context, map_actor, entity);
             map_actor->frameTable = ghosh_frame_set_3;
             select_sprite_entry(map_actor, ghosh_frame_set_3[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             actor->unk_90.value = 0;
@@ -157,7 +152,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
             }
             if ((u16) *((s16 *)&system_update_flags) & 8) {
                 execute_actor_script_command(actor, context, (map_actor));
-                entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+                entity->movement_queue_state = entity->movement_queue_state & 0x7F;
                 update_actor_status_and_mp(entity);
                 entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
                 return;

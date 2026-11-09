@@ -75,7 +75,7 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
         next_move_ticks = action->unk_A8 - 1;
         action->unk_A8 = next_move_ticks;
         if (next_move_ticks < 0) {
-            action->unk_90.parts.high.s = -0x10;
+            action->unk_90.parts.high = -0x10;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= 0x08000000;
             action->action_phase++;

@@ -163,7 +163,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
             {
                 state = 6;
 
-                action->action_timer = (u16)state;
+                action->action_timer = state;
             }
             action->action_phase = (u8) (current_state + 1);
             return;

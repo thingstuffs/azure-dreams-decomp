@@ -170,14 +170,14 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, ObjectPosition
 }
 
 /* Updates actor state, facing, and directional animation. */
-void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sprite, ActorRecord *status)
+void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, void *sprite, ActorRecord *status)
 {
     void **anim_table;
     s32 cell_record;
     u16 direction_aux;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
+        actor->action_id = 0xE;
         advance_actor_queued_path(actor, motion, sprite, status);
         return;
     }
@@ -195,9 +195,9 @@ void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sp
 
         if (((u32)status->flags1C) & ACTOR_ASLEEP) {
             if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv == actor_action_frames) {
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+                actor->action_id = 0xD;
+                actor->action_phase = 1;
+                actor->unk_8C.handler = NULL;
                 status->flags1C &= ~0x40000;
                 return;
             }
@@ -212,7 +212,7 @@ void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sp
                 return;
             }
 
-            if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
+            if (actor->action_id != 0xE) {
                 u8 next_state = 0xE;
 
                 anim_table = actor_action_frames;
@@ -223,10 +223,10 @@ void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sp
                             (((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C)),
                         0);
                 }
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = next_state;
+                actor->action_id = next_state;
             }
 
-            ((ActorRecord *)actor)->action_state_flags &= 0xFFF3;
+            actor->action_state_flags &= 0xFFF3;
             if (status->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(actor, motion, sprite, 0)) {
                     return;
@@ -234,8 +234,8 @@ void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sp
             }
 
             if (((u32)status->flags1C) & ACTOR_LIFTED) {
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_90.at00_s32.v = 0;
-                ((ActorRecord *)actor)->action_state_flags &= 0xFFFE;
+                actor->unk_90.value = 0;
+                actor->action_state_flags &= 0xFFFE;
                 motion->velocity_z = 0;
                 /*
                  * BUG: Tumna leaves an already lifted familiar on Koh's tile. Restarting lift setup here
@@ -295,7 +295,7 @@ void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sp
         if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv == anim_table) {
             return;
         }
-        if (((ActorRecord *)actor)->action_state_flags & 1) {
+        if (actor->action_state_flags & 1) {
             return;
         }
     }
@@ -463,7 +463,7 @@ void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *contex
                         }
                         goto loop_entry;
                     }
-                    actor->movement_queue_state = (s8) ((u8) (s8)actor->movement_queue_state & 0x7F);
+                    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
                     return;
                 }
             } else {
@@ -497,11 +497,11 @@ try_heading:
                 }
                 {
                     actor->facing = (u16) candidate_heading;
-                    actor->path_x[((u8) (s8)actor->movement_queue_state & 0x7F)] =
+                    actor->path_x[(actor->movement_queue_state & 0x7F)] =
                         (u8) position->unk_24.at00.v;
-                    actor->path_y[((u8) (s8)actor->movement_queue_state & 0x7F)] =
+                    actor->path_y[(actor->movement_queue_state & 0x7F)] =
                         (u8) position->unk_24.at01.v;
-                    actor->movement_queue_state = (s8) ((u8) (s8)actor->movement_queue_state + 1);
+                    actor->movement_queue_state = actor->movement_queue_state + 1;
                     update_map_cell_flags_with_item_limit(position->unk_24.at00.v, position->unk_24.at01.v,
                                   (actor->flags1C & 0x2000) ? 0x300 : 0x3000);
                     direction_or_x = ((u16) (u16)actor->facing >> 8) & 0xE;
@@ -544,7 +544,7 @@ post_loop:
             {
                 s32 post_index = turn_index;
                 if (post_index >= 8) {
-                    actor->movement_queue_state = (s8) ((u8) (s8)actor->movement_queue_state & 0x7F);
+                    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
                     actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
                     update_actor_status_and_mp(actor);
                     return;
@@ -557,14 +557,14 @@ post_loop:
             }
             if (actor->pending_turn_updates == 0) {
 mask_and_return:
-                actor->movement_queue_state = (s8) ((u8) (s8)actor->movement_queue_state & 0x7F);
+                actor->movement_queue_state = actor->movement_queue_state & 0x7F;
                 return;
             }
 
             turn_index = sample_terrain_surface_height((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20,
-                (s16) ((u16)actor->ground_height - 0x20));
+                (s16) (actor->ground_height - 0x20));
             if (turn_index < 0x200) {
-                actor->ground_height = (u16) turn_index;
+                actor->ground_height = turn_index;
             }
         }
     }

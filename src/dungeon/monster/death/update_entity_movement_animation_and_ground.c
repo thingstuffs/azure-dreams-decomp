@@ -153,16 +153,16 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
 
             adjustment = body->action_state_flags & 8;
             if (adjustment == 0) {
-                entity_flags = body->unk_90.parts.high.u;
-                height_offset = body->unk_90.parts.high.s;
+                entity_flags = (u16)body->unk_90.parts.high;
+                height_offset = body->unk_90.parts.high;
                 if (adjustment < height_offset) {
                     adjustment = entity_flags - 8;
-                    body->unk_90.parts.high.s = adjustment;
+                    body->unk_90.parts.high = adjustment;
                 } else {
                     adjustment = height_offset < -8;
                     if (adjustment != 0) {
                         adjustment = entity_flags + 8;
-                        body->unk_90.parts.high.s = adjustment;
+                        body->unk_90.parts.high = adjustment;
                     }
                 }
             }
@@ -178,10 +178,10 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
             if (height_offset == 0) {
                 ground_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(((u16)entity_base->ground_height) - 0x20)) -
-                        ((u16)entity_base->ground_height);
-                if (ground_height < body->unk_90.parts.high.s) {
-                    body->unk_90.parts.high.s = ground_height;
+                                      (s16)(entity_base->ground_height - 0x20)) -
+                        entity_base->ground_height;
+                if (ground_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = ground_height;
                     body->unk_9D = 0;
                     motion->velocity_z = 0;
                     entity_base->flags1C |= 0x08000000;
@@ -209,10 +209,10 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
             if (height_offset == 0) {
                 ground_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(((u16)entity_base->ground_height) - 0x20)) -
-                        ((u16)entity_base->ground_height);
-                if (ground_height < body->unk_90.parts.high.s) {
-                    body->unk_90.parts.high.s = ground_height;
+                                      (s16)(entity_base->ground_height - 0x20)) -
+                        entity_base->ground_height;
+                if (ground_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = ground_height;
                     body->unk_9D = 0;
                     motion->velocity_z = 0;
                     entity_base->flags1C |= 0x08000000;
@@ -238,16 +238,16 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
 
             adjustment = body->action_state_flags & 8;
             if (adjustment == 0) {
-                height_offset = body->unk_90.parts.high.s;
-                entity_flags = body->unk_90.parts.high.u;
+                height_offset = body->unk_90.parts.high;
+                entity_flags = (u16)body->unk_90.parts.high;
                 if (adjustment < height_offset) {
                     adjustment = entity_flags - 8;
-                    body->unk_90.parts.high.s = adjustment;
+                    body->unk_90.parts.high = adjustment;
                 } else {
                     adjustment = height_offset < -8;
                     if (adjustment != 0) {
                         adjustment = entity_flags + 8;
-                        body->unk_90.parts.high.s = adjustment;
+                        body->unk_90.parts.high = adjustment;
                     }
                 }
             }
@@ -258,16 +258,16 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
         entity_base->flags1C = entity_flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                               (sprite->tile_y << 6) | 0x20,
-                              (s16)(((u16)entity_base->ground_height) - 0x20));
+                              (s16)(entity_base->ground_height - 0x20));
         if (ground_height < 0x200) {
-            body->unk_90.parts.high.s =
-                (u16)body->unk_90.parts.high.s +
-                (((u16)entity_base->ground_height) - ground_height);
+            body->unk_90.parts.high =
+                body->unk_90.parts.high +
+                (entity_base->ground_height - ground_height);
             entity_base->ground_height = ground_height;
         }
     }
-    motion->z.w.i = ((u16)entity_base->ground_height) +
-                             (u16)body->unk_90.parts.high.s -
+    motion->z.w.i = entity_base->ground_height +
+                             body->unk_90.parts.high -
                              body->unk_A4.halves.high.u;
     sprite->flags |= 0x40;
 }

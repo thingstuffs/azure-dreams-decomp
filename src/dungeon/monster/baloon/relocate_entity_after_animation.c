@@ -64,10 +64,10 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         body->action_state_flags |= 8;
         ((ActorRecord *)object)->flags1C &= ~0x40000;
         body->unk_A0.value = 0;
-        body->unk_90.parts.high.u -= 8;
+        body->unk_90.parts.high -= 8;
         body->action_phase++;
         body->unk_B4.halves.high.u =
-            position->z.unsigned_parts.integer + body->unk_90.parts.high.u;
+            position->z.unsigned_parts.integer + body->unk_90.parts.high;
         return;
 
     case 1:
@@ -197,7 +197,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         ground_z -= 0x11;
         height_offset = -0x20;
         position->z.w.i = ground_z;
-        body->unk_90.parts.high.s = height_offset;
+        body->unk_90.parts.high = height_offset;
         body->unk_A0.value = 0;
         ((ActorRecord *)object)->ground_height = -0x200;
         ground_z = sample_terrain_surface_height(
@@ -215,7 +215,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        body->unk_90.parts.high.s = height_offset;
+        body->unk_90.parts.high = height_offset;
         ((ActorRecord *)object)->flags1C |= 0x40000;
         body->action_state_flags |= 8;
 

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/player.h"
 #include "town/person.h"
+#include "town/person/motion.h"
 
 extern s32 D_800D636C[2];
 

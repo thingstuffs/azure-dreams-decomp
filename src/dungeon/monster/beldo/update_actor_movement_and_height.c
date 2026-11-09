@@ -192,9 +192,9 @@ void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *positio
         actor->flags1C &= 0xBFFFFFFF;
         floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                               (sprite->tile_y << 6) | 0x20,
-                              (s16)(((u16)actor->ground_height) - 0x20));
+                              (s16)(actor->ground_height - 0x20));
         if (floor_height < 0x200) {
-            body->unk_90.parts.high.u += ((u16)actor->ground_height) - floor_height;
+            body->unk_90.parts.high += actor->ground_height - floor_height;
             actor->ground_height = floor_height;
         }
     }

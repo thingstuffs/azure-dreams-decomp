@@ -8,6 +8,7 @@ struct Elem;
 #include "shared/sprite_source.h"
 #include "town/event/state.h"
 #include "town/data.h"
+#include "town/menu/animation.h"
 
 /* Initialize the object's animation data and default behavior. */
 void initialize_emote_animation(TownObjectRecord *object, ObjectPosition *update_context, struct SpriteFrameState *animation_state) {

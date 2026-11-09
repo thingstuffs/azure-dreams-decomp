@@ -1053,7 +1053,7 @@ s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
 void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -1095,13 +1095,13 @@ s32 relink_snowman_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -1955,7 +1955,7 @@ void update_snowman_parent_motion(ActorRecord *actor, ObjectPosition *action, Sp
  * Runs update_thrown_actor_travel and installs update_snowman_behavior only when it succeeds and
  * the signed floor-trap check returns positive.
  */
-void advance_boss_command_stream(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void update_thrown_snowman(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = update_snowman_behavior;
@@ -1974,7 +1974,7 @@ void settle_snowman_on_tile(ActorRecord *state, ObjectPosition *motion, SpriteFr
 }
 
 /* Runs update_spinning_actor_fall and installs update_snowman_behavior when it returns nonzero. */
-void create_positioned_sprite_effect(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void resume_snowman_after_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->unk_8C.handler = update_snowman_behavior;
     }
@@ -2058,7 +2058,7 @@ void prepare_directional_attacks_for_neighbor_entities(ActorRecord *node, s32 ti
     void *owner;
 
     owner = ((R10_80174670_S_80174800_0_pre *)head)[-1].unk_00;
-    node = (ActorRecord *)((u8 *)(unsigned long)actor->next_actor_header + 0x20);
+    node = NODE_BODY(actor->next_actor_header);
     while (node != head) {
         R10_80174670_S_80174800_2 *tile = ((R10_80174670_S_80174800_1_pre *)node)[-1].unk_04;
         R10_80174670_S_80174800_3 *height_data = ((R10_80174670_S_80174800_1_pre *)node)[-1].unk_00;

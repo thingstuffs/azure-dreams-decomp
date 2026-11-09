@@ -3,6 +3,7 @@
 #include "sdk/libgte.h"
 #include "engine/resource.h"
 #include "shared/entity.h"
+#include "town/player.h"
 
 typedef struct {
     s32 pad[3];

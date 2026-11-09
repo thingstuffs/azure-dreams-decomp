@@ -89,7 +89,7 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosi
 
     travel_steps = entity->unk_8A;
     if (travel_steps != 0) {
-        target_offset = entity->movement_facing;
+        target_offset = (u16)entity->movement_facing;
         target_offset >>= 8;
         target_offset &= 0xE;
         target_height = sample_terrain_surface_height(

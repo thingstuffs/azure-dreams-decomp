@@ -2,6 +2,7 @@
 #include "shared/position_views.h"
 #include "sdk/libgte.h"
 #include "town/menu.h"
+#include "town/menu/animation.h"
 
 typedef struct TownMatrix {
     u8 bytes[0x20];

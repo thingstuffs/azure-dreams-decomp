@@ -134,10 +134,10 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             s16 adjusted_offset;
 
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
-            adjusted_offset = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            adjusted_offset = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.s = adjusted_offset;
+            actor->unk_90.parts.high = adjusted_offset;
             update_actor_state_after_map_check(actor, context, sprite, entity);
             return;
         }

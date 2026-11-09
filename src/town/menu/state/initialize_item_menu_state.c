@@ -3,6 +3,7 @@
 #include "shared/item_menu.h"
 #include "town/shop/item.h"
 #include "town/shop/object.h"
+#include "town/menu/state.h"
 
 /*
  * Initializes the menu request for the owning menu node, binds the display link block to the display

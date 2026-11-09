@@ -84,7 +84,7 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
         actor->unk_9C = -1;
         actor->unk_8C.address = &garuda_slot_f_action_callback;
         work->flags1C |= 0x40000;
-        actor->unk_90.parts.high.s = -0x18;
+        actor->unk_90.parts.high = -0x18;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

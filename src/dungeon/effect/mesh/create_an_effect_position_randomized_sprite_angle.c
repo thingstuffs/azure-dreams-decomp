@@ -927,12 +927,12 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
             state->unk_12 = x_distance;
             do {
                 if ((s16) stack.offset.distance[step_count] > state->unk_12) {
-                    state->unk_12 = (s16) stack.offset.distance[step_count];
+                    state->unk_12 = stack.offset.distance[step_count];
                 }
                 step_count += 1;
             } while (step_count < 3);
             travel_frames = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
-            state->unk_12 = (s16) travel_frames;
+            state->unk_12 = travel_frames;
             if (travel_frames == 0) {
                 state->unk_12 = 1;
             }
@@ -1016,10 +1016,10 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
             stack.offset.distance[1] = model;
             state->unk_12 = axis_delta;
             if ((s16) stack.offset.distance[1] > (s16) axis_delta) {
-                state->unk_12 = (u16) stack.offset.distance[1];
+                state->unk_12 = stack.offset.distance[1];
             }
             travel_frames = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
-            state->unk_12 = (s16) travel_frames;
+            state->unk_12 = travel_frames;
             if (travel_frames == 0) {
                 state->unk_12 = 1;
             }

@@ -607,7 +607,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             approach_frames = 0x10U;
             coord_delta -= 0x50;
             step_y += coord_delta;
-            effect->target_z = (u16) step_y;
+            effect->target_z = step_y;
             effect->timer = approach_frames;
             height_numerator_2 = ((s16)effect->target_z - motion->z.half.unk_0A) << 0x10;
             height_frames = 16;
@@ -1135,13 +1135,13 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         alternate_value = aim_angle + 0x400;
         visual->angle_x = (u16) alternate_value;
         visual->flags = (u16) actor_data->unk_14;
-        motion->x.half.unk_02 = (u16) owner_state->unk_50;
-        motion->y.half.unk_06 = (u16) owner_state->unk_52;
-        motion->z.half.unk_0A = (u16) owner_state->unk_54;
+        motion->x.half.unk_02 = owner_state->unk_50;
+        motion->y.half.unk_06 = owner_state->unk_52;
+        motion->z.half.unk_0A = owner_state->unk_54;
     } else {
-        motion->x.half.unk_02 = (u16) related_motion->x.w.i;
-        motion->y.half.unk_06 = (u16) related_motion->y.w.i;
-        motion->z.half.unk_0A = (u16) related_motion->z.w.i;
+        motion->x.half.unk_02 = related_motion->x.w.i;
+        motion->y.half.unk_06 = related_motion->y.w.i;
+        motion->z.half.unk_0A = related_motion->z.w.i;
         visual->angle_x = (u16) actor_data->unk_16;
         visual->angle_y = (u16) actor_data->unk_18;
         visual->angle_z = (u16) actor_data->unk_1A;

@@ -65,8 +65,8 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         if (body->action_timer != 0) {
             position->x.v = (s32) (position->x.v + (rcos(actor->facing + 0x400) << 6));
             position->y.v = (s32) (position->y.v + (rsin(actor->facing + 0x400) << 6));
-            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin(body->action_timer
-                << 8)) >> 8);
+            body->unk_90.parts.high = (s32) (0 - rsin(body->action_timer
+                << 8)) >> 8;
         }
         hop_frames_left = body->action_timer - 1;
         body->action_timer = hop_frames_left;
@@ -76,7 +76,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         sprite->frameTable = player_landing_frame_set;
         set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);
-        body->unk_90.parts.high.s = 0;
+        body->unk_90.parts.high = 0;
         body->action_phase++;
         return;
     case 2:
@@ -107,8 +107,8 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
             }
             y_work = position->y.v + y_step;
             position->y.v = y_work;
-            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin(body->action_timer
-                << 8)) >> 8);
+            body->unk_90.parts.high = (s32) (0 - rsin(body->action_timer
+                << 8)) >> 8;
         }
         return_frames_left = body->action_timer - 1;
         body->action_timer = return_frames_left;
@@ -116,7 +116,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
             return;
         }
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
-        body->unk_90.parts.high.s = 0;
+        body->unk_90.parts.high = 0;
         body->action_phase = (u8) (body->action_phase + 1);
         sprite->frameTable = player_landing_frame_set;
         set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
@@ -133,7 +133,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         body->unk_8C.address = next_behavior;
         actor->flags14 = (s32) (actor->flags14 & 0xFFFDFFFF);
         body->action_state_flags = (u16) (body->action_state_flags & 0xFFF3);
-        body->unk_A0.parts.high = (u16) (body->unk_A0.parts.high | 0x10);
+        body->unk_A0.parts.high = body->unk_A0.parts.high | 0x10;
         return;
     }
 }

@@ -247,7 +247,7 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
         effect_data->unk_10.at00.v = 0;
         effect_data->unk_04 = GetTPage(0, 1, 0x2C0, 0x100);
         effect_data->unk_0C = 0x242424;
-        effect_data->unk_00 = (s16)((u16)effect_data->unk_00 + 1);
+        effect_data->unk_00 = (effect_data->unk_00 + 1);
     case 1:
         effect_data->unk_10.at00.v = effect_data->unk_10.at00.v
             + effect_data->unk_0C;
@@ -256,7 +256,7 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
             phase_value = GetTPage(0, 3, 0x2C0, 0x100);
             color_value = 0xFFFFFF;
             color_step = 0x101010;
-            state = ((u16)effect_data->unk_00);
+            state = (effect_data->unk_00);
             effect_data->unk_04 = phase_value;
             effect_data->unk_10.at00.v = color_value;
 
@@ -273,7 +273,7 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
             phase_value = GetTPage(0, 3, 0x2C0, 0x100);
             color_value = 0xA0A0A0;
             color_step = 0x101010;
-            state = ((u16)effect_data->unk_00);
+            state = (effect_data->unk_00);
             effect_data->unk_04 = phase_value;
             effect_data->unk_10.at00.v = color_value;
 

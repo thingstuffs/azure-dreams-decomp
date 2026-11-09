@@ -143,11 +143,11 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
 
             ground_height = -0x20;
             if (!(body->action_state_flags & 8)) {
-                if (ground_height < body->unk_90.parts.high.s) {
-                    body->unk_90.parts.high.u = body->unk_90.parts.high.u - 8;
+                if (ground_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = body->unk_90.parts.high - 8;
                 } else {
-                    if (body->unk_90.parts.high.s < -0x28) {
-                        body->unk_90.parts.high.u = body->unk_90.parts.high.u + 8;
+                    if (body->unk_90.parts.high < -0x28) {
+                        body->unk_90.parts.high = body->unk_90.parts.high + 8;
                     }
                 }
             }
@@ -159,10 +159,10 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
             if (!(body->action_state_flags & 8)) {
                 ground_height = sample_terrain_surface_height(((u16) motion_arg->x.w.i),
                                       ((u16) motion_arg->y.w.i),
-                                      (s16)(((u16)base->ground_height) - 0x20)) -
-                        ((u16)base->ground_height);
-                if (ground_height < body->unk_90.parts.high.s) {
-                    body->unk_90.parts.high.s = ground_height;
+                                      (s16)(base->ground_height - 0x20)) -
+                        base->ground_height;
+                if (ground_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = ground_height;
                     body->unk_9D = 0;
                     motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
@@ -187,10 +187,10 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
             if (!(body->action_state_flags & 8)) {
                 ground_height = sample_terrain_surface_height(((u16) motion_arg->x.w.i),
                                       ((u16) motion_arg->y.w.i),
-                                      (s16)(((u16)base->ground_height) - 0x20)) -
-                        ((u16)base->ground_height);
-                if (ground_height < body->unk_90.parts.high.s) {
-                    body->unk_90.parts.high.s = ground_height;
+                                      (s16)(base->ground_height - 0x20)) -
+                        base->ground_height;
+                if (ground_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = ground_height;
                     body->unk_9D = 0;
                     motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
@@ -211,16 +211,16 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
 
             ground_height = -0x20;
             if (!(body->action_state_flags & 8)) {
-                if (ground_height < body->unk_90.parts.high.s) {
-                    body->unk_90.parts.high.u = body->unk_90.parts.high.u - 8;
-                } else if (body->unk_90.parts.high.s < -0x28) {
-                    body->unk_90.parts.high.u = body->unk_90.parts.high.u + 8;
+                if (ground_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = body->unk_90.parts.high - 8;
+                } else if (body->unk_90.parts.high < -0x28) {
+                    body->unk_90.parts.high = body->unk_90.parts.high + 8;
                 }
             }
         }
 
         if (body->unk_B4.bytes[1] != 0) {
-            body->unk_90.parts.high.u = 0;
+            body->unk_90.parts.high = 0;
         }
     }
 
@@ -230,14 +230,14 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
         ground_height = sample_terrain_surface_height(
             (sprite->tile_x << 6) | 0x20,
             (sprite->tile_y << 6) | 0x20,
-            (s16)(((u16)base->ground_height) - 0x20));
+            (s16)(base->ground_height - 0x20));
         if (ground_height < 0x200) {
-            body->unk_90.parts.high.u += ((u16)base->ground_height) - ground_height;
+            body->unk_90.parts.high += base->ground_height - ground_height;
             base->ground_height = ground_height;
         }
     }
 
-    motion_arg->z.w.i = ((u16)base->ground_height) +
-        body->unk_90.parts.high.u - body->unk_A0.parts.high;
+    motion_arg->z.w.i = base->ground_height +
+        body->unk_90.parts.high - body->unk_A0.parts.high;
     sprite->flags |= 0x40;
 }

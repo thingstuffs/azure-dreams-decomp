@@ -265,10 +265,10 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         if (launch_ticks == 8) {
             height_offset = entity_height_offsets[partner->species];
             height_value = ((SignedHeight *) partner_motion)->integer;
-            entity_height = (s16)entity->ground_height;
+            entity_height = entity->ground_height;
             motion->dz = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10)
                 << 0x10) / launch_ticks);
-            partner_actor->heightOffset.parts.integer = (u16) (partner_actor->heightOffset.parts.integer + (u16)partner->ground_height);
+            partner_actor->heightOffset.parts.integer = (u16) (partner_actor->heightOffset.parts.integer + partner->ground_height);
             partner->ground_height = 0U;
         }
         if (actor->ticks > 0) {
@@ -359,7 +359,7 @@ commit_tile_positions:
         world_coord = ((world_coord << 6) + 0x20) << 0x10;
         partner_motion->y = world_coord;
         motion->y = world_coord;
-        motion->z.word = (s32) (((s16) (u16)partner->ground_height - 0x100) << 0x10);
+        motion->z.word = (s32) (((s16) partner->ground_height - 0x100) << 0x10);
         partner_actor->heightOffset.word = (s32) actor->heightOffset.word;
         actor->ticks = 8;
         motion->dz = (s32) ((s32) ((entity->ground_height << 0x10)

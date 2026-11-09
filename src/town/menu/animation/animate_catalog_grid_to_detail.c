@@ -4,6 +4,7 @@
 #include "shared/object_payload.h"
 #include "town/menu.h"
 #include "town/menu/catalog_parts.h"
+#include "town/menu/animation.h"
 
 /* Updates or clears table entries according to the request code. */
 void animate_catalog_grid_to_detail(CatalogDisplay *request)

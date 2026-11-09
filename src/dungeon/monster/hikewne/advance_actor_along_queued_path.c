@@ -47,9 +47,9 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
 
     if (actor->tile_x == move_state->path_x[move_state->unk_8A]
         && actor->tile_y == move_state->path_y[move_state->unk_8A]) {
-        move_offset = motion->unk_90.parts.high.u;
+        move_offset = (u16)motion->unk_90.parts.high;
         remaining_offset = ((u16)move_state->ground_height);
-        motion->unk_90.parts.high.u = move_offset + 0x20;
+        motion->unk_90.parts.high = move_offset + 0x20;
         move_state->ground_height = remaining_offset - 0x20;
         move_state->unk_8A = ((u16)move_state->unk_8A) + 1;
     } else {

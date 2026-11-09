@@ -293,7 +293,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             scene = scene_base + 0x20;
             player->flags14 = player_flags;
             height = ((u16)view_reference_entity.z.w.i) - ((u16)((S_80175CD8_5 *)scene)->unk_88);
-            player->unk_90.parts.high.s = height;
+            player->unk_90.parts.high = height;
             ((S_80175CD8_5 *)scene)->unk_88 = height;
             ((S_80175CD8_5 *)scene)->unk_1C |= 0x40000000;
         }
@@ -377,12 +377,12 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             sprite->frame_ticks = 1;
             action->unk_A0.parts.high = 0;
             action->unk_9E = 0;
-            action->unk_90.parts.high.s = -0x20;
+            action->unk_90.parts.high = -0x20;
             actor->ground_height = action->unk_B4.halves.low.u;
             motion->x.w.i = (sprite->tile_x << 6) + 0x20;
             motion->y.w.i = (sprite->tile_y << 6) + 0x20;
-            motion->z.w.i = ((u16)actor->ground_height) +
-                action->unk_90.parts.high.u - action->unk_A0.parts.high;
+            motion->z.w.i = actor->ground_height +
+                action->unk_90.parts.high - action->unk_A0.parts.high;
 
             actor->action_flags &= 0x7FFF;
 

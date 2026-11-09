@@ -187,9 +187,9 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                 u32 texture_word;
 
                 aux_entity->velocity_x =
-                    dir_step_x[((s32)(entity->movement_facing << 16)) >> 25] << 16;
+                    dir_step_x[((s32)((u16)entity->movement_facing << 16)) >> 25] << 16;
                 aux_entity->velocity_y =
-                    dir_step_y[((s32)(entity->movement_facing << 16)) >> 25] << 16;
+                    dir_step_y[((s32)((u16)entity->movement_facing << 16)) >> 25] << 16;
                 scale = rsin((s16)self_object->unk_A4.halves.high.u << 8);
                 aux_entity->velocity_x = aux_entity->velocity_x +
                     (aux_entity->velocity_x * scale >> 9);

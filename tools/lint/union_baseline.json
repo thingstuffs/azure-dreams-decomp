@@ -1,5 +1,5 @@
 {
- "count": 1468,
+ "count": 1467,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -852,7 +852,6 @@
   "include/shared/entity.h::ActorScratchHalves.high",
   "include/shared/entity.h::ActorScratchHalves.low",
   "include/shared/entity.h::Fixed1616.Fixed1616",
-  "include/shared/entity.h::parts.high",
   "include/shared/fade_effect.h::FadeEffect.current",
   "include/shared/game_work.h::GameView.camera_position",
   "include/shared/game_work.h::GameView.camera_rotation",

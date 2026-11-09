@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/menu/catalog_parts.h"
 #include "town/menu/catalog.h"
+#include "town/menu.h"
 
 
 extern void **D_80129758[];

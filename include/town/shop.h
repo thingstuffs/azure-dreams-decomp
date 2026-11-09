@@ -125,4 +125,9 @@ s32 get_mode_value_or_default(s32 mode);
 void process_record_and_apply_flags(struct FuncArg *record);
 void reset_record_resources(struct ShopRecordResetObject *object);
 
+void decrement_entry_and_notify_handlers(void *state_arg);
+s32 move_item_to_list(void *state);
+void process_valid_entry_lookup(s32 entry_id);
+void update_active_entry_and_notify_handlers(s8 *state_arg, s32 input);
+
 #endif

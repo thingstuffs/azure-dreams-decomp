@@ -426,7 +426,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, ObjectPosition *eff
     if ((entity->flags1C & ACTOR_POISONED) && ((entity->hp + entity->hp_delta) >= 2)) {
         max_hp = entity->max_hp;
         rounded_hp = max_hp + 0xF;
-        entity->movement_facing = (s16) (((u16)entity->facing) + 0x800);
+        entity->movement_facing = ((u16)entity->facing) + 0x800;
         if (rounded_hp < 0) {
             rounded_hp = max_hp + 0x1E;
         }

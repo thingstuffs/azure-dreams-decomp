@@ -79,13 +79,13 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
             select_sprite_entry(sprite, animation_table[direction_index], 0);
             body->action_state_flags |= 8;
             ((ActorRecord *)actor)->flags1C &= 0xFFFBFFFF;
-            body->unk_90.parts.high.u += ((ActorRecord *)actor)->ground_height;
+            body->unk_90.parts.high += ((ActorRecord *)actor)->ground_height;
             ((ActorRecord *)actor)->ground_height = 0;
         }
         {
             u16 next_state = body->action_phase;
             u16 state_or_height;
-            s32 height_offset = body->unk_90.parts.high.u;
+            s32 height_offset = (u16)body->unk_90.parts.high;
             s32 *sound_flags = &dungeon_floor_flags;
             body->unk_A0.value = 0;
             body->action_phase = next_state + 1;
@@ -195,7 +195,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         motion->z.w.i = body->unk_B4.halves.high.u;
         motion->velocity_z = 0x280000;
         body->unk_A0.value = 0;
-        body->unk_90.parts.high.u = body->unk_B4.halves.high.u - 0x12C;
+        body->unk_90.parts.high = body->unk_B4.halves.high.u - 0x12C;
         sprite->scale_x = 0x600;
 
         for (attempt = 0; attempt < 0xA; attempt++) {

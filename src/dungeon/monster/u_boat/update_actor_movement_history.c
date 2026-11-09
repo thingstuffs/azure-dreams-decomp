@@ -388,7 +388,7 @@ state1_minus_angle:
         object->facing = (u16)((u16)object->facing & (0xFC00));
         motion->action_phase++;
         record->flags |= 0x80;
-        motion->unk_90.parts.high.u = 0;
+        motion->unk_90.parts.high = 0;
         motion->unk_B0.bytes[1] = 0;
         motion->action_timer = 0;
         motion->unk_A0.parts.high = 0;
@@ -453,7 +453,7 @@ state3_test:
             object->facing = (u16)((u16)object->facing & (0xFC00));
             motion->action_phase++;
             record->flags |= 0x80;
-            motion->unk_90.parts.high.u = 0;
+            motion->unk_90.parts.high = 0;
             motion->unk_B0.bytes[1] = 0;
             motion->action_timer = 0;
             motion->unk_A0.parts.high = 0;

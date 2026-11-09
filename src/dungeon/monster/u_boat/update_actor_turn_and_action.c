@@ -125,10 +125,10 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
             s16 height_delta;
 
             begin_actor_move_to_target_facing(entity, context, sprite, actor);
-            height_delta = entity->unk_90.parts.high.u - entity->unk_A0.parts.high;
+            height_delta = entity->unk_90.parts.high - entity->unk_A0.parts.high;
             entity->unk_A0.parts.high = 0;
             entity->unk_9E = 0;
-            entity->unk_90.parts.high.s = height_delta;
+            entity->unk_90.parts.high = height_delta;
             update_actor_action_transition(entity, context, sprite, actor);
             return;
         }

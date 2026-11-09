@@ -6,10 +6,9 @@
 #include "shared/entity.h"
 #include "shared/town_handler.h"
 #include "town/player/object.h"
+#include "town/player.h"
 
 #include "town/player/object/entity_record_fields.h"                      /* extern */
-extern void update_actor_and_select_ground_handler();
-
 
 /* Initialize the object and its transform with fixed placement and settings. */
 void initialize_object_transform_and_handler(TownObjectRecord *object, ObjectPosition *transform, void *ptr2) {

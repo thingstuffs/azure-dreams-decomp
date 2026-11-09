@@ -73,7 +73,7 @@ void create_scripted_encounter_object(void) {
         st->unk_A0.value = 0;
         masked_flags = active_flag(st->flags1C);
         initial_offset = -0x20;
-        st->unk_90.parts.high.s = initial_offset;
+        st->unk_90.parts.high = initial_offset;
         cell_x = sprite->tile_x;
         cell_y = sprite->tile_y;
         cell_mask = 0x3000;

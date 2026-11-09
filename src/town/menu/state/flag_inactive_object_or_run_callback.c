@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "town/menu/state.h"
 
 typedef struct TownObject {
     void (*callback)(struct TownObject *, s32, u8 *);

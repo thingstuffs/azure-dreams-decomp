@@ -75,7 +75,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         actor2->unk_9C = -1;
         actor2->unk_8C.address = update_actor_behavior_animation_and_facing;
         actor->flags1C |= 0x40000;
-        actor2->unk_90.parts.high.s = -0x20;
+        actor2->unk_90.parts.high = -0x20;
         part_b->tpage_abr = 0x20;
         part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor2, part_a, part_b, actor);

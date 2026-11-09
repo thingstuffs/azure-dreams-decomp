@@ -2,8 +2,8 @@
 #include "town/menu/catalog.h"
 #include "town/menu.h"
 #include "town/menu/animation.h"
+#include "town/menu/state.h"
 
-extern void initialize_catalog_slot_records(void);
 extern void initialize_catalog_view_records(void *, void *, void *);
 
 /* Initialize state defaults and run the associated setup routines. */

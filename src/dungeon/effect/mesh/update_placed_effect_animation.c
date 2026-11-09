@@ -186,13 +186,13 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                     target_pos->unk_02 += tile_step << 6;
                     tile_step_2 = dir_step_y[(((u16)player->facing) >> 9) & 7];
                     target_pos->unk_06 += tile_step_2 << 6;
-                    target_pos->unk_0A.s = ((u16)player->ground_height);
+                    target_pos->unk_0A.s = player->ground_height;
                 }
                 target_pos->unk_0A.s = get_surface_height_at_record(target_pos);
                 if (target_pos->unk_0A.u >= 0x201) {
                     ActorRecord *player;
                     player = primary_actor_record;
-                    target_pos->unk_0A.s = ((u16)player->ground_height);
+                    target_pos->unk_0A.s = player->ground_height;
                 }
 
                 if ((check_left_tile_and_center_height(target_pos->unk_02, target_pos->unk_06,
@@ -204,12 +204,12 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                     target_pos->unk_02 -= tile_step_3 << 6;
                     tile_step_4 = dir_step_y[(((u16)player->facing) >> 9) & 7];
                     target_pos->unk_06 -= tile_step_4 << 6;
-                    target_pos->unk_0A.s = ((u16)player->ground_height);
+                    target_pos->unk_0A.s = player->ground_height;
                     target_pos->unk_0A.s = get_surface_height_at_record(target_pos);
                     if (target_pos->unk_0A.u >= 0x201) {
                         ActorRecord *height_player;
                         height_player = primary_actor_record;
-                        target_pos->unk_0A.s = ((u16)height_player->ground_height);
+                        target_pos->unk_0A.s = height_player->ground_height;
                     }
                     break;
                 }

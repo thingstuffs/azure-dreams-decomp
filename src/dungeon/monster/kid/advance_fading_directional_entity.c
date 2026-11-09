@@ -35,7 +35,7 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
     u8 brightness;
 
     phase = body->action_phase;
-    direction_offset = ((u16) ((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
+    direction_offset = ( ((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
     direction_x = dir_step_x[direction_offset >> 1];
     direction_y = dir_step_y[direction_offset >> 1];
     switch (phase) {

@@ -33,7 +33,7 @@ void finish_block_hop_grow_slot_c(S_80173364_0 *state,ObjectPosition *position,S
 void update_block_status_animation_slot_c(void *action, ObjectPosition *context, SpriteFrameState *sprite_in, void *actor_in);
 void wait_block_mp_recovery_slot_c(void *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in);
 void update_block_parent_motion_slot_c(S_80173A38_0 *state, void *position, SpriteFrameState *sprite, CL_CCB000_80173A38_S_80173A38_2 *actor);
-void finish_block_thrown_travel_slot_c(S_80173B00_0 *state,void *position,void *render_state,void *entity);
+void finish_block_thrown_travel_slot_c(ActorRecord *state,void *position,void *render_state,void *entity);
 void finish_block_terrain_move_slot_c(S_80173B64_0 *state,void *position,void *render_state,void *entity);
 void finish_block_spinning_fall_slot_c(S_80173B9C_0 *state,void *position,void *render_state,void *entity);
 void finish_block_fade_in_slot_c(S_80173BD4_0 *state,void *position,void *render_state,void *entity);

@@ -63,7 +63,7 @@ void advance_actor_hop_animation(ActorRecord *body, ObjectPosition *position, Sp
         timer_value = body->unk_AA - 1;
         body->unk_AA = timer_value;
         if ((s16)timer_value < 0) {
-            body->unk_90.parts.high.s = -0x10;
+            body->unk_90.parts.high = -0x10;
             body->action_state_flags &= 0xFFF7;
             actor->flags1C |= 0x08000000;
             body->action_phase++;

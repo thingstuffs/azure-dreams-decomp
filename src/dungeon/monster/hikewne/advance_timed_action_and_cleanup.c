@@ -38,7 +38,7 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
         return;
 
     case 1:
-        if ((s16)action->unk_A0.parts.high != 0 &&
+        if (action->unk_A0.parts.high != 0 &&
             !(sprite->flags & 0x8000)) {
             return;
         }

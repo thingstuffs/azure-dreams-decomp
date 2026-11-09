@@ -81,7 +81,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
         actor->unk_9C = -1;
         actor->unk_8C.address = update_actor_animation_and_behavior;
         ((ActorRecord *)entity_data)->flags1C |= 0x40000;
-        actor->unk_90.parts.high.s = -0x20;
+        actor->unk_90.parts.high = -0x20;
         try_move_actor_to_valid_position(actor, position, placement, entity_data);
     }
     return entity_data;

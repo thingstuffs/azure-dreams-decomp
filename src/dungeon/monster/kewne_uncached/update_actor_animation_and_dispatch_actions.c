@@ -131,10 +131,10 @@ void update_actor_animation_and_dispatch_actions(ActorRecord *actor, ObjectPosit
             s16 height_delta;
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
-            height_delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            height_delta = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.s = height_delta;
+            actor->unk_90.parts.high = height_delta;
             func_80151078(actor, actor_aux, sprite, entity);
             return;
         }

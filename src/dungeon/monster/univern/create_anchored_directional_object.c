@@ -956,7 +956,7 @@ s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
 void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
-    entity->movement_queue_state = (s8) (entity->movement_queue_state & 0x7F);
+    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(entity), context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
@@ -999,13 +999,13 @@ s32 relink_univern_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -1030,11 +1030,11 @@ void finish_actor_tile_move_then_resume_ground_movement(ActorRecord *state, void
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
             state->unk_8C.word_ptr = ((s32 *)update_entity_movement_and_ground_height);
             if (g_dungeon_status.flags & 0x80) {
-                state->unk_90.parts.high.s = -0x20;
+                state->unk_90.parts.high = -0x20;
             }
         }
     } else if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.parts.high.s = -0x20;
+        state->unk_90.parts.high = -0x20;
     }
 }
 #include "dungeon/monster/univern.h"

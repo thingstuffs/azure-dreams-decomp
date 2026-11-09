@@ -105,11 +105,11 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(body, position, sprite, actor);
-                current_value = body->unk_90.parts.high.u;
+                current_value = body->unk_90.parts.high;
                 value_adjustment = body->unk_A4.halves.high.u;
                 body->unk_A4.halves.high.u = 0;
                 body->unk_AC.halves.low.s = 0;
-                body->unk_90.parts.high.u = current_value - value_adjustment;
+                body->unk_90.parts.high = current_value - value_adjustment;
                 func_80174520(body, position, sprite, actor);
                 break;
             }

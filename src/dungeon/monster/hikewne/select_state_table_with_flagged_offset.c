@@ -19,10 +19,10 @@ void select_state_table_with_flagged_offset(ActorRecord *body, ObjectPosition *m
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
             body->unk_8C.address = hikewne_action_resume_address;
             if (g_dungeon_status.flags & 0x80) {
-                body->unk_90.parts.high.s = -0x20;
+                body->unk_90.parts.high = -0x20;
             }
         }
     } else if (g_dungeon_status.flags & 0x80) {
-        body->unk_90.parts.high.s = -0x20;
+        body->unk_90.parts.high = -0x20;
     }
 }

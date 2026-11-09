@@ -79,7 +79,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         work_copy->unk_9C = -1;
         work_copy->unk_8C.address = uboat_behavior_entry;
         work->flags1C |= 0x40000;
-        work_copy->unk_90.parts.high.s = -0x20;
+        work_copy->unk_90.parts.high = -0x20;
         try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
 
         work_copy->unk_B4.bytes[1] = 0; /* BYTES: action scratch byte at +0xB5. */

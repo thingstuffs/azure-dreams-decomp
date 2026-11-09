@@ -27,7 +27,6 @@ struct TownObjectRecord;
 struct TownObjectRecord; void initialize_action_object_with_counter(struct TownObjectRecord *, ObjectPosition *, s32);
 void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
-extern void handle_adjust_vector_toward_selected_angle_limit_magnitude();
 extern void reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting();
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"

@@ -12,7 +12,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(A
     u16 status_flags;
     u16 state_flag;
 
-    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }

@@ -149,7 +149,7 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
 
                 effect = NODE_BODY(effect_obj);
                 if (sprite->flags & 0x8000) {
-                    effect_prim->z.w.i = ((u16)actor->ground_height) - 0x50;
+                    effect_prim->z.w.i = actor->ground_height - 0x50;
                 } else {
                     (effect_prim->x).unsigned_parts.integer += (((u16)offset.vx));
                     (effect_prim->y).unsigned_parts.integer += (((u16)offset.vy));

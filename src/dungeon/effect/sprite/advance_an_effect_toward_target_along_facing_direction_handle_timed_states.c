@@ -191,7 +191,7 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
                 ((grid_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
                 ((grid_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
                 probe_z);
-            if ((s16)ground_z >= 0x201 || (s16)(ground_z - (u16)owner->ground_height) < -0x3F) {
+            if ((s16)ground_z >= 0x201 || (s16)(ground_z - owner->ground_height) < -0x3F) {
                 break;
             }
             index++;

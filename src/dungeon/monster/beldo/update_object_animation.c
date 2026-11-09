@@ -103,11 +103,11 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
             u16 pending_amount;
 
             begin_actor_move_to_target_facing(obj, motion, part, state);
-            previous_amount = (u16)obj->unk_90.parts.high.s;
+            previous_amount = obj->unk_90.parts.high;
             pending_amount = obj->unk_A0.parts.high;
             obj->unk_A0.parts.high = 0;
             obj->unk_9E = 0;
-            obj->unk_90.parts.high.s = previous_amount - pending_amount;
+            obj->unk_90.parts.high = previous_amount - pending_amount;
             func_801736B8(obj, motion, part, state);
             return;
         }

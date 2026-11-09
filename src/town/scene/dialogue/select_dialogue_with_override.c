@@ -3,6 +3,7 @@
 #include "town/scene/response_checks.h"
 #include "town/scene/dialogue.h"
 #include "town/player/state.h"
+#include "town/scene/flags.h"
 
 /* Selects dialogue, then applies a script-flag response or state fallback when the table check passes. */
 s32 select_dialogue_with_799_override(s32 speaker, s32 interaction, s32 dialogue_id) {

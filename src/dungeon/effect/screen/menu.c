@@ -569,7 +569,7 @@ void create_timed_model_effect(ObjectNodeHeader *owner, u16 *context, void *chil
         header = primary_actor_record;
         ((Tail *)object)->owner = owner;
         ((Tail *)object)->descriptor = descriptor;
-        ((Tail *)object)->value32 = ((u16)header->ground_height);
+        ((Tail *)object)->value32 = header->ground_height;
         ((Tail *)object)->value8 = context;
     }
 }
@@ -1316,7 +1316,7 @@ void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition 
                 if (state->phase.s == 0) {
                     position_arg->x.w.i = (u16)target_pos->x.w.i;
                     position_arg->y.w.i = (u16)target_pos->y.w.i;
-                    position_arg->z.w.i = (u16)target->ground_height;
+                    position_arg->z.w.i = target->ground_height;
                 } else {
                     NODE_HEADER(state)->flags = NODE_HEADER(state)->flags | 0x8000;
                     g_dungeon_status.active_actor = 0;

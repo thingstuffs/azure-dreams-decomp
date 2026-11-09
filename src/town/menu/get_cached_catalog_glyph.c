@@ -3,6 +3,7 @@
 #include "sdk/libgpu.h"
 #include "town/data.h"
 #include "sdk/libapi.h"
+#include "town/menu.h"
 
 typedef struct Entry Entry;
 

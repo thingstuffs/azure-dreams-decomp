@@ -154,9 +154,9 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
             s32 vertical_step;
 
             vertical_step = rsin((state->action_timer) * 8) >> 6;
-            ((ActorRecord *)entity)->ground_height = (s16) ((u16) ((ActorRecord *)entity)->ground_height +
+            ((ActorRecord *)entity)->ground_height = ((ActorRecord *)entity)->ground_height +
                 ((view_reference_entity.z.w.i - vertical_step - ((ActorRecord *)entity)->ground_height)
-                    >> 4));
+                    >> 4);
         }
         scale_x = sprite->scale_x;
         scale_y = sprite->scale_y;

@@ -64,6 +64,5 @@ extern TownState runtime_script_state;
 void copy_global_state_and_record_block(s32 *record);
 void initialize_state_from_source(Source *source);
 void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_param);
-void process_record_and_apply_flags(FuncArg *record);
 
 #endif

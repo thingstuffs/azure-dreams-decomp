@@ -25,11 +25,10 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner);
 void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state);
 void run_saved_actor_action(void *object, void *unused, SpriteFrameState *animation, ActorRecord *actor);
 void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
-void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sprite, ActorRecord *status);
+void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, void *sprite, ActorRecord *status);
 extern void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_mode,struct SpriteFrameState *actor, ActorRecord *map);
 
-struct S_800AB778_1;
-s32 advance_actor_removal(struct S_800AB778_1 *state, ObjectPosition *unused_context, SpriteFrameState *visual, void *actor);
+s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, SpriteFrameState *visual, void *actor);
 s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target);
 void advance_actor_action_controller(void *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_actor_flagged_action(Rec_func_800A9E70_arg0 *entity, void *unused, SpriteFrameState *status, EntityRec *event_state);
@@ -71,7 +70,6 @@ s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out);
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 
 struct DungeonSlot;
-struct CallbackOwner;
 s32 advance_actor_pending_action(void *actor_state, ObjectPosition *action, void *status, void *actor);
 s32 advance_staged_entity_load(s32 unused, ActorRecord *entity);
 void advance_status_timers(ActorRecord *record);
@@ -85,7 +83,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
 s32 find_matching_initial_stat_slot(u8 *record);
 s32 find_slot_by_definition_kind(u8 *slots, u8 kind);
 s32 find_type_13_slot_index(struct DungeonSlot *targetSlot);
-void install_actor_action_handler_after_floor_trap_check(struct CallbackOwner *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
+void install_actor_action_handler_after_floor_trap_check(ActorRecord *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
 s32 is_linked_entity_flagged_10000000(EntityRec *entity);
 s32 is_linked_entity_flagged_2000000(ActorRecord *entity);
 s32 is_linked_entity_flagged_80000(ActorRecord *entity, ActorRecord *unused_context);
@@ -96,7 +94,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
 s16 select_highest_value_item(s32 records_addr, s32 item_kind);
 s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, struct SpriteFrameState *sprite, ActorRecord *entity_data);
 s32 update_actor_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *params, ActorRecord *extra);
-s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor);
+s32 update_thrown_actor_travel(ActorRecord *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor);
 
 #include "shared/dungeon_item_entries.h"
 struct Actor;

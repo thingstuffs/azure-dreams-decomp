@@ -2,6 +2,7 @@
 #include "town/scene/response_checks.h"
 #include "town/scene/object.h"
 #include "town/player/state.h"
+#include "town/scene/flags.h"
 
 /* Selects an object's response from a lookup table, its checked status, and its stored flag ID. */
 s32 select_object_response_by_status(void *object, s32 check_mode, s32 context) {

@@ -3,6 +3,7 @@
 #include "records/Rec_func_801237A4_arg0.h"
 #include "shared/object_payload.h"
 #include "town/menu.h"
+#include "town/menu/animation.h"
 
 
 typedef struct S_80125FB8_1 {

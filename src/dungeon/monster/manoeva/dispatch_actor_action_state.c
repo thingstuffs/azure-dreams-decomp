@@ -35,7 +35,7 @@ s32 dispatch_actor_action_state(ActorRecord *body, ObjectPosition *position, Spr
             return 0;
         case 1:
             saved_actor->movement_queue_state =
-                    (u8) (saved_actor->movement_queue_state & 0x7F);
+                    saved_actor->movement_queue_state & 0x7F;
             if ((has_pending_dungeon_activity(saved_actor) << 0x10) != 0) {
                 saved_actor->action_flags =
                     (u16) (saved_actor->action_flags & 0x7FFF);
@@ -43,7 +43,7 @@ s32 dispatch_actor_action_state(ActorRecord *body, ObjectPosition *position, Spr
             }
         default:
             saved_actor->movement_queue_state =
-                    (u8) (saved_actor->movement_queue_state & 0x7F);
+                    saved_actor->movement_queue_state & 0x7F;
             if ((g_dungeon_status.flags & 8) == 0) {
                 call_result = 1;
                 break;

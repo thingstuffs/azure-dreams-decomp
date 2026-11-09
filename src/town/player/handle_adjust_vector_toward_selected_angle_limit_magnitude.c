@@ -5,6 +5,7 @@
 #include "engine/resource.h"
 #include "sdk/libgte.h"
 #include "town.h"
+#include "town/player.h"
 
 typedef struct {
     u8 pad[0xC];

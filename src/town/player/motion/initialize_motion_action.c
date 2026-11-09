@@ -7,9 +7,6 @@
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "shared/sprite_frame_state.h"
 #include "town/player/input.h"
-void handle_adjust_vector_toward_selected_angle_limit_magnitude();                     /* extern */
-
-
 
 /* Set up the entity state and motion, then install its handler table. */
 void initialize_motion_action(TownObjectRecord *entity, void *motion, SpriteFrameState *sprite) {

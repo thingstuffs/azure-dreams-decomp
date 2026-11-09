@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_payload.h"
 #include "town/menu/catalog_parts.h"
+#include "town/menu/animation.h"
 
 /* Initialize 14 objects from table data and override the final two field pairs. */
 void layout_catalog_frame(void) {

@@ -36,11 +36,11 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        if (action->unk_90.parts.high.s !=
+        if (action->unk_90.parts.high !=
             (s16)(sample_terrain_surface_height(((u16) motion->x.w.i),
                                 ((u16) motion->y.w.i),
-                                (s16)(((u16)actor->ground_height) - 0x20)) -
-                  ((u16)actor->ground_height))) {
+                                (s16)(actor->ground_height - 0x20)) -
+                  actor->ground_height)) {
             return;
         }
         action->action_phase++;
@@ -93,8 +93,8 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
             return;
         }
 
-        if (action->unk_90.parts.high.s >= -0x1F) {
-            action->unk_90.parts.high.u -= 4;
+        if (action->unk_90.parts.high >= -0x1F) {
+            action->unk_90.parts.high -= 4;
             return;
         }
         action->action_phase++;

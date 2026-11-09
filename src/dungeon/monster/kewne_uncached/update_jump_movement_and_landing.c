@@ -53,7 +53,7 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
         motion->velocity_y -=
             dir_step_y[((u16)actor->facing >> 9) & 7] << 14;
         jump->unk_A0.value += 0x60000;
-        if ((s16)jump->unk_A0.parts.high >= 0x31) {
+        if (jump->unk_A0.parts.high >= 0x31) {
             jump->unk_A0.parts.high = 0x30;
         }
         if (!(sprite->flags & 0x6000)) {
@@ -62,7 +62,7 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if ((s16)jump->unk_A0.parts.high < 0x30) {
+        if (jump->unk_A0.parts.high < 0x30) {
             return;
         }
         sprite->frameTable = D_80175C48;
@@ -170,7 +170,7 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
     case 3:
         motion->velocity_x -= (*(s32 *)&jump->unk_A8);
         motion->velocity_y -= jump->unk_AC.value;
-        if ((s16)jump->unk_A0.parts.high > 0) {
+        if (jump->unk_A0.parts.high > 0) {
             jump->unk_A0.parts.high -= 0x10;
         } else {
             jump->unk_A0.parts.high = 0;

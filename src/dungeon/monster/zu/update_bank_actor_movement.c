@@ -109,7 +109,7 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         actor->unk_8C.handler = update_bank_actor_state;
         work->flags1C |= 0x40000;
         actor->unk_A0.parts.low = 0;
-        actor->unk_90.parts.high.s = -0x30;
+        actor->unk_90.parts.high = -0x30;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -222,27 +222,27 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
             if (!(sprite_arg->flags & 0x40)) {
                 {
                     s32 bob_wave = rsin(
-                        ((s16)entity->unk_A0.parts.low << 12) / 40);
+                        (entity->unk_A0.parts.low << 12) / 40);
                     if (entity->action_id == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
                     }
                 }
-                entity->unk_A0.parts.low = ((s16)entity->unk_A0.parts.low + 1) % 40;
+                entity->unk_A0.parts.low = (entity->unk_A0.parts.low + 1) % 40;
             }
 
             if (!(entity->action_state_flags & 8)) {
                 ground_height = (s16)(sample_terrain_surface_height(
                     motion_arg->x.unsigned_parts.integer, motion_arg->y.unsigned_parts.integer,
-                    (s16)(((u16)object->ground_height) - 0x20)) -
-                    ((u16)object->ground_height));
-                if (entity->unk_90.parts.high.s > ground_height - 0x30) {
-                    entity->unk_90.parts.high.s =
-                        (u16)entity->unk_90.parts.high.s - 8;
-                } else if (ground_height - 0x3A > entity->unk_90.parts.high.s) {
-                    entity->unk_90.parts.high.s =
-                        (u16)entity->unk_90.parts.high.s + 8;
+                    (s16)(object->ground_height - 0x20)) -
+                    object->ground_height);
+                if (entity->unk_90.parts.high > ground_height - 0x30) {
+                    entity->unk_90.parts.high =
+                        entity->unk_90.parts.high - 8;
+                } else if (ground_height - 0x3A > entity->unk_90.parts.high) {
+                    entity->unk_90.parts.high =
+                        entity->unk_90.parts.high + 8;
                 }
             }
         } else {
@@ -252,9 +252,9 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
 
                 ground_delta = (s16)sample_terrain_surface_height(
                     motion_arg->x.unsigned_parts.integer, motion_arg->y.unsigned_parts.integer,
-                    (s16)(((u16)object->ground_height) - 0x20)) - object->ground_height;
-                if (entity->unk_90.parts.high.s > ground_delta) {
-                    entity->unk_90.parts.high.s = ground_delta;
+                    (s16)(object->ground_height - 0x20)) - object->ground_height;
+                if (entity->unk_90.parts.high > ground_delta) {
+                    entity->unk_90.parts.high = ground_delta;
                     entity->unk_9D = 0;
                     motion_arg->velocity_z = 0;
                     object->flags1C |= 0x08000000;
@@ -271,15 +271,15 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
 
         if (!(object->flags1C & 0x40000)) {
             entity->unk_A0.parts.low = 0;
-            entity->unk_90.parts.high.s = (u16)entity->unk_90.parts.high.s - bob_offset;
+            entity->unk_90.parts.high = entity->unk_90.parts.high - bob_offset;
             bob_offset = 0;
             if (!(entity->action_state_flags & 8)) {
 
                 ground_delta = (s16)sample_terrain_surface_height(
                     motion_arg->x.unsigned_parts.integer, motion_arg->y.unsigned_parts.integer,
-                    (s16)(((u16)object->ground_height) - 0x20)) - object->ground_height;
-                if (entity->unk_90.parts.high.s > ground_delta) {
-                    entity->unk_90.parts.high.s = ground_delta;
+                    (s16)(object->ground_height - 0x20)) - object->ground_height;
+                if (entity->unk_90.parts.high > ground_delta) {
+                    entity->unk_90.parts.high = ground_delta;
                     entity->unk_9D = 0;
                     motion_arg->velocity_z = 0;
                     object->flags1C |= 0x08000000;
@@ -289,27 +289,27 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
             if (!(sprite_arg->flags & 0x40)) {
                 {
                     s32 bob_wave = rsin(
-                        ((s16)entity->unk_A0.parts.low << 12) / 40);
+                        (entity->unk_A0.parts.low << 12) / 40);
                     if (entity->action_id == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
                     }
                 }
-                entity->unk_A0.parts.low = ((s16)entity->unk_A0.parts.low + 1) % 40;
+                entity->unk_A0.parts.low = (entity->unk_A0.parts.low + 1) % 40;
             }
 
             if (!(entity->action_state_flags & 8)) {
                 ground_height = (s16)(sample_terrain_surface_height(
                     motion_arg->x.unsigned_parts.integer, motion_arg->y.unsigned_parts.integer,
-                    (s16)(((u16)object->ground_height) - 0x20)) -
-                    ((u16)object->ground_height));
-                if (entity->unk_90.parts.high.s > ground_height - 0x30) {
-                    entity->unk_90.parts.high.s =
-                        (u16)entity->unk_90.parts.high.s - 8;
-                } else if (ground_height - 0x3A > entity->unk_90.parts.high.s) {
-                    entity->unk_90.parts.high.s =
-                        (u16)entity->unk_90.parts.high.s + 8;
+                    (s16)(object->ground_height - 0x20)) -
+                    object->ground_height);
+                if (entity->unk_90.parts.high > ground_height - 0x30) {
+                    entity->unk_90.parts.high =
+                        entity->unk_90.parts.high - 8;
+                } else if (ground_height - 0x3A > entity->unk_90.parts.high) {
+                    entity->unk_90.parts.high =
+                        entity->unk_90.parts.high + 8;
                 }
             }
         }
@@ -322,17 +322,17 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
         ground_height = sample_terrain_surface_height(
             (sprite_arg->tile_x << 6) | 0x20,
             (sprite_arg->tile_y << 6) | 0x20,
-            (s16)(((u16)object->ground_height) - 0x20));
+            (s16)(object->ground_height - 0x20));
         if (ground_height < 0x200) {
-            entity->unk_90.parts.high.s =
-                (u16)entity->unk_90.parts.high.s +
-                (((u16)object->ground_height) - ground_height);
+            entity->unk_90.parts.high =
+                entity->unk_90.parts.high +
+                (object->ground_height - ground_height);
             object->ground_height = ground_height;
         }
     }
 
     motion_arg->z.w.i =
-        ((u16)object->ground_height) + (u16)entity->unk_90.parts.high.s + bob_offset;
+        object->ground_height + entity->unk_90.parts.high + bob_offset;
     sprite_arg->flags |= 0x40;
 }
 
@@ -416,7 +416,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
             sprite->frameTable = zu_default_frames;
             select_sprite_entry(sprite,
                 zu_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
-                ((s16)actor->unk_A0.parts.low));
+                (actor->unk_A0.parts.low));
         }
 
         stats->flags1C |= 0x40000;
@@ -760,7 +760,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
             if (check_diagonal_side_height(
                     ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                     position_data->tile_x, position_data->tile_y,
-                    (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
+                    (s16)(actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -779,7 +779,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                             ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                             position_data->tile_x,
                                 position_data->tile_y,
-                            (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
+                            (s16)(actor_data->ground_height - 0x20)) != 0) {
                         actor_data->movement_queue_state &= 0x7F;
                         return;
                     }
@@ -869,7 +869,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
     turn_index = sample_terrain_surface_height(
         (position_data->tile_x << 6) | 0x20,
         (position_data->tile_y << 6) | 0x20,
-        (s16)((u16)actor_data->ground_height - 0x20));
+        (s16)(actor_data->ground_height - 0x20));
     if (turn_index < 0x200) {
         actor_data->ground_height = turn_index;
     }
@@ -1035,11 +1035,11 @@ void select_bank_resident_callback(ActorRecord *state, ObjectPosition *motion, S
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
             state->unk_8C.handler = update_bank_actor_state;
             if (g_dungeon_status.flags & 0x80) {
-                state->unk_90.parts.high.s = -0x20;
+                state->unk_90.parts.high = -0x20;
             }
         }
     } else if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.parts.high.s = -0x20;
+        state->unk_90.parts.high = -0x20;
     }
 }
 
@@ -1480,8 +1480,8 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
                         /* fall through */
 
     case 2:
-        owner_input->unk_90.parts.high.s +=
-            (-0x30 - owner_input->unk_90.parts.high.s) >> 3;
+        owner_input->unk_90.parts.high +=
+            (-0x30 - owner_input->unk_90.parts.high) >> 3;
         owner_input->action_timer--;
         if (owner_input->action_timer > 0) {
             if ((actor_input->flags & 0xE000) == 0) {
@@ -1506,7 +1506,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
             select_sprite_entry(actor_input,
                           zu_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle +
                                        object->facing + 0x100) >> 9) & 7],
-                          ((s16)owner_input->unk_A0.parts.low));
+                          (owner_input->unk_A0.parts.low));
         }
 
         if ((g_dungeon_status.active_actor) != 0) {
@@ -2337,7 +2337,7 @@ void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, Sp
     ActorRecord *field_60;
     u8 *table_base;
 
-    actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
         work->unk_8C.word = 0;
         work->action_id = 0x17;

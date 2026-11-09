@@ -1,6 +1,7 @@
 #include "town/person/state_callbacks_api.h"
 #include "common.h"
 #include "town/person/motion.h"
+#include "town/person/state.h"
 
 typedef struct town_person_value_state {
     u8 pad_00[0x50];

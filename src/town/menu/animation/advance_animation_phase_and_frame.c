@@ -2,6 +2,7 @@
 #include "town/menu/motion.h"
 #include "shared/entity.h"
 #include "shared/town_object.h"
+#include "town/menu/animation.h"
 
 
 

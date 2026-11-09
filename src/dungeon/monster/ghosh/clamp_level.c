@@ -255,7 +255,7 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
             paused_callback(entity, motion, sprite, actor);
             return;
         }
-        actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+        actor->movement_queue_state = actor->movement_queue_state & 0x7F;
         return;
     }
     prior_state = (s8) actor->pending_turn_updates;
@@ -327,7 +327,7 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
                 ((u16) motion->y.w.i), (s16) (actor->ground_height - 0x20));
             if (floor_height < 0x200) {
                 base_height = actor->ground_height;
-                if ((entity->unk_90.parts.high.s + base_height) < floor_height) {
+                if ((entity->unk_90.parts.high + base_height) < floor_height) {
                     actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
                 } else {
                     height_bits = actor->ground_height;
@@ -335,7 +335,7 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
                         entity->unk_90.value = 0;
                     } else {
                         height_delta = floor_height - height_bits;
-                        entity->unk_90.parts.high.s = height_delta;
+                        entity->unk_90.parts.high = height_delta;
                     }
                     motion->velocity_z = 0;
                     actor->flags1C = (s32) (actor->flags1C | 0x08000000);
@@ -347,19 +347,19 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
                     floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                         (sprite->tile_y << 6) | 0x20,
                         (s16) (actor->ground_height - 0x20));
-                    entity->unk_90.parts.high.s = (s16) ((u16) entity->unk_90.parts.high.s
-                        + (actor->ground_height - floor_height));
+                    entity->unk_90.parts.high = entity->unk_90.parts.high
+                        + (actor->ground_height - floor_height);
                     actor->ground_height = floor_height;
                 }
                 motion->z.w.i = (s16) (actor->ground_height
-                    + (u16) entity->unk_90.parts.high.s);
+                    + entity->unk_90.parts.high);
                 sprite->flags = (u16) (sprite->flags | 0x40);
                 return;
             }
         }
         actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
         motion->z.w.i = (s16) (actor->ground_height
-            + (u16) entity->unk_90.parts.high.s);
+            + entity->unk_90.parts.high);
         sprite->flags = (u16) (sprite->flags | 0x40);
     }
     return;

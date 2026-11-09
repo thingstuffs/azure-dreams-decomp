@@ -127,10 +127,10 @@ void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *mo
             if (!((body->action_state_flags) & 8)) {
                 landing_delta = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                     motion->y.unsigned_parts.integer,
-                            (s16)(((u16)state->ground_height) - 0x20)) -
-                        ((u16)state->ground_height);
-                if (landing_delta < (body->unk_90.parts.high.s)) {
-                    (body->unk_90.parts.high.s) = landing_delta;
+                            (s16)(state->ground_height - 0x20)) -
+                        state->ground_height;
+                if (landing_delta < (body->unk_90.parts.high)) {
+                    (body->unk_90.parts.high) = landing_delta;
                     (body->unk_9D) = 0;
                     motion->velocity_z = 0;
                     state->flags1C |= 0x08000000;
@@ -147,15 +147,15 @@ void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *mo
             if (!((body->action_state_flags) & 8)) {
                 floor_delta = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                     motion->y.unsigned_parts.integer,
-                            (s16)(((u16)state->ground_height) - 0x20)) -
-                        ((u16)state->ground_height);
-                height_offset = (body->unk_90.parts.high.s);
+                            (s16)(state->ground_height - 0x20)) -
+                        state->ground_height;
+                height_offset = (body->unk_90.parts.high);
                 if (height_offset > floor_delta - 0x18) {
-                    (body->unk_90.parts.high.s) =
-                        (body->unk_90.parts.high.s) - 8;
+                    (body->unk_90.parts.high) =
+                        (body->unk_90.parts.high) - 8;
                 } else if (height_offset < floor_delta - 0x20) {
-                    (body->unk_90.parts.high.s) =
-                        (body->unk_90.parts.high.u) + 8;
+                    (body->unk_90.parts.high) =
+                        (body->unk_90.parts.high) + 8;
                 }
             }
         }
@@ -175,10 +175,10 @@ void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *mo
             if (!((body->action_state_flags) & 8)) {
                 floor_delta = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                     motion->y.unsigned_parts.integer,
-                            (s16)(((u16)state->ground_height) - 0x20)) -
-                        ((u16)state->ground_height);
-                if (floor_delta < (body->unk_90.parts.high.s)) {
-                    (body->unk_90.parts.high.s) = floor_delta;
+                            (s16)(state->ground_height - 0x20)) -
+                        state->ground_height;
+                if (floor_delta < (body->unk_90.parts.high)) {
+                    (body->unk_90.parts.high) = floor_delta;
                     (body->unk_9D) = 0;
                     motion->velocity_z = 0;
                     state->flags1C |= 0x08000000;
@@ -195,15 +195,15 @@ void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *mo
             if (!((body->action_state_flags) & 8)) {
                 floor_delta = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                     motion->y.unsigned_parts.integer,
-                            (s16)(((u16)state->ground_height) - 0x20)) -
-                        ((u16)state->ground_height);
-                height_offset = (body->unk_90.parts.high.s);
+                            (s16)(state->ground_height - 0x20)) -
+                        state->ground_height;
+                height_offset = (body->unk_90.parts.high);
                 if (height_offset > floor_delta - 0x18) {
-                    (body->unk_90.parts.high.s) =
-                        (body->unk_90.parts.high.s) - 8;
+                    (body->unk_90.parts.high) =
+                        (body->unk_90.parts.high) - 8;
                 } else if (height_offset < floor_delta - 0x20) {
-                    (body->unk_90.parts.high.s) =
-                        (body->unk_90.parts.high.u) + 8;
+                    (body->unk_90.parts.high) =
+                        (body->unk_90.parts.high) + 8;
                 }
             }
         }
@@ -213,14 +213,14 @@ void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *mo
         state->flags1C &= 0xBFFFFFFF;
         floor_delta = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
             (sprite->tile_y << 6) | 0x20,
-            (s16)(((u16)state->ground_height) - 0x20));
+            (s16)(state->ground_height - 0x20));
         if ((s16)floor_delta < 0x200) {
-            (body->unk_90.parts.high.s) += ((u16)state->ground_height) - floor_delta;
+            (body->unk_90.parts.high) += state->ground_height - floor_delta;
             state->ground_height = floor_delta;
         }
     }
-    motion->z.w.i = ((u16)state->ground_height) +
-        (body->unk_90.parts.high.u)
+    motion->z.w.i = state->ground_height +
+        (body->unk_90.parts.high)
             - (body->unk_A4.halves.high.u);
     sprite->flags |= 0x40;
 }

@@ -77,7 +77,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
         movement->velocity_z = 0;
         movement->velocity_y = 0;
         movement->velocity_x = 0;
-        if ((s16)body->unk_A0.parts.high < 0x30) {
+        if (body->unk_A0.parts.high < 0x30) {
             return;
         }
         {

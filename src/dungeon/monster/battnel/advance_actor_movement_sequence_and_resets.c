@@ -65,14 +65,14 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
                 sample_terrain_surface_height(
                     ((sprite->tile_x + x_step) << 6) & 0xFFC0,
                     ((sprite->tile_y + y_step) << 6) & 0xFFC0,
-                    (s16)(((u16)actor->ground_height) - 0xA0)) - 0x34;
+                    (s16)(actor->ground_height - 0xA0)) - 0x34;
         }
         action->action_timer = 2;
         action->action_phase++;
         return;
 
     case 1:
-        action->unk_90.parts.high.u +=
+        action->unk_90.parts.high +=
             (action->unk_A4.halves.high.s - motion->z.w.i) / 3;
         if (action->action_timer > 0) {
             return;
@@ -80,7 +80,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
 
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->unk_90.parts.high.s = -0x18;
+        action->unk_90.parts.high = -0x18;
         action->action_timer = 4;
         motion->velocity_x =
             (x_step << 22) / (action->action_timer);

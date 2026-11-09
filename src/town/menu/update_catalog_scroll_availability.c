@@ -1,4 +1,5 @@
 #include "town/menu/catalog.h"
+#include "town/menu.h"
 struct Tbl {
     unsigned char unk0[4];
     unsigned char unk4;

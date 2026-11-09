@@ -46,17 +46,17 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
         target_offset = sample_terrain_surface_height(((u16) position->x.w.i), ((u16) position->y.w.i),
                                 (s16)(actor->ground_height - 0x20))
         - actor->ground_height;
-        if (body->unk_90.parts.high.s < target_offset) {
-            next_offset = body->unk_90.parts.high.u + 0xC;
-            body->unk_90.parts.high.u = next_offset;
+        if (body->unk_90.parts.high < target_offset) {
+            next_offset = body->unk_90.parts.high + 0xC;
+            body->unk_90.parts.high = next_offset;
             if (target_offset < (s16)next_offset) {
-                body->unk_90.parts.high.s = target_offset;
+                body->unk_90.parts.high = target_offset;
             }
         } else {
-            body->unk_90.parts.high.s = target_offset;
+            body->unk_90.parts.high = target_offset;
         }
         if (sprite->flags & 0x8000) {
-            body->unk_90.parts.high.u = 0;
+            body->unk_90.parts.high = 0;
         }
         phase_ticks = body->action_timer + 1;
         body->action_timer = phase_ticks;
@@ -89,7 +89,7 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
                 effect_sprite->source = uboat_aura_sprite_data;
             }
         }
-        if (body->unk_90.parts.high.s == 0) {
+        if (body->unk_90.parts.high == 0) {
             (sprite->frameTable) = uboat_aura_start_frames;
             select_sprite_entry(sprite,
                           uboat_aura_start_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)

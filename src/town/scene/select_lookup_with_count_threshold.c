@@ -2,6 +2,7 @@
 #include "town/scene/response_checks.h"
 #include "town/scene.h"
 #include "town/player.h"
+#include "town/scene/flags.h"
 
 /* Looks up a response, applies the helper-result >= 10 override, then checks for a state fallback. */
 s32 select_lookup_with_count_threshold(s32 object, s32 check_value, s32 selection) {

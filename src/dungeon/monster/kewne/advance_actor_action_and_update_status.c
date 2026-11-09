@@ -88,11 +88,11 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
             u16 stat_delta;
 
             begin_actor_move_to_target_facing(actor, context, animation, entity);
-            stat_value = actor->unk_90.parts.high.u;
+            stat_value = actor->unk_90.parts.high;
             stat_delta = actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high.u = stat_value - stat_delta;
+            actor->unk_90.parts.high = stat_value - stat_delta;
             update_actor_state_after_map_check(actor, context, animation, entity);
             return;
         }

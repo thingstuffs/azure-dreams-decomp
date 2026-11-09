@@ -4,6 +4,7 @@
 #include "town.h"
 #include "town/player.h"
 #include "town/player/position.h"
+#include "town/player/input.h"
 
 typedef struct {
     u8 pad0[0x14];
@@ -12,7 +13,6 @@ typedef struct {
 
 extern u8 town_blocked_directions[];
 
-extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(ObjectPosition *);
 extern void initialize_threshold_interaction_object(void *, TownObject *, void *);
 
 /* Updates the town object and dispatches its action based on input and state. */

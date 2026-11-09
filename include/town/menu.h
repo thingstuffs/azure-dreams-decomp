@@ -64,4 +64,11 @@ void layout_catalog_entry_grid(void);
 void reset_linked_value_records(void);
 void store_cached_value_at_pointer(void);
 
+struct CatalogDisplay;
+void decrement_record_timer_and_reset(TownObjectRecord *record);
+void initialize_catalog_slot_records(void);
+void run_record_handler_if_active(void *record, s32 context, s32 update_data);
+void update_catalog_scroll_availability(struct CatalogDisplay *entry);
+void update_scale_effect_and_advance(TownObjectRecord *state, void *context, SpriteFrameState *scale);
+
 #endif

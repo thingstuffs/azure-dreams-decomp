@@ -27,6 +27,6 @@ void update_the_target_conditionally_resets_caller_state(ActorRecord *body, Obje
         body->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        body->unk_90.parts.high.s = 0;
+        body->unk_90.parts.high = 0;
     }
 }

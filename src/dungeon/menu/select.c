@@ -136,8 +136,8 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
     u16 *next_dir_dst;
     u16 scale_y;
     u16 scale_z;
-    u16 enter_scale;
-    u16 exit_scale;
+    u16 enter_tilt;
+    u16 exit_tilt;
     u32 target_x;
     u32 input_angle;
     u8 exit_shade;
@@ -181,9 +181,9 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
         if (((s16)side_data) != 0) {
             motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x80 - motion->unk_02) / ((s16)side_data)));
             motion->unk_0A.s = (s16) (rsin(((S_8002520C_0 *)menu)->unk_22 << 5) + 0x400);
-            enter_scale = appearance->angle_x;
-            appearance->angle_x = (u16) (enter_scale + ((s32) (0xD00
-                - enter_scale) / (s16) ((S_8002520C_0 *)menu)->unk_22));
+            enter_tilt = appearance->angle_x;
+            appearance->angle_x = (u16) (enter_tilt + ((s32) (0xD00
+                - enter_tilt) / (s16) ((S_8002520C_0 *)menu)->unk_22));
             enter_shade = appearance->color.c.b;
             lit_shade = enter_shade + ((s32) (0x80 - enter_shade) / (s16) ((S_8002520C_0 *)menu)->unk_22);
             appearance->color.c.b = lit_shade;
@@ -407,9 +407,9 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                 if (exit_ticks != 0) {
                     motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x480 - motion->unk_02) / exit_ticks));
                     motion->unk_0A.u = (u16) (motion->unk_0A.u + rsin(((S_8002520C_0 *)menu)->unk_22 << 5));
-                    exit_scale = appearance->angle_x;
-                    appearance->angle_x = (u16) (exit_scale + ((s32) (0x1000
-                        - exit_scale) / (s16) ((S_8002520C_0 *)menu)->unk_22));
+                    exit_tilt = appearance->angle_x;
+                    appearance->angle_x = (u16) (exit_tilt + ((s32) (0x1000
+                        - exit_tilt) / (s16) ((S_8002520C_0 *)menu)->unk_22));
                     exit_shade = appearance->color.c.b;
                     scale_y = appearance->scale_x;
                     faded_shade = exit_shade + ((s32) (0 - exit_shade) / (s16) ((S_8002520C_0 *)menu)->unk_22);

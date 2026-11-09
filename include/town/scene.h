@@ -265,4 +265,6 @@ void pass_pair_table_values(void);
 void *populate_and_dispatch_entry_records(void *records, void *entries, s32 flags, s32 tag);
 s32 select_first_unmet_table_entry(void);
 
+void remove_scene_runtime_callback(void);
+
 #endif

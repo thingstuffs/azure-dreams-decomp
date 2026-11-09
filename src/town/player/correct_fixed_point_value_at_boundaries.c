@@ -2,9 +2,8 @@
 #include "shared/entity.h"
 #include "m2c_compat.h"
 #include "town/player/position.h"
+#include "town/player.h"
 
-s32 query_lower_bound_with_x_offset(ObjectPosition *);                           /* extern */
-void set_global_800_cfced_initialize_call_callee_800954_dc(ObjectPosition *, s32);                  /* extern */
 void set_global_800_cfcec_initialize_call_callee_800954_dc(ObjectPosition *, s32);                  /* extern */
 extern s32 town_secondary_probe_offset;
 

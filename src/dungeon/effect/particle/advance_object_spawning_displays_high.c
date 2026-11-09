@@ -476,7 +476,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
         }
         component = F(primary_actor_record, u16, 0x2A);
         effect->state++;
-        effect->facing = (u16)component;
+        effect->facing = component;
         advance_object_spawning_displays_high(init_object, position, effect_context);
         if (effect->display_b != 0) {
             texture_rect[0] = 0x340;
@@ -525,7 +525,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                     sprite_rgb = (u32)rand();
                     particle_color = 0x200000;
                     sprite_rgb = particle_alpha_from_random(sprite_rgb);
-                    particle_level = (s16)effect->facing;
+                    particle_level = effect->facing;
                     particle_x = effect->attachment_x;
                     particle_color |= 0x20F0;
                     handle_spawn_initialize_randomized_offset_parent(NODE_HEADER(primary_actor_record),
@@ -603,17 +603,17 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                 } while (particle_index < 4);
                 if (effect->timer < 6) {
                     effect->midpoint_x =
-                        ((s16)effect->attachment_x + (s16)effect->previous_x) / 2;
+                        ((s16)effect->attachment_x + effect->previous_x) / 2;
                     effect->midpoint_y =
-                        ((s16)effect->attachment_y + (s16)effect->previous_y) / 2;
+                        ((s16)effect->attachment_y + effect->previous_y) / 2;
                     effect->midpoint_z =
-                        ((s16)effect->attachment_z + (s16)effect->previous_z) / 2;
+                        ((s16)effect->attachment_z + effect->previous_z) / 2;
                     particle_index = 0;
                     do {
                         sprite_rgb = (u32)rand();
                         particle_color = 0x200000;
                         sprite_rgb = particle_alpha_from_random(sprite_rgb);
-                        particle_level = (s16)effect->facing;
+                        particle_level = effect->facing;
                         particle_x = effect->midpoint_x;
                         particle_color |= 0x20F0;
                         handle_spawn_initialize_randomized_offset_parent(NODE_HEADER(primary_actor_record),
@@ -701,9 +701,9 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                     bits = effect->attachment_x;
                     component = effect->attachment_y;
                     neutral_color = effect->attachment_z;
-                    effect->previous_x = (u16)bits;
-                    effect->previous_y = (u16)component;
-                    effect->previous_z = (u16)neutral_color;
+                    effect->previous_x = bits;
+                    effect->previous_y = component;
+                    effect->previous_z = neutral_color;
                 }
             }
         }

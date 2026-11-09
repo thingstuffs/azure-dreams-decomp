@@ -49,7 +49,7 @@ void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *
         if ((flags & 0x6000) == 0) {
             return;
         }
-        if (action->unk_90.parts.high.s != 0) {
+        if (action->unk_90.parts.high != 0) {
             return;
         }
         sprite->frameTable = D_80175E88;

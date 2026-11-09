@@ -1,6 +1,7 @@
 #include "modules/town_ovl_3ef1c8.h"
 #include "town/scene/response_checks.h"
 #include "town/scene.h"
+#include "town/scene/flags.h"
 
 /*
  * Returns D_8001B6D0 on the negative-threshold check; otherwise queries D_8001A984 with

@@ -606,9 +606,9 @@ void grow_hopping_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFram
 void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *actor_in);
 void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_index, SpriteFrameState *target, ActorRecord *entity_in);
 void update_snowman_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object);
-void advance_boss_command_stream(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
+void update_thrown_snowman(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void settle_snowman_on_tile(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void create_positioned_sprite_effect(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void resume_snowman_after_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void fade_in_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s32 target_y, s32 target_height);
 void prepare_directional_attacks_for_neighbor_entities(ActorRecord *node, s32 tile_x, s32 tile_y, s16 target_height);

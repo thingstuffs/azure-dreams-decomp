@@ -43,8 +43,8 @@ void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state) {
         ((ActorRecord *)((((void *)state) + state->movement_queue_state)))->path_x[7] = (u8) position->tile_y;
         position->tile_x = next_x;
         position->tile_y = next_y;
-        state->ground_height = (u16) state->unk_8A;
-        state->facing = (u16) state->movement_facing;
+        state->ground_height = state->unk_8A;
+        state->facing =  state->movement_facing;
         if (status_result == 0) {
             s32 flags;
             u8 tile_x;

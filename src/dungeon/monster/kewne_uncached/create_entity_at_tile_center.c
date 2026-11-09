@@ -42,7 +42,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         entity->action_id = 0xFF;
         entity->unk_9C = -1;
         entity->unk_8C.address = kewne_uncached_action_resume_address;
-        entity->unk_90.parts.high.s = -0x20;
+        entity->unk_90.parts.high = -0x20;
         entity->species = 0x39;
         entity->flags1C |= 0x40000;
         try_move_actor_to_valid_position(entity, position, tile_state, entity);
@@ -169,7 +169,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
     if (actor_in->unk_B8 != 0) {
         update_actor_status_and_mp(entity);
         if (g_dungeon_status.flags & 0x2000) {
-            entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
+            entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         }
     }
     if ((u32) (reference_tile_object.tile_position.word - 0x2536) < 2U) {
@@ -669,27 +669,27 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                     }
                     if ((u32) ((u8) sprite->unk_04 - 1) < 4U) {
                         bob_phase = actor_in->unk_9E;
-                        actor_in->unk_9E = (u16) (bob_phase + 1);
+                        actor_in->unk_9E = bob_phase + 1;
                         actor_in->unk_A0.value =
                             (s32) (actor_in->unk_A0.value
                             + (rsin((s16) bob_phase * 0xAA) << 5));
                     } else {
                         bob_phase_wide = actor_in->unk_9E;
-                        actor_in->unk_9E = (u16) (bob_phase_wide + 1);
+                        actor_in->unk_9E = bob_phase_wide + 1;
                         actor_in->unk_A0.value =
                             (s32) (actor_in->unk_A0.value
                             + (rsin((s16) bob_phase_wide * 0xAA) << 6));
                     }
                 }
                 if (!(actor_in->action_state_flags & 8)) {
-                    tail_acc = actor_in->unk_90.parts.high.u;
-                    height = actor_in->unk_90.parts.high.s;
+                    tail_acc = (u16)actor_in->unk_90.parts.high;
+                    height = actor_in->unk_90.parts.high;
                     if (height >= -0x1F) {
                         final_tail_value = tail_acc - 8;
-                        actor_in->unk_90.parts.high.s = (s16) final_tail_value;
+                        actor_in->unk_90.parts.high = final_tail_value;
                     } else if (height < -0x28) {
                         final_tail_value = tail_acc + 8;
-                        actor_in->unk_90.parts.high.s = (s16) final_tail_value;
+                        actor_in->unk_90.parts.high = final_tail_value;
                     }
                 }
             } else {
@@ -703,10 +703,10 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                     - landing_offset);
                 if (!(actor_in->action_state_flags & 8)) {
                     landing_delta = sample_terrain_surface_height(((u16) motion_in->x.w.i),
-                        ((u16) motion_in->y.w.i), (s16) ((u16)entity->ground_height - 0x20))
+                        ((u16) motion_in->y.w.i), (s16) (entity->ground_height - 0x20))
                         - (u16)entity->ground_height;
-                    if ((s16) landing_delta < actor_in->unk_90.parts.high.s) {
-                        actor_in->unk_90.parts.high.s = (s16) landing_delta;
+                    if ((s16) landing_delta < actor_in->unk_90.parts.high) {
+                        actor_in->unk_90.parts.high = landing_delta;
                         actor_in->unk_9D = 0;
                         motion_in->velocity_z = 0;
                         entity->flags1C |= 0x08000000;
@@ -733,10 +733,10 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                     - bob_offset);
                 if (!(actor_in->action_state_flags & 8)) {
                     ground_delta = sample_terrain_surface_height(((u16) motion_in->x.w.i),
-                        ((u16) motion_in->y.w.i), (s16) ((u16)entity->ground_height - 0x20))
+                        ((u16) motion_in->y.w.i), (s16) (entity->ground_height - 0x20))
                         - (u16)entity->ground_height;
-                    if ((s16) ground_delta < actor_in->unk_90.parts.high.s) {
-                        actor_in->unk_90.parts.high.s = (s16) ground_delta;
+                    if ((s16) ground_delta < actor_in->unk_90.parts.high) {
+                        actor_in->unk_90.parts.high = ground_delta;
                         actor_in->unk_9D = 0;
                         motion_in->velocity_z = 0;
                         entity->flags1C |= 0x08000000;
@@ -751,27 +751,27 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                     }
                     if ((u32) ((u8) sprite->unk_04 - 1) < 4U) {
                         fixed_bob_phase = actor_in->unk_9E;
-                        actor_in->unk_9E = (u16) (fixed_bob_phase + 1);
+                        actor_in->unk_9E = fixed_bob_phase + 1;
                         actor_in->unk_A0.value =
                             (s32) (actor_in->unk_A0.value
                             + (rsin((s16) fixed_bob_phase * 0xAA) << 5));
                     } else {
                         fixed_bob_phase_wide = actor_in->unk_9E;
-                        actor_in->unk_9E = (u16) (fixed_bob_phase_wide + 1);
+                        actor_in->unk_9E = fixed_bob_phase_wide + 1;
                         actor_in->unk_A0.value =
                             (s32) (actor_in->unk_A0.value
                             + (rsin((s16) fixed_bob_phase_wide * 0xAA) << 6));
                     }
                 }
                 if (!(actor_in->action_state_flags & 8)) {
-                    tail_acc = actor_in->unk_90.parts.high.u;
-                    height = actor_in->unk_90.parts.high.s;
+                    tail_acc = (u16)actor_in->unk_90.parts.high;
+                    height = actor_in->unk_90.parts.high;
                     if (height >= -0x1F) {
                         final_tail_value = tail_acc - 8;
-                        actor_in->unk_90.parts.high.s = (s16) final_tail_value;
+                        actor_in->unk_90.parts.high = final_tail_value;
                     } else if (height < -0x28) {
                         final_tail_value = tail_acc + 8;
-                        actor_in->unk_90.parts.high.s = (s16) final_tail_value;
+                        actor_in->unk_90.parts.high = final_tail_value;
                     }
                 }
             }
@@ -780,15 +780,15 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         if (entity_flags & 0x40000000) {
             entity->flags1C = (s32) (entity_flags & 0xBFFFFFFF);
             ground_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
-                (sprite->tile_y << 6) | 0x20, (s16) ((u16)entity->ground_height - 0x20));
+                (sprite->tile_y << 6) | 0x20, (s16) (entity->ground_height - 0x20));
             if (ground_height < 0x200) {
-                actor_in->unk_90.parts.high.s = (s16) ((u16) actor_in->unk_90.parts.high.s
-                    + ((u16)entity->ground_height - ground_height));
-                entity->ground_height = (u16) ground_height;
+                actor_in->unk_90.parts.high = actor_in->unk_90.parts.high
+                    + (entity->ground_height - ground_height);
+                entity->ground_height = ground_height;
             }
         }
-        motion_in->z.w.i = (s16) (((u16)entity->ground_height
-            + (u16) actor_in->unk_90.parts.high.s) - actor_in->unk_A0.parts.high);
+        motion_in->z.w.i = (s16) ((entity->ground_height
+            + actor_in->unk_90.parts.high) - actor_in->unk_A0.parts.high);
         sprite->flags = (u16) (sprite->flags | 0x40);
     }
     return;

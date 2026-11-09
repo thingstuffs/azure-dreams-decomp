@@ -69,10 +69,10 @@ s32 update_actor_movement_to_tile(ActorRecord *move_state_arg, void *motion_arg,
             new_height = sample_terrain_surface_height(
                 (target_tile->unk_24 << 6) | 0x20,
                 (target_tile->unk_25 << 6) | 0x20,
-                (s16)(((u16)actor->ground_height) - 0x20));
-            move_state->unk_90.parts.high.u =
-                (u16)(move_state->unk_90.parts.high.u +
-                      (((u16)actor->ground_height) - new_height));
+                (s16)(actor->ground_height - 0x20));
+            move_state->unk_90.parts.high =
+                move_state->unk_90.parts.high +
+                      (actor->ground_height - new_height);
             actor->ground_height = new_height;
             if (!(actor->flags1C & 0x40000)) {
                 move_state->unk_90.value = 0;

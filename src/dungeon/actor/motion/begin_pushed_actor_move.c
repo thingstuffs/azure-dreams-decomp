@@ -32,7 +32,7 @@ void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *posit
     }
     tile_mask = move_mask & 0xFFFF;
     update_map_cell_flags_with_item_limit(position->tile_x, position->tile_y, tile_mask);
-    direction_index = ((u16) actor->movement_facing >> 8) & 0xE;
+    direction_index = ( actor->movement_facing >> 8) & 0xE;
     next_x = position->tile_x + (u8) *(direction_index + ((s8 *)dir_step_x));
     next_x = (u8) next_x;
     position->tile_x = next_x;

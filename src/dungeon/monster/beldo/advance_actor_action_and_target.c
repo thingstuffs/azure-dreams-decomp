@@ -200,7 +200,7 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
         return;
 
     case 3:
-        if ((s16)action->unk_A0.parts.high != 0) {
+        if (action->unk_A0.parts.high != 0) {
             ticks = action->action_timer;
             next_ticks = ticks + 1;
             action->action_timer = next_ticks;
@@ -268,7 +268,7 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
             beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         action->unk_9E = 0;
-        action->unk_90.parts.high.s = -0x20;
+        action->unk_90.parts.high = -0x20;
         return;
 
     case 8:

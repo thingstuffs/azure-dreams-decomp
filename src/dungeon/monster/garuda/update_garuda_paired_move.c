@@ -257,7 +257,7 @@ void update_garuda_paired_move(ActorRecord *actor, S_func_81008664_5 *motion, Sp
             entity_height = (entity->ground_height);
             motion->unk_14 = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10)
                 << 0x10) / launch_ticks);
-            partner_actor->unk_90.parts.high.u = (u16) (partner_actor->unk_90.parts.high.u + partner->unk_88);
+            partner_actor->unk_90.parts.high = partner_actor->unk_90.parts.high + partner->unk_88;
             partner->unk_88 = 0U;
         }
         if (actor->action_timer > 0) {
@@ -282,7 +282,7 @@ void update_garuda_paired_move(ActorRecord *actor, S_func_81008664_5 *motion, Sp
     case 2:
         motion->unk_14 = (s32) (motion->unk_14 + 0xFFFE0000);
         height_adjust = entity_height_offsets[partner->unk_13];
-        partner_actor->unk_90.parts.high.u = (u16) ((motion->unk_08.unk_0A.unk_0A + height_adjust) - 0x10);
+        partner_actor->unk_90.parts.high = (motion->unk_08.unk_0A.unk_0A + height_adjust) - 0x10;
         fall_ticks = actor->action_timer - 1;
         actor->action_timer = fall_ticks;
         if ((fall_ticks << 0x10) > 0) {
@@ -364,8 +364,8 @@ place_actors:
         actor->action_phase = actor->action_phase + 1;
         return;
     case 3:
-        partner_actor->unk_90.parts.high.u = (u16) (actor->unk_90.parts.high.u + 0x40);
-        if ((s16) actor->unk_90.parts.high.u < 0) {
+        partner_actor->unk_90.parts.high = actor->unk_90.parts.high + 0x40;
+        if (actor->unk_90.parts.high < 0) {
             rise_ticks = actor->action_timer - 1;
             actor->action_timer = rise_ticks;
             if ((rise_ticks << 0x10) > 0) {
