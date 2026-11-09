@@ -255,7 +255,7 @@ typedef struct Row_81917680_S_80024E80_1 {
 
 typedef struct Row_81917680_S_80024E80_2 {
     u8 pad_00[0x4];
-    s16 unk_04;
+    u16 unk_04;
     u8 pad_06[0x8];
     s16 unk_0E;
     s16 unk_10;

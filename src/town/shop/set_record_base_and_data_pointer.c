@@ -8,5 +8,5 @@ void set_record_base_and_data_pointer(ShopRecordResetObject *record_field, s32 b
 
     object->owner_node = (ObjectNodeHeader *)base_value;
     object->owner_body = (void *)(base_value + 0x20);
-    ((ObjectNodeHeader *)record_field - 1)->update_callback = &advance_five_step_fixed_point_ramp;
+    NODE_HEADER(record_field)->update_callback = &advance_five_step_fixed_point_ramp;
 }

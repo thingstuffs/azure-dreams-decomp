@@ -7,6 +7,7 @@ from collections import Counter
 import csv
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import sys
@@ -25,7 +26,9 @@ GENERATED = re.compile(r'^S_(?:func_)?[0-9A-Fa-f]{8}(?:_\w+)?$')
 # It never exempts the enclosing function just because it contains a marker.
 MARKER = re.compile(r'^/\* BYTES: [^\n]+ \*/$')
 OTHER_VIEW = {'whole', 'halves', 'signed_bytes'}
-GENERIC_INDEX = re.compile(r'(?:(?:->|\.)\s*(?:b|sb|h|sh|w|sw|bytes|Ints)|\bInts)\s*\[')
+GENERIC_INDEX = re.compile(r'(?:(?:->|\.)\s*(?:b|sb|h|sh|w|sw|bytes|signed_bytes|signed_halves|Ints)|\bInts)\s*\[')
+# Named signedness member views (unsigned_parts, signed_halves, ...) that pointer puns turn into.
+NAMED_SIGN_VIEW = re.compile(r'(?:un)?signed_\w+')
 ADDRESS_NAME = re.compile(r'[0-9A-Fa-f]{8}')
 INTEGER_TYPES = {
     's8': ('signed', 8), 'u8': ('unsigned', 8),
@@ -669,6 +672,9 @@ def analyze(path, text, macro_casts=False, header_events=()):
             elif value in {'signed_whole', 'signed_byte'} | OTHER_VIEW:
                 views['other_width_views'] += 1
                 counts[owner]['sign_views'] += 1
+            elif NAMED_SIGN_VIEW.fullmatch(value):
+                views['named_sign_views'] += 1
+                counts[owner]['sign_views'] += 1
         if value == 'goto':
             counts[owner]['goto'] += 1
         if value == 'volatile':
@@ -1101,6 +1107,16 @@ def access_summary_from_sites(path):
                 by_kind=by_kind, source_by_kind=source_by_kind)
 
 
+def report_cache_dir(root, override=None):
+    """Report cache location: --cache-dir, $XDG_CACHE_HOME, else the ignored build/ directory."""
+    if override is not None:
+        return override.resolve()
+    xdg = os.environ.get('XDG_CACHE_HOME')
+    if xdg:
+        return Path(xdg) / 'debt_check' / hashlib.sha256(str(root).encode()).hexdigest()[:16]
+    return root / 'build/debt_report_cache'
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=TOOLS.parent)
@@ -1112,6 +1128,9 @@ def main(argv=None):
                         help='report-only access_census.py access_summary.json; never ratcheted')
     parser.add_argument('--access-sites', type=Path,
                         help='report-only cached access_census.py access_sites.tsv; never ratcheted')
+    parser.add_argument('--cache-dir', type=Path,
+                        help='report cache directory for --summary (default: $XDG_CACHE_HOME/debt_check/<root hash> '
+                             'when set, else <root>/build/debt_report_cache; never inside the tracked tree)')
     parser.add_argument('--no-report-cache', action='store_true',
                         help='recompute all lexical report rows when using --summary')
     parser.add_argument('--macro-casts', action='store_true',
@@ -1178,7 +1197,7 @@ def main(argv=None):
         if baseline is not None:
             validate_baseline(baseline)
         report_macros = args.macro_casts or args.summary or args.write_baseline
-        cache_dir = (args.root.resolve() / 'out/debt_report_cache'
+        cache_dir = (report_cache_dir(args.root.resolve(), args.cache_dir)
                      if args.summary and not args.no_report_cache else None)
         summary = census(args.root.resolve(), args.only, report_macros, cache_dir)
         problems = check_baseline(summary, baseline) if args.check else []

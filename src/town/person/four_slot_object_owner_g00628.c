@@ -36,7 +36,7 @@ void set_record_value_and_data_pointer(void *field_ptr, s32 base_value) {
 
     object->unk10 = base_value;
     object->unk00 = (s32)(base_value + 0x20);
-    ((ObjectNodeHeader *)field_ptr - 1)->update_callback = &D_800B4C38;
+    NODE_HEADER(field_ptr)->update_callback = &D_800B4C38;
 }
 
 /*

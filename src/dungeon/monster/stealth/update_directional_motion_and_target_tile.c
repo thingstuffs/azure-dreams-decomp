@@ -73,13 +73,13 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
         motion->velocity_y -=
             ((s16 *)((s8 *)dir_step_y))[direction] << 13;
 
-        if ((s16)body->action_timer > 0) {
+        if (body->action_timer > 0) {
             body->action_timer = body->action_timer - 1;
         } else if (target->flags & 0x6000) {
             body->action_timer = 0;
         }
 
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -104,7 +104,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
             origin_y = motion->y.w.i - 0x20;
             motion->velocity_y =
                 ((target_y - origin_y) << 15) /
-                (s16)body->action_timer;
+                body->action_timer;
         }
 
         next_timer = body->action_timer - 1;

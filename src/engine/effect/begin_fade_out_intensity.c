@@ -4,38 +4,19 @@
 #include "engine/effect.h"
 #include "engine/resource.h"
 
-typedef struct {
-    u8 pad0[0x0C];
-    u8 unkC;
-    u8 unkD;
-    u8 unkE;
-    u8 padF;
-    u16 unk10;
-    u8 pad12[2];
-    u16 unk14;
-} State;
-
-typedef struct {
-    void (*callback)(void);
-    u8 rest[0x0C];
-} Manager;
-
-extern Manager fade_manager_state;
-extern void fade_manager_step_out(void);
-
 /* Prepares the manager state and installs its next callback. */
 void begin_fade_out_intensity(void) {
-    void *manager = &fade_manager_state;
-    State *state = *(State **)((u8 *)manager - 0x14);
+    FadeManagerBody *manager = &fade_manager_state;
+    SpriteFrameState *state = NODE_HEADER(manager)->sprite;
 
-    if (state->unkC == 0x80) {
-        state->unkE = 0x60;
-        state->unkD = 0x60;
-        state->unkC = 0x60;
-        state->unk10 = 0x20;
-        state->unk14 |= 0x1C;
+    if (state->color.c.r == 0x80) {
+        state->color.c.b = 0x60;
+        state->color.c.g = 0x60;
+        state->color.c.r = 0x60;
+        state->tpage_abr = 0x20;
+        state->flags |= 0x1C;
     }
 
-    fade_manager_state.callback = fade_manager_step_out;
+    fade_manager_state.step = fade_manager_step_out;
     runtime_set_destination_flag_from_source(manager, state);
 }

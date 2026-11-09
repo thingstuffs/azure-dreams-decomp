@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE03_SLOT0_H
 #define DUNGEON_RESOURCE03_SLOT0_H
+#include "engine/node/registration.h"
 struct ActorRecord;
 #include "dungeon/monster/dragon/display_orientation.h"
 #include "common.h"
@@ -167,7 +168,6 @@ typedef struct R03_80173358_S_80173358_2 {
 extern s32 rand(void);
 extern int abs(int);
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 
@@ -200,7 +200,6 @@ void create_two_row_object_group(void *payload, s16 value_scale);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 

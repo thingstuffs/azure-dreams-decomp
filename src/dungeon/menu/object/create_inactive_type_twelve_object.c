@@ -11,34 +11,8 @@
 #define NULL 0
 #endif
 
-typedef struct Obj12 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void *unk_10;
-} Obj12;
 
-typedef struct Obj12Child {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} Obj12Child;
 
-typedef struct Obj12Render {
-    u8 pad_00[0x8];
-    void *unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    u8 pad_1A[0x2];
-    s16 unk_1C;
-    s16 unk_1E;
-} Obj12Render;
 
 typedef struct Obj12ConfigPage {
     u8 pad_00[0x3638];
@@ -47,19 +21,6 @@ typedef struct Obj12ConfigPage {
     u16 unk_363C;
 } Obj12ConfigPage;
 
-typedef struct Obj12State {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-    u16 unk_1E;
-} Obj12State;
 
 struct ConfigWord { s32 value; };
 
@@ -79,7 +40,7 @@ void create_inactive_type_twelve_object(void) {
                 u16 field_value;
                 u16 field_value_2;
                 u16 field_z;
-                Obj12State *object_state;
+                InactiveTypeTwelveObjectBody *object_state;
                 ObjectPosition *child;
                 s32 color;
                 Obj12ConfigPage *config_value;
@@ -98,15 +59,15 @@ void create_inactive_type_twelve_object(void) {
                 render_data->scale_x = 0;
                 field_value_2 = config_value->unk_363C;
                 object_state = NODE_BODY(object);
-                object_state->unk_1E = field_value_2;
+                object_state->target_scale = field_value_2;
                 field_value = config_value->unk_3638;
                 child->x.w.i = field_value;
-                object_state->unk_14 = field_value;
+                object_state->target_center_x = field_value;
                 field_z = config_value->unk_363A;
                 child->y.w.i = field_z;
-                object_state->unk_16 = field_z;
-                object_state->unk_1A = 0x10;
-                object_state->unk_1C = 8;
+                object_state->target_center_y = field_z;
+                object_state->state = 0x10;
+                object_state->frames_left = 8;
                 color = 0x808080;
                 render_data->color.word = color;
                 config_word = ((struct ConfigWord *)0x80013630)->value;
@@ -114,13 +75,13 @@ void create_inactive_type_twelve_object(void) {
                 render_data->angle_x = 0;
                 render_data->angle_y = 0;
                 render_data->angle_x = 0;
-                object_state->unk_04 = (s32) config_word;
-                object_state->unk_0C = (s32) config_word;
+                *(s32 *)&object_state->view_x = config_word;
+                *(s32 *)&object_state->target_x = config_word;
                 config_word2 = ((struct ConfigWord *)0x80013634)->value;
-                (*(s32 *)((u8 *)object_state + 8)) = (s32) config_word2;
-                (*(s32 *)((u8 *)object_state + 0x10)) = (s32) config_word2;
+                *(s32 *)&object_state->view_width = config_word2;
+                *(s32 *)&object_state->target_width = config_word2;
                 flags = dungeon_floor_flags;
-                object_state->unk_1C = 4;
+                object_state->frames_left = 4;
                 object_state->unk_18 = 0;
                 dungeon_floor_flags = flags | 0x80;
             }

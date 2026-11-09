@@ -12,22 +12,6 @@
 
 
 
-typedef struct S_func_8009E038_2 {
-    u8 pad_00[0xC];
-    union {
-        s32 s32;
-        struct {
-            u8 unk_0C;
-            u8 unk_0D;
-            u8 unk_0E;
-        } bytes;
-    } unk_0C;
-    u8 pad_10[0xC];
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-    u16 unk_22;
-} S_func_8009E038_2;
 
 typedef struct S_func_8009E038_3 {
     s32 unk_00;
@@ -55,7 +39,7 @@ enum ViewportState {
 };
 
 /* Update the viewport transition, blending its bounds, center, scale, and brightness. */
-void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, ObjectPosition *center, S_func_8009E038_2 *render_params,
+void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, ObjectPosition *center, SpriteFrameState *render_params,
     s32 *context) {
     s32 top_step;
     GameWork *input;
@@ -87,7 +71,7 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
     u16 moving_scale;
     u8 brightness;
     u8 next_brightness;
-    S_func_8009E038_2 *render;
+    SpriteFrameState *render;
     S_func_8009E038_8 *viewport_page;
     S_func_8009E038_6 *flags_page;
     s32 left_step;
@@ -95,174 +79,174 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
 
     render = render_params;
     input = &g_game_work;
-    if (((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 & 0x2000) {
-        if (transition->unk_18.halves.high.s < VIEWPORT_SHRINK) {
-            transition->unk_18.halves.high.s = VIEWPORT_SHRINK;
+    if (dungeon_floor_flags & 0x2000) {
+        if (transition->state < VIEWPORT_SHRINK) {
+            transition->state = VIEWPORT_SHRINK;
         }
     }
-    flags = ((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00;
+    flags = dungeon_floor_flags;
     if (flags & FLOOR_MAP_VIEW_HOLD) {
-        previous_state = transition->unk_18.halves.high.s;
+        previous_state = transition->state;
         cleared_flags = flags & ~0x2000;
-        (*&dungeon_floor_flags) = cleared_flags;
+        dungeon_floor_flags = cleared_flags;
         if (previous_state >= 2) {
-            transition->unk_18.halves.high.s = VIEWPORT_RESET;
-            transition->unk_1C.halves.low.s = 8;
+            transition->state = VIEWPORT_RESET;
+            transition->frames_left = 8;
         }
-        transition->unk_2C = 0U;
+        transition->idle_frames = 0U;
         dungeon_floor_flags &= 0xFEFFFFFF;
-    } else if ((u32) ((u16) transition->unk_18.halves.high.s - VIEWPORT_SHRINK) < 0x10U) {
-        if (!(((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 & 0x2000)) {
-            transition->unk_18.halves.high.s = VIEWPORT_RESUME;
+    } else if ((u32) ((u16) transition->state - VIEWPORT_SHRINK) < 0x10U) {
+        if (!(dungeon_floor_flags & 0x2000)) {
+            transition->state = VIEWPORT_RESUME;
         }
     }
-    if (transition->unk_18.halves.high.s != VIEWPORT_RESET || (dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND)) {
-        transition->unk_2C = 0U;
+    if (transition->state != VIEWPORT_RESET || (dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND)) {
+        transition->idle_frames = 0U;
         dungeon_floor_flags &= 0xFEFFFFFF;
     }
-    state = transition->unk_18.halves.high.s;
+    state = transition->state;
     switch (state) {
     case VIEWPORT_RESET:
-        if (!((*(s32 *)((u8 *)&dungeon_floor_flags + 0)) & FLOOR_MAP_VIEW_HOLD)) {
-            idle_frames = transition->unk_2C + 1;
-            transition->unk_2C = idle_frames;
+        if (!(dungeon_floor_flags & FLOOR_MAP_VIEW_HOLD)) {
+            idle_frames = transition->idle_frames + 1;
+            transition->idle_frames = idle_frames;
             if ((s16) idle_frames == 0x1F) {
-                (*&dungeon_floor_flags) = (s32) (((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 | 0x01000000);
+                dungeon_floor_flags = (s32) (dungeon_floor_flags | 0x01000000);
                 create_fullscreen_quad_updater(0);
             } else if ((s16) idle_frames >= 0x20) {
-                transition->unk_2C = 0x20U;
+                transition->idle_frames = 0x20U;
             }
         }
-        reset_frames = transition->unk_1C.halves.low.s;
+        reset_frames = transition->frames_left;
         if (reset_frames > 0) {
-            brightness = render->unk_0C.bytes.unk_0E;
+            brightness = render->color.c.b;
             next_brightness = brightness + ((s32) (0x80 - brightness) / reset_frames);
-            render->unk_0C.bytes.unk_0E = next_brightness;
-            render->unk_0C.bytes.unk_0D = next_brightness;
-            render->unk_0C.bytes.unk_0C = next_brightness;
-            reset_scale = render->unk_1E;
-            offset_x = render->unk_20;
-            blended_scale = reset_scale + ((s32) (0x3000 - reset_scale) / (s16) transition->unk_1C.halves.low.s);
-            render->unk_1E = blended_scale;
-            render->unk_1C = blended_scale;
-            offset_y = render->unk_22;
-            render->unk_20 = (u16) (offset_x + ((s32) (0x20 - offset_x) / (s16) transition->unk_1C.halves.low.s));
-            render->unk_22 = (u16) (offset_y + ((s32) (0x20 - offset_y) / (s16) transition->unk_1C.halves.low.s));
-            center->x.w.i = (s16) ((u16) center->x.w.i + ((s32) (0xA0 - center->x.w.i) / (s16) transition->unk_1C.halves.low.s));
-            center->y.w.i = (s16) ((u16) center->y.w.i + ((s32) (0x78 - center->y.w.i) / (s16) transition->unk_1C.halves.low.s));
-            transition->unk_04.halves.low.s = (s16) ((u16) transition->unk_04.halves.low.s + ((s32) (0
-                - transition->unk_04.halves.low.s) / (s16) transition->unk_1C.halves.low.s));
-            transition->unk_04.halves.high.s = (s16) ((u16) transition->unk_04.halves.high.s + ((s32) (0
-                - transition->unk_04.halves.high.s) / (s16) transition->unk_1C.halves.low.s));
-            transition->unk_08.halves.low.s = (s16) ((u16) transition->unk_08.halves.low.s + ((s32) (0x140
-                - transition->unk_08.halves.low.s) / (s16) transition->unk_1C.halves.low.s));
-            transition->unk_08.halves.high.s = (s16) ((u16) transition->unk_08.halves.high.s + ((s32) (0xE0
-                - transition->unk_08.halves.high.s) / (s16) transition->unk_1C.halves.low.s));
+            render->color.c.b = next_brightness;
+            render->color.c.g = next_brightness;
+            render->color.c.r = next_brightness;
+            reset_scale = render->scale_y;
+            offset_x = render->offset_x;
+            blended_scale = reset_scale + ((s32) (0x3000 - reset_scale) / transition->frames_left);
+            render->scale_y = blended_scale;
+            render->scale_x = blended_scale;
+            offset_y = render->offset_y;
+            render->offset_x = (offset_x + ((s32) (0x20 - offset_x) / transition->frames_left));
+            render->offset_y = (offset_y + ((s32) (0x20 - offset_y) / transition->frames_left));
+            center->x.w.i = (s16) ((u16) center->x.w.i + ((s32) (0xA0 - center->x.w.i) / transition->frames_left));
+            center->y.w.i = (s16) ((u16) center->y.w.i + ((s32) (0x78 - center->y.w.i) / transition->frames_left));
+            transition->view_x = (s16) ((u16) transition->view_x + ((s32) (0
+                - transition->view_x) / transition->frames_left));
+            transition->view_y = (s16) ((u16) transition->view_y + ((s32) (0
+                - transition->view_y) / transition->frames_left));
+            transition->view_width = (s16) ((u16) transition->view_width + ((s32) (0x140
+                - transition->view_width) / transition->frames_left));
+            transition->view_height = (s16) ((u16) transition->view_height + ((s32) (0xE0
+                - transition->view_height) / transition->frames_left));
         }
-        reset_remaining = (u16) transition->unk_1C.halves.low.s - 1;
-        transition->unk_1C.halves.low.s = reset_remaining;
+        reset_remaining = (u16) transition->frames_left - 1;
+        transition->frames_left = reset_remaining;
         if ((reset_remaining << 0x10) <= 0) {
             center->x.w.i = 0xA0;
             center->y.w.i = 0x78;
-            render->unk_1E = 0x3000U;
-            render->unk_1C = 0x3000U;
-            render->unk_20 = 0x20U;
-            render->unk_22 = 0x20U;
-            render->unk_0C.s32 = 0x808080;
-            transition->unk_08.halves.low.s = 0x140;
-            transition->unk_08.halves.high.s = 0xE0;
+            render->scale_y = 0x3000U;
+            render->scale_x = 0x3000U;
+            render->offset_x = 0x20U;
+            render->offset_y = 0x20U;
+            render->color.word = 0x808080;
+            transition->view_width = 0x140;
+            transition->view_height = 0xE0;
             shared_flags = ((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00;
-            transition->unk_04.halves.low.s = 0;
-            transition->unk_04.halves.high.s = 0;
-            transition->unk_1C.halves.low.s = 0;
+            transition->view_x = 0;
+            transition->view_y = 0;
+            transition->frames_left = 0;
             state = FLOOR_MAP_VIEW_HOLD;
             if (shared_flags & state) {
-                transition->unk_1C.halves.low.s = 0x1E;
-                transition->unk_18.halves.high.s = (s16) ((u16) transition->unk_18.halves.high.s + 1);
+                transition->frames_left = 0x1E;
+                transition->state = (s16) ((u16) transition->state + 1);
             } else if (!(input->buttons & 0x100)) {
-                transition->unk_1C.halves.low.s = 4;
-                transition->unk_18.halves.high.s = VIEWPORT_FOLLOW;
+                transition->frames_left = 4;
+                transition->state = VIEWPORT_FOLLOW;
             }
         }
         break;
     case VIEWPORT_HOLD:
-        hold_remaining = (u16) transition->unk_1C.halves.low.s - 1;
-        transition->unk_1C.halves.low.s = hold_remaining;
+        hold_remaining = (u16) transition->frames_left - 1;
+        transition->frames_left = hold_remaining;
         if ((hold_remaining << 0x10) > 0) {
             break;
         }
         flags_mask = FLOOR_MAP_VIEW_HOLD_CLEAR_MASK;
         shared_flags = 8;
         flags_page = (S_func_8009E038_6 *)0x800E0000;
-        transition->unk_1C.halves.low.s = shared_flags;
+        transition->frames_left = shared_flags;
         shared_flags = flags_page->unk_296C;
         state = VIEWPORT_FOLLOW;
-        transition->unk_18.halves.high.s = state;
+        transition->state = state;
         shared_flags &= flags_mask;
         flags_page->unk_296C = shared_flags;
         break;
     case VIEWPORT_FOLLOW:
-        move_frames = transition->unk_1C.halves.low.s;
+        move_frames = transition->frames_left;
         if (move_frames != 0) {
-            moving_scale = ((s32) (transition->unk_1C.halves.high.s - render->unk_1E) / move_frames) + render->unk_1E;
-            render->unk_1E = moving_scale;
-            render->unk_1C = moving_scale;
-            center->x.w.i = (s16) ((u16) center->x.w.i + ((s32) (transition->unk_14.halves.low.s
-                - center->x.w.i) / (s16) transition->unk_1C.halves.low.s));
-            center->y.w.i = (s16) ((u16) center->y.w.i + ((s32) (transition->unk_14.halves.high.s
-                - center->y.w.i) / (s16) transition->unk_1C.halves.low.s));
-            render->unk_20 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_x - render->unk_20) / (s16) transition->unk_1C.halves.low.s)
-                + render->unk_20);
-            render->unk_22 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_y - render->unk_22) / (s16) transition->unk_1C.halves.low.s)
-                + render->unk_22);
-            left_step = (s32) (transition->unk_0C.halves.low.s - transition->unk_04.halves.low.s) / (s16) transition->unk_1C.halves.low.s;
-            transition->unk_04.halves.low.s = (s16) ((u16) transition->unk_04.halves.low.s + left_step);
-            top_step = (s32) (transition->unk_0C.halves.high.s - transition->unk_04.halves.high.s) / (s16) transition->unk_1C.halves.low.s;
-            transition->unk_04.halves.high.s = (s16) ((u16) transition->unk_04.halves.high.s + top_step);
-            transition->unk_08.halves.low.s = (s16) ((u16) transition->unk_08.halves.low.s + ((s32) (transition->unk_10.halves.low.s
-                - transition->unk_08.halves.low.s) / (s16) transition->unk_1C.halves.low.s));
-            height_step = (s32) (transition->unk_10.halves.high.s - transition->unk_08.halves.high.s) / (s16) transition->unk_1C.halves.low.s;
-            transition->unk_08.halves.high.s = (s16) ((u16) transition->unk_08.halves.high.s + height_step);
-            move_remaining = (u16) transition->unk_1C.halves.low.s - 1;
-            transition->unk_1C.halves.low.s = move_remaining;
+            moving_scale = ((s32) (transition->target_scale - render->scale_y) / move_frames) + render->scale_y;
+            render->scale_y = moving_scale;
+            render->scale_x = moving_scale;
+            center->x.w.i = (s16) ((u16) center->x.w.i + ((s32) (transition->target_center_x
+                - center->x.w.i) / transition->frames_left));
+            center->y.w.i = (s16) ((u16) center->y.w.i + ((s32) (transition->target_center_y
+                - center->y.w.i) / transition->frames_left));
+            render->offset_x = (((s32) (reference_tile_object.tile_position.parts.tile_x - render->offset_x) / transition->frames_left)
+                + render->offset_x);
+            render->offset_y = (((s32) (reference_tile_object.tile_position.parts.tile_y - render->offset_y) / transition->frames_left)
+                + render->offset_y);
+            left_step = (s32) (transition->target_x - transition->view_x) / transition->frames_left;
+            transition->view_x = (s16) ((u16) transition->view_x + left_step);
+            top_step = (s32) (transition->target_y - transition->view_y) / transition->frames_left;
+            transition->view_y = (s16) ((u16) transition->view_y + top_step);
+            transition->view_width = (s16) ((u16) transition->view_width + ((s32) (transition->target_width
+                - transition->view_width) / transition->frames_left));
+            height_step = (s32) (transition->target_height - transition->view_height) / transition->frames_left;
+            transition->view_height = (s16) ((u16) transition->view_height + height_step);
+            move_remaining = (u16) transition->frames_left - 1;
+            transition->frames_left = move_remaining;
             if ((move_remaining << 0x10) <= 0) {
-                center->x.w.i = (s16) (u16) transition->unk_14.halves.low.s;
-                center->y.w.i = (s16) (u16) transition->unk_14.halves.high.s;
-                target_scale = (u16) transition->unk_1C.halves.high.s;
-                render->unk_1E = target_scale;
-                render->unk_1C = target_scale;
-                (*(s16 *)&render->unk_20) = (s16) reference_tile_object.tile_position.parts.tile_x;
-                (*(s16 *)&render->unk_22) = (s16) reference_tile_object.tile_position.parts.tile_y;
-                target_left = (u16) transition->unk_0C.halves.low.s;
+                center->x.w.i = (s16) (u16) transition->target_center_x;
+                center->y.w.i = (s16) (u16) transition->target_center_y;
+                target_scale = (u16) transition->target_scale;
+                render->scale_y = target_scale;
+                render->scale_x = target_scale;
+                render->offset_x = reference_tile_object.tile_position.parts.tile_x;
+                render->offset_y = reference_tile_object.tile_position.parts.tile_y;
+                target_left = (u16) transition->target_x;
                 viewport_page = (S_func_8009E038_8 *)0x80010000;
-                transition->unk_04.halves.low.s = (s16) target_left;
+                transition->view_x = (s16) target_left;
                 viewport_page->unk_3630 = target_left;
-                target_top = (u16) transition->unk_0C.halves.high.s;
-                transition->unk_04.halves.high.s = (s16) target_top;
+                target_top = (u16) transition->target_y;
+                transition->view_y = (s16) target_top;
                 viewport_page->unk_3632 = target_top;
-                target_width = (u16) transition->unk_10.halves.low.s;
-                transition->unk_08.halves.low.s = (s16) target_width;
+                target_width = (u16) transition->target_width;
+                transition->view_width = (s16) target_width;
                 viewport_page->unk_3634 = target_width;
-                target_height = (u16) transition->unk_10.halves.high.s;
-                transition->unk_08.halves.high.s = (s16) target_height;
+                target_height = (u16) transition->target_height;
+                transition->view_height = (s16) target_height;
                 viewport_page->unk_3636 = target_height;
             }
         } else {
-            (*(s16 *)&render->unk_20) = (s16) reference_tile_object.tile_position.parts.tile_x;
-            (*(s16 *)&render->unk_22) = (s16) reference_tile_object.tile_position.parts.tile_y;
+            render->offset_x = reference_tile_object.tile_position.parts.tile_x;
+            render->offset_y = reference_tile_object.tile_position.parts.tile_y;
         }
         if (input->buttons & 0x10) {
             if ((input->pressed_buttons) & 8) {
-                current_scale = transition->unk_1C.halves.high.s;
+                current_scale = transition->target_scale;
                 if (current_scale < 0x5000) {
-                    next_scale = (u16) transition->unk_1C.halves.high.s + 0x1000;
-                    transition->unk_1C.halves.high.s = next_scale;
+                    next_scale = (u16) transition->target_scale + 0x1000;
+                    transition->target_scale = next_scale;
                     *(s32 *)0x8001363C = (s32) next_scale;
                 } else {
-                    transition->unk_1C.halves.high.s = 0;
+                    transition->target_scale = 0;
                     *(s32 *)0x8001363C = 0;
                 }
-                transition->unk_1C.halves.low.s = 4;
+                transition->frames_left = 4;
             }
         }
         if (!(input->buttons & 0x100)) {
@@ -275,24 +259,24 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
         flags_mask = 0xFEFFFFFF;
         flags_page = (S_func_8009E038_6 *)0x800E0000;
         shared_flags = flags_page->unk_296C;
-        transition->unk_2C = 0U;
-        transition->unk_18.halves.high.s = VIEWPORT_RESET;
+        transition->idle_frames = 0U;
+        transition->state = VIEWPORT_RESET;
         state = 1;
-        transition->unk_1C.halves.low.s = state;
+        transition->frames_left = state;
         shared_flags &= flags_mask;
         flags_page->unk_296C = shared_flags;
         break;
     case VIEWPORT_SHRINK:
-        shrink_scale = render->unk_1E;
+        shrink_scale = render->scale_y;
         reduced_scale = shrink_scale - (shrink_scale >> 2);
-        render->unk_1E = reduced_scale;
+        render->scale_y = reduced_scale;
         if ((u32) (reduced_scale & 0xFFFF) < 0x100U) {
-            render->unk_1E = 0U;
+            render->scale_y = 0U;
         }
         break;
     case VIEWPORT_RESUME:
-        transition->unk_18.halves.high.s = VIEWPORT_FOLLOW;
-        transition->unk_1C.halves.low.s = 4;
+        transition->state = VIEWPORT_FOLLOW;
+        transition->frames_left = 4;
         break;
     }
     queue_black_draw_buffer_rectangle(transition);

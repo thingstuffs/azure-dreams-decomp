@@ -1,15 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
-#include "records/Rec_D_80082D58.h"
+#include "engine/effect.h"
 #include "engine/resource.h"
 
-
-/* Clears the record's unk_04 field. */
-void runtime_clear_record_field_04(void *state, s32 unused_status) {
-    Rec_D_80082D58 *record;
-
-    record = state;
-    record->unk_04 = 0;
+/* Clears the fade manager's has_source flag when its fade ends. */
+void runtime_clear_record_field_04(FadeManagerBody *state, SpriteFrameState *unused_sprite) {
+    state->has_source = 0;
 }

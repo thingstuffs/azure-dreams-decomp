@@ -26,8 +26,8 @@ void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 
-void process_unflagged_linked_entries(s32 firstEntryBase);
-void process_unflagged_linked_entries_alt(s32 firstNodeBase);
+void process_unflagged_linked_entries(void *firstEntryBase);
+void process_unflagged_linked_entries_alt(void *firstNodeBase);
 
 void func_800BCFBC(s32 selector);
 
@@ -40,7 +40,7 @@ s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *fla
 
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 void clear_slot_and_detach_entity(s32 slot_index);
-s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void *render_params);
+s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, SpriteFrameState *render_params);
 
 #include "shared/object_node.h"
 void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry);

@@ -77,7 +77,7 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, Object
     state_data->unk_50 = timer;
     work = (u8 *)source - 0x20;
 
-    switch ((s16)state_data->spell.phase) {
+    switch (state_data->spell.phase) {
     case 0:
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
@@ -643,8 +643,8 @@ void update_segment(DirectionalGridEffectBody *effect) {
         }
     }
 
-    effect->unk_42 = (u16)effect->unk_42 - 1;
-    switch ((s16)effect->unk_40) {
+    effect->unk_42 = effect->unk_42 - 1;
+    switch (effect->unk_40) {
     case 0:
         effect->unk_42 = 0;
         effect->unk_0C.word = 0;

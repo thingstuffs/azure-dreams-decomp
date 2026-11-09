@@ -4,40 +4,30 @@
 #include "engine/effect.h"
 #include "engine/resource.h"
 
-typedef struct Func8003C4C8State {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    u16 unk_1C;
-    s16 unk_1E;
-} Func8003C4C8State;
-
-/* Fades the state to black and clears its active flag when the timer expires. */
+/* Fades the sprite to black and clears the manager's step when the timer expires. */
 void fade_manager_step_black(
-    s32 *active_flag,
+    FadeManagerBody *manager,
     ObjectPosition *unused_state,
-    Func8003C4C8State *fade_state
+    SpriteFrameState *fade_state
     ) {
     s32 intensity;
     u16 timer;
 
-    intensity = fade_state->unk_0E - 0x10;
-    timer = fade_state->unk_1C - 0x200;
-    fade_state->unk_1C = timer;
+    intensity = fade_state->color.c.b - 0x10;
+    timer = fade_state->scale_x - 0x200;
+    fade_state->scale_x = timer;
 
     if (intensity < 0) {
         intensity = 0;
     }
 
-    fade_state->unk_0E = intensity;
-    fade_state->unk_0D = intensity;
-    fade_state->unk_0C = intensity;
+    fade_state->color.c.b = intensity;
+    fade_state->color.c.g = intensity;
+    fade_state->color.c.r = intensity;
 
-    if ((s16)fade_state->unk_1C <= 0) {
-        fade_state->unk_1E = 0;
-        *active_flag = 0;
-        runtime_clear_record_field_04(active_flag, fade_state);
+    if ((s16)fade_state->scale_x <= 0) {
+        fade_state->scale_y = 0;
+        manager->step = 0;
+        runtime_clear_record_field_04(manager, fade_state);
     }
 }

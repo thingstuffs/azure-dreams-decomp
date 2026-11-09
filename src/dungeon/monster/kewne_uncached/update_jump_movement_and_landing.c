@@ -95,7 +95,7 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
             step_y = (s32)y_entry << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((s16)jump->action_timer) * 170);
+            arc = -rsin((jump->action_timer) * 170);
             jump->unk_A0.value = ((arc * 5) << 8) + 0x300000;
             timer = jump->action_timer + 1;
             jump->action_timer = timer;
@@ -139,7 +139,7 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
             step_y = arc << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((s16)jump->action_timer) * 170);
+            arc = -rsin((jump->action_timer) * 170);
             jump->unk_A0.value = ((arc * 5) << 8) + 0x300000;
             timer = jump->action_timer + 1;
             jump->action_timer = timer;

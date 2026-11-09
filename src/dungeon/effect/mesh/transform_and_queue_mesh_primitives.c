@@ -275,14 +275,14 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             scratch->unk_100 = ot_index;
 
             if ((u32)ot_index < 0x1E0 &&
-                ((((u16)((u16)packet->unk_08 + 0x20) < 0x181) &&
-                  ((u16)((u16)packet->unk_0A + 0x20) < 0x121)) |
+                ((((u16)(packet->unk_08 + 0x20) < 0x181) &&
+                  ((u16)(packet->unk_0A + 0x20) < 0x121)) |
                  (((u16)(packet->unk_10 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_12 + 0x20) < 0x121)) |
                  (((u16)(packet->unk_18 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_1A + 0x20) < 0x121)) |
-                 (((u16)((u16)packet->unk_20 + 0x20) < 0x181) &&
-                  ((u16)((u16)packet->unk_22 + 0x20) < 0x121)))) {
+                 (((u16)(packet->unk_20 + 0x20) < 0x181) &&
+                  ((u16)(packet->unk_22 + 0x20) < 0x121)))) {
                 packet->unk_00.unk_03 = 9;
                 packet->unk_04.as_u8_07.unk_07 = 0x2C;
                 object->flags &= 0x7FFF;
@@ -953,8 +953,8 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
         u16 mid_x;
 
         effect_data->unk_20 =
-            (effect_data->unk_1E + (s16)effect_data->unk_58) / 2;
-        mid_y = (effect_data->unk_2A + (s16)effect_data->unk_60) / 2;
+            (effect_data->unk_1E + effect_data->unk_58) / 2;
+        mid_y = (effect_data->unk_2A + effect_data->unk_60) / 2;
         effect_data->unk_2C = mid_y;
         mid_x = *(u16 *)((u8 *)effect_data + 0x20);
         effect_data->unk_66 = mid_y;
@@ -967,17 +967,17 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
     tick_limit = 1;
     if (phase_state == tick_limit) {
         effect_data->unk_20 =
-            (effect_data->unk_1E + (s16)effect_data->unk_58) / 2;
+            (effect_data->unk_1E + effect_data->unk_58) / 2;
         effect_data->unk_20 =
             (effect_data->unk_1E + effect_data->unk_20) / 2;
         effect_data->unk_2C =
-            (effect_data->unk_2A + (s16)effect_data->unk_60) / 2;
+            (effect_data->unk_2A + effect_data->unk_60) / 2;
         effect_data->unk_2C =
             (effect_data->unk_2A + effect_data->unk_2C) / 2;
         effect_data->unk_5A = effect_data->unk_5E =
-            (u16)effect_data->unk_20;
+            effect_data->unk_20;
         effect_data->unk_62 = effect_data->unk_66 =
-            (u16)effect_data->unk_2C;
+            effect_data->unk_2C;
     }
 
     if (effect_data->unk_40.at00.v == 0x10000) {
@@ -1291,20 +1291,20 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
             edge_data->unk_1E = edge_data->unk_5A;
             edge_data->unk_2A = edge_data->unk_62;
 
-            blended_coord = (edge_data->unk_1E + (s16)edge_data->unk_58) / 2;
+            blended_coord = (edge_data->unk_1E + edge_data->unk_58) / 2;
             edge_data->unk_20 = blended_coord;
-            blended_coord = (blended_coord + (s16)edge_data->unk_58) / 2;
+            blended_coord = (blended_coord + edge_data->unk_58) / 2;
             edge_data->unk_20 = blended_coord;
 
-            blended_coord = (edge_data->unk_2A + (s16)edge_data->unk_60) / 2;
+            blended_coord = (edge_data->unk_2A + edge_data->unk_60) / 2;
             edge_data->unk_2C = blended_coord;
-            blended_coord = (blended_coord + (s16)edge_data->unk_60) / 2;
+            blended_coord = (blended_coord + edge_data->unk_60) / 2;
             edge_data->unk_2C = blended_coord;
 
             edge_data->unk_5A = edge_data->unk_5E =
-                (u16)edge_data->unk_20;
+                edge_data->unk_20;
             edge_data->unk_62 = edge_data->unk_66 =
-                (u16)edge_data->unk_2C;
+                edge_data->unk_2C;
 
             sprite = node->sprite;
             sprite->color.c.r = sprite->color.c.g = 0xE0;
@@ -1411,7 +1411,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
 
     owner = effect->owner;
     direction_steps = D_80024074;
-    state_index = (s16)effect->state;
+    state_index = effect->state;
     object = NODE_HEADER(owner);
     object_data = object->position;
 
@@ -1564,7 +1564,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                 }
             }
 
-            effect->travel_ticks = (u8)effect->travel_ticks - 1;
+            effect->travel_ticks = effect->travel_ticks - 1;
             if (effect->travel_ticks <= 0) {
                 if (owner->target != 0) {
                     {
@@ -1573,7 +1573,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                         object = PTR(owner->target, -0x18);
                         motion->x.w.i = U16(object, 2);
                         motion->y.w.i = U16(object, 6);
-                        motion->z.w.i = (u16)effect->target_z;
+                        motion->z.w.i = effect->target_z;
                         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                         return;
                     }
@@ -1635,7 +1635,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
 
     case 4:
     {
-        u16 next_tick = (u16)effect->timer + 1;
+        u16 next_tick = effect->timer + 1;
         fade_out_tick = (s16)next_tick;
         effect->timer = next_tick;
     }
@@ -1677,7 +1677,7 @@ loop_0:
         return;
 
     case 5:
-        effect->timer = (u16)effect->timer + 1;
+        effect->timer++;
         blue_scaled = effect->timer * 0x20;
         effect->blue = blue_scaled / 0x28;
         green_scaled = effect->timer * 8;
@@ -1704,7 +1704,7 @@ loop_0:
 
     case 6:
     {
-        u16 next_tick = (u16)effect->timer + 1;
+        u16 next_tick = effect->timer + 1;
         target_tick = (s16)next_tick;
         effect->timer = next_tick;
     }

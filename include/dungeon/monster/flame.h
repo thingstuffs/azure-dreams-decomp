@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE06_SLOT0_H
 #define DUNGEON_RESOURCE06_SLOT0_H
+#include "engine/node/registration.h"
 struct ObjectPosition;
 struct SpriteFrameState;
 #include "common.h"
@@ -666,7 +667,6 @@ typedef struct R06_80175270_S_80175270_10 {
 extern int abs(int);
 extern s32 Control_CD();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 s32 select_sprite_entry();
@@ -699,7 +699,6 @@ void unlink_entity_node();
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 
@@ -760,7 +759,7 @@ extern u8 flame_transition_object[];
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id);
 void create_anchored_directional_object(u8 *actor, u8 *motion, SpriteFrameState *entity);
 void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *sprite, ActorRecord *creature);
-void update_actor_object_motion(void *motion, ObjectPosition *unused, struct SpriteFrameState *actor, ActorRecord *path_state);
+void update_actor_object_motion(ActorRecord *motion, ObjectPosition *unused, struct SpriteFrameState *actor, ActorRecord *path_state);
 void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);

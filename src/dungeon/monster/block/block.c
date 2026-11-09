@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/entity.h"
 #include "sdk/libgpu.h"
 #include "dungeon/level/room_flags.h"
@@ -35,9 +36,9 @@ void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field
     part->flags |= 0xC;
 
     copy = object->header.position;
-    copy->x.w.i = source_coords->x.unsigned_parts.integer;
-    copy->y.w.i = source_coords->y.unsigned_parts.integer;
-    copy->z.w.i = source_coords->z.unsigned_parts.integer;
+    copy->x.w.i = source_coords->x.w.i;
+    copy->y.w.i = source_coords->y.w.i;
+    copy->z.w.i = source_coords->z.w.i;
 
     part = object->header.sprite;
     part->scale_y = 0x1000;
@@ -265,8 +266,8 @@ void set_boss_effect_flag(void *entity, ObjectPosition *motion, SpriteFrameState
     (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
 
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
-        floor_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
-                              motion->y.unsigned_parts.integer,
+        floor_height = sample_terrain_surface_height((u16)motion->x.w.i,
+                              (u16)motion->y.w.i,
                               (s16)(actor->unk_88.u - 0x20));
         if (floor_height < 0x200) {
             actor_height = actor->unk_88.s;
@@ -298,7 +299,7 @@ void set_boss_effect_flag(void *entity, ObjectPosition *motion, SpriteFrameState
         actor->unk_1C &= 0xF7FFFFFF;
     }
 
-    motion->z.unsigned_parts.integer =
+    motion->z.w.i =
         actor->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     monster->flags |= 0x40;
 
@@ -924,7 +925,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_A4.halves.high.s = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
             (map_entry->tile_y << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
-        action->unk_A8 = (u16) ((u16)motion->z.w.i);
+        action->unk_A8 = (u16)motion->z.w.i;
                         /* fall through */
     case 1:
         move_frames = action->unk_9E;
@@ -955,26 +956,26 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
                 case 6:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0xFFFE0000 - ((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8) << 0x10));
+                        - action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 5:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0 - ((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8) << 0x10));
+                        - action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 4:
                     scaled_height_delta = (action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8) * 3;
+                        - action->unk_A8) * 3;
                     action->unk_90.value = (s32) (0 - ((scaled_height_delta / 4) << 0x10));
                     actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
                     break;
                 case 3:
                     action->unk_90.value = (s32) (0 - ((((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8) * 2) / 5) << 0x10));
+                        - action->unk_A8) * 2) / 5) << 0x10));
                     break;
                 default:
                     action->unk_90.value = 0;
@@ -1088,13 +1089,13 @@ void complete_timed_actor_animation(ActorRecord *action, ObjectPosition *motion,
         if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if ((s16)action->action_timer == 6) {
+        if (action->action_timer == 6) {
             play_sound_if_enabled(0x808);
         }
-        if ((s16)action->action_timer == 8) {
+        if (action->action_timer == 8) {
             sprite->flags |= 0x0800;
         }
-        if ((s16)action->action_timer == 15 ||
+        if (action->action_timer == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             next_state = action->action_phase;
@@ -1339,14 +1340,14 @@ void update_block_value_reaction(ActorRecord *state, ObjectPosition *motion, Spr
             return;
         }
     case 1:
-        if ((s16)state->action_timer > 0) {
+        if (state->action_timer > 0) {
             ticks_left = state->action_timer - 1;
             state->action_timer = ticks_left;
         } else {
             if (action->flags & 0x6000)
                 state->action_timer = 0;
         }
-        if ((s16)state->action_timer != 0)
+        if (state->action_timer != 0)
             return;
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -1710,7 +1711,7 @@ void resume_actor_after_fade(ActorRecord *state, ObjectPosition *position, Sprit
 }
 
 /* Rotates the primitive, scales its color by remaining lifetime, and flags it for removal on timeout. */
-void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, void *primitive)
+void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, SpriteFrameState *primitive)
 {
     u16 ticks_left;
 
@@ -1734,7 +1735,7 @@ void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, 
 
 /* Creates a small gray fading sprite at the source position with the supplied scale and randomized
  * rotation. */
-void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale)
+void create_randomized_rotated_effect(void *unused_context, ObjectPosition *source_pos, s32 unused_value, s16 scale)
 {
     ObjectNodeHeader * effect;
     CB_80173CFC_S_80173CFC_0 *effect_part;
@@ -1751,9 +1752,9 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
         effect_data->tpage_abr = 0x60;
         effect_data->flags |= 0xC;
         effect_pos = effect->position;
-        effect_pos->x.w.i = source_pos->unk_00.at02_u16.v;
-        effect_pos->y.w.i = source_pos->unk_04.at02_u16.v;
-        effect_pos->z.w.i = source_pos->unk_0A - 0x28;
+        effect_pos->x.w.i = source_pos->x.w.i;
+        effect_pos->y.w.i = source_pos->y.w.i;
+        effect_pos->z.w.i = source_pos->z.w.i - 0x28;
         effect_data = effect->sprite;
         effect_data->depth_bias = 6;
         effect_data->scale_y = scale;
@@ -1777,10 +1778,10 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
  * effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set. One packed 12-byte
  * assignment emits the retail lwl/lwr and swl/swr copy.
  */
-void project_visible_effect_quad(ActorRecord *body, void *position_arg, void *render_info_arg, s16 depth_bias)
+void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg, void *render_info_arg, s16 depth_bias)
 {
     CB_80173E40_S_80173E40_2 *render_info = render_info_arg;
-    CB_80173E40_S_80173E40_1 *position = position_arg;
+    ObjectPosition *position = position_arg;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u8 *texture;
@@ -1792,9 +1793,9 @@ void project_visible_effect_quad(ActorRecord *body, void *position_arg, void *re
     CB_80173E40_MATRIX current_matrix;
 
     ((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_88 = position->unk_02;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_8C = position->unk_06;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_90 = position->unk_0A;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_88 = position->x.w.i;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_8C = position->y.w.i;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_90 = position->z.w.i;
     render_info->unk_14 |= 0x8000;
 
     PushMatrix();
@@ -1902,7 +1903,7 @@ void project_visible_effect_quad(ActorRecord *body, void *position_arg, void *re
 }
 
 /* Traverses linked effect nodes and projects each node's visible quad into render packets. */
-s32 advance_boss_command_stream(void *point, void *position, void *color) {
+s32 advance_boss_command_stream(void *point, ObjectPosition *position, void *color) {
  void *next;
  for (;;) {
   project_visible_effect_quad(point,position,color,0);
@@ -1916,7 +1917,7 @@ s32 advance_boss_command_stream(void *point, void *position, void *color) {
 }
 
 /* Fades radial segment colors, emits a particle burst, moves the segments outward, and expires them. */
-void create_angular_offset_effect(u8 *effect, s32 *position, s32 effect_param)
+void create_angular_offset_effect(u8 *effect, ObjectPosition *position, s32 effect_param)
 {
     s16 state;
     s16 life_left;
@@ -2021,9 +2022,9 @@ void create_angular_offset_effect(u8 *effect, s32 *position, s32 effect_param)
         F8(effect, 0x0C) = blue;
         F8(effect, 0x08) = blue;
         F8(effect, 0x04) = blue;
-        position[0] += F32(effect, 0x94);
-        position[1] += F32(effect, 0x98);
-        position[2] += F32(effect, 0x9C);
+        position->x.v += F32(effect, 0x94);
+        position->y.v += F32(effect, 0x98);
+        position->z.v += F32(effect, 0x9C);
         break;
     }
 

@@ -131,21 +131,21 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
             sprite = element->sprite;
             element->update_callback = callback;
             register_node(element, draw_linked_sprites);
-            x_product = rcos((s16)effect->angle) * effect_tables.radii[color_step_or_index];
+            x_product = rcos(effect->angle) * effect_tables.radii[color_step_or_index];
             axis_offset = x_product >> 0xC;
             element->position->x.w.i =
                 (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
             element_state = NODE_BODY(element);
-            y_product = rsin((s16)effect->angle) * effect_tables.radii[color_step_or_index];
+            y_product = rsin(effect->angle) * effect_tables.radii[color_step_or_index];
             axis_offset = y_product >> 0xC;
             element->position->y.w.i =
                 (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             if (color_step_or_index == 0) {
-                sprite->angle_z = (s16)effect->angle;
+                sprite->angle_z = effect->angle;
             } else if (color_step_or_index == 1) {
-                sprite->angle_z = (s16) (0 - (u16) effect->angle);
+                sprite->angle_z = -effect->angle;
             }
             sprite->tpage_abr = 0x60;
             sprite->flags = (u16) (sprite->flags | 0xC);

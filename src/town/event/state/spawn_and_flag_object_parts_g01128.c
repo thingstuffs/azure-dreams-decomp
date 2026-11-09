@@ -133,7 +133,7 @@ void fade_object_primitive(void *object, ObjectPosition *unusedContext, u8 *prim
         return;
     }
     unlink_node_if_registered(object);
-    ((ObjectNodeHeader *)object - 1)->flags |= NODE_REMOVE;
+    NODE_HEADER(object)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 

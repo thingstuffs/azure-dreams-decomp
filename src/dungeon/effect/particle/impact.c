@@ -335,7 +335,7 @@ void scale_effect_by_phase(void *effect_arg)
         }
     }
 
-    next_ticks = (u16)effect->unk_28 - 1;
+    next_ticks = effect->unk_28 - 1;
     effect->unk_28 = next_ticks;
     if ((next_ticks << 16) <= 0) {
         node->unk_1E = 0x1000U;
@@ -703,7 +703,7 @@ void clear_circular_list_flags(void)
 
     link = primary_actor_record;
     /* unk_5C links to the next object's header; its record follows the header */
-    next = link->next_actor_header;
+    next = (s32)(unsigned long)link->next_actor_header;
     link_value = (u32)link;
     next += 0x20;
     link = (ActorRecord *)next;
@@ -716,7 +716,7 @@ void clear_circular_list_flags(void)
         next = object->flags;
         next &= 0xDFFF;
         object->flags = next;
-        link_value = link->next_actor_header;
+        link_value = (s32)(unsigned long)link->next_actor_header;
         link = (ActorRecord *)(link_value + 0x20);
     } while (link != head);
 }
@@ -1469,7 +1469,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                               effect_in->min_index, effect_in->max_index);
                 copy_and_expand_effect_record(effect_in, visual_in->unk_00);
             }
-            if ((s16)primary_actor_record->action_timer == 0) {
+            if (primary_actor_record->action_timer == 0) {
                 effect_in->move_ticks = 0;
                 effect_in->rise_speed = 0x200000;
                 effect_in->rise_accel = 0;
@@ -2017,7 +2017,7 @@ typedef struct S_func_80026418_0 {
     u8 pad_09[1];
     u16 unk_0A;
     u8 pad_0C[0x10];
-    u16 unk_1C;
+    s16 unk_1C;
     u8 pad_1E[6];
     s16 unk_24;
     u8 pad_26[2];
@@ -2155,8 +2155,8 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             colors->view.tint.parts.tint_g -= 2;
             colors->view.tint.parts.tint_b -= 2;
         }
-        effect->unk_1C = (u16)effect->unk_1C - 1;
-        if ((s16)effect->unk_1C > 0) {
+        effect->unk_1C = effect->unk_1C - 1;
+        if (effect->unk_1C > 0) {
             return;
         }
         reset_timer = 0x3C;
@@ -2175,8 +2175,8 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             colors->view.tint.parts.tint_b += 10;
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
-            effect->unk_1C = (u16)effect->unk_1C - 1;
-            if ((s16)effect->unk_1C >= 0) {
+            effect->unk_1C = effect->unk_1C - 1;
+            if (effect->unk_1C >= 0) {
                 return;
             }
         }

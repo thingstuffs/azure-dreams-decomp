@@ -95,7 +95,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
             state->action_timer = 0;
             state->action_phase++;
         }
-        if ((s16)state->action_timer != 0xF) {
+        if (state->action_timer != 0xF) {
             return;
         }
         play_sound_if_enabled(0x804);

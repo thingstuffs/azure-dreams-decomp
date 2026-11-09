@@ -22,7 +22,7 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_8016A86C_4 *actor;
+    ActorRecord *actor;
     s32 left;
     s32 right;
     s16 saved_spawn_flags;
@@ -83,15 +83,15 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_spawn_flags);
 
-        actor->unk_9A = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = func_8016B1A4;
+        actor->unk_8C.address = (void *)func_8016B1A4;
         ((S_8016A86C_1 *)work)->unk_1C |= 0x00040000;
-        actor->unk_92 = -16;
-        flags = actor->unk_98;
+        actor->unk_90.parts.high.s = -16;
+        flags = actor->action_state_flags;
         actor->unk_A8 = 0;
         actor->unk_9E = 1;
-        actor->unk_98 = flags | 0x4000;
+        actor->action_state_flags = flags | 0x4000;
 
         current = actor;
         count = 0;

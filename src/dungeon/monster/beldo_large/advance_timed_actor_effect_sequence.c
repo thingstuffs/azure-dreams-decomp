@@ -72,7 +72,7 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
         if ((s16)timer == 1) {
             create_eight_part_textured_ribbon(sequence, transform, sprite, ((&view_reference_entity)));
         }
-        if ((s16)sequence->action_timer == 2) {
+        if (sequence->action_timer == 2) {
             effect_actor = primary_actor_record;
             ((PlayerRecord *)effect_actor)->unk_10C |= 1;
             effect_actor->movement_facing = ((u16)effect_actor->facing) + 0x800;
@@ -80,7 +80,7 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
             play_sound_if_enabled(0x601);
             create_player_centered_sequence_effect(sequence, transform, sprite);
         }
-        if ((s16)sequence->action_timer == 0xB) {
+        if (sequence->action_timer == 0xB) {
             state = sequence->action_phase;
             sequence->action_timer = 0;
             sequence->action_phase = state + 1;

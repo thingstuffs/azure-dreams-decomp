@@ -8,6 +8,7 @@
 #include "frontend/libcard.h"
 
 #include "frontend/libcard/display_node.h"
+#include "frontend/libcard/slot_list.h"
 
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
 extern u8 D_80078FD0[16];
@@ -18,6 +19,6 @@ extern void func_80023BE4(void *, s32, s32);
 /* Functions defined in this translation unit. */
 void card_boot_format_occupied_slot_window(void *slot_owner);
 void card_boot_layout_alternate_slot_window(void *context);
-void card_boot_populate_slot_window_display(s32 *state);
+void card_boot_populate_slot_window_display(CardSlotWindow *window);
 
 #endif

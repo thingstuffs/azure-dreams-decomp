@@ -3,8 +3,8 @@
 
 typedef struct S_80813294_0 {
     void * unk_00;
-    u16 unk_04;
-    u16 unk_06;
+    s16 unk_04;
+    s16 unk_06;
 } S_80813294_0;   /* arg0 in animate_hud_gauge */
 
 typedef struct S_80813294_1 {
@@ -21,7 +21,7 @@ typedef struct S_80813294_2 {
 void animate_hud_gauge(S_80813294_0 *record, s32 unused, S_80813294_1 *value_record) {
     s32 state;
 
-    state = (s16)record->unk_04;
+    state = record->unk_04;
     record->unk_06 = record->unk_06 - 1;
     switch (state) {
     case 0:
@@ -32,7 +32,7 @@ void animate_hud_gauge(S_80813294_0 *record, s32 unused, S_80813294_1 *value_rec
         break;
     case 1:
         value_record->unk_16 = value_record->unk_16 + 0x40;
-        if ((s16)record->unk_06 <= 0) {
+        if (record->unk_06 <= 0) {
             record->unk_04 = record->unk_04 + 1;
         }
         break;

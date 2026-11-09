@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01128 - CL:town/func_8009ED0C, CL:town/func_8009EEE8. */
 
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/vector.h"
@@ -84,7 +85,6 @@ typedef struct S_8009C648_3 {
 extern void SD_Call(s32 flags);
 extern void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_value);
 extern void *allocate_list_node();
-extern s32 register_node(void *entry, void *registration_id);
 extern u8 D_8009C4E8[];
 extern u8 D_8009C5D8[];
 extern s32 rand(void);

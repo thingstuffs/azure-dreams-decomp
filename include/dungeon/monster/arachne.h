@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE12_SLOT0_H
 #define DUNGEON_RESOURCE12_SLOT0_H
+#include "engine/node/registration.h"
 struct SpriteFrameState;
 struct ObjectPosition;
 #include "common.h"
@@ -580,7 +581,6 @@ typedef struct R12_80175470_S_80175470_5 {
 extern int abs(int);
 s32 Control_CD();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
@@ -618,7 +618,6 @@ s32 update_actor_hop_and_shrink(void *animation, struct ObjectPosition *motion, 
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 
@@ -707,8 +706,8 @@ s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_da
 void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias);
 s32 queue_line_packets_for_node_chain(void *initial_state, void *context, SpriteFrameState *data);
 void update_turning_fade_effect_and_model(void *record_data);
-void build_animated_spherical_wireframe(void *effect, void *origin, SpriteFrameState *tint);
-void create_offset_effect(void *source_arg, void *spawn_pos_arg, struct SpriteFrameState *unused_context);
+void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, SpriteFrameState *tint);
+void create_offset_effect(void *source_arg, ObjectPosition *spawn_pos_arg, struct SpriteFrameState *unused_context);
 void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *other_data);
 void fade_effect_to_neutral(void *entity_data, ObjectPosition *unused, void *source_data);
 void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosition *position, SpriteFrameState *record, ActorRecord *actor);

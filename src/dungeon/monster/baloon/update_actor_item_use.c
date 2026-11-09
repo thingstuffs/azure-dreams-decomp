@@ -220,7 +220,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
         if ((g_dungeon_status.active_actor) == 0) {
             body->action_timer = 0;
         }
-        if ((s16)body->action_timer >= 10) {
+        if (body->action_timer >= 10) {
             effect_count = 0;
             do {
                 spawn_angled_random_velocity_effect((u8 *)body - 0x20,
@@ -228,7 +228,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
                 effect_count++;
             } while ((s16)effect_count < 3);
         }
-        if ((u32)(body->action_timer - 10) < 7) {
+        if ((u32)((u16)body->action_timer - 10) < 7) {
             s16 angle;
 
             for (angle = 0; angle < 0x1000; angle += 0x200) {

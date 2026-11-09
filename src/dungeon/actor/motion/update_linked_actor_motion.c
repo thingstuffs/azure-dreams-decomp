@@ -15,7 +15,7 @@ s32 update_linked_actor_motion(void *state_data, ObjectPosition *transform, Spri
     if (config->flags & 0x8000) {
         state->action_timer = 0;
     }
-    if ((s16)state->action_timer != 0) {
+    if (state->action_timer != 0) {
         linked_transform = *(void **)((u8 *)object->target - 0x18);
         transform->velocity_x = *(s32 *)((u8 *)linked_transform + 0xC);
         transform->velocity_y = *(s32 *)((u8 *)linked_transform + 0x10);

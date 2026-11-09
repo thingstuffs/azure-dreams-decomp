@@ -47,6 +47,7 @@ void init_monster_from_stats(void *obj, s16 monsterId);
 /* is_frame_packet_arena_overflowed.c */
 short enqueue_audio_command(int value);
 s32 clamp_sound_value_to_seven_bits(s16 value);
+s32 lookup_level_experience_threshold(struct ActorRecord *entry, s16 index_offset);
 s32 lookup_patterned_display_icon(s32 index);
 s32 lookup_unpatterned_display_icon(s32 index);
 void load_primary_optional_resource_descriptor(void);

@@ -510,8 +510,8 @@ int advance_index_with_single_wrap(int index, int delta, int limit) {
     return index;
 }
 
-/* Read the indexed word from the global table. */
-int get_menu_count_template(int count)
+/* Return the display template for a menu row count from the global table. */
+void *get_menu_count_template(int count)
 {
     return D_800712B4[count];
 }

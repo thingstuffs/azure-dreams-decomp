@@ -15,6 +15,6 @@ extern u8 D_800A79F0[12];
 
 /* Functions defined in this translation unit. */
 void update_scale_effect_and_advance(TownObjectRecord *state, void *context, SpriteFrameState *scale);
-void initialize_neutral_primitive(void *object, void *unused, void *primitive);
+void initialize_neutral_primitive(TownObjectRecord *object, void *unused, SpriteFrameState *primitive);
 
 #endif

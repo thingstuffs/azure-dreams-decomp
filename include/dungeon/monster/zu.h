@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #ifndef DUNGEON_OVL_FA7000_H
 #define DUNGEON_OVL_FA7000_H
+#include "engine/node/registration.h"
 struct ActorRecord;
 #include "common.h"
 #include "shared/entity.h"
@@ -28,7 +29,6 @@ void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg);
 void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, struct SpriteFrameState *sprite, ActorRecord *stats_in);

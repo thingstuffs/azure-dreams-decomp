@@ -78,7 +78,7 @@ void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, Objec
         break;
     }
 
-    ticks_left = animation->action_timer - 1;
+    ticks_left = (u16)animation->action_timer - 1;
     animation->action_timer = ticks_left;
     if ((ticks_left << 16) > 0) {
         return;

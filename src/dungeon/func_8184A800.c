@@ -2,6 +2,7 @@
 #include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/mesh.h"
 
 
@@ -73,7 +74,7 @@ void func_8184A800(void *owner, void *unused, SpriteFrameState *target)
     }
 
     if (target->flags & 0x6000) {
-        *(u16 *)((u8 *)owner - 2) |= NODE_REMOVE;
+        NODE_HEADER(owner)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

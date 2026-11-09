@@ -15,7 +15,7 @@ void card_boot_bind_command_panel_resources(CardCommandPanelBody *object)
     void *shared_data;
     void *primary_table;
     void *secondary_table;
-    s32 kind_value;
+    void *kind_value;
     s32 slot_index;
     s32 block_offset;
 
@@ -25,7 +25,7 @@ void card_boot_bind_command_panel_resources(CardCommandPanelBody *object)
     secondary_table = D_80077EFC;
     shared_data = (u8 *)object + 4;
     block_offset = 0x90;
-    object->heading->payload.word = kind_value;
+    object->heading->payload.data = kind_value;
     object->marker->payload.data = menu_leaf_template_6;
     do {
         object->left[slot_index]->payload.data = primary_table;

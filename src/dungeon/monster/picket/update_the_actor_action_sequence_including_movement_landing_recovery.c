@@ -199,7 +199,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             action->action_state_flags |= 0x80;
             return;
         }
-        if ((s16)action->action_timer <= 0) {
+        if (action->action_timer <= 0) {
             motion->velocity_x = 0;
             motion->velocity_y = 0;
             motion->velocity_z = 0;
@@ -268,13 +268,13 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
         s32 ticks;
         s32 ticks_squared;
 
-        ticks = (s16)action->action_timer;
+        ticks = action->action_timer;
         ticks_squared = ticks * ticks;
         ticks = 0x1000 + ticks_squared * 300;
         sprite->scale_x = ticks;
         sprite->scale_y = 0x1000 - ticks_squared * 200;
     }
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             return;
         }
         sprite->frameTable = picket_frame_set_2;
@@ -311,7 +311,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
                 (target_coord - current_coord) << 14;
         }
     }
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             return;
         }
         motion->velocity_z = 0;

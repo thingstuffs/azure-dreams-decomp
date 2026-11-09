@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "engine/node/registration.h"
 #include "engine/graphics.h"
 #include "shared/object_node.h"
 #include "shared/position_views.h"
@@ -14,7 +15,6 @@ typedef struct Palette {
     s32 value[5];
 } Palette;
 
-extern void register_node(void *, void *);
 
 extern Palette D_800201B4;
 extern u8 D_80023FA8[];

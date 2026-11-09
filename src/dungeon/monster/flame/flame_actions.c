@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "engine/entity/effect_slots.h"
 #include "dungeon/actor/motion.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
@@ -678,7 +679,7 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
 }
 
 /* Advances one stored path step, updates occupied tiles and facing, and sets the movement delay. */
-void update_actor_object_motion(void *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *path_state)
+void update_actor_object_motion(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *path_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -727,21 +728,21 @@ void update_actor_object_motion(void *motion, ObjectPosition *unused, SpriteFram
 
     path_state->facing = ((s16)get_rounded_facing_and_rounding_flag(
         old_x, old_y, actor->tile_x, actor->tile_y,
-        (u8 *)motion + 0x98));
+        &motion->action_state_flags));
     path_state->flags1C |= 0x40000000;
-    ((R06_80171964_S_8017169C_2 *)motion)->unk_9A = 0xF;
-    (*(s32 *)((u8 *)motion + 0x8C)) = 0;
+    motion->action_id = 0xF;
+    motion->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
-        ((R06_80171964_S_8017169C_2 *)motion)->unk_96 = 0;
+        motion->action_timer = 0;
         return;
     }
 
-    ((R06_80171964_S_8017169C_2 *)motion)->unk_96 = 8;
+    motion->action_timer = 8;
     {
         s32 step_count = path_state->movement_queue_state;
         if (step_count > 0) {
-            ((R06_80171964_S_8017169C_2 *)motion)->unk_96 = 8 / step_count;
+            motion->action_timer = 8 / step_count;
         }
     }
 }
@@ -1386,12 +1387,12 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
             dir_step_x[direction] << 14;
         motion->velocity_y -=
             dir_step_y[direction] << 14;
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (tile_state->flags & 0x6000) {
             action->action_timer = 0;
         }
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -1407,7 +1408,7 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
         return;
 
     case 2:
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             {
                 s32 target_coord = tile_state->tile_x << 6;
                 s32 current_coord = motion->x.w.i - 0x20;
@@ -2724,7 +2725,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             R06_80175270_S_80175270_3 *target_color;
             u8 effect_done;
 
-            frames_left = action->action_timer;
+            frames_left = (u16)action->action_timer;
             action->action_timer = frames_left - 1;
             if ((s16)(frames_left - 1) <= 0) {
                 effect_done = flame_effect_load_done[0];
@@ -2737,9 +2738,9 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
                 return;
             }
             target_color = (R06_80175270_S_80175270_3 *)((u8 **)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
-            work->unk_A8 += (target_color->unk_00 - work->unk_A8) / (s16)action->action_timer;
-            work->unk_A9 += (target_color->unk_01 - work->unk_A9) / (s16)action->action_timer;
-            work->unk_AA += (target_color->unk_02 - work->unk_AA) / (s16)action->action_timer;
+            work->unk_A8 += (target_color->unk_00 - work->unk_A8) / action->action_timer;
+            work->unk_A9 += (target_color->unk_01 - work->unk_A9) / action->action_timer;
+            work->unk_AA += (target_color->unk_02 - work->unk_AA) / action->action_timer;
             return;
         }
 
@@ -2841,7 +2842,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
         {
 
             action->action_timer--;
-            if ((s16)action->action_timer > 0) {
+            if (action->action_timer > 0) {
                 return;
             }
             ((R06_80175270_S_80175270_9 *)actor->target)->unk_2A = (u16)actor->unk_8A;

@@ -68,7 +68,7 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
     owner->unk_0C = (u16) (owner->unk_0C + 1);
     next_tick = (s16) (effect->unk_12 + 1);
     color_cycle = next_tick;
-    effect->unk_10 = (u16) ((u16)effect->unk_10 + 1);
+    effect->unk_10++;
     effect->unk_12 = (u16) next_tick;
     color_cycle = (color_cycle % 7) + 1;
     advance_sprite_animation_and_textures(visual);
@@ -82,12 +82,12 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
     visual->color.c.r = (s8) ((color_bias >> 2) << 7);
     visual->color.c.g = (s8) ((s32) (((s16) half_color - (((s32) ((s16) half_color + ((u32) (half_color << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
     visual->color.c.b = (s8) ((s32) ((color_bits - (half_color * 2)) << 0x10) >> 9);
-    phase = (s16)effect->unk_0E;
+    phase = effect->unk_0E;
     wait_phase = effect->unk_0E;
     switch (phase) {
     case 0:
         full_scale = 0x1400;
-        scale = (full_scale / (s16) effect->unk_14) * (s16) effect->unk_10;
+        scale = (full_scale / (s16) effect->unk_14) * effect->unk_10;
         visual->scale_y = scale;
         visual->scale_x = scale;
         position_x = motion->f0;
@@ -104,13 +104,13 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
         }
         burst_phase = effect->unk_0E;
         effect->unk_10 = 0U;
-        effect->unk_0E = (u16) (burst_phase + 1);
+        effect->unk_0E = burst_phase + 1;
         return;
     case 1:
-        if ((s16) effect->unk_10 < 0xC) {
+        if (effect->unk_10 < 0xC) {
             return;
         }
-        effect->unk_0E = (s16) (wait_phase + 1);
+        effect->unk_0E = wait_phase + 1;
         effect->unk_10 = 0;
         return;
     case 2:
@@ -125,12 +125,12 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
             opposite_bias = angle + 0x17FF;
         }
         create_random_rotation_effect(effect, motion, (s16) (opposite_angle - ((opposite_bias >> 0xC) << 0xC)));
-        if ((s16) effect->unk_10 < 0x21) {
+        if (effect->unk_10 < 0x21) {
             return;
         }
         burst_phase = effect->unk_0E;
         effect->unk_10 = 0U;
-        effect->unk_0E = (u16) (burst_phase + 1);
+        effect->unk_0E = burst_phase + 1;
         return;
     case 3:
         if (visual->flags & 0x6000) {

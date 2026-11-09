@@ -30,7 +30,7 @@ void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPositio
         sprite->color.c.r = brightness;
     }
     effect->unk_08.u = (u16) (effect->unk_08.u + 0x100);
-    effect->unk_06 = (u16) (effect->unk_06 + 1);
+    effect->unk_06++;
     height_offset = (u16) (effect->unk_0A - 8) - (rand() % 9);
     effect->unk_0A = height_offset;
     if ((u16) sprite->scale_x < 0x400U) {
@@ -45,9 +45,9 @@ void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPositio
         return;
     }
     position->x.v = (s32) (*effect_position_source + (((rsin((s16) effect->unk_08.u)
-        >> 4) * (s16) effect->unk_06) << 8));
+        >> 4) * effect->unk_06) << 8));
     position->y.v = (s32) (effect_position_source[1]
-        + (((rcos((s16) effect->unk_08.u) >> 4) * (s16) effect->unk_06)
+        + (((rcos((s16) effect->unk_08.u) >> 4) * effect->unk_06)
            << 8));
     position->z.w.i = (s16) (((ExpandingFadeEffectBody *)effect_position_source)->unk_0A
         + effect->unk_0A);

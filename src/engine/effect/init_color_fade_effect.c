@@ -22,8 +22,8 @@ void init_color_fade_effect(CdCueEffectNode *object, struct Controller *context)
     object->header.update_callback = update_color_fade_effect;
     state = &object->body;
     state->owner.controller = context;
-    state->state.s = 0;
-    state->timer.s = 0;
+    state->state = 0;
+    state->timer = 0;
     state->index = 0;
     state->completion = 0;
 

@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "engine/node/registration.h"
 #include "shared/object_node.h"
 #include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
@@ -33,7 +34,6 @@ extern s16 D_800834C8[8];
 
 extern s16 SD_Call(s32 value);
 extern void *create_familiar_deployment_effect_with_owner_state(void);
-extern void register_node(void *entry, void *registration_id);
 
 typedef struct ReelSlotCursor {
     u8 pad_00[0x4C];
@@ -164,7 +164,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
 
         if ((((u32)input->pressed_buttons) & 0x1000) != 0 ||
             ((((u32)input->buttons) & 0x1000) != 0 &&
-             (s16)state->timer <= 0)) {
+             state->timer <= 0)) {
             if (state->count < 3) {
                 SD_Call(AUDIO_CURSOR_MOVE);
                 if ((u32)town_money[0] < 100U) {
@@ -178,7 +178,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
 
         if ((((u32)input->pressed_buttons) & 0x4000) != 0 ||
             ((((u32)input->buttons) & 0x4000) != 0 &&
-             (s16)state->timer <= 0)) {
+             state->timer <= 0)) {
             if (state->count >= 2) {
                 SD_Call(AUDIO_CURSOR_MOVE);
                 town_money[0] += 100;
@@ -238,7 +238,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
 
     case 5:
     {
-        s16 reel_index = (s16)state->timer;
+        s16 reel_index = state->timer;
         SlotObject *reel = state->slot[reel_index];
         if (reel->unk_24 != 3) {
             return;
@@ -260,14 +260,14 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             state->timer2.s == 0) {
             SlotObject *reel;
             SD_Call(AUDIO_SLOT_REEL_STOP);
-            reel = state->slot[(s16)state->timer];
+            reel = state->slot[state->timer];
             reel->unk_24 = 4;
             state->timer2.u = 10;
             state->timer++;
         }
         {
             index = 2;
-            if ((s16)state->timer != 3) {
+            if (state->timer != 3) {
                 return;
             }
             state->work = 0;
@@ -430,7 +430,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
 
     case 7:
         state->timer++;
-        if ((s16)state->timer == 9) {
+        if (state->timer == 9) {
             initialize_town_context_action();
         }
         if ((state->timer & 3) != 0) {

@@ -15,9 +15,9 @@ extern int dungeon_floor_flags;
 typedef struct DungeonRoom {
     /* 0x00 */ unsigned short x; /* room rectangle starting column, in map tiles */
     /* 0x02 */ unsigned short y; /* room rectangle starting row, in map tiles */
-    /* 0x04 */ short w; /* room rectangle width, in map tiles */
-    /* 0x06 */ short h; /* room rectangle height, in map tiles */
-    /* 0x08 */ short unk_08;
+    /* 0x04 */ unsigned short w; /* room rectangle width, in map tiles */
+    /* 0x06 */ unsigned short h; /* room rectangle height, in map tiles */
+    /* 0x08 */ unsigned short unk_08;
     /* 0x0A */ short active; /* nonzero when this generation cell contains a real room */
     /* 0x0C */ unsigned short flags; /* room state bits; readers test bit 1 before trusting a stored room index */
     /* 0x0E */ short entry_count;

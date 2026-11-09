@@ -1,5 +1,6 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "shared/object_node.h"
 #include "engine/scene.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
@@ -24,7 +25,7 @@ extern Node8002BB08 D_8002BB08;
 /* Create or reset the shared node and initialize its request and mode. */
 Node8002BB08 *init_card_boot_request_object(ObjectNodeHeader *request, s32 mode) {
     Node8002BB08 *node = &D_8002BB08;
-    void *node_data = (u8 *)node + 0x20;
+    void *node_data = NODE_BODY(node);
 
     if (find_active_list_node(node) == 0) {
         node = initialize_scene_object_in_buffer(0, node, 25);

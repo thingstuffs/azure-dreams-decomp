@@ -117,4 +117,12 @@ void set_storage_entry_text(struct StorageEntry *entry, s32 text, s32 style, s16
 void store_table_index_and_entry_bytes(void *object, s32 index);
 void update_storage_display(struct StorageOwner *object);
 
+struct FuncArg;
+struct ItemMenuInputObject;
+void apply_record_values_and_process_record(struct ItemMenuInputObject *record);
+void configure_shop_object_and_finalize(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3, s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7);
+s32 get_mode_value_or_default(s32 mode);
+void process_record_and_apply_flags(struct FuncArg *record);
+void reset_record_resources(struct ShopRecordResetObject *object);
+
 #endif

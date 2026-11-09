@@ -274,7 +274,7 @@ void fade_quad_vertex_colors(void *fade_data)
     u16 ticks_left;
 
     fade = fade_data;
-    ticks_left = (u16)fade->unk_3A;
+    ticks_left = fade->unk_3A;
     linked_effect_update_flag[0] = 1;
     ticks_left--;
     fade->unk_3A = ticks_left;
@@ -351,7 +351,7 @@ void choose_random_sign(EntityEffectSequenceBody *effect, s32 unused, void *prim
     s32 intensity;
     u16 ticks_left;
 
-    ticks_left = (u16)state->prefix.timer3A - 1;
+    ticks_left = state->prefix.timer3A - 1;
     intensity = ((s32)(ticks_left << 16) >> 9) / state->prefix.timer3C;
     linked_effect_update_flag[0] = 1;
     state->prefix.timer3A = ticks_left;

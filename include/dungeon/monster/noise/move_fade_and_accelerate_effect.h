@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_7F43F800_P02_H
 #define DUNGEON_OVL_7F43F800_P02_H
+#include "engine/node/registration.h"
 #include "common.h"
 #include "sdk/libc.h"
 #include "dungeon/actor.h"
@@ -117,7 +118,6 @@ typedef struct T_80171190_Work {
 } T_80171190_Work;
 
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern u8 D_80171358[];

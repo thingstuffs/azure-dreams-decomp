@@ -1,6 +1,7 @@
 /* Person object lifecycle (G00659). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C5ABC, CL:town/func_800C6064, PD:town/engine:800D5028. */
 #include "town/person/person_object_lifecycle_g00659.h"
+#include "shared/object_node.h"
 #include "town/person.h"
 #include "town/scene/object.h"
 #include "engine/node.h"
@@ -47,7 +48,7 @@ void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *mo
     }
 
     obj->callback(obj, callback_arg, motion);
-    if (!(*(u16 *)((u8 *)obj - 2) & 0x8000)) {
+    if (!(NODE_HEADER(obj)->flags & 0x8000)) {
         table_index = quantize_heading_to_sector(obj->field72, obj->field64);
         if (obj->field74 != table_index) {
             clear_object_status_and_dispatch_target(obj, motion, (int)(obj->table78[table_index]), *(s8 *)((u8 *)motion + 4));

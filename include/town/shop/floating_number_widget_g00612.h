@@ -6,6 +6,7 @@ struct ObjectNodeHeader;
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B41D8, CL:town/func_800B4200, CL:town/func_800B4298, CL:town/func_800B43B0, CL:town/func_800B4410. */
 
 #include "common.h"
+#include "engine/node/registration.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -102,7 +103,6 @@ void initialize_templated_state_and_position(s32, s32, s32, s32, s32);
 extern s32 display_block_defaults[4];
 /* object in create_dual_buffer_object */
 extern void *process_context_with_selector_4(void *);
-extern void register_node(void *, void *);
 extern void lower_value_toward_target(struct ObjectNodeHeader *object);
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
 

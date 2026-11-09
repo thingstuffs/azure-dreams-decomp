@@ -12,6 +12,7 @@
  *   - the two overlay data symbols are this image's
  */
 #include "common.h"
+#include "engine/node/registration.h"
 #include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
@@ -19,7 +20,6 @@
 #include "dungeon/effect/particle/converging_fade.h"
 
 extern void *allocate_list_node(s32, void *);
-extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 /* Creates an offset object and initializes its source position and motion parameters. */
 void create_converging_fading_particle(

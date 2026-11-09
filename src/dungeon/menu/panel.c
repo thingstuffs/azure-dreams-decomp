@@ -523,7 +523,7 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
                     }
                 }
             }
-            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

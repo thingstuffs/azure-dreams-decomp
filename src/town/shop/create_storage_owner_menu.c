@@ -11,6 +11,7 @@
 #include "town/person.h"
 #include "town/shop/object.h"
 #include "town/shop/state.h"
+#include "town/shop.h"
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
 
 StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner) {

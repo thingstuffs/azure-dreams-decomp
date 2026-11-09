@@ -14,7 +14,7 @@ typedef struct S_8002744C_1 {
 
 
 /* Advance effect positions, fade the color, and flag expiration when the timer ends. */
-void advance_effect_positions_and_fade(void *effect_arg, void *positions_arg, void *color_arg) {
+void advance_effect_positions_and_fade(void *effect_arg, void *positions_arg, SpriteFrameState *color_arg) {
     SpriteFrameState *color = color_arg;
     ObjectPosition *positions = positions_arg;
     S_8002744C_1 *effect = effect_arg;

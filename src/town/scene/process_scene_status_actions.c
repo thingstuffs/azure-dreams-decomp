@@ -3,6 +3,7 @@
 #include "town/player/script_flags.h"
 #include "town/scene/event.h"
 #include "town/scene/hooks.h"
+#include "town/scene.h"
 
 /* Stores the inputs and switches three scene flags according to the object's status test. */
 s32 process_scene_status_actions(void *object, s32 value)

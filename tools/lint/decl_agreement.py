@@ -21,6 +21,16 @@ A declaration agrees if it matches any non-static definition of the name (overla
 define one name in several units); static definitions are checked only against the
 declarations in their own file.  With no definition in the tree, prototypes under
 include/ are the reference.  --fail-new exits 1 when any declaration disagrees.
+
+Function-pointer parameters compare by shape: parameter names and the pointer's own name
+are dropped, the return and inner parameter types are normalised recursively, and a
+typedef of a function pointer resolves to its spelled-out form.
+
+A data pointer agrees with `void *` (C converts silently), so a stale `void *` parameter
+left behind by a void * -> record retype is reported separately as `void_pointer_stale`:
+a declaration whose parameter is `void *` where the definition takes a specific record
+pointer, listed only when the declaration is new on HEAD or the definition changed since
+BASE.  The class is report-only unless --fail-void is given.
 """
 from __future__ import annotations
 
@@ -43,6 +53,9 @@ SCALAR_TYPEDEF = re.compile(r'typedef\s+((?:(?:unsigned|signed|short|long|int|ch
 FIXED_ALIASES = {'s8': 'signed char', 'u8': 'unsigned char', 's16': 'short', 'u16': 'unsigned short',
                  's32': 'int', 'u32': 'unsigned', 's64': 'long long', 'u64': 'unsigned long long',
                  'f32': 'float', 'f64': 'double'}
+FNPTR_TYPEDEF = re.compile(r'typedef\s+([^;{}()]+?)\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\(([^;{}]*)\)\s*;')
+FNPTR_SHAPE = re.compile(r'^(.*?)\(\s*\*\s*(?:[A-Za-z_]\w*)?\s*\)\s*\((.*)\)\s*$', re.S)
+FNPTR_PREFIX = 'fnptr:'
 
 
 def scalar_aliases(root):
@@ -52,7 +65,18 @@ def scalar_aliases(root):
         text = C.strip_comments(path.read_text(errors='replace'))
         for match in SCALAR_TYPEDEF.finditer(text):
             aliases.setdefault(match[2], ' '.join(match[1].split()))
+    for path in sorted((Path(root) / 'include').rglob('*.h')):
+        text = C.strip_comments(path.read_text(errors='replace'))
+        for match in FNPTR_TYPEDEF.finditer(text):
+            aliases.setdefault(FNPTR_PREFIX + match[2], function_pointer_form(match[1], match[3], aliases))
     return aliases
+
+
+def function_pointer_form(ret, params, aliases):
+    """Canonical `ret(*)(params)`: names dropped, return and inner parameters normalised."""
+    inner = normalize_params(params, aliases)
+    shown = '' if inner is None else ('void' if not inner else ','.join(inner))
+    return normalize_type(ret, aliases) + '(*)(' + shown + ')'
 
 
 def scalar_form(words):
@@ -78,9 +102,11 @@ def scalar_form(words):
 def normalize_type(text, aliases):
     """Canonical type string for a parameter or return type; the parameter name is dropped."""
     tokens = [t for t in TOKEN.findall(text) if t not in STORAGE and t not in ('struct', 'union', 'enum')]
-    if tokens.count('(') and '*' in tokens:      # function pointer: drop the inner name, keep the shape
-        text = re.sub(r'\(\s*\*\s*[A-Za-z_]\w*\s*\)', '(*)', ' '.join(tokens))
-        return re.sub(r'\s+', '', text)
+    if tokens.count('(') and '*' in tokens:      # function pointer: drop the names, keep the shape
+        shape = FNPTR_SHAPE.match(' '.join(tokens))
+        if shape:
+            return function_pointer_form(shape[1], shape[2], aliases)
+        return re.sub(r'\s+', '', ' '.join(tokens))
     if '[' in tokens:                            # arrays decay to pointers; the name precedes '['
         joined, skip = [], 0
         for t in tokens:
@@ -104,6 +130,8 @@ def normalize_type(text, aliases):
     quals = sorted(t for t in tokens if t in ('const', 'volatile'))
     stars = ''.join(t for t in tokens if t == '*')
     words = [t for t in tokens if t not in ('const', 'volatile', '*')]
+    if len(words) == 1 and FNPTR_PREFIX + words[0] in aliases and not stars:
+        return aliases[FNPTR_PREFIX + words[0]]
     resolved = []
     for w in words:
         resolved += aliases[w].split() if w in aliases else [w]
@@ -202,7 +230,20 @@ def compatible(a, b):
     """Same normalized type, or a data pointer against `void *` (C converts those silently)."""
     if a == b:
         return True
+    if '(*)(' in a and '(*)(' in b:              # `()` inside a function pointer is unprototyped
+        (ret_a, args_a), (ret_b, args_b) = (x[:-1].split('(*)(', 1) for x in (a, b) if x.endswith(')'))
+        return ret_a == ret_b and (not args_a or not args_b or args_a == args_b)
     return a.endswith('*') and b.endswith('*') and 'void*' in (a, b) and '(' not in a + b
+
+
+def void_stale_params(declaration, reference):
+    """Positions where the declaration says `void *` and the definition a specific data pointer."""
+    params, ref_params = declaration[4], reference[4]
+    if params is None or ref_params is None or len(params) != len(ref_params) or declaration[3] != reference[3]:
+        return []
+    return [i for i, (a, b) in enumerate(zip(params, ref_params))
+            if a in ('void*', 'const void*') and b != a and b.endswith('*') and '(' not in b
+            and b.replace('const ', '').replace('volatile ', '') != 'void*']
 
 
 def show_signature(entry):
@@ -213,10 +254,16 @@ def show_signature(entry):
 
 def check_tree(root, names, files=None):
     """Disagreements: list of dicts(name, file, line, declared, expected, expected_at)."""
+    return scan_tree(root, names, files)[0]
+
+
+def scan_tree(root, names, files=None):
+    """(disagreements, void candidates): the second list holds declarations that agree only because
+    a data pointer converts to `void *`; each row also carries the definition's signature."""
     root = Path(root)
     names = set(names)
     if not names:
-        return []
+        return [], []
     aliases = scalar_aliases(root)
     needle = re.compile(r'\b(?:' + '|'.join(re.escape(n) for n in sorted(names)) + r')\s*\(')
     per_name = collections.defaultdict(list)       # name -> [(file, entry)]
@@ -229,7 +276,7 @@ def check_tree(root, names, files=None):
             continue
         for entry in declarations(text, names, aliases):
             per_name[entry[0]].append((rel, entry))
-    problems = []
+    problems, candidates = [], []
     for name, entries in sorted(per_name.items()):
         static_files = {f for f, e in entries if e[2] == 'def' and e[5]}
         global_defs = [(f, e) for f, e in entries if e[2] == 'def' and not e[5]]
@@ -245,12 +292,20 @@ def check_tree(root, names, files=None):
             else:
                 reference = [e for _, e in refs]
                 where = [f'{f}:{e[1]}' for f, e in refs]
-            if not reference or any(agrees(entry, r) for r in reference):
+            if reference and any(agrees(entry, r) for r in reference):
+                stale = [r for r in reference if void_stale_params(entry, r)]
+                if stale and entry[2] == 'decl':
+                    index = reference.index(stale[0])
+                    candidates.append(dict(name=name, file=file, line=entry[1], declared=show_signature(entry),
+                                           expected=show_signature(stale[0]), expected_at=where[index],
+                                           definition=show_signature(stale[0])))
+                continue
+            if not reference:
                 continue
             problems.append(dict(name=name, file=file, line=entry[1], declared=show_signature(entry),
                                  expected=show_signature(reference[0]),
                                  expected_at=where[0] if ':' in where[0] else f'{where[0]}:{reference[0][1]}'))
-    return problems
+    return problems, candidates
 
 
 def changed_function_names(root, base, head):
@@ -274,29 +329,77 @@ def new_problems(base_tree, head_tree, names, renames=None):
     return new, existing
 
 
+def void_pointer_stale(base_tree, head_tree, names, renames=None):
+    """HEAD declarations that say `void *` where the definition takes a record pointer, when the
+    declaration is new or its definition's signature differs from BASE's."""
+    candidates = scan_tree(head_tree, names)[1]
+    if not candidates:
+        return []
+    back = dict(renames or {})
+    base_decls = {(p['file'], p['name'], p['declared']) for p in scan_tree(base_tree, names)[1]}
+    base_sigs = base_signatures(base_tree, names)
+    out = []
+    for p in candidates:
+        declaration_unchanged = (back.get(p['file'], p['file']), p['name'], p['declared']) in base_decls
+        definition_changed = p['definition'] not in base_sigs.get(p['name'], ())
+        if not declaration_unchanged or definition_changed:
+            out.append(p)
+    return out
+
+
+def base_signatures(tree, names):
+    """{name: set of definition signatures} for the wanted names under tree."""
+    tree = Path(tree)
+    aliases = scalar_aliases(tree)
+    found = collections.defaultdict(set)
+    needle = re.compile(r'\b(?:' + '|'.join(re.escape(n) for n in sorted(names)) + r')\s*\(')
+    for top in ('src', 'include'):
+        for path in sorted((tree / top).rglob('*')) if (tree / top).is_dir() else ():
+            if path.suffix in C.SOURCE_SUFFIXES and path.is_file():
+                text = path.read_text(errors='replace')
+                if needle.search(text):
+                    for entry in declarations(text, set(names), aliases):
+                        if entry[2] == 'def':
+                            found[entry[0]].add(show_signature(entry))
+    return found
+
+
+def format_void(p):
+    return (f"VOID POINTER STALE {p['file']}:{p['line']}: {p['name']} declared as `{p['declared']}`, "
+            f"definition takes a record pointer `{p['expected']}` ({p['expected_at']})")
+
+
 def format_problem(p):
     return (f"STALE DECLARATION {p['file']}:{p['line']}: {p['name']} declared as `{p['declared']}`, "
             f"definition is `{p['expected']}` ({p['expected_at']})")
 
 
-def report(problems, existing=(), out=None):
+def report(problems, existing=(), out=None, void=(), fail_void=False):
     out = out or sys.stdout
     for p in problems:
         print(format_problem(p), file=out)
-    print(f'declaration agreement {"FAIL" if problems else "PASS"}: {len(problems)} new disagreeing '
-          f'declarations ({len(existing)} already disagreed on BASE, not failing)', file=out)
-    return 1 if problems else 0
+    for p in void:
+        print(format_void(p), file=out)
+    failing = bool(problems) or (fail_void and bool(void))
+    print(f'declaration agreement {"FAIL" if failing else "PASS"}: {len(problems)} new disagreeing '
+          f'declarations ({len(existing)} already disagreed on BASE, not failing); '
+          f'void_pointer_stale {len(void)} ({"failing" if fail_void else "report-only"})', file=out)
+    return 1 if failing else 0
 
 
-def check_change(root, base, head_tree, names, renames=None, out=None):
-    """Entry point for lint_closure: exit code 1 when a changed function has a new stale declaration."""
+def check_change(root, base, head_tree, names, renames=None, out=None, base_tree=None, fail_void=False):
+    """Entry point for lint_closure: exit code 1 when a changed function has a new stale declaration.
+
+    base_tree is an already materialised BASE (lint_closure's); without it BASE is extracted here."""
     import tempfile
     if not names:
-        return report([], [], out)
+        return report([], [], out, (), fail_void)
     with tempfile.TemporaryDirectory(prefix='decl_agreement.') as temporary:
-        base_tree = C.materialize(root, base, Path(temporary) / 'base')
+        if base_tree is None:
+            base_tree = C.materialize(root, base, Path(temporary) / 'base')
         new, existing = new_problems(base_tree, head_tree, names, renames)
-    return report(new, existing, out)
+        void = void_pointer_stale(base_tree, head_tree, names, renames)
+    return report(new, existing, out, void, fail_void)
 
 
 def main(argv=None):
@@ -306,6 +409,8 @@ def main(argv=None):
     parser.add_argument('head', nargs='?')
     parser.add_argument('--root', type=Path, default=HERE.parents[1])
     parser.add_argument('--fail-new', action='store_true', help='exit 1 when a disagreement is new since BASE')
+    parser.add_argument('--fail-void', action='store_true',
+                        help='also exit 1 for void_pointer_stale declarations (report-only by default)')
     parser.add_argument('--names', help='comma-separated function names instead of the BASE..HEAD diff')
     args = parser.parse_args(argv)
     root = args.root.resolve()
@@ -314,8 +419,8 @@ def main(argv=None):
         names = set(args.names.split(',')) if args.names else changed_function_names(root, args.base, args.head)
         renames = {new: old for status, old, new in C.changes(root, args.base, args.head) if status == 'R'}
         print(f'{len(names)} changed function declarations checked')
-        code = check_change(root, args.base, head_tree, names, renames)
-    return code if args.fail_new else 0
+        code = check_change(root, args.base, head_tree, names, renames, fail_void=args.fail_void)
+    return code if args.fail_new or args.fail_void else 0
 
 
 if __name__ == '__main__':

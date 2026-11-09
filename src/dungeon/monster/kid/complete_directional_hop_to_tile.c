@@ -74,12 +74,12 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
         motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if ((s16)body->action_timer > 0) {
+        if (body->action_timer > 0) {
             body->action_timer--;
         } else if (sprite->flags & 0x6000) {
             body->action_timer = 0;
         }
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -96,7 +96,7 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
 
     case 2:
         motion->velocity_z = 0xFFFE0000;
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             s32 tile_delta;
             s32 position;
 

@@ -63,14 +63,14 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     strcat(&textBuffer, D_800282D8);
     assetDataBase = card_slot_payload;
     strcat(&textBuffer, (record->selected_slot << 7) + assetDataBase);
-    asset0 = (u8 *)record + 0x84;
+    asset0 = record->text_buffers[0];
     decode_fullwidth_text(asset0, (u8 *)(&textBuffer), 1);
     assetSlot->payload.data = asset0;
     assetSlot->block->fields.x = 0xA8;
     assetSlot->block->fields.y = 0x110;
     assetSlot = record->text_nodes[1];
     strcpy(&textBuffer, D_800282E8);
-    asset1 = (u8 *)record + 0x204;
+    asset1 = record->text_buffers[1];
     decode_fullwidth_text(asset1, (u8 *)(&textBuffer), 1);
     assetSlot->payload.data = asset1;
     assetSlot->block->fields.x = 0xA0;
@@ -83,7 +83,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
         format_unsigned_double_byte_decimal(recordBase[record->selected_slot].words[13], (u8 *)(&numberBuffer));
         strcat(&textBuffer, &numberBuffer);
         strcat(&textBuffer, table_base->unk_0C);
-        asset2 = (u8 *)record + 0x384;
+        asset2 = record->text_buffers[2];
         decode_fullwidth_text(asset2, (u8 *)(&textBuffer), 1);
         assetSlot->payload.data = asset2;
         assetSlot->block->fields.x = 0xB8;
@@ -92,7 +92,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     assetSlot = record->text_nodes[3];
     format_int_space_padded(recordBase[record->selected_slot].words[9], 0xA, (char *)(&textBuffer));
     remap_flagged_string_bytes((u8 *)(&textBuffer));
-    asset3 = (u8 *)record + 0x504;
+    asset3 = record->text_buffers[3];
     build_positioned_text_glyphs(asset3, (u8 *)(&textBuffer), 1);
     assetSlot->payload.data = asset3;
     assetSlot->block->fields.x = 0x148;
@@ -115,7 +115,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     format_int_zero_padded(elapsedSeconds - (totalMinutes * 0x3C), 2, (char *)numberBuffer);
     strcat(&textBuffer, &numberBuffer);
     remap_flagged_string_bytes((u8 *)(&textBuffer));
-    asset4 = (u8 *)record + 0x684;
+    asset4 = record->text_buffers[4];
     build_positioned_text_glyphs(asset4, (u8 *)(&textBuffer), 1);
     assetSlot->payload.data = asset4;
     assetSlot->block->fields.x = 0x150;
@@ -128,7 +128,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     }
     format_int_space_padded((s32) boundedValue, 3, (char *)(&textBuffer));
     remap_flagged_string_bytes((u8 *)(&textBuffer));
-    asset5 = (u8 *)record + 0x804;
+    asset5 = record->text_buffers[5];
     build_positioned_text_glyphs(asset5, (u8 *)(&textBuffer), 1);
     assetSlot->payload.data = asset5;
     assetSlot->block->fields.x = 0x100;
@@ -136,7 +136,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     assetSlot = record->text_nodes[6];
     format_int_space_padded(recordBase[record->selected_slot].words[10], 2, (char *)(&textBuffer));
     remap_flagged_string_bytes((u8 *)(&textBuffer));
-    asset6 = (u8 *)record + 0x984;
+    asset6 = record->text_buffers[6];
     build_positioned_text_glyphs(asset6, (u8 *)(&textBuffer), 1);
     value = 0;
     loop_base = recordBase;

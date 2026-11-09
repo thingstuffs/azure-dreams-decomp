@@ -2,19 +2,20 @@
 #include "shared/game_work.h"
 
 #include "common.h"
+#include "engine/effect.h"
 #include "engine/node.h"
 #include "shared/entity.h"
 
-/* Runs the entry callback, then processes the entry and sets the output field unless flagged to stop. */
-void run_node_callback_and_set_marker(void *entry, ObjectPosition *output, void *context) {
+/* Runs the fade manager's step, then updates its registration and sets the position marker unless removal was requested. */
+void run_node_callback_and_set_marker(FadeManagerBody *entry, ObjectPosition *output, SpriteFrameState *context) {
     GameWork *runtime_state;
     s32 field_value;
-    void (*callback)(void *, void *, void *) = *(void (**)(void *, void *, void *))entry;
+    void (*callback)(FadeManagerBody *, ObjectPosition *, SpriteFrameState *) = entry->step;
 
     runtime_state = &g_game_work;
     if (callback != 0) {
         callback(entry, output, context);
-        if ((*(u16 *)((u8 *)entry - 2) & NODE_REMOVE) != 0) {
+        if ((NODE_HEADER(entry)->flags & NODE_REMOVE) != 0) {
             return;
         }
     }

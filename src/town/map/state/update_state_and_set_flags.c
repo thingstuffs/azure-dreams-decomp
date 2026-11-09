@@ -13,7 +13,7 @@ void update_state_and_set_flags(void *flags_end, ObjectPosition *unused, SpriteF
     advance_sprite_animation_and_textures(state);
     state->color.word += 0xFFEFEFF0;
     if (state->flags & 0x6000) {
-        ((ObjectNodeHeader *)flags_end - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(flags_end)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

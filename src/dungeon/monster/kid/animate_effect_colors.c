@@ -5,7 +5,7 @@
 
 
 /* Animate primitive colors and mark the effect finished when its timer expires. */
-void animate_effect_colors(RandomlyRotatedOffsetEffectBody *effect_state, ObjectPosition *unused, void *primitive_arg)
+void animate_effect_colors(RandomlyRotatedOffsetEffectBody *effect_state, ObjectPosition *unused, SpriteFrameState *primitive_arg)
 {
     RandomlyRotatedOffsetEffectBody *state = effect_state;
     s16 frames_left;

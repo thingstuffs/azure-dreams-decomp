@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "engine/node/registration.h"
 #include "common.h"
 #include "dungeon/monster/beldo/expanding_fade.h"
 #include "shared/sprite_frame_state.h"
@@ -18,7 +19,6 @@ typedef struct {
     s32 word3;
 } Block16;
 
-s32 register_node();
 void select_sprite_entry();
 extern M2C_UNK D_80170D44;
 

@@ -58,13 +58,13 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
         motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (actor->flags & 0x6000) {
             action->action_timer = 0;
         }
 
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             break;
         }
         if (entity->hp == 0) {
@@ -110,7 +110,7 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
                 s32 tile_y = actor->tile_y << 6;
                 s32 offset_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((tile_y - offset_y) << 15) / (s16)action->action_timer;
+                    ((tile_y - offset_y) << 15) / action->action_timer;
             }
         }
 

@@ -52,8 +52,8 @@ void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, Sprit
             anim_table = player_height_step_frames;
         }
         sprite->frameTable = anim_table;
-        process_unflagged_linked_entries_alt(*(s32 *)((u8 *)actor + 0x5C));
-        process_unflagged_linked_entries(*(s32 *)((u8 *)actor + 0x5C));
+        process_unflagged_linked_entries_alt(*(void **)((u8 *)actor + 0x5C));
+        process_unflagged_linked_entries(*(void **)((u8 *)actor + 0x5C));
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
         *(u16 *)(entity + 0x98) = (u16) (*(u16 *)(entity + 0x98) & 0xFFF3);
         set_sprite_animation_frame(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor

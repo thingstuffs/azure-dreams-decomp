@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #ifndef TOWN_MENU_OBJECT_ALLOCATE_AND_INITIALIZE_DISPLAY_OBJECT_G01137_H
 #define TOWN_MENU_OBJECT_ALLOCATE_AND_INITIALIZE_DISPLAY_OBJECT_G01137_H
+#include "engine/node/registration.h"
 
 struct Func800A4B70Object;
 struct Func800A4B70Output;
@@ -88,7 +89,6 @@ extern void D_800A2180();
 extern s32 D_800A21EC();
 /* arg0 in initialize_directional_object_state */
 /* ((S_800A21EC_2 *)arg0)->unk_14 in initialize_directional_object_state */
-extern s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 extern u8 lit_mesh_renderer_address[];
 extern s32 D_800A2338;
 extern s32 D_800A23D0;

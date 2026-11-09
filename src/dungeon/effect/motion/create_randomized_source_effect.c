@@ -182,7 +182,7 @@ void * create_scaled_rotating_effect(void *params_input, void *transform_input) 
         variant_random = rand();
         state->unk_12 = (s16)(variant_random % 7);
         state->unk_14 = (u16) params->unk_12;
-        state->unk_16 = (s16) (0x1C - (u16)params->unk_10);
+        state->unk_16 = (s16) (0x1C - params->unk_10);
         render = object->sprite;
         render->color.c.b = 0x80;
         render->color.c.g = 0x80;
@@ -248,14 +248,14 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
     s32 expanded_floor;
     SpriteFrameState *finished_render;
 
-    frame = (u16)effect->timer;
+    frame = effect->timer;
     state = (s16)effect->phase;
     actor = effect->caster;
-    effect->timer = (u16)(frame + 1);
+    effect->timer = frame + 1;
     switch (state) {
     case 0:
         effect->timer = 0;
-        effect->phase = (u16)(effect->phase + 1);
+        effect->phase++;
         effect->direction = (u16)((actor->facing >> 9) & 7);
         render->color = 0x808080;
     case 1:
@@ -275,8 +275,8 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             u16 next_z;
 
             if ((work_base->unk_0C->flags & 0x8000) == 0) {
-                position->x.parts_02.unk_02 = (u16)(position->x.parts_02.unk_02 + DELTA(0));
-                position->y.parts_06.unk_06 = (u16)(position->y.parts_06.unk_06 + DELTA(1));
+                position->x.parts_02.unk_02 = position->x.parts_02.unk_02 + DELTA(0);
+                position->y.parts_06.unk_06 = position->y.parts_06.unk_06 + DELTA(1);
                 {
                     u16 position_z;
                     s32 offset_z;
@@ -302,7 +302,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             effect->target = actor->target;
             effect->target_sprite =
                 ((Row_8191CD78_S_func_80024578_11 *)((u8 *)(actor->target) - 0x20))->sprite;
-            effect->target_ground_height = (u16)((Row_8191CD78_S_func_80024578_3 *)(effect->target))->ground_height;
+            effect->target_ground_height = ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->ground_height;
             effect->saved_facing = ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing;
 
             abs_delta_x = abs(((s16)work_base->unk_00.parts_02.unk_02) - ((s16)position->x.parts_02.unk_02));
@@ -350,7 +350,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             position->velocity_z =
                 (((s32)((Row_8191CD78_S_func_80024578_3 *)(actor->target))->ground_height << 16) -
                  position->z.s32) / effect->unk_12;
-            effect->phase = (u16)(effect->phase + 1);
+            effect->phase++;
         } else {
             index = 0;
             map_data = work_base->unk_0C;
@@ -488,13 +488,13 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
                 effect->added_property_flag = 1;
             }
         }
-        effect->phase = (u16)(effect->phase + 1);
+        effect->phase++;
         effect->timer = 0;
         break;
 
     case 4:
         if (read_sound_mode_blocking_status(4) == 1) {
-            effect->phase = (u16)(effect->phase + 1);
+            effect->phase++;
             effect->timer = 0;
             break;
         }
@@ -511,7 +511,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             state = finished_render->angle_z;
             state += 0x800;
             finished_render->angle_z = state;
-            effect->phase = (u16)(effect->phase + 1);
+            effect->phase++;
             effect->timer = 0;
             break;
         }
@@ -547,7 +547,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
                     create_randomized_source_effect(effect);
                     index++;
                 } while (index < 8);
-                effect->phase = (u16)(effect->phase + 1);
+                effect->phase++;
                 effect->timer = 0;
                 break;
             }
@@ -567,7 +567,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         if (effect->timer < 12) {
             break;
         }
-        effect->phase = (u16)(effect->phase + 1);
+        effect->phase++;
         effect->timer = 0;
         break;
 
@@ -583,7 +583,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         effect->target_sprite->angle_z -= 0x800;
         apply_attack_power_and_element_effects(actor->target, 24, effect->variant, 4,
                       (s16)(effect->direction << 9), actor, 1);
-        effect->phase = (u16)(effect->phase + 1);
+        effect->phase++;
         effect->timer = 0;
         break;
 
@@ -605,7 +605,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         {
             s32 saved_height = ((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.s32;
 
-            effect->phase = (u16)(effect->phase + 1);
+            effect->phase++;
             effect->timer = 0;
             effect->saved_z = saved_height;
         }
@@ -620,7 +620,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         drain_audio_commands_and_service_channels();
-        effect->phase = (u16)(effect->phase + 1);
+        effect->phase++;
         effect->timer = 0;
         break;
 
@@ -628,7 +628,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         if (read_sound_mode_blocking_status(4) != 1) {
             break;
         }
-        effect->phase = (u16)(effect->phase + 1);
+        effect->phase++;
         effect->timer = 0;
         break;
 
@@ -638,7 +638,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             break;
         }
 
-        effect->phase = (u16)(effect->phase + 1);
+        effect->phase++;
         effect->timer = 0;
         break;
 

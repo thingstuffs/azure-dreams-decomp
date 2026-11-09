@@ -1190,7 +1190,7 @@ void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, Object
 
     obj = effect->spell.caster;
     copy = textured_quad_octant_offsets;
-    state = (s16)effect->spell.phase;
+    state = effect->spell.phase;
     base = (S_800259D8_1 *)((u8 *)obj - 0x20);
     entry = base->unk_08;
     switch (state) {
@@ -1393,7 +1393,7 @@ L0_adjust_z:
                     effect->unk_7C = 1;
                 }
             }
-            count = (u16)effect->unk_7C - 1;
+            count = effect->unk_7C - 1;
             effect->unk_7C = count;
             if (count > 0) {
                 goto L1_calc;
@@ -1404,7 +1404,7 @@ L0_adjust_z:
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
                 entity->x.unsigned_parts.integer = entry->unk_00.at02u.v;
                 entity->y.unsigned_parts.integer = entry->unk_04.at02u.v;
-                entity->z.unsigned_parts.integer = (u16)effect->unk_78;
+                entity->z.unsigned_parts.integer = effect->unk_78;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 return;
             }
@@ -1485,7 +1485,7 @@ L1_calc:
         return;
 
     case 4:
-        count = (u16)effect->unk_84 + 1;
+        count = effect->unk_84 + 1;
         effect->unk_84 = count;
         if (count < 30) {
             sprite->color.c.r = ((30 - effect->unk_84) * 0x80) / 30;
@@ -1528,7 +1528,7 @@ L1_calc:
     {
         void *fade_node;
         S_800259D8_11 *fade_entry;
-        count = (u16)effect->unk_84 + 1;
+        count = effect->unk_84 + 1;
         effect->unk_84 = count;
         fade_node = ((S_800259D8_3 *)obj)->unk_60;
         ((S_800259D8_10 *)fade_node)->unk_1C |= 0x10000000;
@@ -1561,7 +1561,7 @@ L1_calc:
     }
 
     case 7:
-        old_count = (u16)effect->unk_84;
+        old_count = effect->unk_84;
         effect->unk_84 = old_count + 1;
         if ((s16)old_count < 15) {
             return;

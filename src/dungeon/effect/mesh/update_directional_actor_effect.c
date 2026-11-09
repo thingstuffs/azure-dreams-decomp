@@ -46,13 +46,13 @@ void update_directional_actor_effect(TargetTintWork *state_data)
     SpriteFrameState *child;
 
     state->elapsed++;
-    phase = (s16)state->phase;
+    phase = state->phase;
     effect_flags = &g_game_work;
     switch (phase) {
     case 0:
         U32_AT(MANAGER_PTR(), 0xF4) = (u32)D_80024A64;
         create_linked_effect_controller(NODE_HEADER(state->owner), state->animation);
-        result = state->phase;
+        result = (u16)state->phase;
         result++;
         state->phase = result;
     case 1:
@@ -81,7 +81,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
 
     case 2:
         state->timer--;
-        if ((s16)state->timer > 0) {
+        if (state->timer > 0) {
             break;
         }
         state->timer = 0x10;
@@ -103,7 +103,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
             state->timer--;
-            if ((s16)state->timer >= 0) {
+            if (state->timer >= 0) {
                 break;
             }
         }
@@ -132,7 +132,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
-    if ((s16)state->phase >= 2) {
+    if (state->phase >= 2) {
         u8 *draw_data = (u8 *)&D_80024A70[2];
         GpuRectBuffer draw_params;
 

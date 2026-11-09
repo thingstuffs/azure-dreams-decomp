@@ -167,7 +167,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             }
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
-            *(s16 *)&action->unk_A8 = -1;
+            action->unk_A8 = -1;
             action->action_phase++;
             return;
         }
@@ -207,7 +207,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
                 coords[4] = 0;
             }
             action->unk_A8--;
-            if ((s16)action->unk_A8 >= 0) {
+            if (action->unk_A8 >= 0) {
                 counter = 9;
                 effect_base = secondary_sprite;
                 for (; counter >= 0; counter--) {
@@ -278,7 +278,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             action->action_state_flags |= 0x80;
         }
         action->action_timer--;
-        if ((s16)action->action_timer <= 0) {
+        if (action->action_timer <= 0) {
             action->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }

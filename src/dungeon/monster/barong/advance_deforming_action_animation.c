@@ -128,7 +128,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
             }
         }
 
-        if ((s16)body->action_timer < 0x14) {
+        if (body->action_timer < 0x14) {
             return;
         }
         body->action_timer = 0;

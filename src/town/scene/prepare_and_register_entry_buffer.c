@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "town/data.h"
 #include "town/scene/motion/coordinate_entries.h"
+#include "town/scene.h"
 
 
 s8 *clear_bytes(s8 *buffer, s32 length); /* Unprototyped: retail call passes more arguments than the callee reads */

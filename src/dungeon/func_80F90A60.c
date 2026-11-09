@@ -101,18 +101,18 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
     case 1:
         effect_data = actor_input->target;
         if (effect_data != 0) {
-            timer = ((s16)state_input->action_timer);
+            timer = (state_input->action_timer);
             if (timer >= 0x12) {
                 effect_object = (ObjectNodeHeader *)((u8 *)(long)effect_data - 0x20);
                 if (timer < 0x17) {
                     effect_object->sprite->scale_x = effect_values_1c.value[timer - 0x12];
-                    effect_object->sprite->scale_y = effect_values_1e.value[((s16)state_input->action_timer)
+                    effect_object->sprite->scale_y = effect_values_1e.value[(state_input->action_timer)
                         - 0x12];
                 }
             }
         }
 
-        if (((s16)state_input->action_timer) == 0x14) {
+        if ((state_input->action_timer) == 0x14) {
             effect_data = actor_input->target;
             if (effect_data != 0) {
                 func_800C8150((EntityRec *)effect_data, 0x10, 0x10);

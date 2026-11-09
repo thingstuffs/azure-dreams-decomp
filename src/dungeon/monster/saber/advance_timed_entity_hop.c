@@ -117,7 +117,7 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
         break;
     }
 
-    action_timer = action->action_timer - 1;
+    action_timer = (u16)action->action_timer - 1;
     action->action_timer = action_timer;
     if ((action_timer << 16) > 0) {
         return;

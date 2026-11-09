@@ -87,9 +87,7 @@ s32 read_sound_mode_blocking_status(s32 mode);
 extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
-void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, u8 *actor_arg, u8 *target_arg) {
-    ObjectPosition *position = actor_arg;
-    SpriteFrameState *target = target_arg;
+void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, ObjectPosition *position, SpriteFrameState *target) {
     s16 steps;
     s32 dispatch_index;
     s16 remaining;
@@ -286,7 +284,7 @@ void update_overlay_state_and_retire(void *data)
             slot_index -= 1;
             state_slot -= 1;
         } while (slot_index >= 0);
-        ((u16 *)data)[-1] |= NODE_REMOVE;
+        NODE_HEADER(data)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -413,7 +411,7 @@ void mark_special_actors_and_set_player_tile(void) {
         if (entity->species == MONSTER_SELFI) {
             entity->flags14 = (s32) (entity->flags14 | 0x800000);
         }
-        entity = entity->next_actor_header + 0x20;
+        entity = NODE_BODY(entity->next_actor_header);
     } while (entity != first_entity);
     reference_tile_object.tile_position.parts.tile_x = 0x1F;
 }
@@ -530,7 +528,7 @@ void update_dungeon_tile_boundary_state(void *owner) {
 
     clear_scaled_cell_flags_8000();
     i = 0;
-    ((ObjectNodeHeader *)owner - 1)->flags |= NODE_REMOVE;
+    NODE_HEADER(owner)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     objects = primary_actor_record;
     do {
@@ -861,7 +859,7 @@ void advance_linked_particle_effect_state(S807AF9A4 *data)
         data->flag_e = 0;
         data->buf[0x20] = 0;
         data->flag_f = 1;
-        register_node((u8 *)data - 0x20, (void *)draw_linked_particle_effect_primitives);
+        register_node(NODE_HEADER(data), (void *)draw_linked_particle_effect_primitives);
         data->state = (u16) data->state + 1;
     }
     cycle_count = data->counter1 + 1;
@@ -878,7 +876,7 @@ void advance_linked_particle_effect_state(S807AF9A4 *data)
     }
 
     if (data->flag_f == 0) {
-        *(u16 *)((u8 *)data - 2) |= NODE_REMOVE;
+        NODE_HEADER(data)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -905,7 +903,7 @@ typedef struct S_807AFAE4_1 {
 void create_linked_particle_controller(void *sourceData) {
     S_807AFAE4_0 *linkedObject;
 
-    linkedObject = allocate_list_node(2, sourceData - 0x20);
+    linkedObject = allocate_list_node(2, &NODE_HEADER(sourceData)->next);
     if (linkedObject != 0) {
         linkedObject->unk_10 = (void *)advance_linked_particle_effect_state;
         linkedObject->unk_20 = sourceData;
@@ -1032,13 +1030,6 @@ typedef struct {
 } Offset3;
 
 
-typedef struct ColorPart {
-    u8 pad0[0xC];
-    u8 r;
-    u8 g;
-    u8 b;
-} ColorPart;
-
 extern u8 D_800DDC42;
 
 
@@ -1049,7 +1040,7 @@ typedef struct S_807AFDEC_1 {
 } S_807AFDEC_1;   /* owner channel flags used by the tint updater */
 
 /* Position the effect and fade its selected color channels in, then out. */
-void update_owner_attached_color_effect(void *effect_arg, ObjectPosition *position, ColorPart *tint)
+void update_owner_attached_color_effect(void *effect_arg, ObjectPosition *position, SpriteFrameState *tint)
 {
     OwnerAttachedColorBody *effect = effect_arg;
     ObjectNodeHeader *effect_base;
@@ -1070,17 +1061,17 @@ void update_owner_attached_color_effect(void *effect_arg, ObjectPosition *positi
     position->z.unsigned_parts.integer = source_pos->z.unsigned_parts.integer + offset.z;
 
     if ((s16)effect->phase == 0) {
-        intensity = tint->b | (tint->r | tint->g);
+        intensity = tint->color.c.b | (tint->color.c.r | tint->color.c.g);
         intensity += (0xC0 - intensity) / (s16)effect->ticks_left;
 
         if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 1) {
-            tint->r = intensity;
+            tint->color.c.r = intensity;
         }
         if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 4) {
-            tint->g = intensity;
+            tint->color.c.g = intensity;
         }
         if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 2) {
-            tint->b = intensity;
+            tint->color.c.b = intensity;
         }
 
         {
@@ -1101,17 +1092,17 @@ void update_owner_attached_color_effect(void *effect_arg, ObjectPosition *positi
             }
         }
     } else {
-        intensity = tint->b | (tint->r | tint->g);
+        intensity = tint->color.c.b | (tint->color.c.r | tint->color.c.g);
         intensity += -intensity / (s16)effect->ticks_left;
 
         if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 1) {
-            tint->r = intensity;
+            tint->color.c.r = intensity;
         }
         if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 4) {
-            tint->g = intensity;
+            tint->color.c.g = intensity;
         }
         if (((S_807AFDEC_1 *)(effect->owner))->unk_14 & 2) {
-            tint->b = intensity;
+            tint->color.c.b = intensity;
         }
 
         ticks_left = effect->ticks_left - 1;
@@ -1154,7 +1145,7 @@ void create_owner_attached_color_effect(void *parent_data) {
     SpriteFrameState *render_state;
     OwnerAttachedColorBody *child_data;
 
-    child = allocate_list_node(2, (u8 *)parent_data - 0x20);
+    child = allocate_list_node(2, &NODE_HEADER(parent_data)->next);
     if (child != 0) {
         child->update_callback = update_owner_attached_color_effect;
         register_node(child, project_sprite_chain);
@@ -1193,7 +1184,7 @@ void advance_reverse_direction_particle(void *motion_data, s16 *position) {
     next_speed = (u16) motion[25] - 8;
     motion[25] = next_speed;
     if ((next_speed << 16) <= 0) {
-        ((u16 *) motion)[-1] |= NODE_REMOVE;
+        NODE_HEADER(motion)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -1300,9 +1291,7 @@ typedef struct S_807B040C_1 {
     s16 unk_88;
     u8 pad_8A[0xC];
     s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0xE];
+    u8 pad_98[0x12];
     union { s16 s16; u8 u8; } unk_AA;   /* accessed as both */
     u8 pad_AC[0x2];
     union { s16 s16; u8 u8; } unk_AE;   /* accessed as both */
@@ -1339,7 +1328,7 @@ s32 update_special_actor_transition(void) {
     u8 *entity = NODE_BODY(root);
     s32 *motion = *(s32 * *)&root->position;
     s32 entity_flags;
-    s32 state = ((S_807B040C_1 *)entity)->unk_9B;
+    s32 state = ((ActorRecord *)entity)->action_phase;
     SpriteFrameState *target = root->sprite;
     S_807B040C_6 *entity_aux = (S_807B040C_6 *)entity;
     s32 direction;
@@ -1383,7 +1372,7 @@ s32 update_special_actor_transition(void) {
                     s16 next_state;
 
                     result = 1;
-                    ((S_807B040C_1 *)entity)->unk_9B = ((s16)(0x63));
+                    ((ActorRecord *)entity)->action_phase = ((s16)(0x63));
                     next_state = 2;
                     ((S_807B040C_1 *)entity)->unk_B8 = next_state;
                     return result;
@@ -1391,7 +1380,7 @@ s32 update_special_actor_transition(void) {
             }
         }
 
-        ((S_807B040C_1 *)entity)->unk_9B++;
+        ((ActorRecord *)entity)->action_phase++;
         direction = get_direction_toward_target_position(motion);
         direction += 4;
         if (direction >= 8) {
@@ -1508,7 +1497,7 @@ s32 update_special_actor_transition(void) {
         if ((s16)((u16)((S_807B040C_1 *)entity)->unk_96) > 0) {
             return 0;
         }
-        ((S_807B040C_1 *)entity)->unk_9B++;
+        ((ActorRecord *)entity)->action_phase++;
         break;
 
     case 2:
@@ -2140,22 +2129,14 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
 
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
-typedef struct UnkStruct807B11B8 {
-    s32 unk0;
-    s32 unk4;
-    u8 pad8[4];
-    s32 unkC;
-    s32 unk10;
-} UnkStruct807B11B8;
 
 /* Advance motion and propagate update flags to the object and global state. */
-void move_sprite_until_animation_finishes(u16 *object_data, UnkStruct807B11B8 *motion, SpriteFrameState *update_state) {
-    motion->unk0 += motion->unkC;
-    motion->unk4 += motion->unk10;
+void move_sprite_until_animation_finishes(u16 *object_data, ObjectPosition *motion, SpriteFrameState *update_state) {
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
     advance_sprite_animation_and_textures(update_state);
     if (update_state->flags & 0x6000) {
-        u16 *object_flags = (u16 *)((u8 *)object_data - 2);
-        *object_flags = (u16)(*object_flags | 0x8000);
+        NODE_HEADER(object_data)->flags |= NODE_REMOVE;
         D_800814A0.v = D_800814A0.v | OBJECT_REMOVE_PENDING;
     }
 }

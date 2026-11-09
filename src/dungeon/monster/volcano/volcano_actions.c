@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
@@ -1323,12 +1324,12 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
             s32 velocity_y = motion->velocity_y;
             motion->velocity_y = velocity_y - velocity_y / 4;
         }
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (tile_state->flags & 0x6000) {
             action->action_timer = 0;
         }
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             return;
         }
         if (entity->hp != 0) {
@@ -1355,7 +1356,7 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
                 s32 target_y = tile_state->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 16) / (s16)action->action_timer;
+                    ((target_y - current_y) << 16) / action->action_timer;
             }
         }
         timer = action->action_timer - 1;

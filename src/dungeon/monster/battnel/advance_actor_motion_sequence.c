@@ -159,7 +159,7 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
             state->action_timer = 0x6;
             state->action_state_flags |= 0x80;
         }
-        ticks_left = state->action_timer - 1;
+        ticks_left = (u16)state->action_timer - 1;
         state->action_timer = ticks_left;
         if ((s16)ticks_left <= 0) {
             state->action_timer = 0;

@@ -151,10 +151,10 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
 
     case 2:
     body->action_timer -= animation_tick_scale;
-    if ((s16)body->action_timer < 3) {
+    if (body->action_timer < 3) {
         sprite->flags &= 0xF7FF;
     }
-    if ((s16)body->action_timer > 0) {
+    if (body->action_timer > 0) {
         return;
     }
     item_id = D_80175F6E & 0x7F;

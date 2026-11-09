@@ -78,16 +78,16 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     update_actor_proximity_flag(tile, actor, 3, 6, motion + 0x9C);
     tile_type = tile->unk_26;
     if (tile_type >= 0 && (dungeon_rooms[tile_type].flags & ROOM_HOLY_BEAM)) {
-        select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, (void *)actor, motion + 0x98);
+        select_actor_route_target(tile, ((ActorRecord *)motion)->unk_9C, (void *)actor, motion + 0x98);
     } else if (!(actor->action_flags & 0x8000)) {
-        select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, (void *)actor, motion + 0x98);
+        select_actor_route_target(tile, ((ActorRecord *)motion)->unk_9C, (void *)actor, motion + 0x98);
     }
     scan_result = 0;
     heading_offsets = actor_turn_angle_offsets;
     map_state = &reference_tile_object;
     for (; scan_result < 8; scan_result++) {
         heading = actor->facing;
-        if (((S_800CA444_2 *)motion)->unk_98 & 2) {
+        if (((ActorRecord *)motion)->action_state_flags & 2) {
             heading_offset = heading_offsets[scan_result];
             next_heading = heading - heading_offset;
         } else {
@@ -118,7 +118,7 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
         return;
     }
     actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
-    ((S_800CA444_2 *)motion)->unk_9C = (s8) (u8) tile->unk_26;
+    ((ActorRecord *)motion)->unk_9C = (s8) (u8) tile->unk_26;
     actor->pending_turn_updates = (u8) ((u8) actor->pending_turn_updates - 1);
     g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
     if (actor->pending_turn_updates == 0) {

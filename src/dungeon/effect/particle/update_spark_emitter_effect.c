@@ -91,7 +91,7 @@ void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPos
     ObjectNodeHeader *particle;
 
     if (effect->unk_00 == 0) {
-        if (!((u16)effect->unk_0A & 1)) {
+        if (!(effect->unk_0A & 1)) {
             spark_kind = rand() & 7;
             spark_speed = (rand() & 0xFF) | 0x80;
             func_800245BC(((void *)effect) - 0x20, spark_kind, 0xF0, spark_speed, 0, 0,
@@ -240,11 +240,11 @@ loop_effects:
                     }
                     effect_index += 1;
                 } while (effect_index < 2);
-                effect_type = (s16) effect->unk_0A;
+                effect_type = effect->unk_0A;
                 if (effect_type == 4) {
                     apply_attack_power_and_element_effects(effect->unk_30.p, 0x10, effect->unk_15, 1,
                         (s32) (s16) (effect->unk_16 << 9), effect->unk_2C.s, 2);
-                    if ((s16) effect->unk_0A == effect_type) {
+                    if (effect->unk_0A == effect_type) {
                         owner = effect->unk_30.p;
                         effect->unk_00 = 1;
                         owner_sprite = ((SpriteLinkPrefixView *)owner)[-1].sprite;
@@ -293,7 +293,7 @@ loop_effects:
         fade_ticks = effect->unk_02 + 1;
         effect->unk_02 = fade_ticks;
         if ((s16) fade_ticks >= 0x15) {
-            if (((s16) effect->unk_0A == 4) && (effect->unk_08 == state)) {
+            if ((effect->unk_0A == 4) && (effect->unk_08 == state)) {
                 owner_flags = effect->unk_30.p;
                 owner_flags->flags1C = (s32) (owner_flags->flags1C & 0xEFFFFFFF);
                 owner_sprite = ((S_81814EDC_12_pre *)(effect->unk_30.p))[-1].unk_04;

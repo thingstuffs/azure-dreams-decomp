@@ -2452,22 +2452,22 @@ void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, DungeonRoom
 
     switch (side) {
     case 0:
-        *out_x = (u16)room->w;
-        *out_y = ((u16)generate_random_value() % ((u16)room->h - 2)) + 1;
+        *out_x = room->w;
+        *out_y = ((u16)generate_random_value() % (room->h - 2)) + 1;
         break;
 
     case 2:
-        *out_x = ((u16)generate_random_value() % ((u16)room->w - 2)) + 1;
-        *out_y = (u16)room->h;
+        *out_x = ((u16)generate_random_value() % (room->w - 2)) + 1;
+        *out_y = room->h;
         break;
 
     case 4:
         *out_x = -1;
-        *out_y = ((u16)generate_random_value() % ((u16)room->h - 2)) + 1;
+        *out_y = ((u16)generate_random_value() % (room->h - 2)) + 1;
         break;
 
     default:
-        *out_x = ((u16)generate_random_value() % ((u16)room->w - 2)) + 1;
+        *out_x = ((u16)generate_random_value() % (room->w - 2)) + 1;
         *out_y = -1;
         break;
     }
@@ -2490,7 +2490,7 @@ s32 is_value_within_inclusive_bounds(s16 value, s32 lower_bound, s16 upper_bound
 }
 
 /* Regenerates a room's terrain and features until its eligible tiles pass the traversal check. */
-void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id) {
+void update_region_until_complete(DungeonRoom *region, s16 update_id) {
     do {
         fill_region_with_random_patches(region, update_id);
         /*
@@ -2501,11 +2501,11 @@ void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id)
          */
         choose_random_region_feature(region, update_id);
     } while ((mark_path_through_neighboring_tiles(update_id) << 0x10) == 0);
-    mask_generation_cell_rect(region->unk_00, region->unk_02, region->unk_04, region->unk_06, 0xF);
+    mask_generation_cell_rect(region->x, region->y, region->w, region->h, 0xF);
 }
 
 /* Changes tile kind, height, and flags at a randomly chosen coordinate parity within the room. */
-void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1)
+void adjust_random_parity_tile_heights(DungeonRoom *rect, s32 rng_input_1)
 {
     MapGrid *dungeon = &g_game_work.map;
     s32 parity;
@@ -2523,8 +2523,8 @@ void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *re
     parity = generate_random_value() & 1;
     initial_y = rect->y;
     initial_x = rect->x;
-    initial_width = rect->width;
-    initial_height = rect->height;
+    initial_width = rect->w;
+    initial_height = rect->h;
     x_end = initial_x + initial_width;
     y_end = initial_y + initial_height;
     y = initial_y;
@@ -2551,7 +2551,7 @@ void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *re
 }
 
 /* Adds a room-sized special object in a free floor slot unless floor flags disable it. */
-void initialize_random_room_slot(void *room, s32 unused)
+void initialize_random_room_slot(DungeonRoom *room, s32 unused)
 {
     u8 *slot_data;
     s16 raw_size;
@@ -2565,7 +2565,7 @@ void initialize_random_room_slot(void *room, s32 unused)
     u8 *slot_info;
     if (!((dungeon_floor_flags) & 0x10000000)) {
         random_bonus = generate_random_value() & 7;
-        room_area = (*((u16 *) (((s8 *) room) + 6))) * (*((u16 *) (((s8 *) room) + 4)));
+        room_area = room->h * room->w;
         raw_size = (room_area >> 2) + random_bonus;
         size = raw_size;
         if (raw_size >= 0x1D) {
@@ -2576,11 +2576,11 @@ void initialize_random_room_slot(void *room, s32 unused)
             slot_info = (u8 *)((u32 *)floor_objects + slot_index);
             slot_data = dungeon_floor_object_positions + slot_index * 0x18;
             if ((*((u8 *) (((s8 *) slot_info) + 1))) == 0) {
-                x_offset = random_dungeon_range_16(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF) & 0xFFFF;
-                y_roll = random_dungeon_range_16(0, ((*((u16 *) (((s8 *) room) + 6))) - 1) & 0xFFFF);
+                x_offset = random_dungeon_range_16(0, (room->w - 1) & 0xFFFF) & 0xFFFF;
+                y_roll = random_dungeon_range_16(0, (room->h - 1) & 0xFFFF);
                 y_offset = y_roll & 0xFFFF;
-                *((((s8 *) slot_data) + 6)) = (s8) ((*((u8 *) (((s8 *) room) + 0))) + x_offset);
-                *((((s8 *) slot_data) + 7)) = (s8) ((*((u8 *) (((s8 *) room) + 2))) + y_offset);
+                *((((s8 *) slot_data) + 6)) = (s8) (room->x + x_offset);
+                *((((s8 *) slot_data) + 7)) = (s8) (room->y + y_offset);
                 *((u8 *) (((s8 *) slot_info) + 0)) = 0x13;
                 *((u8 *) (((s8 *) slot_info) + 1)) = 0x15U;
                 *((u8 *) (((s8 *) slot_info) + 3)) = (u8) 0xC0;
@@ -2593,7 +2593,7 @@ void initialize_random_room_slot(void *room, s32 unused)
 }
 
 /* Places randomly chosen traps on eligible room tiles and marks those tiles occupied. */
-void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect, s32 update_id)
+void place_room_trap_records(DungeonRoom *rect, s32 update_id)
 {
     u16 tile_flags;
     s32 slot_limit_calc;
@@ -2609,7 +2609,7 @@ void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect,
     u32 y_offset;
 
     special_roll = generate_random_value() & 0xFF;
-    slot_limit_calc = ((rect->height * rect->width) >> 3) +
+    slot_limit_calc = ((rect->h * rect->w) >> 3) +
                  (generate_random_value() & 7);
     slot_limit = slot_limit_calc;
     if ((s16)slot_limit_calc >= 29) {
@@ -2627,8 +2627,8 @@ void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect,
          * (adrando.com/guide/bugs.html).
          */
         for (; slot_index >= 0; slot_index--) {
-            x_offset = random_dungeon_range_16(0, (rect->width - 1) & 0xFFFF) & 0xFFFF;
-            y_offset = random_dungeon_range_16(0, (rect->height - 1) & 0xFFFF) & 0xFFFF;
+            x_offset = random_dungeon_range_16(0, (rect->w - 1) & 0xFFFF) & 0xFFFF;
+            y_offset = random_dungeon_range_16(0, (rect->h - 1) & 0xFFFF) & 0xFFFF;
             get_offset_map_cell_value_and_flags((s16)(rect->x + x_offset - 1),
                           (s16)(rect->y + y_offset), 0, &tile_flags);
             if (!(tile_flags & 0x8820)) {
@@ -2659,7 +2659,7 @@ void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect,
 }
 
 /* Places random floor items in the room and marks eligible item tiles. */
-void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 unused) {
+void mark_random_eligible_region_tiles(DungeonRoom *region, s32 unused) {
     s32 random_bits;
     u16 tile_flags;
     s16 count;
@@ -2675,7 +2675,7 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
     s32 state_offset;
 
     random_bits = generate_random_value();
-    sum = ((region->unk_06 * region->unk_04) >> 6) + (random_bits & 7) + 4;
+    sum = ((region->h * region->w) >> 6) + (random_bits & 7) + 4;
     count = sum;
     if ((s16)sum >= 0x3D) {
         count = 0x3C;
@@ -2689,10 +2689,10 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
         state = state_offset + state_base;
         do {
             coords = (floor_generate_isolated_8028A328_S_8001D328_1 *)(dungeon_ground_item_positions + entry_index * 0xC);
-            x_offset = random_dungeon_range_16(0, (region->unk_04 - 1) & 0xFFFF) & 0xFFFF;
-            y_offset = random_dungeon_range_16(0, (region->unk_06 - 1) & 0xFFFF) & 0xFFFF;
-            coords->unk_00 = region->unk_00 + x_offset;
-            coords->unk_01 = region->unk_02 + y_offset;
+            x_offset = random_dungeon_range_16(0, (region->w - 1) & 0xFFFF) & 0xFFFF;
+            y_offset = random_dungeon_range_16(0, (region->h - 1) & 0xFFFF) & 0xFFFF;
+            coords->unk_00 = region->x + x_offset;
+            coords->unk_01 = region->y + y_offset;
             if (((get_offset_map_cell_value_and_flags(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
                 cycle_map_cell_flags(coords->unk_00, coords->unk_01, TILE_HAS_ITEM);
                 /*
@@ -2711,21 +2711,21 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
 }
 
 /* Rolls for a special room feature or changes tile heights, allowing only one special feature. */
-void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id) {
+void choose_random_region_feature(DungeonRoom *region, s32 update_id) {
     u32 feature_roll;
     s16 saved_update_id = update_id;
 
-    region->unk_0A = 1;
+    region->active = 1;
     feature_roll = generate_random_value() & 0xFF;
     switch (feature_roll) {
     case 0:
-        region->unk_0A = 2;
+        region->active = 2;
         return;
     case 1:
         if (generation_special_feature_placed != 0) {
             break;
         }
-        region->unk_0A = 3;
+        region->active = 3;
         generation_special_feature_placed = 1;
         initialize_random_room_slot(region, saved_update_id);
         return;
@@ -2734,7 +2734,7 @@ void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id)
             break;
         }
         generation_special_feature_placed = 1;
-        region->unk_0A = 2;
+        region->active = 2;
         mark_random_eligible_region_tiles(region, saved_update_id);
         return;
     case 4:
@@ -2742,7 +2742,7 @@ void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id)
             break;
         }
         generation_special_feature_placed = 1;
-        region->unk_0A = 4;
+        region->active = 4;
         place_room_trap_records(region, saved_update_id);
         return;
     case 5:
@@ -2759,8 +2759,8 @@ void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id)
 }
 
 /* Fills room terrain, adds random raised or lowered patches, and writes its border. */
-void fill_region_with_random_patches(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 update_id) {
-    register u32 value = rect->value;
+void fill_region_with_random_patches(DungeonRoom *rect, s32 update_id) {
+    register u32 value = rect->unk_08;
     s16 left;
     u16 top;
     u16 width;
@@ -2793,8 +2793,8 @@ void fill_region_with_random_patches(floor_generate_isolated_8028A5D8_DungeonRec
 
     left = rect->x;
     top = rect->y;
-    width = rect->width;
-    height = rect->height;
+    width = rect->w;
+    height = rect->h;
     right = left + width;
     bottom = top + height;
     fill_value = value - 0x80;

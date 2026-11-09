@@ -58,7 +58,7 @@ typedef struct SettingsVisualEffectBody {
     /* 0x08 */ s16 phase;
     /* 0x0A */ u16 ticks;
     /* 0x0C */ u8 pad_0C[2];
-    /* 0x0E */ u16 angle;
+    /* 0x0E */ s16 angle;
 } SettingsVisualEffectBody;
 
 /* Settings screen body created by initialize_settings_screen and read by its callbacks. */

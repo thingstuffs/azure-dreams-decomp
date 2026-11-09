@@ -103,18 +103,6 @@ typedef struct S_8002520C_1 {
     u16 unk_16;
 } S_8002520C_1;   /* temp_s1 in func_8002520C */
 
-typedef struct S_8002520C_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x7];
-    u16 unk_16;
-    u8 pad_18[0x2];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8002520C_2;   /* arg2_local in func_8002520C */
 
    /* state_base in func_8002520C */
 
@@ -291,20 +279,6 @@ typedef struct S_80025C94_1 {
     s8 unk_9D;
 } S_80025C94_1;   /* temp_a3 in func_80025C94 */
 
-typedef struct S_80025C94_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-} S_80025C94_2;   /* temp_s1 in func_80025C94 */
 
 typedef struct S_80025C94_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -665,9 +639,9 @@ typedef struct {
 /* Queues four shaded quadrants and a draw-mode packet for each linked rectangle. */
 
 void *allocate_sprite_data_object(s32 user_data);
-void update_selection_menu_animation(void *menu_in, void *motion_in, void *appearance_in);
+void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrameState *appearance_in);
 void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg);
-void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *sprite_arg);
+void draw_and_restore_fading_object(void *object_arg, void *position_arg, SpriteFrameState *sprite_arg);
 void switch_active_object_index(void *object, s16 new_index);
 void initialize_children_or_shutdown(void *owner);
 /* Work shared by the fade controller and its four-quadrant draw callback. */

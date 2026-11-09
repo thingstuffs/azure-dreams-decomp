@@ -65,13 +65,13 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
 
-        if ((s16)body->action_timer > 0) {
+        if (body->action_timer > 0) {
             body->action_timer = body->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
             body->action_timer = 0;
         }
 
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -114,7 +114,7 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
             motion->velocity_x = x_step;
             y_distance = (sprite->tile_y << 6) - position_offset;
             motion->velocity_y =
-                (y_distance << 16) / (s16)body->action_timer;
+                (y_distance << 16) / body->action_timer;
         }
 
         next_timer = body->action_timer - 1;

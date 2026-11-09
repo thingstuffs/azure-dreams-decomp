@@ -12,6 +12,10 @@ s32 set_item_menu_flag_and_return_one(void *state, void *unused_config);
 
 s32 test_linked_flag(s32 flag_index);
 
+struct ShopWindow;
+/* update_shop_state_flags.c */
+void update_shop_state_flags(struct ShopWindow *window);
+
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 s32 count_entries_with_flag_20(void *entries);
 s32 func_800B44F0(void *state, s32 input);
@@ -34,4 +38,6 @@ s32 test_linked_flag_80700dc0(s32 flag_index);
 s32 test_linked_flag_80000c6c(s32 index);
 
 void process_lshop_entries(void *entries, s32 entry_mode);
+void decay_shop_state_and_cleanup(void *object_arg);
+
 #endif

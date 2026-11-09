@@ -65,7 +65,7 @@ s32 use_item_to_level_up_eligible_actors(ActorRecord *target, DungeonItemEntry *
         display_formatted_context_message(D_800E131C);
 
         head = primary_actor_record;
-        node = (u8 *)((void *)head->next_actor_header) + 0x20;
+        node = NODE_BODY(head->next_actor_header);
         if (node != head) {
             do {
                 /*

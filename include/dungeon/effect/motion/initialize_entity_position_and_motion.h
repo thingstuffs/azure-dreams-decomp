@@ -222,7 +222,7 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_1 {
     u8 pad_2E[0x2];
     s16 phase;
     u8 pad_32[0x2];
-    u16 timer;
+    s16 timer;
     s16 frame_step;
     u16 heading;
     s16 max_frame;
@@ -469,7 +469,7 @@ typedef struct ovl_19a332c_81984AB0_S_81984AB0_0 {
 } ovl_19a332c_81984AB0_S_81984AB0_0;
 typedef struct ovl_19a332c_81984AF4_S_81984AF4_0 {
     s32 unk_00;
-    u8 unk_04;
+    s8 unk_04;
     u8 pad_05[0x3];
     void * unk_08;
     u8 pad_0C[0x8];

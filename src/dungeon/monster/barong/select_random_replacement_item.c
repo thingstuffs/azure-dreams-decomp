@@ -1,12 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
-
-typedef struct {
-    u8 index;
-    u8 group;
-    u8 param;
-    u8 flags;
-} DungeonArg;
+#include "dungeon/monster/barong.h"
 
 typedef struct {
     u16 flags;
@@ -25,7 +19,7 @@ extern s32 random_dungeon_range_16(s32, s32);
 extern DungeonGroup item_category_groups[];
 
 /* Select a random eligible dungeon item and initialize its parameters. */
-s32 select_random_replacement_item(DungeonArg *selection, u8 *context)
+s32 select_random_replacement_item(BarongItemDescriptor *selection, u8 *context)
 {
     DungeonGroup *item_category_table;
     DungeonGroup *candidate_category;

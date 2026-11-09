@@ -1,3 +1,4 @@
+#include "engine/entity/effect_slots.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/actor_status_flags.h"
@@ -181,10 +182,10 @@ void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, S
 
 /* Advance the entity state, updating directional sprites and handling actor events. */
 void advance_entity_directional_events(void *entity_arg, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
-    S_801734E0_0 *entity = entity_arg;
+    ActorRecord *entity = entity_arg;
     s32 state;
 
-    state = entity->unk_9B;
+    state = entity->action_phase;
     switch (state) {
     case 0:
     {
@@ -200,7 +201,7 @@ void advance_entity_directional_events(void *entity_arg, ObjectPosition *context
         select_sprite_entry(sprite,
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        entity->unk_9B++;
+        entity->action_phase++;
         return;
     }
 
@@ -216,7 +217,7 @@ void advance_entity_directional_events(void *entity_arg, ObjectPosition *context
                 0);
             actor->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
-            entity->unk_9B++;
+            entity->action_phase++;
             return;
         }
 
@@ -245,11 +246,11 @@ void advance_entity_directional_events(void *entity_arg, ObjectPosition *context
             u16 pending_decrease;
 
             begin_actor_move_to_target_facing(entity_arg, context, sprite, actor);
-            previous_total = entity->unk_92;
-            pending_decrease = entity->unk_A6;
-            entity->unk_A6 = 0;
-            entity->unk_B2 = 0;
-            entity->unk_92 = previous_total - pending_decrease;
+            previous_total = entity->unk_90.parts.high.u;
+            pending_decrease = entity->unk_A4.halves.high.u;
+            entity->unk_A4.halves.high.u = 0;
+            entity->unk_B0.halves.high.u = 0;
+            entity->unk_90.parts.high.u = previous_total - pending_decrease;
             func_80173834(entity, context, sprite, actor);
             return;
         }
@@ -287,14 +288,14 @@ void advance_entity_directional_events(void *entity_arg, ObjectPosition *context
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 
-        entity->unk_9B++;
+        entity->action_phase++;
         return;
     case 2:
         if (sprite->flags & 0xE000) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             actor->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
-            entity->unk_8C = &garuda_action_resume_address;
+            entity->unk_8C.address = &garuda_action_resume_address;
         }
 
         return;

@@ -484,6 +484,8 @@ def main(argv=None):
     parser.add_argument('--full', action='store_true', help='full census on HEAD against --base-census')
     parser.add_argument('--base-census', type=Path, help='lint_build output directory of the BASE full census')
     parser.add_argument('--no-decl-check', action='store_true', help='skip the declaration agreement check')
+    parser.add_argument('--fail-void', action='store_true',
+                        help='fail on void_pointer_stale declarations (reported only by default)')
     parser.add_argument('--save-census', type=Path, help='with --full, copy this census here for the next landing')
     args = parser.parse_args(argv)
     if args.out is not None:
@@ -545,13 +547,14 @@ def run(args, parser):
                head_findings=head_findings, base_failures=base_failures, head_failures=head_failures))
     code = report(base_findings, head_findings, base_failures, head_failures, plan['renames'], started)
     if not args.no_decl_check:
-        code |= decl_check(args, root, head_tree, plan['functions'], plan['renames'])
+        code |= decl_check(args, root, head_tree, plan['functions'], plan['renames'], base_tree)
     return code
 
 
-def decl_check(args, root, head_tree, names, renames):
+def decl_check(args, root, head_tree, names, renames, base_tree=None):
     import decl_agreement
-    return decl_agreement.check_change(root, args.base, head_tree, set(names), renames)
+    return decl_agreement.check_change(root, args.base, head_tree, set(names), renames, base_tree=base_tree,
+                                       fail_void=getattr(args, 'fail_void', False))
 
 
 def write_json(path, data):
@@ -623,7 +626,8 @@ def run_full(args, root, out, started):
     if not args.no_decl_check:
         import decl_agreement
         names = decl_agreement.changed_function_names(root, args.base, None)
-        result |= decl_agreement.check_change(root, args.base, root, names, renames)
+        result |= decl_agreement.check_change(root, args.base, root, names, renames,
+                                                 fail_void=args.fail_void)
     if args.save_census and result == 0 and code == 0:
         args.save_census.mkdir(parents=True, exist_ok=True)
         for name in ('lint_findings.tsv', 'lint_summary.json', 'lint_compile_failures.tsv', 'lint_units.tsv'):

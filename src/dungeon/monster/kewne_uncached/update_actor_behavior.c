@@ -70,7 +70,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         s32 motion_y;
         s32 signed_value;
 
-        anim_table = action->action_timer;
+        anim_table = (u16)action->action_timer;
         direction_base = (u8 *)&dir_step_x;
         next_tick = anim_table + 1;
         anim_table -= 3;

@@ -7,6 +7,7 @@
 #include "records/Rec_D_80081FDC.h"
 #include "records/Rec_func_80036210_arg0.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 struct Container;
 struct CursorState;
@@ -180,10 +181,10 @@ void fade_and_shrink_window_on_value_change(struct Func80035C80Object *object);
 s32 unlink_cursor_when_finished(struct Func37534State *state);
 
 /* update_cursor_blink_colors.c */
-void update_cursor_blink_colors(WindowCursorBody *state, ObjectPosition *position, void *output);
+void update_cursor_blink_colors(WindowCursorBody *state, ObjectPosition *position, SpriteFrameState *output);
 
 /* update_cursor_callback.c */
-void update_cursor_callback(s32 unused_0, s32 unused_1, s32 value);
+void update_cursor_callback(WindowCursorBody *state, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* update_menu_choice_timed.c */
 void update_menu_choice_timed(struct Object *object);

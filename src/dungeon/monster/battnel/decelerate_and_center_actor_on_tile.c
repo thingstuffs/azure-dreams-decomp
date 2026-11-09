@@ -84,12 +84,12 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
             *(s16 *)((u8 *)x_steps + brake_step_offset) << 0xF;
         motion->velocity_y -= *y_step << 0xF;
 
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
             action->action_timer = 0;
         }
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -104,7 +104,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
         return;
 
     case 2:
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             target_x = sprite->tile_x << 6;
             offset_x = motion->x.w.i - 0x20;
             motion->velocity_x = (target_x - offset_x) << 0x10 >> 1;

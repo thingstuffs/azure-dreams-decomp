@@ -114,7 +114,7 @@ void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFr
             0);
     }
 
-    action_ticks = body->action_timer - 1;
+    action_ticks = (u16)body->action_timer - 1;
     body->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;

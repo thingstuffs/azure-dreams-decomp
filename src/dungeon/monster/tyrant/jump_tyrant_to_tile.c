@@ -48,7 +48,7 @@ void jump_tyrant_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameS
         jump->action_phase++;
 
     case 1:
-        frames_left = ((s16)jump->action_timer);
+        frames_left = jump->action_timer;
         jump->unk_90.value -= jump->unk_A0.value;
         if (frames_left != 0) {
             {
@@ -62,13 +62,13 @@ void jump_tyrant_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameS
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    ((s16)jump->action_timer);
+                    (jump->action_timer);
             }
             jump->unk_A0.value += motion->velocity_z;
             motion->velocity_z += 0x60000;
         }
         jump->unk_90.value += jump->unk_A0.value;
-        if (((s16)jump->action_timer) < 2) {
+        if ((jump->action_timer) < 2) {
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;
             ((EntityRec *)actor)->flags1C |= ACTOR_GROUNDED;

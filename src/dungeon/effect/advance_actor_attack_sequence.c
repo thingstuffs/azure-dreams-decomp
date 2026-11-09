@@ -220,9 +220,9 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000) {
             action_state->action_timer = 0U;
         } else {
-            action_state->action_timer = (u16) (action_state->action_timer - 1);
+            action_state->action_timer = action_state->action_timer - 1;
         }
-        if ((s16)action_state->action_timer == 0) {
+        if (action_state->action_timer == 0) {
             if (((PlayerRecord *)action_state)->unk_102 == 0) {
                 s32 attack_target;
 
@@ -247,7 +247,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 }
             }
         }
-        if (((s16) action_state->action_timer <= 0)
+        if ((action_state->action_timer <= 0)
             && (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000)) {
             (*(u8 **)((u8 *)animation + 0x2C)) = player_attack_start_frames;
             set_sprite_animation_frame(animation, player_attack_start_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
@@ -264,7 +264,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             if ((u8)(action_state->unk_A8) != 0) {
                 (*(u8 *)&action_state->unk_A8) = 0U;
             }
-            if ((s16) action_state->action_timer <= 0) {
+            if (action_state->action_timer <= 0) {
                 (*(u8 **)((u8 *)animation + 0x2C)) = player_attack_followup_frames;
                 set_sprite_animation_frame(animation, player_attack_followup_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
@@ -289,10 +289,10 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             delta_y = motion->x.w.i;
             delta_y -= 0x20;
             delta_x -= delta_y;
-            motion->velocity_x = (s32) ((delta_x << 0x10) / (s16) action_state->action_timer);
+            motion->velocity_x = (s32) ((delta_x << 0x10) / action_state->action_timer);
             delta_y = motion->y.w.i - 0x20;
             motion->velocity_y = (s32) ((s32) (((((Rec_D_80082E80 *)animation)->unk_25 << 6) - delta_y)
-                << 0x10) / (s16) action_state->action_timer);
+                << 0x10) / action_state->action_timer);
 load_state_9b:
 bump_state_9b:
             action_state->action_phase = (u8) (action_state->action_phase + 1);

@@ -239,7 +239,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                 motion->y.v += motion->velocity_y;
                 motion->z.v += motion->velocity_z;
             }
-            frame_counter = (u16)effect->frame + 1;
+            frame_counter = effect->frame + 1;
             effect->frame = (u16)frame_counter;
             if (frame_counter >= 8) {
                 effect->frame = 4;
@@ -254,7 +254,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
 
         case 2:
         {
-            u16 frame_counter = (u16)effect->frame + 1;
+            u16 frame_counter = effect->frame + 1;
             effect->frame = frame_counter;
             if (effect->ticks_left.s == mode) {
                 if (actor->target != 0) {
@@ -268,7 +268,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                             particle_data->impact.x = coordinate << 6;
                             coordinate = actor->target_tile_y;
                             particle_data->impact.y = coordinate << 6;
-                            particle_data->impact.z = (u16)motion->z.w.i;
+                            particle_data->impact.z = motion->z.w.i;
                         }
                         particle->work.owner = effect;
                         particle_data->impact.state = 0;

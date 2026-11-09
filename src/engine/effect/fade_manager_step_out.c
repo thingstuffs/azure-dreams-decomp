@@ -7,19 +7,10 @@
 #include "shared/sprite_frame_state.h"
 #include "engine/effect.h"
 
-typedef struct {
-    u8 unk_00[0x0C];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 unk_0F[0x0D];
-    u16 unk_1C;
-} Func8003C520Data;
-
 extern u32 D_800814A0;
 
 /* Decreases intensity and marks the object finished when its countdown expires. */
-void fade_manager_step_out(void *object, ObjectPosition *unused, SpriteFrameState *data) {
+void fade_manager_step_out(FadeManagerBody *manager, ObjectPosition *unused, SpriteFrameState *data) {
     s32 intensity = data->color.c.b;
     s32 countdown = data->scale_x;
 
@@ -37,7 +28,8 @@ void fade_manager_step_out(void *object, ObjectPosition *unused, SpriteFrameStat
         return;
     }
 
-    unlink_node_if_registered(object);
-    *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+    unlink_node_if_registered(manager);
+    /* BYTES: NODE_HEADER(manager)->flags |= NODE_REMOVE schedules the D_800814A0 load before the flag store; the halfword store through manager - 2 keeps retail order */
+    *(u16 *)((u8 *)manager - 2) |= NODE_REMOVE;
     D_800814A0 |= OBJECT_REMOVE_PENDING;
 }

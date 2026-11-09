@@ -83,4 +83,7 @@ void clear_indexed_flag_bit_unless_index_one_80700d20(s32 bit_index);
 void dispatch_entry_flags_a0700244(s32 index);
 void dispatch_entry_flags_80700c54(s32 index);
 
+void dispatch_entry_test_flag_test(s32 entry_index);
+void update_flag_based_flags(void);
+
 #endif

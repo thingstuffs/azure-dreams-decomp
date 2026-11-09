@@ -1174,7 +1174,7 @@ void mark_owned_linked_actor_actions(Entity *owner_entity) {
         if (owner_entity->flags & 0x4000) {
             if (owner_entity->fieldAA != 0) {
                 sentinel = dungeon_actor_ring_anchor;
-                node = (Entity *)((u8 *)((Entity *)sentinel->next_actor_header) + 0x20);
+                node = NODE_BODY(sentinel->next_actor_header);
                 if (node != sentinel) {
                     do {
                         if ((node->kind == 0x1E) &&

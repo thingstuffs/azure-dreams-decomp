@@ -40,7 +40,7 @@ void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source
     state = NODE_BODY(task);
     render_data = task->sprite;
     state->script = source;
-    state->enabled.s = 1;
+    state->enabled = 1;
     state->cursor_offset = state_value;
     runtime_initialize_state_value(record, *source);
     state->model = record;

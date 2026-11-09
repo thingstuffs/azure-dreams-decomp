@@ -114,7 +114,7 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
         break;
     }
 
-    action_timer = body->action_timer - 1;
+    action_timer = (u16)body->action_timer - 1;
     body->action_timer = action_timer;
     if ((action_timer << 16) > 0) {
         return;

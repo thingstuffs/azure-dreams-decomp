@@ -10,15 +10,15 @@
 #include "frontend/libcard/message_callbacks_api.h"
 
 extern void func_80024184(void *object);
-extern void init_card_slot_list_nodes(void *runtime, s32 value);
+extern void init_card_slot_list_nodes(CardSlotWindow *window, s32 count);
 extern s32 card_boot_link_slot_window_entries(void *value); /* Unprototyped: compile_error */
-extern void card_boot_initialize_slot_window(void *record, s32 setup_value, s32 processing_value);
+extern void card_boot_initialize_slot_window(CardSlotWindow *window, s32 owner, s32 slot_index);
 
 /* Initialize the indexed object and its runtime state, then return the object. */
 void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
 {
     ObjectNodeHeader *object;
-    CardSlotListNodes *runtime;
+    CardSlotWindow *runtime;
 
     object = D_80029618 + object_index * 0x3E4;
     runtime = NODE_BODY(object);
@@ -31,8 +31,8 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
         bzero(runtime, 0x3C4);
     }
     init_card_slot_list_nodes(runtime, 0xA);
-    object->sprite = runtime->display_data;
-    runtime->chain_word = card_boot_link_slot_window_entries(runtime->pointers);
+    object->sprite = &runtime->frame;
+    runtime->frame.unk_0C = card_boot_link_slot_window_entries(runtime->pointers);
     card_boot_initialize_slot_window(runtime, parent_object, object_index);
     object->update_callback = card_boot_stop_slot_window_updates;
     return object;

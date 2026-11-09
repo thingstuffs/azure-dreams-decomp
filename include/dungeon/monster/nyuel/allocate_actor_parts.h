@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_BC9094_H
 #define DUNGEON_OVL_BC9094_H
+#include "engine/node/registration.h"
 
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -46,7 +47,6 @@ extern u8 D_8015EA98[9];
 
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(Body *, s32, s32);

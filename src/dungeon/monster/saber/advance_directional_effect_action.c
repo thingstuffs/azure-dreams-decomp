@@ -31,7 +31,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
         break;
 
     case 1:
-        if (((s16)(--action->action_timer) == 0x12) ||
+        if (((--action->action_timer) == 0x12) ||
             (sprite->flags & 0x8000)) {
             SaberTileOffset *offset;
             u16 flags;
@@ -55,12 +55,12 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             coord_value = sprite->tile_y + y_offset;
             create_randomly_rotated_offset_effect(effect_actor, x_sum, coord_value & 0xFFFF, height);
         }
-        if (((s16)action->action_timer == 0x0A) ||
+        if ((action->action_timer == 0x0A) ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x605);
         }
-        if (((s16)action->action_timer == 9) ||
+        if ((action->action_timer == 9) ||
             (sprite->flags & 0x8000)) {
             SaberTileOffset *offset;
             u16 angle;
@@ -81,7 +81,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             x = x_sum & 0xFFFF;
             process_nodes_at_target_tile(actor, x, coord_value & 0xFFFF, height);
         }
-        if (((s16)action->action_timer <= 0) ||
+        if ((action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
             action->action_timer = 0;
             action->action_phase++;

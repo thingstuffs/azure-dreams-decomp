@@ -23,7 +23,7 @@ void roll_actor_flag_once(ActorRecord *body, s32 divisor);
 
 void initialize_action_state_29(void *state, s32 unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor);
 
-void reset_record_to_state_34(void *state, void *unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor);
+void reset_record_to_state_34(ActorRecord *state, void *unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor);
 
 struct ObjectPosition;
 struct SpriteFrameState;

@@ -45,12 +45,12 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
     case 1:
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (action_info->flags & 0x6000) {
             action->action_timer = 0;
         }
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             return;
         }
         if (actor_data->hp == 0) {
@@ -66,7 +66,7 @@ void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motio
         return;
 
     case 2:
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             motion->velocity_y = 0;
             motion->velocity_x = 0;
         }

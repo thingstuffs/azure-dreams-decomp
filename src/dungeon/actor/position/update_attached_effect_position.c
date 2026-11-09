@@ -61,7 +61,7 @@ typedef struct S_800B0D34_6_pre {
    /* source in update_attached_effect_position */
 
 /* Updates status colors and exit animation, releases finished objects, and copies their position. */
-void update_attached_effect_position(void *object_arg, MovingPosition *position, void *anim_state_arg) {
+void update_attached_effect_position(void *object_arg, ObjectPosition *position, void *anim_state_arg) {
     S_800B0D34_3 *anim_state = anim_state_arg;
     S_800B0D34_0 *object = object_arg;
     u16 frame_count;
@@ -153,10 +153,10 @@ void update_attached_effect_position(void *object_arg, MovingPosition *position,
         MovingPosition *source = ((S_800B0D34_1_pre *)info)[-1].unk_00;
         s32 z_adjustment;
         u16 source_z;
-        position->x = source->x;
-        position->y = source->y;
+        position->x.w.i = source->x;
+        position->y.w.i = source->y;
         z_adjustment = entity_height_offsets[((ActorRecord *)info)->species] + 0x50;
         source_z = source->z;
-        position->z = source_z - z_adjustment;
+        position->z.w.i = source_z - z_adjustment;
     }
 }

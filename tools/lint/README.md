@@ -442,3 +442,21 @@ did not exist on BASE fails. The warning census cannot catch this case: a stale 
 prototype leaves the same GCC diagnostic at the same site. `lint_closure.py` runs the check
 after its warning gate (`--no-decl-check` skips it). Tests: `python3 -m unittest
 tools.lint.test_decl_agreement`.
+
+Tool notes (landing-review gaps): `debt_check.py --summary` keeps its report cache under
+`build/debt_report_cache` (or `$XDG_CACHE_HOME/debt_check/...`, or `--cache-dir`), never `out/`, and `/out/` is
+git-ignored so a stray `out/` cannot fail the lander's clean-worktree check.  Sign-view counting includes named
+`unsigned_*`/`signed_*` member views (`unsigned_parts`, `signed_halves`, ...) as `named_sign_views`.
+`decl_agreement.py` reports `void_pointer_stale` (a `void *` declaration of a record-pointer definition) and fails on
+it only with `--fail-void`; `lint_closure.py` reuses its BASE tree for the check.  `ledger_integrity.py --rederive`
+moves lines by `git diff` hunk offsets before any text search.
+
+Sign decisions (R17): raw lbu/lhu counts are a biased vote because a signed field also compiles to lbu/lhu in
+increments, masks, same-width copies and shifts.  `tools/typing/sign_trial.py include/x.h::Record.field` flips the
+declared sign, strips the casts to the new type on that field and recompiles the users through the recipe's
+compiler cell, reporting per function identical or differs plus the recommendation (FLIP_CLEAN, FLIP_BETTER, TIE,
+KEEP); `--check-removal` removes each minority cast alone and lists the NO-OP ones.  Run it in a private clone with
+`--build-root` pointing at a tree that holds build/.state and toolchain/ (a run takes minutes on a busy box).
+`union_census.load_check` now votes per access width (a byte view's lbu no longer counts for a halfword) and reports
+`biased` when an unsigned declaration's lead rests on lbu/lhu loads with no unsigned-only consumer (access_sites.tsv
+gains a `compound` column).  `ledger_integrity.py --list` shows evidence prose load numbers that differ from the row's `loads`.

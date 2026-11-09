@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/map/object_callback.h"
 #include "shared/object_flags.h"
 #include "town/map.h"
@@ -25,7 +26,7 @@ void run_callbacks_unless_suppressed(void *object, void *check_data)
         if (status_byte != 0) {
             *status_byte = 0;
         }
-        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
 #include "engine/resource.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
@@ -8,15 +9,14 @@
 
 typedef struct {
     void *data;
-    s32 value;
+    struct SpriteSourceEntry *source;
 } Entry;
 
-extern s32 fade_manager_state[];
 extern u8 *runtime_resource_directory[];
 
 /* Processes the selected entry and uploads its two image regions to VRAM. */
 s32 activate_indexed_resource_and_upload_images(s32 entry_group, s32 entry_index) {
-    s32 *state = fade_manager_state;
+    FadeManagerBody *state = &fade_manager_state;
     Entry *entries;
     void *entry_data;
     s32 result;
@@ -26,7 +26,7 @@ s32 activate_indexed_resource_and_upload_images(s32 entry_group, s32 entry_index
         if (entries != 0) {
             entry_data = entries[entry_index].data;
             if (entry_data != 0) {
-                state[2] = entries[entry_index].value;
+                state->source = entries[entry_index].source;
                 result = find_or_load_runtime_resource_key(entry_data);
                 runtime_move_entry_to_front(result);
 

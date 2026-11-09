@@ -10,9 +10,10 @@
  * The layout routine positions all five rows; the population routine stores
  * each row's lookup result, text handle and item handle through those pointers. */
 typedef struct ShopWidgetData {
-    u8 pad_00[8];
+    s32 color; /* packed colour word: set_shop_slot_colors and set_shop_change_indicator_color write it */
+    u8 pad_04[4];
     s16 x;
-    union { s16 s; u16 u; } y;
+    s16 y;
 } ShopWidgetData;
 
 typedef struct ShopWidget {

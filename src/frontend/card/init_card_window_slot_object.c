@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
@@ -29,7 +30,7 @@ u8 *init_card_window_slot_object(u8 *init_value, s32 slot_index)
 
     record_offset = slot_index * 0x360;
     record = D_8040A0F0 + record_offset;
-    body = record + 0x20;
+    body = NODE_BODY(record);
 
     if (slot_index >= 5) {
         func_8007C040(D_804005F8, D_80400620, 0x12B);

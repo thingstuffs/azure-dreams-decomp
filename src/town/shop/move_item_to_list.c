@@ -30,8 +30,6 @@ typedef struct {
     s32 value;
 } __attribute__((packed)) PackedItemWord;
 
-s32 get_mode_value_or_default(s32);
-
 typedef struct S_800B2400_1 {
     u8 pad_00[0x28];
     s32 unk_28;

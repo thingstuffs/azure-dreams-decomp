@@ -148,7 +148,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
             action->action_state_flags |= 0x80;
         }
         action->action_timer--;
-        if ((s16)action->action_timer <= 0) {
+        if (action->action_timer <= 0) {
             action->action_timer = 0;
             sprite->flags &= 0xF7FF;
         }

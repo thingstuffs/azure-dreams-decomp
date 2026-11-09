@@ -3,7 +3,10 @@
     python3 -m unittest tools/lint/test_debt_check.py
 """
 from pathlib import Path
+import contextlib
+import io
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -201,6 +204,46 @@ void use(ScratchPad *p, Record *r) {
     def test_generic_index_covers_dot_members_and_ints(self):
         source = 'p.b[0] = p.w[1] + p.Ints[2] + Ints[3]; // p.b[4]\n'
         self.assertEqual(D.generic_index_views(source), 4)
+        self.assertEqual(D.generic_index_views('a->unk_B4.signed_bytes[2] = p.signed_halves[1];\n'), 2)
+
+    def test_named_signedness_views_count(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'src/test').mkdir(parents=True)
+            (root / 'include').mkdir()
+            (root / 'src/test/named.c').write_text('''
+void use(Pos *p) {
+    p->x.unsigned_parts.integer = 1;
+    p->y.signed_halves.low = p->z.unsigned_word;
+    p->parts.camera = 2;
+    // p->x.unsigned_parts.fraction
+}
+''')
+            report = D.census(root)
+            self.assertEqual(report['by_class']['sign_views'], 3)
+            self.assertEqual(report['sign_views_report']['named_sign_views'], 3)
+
+    def test_report_cache_dir_is_outside_tracked_out(self):
+        root = Path('/r')
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop('XDG_CACHE_HOME', None)
+            self.assertEqual(D.report_cache_dir(root), root / 'build/debt_report_cache')
+            self.assertEqual(D.report_cache_dir(root, Path('/c')), Path('/c'))
+            os.environ['XDG_CACHE_HOME'] = '/xdg'
+            self.assertEqual(D.report_cache_dir(root).parent, Path('/xdg/debt_check'))
+
+    def test_summary_does_not_create_out(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'src/test').mkdir(parents=True)
+            (root / 'include').mkdir()
+            (root / 'src/test/a.c').write_text('void f(void) { }\n')
+            with patch.dict(os.environ, {}, clear=False):
+                os.environ.pop('XDG_CACHE_HOME', None)
+                with contextlib.redirect_stdout(io.StringIO()):
+                    D.main(['--root', str(root), '--out', str(root / 'build/debt'), '--summary'])
+            self.assertFalse((root / 'out').exists())
+            self.assertTrue((root / 'build/debt_report_cache').is_dir())
 
     def test_views_union_labels_and_new_site(self):
         with tempfile.TemporaryDirectory() as td:

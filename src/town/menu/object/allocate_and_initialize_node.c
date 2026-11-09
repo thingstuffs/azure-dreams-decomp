@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/node/registration.h"
 #include "engine/graphics.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -15,7 +16,6 @@ typedef struct S_80126890_0 {
     void * unk_20;
 } S_80126890_0;   /* node in create_catalog_display_node */
 
-extern void register_node(void *, void *);
 extern void SD_Call(s32);
 extern void initialize_catalog_state(CatalogDisplay *);
 

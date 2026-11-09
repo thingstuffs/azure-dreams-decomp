@@ -6,7 +6,8 @@
 #include "records/Rec_D_80082D58.h"
 #include "shared/runtime_dispatch.h"
 
-struct S_8003C0A4_1;
+struct FadeManagerBody;
+struct SpriteFrameState;
 struct S_80040490_RECT;
 
 /* activate_scene_resource_and_clear_view_callbacks.c */
@@ -72,7 +73,7 @@ s32 run_dispatch_entry_callbacks(u16 entry_id);
 void run_runtime_callbacks(void);
 
 /* runtime_clear_record_field.c */
-void runtime_clear_record_field_04(void *state, s32 unused_status);
+void runtime_clear_record_field_04(struct FadeManagerBody *state, struct SpriteFrameState *unused_sprite);
 
 /* runtime_copy_three_global_blocks.c */
 void runtime_copy_three_global_blocks(void);
@@ -93,7 +94,7 @@ void runtime_move_entry_to_front(s32 index);
 void runtime_scale_four_points_about_center(s16 *points, s32 scale_num, s32 scale_den);
 
 /* runtime_set_destination_flag_from_source.c */
-void runtime_set_destination_flag_from_source(struct S_8003C0A4_1 *dest, RuntimeSourceValueView *source);
+void runtime_set_destination_flag_from_source(struct FadeManagerBody *dest, struct SpriteFrameState *source);
 
 /* Data declarations. */
 extern void *runtime_resource_load_target;

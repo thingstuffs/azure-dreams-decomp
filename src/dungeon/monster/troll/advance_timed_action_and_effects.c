@@ -79,7 +79,7 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
             action->action_timer = 0;
             action->action_phase++;
         }
-        if ((s16)action->action_timer == 3) {
+        if (action->action_timer == 3) {
             play_sound_if_enabled(0x804);
             return;
         }
@@ -104,12 +104,12 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
             create_targeted_motion_effect(action, motion, animation, actor);
             create_actor_action_effect(action, motion, animation, actor);
         }
-        if (((s16)action->action_timer == 12) ||
+        if ((action->action_timer == 12) ||
             (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing,
                 action->unk_AA);
         }
-        if (((s16)action->action_timer != 20) &&
+        if ((action->action_timer != 20) &&
             !(animation->flags & 0x8000)) {
             break;
         }

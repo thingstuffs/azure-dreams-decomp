@@ -571,9 +571,9 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         history->unk_50 = history->unk_48;
     }
     owner_ref = effect->parent_link;
-    effect->previous_x = (u16)motion->x.half.unk_02;
-    effect->previous_y = (u16)motion->y.half.unk_06;
-    effect->previous_z = (u16)motion->z.half.unk_0A;
+    effect->previous_x = motion->x.half.unk_02;
+    effect->previous_y = motion->y.half.unk_06;
+    effect->previous_z = motion->z.half.unk_0A;
     if (owner_ref == 0) {
         state = effect->phase;
         switch (state) {
@@ -614,7 +614,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             motion->velocity_z.word = height_numerator_2 / height_frames;
             effect->phase = (s16) ((u16) effect->phase + 1);
         case 1:
-            aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02, (s16) motion->y.half.unk_06,
+            aim_angle = (s16)calculate_planar_heading(motion->x.half.unk_02, motion->y.half.unk_06,
                 (s16) effect->target_x.u16, (s16) effect->target_y.u16);
             approach_heading = effect->heading;
             if (approach_heading & 0x800) {
@@ -709,7 +709,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             effect->phase = (s16) ((u16) effect->phase + 1);
             break;
         case 2:
-            aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02, (s16) motion->y.half.unk_06,
+            aim_angle = (s16)calculate_planar_heading(motion->x.half.unk_02, motion->y.half.unk_06,
                 (s16) effect->target_x.u16, (s16) effect->target_y.u16);
             travel_heading = effect->heading;
             if (travel_heading & 0x800) {
@@ -820,7 +820,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
             motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
             motion->z.word = (s32) (motion->z.word + motion->velocity_z.word);
-            if ((s16) motion->z.half.unk_0A > ((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)((u8 *)&dungeon_actor_ring_anchor
+            if (motion->z.half.unk_0A > ((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)((u8 *)&dungeon_actor_ring_anchor
                 + 0)))->unk_88.s16) {
                 motion->z.half.unk_0A =
                     (u16) ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_88.s16;
@@ -912,7 +912,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             target = effect->target;
             if (target != 0) {
                 related_motion = NODE_HEADER(target)->position;
-                aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02, (s16) motion->y.half.unk_06,
+                aim_angle = (s16)calculate_planar_heading(motion->x.half.unk_02, motion->y.half.unk_06,
                     related_motion->x.w.i, related_motion->y.w.i);
                 homing_heading = effect->heading;
                 if (homing_heading & 0x800) {
@@ -956,7 +956,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 } else {
                     effect->heading = aim_angle;
                 }
-                state6_timer_signed = (s16)effect->timer;
+                state6_timer_signed = effect->timer;
 
                 state6_timer = effect->timer;
                 if (state6_timer_signed != 0) {
@@ -1046,8 +1046,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             fade_speed_y = motion->velocity_y.word;
             motion->velocity_x.word = (s32) (fade_speed_x - (fade_speed_x >> 3));
             motion->velocity_y.word = (s32) (fade_speed_y - (fade_speed_y >> 3));
-            if ((effect->unk_3E - 0x10) < (s16) motion->z.half.unk_0A) {
-                motion->z.half.unk_0A = (u16) ((u16) effect->unk_3E - 0x10);
+            if ((effect->unk_3E - 0x10) < motion->z.half.unk_0A) {
+                motion->z.half.unk_0A = (u16) effect->unk_3E - 0x10;
             }
             motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
             motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
@@ -1106,8 +1106,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             frame_step = 1;
             effect->frame_step = frame_step;
         }
-        spawn_random_motion_particles((s16) motion->x.half.unk_02, (s16) motion->y.half.unk_06,
-            (s16) motion->z.half.unk_0A, (s16) effect->heading, D_80026BD4[(s8) visual->frame_index]);
+        spawn_random_motion_particles(motion->x.half.unk_02, motion->y.half.unk_06,
+            motion->z.half.unk_0A, (s16) effect->heading, D_80026BD4[(s8) visual->frame_index]);
         effect->update_count = (u16) (effect->update_count + 1);
         return;
     }
@@ -1123,8 +1123,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_08;
     if (owner_ref & 0x80000000) {
         owner_state = owner_ptr + 0x20;
-        visual->angle_z = (u16) ((s16)calculate_planar_heading((s16) motion->x.half.unk_02,
-            (s16) motion->y.half.unk_06, related_motion->x.w.i,
+        visual->angle_z = (u16) ((s16)calculate_planar_heading(motion->x.half.unk_02,
+            motion->y.half.unk_06, related_motion->x.w.i,
             related_motion->y.w.i) - 0x400);
         alternate_delta = related_motion->z.w.i;
         alternate_value = motion->z.half.unk_0A;
@@ -1333,7 +1333,7 @@ void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s3
     u32 clamp_flags;
     u8 index;
     ovl_19a332c_81984AF4_S_81984AF4_0 *obj = object;
-    s32 initial_index = (s8)obj->unk_04;
+    s32 initial_index = obj->unk_04;
     ovl_19a332c_81984AF4_S_81984AF4_1 *owner = obj->unk_08;
 
     obj->unk_00 =
@@ -1345,7 +1345,7 @@ void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s3
         obj->unk_04 =
             obj->unk_04 - 1;
     }
-    index = (u8)obj->unk_04;
+    index = obj->unk_04;
     shifted_index = index << 24;
     if ((s8)index < (s16)min_index) {
         clamp_flags = obj->unk_14 | 0x4000;

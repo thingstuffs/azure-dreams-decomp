@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "engine/node.h"
 #include "town/map/state.h"
@@ -15,7 +16,7 @@ void update_object_link_or_angle_state(void *object, void *context)
             *linked_flag = 0;
         }
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

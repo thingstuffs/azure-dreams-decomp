@@ -33,7 +33,7 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
     dir_x = dir_step_x[dir_offset >> 1];
     dir_y = dir_step_y[dir_offset >> 1];
     state = action->action_phase;
-    ticks_left = action->action_timer - 1;
+    ticks_left = (u16)action->action_timer - 1;
     action->action_timer = ticks_left;
 
     switch (state) {

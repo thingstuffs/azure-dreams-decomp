@@ -81,7 +81,7 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
                     s32 current_y = motion->y.w.i - 0x20;
 
                     motion->velocity_y = ((target_y - current_y) << 16)
-                    / (s16)action->action_timer;
+                    / action->action_timer;
                 }
             }
         }

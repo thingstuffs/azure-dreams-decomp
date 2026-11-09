@@ -7,6 +7,8 @@
 #include "common.h"
 #include "engine/window/attached_message_window.h"
 #include "engine/node/allocation.h"
+#include "engine/node/registration.h"
+#include "engine/window.h"
 
 struct SpriteFrameState;
 
@@ -29,16 +31,10 @@ typedef struct S_80035888_6 {
 } S_80035888_6;   /* ((S_80035888_1 *)object)->unk_74 in func_80035888 */
 
 
-extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
-extern void copy_window_params(struct Container *container, struct Source *source);
-extern void func_800375C0(void *, void *);
 extern void prepend_embedded_object_node(void *, void *);
 
 extern s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, struct SpriteFrameState *first_context);
-extern void dispatch_window_fade_and_update_extents(struct Func800359FCState *state, struct Func800359FCEvent *event, void *callback_data);
-extern void set_window_handler(Rec_func_80036210_arg0 *object);
-extern void func_80035AAC(void);
 extern void draw_window_rects(void);
 extern void func_80037714(void);
 

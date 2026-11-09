@@ -41,7 +41,7 @@ void set_record_base_and_data_pointer_alt(void *record_values, s32 base_value) {
 
     object->unk_04 = base_value;
     object->unk_00 = (s32)(base_value + 0x20);
-    ((ObjectNodeHeader *)record_values - 1)->update_callback = update_subobject_and_normalize_color;
+    NODE_HEADER(record_values)->update_callback = update_subobject_and_normalize_color;
 }
 
 /*

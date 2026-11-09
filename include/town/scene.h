@@ -259,4 +259,10 @@ void *init_sequential_command_records(void *records);
 s32 sum_flagged_terminated_entries(void *entry, s32 callback_mode);
 void update_dependent_entry_ids(s16 checked_id, s16 first_id, s16 second_id);
 
+void initialize_circular_list_head(void);
+void initialize_pointer_table_self_links(void);
+void pass_pair_table_values(void);
+void *populate_and_dispatch_entry_records(void *records, void *entries, s32 flags, s32 tag);
+s32 select_first_unmet_table_entry(void);
+
 #endif

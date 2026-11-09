@@ -46,7 +46,7 @@ s32 update_actor_movement_to_tile(ActorRecord *move_state_arg, void *motion_arg,
         motion->velocity_y =
             (s32)(((s32)(((target_tile->unk_25 << 6) - adjusted_y)
                          << 0x10)) /
-                  (s16)move_state->action_timer);
+                  move_state->action_timer);
     }
     next_frames = move_state->action_timer - 1;
     move_state->action_timer = next_frames;

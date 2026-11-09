@@ -135,7 +135,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
         }
 
         if (((u32)entity->flags14) & 0x20000) {
-            switch ((s16)self_object->unk_A8) {
+            switch (self_object->unk_A8) {
             case 0:
                 if (sprite->frameTable != mandara_frame_set) {
                     g_dungeon_status.activity_counts.parts.pending_action_count++;

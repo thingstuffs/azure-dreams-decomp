@@ -12,7 +12,7 @@ typedef struct S_818FEDEC_0 {
     u16 unk_02;
     u8 pad_04[0x18];
     s16 unk_1C;
-    u16 unk_1E;
+    s16 unk_1E;
     u8 pad_20[0x8];
     u8 unk_28;
     u8 unk_29;
@@ -49,7 +49,7 @@ void update_eight_frame_animation_effect(void *anim_state_arg, ObjectPosition *u
     render_state->unk_1C = 0x2000;
     render_state->unk_1E = 0x2000;
     if (anim_state->unk_1C == 0) {
-        frame = (s16)anim_state->unk_1E;
+        frame = anim_state->unk_1E;
         anim_state->unk_1C = 0;
         switch ((u32)frame) {
         case 0:
@@ -58,7 +58,7 @@ void update_eight_frame_animation_effect(void *anim_state_arg, ObjectPosition *u
         case 4:
         case 5:
         case 6:
-            anim_state->unk_1E = (s16) ((u16) anim_state->unk_1E + 1);
+            anim_state->unk_1E++;
             anim_state->unk_28 = (u8) (anim_state->unk_28 + 0x20);
             break;
         case 3:

@@ -18,8 +18,8 @@
 extern u32 *dungeon_category_action_handlers[];
 extern u8 floor_objects[];
 
-extern void process_unflagged_linked_entries(s32 firstEntryBase);
-extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
+extern void process_unflagged_linked_entries(void *firstEntryBase);
+extern void process_unflagged_linked_entries_alt(void *firstNodeBase);
 extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 extern s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 extern void bank_selector_no_op(s32, u32, s32);

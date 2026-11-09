@@ -9,8 +9,8 @@
 #include "slus.h"
 #include "town/shop.h"
 #include "town/shop/item.h"
+#include "town/shop/state.h"
 
-struct S_func_800B361C_0; void update_shop_state_flags(struct S_func_800B361C_0 *);                      /* extern */
 s32 allocate_and_initialize_shop_object(s32);                             /* extern */
 extern M2C_UNK D_800D1600;
 
@@ -68,6 +68,6 @@ void populate_shop_item_rows(ShopWindow *ctx) {
         row_widgets->rows[4][0]->value.word = item_value;
         row_offset += 4;
     }
-    update_shop_state_flags((struct S_func_800B361C_0 *)(ctx));
+    update_shop_state_flags(ctx);
     update_current_shop_page(ctx);
 }

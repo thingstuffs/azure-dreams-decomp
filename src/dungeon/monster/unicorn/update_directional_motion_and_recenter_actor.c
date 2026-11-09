@@ -52,12 +52,12 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
             dir_step_x[direction] << 14;
         motion->velocity_y -=
             dir_step_y[direction] << 14;
-        if ((s16)body->action_timer > 0) {
+        if (body->action_timer > 0) {
             body->action_timer = body->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
             body->action_timer = 0;
         }
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -72,7 +72,7 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
         return;
 
     case 2:
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             {
                 s32 tile_x;
                 s32 current_x;

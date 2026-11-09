@@ -1,3 +1,4 @@
+#include "engine/entity/effect_slots.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/actor_status_ids.h"

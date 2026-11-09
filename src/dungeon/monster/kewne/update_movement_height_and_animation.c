@@ -85,7 +85,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
             step_y = dir_step_y[direction_offset >> 1] << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((s16)action->action_timer) * 170);
+            arc = -rsin((action->action_timer) * 170);
             action->unk_A0.value = ((arc * 5) << 8) + 0x300000;
             timer = action->action_timer + 1;
             action->action_timer = timer;
@@ -114,7 +114,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
             s32 velocity_x;
             s32 velocity_y;
 
-            if (((s16)action->action_timer) == 10) {
+            if ((action->action_timer) == 10) {
                 resolve_attack_damage_and_effects(actor, sprite, ((s16)actor->facing), 1);
             }
             directions_x = (s16 *)((s8 *)dir_step_x);
@@ -128,7 +128,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
             step_y = arc << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((s16)action->action_timer) * 170);
+            arc = -rsin((action->action_timer) * 170);
             action->unk_A0.value = ((arc * 5) << 8) + 0x300000;
             timer = action->action_timer + 1;
             action->action_timer = timer;

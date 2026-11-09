@@ -212,7 +212,7 @@ void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *pos
 
     counter_state = effect->unk_00.ptr;
     counter_state->unk_1A = (u16) (counter_state->unk_1A + 1);
-    effect->unk_2E = (u16) ((u16)effect->unk_2E + 0x100);
+    effect->unk_2E = effect->unk_2E + 0x100;
     position->unk_00.at00.v = (s32) position->unk_0C;
     position->unk_04.at00.v = (s32) position->unk_10;
     position->unk_08.at00.v = (s32) position->unk_14;
@@ -462,7 +462,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
     ActorRecord *actor_value;
     Row_8194D354_S_80024B54_1 *actor_value_2;
 
-    state_or_heading = (s16)effect_arg->spell.phase;
+    state_or_heading = effect_arg->spell.phase;
     effect_arg->unk_10 = (u16)(effect_arg->unk_10 + 1);
     switch ((u32)state_or_heading) {
     case 0:
@@ -532,15 +532,15 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
         } else {
             target_pos = fallback_pos;
             step_count = 0;
-            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (u16)((tile_or_y_steps->tile_position.parts.tile_x << 6) + 0x20);
+            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (tile_or_y_steps->tile_position.parts.tile_x << 6) + 0x20;
             tile_y = tile_or_y_steps->tile_position.parts.tile_y;
-            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (u16)((tile_y << 6) + 0x20);
+            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (tile_y << 6) + 0x20;
             do {
                 actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
                 forward_dx = dir_step_x[(actor_or_frame->unk_2A >> 9) & 7];
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 + (forward_dx << 6));
+                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 + (forward_dx << 6);
                 forward_dy = dir_step_y[(actor_or_frame->unk_2A >> 9) & 7];
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 + (forward_dy << 6));
+                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 + (forward_dy << 6);
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = (u16)actor_or_frame->unk_88;
                 ground_height = get_surface_height_at_record(target_pos);
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = ground_height;
@@ -553,10 +553,10 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
                 if ((position_valid << 0x10) != 0) {
                     actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
                     backtrack_dx = dir_step_x[(actor_or_frame->unk_2A >> 9) & 7];
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 - (backtrack_dx
+                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 - (backtrack_dx
                         << 5));
                     backtrack_dy = dir_step_y[(actor_or_frame->unk_2A >> 9) & 7];
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 - (backtrack_dy
+                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 - (backtrack_dy
                         << 5));
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = (u16)actor_or_frame->unk_88;
                     near_height = get_surface_height_at_record(target_pos);
@@ -571,15 +571,15 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
             } while (step_count < 8);
         }
         update_directional_actor_effect(position->x.w.i, position->y.w.i,
-            position->z.w.i, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02,
-            (s32)(s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06, (s32)(s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A, &direction);
+            position->z.w.i, ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02,
+            (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06, (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A, &direction);
         RotMatrix(&direction, transform);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, phase, transform[0], transform[1], direction);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0xAAA), transform[0], transform[1], direction);
         next_state_c2 = effect_arg->spell.phase;
         effect_arg->unk_18 = 0x18U;
-        effect_arg->spell.phase = (s16)(next_state_c2 + 1);
+        effect_arg->spell.phase = next_state_c2 + 1;
         break;
     case 3:
         actor_or_frame = effect_arg->unk_14;
@@ -639,7 +639,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
         effect_pool = (s32 *)0x80080000;
         if (effect_arg->unk_1A != 0) {
             next_state_c3 = effect_arg->spell.phase;
-            effect_arg->spell.phase = (s16)(next_state_c3 + 1);
+            effect_arg->spell.phase = next_state_c3 + 1;
             break;
         }
     case 4:

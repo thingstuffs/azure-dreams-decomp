@@ -81,7 +81,7 @@ s32 apply_item_and_update_matching_actor_state(void *entity, DungeonItemEntry *a
             display_text_with_fullwidth_adjustment(message_id);
         }
 
-        create_colored_effect_with_event((u8 *)entity - 0x20, 0x20A0A0, 0x702);
+        create_colored_effect_with_event(NODE_HEADER(entity), 0x20A0A0, 0x702);
         clear_slot_and_update_linked_state(action_id);
     } else {
         display_formatted_context_message(D_800E0F85);

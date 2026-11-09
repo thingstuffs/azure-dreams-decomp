@@ -223,7 +223,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
             }
         }
 
-        if ((s16)actor_state->action_timer == 0x10) {
+        if (actor_state->action_timer == 0x10) {
             u8 *anim_table;
             s32 direction_index;
 
@@ -236,13 +236,13 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
             }
         }
 
-        if ((s16)actor_state->action_timer == 0x13 ||
+        if (actor_state->action_timer == 0x13 ||
             (sprite->flags & 0xE000)) {
             actor_state->action_state_flags |= 0x80;
             play_sound_if_enabled(0x81B);
         }
 
-        if ((s16)actor_state->action_timer < 0x19 &&
+        if (actor_state->action_timer < 0x19 &&
             !(sprite->flags & 0xE000)) {
             return;
         }

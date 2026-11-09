@@ -77,7 +77,7 @@ void follow_source_then_seek_target(S_81976850_0 *effect, ObjectPosition *motion
     u16 source_z;
     u8 brightness;
 
-    state = (s16)effect->unk_0C;
+    state = effect->unk_0C;
     switch (state) {
     case 0:
         object = NODE_HEADER(effect);

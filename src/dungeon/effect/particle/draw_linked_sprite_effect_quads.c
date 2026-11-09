@@ -227,7 +227,7 @@ next_target:
             }
         }
         if ((s16)effect->unk_52 & 0x8000) {
-            effect->unk_52 = (u16) (effect->unk_52 & 0x7FFF);
+            effect->unk_52 = effect->unk_52 & 0x7FFF;
             return;
         }
         g_dungeon_status.active_actor = 0;
@@ -483,7 +483,7 @@ void update_animated_target_effect(void *effect_arg)
     void *display;
 
     owner = effect->unk_00;
-    effect->unk_48 = (u16)effect->unk_48 + 1;
+    effect->unk_48 = effect->unk_48 + 1;
     owner->unk_52 |= 0x8000;
     last_particle = -1;
     state = effect->unk_4C;
@@ -495,7 +495,7 @@ void update_animated_target_effect(void *effect_arg)
         effect->unk_44 = 0x1F;
         effect->unk_48 = 0;
         effect->unk_4E = 0x30;
-        effect->unk_4C = (u16)effect->unk_4C + 1;
+        effect->unk_4C++;
     case 1:
         last_particle = 0xE;
         approach_data = &reference_tile_object;
@@ -511,17 +511,17 @@ void update_animated_target_effect(void *effect_arg)
                 ((target_pos.vz + view_reference_entity.z.w.i) -
                  effect->unk_24.at02.v) << 14;
             effect->unk_24.at00.v -=
-                rsin(((s16)effect->unk_48 << 11) / 10) << 9;
+                rsin((effect->unk_48 << 11) / 10) << 9;
         }
-        if ((s16)effect->unk_48 >= 0xA) {
+        if (effect->unk_48 >= 0xA) {
             effect->unk_4A = 0x10;
-            effect->unk_4C = (u16)effect->unk_4C + 1;
+            effect->unk_4C++;
         }
         break;
 
     case 2:
         last_particle = 9;
-        if ((s16)effect->unk_48 >= 0xB) {
+        if (effect->unk_48 >= 0xB) {
             last_particle = 4;
         }
         effect->unk_4E += 2;
@@ -538,20 +538,20 @@ void update_animated_target_effect(void *effect_arg)
                 ((target_pos.vz + view_reference_entity.z.w.i) -
                  effect->unk_24.at02.v) << 15;
         }
-        if ((s16)effect->unk_48 >= 0xD) {
+        if (effect->unk_48 >= 0xD) {
             effect->unk_48 = 8;
         }
         frames_left = effect->unk_4A - 1;
         effect->unk_4A = frames_left;
         if (((s32)(frames_left << 16) <= 0) &&
-            ((s16)effect->unk_48 == 0xC)) {
-            effect->unk_4C = (u16)effect->unk_4C + 1;
+            (effect->unk_48 == 0xC)) {
+            effect->unk_4C++;
         }
         break;
 
     case 3:
         last_particle = 5;
-        if ((s16)effect->unk_48 == 0xF) {
+        if (effect->unk_48 == 0xF) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -559,7 +559,7 @@ void update_animated_target_effect(void *effect_arg)
     }
     particle_index = last_particle;
 
-    effect->unk_40 = (((u16)effect->unk_48 & 3) << 5) + 0x80;
+    effect->unk_40 = ((effect->unk_48 & 3) << 5) + 0x80;
     effect->unk_42 =
         (((s32)((u16)effect->unk_48 << 16) >> 18) << 5) + 0x80;
     if (particle_index >= 0) {

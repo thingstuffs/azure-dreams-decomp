@@ -4,7 +4,7 @@
 #include "town/person.h"
 
 /* Set the object value to its base plus the source value minus 76. */
-void set_object_value_base_plus(Rec_func_800AB030_arg0 *source, EntityRec *object) {
+void set_object_value_base_plus(Rec_func_800AB030_arg0 *source, ObjectPosition *object) {
     s32 value_offset;
     s32 base_value;
 
@@ -16,7 +16,7 @@ void set_object_value_base_plus(Rec_func_800AB030_arg0 *source, EntityRec *objec
 
 /* Update the output, adding eight while the state's countdown is positive. */
 void update_output_adding_eight_state(Rec_func_800AB030_arg0 *state, ObjectPosition *output) {
-    set_object_value_base_plus(state, (EntityRec *)output);
+    set_object_value_base_plus(state, output);
     if ((s16)state->unk_6C > 0) {
         output->y.unsigned_parts.integer = (u16) (output->y.unsigned_parts.integer + 8);
         state->unk_6C = (s16) ((u16) state->unk_6C - 1);

@@ -40,7 +40,6 @@ typedef struct S_8015E8DC_8 {
 } S_8015E8DC_8;   /* outer_base in func_8015E8DC */
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void select_sprite_entry(void *, s32, s32);

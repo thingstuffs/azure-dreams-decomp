@@ -147,7 +147,7 @@ typedef struct {
 } B32_818CFB74_ByteEntry;
 typedef struct B32_818CF0E8_S_818CF0E8_0 {
     s16 unk_00;
-    u16 unk_02;
+    s16 unk_02;
     s16 unk_04;
     u8 pad_06[0x2];
     s16 unk_08;
@@ -174,9 +174,9 @@ typedef struct B32_818CF0E8_S_818CF0E8_1 {
 } B32_818CF0E8_S_818CF0E8_1;
 typedef struct B32_818CF0E8_S_818CF0E8_2 {
     u8 pad_00[0x2];
-    u16 unk_02;
+    s16 unk_02;
     u8 pad_04[0x2];
-    u16 unk_06;
+    s16 unk_06;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } B32_818CF0E8_S_818CF0E8_2;
 typedef struct B32_818CF0E8_S_818CF0E8_3 {

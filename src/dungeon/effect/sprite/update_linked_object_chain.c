@@ -106,11 +106,11 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
             motion_in->z.v =
                 (s32) (motion_in->z.v + 0xFFFF0000);
             brightness = sprite->primitive_color.parts.color_r;
-            next_brightness = brightness + ((s32) (0x80 - brightness) / (s16) effect_in->unk_30);
+            next_brightness = brightness + ((s32) (0x80 - brightness) / effect_in->unk_30);
             sprite->primitive_color.parts.color_r = next_brightness;
             sprite->primitive_color.parts.color_b = next_brightness;
             sprite->primitive_color.parts.color_g = next_brightness;
-            frame_toggle = ((u16) effect_in->unk_30 ^ 1) & 1;
+            frame_toggle = (effect_in->unk_30 ^ 1) & 1;
             effect_in->unk_32 = frame_toggle;
             rise_ticks = effect_in->unk_30 - 1;
             effect_in->unk_30 = rise_ticks;
@@ -121,7 +121,7 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
                 effect_in->unk_36 = 0xF;
                 effect_in->unk_32 = 1;
                 effect_in->unk_3A = (u16) ((u16)source_data_2->ground_height);
-                effect_in->unk_40 = (u16) (((u16) ((u16)source_data_2->facing) >> 9) & 7);
+                effect_in->unk_40 = ((u16) ((u16)source_data_2->facing) >> 9) & 7;
                 resident_sprite = &reference_tile_object;
                 effect_in->unk_3C = resident_sprite->tile_position.parts.tile_x;
                 start_tile_y = resident_sprite->tile_position.parts.tile_y;
@@ -140,7 +140,7 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
 
                 transform_result = resolve_record_orientation_or_fallback(orientation_sprite->source, orientation_sprite, offset, 0);
             }
-            follow_ticks = (u16) effect_in->unk_30 - 1;
+            follow_ticks = effect_in->unk_30 - 1;
             effect_in->unk_30 = follow_ticks;
             if ((follow_ticks << 0x10) <= 0 || transform_result == 0
                 || (sprite->sprite_flags & 0x8000) != 0) {
@@ -161,11 +161,11 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
             }
             break;
         case 2:
-            if ((s16)effect_in->unk_30 == 0) {
+            if (effect_in->unk_30 == 0) {
                 if ((check_layer_offset_height(((effect_in->unk_3C << 6) + 0x20) & 0xFFE0,
                     ((effect_in->unk_3E << 6) + 0x20) & 0xFFE0,
                     (s16) (effect_in->unk_3A - 0x20),
-                    (s16) ((u16)effect_in->unk_40 << 9)) << 0x10) != 0
+                    (s16) (effect_in->unk_40 << 9)) << 0x10) != 0
                     || (steps_left = effect_in->unk_42 - 1,
                         effect_in->unk_42 = steps_left, (steps_left << 0x10) <= 0)) {
                     effect_in->unk_2C = 0x10;
@@ -193,12 +193,12 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
             delta_x = motion_in->x.w.i - 0x20;
             motion_in->x.w.i =
                 (u16) motion_in->x.w.i
-            + ((target_x - delta_x) / (s16)effect_in->unk_30);
+            + ((target_x - delta_x) / effect_in->unk_30);
             tile_object = effect_in->unk_3E;
             tile_object <<= 6;
             delta_y = motion_in->y.w.i - 0x20;
             tile_object -= delta_y;
-            tile_object /= (s16)effect_in->unk_30;
+            tile_object /= effect_in->unk_30;
             next_z = (u16) motion_in->z.w.i + 5;
             motion_in->z.w.i = next_z;
             motion_in->y.w.i =
@@ -207,7 +207,7 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
                 motion_in->z.w.i =
                     (s16) (effect_in->unk_3A - 0x10);
             }
-            move_ticks = (u16) effect_in->unk_30 - 1;
+            move_ticks = effect_in->unk_30 - 1;
             effect_in->unk_30 = move_ticks;
             if (move_ticks == 2) {
                 found_tile = find_eligible_entry_at_coordinates(dungeon_actor_ring_anchor, (u16) effect_in->unk_3C,
@@ -215,10 +215,10 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
                 if (found_tile != 0) {
                     tile_object = found_tile;
                     apply_attack_power_and_element_effects(tile_object, 0xC, linked_effect_chain_attack_option, 9,
-                        (s32) (s16) ((u16)effect_in->unk_40 << 9), linked_effect_chain_attack_event[0], 5);
+                        (s32) (s16) (effect_in->unk_40 << 9), linked_effect_chain_attack_event[0], 5);
                 }
             }
-            func_8002589C(NODE_HEADER(effect_in), (s16) effect_in->unk_40, 0xF0);
+            func_8002589C(NODE_HEADER(effect_in), effect_in->unk_40, 0xF0);
             break;
         case 0x10:
             motion_in->x.v += motion_in->velocity_x;
@@ -234,12 +234,12 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
                     (s16) (effect_in->unk_3A - 0x10);
             }
             sprite->primitive_color.parts.color_r = sprite->primitive_color.parts.color_r
-            - ((s32) sprite->primitive_color.parts.color_r / (s16)effect_in->unk_30);
+            - ((s32) sprite->primitive_color.parts.color_r / effect_in->unk_30);
             sprite->primitive_color.parts.color_g = sprite->primitive_color.parts.color_g
-            - ((s32) sprite->primitive_color.parts.color_g / (s16)effect_in->unk_30);
+            - ((s32) sprite->primitive_color.parts.color_g / effect_in->unk_30);
             sprite->primitive_color.parts.color_b = sprite->primitive_color.parts.color_b
-            - ((s32) sprite->primitive_color.parts.color_b / (s16)effect_in->unk_30);
-            fade_ticks = (u16) effect_in->unk_30 - 1;
+            - ((s32) sprite->primitive_color.parts.color_b / effect_in->unk_30);
+            fade_ticks = effect_in->unk_30 - 1;
             effect_in->unk_30 = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
                 linked_effect_chain_updated[0] = 0;
@@ -256,7 +256,7 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
             } else if ((s8) frame == effect_in->unk_38) {
                 effect_in->unk_32 = 1;
             }
-            func_8002589C(NODE_HEADER(effect_in), (s16) effect_in->unk_40, 0xF0);
+            func_8002589C(NODE_HEADER(effect_in), effect_in->unk_40, 0xF0);
             break;
         }
     } else {

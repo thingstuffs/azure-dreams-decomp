@@ -788,7 +788,7 @@ void shrink_effect_and_step_texture(void *effect_arg, s32 unused, S_8196BF24_1 *
     S_8196BF24_0 *effect = effect_arg;
     u8 next_u;
 
-    effect->unk_2C = (s16)(effect->unk_2C - 1);
+    effect->unk_2C = effect->unk_2C - 1;
     transform->unk_1C = (u16)(transform->unk_1C - 0x300);
     transform->unk_1E = (u16)(transform->unk_1E - 0x200);
     next_u = effect->unk_40 - 0x18;

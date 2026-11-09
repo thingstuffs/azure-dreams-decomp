@@ -36,7 +36,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
 
     direction_offset = (((u16)actor->facing) >> 8) & 0xE;
     x_step = dir_step_x[direction_offset >> 1];
-    ticks_left = action->action_timer - 1;
+    ticks_left = (u16)action->action_timer - 1;
     y_step = dir_step_y[direction_offset >> 1];
     state = action->action_phase;
     action->action_timer = ticks_left;
@@ -74,7 +74,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
     case 1:
         action->unk_90.parts.high.u +=
             (action->unk_A4.halves.high.s - motion->z.w.i) / 3;
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             return;
         }
 
@@ -84,14 +84,14 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
         action->action_timer = 4;
         motion->velocity_x =
             (x_step << 22) / (action->action_timer);
-        motion->velocity_y = (y_step << 22) / (s16)action->action_timer;
+        motion->velocity_y = (y_step << 22) / action->action_timer;
         action->action_phase++;
         return;
 
     case 2:
         action->unk_90.value +=
             ((action->unk_A4.halves.high.s - motion->z.w.i) / 3) << 16;
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             return;
         }
         motion->velocity_y = 0;
@@ -103,13 +103,13 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
     case 3:
         height_delta = ((s32)(ticks_left << 16) >> 4) + 0x2000;
         action->unk_90.value -= height_delta;
-        if ((s16)action->action_timer == 6) {
+        if (action->action_timer == 6) {
             play_sound_if_enabled(0x808);
         }
-        if ((s16)action->action_timer == 2) {
+        if (action->action_timer == 2) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             return;
         }
         motion->velocity_x = (0 - x_step) << 19;

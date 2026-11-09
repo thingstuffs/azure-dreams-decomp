@@ -59,7 +59,7 @@ void update_menu_node_or_retire_on_zero_state(Func800A4A20Object *object, s32 co
 
     state = object->state;
     if (state != 0 && *state == 0) {
-        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

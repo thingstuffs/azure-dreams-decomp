@@ -35,7 +35,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
     s32 target_y;
     s32 current_y;
 
-    ticks_left = action->action_timer - 1;
+    ticks_left = (u16)action->action_timer - 1;
     direction = (entity->movement_facing >> 9) & 7;
     phase = action->action_phase;
     action->action_timer = ticks_left;
@@ -87,7 +87,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
             *(s16 *)((u8 *)directions_x + decel_offset) << 0xE;
         motion->velocity_y -= *direction_y << 0xE;
 
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -109,7 +109,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y = (target_y - current_y) << 0x10 >> 1;
 
-            if ((s16)action->action_timer > 0) {
+            if (action->action_timer > 0) {
                 return;
             }
         }

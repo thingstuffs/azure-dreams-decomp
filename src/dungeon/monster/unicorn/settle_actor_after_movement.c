@@ -53,7 +53,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
     case 1:
         body->unk_90.value += motion->velocity_z;
         motion->velocity_z += motion->velocity_z >> 2;
-        if ((s16)body->action_timer > 0) {
+        if (body->action_timer > 0) {
             return;
         }
 
@@ -78,12 +78,12 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
         motion->velocity_y = velocity_y - (velocity_y >> 3);
         motion->velocity_z = velocity_z - (velocity_z >> 3);
     }
-        if ((s16)body->action_timer == 4) {
+        if (body->action_timer == 4) {
             motion->velocity_x = 0;
             motion->velocity_y = 0;
             motion->velocity_z = 0;
         }
-        if ((s16)body->action_timer > 0) {
+        if (body->action_timer > 0) {
             return;
         }
         body->action_timer = 4;
@@ -97,7 +97,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
         body->unk_90.value += 0xC0000;
         motion->velocity_x += direction_x << 18;
         motion->velocity_y += direction_y << 18;
-        if ((s16)body->action_timer > 0) {
+        if (body->action_timer > 0) {
             return;
         }
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);

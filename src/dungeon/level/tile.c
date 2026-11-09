@@ -58,10 +58,10 @@ typedef struct S_80099F04_1 {
 } S_80099F04_1;
 
 /* Walk the linked entries and process those without flag 0x4000. */
-void process_unflagged_linked_entries(s32 firstEntryBase) {
+void process_unflagged_linked_entries(void *firstEntryBase) {
     S_80099F04_1 *entry;
 
-    entry = firstEntryBase + 0x20;
+    entry = (S_80099F04_1 *)((u8 *)firstEntryBase + 0x20);
     if (entry != ((EntityRec *)(((s32 *)&primary_actor_record)))->x.v) {
         do {
             if (!(entry->unk_14 & 0x4000)) {
@@ -84,10 +84,10 @@ typedef struct S_80099F70_1 {
 } S_80099F70_1;
 
 // Process linked entries with flag 0x4000 until reaching the global sentinel.
-void process_unflagged_linked_entries_alt(s32 firstNodeBase) {
+void process_unflagged_linked_entries_alt(void *firstNodeBase) {
     S_80099F70_1 *currentEntry;
 
-    currentEntry = firstNodeBase + 0x20;
+    currentEntry = (S_80099F70_1 *)((u8 *)firstNodeBase + 0x20);
     if (currentEntry != ((EntityRec *)(((s32 *)&primary_actor_record)))->x.v) {
         do {
             if (currentEntry->unk_14 & 0x4000) {
@@ -172,7 +172,7 @@ void process_unflagged_entries_and_set_update(void)
         node = *(void **)((u8 *)entry + 0x5C);
         next_entry = NODE_BODY(node);
         if (!(*(s32 *)((u8 *)entry + 0x14) & 0x4000)) {
-            node = (u8 *)entry - 0x20;
+            node = NODE_HEADER(entry);
             node->flags = (u16)(node->flags | 0x1000);
             unlink_entity_node(entry);
         }
@@ -248,14 +248,14 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     link_bits_2 = (u8 *)entry;
     unlink_entity_node((void *)link_bits_2);
 
-    prev_link = anchor->next_actor_header;
-    entry->next_actor_header = prev_link;
+    prev_link = (s32)(unsigned long)anchor->next_actor_header;
+    entry->next_actor_header = (void *)(unsigned long)prev_link;
     prev_node = (void *)(prev_link + 0x20);
     link_bits = prev_node->previous_actor_header;
     entry->previous_actor_header = link_bits;
-    link_bits = ((u8 *)entry - 0x20);
+    link_bits = (u8 *)NODE_HEADER(entry);
     prev_node->previous_actor_header = link_bits;
-    anchor->next_actor_header = (void *)link_bits;
+    anchor->next_actor_header = link_bits;
     return 1;
 }
 #include "modules/dungeon_engine_tile_map_fragment_b48c8.h"

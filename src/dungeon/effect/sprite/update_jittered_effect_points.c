@@ -22,7 +22,7 @@ typedef struct AttackSequenceController {
     void *unk_04;
     u8 unk_08;
     u8 unk_09;
-    u16 unk_0A;
+    s16 unk_0A;
     u8 pad_0C[0x44];
     s16 unk_50;
     union { s16 s; u16 u; } unk_52;
@@ -114,8 +114,8 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
     S_func_819A6800_4 *global_object;
     PlayerRecord *reloaded_object;
 
-    timer = (u16)sequence->unk_50 - 1;
-    state = (s16)sequence->unk_0A;
+    timer = sequence->unk_50 - 1;
+    state = sequence->unk_0A;
     sequence->unk_50 = timer;
     switch (state) {
     case 0:
@@ -195,7 +195,7 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
         return;
 
     case 2:
-        if ((s16)sequence->unk_50 > 0) {
+        if (sequence->unk_50 > 0) {
             return;
         }
         {
@@ -264,7 +264,7 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
         return;
 
     case 4:
-        if ((s16)sequence->unk_50 > 0) {
+        if (sequence->unk_50 > 0) {
             return;
         }
         sequence->unk_0A++;

@@ -22,22 +22,6 @@ typedef struct S_8016A86C_1 {
 
    /* part_a in func_8016A86C */
 
-typedef struct S_8016A86C_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x1];
-    s16 unk_9E;
-    u8 pad_A0[0x8];
-    u16 unk_A8;
-} S_8016A86C_4;   /* actor in func_8016A86C */
-
 typedef struct S_8016A86C_5 {
     u8 pad_00[0xA4];
     void * unk_A4;

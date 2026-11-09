@@ -112,7 +112,7 @@ void update_staged_movement_height_and_animation(ActorRecord *motion, ObjectPosi
             (s32)*(s16 *)(direction_y +
                 (((u16)actor->facing >> 8) & 0xE)) << 17;
 
-        motion->unk_A0.value -= (s32)((s16)motion->action_timer) << 17;
+        motion->unk_A0.value -= (s32)(motion->action_timer) << 17;
         frame = motion->action_timer + 1;
         motion->action_timer = frame;
         if ((s16)frame < 9) {
@@ -144,7 +144,7 @@ void update_staged_movement_height_and_animation(ActorRecord *motion, ObjectPosi
         velocity->velocity_x -= (*(s32 *)&motion->unk_A8);
         velocity->velocity_y -= motion->unk_AC.value;
         motion->unk_A0.value =
-            rsin(((s16)motion->action_timer) * 146) * 160 + 0x100000;
+            rsin((motion->action_timer) * 146) * 160 + 0x100000;
 
     case 5:
     {

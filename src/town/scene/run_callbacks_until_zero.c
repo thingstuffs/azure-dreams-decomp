@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef s32 (*Func8094D708Callback)(void *, s32);
 

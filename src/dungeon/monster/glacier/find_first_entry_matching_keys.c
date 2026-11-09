@@ -15,7 +15,7 @@
 void *find_first_entry_matching_keys(ActorRecord *body, u16 key_a, u16 key_b, s16 range_center) {
     void *head = body;
 
-    body = (ActorRecord *)(body->next_actor_header + 0x20);
+    body = NODE_BODY(body->next_actor_header);
     while (body != head) {
         SpriteFrameState *node_data = NODE_HEADER(body)->sprite;
         void *entry = NODE_HEADER(body);
@@ -28,7 +28,7 @@ void *find_first_entry_matching_keys(ActorRecord *body, u16 key_a, u16 key_b, s1
             ((u32)(body->species - 0x33) < 4)) {
             return entry;
         }
-        body = (ActorRecord *)(body->next_actor_header + 0x20);
+        body = NODE_BODY(body->next_actor_header);
     }
     return NULL;
 }

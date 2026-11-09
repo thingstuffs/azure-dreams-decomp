@@ -85,7 +85,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     case 2:
     {
         u8 *local_table_2;
-        if ((s16)action->action_timer++ < 2) {
+        if (action->action_timer++ < 2) {
             return;
         }
         local_table_2 = hikewne_frame_set_2;
@@ -230,7 +230,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
     case 5:
     {
         u8 *local_table_5;
-        if ((s16)action->action_timer++ < 4) {
+        if (action->action_timer++ < 4) {
             return;
         }
 

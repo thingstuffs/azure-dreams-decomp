@@ -81,7 +81,7 @@ void advance_actor_timed_action_sequence_updating(ActorRecord *action, ObjectPos
             action->action_timer = 0;
             action->action_phase++;
         }
-        if ((s16)action->action_timer == 3) {
+        if (action->action_timer == 3) {
             play_sound_if_enabled(0x804);
             return;
         }
@@ -106,12 +106,12 @@ void advance_actor_timed_action_sequence_updating(ActorRecord *action, ObjectPos
             func_8015921C(action, motion, sprite, actor);
             func_801594FC(action, motion, sprite, actor);
         }
-        if (((s16)action->action_timer == 12) ||
+        if ((action->action_timer == 12) ||
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing,
                 action->unk_AA);
         }
-        if (((s16)action->action_timer != 20) &&
+        if ((action->action_timer != 20) &&
             !(sprite->flags & 0x8000)) {
             break;
         }

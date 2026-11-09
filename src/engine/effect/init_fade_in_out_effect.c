@@ -6,13 +6,6 @@
 #include "engine/graphics.h"
 #include "engine/effect.h"
 
-/* Element of the D_80071A68 lookup table indexed by an object's "kind" field. */
-typedef struct S_80071A68 {
-    /* 0x00 */ void *field_0x00;
-} S_80071A68;
-
-extern S_80071A68 fade_effect_visual_table[];
-
 struct ObjectPosition;
 struct SpriteFrameState;
 
@@ -35,14 +28,14 @@ void init_fade_in_out_effect(CdCueEffectNode *object, struct Controller *owner)
     object->header.update_callback = update_fade_in_out_effect;
     sub_state = &object->body;
     sub_state->owner.controller = owner;
-    sub_state->state.s = 0;
-    sub_state->timer.s = 0;
+    sub_state->state = 0;
+    sub_state->timer = 0;
     sub_state->index = 0;
     sub_state->completion = 0;
 
     render_state = object->header.sprite;
     render_state->color.word = 0;
-    kind_value = fade_effect_visual_table[sub_state->index].field_0x00;
+    kind_value = fade_effect_visual_table[sub_state->index];
     render_state->scale_y = 0x1000;
     render_state->scale_x = 0x1000;
     render_state->source = kind_value;

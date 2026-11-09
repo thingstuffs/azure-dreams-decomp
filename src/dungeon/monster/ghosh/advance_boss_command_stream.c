@@ -14,7 +14,7 @@ extern void update_actor_status_and_mp(void *);
 extern u8 D_80174A9C[];
 
 /* Advance the command stream and update the object's direction, animation, and effects. */
-s32 advance_boss_command_stream(ActorRecord *object_arg, void *context_arg, void *entity_arg) {
+s32 advance_boss_command_stream(ActorRecord *object_arg, void *context_arg, SpriteFrameState *entity_arg) {
     s32 audio_param;
     s16 elapsed_ticks;
     s32 command;

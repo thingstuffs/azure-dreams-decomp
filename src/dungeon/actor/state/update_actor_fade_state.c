@@ -66,19 +66,19 @@ void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *dat
     case 1:
         byte0 = (u8) data->unk_0C.at00.v;
         data->unk_0C.at00u.v = (u8) (byte0 + ((0x20
-            - byte0) / (s16) state->action_timer));
+            - byte0) / state->action_timer));
         byte1 = data->unk_0C.at01.v;
-        countdown = (s16)state->action_timer;
+        countdown = state->action_timer;
         byte1Next = byte1 + ((0x20 - byte1) / countdown);
         byte2 = data->unk_0C.at02.v;
         data->unk_0C.at01.v = (u8) byte1Next;
         data->unk_0C.at02u.v = (u8) (byte2 + ((0x20
-            - byte2) / (s16) state->action_timer));
+            - byte2) / state->action_timer));
         value1C = data->unk_1C;
-        data->unk_1C = (u16) (value1C - (value1C / (s16) state->action_timer));
+        data->unk_1C = (u16) (value1C - (value1C / state->action_timer));
         value1E = data->unk_1E;
-        data->unk_1E = (u16) (value1E - (value1E / (s16) state->action_timer));
-        countdownNext = (u16) state->action_timer - 1;
+        data->unk_1E = (u16) (value1E - (value1E / state->action_timer));
+        countdownNext = state->action_timer - 1;
         state->action_timer = countdownNext;
         if (((countdownNext << 0x10) <= 0) || ((data->unk_14 & 0x8000) != 0)) {
             statusValue = ((s32)g_dungeon_status.pending_display_owner);

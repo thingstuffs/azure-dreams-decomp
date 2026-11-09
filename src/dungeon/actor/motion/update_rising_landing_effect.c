@@ -460,14 +460,6 @@ typedef struct Vec3 {
     CoordWord z;
 } Vec3;
 
-typedef struct Sprite {
-    u8 pad0[0x14];
-    u16 flags;
-    u8 pad16[6];
-    u16 top;
-    u16 bottom;
-} Sprite;
-
 typedef struct {
     s32 field0;
     u8 field4;
@@ -517,7 +509,7 @@ typedef struct {
 } EntryTable;
 
 /* Advance the actor animation, move toward the entry position, and spawn trailing particles. */
-void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor *actor, Vec3 *target, Sprite *sprite) {
+void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor *actor, Vec3 *target, SpriteFrameState *sprite) {
     u16 entry_pos[3];
     u16 start_pos[3];
 
@@ -533,8 +525,8 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         break;
     case 0:
         if ((s16)actor->counter < 8) {
-            sprite->bottom = sprite->bottom + 0x78;
-            sprite->top = sprite->bottom;
+            sprite->scale_y = sprite->scale_y + 0x78;
+            sprite->scale_x = sprite->scale_y;
         }
         if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), (&reference_tile_object), entry_pos, 0) != 0) {
             target->x.word += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.half.coord) << 14);
@@ -555,8 +547,8 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         }
         if ((s16)actor->counter >= 0x12) {
             sprite->flags = sprite->flags & 0xF7FF;
-            sprite->bottom = sprite->bottom + 0x50;
-            sprite->top = sprite->bottom;
+            sprite->scale_y = sprite->scale_y + 0x50;
+            sprite->scale_x = sprite->scale_y;
         }
         if ((s16)actor->counter >= 0x1C) {
             u16 actor_bits;
@@ -585,11 +577,11 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         early_frames = (s16)actor->counter < 8;
         frame = *&actor->counter;
         if (early_frames) {
-            sprite = (Sprite *)4;
+            sprite = (SpriteFrameState *)4;
         } else if ((u32)(frame - 8) < 5U) {
-            sprite = (Sprite *)0xC;
+            sprite = (SpriteFrameState *)0xC;
         } else {
-            sprite = (Sprite *)3;
+            sprite = (SpriteFrameState *)3;
         }
 
         remaining = (s32)sprite;

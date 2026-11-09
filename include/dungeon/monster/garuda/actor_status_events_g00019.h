@@ -14,22 +14,8 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800AA258_arg2.h"
 
-typedef struct S_801734E0_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x7];
-    u8 unk_9B;
-    u8 pad_9C[0xA];
-    u16 unk_A6;
-    u8 pad_A8[0xA];
-    u16 unk_B2;
-} S_801734E0_0;
-
 /* copy_arg0 in update_actor_status_callback */
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);

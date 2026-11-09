@@ -19,5 +19,5 @@ void initialize_person_resources(TownObjectRecord *object, ObjectPosition *trans
     configure_the_set_mode_n_2(object, transform, &town_object_resource_table);
     initialize_optional_object_state(object, transform, anim_state, &D_800D11D0);
     initialize_object_entries(object, anim_state, D_800D11EC);
-    ((ObjectNodeHeader *)object - 1)->update_callback = update_person_object;
+    NODE_HEADER(object)->update_callback = update_person_object;
 }

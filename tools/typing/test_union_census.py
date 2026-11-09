@@ -6,7 +6,7 @@ import sys
 import unittest
 
 from tools.typing.union_census import (census, main, add_access_loads,
-                                       load_check, retain_retired_loads)
+                                       load_check, load_votes, retain_retired_loads)
 
 
 class UnionCensusTests(unittest.TestCase):
@@ -29,6 +29,46 @@ class UnionCensusTests(unittest.TestCase):
         self.assertEqual(load_check([row], {row['id']: 'u16'}),
                          [(row['id'], 'disagree', 'u16', 4, 1, 1)])
         self.assertEqual(load_check([row], {row['id']: 's16'}), [])
+
+    def test_byte_view_loads_do_not_vote_on_a_halfword(self):
+        row = dict(id='include/e.h::R.unk_A8', file='include/e.h', line=3, owner='R', path='unk_A8',
+                   status='retired', members=[{'name': 'byte', 'type': 'u8'}, {'name': 'half', 'type': 'u16'}])
+        base = dict(base_type='include/e.h:R', file='src/e.c', function='f', status='mapped', direction='r')
+        accesses = [dict(base, member_path='unk_A8.byte', line=str(i), pc=str(i), opcode='lbu') for i in range(11)]
+        accesses += [dict(base, member_path='unk_A8.half', line=str(20 + i), pc=str(20 + i), opcode='lh') for i in range(5)]
+        accesses += [dict(base, member_path='unk_A8.half', line='40', pc='40', opcode='lhu')]
+        add_access_loads([row], accesses)
+        self.assertEqual(load_votes(row, 'u16')[:2], (5, 1))
+        self.assertEqual(load_votes(row, 'u8')[:2], (0, 11))
+        self.assertEqual(load_votes(row, '')[:2], (5, 12))
+        self.assertEqual(load_check([row], {row['id']: 'u16'}), [(row['id'], 'disagree', 'u16', 5, 1, 0)])
+
+    def test_sign_neutral_unsigned_loads_mark_the_count_biased(self):
+        row = dict(id='include/e.h::R.timer', file='include/e.h', line=3, owner='R', path='timer',
+                   status='retired', members=[{'name': 'half', 'type': 'u16'}])
+        base = dict(base_type='include/e.h:R', member_path='timer.half', file='src/e.c', function='f',
+                    status='mapped', direction='r')
+        accesses = [dict(base, line=str(i), pc=str(i), opcode='lhu', consumer_sign='') for i in range(5)]
+        accesses.append(dict(base, line='9', pc='9', opcode='lh', consumer_sign=''))
+        accesses.append(dict(base, line='10', pc='10', opcode='lhu', consumer_sign='u'))
+        accesses.append(dict(base, line='11', pc='11', opcode='lhu', consumer_sign='', compound='0'))
+        add_access_loads([row], accesses)
+        self.assertEqual(load_votes(row, 'u16'), (1, 7, 6))
+        # 7 lhu against 1 lh is a raw unsigned majority, but only one unsigned load has an unsigned consumer
+        self.assertEqual(load_check([row], {row['id']: 'u16'}), [(row['id'], 'biased', 'u16', 1, 7, 0)])
+        # an unsigned-only consumer on most of the loads is real evidence
+        for access in accesses[:5]:
+            access['consumer_sign'] = 'u'
+        row2 = dict(row, loads=None)
+        row2.pop('neutral_loads')
+        add_access_loads([row2], accesses)
+        self.assertEqual(load_check([row2], {row2['id']: 'u16'}), [])
+        # rmw joins stay neutral even next to an unsigned consumer
+        rmw = [dict(a, compound='1', consumer_sign='u') for a in accesses]
+        row3 = dict(row, loads=None)
+        row3.pop('neutral_loads', None)
+        add_access_loads([row3], rmw)
+        self.assertEqual(load_votes(row3, 'u16')[2], 7)
 
     def test_live_union_uses_declaration_identity(self):
         row = dict(id='include/e.h::Effect.ticks', file='include/e.h', line=7,

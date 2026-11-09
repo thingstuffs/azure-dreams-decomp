@@ -3,6 +3,6 @@
 
 #include "common.h"
 
-int get_menu_count_template(int count);
+void *get_menu_count_template(int count);
 
 #endif

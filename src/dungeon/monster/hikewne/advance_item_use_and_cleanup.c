@@ -361,7 +361,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
 
     case 20:
         actor->flags |= 0x800;
-        if (((s16)action->action_timer) < 5) {
+        if ((action->action_timer) < 5) {
             create_directional_template_effect(action, motion, actor, item);
         }
         {

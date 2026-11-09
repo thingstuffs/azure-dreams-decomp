@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"

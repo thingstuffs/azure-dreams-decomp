@@ -7,6 +7,9 @@ struct ScriptReader;
 #include "shared/runtime_dispatch.h"
 
 struct Decoder;
+struct FadeManagerBody;
+struct ObjectPosition;
+struct SpriteFrameState;
 struct Func800391ECState;
 struct ScriptReader;
 struct Func80039D48Reader;
@@ -168,7 +171,7 @@ void noop_scene_setup_b(void);
 void func_8003B644(void);
 void noop_scene_resource_setup(void);
 void func_8003C064(void);
-void noop_after_fade_ramp_completion(void);
+void noop_after_fade_ramp_completion(struct FadeManagerBody *manager, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* vm_op_repeat_while_counter_nonnegative.c */
 void script_wait_loop_counter(struct Func80039EF4State *vm);

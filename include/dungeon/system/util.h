@@ -4,7 +4,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80083160.h"
-#include "records/Rec_func_800A5DFC_arg1.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/dungeon_status.h"

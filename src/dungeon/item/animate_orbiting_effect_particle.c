@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "dungeon/item.h"
 #include "shared/sprite_frame_state.h"
@@ -31,7 +34,7 @@ struct EffectWork {
 };
 
 /* Updates effect brightness, paired color values, and motion through three stages. */
-void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, SpriteFrameState *color) {
+void animate_orbiting_effect_particle(EffectState *state, ObjectPosition *work, SpriteFrameState *color) {
     s16 stage;
 
     stage = state->type;
@@ -52,7 +55,7 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Spri
         pair_value = old_pair_value + (((state->mode != 0 ? 0x100 : 0x400) - old_pair_value) / ((s16 *)state)[1]);
         color->scale_y = pair_value;
         color->scale_x = pair_value;
-        work->offset -= 0x200;
+        work->velocity_z -= 0x200;
     }
         if (((state->count = state->count - 1) << 16) <= 0) {
             state->count = 8;
@@ -64,7 +67,7 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Spri
     {
         u8 brightness;
 
-        work->offset += 0x1800;
+        work->velocity_z += 0x1800;
         if (state->mode != 0) {
             if (rand() & 3) {
                 brightness = 0x10;
@@ -87,7 +90,7 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Spri
         u8 brightness;
         s16 ticks_left;
 
-        work->offset += 0x2000;
+        work->velocity_z += 0x2000;
         if (state->mode != 0) {
             if ((rand() & 3) == 0) {
                 ticks_left = state->count;
@@ -101,10 +104,7 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Spri
         }
     }
         if (((state->count = state->count - 1) << 16) <= 0) {
-            u16 *flags;
-
-            flags = ((u16 *)state) - 1;
-            *flags |= 0x8000;
+            NODE_HEADER(state)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
@@ -128,14 +128,14 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Spri
         state->phase = next_phase;
         next_angle = state->angle + (rsin((next_phase << 16) >> 8) >> 6);
         state->angle = next_angle;
-        work->value = state->work->value + ((rcos((s16)next_angle) * state->current) >> 12);
+        work->x.w.i = state->work->value + ((rcos((s16)next_angle) * state->current) >> 12);
     }
 
     {
         s32 height_product;
 
         height_product = rsin((s16)state->angle) * state->current;
-        work->height = state->work->height + (height_product >> 12);
-        work->position += work->offset;
+        work->y.w.i = state->work->height + (height_product >> 12);
+        work->z.v += work->velocity_z;
     }
 }

@@ -4,6 +4,7 @@ struct ObjectPosition;
 /* Prototypes of the functions defined in src/engine/effect/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "engine/effect/fade_manager.h"
 #include "engine/effect/screen_fade.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/vector.h"
@@ -39,8 +40,8 @@ typedef struct CdCueEffectBody {
         CdCueFadeOwner *fade;
         CdCueColorOwner *color;
     } owner;
-    union { s16 s; u16 u; } state;
-    union { s16 s; u16 u; } timer;
+    s16 state;
+    s16 timer;
     u8 pad_08[2];
     s16 index;
     s16 completion;
@@ -54,10 +55,12 @@ typedef struct CdCueEffectNode {
 
 void scene_initialize_arc_motion_sprite(CdCueEffectNode *object, struct Controller *owner);
 
+/* Sprite sources the fade-in-out effect cycles through (seven retail pointers), indexed by its entry index. */
+extern void *fade_effect_visual_table[7];
+
 struct ColorState800517CC;
 struct Controller;
 struct EffectState800517CC;
-struct Func8003C4C8State;
 struct Main;
 struct S_52CE0;
 struct S_52CE0_Ent;
@@ -67,7 +70,6 @@ struct S_8004F884_arg;
 struct S_800504B4;
 struct S_80050640;
 struct S_80050EF8;
-struct S_80051CC4_Ptr;
 struct S_80051E94;
 struct CdCueSequenceBody;
 struct VecState800517CC;
@@ -100,7 +102,10 @@ void decay_gauge_counters(struct S_800504B4 *object);
 void fade_effect_parts(void *effect, void *unused, void *parts);
 
 /* fade_manager_step_black.c */
-void fade_manager_step_black(s32 *active_flag, struct ObjectPosition *unused_state, struct Func8003C4C8State *fade_state);
+void fade_manager_step_black(FadeManagerBody *manager, struct ObjectPosition *unused_state, SpriteFrameState *fade_state);
+
+/* fade_manager_step_out.c */
+void fade_manager_step_out(FadeManagerBody *manager, struct ObjectPosition *unused, SpriteFrameState *data);
 
 /* flag_fade_manager_dirty.c */
 void flag_fade_manager_dirty(void);
@@ -122,6 +127,12 @@ void *dispatch_after_controller_release(void *data);
 
 /* play_timed_animation_sequence.c */
 void play_timed_animation_sequence(struct CdCueSequenceBody *sequence);
+
+/* ramp_fade_up_fast.c */
+void ramp_fade_up_fast(FadeManagerBody *manager, struct ObjectPosition *unused, SpriteFrameState *state);
+
+/* ramp_fade_up_slow.c */
+void ramp_fade_up_slow(FadeManagerBody *manager, struct ObjectPosition *unused, SpriteFrameState *state);
 
 /* reorder_and_interpolate_selection_menu_entries.c */
 void reorder_and_interpolate_selection_menu_entries(struct S_8004F884_arg *list);
@@ -155,7 +166,7 @@ void tick_screen_fade_slots(void);
 void update_color_fade_effect(CdCueEffectBody *effect, ObjectPosition *unused_1, SpriteFrameState *color, void *unused_3);
 
 /* update_fade_in_out_effect.c */
-void update_fade_in_out_effect(CdCueEffectBody *state, ObjectPosition *unused_arg, struct S_80051CC4_Ptr *visual);
+void update_fade_in_out_effect(CdCueEffectBody *state, ObjectPosition *unused_arg, SpriteFrameState *visual);
 
 /* update_scene_effect_controller.c */
 void func_80052144(struct Controller *controller);

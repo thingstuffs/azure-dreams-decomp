@@ -345,7 +345,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
 
     rect = D_80024038;
     draw_rect = rising_effect_texture_rect;
-    state = (s16)effect->unk_00;
+    state = effect->unk_00;
     D_80025630 = 1;
 
     switch (state) {
@@ -479,7 +479,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
         entry = 0;
         do {
             draw_rect.x = D_80025648[entry] * 2 + 0x340;
-            order_index = entry + (s16)effect->unk_02;
+            order_index = entry + effect->unk_02;
             if (order_index >= 0x2C) {
                 order_index -= 0x2C;
             }
@@ -662,7 +662,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         owner_flags = owner->unk_2A;
         D_80025630 = 1;
         next_state = effect->unk_A;
-        effect->unk_7E = (u16)(owner_flags >> 9) & 7;
+        effect->unk_7E = (owner_flags >> 9) & 7;
         next_state++;
         effect->unk_A = next_state;
     }
@@ -723,10 +723,10 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             owner_sprite = ((S_func_8190B2D0_2 *)((u8 *)owner - 32))->unk_C;
             effect->unk_A2 =
                 owner_sprite->tile_x +
-                ((u8 *)dir_step_x)[(s16)effect->unk_7E * 2];
+                ((u8 *)dir_step_x)[effect->unk_7E * 2];
             effect->unk_A3 =
                 owner_sprite->tile_y +
-                ((u8 *)dir_step_y)[(s16)effect->unk_7E * 2];
+                ((u8 *)dir_step_y)[effect->unk_7E * 2];
 
             coordinate_steps = owner->unk_72;
             target_coord = owner_sprite->tile_x;
@@ -738,11 +738,11 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 coordinate_steps -= target_coord;
             }
             coordinate_steps = __builtin_abs(coordinate_steps);
-            effect->unk_7B = (u8)((coordinate_steps << 1) - 1);
+            effect->unk_7B = (coordinate_steps << 1) - 1;
         } else {
             base_height = owner->unk_88;
             effect->unk_7B = 32;
-            effect->unk_78 = (u16)(base_height - 80);
+            effect->unk_78 = base_height - 80;
         }
 
         motion_or_child->unk_C.s32 =
@@ -751,14 +751,14 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             (s32)directions.value[effect->unk_7E].y << 16;
         motion_or_child->unk_14 =
             (((s32)(s16)effect->unk_78 << 16) - motion_or_child->unk_8.s32) /
-            (s8)effect->unk_7B;
+            effect->unk_7B;
         effect->unk_82 = 0;
         next_state = effect->unk_A + 1;
         effect->unk_A = next_state;
-        effect->unk_88 = (s16)(s8)effect->unk_7B;
+        effect->unk_88 = (s16)effect->unk_7B;
         effect->unk_8A =
-            (s16)((s8)effect->unk_7B *
-                  (s8)effect->unk_7B);
+            (s16)(effect->unk_7B *
+                  effect->unk_7B);
         return;
     }
 
@@ -787,13 +787,13 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                     (u16)(angle - 4096);
             }
         }
-        elapsed_frames = effect->unk_88 - (s8)effect->unk_7B + 1;
+        elapsed_frames = effect->unk_88 - effect->unk_7B + 1;
         sprite->color.c.r = (u8)((elapsed_frames * elapsed_frames * 108) /
                                 effect->unk_8A + 20);
-        elapsed_frames_2 = effect->unk_88 - (s8)effect->unk_7B + 1;
+        elapsed_frames_2 = effect->unk_88 - effect->unk_7B + 1;
         sprite->color.c.g = (u8)((elapsed_frames_2 * elapsed_frames_2 * 108) /
                                     effect->unk_8A + 20);
-        elapsed_frames_3 = effect->unk_88 - (s8)effect->unk_7B + 1;
+        elapsed_frames_3 = effect->unk_88 - effect->unk_7B + 1;
         sprite->color.c.b = (u8)((elapsed_frames_3 * elapsed_frames_3 * 108) /
                                     effect->unk_8A + 20);
         collision = check_adjacent_tile_height_clearance(motion_or_child->unk_0.at_2_u16.unk_2, motion_or_child->unk_4.at_6_u16.unk_6,
@@ -808,7 +808,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             sprite->scale_x = 0;
             return;
         }
-        frames_left = (u8)effect->unk_7B - 1;
+        frames_left = effect->unk_7B - 1;
         effect->unk_7B = frames_left;
         if ((s8)frames_left <= 0) {
             if (owner->unk_60 != 0) {
@@ -854,7 +854,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                     (u16)(angle - 4096);
             }
         }
-        effect->unk_82 = (u16)effect->unk_82 + 1;
+        effect->unk_82++;
         frame = effect->unk_82;
         if (frame == 1) {
             capture_point.x = capture_rect.x + ((s16)capture_rect.w >> 1);
@@ -916,7 +916,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         s32 green_frame;
         S_func_8190B2D0_6 *target;
         SpriteFrameState *target_sprite;
-        effect->unk_82 = (u16)effect->unk_82 + 1;
+        effect->unk_82++;
         {
             u16 angle = sprite->angle_z + 400;
             sprite->angle_z = angle;
@@ -1002,7 +1002,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         s16 old_frame;
         s16 frame;
         s32 cleanup_pending;
-        old_frame = (u16)effect->unk_82;
+        old_frame = effect->unk_82;
         frame = old_frame + 1;
         effect->unk_82 = frame;
         if ((s16)frame < 31) {

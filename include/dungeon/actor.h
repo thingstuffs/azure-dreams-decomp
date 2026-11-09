@@ -49,7 +49,7 @@ s32 roll_actor_stack_split(ActorRecord *actor, s32 chance);
 
 /* Callback entry points. */
 void apply_pending_actor_updates(void *controller, ObjectPosition *move_state, SpriteFrameState *entity, ActorRecord *actor);
-void fade_color_toward_half_and_complete(void *effect, s32 unused, void *color);
+void fade_color_toward_half_and_complete(void *effect, s32 unused, SpriteFrameState *color);
 
 /* dungeon/actor/movement_overlap_wait_g00334.c */
 s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);

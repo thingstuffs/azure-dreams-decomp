@@ -9,11 +9,11 @@ extern M2C_UNK D_80077EFC;
 
 
 /* Populate output pointers with shared data and embedded record addresses. */
-void card_boot_bind_save_heading_display_data(void *record_arg) {
+void card_boot_bind_save_heading_display_data(CardSaveHeadingDisplayPrefix *record_arg) {
     CardSaveHeadingDisplayPrefix *record = record_arg;
 
     record->left->payload.data = &D_80077EF0;
     record->right->payload.data = &D_80077EFC;
-    record->value->payload.data = record_arg + 4;
-    record->heading->payload.data = record_arg + 0x7C;
+    record->value->payload.data = &record_arg->pad_00[4];
+    record->heading->payload.data = &record_arg->pad_00[0x7C];
 }

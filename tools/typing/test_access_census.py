@@ -61,6 +61,9 @@ class AccessCensusTests(unittest.TestCase):
         regs = stable_parameter_registers(dis)['.text.func_12345678']
         rows = join([site], ops, regs)
         self.assertEqual([(r['direction'], r['opcode']) for r in rows], [('r', 'lhu'), ('w', 'sh')])
+        self.assertEqual([r['compound'] for r in rows], [1, 1])   # a compound join is flagged for the sign vote
+        plain = join([self.site(6, 30, 2, 'u', 'r')], ops[:1], regs)
+        self.assertEqual(plain[0].get('compound', 0), 0)
 
     def test_unique_scheduler_move_across_debug_lines(self):
         dis = '''Disassembly of section .text.func_12345678:

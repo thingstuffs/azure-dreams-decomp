@@ -51,7 +51,7 @@ void update_deferred_resource_transition_task(ScheduleDeferredResourceTransition
         D_80080A86_store = (state = 1);
         node->field_1E &= 0xF3FF;
     }
-    *((u16 *) (((char *) controller) - 2)) |= 0x8000;
+    NODE_HEADER(controller)->flags |= 0x8000;
     global_flags = D_800814A0_load[0];
     global_flags |= 0x8000;
 

@@ -5,55 +5,33 @@
 #include "shared/entity.h"
 #include "shared/town_object.h"
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "town/map/object.h"
 
-typedef struct {
-    u32 unk0;
-    s8 unk4;
-    s8 unk5;
-    u8 pad6[2];
-    s32 unk8;
-    u8 unkC;
-    u8 unkD;
-    u8 unkE;
-    u8 padF;
-    s16 unk10;
-    s16 unk12;
-    s16 unk14;
-    s16 unk16;
-    s16 unk18;
-    s16 unk1A;
-    s16 unk1C;
-    s16 unk1E;
-    s16 unk20;
-} FuncData;
-
-
-
 /* Initializes object data, transform, color, and rendering defaults. */
-void initialize_object_data_transform_color(TownObjectRecord *object, ObjectPosition *render_data, FuncData *state) {
+void initialize_object_data_transform_color(TownObjectRecord *object, ObjectPosition *render_data, SpriteFrameState *sprite) {
     u8 blue;
 
-    ((ObjectNodeHeader *)object - 1)->update_callback = deactivate_object_triggered;
-    register_node((ObjectNodeHeader *)object - 1, draw_linked_lit_meshes);
+    NODE_HEADER(object)->update_callback = deactivate_object_triggered;
+    register_node(NODE_HEADER(object), draw_linked_lit_meshes);
 
     object->unk_66 = 0;
-    state->unk1C = 0x1000;
-    state->unk1E = 0x1000;
-    state->unk20 = 0x1000;
-    state->unk12 = 0;
-    state->unk14 = 0;
-    state->unk10 = 0;
-    state->unk16 = 0;
-    state->unk18 = 0;
-    state->unk1A = 0;
-    state->unk0 = 0;
-    state->unk4 = 0;
-    state->unk5 = 0;
-    state->unkC = g_game_work.view.tint.parts.tint_r;
-    state->unkD = g_game_work.view.tint.parts.tint_g;
+    sprite->scale_x = 0x1000;
+    sprite->scale_y = 0x1000;
+    sprite->offset_x = 0x1000;
+    sprite->clut = 0;
+    sprite->flags = 0;
+    sprite->tpage_abr = 0;
+    sprite->angle_x = 0;
+    sprite->angle_y = 0;
+    sprite->angle_z = 0;
+    sprite->unk_00 = 0;
+    sprite->unk_04 = 0;
+    sprite->frame_ticks = 0;
+    sprite->color.c.r = g_game_work.view.tint.parts.tint_r;
+    sprite->color.c.g = g_game_work.view.tint.parts.tint_g;
     blue = g_game_work.view.tint.parts.tint_b;
-    state->unk8 = 0x1F;
-    state->unkE = blue;
+    sprite->source = (void *)0x1F;
+    sprite->color.c.b = blue;
     render_data->z.v = 0xFF600000;
 }

@@ -23,5 +23,5 @@ void tick_countdown_or_advance_cursor(Func8009AA20Arg0 *countdown_state, ObjectP
         initialize_record_with_handler_and_countdown_800(countdown_state, cursor_state, context_value);
         return;
     }
-    cursor_state->x.unsigned_parts.integer += 4;
+    cursor_state->x.w.i += 4;
 }

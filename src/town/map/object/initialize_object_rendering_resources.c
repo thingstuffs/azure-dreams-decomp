@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/player.h"
 #include "town/map/course.h"
 #include "m2c_compat.h"
@@ -11,7 +12,7 @@ extern M2C_UNK D_800D0C58;
 
 /* Initializes object and rendering data and registers its resources. */
 void initialize_object_rendering_resources(TownCourseActor *object_data, void *unused, SpriteFrameState *render_data) {
-    ((ObjectNodeHeader *)object_data - 1)->update_callback = &update_player_minigame_motion;
+    NODE_HEADER(object_data)->update_callback = &update_player_minigame_motion;
     object_data->sprite_direction = -1;
     object_data->facing.s = 0xC00;
     object_data->unk_18 = 0xC00;

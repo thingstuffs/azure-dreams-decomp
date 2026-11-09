@@ -6,56 +6,43 @@
 #define NULL 0
 #endif
 
-/* Node type used by this "list-insert + zero-init" helper: a next-link
- * at offset 0, a back-link at offset 4 (points either at the address of
- * the head-pointer variable, for the newly-inserted head node, or at the
- * previous head node itself), two payload pointers at 8/0xC computed from
- * the node's own tail (arg1 + arg2 words), and a 16-bit flags field at
- * 0x1E (shared layout convention with func_80040418's Node in code.c). */
-typedef struct S_8003FF2C {
-    struct S_8003FF2C *link0;   /* 0x00 */
-    void *link4;                /* 0x04 */
-    void *link8;                /* 0x08 */
-    void *linkC;                /* 0x0C */
-    u8 pad10[0x1E - 0x10];
-    s16 flags1E;                /* 0x1E */
-} S_8003FF2C;
-
-/* Clears and prepends a node, setting its flags and optional tail payload pointers. */
+/* Clears caller-provided node storage and links it at the list head like allocate_list_node: next at 0x00,
+ * the back-link slot at 0x04, flags at 0x1E, and the optional sprite and position records carved from the
+ * storage's tail (word_count words). */
 void *initialize_runtime_node_storage(s32 flags, void *storage, s16 word_count, void *list_storage)
 {
-    S_8003FF2C **list_head = list_storage;
-    S_8003FF2C *old_head;
-    S_8003FF2C *payload_cursor;
-    S_8003FF2C *node;
+    ObjectNodeHeader **list_head = list_storage;
+    ObjectNodeHeader *old_head;
+    u8 *payload_cursor;
+    ObjectNodeHeader *node;
     s32 payload_flags;
 
     flags = flags | 0x80;
     node = storage;
     zero_words((int *)node, word_count);
-    node->link0 = *list_head;
+    node->next = *list_head;
     *list_head = node;
-    old_head = node->link0;
-    node->link4 = list_head;
+    old_head = node->next;
+    node->pprev = list_head;
     if (old_head != NULL) {
-        old_head->link4 = node;
+        old_head->pprev = &node->next;
     }
-    node->flags1E = (s16)(flags | 0x4000);
-    payload_cursor = (S_8003FF2C *)((u8 *)node + (word_count << 2));
+    node->flags = flags | 0x4000;
+    payload_cursor = (u8 *)node + (word_count << 2);
     if (flags & 6) {
-        payload_cursor = (S_8003FF2C *)((u8 *)payload_cursor - 0x24);
-        node->linkC = payload_cursor;
+        payload_cursor = payload_cursor - 0x24;
+        node->sprite = (struct SpriteFrameState *)payload_cursor;
         payload_flags = flags & 0x57;
     } else if (flags & 0x41) {
-        payload_cursor = (S_8003FF2C *)((u8 *)payload_cursor - 0x18);
-        node->linkC = payload_cursor;
+        payload_cursor = payload_cursor - 0x18;
+        node->sprite = (struct SpriteFrameState *)payload_cursor;
         payload_flags = flags & 0x57;
     } else {
         payload_flags = flags & 0x57;
     }
     if (payload_flags != 0) {
-        payload_cursor = (S_8003FF2C *)((u8 *)payload_cursor - 0x18);
-        node->link8 = payload_cursor;
+        payload_cursor = payload_cursor - 0x18;
+        node->position = (struct ObjectPosition *)payload_cursor;
     }
     return node;
 }

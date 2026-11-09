@@ -657,7 +657,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
 
             entity = NODE_BODY(source);
             {
-                u16 spawn_count = (u16)effect_data->timer;
+                u16 spawn_count = effect_data->timer;
                 S16_AT(entity, 0x0A) = 0x80;
                 S16_AT(entity, 0x02) = 8 - spawn_count;
             }
@@ -698,7 +698,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             }
         }
 
-        effect_data->timer = (u16)effect_data->timer + 1;
+        effect_data->timer++;
         if (effect_data->timer == 8) {
             effect_data->state = 4;
             effect_data->timer = 0;
@@ -711,7 +711,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
         s32 fade_frame;
         SpriteFrameState *target_display;
 
-        effect_data->timer = (u16)effect_data->timer + 1;
+        effect_data->timer++;
         fade_frame = effect_data->timer;
         if (fade_frame < 20) {
             display->color.c.r = ((20 - effect_data->timer) * 0xE0) / 20;
@@ -775,7 +775,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
 
     case 8:
     {
-        u16 old_frame = (u16)effect_data->timer;
+        u16 old_frame = effect_data->timer;
         s16 next_frame = (s16)(old_frame + 1);
 
         effect_data->timer = (u16)next_frame;

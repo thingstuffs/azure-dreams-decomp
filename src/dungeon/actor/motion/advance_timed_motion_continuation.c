@@ -21,8 +21,8 @@ typedef struct S_80097AF8_4 {
     void * unk_5C;
 } S_80097AF8_4;   /* arg3 in advance_timed_motion_continuation */
 
-extern void process_unflagged_linked_entries(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void process_unflagged_linked_entries_alt(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void process_unflagged_linked_entries(void *);
+extern void process_unflagged_linked_entries_alt(void *);
 
 /* Advance the timed motion sequence and select its continuation when status flags allow. */
 void advance_timed_motion_continuation(ActorRecord *actor, S_80097AF8_1 *motion, S_80097AF8_2 *status, S_80097AF8_4 *owner)

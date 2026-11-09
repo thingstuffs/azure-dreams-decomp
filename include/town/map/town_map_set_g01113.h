@@ -1,5 +1,6 @@
 #ifndef TOWN_MAP_TOWN_MAP_SET_G01113_H
 #define TOWN_MAP_TOWN_MAP_SET_G01113_H
+#include "engine/node/registration.h"
 
 struct ObjectNodeHeader;
 /* Town map set. Shared declarations. */
@@ -24,7 +25,6 @@ extern void push_node_onto_free_list(struct ObjectNodeHeader *);
 extern s8 town_map_link_slots[11];
 void unlink_node_if_registered(void *block_data);
 void select_record_entry_and_value(void *, void *, s16);
-s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 extern u8 town_map_tag;
 extern u8 D_80037714;
 extern u8 D_800794AC;

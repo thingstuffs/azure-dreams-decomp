@@ -39,7 +39,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
         ((ActorRecord *)motion_state)->unk_A4.value = 0;
         ((ActorRecord *)motion_state)->action_phase = (u8) (((ActorRecord *)motion_state)->action_phase + 1);
     case 1:
-        frames_left = (s16)((ActorRecord *)motion_state)->action_timer;
+        frames_left = ((ActorRecord *)motion_state)->action_timer;
         ((ActorRecord *)motion_state)->unk_90.value = (s32) (((ActorRecord *)motion_state)->unk_90.value
             - ((ActorRecord *)motion_state)->unk_A4.value);
         if (frames_left != 0) {
@@ -50,14 +50,14 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
             transform->velocity_x = velocity_x;
             target_y = map_entity->tile_y << 6;
             transform->velocity_y = (s32) ((s32) ((target_y - current_y)
-                << 0x10) / (s16) (s16)((ActorRecord *)motion_state)->action_timer);
+                << 0x10) / ((ActorRecord *)motion_state)->action_timer);
             ((ActorRecord *)motion_state)->unk_A4.value = (s32) (((ActorRecord *)motion_state)->unk_A4.value
                 + transform->velocity_z);
             transform->velocity_z = (s32) (transform->velocity_z + 0x48000);
         }
         ((ActorRecord *)motion_state)->unk_90.value = (s32) (((ActorRecord *)motion_state)->unk_90.value
             + ((ActorRecord *)motion_state)->unk_A4.value);
-        if ((s16)((ActorRecord *)motion_state)->action_timer < 2) {
+        if (((ActorRecord *)motion_state)->action_timer < 2) {
             ((ActorRecord *)motion_state)->unk_90.value = 0;
             ((ActorRecord *)motion_state)->action_state_flags = (u16) (((ActorRecord *)motion_state)->action_state_flags & 0xFFF7);
             actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
@@ -77,7 +77,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
             ((ActorRecord *)motion_state)->action_phase = (u8) (((ActorRecord *)motion_state)->action_phase + 1);
         }
     default:
-        next_timer = (u16) (s16)((ActorRecord *)motion_state)->action_timer - 1;
+        next_timer = ((ActorRecord *)motion_state)->action_timer - 1;
         ((ActorRecord *)motion_state)->action_timer = next_timer;
         if ((next_timer << 0x10) <= 0) {
             transform->velocity_z = 0;

@@ -112,7 +112,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
                     u32 particle_color;
                     s32 draw_param;
 
-                    random_offset %= (s16)body->unk_A8 + 0x60;
+                    random_offset %= body->unk_A8 + 0x60;
                     particle_render = 0x00040404;
                     particle_color = 0x00500000;
                     source_z = position->z;
@@ -214,7 +214,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
         break;
 
     case 3:
-        frames_left = body->action_timer - 1;
+        frames_left = (u16)body->action_timer - 1;
         body->action_timer = frames_left;
         if ((s16)frames_left > 0) {
             break;

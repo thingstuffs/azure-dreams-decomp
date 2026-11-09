@@ -4,7 +4,7 @@
 #include "frontend/libcard.h"
 
 /* Initializes four pairs of records from the value table and returns the buffer end. */
-void *card_boot_build_paired_dialog_packets(void *buffer, s32 unused)
+void *card_boot_build_paired_dialog_packets(void *buffer, CardMessageDialogBody *unused)
 {
     Bytes4 values;
     s32 value_index;
@@ -51,7 +51,7 @@ void *card_boot_build_paired_dialog_packets(void *buffer, s32 unused)
 }
 
 /* Processes the embedded data and then updates the record. */
-void card_boot_initialize_dialog_packets_and_display(s32 record) {
-    card_boot_build_paired_dialog_packets((void *)(record + 0x24), record);
-    card_boot_center_message_dialog_display((void *)(record));
+void card_boot_initialize_dialog_packets_and_display(CardMessageDialogBody *record) {
+    card_boot_build_paired_dialog_packets(record->window_packets, record);
+    card_boot_center_message_dialog_display(record);
 }

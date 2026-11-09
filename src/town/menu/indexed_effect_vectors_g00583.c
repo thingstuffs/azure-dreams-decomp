@@ -51,7 +51,7 @@ void copy_adjusted_vector_or_flag_object(IndexedEffectObject *object, s32 *out_v
     if ((state_refs[0] != (s32)&town_position_callback_address) ||
         (state_refs[1] != (s32)&D_80097EA0)) {
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

@@ -147,5 +147,5 @@ void create_boss_linked_effect(void *owner, MovingPosition *source_pos, void *un
 
 void create_offset_animation_sprite(void *unused, ObjectPosition *origin, void *unused_sprite);
 
-void update_boss_actor_direction_state(void *actor_data, void *output_data, SpriteFrameState *context_data);
+void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_data, SpriteFrameState *context_data);
 #endif

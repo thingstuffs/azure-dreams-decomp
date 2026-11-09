@@ -23,7 +23,7 @@ extern u8 D_800E9DD4[];
 extern u8 D_800E9DEC[];
 
 /* Updates random idle actions, bounded wandering, and sprite animation. */
-void update_random_idle_wander(void *actor, void *motion, SpriteFrameState *sprite, s32 update_context) {
+void update_random_idle_wander(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_context) {
     void *anim_script;
     s16 *x_steps;
     s16 *y_steps;
@@ -98,8 +98,8 @@ void update_random_idle_wander(void *actor, void *motion, SpriteFrameState *spri
             F_U16(actor, 0x6C) = walk_ticks;
             F_S16(actor, 0xA2) = (u16)F_S16(actor, 0xA2) + (u16)*step_x;
             F_S16(actor, 0xA0) = (u16)F_S16(actor, 0xA0) + (u16)*step_y;
-            F_S32(motion, 0xC) = *step_x << 16;
-            F_S32(motion, 0x10) = *step_y << 16;
+            motion->velocity_x = *step_x << 16;
+            motion->velocity_y = *step_y << 16;
             F_S16(actor, 0x68) = 0xA0;
             if ((F_S16(actor, 0xA4) != 0xA0) ||
                 ((choice >> 1) != F_S16(actor, 0xA6))) {
@@ -144,8 +144,8 @@ void update_random_idle_wander(void *actor, void *motion, SpriteFrameState *spri
         F_S16(actor, 0x68) = 0xF0;
         break;
     case 0xA0:
-        F_S32(motion, 0) += F_S32(motion, 0xC);
-        F_S32(motion, 4) += F_S32(motion, 0x10);
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
         if (F_S16(actor, 0x6C) > 0) {
             break;
         }

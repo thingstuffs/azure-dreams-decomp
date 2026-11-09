@@ -11,11 +11,11 @@
 /* tick_timed_object_and_mark_complete.c */
 void tick_timed_object_and_mark_complete(void *ptr);
 
-void initialize_scene_slot_thirteen(void *object, ObjectPosition *position, SpriteFrameState *sprite);
+void initialize_scene_slot_thirteen(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 void initialize_scene_slot_forty_sprite(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
-void initialize_scene_slot_ten(void *object, ObjectPosition *position, SpriteFrameState *sprite);
+void initialize_scene_slot_ten(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 typedef struct FallingObjectState {
     u8 pad_00[0x4C];

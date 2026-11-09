@@ -73,7 +73,7 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
         do {
             entity->ground_height = 0;
             entity->flags1C = entity->flags1C | 0x40000000;
-            entity = (void *) (entity->next_actor_header + 0x20);
+            entity = NODE_BODY(entity->next_actor_header);
         } while (entity != first_entity);
         entry_data = dungeon_ground_item_positions;
         entry_flags = ((u8 *)dungeon_ground_items);

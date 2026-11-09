@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/node/registration.h"
 #include "dungeon/actor/effect.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -6,7 +7,6 @@
 #include "dungeon/actor.h"
 #include "sdk/libgte.h"
 
-void register_node(void *, void *);
 #include "dungeon/effect/screen.h"
 
 extern u8 D_80028880[9];

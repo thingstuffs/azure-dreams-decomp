@@ -4,7 +4,7 @@
 
 
 /* Fade the primitive as the effect countdown expires, then set completion flags. */
-void advance_actor_replacement_sequence(RotateAndRestoreActorStateBody *effect, s32 unused, void *primitive)
+void advance_actor_replacement_sequence(RotateAndRestoreActorStateBody *effect, s32 unused, SpriteFrameState *primitive)
 {
     s16 ticks_left;
 

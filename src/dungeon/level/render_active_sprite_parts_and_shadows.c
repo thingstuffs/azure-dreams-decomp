@@ -120,7 +120,7 @@ typedef struct DebugEntry {
 extern u8 dungeon_floor_object_positions[1024];
 
 /* Render active dungeon sprite parts and their ground shadows into the ordering table. */
-s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void *render_params)
+s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, SpriteFrameState *render_params)
 {
     u8 saved_matrix[0x20];
     s32 entry_index;
@@ -331,7 +331,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             *((s16 *) (((s8 *) quad) + 0x24)) = (s16) (((u16) (scr->unk_014.u16))
                                 + ((u16) (scr->unk_010.u16)));
 
-                            *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
+                            *((s32 *) (((s8 *) quad) + 4)) = render_params->color.word;
                             SetPolyFT4(quad);
                             *((u8 *) (((s8 *) quad) + 7)) = (u8) ((*((u8 *) (((s8 *) quad) + 7))) | 2);
                             AddPrim((scr->unk_020)
@@ -364,14 +364,14 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                 pitch_bits = camera.pitch;
                 scr->screen.half.y = (u16) ((scr->screen.half.y) - 0x78);
 
-                scr->unk_100 = (s16) ((*((u16 *) (((s8 *) render_params) + 0x16)))
+                scr->unk_100 = (s16) (render_params->angle_x
                     + (((s32) (pitch_bits << 0x10)) >> 0x11));
-                sprite_yaw = *((u16 *) (((s8 *) render_params) + 0x1A));
+                sprite_yaw = render_params->angle_z;
                 view_yaw = camera.yaw;
                 scr->unk_104 = (s16) ((((u16)(game_base->view.view_rotation_offset.parts.view_rotation_offset_z))) + (sprite_yaw
                     - view_yaw));
 
-                scr->unk_102 = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
+                scr->unk_102 = (u16) render_params->angle_y;
                 RotMatrix((u8 *)&scr->unk_100, rotation_matrix, view_yaw);
                 CompMatrix(&sprite_projection_matrix, rotation_matrix, view_matrix);
                 SetTransMatrix( view_matrix);
@@ -471,7 +471,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             *((u8 *) (((s8 *) quad) + 0x25)) = (u8) ((*((u8 *) (((s8 *) quad) + 0x25))) - 1);
                         }
 
-                        *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
+                        *((s32 *) (((s8 *) quad) + 4)) = render_params->color.word;
                         *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
                         if ((dungeon_floor_flags[0] & FLOOR_TRAPS_VISIBLE) && (((DebugEntry *)floor_objects)[entry_index].b3 & 0x80)) {
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2EU;
@@ -573,7 +573,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             }
 
                             *((s32 *) (((s8 *) quad) + 4)) =
-                                (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
+                                render_params->color.word;
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
                             AddPrim((scr->unk_020)
                                 + (((s32) (scr->unk_0C0)) * 4), quad);

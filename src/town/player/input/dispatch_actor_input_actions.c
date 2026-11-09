@@ -42,7 +42,7 @@ typedef struct S_80091260_2 {
     u8 pad_18[0x14];
     s32 unk_2C;
     u8 pad_30[0xE];
-    s16 unk_3E;
+    u16 unk_3E;
 } S_80091260_2;   /* arg0 in dispatch_actor_input_actions */
 
 /* Dispatch actor actions from input flags and position checks. */

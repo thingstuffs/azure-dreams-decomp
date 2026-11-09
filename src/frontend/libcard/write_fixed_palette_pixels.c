@@ -1,14 +1,15 @@
 #include "common.h"
 #include "frontend/libcard.h"
+#include "frontend/libcard/slot_list.h"
 #include "slus.h"
 
-// Process and clear three referenced values, then clear a fourth referenced value.
-void write_fixed_palette_pixels(void *owner) {
+/* Release and clear the text of display slots 1-3, then clear slot 4's text. */
+void write_fixed_palette_pixels(CardSlotWindow *window) {
     s32 slotIndex;
 
     for (slotIndex = 0; slotIndex < 3; slotIndex++) {
-        noop_release_notification(*(*(s32 **)((u8*)owner + 0x260 + slotIndex * 4)));
-        *(*(s32 **)((u8*)owner + 0x260 + slotIndex * 4)) = 0;
+        noop_release_notification(window->pointers[slotIndex + 1]->unk_00);
+        window->pointers[slotIndex + 1]->unk_00 = 0;
     }
-    *(*(s32 **)((u8*)owner + 0x26C)) = 0;
+    window->pointers[4]->unk_00 = 0;
 }

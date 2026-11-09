@@ -45,7 +45,7 @@ void move_linked_effect_along_path(void *effect, ObjectPosition *transform, Spri
     s32 base_value;
 
     staged_fade_count.value++;
-    state = (s16)((S_80024CD4_0 *)effect)->unk_0A;
+    state = ((S_80024CD4_0 *)effect)->unk_0A;
     switch (state) {
     case 0:
         ramp_or_red = (u16) visual->depth_bias + 0x80;
@@ -64,7 +64,7 @@ void move_linked_effect_along_path(void *effect, ObjectPosition *transform, Spri
             rising_value += 0x80;
             ((S_80024CD4_0 *)effect)->unk_1C = rising_value;
             create_moving_fading_particle(call_transform, base_value,
-                (s16)((S_80024CD4_0 *)effect)->unk_18, (s16) rising_value,
+                ((S_80024CD4_0 *)effect)->unk_18, (s16) rising_value,
                 &NODE_HEADER(effect)->next);
         }
         ((S_80024CD4_0 *)effect)->unk_0A++;

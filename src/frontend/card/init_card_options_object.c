@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
@@ -23,7 +24,7 @@ void * init_card_options_object(s32 option_param) {
     u8 *object_arg;
 
     object_arg = object;
-    subobject = object + 0x20;
+    subobject = NODE_BODY(object);
     object_status = func_80047FD8(object_arg);
     if (object_status == 0) {
         object = func_8003C714(0, object, 0x118);

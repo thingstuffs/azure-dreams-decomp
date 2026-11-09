@@ -166,7 +166,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
 
     case 1:
         rotating_object = actor->target;
-        if ((rotating_object != 0) && ((s16)effect->action_timer < 0x34)) {
+        if ((rotating_object != 0) && (effect->action_timer < 0x34)) {
             rotating_object->unk_2A =
                 (rotating_object->unk_2A + 0x200) & 0x3FFF;
             effect_alloc = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -213,7 +213,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
                 effect_data->state_9A = 0;
             }
         }
-        ticks_left = effect->action_timer - 1;
+        ticks_left = (u16)effect->action_timer - 1;
         effect->action_timer = ticks_left;
         if ((ticks_left << 16) > 0) {
             return;

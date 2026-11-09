@@ -477,7 +477,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
             s32 d;
             s32 aw;
             d = pos->x.w.i;
-            d -= (s16)star->unk_02;
+            d -= star->unk_02;
             aw = d;
             aw = abs(aw);
             if (aw < 8) {
@@ -503,7 +503,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
             s32 d;
             s32 aw;
             d = pos->y.w.i;
-            d -= (s16)star->unk_06;
+            d -= star->unk_06;
             aw = (d >= 0) ? d : (0 - d);
             if (aw < 8) {
                 s32 v;
@@ -530,8 +530,8 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
                 s32 st;
                 a2v = pos->x.unsigned_parts.integer;
                 d = pos->x.w.i;
-                a1v = (u16)star->unk_02;
-                st = (s16)star->unk_02;
+                a1v = star->unk_02;
+                st = star->unk_02;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
@@ -565,8 +565,8 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
                 s32 st;
                 a2v = pos->y.unsigned_parts.integer;
                 d = pos->y.w.i;
-                a1v = (u16)star->unk_06;
-                st = (s16)star->unk_06;
+                a1v = star->unk_06;
+                st = star->unk_06;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
@@ -600,10 +600,10 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
                 s32 st;
                 if (entity->unk_4C != 0) {
                     a2v = pos->x.unsigned_parts.integer;
-                    a1v = (u16)star->unk_02;
+                    a1v = star->unk_02;
                 } else {
                     a2v = pos->y.unsigned_parts.integer;
-                    a1v = (u16)star->unk_06;
+                    a1v = star->unk_06;
                 }
                 d = (s16)a2v;
                 st = (s16)a1v;
@@ -616,7 +616,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
                 }
             }
         } else {
-            entity->unk_04 = (u16)entity->unk_04 - 1;
+            entity->unk_04 = entity->unk_04 - 1;
             pos->x.v += entity->unk_4C;
             pos->y.v += entity->unk_50;
             pos->z.v += entity->unk_54;
@@ -629,19 +629,19 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
         }
     }
     if (entity->unk_00 == 1) {
-        if ((s16)entity->unk_02 == 0) {
+        if (entity->unk_02 == 0) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             drain_audio_commands_and_service_channels();
         }
-        cnt = (u16)entity->unk_02 + 1;
+        cnt = entity->unk_02 + 1;
         entity->unk_02 = cnt;
         if (cnt >= 0xF) {
             entity->unk_02 = 0;
-            entity->unk_00 = (u16)entity->unk_00 + 1;
+            entity->unk_00++;
         }
     }
     if (entity->unk_00 == 2) {
-        entity->unk_02 = (u16)entity->unk_02 + 1;
+        entity->unk_02++;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
         obj = allocate_flagged_object_node(0x212);
@@ -741,9 +741,9 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
             }
             }
         }
-        if ((s16)entity->unk_02 >= 0x29) {
+        if (entity->unk_02 >= 0x29) {
             entity->unk_02 = 0;
-            entity->unk_00 = (u16)entity->unk_00 + 1;
+            entity->unk_00++;
             if (try_trigger_target_record_effect(env->unk_60, 2, env) == 0) {
                 s32 a2v;
                 s32 a1v;
@@ -759,10 +759,10 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
         }
     }
     if (entity->unk_00 == 3) {
-        entity->unk_02 = (u16)entity->unk_02 + 1;
+        entity->unk_02++;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
-        if ((s16)entity->unk_02 >= 0x15) {
+        if (entity->unk_02 >= 0x15) {
             entity->unk_34->unk_86 = 1;
             NODE_HEADER(entity)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

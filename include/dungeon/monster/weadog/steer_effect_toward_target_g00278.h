@@ -1,5 +1,6 @@
 #ifndef DUNGEON_MONSTER_WEADOG_STEER_EFFECT_TOWARD_TARGET_G00278_H
 #define DUNGEON_MONSTER_WEADOG_STEER_EFFECT_TOWARD_TARGET_G00278_H
+#include "engine/node/registration.h"
 /* Steer effect toward target. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00278 - CL:dungeon/func_80EDF8B8@dungeon/bank_eff000, CL:dungeon/func_80EDF8B8@dungeon/bank_f05000, CL:dungeon/func_80EDF8B8@dungeon/bank_f0b000, CL:dungeon/func_80EDF8B8@dungeon/bank_f11000, CL:dungeon/func_80EDF8B8@dungeon/bank_f17000, CL:dungeon/func_80EDF8B8@dungeon/bank_f1d000. */
 
@@ -66,7 +67,6 @@ typedef struct S_80171498_1 {
 /* ((S_80171498_1 *)arg0)->unk_08 in create_random_color_offset_effect */
 void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 s32 resolve_record_orientation_or_fallback();
-s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 extern u8 D_80170ED8[];
 extern u8 D_801712C4[];
 

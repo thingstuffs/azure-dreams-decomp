@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_E27054_H
 #define DUNGEON_OVL_E27054_H
+#include "engine/node/registration.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -11,7 +12,6 @@ typedef void (*Callback)(void);
 
 
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *object, s32 attr_a, s16 attr_b);

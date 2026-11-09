@@ -751,7 +751,7 @@ s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosi
         roll = rand();
         model = &seven_color_sprite_data;
         part->unk_12 = (s16)(roll % 7);
-        part->unk_14 = (u16) owner->unk_12;
+        part->unk_14 = owner->unk_12;
         part->unk_18.at00.v = (s32) owner->unk_18;
         render = obj->sprite;
         render->color.c.b = 0x80;
@@ -887,13 +887,13 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
     B28_818B7F38_S_80025738_6 *source_position;
     SpriteFrameState *tile_data;
 
-    phase = (s16)state->spell.phase;
+    phase = state->spell.phase;
     owner = state->spell.caster;
     state->unk_10 = (u16) (state->unk_10 + 1);
     switch (phase) {
     case 0:
         state->unk_10 = 0U;
-        state->spell.phase = (s16) ((u16) state->spell.phase + 1);
+        state->spell.phase++;
         state->unk_0E = (u16) (((u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_2A >> 9) & 7);
         render->color.word = 0x808080;
     case 1:
@@ -967,14 +967,14 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
                 state->unk_12 = 1;
             }
             motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
-                - motion_in->x.v) / (s16) state->unk_12);
+                - motion_in->x.v) / state->unk_12);
             motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
-                - motion_in->y.v) / (s16) state->unk_12);
+                - motion_in->y.v) / state->unk_12);
             motion_in->velocity_z =
                 (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
-                - motion_in->z.v) / (s16) state->unk_12);
+                - motion_in->z.v) / state->unk_12);
             spawn_owner_random_variant_effect(state, motion_in);
-            next_phase = (u16) state->spell.phase + 1;
+            next_phase = state->spell.phase + 1;
         } else {
             index = 0;
             tile_data = source_header->unk_0C;
@@ -1031,11 +1031,11 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
                 state->unk_12 = 1;
             }
             motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
-                - motion_in->x.v) / (s16) state->unk_12);
+                - motion_in->x.v) / state->unk_12);
             motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
-                - motion_in->y.v) / (s16) state->unk_12);
+                - motion_in->y.v) / state->unk_12);
             motion_in->velocity_z = (s32) ((s32) (destination->unk_08.at00.v
-                - motion_in->z.v) / (s16) state->unk_12);
+                - motion_in->z.v) / state->unk_12);
             spawn_owned_random_spin_effect(state, motion_in);
             next_phase = 6;
         }
@@ -1054,7 +1054,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
     case 3:
         if ((s16) state->unk_10 >= 0x10) {
             state->unk_10 = 0U;
-            state->spell.phase = (s16) ((u16) state->spell.phase + 1);
+            state->spell.phase++;
         }
         break;
     case 4:
@@ -1064,7 +1064,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
         interpolate_view_parameters(((B28_818B7F38_S_80025738_1 *)owner)->unk_60, state->spell.variant, owner);
 advance_phase:
         state->unk_10 = 0U;
-        state->spell.phase = (s16) ((u16) state->spell.phase + 1);
+        state->spell.phase++;
         break;
     case 5:
         if (state->unk_14 != 0) {

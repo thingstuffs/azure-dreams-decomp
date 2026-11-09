@@ -76,7 +76,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
         action->action_timer = 0U;
         action->action_phase = (u8) (action->action_phase + 1);
     }
-    if (((s16) action->action_timer == 0xB) || (sprite->flags & 0x8000)) {
+    if ((action->action_timer == 0xB) || (sprite->flags & 0x8000)) {
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
     }
     if (sprite->flags & 0xE000) {
@@ -125,7 +125,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                     effect_motion->z.w.i = (u16) (((u16)(effect_motion->z.w.i))
                         + spawn_offset[2]);
                 }
-                effect_motion->velocity_z = (s32) (((0xD - (s16) action->action_timer)
+                effect_motion->velocity_z = (s32) (((0xD - action->action_timer)
                     << 0x11) + 0xFFE80000);
                 effect_data->unk_B4 = 0xC000;
                 effect_motion->velocity_x =

@@ -235,7 +235,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
         effect_flags = flags_page->unk_14A0;
         effect_flags |= 0x8000;
         flags_page->unk_14A0 = effect_flags;
-        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
+        NODE_HEADER(effect)->flags |= 0x8000;
         flags_page->unk_14A0 = effect_flags;
         return;
     }
@@ -290,7 +290,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
         effect_flags |= 0x8000;
         flags_page->unk_14A0 = effect_flags;
         final_object->flags = (u16)(final_flags | 0x8000);
-        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
+        NODE_HEADER(effect)->flags |= 0x8000;
         flags_page->unk_14A0 = effect_flags;
         return;
     default:

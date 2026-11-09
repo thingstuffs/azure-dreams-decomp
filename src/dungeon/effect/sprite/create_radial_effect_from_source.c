@@ -470,7 +470,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
                 s32 coordinate = owner->unk_70.parts.unk_73.s8;
                 motion->unk_04.parts.unk_06.s16 = (coordinate << 6) + 0x20;
             }
-            motion->unk_08.parts.unk_0A = (u16)effect->unk_10;
+            motion->unk_08.parts.unk_0A = effect->unk_10;
             handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(snapped_motion, sprite);
             {
                 u16 next_state = effect->unk_0A;
@@ -1086,7 +1086,7 @@ void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s3
     S_80025160_3 *flags_page;
 
     COUNTER = COUNTER + 1;
-    state = (s16)((S_80025160_0 *)effect)->unk_0A;
+    state = ((S_80025160_0 *)effect)->unk_0A;
 
     switch (state) {
     case 0:

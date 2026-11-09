@@ -17,15 +17,6 @@ struct SpriteFrameState;
 #include "dungeon/player/position.h"
 #include "engine/graphics.h"
 
-typedef struct S_8008C13C_2 {
-    u8 pad_00[0x8C];
-    union { s32 s; void * u; } unk_8C;   /* accessed as both */
-    u8 pad_90[0x8];
-    u16 unk_98;
-    s8 unk_9A;
-    s8 unk_9B;
-} S_8008C13C_2;   /* arg0 in try_move_carrying_player */
-
 extern u8 player_carry_move_frames[8];
 extern u8 player_carry_frames[8];
 
@@ -34,7 +25,7 @@ extern s16 classify_adjacent_tile_height(s16, void *,struct SpriteFrameState *, 
 
 /* Synthetic batch key: func_800869DC; true rowbase link symbol: try_move_carrying_player. */
 /* Attempts a move and updates the actor position, animation, and movement state. */
-void try_move_carrying_player(void *controller, void *actor_id, SpriteFrameState *actor, EntityRec *actor_data) {
+void try_move_carrying_player(ActorRecord *controller, void *actor_id, SpriteFrameState *actor, EntityRec *actor_data) {
     GameWork *dungeon_state;
     s16 move_result;
     u8 direction_index;
@@ -58,7 +49,7 @@ void try_move_carrying_player(void *controller, void *actor_id, SpriteFrameState
         cycle_map_cell_flags(actor->tile_x, actor->tile_y, 0x300);
 
         g_dungeon_status.flags |= 8;
-        ((S_8008C13C_2 *)controller)->unk_8C.s = 0;
+        controller->unk_8C.word = 0;
 
         if (move_result != 4) {
             if (system_update_flags & 2) {
@@ -77,16 +68,16 @@ void try_move_carrying_player(void *controller, void *actor_id, SpriteFrameState
             process_unflagged_linked_entries_alt(actor_data->unk_5C);
             process_unflagged_linked_entries(actor_data->unk_5C);
             g_dungeon_status.movement_frames_left = 8;
-            ((S_8008C13C_2 *)controller)->unk_9A = 0x1D;
+            controller->action_id = 0x1D;
         } else {
-            ((S_8008C13C_2 *)controller)->unk_98 |= 0xC;
+            controller->action_state_flags |= 0xC;
             actor->flags |= 0x4000;
             check_tile_entry_at_adjusted_height(controller, actor_id, actor, actor_data);
             if (move_result == 2) {
-                ((S_8008C13C_2 *)controller)->unk_9B = 8;
+                controller->action_phase = 8;
             }
             g_dungeon_status.movement_frames_left = 8;
-            ((S_8008C13C_2 *)controller)->unk_9A = 0x1E;
+            controller->action_id = 0x1E;
             actor_data->flags1C |= ACTOR_REFRESH_GROUND;
             append_packed_action_record(actor_data, 8, 0, 0);
             return;
@@ -97,7 +88,7 @@ void try_move_carrying_player(void *controller, void *actor_id, SpriteFrameState
         actor->frameTable = player_carry_frames;
         direction_index = ((dungeon_state->view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
         set_sprite_animation_frame(actor, player_carry_frames[direction_index], 0, 1);
-        ((S_8008C13C_2 *)controller)->unk_8C.u = handle_carrying_player_input;
+        controller->unk_8C.address = handle_carrying_player_input;
         return;
     }
 

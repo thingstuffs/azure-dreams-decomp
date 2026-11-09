@@ -144,8 +144,8 @@ s32 render_linked_jittered_effect_strips(DirectionalActorEffectBody *node_data) 
                                     ((corner_index >> 1) << 6));
             world_base[corner_index].y = (s16)(node->y +
                                     ((corner_index % 2) << 6));
-        world_base[corner_index].z = (s16)((u16)node->z +
-                                    (u16)node->z_offset);
+        world_base[corner_index].z = (node->z +
+                                    node->z_offset);
         }
         func_80065770(world_points, screen_points, depths, scratch, projection_aux, 5);
 

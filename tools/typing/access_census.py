@@ -601,7 +601,7 @@ def join(sites, opcodes, parameter_registers=None, object_types=None, aliases=No
     local_registers = local_registers or {}
     proven_bases = proven_bases or {}
     stack_locals = stack_locals or {}
-    expanded = [dict(s, rw=direction) for s in sites
+    expanded = [dict(s, rw=direction, compound=int(s['rw'] == 'rw')) for s in sites
                 for direction in (('r', 'w') if s['rw'] == 'rw' else (s['rw'],))]
     by_static, by_proven = defaultdict(list), defaultdict(list)
     for index, op in enumerate(opcodes):
@@ -707,6 +707,7 @@ def join(sites, opcodes, parameter_registers=None, object_types=None, aliases=No
                             offset=s['delta'], declared_width=s['width'], declared_sign=declared,
                             direction=s['rw'], opcode=op['opcode'] if op else '',
                             retail_sign=op['sign'] if op else '', pc=op['pc'] if op else '',
+                            compound=s.get('compound', 0),
                             consumer=op.get('consumer', '') if op else '',
                             consumer_sign=op.get('consumer_sign', '') if op else '',
                             status=status, reason=reason, agreement=int(agreement)))
@@ -1096,7 +1097,7 @@ def main(argv=None):
                                      (f' [recipe {output}]' if len(placements) > 1 else ''))
     cols = ['function', 'physical_tu', 'recipe_output', 'file', 'line', 'base_type', 'base_kind', 'object_type', 'base_expression',
             'member_path', 'offset', 'declared_width', 'declared_sign', 'direction',
-            'opcode', 'retail_sign', 'pc', 'consumer', 'consumer_sign', 'status', 'reason', 'agreement']
+            'opcode', 'retail_sign', 'pc', 'compound', 'consumer', 'consumer_sign', 'status', 'reason', 'agreement']
     with (out / 'access_sites.tsv').open('w', newline='') as stream:
         writer = csv.DictWriter(stream, cols, delimiter='\t', lineterminator='\n')
         writer.writeheader()

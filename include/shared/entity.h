@@ -80,7 +80,7 @@ typedef struct EntityRec {
     /* 0x052 */ unsigned short unk_52;            
     /* 0x054 */ int unk_54;                       
     /* 0x058 */ void * unk_58;                    
-    /* 0x05C */ int unk_5C;                       
+    /* 0x05C */ void *unk_5C;                     
     /* 0x060 */ void * target;                    /* as_pv 41: the entity an action targets (func_80CC266C stores the chosen neighbour) */
     /* 0x064 */ short unk_64;                     /* as_s16 63 / u16 3 */
     /* 0x066 */ unsigned char pad_66[2];          
@@ -209,7 +209,7 @@ typedef struct ActorRecord {
     } unk_50; /* Step 0b: one word, read as two halfwords or as the player's shield record pointer */
     /* 0x054 */ int status_flags; /* derived-effect mask; bits 1..4 double HP/MP/attack/defense baselines, capped at 255 by apply_entity_effects */
     /* 0x058 */ void * previous_actor_header; /* previous live actor list entry, pointing to its ObjectNodeHeader */
-    /* 0x05C */ int next_actor_header; /* next live actor list entry, stored as the address of its ObjectNodeHeader */
+    /* 0x05C */ void *next_actor_header; /* next live actor list entry, stored as the address of its ObjectNodeHeader */
     /* 0x060 */ void * target; /* borrowed actor-body target; while lifted, this is the carrier backlink rather than an attack target */
     /* 0x064 */ short hp_delta; /* signed pending HP delta; effective HP is hp + unk_64 before applying queued damage */
     /* 0x066 */ unsigned char max_mp; /* effective maximum MP; doubled template MP is capped at 255 */
@@ -245,7 +245,7 @@ typedef struct ActorRecord {
         struct { unsigned short low; union { short s; unsigned short u; } high; } parts;
     } unk_90; /* callback scratch word; signed and unsigned high-half accesses */
     /* 0x094 */ short unk_94;
-    /* 0x096 */ unsigned short action_timer;
+    /* 0x096 */ short action_timer;
     /* 0x098 */ unsigned short action_state_flags;
     /* 0x09A */ unsigned char action_id; /* action-table selector */
     /* 0x09B */ unsigned char action_phase; /* phase within the selected action */
@@ -265,7 +265,7 @@ typedef struct ActorRecord {
         void *address; /* kraken links its child ObjectNodeHeader through this scratch slot */
         unsigned char *byte_address; /* byte-addressed callback scratch pointer */
     } unk_A4; /* callback scratch with word/halfword/byte views */
-    /* 0x0A8 */ unsigned short unk_A8; /* saved species or callback scratch */
+    /* 0x0A8 */ short unk_A8; /* saved species or callback scratch */
     /* 0x0AA */ short unk_AA;
     /* 0x0AC */ union { void *address; int value; unsigned char byte; signed char signed_byte; ActorScratchHalves halves; unsigned char bytes[4]; } unk_AC; /* familiar slot 0 or callback scratch */
     /* 0x0B0 */ union { void *address; int value; unsigned char bytes[4]; signed char signed_bytes[4]; ActorScratchHalves halves; } unk_B0; /* familiar slot 1 or callback scratch, including byte +0xB3 */

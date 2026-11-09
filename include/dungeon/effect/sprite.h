@@ -92,7 +92,7 @@ typedef struct DirectionalGridEffectBody {
         s16 unk_02;
         s16 unk_04;
     } entries[8];
-    u16 unk_40;
+    s16 unk_40;
     s16 unk_42;
 } DirectionalGridEffectBody;
 

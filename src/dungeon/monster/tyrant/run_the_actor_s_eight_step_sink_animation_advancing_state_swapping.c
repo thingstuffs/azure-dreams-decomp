@@ -30,7 +30,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
     s32 timer;
 
     state = work->action_phase;
-    work->action_timer = (u16) (work->action_timer - 1);
+    work->action_timer = work->action_timer - 1;
     switch (state) {
     case 0:
     case 4:
@@ -56,7 +56,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
     case 5:
         accum = work->unk_90.value;
         value = work->unk_A0.value;
-        timer = (s16)work->action_timer;
+        timer = work->action_timer;
         work->unk_90.value = accum - value;
         if (timer != 0) {
             accum = value;
@@ -66,7 +66,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(ActorRec
         }
         accum = work->unk_90.value;
         value = work->unk_A0.value;
-        timer = (s16)work->action_timer;
+        timer = work->action_timer;
         work->unk_90.value = accum + value;
         if (timer > 0) {
             return;

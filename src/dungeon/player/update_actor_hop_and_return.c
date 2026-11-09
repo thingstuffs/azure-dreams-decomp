@@ -62,10 +62,10 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         play_sound_if_enabled(0x701);
         return;
     case 1:
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             position->x.v = (s32) (position->x.v + (rcos(actor->facing + 0x400) << 6));
             position->y.v = (s32) (position->y.v + (rsin(actor->facing + 0x400) << 6));
-            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin((s16) body->action_timer
+            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin(body->action_timer
                 << 8)) >> 8);
         }
         hop_frames_left = body->action_timer - 1;
@@ -91,7 +91,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         body->action_phase++;
         return;
     case 3:
-        frames_left = (s16) body->action_timer;
+        frames_left = body->action_timer;
         if (frames_left != 0) {
             target_x = sprite->tile_x << 6;
             current_x = position->x.w.i - 0x20;
@@ -102,12 +102,12 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
             {
                 s32 y_numerator = (y_step - y_origin) << 0x10;
 
-                y_remaining = (s16)body->action_timer;
+                y_remaining = body->action_timer;
                 y_step = y_numerator / y_remaining;
             }
             y_work = position->y.v + y_step;
             position->y.v = y_work;
-            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin((s16) body->action_timer
+            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin(body->action_timer
                 << 8)) >> 8);
         }
         return_frames_left = body->action_timer - 1;

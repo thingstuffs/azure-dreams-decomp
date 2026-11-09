@@ -25,8 +25,8 @@ void decrement_callback_object_timer(S_func_800A9F90 *self, ObjectPosition *expi
     self->counter = counter;
     if ((counter << 16) <= 0) {
         unlink_node_if_registered(self);
-        ((ObjectNodeHeader *)self - 1)->flags =
-            (u16)(((ObjectNodeHeader *)self - 1)->flags | NODE_REMOVE);
+        NODE_HEADER(self)->flags =
+            (u16)(NODE_HEADER(self)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/shop/object.h"
+#include "town/shop/state.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void decay_shop_state_and_cleanup(void *object);
 
 typedef struct S_800B1718_0 {
     u8 pad_00[0x10];

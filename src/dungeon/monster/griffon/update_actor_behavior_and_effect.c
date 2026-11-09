@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
@@ -977,7 +978,7 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         action->action_phase++;
 
     case 1:
-        move_ticks = (s16)action->unk_A8;
+        move_ticks = action->unk_A8;
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -991,15 +992,15 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                (s16)action->unk_A8;
+                action->unk_A8;
 
             action->unk_A4.value =
-                (-rsin((s16)action->unk_A8 * 0x199)) << 10;
+                (-rsin(action->unk_A8 * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;
         arc_offset = action->unk_A4.value;
-        next_move_ticks = action->unk_A8;
+        next_move_ticks = (u16)action->unk_A8;
         height_offset += arc_offset;
         next_move_ticks -= 1;
         action->unk_A8 = next_move_ticks;
@@ -1030,7 +1031,7 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         }
         break;
     }
-    action_ticks = action->action_timer - 1;
+    action_ticks = (u16)action->action_timer - 1;
     action->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
@@ -1170,7 +1171,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
         motion->velocity_z = vertical_speed;
         action->unk_90.value += vertical_speed;
 
-        if ((s16)action->action_timer == 0x11) {
+        if (action->action_timer == 0x11) {
             s32 direction_step;
             s16 *x_steps;
             s16 *x_step;
@@ -1202,13 +1203,13 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
             (sprite->flags & 0x8000)) {
             motion->velocity_x =
                 ((((sprite->tile_x << 6) + 0x20) << 16) -
-                 motion->x.v) / (s16)action->action_timer;
+                 motion->x.v) / action->action_timer;
             motion->velocity_y =
                 ((((sprite->tile_y << 6) + 0x20) << 16) -
-                 motion->y.v) / (s16)action->action_timer;
+                 motion->y.v) / action->action_timer;
         }
 
-        if (((s16)action->action_timer > 0) &&
+        if ((action->action_timer > 0) &&
             !(sprite->flags & 0x8000)) {
             return;
         }
@@ -1468,13 +1469,13 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
         motion->velocity_y +=
             dir_step_y[(entity->movement_facing >> 9) & 7] << 14;
 
-        if ((s16)action->action_timer > 0) {
+        if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
             action->action_timer = 0;
         }
 
-        if ((s16)action->action_timer != 0) {
+        if (action->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -1511,7 +1512,7 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
         return;
 
     case 3:
-        move_timer = (s16)action->action_timer;
+        move_timer = action->action_timer;
         if (move_timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -1522,7 +1523,7 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / (s16)action->action_timer;
+                    ((target_y - current_y) << 15) / action->action_timer;
             }
         }
 
@@ -2145,7 +2146,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             u8 effect_ready;
             R08_80174648_S_80174648_3 *target_color;
 
-            frames_left = effect_state->action_timer;
+            frames_left = (u16)effect_state->action_timer;
             effect_state->action_timer = frames_left - 1;
             if ((s16)(frames_left - 1) <= 0) {
                 effect_ready = griffon_effect_load_done[0];
@@ -2159,11 +2160,11 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             }
             target_color = ((void * *)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
             effect_work->unk_A8 += (target_color->unk_00
-                - effect_work->unk_A8) / (s16)effect_state->action_timer;
+                - effect_work->unk_A8) / effect_state->action_timer;
             effect_work->unk_A9 += (target_color->unk_01
-                - effect_work->unk_A9) / (s16)effect_state->action_timer;
+                - effect_work->unk_A9) / effect_state->action_timer;
             effect_work->unk_AA += (target_color->unk_02
-                - effect_work->unk_AA) / (s16)effect_state->action_timer;
+                - effect_work->unk_AA) / effect_state->action_timer;
             return;
         }
 
@@ -2262,7 +2263,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
         {
 
             effect_state->action_timer--;
-            if ((s16)effect_state->action_timer > 0) {
+            if (effect_state->action_timer > 0) {
                 return;
             }
             ((R08_80174648_S_80174648_10 *)actor->target)->unk_2A = ((R08_80174648_S_80174648_1 *)actor)->unk_8A;

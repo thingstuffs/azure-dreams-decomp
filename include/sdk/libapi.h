@@ -28,7 +28,7 @@ s32 TestEvent(s32);
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);
 void InitCARD(s32);
-void StartCARD(void);
+s32 StartCARD(void);
 void _bu_init(void);
 void ChangeClearPAD(s32);
 

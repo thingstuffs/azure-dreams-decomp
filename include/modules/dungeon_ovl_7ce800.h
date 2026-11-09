@@ -12,13 +12,11 @@ extern void *active_action_object;
 typedef union { u8 first; s8 bytes[9]; } DungeonFlagBuffer9;
 extern DungeonFlagBuffer9 scripted_boundary_active;
 void select_record_entry_and_value(void *,void *,s32);
-struct ColorPart;
 struct DungeonObject;
 struct S807AF9A4;
 
 struct S_807AFC9C_4;
 struct S_807B09A0_0;
-struct UnkStruct807B11B8;
 typedef struct DirectionOffsets {
     u16 x0;
     u16 y0;
@@ -41,7 +39,7 @@ extern const DirectionOffsets dungeon_7ce800_directions;
 extern s16 *view_marker_slots[];
 void update_sprite_from_third_argument(struct ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value);
 void create_positioned_view_marker(s16 x, s16 y);
-void advance_dungeon_tile_action_state(struct SlotViewMarkerBody *state, u8 *actor, u8 *target);
+void advance_dungeon_tile_action_state(struct SlotViewMarkerBody *state, ObjectPosition *position, SpriteFrameState *target);
 void create_slot_positioned_effect(s16 x, s16 y, s32 slot);
 void update_overlay_state_and_retire(void *data);
 void initialize_overlay_effect_state(void);
@@ -54,7 +52,7 @@ void advance_linked_particle_effect_state(struct S807AF9A4 *data);
 void create_linked_particle_controller(void *sourceData);
 void converge_particle_position_and_color(void *transition, ObjectPosition *position, SpriteFrameState *color);
 void create_converging_color_particle(struct ObjectNodeHeader *spawn_arg, ObjectPosition *origin, struct S_807AFC9C_4 *source);
-void update_owner_attached_color_effect(void *effect, ObjectPosition *position, struct ColorPart *tint);
+void update_owner_attached_color_effect(void *effect, ObjectPosition *position, SpriteFrameState *tint);
 void create_owner_attached_color_effect(void *parent_data);
 void advance_reverse_direction_particle(void *motion_data, s16 *position);
 void create_reverse_direction_particle(EntityRec *source, s16 state_value, s32 render_value);
@@ -66,5 +64,5 @@ void reset_active_object_action(void);
 void func_800F80F0(s16 tile_x, s16 tile_y, s16 initial_value);
 void emit_scattered_animated_particles(struct S_807B09A0_0 *emitter);
 s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2);
-void move_sprite_until_animation_finishes(u16 *object_data, struct UnkStruct807B11B8 *motion, SpriteFrameState *update_state);
+void move_sprite_until_animation_finishes(u16 *object_data, ObjectPosition *motion, SpriteFrameState *update_state);
 #endif

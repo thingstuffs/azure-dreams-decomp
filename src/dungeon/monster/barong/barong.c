@@ -123,7 +123,7 @@ void hop_actor_and_restore_scale(ActorRecord *action, ObjectPosition *motion, Sp
         break;
     }
 
-    action_ticks = action->action_timer - 1;
+    action_ticks = (u16)action->action_timer - 1;
     action->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;

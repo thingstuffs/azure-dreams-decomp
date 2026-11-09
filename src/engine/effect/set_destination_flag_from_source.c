@@ -7,75 +7,32 @@
 #include "slus.h"
 #include "slus/data.h"
 
-
-
-typedef struct Func8003C160Dst {
-    SpriteSourceEntry *f0;
-    u8 f4;
-    u8 f5;
-    u8 pad6[2];
-    s32 f8;
-    s32 fc;
-    u16 f10;
-    u8 pad12[2];
-    u16 f14;
-    u8 pad16[6];
-    u16 f1c;
-    u16 f1e;
-} Func8003C160Dst;
-
-typedef struct Func8003C160Vec {
-    u8 pad0[2];
-    u16 f2;
-    u8 pad4[2];
-    u16 f6;
-    u8 pad8[2];
-    u16 fA;
-} Func8003C160Vec;
-
-typedef struct Func8003C160Root {
-    u8 pad0[8];
-    Func8003C160Vec *vec;
-    Func8003C160Dst *dst;
-} Func8003C160Root;
-
-typedef struct Func8003C160Context {
-    void (*callback)(void);
-    u8 pad4[4];
-    SpriteSourceEntry *source;
-    Func8003C160Dst *dst;
-} Func8003C160Context;
-
-extern Func8003C160Context fade_manager_state;
-
-extern void ramp_fade_up_fast(void);
-
-/* Initialize the destination and vector for the current source and set the next callback. */
+/* Initialize the fade sprite and position for the current source and set the next step. */
 void initialize_shared_sprite_fade_display(void) {
-    Func8003C160Context *context = &fade_manager_state;
-    Func8003C160Root *root = (Func8003C160Root *)((u8 *)context - 0x20);
-    Func8003C160Dst *dst = root->dst;
-    Func8003C160Vec *vec = root->vec;
+    FadeManagerBody *context = &fade_manager_state;
+    ObjectNodeHeader *root = NODE_HEADER(context);
+    SpriteFrameState *dst = root->sprite;
+    ObjectPosition *vec = root->position;
 
-    dst->f1e = 0x200;
-    dst->f1c = 0x200;
-    dst->fc = 0x808080;
-    dst->f8 = (s32)D_800F26F8;
-    dst->f0 = 0;
-    dst->f4 = 0;
-    dst->f5 = 0;
+    dst->scale_y = 0x200;
+    dst->scale_x = 0x200;
+    dst->color.word = 0x808080;
+    dst->source = D_800F26F8;
+    dst->unk_00 = 0;
+    dst->unk_04 = 0;
+    dst->frame_ticks = 0;
     select_record_entry_and_value(dst, context->source, 0);
-    dst->f14 = 0;
-    dst->f10 = 0;
+    dst->flags = 0;
+    dst->tpage_abr = 0;
 
     if (context->source == (SpriteSourceEntry *)flagged_effect_source_1 ||
         context->source == (SpriteSourceEntry *)flagged_effect_source_0) {
-        dst->f14 |= 0x400;
+        dst->flags |= 0x400;
     }
 
-    vec->f2 = 0x54;
-    vec->f6 = 0x8D;
-    vec->fA = 0x10;
-    context->callback = ramp_fade_up_fast;
+    vec->x.w.i = 0x54;
+    vec->y.w.i = 0x8D;
+    vec->z.w.i = 0x10;
+    context->step = ramp_fade_up_fast;
     runtime_set_destination_flag_from_source(context, dst);
 }

@@ -18,6 +18,10 @@ void compute_offset_position_linked_object(OwnerFollowingSpriteBody *object, Int
 
 void move_position_toward_target(void *work_data, void *position_data, void *completion_arg);
 
+struct TownObjectRecord;
+/* ease_reaction_position_with_vertical_offset.c */
+void ease_reaction_position_with_vertical_offset(struct TownObjectRecord *state_arg, void *position_arg);
+
 s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin);
 
 #endif

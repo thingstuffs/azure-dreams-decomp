@@ -92,13 +92,13 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
     case 2:
         red = (u8) sprite->color.word;
         sprite->color.c.r = (s8) (red + ((s32) (0x20
-            - red) / (s16)state->action_timer));
+            - red) / state->action_timer));
         green = sprite->color.c.g;
         blue = sprite->color.c.b;
         sprite->color.c.g = (u8) (green + ((s32) (0x20
-            - green) / (s16)state->action_timer));
+            - green) / state->action_timer));
         sprite->color.c.b = (u8) (blue + ((s32) (0x20
-            - blue) / (s16)state->action_timer));
+            - blue) / state->action_timer));
         fade_ticks = state->action_timer - 1;
         state->action_timer = fade_ticks;
         if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((sprite->flags & 0x8000) != 0))) {
@@ -142,18 +142,18 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         return finished;
 
     case 3:
-        orbit_offset = (((s16)state->action_timer) * rcos(((S_800AD058_1 *)sprite)->unk_27
+        orbit_offset = ((state->action_timer) * rcos(((S_800AD058_1 *)sprite)->unk_27
             << 7)) << 5;
         position->x.v += (s32) ((view_reference_entity.x.v + orbit_offset
             - position->x.v) >> 2);
-        orbit_offset = (((s16)state->action_timer) * rsin(((S_800AD058_1 *)sprite)->unk_27
+        orbit_offset = ((state->action_timer) * rsin(((S_800AD058_1 *)sprite)->unk_27
             << 7)) << 5;
         position->y.v += (s32) ((view_reference_entity.y.v + orbit_offset
             - position->y.v) >> 2);
         {
             s32 vertical_step;
 
-            vertical_step = rsin(((s16)state->action_timer) * 8) >> 6;
+            vertical_step = rsin((state->action_timer) * 8) >> 6;
             ((ActorRecord *)entity)->ground_height = (s16) ((u16) ((ActorRecord *)entity)->ground_height +
                 ((view_reference_entity.z.w.i - vertical_step - ((ActorRecord *)entity)->ground_height)
                     >> 4));
@@ -161,9 +161,9 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         scale_x = sprite->scale_x;
         scale_y = sprite->scale_y;
         sprite->scale_x = (u16) (scale_x
-            - ((s32) scale_x / (s16)state->action_timer));
+            - ((s32) scale_x / state->action_timer));
         sprite->scale_y = (u16) (scale_y
-            - ((s32) scale_y / (s16)state->action_timer));
+            - ((s32) scale_y / state->action_timer));
         ((S_800AD058_1 *)sprite)->unk_27 = (u8) (((S_800AD058_1 *)sprite)->unk_27 + 1);
         spiral_ticks = state->action_timer - 1;
         state->action_timer = spiral_ticks;

@@ -79,7 +79,7 @@ extern u8 cd_read_status_bytes[ 8 ];
 extern unsigned char cd_sector_position_result[ 8 ];
 extern u32 cd_stream_end_sector[ 3 ];
 struct S_80038464_0; extern void clear_runtime_state_and_set_handler(struct S_80038464_0 *);
-extern u32 cursor_blink_variant_values[ ];
+extern void *cursor_blink_variant_values[ ];
 extern u8 cursor_sprite_source[ ];
 extern u8 cursor_texture_descriptor_0[ ];
 extern u8 cursor_texture_descriptor_1[ ];
@@ -264,6 +264,6 @@ extern u16 window_overlay_field_2e_values[ ];
 extern u16 window_overlay_field_36_values[ ];
 extern s16 window_overlay_model_values[ ];
 extern u8 window_overlay_parameter_template[ ];
-extern u32 window_overlay_render_variants[ ];
+extern void *window_overlay_render_variants[ ];
 
 #endif

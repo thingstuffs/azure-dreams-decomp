@@ -2,34 +2,12 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/menu.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
 
-typedef struct {
-    u8 value0;
-    u8 value1;
-    u8 value2;
-    u8 pad03[0x17];
-    s16 state;
-    u16 counter;
-    u8 pad20[8];
-    s32 flags;
-    u8 pad2c[2];
-    s16 mode;
-} InterpState;
-typedef struct {
-    u8 pad00[0x0c];
-    u8 value0;
-    u8 value1;
-    u8 value2;
-    u8 pad0f[0x0d];
-    u16 counter;
-    u16 counter_copy;
-} InterpTarget;
-
-void interpolate_delayed_target_values(InterpState *state, ObjectPosition *unused, InterpTarget *target);
 extern M2C_UNK D_800DD824;
 
 /* Creates an object at transformed coordinates and initializes its rendering and state. */
@@ -38,7 +16,7 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
     ObjectPosition *position;
     ObjectNodeHeader *object;
     SpriteFrameState *render_data;
-    void *state;
+    MapMarkerRevealBody *state;
     u8 *scratchpad;
     MapGrid *view_config;
     u8 *camera_config;
@@ -80,10 +58,10 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
         render_data->scale_y = 0x2000;
         render_data->scale_x = 0x2000;
         state = NODE_BODY(object);
-        *(s16 *)((u8 *)state + 0x1C) = 8;
-        *((s32 *)NODE_BODY(object)) = initial_value;
-        *(s32 *)((u8 *)state + 0x28) = update_param;
-        *(s16 *)((u8 *)state + 0x2E) = (s16)mode;
+        state->ticks_left = 8;
+        state->color.word = initial_value;
+        state->floor_flags = update_param;
+        state->mode = mode;
         if (mode == 0) {
             dungeon_floor_flags |= 0x40000;
         }

@@ -50,8 +50,8 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
 #include "records/Rec_func_801744DC_arg0.h"
 #include "records/Rec_func_801744DC_arg1.h"
 void initialize_item_sprite_frame(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin, void *unused);
-void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin, void *unused_sprite);
+void spawn_directional_effect(Rec_func_801744DC_arg0 *source, ObjectPosition *origin, void *unused);
+void spawn_directional_particle(Rec_func_801744DC_arg0 *source, ObjectPosition *origin, void *unused_sprite);
 
 void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 

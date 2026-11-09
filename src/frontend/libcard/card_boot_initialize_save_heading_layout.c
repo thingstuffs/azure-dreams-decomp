@@ -7,11 +7,11 @@
 void func_80027080(void *, s32, s32);       /* extern */
 
 /* Initializes the object and positions its four components. */
-void card_boot_initialize_save_heading_layout(void *object_arg) {
-    CardSaveHeadingDisplayPrefix *object = object_arg;
+void card_boot_initialize_save_heading_layout(CardHeadingDrawState *object_arg) {
+    CardSaveHeadingDisplayPrefix *object = (CardSaveHeadingDisplayPrefix *)object_arg;
 
-    format_save_heading_text(object_arg);
-    func_80027080(object_arg + 4, 0x36, 0x10);
+    format_save_heading_text((u8 *)object_arg);
+    func_80027080((u8 *)object_arg + 4, 0x36, 0x10);
     card_boot_bind_save_heading_display_data(object);
     object->heading->block->fields.x = 0x8E;
     object->heading->block->fields.y = 0x82;

@@ -13,17 +13,8 @@ struct SpriteFrameState;
 
 typedef void (*Callback)(void *);
 
-typedef struct S_func_80035484_0 {
-    u8 pad_00[8];
-    void *unk_08;
-    void *unk_0C;
-    Callback unk_10;
-    u8 pad_14[0xC];
-    void *unk_20;
-} S_func_80035484_0;
-
 typedef struct S_func_80035484_1 {
-    u8 pad_00[4];
+    struct S_func_80035484_4 *model;
     s32 unk_04;
     s32 unk_08;
     u8 pad_0C[0x5C];
@@ -31,24 +22,6 @@ typedef struct S_func_80035484_1 {
     u8 pad_6C[8];
     void *unk_74;
 } S_func_80035484_1;
-
-typedef struct S_func_80035484_2 {
-    u8 pad_00[2];
-    s16 unk_02;
-    u8 pad_04[2];
-    s16 unk_06;
-    u8 pad_08[2];
-    s16 unk_0A;
-} S_func_80035484_2;
-
-typedef struct S_func_80035484_3 {
-    s32 unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[2];
-    void *unk_08;
-    s32 unk_0C;
-} S_func_80035484_3;
 
 typedef struct S_func_80035484_4 {
     u8 pad_00[8];

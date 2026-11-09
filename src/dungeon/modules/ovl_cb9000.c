@@ -11,13 +11,14 @@
 #include "shared/actor_action_flags.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/gpu_packets.h"
 #include "dungeon/effect.h"
 #include "engine/cd.h"
 #include "engine/graphics.h"
 #include "dungeon/effect/screen.h"
 
 void *(*const cb9000_spawn_entry)(s16,s16,s16,s32) = spawn_block_slot_f;
-void (*const cb9000_update_entry)(ActorRecord *,CL_CB9000_80170C24_S_80170C24_2 *,SpriteFrameState *) = update_block_motion_and_facing_slot_f;
+void (*const cb9000_update_entry)(ActorRecord *,ObjectPosition *,SpriteFrameState *) = update_block_motion_and_facing_slot_f;
 
 /* Links a sprite effect, stores its owner value, copies its position, and sets neutral color and scale. */
 void initialize_gray_sprite_copy(CL_CB9000_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords)
@@ -33,9 +34,9 @@ void initialize_gray_sprite_copy(CL_CB9000_8017087C_Object *object, ActorRecord 
     part->flags |= 0xC;
 
     copy = object->header.position;
-    copy->x.w.i = source_coords->x.unsigned_parts.integer;
-    copy->y.w.i = source_coords->y.unsigned_parts.integer;
-    copy->z.w.i = source_coords->z.unsigned_parts.integer;
+    copy->x.w.i = source_coords->x.w.i;
+    copy->y.w.i = source_coords->y.w.i;
+    copy->z.w.i = source_coords->z.w.i;
 
     part = object->header.sprite;
     part->scale_y = 0x1000;
@@ -47,9 +48,8 @@ void initialize_gray_sprite_copy(CL_CB9000_8017087C_Object *object, ActorRecord 
 
 
 /* Grows and brightens a rotating effect, then shrinks and fades it until its lifetime expires. */
-void update_growing_rotating_fade_slot_f(void *effect_arg, void *unused, void *visual_arg)
+void update_growing_rotating_fade_slot_f(void *effect_arg, void *unused, SpriteFrameState *visual)
 {
-    CL_CB9000_80170920_S_80170920_1 *visual = visual_arg;
     CL_CB9000_80170920_S_80170920_0 *effect = effect_arg;
     s16 state;
     s32 fade_brightness;
@@ -58,40 +58,40 @@ void update_growing_rotating_fade_slot_f(void *effect_arg, void *unused, void *v
     state = effect->unk_1C.s;
     switch (state) {
     case 0:
-        visual->unk_1C += 0x258;
-        visual->unk_1E += 0x258;
-        brightness = visual->unk_0E + 0xC;
-        visual->unk_0E = brightness;
-        visual->unk_0D = brightness;
-        visual->unk_0C = brightness;
-        if (visual->unk_1C < 0x1770) {
+        visual->scale_x += 0x258;
+        visual->scale_y += 0x258;
+        brightness = visual->color.c.b + 0xC;
+        visual->color.c.b = brightness;
+        visual->color.c.g = brightness;
+        visual->color.c.r = brightness;
+        if (visual->scale_x < 0x1770) {
             break;
         }
         effect->unk_1C.u++;
         break;
     case 1:
-        visual->unk_10 = 0x20;
-        visual->unk_0E = 0x50;
-        visual->unk_0D = 0x50;
-        visual->unk_0C = 0x50;
+        visual->tpage_abr = 0x20;
+        visual->color.c.b = 0x50;
+        visual->color.c.g = 0x50;
+        visual->color.c.r = 0x50;
         effect->unk_1C.u++;
         break;
     case 2:
-        visual->unk_10 = 0x60;
+        visual->tpage_abr = 0x60;
         effect->unk_24.s--;
-        visual->unk_1C -= 0x190;
-        visual->unk_1E -= 0x190;
+        visual->scale_x -= 0x190;
+        visual->scale_y -= 0x190;
         fade_brightness = (effect->unk_24.u << 7) /
                    effect->unk_26;
-        visual->unk_0E = fade_brightness;
-        visual->unk_0D = fade_brightness;
-        visual->unk_0C = fade_brightness;
+        visual->color.c.b = fade_brightness;
+        visual->color.c.g = fade_brightness;
+        visual->color.c.r = fade_brightness;
         break;
     }
 
-    visual->unk_1A += 0x190;
+    visual->angle_z += 0x190;
     if (effect->unk_24.u <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -170,7 +170,7 @@ void *spawn_block_slot_f(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
  * the a1/a2 temps into them, so sched1 schedules the parameter copies and the entry order is
  * retail's.
  */
-void update_block_motion_and_facing_slot_f(ActorRecord *entity, CL_CB9000_80170C24_S_80170C24_2 *motion, SpriteFrameState *sprite)
+void update_block_motion_and_facing_slot_f(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     ActorRecord *actor = entity;
     s32 direction;
@@ -249,21 +249,21 @@ void update_block_motion_and_facing_slot_f(ActorRecord *entity, CL_CB9000_80170C
         }
     }
 
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if (entity->action_state_flags & 8) {
         entity->unk_9D = 0;
     } else {
-        motion->unk_14 += (entity->unk_9D) * 0x14000;
+        motion->velocity_z += (entity->unk_9D) * 0x14000;
         entity->unk_9D++;
     }
 
-    entity->unk_90.value += motion->unk_14;
+    entity->unk_90.value += motion->velocity_z;
 
     if (!(entity->action_state_flags & 4)) {
-        floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
-                              motion->unk_04.at02.v,
+        floor_height = sample_terrain_surface_height((u16)motion->x.w.i,
+                              (u16)motion->y.w.i,
                               (s16)((u16)actor->ground_height - 0x20));
         if (floor_height < 0x200) {
             actor_height = actor->ground_height;
@@ -276,7 +276,7 @@ void update_block_motion_and_facing_slot_f(ActorRecord *entity, CL_CB9000_80170C
                     entity->unk_90.parts.high.s = floor_height - (u16)actor->ground_height;
                 }
 
-                motion->unk_14 = 0;
+                motion->velocity_z = 0;
                 actor->flags1C |= 0x08000000;
                 entity->unk_9D = 0;
             }
@@ -295,7 +295,7 @@ void update_block_motion_and_facing_slot_f(ActorRecord *entity, CL_CB9000_80170C
         actor->flags1C &= 0xF7FFFFFF;
     }
 
-    motion->unk_0A =
+    motion->z.w.i =
         (u16)actor->ground_height + entity->unk_90.parts.high.u;
     sprite->flags |= 0x40;
 
@@ -905,7 +905,7 @@ void update_block_hop_slot_f(ActorRecord *action, ObjectPosition *motion, Sprite
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_A4.halves.high.s = sample_terrain_surface_height((map_entry->tile_x << 6) | 0x20,
             (map_entry->tile_y << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
-        action->unk_A8 = (u16) ((u16)motion->z.w.i);
+        action->unk_A8 = (u16)motion->z.w.i;
                         /* fall through */
     case 1:
         move_frames = action->unk_9E;
@@ -936,26 +936,26 @@ void update_block_hop_slot_f(ActorRecord *action, ObjectPosition *motion, Sprite
                 case 6:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0xFFFE0000 - ((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8) << 0x10));
+                        - action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 5:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0 - ((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8) << 0x10));
+                        - action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 4:
                     scaled_height_delta = (action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8) * 3;
+                        - action->unk_A8) * 3;
                     action->unk_90.value = (s32) (0 - ((scaled_height_delta / 4) << 0x10));
                     actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
                     break;
                 case 3:
                     action->unk_90.value = (s32) (0 - ((((action->unk_A4.halves.high.s
-                        - (s16) action->unk_A8) * 2) / 5) << 0x10));
+                        - action->unk_A8) * 2) / 5) << 0x10));
                     break;
                 default:
                     action->unk_90.value = 0;
@@ -1070,13 +1070,13 @@ void update_block_attack_slot_f(ActorRecord *action, ObjectPosition *motion, Spr
         if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if ((s16)action->action_timer == 6) {
+        if (action->action_timer == 6) {
             play_sound_if_enabled(0x808);
         }
-        if ((s16)action->action_timer == 8) {
+        if (action->action_timer == 8) {
             sprite->flags |= 0x0800;
         }
-        if ((s16)action->action_timer == 15 ||
+        if (action->action_timer == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             next_state = action->action_phase;
@@ -1679,56 +1679,56 @@ void finish_block_fade_in_slot_f(ActorRecord *state,ObjectPosition *position,Spr
 }
 
 /* Spins a sprite and scales its RGB values by the remaining lifetime, removing it when the timer expires. */
-void spin_and_fade_gray_sprite_slot_f(void *effect, ObjectPosition *unused, void *primitive)
+void spin_and_fade_gray_sprite_slot_f(GrayFadeSpriteBody *effect, ObjectPosition *unused, SpriteFrameState *sprite)
 {
     u16 ticks_left;
 
-    *(u16 *)((u8 *)primitive + 0x1A) += 0x320;
-    *(s8 *)((u8 *)primitive + 0x0C) =
-        (*((u8 *)effect + 0) * *(s16 *)((u8 *)effect + 0x24)) / 5;
-    *(s8 *)((u8 *)primitive + 0x0D) =
-        (*((u8 *)effect + 1) * *(s16 *)((u8 *)effect + 0x24)) / 5;
-    *(s8 *)((u8 *)primitive + 0x0E) =
-        (*((u8 *)effect + 2) * *(s16 *)((u8 *)effect + 0x24)) / 5;
+    sprite->angle_z += 0x320;
+    sprite->color.c.r =
+        (effect->base_r * effect->ticks_left) / 5;
+    sprite->color.c.g =
+        (effect->base_g * effect->ticks_left) / 5;
+    sprite->color.c.b =
+        (effect->base_b * effect->ticks_left) / 5;
 
-    ticks_left = *(u16 *)((u8 *)effect + 0x24) - 1;
-    *(s16 *)((u8 *)effect + 0x24) = ticks_left;
+    ticks_left = effect->ticks_left - 1;
+    effect->ticks_left = ticks_left;
     if ((ticks_left << 16) <= 0) {
         ObjectFlagBlock *global_flags = &object_flag_block;
 
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         global_flags->flags |= 0x8000;
     }
 }
 
 /* Creates a randomly rotated gray sprite with the requested scale and a five-update fade. */
-void create_gray_fading_sprite_slot_f(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, SpriteFrameState *unused_value, s16 scale)
+void create_gray_fading_sprite_slot_f(void *unused_context, ObjectPosition *source_pos, SpriteFrameState *unused_value, s16 scale)
 {
     ObjectNodeHeader *effect;
-    CL_CB9000_80173CFC_S_80173CFC_0 *effect_part;
+    GrayFadeSpriteBody *effect_part;
     SpriteFrameState *effect_data;
     ObjectPosition *effect_pos;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         effect_part = NODE_BODY(effect);
-        effect_part->unk_24 = 5;
+        effect_part->ticks_left = 5;
         (effect->update_callback) = spin_and_fade_gray_sprite_slot_f;
         register_node(effect, func_80045340);
         effect_data = effect->sprite;
         effect_data->tpage_abr = 0x60;
         effect_data->flags |= 0xC;
         effect_pos = effect->position;
-        effect_pos->x.w.i = source_pos->unk_00.at02_u16.v;
-        effect_pos->y.w.i = source_pos->unk_04.at02_u16.v;
-        effect_pos->z.w.i = source_pos->unk_0A - 0x28;
+        effect_pos->x.w.i = source_pos->x.w.i;
+        effect_pos->y.w.i = source_pos->y.w.i;
+        effect_pos->z.w.i = source_pos->z.w.i - 0x28;
         effect_data = effect->sprite;
         effect_data->depth_bias = 6;
         effect_data->scale_y = scale;
         effect_data->scale_x = scale;
-        effect_part->unk_01 = 0x30;
-        effect_part->unk_02 = 0x30;
-        (*(s8 *)NODE_BODY(effect)) = 0x30;
+        effect_part->base_g = 0x30;
+        effect_part->base_b = 0x30;
+        effect_part->base_r = 0x30;
         effect_data->color.c.b = 0x30;
         effect_data->color.c.g = 0x30;
         effect_data->color.c.r = 0x30;
@@ -1745,10 +1745,8 @@ void create_gray_fading_sprite_slot_f(void *unused_context, Rec_func_80173CFC_ar
  * effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set. One packed 12-byte
  * assignment emits the retail lwl/lwr and swl/swr copy.
  */
-void draw_shaded_effect_quad_slot_f(void *quad, void *position_arg, void *render_info_arg, s16 depth_bias)
+void draw_shaded_effect_quad_slot_f(void *quad, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias)
 {
-    CL_CB9000_80173E40_S_80173E40_2 *render_info = render_info_arg;
-    CL_CB9000_80173E40_S_80173E40_1 *position = position_arg;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u8 *texture;
@@ -1759,19 +1757,19 @@ void draw_shaded_effect_quad_slot_f(void *quad, void *position_arg, void *render
     CL_CB9000_80173E40_MATRIX current_matrix;
 
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
-    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_88 = position->unk_02;
-    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_8C = position->unk_06;
-    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_90 = position->unk_0A;
-    render_info->unk_14 |= 0x8000;
+    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_88 = position->x.w.i;
+    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_8C = position->y.w.i;
+    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_90 = position->z.w.i;
+    render_info->flags |= 0x8000;
 
     PushMatrix();
 
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_3C = 0x2000;
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_38 = 0x2000;
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_34 = 0x2000;
-    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_A4 = render_info->unk_16;
-    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_A8 = render_info->unk_1A;
-    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_A6 = render_info->unk_18;
+    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_A4 = render_info->angle_x;
+    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_A8 = render_info->angle_z;
+    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_A6 = render_info->angle_y;
     RotMatrix(scratch + 0xA4, scratch + 0x74);
     ReadRotMatrix(&current_matrix);
     CompMatrix(&current_matrix, scratch + 0x74, scratch + 0x54);
@@ -1779,22 +1777,22 @@ void draw_shaded_effect_quad_slot_f(void *quad, void *position_arg, void *render
     SetTransMatrix(scratch + 0x54);
     SetRotMatrix(scratch + 0x54);
 
-    texture = (*(u8 * *)((u8 *)render_info + 8));
-    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_28 = render_info->unk_14;
-    packet = ((CL_CB9000_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0;
-    ((CL_CB9000_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
+    texture = render_info->source;
+    ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_28 = render_info->flags;
+    packet = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
+    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = packet + 0xC;
     SetDrawMode(packet, 0, 0, GetTPage(0, 0, 0, 0), 0);
 
     (*(u32 *)(packet + 0)) = (((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
-        (((CL_CB9000_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
-    (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
-        (((CL_CB9000_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0xFF000000) |
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0x00FFFFFF);
+    ((GpuContext *)g_game_work.draw_buffer)->orderTag =
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0xFF000000) |
         ((u32)packet & 0x00FFFFFF);
 
     {
-        CL_CB9000_80173E40_S_80173E40_5 *render_state = g_game_work.draw_buffer;
-        packet = render_state->unk_8D0;
-        render_state->unk_8D0 = packet + 0x24;
+        GpuContext *render_state = g_game_work.draw_buffer;
+        packet = render_state->packetCursor;
+        render_state->packetCursor = packet + 0x24;
     }
 
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_B0 = ((CL_CB9000_80173E40_S_80173E40_6 *)quad)->unk_44;
@@ -1826,12 +1824,12 @@ void draw_shaded_effect_quad_slot_f(void *quad, void *position_arg, void *render
              ((u16)(((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_1A + 0x20) < 0x121)) |
             (((u16)(((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_20 + 0x20) < 0x181) &&
              ((u16)(((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_22 + 0x20) < 0x121))) {
-            render_info->unk_14 &= 0x7FFF;
+            render_info->flags &= 0x7FFF;
             texture_flags = texture[1];
-            render_info->unk_0F = texture_flags;
+            render_info->color.c.code = texture_flags;
             render_flags = ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_28;
             if (render_flags & 8) {
-                render_info->unk_0F = (render_flags & 4) ?
+                render_info->color.c.code = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
@@ -1867,21 +1865,21 @@ void draw_shaded_effect_quad_slot_f(void *quad, void *position_arg, void *render
 }
 
 /* Draws each effect in the linked list using its position and color records. */
-s32 draw_linked_effect_quads_slot_f(void *point, void *position, void *color) {
- void *next;
+s32 draw_linked_effect_quads_slot_f(void *point, ObjectPosition *position, SpriteFrameState *color) {
+ ObjectNodeHeader *next;
  for (;;) {
   draw_shaded_effect_quad_slot_f(point,position,color,0);
-  next=((CL_CB9000_80174320_S_80174320_0_pre *)point)[-1].unk_00;
+  next=NODE_HEADER(point)->chain_next;
   point=NODE_BODY(next);
   if(next==0) break;
-  position=((CL_CB9000_80174320_S_80174320_1 *)next)->unk_08;
-  color=((CL_CB9000_80174320_S_80174320_1 *)next)->unk_0C;
+  position=next->position;
+  color=next->sprite;
  }
  return 0;
 }
 
 /* Brightens and flashes a segmented effect, emits a sprite burst, then moves and fades the segments. */
-void update_flashing_effect_segment_slot_f(u8 *effect, s32 *position, SpriteFrameState *effect_param)
+void update_flashing_effect_segment_slot_f(u8 *effect, ObjectPosition *position, SpriteFrameState *effect_param)
 {
     s16 state;
     s16 life_left;
@@ -1986,9 +1984,9 @@ void update_flashing_effect_segment_slot_f(u8 *effect, s32 *position, SpriteFram
         F8(effect, 0x0C) = blue;
         F8(effect, 0x08) = blue;
         F8(effect, 0x04) = blue;
-        position[0] += F32(effect, 0x94);
-        position[1] += F32(effect, 0x98);
-        position[2] += F32(effect, 0x9C);
+        position->x.v += F32(effect, 0x94);
+        position->y.v += F32(effect, 0x98);
+        position->z.v += F32(effect, 0x9C);
         break;
     }
 

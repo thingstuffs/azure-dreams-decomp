@@ -226,7 +226,7 @@ void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sp
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = next_state;
             }
 
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
+            ((ActorRecord *)actor)->action_state_flags &= 0xFFF3;
             if (status->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(actor, motion, sprite, 0)) {
                     return;
@@ -235,7 +235,7 @@ void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sp
 
             if (((u32)status->flags1C) & ACTOR_LIFTED) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_90.at00_s32.v = 0;
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFFE;
+                ((ActorRecord *)actor)->action_state_flags &= 0xFFFE;
                 motion->velocity_z = 0;
                 /*
                  * BUG: Tumna leaves an already lifted familiar on Koh's tile. Restarting lift setup here
@@ -295,7 +295,7 @@ void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sp
         if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv == anim_table) {
             return;
         }
-        if (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 1) {
+        if (((ActorRecord *)actor)->action_state_flags & 1) {
             return;
         }
     }

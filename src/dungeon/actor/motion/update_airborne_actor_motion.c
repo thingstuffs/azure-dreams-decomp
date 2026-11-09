@@ -69,9 +69,9 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         if (sprite->flags & 0x8000) {
             body->action_timer = 0U;
         } else {
-            body->action_timer = (u16) (body->action_timer - 1);
+            body->action_timer = body->action_timer - 1;
         }
-        if ((s16)body->action_timer == 0) {
+        if (body->action_timer == 0) {
             if (((PlayerRecord *)body)->unk_102 == 0) {
                 actor->unk_20 = 1;
                 if (resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1) == 0) {
@@ -84,7 +84,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
                 }
             }
         }
-        if ((s16) body->action_timer <= 0) {
+        if (body->action_timer <= 0) {
             if (sprite->flags & 0xE000) {
                 sprite->frameTable = actor_default_frames;
                 select_record_entry_and_value(sprite, *(void **)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
@@ -99,7 +99,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        if ((s16) body->action_timer > 0) {
+        if (body->action_timer > 0) {
             return;
         }
         sprite->frameTable = actor_default_frames;
@@ -119,10 +119,10 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         delta = (u32)sprite->tile_x << 6;
         coord = motion->x.w.i - 0x20;
         delta -= (u32)coord;
-        motion->velocity_x = (s32)(delta * 0x10000U) / (s16) body->action_timer;
+        motion->velocity_x = (s32)(delta * 0x10000U) / body->action_timer;
         coord = motion->y.w.i - 0x20;
         delta = ((u32)sprite->tile_y << 6) - (u32)coord;
-        motion->velocity_y = (s32)(delta * 0x10000U) / (s16) body->action_timer;
+        motion->velocity_y = (s32)(delta * 0x10000U) / body->action_timer;
         body->action_phase = (u8) (body->action_phase + 1);
         return;
     }

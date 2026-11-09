@@ -2,6 +2,7 @@
 #define INCLUDE_DUNGEON_MODULES_OVL_CD7000_H
 struct ObjectPosition;
 struct SpriteFrameState;
+struct GrayFadeSpriteBody;
 struct ObjectPosition;
 struct ActorRecord;
 
@@ -9,9 +10,9 @@ struct ActorRecord;
 #include "modules/dungeon_ovl_cd7000.h"
 
 void initialize_gray_sprite_copy_slot_a(CL_CD7000_8017087C_Object *object, struct ActorRecord *field60_value, struct ObjectPosition *source_coords);
-void update_growing_rotating_fade_slot_a(void *effect, void *unused, void *visual);
+void update_growing_rotating_fade_slot_a(void *effect, void *unused, SpriteFrameState *visual);
 void *spawn_block_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_height);
-void update_block_motion_and_facing_slot_a(ActorRecord *entity, CL_CD7000_80170C24_S_80170C24_2 *motion, SpriteFrameState *sprite);
+void update_block_motion_and_facing_slot_a(ActorRecord *entity, struct ObjectPosition *motion, SpriteFrameState *sprite);
 void dispatch_block_turn_actions_slot_a(CL_CD7000_8017102C_S_8017102C_0 *state, void *motion, CL_CD7000_8017102C_S_8017102C_2 *sprite, CL_CD7000_8017102C_S_8017102C_1 *actor);
 void advance_block_path_slot_a(void *motion, s32 update_param, void *entity, void *state);
 void begin_block_hop_slot_a(CL_CD7000_80171F58_S_80171F58_0 *state, void *unused_position, CL_CD7000_80171F58_S_80171F58_1 *render_state, CL_CD7000_80171F58_S_80171F58_2 *entity);
@@ -35,11 +36,11 @@ void finish_block_thrown_travel_slot_a(S_80173B00_0 *state,void *position,void *
 void finish_block_terrain_move_slot_a(S_80173B64_0 *state,void *position,void *render_state,void *entity);
 void finish_block_spinning_fall_slot_a(S_80173B9C_0 *state,void *position,void *render_state,void *entity);
 void finish_block_fade_in_slot_a(S_80173BD4_0 *state,void *position,void *render_state,void *entity);
-void spin_and_fade_gray_sprite_slot_a(void *effect, s32 unused, void *primitive);
-void create_gray_fading_sprite_slot_a(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale);
-void draw_shaded_effect_quad_slot_a(void *quad, void *position, void *render_info, s16 depth_bias);
-s32 draw_linked_effect_quads_slot_a(void *point, void *position, void *color);
-void update_flashing_effect_segment_slot_a(u8 *effect, s32 *position, s32 effect_param);
+void spin_and_fade_gray_sprite_slot_a(struct GrayFadeSpriteBody *effect, s32 unused, SpriteFrameState *sprite);
+void create_gray_fading_sprite_slot_a(void *unused_context, struct ObjectPosition *source_pos, s32 unused_value, s16 scale);
+void draw_shaded_effect_quad_slot_a(void *quad, struct ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
+s32 draw_linked_effect_quads_slot_a(void *point, struct ObjectPosition *position, SpriteFrameState *color);
+void update_flashing_effect_segment_slot_a(u8 *effect, ObjectPosition *position, s32 effect_param);
 void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner, struct ObjectPosition *origin, SpriteFrameState *entity);
 void begin_block_action_23_slot_a(S_80174B3C_1 *state, void *unused_position, void *unused_render_state, CL_CD7000_80174B3C_S_80174B3C_0 *entity);
 void restore_scene_tint_slot_a(u8 *task, void *context, u8 *input);

@@ -7,7 +7,6 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/entity.h"
 
-struct S_8017256C_0;
 struct S_81275000_0;
 
 typedef struct AttachedSpriteWithOffsetBody {
@@ -40,7 +39,7 @@ void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, void *motion, 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void update_actor_movement_and_height(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);
 
-void advance_actor_action_and_target(struct S_8017256C_0 *action, void *motion, SpriteFrameState *sprite, void *actor);
+void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFrameState *sprite, void *actor);
 void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *path);
 void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height);
 void update_actor_part_brightness(void *root_data, void *position_out, void *part_out);

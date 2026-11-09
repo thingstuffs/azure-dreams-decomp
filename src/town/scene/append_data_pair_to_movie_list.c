@@ -4,7 +4,6 @@
 #include "engine/movie.h"
 #include "town/scene.h"
 
-void append_list_tail(void *, MovieListNode *);
 extern MovieListNode town_movie_callback_list;
 extern s8 scene_music_hold;
 extern MovieListNode D_800D429C;

@@ -38,7 +38,7 @@ typedef struct S_8016FC4C_8 {
 } S_8016FC4C_8;   /* (u8 *)common_page in advance_encounter_actor_effect_phase */
 
 void create_random_velocity_child_effect(); /* Unprototyped: canonical s16 parameters change this caller's argument setup; no shared prototype keeps it */
-void create_offset_half_scale_spark(void *, s32, s32, s32);
+void create_offset_half_scale_spark(ObjectPosition *source_position, s32 x_offset, s32 y_offset, s32 z_offset); /* matches the definition; kept local because dungeon/effect/particle.h also prototypes create_random_velocity_child_effect, which this caller keeps unprototyped */
 extern s16 beldo_large_direction_offsets[16];
 extern void *beldo_actor_nodes[3];
 
@@ -98,7 +98,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
         heading->unk_2A = get_rounded_facing_and_rounding_flag(
             sprite->tile_x, sprite->tile_y,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
-        effect->action_timer = (u16)(effect->action_timer + 1);
+        effect->action_timer++;
         height = sprite->scale_y;
         height = (u16)(height - 0x14);
         sprite->scale_y = height;
@@ -119,9 +119,9 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
             count += 1;
             shrink_source = NODE_HEADER(effect);
         } while (count < 6);
-        if ((s16)effect->action_timer == 1)
+        if (effect->action_timer == 1)
             play_sound_if_enabled(0xB1);
-        phase_active = ((s16)effect->action_timer < 120);
+        phase_active = (effect->action_timer < 120);
         if (phase_active == 0) {
             effect->action_id = (u8)(effect->action_id + 1);
             effect->action_timer = 0U;
@@ -156,7 +156,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
         }
         if (!(effect->action_timer & 7))
             play_sound_if_enabled(0x817);
-        phase_active = ((s16)effect->action_timer < 20);
+        phase_active = (effect->action_timer < 20);
         if (phase_active == 0) {
             effect->action_id = (u8)(effect->action_id + 1);
             effect->action_timer = 0U;
@@ -188,7 +188,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
                 angle += 0x1000;
             heading->unk_2A = angle;
         }
-        if ((s16)effect->action_timer < 0xE)
+        if (effect->action_timer < 0xE)
             break;
         turn_phase = effect->action_id;
         effect->action_timer = 0U;

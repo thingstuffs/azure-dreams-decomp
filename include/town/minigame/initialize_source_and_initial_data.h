@@ -1,5 +1,6 @@
 #ifndef TOWN_OVL_79DD70_H
 #define TOWN_OVL_79DD70_H
+#include "engine/node/registration.h"
 #include "shared/object_node.h"
 #include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
@@ -36,7 +37,6 @@ typedef struct {
 
 struct ObjectNodeHeader;
 struct SpriteFrameState;
-extern s32 register_node(struct ObjectNodeHeader *, void *registration_id);
 extern s32 func_8004491C(struct ObjectNodeHeader *, void *registration_id);
 extern void configure_the_set_mode_n_1(void *, void *, void *);
 extern u8 D_80020014[], minigame_source_bounds[];

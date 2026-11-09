@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/word_spans.h"
 #include "shared/game_work.h"
+#include "town/scene.h"
 
 /* Copies records through the end marker, patches control fields, and returns the destination end. */
 u8 *copy_records_with_control_bits(u8 *dst, u8 *src, s32 control_bits, u8 byte_value)

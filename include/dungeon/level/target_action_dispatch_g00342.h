@@ -27,7 +27,7 @@ typedef struct {
 
 typedef struct {
     u8 pad[0x5C];
-    s32 unk5C;
+    void *unk5C;
 } Arg1Struct;
 
 s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);

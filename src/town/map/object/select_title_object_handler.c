@@ -4,6 +4,7 @@
 #include "engine/script.h"
 #include "town/map.h"
 #include "town/player/effect.h"
+#include "town/map/object.h"
 
 typedef struct {
     u8 pad0[0x10];

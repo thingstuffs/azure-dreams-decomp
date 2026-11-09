@@ -23,7 +23,7 @@ struct ObjectPosition;
 #include "dungeon/data.h"
 #include "dungeon/globals.h"
 
-extern s32 register_node(); /* draw-registration call forms carry opaque callback keys */
+extern s32 register_node(); /* K&R: argument 1 includes allocator results held in generated body views; the typed node-header prototype warns at those calls. */
 
 typedef struct {
     u8 pad0[3];
@@ -2984,7 +2984,7 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
             if (effect->unk_4A == 0) {
                 if (effect->unk_60() != 0) {
                     effect->unk_50 = 0x120;
-                    effect->unk_4A = (s16) ((u16) effect->unk_4A + 1);
+                    effect->unk_4A++;
                     play_sound_if_enabled(0x603);
                 }
             }
@@ -3011,7 +3011,7 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
             phase_ticks = effect->unk_64 + 1;
             effect->unk_64 = phase_ticks;
             if ((s16) phase_ticks >= 0x21) {
-                next_phase = (u16)effect->unk_4A + 1;
+                next_phase = effect->unk_4A + 1;
                 effect->unk_64 = 0x10U;
                 effect->unk_4A = next_phase;
                 return;

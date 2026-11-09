@@ -31,22 +31,6 @@ extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *s
 
 extern u8 D_80173EDC[8];
 
-typedef struct S_8017256C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    u16 unk_9E;
-    u8 pad_A0[0x2];
-    s16 unk_A2;
-} S_8017256C_0;   /* arg0 in advance_actor_action_and_target */
-
 typedef struct S_8017256C_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -74,7 +58,7 @@ typedef struct S_8017256C_5 {
 /* Advances an actor's action state, updating its target, animation, and completion. */
 /* Starts a targeted Beldo spell, emits a sprite effect during its casting sequence, then recenters and
  * updates status. */
-void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteFrameState *sprite, void *actor)
+void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     register s32 is_special = 0;
     u8 *action_entry;
@@ -86,7 +70,7 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
     s32 next_ticks;
     u8 *target_link;
 
-    state = action->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (((S_8017256C_1 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) {
@@ -132,7 +116,7 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
             }
         }
         if (*action_entry != 0) {
-            action->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             {
                 u8 use_player_target = is_special;
 
@@ -172,8 +156,8 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
             if (create_actor_spell_effect(actor, action_entry, is_special, (u8 *)action + 0x98) == 0) {
                 return;
             }
-            action->unk_96 = 0;
-            action->unk_9B++;
+            action->action_timer = 0;
+            action->action_phase++;
             ((S_8017256C_5 *)motion)->unk_14 = 0;
             ((S_8017256C_5 *)motion)->unk_10 = 0;
             ((S_8017256C_5 *)motion)->unk_0C = 0;
@@ -187,7 +171,7 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         ((S_8017256C_1 *)actor)->unk_6D--;
-        action->unk_8C = &update_object_animation;
+        action->unk_8C.handler = &update_object_animation;
         ((S_8017256C_1 *)actor)->unk_73 = 0;
         ((S_8017256C_1 *)actor)->unk_72 = 0;
         ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
@@ -199,33 +183,33 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
             return;
         }
         sprite->flags &= 0xF7FF;
-        action->unk_9B++;
+        action->action_phase++;
         play_sound_if_enabled(0x703);
 
     case 2:
-        ticks = action->unk_96;
+        ticks = action->action_timer;
         next_ticks = ticks + 1;
-        action->unk_96 = next_ticks;
+        action->action_timer = next_ticks;
         if ((s16)ticks < 8 && !(sprite->flags & 0x8000)) {
             return;
         }
-        prior_state = action->unk_9B;
+        prior_state = action->action_phase;
 
-        action->unk_96 = 0;
-        action->unk_9B = prior_state + 1;
+        action->action_timer = 0;
+        action->action_phase = prior_state + 1;
         return;
 
     case 3:
-        if (action->unk_A2 != 0) {
-            ticks = action->unk_96;
+        if ((s16)action->unk_A0.parts.high != 0) {
+            ticks = action->action_timer;
             next_ticks = ticks + 1;
-            action->unk_96 = next_ticks;
+            action->action_timer = next_ticks;
             if ((s16)ticks < 15 && !(sprite->flags & 0x8000)) {
                 return;
             }
         }
-        action->unk_96 = 0;
-        action->unk_9B++;
+        action->action_timer = 0;
+        action->action_phase++;
         play_sound_if_enabled(0x703);
         (sprite->frameTable) = D_80173EDC;
         select_sprite_entry(
@@ -236,34 +220,34 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
 
     case 4:
         create_effect_from_sprite_and_facing(action, motion, sprite, actor);
-        ticks = action->unk_96;
+        ticks = action->action_timer;
         next_ticks = ticks + 1;
-        action->unk_96 = next_ticks;
+        action->action_timer = next_ticks;
         if ((s16)ticks < 3 && !(sprite->flags & 0xE000)) {
             return;
         }
         sprite->flags |= 0x800;
-        prior_state = action->unk_9B;
-        action->unk_9B = prior_state + 1;
+        prior_state = action->action_phase;
+        action->action_phase = prior_state + 1;
         return;
 
     case 5:
         sprite->flags |= 0x800;
-        ticks = action->unk_96;
+        ticks = action->action_timer;
         next_ticks = ticks + 1;
-        action->unk_96 = next_ticks;
+        action->action_timer = next_ticks;
         if ((s16)ticks < 10 && !(sprite->flags & 0x8000)) {
             return;
         }
-        action->unk_96 = 0;
-        action->unk_9B++;
+        action->action_timer = 0;
+        action->action_phase++;
         sprite->flags &= 0xF7FF;
         return;
 
     case 6:
-        action->unk_98 |= 0x80;
-        action->unk_96 = 0;
-        action->unk_9B++;
+        action->action_state_flags |= 0x80;
+        action->action_timer = 0;
+        action->action_phase++;
         return;
 
     case 7:
@@ -274,7 +258,7 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
         ((S_8017256C_5 *)motion)->unk_10 = 0;
         ((S_8017256C_5 *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-        action->unk_9B++;
+        action->action_phase++;
         if (*(u8 **)&sprite->frameTable == beldo_frame_set_1) {
             return;
         }
@@ -284,7 +268,7 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
             beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         action->unk_9E = 0;
-        action->unk_92 = -0x20;
+        action->unk_90.parts.high.s = -0x20;
         return;
 
     case 8:
@@ -294,7 +278,7 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            action->unk_8C = &update_object_animation;
+            action->unk_8C.handler = &update_object_animation;
             advance_status_timers(actor);
             ((S_8017256C_1 *)actor)->unk_6D--;
             ((S_8017256C_1 *)actor)->unk_73 = 0;

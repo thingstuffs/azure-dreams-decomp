@@ -75,7 +75,7 @@ void * create_an_effect_position_randomized_sprite_angle(ApproachingImpactSpellB
         effect->header.update_callback = (void *)advance_shrinking_arc_effect;
         effect_state->owner = owner;
         effect_state->elapsed.u = 0;
-        effect_state->duration.u = (u16)owner->unk_12;
+        effect_state->duration.u = owner->unk_12;
         sprite = effect->header.sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
@@ -874,13 +874,13 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
     s32 height;
     u16 end_tile_y;
 
-    phase = (s16)state->spell.phase;
+    phase = state->spell.phase;
     owner = state->spell.caster;
     state->unk_10 = (u16) (state->unk_10 + 1);
     switch ((u32)phase) {
     case 0:
         state->unk_10 = 0U;
-        state->spell.phase = (s16) ((u16) state->spell.phase + 1);
+        state->spell.phase++;
         state->unk_0E = (u16) (((u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_2A >> 9) & 7);
         appearance->color.word = 0x808080;
     case 1:
@@ -1016,7 +1016,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
             stack.offset.distance[1] = model;
             state->unk_12 = axis_delta;
             if ((s16) stack.offset.distance[1] > (s16) axis_delta) {
-                state->unk_12 = (s16) (u16) stack.offset.distance[1];
+                state->unk_12 = (u16) stack.offset.distance[1];
             }
             travel_frames = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
             state->unk_12 = (s16) travel_frames;
@@ -1046,12 +1046,12 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
         create_and_initializes_copying_n_24_bytes_source_data(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         state->unk_10 = 0U;
-        state->spell.phase = (s16) ((u16) state->spell.phase + 1);
+        state->spell.phase++;
         break;
     case 3:
         if ((s16) state->unk_10 >= 8) {
             state->unk_10 = 0U;
-            state->spell.phase = (s16) ((u16) state->spell.phase + 1);
+            state->spell.phase++;
             break;
         }
         state->unk_14 = 0;
@@ -1063,7 +1063,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
         apply_attack_power_and_element_effects(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60, 0x18, state->spell.variant, 1,
             (s32) (s16) (state->unk_0E << 9), owner, 1);
         state->unk_10 = 0U;
-        state->spell.phase = (s16) ((u16) state->spell.phase + 1);
+        state->spell.phase++;
         break;
     case 5:
         if (state->unk_14 == 0) {

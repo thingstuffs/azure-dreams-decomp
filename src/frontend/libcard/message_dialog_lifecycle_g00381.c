@@ -56,10 +56,10 @@ void card_boot_bind_message_dialog_record(CardMessageDialogBody *record, ObjectN
 }
 
 /* Sets record fields, processes its embedded data, and updates the record. */
-void card_boot_initialize_message_dialog_layout(u8 *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
-    card_boot_bind_message_dialog_record((CardMessageDialogBody *)record, value_14, entry_index, value_0c, value_20);
-    card_boot_initialize_message_render_templates(record + 0x8BC, record + 0x894, record + 0x8A4);
-    card_boot_initialize_dialog_packets_and_display((s32)record);
+void card_boot_initialize_message_dialog_layout(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
+    card_boot_bind_message_dialog_record(record, value_14, entry_index, value_0c, value_20);
+    card_boot_initialize_message_render_templates(record->display_data, &record->frame_block, &record->frame_vector);
+    card_boot_initialize_dialog_packets_and_display(record);
 }
 
 /* Initialize the object from its table entry and select its callback. */
@@ -89,7 +89,7 @@ static __inline__ void set_handler(ObjectNodeHeader *base) {
 /* Creates or resets the entity, initializes its nodes and record, and installs its handler. */
 u8 *card_boot_create_or_reset_message_dialog(ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
     ObjectNodeHeader *base;
-    u8 *context;
+    CardMessageDialogBody *context;
 
     base = D_800287E8;
     context = NODE_BODY(base);
@@ -97,18 +97,14 @@ u8 *card_boot_create_or_reset_message_dialog(ObjectNodeHeader *value_14, s32 ent
         base = initialize_scene_object_in_buffer(0, base, 0x27A);
         register_node(base, card_boot_render_panel_hierarchy);
     } else {
-        card_boot_close_message_dialog(((CardMessageDialogBody *)context)->mode != 2);
+        card_boot_close_message_dialog(context->mode != 2);
         base->flags &= 0x7FFF;
         bzero(context, 0x9C8);
     }
     card_boot_initialize_dialog_draw_nodes(context, 7);
-    {
-        u8 *body = context;
-
-        base->sprite = body + 0x8BC;
-        ((CardMessageDialogBody *)body)->chain = card_boot_link_message_display_entries(body + 0x8CC);
-        card_boot_initialize_message_dialog_layout(body, value_14, entry_index, value_0c, value_20);
-    }
+    base->sprite = context->display_data;
+    context->chain = card_boot_link_message_display_entries(context->entries);
+    card_boot_initialize_message_dialog_layout(context, value_14, entry_index, value_0c, value_20);
     set_handler(base);
     return base;
 }

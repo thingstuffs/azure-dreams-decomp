@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE10_SLOT0_H
 #define DUNGEON_RESOURCE10_SLOT0_H
+#include "engine/node/registration.h"
 struct ObjectPosition;
 #include "shared/gpu_packets.h"
 #include "dungeon/actor.h"
@@ -496,7 +497,6 @@ extern const Resource10DirectionOffset D_80170854[8];
 extern const Resource10DirectionOffset D_80170874[8];
 s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 void advance_sprite_animation_and_textures(void *entity);
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
@@ -530,7 +530,6 @@ s32 get_cd_command_queue_depth(void);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 
@@ -590,7 +589,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *moti
 void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg);
 void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *state);
 void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-void begin_snowman_step_animation(void *actor_state, struct ObjectPosition *action_state, SpriteFrameState *sprite, void *orientation);
+void begin_snowman_step_animation(ActorRecord *actor_state, struct ObjectPosition *action_state, SpriteFrameState *sprite, void *orientation);
 s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_snowman_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, s32 force_state_arg);
@@ -616,7 +615,7 @@ void prepare_directional_attacks_for_neighbor_entities(ActorRecord *node, s32 ti
 void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position, R10_80174BE4_Entry *entry, s32 unused);
-void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, ObjectPosition *motion, void *render);
+void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *render);
 void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *origin, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data);
 void restore_snowman_scene_tint(u8 *task, void *context, struct SpriteFrameState *input);

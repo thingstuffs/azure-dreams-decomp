@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card/slot_assert_bytes.h"
 #include "frontend/card.h"
 #include "main/data.h"
@@ -32,7 +33,7 @@ void *init_card_slot_object(s32 init_option)
     S_800206C8_1 *slot_state;
 
     base = (S_800206C8_0 *)D_8040C318;
-    slot_state = (S_800206C8_1 *)(D_8040C318 + 0x20);
+    slot_state = NODE_BODY(D_8040C318);
     if (func_80047FD8(base) == 0) {
         base = (void *)(unsigned long)func_8003C714(0, base, 0x42);
         if (base == 0) {

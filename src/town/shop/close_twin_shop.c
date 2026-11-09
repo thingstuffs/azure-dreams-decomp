@@ -2,8 +2,6 @@
 #include "m2c_compat.h"
 #include "town/shop.h"
 
-extern void process_record_and_apply_flags();
-
 typedef struct S_800AE30C_0 {
     u8 pad_00[0x10];
     void (*unk_10)();

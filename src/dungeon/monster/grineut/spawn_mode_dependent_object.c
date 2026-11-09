@@ -1,3 +1,4 @@
+#include "engine/entity/effect_slots.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "sdk/libc.h"
@@ -970,7 +971,7 @@ void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         body->action_phase++;
 
     case 1:
-        move_ticks = (s16)body->unk_A8;
+        move_ticks = body->unk_A8;
         body->unk_90.value -= body->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -984,15 +985,15 @@ void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                (s16)body->unk_A8;
+                body->unk_A8;
 
             body->unk_A4.value =
-                (-rsin((s16)body->unk_A8 * 0x199)) << 10;
+                (-rsin(body->unk_A8 * 0x199)) << 10;
         }
 
         height_offset = body->unk_90.value;
         arc_offset = body->unk_A4.value;
-        next_move_ticks = body->unk_A8;
+        next_move_ticks = (u16)body->unk_A8;
         height_offset += arc_offset;
         next_move_ticks -= 1;
         body->unk_A8 = next_move_ticks;
@@ -1023,7 +1024,7 @@ void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         }
         break;
     }
-    action_ticks = body->action_timer - 1;
+    action_ticks = (u16)body->action_timer - 1;
     body->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
@@ -1143,7 +1144,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         motion->velocity_z = z_velocity;
         action->unk_90.value += z_velocity;
 
-        if ((s16)action->action_timer == 0x11) {
+        if (action->action_timer == 0x11) {
             play_sound_if_enabled(0x808);
             direction = ((u16)actor->facing >> 9) & 7;
             speed_component = dir_step_x[direction] * 0x30000;
@@ -1163,13 +1164,13 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
             (sprite->flags & 0x8000)) {
             motion->velocity_x =
                 ((((sprite->tile_x << 6) + 0x20) << 16) -
-                 motion->x.v) / (s16)action->action_timer;
+                 motion->x.v) / action->action_timer;
             motion->velocity_y =
                 ((((sprite->tile_y << 6) + 0x20) << 16) -
-                 motion->y.v) / (s16)action->action_timer;
+                 motion->y.v) / action->action_timer;
         }
 
-        if (((s16)action->action_timer <= 0) ||
+        if ((action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
             action->action_phase += 1;
             return;
@@ -1177,7 +1178,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         return;
 
     case 3:
-        if (((s16)action->action_timer <= 0) ||
+        if ((action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1462,13 +1463,13 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         motion->velocity_x -= dir_step_x[direction] << 14;
         motion->velocity_y -= dir_step_y[direction] << 14;
 
-        if ((s16)body->action_timer > 0) {
+        if (body->action_timer > 0) {
             body->action_timer = body->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
             body->action_timer = 0;
         }
 
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -1514,7 +1515,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / (s16)body->action_timer;
+                    ((target_y - current_y) << 15) / body->action_timer;
             }
         }
 

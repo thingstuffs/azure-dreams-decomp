@@ -1,5 +1,6 @@
 #ifndef MODULE_DUNGEON_OVL_CB3000_H
 #define MODULE_DUNGEON_OVL_CB3000_H
+#include "engine/node/registration.h"
 struct ObjectPosition;
 struct ObjectPosition;
 #include "common.h"
@@ -875,10 +876,8 @@ extern void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 void initialize_timed_motion_step(unsigned short countdown, unsigned int amount);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 func_80042900(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void func_80042B68(ActorRecord *owner, s8 match_type);
 extern int read_stream_cue_start_offset(void);
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern void unlink_node(void *node);
 extern void func_80044A50(ObjectNodeHeader *node);
@@ -971,11 +970,11 @@ void finish_actor_throw_and_trap(ActorRecord *state, ObjectPosition *position, S
 void finish_block_terrain_move(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 void resume_actor_after_spinning_fall(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 void resume_actor_after_fade(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
-void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, void *primitive);
-void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale);
-void project_visible_effect_quad(ActorRecord *body, void *position, void *render_info, s16 depth_bias);
-s32 advance_boss_command_stream(void *point, void *position, void *color);
-void create_angular_offset_effect(u8 *effect, s32 *position, s32 effect_param);
+void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, SpriteFrameState *primitive);
+void create_randomized_rotated_effect(void *unused_context, ObjectPosition *source_pos, s32 unused_value, s16 scale);
+void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position, void *render_info, s16 depth_bias);
+s32 advance_boss_command_stream(void *point, ObjectPosition *position, void *color);
+void create_angular_offset_effect(u8 *effect, ObjectPosition *position, s32 effect_param);
 void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, struct ObjectPosition *origin, void *entity);
 void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *unused_render_state, ActorRecord *entity);
 void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input);

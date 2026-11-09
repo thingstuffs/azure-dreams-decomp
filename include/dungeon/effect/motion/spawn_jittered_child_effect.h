@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7E705800_H
 #define DUNGEON_OVL_7E705800_H
 #include "common.h"
+#include "engine/node/registration.h"
 #include "m2c_compat.h"
 
 #ifndef NULL
@@ -50,7 +51,6 @@ typedef struct Row_818FECCC_S_818FECCC_6 {
 void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
 s32 rand(void);
-void register_node(void *, void *);
 void func_8004491C(void *, void *);
 
 

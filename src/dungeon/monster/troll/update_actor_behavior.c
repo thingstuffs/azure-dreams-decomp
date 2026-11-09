@@ -26,7 +26,7 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                
 void update_actor_status_and_mp(ActorRecord *entity);                      /* extern */
 void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state);                            /* extern */
 s32 func_80173EAC(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void update_directional_action_display(); /* extern */
+void update_directional_action_display(); /* K&R: this caller passes ActorRecord views in arguments 1 and 4; the owner header also conflicts on func_80047784. */
 void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern u8 D_80175DF4[];
 extern u8 D_80175DFC[];

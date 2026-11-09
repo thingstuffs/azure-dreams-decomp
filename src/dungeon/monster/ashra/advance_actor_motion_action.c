@@ -165,7 +165,7 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
             action_state->action_timer = 0x3;
             action_state->action_state_flags |= 0x80;
         }
-        wait_ticks = action_state->action_timer - 1;
+        wait_ticks = (u16)action_state->action_timer - 1;
         action_state->action_timer = wait_ticks;
         if ((s16)wait_ticks <= 0) {
             action_state->action_timer = 0;

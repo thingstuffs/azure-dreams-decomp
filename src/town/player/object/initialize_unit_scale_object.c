@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/sprite_frame_state.h"
 #include "town/scene/list_setup.h"
@@ -7,20 +8,14 @@
 #include "town/player/object.h"
 #include "town/scene.h"
 
-typedef struct S_800A6E1C_0 {
-    void (*unk_00)();
-    u8 pad_04[0x5C];
-    void (*unk_60)();
-} S_800A6E1C_0;   /* arg0 in initialize_unit_scale_object; pointer addresses record offset 0x10 */
-
 
 extern void reset_counter_after_check_99();
 extern M2C_UNK D_800D0DC0;
 
 /* Initializes object callbacks and state, then sets unit scale. */
 void initialize_unit_scale_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform) {
-    ((S_800A6E1C_0 *)((u8 *)object - 0x10))->unk_00 = retire_object_on_check_or_callback;
-    ((S_800A6E1C_0 *)((u8 *)object - 0x10))->unk_60 = &reset_counter_after_check_99;
+    NODE_HEADER(object)->update_callback = retire_object_on_check_or_callback;
+    object->unk_50.as_pv = &reset_counter_after_check_99;
     initialize_object_transform_and_state((s32)(object), transform, 0xA);
     configure_the_set_mode_n_3(object, position, &D_800D0DC0);
     transform->offset_x = 0x1000;

@@ -1,8 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "engine/effect.h"
-
-extern s32 lookup_level_experience_threshold(ActorRecord *entry, s16 index_offset);
+#include "engine/entity.h"
 
 /* Scales the current value between two bounds, capping the result at 20. */
 s32 calc_gauge_fill(ActorRecord *state)

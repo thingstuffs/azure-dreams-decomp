@@ -65,18 +65,6 @@ typedef struct CL_CCB000_80170920_S_80170920_0 {
     s16 unk_26;
 } CL_CCB000_80170920_S_80170920_0;   /* arg0 in func_80158920 */
 
-typedef struct CL_CCB000_80170920_S_80170920_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x8];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} CL_CCB000_80170920_S_80170920_1;   /* arg2 in func_80158920 */
 
 /* Expands and brightens the effect, then shrinks and fades it until expiration. */
 
@@ -118,15 +106,6 @@ typedef struct CL_CCB000_80170C24_S_80170C24_0 {
     u8 * unk_2C;
 } CL_CCB000_80170C24_S_80170C24_0;   /* monster in func_80158C24 */
 
-typedef struct CL_CCB000_80170C24_S_80170C24_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} CL_CCB000_80170C24_S_80170C24_2;   /* motion in func_80158C24 */
 
 /* Runs entity callbacks, updates monster facing, and applies motion and floor collision. */
 
@@ -630,13 +609,6 @@ typedef struct {
     u32 word[3];
 } __attribute__((packed)) CL_CCB000_80173CFC_Copy12;
 
-typedef struct CL_CCB000_80173CFC_S_80173CFC_0 {
-    u8 pad_00[0x1];
-    s8 unk_01;
-    s8 unk_02;
-    u8 pad_03[0x21];
-    s16 unk_24;
-} CL_CCB000_80173CFC_S_80173CFC_0;   /* part in func_8015BCFC */
 
 typedef struct CL_CCB000_80173CFC_S_80173CFC_1 {
     u8 pad_00[0x6];
@@ -693,31 +665,8 @@ typedef struct CL_CCB000_80173E40_S_80173E40_0 {
     s32 unk_100;
 } CL_CCB000_80173E40_S_80173E40_0;   /* scratch in func_8015BE40 */
 
-typedef struct CL_CCB000_80173E40_S_80173E40_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} CL_CCB000_80173E40_S_80173E40_1;   /* arg1 in func_8015BE40 */
 
-typedef struct CL_CCB000_80173E40_S_80173E40_2 {
-    u8 pad_00[0xF];
-    u8 unk_0F;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} CL_CCB000_80173E40_S_80173E40_2;   /* arg2 in func_8015BE40 */
 
-typedef struct CL_CCB000_80173E40_S_80173E40_3 {
-    u8 pad_00[0xB0];
-    u32 unk_B0;
-    u8 pad_B4[0x81C];
-    u8 * unk_8D0;
-} CL_CCB000_80173E40_S_80173E40_3;   /* *(u8 **)D_80083160 in func_8015BE40 */
 
 typedef struct CL_CCB000_80173E40_S_80173E40_4 {
     u32 unk_00;
@@ -735,10 +684,6 @@ typedef struct CL_CCB000_80173E40_S_80173E40_4 {
     u16 unk_22;
 } CL_CCB000_80173E40_S_80173E40_4;   /* packet in func_8015BE40 */
 
-typedef struct CL_CCB000_80173E40_S_80173E40_5 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} CL_CCB000_80173E40_S_80173E40_5;   /* state in func_8015BE40 */
 
 typedef struct CL_CCB000_80173E40_S_80173E40_6 {
     u8 pad_00[0x4];
@@ -774,16 +719,7 @@ typedef struct {
 
 /* Projects a quad and adds it to the ordering table when visible. */
 
-typedef struct CL_CCB000_80174320_S_80174320_0_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} CL_CCB000_80174320_S_80174320_0_pre;   /* the 0x8 bytes before var_s0 in func_8015C320, addressed as var_s0[-1] */
 
-typedef struct CL_CCB000_80174320_S_80174320_1 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
-} CL_CCB000_80174320_S_80174320_1;   /* temp_a2 in func_8015C320 */
 
 /* extern */
 
@@ -1124,7 +1060,6 @@ extern s32 rand(void);
 void spawn_overlay_attribute_effect_b(CL_CCB000_8017087C_Object *object, s32 field60_value, CL_CCB000_8017087C_CopyFields *source_coords);
 void func_80158920(void *effect, void *unused, void *visual);
 void *func_80158A5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
-void func_80158C24(void *entity, CL_CCB000_80170C24_S_80170C24_2 *motion, void *monster);
 void func_8015902C(CL_CCB000_8017102C_S_8017102C_0 *state, void *motion, CL_CCB000_8017102C_S_8017102C_2 *sprite, CL_CCB000_8017102C_S_8017102C_1 *actor);
 void func_80159590(void *motion, s32 update_param, void *entity, void *state);
 void func_80159810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);

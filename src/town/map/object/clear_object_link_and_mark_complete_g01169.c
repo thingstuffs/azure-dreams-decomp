@@ -16,30 +16,30 @@ void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *contex
             *(s8 *)object->unk_98 = 0;
         }
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
 /* Initialize object state, scale, and color, then offset and configure the object. */
-void initialize_object_state_and_appearance(void *object_id, ObjectPosition *object, FuncData *state) {
-    register_node(object_id - 0x20, lit_mesh_renderer_address);
+void initialize_object_state_and_appearance(void *object_id, ObjectPosition *object, SpriteFrameState *sprite) {
+    register_node(NODE_HEADER(object_id), lit_mesh_renderer_address);
 
-    state->unk12 = 0;
-    state->unk14 = 0;
-    state->unk10 = 0;
-    state->unk16 = 0;
-    state->unk18 = 0;
-    state->unk1A = 0;
-    state->unk0 = 0;
-    state->unk4 = 0;
-    state->unk5 = 0;
-    state->unk1C = 0x1000;
-    state->unk1E = 0x1000;
-    state->unk20 = 0x1000;
-    state->unkC = g_game_work.view.tint.parts.tint_r;
-    state->unkD = g_game_work.view.tint.parts.tint_g;
-    state->unkE = g_game_work.view.tint.parts.tint_b;
+    sprite->clut = 0;
+    sprite->flags = 0;
+    sprite->tpage_abr = 0;
+    sprite->angle_x = 0;
+    sprite->angle_y = 0;
+    sprite->angle_z = 0;
+    sprite->unk_00 = 0;
+    sprite->unk_04 = 0;
+    sprite->frame_ticks = 0;
+    sprite->scale_x = 0x1000;
+    sprite->scale_y = 0x1000;
+    sprite->offset_x = 0x1000;
+    sprite->color.c.r = g_game_work.view.tint.parts.tint_r;
+    sprite->color.c.g = g_game_work.view.tint.parts.tint_g;
+    sprite->color.c.b = g_game_work.view.tint.parts.tint_b;
     object->z.v += 0x200000;
 
     configure_the_set_mode_n_3(object_id, object, D_800D1BDC);
@@ -57,7 +57,7 @@ void advance_object_state_angle(void *object, void *context, SpriteFrameState *s
 
 /* Set the object handler table, initialize its state, and set its counter to 30. */
 void initialize_object_appearance_with_delay(TownObjectRecord *object, ObjectPosition *context, void *state) {
-    ((ObjectNodeHeader *)object - 1)->update_callback = D_800BB640;
+    NODE_HEADER(object)->update_callback = D_800BB640;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 30;
 }
@@ -69,21 +69,21 @@ void clear_object_link_and_complete(void *object, void *value) {
 
 /* Set the object handler table, initialize its state, and set its counter to 30. */
 void set_handler_variant_b_with_counter_30(void *object, void *context, void *state) {
-    *(void **)((u8 *)object - 0x10) = D_800BB6C4;
+    NODE_HEADER(object)->update_callback = D_800BB6C4;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 30;
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 14. */
 void init_object_with_countdown(TownObjectRecord *object, ObjectPosition *context, void *state) {
-    ((ObjectNodeHeader *)object - 1)->update_callback = D_800BB640;
+    NODE_HEADER(object)->update_callback = D_800BB640;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 14;
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 14. */
 void set_handler_variant_b_with_counter_14(void *object, void *context, void *state) {
-    *(void **)((u8 *)object - 0x10) = D_800BB6C4;
+    NODE_HEADER(object)->update_callback = D_800BB6C4;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 14;
 }

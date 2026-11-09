@@ -2,6 +2,7 @@
 #include "common.h"
 #include "slus/imports.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 
 
 // Process the source and set destination and global flags when source status bits are set.
@@ -9,7 +10,7 @@ void advance_counter_and_propagate_target_flags(void *destination, s32 unused, v
 {
     advance_sprite_animation_and_textures(source);
     if (*(u16 *)((u8 *)source + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)destination - 2) |= NODE_REMOVE;
+        NODE_HEADER(destination)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

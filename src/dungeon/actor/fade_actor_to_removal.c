@@ -57,8 +57,8 @@ s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFram
     blue = visual->color.c.b;
     fade_frames = (state->action_timer);
     visual->color.c.g = (u8) (green + ((s32) (0x20 - green) / fade_frames));
-    visual->color.c.b = (u8) (blue + ((s32) (0x20 - blue) / (s16) state->action_timer));
-    frames_left =  state->action_timer - 1;
+    visual->color.c.b = (u8) (blue + ((s32) (0x20 - blue) / state->action_timer));
+    frames_left = state->action_timer - 1;
     state->action_timer = frames_left;
     if (!(((frames_left << 0x10) > 0) && ((visual->flags & 0x8000) == 0))) {
         entity_ref = ((s32)g_dungeon_status.pending_display_owner);

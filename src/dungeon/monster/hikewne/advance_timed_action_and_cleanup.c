@@ -62,7 +62,7 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
             action->action_timer = 0;
             action->action_phase++;
         }
-        if ((s16)action->action_timer != 6) {
+        if (action->action_timer != 6) {
             return;
         }
         play_sound_if_enabled(0x808);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "engine/window.h"
 #include "engine/node.h"
@@ -12,7 +13,7 @@ struct TownPositionXY; void write_square_position_offsets(s16, s16, s16, s16, st
 
 /* Initialize object tables, settings, and randomized state. */
 void initialize_randomized_object_state(TownObjectRecord *object, ObjectPosition *random_state, SpriteFrameState *settings) {
-    ((ObjectNodeHeader *)object - 1)->update_callback = process_object_state_or_fallback;
+    NODE_HEADER(object)->update_callback = process_object_state_or_fallback;
     object->unk_50.as_pm = adjust_record_fields;
     settings->scale_x = 0x37;
     settings->scale_y = 0x37;

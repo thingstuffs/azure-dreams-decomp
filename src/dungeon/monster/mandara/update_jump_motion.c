@@ -50,7 +50,7 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
         action->action_phase++;
 
     case 1:
-        frames_left = (s16)action->action_timer;
+        frames_left = action->action_timer;
         action->unk_90.value -= action->unk_A0.value;
         if (frames_left != 0) {
             {
@@ -64,13 +64,13 @@ void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFra
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    (s16)action->action_timer;
+                    action->action_timer;
             }
             action->unk_A0.value += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
         action->unk_90.value += action->unk_A0.value;
-        if ((s16)action->action_timer < 2) {
+        if (action->action_timer < 2) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;

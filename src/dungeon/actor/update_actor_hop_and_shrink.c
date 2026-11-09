@@ -41,12 +41,12 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
             ((ActorRecord *)animation)->action_phase = 2;
             break;
         }
-        render->unk_8A = 0x800 / (s16)(((ActorRecord *)animation)->action_timer);
+        render->unk_8A = 0x800 / (((ActorRecord *)animation)->action_timer);
         next_state = ((ActorRecord *)animation)->action_phase + 1;
         ((ActorRecord *)animation)->action_phase = next_state;
         break;
     case 1:
-        move_frames = (s16)(((ActorRecord *)animation)->action_timer) - 2;
+        move_frames = (((ActorRecord *)animation)->action_timer) - 2;
         if (move_frames > 0) {
             ObjectPosition *target = view_reference_entity;
 
@@ -54,7 +54,7 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
                 ((target->x.w.i - motion->x.w.i) << 16) / move_frames;
             motion->velocity_y =
                 ((target->y.w.i - motion->y.w.i) << 16) /
-                ((s16)(((ActorRecord *)animation)->action_timer) - 2);
+                ((((ActorRecord *)animation)->action_timer) - 2);
         } else {
             ObjectPosition *target = view_reference_entity;
 
@@ -72,7 +72,7 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
                 height_offset = rsin(frames_left << 6) >> 4;
                 motion->velocity_z =
                     ((*target_height - height_offset - motion->z.w.i) << 16) /
-                    (s16)(((ActorRecord *)animation)->action_timer);
+                    (((ActorRecord *)animation)->action_timer);
             }
         }
 

@@ -19,7 +19,7 @@ void create_colored_scaled_effect(s32 object_id);
 void tick_random_radial_spawns(TownObjectRecord *object, s32 target);
 
 /* fade_and_grow_effect.c */
-void fade_and_grow_effect(void *record, s32 unused, void *effect);
+void fade_and_grow_effect(void *record, s32 unused, struct SpriteFrameState *effect);
 
 /* initialize_effect_and_adjust_value_g01140.c */
 void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s32 init_value);

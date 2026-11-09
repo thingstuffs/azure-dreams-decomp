@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -57,7 +58,6 @@ typedef struct {
 extern u8 D_800260DC[];
 
 void *allocate_list_node(s32, void *);
-s32 register_node(void *, void *);
 
 /* Creates six linked objects at the source position and initializes their position histories. */
 void *create_linked_objects(MovingPosition *source_pos, void *effect_value, s16 sprite_id, s16 effect_option) {

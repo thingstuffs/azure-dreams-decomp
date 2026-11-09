@@ -78,7 +78,7 @@ void advance_actor_hop_to_tile(ActorRecord *body, ObjectPosition *position, Spri
     }
 
     body->action_timer--;
-    if ((s16)body->action_timer > 0) {
+    if (body->action_timer > 0) {
         return;
     }
 

@@ -111,8 +111,8 @@ void update_player_jump(u8 *action, ObjectPosition *motion, u8 *sprite, u8 *enti
             if (entity_flags & 0x200000) {
                 *(s32 *)(entity + 0x1C) = entity_flags & 0xFFDFFFFF;
                 g_dungeon_status.flags |= 0x412;
-                process_unflagged_linked_entries_alt(*(s32 *)(entity + 0x5C));
-                process_unflagged_linked_entries(*(s32 *)(entity + 0x5C));
+                process_unflagged_linked_entries_alt(*(void **)(entity + 0x5C));
+                process_unflagged_linked_entries(*(void **)(entity + 0x5C));
             }
             *(s32 **)(action + 0x8C) = handle_player_input;
         }

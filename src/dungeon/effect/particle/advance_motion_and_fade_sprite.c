@@ -944,7 +944,7 @@ void fade_packed_object_color_to_zero(void *object_arg) {
         (u16)(linked_object->unk_52 | 0x8000);
     object->unk_42 =
         GetClut((rand() & 0xF) * 0x10, 0x1F8);
-    fade_state = (s16)object->unk_4A;
+    fade_state = object->unk_4A;
     switch (fade_state) {
     case 0:
         if ((u8)object->unk_34 < 0x31U) {

@@ -47,7 +47,7 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
                 }
             }
             start_ticks = state->action_timer;
-            state->action_timer = (u16)(start_ticks - 1);
+            state->action_timer = start_ticks - 1;
             if (((start_ticks << 0x10) <= 0) || (sprite->flags & 0xE000)) {
                 motion->velocity_z = 0;
                 motion->velocity_y = 0;
@@ -72,7 +72,7 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
         }
     }
     finish_ticks = state->action_timer;
-    state->action_timer = (u16)(finish_ticks - 1);
+    state->action_timer = finish_ticks - 1;
     if (((finish_ticks << 0x10) <= 0) || (sprite->flags & 0xE000)) {
         sprite->depth_bias = 0;
         state->unk_8C.address = uboat_behavior_entry;

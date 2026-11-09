@@ -11,5 +11,5 @@ void begin_throw_carried_object(ActorRecord *object, ObjectPosition *unused_cont
     object->unk_8C.word = 0;
     play_sound_if_enabled(0x512);
     object->unk_A0.parts.high = (u16) (object->unk_A0.parts.high & 0xFFEF);
-    append_packed_action_record(actor, 0x30, (s16)object->action_timer, 0);
+    append_packed_action_record(actor, 0x30, object->action_timer, 0);
 }

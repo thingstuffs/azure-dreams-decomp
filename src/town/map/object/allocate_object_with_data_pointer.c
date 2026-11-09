@@ -2,9 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/map/object.h"
-
-extern void no_op_map_callback(void);
-
+#include "town/map.h"
 
 /* Allocate an object and set its data pointer. */
 void allocate_object_with_data_pointer(void) {

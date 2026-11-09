@@ -25,7 +25,7 @@ typedef struct S_8008C8BC_0 {
     u8 pad_20[0xA];
     u16 unk_2A;
     u8 pad_2C[0x30];
-    s32 unk_5C;
+    void *unk_5C;
     void * unk_60;
     u8 pad_64[0x24];
     u16 unk_88;

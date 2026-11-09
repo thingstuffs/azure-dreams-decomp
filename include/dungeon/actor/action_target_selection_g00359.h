@@ -33,14 +33,6 @@ typedef struct S_800CA444_0 {
     s8 unk_26;
 } S_800CA444_0;
 
-/* arg3 in update_actor_targeting_for_tile */
-typedef struct S_800CA444_2 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    s8 unk_9C;
-} S_800CA444_2;
-
 typedef struct S_800CA444_4 {
     u8 pad_00[0x58];
     s32 unk_58;

@@ -103,6 +103,22 @@ class LoadsTests(unittest.TestCase):
         self.assertEqual(weak['newly_retired'], dict(rows=2, under5=1, one=1))
 
 
+class EvidenceLoadTests(unittest.TestCase):
+    def test_prose_numbers_are_compared_with_the_loads_field(self):
+        agree = row('a', member_loads=loads(s=dict(lh=2), u=dict(lhu=4, unmapped=1)))
+        agree['evidence'] = 'u16: retail loads 2 lh versus 4 lhu, 1 unmapped; signed reads take (s16) casts.'
+        wrong = row('b', member_loads=loads(s=dict(lh=9), u=dict(lhu=1)))
+        wrong['evidence'] = 'Its mapped retail loads are 9 lh and 3 lhu, with two other reads unmapped.'
+        no_loads_word = row('c', member_loads=loads(s={}, u={}))
+        no_loads_word['evidence'] = 'Scoped object comparison was byte-equal for 33 recipes and 4 lh sites.'
+        no_field = dict(id='d', evidence='retail loads 2 lh', status='retired')
+        self.assertEqual(I.evidence_load_mismatches([agree, wrong, no_loads_word, no_field]),
+                         [('b', 'lhu', [3], 1)])
+        # either of two quoted numbers may be the current one (BASE and HEAD both quoted)
+        agree['evidence'] = 'loads were 2 lh and 3 lhu, now 2 lh and 4 lhu'
+        self.assertEqual(I.evidence_load_mismatches([agree]), [])
+
+
 class RepoTests(unittest.TestCase):
     """BASE/HEAD comparisons and re-derivation through the file's history."""
 
@@ -167,6 +183,31 @@ class RepoTests(unittest.TestCase):
         self.run_main('--rederive', '--write')
         rows = I.read_ledger((self.root / I.LEDGER).read_text())
         self.assertEqual(rows[0]['retired_to_cast'], ['src/a.c:5 (u16) branch line'])
+
+    def test_git_opcodes_track_hunk_offsets(self):
+        old = ['a', 'b', 'c', 'd', 'e', 'f']
+        new = ['a', 'c', 'x', 'y', 'e', 'f', 'g']
+        ops = I.git_opcodes(old, new)
+        self.assertEqual(ops[0], ('equal', 0, 1, 0, 1))
+        self.assertEqual(I.map_line(ops, new, 3, 'c', lambda n: 'field'), (2, 2, 'field'))   # b deleted: c moves up
+        self.assertEqual(I.map_line(ops, new, 6, 'f', lambda n: 'field')[0], 6)
+        self.assertEqual(I.git_opcodes(['a'], ['a']), [('equal', 0, 1, 0, 1)])
+
+    def test_rederive_offsets_through_deletions_not_nearest_text(self):
+        # The entry's field never held on a commit (the cited cast read another member), seven lines
+        # then go before it and the member is corrected.  A later cast of the same field and spelling
+        # sits nearer the old number than the moved line; the git offset still picks the moved one.
+        body = ''.join(f'    pad{n} = {n};\n' for n in range(7))
+        original = ('void f(S *p)\n{\n' + body + '    x = (s16)p->g;\n' + ''.join(f'    q{n} = 0;\n' for n in range(4))
+                    + '    y = (s16)p->f;\n}\n')
+        self.source.write_text(original)
+        git(self.root, 'commit', '-qam', 'long')
+        self.write([row('r1', ['src/a.c:10 (s16)'], path='f')])
+        self.source.write_text(original.replace(body, '').replace('p->g', 'p->f'))
+        git(self.root, 'commit', '-qam', 'shrink')
+        self.run_main('--rederive', '--write')
+        out = I.read_ledger((self.root / I.LEDGER).read_text())[0]
+        self.assertEqual(out['retired_to_cast'], ['src/a.c:3 (s16)'])
 
     def test_duplicates_share_a_line_and_status_is_untouched(self):
         self.source.write_text('\n\n' + self.source.read_text())

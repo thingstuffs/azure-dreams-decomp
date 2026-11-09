@@ -109,7 +109,6 @@ typedef struct {
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 func_80042900(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void func_80042B68(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);

@@ -9,7 +9,7 @@ extern u8 menu_leaf_template_6[12];
 extern u8 held_item_kind_alias[12];
 
 typedef struct S_800506BC_Mid {
-    s32 val;
+    void *val;
     void *subA;
     void *subB;
 } S_800506BC_Mid;
@@ -29,7 +29,7 @@ typedef struct S_800506BC_Ctx {
     s32 flag10;
     s32 flag14;
     u8 pad18[0x2C - 0x18];
-    s32 val2C;
+    void *val2C;
 } S_800506BC_Ctx;
 
 /* Initialize entry data, enable context flags, and set subobject offsets. */
@@ -47,20 +47,20 @@ void initialize_gauge_menu_display_rows(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx
     u8 *variant_data;
 
     obj->slot0->val = get_menu_count_template(6);
-    obj->arr5[0]->val = (s32) menu_leaf_template_0;
-    obj->arr5[1]->val = (s32) menu_leaf_template_1;
-    obj->arr5[2]->val = (s32) menu_leaf_template_2;
-    obj->arr5[3]->val = (s32) menu_leaf_template_3;
-    obj->arr5[4]->val = (s32) menu_leaf_template_4;
+    obj->arr5[0]->val = menu_leaf_template_0;
+    obj->arr5[1]->val = menu_leaf_template_1;
+    obj->arr5[2]->val = menu_leaf_template_2;
+    obj->arr5[3]->val = menu_leaf_template_3;
+    obj->arr5[4]->val = menu_leaf_template_4;
     variant_entry = obj->slot18;
     if (held_item_kind_alias[0] == 0) {
         variant_data = menu_leaf_variant_template_0;
     } else {
         variant_data = menu_leaf_variant_template_1;
     }
-    variant_entry->val = (s32) variant_data;
-    obj->slot20->val = (s32) menu_leaf_template_5;
-    obj->slot24->val = (s32) menu_leaf_template_6;
+    variant_entry->val = variant_data;
+    obj->slot20->val = menu_leaf_template_5;
+    obj->slot24->val = menu_leaf_template_6;
 
     ctx->flag10 = 1;
     ctx->flag14 = 1;

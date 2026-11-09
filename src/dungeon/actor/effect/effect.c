@@ -1,4 +1,5 @@
 #include "dungeon/level/unlink_entity_node_api.h"
+#include "engine/node/registration.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level/tile_flags.h"
@@ -596,7 +597,6 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 register_node(void *entry, void *registration_id);
 extern s32 D_800A7CC4(s32 unused0, s32 unused1, SpriteFrameState *render_params);
 
 /* Create an object and initialize its render data to neutral color and unit scale. */
@@ -897,7 +897,6 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
 #define NULL 0
 #endif
 extern void * allocate_list_node(s32 flags, void **list_head);
-extern s32 register_node(void *entry, void *registration_id);
 extern void create_tracked_effect(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Create a sprite object with the supplied position and default color and scale. */
@@ -1382,7 +1381,6 @@ typedef struct {
 extern u8 D_800A871C[];
 
 extern void * allocate_list_node(s32 flags, void **list_head);
-extern s32 register_node(void *entry, void *registration_id);
 extern void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry);
 extern void create_tracked_effect(void *, s32, s32, s32);
 

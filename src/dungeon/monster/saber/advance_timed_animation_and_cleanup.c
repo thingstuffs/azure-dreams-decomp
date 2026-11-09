@@ -39,7 +39,7 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
         return;
 
     case 1:
-        if ((s16)++sequence->action_timer == 4 ||
+        if (++sequence->action_timer == 4 ||
             (sprite->flags & 0x8000)) {
             sprite->frameTable = D_80174E1C;
             select_sprite_entry(sprite,
@@ -52,23 +52,23 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
         return;
 
     case 2:
-        if ((s16)++sequence->action_timer == 9 ||
+        if (++sequence->action_timer == 9 ||
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             sequence->action_timer = 0;
             sequence->action_phase++;
         }
-        if ((s16)sequence->action_timer == 6) {
+        if (sequence->action_timer == 6) {
             play_sound_if_enabled(0x808);
             return;
         }
         return;
 
     case 3:
-        if ((s16)++sequence->action_timer == 6) {
+        if (++sequence->action_timer == 6) {
             sprite->flags |= 0x0800;
         }
-        if ((s16)sequence->action_timer == 15 ||
+        if (sequence->action_timer == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             sequence->action_timer = 0;

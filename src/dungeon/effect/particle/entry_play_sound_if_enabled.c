@@ -93,7 +93,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
     point_table = &attached_particle_points;
     points = *point_table;
     point_base = (LocalPoint *)&points;
-    state = (s16)effect->spell.phase;
+    state = effect->spell.phase;
     parent_node = parent - 0x20;
     parent_position = parent_node->unk_08;
     effect->unk_82 = (u16) (effect->unk_82 + 1);
@@ -105,8 +105,8 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
         select_record_entry_and_value(sprite, directional_sprite_entries, 0);
         angle = ((S_818154FC_3 *)parent)->unk_2A;
         D_80025338[0] = 1;
-        effect->unk_7E = (s16) ((angle >> 9) & 7);
-        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
+        effect->unk_7E = (angle >> 9) & 7;
+        effect->spell.phase++;
 
     case 1:
         {
@@ -144,7 +144,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                 }
                 if (*effect->spell.context & 0x80) {
                     effect->unk_84 = 0U;
-                    effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
+                    effect->spell.phase++;
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 }
             }
@@ -152,7 +152,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
         }
 
     case 2:
-        spawn_tick = (u16)effect->unk_84 + 1;
+        spawn_tick = effect->unk_84 + 1;
         effect->unk_84 = spawn_tick;
         if (spawn_tick & 1) {
 
@@ -182,7 +182,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                 work->unk_0A =
                     (effect->unk_84 - 1) / 2;
                 work->unk_15 = effect->spell.variant;
-                work->unk_16 = (u16)effect->unk_7E;
+                work->unk_16 = effect->unk_7E;
 
                 {
                     u8 *table_base = (u8 *)dir_step_x;
@@ -261,7 +261,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                 spawn_sprite->color.c.r = 0x80;
                 spawn_sprite->scale_y = 0x1000;
                 spawn_sprite->scale_x = 0x1000;
-                if ((s16) effect->unk_84 == 1) {
+                if (effect->unk_84 == 1) {
                     effect->unk_90 = node;
                     effect->unk_94 = spawn_position;
                     effect->unk_88 = 0x63;
@@ -280,7 +280,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                 position->z.v = spawn_position->z.v;
             }
         }
-        if ((s16) effect->unk_84 >= 0xB) {
+        if (effect->unk_84 >= 0xB) {
             u16 old_state;
 
             old_state = effect->spell.phase;
@@ -304,7 +304,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
             }
         }
         {
-            u16 old_counter = (u16)effect->unk_84;
+            u16 old_counter = effect->unk_84;
             s16 new_counter = old_counter + 1;
 
             effect->unk_84 = new_counter;

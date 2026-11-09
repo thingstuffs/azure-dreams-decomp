@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0B20. */
 
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/sprite_source.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
@@ -24,7 +25,6 @@ typedef struct RandomizedEffectMotionBody {
 } RandomizedEffectMotionBody;
 
 extern void select_record_entry_and_value(void *,void *, s32);
-extern void register_node(void *, void *);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s16 D_800D0B18[];

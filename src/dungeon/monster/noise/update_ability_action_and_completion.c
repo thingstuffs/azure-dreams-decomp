@@ -165,7 +165,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
                 | 0x800);
             body->action_timer = 0xFU;
         }
-        if ((u32) (body->action_timer - 9) >= 6U) {
+        if ((u32) ((u16)body->action_timer - 9) >= 6U) {
             return;
         }
         effect_count = 0;

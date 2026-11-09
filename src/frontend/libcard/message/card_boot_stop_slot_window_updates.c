@@ -7,6 +7,6 @@
 
 
 /* Stop this node by clearing its header update callback. */
-void card_boot_stop_slot_window_updates(void *record_data) {
-    ((ObjectNodeHeader *)record_data - 1)->update_callback = 0;
+void card_boot_stop_slot_window_updates(struct CardSlotWindow *window) {
+    NODE_HEADER(window)->update_callback = 0;
 }

@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "engine/node/registration.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -22,7 +23,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_8014C86C_4 *actor;
+    ActorRecord *actor;
     s32 left;
     s32 right;
     s16 held_flags;
@@ -83,15 +84,15 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, held_flags);
 
-        actor->unk_9A = 0xFF;
+        actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = func_8014D1A4;
+        actor->unk_8C.handler = func_8014D1A4;
         ((ActorRecord *)work)->flags1C |= 0x00040000;
-        actor->unk_92 = -16;
-        flags = actor->unk_98;
+        actor->unk_90.parts.high.s = -16;
+        flags = actor->action_state_flags;
         actor->unk_A8 = 0;
         actor->unk_9E = 1;
-        actor->unk_98 = flags | 0x4000;
+        actor->action_state_flags = flags | 0x4000;
 
         current = actor;
         count = 0;

@@ -6,7 +6,6 @@
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/town_object.h"
 #include "records/Rec_func_8009EE9C_arg0.h"
-#include "records/Rec_func_800B0C68_arg0.h"
 #include "shared/dungeon_delay_views.h"
 #include "shared/entity.h"
 #include "shared/item_menu.h"
@@ -23,7 +22,8 @@ struct SpriteFrameState;
 void position_item_menu_side_indicators(ItemMenuPart **parts);
 
 /* position_shop_child_elements.c */
-void position_shop_child_elements(Rec_func_800B0C68_arg0 *parentObject);
+struct ShopWindow;
+void position_shop_child_elements(struct ShopWindow *window);
 
 /* position_shop_row_widgets.c */
 void position_shop_row_widgets(struct ShopWindow *menu);

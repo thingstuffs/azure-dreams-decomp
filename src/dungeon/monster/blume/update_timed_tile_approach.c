@@ -133,7 +133,7 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
 
 end_state:
     body->action_timer--;
-    if ((s16)body->action_timer > 0) {
+    if (body->action_timer > 0) {
         return;
     }
 

@@ -159,6 +159,12 @@ def add_access_loads(rows, accesses):
             seen.add(key)
             op = access.get('opcode', '') if access.get('status') == 'mapped' else ''
             row['loads'][member][op if op in LOAD_OPS else 'unmapped'] += 1
+            # lbu/lhu is sign-neutral for increments, masks, copies and shifts; only a join whose
+            # consumer is unsigned-only (sltu/srl/divu) is evidence of an unsigned field.
+            if op in UNSIGNED_LOADS and 'consumer_sign' in access and (
+                    access.get('consumer_sign') != 'u' or str(access.get('compound', '')) in ('1', 'True')):
+                counter = row.setdefault('neutral_loads', {}).setdefault(member, dict.fromkeys(UNSIGNED_LOADS, 0))
+                counter[op] += 1
 
 
 def retain_retired_loads(rows, previous, live_ids):
@@ -180,22 +186,48 @@ def retain_retired_loads(rows, previous, live_ids):
                          for v in row['loads'].values())
         if old_mapped > new_mapped:
             row['loads'] = old
+            row.pop('neutral_loads', None)      # the sidecar described the replaced counts
+
+
+def load_votes(row, declared=''):
+    """(signed, unsigned, sign_neutral_unsigned) votes for a row's field sign.
+
+    Only loads of the declared field's width vote: a byte view's lbu must not vote on a halfword's
+    sign (ops of another width are skipped; with no declared width every op counts).  The third
+    number counts lbu/lhu loads the census saw with no unsigned-only consumer (row['neutral_loads'],
+    recorded when the access rows carry consumer data): under the pinned gcc a signed field is also
+    loaded with lbu/lhu by increments, masks, same-width copies and shifts, so those loads are not
+    evidence of an unsigned declaration."""
+    width = WIDTHS.get(declared.strip())
+    ops = {8: ('lb', 'lbu'), 16: ('lh', 'lhu')}.get(width, ('lb', 'lbu', 'lh', 'lhu'))
+    signed_ops = [op for op in ops if op in SIGNED_LOADS]
+    unsigned_ops = [op for op in ops if op in UNSIGNED_LOADS]
+    signed = sum(v[op] for v in row['loads'].values() for op in signed_ops)
+    unsigned = sum(v[op] for v in row['loads'].values() for op in unsigned_ops)
+    neutral = sum(v.get(op, 0) for v in (row.get('neutral_loads') or {}).values() for op in unsigned_ops)
+    return signed, unsigned, min(neutral, unsigned)
 
 
 def load_check(rows, declared_types):
-    """Report sign conflicts and insufficient mapped loads without gating."""
+    """Report sign conflicts and insufficient mapped loads without gating.
+
+    Reasons: insufficient (<5 mapped loads or >30% unmapped), disagree (the declaration is the minority
+    sign), biased (the declaration is unsigned and the unsigned lead rests on sign-neutral lbu/lhu loads:
+    without them signed ties or leads).  Votes are per access width, see load_votes."""
     report = []
     for row in rows:
-        signed = sum(v['lb'] + v['lh'] for v in row['loads'].values())
-        unsigned = sum(v['lbu'] + v['lhu'] for v in row['loads'].values())
+        declared = declared_types.get(row['id'], '')
+        signed, unsigned, neutral = load_votes(row, declared)
         mapped = signed + unsigned
         unmapped = sum(v['unmapped'] for v in row['loads'].values())
         if mapped < 5 or unmapped > .3 * (mapped + unmapped):
             reason = 'insufficient'
         else:
-            declared = declared_types.get(row['id'], '')
             expected = 's' if signed > unsigned else 'u' if unsigned > signed else ''
             reason = 'disagree' if expected and declared and type_sign(declared) not in ('', expected) else ''
+            if not reason and expected == 'u' and declared and type_sign(declared) == 'u' \
+                    and signed >= unsigned - neutral:
+                reason = 'biased'
         if reason:
             report.append((row['id'], reason, declared_types.get(row['id'], ''),
                            signed, unsigned, unmapped))

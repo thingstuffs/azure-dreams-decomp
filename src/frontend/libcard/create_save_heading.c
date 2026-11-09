@@ -15,7 +15,7 @@ void *create_save_heading(s32 init_value)
     CardHeadingDrawState *work_state;
 
     object = card_save_heading_object;
-    work_state = card_save_heading_object + 0x20;
+    work_state = NODE_BODY(card_save_heading_object);
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0x68);
         register_node(object, card_boot_render_panel_hierarchy);

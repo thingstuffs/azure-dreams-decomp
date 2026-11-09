@@ -56,7 +56,7 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_p
 /* Marks the shop record for cleanup, updates its child handlers, and restores shared shop state. */
 void process_record_and_apply_flags(FuncArg *record) {
     s32 firstUpdateValue;
-    *(u16 *)((u8 *)record - 2) |= 0x8000;
+    NODE_HEADER(record)->flags |= 0x8000;
     firstUpdateValue = record->field28;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     set_shop_object_data_if_present(firstUpdateValue);

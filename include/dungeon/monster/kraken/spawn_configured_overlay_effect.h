@@ -13,22 +13,6 @@ struct ObjectNodeHeader;
 
    /* part_a in func_8014C86C */
 
-typedef struct S_8014C86C_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x1];
-    s16 unk_9E;
-    u8 pad_A0[0x8];
-    u16 unk_A8;
-} S_8014C86C_4;   /* actor in func_8014C86C */
-
 typedef struct S_8014C86C_6 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -46,7 +30,6 @@ typedef struct S_8014C86C_8 {
 } S_8014C86C_8;   /* base in func_8014C86C */
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);

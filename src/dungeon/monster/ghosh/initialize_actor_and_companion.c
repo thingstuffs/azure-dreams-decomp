@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "engine/node/registration.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/actor_property_flags.h"
 #include "common.h"
@@ -30,7 +31,6 @@ typedef struct S_8016AEDC_4 {
 
 
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 
 extern s32 ghosh_action_resume_address;

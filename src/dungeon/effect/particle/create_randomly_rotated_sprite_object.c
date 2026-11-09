@@ -92,7 +92,7 @@ void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_
 
     owner = step_state->target.owner;
     owner->field_14.u += 1;
-    step_state->update_count = (u16)step_state->update_count + 1;
+    step_state->update_count++;
 
     total = *(s32 *)((u8 *)accumulator + 8);
     increment = *(s32 *)((u8 *)accumulator + 0x14);

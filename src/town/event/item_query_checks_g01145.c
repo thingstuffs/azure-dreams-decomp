@@ -230,7 +230,7 @@ void *select_response_for_source_and_target(void *source, void *target) {
     if ((source != 0) && (target != 0)) {
         if (((*((u8 *)target + 0x14) == 4) ||
              (*((u8 *)target + 0x4D) != 0)) &&
-            ((data_base = *(void **)((u8 *)source - 0x10),
+            ((data_base = NODE_HEADER(source)->update_callback,
               (data_base == update_object_position_or_cleanup)) ||
              (data_base == update_object_motion_and_flags) ||
              ((data_base == finalize_transform_object_or_callback) &&

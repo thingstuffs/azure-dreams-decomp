@@ -13,6 +13,7 @@ void try_apply_attached_actor_status(struct S_81832FE8_0 *owner);
 
 
 void advance_centered_fading_effect(void *effect, ObjectPosition *position, void *color);
+void create_offset_half_scale_spark(ObjectPosition *source_position, s32 x_offset, s32 y_offset, s32 z_offset);
 void advance_projectile_burst_and_impact(struct ProjectileBurstImpactBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 struct RibbonLineGeometry;
 void draw_ribbon_center_lines(struct RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias);

@@ -62,13 +62,13 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
         rounded_velocity = velocity_z;
         motion->velocity_y = velocity_z - (rounded_velocity / 4);
 
-        if ((s16)motion_state->action_timer > 0) {
+        if (motion_state->action_timer > 0) {
             motion_state->action_timer = motion_state->action_timer - 1;
         } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
             motion_state->action_timer = 0;
         }
 
-        if ((s16)motion_state->action_timer != 0) {
+        if (motion_state->action_timer != 0) {
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
@@ -97,10 +97,10 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
             offset_coord -= 0x20;
             tile_coord = tile_state->unk_25 << 6;
             motion->velocity_y =
-                ((tile_coord - offset_coord) << 15) / (s16)motion_state->action_timer;
+                ((tile_coord - offset_coord) << 15) / motion_state->action_timer;
         }
 
-        countdown = motion_state->action_timer - 1;
+        countdown = (u16)motion_state->action_timer - 1;
         motion_state->action_timer = countdown;
         if ((countdown << 16) > 0) {
             return;

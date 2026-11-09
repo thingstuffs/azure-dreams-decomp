@@ -25,7 +25,7 @@ typedef struct RandomlyRotatedOffsetEffectBody {
     u8 pad_03[0x17];
     union { s16 s; u16 u; } unk_1A;
 } RandomlyRotatedOffsetEffectBody;
-void animate_effect_colors(RandomlyRotatedOffsetEffectBody *effect_state, ObjectPosition *unused, void *primitive);
+void animate_effect_colors(RandomlyRotatedOffsetEffectBody *effect_state, ObjectPosition *unused, SpriteFrameState *primitive);
 void initialize_counted_entity_action(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *other_data);
 
 void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *source_pos, SpriteFrameState *unused_value, s16 scale);

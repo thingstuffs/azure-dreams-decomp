@@ -21,7 +21,7 @@ void func_8016FA84(void *actor, void *action, SpriteFrameState *entity, void *pa
 void advance_boss_actor_movement_state(ActorRecord *, void *, SpriteFrameState *, void *); /* extern */
 struct Rec_func_800A9E70_arg0; s32 update_boss_action_result(ActorRecord *, ObjectPosition *, SpriteFrameState *, s16); /* extern */
 void func_8017092C(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *flag_owner); /* extern */
-s32 advance_boss_command_stream(ActorRecord *object_arg, void *context_arg, void *entity_arg);     /* extern */
+s32 advance_boss_command_stream(ActorRecord *object_arg, void *context_arg, SpriteFrameState *entity_arg);     /* extern */
 #include "dungeon/monster/ghosh.h"
 extern u8 D_80174A64[];
 

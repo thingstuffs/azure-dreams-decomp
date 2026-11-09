@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/menu/catalog.h"
+#include "town/scene/motion.h"
 
 /*
  * Refreshes the catalog arrows from the current scroll position with the supplied callback

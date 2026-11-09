@@ -248,7 +248,7 @@ void advance_paired_object_sequence(ActorRecord *sequence, S_800253C0_10 *positi
         sequence->action_timer = 32;
 case 4:
         brightness = scene->view.tint.parts.tint_r;
-        timer = (s16)sequence->action_timer;
+        timer = sequence->action_timer;
         delta = (32 - brightness) / timer;
         brightness = brightness + delta;
         message_text = (u8 *)scene + 0xA8;
@@ -274,12 +274,12 @@ case 4:
             table_index_m >>= 8;
             table_index_m &= 0xE;
             coord = (s32)((S_800253C0_8 *)actor)->unk_24 + table_x[table_index_m >> 1];
-            frames_left = (s16)sequence->action_timer;
+            frames_left = sequence->action_timer;
             coord = coord << 6;
             prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
             previous_x = prim_m->unk_02 - 0x20;
             coord = coord - previous_x;
-            prim_m->unk_02 = (u16)prim_m->unk_02 + coord / frames_left;
+            prim_m->unk_02 = prim_m->unk_02 + coord / frames_left;
             coord_y = (s32)((S_800253C0_8 *)actor)->unk_25;
             {
                 coord_y = coord_y + table_y[table_index_m >> 1];
@@ -287,13 +287,13 @@ case 4:
             coord_y = coord_y << 6;
             old_y = prim_m->unk_06 - 0x20;
             coord_y = coord_y - old_y;
-            prim_m->unk_06 = (u16)prim_m->unk_06 +
-                coord_y / (s16)sequence->action_timer;
+            prim_m->unk_06 = prim_m->unk_06 +
+                coord_y / sequence->action_timer;
             {
                 s32 old_z = (s16)prim_m->unk_0A;
                 s32 z_delta = (s16)position->unk_0A - old_z;
                 prim_m->unk_0A = prim_m->unk_0A +
-                    z_delta / (s16)sequence->action_timer;
+                    z_delta / sequence->action_timer;
             }
 
             {
@@ -306,7 +306,7 @@ case 4:
             object_index_m++;
             object_slot = (u8 *)object_slot + 4;
         } while (object_index_m < 2);
-        timer = (s16)sequence->action_timer - 1;
+        timer = sequence->action_timer - 1;
         sequence->action_timer = timer;
         if (timer > 0) {
             return;
@@ -351,13 +351,13 @@ case 4:
 
     case 5:
     {
-        s16 ticks = (s16)sequence->action_timer - 1;
+        s16 ticks = sequence->action_timer - 1;
         sequence->action_timer = ticks;
         if (ticks > 0) {
             return;
         }
         create_and_link_six_offset_objects(position->unk_02, position->unk_06,
-            (s16)position->unk_0A, actor);
+            position->unk_0A, actor);
         {
             coord_delta = 32;
             state = sequence->action_phase;
@@ -369,7 +369,7 @@ case 4:
 
     case 6:
     {
-        s16 ticks = (s16)sequence->action_timer - 1;
+        s16 ticks = sequence->action_timer - 1;
 
         sequence->action_timer = ticks;
         if (ticks > 0) {
@@ -401,7 +401,7 @@ case 4:
     case 7:
         process_adjacent_objects_with_gray_nodes(sequence->unk_AC.address, sequence->unk_B0.address);
         {
-            s16 ticks = (s16)sequence->action_timer - 1;
+            s16 ticks = sequence->action_timer - 1;
             sequence->action_timer = ticks;
             if (ticks > 0) {
                 return;
@@ -418,7 +418,7 @@ case 4:
     case 8:
         process_adjacent_objects_with_gray_nodes(sequence->unk_AC.address, sequence->unk_B0.address);
         {
-            s16 ticks = (s16)sequence->action_timer - 1;
+            s16 ticks = sequence->action_timer - 1;
             sequence->action_timer = ticks;
             if (ticks > 0) {
                 return;
@@ -532,7 +532,7 @@ case 4:
                 child_slot = (u8 *)child_slot + 4;
             } while (object_index_m < 2);
             {
-                s16 ticks = (s16)sequence->action_timer - 1;
+                s16 ticks = sequence->action_timer - 1;
                 sequence->action_timer = ticks;
                 if (ticks > 0) {
                     return;
@@ -628,7 +628,7 @@ loop_7:
 
     case 10:
     {
-        s16 ticks = (s16)sequence->action_timer - 1;
+        s16 ticks = sequence->action_timer - 1;
         sequence->action_timer = ticks;
         if (ticks > 0) {
             return;
@@ -658,7 +658,7 @@ loop_7:
         u32 saved_angle;
         register u32 clear_flags;
 
-        step = (128 - scene->view.tint.parts.tint_r) / (s16)sequence->action_timer;
+        step = (128 - scene->view.tint.parts.tint_r) / sequence->action_timer;
         page_cursor = ((u8 *)scene + 0xA8);
         object_index_m = 0;
         child_slot = sequence;
@@ -677,8 +677,8 @@ loop_7:
                     coord = coord << 6;
                     old_x = prim_m->unk_02 - 0x20;
                     coord = coord - old_x;
-                    prim_m->unk_02 = (u16)prim_m->unk_02 +
-                        coord / (s16)sequence->action_timer;
+                    prim_m->unk_02 = prim_m->unk_02 +
+                        coord / sequence->action_timer;
                 }
                 {
                     s32 y;
@@ -687,14 +687,14 @@ loop_7:
                     y = y << 6;
                     old_y = prim_m->unk_06 - 0x20;
                     y = y - old_y;
-                    prim_m->unk_06 = (u16)prim_m->unk_06 +
-                        y / (s16)sequence->action_timer;
+                    prim_m->unk_06 = prim_m->unk_06 +
+                        y / sequence->action_timer;
                 }
                 {
                     s32 old_z = (s16)prim_m->unk_0A;
                     s32 z_delta = ((S_800253C0_5 *)object_m)->unk_88 - old_z;
                     prim_m->unk_0A = prim_m->unk_0A +
-                        z_delta / (s16)sequence->action_timer;
+                        z_delta / sequence->action_timer;
                 }
                 saved_angle = ((S_800253C0_5 *)object_m)->unk_8A;
                 ((S_800253C0_5 *)object_m)->unk_2A =
@@ -710,7 +710,7 @@ loop_7:
             object_index_m++;
             child_slot = (u8 *)child_slot + 4;
         } while (object_index_m < 2);
-        ticks = (s16)sequence->action_timer - 1;
+        ticks = sequence->action_timer - 1;
         sequence->action_timer = ticks;
         if (ticks > 0) {
             return;
@@ -727,7 +727,7 @@ loop_7:
                 prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
                 prim_m->unk_02 = (x << 6) + 0x20;
                 prim_m->unk_06 = ((s32)child->unk_25 << 6) + 0x20;
-                prim_m->unk_0A = (u16)((S_800253C0_5 *)object_m)->unk_88;
+                prim_m->unk_0A = ((S_800253C0_5 *)object_m)->unk_88;
                 ((S_800253C0_5 *)object_m)->unk_14 &= clear_flags;
             }
             object_index_m++;

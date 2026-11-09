@@ -11,6 +11,7 @@ void apply_vector_3_template_to_nodes(struct ItemMenuPart **objects, s32 object_
 
 struct ObjectPosition;
 struct SpriteFrameState;
+struct WindowCursorBody;
 struct Entry;
 struct FrameState;
 struct Geometry_80046884;
@@ -77,6 +78,9 @@ void clear_graphics_record(Rec_D_80082A38 *record);
 
 /* convert_hsv_to_rgb.c */
 u8 *convert_hsv_to_rgb(u32 hue, s32 saturation, s32 value, u8 *out);
+
+/* copy_texture_descriptor_with_page_offsets.c */
+void update_blinking_cursor_with_bright_idle(struct WindowCursorBody *input, struct ObjectPosition *unused, struct SpriteFrameState *output);
 
 /* copy_processed_vram_tile_backward.c */
 s32 copy_processed_vram_tile_backward(s32 tile_index);

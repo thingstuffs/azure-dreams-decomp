@@ -19,7 +19,8 @@ typedef struct CardMessageDialogBody {
     u8 window_packets[0xC0];
     u8 marker_packet[0x30];
     u8 text_buffers[5][0x180];
-    u8 pad_894[0x1C];
+    MenuDisplayBlock frame_block;
+    DisplayPositionWords frame_vector;
     DisplayPositionWords vector;
     u8 display_data[0xC];
     struct S_800491F4 *chain;

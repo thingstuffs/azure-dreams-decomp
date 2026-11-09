@@ -55,16 +55,16 @@ void card_boot_layout_alternate_slot_window(void *context) {
 }
 
 /* Processes two buffers and selects handlers using the state's indexed entry. */
-void card_boot_populate_slot_window_display(s32 *state) {
-    func_80023BE4((u8 *)state + 0x134, 0x80, 0x18);
-    func_80023BE4((u8 *)state + 0x1AC, 0x2A, 0x14);
-    if (card_save_slot_metadata[*state].words[0] != 0) {
-        card_boot_format_occupied_slot_window(state);
-        if (card_save_slot_metadata[*state].halfwords[4] != 0) {
-            card_boot_layout_alternate_slot_window(state);
+void card_boot_populate_slot_window_display(CardSlotWindow *window) {
+    func_80023BE4(window->wide_panel, 0x80, 0x18);
+    func_80023BE4(window->small_panel, 0x2A, 0x14);
+    if (card_save_slot_metadata[window->slot_index].words[0] != 0) {
+        card_boot_format_occupied_slot_window(window);
+        if (card_save_slot_metadata[window->slot_index].halfwords[4] != 0) {
+            card_boot_layout_alternate_slot_window(window);
             return;
         }
     } else {
-        card_boot_layout_empty_slot_window(state);
+        card_boot_layout_empty_slot_window(window);
     }
 }

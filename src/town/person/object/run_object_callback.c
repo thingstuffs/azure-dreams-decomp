@@ -16,7 +16,7 @@ void run_object_callback(TownObjectRecord *object, ObjectPosition *context, Spri
     u16 flags;
 
     (*(Callback *)((u8 *)object + 0x50))(object, context, record);
-    if (!((((ObjectNodeHeader *)object - 1)->flags) & 0x8000)) {
+    if (!(NODE_HEADER(object)->flags & 0x8000)) {
         entry_index = quantize_heading_to_sector(object->heading, ((s16)(object->unk_64)));
         if (((s16)(object->unk_74.as_u16)) != entry_index) {
             clear_object_status_and_dispatch_target(object, record, object->unk_78[entry_index], record->unk_04);

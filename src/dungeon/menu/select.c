@@ -114,7 +114,7 @@ void *allocate_sprite_data_object(s32 user_data) {
 
 /* Animates the direction-selection menu, handles familiar direction changes, and retires its child
    objects. */
-void update_selection_menu_animation(void *menu_in, void *motion_in, void *appearance_in) {
+void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrameState *appearance_in) {
     s32 *side_ptr;
     u16 target_y;
     u16 entry_counter;
@@ -153,7 +153,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
     s32 side_count;
     void *side_cursor;
     GameWork *state_base;
-    S_8002520C_2 *appearance;
+    SpriteFrameState *appearance;
     u8 *direction_page;
     s32 *world_page;
     void *menu = menu_in;
@@ -170,9 +170,9 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
         register_node(menu - 0x20, &render_three_by_three_terrain_grid);
         motion->unk_02 = -0x180;
         motion->unk_06 = -0x20;
-        appearance->unk_16 = 0x1000U;
-        appearance->unk_1E = 0x1000U;
-        appearance->unk_1C = 0x1000U;
+        appearance->angle_x = 0x1000U;
+        appearance->scale_y = 0x1000U;
+        appearance->scale_x = 0x1000U;
         ((S_8002520C_0 *)menu)->unk_22 = 8;
         ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
                     /* fallthrough */
@@ -181,14 +181,14 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
         if (((s16)side_data) != 0) {
             motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x80 - motion->unk_02) / ((s16)side_data)));
             motion->unk_0A.s = (s16) (rsin(((S_8002520C_0 *)menu)->unk_22 << 5) + 0x400);
-            enter_scale = appearance->unk_16;
-            appearance->unk_16 = (u16) (enter_scale + ((s32) (0xD00
+            enter_scale = appearance->angle_x;
+            appearance->angle_x = (u16) (enter_scale + ((s32) (0xD00
                 - enter_scale) / (s16) ((S_8002520C_0 *)menu)->unk_22));
-            enter_shade = appearance->unk_0E;
+            enter_shade = appearance->color.c.b;
             lit_shade = enter_shade + ((s32) (0x80 - enter_shade) / (s16) ((S_8002520C_0 *)menu)->unk_22);
-            appearance->unk_0E = lit_shade;
-            appearance->unk_0D = lit_shade;
-            appearance->unk_0C = lit_shade;
+            appearance->color.c.b = lit_shade;
+            appearance->color.c.g = lit_shade;
+            appearance->color.c.r = lit_shade;
         }
         enter_left = (u16) ((S_8002520C_0 *)menu)->unk_22 - 1;
         ((S_8002520C_0 *)menu)->unk_22 = enter_left;
@@ -196,17 +196,17 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
             motion->unk_02 = -0x80;
             motion->unk_06 = -0x20;
             motion->unk_0A.s = 0x400;
-            appearance->unk_16 = 0xD00U;
-            appearance->unk_0E = 0x80U;
-            appearance->unk_0D = 0x80U;
-            appearance->unk_0C = 0x80U;
+            appearance->angle_x = 0xD00U;
+            appearance->color.c.b = 0x80U;
+            appearance->color.c.g = 0x80U;
+            appearance->color.c.r = 0x80U;
             ((S_8002520C_0 *)menu)->unk_22 = 0;
             ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
             case SELECTION_MENU_INPUT:
         }
         if (selection_blink_timer[0] == 0) {
             S_8002520C_6 *cell;
-            input_angle = resolve_player_input_facing(((u16) appearance->unk_1A >> 9) & 7,
+            input_angle = resolve_player_input_facing(((u16) appearance->angle_z >> 9) & 7,
                 ((EntityRec *)(((u8 *)(&dungeon_actor_ring_anchor))))->x.v + 0xA2, 0) & 0xFFFF;
             if ((input_angle != 0xFFF) && ((state_base->pressed_buttons) & 0xF000)) {
                 s32 step_or_cell;
@@ -377,14 +377,14 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
         }
         turn_ticks = ((S_8002520C_0 *)menu)->unk_24;
         if (turn_ticks != 0) {
-            appearance->unk_1A = (u16) (appearance->unk_1A + ((s32) (((S_8002520C_0 *)menu)->unk_1E
-                - (s16) appearance->unk_1A) / turn_ticks));
+            appearance->angle_z = (u16) (appearance->angle_z + ((s32) (((S_8002520C_0 *)menu)->unk_1E
+                - (s16) appearance->angle_z) / turn_ticks));
             turn_left = (u16) ((S_8002520C_0 *)menu)->unk_24 - 1;
             ((S_8002520C_0 *)menu)->unk_24 = turn_left;
             if ((turn_left << 0x10) <= 0) {
-                appearance->unk_1A = (u16) ((S_8002520C_0 *)menu)->unk_1E;
+                appearance->angle_z = (u16) ((S_8002520C_0 *)menu)->unk_1E;
                 ((S_8002520C_0 *)menu)->unk_24 = 0;
-                appearance->unk_1A = (u16) (appearance->unk_1A & 0xFFF);
+                appearance->angle_z = (u16) (appearance->angle_z & 0xFFF);
                 ((S_8002520C_0 *)menu)->unk_1E = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1E & 0xFFF);
                 ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 & 0xFFF);
                 return;
@@ -407,19 +407,19 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                 if (exit_ticks != 0) {
                     motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x480 - motion->unk_02) / exit_ticks));
                     motion->unk_0A.u = (u16) (motion->unk_0A.u + rsin(((S_8002520C_0 *)menu)->unk_22 << 5));
-                    exit_scale = appearance->unk_16;
-                    appearance->unk_16 = (u16) (exit_scale + ((s32) (0x1000
+                    exit_scale = appearance->angle_x;
+                    appearance->angle_x = (u16) (exit_scale + ((s32) (0x1000
                         - exit_scale) / (s16) ((S_8002520C_0 *)menu)->unk_22));
-                    exit_shade = appearance->unk_0E;
-                    scale_y = appearance->unk_1C;
+                    exit_shade = appearance->color.c.b;
+                    scale_y = appearance->scale_x;
                     faded_shade = exit_shade + ((s32) (0 - exit_shade) / (s16) ((S_8002520C_0 *)menu)->unk_22);
-                    appearance->unk_0E = faded_shade;
-                    appearance->unk_0D = faded_shade;
-                    appearance->unk_0C = faded_shade;
-                    scale_z = appearance->unk_1E;
-                    appearance->unk_1C = (u16) (scale_y + ((s32) (0x200
+                    appearance->color.c.b = faded_shade;
+                    appearance->color.c.g = faded_shade;
+                    appearance->color.c.r = faded_shade;
+                    scale_z = appearance->scale_y;
+                    appearance->scale_x = (u16) (scale_y + ((s32) (0x200
                         - scale_y) / (s16) ((S_8002520C_0 *)menu)->unk_22));
-                    appearance->unk_1E = (u16) (scale_z + ((s32) (0x200
+                    appearance->scale_y = (u16) (scale_z + ((s32) (0x200
                         - scale_z) / (s16) ((S_8002520C_0 *)menu)->unk_22));
                     motion->unk_16 = (u16) (motion->unk_16 * 2);
                     side_ptr = (s32 *)0x80080000;
@@ -585,7 +585,7 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
 #include "dungeon/menu/select.h"
 
 /* Moves and fades a familiar preview, draws it with the menu rotation, and dims the unselected familiar. */
-void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *sprite_arg) {
+void draw_and_restore_fading_object(void *object_arg, void *position_arg, SpriteFrameState *sprite_arg) {
     s16 move_ticks;
     s32 start_y;
     s32 move_ticks_left;
@@ -607,7 +607,7 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     u16 *direction_table;
     S_80025C94_1 *motion;
     S_80025C94_0 *object;
-    S_80025C94_2 *sprite;
+    SpriteFrameState *sprite;
     S_80025C94_3 *position;
     S_80025C94_5 *appearance;
     GameWork *render_context;
@@ -625,11 +625,11 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     state = object->unk_72.s;
     switch (state) {
     case PREVIEW_FADE_INIT:
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0E = 0U;
-        sprite->unk_0D = 0U;
-        sprite->unk_0C = 0U;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.c.b = 0U;
+        sprite->color.c.g = 0U;
+        sprite->color.c.r = 0U;
         object->unk_73.s = 8;
         object->unk_2A = 0x400;
         direction_table = (u16 *)0x80010000;
@@ -638,24 +638,24 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
         start_y = direction_y_offsets[direction];
         position->unk_0A = 0;
         position->unk_04.at02.v = start_y;
-        sprite->unk_24 = (u8) (((s8 *)dir_step_x)[direction * 2] + 1);
-        sprite->unk_25 = (u8) (((s8 *)dir_step_y)[direction * 2] + 1);
+        sprite->tile_x = (u8) (((s8 *)dir_step_x)[direction * 2] + 1);
+        sprite->tile_y = (u8) (((s8 *)dir_step_y)[direction * 2] + 1);
         object->unk_72.s = (s8) ((u8) object->unk_72.s + 1);
     case PREVIEW_FADE_IN:
         fade_in_ticks = (void *) object->unk_73.s;
         if (fade_in_ticks != NULL) {
-            fade_in_level = sprite->unk_0E;
+            fade_in_level = sprite->color.c.b;
             next_fade_in = fade_in_level + ((s32) (0x80 - fade_in_level) / (s32) fade_in_ticks);
-            sprite->unk_0E = next_fade_in;
-            sprite->unk_0D = next_fade_in;
-            sprite->unk_0C = next_fade_in;
+            sprite->color.c.b = next_fade_in;
+            sprite->color.c.g = next_fade_in;
+            sprite->color.c.r = next_fade_in;
         }
         fade_in_left = object->unk_73.u - 1;
         object->unk_73.u = fade_in_left;
         if ((fade_in_left << 0x18) <= 0) {
-            sprite->unk_0E = 0x80U;
-            sprite->unk_0D = 0x80U;
-            sprite->unk_0C = 0x80U;
+            sprite->color.c.b = 0x80U;
+            sprite->color.c.g = 0x80U;
+            sprite->color.c.r = 0x80U;
             object->unk_73.u = 0U;
             object->unk_72.u = (u8) (object->unk_72.u + 1);
         }
@@ -669,11 +669,11 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     case PREVIEW_FADE_OUT:
         fade_out_ticks = object->unk_73.s;
         if (fade_out_ticks != 0) {
-            fade_out_level = sprite->unk_0E;
+            fade_out_level = sprite->color.c.b;
             next_fade_out = fade_out_level + ((s32) (0 - fade_out_level) / fade_out_ticks);
-            sprite->unk_0E = next_fade_out;
-            sprite->unk_0D = next_fade_out;
-            sprite->unk_0C = next_fade_out;
+            sprite->color.c.b = next_fade_out;
+            sprite->color.c.g = next_fade_out;
+            sprite->color.c.r = next_fade_out;
         }
         fade_out_left = (u8) object->unk_73.s - 1;
         object->unk_73.s = fade_out_left;
@@ -687,9 +687,9 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     }
     move_ticks = motion->unk_96;
     if (move_ticks != 0) {
-        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((s32) ((((sprite->unk_24 - 1) << 6)
+        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((s32) ((((sprite->tile_x - 1) << 6)
             - (s16) position->unk_00.at02.v) << 0x10) / move_ticks));
-        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((s32) ((((sprite->unk_25 - 1) << 6)
+        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((s32) ((((sprite->tile_y - 1) << 6)
             - (s16) position->unk_04.at02.v) << 0x10) / (s16) motion->unk_96));
         move_ticks_left = (u16) motion->unk_96 - 1;
         motion->unk_96 = move_ticks_left;
@@ -706,7 +706,7 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     appearance = ((S_80025C94_7_pre *)(object->unk_58))[-1].unk_00;
     saved_render_value = ((u16)render_context->view.camera_rotation.parts.viewAngle);
     render_context->view.camera_rotation.parts.viewAngle = (u16) appearance->unk_1A;
-    sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFBF);
+    sprite->flags = (u16) (sprite->flags & 0xFFBF);
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x100);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v + 0x100);
     if ((*(s16 *)selection_blink_target) == object->unk_6A) {
@@ -724,17 +724,17 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     if (object->unk_6A != ((S_80025C94_7 *)(object->unk_58))->unk_26) {
         red = red >> 1;
     }
-    sprite->unk_0C = red;
+    sprite->color.c.r = red;
     green = appearance->unk_0D;
     if (object->unk_6A != ((S_80025C94_7 *)(object->unk_58))->unk_26) {
         green = green >> 1;
     }
-    sprite->unk_0D = green;
+    sprite->color.c.g = green;
     blue = appearance->unk_0E;
     if (object->unk_6A != ((S_80025C94_7 *)(object->unk_58))->unk_26) {
         blue = blue >> 1;
     }
-    sprite->unk_0E = blue;
+    sprite->color.c.b = blue;
     return;
 }
 #include "dungeon/menu/select.h"

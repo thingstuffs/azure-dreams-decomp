@@ -168,11 +168,11 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         color_index = lookup_masked_byte_table(actor);
         target_color = actor_effect_color_targets[color_index];
         scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->unk_00
-            - scene_color->view.tint.parts.tint_r) / (s16) state->action_timer));
+            - scene_color->view.tint.parts.tint_r) / state->action_timer));
         scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->unk_01
-            - scene_color->view.tint.parts.tint_g) / (s16) state->action_timer));
+            - scene_color->view.tint.parts.tint_g) / state->action_timer));
         scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->unk_02
-            - scene_color->view.tint.parts.tint_b) / (s16) state->action_timer));
+            - scene_color->view.tint.parts.tint_b) / state->action_timer));
         return;
     case 4:
         effect = allocate_flagged_object_node(0x12);

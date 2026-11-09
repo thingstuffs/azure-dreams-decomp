@@ -53,7 +53,7 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
             if (random == 0) {
                 create_knockback_travel_object(script, motion, tile, actor);
             }
-            *(s16 *)&script->unk_A8 = -1;
+            script->unk_A8 = -1;
             script->action_timer = 0;
             script->action_phase = 2;
             return;
@@ -64,7 +64,7 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
         }
         script->action_timer = timer;
         if (random != 0) {
-            *(s16 *)&script->unk_A8 = -1;
+            script->unk_A8 = -1;
         } else {
             script->unk_A8 = one;
         }
@@ -87,13 +87,13 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
             create_knockback_travel_object(script, motion, tile, actor);
         }
 
-        if ((s16)script->action_timer > 0) {
+        if (script->action_timer > 0) {
             script->action_timer = script->action_timer - 1;
         } else if (tile->flags & 0x6000) {
             script->action_timer = 0;
         }
 
-        if ((s16)script->action_timer != 0) {
+        if (script->action_timer != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -117,7 +117,7 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
             sub = motion->y.w.i - 0x20;
             motion->velocity_y =
                 (((tile->tile_y << 6) - sub) << 15) /
-                (s16)script->action_timer;
+                script->action_timer;
         }
 
         timer = script->unk_A8 - 1;

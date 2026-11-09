@@ -16,28 +16,6 @@ typedef struct S_func_800BB508_0 {
     void *unk_98;
 } S_func_800BB508_0;
 
-typedef struct {
-    s32 unk0;
-    s8 unk4;
-    s8 unk5;
-    u8 pad6[6];
-    u8 unkC;
-    u8 unkD;
-    u8 unkE;
-    u8 padF;
-    s16 unk10;
-    s16 unk12;
-    s16 unk14;
-    s16 unk16;
-    s16 unk18;
-    s16 unk1A;
-    s16 unk1C;
-    s16 unk1E;
-    s16 unk20;
-} FuncData;
-
-
-
 extern s32 classify_object_against_bounds(void *, void *);
 extern void unlink_node_if_registered(void *object);
 #include "engine/node.h"
@@ -52,7 +30,7 @@ extern u8 D_800BB6C4[];
 
 /* Functions defined in this translation unit. */
 void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *context);
-void initialize_object_state_and_appearance(void *object_id, ObjectPosition *object, FuncData *state);
+void initialize_object_state_and_appearance(void *object_id, ObjectPosition *object, SpriteFrameState *sprite);
 void advance_object_state_angle(void *object, void *context, SpriteFrameState *state);
 void clear_object_link_and_complete(void *object, void *value);
 void set_handler_variant_b_with_counter_30(void *object, void *context, void *state);

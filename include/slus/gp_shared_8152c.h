@@ -42,12 +42,8 @@ extern u8 resource_queue_input_buffer[0x10];
    a pointer value published by the sibling wrappers. */
 extern void *runtime_texture_resource_handle;
 
-extern s32 relocate_sprite_metadata_pointers(void *object_addr);
 
 /* Advances the effect state, applies a fixed effect, and publishes the state pointer. */
 
-void *load_and_publish_texture_resource_pair(int resource_id);
-void runtime_no_op_callback(u32 unused_state);
-void advance_effect_state(void);
 
 #endif

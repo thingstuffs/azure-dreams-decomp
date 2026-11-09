@@ -87,7 +87,7 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
     case 4:
         ((ActorRecord *)entity)->flags1C |= 0x10000000;
         motion->velocity_z += 0x20000;
-        brightness = (u8)body->action_timer;
+        brightness = body->action_timer;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;
         sprite->color.c.r = brightness;

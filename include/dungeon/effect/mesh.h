@@ -32,7 +32,7 @@ typedef struct ProjectileEffect {
     struct { u16 flags; } *animation;
     u8 pad_08;
     u8 variant;
-    u16 state;
+    s16 state;
     u8 pad_0C[0x68];
     s16 target_x;
     s16 target_y;
@@ -56,7 +56,7 @@ typedef struct ProjectileEffect {
 typedef struct ExpandingFadeEffectBody {
     u8 pad_00[0x4];
     u16 unk_04;
-    u16 unk_06;
+    s16 unk_06;
     union { s16 s; u16 u; } unk_08;
     u16 unk_0A;
     u8 pad_0C[0xF8];
@@ -115,11 +115,11 @@ typedef struct TargetTintWork {
     struct { u16 flags; } *animation;
     u8 variant;
     u8 pad_09;
-    u16 phase;
+    s16 phase;
     u8 pad_0C[8];
     u16 facing;
     u16 elapsed;
-    u16 timer;
+    s16 timer;
 } TargetTintWork;
 
 void update_directional_actor_effect(TargetTintWork *state);

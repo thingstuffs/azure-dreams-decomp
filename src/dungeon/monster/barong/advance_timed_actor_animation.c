@@ -42,7 +42,7 @@ void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, 
         return;
 
     case 1:
-        if ((s16)++action->action_timer == 4 ||
+        if (++action->action_timer == 4 ||
             (sprite->flags & 0x8000)) {
             sprite->frameTable = D_80175584;
             select_sprite_entry(sprite,
@@ -50,7 +50,7 @@ void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, 
                 0);
             sprite->flags |= 0x0800;
         }
-        if ((s16)action->action_timer == 7 ||
+        if (action->action_timer == 7 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             action->action_timer = 0;
@@ -64,12 +64,12 @@ void advance_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, 
         action->action_phase++;
 
     case 3:
-        if ((s16)++action->action_timer == 7 ||
+        if (++action->action_timer == 7 ||
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
 
-        if ((s16)action->action_timer == 3) {
+        if (action->action_timer == 3) {
             play_sound_if_enabled(0x814);
         }
     case 4:

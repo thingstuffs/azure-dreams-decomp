@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/player/state.h"
 #include "town/scene/motion.h"
+#include "town/scene.h"
 
 extern s32 resolve_entry_flag(void *, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 

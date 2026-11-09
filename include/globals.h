@@ -14,7 +14,7 @@ extern int message_command_write_index;
 extern unsigned char D_80071298[];
 
 extern volatile int D_80071250[];
-extern int D_800712B4[];
+extern void *D_800712B4[];
 
 extern int card_server_initialized[3];
 

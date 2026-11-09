@@ -439,9 +439,9 @@ void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect
     s32 target;
     s16 entry_index;
 
-    effect->x = (u16)effect->x + D_8006CCD8[effect->direction];
-    effect->y = (u16)effect->y + D_8006CCE8[effect->direction];
-    target = find_object_near_tile_height((u16)effect->x, (u16)effect->y, effect->z);
+    effect->x = effect->x + D_8006CCD8[effect->direction];
+    effect->y = effect->y + D_8006CCE8[effect->direction];
+    target = find_object_near_tile_height(effect->x, effect->y, effect->z);
     if (target) {
         apply_attack_power_and_element_effects(target, 6, dungeon_actor_ring_anchor->level, 9,
                       (s16)(effect->direction << 9), 0, 3);
@@ -454,7 +454,7 @@ void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect
             U32(floor_objects, entry_index * 4) = 0;
         }
     }
-    entry_index = find_floor_item_at_world_position(effect->x, effect->y, effect->z);
+    entry_index = find_floor_item_at_world_position((s16)effect->x, (s16)effect->y, effect->z);
     if (entry_index >= 0) {
         U32(((u8 *)dungeon_ground_items), entry_index * 4) = 0;
     }
@@ -775,13 +775,13 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     do {
         part = initialize_scene_object_in_buffer(0, (((trap_resource_slot * 5) + part_index) * 0x28) + (&dungeon_resource_buffer + 0x28), 0xA);
         part->resource = &D_800CC370;
-        part_x = (u16)effect->body.x;
+        part_x = effect->body.x;
         direction = part_index * 2;
         part->body.x = part_x;
-        part_y = (u16)effect->body.y;
+        part_y = effect->body.y;
         part_index -= 1;
         part->body.y = part_y;
-        part_z = (u16)effect->body.z;
+        part_z = effect->body.z;
         part->body.ticks_remaining = 8;
         part->body.direction = direction;
         part->body.z = part_z;
@@ -798,7 +798,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
         create_tile_center_quad_effect(effect->body.x, effect->body.y, effect->body.z, angle, 1, 1);
         part_index -= 1;
     } while (part_index >= 0);
-    target = find_object_near_tile_height((u16)effect->body.x, (u16)effect->body.y, effect->body.z);
+    target = find_object_near_tile_height(effect->body.x, effect->body.y, effect->body.z);
     if (target != 0) {
         apply_attack_power_and_element_effects(target, 0xC, dungeon_actor_ring_anchor->level, 9, 0x400, 0, 3);
     }
@@ -1777,7 +1777,7 @@ void mark_all_actors_with_high_flag(void) {
     first_record = record;
     do {
         record->flags1C = (s32) (record->flags1C | 0x40000000);
-        record = record->next_actor_header + 0x20;
+        record = NODE_BODY(record->next_actor_header);
     } while (record != first_record);
 }
 #include "modules/trap_effects_candidate.h"
@@ -2452,7 +2452,7 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
     u16 delay_timer;
     AreaRecord *areas;
 
-    state = (s16)den_event->state;
+    state = den_event->state;
     if (state == 0) {
         u32 area_byte;
 

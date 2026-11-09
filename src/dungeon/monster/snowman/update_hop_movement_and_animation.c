@@ -115,7 +115,7 @@ void update_hop_movement_and_animation(ActorRecord *body, ObjectPosition *motion
             0);
         break;
     }
-    action_ticks = body->action_timer - 1;
+    action_ticks = (u16)body->action_timer - 1;
     body->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;

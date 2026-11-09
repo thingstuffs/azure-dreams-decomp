@@ -1,5 +1,6 @@
 #ifndef MODULE_DUNGEON_OVL_E0365C_H
 #define MODULE_DUNGEON_OVL_E0365C_H
+#include "engine/node/registration.h"
 struct SpriteFrameState;
 struct ObjectPosition;
 struct ObjectPosition;
@@ -557,9 +558,7 @@ extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern void func_80042640(void *, s32);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 func_80042900(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void func_80042B68(ActorRecord *owner, s8 match_type);
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);

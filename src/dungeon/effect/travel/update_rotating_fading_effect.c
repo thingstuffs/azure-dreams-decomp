@@ -44,11 +44,11 @@ void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorR
     B22_81893474_EffectState *owner;
     owner = effect->owner;
     owner->field_14.u = owner->field_14.u + 1;
-    effect->elapsed_ticks = (u16)effect->elapsed_ticks + 1;
+    effect->elapsed_ticks++;
     sprite->angle_z = (sprite->angle_z) + 0x10;
     rot = sprite->angle_z;
     sprite->angle_z = rot & 0xFFF;
-    switch ((s16)effect->phase) {
+    switch (effect->phase) {
     case 0:
         if (effect->elapsed_ticks < effect->delay_ticks) {
             break;
@@ -242,13 +242,13 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
     u16 elapsed;
 
     elapsed = effect->unk_10;
-    state = (s16)effect->spell.phase;
+    state = effect->spell.phase;
     source = effect->spell.caster;
     effect->unk_10 = elapsed + 1;
     switch (state) {
     case 0:
         effect->unk_10 = 0U;
-        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
+        effect->spell.phase++;
         effect->unk_0E = (u16) (((u16) ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_2A >> 9) & 7);
         appearance->color.word = 0x808080;
     case 1:
@@ -411,7 +411,7 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
         }
         apply_large_random_value_gain(source->target, effect->spell.variant, source);
         effect->unk_10 = 0U;
-        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
+        effect->spell.phase++;
         break;
     case 4:
         if (effect->unk_14 != 0) {
@@ -432,7 +432,7 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
             break;
         }
         effect->unk_10 = 0U;
-        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
+        effect->spell.phase++;
         break;
     case 5:
         motion->x.v = (s32) (motion->x.v
@@ -445,7 +445,7 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
             break;
         }
         effect->unk_10 = 0U;
-        effect->spell.phase = (s16) ((u16) effect->spell.phase + 1);
+        effect->spell.phase++;
         break;
     case 6:
         if ((s16) effect->unk_10 < 0x28) {

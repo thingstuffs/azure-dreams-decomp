@@ -16,7 +16,7 @@ typedef struct S_800AECA4_4 {
 } S_800AECA4_4;
 
 typedef struct S_800AECA4_5 {
-    s32 * unk_00;
+    void ** unk_00;
     s32 ** unk_04;
 } S_800AECA4_5;   /* ((S_800AECA4_2 *)arg0)->unk_D8 in initialize_item_menu_list_entries */
 

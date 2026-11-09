@@ -14,7 +14,7 @@ extern s16 encounter_blink_update_flag[5];
 
 
 /* Advances a timed blinking effect, triggers sounds, and sets completion flags. */
-void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data_arg, void *unused, void *color_data_arg) {
+void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data_arg, void *unused, SpriteFrameState *color_data_arg) {
     SpriteFrameState *color_data = color_data_arg;
     SecondaryEncounterObjectBody *state_data = state_data_arg;
     s32 phase;

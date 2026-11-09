@@ -93,7 +93,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         return;
     case 4:
         ((ActorRecord *)entity)->flags1C |= 0x10000000;
-        brightness = (u8)state->action_timer;
+        brightness = state->action_timer;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;
         sprite->color.c.r = brightness;

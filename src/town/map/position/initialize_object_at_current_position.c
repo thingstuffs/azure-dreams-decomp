@@ -11,8 +11,6 @@
 #include "town/player.h"
 
 struct S_8003FE78;
-void initialize_circular_list_head(void);
-void initialize_pointer_table_self_links(void);
 struct Rec_D_800FE490; 
 
 extern struct S_800C01DC_1 map_runtime_state;

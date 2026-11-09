@@ -66,7 +66,7 @@ typedef struct S_func_800B1364_4 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x30];
-    s32 unk_5C;
+    void *unk_5C;
     void *unk_60;
     u8 pad_64[0x24];
     u16 unk_88;
@@ -96,7 +96,7 @@ typedef struct S_func_800B1364_5 {
     u8 pad_6A[0x1E];
     s16 unk_88;
     u8 pad_8A[0xE];
-    u16 unk_98;
+    u8 pad_98[2];
 } S_func_800B1364_5;
 
 typedef struct S_func_800B1364_7 {
@@ -225,7 +225,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
     S_func_800B1364_10 *item_effect;
     S_func_800B1364_5 *creature;
     SpriteFrameState *creature_sprite;
-    S_func_800B1364_5 *linked_creature;
+    ActorRecord *linked_creature;
     u32 *level_thresholds;
     u32 *level_table;
     void *save_data;
@@ -434,7 +434,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         creature->unk_1C = (s32) (creature->unk_1C | ACTOR_LIFTED);
         creature->unk_14 = (s32) (creature->unk_14 | 0x104000);
         linked_creature = actor->unk_60;
-        linked_creature->unk_98 = (u16) (linked_creature->unk_98 | 0xC);
+        linked_creature->action_state_flags = (u16) (linked_creature->action_state_flags | 0xC);
         strcpy((u8 *)creature + 0x34, runtime_get_mode_indexed_value(creature->unk_13));
         experience = level_experience_table[dungeon_actor_ring_anchor->level];
         level_thresholds = level_experience_table + 1;

@@ -450,7 +450,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
     task = (u8 *)source - 0x20;
     origin = task->unk_08;
     effect->unk_82++;
-    state = (s16)effect->spell.phase;
+    state = effect->spell.phase;
 
     switch (state) {
     case 0:
@@ -751,7 +751,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
         } while (particle_count_m < 2);
 
         particle_kind = 0x212;
-        side = (u16)effect->unk_86 & 3;
+        side = effect->unk_86 & 3;
         impact = allocate_flagged_object_node(particle_kind);
         if (impact != 0) {
             ((S_80024BE8_15 *)impact)->unk_22 = 0x1E;
@@ -815,7 +815,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             }
         }
 
-        scale_step = (u16)effect->unk_86 + 2;
+        scale_step = effect->unk_86 + 2;
         effect->unk_86 = scale_step;
         if ((s16)scale_step >= 0x3D) {
             scale_step = 0x28;
@@ -849,7 +849,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                 (s16)(-0x20 - (rand() & 0x3F)), 0x1E);
         } while (particle_count_m < 2);
 
-        scale_step = (u16)effect->unk_86 - 2;
+        scale_step = effect->unk_86 - 2;
         effect->unk_86 = scale_step;
         target_flag = 0x10000000;
         if ((s16)scale_step <= 0) {
@@ -864,7 +864,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             target_graphics->unk_0C.bytes[1] = 0x80;
             target_graphics->unk_0C.bytes[2] = 0x80;
             apply_attack_power_and_element_effects(((S_80024BE8_3 *)source)->unk_60, 0x10, effect->spell.variant, 2,
-                (s16)((u16)effect->unk_7E << 9), source, 2);
+                (s16)(effect->unk_7E << 9), source, 2);
         }
         break;
     }

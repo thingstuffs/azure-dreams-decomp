@@ -36,7 +36,7 @@ void advance_two_state_action(void *state_data_arg, void *unused, SpriteFrameSta
 
     linked_data = state_data->unk_00;
     linked_data->unk_52 = (s16) (linked_data->unk_52 | 0x8000);
-    state = (s16)state_data->unk_4C;
+    state = state_data->unk_4C;
     switch (state) {
     case 0: {
         u16 old_state;
@@ -49,7 +49,7 @@ void advance_two_state_action(void *state_data_arg, void *unused, SpriteFrameSta
             old_state = state_data->unk_4C;
             interval = state_data->unk_4E;
             state_data->unk_48 = interval;
-            state_data->unk_4C = (u16) (old_state + 1);
+            state_data->unk_4C = old_state + 1;
         }
         break;
     }

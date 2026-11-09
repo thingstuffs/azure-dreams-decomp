@@ -247,20 +247,20 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position
 }
 
 /* Create an object, initialize its position and render state, and invoke its callback. */
-s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s32 state_98)
+s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, void *spawn_entry)
 {
     TownObjectCallbackEntry initializer;
     s32 saved_angle_index;
     ObjectNodeHeader *object;
     ObjectPosition *position;
-    void *object_state;
+    TownObjectRecord *object_state;
     SpriteFrameState *render_data;
     u16 angle;
-    func_8009FCC4_S_8009D424_3 *state;
+    TownObjectRecord *state;
     u32 color;
     void *callback_render;
     s32 saved_state_48;
-    s32 saved_state_98;
+    void *saved_spawn_entry;
     s32 saved_state_94;
 
     saved_angle_index = angle_index;
@@ -310,7 +310,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     else {
         color = 0x808080;
     }
-    ((func_8009FCC4_S_8009D424_2 *)object_state)->unk_84 = *(u16 *)&position->x.w.i;
+    object_state->unk_84 = position->x.w.i;
     if (position != 0) {
         if (render_data != 0) {
             state = object_state;
@@ -326,14 +326,14 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
             state = object_state;
         }
     }
-    state->unk_86 = *(u16 *)&position->y.w.i;
+    state->unk_86 = position->y.w.i;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = color;
     angle = town_facing_angles[saved_angle_index & 3];
     state->unk_94 = saved_state_94;
     state->unk_95 = state_95;
-    state->unk_96 = state_96;
+    state->variant = state_96;
     if (position != 0) {
         if (render_data != 0) {
             saved_state_48 = state_48;
@@ -347,20 +347,20 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     state->unk_48 = saved_state_48;
     if (position != 0) {
         if (render_data != 0) {
-            saved_state_98 = state_98;
+            saved_spawn_entry = spawn_entry;
         }
         else {
-            saved_state_98 = state_98;
+            saved_spawn_entry = spawn_entry;
         }
     } else {
-        saved_state_98 = state_98;
+        saved_spawn_entry = spawn_entry;
     }
     state->unk_93 = 0;
     state->unk_70 = 0;
     state->unk_71 = 0;
-    state->unk_72 = angle;
+    state->heading = angle;
     state->unk_6E = angle;
-    state->unk_98 = saved_state_98;
+    state->unk_98 = saved_spawn_entry;
     if (position != 0) {
         if (render_data != 0) {
             callback_render = render_data;
@@ -371,7 +371,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     } else {
         callback_render = render_data;
     }
-    ((func_8009FCC4_Callback)*(u32 *)&object->update_callback)(state, position, callback_render);
+    ((TownObjectCallback)object->update_callback)(state, position, callback_render);
     return 1;
 }
 
@@ -660,12 +660,12 @@ void cleanup_or_dispatch_object(void *object_arg, s32 source, s32 context) {
             *status_ptr = 0;
         }
         unlink_node_if_registered(object);
-        ((func_800A05E0_S_8009DD40_0_pre *)object)[-1].unk_00 = (u16) (((func_800A05E0_S_8009DD40_0_pre *)object)[-1].unk_00 | 0x8000);
+        NODE_HEADER(object)->flags |= 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
     object->unk_50.as_x151a23(object, object, source, context);
-    if (!(((func_800A05E0_S_8009DD40_0_pre *)object)[-1].unk_00 & 0x8000)) {
+    if (!(NODE_HEADER(object)->flags & 0x8000)) {
         set_state_bytes_from_flags(update_object_and_clear_status_fields(source), object_arg);
         if (object->unk_4D == 0x13) {
             advance_sprite_animation_and_textures(context);
@@ -695,13 +695,13 @@ void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *
         unlink_node_if_registered(object);
         saved_state = object->unk_15;
         object->unk_15 = 0;
-        ((func_800A075C_S_func_8009DEBC_1 *)((u8 *)object - 0x10))->unk_00 = reset_object_handler_and_saved_byte;
+        NODE_HEADER(object)->update_callback = reset_object_handler_and_saved_byte;
         object->unk_AC = saved_state;
         return;
     }
 
     object->unk_50(object, object, source, context);
-    if (!(((func_800A075C_S_func_8009DEBC_1 *)((u8 *)object - 0x10))->unk_0E & 0x8000)) {
+    if (!(NODE_HEADER(object)->flags & 0x8000)) {
         set_state_bytes_from_flags(update_state_when_active(source), object);
         if (object->unk_4D == 0x13) {
             advance_sprite_animation_and_textures(context);
@@ -710,11 +710,11 @@ void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *
 }
 
 /* Reset the object handler and restore its saved byte unless the check returns two. */
-void reset_object_handler_and_saved_byte(void *object, void *context) {
+void reset_object_handler_and_saved_byte(func_800A075C_S_func_8009DEBC_0 *object, void *context) {
     if (classify_record_by_state_and_position(object, context) != 2) {
         register_node_if_unregistered(object, project_sprite_chain);
-        ((func_800A0824_S_8009DF84_0 *)((u8 *)object - 0x10))->unk_00 = &dispatch_object_or_switch_alternate_state;
-        ((func_800A0824_S_8009DF84_0 *)((u8 *)object - 0x10))->unk_25 = (u8) ((func_800A0824_S_8009DF84_0 *)((u8 *)object - 0x10))->unk_BC;
+        NODE_HEADER(object)->update_callback = &dispatch_object_or_switch_alternate_state;
+        object->unk_15 = object->unk_AC;
     }
 }
 
@@ -944,7 +944,7 @@ void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *pos
 }
 
 /* Updates an object's pulse brightness and handles its completion state. */
-void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, SpriteFrameState *primitive) {
+void update_object_pulse_brightness(TownObjectRecord *object, s32 context, SpriteFrameState *primitive) {
     s32 status_match;
     s16 phase;
     s32 wave;
@@ -958,7 +958,7 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
             *active_flag = 0;
         }
         unlink_node_if_registered(object);
-        ((func_800A0FB4_S_func_8009E714_2 *)object)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(object)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
@@ -967,8 +967,8 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
         return;
     }
     register_node_if_unregistered(object, project_sprite_chain);
-    phase = object->unk_6C + 0x60;
-    object->unk_6C = phase;
+    phase = object->timer + 0x60;
+    object->timer = phase;
     wave = rsin(phase);
     wave_step = wave >> 7;
     if (wave < 0) {
@@ -982,14 +982,14 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
     primitive->color.c.b = (s8)brightness;
     primitive->color.c.g = (s8)brightness;
     primitive->color.c.r = (s8)brightness;
-    if (!(((func_800A0FB4_S_func_8009E714_2 *)object)[-1].unk_00 & 0x8000) &&
+    if (!(NODE_HEADER(object)->flags & 0x8000) &&
         object->unk_4D == 0x13) {
         advance_sprite_animation_and_textures(primitive);
     }
 }
 
 /* Initialize the entity from its table entry and invoke its callback. */
-void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectPosition *placement, func_800A10FC_S_8009E85C_2 *state) {
+void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectPosition *placement, SpriteFrameState *state) {
     u8 *table_page = (u8 *)0x80010000;
     s32 active;
     s32 init_flags;
@@ -1001,14 +1001,14 @@ void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectP
     u16 flags;
     u8 entry_type;
 
-    ((func_800A10FC_S_8009E85C_0_pre *)entity)[-1].unk_00 = update_object_pulse_brightness;
+    NODE_HEADER(entity)->update_callback = update_object_pulse_brightness;
     entity->unk_A0 = 0xFFE00000;
     placement->z.v = 0xFFE00000;
     entity->unk_4C = table_page[(entity->unk_95 * 4) + 0x980];
     entry_type = table_page[(entity->unk_95 * 4) + 0x981];
     entity->unk_4D = entry_type;
     if (entry_type == 0x12) {
-        state->unk_08 = &item_effect_descriptor;
+        state->source = &item_effect_descriptor;
     } else {
         set_object_state_for_mode(entity, state, entity->unk_4C,
             ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(entity->unk_95 * 4)
@@ -1016,10 +1016,10 @@ void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectP
     }
     register_node_if_unregistered(entity, project_sprite_chain);
     init_flags = 0x20;
-    state->unk_10 = init_flags;
-    flags = state->unk_14.s;
+    state->tpage_abr = init_flags;
+    flags = state->flags;
     active = D_800D09C8[0];
-    state->unk_14.u = (u16)(flags | 0x1C);
+    state->flags = (u16)(flags | 0x1C);
     tail_entity = entity;
     if (active == 0) {
         entity->timer = scale_random_to_unsigned_halfword_limit(0x1000);
@@ -1029,7 +1029,7 @@ void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectP
     callback_entity = tail_entity;
     callback_placement = placement;
     callback_state = state;
-    callback = ((func_800A10FC_S_8009E85C_5_pre *)callback_entity)[-1].unk_00;
+    callback = NODE_HEADER(callback_entity)->update_callback;
     D_800D09C8[0] = 0;
     callback(callback_entity, callback_placement, callback_state);
 }

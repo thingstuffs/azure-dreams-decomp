@@ -108,7 +108,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
             (s32)*(s16 *)(direction_y +
                 (((u16)actor->facing >> 8) & 0xE)) << 17;
 
-        body->unk_A0.value -= (s32)(s16)body->action_timer << 17;
+        body->unk_A0.value -= (s32)body->action_timer << 17;
         timer = body->action_timer + 1;
         body->action_timer = timer;
         if ((s16)timer < 9) {
@@ -140,7 +140,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
         movement->velocity_x -= (*(s32 *)&body->unk_A8);
         movement->velocity_y -= body->unk_AC.value;
         body->unk_A0.value =
-            rsin((s16)body->action_timer * 146) * 160 + 0x100000;
+            rsin(body->action_timer * 146) * 160 + 0x100000;
 
     case 5:
     {

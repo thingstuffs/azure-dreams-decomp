@@ -433,7 +433,7 @@ void advance_radial_effect_state(Row_8191740C_S_80024C0C_0 *motion, void *positi
 
     object = motion->unk_00;
     object->unk_14++;
-    state = (s16)motion->unk_04;
+    state = motion->unk_04;
     switch (state) {
     case 0:
         effect->angle_z += 0x200;
@@ -575,7 +575,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
     owner = effect->unk_00;
     owner->unk_14 = (u16) (owner->unk_14 + 1);
     advance_sprite_animation_and_textures(visual);
-    effect->unk_06 = (u16) ((u16)effect->unk_06 + 1);
+    effect->unk_06++;
     visual->angle_z = (u16) (visual->angle_z + 0x200);
     phase = effect->unk_04.s;
 
@@ -584,7 +584,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
     {
         u16 radius;
 
-        if ((u16)effect->unk_06 & 1) {
+        if (effect->unk_06 & 1) {
             radius = effect->unk_0A + 2;
         } else {
             radius = effect->unk_0A + 1;
@@ -601,14 +601,14 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
         transform->unk_08.at02_u16.v =
             (u16) (transform->unk_08.at02_u16.v - 2);
     case 1:
-        if ((s16) effect->unk_06 >= 0x20) {
+        if (effect->unk_06 >= 0x20) {
             effect->unk_06 = 0U;
             effect->unk_04.u =
                 (u16) (effect->unk_04.u + 1);
         }
         break;
     case 2:
-        if ((s16) effect->unk_06 >=
+        if (effect->unk_06 >=
             effect->unk_08) {
             create_an_oriented_effect_between_position_owner(effect, transform);
             (*(u16 *)((u8 *)effect + (-2))) =

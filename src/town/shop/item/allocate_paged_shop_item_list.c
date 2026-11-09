@@ -26,8 +26,6 @@ typedef struct S_800B3D50_node {
     S_800B3D50_sub sub;      /* 0x20 */
 } S_800B3D50_node;
 
-extern void configure_shop_object_and_finalize(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
-
 /* Allocate and initialize a paged item-list node, returning null on failure. */
 void *allocate_paged_shop_item_list(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base,
     s32 display_mode)

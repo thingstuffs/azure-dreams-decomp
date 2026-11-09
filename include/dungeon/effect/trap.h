@@ -58,8 +58,8 @@ void tick_trap_effect_countdown(TrapOwnedTimedEffectBody *effect);
 
 /* Position and direction carried by each segment of the five-part target effect. */
 typedef struct FivePartTargetEffectBody {
-    s16 x;
-    s16 y;
+    u16 x;
+    u16 y;
     s16 z;
     u8 direction;
     u8 ticks_remaining;

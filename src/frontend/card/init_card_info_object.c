@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card.h"
 #include "main/data.h"
 #include "town/menu.h"
@@ -21,7 +22,7 @@ void *init_card_info_object(s32 init_option, s32 info_value) {
     void *card_state;
 
     base = &D_8040B4F8;
-    card_state = (u8 *)base + 0x20;
+    card_state = NODE_BODY(base);
     if (func_80047FD8(base) == 0) {
         base = func_8003C714(0, base, 0x387);
         if (base == 0) {

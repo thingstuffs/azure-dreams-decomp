@@ -60,7 +60,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
         action_work->action_timer = 0x14;
         action_work->action_phase = action_work->action_phase + 1;
     case 1:
-        if (((s16)action_work->action_timer == 0x13) || (sprite->flags & 0x8000)) {
+        if ((action_work->action_timer == 0x13) || (sprite->flags & 0x8000)) {
             if (!(sprite->flags & 0x8000)) {
                 play_sound_if_enabled(0x707);
             }
@@ -106,7 +106,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
                 spawned_sprite->source = D_80077C50;
             }
         }
-        if (((s16)action_work->action_timer == 0x12) || (sprite->flags & 0x8000)) {
+        if ((action_work->action_timer == 0x12) || (sprite->flags & 0x8000)) {
             sprite->flags |= 0x800;
         }
         timer = action_work->action_timer - 1;

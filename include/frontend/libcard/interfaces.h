@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "frontend/libcard/save_menu.h"
 struct CardMessageDialogBody;
+struct CardSaveHeadingDisplayPrefix;
 
 #include "common.h"
 #include "frontend/libcard/card_chooser.h"
@@ -12,7 +13,7 @@ struct Object_800128C8;
 /* MAIN frontend contracts. Context pointers retain their existing opaque views. */
 void card_boot_begin_selected_value_transition(s32 object_addr, s32 value);
 void card_boot_bind_command_panel_resources(CardCommandPanelBody *panel);
-void card_boot_bind_save_heading_display_data(void *record);
+void card_boot_bind_save_heading_display_data(struct CardSaveHeadingDisplayPrefix *record);
 s32 card_boot_build_eight_entry_presence_mask(void);
 void card_boot_close_events_and_resume_timer(void);
 void *card_boot_create_save_slot_menu(ObjectNodeHeader *init_value, s32 state_value);

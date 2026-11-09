@@ -4,22 +4,17 @@
 #include "m2c_compat.h"
 #include "frontend/card.h"
 #include "frontend/libcard.h"
+#include "frontend/libcard/slot_list.h"
+#include "shared/object_node.h"
 
-typedef struct S_80024274_0 {
-    u8 pad_00[0x224];
-    s32 unk_224;
-    u8 pad_228[0x58];
-    s32 * unk_280;
-} S_80024274_0;
-
-/* Initialize the object's embedded state and clear its referenced word. */
+/* Restore the slot window's frame tint and clear its selection marker text. */
 void card_boot_clear_slot_selection_marker(void *object_addr) {
-    S_80024274_0 *state;
+    CardSlotWindow *window;
 
     if (object_addr != 0) {
-        state = object_addr + 0x20;
-        state->unk_224 = 0x606868;
-        *state->unk_280 = 0;
+        window = NODE_BODY(object_addr);
+        window->frame_block.fields.unk_00 = 0x606868;
+        window->pointers[9]->unk_00 = 0;
     }
 }
 

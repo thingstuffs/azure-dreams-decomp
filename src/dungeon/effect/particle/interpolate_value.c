@@ -117,7 +117,7 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
     u8 *coord_table;
     s32 one;
 
-    phase = (s16)effect->unk_12;
+    phase = effect->unk_12;
     switch (phase) {
     case 0:
         if (effect->unk_18 < 6) {
@@ -248,7 +248,7 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
         segment_offset += 0xC;
     } while (segment < 7);
 
-    ticks_left = (u16)effect->unk_18 - 1;
+    ticks_left = effect->unk_18 - 1;
     effect->unk_18 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (((EffectFieldView_81331C88Prefix *)effect)[-1].flags) |= 0x8000;

@@ -69,7 +69,7 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
         body->action_timer = 8;
         step_count = (u8) ((s8)state->movement_queue_state);
         if ((s32) step_count > 0) {
-            body->action_timer = (s16) (8 / (s32) step_count);
+            body->action_timer = 8 / (s32) step_count;
         }
     }
 }

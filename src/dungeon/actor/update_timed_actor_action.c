@@ -11,7 +11,7 @@ typedef struct {
     u8 pad0[0x1c];
     s32 flags;
     u8 pad20[0x3c];
-    s32 value;
+    void *next_actor_header; /* +0x5C: next live actor list entry */
 } Resource;
 
 typedef struct {
@@ -64,16 +64,16 @@ void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resourc
                 g_dungeon_status.activity_counts.parts.pending_action_count += 1;
                 object->state += 1;
             } else {
-                process_unflagged_linked_entries_alt(resource->value);
-                process_unflagged_linked_entries(resource->value);
+                process_unflagged_linked_entries_alt(resource->next_actor_header);
+                process_unflagged_linked_entries(resource->next_actor_header);
                 g_dungeon_status.flags |= 0x812;
             }
         }
         break;
     case 2:
         resource->flags &= ~0x200;
-        process_unflagged_linked_entries_alt(resource->value);
-        process_unflagged_linked_entries(resource->value);
+        process_unflagged_linked_entries_alt(resource->next_actor_header);
+        process_unflagged_linked_entries(resource->next_actor_header);
         g_dungeon_status.flags |= 0x812;
         object->callback = handle_actor_commands_and_facing;
         g_dungeon_status.activity_counts.parts.pending_action_count -= 1;

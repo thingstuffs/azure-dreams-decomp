@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "engine/node/registration.h"
 #include "shared/object_flags.h"
 #include "town/menu/object.h"
@@ -26,6 +27,6 @@ void finalize_object_after_check_or_expiry(BoundsExpiryObject *object, s32 check
     }
 
     unlink_node_if_registered(object);
-    ((ObjectNodeHeader *)object - 1)->flags |= NODE_REMOVE;
+    NODE_HEADER(object)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

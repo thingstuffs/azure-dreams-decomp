@@ -43,13 +43,17 @@
     nor `wrong` on BASE (same entry, BASE text; BASE uses HEAD's record layouts);
     --fail-all fails on every stale or `wrong` entry.  Without either flag (b) and (c)
     report.  --no-layouts skips clang: renames are then `renamed?`.
+(e) evidence load numbers (report only): prose such as "2 lh and 4 lhu" in a row's evidence is compared
+    with the sums of the row's own `loads`; an op whose stated numbers never equal the field is listed (--list).
 (d) weak evidence (report only): retired rows that carry load counts, by how many
     mapped loads (lb, lbu, lh, lhu, lw; stores never vote) the decision rests on.
 
 --rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
 the same cast spelling that passes the field rule, following the file's history from the
 newest committed version where the entry held (cast and field), unique per row; a line that
-fails the field rule is never chosen.  When no such cast is left the line number is dropped
+fails the field rule is never chosen.  Lines move by `git diff` hunk offsets from the newest version
+whose cited lines hold the cast text (field rule first, cast text alone when the field never held), and
+only then by text search nearest the projected line.  When no such cast is left the line number is dropped
 and the entry is marked `(cast gone)`.  --write applies the proposals.
 """
 from __future__ import annotations
@@ -523,6 +527,30 @@ def check_sites(head_rows, head_texts, base_rows=None, base_texts=None, layouts=
     return results, counts, fields
 
 
+EVIDENCE_LOAD = re.compile(r'\b(\d+)\s+(lbu|lb|lhu|lh|lw|unmapped)\b')
+
+
+def evidence_load_mismatches(rows):
+    """Report-only: [(id, op, stated numbers, actual)] where the evidence prose quotes retail load counts
+    ("2 lh and 4 lhu") and none of the numbers stated for an op equals the row's own `loads` sum.
+
+    Prose is written from a census run; a row whose loads were re-censused later disagrees with it.
+    Only rows with a `loads` field and the word "load" in the evidence text are read."""
+    out = []
+    for row in rows:
+        text, loads = row.get('evidence'), row.get('loads')
+        if not isinstance(text, str) or not isinstance(loads, dict) or not re.search(r'\bloads?\b', text):
+            continue
+        stated = collections.defaultdict(list)
+        for number, op in EVIDENCE_LOAD.findall(text):
+            stated[op].append(int(number))
+        for op, numbers in sorted(stated.items()):
+            actual = sum(v.get(op, 0) for v in loads.values() if isinstance(v, dict))
+            if actual not in numbers:
+                out.append((row['id'], op, numbers, actual))
+    return out
+
+
 def weak_evidence(rows, base_rows=None):
     base_status = {r['id']: r.get('status') for r in base_rows or ()}
     retired = [r for r in rows if r.get('status') == 'retired']
@@ -569,9 +597,46 @@ class History:
 
     def diff(self, rev, path, old, new):
         if (rev, path) not in self.opcodes:
-            import difflib
-            self.opcodes[(rev, path)] = difflib.SequenceMatcher(None, old, new, autojunk=False).get_opcodes()
+            self.opcodes[(rev, path)] = git_opcodes(old, new)
         return self.opcodes[(rev, path)]
+
+
+HUNK = re.compile(r'^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@')
+
+
+def git_opcodes(old, new):
+    """difflib-style opcodes from `git diff -U0` (histogram), so old lines move by git's own hunk
+    offsets; difflib's matcher when git is unavailable."""
+    import tempfile
+    try:
+        with tempfile.TemporaryDirectory(prefix='ledger_diff.') as temporary:
+            a, b = Path(temporary) / 'a', Path(temporary) / 'b'
+            a.write_text(''.join(line + '\n' for line in old))
+            b.write_text(''.join(line + '\n' for line in new))
+            result = subprocess.run(['git', 'diff', '--no-index', '--no-color', '-U0', '--diff-algorithm=histogram',
+                                     '--', str(a), str(b)], capture_output=True, text=True, check=False)
+        if result.returncode not in (0, 1):
+            raise OSError(result.stderr)
+    except OSError:
+        import difflib
+        return difflib.SequenceMatcher(None, old, new, autojunk=False).get_opcodes()
+    ops, i, j = [], 0, 0
+    for line in result.stdout.splitlines():
+        hunk = HUNK.match(line)
+        if not hunk:
+            continue
+        count_a = 1 if hunk[2] is None else int(hunk[2])
+        count_b = 1 if hunk[4] is None else int(hunk[4])
+        i1 = int(hunk[1]) - 1 if count_a else int(hunk[1])
+        j1 = int(hunk[3]) - 1 if count_b else int(hunk[3])
+        if i1 > i:
+            ops.append(('equal', i, i1, j, j1))
+        ops.append(('replace' if count_a and count_b else 'delete' if count_a else 'insert',
+                    i1, i1 + count_a, j1, j1 + count_b))
+        i, j = i1 + count_a, j1 + count_b
+    if i < len(old):
+        ops.append(('equal', i, len(old), j, len(new)))
+    return ops
 
 
 def map_line(opcodes, new, n, token, accept):
@@ -628,6 +693,10 @@ def relocate(row, entries, texts, history=None, layouts=None):
         def held(old_lines):
             return all(at(n, old_lines, None) in ('field', 'alias', 'named', 'typedef') for n in numbers)
         rev, old = history.anchor(path, numbers, token, held) if history else (None, None)
+        if old is None and history:
+            # The field rule never held on a commit; the newest version whose cited lines hold the
+            # cast text still gives the git line offsets, which beat a text search from the old number.
+            rev, old = history.anchor(path, numbers, token)
         near = [i + 1 for i, t in enumerate(lines) if token in squash(t) and at(i + 1) in ACCEPTED]
 
         def free(n):
@@ -744,6 +813,9 @@ def main(argv=None):
         n = weak['newly_retired']
         line += f"; newly retired vs BASE {n['rows']} (<5 {n['under5']}, 1 {n['one']})"
     print(line)
+    mismatched = evidence_load_mismatches(head_rows)
+    print(f'evidence load numbers (report only): {len({m[0] for m in mismatched})} rows quote counts that '
+          f'differ from their own loads ({len(mismatched)} ops)')
     flagged = stale + wrong
     if args.list:
         listed = flagged + reported
@@ -762,6 +834,8 @@ def main(argv=None):
         for row in head_rows:
             if row.get('status') == 'retired' and 0 < mapped_loads(row) < 5:
                 print(f'  WEAK {mapped_loads(row)} {row["id"]}')
+        for rid, op, numbers, actual in mismatched:
+            print(f'  EVIDENCE-LOADS {rid}: {op} stated {numbers}, loads field has {actual}')
     for problem in loads['problems']:
         print('LOADS ' + problem)
     failed = bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)

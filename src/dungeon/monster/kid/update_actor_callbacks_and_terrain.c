@@ -166,8 +166,8 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                             actor_arg->unk_A8 = 0;
                         }
                     }
-                    bob_offset = rsin(((s16)actor_arg->unk_A8 << 0xC) / 20) >> 0xA;
-                    actor_arg->unk_A8 = (s16) ((u16) actor_arg->unk_A8 + 1);
+                    bob_offset = rsin((actor_arg->unk_A8 << 0xC) / 20) >> 0xA;
+                    actor_arg->unk_A8++;
                 }
                 if (!(actor_arg->action_state_flags & 8)) {
                     hover_ground_offset = (s16) (sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
@@ -263,8 +263,8 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                             actor_arg->unk_A8 = 0;
                         }
                     }
-                    bob_offset = rsin(((s16)actor_arg->unk_A8 << 0xC) / 20) >> 0xA;
-                    actor_arg->unk_A8 = (s16) ((u16) actor_arg->unk_A8 + 1);
+                    bob_offset = rsin((actor_arg->unk_A8 << 0xC) / 20) >> 0xA;
+                    actor_arg->unk_A8++;
                 }
                 if (!(actor_arg->action_state_flags & 8)) {
                     hidden_hover_offset = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,

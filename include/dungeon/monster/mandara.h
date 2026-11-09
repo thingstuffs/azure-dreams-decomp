@@ -32,7 +32,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
 
 /* Callback entry points. */
 s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appearance);
-void advance_actor_replacement_sequence(RotateAndRestoreActorStateBody *effect, s32 unused, void *primitive);
+void advance_actor_replacement_sequence(RotateAndRestoreActorStateBody *effect, s32 unused, SpriteFrameState *primitive);
 
 /* Animation counters and the image buffer consumed by StoreImage. */
 typedef struct MandaraEntryEffectBody {

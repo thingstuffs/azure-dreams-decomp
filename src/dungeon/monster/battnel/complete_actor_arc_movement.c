@@ -12,39 +12,26 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/item.h"
 
-typedef struct S_80172290_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    s16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    s32 unk_A0;
-} S_80172290_0;   /* arg0 in complete_actor_arc_movement */
-
 extern s32 battnel_action_resume_address;
 
 /* Advance arcing movement toward the destination tile and finalize the landing. */
-void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion, Rec_D_80082E80 *destination, ActorRecord *entity) {
+void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Rec_D_80082E80 *destination, ActorRecord *entity) {
     u16 query_output;
     s32 frames_left;
     s32 entity_flags;
     s32 phase;
 
-    phase = animation->unk_9B;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
-        animation->unk_98 |= 8;
+        action->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        animation->unk_A0 = 0;
-        animation->unk_9B++;
+        action->unk_A0.value = 0;
+        action->action_phase++;
     case 1:
-        frames_left = animation->unk_96;
-        animation->unk_90 -= animation->unk_A0;
+        frames_left = action->action_timer;
+        action->unk_90.value -= action->unk_A0.value;
         if (frames_left != 0) {
             {
                 s32 target_x = destination->unk_24 << 6;
@@ -57,31 +44,31 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y =
-                    ((target_y - current_y) << 16) / animation->unk_96;
+                    ((target_y - current_y) << 16) / action->action_timer;
             }
-            animation->unk_A0 += motion->velocity_z;
+            action->unk_A0.value += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
 
-        animation->unk_90 += animation->unk_A0;
-        if (animation->unk_96 < 2) {
-            animation->unk_90 = 0;
-            animation->unk_98 &= 0xFFF7;
+        action->unk_90.value += action->unk_A0.value;
+        if (action->action_timer < 2) {
+            action->unk_90.value = 0;
+            action->action_state_flags &= 0xFFF7;
             entity->flags1C |= ACTOR_GROUNDED;
-            animation->unk_9B++;
+            action->action_phase++;
         }
     case 2:
         if (entity->flags1C & ACTOR_GROUNDED) {
-            animation->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
-            animation->unk_9B++;
+            action->action_phase++;
         }
     }
 
-    if ((s16)--(*(u16 *)&animation->unk_96) <= 0) {
+    if (--action->action_timer <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
@@ -112,7 +99,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
         }
 
         if ((check_actor_floor_trap(destination, entity) << 16) > 0) {
-            animation->unk_8C = &battnel_action_resume_address;
+            action->unk_8C.address = &battnel_action_resume_address;
             on_actor_status_updated(entity);
         }
     }

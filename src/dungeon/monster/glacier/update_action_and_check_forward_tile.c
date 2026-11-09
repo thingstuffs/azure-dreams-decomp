@@ -154,7 +154,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             animation->flags &= 0xF7FF;
         }
 
-        if (!((s16)actor->action_timer != 0x0A && !(animation->flags & 0x8000))) {
+        if (!(actor->action_timer != 0x0A && !(animation->flags & 0x8000))) {
             directions = glacier_direction_offsets;
             actor->unk_AC.bytes[1] = 0;
             x = motion->x.w.i +
@@ -240,7 +240,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             entity->facing = spin_angle;
         }
     }
-        if ((s16)actor->action_timer != 0x13) {
+        if (actor->action_timer != 0x13) {
             return;
         }
         actor->action_timer = 0;
@@ -298,7 +298,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             entity->facing = spin_angle;
         }
     }
-        if ((s16)actor->action_timer != 0x13) {
+        if (actor->action_timer != 0x13) {
             return;
         }
         actor->action_timer = 0;

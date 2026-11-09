@@ -65,7 +65,7 @@ void update_ring_effect(FollowingColorBlendEffectBody *state, S_819598B4_2 *valu
         values->unk_06 = (s16)((u16)values->unk_06 + ((s32)(state->unk_16
             - values->unk_06) / state->unk_30));
         value0A = values->unk_0A;
-        values->unk_0A = (s16)((u16)values->unk_0A + ((s32)(state->unk_18
+        values->unk_0A = (values->unk_0A + ((s32)(state->unk_18
             - value0A) / state->unk_30));
         timerNextFirst = (u16)state->unk_30 - 1;
         state->unk_30 = timerNextFirst;

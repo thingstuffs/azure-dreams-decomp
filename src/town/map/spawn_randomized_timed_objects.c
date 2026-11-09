@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "town/map/animation.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
@@ -16,7 +17,6 @@
 
 
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
-void register_node(void *, void *);
 
 /* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
 void spawn_randomized_timed_objects(TownMapSpawnState *source)
@@ -84,7 +84,7 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source)
     next_value = source->count - 1;
     source->count = next_value;
     if ((next_value << 0x10) <= 0) {
-        ((ObjectNodeHeader *)source - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(source)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 

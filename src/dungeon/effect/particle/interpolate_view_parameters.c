@@ -395,7 +395,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                 effect->unk_30 = object->unk_60.s32;
                 effect->unk_0A = ((s16)state->unk_84 - 1) / 2;
                 effect->unk_15 = state->unk_09;
-                effect->unk_16 = (u16)state->unk_7E;
+                effect->unk_16 = state->unk_7E;
 
                 {
                     u8 *table_base = (u8 *)((s8 *)dir_step_x);
@@ -444,7 +444,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                             (target_pos->unk_08.s32 - output_pos->unk_08.s32 - 0x200000) /
                             (duration - 1);
                     }
-                    end_time = (u16)effect->unk_02;
+                    end_time = effect->unk_02;
                     end_time += 0x3C;
                     state->unk_86 = end_time;
                 } else {

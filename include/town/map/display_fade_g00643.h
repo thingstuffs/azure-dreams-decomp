@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BEA7C, PD:town/engine:80111FB0. */
 
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -39,7 +40,6 @@ typedef struct {
 /* arg2 in advance_color_fade_and_set_completion */
 extern void noop_release_notification(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern u8 D_80111FB0[8];
-extern void register_node(void *entry, void *registration_id);
 extern void noop_display_setup_hook(void);
 extern void create_positioned_callback_object(void *position, void *object_value, void *data_value);
 extern s32 display_registration_tag;

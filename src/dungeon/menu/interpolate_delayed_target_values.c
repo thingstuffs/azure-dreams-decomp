@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/menu.h"
+#include "shared/object_node.h"
 #include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/dungeon_floor.h"
@@ -7,36 +9,13 @@
 #include "dungeon/system.h"
 
 typedef struct {
-    u8 value0;
-    u8 value1;
-    u8 value2;
-    u8 pad03[0x17];
-    s16 state;
-    u16 counter;
-    u8 pad20[8];
-    s32 flags;
-    u8 pad2c[2];
-    s16 mode;
-} InterpState;
-
-typedef struct {
-    u8 pad00[0x0c];
-    u8 value0;
-    u8 value1;
-    u8 value2;
-    u8 pad0f[0x0d];
-    u16 counter;
-    u16 counter_copy;
-} InterpTarget;
-
-typedef struct {
     s32 first;
     u8 pad04[0x2968];
     s32 last;
 } E296C;
 
 /* Interpolate target values after a delay, then reduce its counter to zero and update flags. */
-void interpolate_delayed_target_values(InterpState *state, ObjectPosition *unused, InterpTarget *target) {
+void interpolate_delayed_target_values(MapMarkerRevealBody *state, ObjectPosition *unused, SpriteFrameState *sprite) {
     u16 ticks_left;
     u16 target_counter;
     E296C *global_state;
@@ -46,38 +25,38 @@ void interpolate_delayed_target_values(InterpState *state, ObjectPosition *unuse
     s32 merged_flags;
     s32 cleared_flags;
 
-    if (state->state == 0) {
-        ticks_left = state->counter - 1;
-        state->counter = ticks_left;
+    if (state->phase == 0) {
+        ticks_left = state->ticks_left - 1;
+        state->ticks_left = ticks_left;
         if ((s16)ticks_left <= 0) {
-            register_node((u8 *)state - 0x20, draw_linked_sprites);
-            state->counter = 8;
-            state->state++;
+            register_node(NODE_HEADER(state), draw_linked_sprites);
+            state->ticks_left = 8;
+            state->phase++;
             play_sound_if_enabled(0x80F);
         }
-    } else if (state->state == 1) {
-        target->value0 += (state->value0 - target->value0) / (s16)state->counter;
-        target->value1 += (state->value1 - target->value1) / (s16)state->counter;
-        target->value2 += (state->value2 - target->value2) / (s16)state->counter;
-        ticks_left = state->counter - 1;
-        state->counter = ticks_left;
+    } else if (state->phase == 1) {
+        sprite->color.c.r += (state->color.c.r - sprite->color.c.r) / (s16)state->ticks_left;
+        sprite->color.c.g += (state->color.c.g - sprite->color.c.g) / (s16)state->ticks_left;
+        sprite->color.c.b += (state->color.c.b - sprite->color.c.b) / (s16)state->ticks_left;
+        ticks_left = state->ticks_left - 1;
+        state->ticks_left = ticks_left;
         if ((s16)ticks_left <= 0) {
-            *(u32 *)((u8 *)target + 0x0c) = *(u32 *)state;
-            state->counter = 0x10;
-            state->state++;
+            sprite->color.word = state->color.word;
+            state->ticks_left = 0x10;
+            state->phase++;
             return;
         }
     } else {
-        target_counter = target->counter;
-        target_counter -= target_counter / (s16)state->counter;
-        target->counter = target_counter;
-        target->counter_copy = target_counter;
-        ticks_left = state->counter - 1;
-        state->counter = ticks_left;
+        target_counter = sprite->scale_x;
+        target_counter -= target_counter / (s16)state->ticks_left;
+        sprite->scale_x = target_counter;
+        sprite->scale_y = target_counter;
+        ticks_left = state->ticks_left - 1;
+        state->ticks_left = ticks_left;
         if ((s16)ticks_left <= 0) {
             global_state = ((E296C *)&dungeon_floor_flags);
             prior_flags = global_state->first;
-            state_flags = state->flags;
+            state_flags = state->floor_flags;
             merged_flags = prior_flags | state_flags;
             global_state->first = merged_flags;
             *(u16 *)((u8 *)state - 2) |= 0x8000;

@@ -49,14 +49,14 @@ void update_actor_death_motion(ActorRecord *body, void *motion, void *sprite, Ac
                 + actor->facing + 0x100) >> 9) & 7], 0, 1);
         }
     }
-    frames_left = (s16) body->action_timer;
+    frames_left = body->action_timer;
     if (frames_left > 0) {
         pos_x = ((EntityRec *)motion)->x.v;
         pos_y = ((EntityRec *)motion)->y.v;
         ((EntityRec *)motion)->x.v = (s32) (pos_x + ((s32) ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20)
             << 0x10) - pos_x) / frames_left));
         ((EntityRec *)motion)->y.v = (s32) (pos_y + ((s32) ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20)
-            << 0x10) - pos_y) / (s16) body->action_timer));
+            << 0x10) - pos_y) / body->action_timer));
         velocity_x = ((u32)((EntityRec *)motion)->unk_0C);
         ((EntityRec *)motion)->unk_0C = (u32) ((s32) (velocity_x + (velocity_x >> 0x1F)) >> 1);
         ((EntityRec *)motion)->unk_10 = (s32) ((s32) ((EntityRec *)motion)->unk_10 / 2);

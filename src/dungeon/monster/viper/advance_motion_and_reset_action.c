@@ -163,7 +163,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
             sprite->flags |= 0x800;
             state->action_timer = 8;
         }
-        wait_ticks = state->action_timer - 1;
+        wait_ticks = (u16)state->action_timer - 1;
         state->action_timer = wait_ticks;
         if ((s16)wait_ticks <= 0) {
             state->action_timer = 0;

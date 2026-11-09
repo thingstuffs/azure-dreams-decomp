@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
@@ -925,7 +926,7 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Sp
         action->action_phase++;
                         /* fallthrough */
     case 1:
-        frames_left = ((s16)action->action_timer);
+        frames_left = action->action_timer;
         action->unk_90.value -= action->unk_A0.value;
         if (frames_left != 0) {
             {
@@ -939,13 +940,13 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Sp
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
-                    ((s16)action->action_timer);
+                    (action->action_timer);
             }
             action->unk_A0.value += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
         action->unk_90.value += action->unk_A0.value;
-        if (((s16)action->action_timer) < 0) {
+        if ((action->action_timer) < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
@@ -1041,7 +1042,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
     dir_offset = ((u16)(actor->facing) >> 8) & 0xE;
     dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
     dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
-    timer = body->action_timer - 1;
+    timer = (u16)body->action_timer - 1;
     body->action_timer = timer;
 
     switch (state) {
@@ -1116,7 +1117,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             play_sound_if_enabled(0x813);
         }
-        if ((s16)body->action_timer > 0)
+        if (body->action_timer > 0)
             return;
         body->action_timer = 8;
         sprite->flags &= 0xF7FF;
@@ -1141,7 +1142,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             (s32)((((sprite->tile_y << 6) + 0x20) << 16) -
                   position->y.v) >> 1;
         if ((sprite->flags & 0xE000) ||
-            ((s16)body->action_timer <= 0)) {
+            (body->action_timer <= 0)) {
             position->velocity_z = 0;
             position->velocity_y = 0;
             position->velocity_x = 0;
@@ -1283,7 +1284,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
             action->action_timer = 0x20;
             action->action_state_flags |= 0x80;
         }
-        wait_ticks = action->action_timer - 1;
+        wait_ticks = (u16)action->action_timer - 1;
         action->action_timer = wait_ticks;
         if ((s16)wait_ticks <= 0) {
             action->action_timer = 0;
@@ -1492,7 +1493,7 @@ void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12
             entity->flags &= 0xF7FF;
             timer = body->unk_A4.halves.low.u + 0x60;
             body->unk_A4.halves.low.u = timer;
-            body->action_timer = (u16)((timer << 16) >> 24);
+            body->action_timer = (timer << 16) >> 24;
         }
         if ((entity->type == 2) && (entity->flags & 0x1000)) {
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + object->angle + 0x100) >> 9) & 7;
@@ -2279,7 +2280,7 @@ void update_turning_fade_effect_and_model(void *record_data) {
 }
 
 /* Builds opening and closing spherical wireframe segments and expires the effect when its timer runs out. */
-void build_animated_spherical_wireframe(void *effect, void *origin, SpriteFrameState *tint) {
+void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, SpriteFrameState *tint) {
     s16 ring_angles[10];
     s32 coordinate;
     u32 scale;
@@ -2532,9 +2533,9 @@ void build_animated_spherical_wireframe(void *effect, void *origin, SpriteFrameS
 }
 
 /* Creates a gray spherical wireframe effect offset vertically from the supplied position. */
-void create_offset_effect(void *source_arg, void *spawn_pos_arg, SpriteFrameState *unused_context)
+void create_offset_effect(void *source_arg, ObjectPosition *spawn_pos_arg, SpriteFrameState *unused_context)
 {
-    R12_80175180_S_80175180_5 *spawn_pos = spawn_pos_arg;
+    ObjectPosition *spawn_pos = spawn_pos_arg;
     u16 render_flags;
     void *effect;
     SpriteFrameState *render_part;
@@ -2558,9 +2559,9 @@ void create_offset_effect(void *source_arg, void *spawn_pos_arg, SpriteFrameStat
         render_flags |= 0x80;
         render_part->flags = render_flags;
         position = ((R12_80175180_S_80175180_2 *)effect)->unk_08;
-        position->unk_00 = spawn_pos->unk_00;
-        position->unk_04 = spawn_pos->unk_04;
-        position->unk_08 = spawn_pos->unk_08 + 0xFFE80000;
+        position->unk_00 = spawn_pos->x.v;
+        position->unk_04 = spawn_pos->y.v;
+        position->unk_08 = spawn_pos->z.v + 0xFFE80000;
         render_part = ((R12_80175180_S_80175180_2 *)effect)->unk_0C;
         render_part->scale_y = 0x1000;
         render_part->scale_x = 0x1000;
@@ -2703,11 +2704,11 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
         color_index = lookup_masked_byte_table(actor);
         target_color = ((u8 * *)actor_effect_color_targets)[color_index];
         scene_color->view.tint.parts.tint_r += ((s32)target_color[0]
-            - scene_color->view.tint.parts.tint_r) / (s16)sequence->action_timer;
+            - scene_color->view.tint.parts.tint_r) / sequence->action_timer;
         scene_color->view.tint.parts.tint_g += ((s32)target_color[1]
-            - scene_color->view.tint.parts.tint_g) / (s16)sequence->action_timer;
+            - scene_color->view.tint.parts.tint_g) / sequence->action_timer;
         scene_color->view.tint.parts.tint_b += ((s32)target_color[2]
-            - scene_color->view.tint.parts.tint_b) / (s16)sequence->action_timer;
+            - scene_color->view.tint.parts.tint_b) / sequence->action_timer;
         return;
 
     case 4:

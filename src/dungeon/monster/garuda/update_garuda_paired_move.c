@@ -20,25 +20,11 @@
 
 /* Sparse views for fields not covered by the existing record types. */
 
-typedef struct S_func_81008664_1 {
-    u8 pad_00[0x8C];
-    s32 *unk_8C;
-    union {
-        s32 unk_90;
-        struct {
-            u8 pad_90[2];
-            u16 unk_92;
-        } unk_92;
-    } unk_90;
-    u8 pad_94[2];
-    s16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[1];
-    u8 unk_9B;
-    u8 pad_9C[0xC];
+/* Garuda keeps its partner's body pointer in the four bytes at ActorRecord +0xA8 (over unk_A8 and unk_AA). */
+typedef struct GarudaPartnerLinkView {
+    u8 pad_00[0xA8];
     void *unk_A8;
-    s32 unk_AC;
-} S_func_81008664_1;
+} GarudaPartnerLinkView;
 typedef struct S_func_81008664_2 {
     u8 pad_00[0x13];
     u8 unk_13;
@@ -93,19 +79,6 @@ typedef struct S_func_81008664_9 {
 typedef struct S_func_81008664_10 {
     s16 unk_00;
 } S_func_81008664_10;
-typedef struct S_func_81008664_11 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    union {
-        s32 unk_90;
-        struct {
-            u8 pad_90[2];
-            u16 unk_92;
-        } unk_92;
-    } unk_90;
-    u8 pad_94[4];
-    u16 unk_98;
-} S_func_81008664_11;
 typedef struct S_func_81008664_12 {
     u8 pad_00[0xA];
     s16 unk_0A;
@@ -119,7 +92,7 @@ extern u8 D_801748F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
 /* Relocates Garuda and its partner to adjacent tiles of equal height, restores occupancy, and spends MP. */
-void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *motion, SpriteFrameState *sprite, ActorRecord *entity) {
+void update_garuda_paired_move(ActorRecord *actor, S_func_81008664_5 *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     u8 **direction_slot;
     S_func_81008664_5 *partner_motion;
     s16 saved_x;
@@ -181,34 +154,34 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
     void *tile_x_ptr;
     S_func_81008664_4 *partner_sprite;
     S_func_81008664_2 *partner;
-    S_func_81008664_11 *partner_actor;
+    ActorRecord *partner_actor;
 
-    partner = actor->unk_A8;
-    state = actor->unk_9B;
-    partner_actor = (S_func_81008664_11 *) partner;
+    partner = ((GarudaPartnerLinkView *)actor)->unk_A8;
+    state = actor->action_phase;
+    partner_actor = (ActorRecord *) partner;
     partner_motion = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_00;
     partner_sprite = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_04;
     switch (state) {
     case 0:
-        actor->unk_AC = (s32) partner_actor->unk_8C;
+        actor->unk_AC.value = (s32) partner_actor->unk_8C.word;
         if (partner->unk_1C & 0x40000) {
-            actor->unk_98 = (u16) (actor->unk_98 | 0x1000);
+            actor->action_state_flags = (u16) (actor->action_state_flags | 0x1000);
         } else {
-            actor->unk_98 = (u16) (actor->unk_98 & 0xEFFF);
+            actor->action_state_flags = (u16) (actor->action_state_flags & 0xEFFF);
         }
-        if (partner_actor->unk_98 & 8) {
-            actor->unk_98 = (u16) (actor->unk_98 | 0x4000);
+        if (partner_actor->action_state_flags & 8) {
+            actor->action_state_flags = (u16) (actor->action_state_flags | 0x4000);
         } else {
-            actor->unk_98 = (u16) (actor->unk_98 & 0xBFFF);
+            actor->action_state_flags = (u16) (actor->action_state_flags & 0xBFFF);
         }
-        if (partner_actor->unk_98 & 4) {
-            actor->unk_98 = (u16) (actor->unk_98 | 0x2000);
-            partner_actor->unk_8C = 0;
+        if (partner_actor->action_state_flags & 4) {
+            actor->action_state_flags = (u16) (actor->action_state_flags | 0x2000);
+            partner_actor->unk_8C.word = 0;
             partner_flags = partner->unk_1C;
             partner_sprite = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_04;
         } else {
-            actor->unk_98 = (u16) (actor->unk_98 & 0xDFFF);
-            partner_actor->unk_8C = 0;
+            actor->action_state_flags = (u16) (actor->action_state_flags & 0xDFFF);
+            partner_actor->unk_8C.word = 0;
             partner_flags = partner->unk_1C;
             partner_sprite = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_04;
         }
@@ -234,21 +207,21 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         angle |= 0xFFFF;
         cleared_flags &= angle;
         entity->flags1C = cleared_flags;
-        actor_flags = actor->unk_98;
+        actor_flags = actor->action_state_flags;
         angle = ((S_func_81008664_3 *)entity)->unk_2A;
         actor_flags |= 0xC;
         angle >>= 9;
-        actor->unk_98 = actor_flags;
+        actor->action_state_flags = actor_flags;
         sprite_grounded = sprite->flags;
         sprite_grounded &= 0x8000;
         direction = angle & 7;
         if (!sprite_grounded) {
-            actor->unk_96 = 0xC;
+            actor->action_timer = 0xC;
         } else if (!(partner_sprite->unk_14 & 0x8000)) {
-            actor->unk_96 = 0xC;
+            actor->action_timer = 0xC;
         } else {
-            actor->unk_96 = 0;
-            actor->unk_9B = 2;
+            actor->action_timer = 0;
+            actor->action_phase = 2;
             return;
         }
         x_step_table = ((u8 *)dir_step_x);
@@ -263,31 +236,31 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         y_step_ptr = (s16 *) (step_offset + y_step_table);
         y_velocity = *y_step_ptr;
         y_velocity <<= 0x16;
-        y_velocity = y_velocity / (s16) actor->unk_96;
+        y_velocity = y_velocity / actor->action_timer;
         motion->unk_14 = 0;
         motion->unk_10 = y_velocity;
         partner->unk_1C = (s32) (partner->unk_1C & 0xFFFBFFFF);
-        partner_actor->unk_98 = (u16) (partner_actor->unk_98 | 0xC);
+        partner_actor->action_state_flags = (u16) (partner_actor->action_state_flags | 0xC);
         anim_table0 = D_801748F0;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         sprite->frameTable = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
         select_sprite_entry(sprite, ((S_func_81008664_9 *) launch_anim)->unk_00, 0);
-        actor->unk_9B = (u8) (actor->unk_9B + 1);
+        actor->action_phase = (u8) (actor->action_phase + 1);
     case 1:
-        launch_ticks = (u16) actor->unk_96 - 1;
-        actor->unk_96 = launch_ticks;
+        launch_ticks = actor->action_timer - 1;
+        actor->action_timer = launch_ticks;
         if (launch_ticks == 8) {
             height_offset = entity_height_offsets[partner->unk_13];
             height_value = ((S_func_81008664_12 *) partner_motion)->unk_0A;
             entity_height = (entity->ground_height);
             motion->unk_14 = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10)
                 << 0x10) / launch_ticks);
-            partner_actor->unk_90.unk_92.unk_92 = (u16) (partner_actor->unk_90.unk_92.unk_92 + partner->unk_88);
+            partner_actor->unk_90.parts.high.u = (u16) (partner_actor->unk_90.parts.high.u + partner->unk_88);
             partner->unk_88 = 0U;
         }
-        if (actor->unk_96 > 0) {
+        if (actor->action_timer > 0) {
             return;
         }
         motion->unk_10 = 0;
@@ -297,21 +270,21 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         {
             fall_anim = 0x10;
             anim_table1 = D_801748F8;
-            actor->unk_96 = fall_anim;
+            actor->action_timer = fall_anim;
         }
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         sprite->frameTable = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
         select_sprite_entry(sprite, ((S_func_81008664_9 *) fall_anim)->unk_00, 0);
-        actor->unk_9B = actor->unk_9B + 1;
+        actor->action_phase = actor->action_phase + 1;
         return;
     case 2:
         motion->unk_14 = (s32) (motion->unk_14 + 0xFFFE0000);
         height_adjust = entity_height_offsets[partner->unk_13];
-        partner_actor->unk_90.unk_92.unk_92 = (u16) ((motion->unk_08.unk_0A.unk_0A + height_adjust) - 0x10);
-        fall_ticks = (u16) actor->unk_96 - 1;
-        actor->unk_96 = fall_ticks;
+        partner_actor->unk_90.parts.high.u = (u16) ((motion->unk_08.unk_0A.unk_0A + height_adjust) - 0x10);
+        fall_ticks = actor->action_timer - 1;
+        actor->action_timer = fall_ticks;
         if ((fall_ticks << 0x10) > 0) {
             if (!(partner_sprite->unk_14 & 0x8000)) {
                 return;
@@ -375,10 +348,10 @@ place_actors:
         partner_motion->unk_04 = world_coord;
         motion->unk_04 = world_coord;
         motion->unk_08.unk_08 = (s32) (((s16) partner->unk_88 - 0x100) << 0x10);
-        partner_actor->unk_90.unk_90 = (s32) actor->unk_90.unk_90;
-        actor->unk_96 = 8;
+        partner_actor->unk_90.value = (s32) actor->unk_90.value;
+        actor->action_timer = 8;
         motion->unk_14 = (s32) ((s32) ((entity->ground_height << 0x10)
-            - motion->unk_08.unk_08) / (s16) actor->unk_96);
+            - motion->unk_08.unk_08) / actor->action_timer);
         anim_table2 = D_801748F8;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         direction_slot = &*(u8 **)&sprite->frameTable;
@@ -388,13 +361,13 @@ place_actors:
         select_sprite_entry(sprite, ((S_func_81008664_9 *) rise_anim)->unk_00, 0);
         refresh_actor_proximity_state(entity);
         refresh_actor_proximity_state(partner);
-        actor->unk_9B = actor->unk_9B + 1;
+        actor->action_phase = actor->action_phase + 1;
         return;
     case 3:
-        partner_actor->unk_90.unk_92.unk_92 = (u16) (actor->unk_90.unk_92.unk_92 + 0x40);
-        if ((s16) actor->unk_90.unk_92.unk_92 < 0) {
-            rise_ticks = (u16) actor->unk_96 - 1;
-            actor->unk_96 = rise_ticks;
+        partner_actor->unk_90.parts.high.u = (u16) (actor->unk_90.parts.high.u + 0x40);
+        if ((s16) actor->unk_90.parts.high.u < 0) {
+            rise_ticks = actor->action_timer - 1;
+            actor->action_timer = rise_ticks;
             if ((rise_ticks << 0x10) > 0) {
                 return;
             }
@@ -402,16 +375,16 @@ place_actors:
                 return;
             }
         }
-        actor->unk_90.unk_90 = 0;
-        partner_actor->unk_90.unk_90 = 0;
-        if (actor->unk_98 & 0x1000) {
+        actor->unk_90.value = 0;
+        partner_actor->unk_90.value = 0;
+        if (actor->action_state_flags & 0x1000) {
             partner->unk_1C = (s32) (partner->unk_1C | 0x40000);
         }
-        if (!(actor->unk_98 & 0x4000)) {
-            partner_actor->unk_98 = (u16) (partner_actor->unk_98 & 0xFFF7);
+        if (!(actor->action_state_flags & 0x4000)) {
+            partner_actor->action_state_flags = (u16) (partner_actor->action_state_flags & 0xFFF7);
         }
-        if (!(actor->unk_98 & 0x2000)) {
-            partner_actor->unk_98 = (u16) (partner_actor->unk_98 & 0xFFFB);
+        if (!(actor->action_state_flags & 0x2000)) {
+            partner_actor->action_state_flags = (u16) (partner_actor->action_state_flags & 0xFFFB);
         }
         entity->flags1C = (s32) (entity->flags1C | 0x40000000);
         partner->unk_1C = (s32) (partner->unk_1C | 0x40000000);
@@ -421,20 +394,20 @@ place_actors:
 
             angle_or_duration = ((S_func_81008664_3 *)entity)->unk_2A;
             motion->unk_14 = 0;
-            actor->unk_96 = 8;
+            actor->action_timer = 8;
             direction = angle_or_duration >> 8;
             return_step_offset = direction & 0xE;
             angle_or_duration = 8;
             motion->unk_0C = -(((S_func_81008664_10 *)((u8 *)dir_step_x + return_step_offset))->unk_00 << 0x16) / angle_or_duration;
-            motion->unk_10 = -(((S_func_81008664_10 *)((u8 *)dir_step_y + return_step_offset))->unk_00 << 0x16) / actor->unk_96;
+            motion->unk_10 = -(((S_func_81008664_10 *)((u8 *)dir_step_y + return_step_offset))->unk_00 << 0x16) / actor->action_timer;
             partner_motion->unk_14 = 0;
             motion->unk_14 = 0;
-            actor->unk_9B = actor->unk_9B + 1;
+            actor->action_phase = actor->action_phase + 1;
             return;
         }
     case 4:
-        return_ticks = (u16) actor->unk_96 - 1;
-        actor->unk_96 = return_ticks;
+        return_ticks = actor->action_timer - 1;
+        actor->action_timer = return_ticks;
         if ((return_ticks << 0x10) > 0) {
             if (!(partner_sprite->unk_14 & 0x8000)) {
                 return;
@@ -449,17 +422,17 @@ place_actors:
         motion->unk_0C = 0;
         final_y = ((final_y << 6) + 0x20) << 0x10;
         motion->unk_04 = final_y;
-        saved_handler = actor->unk_AC;
-        partner_actor->unk_8C = saved_handler;
+        saved_handler = actor->unk_AC.value;
+        partner_actor->unk_8C.word = saved_handler;
         spend_actor_mp(reset_entity, 0x100);
         next_handler = &update_creature_animation_action;
-        actor->unk_8C = next_handler;
+        actor->unk_8C.word_ptr = next_handler;
         active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         finish_entity = entity;
         active_count -= 1;
         g_dungeon_status.activity_counts.parts.pending_action_count = active_count;
         advance_status_timers(finish_entity);
-        actor->unk_98 = (u16) (actor->unk_98 & 0xFFF3);
+        actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
 
         {
             u32 restore_flags;
@@ -503,7 +476,7 @@ place_actors:
         select_sprite_entry(sprite, ((S_func_81008664_9 *) idle_anim)->unk_00, 0);
         entity->pending_turn_updates = 0;
         entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
-        actor->unk_9B = actor->unk_9B + 1;
+        actor->action_phase = actor->action_phase + 1;
     default:
         return;
     }

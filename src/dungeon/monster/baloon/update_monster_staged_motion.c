@@ -103,7 +103,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         sprite->scale_x = 0x800;
 
     case 2:
-        switch ((s16)body->action_timer) {
+        switch (body->action_timer) {
         case 0:
             break;
 
@@ -181,7 +181,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
             }
         }
 
-        if ((s16)(body->action_timer++) < 0x2D) {
+        if ((body->action_timer++) < 0x2D) {
             return;
         }
 
@@ -244,7 +244,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         return;
 
     case 3:
-        if ((s16)(body->action_timer++) < 0x1E) {
+        if ((body->action_timer++) < 0x1E) {
             return;
         }
         body->action_timer = 0;
@@ -252,7 +252,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         return;
 
     case 4:
-        if ((s16)(body->action_timer++) < 0xA) {
+        if ((body->action_timer++) < 0xA) {
             return;
         }
         if (((ActorRecord *)actor)->flags14 & 0x4000) {

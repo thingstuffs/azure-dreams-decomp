@@ -1,4 +1,5 @@
 #include "shared/town_object.h"
+#include "shared/object_node.h"
 /* Initializes timed resource objects, finalizes them, and updates the washed dish counter. */
 /* inferred-strong G00584: washed_dish_effects_g00584; joins PD:town/engine:800D0E44,PD:town/engine:800F8A70; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0E44, PD:town/engine:800F8A70. */
@@ -11,7 +12,7 @@
 void initialize_timed_resource_object(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context) {
     TownRecord *resource_base;
 
-    ((ObjectNodeHeader *)object - 1)->update_callback = &finalize_object_or_select_town_record;
+    NODE_HEADER(object)->update_callback = &finalize_object_or_select_town_record;
     dish_counter = 0x14;
     resource_base = D_800F8A70;
     context->source = (s8 *)resource_base + 0xF0;
@@ -29,7 +30,7 @@ void finalize_object_or_select_town_record(TownObjectRecord *object, void *check
             *state_byte = 0;
         }
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

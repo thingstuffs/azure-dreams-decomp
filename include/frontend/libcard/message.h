@@ -11,7 +11,7 @@ struct Entity;
 struct CardMessageDialogBody;
 struct CardSaveMenuBody;
 struct CardSaveHeadingDisplayPrefix;
-struct CardDetailDisplayNode;
+struct CardSlotWindow;
 struct S_800491F4;
 
 /* Byte index sequences stop at their node limit; complete bounds are unestablished. */
@@ -37,7 +37,7 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index);
 void card_boot_initialize_dialog_draw_nodes(struct Entity *entity, s32 node_count);
 
 /* card_boot_initialize_slot_window.c */
-void card_boot_initialize_slot_window(void *record, s32 setup_value, s32 processing_value);
+void card_boot_initialize_slot_window(struct CardSlotWindow *window, s32 owner, s32 slot_index);
 
 /* card_boot_layout_empty_slot_window.c */
 void card_boot_layout_empty_slot_window(void *object);
@@ -61,7 +61,7 @@ void card_boot_release_five_message_entries(CardMessageDialogBody *record);
 void card_boot_release_three_row_panel_text(void *record);
 
 /* card_boot_stop_slot_window_updates.c */
-void card_boot_stop_slot_window_updates(void *record_data);
+void card_boot_stop_slot_window_updates(struct CardSlotWindow *window);
 
 /* format_save_heading_text.c */
 void format_save_heading_text(u8 *base_addr);
@@ -82,18 +82,18 @@ void write_text_and_advance_selection(struct CardSaveMenuBody *menu);
 typedef MenuDisplayBlock CardDisplayBlock;
 typedef MenuDisplayNode CardDisplayNode;
 
-/* File-list panel: a heading node with its own block and vector, then 21 list
- * nodes that share one vector (init_card_file_list_panel, init_card_file_list_nodes). */
+/* Slot-detail panel: the 0xE30-byte body of card_rotated_grid_object, built by
+ * render_rotated_grid_surface. A heading node with its own block and vector,
+ * then 21 list nodes that share one vector (init_card_file_list_panel,
+ * init_card_file_list_nodes). card_boot_set_slot_details_selection and the
+ * detail formatters read the same body as CardSlotDetails, whose text_nodes
+ * and icon_nodes are pointers[4..10] and pointers[11..20]. */
 typedef struct CardFileListPanel {
     /* 0x000 */ s32 selection;
     /* 0x004 */ u8 pad_004[0x78];
     /* 0x07C */ s32 selected_slot;
-    /* 0x080 */ u8 pad_080[0x70];
-    /* 0x0F0 */ struct CardDetailDisplayNode *left;
-    /* 0x0F4 */ struct CardDetailDisplayNode *right;
-    /* 0x0F8 */ struct CardDetailDisplayNode *value;
-    /* 0x0FC */ struct CardDetailDisplayNode *heading;
-    /* 0x100 */ u8 pad_100[0xA04];
+    /* 0x080 */ s32 mode;
+    /* 0x084 */ u8 text_buffers[7][0x180];
     /* 0xB04 */ CardDisplayBlock heading_block;
     /* 0xB14 */ DisplayPositionWords heading_vector;
     /* 0xB20 */ DisplayPositionWords vector;
@@ -105,12 +105,12 @@ typedef struct CardFileListPanel {
 
 struct CardChoiceOwner;
 struct CardContinueNodes;
-struct CardSlotListNodes;
+struct CardSlotWindow;
 void card_boot_initialize_slot_window_frame(CardDisplayNode *entity, CardDisplayBlock *primary, DisplayPositionWords *secondary, s32 slot_index);
 void init_card_choice_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector);
 void init_card_choice_nodes(struct CardChoiceOwner *owner, s32 count);
 void init_card_continue_nodes(struct CardContinueNodes *owner, s32 count);
-void init_card_slot_list_nodes(struct CardSlotListNodes *owner, s32 count);
+void init_card_slot_list_nodes(struct CardSlotWindow *owner, s32 count);
 void init_card_file_list_nodes(CardFileListPanel *owner, s32 count);
 void init_card_continue_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector);
 

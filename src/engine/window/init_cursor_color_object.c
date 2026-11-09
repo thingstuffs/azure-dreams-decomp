@@ -3,35 +3,23 @@
 #include "common.h"
 #include "engine/window.h"
 #include "shared/entity.h"
-
-typedef s8 s8_local;
-
-typedef struct S_80037030_0 {
-    u8 pad_00[0x8];
-    void ** unk_08;
-    void ** unk_0C;
-    void ** unk_10;
-} S_80037030_0;   /* arg0 in init_cursor_color_object */
-
-typedef struct S_80037030_1 {
-    u8 pad_00[0xC];
-    s32 * unk_0C;
-} S_80037030_1;   /* call_arg2 in init_cursor_color_object */
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 
 extern void update_blinking_cursor_with_dark_idle(void *, ObjectPosition *, void *);
 
 /* Initialize the object, install its color update callback, and run it once. */
 void init_cursor_color_object(void *object_arg, void *model, s32 *data, s16 index, s16 table_index, void *list) {
-    S_80037030_0 *object = object_arg;
-    void *state;
-    void *context;
-    S_80037030_1 *output;
+    ObjectNodeHeader *node = object_arg;
+    WindowCursorBody *state;
+    ObjectPosition *position;
+    SpriteFrameState *sprite;
 
-    create_blinking_cursor_object(object, model, data, index, table_index, list);
-    state = (s8_local *)object + 0x20;
-    context = object->unk_08;
-    output = object->unk_0C;
-    object->unk_10 = (void *)&update_blinking_cursor_with_dark_idle;
-    output->unk_0C = 0;
-    update_blinking_cursor_with_dark_idle(state, context, output);
+    create_blinking_cursor_object(node, model, data, index, table_index, list);
+    state = NODE_BODY(node);
+    position = node->position;
+    sprite = node->sprite;
+    node->update_callback = update_blinking_cursor_with_dark_idle;
+    sprite->color.word = 0;
+    update_blinking_cursor_with_dark_idle(state, position, sprite);
 }

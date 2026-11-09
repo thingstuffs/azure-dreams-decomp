@@ -53,7 +53,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
             if (((S_80021E88_4 *)(controller->object))->unk_22 == 3) {
                 object->flags |= 1;
                 display->source = D_80024444[controller->mode];
-                object->phase = (u16)controller->mode;
+                object->phase = controller->mode;
             }
         }
         if (object->phase == 3) {

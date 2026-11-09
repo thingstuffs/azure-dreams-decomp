@@ -54,12 +54,12 @@ void settle_actor_directional_movement(ActorRecord *controller, ObjectPosition *
             dir_step_x[direction] << 14;
         motion->velocity_y -=
             dir_step_y[direction] << 14;
-        if ((s16)controller->action_timer > 0) {
-            controller->action_timer = ((u16)controller->action_timer) - 1;
+        if (controller->action_timer > 0) {
+            controller->action_timer = controller->action_timer - 1;
         } else if (entity->flags & 0x6000) {
             controller->action_timer = 0;
         }
-        if ((s16)controller->action_timer != 0) {
+        if (controller->action_timer != 0) {
             return;
         }
         if (source->unk_28 == 0) {
@@ -74,7 +74,7 @@ void settle_actor_directional_movement(ActorRecord *controller, ObjectPosition *
         return;
 
     case 2:
-        if ((s16)controller->action_timer != 0) {
+        if (controller->action_timer != 0) {
             {
                 s32 target_x = entity->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
@@ -88,7 +88,7 @@ void settle_actor_directional_movement(ActorRecord *controller, ObjectPosition *
                 motion->velocity_y = ((target_y - current_y) << 15) >> 1;
             }
         }
-        ticks_left = ((u16)controller->action_timer) - 1;
+        ticks_left = controller->action_timer - 1;
         controller->action_timer = ticks_left;
         if ((s32)(ticks_left << 16) > 0) {
             return;

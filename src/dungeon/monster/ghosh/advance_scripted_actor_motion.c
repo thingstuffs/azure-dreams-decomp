@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
@@ -23,23 +24,11 @@ void create_boss_display_variant(); /* extern */
 void create_boss_randomized_effect(); /* extern */
 extern InitBlock ghosh_effect_direction_vectors;
 
-typedef struct S_func_8132B8AC_0 {
-    u8 pad_00[0x92];
-    s16 unk_92;
-    s16 unk_94;
-    u16 unk_96;
-    u8 pad_98[2];
-    u8 unk_9A;
-    u8 pad_9B[3];
-    u16 unk_9E;
-    union {
-        s32 unk_A0;
-        struct { u8 pad_A0[2]; u16 unk_A2; } unk_A2;
-    } unk_A0;
-    u8 pad_A4[0x10];
-    s16 unk_B4;
+/* Byte +0xB6 of the scripted actor's ActorRecord (inside its unk_B4 scratch word): a signed flag the descent clears. */
+typedef struct GhoshScriptedFlagView {
+    u8 pad_00[0xB6];
     s8 unk_B6;
-} S_func_8132B8AC_0;
+} GhoshScriptedFlagView;
 
 typedef struct S_func_8132B8AC_1 {
     s32 unk_00;
@@ -75,7 +64,7 @@ typedef struct S_func_8132B8AC_3 {
 /* Updates Beldo's scripted movement, idle animation, and particle effects. */
 /* Runs Beldo's stored flight path, timed turns and particle bursts, then releases the secondary overlay
  * object. */
-void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite) {
+void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite) {
 
     InitBlock direction_vectors;
     s32 path_angle;
@@ -124,38 +113,38 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
     direction_vectors = ghosh_effect_direction_vectors;
     beldo = NODE_BODY(ghosh_scripted_actor);
     advance_sprite_animation_and_textures(sprite);
-    state = actor->unk_9A;
+    state = actor->action_id;
     switch (state) {
     case 0:
-        initial_timer = actor->unk_96;
-        actor->unk_96 = (u16) (initial_timer + 1);
+        initial_timer = actor->action_timer;
+        actor->action_timer = (u16) (initial_timer + 1);
         if ((s16) initial_timer < 0x1E) {
             break;
         }
-        actor->unk_96 = 0U;
-        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        actor->action_timer = 0U;
+        actor->action_id = (u8) (actor->action_id + 1);
         motion->unk_0C.unk_0C = 0xFFF80000;
         break;
     case 1:
         motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
-        tail_test = actor->unk_96 + 1;
-        actor->unk_96 = (u16) tail_test;
+        tail_test = (u16)actor->action_timer + 1;
+        actor->action_timer = (u16) tail_test;
         tail_test = (s16) tail_test < 0x28;
         if (!tail_test) {
-            actor->unk_96 = 0U;
-            actor->unk_9A = (u8) (actor->unk_9A + 1);
+            actor->action_timer = 0U;
+            actor->action_id = (u8) (actor->action_id + 1);
             motion->unk_0C.unk_0C = 0;
         }
         break;
     case 3:
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFF7F);
-        tail_test = actor->unk_96 + 1;
+        tail_test = (u16)actor->action_timer + 1;
         pause_timer = (u16) tail_test;
-        actor->unk_96 = pause_timer;
+        actor->action_timer = pause_timer;
         tail_test = (s16) tail_test < 0xA;
         if (!tail_test) {
-            actor->unk_96 = 0U;
-            actor->unk_9A = (u8) (actor->unk_9A + 1);
+            actor->action_timer = 0U;
+            actor->action_id = (u8) (actor->action_id + 1);
             motion->unk_0C.unk_0C = 0;
         }
         break;
@@ -163,52 +152,52 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         sprite->unk_2C = ghosh_frame_set_5;
         select_sprite_entry(sprite, ghosh_frame_set_5[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
         play_sound_if_enabled(0x801);
-        actor->unk_96 = 0U;
-        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        actor->action_timer = 0U;
+        actor->action_id = (u8) (actor->action_id + 1);
         break;
     case 6:
         if (!(sprite->unk_14 & 0x6000)) {
             break;
         }
-        actor->unk_B6 = 0;
+        ((GhoshScriptedFlagView *)actor)->unk_B6 = 0;
         beldo->unk_88 = (u16) motion->unk_0A;
         if (sprite->unk_2C == ghosh_frame_set_6) {
             break;
         }
         sprite->unk_2C = ghosh_frame_set_6;
         select_sprite_entry(sprite, ghosh_frame_set_6[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
-        actor->unk_96 = 0U;
-        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        actor->action_timer = 0U;
+        actor->action_id = (u8) (actor->action_id + 1);
         create_boss_child_effect(actor, motion, sprite);
         break;
     case 7:
         motion->unk_0A = (u16) (motion->unk_0A - 8);
-        rise_timer = actor->unk_96 + 1;
-        actor->unk_96 = rise_timer;
+        rise_timer = actor->action_timer + 1;
+        actor->action_timer = rise_timer;
         if ((s16) rise_timer < 4) {
             break;
         }
-        actor->unk_96 = 0U;
-        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        actor->action_timer = 0U;
+        actor->action_id = (u8) (actor->action_id + 1);
         motion->unk_0C.unk_0C = 0;
         actor->unk_9E = 0U;
-        actor->unk_A0.unk_A2.unk_A2 = 0U;
-        actor->unk_92 = -0x20;
+        actor->unk_A0.parts.high = 0U;
+        actor->unk_90.parts.high.s = -0x20;
         break;
     case 9:
-        path_start_timer = actor->unk_96;
-        actor->unk_96 = (u16) (path_start_timer + 1);
+        path_start_timer = actor->action_timer;
+        actor->action_timer = (u16) (path_start_timer + 1);
         if ((s16) path_start_timer < 7) {
             break;
         }
-        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        actor->action_id = (u8) (actor->action_id + 1);
         sprite->unk_2C = ghosh_frame_set_2;
         select_sprite_entry(sprite, ghosh_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
         motion->unk_0C.unk_0C = 0xFFF80000;
-        actor->unk_B4 = 5;
-        actor->unk_96 = 0x10U;
+        actor->unk_B4.halves.low.s = 5;
+        actor->action_timer = 0x10U;
         path_start = ghosh_motion_path;
-        path_step = path_start + actor->unk_B4 * 2;
+        path_step = path_start + actor->unk_B4.halves.low.s * 2;
         start_direction = path_step[1] & 7;
         start_vector = &direction_vectors.pair[start_direction];
         motion->unk_0C.unk_0E.unk_0E = (s16) (start_vector->x * 0x10);
@@ -216,10 +205,10 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         beldo->unk_2A = (s16) (start_direction << 9);
         break;
     case 10:
-        if ((s16) actor->unk_96 <= 0) {
+        if (actor->action_timer <= 0) {
             path_table = ghosh_motion_path;
-            actor->unk_96 = (u16) ((path_table[actor->unk_B4 * 2] * 4) + 1);
-            path_direction = path_table[actor->unk_B4 * 2 + 1] & 7;
+            actor->action_timer = (u16) ((path_table[actor->unk_B4.halves.low.s * 2] * 4) + 1);
+            path_direction = path_table[actor->unk_B4.halves.low.s * 2 + 1] & 7;
             path_vector = &direction_vectors.pair[path_direction];
             motion->unk_0C.unk_0E.unk_0E = (s16) (path_vector->x * 0x10);
             motion->unk_10.unk_12.unk_12 = (s16) (path_vector->y * 0x10);
@@ -227,16 +216,16 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             if (path_angle == beldo->unk_2A) {
                 motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
                 motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
-                actor->unk_96 = (u16) (actor->unk_96 - 1);
+                actor->action_timer = (u16) (actor->action_timer - 1);
             }
             beldo->unk_2A = path_angle;
-            if ((path_table[actor->unk_B4 * 2 + 1] & 0xF8) == 0xF8) {
-                actor->unk_96 = 0x13U;
-                actor->unk_9A = (u8) (actor->unk_9A + 1);
+            if ((path_table[actor->unk_B4.halves.low.s * 2 + 1] & 0xF8) == 0xF8) {
+                actor->action_timer = 0x13U;
+                actor->action_id = (u8) (actor->action_id + 1);
                 motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
                 motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
             }
-            (*(u16 *)&actor->unk_B4) = (u16) (((u16)actor->unk_B4) + 1);
+            actor->unk_B4.halves.low.u = (u16) (actor->unk_B4.halves.low.u + 1);
         } else {
             motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
             motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
@@ -252,9 +241,9 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
                 create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
                 path_particle_count += 1;
             } while (path_particle_count < 0x14);
-            actor->unk_96 = (u16) (actor->unk_96 - 1);
+            actor->action_timer = (u16) (actor->action_timer - 1);
         } else {
-            actor->unk_96 = (u16) (actor->unk_96 - 1);
+            actor->action_timer = (u16) (actor->action_timer - 1);
         }
         break;
     case 11:
@@ -270,13 +259,13 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
                 end_particle_count += 1;
             } while (end_particle_count < 0x14);
         }
-        path_end_timer = actor->unk_96 - 1;
-        actor->unk_96 = path_end_timer;
+        path_end_timer = actor->action_timer - 1;
+        actor->action_timer = path_end_timer;
         if ((path_end_timer << 0x10) > 0) {
             break;
         }
-        actor->unk_96 = 0x2EU;
-        actor->unk_9A++;
+        actor->action_timer = 0x2EU;
+        actor->action_id++;
         if (sprite->unk_2C == ghosh_frame_set_6) {
             break;
         }
@@ -284,33 +273,33 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         select_sprite_entry(sprite, ghosh_frame_set_6[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
         break;
     case 12:
-        turn_timer = actor->unk_96 - 1;
-        actor->unk_96 = turn_timer;
+        turn_timer = actor->action_timer - 1;
+        actor->action_timer = turn_timer;
         if ((turn_timer << 0x10) <= 0) {
-            actor->unk_96 = 6U;
+            actor->action_timer = 6U;
             if (beldo->unk_2A < 0x800) {
                 beldo->unk_2A = (s16) (((u16)beldo->unk_2A) + 0x200);
             } else {
-                actor->unk_96 = 0U;
-                actor->unk_9A = (u8) (actor->unk_9A + 1);
+                actor->action_timer = 0U;
+                actor->action_id = (u8) (actor->action_id + 1);
             }
         }
-        if ((s16) actor->unk_96 == 0x28) {
+        if (actor->action_timer == 0x28) {
             beldo->unk_2A = 0xE00;
         }
-        if ((s16) actor->unk_96 == 0x1E) {
+        if (actor->action_timer == 0x1E) {
             beldo->unk_2A = 0;
         }
-        if ((s16) actor->unk_96 == 0x1D) {
+        if (actor->action_timer == 0x1D) {
             beldo->unk_2A = 0x200;
         }
-        if ((s16) actor->unk_96 == 0x12) {
+        if (actor->action_timer == 0x12) {
             beldo->unk_2A = 0;
         }
-        if ((s16) actor->unk_96 == 0x11) {
+        if (actor->action_timer == 0x11) {
             beldo->unk_2A = 0xE00;
         }
-        if ((s16) actor->unk_96 == 0xA) {
+        if (actor->action_timer == 0xA) {
             beldo->unk_2A = 0;
         }
         break;
@@ -318,18 +307,18 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
     case 13:
         bob_phase = actor->unk_9E;
         actor->unk_9E = (u16) (bob_phase + 1);
-        actor->unk_A0.unk_A0 = (s32) (actor->unk_A0.unk_A0 + (rsin((s16) bob_phase * 0x55) * 0x10));
+        actor->unk_A0.value = (s32) (actor->unk_A0.value + (rsin((s16) bob_phase * 0x55) * 0x10));
         motion->unk_0A = (u16) (beldo->unk_88
-            + ((u16)actor->unk_92) - actor->unk_A0.unk_A2.unk_A2);
+            + ((u16)actor->unk_90.parts.high.s) - actor->unk_A0.parts.high);
         break;
     case 14:
-        animation_timer = actor->unk_96 + 1;
-        actor->unk_96 = animation_timer;
+        animation_timer = actor->action_timer + 1;
+        actor->action_timer = animation_timer;
         if ((s16) animation_timer < 3) {
             break;
         }
-        actor->unk_96 = 0U;
-        actor->unk_9A++;
+        actor->action_timer = 0U;
+        actor->action_id++;
         sprite->unk_2C = ghosh_frame_set_2;
         select_sprite_entry(sprite, ghosh_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
         break;
@@ -350,22 +339,22 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
                 wait_particle_count += 1;
             } while (wait_particle_count < 0x14);
         }
-        particle_timer = actor->unk_96 + 1;
-        actor->unk_96 = particle_timer;
+        particle_timer = actor->action_timer + 1;
+        actor->action_timer = particle_timer;
         if ((s16) particle_timer < 0x19) {
             break;
         }
-        actor->unk_96 = 0U;
-        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        actor->action_timer = 0U;
+        actor->action_id = (u8) (actor->action_id + 1);
         motion->unk_0C.unk_0E.unk_0E = -0x10;
         motion->unk_10.unk_12.unk_12 = 0;
         break;
     case 16:
-        move_timer = actor->unk_96 + 1;
-        actor->unk_96 = move_timer;
+        move_timer = actor->action_timer + 1;
+        actor->action_timer = move_timer;
         if ((s16) move_timer >= 0xA) {
-            actor->unk_96 = 0U;
-            actor->unk_9A = (u8) (actor->unk_9A + 1);
+            actor->action_timer = 0U;
+            actor->action_id = (u8) (actor->action_id + 1);
             motion->unk_0C.unk_0E.unk_0E = 4;
             motion->unk_10.unk_12.unk_12 = 0;
             create_boss_display_variant(motion, -0x50, 0, -0x10, 0);
@@ -374,7 +363,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x601);
         }
-        if ((s16) actor->unk_96 == 8) {
+        if (actor->action_timer == 8) {
             create_boss_display_variant(motion, -0x30, 0, -0xA, 1);
             create_boss_display_variant(motion, -0x18, 0, -0x18, 1);
             create_boss_display_variant(motion, 0, 0, -0x10, 1);
@@ -401,8 +390,8 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         }
         break;
     case 17:
-        spin_timer = actor->unk_96 + 1;
-        actor->unk_96 = (u16) spin_timer;
+        spin_timer = actor->action_timer + 1;
+        actor->action_timer = (u16) spin_timer;
         if (spin_timer < 0xE) {
             if (!(spin_timer & 1)) {
                 previous_angle = (u16) beldo->unk_2A;
@@ -422,40 +411,40 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         if ((s16) motion->unk_0A < (s16) beldo->unk_88) {
             motion->unk_0A = (u16) (motion->unk_0A + 6);
         }
-        if ((s16) actor->unk_96 >= 0x13) {
-            actor->unk_96 = 0U;
-            actor->unk_9A = (u8) (actor->unk_9A + 1);
+        if (actor->action_timer >= 0x13) {
+            actor->action_timer = 0U;
+            actor->action_id = (u8) (actor->action_id + 1);
             motion->unk_10.unk_12.unk_12 = 0;
             motion->unk_0C.unk_0E.unk_0E = 0;
         }
-        if ((actor->unk_96 & 3) == 1) {
+        if ((actor->action_timer & 3) == 1) {
             create_boss_randomized_effect(motion, -0x10, 0, -4);
             create_boss_randomized_effect(motion, 0xC, 0, -0xC);
         }
         break;
     case 18:
-        idle_timer = actor->unk_96 + 1;
-        actor->unk_96 = idle_timer;
+        idle_timer = actor->action_timer + 1;
+        actor->action_timer = idle_timer;
         if ((s16) idle_timer >= 0x3C) {
-            actor->unk_96 = 4U;
-            actor->unk_9A = (u8) (actor->unk_9A + 1);
+            actor->action_timer = 4U;
+            actor->action_id = (u8) (actor->action_id + 1);
             create_boss_linked_effect(actor, motion, sprite);
             sprite->unk_2C = ghosh_frame_set_11;
             select_sprite_entry(sprite, ghosh_frame_set_11[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
         }
-        if ((actor->unk_96 & 3) == 1) {
+        if ((actor->action_timer & 3) == 1) {
             create_boss_randomized_effect(motion, -0x10, 0, -4);
             create_boss_randomized_effect(motion, 0xC, 0, -0xC);
         }
         break;
     case 19:
-        final_timer = actor->unk_96 - 1;
-        actor->unk_96 = final_timer;
+        final_timer = actor->action_timer - 1;
+        actor->action_timer = final_timer;
         if ((final_timer << 0x10) > 0) {
             break;
         }
-        actor->unk_9A++;
+        actor->action_id++;
         sprite->unk_2C = ghosh_frame_set_1;
         select_sprite_entry(sprite, ghosh_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
         break;

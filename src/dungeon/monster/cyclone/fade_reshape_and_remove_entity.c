@@ -42,9 +42,9 @@ void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position,
         return;
     }
 
-    sprite->color.c.r -= sprite->color.c.r / (s16)body->action_timer;
-    sprite->color.c.g -= sprite->color.c.g / (s16)body->action_timer;
-    sprite->color.c.b -= sprite->color.c.b / (s16)body->action_timer;
+    sprite->color.c.r -= sprite->color.c.r / body->action_timer;
+    sprite->color.c.g -= sprite->color.c.g / body->action_timer;
+    sprite->color.c.b -= sprite->color.c.b / body->action_timer;
 
     sprite->scale_x >>= 2;
     sprite->scale_y >>= 1;

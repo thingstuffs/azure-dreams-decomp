@@ -74,32 +74,6 @@ typedef struct func_8009FAAC_S_8009D20C_2 {
     u16 unk_06;
 } func_8009FAAC_S_8009D20C_2;
 
-typedef void (*func_8009FCC4_Callback)(void *, void *, void *);
-
-typedef struct func_8009FCC4_S_8009D424_2 {
-    u8 pad_00[0x84];
-    u16 unk_84;
-} func_8009FCC4_S_8009D424_2;
-
-typedef struct func_8009FCC4_S_8009D424_3 {
-    u8 pad_00[0x48];
-    s32 unk_48;
-    u8 pad_4C[0x22];
-    u16 unk_6E;
-    s8 unk_70;
-    s8 unk_71;
-    u16 unk_72;
-    u8 pad_74[0x12];
-    u16 unk_86;
-    u8 pad_88[0xB];
-    s8 unk_93;
-    s8 unk_94;
-    u8 unk_95;
-    u8 unk_96;
-    u8 pad_97[0x1];
-    s32 unk_98;
-} func_8009FCC4_S_8009D424_3;
-
 typedef struct func_8009FE60_GlobalADBC { u8 pad0[0x18]; s16 field18; s16 field1A; } func_8009FE60_GlobalADBC;
 
 typedef struct func_8009FE60_TownState {
@@ -225,10 +199,6 @@ typedef struct func_800A02F0_S_8009DA50_2 {
     u16 unk_12;
 } func_800A02F0_S_8009DA50_2;
 
-typedef struct func_800A05E0_S_8009DD40_0_pre {
-    u16 unk_00;
-} func_800A05E0_S_8009DD40_0_pre;
-
 typedef struct {
                u8 pad[0x4D];
                u8 unk4D;
@@ -246,20 +216,6 @@ typedef struct func_800A075C_S_func_8009DEBC_0 {
     u8 pad_54[0x58];
     u8 unk_AC;
 } func_800A075C_S_func_8009DEBC_0;
-
-typedef struct func_800A075C_S_func_8009DEBC_1 {
-    s32 *unk_00;
-    u8 pad_04[0xA];
-    u16 unk_0E;
-} func_800A075C_S_func_8009DEBC_1;
-
-typedef struct func_800A0824_S_8009DF84_0 {
-    s32 * unk_00;
-    u8 pad_04[0x21];
-    u8 unk_25;
-    u8 pad_26[0x96];
-    u8 unk_BC;
-} func_800A0824_S_8009DF84_0;
 
 typedef struct func_800A0878_Copy84 {
     s32 word[21];
@@ -289,15 +245,6 @@ typedef struct func_800A0D8C_S_8009E4EC_0 {
     u16 unk_1E;
 } func_800A0D8C_S_8009E4EC_0;
 
-typedef struct func_800A0FB4_S_func_8009E714_0 {
-    u8 pad_00[0x4D];
-    u8 unk_4D;
-    u8 pad_4E[0x1E];
-    u16 unk_6C;
-    u8 pad_6E[0x2A];
-    void *unk_98;
-} func_800A0FB4_S_func_8009E714_0;
-
 typedef struct func_800A0FB4_S_func_8009E714_1 {
     u8 pad_00[0xC];
     s8 unk_0C;
@@ -305,34 +252,11 @@ typedef struct func_800A0FB4_S_func_8009E714_1 {
     s8 unk_0E;
 } func_800A0FB4_S_func_8009E714_1;
 
-typedef struct func_800A0FB4_S_func_8009E714_2 {
-    u16 unk_00;
-} func_800A0FB4_S_func_8009E714_2;
-
-typedef struct func_800A10FC_S_8009E85C_0_pre {
-    s32 (*unk_00)(void *, void *, void *);
-    u8 pad_04[0xC];
-} func_800A10FC_S_8009E85C_0_pre;
-
 typedef struct func_800A10FC_S_8009E85C_1 {
     u8 pad_00[0x8];
     s32 unk_08;
 } func_800A10FC_S_8009E85C_1;
 
-typedef struct func_800A10FC_S_8009E85C_2 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 pad_0C[0x4];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    union { u16 s; u16 u; } unk_14;                         
-} func_800A10FC_S_8009E85C_2;
-
-
-typedef struct func_800A10FC_S_8009E85C_5_pre {
-    s32 (*unk_00)(void *, void *, void *);
-    u8 pad_04[0xC];
-} func_800A10FC_S_8009E85C_5_pre;
 
 typedef struct func_800A10FC_S_8009E85C_6 {
     u8 pad_00[0xA94];
@@ -363,7 +287,7 @@ void update_shared_state_and_clear_flag(void);
 void build_entry_list_and_process_items(void);
 s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, void *position_data);
 s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position_data);
-s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s32 state_98);
+s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, void *spawn_entry);
 void init_and_publish_script_state(void **entries);
 void process_zero_terminated_entry_lists(void **entries);
 void clear_record_20_status_bytes(s8 *records);
@@ -375,7 +299,7 @@ void set_object_state_for_mode(void *owner, struct SpriteFrameState *object, s32
 void cleanup_or_dispatch_object(void *object, s32 source, s32 context);
 void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, SpriteFrameState *callback_data);
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
-void reset_object_handler_and_saved_byte(void *object, void *context);
+void reset_object_handler_and_saved_byte(func_800A075C_S_func_8009DEBC_0 *object, void *context);
 s32 store_selected_record_fields(void);
 s32 initialize_shared_state_from_table(void);
 s32 pass_shared_data_to_window_handler(void);
@@ -386,8 +310,8 @@ s32 kewn_namewin_close_check(void);
 s32 t_soukowin_open(void);
 s32 t_soukowin_close_check(void);
 void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
-void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, struct SpriteFrameState *primitive);
-void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectPosition *placement, func_800A10FC_S_8009E85C_2 *state);
+void update_object_pulse_brightness(TownObjectRecord *object, s32 context, struct SpriteFrameState *primitive);
+void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectPosition *placement, struct SpriteFrameState *state);
 
 extern void register_node(s32, void *);
 extern void func_8004491C(s32, void *);

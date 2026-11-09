@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE16_SLOT0_H
 #define DUNGEON_RESOURCE16_SLOT0_H
+#include "engine/node/registration.h"
 struct ObjectPosition;
 #include "common.h"
 #include "dungeon/actor.h"
@@ -268,7 +269,6 @@ typedef struct R16_80173CEC_S_80173CEC_9 {
 extern s32 abs(s32);
 s32 Control_CD();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 void advance_sprite_animation_and_textures(void *entity);
@@ -299,7 +299,6 @@ s32 get_cd_command_queue_depth(void);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 

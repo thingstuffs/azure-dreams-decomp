@@ -124,7 +124,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     state = ((EntityRec *)effect)->z.w.i;
     owner_sprite = NODE_HEADER(owner)->sprite;
 
-    motion_extent = (u16) owner->unk_2A >> 8;
+    motion_extent = owner->unk_2A >> 8;
     direction_offset = motion_extent & 0xE;
     direction_x = *(s16 *)((u8 *)direction_x_table + direction_offset);
     owner_object = NODE_HEADER(owner);
@@ -164,7 +164,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
             ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = launch_tpage;
             sprite_color = ((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = sprite_color;
-            target = scan_actor_along_heading(owner, owner_sprite->tile_x, owner_sprite->tile_y, (s16)owner->unk_2A,
+            target = scan_actor_along_heading(owner, owner_sprite->tile_x, owner_sprite->tile_y, owner->unk_2A,
                 (s16) (sprite_work = get_definition_entry_byte_13(5, launch_tpage)));
             owner->unk_60 = target;
             if (target == 0) {
@@ -179,31 +179,31 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                     probe_y = (u16) motion_extent;
                     probe_x = (u16)distance_x;
                     if ((check_enabled_neighbor_height(probe_x, probe_y, (s16)sample_terrain_surface_height(probe_x, probe_y, -0x400),
-                        (s16)owner->unk_2A, owner->unk_60) << 0x10) != 0) {
+                        owner->unk_2A, owner->unk_60) << 0x10) != 0) {
                         break;
                     }
                     step_y += direction_y;
                     distance_sum += 1;
                     sprite_or_step_x += direction_x;
                 }
-                owner->unk_72 = (u8) (owner_sprite->tile_x + (direction_x * distance_sum));
-                owner->unk_73 = (u8) (owner_sprite->tile_y + (direction_y * distance_sum));
+                owner->unk_72 = owner_sprite->tile_x + (direction_x * distance_sum);
+                owner->unk_73 = owner_sprite->tile_y + (direction_y * distance_sum);
             } else {
                 object = target - 0x20;
                 sprite_work = (s32)object->sprite;
                 if ((((SpriteFrameState *)sprite_work)->flags & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
                     apply_attack_power_and_element_effects(owner->unk_60, 8, (*((u8 *)&((EntityRec *)effect)->z + 1)), 2,
-                        (s32) (s16)owner->unk_2A, owner, 2);
+                        (s32) owner->unk_2A, owner, 2);
                     ((EntityRec *)effect)->z.w.i = 4;
                     return;
                 }
-                owner->unk_72 = (u8) ((SpriteFrameState *)sprite_work)->tile_x;
-                owner->unk_73 = (u8) ((SpriteFrameState *)sprite_work)->tile_y;
+                owner->unk_72 = ((SpriteFrameState *)sprite_work)->tile_x;
+                owner->unk_73 = ((SpriteFrameState *)sprite_work)->tile_y;
             }
-            target_tile = (s8)owner->unk_72;
+            target_tile = owner->unk_72;
 
             frame.target_x = (target_tile << 6) + 0x20;
-            target_tile = (s8)owner->unk_73;
+            target_tile = owner->unk_73;
 
             frame.target_y = (target_tile << 6) + 0x20;
             if (owner->unk_60 == 0) {
@@ -298,7 +298,7 @@ spawn_trail:
             }
             angle_offset = frame.spec.pitch;
             frame.spec.yaw = spread_angle;
-            heading = (s16)owner->unk_2A;
+            heading = owner->unk_2A;
             if (angle_offset <= 0) {
                 spread_angle = heading - motion_extent;
             } else {
@@ -374,8 +374,8 @@ spawn_trail:
             if (coord < 0) {
                 coord += 0x3F;
             }
-            if (((coord >> 6) == (s8) owner->unk_72
-                    && ((ObjectPosition *)motion)->y.w.i / 64 == (s8) owner->unk_73
+            if (((coord >> 6) == owner->unk_72
+                    && ((ObjectPosition *)motion)->y.w.i / 64 == owner->unk_73
                     && (s16) steps_left < 0)
                 || (s16) ((EntityRec *)effect)->unk_50 < -0x20) {
                 if (owner->unk_60 == 0) {
@@ -390,10 +390,10 @@ spawn_trail:
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = 0xC0C0C0;
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_10 = 0x20;
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = hit_tpage;
-                target_tile = (s8)owner->unk_72;
+                target_tile = owner->unk_72;
 
                 ((ObjectPosition *)motion)->x.w.i = (s16) ((target_tile << 6) + 0x20);
-                target_tile_y = (s8)owner->unk_73;
+                target_tile_y = owner->unk_73;
                 ((ObjectPosition *)motion)->velocity_z = 0;
                 ((ObjectPosition *)motion)->velocity_y = 0;
                 ((ObjectPosition *)motion)->velocity_x = 0;
@@ -410,7 +410,7 @@ spawn_trail:
         if (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x6000) {
             if (owner->unk_60 != 0) {
                 apply_attack_power_and_element_effects(owner->unk_60, 0xA, (*((u8 *)&((EntityRec *)effect)->z + 1)), 2,
-                    (s32) (s16)owner->unk_2A, owner, 2);
+                    (s32) owner->unk_2A, owner, 2);
                 distance_x = 0x50;
                 do {
                     object = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -504,7 +504,7 @@ void move_the_effect_count_down_timer_fade_sprite_black(SpriteFadeCountdownBody 
         effect->unk_48 = timer;
         if ((timer << 16) <= 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            effect->unk_4C = effect->unk_4C + 1;
+            effect->unk_4C++;
         }
         break;
 

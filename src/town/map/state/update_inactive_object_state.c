@@ -1,8 +1,10 @@
 #include "town/map/state_callbacks_api.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/node.h"
+#include "town/map/state.h"
 
 struct town_inactive_object {
     s8 pad00[0x98];
@@ -16,7 +18,7 @@ void update_inactive_object_state(struct town_inactive_object *obj, void *unused
     s32 t;
     if (*obj->field_98 == 0) {
         unlink_node_if_registered(obj);
-        *(u16 *)((u8 *)obj - 2) |= NODE_REMOVE;
+        NODE_HEADER(obj)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

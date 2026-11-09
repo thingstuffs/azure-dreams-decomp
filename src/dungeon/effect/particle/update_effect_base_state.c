@@ -86,7 +86,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
             } while (particles_left >= 0);
         }
     }
-    switch ((s16)effect->spell.phase) {
+    switch (effect->spell.phase) {
     case 0:
     {
         S_81844800_8_pre *target;
@@ -577,7 +577,7 @@ void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, VecState *m
         effect->timer = timer;
         if ((s16)timer <= 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            effect->state = effect->state + 1;
+            effect->state++;
         }
         break;
 

@@ -41,10 +41,4 @@ typedef struct ScriptCounterView {
     int unk_1C;
 } ScriptCounterView;
 
-/* Signed source word at +8 controlling a resident destination flag. */
-typedef struct RuntimeSourceValueView {
-    unsigned char pad_00[0x8];
-    int unk_08;
-} RuntimeSourceValueView;
-
 #endif

@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/motion.h"
 #include "shared/actor_property_flags.h"
@@ -1479,12 +1480,12 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         motion->velocity_x -= dir_step_x[direction] << 14;
         motion->velocity_y -= dir_step_y[direction] << 14;
 
-        if ((s16)body->action_timer > 0) {
+        if (body->action_timer > 0) {
             body->action_timer--;
         } else if (sprite->flags & 0x6000) {
             body->action_timer = 0;
         }
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -1501,7 +1502,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
 
     case 2:
         motion->velocity_z = 0xFFFE0000;
-        if ((s16)body->action_timer != 0) {
+        if (body->action_timer != 0) {
             s32 tile_delta;
             s32 position;
 

@@ -161,7 +161,7 @@ void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPositi
             motion_state->action_timer = 0x20;
             motion_state->action_state_flags |= 0x80;
         }
-        recovery_ticks = motion_state->action_timer - 1;
+        recovery_ticks = (u16)motion_state->action_timer - 1;
         motion_state->action_timer = recovery_ticks;
         if ((s16)recovery_ticks <= 0) {
             motion_state->action_timer = 0;

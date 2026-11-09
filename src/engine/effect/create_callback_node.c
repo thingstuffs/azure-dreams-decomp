@@ -6,18 +6,13 @@
 #include "engine/scene.h"
 #include "slus/data.h"
 
-typedef struct S_8003C128_0 {
-    u8 pad_00[0x10];
-    void (*unk_10)(void *, void *, void *);
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_8003C128_0;   /* temp_v0 in func_8003C128 */
-
-/* Create an object, set its callback, and clear its state. */
+/* Create the fade manager node in its static storage, install its step runner, and clear its step. */
 void create_marked_callback_node(void) {
-    S_8003C128_0 *object;
+    ObjectNodeHeader *node;
+    FadeManagerBody *manager;
 
-    object = initialize_scene_object_in_buffer(0x15, &callback_node_storage, 0x49);
-    object->unk_10 = &run_node_callback_and_set_marker;
-    object->unk_20 = 0;
+    node = initialize_scene_object_in_buffer(0x15, &callback_node_storage, 0x49);
+    node->update_callback = &run_node_callback_and_set_marker;
+    manager = NODE_BODY(node);
+    manager->step = 0;
 }

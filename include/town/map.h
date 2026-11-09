@@ -443,7 +443,7 @@ void update_angle_driven_offset(void *object, DelayMotionZ *offset_state);
 void update_current_and_saved_coordinates(struct S_800A51CC_0 *object);
 
 /* update_random_idle_wander.c */
-void update_random_idle_wander(void *actor, void *motion, SpriteFrameState *sprite, s32 update_context);
+void update_random_idle_wander(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_context);
 
 /* update_record_output_grid.c */
 void update_record_output_grid(struct S_800BDE7C_0 *record, s32 unused_value, TownGridOutputView *output, s32 unused_value2);

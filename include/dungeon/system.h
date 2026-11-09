@@ -42,7 +42,6 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup);
 void load_indexed_item_module(s32 entry_index);
 
 #include "shared/entity.h"
-#include "records/Rec_func_800A5DFC_arg1.h"
 void apply_capped_damage_and_hit_effect(ActorRecord *entity, ObjectPosition *effect_pos);
 
 void call_indexed_handler_and_clear(s32 *record);

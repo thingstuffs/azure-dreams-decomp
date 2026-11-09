@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "engine/node/registration.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"

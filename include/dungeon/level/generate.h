@@ -12,7 +12,6 @@
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_func_8001CE44_arg0.h"
 #include "shared/record_ptrs.h"
 #include "sdk/bzero.h"
 #include "sdk/libc.h"
@@ -298,12 +297,6 @@ typedef struct floor_generate_isolated_80289BD4_MapCell {
     u16 blocked;
 } floor_generate_isolated_80289BD4_MapCell;
 typedef struct {
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-} floor_generate_isolated_80289EC0_Rect;
-typedef struct {
     s16 height;
     u16 y;
     u16 flags;
@@ -314,25 +307,11 @@ typedef struct {
     u8 pad10[4];
 } floor_generate_isolated_8028A0F4_DungeonGroup;
 typedef struct {
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-} floor_generate_isolated_8028A0F4_DungeonRect;
-typedef struct {
     u8 kind;
     u8 f1;
     u8 f2;
     u8 f3;
 } floor_generate_isolated_8028A0F4_DungeonSlot;
-typedef struct floor_generate_isolated_8028A328_S_8001D328_0 {
-    u8 unk_00;
-    u8 pad_01[0x1];
-    u8 unk_02;
-    u8 pad_03[0x1];
-    u16 unk_04;
-    u16 unk_06;
-} floor_generate_isolated_8028A328_S_8001D328_0;
 typedef struct floor_generate_isolated_8028A328_S_8001D328_1 {
     u8 unk_00;
     u8 unk_01;
@@ -340,13 +319,6 @@ typedef struct floor_generate_isolated_8028A328_S_8001D328_1 {
 typedef struct floor_generate_isolated_8028A4AC_S_8001D4AC_1 {
     s32 unk_00;
 } floor_generate_isolated_8028A4AC_S_8001D4AC_1;
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-    u16 value;
-} floor_generate_isolated_8028A5D8_DungeonRect;
 typedef struct {
     s16 unused[10];
     s16 stride;
@@ -491,12 +463,12 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
 s16 choose_unblocked_cardinal_direction(s16 x, s16 y, s16 dir);
 void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, DungeonRoom *room);
 s32 is_value_within_inclusive_bounds(s16 value, s32 lower_bound, s16 upper_bound);
-void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id);
-void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1);
-void initialize_random_room_slot(void *room, s32 unused);
-void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect, s32 update_id);
-void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 unused);
-void fill_region_with_random_patches(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 update_id);
+void update_region_until_complete(DungeonRoom *region, s16 update_id);
+void adjust_random_parity_tile_heights(DungeonRoom *rect, s32 rng_input_1);
+void initialize_random_room_slot(DungeonRoom *room, s32 unused);
+void place_room_trap_records(DungeonRoom *rect, s32 update_id);
+void mark_random_eligible_region_tiles(DungeonRoom *region, s32 unused);
+void fill_region_with_random_patches(DungeonRoom *rect, s32 update_id);
 void write_rectangular_border(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base);
 void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *region);
 void advance_generation_step_pair(void *step_state, s32 update_id);

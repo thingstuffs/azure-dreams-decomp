@@ -105,7 +105,7 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
             saber_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
     }
-    action_timer = action->action_timer - 1;
+    action_timer = (u16)action->action_timer - 1;
     action->action_timer = action_timer;
     if ((action_timer << 16) > 0) {
         return;

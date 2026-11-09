@@ -199,7 +199,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
                 select_indirect_table_entry(sprite, (*(u8 * *)&sprite->frameTable)[view_dir], sprite->unk_04);
                 action->unk_94 = view_dir;
             }
-            if ((s16) action->action_timer < 0x10) {
+            if (action->action_timer < 0x10) {
                 return;
             }
             action->action_timer = 0U;
@@ -208,7 +208,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
             return;
         case 1:
             pause_timer = action->action_timer;
-            action->action_timer = (u16) (pause_timer + 1);
+            action->action_timer = pause_timer + 1;
             if ((s16) pause_timer < 4) {
                 return;
             }
@@ -245,7 +245,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         return;
     case 5:
         finish_timer = action->action_timer;
-        action->action_timer = (u16) (finish_timer - 1);
+        action->action_timer = finish_timer - 1;
         if ((finish_timer << 0x10) > 0) {
             return;
         }

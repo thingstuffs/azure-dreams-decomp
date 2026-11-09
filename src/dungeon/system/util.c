@@ -391,7 +391,7 @@ void advance_timed_object_and_retire(TimedStatusObjectBody *counter) {
     counter->tick_count = tick_count;
     if ((s16)tick_count >= 0x10) {
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        *(u16 *)((u8 *)counter - 2) |= NODE_REMOVE;
+        NODE_HEADER(counter)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -413,16 +413,6 @@ void create_timed_status_object(void) {
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A5DFC_arg1.h"
-
-typedef struct S_800A5DFC_0_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800A5DFC_0_pre;   /* the 0x14 bytes before arg0 in apply_capped_damage_and_hit_effect, addressed as arg0[-1] */
-
-typedef struct S_800A5DFC_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800A5DFC_2;   /* ((S_800A5DFC_0_pre *)arg0)[-1].unk_00 in apply_capped_damage_and_hit_effect */
 
 /* extern */
 
@@ -447,10 +437,10 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, ObjectPosition *eff
         }
         if (damage != 0) {
             entity->flags1C = (s32) (entity->flags1C & 0xDFFFFFFF);
-            if (!(((S_800A5DFC_2 *)(((S_800A5DFC_0_pre *)entity)[-1].unk_00))->unk_14 & 0x8000)) {
+            if (!(NODE_HEADER(entity)->sprite->flags & 0x8000)) {
                 create_actor_value_popup(3, entity, (s16) damage, 0);
                 entity->hp_delta = (s16) ((u16) entity->hp_delta - damage);
-                spawn_randomized_particle_burst(effect_pos->x.w.i, effect_pos->y.w.i, (s16) (effect_pos->z.unsigned_parts.integer - 8), 0x802080, 0x20,
+                spawn_randomized_particle_burst(effect_pos->x.w.i, effect_pos->y.w.i, (s16) (effect_pos->z.w.i - 8), 0x802080, 0x20,
                     1);
                 return;
             }
@@ -543,12 +533,12 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     state->unk_08 = frames_left;
     if ((s16) frames_left > 0) {
         s32 x_delta = 0x140 - state->unk_0A;
-        state->unk_0A = ((u16)state->unk_0A) + x_delta / (s16) frames_left;
+        state->unk_0A = state->unk_0A + x_delta / (s16) frames_left;
     } else {
         state->unk_08 = 0U;
         state->unk_0A = 0x140;
     }
-    right_x = (u16) state->unk_0A;
+    right_x = state->unk_0A;
     ((S_800A5FC0_3 *)quad)->unk_14 = right_x;
     ((S_800A5FC0_3 *)quad)->unk_0C = right_x;
     AddPrim((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), quad);
@@ -898,7 +888,7 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
             detach_record_and_update_slot_state(object);
         }
         unlink_entity_node(object);
-        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 

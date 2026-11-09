@@ -11,8 +11,8 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
+#include "engine/entity.h"
 
-s32 lookup_level_experience_threshold();                 /* extern */
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"

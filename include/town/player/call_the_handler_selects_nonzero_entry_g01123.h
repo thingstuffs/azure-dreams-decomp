@@ -9,17 +9,12 @@
 #include "shared/town_handler.h"
 #include "records/Rec_D_80082D58.h"
 
-typedef struct S_80094A60_0 {
-    u8 pad_00[0x16];
-    s16 unk_16;
-} S_80094A60_0;
-
 extern u8 animation_tick_scale;
 
 /* Functions defined in this translation unit. */
 void call_the_handler_selects_nonzero_entry(s32 *entries, TownObjectRecord *record, void *ptr2);
 void apply_a_selected_source_byte_destination_adjusts_sixth_byte(u8 *sourceBytes, s32 selection, u8 *destination);
 void store_the_in_forwards_field_10_callee_800949_c_4(s32 value, Rec_D_80082D58 *record, void *destination);
-void call_the_selected_nonzero_table_callee_80094_a_38(s32 *values, S_80094A60_0 *selector, void *ptr2);
+void call_the_selected_nonzero_table_callee_80094_a_38(s32 *values, TownObjectRecord *selector, void *ptr2);
 
 #endif

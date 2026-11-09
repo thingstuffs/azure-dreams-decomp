@@ -48,7 +48,7 @@ typedef struct S_800A1D1C_4 {
    /* arg1 in render_shaded_object_primitive */
 
 /* Update primitive shading and transform object coordinates, or mark it inactive. */
-void render_shaded_object_primitive(void *object, MovingPosition *coords, void *primitive) {
+void render_shaded_object_primitive(void *object, MovingPosition *coords, SpriteFrameState *primitive) {
     s32 matrix_index;
     s32 red_scaled;
     s32 green_scaled;
@@ -69,22 +69,22 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, void *
     }
     ((S_800A1D1C_0 *)object)->unk_00(object, coords, primitive);
     if (((S_800A1D1C_0 *)object)->unk_3C != 0) {
-        ((SpriteFrameState *)primitive)->color.c.r = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        primitive->color.c.r = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         red_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
-        ((SpriteFrameState *)primitive)->color.c.r = (s8) (red_scaled / 4);
+        primitive->color.c.r = (s8) (red_scaled / 4);
     }
     if (((S_800A1D1C_0 *)object)->unk_3D != 0) {
-        ((SpriteFrameState *)primitive)->color.c.g = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        primitive->color.c.g = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         green_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
-        ((SpriteFrameState *)primitive)->color.c.g = (s8) (green_scaled / 4);
+        primitive->color.c.g = (s8) (green_scaled / 4);
     }
     if (((S_800A1D1C_0 *)object)->unk_3E != 0) {
-        ((SpriteFrameState *)primitive)->color.c.b = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        primitive->color.c.b = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         blue_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
-        ((SpriteFrameState *)primitive)->color.c.b = (s8) (blue_scaled / 4);
+        primitive->color.c.b = (s8) (blue_scaled / 4);
     }
     ((S_800A1D1C_4 *)scratch)->unk_2C = ((S_800A1D1C_0 *)object)->unk_24;
     ((S_800A1D1C_4 *)scratch)->unk_2E = ((S_800A1D1C_0 *)object)->unk_28;

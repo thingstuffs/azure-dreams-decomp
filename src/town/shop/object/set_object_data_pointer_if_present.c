@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/shop/object.h"
+#include "town/shop.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void apply_record_values_and_process_record(void *record);
 
 typedef struct S_800B2CE8_0 {
     u8 pad_00[0x10];

@@ -61,7 +61,6 @@ s32 initialize_catalog_display_nodes(CatalogDisplay *display);
 void initialize_catalog_state(CatalogDisplay *state);
 
 s16 *build_filtered_catalog_glyph(s32 char_code, s16 *destination);
-s16 *get_cached_catalog_glyph(s16 char_code);
 void draw_cached_catalog_text(u8 *text, s16 x, s16 y);
 void draw_vram_glyph_text(u8 *text, s16 x, s16 y);
 

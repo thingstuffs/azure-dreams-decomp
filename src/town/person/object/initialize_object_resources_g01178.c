@@ -17,7 +17,7 @@ void initialize_object_resources_2(TownObjectRecord *object, ObjectPosition *pos
                   &D_800D50F0, &D_800D50F8);
     position->z.v = 0xFF800000;
     object->descriptor->entries[1] = &D_800D50DC;
-    ((ObjectNodeHeader *)object - 1)->update_callback = &set_camera_chase_data;
+    NODE_HEADER(object)->update_callback = &set_camera_chase_data;
     display_state->tpage_abr = 0;
     display_state->flags = (u16) (display_state->flags | 0xC);
     create_user_data_object_b(((void *)object) - 0x20);
@@ -45,7 +45,7 @@ void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data,
         chase_fix[2] = 0;
         chase_fix[1] = second_value;
         tcame_chase_fix(chase_fix);
-        ((ObjectNodeHeader *)object - 1)->update_callback = update_object_motion_and_flags;
+        NODE_HEADER(object)->update_callback = update_object_motion_and_flags;
     }
 }
 

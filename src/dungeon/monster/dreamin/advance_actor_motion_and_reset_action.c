@@ -154,7 +154,7 @@ void advance_actor_motion_and_reset_action(ActorRecord *action_state, ObjectPosi
             action_state->action_timer = 0x20;
             action_state->action_state_flags |= 0x80;
         }
-        wait_frames = action_state->action_timer - 1;
+        wait_frames = (u16)action_state->action_timer - 1;
         action_state->action_timer = wait_frames;
         if ((s16)wait_frames <= 0) {
             action_state->action_timer = 0;

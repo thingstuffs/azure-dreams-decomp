@@ -256,7 +256,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             F(owner, s16, 0x72) == self->current_tile.packed) {
             motion->x.w.i = self->target_x;
             motion->y.w.i = self->target_y;
-            motion->z.w.i = (u16)self->target_z;
+            motion->z.w.i = self->target_z;
             self->state++;
             break;
         }

@@ -1,4 +1,5 @@
 #include "shared/game_work.h"
+#include "town/scene/collision.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -10,17 +11,14 @@ typedef int s32;
  * For an unflagged entry, subtracts its adjustment from the current value and clears the pending
  * delta. Increments the selected slot byte and stores the entry value in the indexed word table.
  */
-void apply_the_entry_adjustment_increment_slot_count_store_slot(u8 *state_base, void *value_record, void *entry)
+void apply_the_entry_adjustment_increment_slot_count_store_slot(ColliderView *state_base, ObjectPosition *value_record, CollisionScratch *entry)
 {
     int adjusted_value;
-    void *slot_base;
-    if ((*((u8 *) (((s8 *) entry) + 0x28))) == 0) {
-        adjusted_value = (*((s32 *) (((s8 *) value_record) + 0))) - (*((s32 *) (((s8 *) entry) + 0x10)));
-        *((s32 *) (((s8 *) value_record) + 0xC)) = 0;
-        *((s32 *) (((s8 *) value_record) + 0)) = (s32) adjusted_value;
+    if (entry->face_x == 0) {
+        adjusted_value = value_record->x.v - entry->x_near;
+        value_record->velocity_x = 0;
+        value_record->x.v = adjusted_value;
     }
-    slot_base = state_base + (*((s32 *) (((s8 *) entry) + 0x2C)));
-    *((u8 *) (((s8 *) slot_base) + 0x3A)) = (u8) ((*((u8 *) (((s8 *) slot_base) + 0x3A))) + 1);
-    *((s32 *) (((s8 *) (((*((s32 *) (((s8 *) entry) + 0x2C))) * 4) + state_base)) + 0x1C)) =
-        (s32) (*((s32 *) (((s8 *) entry) + 4)));
+    state_base->pending_flags[entry->axis_x] = (u8)(state_base->pending_flags[entry->axis_x] + 1);
+    state_base->slots[entry->axis_x] = entry->other;
 }

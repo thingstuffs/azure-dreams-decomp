@@ -147,11 +147,11 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         }
         target_color = (S_801749A8_3 *)actor_effect_color_targets[lookup_masked_byte_table(target)];
         object->unk_A8 = (u8) (object->unk_A8 + ((s32) (target_color->unk_00
-            - object->unk_A8) / (s16) sequence->action_timer));
+            - object->unk_A8) / sequence->action_timer));
         object->unk_A9 = (u8) (object->unk_A9 + ((s32) (target_color->unk_01
-            - object->unk_A9) / (s16) sequence->action_timer));
+            - object->unk_A9) / sequence->action_timer));
         object->unk_AA = (u8) (object->unk_AA + ((s32) (target_color->unk_02
-            - object->unk_AA) / (s16) sequence->action_timer));
+            - object->unk_AA) / sequence->action_timer));
         return;
     case 4:
         effect_node = allocate_flagged_object_node(0x12);

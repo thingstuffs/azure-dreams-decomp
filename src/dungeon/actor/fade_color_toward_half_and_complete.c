@@ -5,7 +5,7 @@
 
 
 /* Waits, then fades the color channels toward 0x80 and flags completion. */
-void fade_color_toward_half_and_complete(void *effect_arg, s32 unused, void *color_arg)
+void fade_color_toward_half_and_complete(void *effect_arg, s32 unused, SpriteFrameState *color_arg)
 {
     SpriteFrameState *color = color_arg;
     PositionedGraphicEffectBody *effect = effect_arg;

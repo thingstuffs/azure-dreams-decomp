@@ -164,7 +164,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
 
     case 2:
         action->action_timer--;
-        if ((s16)action->action_timer > 0 &&
+        if (action->action_timer > 0 &&
             !(sprite->flags & 0xE000)) {
             return;
         }

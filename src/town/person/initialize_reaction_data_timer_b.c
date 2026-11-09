@@ -14,15 +14,8 @@ typedef struct {
 } Object;
 void move_reaction_toward_target(Object *object, Position *position, void *context);
 
-typedef struct S_800CA75C_0 {
-    u8 pad_00[0x54];
-    void (*unk_54)(Object *, Position *, void *);
-    u8 pad_58[0x14];
-    s16 unk_6C;
-} S_800CA75C_0;   /* arg0 in initialize_reaction_data_and_timer_13 */
-
 /* Set the object's data pointer and state to 13. */
-void initialize_reaction_data_and_timer_13(S_800CA75C_0 *object) {
-    object->unk_54 = &move_reaction_toward_target;
-    object->unk_6C = 0xD;
+void initialize_reaction_data_and_timer_13(TownObjectRecord *object) {
+    object->handler = &move_reaction_toward_target;
+    object->timer = 0xD;
 }

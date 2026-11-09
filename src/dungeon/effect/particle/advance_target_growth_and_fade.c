@@ -148,7 +148,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     s32 tile_coord;
 
     actor = effect_state->unk_00;
-    timer = (u16)effect_state->unk_50;
+    timer = effect_state->unk_50;
     timer -= 1;
     phase = (s16)effect_state->unk_0A;
     actor_data = ((S_func_818DA800_5 *)NODE_HEADER(actor))->unk_0C;
@@ -191,18 +191,18 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     motion->unk_0C.half.unk_0E =
         (tile_coord << 6) - (motion->unk_00.half.unk_02 - 0x20);
     motion->unk_0C.as_s32 = motion->unk_0C.as_s32 /
-        (s16)effect_state->unk_50;
+        effect_state->unk_50;
     tile_coord = actor->target_tile_y;
     motion->unk_10.half.unk_12 =
         (tile_coord << 6) - (motion->unk_04.half.unk_06 - 0x20);
     motion->unk_10.as_s32 = motion->unk_10.as_s32 /
-        (s16)effect_state->unk_50;
+        effect_state->unk_50;
     motion->unk_14.half.unk_16 = sample_terrain_surface_height(
         motion->unk_00.half.unk_02, motion->unk_04.half.unk_06,
         (s16)(((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_08.half.unk_0A -
               0x30)) - (s16)motion->unk_08.half.unk_0A;
     motion->unk_14.as_s32 = motion->unk_14.as_s32 /
-        (s16)effect_state->unk_50;
+        effect_state->unk_50;
     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
     effect_state->unk_0A++;
     break;
@@ -211,7 +211,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     motion->unk_00.as_s32 += motion->unk_0C.as_s32;
     motion->unk_04.as_s32 += motion->unk_10.as_s32;
     motion->unk_08.as_s32 += motion->unk_14.as_s32;
-    if ((s16)effect_state->unk_50 > 0) {
+    if (effect_state->unk_50 > 0) {
         break;
     }
     {
@@ -304,7 +304,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     break;
 
     case 2:
-    if ((s16)effect_state->unk_50 > 0) {
+    if (effect_state->unk_50 > 0) {
         break;
     }
     if (actor->target == 0) {
@@ -317,7 +317,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     break;
 
     case 3:
-    if ((s16)effect_state->unk_50 > 0) {
+    if (effect_state->unk_50 > 0) {
         break;
     }
     if (actor->target != 0 &&
@@ -333,7 +333,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     break;
 
     case 4:
-    if ((s16)effect_state->unk_50 > 0) {
+    if (effect_state->unk_50 > 0) {
         break;
     }
     effect_state->unk_50 = 4;
@@ -344,7 +344,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     if ((s16)effect_state->unk_52 & (u16)0x8000) {
         effect_state->unk_52 &= 0x7FFF;
     } else {
-        if ((s16)effect_state->unk_50 <= 0) {
+        if (effect_state->unk_50 <= 0) {
             g_dungeon_status.active_actor = 0;
             ((S_func_818DA800_11 *)((u8 *)effect_state - 4))->unk_02 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -103,6 +103,6 @@ void func_8003C064(void) {
 }
 
 /* Returns without performing any work. */
-void noop_after_fade_ramp_completion(void) {
+void noop_after_fade_ramp_completion(struct FadeManagerBody *manager, struct ObjectPosition *position, struct SpriteFrameState *sprite) {
 }
 

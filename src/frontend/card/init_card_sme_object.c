@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
@@ -29,7 +30,7 @@ extern Root card_sme_object;
 /* Initializes the memory card state object and its working data. */
 void * init_card_sme_object(s32 init_option) {
     Obj *obj = (Obj *)&card_sme_object;
-    Sub *card_state = (Sub *)((u8 *)obj + 0x20);
+    Sub *card_state = NODE_BODY(obj);
     s32 state_value;
 
     if (func_80047FD8(obj) == 0) {

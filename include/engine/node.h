@@ -1,6 +1,8 @@
 #ifndef ENGINE_NODE_H
 #define ENGINE_NODE_H
 struct ObjectPosition;
+struct FadeManagerBody;
+struct SpriteFrameState;
 /* Prototypes of the functions defined in src/engine/node/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -32,7 +34,7 @@ void register_node_if_unregistered(void *block_data, void *registration_id);
 void run_active_node_callbacks(void);
 
 /* run_node_callback_and_set_marker.c */
-void run_node_callback_and_set_marker(void *entry, struct ObjectPosition *output, void *context);
+void run_node_callback_and_set_marker(struct FadeManagerBody *entry, struct ObjectPosition *output, struct SpriteFrameState *context);
 
 /* table_set_bit_in_node_global_flags_node_exists.c */
 void table_set_bit_hex_8000_in_node_global_flags_node_exists(struct ObjectNodeHeader *node);

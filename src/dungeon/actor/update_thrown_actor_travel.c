@@ -56,8 +56,8 @@ s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteF
         if (hit_object != NULL) {
             apply_attack_power_and_element_effects(actor, 4, 1, 8, (s32) (s16) ((u16) ((s16)actor->movement_facing) + 0x800), 0, 1);
             apply_attack_power_and_element_effects(hit_object, 8, 1, 8, (s32) ((s16)actor->movement_facing), 0, 1);
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
-                (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
+            ((ActorRecord *)move_state)->action_state_flags =
+                (u16) (((ActorRecord *)move_state)->action_state_flags & 0xFFF7);
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -96,8 +96,8 @@ s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteF
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
-                (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
+            ((ActorRecord *)move_state)->action_state_flags =
+                (u16) (((ActorRecord *)move_state)->action_state_flags & 0xFFF7);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->room_index;
             tile_pos->room_index = find_active_rect_containing_point(tile_pos->tile_x, tile_pos->tile_y);
             update_actor_proximity_flag(tile_pos, actor, 3, 6, move_state + 0x9C);

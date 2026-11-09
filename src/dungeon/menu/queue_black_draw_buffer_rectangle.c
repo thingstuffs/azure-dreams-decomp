@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 #include "dungeon/menu.h"
 #include "sdk/libgpu.h"
+#include "shared/gpu_packets.h"
 
 extern u8 upper_draw_context[16];
 
@@ -10,24 +11,24 @@ void queue_black_draw_buffer_rectangle(InactiveTypeTwelveObjectBody *object) {
     s32 draw_rect[2];
     s32 rect_y;
     s32 adjust_y;
-    u8 *draw_buffer;
-    u8 *ordering_table;
+    GpuContext *draw_buffer;
+    u32 *ordering_table;
     u8 *rect_packet;
     u8 *area_packet;
 
     draw_rect[0] = 0xC00300;
     draw_rect[1] = 0x400040;
     draw_buffer = g_game_work.draw_buffer;
-    adjust_y = draw_buffer != upper_draw_context;
-    ordering_table = draw_buffer + 0x8B0;
-    area_packet = *(u8 **)(draw_buffer + 0x8D0);
-    *(u8 **)(draw_buffer + 0x8D0) = area_packet + 0xC;
-    SetDrawArea(area_packet, *(u8 * *)&g_game_work.draw_buffer);
+    adjust_y = (u8 *)draw_buffer != upper_draw_context;
+    ordering_table = &draw_buffer->orderTag8B0;
+    area_packet = draw_buffer->packetCursor;
+    draw_buffer->packetCursor = area_packet + 0xC;
+    SetDrawArea(area_packet, g_game_work.draw_buffer);
     AddPrim(ordering_table, area_packet);
     draw_nearby_map_markers(ordering_table, object);
 
-    rect_packet = *(u8 **)(g_game_work.draw_buffer + 0x8D0);
-    *(u8 **)(g_game_work.draw_buffer + 0x8D0) = rect_packet + 0x10;
+    rect_packet = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
+    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = rect_packet + 0x10;
     *(s32 *)(rect_packet + 4) = 0x60000000;
     *(s8 *)(rect_packet + 3) = 3;
     *(s32 *)(rect_packet + 8) = draw_rect[0];
@@ -39,8 +40,8 @@ void queue_black_draw_buffer_rectangle(InactiveTypeTwelveObjectBody *object) {
     *(s32 *)(rect_packet + 0xC) = draw_rect[1];
     AddPrim(ordering_table, rect_packet);
 
-    area_packet = *(u8 **)(g_game_work.draw_buffer + 0x8D0);
-    *(u8 **)(g_game_work.draw_buffer + 0x8D0) = area_packet + 0xC;
+    area_packet = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
+    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = area_packet + 0xC;
     SetDrawArea(area_packet, &draw_rect[0]);
     AddPrim(ordering_table, area_packet);
 }

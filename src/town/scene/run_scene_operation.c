@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
+#include "town/scene.h"
 
 typedef struct S_80017308_1 {
     u8 pad_00[0x2];

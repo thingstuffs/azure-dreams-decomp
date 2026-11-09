@@ -1,6 +1,7 @@
 #include "engine/window/cursor_body.h"
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 #include "common.h"
 #include "engine/window.h"
@@ -12,19 +13,13 @@ typedef struct S_80037394_1 {
     u8 unk_4C;
 } S_80037394_1;   /* temp_v0 + temp_v1 in update_cursor_blink_colors */
 
-typedef struct S_80037394_2 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    s32 unk_0C;
-} S_80037394_2;   /* arg2 in update_cursor_blink_colors */
-
 extern void copy_texture_descriptor_with_page_offsets(s32 *texture_pos, void *src, void *dst);
 
 /* Updates the current entry's output value and applies its blink color. */
-void update_cursor_blink_colors(WindowCursorBody *body, ObjectPosition *position, void *output_arg) {
+void update_cursor_blink_colors(WindowCursorBody *body, ObjectPosition *position, SpriteFrameState *output_arg) {
     void *state_arg = body;
     WindowCursorBody *state = state_arg;
-    S_80037394_2 *output = output_arg;
+    SpriteFrameState *output = output_arg;
     u8 entry_flags;
     s8 *entry_data;
     s16 entry_offset;
@@ -48,14 +43,14 @@ void update_cursor_blink_colors(WindowCursorBody *body, ObjectPosition *position
         state->blink_frame = state->blink_frame + 1;
         t = state->blink_frame;
         if (t & 1) {
-            output->unk_0C = 0xC0C0C0;
+            output->color.word = 0xC0C0C0;
         } else {
-            output->unk_0C = 0;
+            output->color.word = 0;
         }
     } else {
-        output->unk_0C = 0xC0C0C0;
+        output->color.word = 0xC0C0C0;
     }
 
-    output->unk_08 =
+    output->source =
         cursor_blink_variant_values[(entry_flags & 0x7F) + state->variant_offset];
 }

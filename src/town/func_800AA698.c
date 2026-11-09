@@ -20,7 +20,7 @@ void handle_object_bounds_and_cleanup(TownObjectRecord *object, void *check_data
             *status_byte = 0;
         }
         unlink_node_if_registered(object);
-        ((ObjectNodeHeader *)object - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     } else {

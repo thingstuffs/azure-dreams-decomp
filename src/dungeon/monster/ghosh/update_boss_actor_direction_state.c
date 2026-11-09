@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
@@ -7,18 +8,6 @@
 #include "engine/graphics.h"
 #include "slus.h"
 #include "dungeon/monster/ghosh_frames.h"
-
-typedef struct S_80172610_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x68];
-    s16 unk_94;
-    u16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 pad_9B[0x11];
-    u8 * unk_AC;
-} S_80172610_0;   /* actor in update_boss_actor_direction_state */
 
 typedef struct S_80172610_1 {
     u8 pad_00[0x8];
@@ -72,9 +61,9 @@ typedef struct S_80172610_8 {
 extern s8 view_direction_depth_biases[];
 
 /* Update actor direction, copy linked output state, and propagate status flags. */
-void update_boss_actor_direction_state(void *actor_data, void *output_data, SpriteFrameState *context_data)
+void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_data, SpriteFrameState *context_data)
 {
-    S_80172610_0 *actor;
+    ActorRecord *actor;
     MovingPosition *output;
     SpriteFrameState *context;
     u8 *owner;
@@ -95,13 +84,13 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, Spri
     actor = actor_data;
     output = output_data;
     context = context_data;
-    owner = actor->unk_AC;
+    owner = (u8 *)actor->unk_AC.address;
     linked = (S_80172610_3 *)((S_80172610_1 *)owner)->unk_0C;
     source = ((S_80172610_1 *)owner)->unk_08;
     base = owner + 0x20;
     saved_base = base;
 
-    if (actor->unk_9A != 0) {
+    if (actor->action_id != 0) {
         return;
     }
 
@@ -115,16 +104,16 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, Spri
         advance_sprite_animation_and_textures(context);
     }
 
-    old_angle = actor->unk_2A;
+    old_angle = actor->facing;
     new_angle = ((S_80172610_2 *)base)->unk_2A;
     new_angle_bits = ((u16)((S_80172610_2 *)base)->unk_2A);
     if (old_angle != new_angle) {
-        actor->unk_2A = new_angle_bits;
+        actor->facing = new_angle_bits;
         facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + new_angle + 0x100) >> 9) & 7;
         select_sprite_entry(context, (*((((S_80172610_4 *)context)->unk_2C) + facing_index)), 0);
     }
 
-    direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
+    direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
     direction_short = direction_index;
     if (actor->unk_94 != direction_short) {
         select_sprite_entry(context, (*((((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
@@ -136,7 +125,7 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, Spri
     output->y = source->y;
     output->z = source->z;
 
-    effect_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
+    effect_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
     effect = view_direction_depth_biases[effect_index];
     context->depth_bias = effect << 2;
     context->scale_x = linked->unk_1C;
@@ -149,10 +138,10 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, Spri
     }
 
     if (((S_80172610_8 *)saved_base)->unk_9A == 0x13) {
-        actor->unk_9A++;
+        actor->action_id++;
         (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
         global_flags = object_flag_block.flags;
-        actor->unk_96 = 0;
+        actor->action_timer = 0;
         object_flag_block.flags = global_flags | 0x8000;
     }
 }

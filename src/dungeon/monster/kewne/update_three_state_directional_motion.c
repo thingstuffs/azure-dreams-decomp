@@ -69,7 +69,7 @@ void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *
         s32 next_y;
         s32 signed_value;
 
-        anim_table = action->action_timer;
+        anim_table = (u16)action->action_timer;
         direction_base = (u8 *)&dir_step_x;
         next_frame = anim_table + 1;
         anim_table -= 3;

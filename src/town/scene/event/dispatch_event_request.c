@@ -12,7 +12,6 @@ typedef struct S_8001B828_0 {
     void * unk_20;
 } S_8001B828_0;   /* obj in dispatch_event_request */
 
-extern s32 check_event_value_in_list(s32);
 #include "town/scene.h"
 #include "town/player/state.h"
 #include "town/scene/event.h"

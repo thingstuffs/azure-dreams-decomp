@@ -41,7 +41,7 @@ class NormalizeTests(unittest.TestCase):
         self.assertNotEqual(self.sig('void f(const char *a);'), self.sig('void f(char *a);'))
 
     def test_calls_comments_and_initializers_are_not_declarations(self):
-        text = ('/* void f(int); */\\nvoid g(void) {\n    int x = f(1);\n    f(2);\n    return f(3);\n'
+        text = ('/* void f(int); */\nvoid g(void) {\n    int x = f(1);\n    f(2);\n    return f(3);\n'
                 '    if (x) f(4);\n    else f(5);\n}\n')
         self.assertEqual(D.declarations(text, {'f'}, ALIASES), [])
 
@@ -55,6 +55,36 @@ class NormalizeTests(unittest.TestCase):
         self.assertTrue(D.agrees(entry('void f();'), entry('void f(Actor *a) {}')))
         self.assertTrue(D.agrees(entry('void f(void *a);'), entry('void f(Actor *a) {}')))
         self.assertFalse(D.agrees(entry('void f(Actor *a, int b);'), entry('void f(Actor *a) {}')))
+
+    def test_function_pointer_parameters_compare_by_shape(self):
+        a = self.sig('void f(void (*cb)(struct Actor *a, s32 n), int x);')
+        b = self.sig('void f(void (*)(Actor *, int), int);')
+        c = self.sig('extern void f( void ( * handler )( Actor* p , int ) , s32 y );')
+        self.assertEqual(a, b)
+        self.assertEqual(a, c)
+        self.assertNotEqual(a, self.sig('void f(void (*cb)(Rec *a, s32 n), int x);'))
+        self.assertNotEqual(a, self.sig('void f(int (*cb)(Actor *a, s32 n), int x);'))
+
+    def test_function_pointer_typedef_resolves(self):
+        with tempfile.TemporaryDirectory() as td:
+            (Path(td) / 'include').mkdir()
+            (Path(td) / 'include/cb.h').write_text('typedef void (*ActorCallback)(struct Actor *a, s32 n);\n')
+            aliases = D.scalar_aliases(td)
+        spelled = [D.show_signature(e) for e in D.declarations('void f(void (*cb)(Actor *, int));', {'f'}, aliases)]
+        named = [D.show_signature(e) for e in D.declarations('void f(ActorCallback cb);', {'f'}, aliases)]
+        self.assertEqual(spelled, named)
+
+    def test_unprototyped_function_pointer_agrees(self):
+        entry = lambda t: D.declarations(t, {'f'}, ALIASES)[0]
+        self.assertTrue(D.agrees(entry('void f(void (*cb)());'), entry('void f(void (*cb)(Actor *a)) {}')))
+        self.assertFalse(D.agrees(entry('void f(void (*cb)(Rec *));'), entry('void f(void (*cb)(Actor *a)) {}')))
+
+    def test_void_stale_params(self):
+        entry = lambda t: D.declarations(t, {'f'}, ALIASES)[0]
+        self.assertEqual(D.void_stale_params(entry('void f(void *a, int b);'), entry('void f(Rec *a, int b) {}')), [0])
+        self.assertEqual(D.void_stale_params(entry('void f(Rec *a);'), entry('void f(Rec *a) {}')), [])
+        self.assertEqual(D.void_stale_params(entry('void f(void *a);'), entry('void f(void *a) {}')), [])
+        self.assertEqual(D.void_stale_params(entry('void f();'), entry('void f(Rec *a) {}')), [])
 
 
 class TreeTests(unittest.TestCase):
@@ -133,6 +163,78 @@ class TreeTests(unittest.TestCase):
             self.assertEqual(lint_closure.decl_check(args, self.root, self.root, ['pick'], {}), 1)
             self.assertEqual(lint_closure.decl_check(args, self.root, self.root, [], {}), 0)
         self.assertIn('declaration agreement FAIL', out.getvalue())
+
+    def test_void_pointer_stale_is_reported_not_failing_by_default(self):
+        (self.root / 'src/m/voidp.c').write_text('s32 pick(void *a, s32 n);\n')
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'void decl')
+        base = git(self.root, 'rev-parse', 'HEAD')
+        self.retype()
+        base_tree = D.C.materialize(self.root, base, self.root / 'out/base')
+        self.assertEqual(D.check_tree(self.root, {'pick'}) and [p['file'] for p in D.check_tree(self.root, {'pick'})],
+                         ['src/m/block.c', 'src/m/local.c'])
+        stale = D.void_pointer_stale(base_tree, self.root, {'pick'})
+        self.assertEqual([p['file'] for p in stale], ['src/m/voidp.c'])
+        with redirect_stdout(io.StringIO()) as out:
+            code = D.check_change(self.root, base, self.root, {'pick'}, base_tree=base_tree)
+        self.assertIn('VOID POINTER STALE src/m/voidp.c:1', out.getvalue())
+        self.assertIn('void_pointer_stale 1 (report-only)', out.getvalue())
+        self.assertEqual(code, 1)         # the two plain disagreements still fail
+        for path in ('src/m/local.c', 'src/m/block.c'):
+            f = self.root / path
+            f.write_text(f.read_text().replace('struct Actor *a', 'Rec *a'))
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(D.check_change(self.root, base, self.root, {'pick'}, base_tree=base_tree), 0)
+            self.assertEqual(D.check_change(self.root, base, self.root, {'pick'}, base_tree=base_tree,
+                                            fail_void=True), 1)
+            self.assertEqual(D.main([base, '--root', str(self.root), '--fail-void']), 1)
+            self.assertEqual(D.main([base, '--root', str(self.root)]), 0)
+
+    def test_unchanged_void_declaration_is_not_reported(self):
+        (self.root / 'src/m/voidp.c').write_text('s32 pick(void *a, s32 n);\n')
+        self.retype()
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'retyped with stale void decl')
+        later = git(self.root, 'rev-parse', 'HEAD')
+        (self.root / 'src/m/def.c').write_text(
+            (self.root / 'src/m/def.c').read_text() + '/* comment only */\n')
+        git(self.root, 'commit', '-qam', 'comment')
+        base_tree = D.C.materialize(self.root, later, self.root / 'out/later')
+        self.assertEqual(D.void_pointer_stale(base_tree, self.root, {'pick'}), [])
+
+    def test_base_tree_is_reused_not_rematerialised(self):
+        self.retype()
+        base_tree = D.C.materialize(self.root, self.base, self.root / 'out/base')
+        calls = []
+        original = D.C.materialize
+        D.C.materialize = lambda *a, **k: calls.append(a) or original(*a, **k)
+        try:
+            with redirect_stdout(io.StringIO()):
+                D.check_change(self.root, self.base, self.root, {'pick'}, base_tree=base_tree)
+                self.assertEqual(calls, [])
+                D.check_change(self.root, self.base, self.root, {'pick'})
+        finally:
+            D.C.materialize = original
+        self.assertEqual(len(calls), 1)
+
+    def test_renamed_file_keeps_existing_disagreement_existing(self):
+        self.retype()
+        git(self.root, 'commit', '-qam', 'retype')
+        base = git(self.root, 'rev-parse', 'HEAD')
+        base_tree = D.C.materialize(self.root, base, self.root / 'out/renamed_base')
+        git(self.root, 'mv', 'src/m/local.c', 'src/m/local_moved.c')
+        git(self.root, 'commit', '-qm', 'rename')
+        new, existing = D.new_problems(base_tree, self.root, {'pick'}, {'src/m/local_moved.c': 'src/m/local.c'})
+        self.assertEqual(sorted(p['file'] for p in existing), ['src/m/block.c', 'src/m/local_moved.c'])
+        self.assertEqual(new, [])
+        new, existing = D.new_problems(base_tree, self.root, {'pick'})        # rename unknown: looks new
+        self.assertEqual([p['file'] for p in new], ['src/m/local_moved.c'])
+
+    def test_edited_callback_declaration_does_not_fail(self):
+        (self.root / 'include/m/api.h').write_text(
+            (self.root / 'include/m/api.h').read_text() + 'void on(void (*cb)(Actor *a, s32 n), s32 k);\n')
+        (self.root / 'src/m/on.c').write_text('void on(void (*handler)(struct Actor *, int), int count) {}\n')
+        self.assertEqual(D.check_tree(self.root, {'on'}), [])
 
     def test_main_exit_codes(self):
         self.retype()
