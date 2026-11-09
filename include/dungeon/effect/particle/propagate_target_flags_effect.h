@@ -190,21 +190,6 @@ typedef struct {
     u8 bytes[12];
 } Template12 __attribute__((packed));
 typedef struct {
-    u8 pad0[6];
-    s16 unk6;
-    void *image;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 padF;
-    s16 unk10;
-    u8 pad12[2];
-    u16 flags;
-    u8 pad16[6];
-    s16 scale_x;
-    s16 scale_y;
-} Sprite;
-typedef struct {
     u8 pad0[0x8C];
     s32 vel_x;
     s32 vel_y;
@@ -305,7 +290,7 @@ typedef struct EffectState {
 typedef struct Effect {
  u8 pad0[8];
  struct ObjectPosition *coordinates;
- union { Sprite *sprite; SpriteFrameState *sprite_frame; } visual;
+ SpriteFrameState *visual;
  union { void *handler; void (*update)(); } callback;
  u8 pad14[0xC];
  union { EffectState state; Motion motion; } payload;

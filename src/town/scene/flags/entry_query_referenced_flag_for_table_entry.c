@@ -2,8 +2,7 @@
 #include "town/scene/entry_flag_queries.h"
 #include "common.h"
 #include "town/player/script_flags.h"
-
-void set_indexed_entry_flag(void *, s32);
+#include "town/scene/flags.h"
 
 /* Raise event 0x5BC and, when check 0x9A passes, forward the pair to the handler. */
 s32 dispatch_entry_flag_query_if_ready(void *target, s32 value) {

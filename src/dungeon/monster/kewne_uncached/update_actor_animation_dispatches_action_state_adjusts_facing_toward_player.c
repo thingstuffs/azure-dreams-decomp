@@ -108,7 +108,7 @@ void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player
                         0);
                 }
                 sprite->frame_ticks = 1;
-                actor->unk_A0.halves.high.s = 0;
+                actor->unk_A0.parts.high = 0;
                 actor->unk_9E = 0;
             }
         }
@@ -128,7 +128,7 @@ table_done:
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
             base_height = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
-            actor->unk_A0.halves.high.s = 0;
+            actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
             actor->unk_90.parts.high.s = base_height;
             func_80163078(actor, actor_aux, sprite, entity);

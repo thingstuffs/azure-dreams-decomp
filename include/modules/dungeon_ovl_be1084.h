@@ -60,7 +60,6 @@ struct ObjectNodeHeader;
 #define M2C_SYNC() ((void)0)
 
 /* Advance the effect motion, fade its color, and flag it near its target or when faded out. */
-typedef struct { s32 x,y,z,dx,dy,dz; } EffectMotion;
 /* Advance and damp motion; scale the current color by the remaining lifetime. */
 
    /* obj in func_80170D28 */
@@ -153,7 +152,7 @@ typedef struct StackWork {
 /* Update the effect's transform, color, and depth, and flag it when its lifetime expires. */
 s32 build_projected_tile_packets(u8 *,u16 *);
 
-void advance_damped_motion_and_fade_effect(FadeEffect *,EffectMotion *);
+void advance_damped_motion_and_fade_effect(FadeEffect *,ObjectPosition *);
 /* Compatibility for registered relink copies pending LL4 removal. */
 typedef ObjectPayloadView S_80BC172C_2;
 

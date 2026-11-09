@@ -101,18 +101,6 @@ typedef struct CB_80170A5C_S_80170A5C_4 {
 
 typedef void (*CB_80170C24_Callback)(void *, void *, void *, void *);
 
-typedef struct CB_80170C24_S_80170C24_0 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} CB_80170C24_S_80170C24_0;   /* monster in func_80170C24 */
-
 typedef struct CB_80170C24_S_80170C24_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -120,15 +108,6 @@ typedef struct CB_80170C24_S_80170C24_1 {
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
 } CB_80170C24_S_80170C24_1;   /* actor in func_80170C24 */
 
-typedef struct CB_80170C24_S_80170C24_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} CB_80170C24_S_80170C24_2;   /* motion in func_80170C24 */
 
 /* Runs entity callbacks, updates monster facing, and applies motion and floor collision. */
 
@@ -964,9 +943,9 @@ extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern s32 rand(void);
 
 void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords);
-void expand_then_shrink_effect(void *effect, void *unused, void *visual);
+void expand_then_shrink_effect(void *effect, void *unused, SpriteFrameState *visual);
 void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
-void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *monster);
+void set_boss_effect_flag(void *entity, ObjectPosition *motion, SpriteFrameState *monster);
 void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param, SpriteFrameState *entity, ActorRecord *state);
 void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

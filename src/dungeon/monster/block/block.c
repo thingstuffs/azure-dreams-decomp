@@ -19,7 +19,7 @@
 #include "dungeon/effect/screen.h"
 
 void *(*const cb3000_spawn_entry)(s16,s16,s16,s32) = create_linked_object_position;
-void (*const cb3000_update_entry)(void *,CB_80170C24_S_80170C24_2 *,void *) = set_boss_effect_flag;
+void (*const cb3000_update_entry)(void *,ObjectPosition *,SpriteFrameState *) = set_boss_effect_flag;
 
 /* Stores the owner value, copies the source position, and initializes a gray sprite for rendering. */
 void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords)
@@ -49,7 +49,7 @@ void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field
 
 
 /* Expands and brightens the rotating effect, then shrinks and fades it until its timer expires. */
-void expand_then_shrink_effect(void *effect_arg, void *unused, void *visual_arg)
+void expand_then_shrink_effect(void *effect_arg, void *unused, SpriteFrameState *visual_arg)
 {
     SpriteFrameState *visual = visual_arg;
     CB_80170920_S_80170920_0 *effect = effect_arg;
@@ -172,7 +172,7 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
  * the a1/a2 temps into them, so sched1 schedules the parameter copies and the entry order is
  * retail's.
  */
-void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *monster)
+void set_boss_effect_flag(void *entity, ObjectPosition *motion, SpriteFrameState *monster)
 {
     CB_80170C24_S_80170C24_1 *actor = entity;
     s32 direction;
@@ -214,7 +214,7 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
         try_move_actor_to_valid_position(entity, motion, monster, entity);
     }
 
-    monster_flags = ((CB_80170C24_S_80170C24_0 *)monster)->unk_14;
+    monster_flags = monster->flags;
     if (!(monster_flags & 0x8000)) {
         direction_value = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (direction_value >> 9) & 7;
@@ -222,51 +222,51 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
         direction_copy = direction;
 
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
-            u8 *tile_map = ((CB_80170C24_S_80170C24_0 *)monster)->unk_2C;
+            u8 *tile_map = ((u8 *)monster->frameTable);
             if (tile_map != 0) {
-                select_indirect_table_entry(monster, tile_map[direction_index], ((CB_80170C24_S_80170C24_0 *)monster)->unk_04);
+                select_indirect_table_entry(monster, tile_map[direction_index], monster->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
-            ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 |= 1;
+            monster->flags |= 1;
         } else {
-            ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 &= 0xFFFE;
+            monster->flags &= 0xFFFE;
         }
 
         if (!(actor->unk_1C & 0x20)) {
-            if (!(((CB_80170C24_S_80170C24_0 *)monster)->unk_14 & 0x40)) {
+            if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
         } else {
-            ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 |= 0x7000;
+            monster->flags |= 0x7000;
         }
 
         apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
     } else {
         if (monster_flags & 0x0800) {
-            ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 = monster_flags & 0x8FFF;
+            monster->flags = monster_flags & 0x8FFF;
         } else {
-            ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 = monster_flags | 0x7000;
+            monster->flags = monster_flags | 0x7000;
         }
     }
 
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
         (*((u8 *)entity + 0x9D)) = 0;
     } else {
-        motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
+        motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
         (*((u8 *)entity + 0x9D))++;
     }
 
-    (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
+    (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
 
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
-        floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
-                              motion->unk_04.at02.v,
+        floor_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                              motion->y.unsigned_parts.integer,
                               (s16)(actor->unk_88.u - 0x20));
         if (floor_height < 0x200) {
             actor_height = actor->unk_88.s;
@@ -279,14 +279,14 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
                     (*(s16 *)((u8 *)entity + 0x92)) = floor_height - actor->unk_88.u;
                 }
 
-                motion->unk_14 = 0;
+                motion->velocity_z = 0;
                 actor->unk_1C |= 0x08000000;
                 (*((u8 *)entity + 0x9D)) = 0;
             }
             if (actor->unk_1C & 0x40000000) {
                 actor->unk_1C &= 0xBFFFFFFF;
-                floor_height = sample_terrain_surface_height((((CB_80170C24_S_80170C24_0 *)monster)->unk_24 << 6) | 0x20,
-                                      (((CB_80170C24_S_80170C24_0 *)monster)->unk_25 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height(((u8)monster->tile_x << 6) | 0x20,
+                                      (monster->tile_y << 6) | 0x20,
                                       (s16)(actor->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + 0x92)) += actor->unk_88.u - floor_height;
                 actor->unk_88.u = floor_height;
@@ -298,9 +298,9 @@ void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *
         actor->unk_1C &= 0xF7FFFFFF;
     }
 
-    motion->unk_0A =
+    motion->z.unsigned_parts.integer =
         actor->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
-    ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 |= 0x40;
+    monster->flags |= 0x40;
 
 }
 
@@ -927,7 +927,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
         action->unk_A8 = (u16) ((u16)motion->z.w.i);
                         /* fall through */
     case 1:
-        move_frames = (s16)(action->unk_9E);
+        move_frames = action->unk_9E;
         action->unk_90.value = (s32) (action->unk_90.value - action->unk_A0.value);
         if (move_frames != 0) {
             move_value = map_entry->tile_x;
@@ -941,11 +941,11 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
             move_operand -= 0x20;
             move_value <<= 6;
             move_value -= move_operand;
-            move_operand = (s16)(action->unk_9E);
+            move_operand = action->unk_9E;
             move_value = (move_value << 0x10) / move_operand;
             motion->velocity_y = move_value;
             if (action->unk_A4.halves.low.s == 3) {
-                action->unk_A0.value = (s32) ((0 - rsin((s16)(action->unk_9E) * 0x155))
+                action->unk_A0.value = (s32) ((0 - rsin(action->unk_9E * 0x155))
                     << 9);
                 action->unk_90.value += action->unk_A0.value;
             } else {
@@ -982,7 +982,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
                 }
             }
         }
-        next_move_frame = (u16) action->unk_9E - 1;
+        next_move_frame = action->unk_9E - 1;
         action->unk_9E = next_move_frame;
         if (next_move_frame < 0) {
             action->unk_90.value = 0;
@@ -1088,13 +1088,13 @@ void complete_timed_actor_animation(ActorRecord *action, ObjectPosition *motion,
         if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if ((s16)(action->action_timer) == 6) {
+        if ((s16)action->action_timer == 6) {
             play_sound_if_enabled(0x808);
         }
-        if ((s16)(action->action_timer) == 8) {
+        if ((s16)action->action_timer == 8) {
             sprite->flags |= 0x0800;
         }
-        if ((s16)(action->action_timer) == 15 ||
+        if ((s16)action->action_timer == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             next_state = action->action_phase;
@@ -1339,14 +1339,14 @@ void update_block_value_reaction(ActorRecord *state, ObjectPosition *motion, Spr
             return;
         }
     case 1:
-        if ((s16)(state->action_timer) > 0) {
+        if ((s16)state->action_timer > 0) {
             ticks_left = state->action_timer - 1;
             state->action_timer = ticks_left;
         } else {
             if (action->flags & 0x6000)
                 state->action_timer = 0;
         }
-        if ((s16)(state->action_timer) != 0)
+        if ((s16)state->action_timer != 0)
             return;
         if (entity->hp == 0) {
             motion->velocity_z = 0;

@@ -54,7 +54,7 @@ void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFr
         body->action_phase++;
 
     case 1:
-        move_ticks = (s16)(body->unk_9E);
+        move_ticks = body->unk_9E;
         body->unk_90.value -= body->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -68,15 +68,15 @@ void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFr
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                (s16)(body->unk_9E);
+                body->unk_9E;
 
             body->unk_A4.value =
-                (-rsin((s16)(body->unk_9E) * 0x199)) << 10;
+                (-rsin(body->unk_9E * 0x199)) << 10;
         }
 
         height = body->unk_90.value;
         arc_offset = body->unk_A4.value;
-        next_move_ticks = body->unk_9E;
+        next_move_ticks = (u16)body->unk_9E;
         height += arc_offset;
         next_move_ticks -= 1;
         body->unk_9E = next_move_ticks;

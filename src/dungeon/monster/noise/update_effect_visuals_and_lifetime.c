@@ -1,9 +1,10 @@
 #include "dungeon/monster/manoeva.h"
 #include "modules/dungeon_ovl_7f43f800_p01.h"
 #include "shared/object_flags.h"
+#include "shared/sprite_frame_state.h"
 
 /* Update effect brightness, size and position, then decrement its lifetime. */
-void update_effect_visuals_and_lifetime(void *state_arg, void *position, void *effect_arg)
+void update_effect_visuals_and_lifetime(void *state_arg, void *position, SpriteFrameState *effect_arg)
 {
     TimedActorVisualEffectBody *state = state_arg;
     struct {
@@ -15,7 +16,7 @@ void update_effect_visuals_and_lifetime(void *state_arg, void *position, void *e
         s32 out24;
     } coord_work;
     T_80170AD0_S_80170AD0_3 *effect_coords;
-    T_80170AD0_S_80170AD0_1 *effect;
+    SpriteFrameState *effect;
     s16 ticks_left;
     s16 next_ticks;
     s32 brightness;
@@ -31,45 +32,45 @@ void update_effect_visuals_and_lifetime(void *state_arg, void *position, void *e
     effect = effect_arg;
     if (ticks_left < 0x15) {
         brightness = (ticks_left << 7) / 20;
-        effect->unk_0C = effect->unk_0D =
-            effect->unk_0E = brightness;
+        effect->color.c.r = effect->color.c.g =
+            effect->color.c.b = brightness;
     }
 
     ticks_left = state->ticks_remaining.s;
     if (ticks_left >= 0x2B) {
-        effect_size = effect->unk_1E + 0x2BC;
-        effect->unk_1E = effect_size;
-        effect->unk_1C = effect_size;
+        effect_size = effect->scale_y + 0x2BC;
+        effect->scale_y = effect_size;
+        effect->scale_x = effect_size;
     } else if (ticks_left >= 0x28) {
-        effect_size = effect->unk_1E + 0x226;
-        effect->unk_1E = effect_size;
-        effect->unk_1C = effect_size;
+        effect_size = effect->scale_y + 0x226;
+        effect->scale_y = effect_size;
+        effect->scale_x = effect_size;
     } else if (ticks_left >= 0x26) {
-        effect_size = effect->unk_1E + 0x190;
-        effect->unk_1E = effect_size;
-        effect->unk_1C = effect_size;
+        effect_size = effect->scale_y + 0x190;
+        effect->scale_y = effect_size;
+        effect->scale_x = effect_size;
     } else if (ticks_left >= 0x24) {
-        effect_size = effect->unk_1E + 0xC8;
-        effect->unk_1E = effect_size;
-        effect->unk_1C = effect_size;
+        effect_size = effect->scale_y + 0xC8;
+        effect->scale_y = effect_size;
+        effect->scale_x = effect_size;
     } else if (ticks_left >= 0x1A) {
-        effect_size = effect->unk_1E + 0x64;
-        effect->unk_1E = effect_size;
-        effect->unk_1C = effect_size;
+        effect_size = effect->scale_y + 0x64;
+        effect->scale_y = effect_size;
+        effect->scale_x = effect_size;
     }
 
     {
         T_80170AD0_S_80170AD0_2 *effect_params;
 
-        effect_params = effect->unk_08;
+        effect_params = effect->source;
         scaled_offset = (effect_params->unk_0B + effect_params->unk_03) *
-                  effect->unk_1E;
+                  effect->scale_y;
     }
     if (scaled_offset < 0) {
         scaled_offset += 0xFFF;
     }
     scaled_offset >>= 12;
-    effect->unk_22 = ((s32)(-scaled_offset)) / 2;
+    effect->offset_y = (s16)(((s32)(-scaled_offset)) / 2);
 
     if (state->use_linked_position == 0) {
         coord_work.xyz[0] = effect_coords->unk_02;
@@ -82,10 +83,10 @@ void update_effect_visuals_and_lifetime(void *state_arg, void *position, void *e
         coord_work.xyz[1] = reference_coords->unk_06;
         coord_work.xyz[2] = reference_coords->unk_0A;
         reference_value = RotTransPers(coord_work.xyz, &coord_work.out18.value, &coord_work.out20, &coord_work.out24);
-        effect->unk_06 = position_value - reference_value -
+        effect->depth_bias = position_value - reference_value -
             (view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + state->direction + 0x100) >> 9) & 7] * 2);
     } else {
-        effect->unk_06 = 4;
+        effect->depth_bias = 4;
     }
     advance_sprite_animation_and_textures(effect);
     next_ticks = state->ticks_remaining.u - 1;

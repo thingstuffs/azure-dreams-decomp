@@ -10,7 +10,6 @@ typedef struct ScenePositionEntry {
     s32 result;
 } ScenePositionEntry;
 
-s32 find_entry_8_index_or_assert(void *entries, s32 entry_id);
 /* Placed entry points for apply_entry_position. */
 s32 func_80018044(ScenePositionEntry *entries, void *object, void *context, s32 selection);
 s32 func_800181C8(ScenePositionEntry *entries, void *object, void *context, s32 selection);

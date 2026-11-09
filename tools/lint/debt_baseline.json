@@ -1,4 +1,4 @@
-{"by_class":{"generated_layouts":6092,"goto":226,"local_externs":9254,"m2c_macros":362,"pointer_casts":36214,"sign_views":4618,"volatile":50},"by_file":{
+{"by_class":{"generated_layouts":6092,"goto":226,"local_externs":9254,"m2c_macros":362,"pointer_casts":36215,"sign_views":4618,"volatile":50},"by_file":{
 "src/dungeon":{
 "D_80283000.c":[150,{"<global>":[150,0,0,0,0,0,13]}],
 "D_80283034.c":[200,{"<global>":[200,0,0,0,0,0,18]}],
@@ -40,7 +40,7 @@
 "apply_pending_actor_updates.c":[209,{"<global>":[4,1],"apply_pending_actor_updates#1":[205,0,0,0,0,0,5]}],
 "apply_setup_on_timeout.c":[50,{"<global>":[7,1]}],
 "attempt_action_six_if_eligible.c":[303,{"<global>":[88,3,1],"attempt_action_six_if_eligible#1":[215,0,1]}],
-"begin_actor_attack.c":[259,{"<global>":[114,1],"begin_actor_attack#1":[145,0,0,0,0,0,0,2]}],
+"begin_actor_attack.c":[259,{"<global>":[114,1],"begin_actor_attack#1":[145,0,0,0,0,0,1,2]}],
 "begin_actor_display_action.c":[250,{"<global>":[24,2],"begin_actor_display_action#1":[226,0,0,0,0,0,14]}],
 "begin_actor_flagged_action.c":[102,{"begin_actor_flagged_action#1":[102,0,0,0,0,0,0,3]}],
 "begin_actor_random_warp.c":[269,{"<global>":[26,1],"begin_actor_random_warp#1":[243,0,0,0,0,0,8,3]}],

@@ -1,17 +1,7 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
-
-typedef struct S_80097AF8_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x6];
-    u16 unk_A2;
-} S_80097AF8_0;   /* arg0 in advance_timed_motion_continuation */
 
 typedef struct S_80097AF8_1 {
     u8 pad_00[0x14];
@@ -35,40 +25,40 @@ extern void process_unflagged_linked_entries(void *); /* Unprototyped: uses the 
 extern void process_unflagged_linked_entries_alt(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Advance the timed motion sequence and select its continuation when status flags allow. */
-void advance_timed_motion_continuation(S_80097AF8_0 *actor, S_80097AF8_1 *motion, S_80097AF8_2 *status, S_80097AF8_4 *owner)
+void advance_timed_motion_continuation(ActorRecord *actor, S_80097AF8_1 *motion, S_80097AF8_2 *status, S_80097AF8_4 *owner)
 {
     s32 state;
     s32 owner_flags;
     u16 state_ticks;
     u8 next_state;
 
-    state = actor->unk_9B;
+    state = actor->action_phase;
     switch (state) {
     case 0:
-        state_ticks = actor->unk_96 - 1;
-        actor->unk_96 = state_ticks;
+        state_ticks = actor->action_timer - 1;
+        actor->action_timer = state_ticks;
         if ((state_ticks << 16) > 0) {
             return;
         }
         motion->unk_14 = 0xFFEA0000;
-        next_state = actor->unk_9B;
-        actor->unk_96 = 0;
+        next_state = actor->action_phase;
+        actor->action_timer = 0;
         next_state++;
-        actor->unk_9B = next_state;
+        actor->action_phase = next_state;
         return;
     case 1:
-        state_ticks = actor->unk_96 + 1;
-        actor->unk_96 = state_ticks;
-        if ((actor->unk_A2 & 0x10) == 0) {
+        state_ticks = actor->action_timer + 1;
+        actor->action_timer = state_ticks;
+        if ((actor->unk_A0.parts.high & 0x10) == 0) {
             return;
         }
         if ((s16)state_ticks < 4) {
             return;
         }
         motion->unk_14 = 0;
-        next_state = actor->unk_9B;
+        next_state = actor->action_phase;
         next_state++;
-        actor->unk_9B = next_state;
+        actor->action_phase = next_state;
         return;
     case 2:
         if ((status->unk_14 & 0x6000) == 0) {
@@ -84,7 +74,7 @@ void advance_timed_motion_continuation(S_80097AF8_0 *actor, S_80097AF8_1 *motion
             process_unflagged_linked_entries_alt(owner->unk_5C);
             process_unflagged_linked_entries(owner->unk_5C);
         }
-        actor->unk_8C = handle_actor_commands_and_facing;
+        actor->unk_8C.handler = handle_actor_commands_and_facing;
         return;
     }
 }

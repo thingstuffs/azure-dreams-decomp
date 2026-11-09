@@ -47,7 +47,7 @@ typedef struct CollectionCenterControlBody {
     /* 0x6C */ s32 unk_6C;
     /* 0x70 */ s16 unk_70;
     /* 0x72 */ u16 unk_72;
-    /* 0x74 */ s16 unk_74;
+    /* 0x74 */ u16 unk_74;
 } CollectionCenterControlBody;
 
 /* Callback entry points. */
@@ -57,8 +57,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct Actor;
-struct Motion;
 struct State;
-void animate_bouncing_score_object(struct State *st, struct Motion *mot, struct Actor *actor);
+void animate_bouncing_score_object(struct State *st, struct ObjectPosition *mot, struct Actor *actor);
 
 #endif

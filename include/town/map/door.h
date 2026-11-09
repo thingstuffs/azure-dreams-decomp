@@ -196,7 +196,6 @@ extern void func_80033D08(void *);
 extern s32 classify_object_against_bounds(void *, void *);
 extern void * create_object_with_shared_data(void *input_first, s32 input_second, s32 input_third, u8 input_fourth); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_player_entity_callbacks(s32 entity_id, s32 x, s32 y);
-extern void initialize_entity_handlers_and_position(s16 actor_value, s16 position_value_1, s16 position_value_2);
 extern void change_map(struct InputRecord *input);
 extern s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
 s32 count_consecutive_nonzero_entries_up_twenty(void);

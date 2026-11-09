@@ -8,32 +8,15 @@
 #include "town/map/short_lived_particle.h"
 #include "shared/object_node.h"
 
-typedef struct {
-    s32 f0;
-    s32 f4;
-    s32 f8;
-    s32 fc;
-    s32 f10;
-    u16 f14;
-} State;
-
-typedef struct {
-    u8 pad0[0xC];
-    s32 fc;
-    s16 f10;
-    s16 f12;
-    u16 f14;
-} Arg2State;
-
 /* Updates the effect's motion and fade state, then refreshes its display. */
-void update_effect_motion_and_fade(void *effect, void *motion_data, void *display_data) {
+void update_effect_motion_and_fade(void *effect, ObjectPosition *motion_data, void *display_data) {
     s16 ticks_left;
     s16 phase_value;
     s32 random_drop;
     s32 x_velocity;
     s32 height;
     ShortLivedParticleBody *body;
-    State *motion;
+    ObjectPosition *motion;
     s32 x_decay;
     void *fade_step;
     register SpriteFrameState *display;
@@ -44,8 +27,8 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
     phase_value = body->phase;
     switch (phase_value) {
     case 0:
-        motion->f0 += (motion->fc / (s16) body->remaining_ticks);
-        motion->f4 += (motion->f10 / (s16) body->remaining_ticks);
+        motion->x.v += (motion->velocity_x / (s16) body->remaining_ticks);
+        motion->y.v += (motion->velocity_y / (s16) body->remaining_ticks);
         ticks_left = (u16) body->remaining_ticks - 1;
         body->remaining_ticks = ticks_left;
         phase_value = 0x60;
@@ -56,12 +39,12 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
         }
         break;
     case 1:
-        motion->f0 += motion->fc;
-        motion->f4 += motion->f10;
-        x_velocity = motion->fc;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        x_velocity = motion->velocity_x;
         x_decay = x_velocity >> 1;
-        motion->fc = x_velocity - x_decay;
-        motion->f10 -= (motion->f10 >> 1);
+        motion->velocity_x = x_velocity - x_decay;
+        motion->velocity_y -= (motion->velocity_y >> 1);
         fade_step = (void *)0xFFEFEFF0;
         display->color.word += (s32)fade_step;
         if ((u8) display->color.word < 0x11U) {
@@ -71,8 +54,8 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
         break;
     }
     random_drop = (rand() & 7) << 0xF;
-    height = motion->f8;
+    height = motion->z.v;
     height -= random_drop;
-    motion->f8 = height;
+    motion->z.v = height;
     advance_sprite_animation_and_textures(display);
 }

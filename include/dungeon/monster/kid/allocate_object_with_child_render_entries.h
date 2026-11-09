@@ -33,7 +33,6 @@ extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(void *, void *, s32);

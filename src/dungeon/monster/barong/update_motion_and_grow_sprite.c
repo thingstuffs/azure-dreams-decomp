@@ -79,7 +79,7 @@ void update_motion_and_grow_sprite(void *motion_arg, void *position_arg, SpriteF
         position->unk_08.at00u.v = 0;
         if (motion->unk_1A == 0) {
             motion->unk_1A = 1;
-            (*(s16 *)&motion->unk_26) = 0;
+            motion->unk_26 = 0;
         }
     }
 

@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DCF4E. */
 
 #include "common.h"
+#include "slus.h"
 
 /* Fixed 0x6000-byte memory-card image: the read/write wrappers use 0xC0
  * 128-byte units, and the checksum covers [0x208,0x6000). The resident
@@ -19,10 +20,8 @@ typedef struct SaveImage {
 
 extern s16 current_dungeon_floor;
 extern u8 level_module_read_descriptor_a[];
-extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 extern void drain_cd_command_queue(void);
 extern char level_module_read_descriptor_b[];
-extern void func_8003E4FC(s32, char *, s32);
 extern void func_8003F320(void);
 
 extern u8 scene_mode_code;

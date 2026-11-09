@@ -26,7 +26,8 @@ typedef struct S_80D65810_0 {
 
    /* input in create_origin_motion_effect */
 
-extern void update_effect_collision_and_lifetime(void);
+struct OriginMotionEffectBody;
+extern void update_effect_collision_and_lifetime(struct OriginMotionEffectBody *, ObjectPosition *, SpriteFrameState *);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */
 void create_origin_motion_effect(ActorRecord *unused_0, ObjectPosition *origin_ptr_in, SpriteFrameState *unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {

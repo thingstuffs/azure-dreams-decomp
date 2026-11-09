@@ -58,13 +58,13 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
         motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if ((s16)(action->action_timer) > 0) {
+        if ((s16)action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
             action->action_timer = 0;
         }
 
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -111,7 +111,7 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / (s16)(action->action_timer);
+                    ((target_y - current_y) << 15) / (s16)action->action_timer;
             }
         }
 

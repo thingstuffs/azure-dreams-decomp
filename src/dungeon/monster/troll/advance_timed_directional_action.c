@@ -78,7 +78,7 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
             action->action_timer = 0;
             action->action_phase++;
         }
-        if ((s16)(action->action_timer) == 3) {
+        if ((s16)action->action_timer == 3) {
             play_sound_if_enabled(0x804);
             return;
         }
@@ -103,12 +103,12 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
             create_targeted_motion_effect(action, motion, sprite, entity);
             create_actor_action_effect(action, motion, sprite, entity);
         }
-        if (((s16)(action->action_timer) == 12) ||
+        if (((s16)action->action_timer == 12) ||
             (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity, sprite, entity->facing,
                 action->unk_AA);
         }
-        if (((s16)(action->action_timer) == 20) ||
+        if (((s16)action->action_timer == 20) ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             action->action_timer = 0;

@@ -101,12 +101,12 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
             *(s16 *)((u8 *)direction_x_table + decel_offset) << 16;
         motion->velocity_y -= *direction_y << 16;
 
-        if ((s16)(body->action_timer) > 0) {
+        if ((s16)body->action_timer > 0) {
             body->action_timer--;
         } else if (sprite->flags & 0x6000) {
             body->action_timer = 0;
         }
-        if ((s16)(body->action_timer) != 0) {
+        if ((s16)body->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -131,7 +131,7 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
             target_y = sprite->tile_y << 6;
             position_y = motion->y.w.i - 0x20;
             motion->velocity_y =
-                ((target_y - position_y) << 15) / (s16)(body->action_timer);
+                ((target_y - position_y) << 15) / (s16)body->action_timer;
         }
 
         timer_or_state = body->action_timer - 1;

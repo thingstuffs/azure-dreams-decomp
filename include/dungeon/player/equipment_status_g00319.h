@@ -23,11 +23,8 @@ extern s32 *actor_direction_sprites[];
 /* Retail sets a3 to 10 at 0x80099114 before reading it; no incoming argument. */
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *write_text_byte_and_advance(s8 value, s8 *dest);
-extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 void clear_alternate_texture_regions(s16 use_alt_rect);
 void load_default_object_palette(short index);
 int load_equipment_palette_for_category_sixteen(short index);

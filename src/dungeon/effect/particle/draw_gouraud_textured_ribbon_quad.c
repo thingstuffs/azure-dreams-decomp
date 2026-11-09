@@ -90,7 +90,7 @@ typedef struct S_801663AC_5 {
     u32 unk_00;
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
     u16 unk_08;
-    u16 unk_0A;
+    s16 unk_0A;
     u16 unk_0C;
     u16 unk_0E;
     u32 unk_10;
@@ -104,8 +104,8 @@ typedef struct S_801663AC_5 {
     union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
     u8 pad_26[0x2];
     u32 unk_28;
-    u16 unk_2C;
-    u16 unk_2E;
+    s16 unk_2C;
+    s16 unk_2E;
     union {
         struct { u16 v; } at00;
         struct { u8 v; } at00u;
@@ -183,13 +183,13 @@ void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *posit
 
     if ((u32)ot_index < 0x1E0) {
         if ((((u16)(((S_801663AC_5 *)packet)->unk_08 + 0x20) < 0x181) &&
-             ((u16)(((S_801663AC_5 *)packet)->unk_0A + 0x20) < 0x121)) |
+             ((u16)((u16)((S_801663AC_5 *)packet)->unk_0A + 0x20) < 0x121)) |
             (((u16)(((S_801663AC_5 *)packet)->unk_14 + 0x20) < 0x181) &&
              ((u16)(((S_801663AC_5 *)packet)->unk_16 + 0x20) < 0x121)) |
             (((u16)(((S_801663AC_5 *)packet)->unk_20 + 0x20) < 0x181) &&
              ((u16)(((S_801663AC_5 *)packet)->unk_22 + 0x20) < 0x121)) |
-            (((u16)(((S_801663AC_5 *)packet)->unk_2C + 0x20) < 0x181) &&
-             ((u16)(((S_801663AC_5 *)packet)->unk_2E + 0x20) < 0x121))) {
+            (((u16)((u16)((S_801663AC_5 *)packet)->unk_2C + 0x20) < 0x181) &&
+             ((u16)((u16)((S_801663AC_5 *)packet)->unk_2E + 0x20) < 0x121))) {
             render_state->flags &= 0x7FFF;
 
             scratch->unk_14.s32 += scratch->unk_0C.s32;
@@ -231,11 +231,11 @@ void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *posit
             ((S_801663AC_5 *)packet)->unk_30.at00.v = scratch->unk_18.u16 +
                                        scratch->unk_14.u16;
 
-            if ((s16)((S_801663AC_5 *)packet)->unk_08 > (s16)((S_801663AC_5 *)packet)->unk_2C) {
+            if ((s16)((S_801663AC_5 *)packet)->unk_08 > ((S_801663AC_5 *)packet)->unk_2C) {
                 ((S_801663AC_5 *)packet)->unk_18.u8--;
                 ((S_801663AC_5 *)packet)->unk_30.at00u.v--;
             }
-            if ((s16)((S_801663AC_5 *)packet)->unk_0A > (s16)((S_801663AC_5 *)packet)->unk_2E) {
+            if (((S_801663AC_5 *)packet)->unk_0A > ((S_801663AC_5 *)packet)->unk_2E) {
                 ((S_801663AC_5 *)packet)->unk_24.at01.v--;
                 ((S_801663AC_5 *)packet)->unk_30.at01.v--;
             }

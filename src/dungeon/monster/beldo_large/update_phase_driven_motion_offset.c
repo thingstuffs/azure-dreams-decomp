@@ -48,7 +48,7 @@ void update_phase_driven_motion_offset(ActorRecord *state, ObjectPosition *outpu
             state->unk_A0.value = 0;
         }
         if ((u32) ((u8) command->unk_04 - 1) < 4U) {
-            fast_count = state->unk_9E;
+            fast_count = (u16)state->unk_9E;
             state->unk_9E = fast_count + 1;
             signed_count = fast_count;
             phase = signed_count * 0x155;

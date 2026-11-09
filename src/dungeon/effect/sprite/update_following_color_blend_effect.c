@@ -33,7 +33,7 @@ typedef struct FollowingColorEffect {
     u8 pad_12[2];
     s16 target_x, target_y, target_z;
     u8 pad_1A[0x12];
-    s16 phase;
+    u16 phase;
     s16 chase_phase;
     s16 steps;
     u8 pad_32[2];

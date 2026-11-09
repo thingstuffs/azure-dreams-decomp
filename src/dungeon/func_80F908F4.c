@@ -9,6 +9,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/item/message.h"
+#include "dungeon/item.h"
 
 
 

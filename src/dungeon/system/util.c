@@ -427,7 +427,7 @@ typedef struct S_800A5DFC_2 {
 /* extern */
 
 /* Applies damage capped to leave one HP and displays the hit effect when applicable. */
-void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_arg1 *effect_pos) {
+void apply_capped_damage_and_hit_effect(ActorRecord *entity, ObjectPosition *effect_pos) {
     s32 current_hp;
     s32 rounded_hp;
     s32 damage;
@@ -450,7 +450,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
             if (!(((S_800A5DFC_2 *)(((S_800A5DFC_0_pre *)entity)[-1].unk_00))->unk_14 & 0x8000)) {
                 create_actor_value_popup(3, entity, (s16) damage, 0);
                 entity->hp_delta = (s16) ((u16) entity->hp_delta - damage);
-                spawn_randomized_particle_burst(effect_pos->unk_02, effect_pos->unk_06, (s16) (effect_pos->unk_0A - 8), 0x802080, 0x20,
+                spawn_randomized_particle_burst(effect_pos->x.w.i, effect_pos->y.w.i, (s16) (effect_pos->z.unsigned_parts.integer - 8), 0x802080, 0x20,
                     1);
                 return;
             }

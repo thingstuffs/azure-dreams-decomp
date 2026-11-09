@@ -57,7 +57,7 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
         action->unk_90.value -= action->unk_A4.value;
         sprite->scale_x = 0xC00;
         sprite->scale_y = 0x1400;
-        move_frames = (s16)(action->unk_9E);
+        move_frames = action->unk_9E;
         if (move_frames != 0) {
             target_x = sprite->tile_x;
             position_component = motion->x.w.i;
@@ -68,14 +68,14 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
             position_component = motion->y.w.i - 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - position_component) << 16) /
-                (s16)(action->unk_9E);
+                action->unk_9E;
             action->unk_A4.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 9;
+                (-rsin(action->unk_9E * 0x199)) << 9;
         }
 
         height = action->unk_90.value;
         height_offset = action->unk_A4.value;
-        frame_count = action->unk_9E;
+        frame_count = (u16)action->unk_9E;
         height += height_offset;
         frame_count -= 1;
         action->unk_9E = frame_count;

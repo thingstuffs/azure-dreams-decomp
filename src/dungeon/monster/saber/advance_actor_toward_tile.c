@@ -51,7 +51,7 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
         action->unk_A4.value = 0;
         action->action_phase++;
     case 1:
-        frames_left = (s16)(action->unk_9E);
+        frames_left = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
         if (frames_left != 0) {
             target_x = sprite->tile_x;
@@ -63,13 +63,13 @@ void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFr
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                (s16)(action->unk_9E);
+                action->unk_9E;
             action->unk_A4.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
+                (-rsin(action->unk_9E * 0x199)) << 10;
         }
         height = action->unk_90.value;
         height_offset = action->unk_A4.value;
-        next_frame = action->unk_9E;
+        next_frame = (u16)action->unk_9E;
         height += height_offset;
         next_frame -= 1;
         action->unk_9E = next_frame;

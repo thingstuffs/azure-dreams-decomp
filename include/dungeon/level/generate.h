@@ -298,13 +298,6 @@ typedef struct floor_generate_isolated_80289BD4_MapCell {
     u16 blocked;
 } floor_generate_isolated_80289BD4_MapCell;
 typedef struct {
-    u8 pad0[4];
-    u16 field4;
-    u16 field6;
-    u16 field8;
-    s16 fieldA;
-} floor_generate_isolated_80289CEC_Entry;
-typedef struct {
     u16 x;
     u16 y;
     u16 width;
@@ -496,7 +489,7 @@ s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *st
 s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *start, floor_generate_isolated_802895E4_Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
                   floor_generate_isolated_802895E4_Walker *walker, s32 *cost);
 s16 choose_unblocked_cardinal_direction(s16 x, s16 y, s16 dir);
-void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, floor_generate_isolated_80289CEC_Entry *room);
+void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, DungeonRoom *room);
 s32 is_value_within_inclusive_bounds(s16 value, s32 lower_bound, s16 upper_bound);
 void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id);
 void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1);

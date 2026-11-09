@@ -135,8 +135,8 @@ typedef struct S_81874988_4 {
 typedef struct S_81874988_5 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    u16 unk_08;
-    u16 unk_0A;
+    s16 unk_08;
+    s16 unk_0A;
     u8 pad_0C[0x2];
     u16 unk_0E;
     u16 unk_10;
@@ -147,8 +147,8 @@ typedef struct S_81874988_5 {
     u16 unk_1A;
     union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_1C;   /* overlapping accesses */
     u8 pad_1E[0x2];
-    u16 unk_20;
-    u16 unk_22;
+    s16 unk_20;
+    s16 unk_22;
     union {
         struct { u16 v; } at00;
         struct { u8 v; } at00u;
@@ -227,14 +227,14 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 
         if ((u32)depth_index < 0x1E0) {
             if (
-                (((u16)(((S_81874988_5 *)packet)->unk_08 + 0x20) < 0x181) &&
-                 ((u16)(((S_81874988_5 *)packet)->unk_0A + 0x20) < 0x121)) |
+                (((u16)((u16)((S_81874988_5 *)packet)->unk_08 + 0x20) < 0x181) &&
+                 ((u16)((u16)((S_81874988_5 *)packet)->unk_0A + 0x20) < 0x121)) |
                 (((u16)(((S_81874988_5 *)packet)->unk_10 + 0x20) < 0x181) &&
                  ((u16)(((S_81874988_5 *)packet)->unk_12 + 0x20) < 0x121)) |
                 (((u16)(((S_81874988_5 *)packet)->unk_18 + 0x20) < 0x181) &&
                  ((u16)(((S_81874988_5 *)packet)->unk_1A + 0x20) < 0x121)) |
-                (((u16)(((S_81874988_5 *)packet)->unk_20 + 0x20) < 0x181) &&
-                 ((u16)(((S_81874988_5 *)packet)->unk_22 + 0x20) < 0x121))
+                (((u16)((u16)((S_81874988_5 *)packet)->unk_20 + 0x20) < 0x181) &&
+                 ((u16)((u16)((S_81874988_5 *)packet)->unk_22 + 0x20) < 0x121))
                 ) {
                 ((S_81874988_5 *)packet)->unk_00.at03.v = 9;
                 ((S_81874988_5 *)packet)->unk_04.at03.v = 0x2C;
@@ -281,11 +281,11 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                 ((S_81874988_5 *)packet)->unk_24.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
                                            (*(u16 *)((u8 *)scratch + 0x14));
 
-                if ((s16)((S_81874988_5 *)packet)->unk_08 > (s16)((S_81874988_5 *)packet)->unk_20) {
+                if (((S_81874988_5 *)packet)->unk_08 > ((S_81874988_5 *)packet)->unk_20) {
                     (*(u8 *)&((S_81874988_5 *)packet)->unk_14)--;
                     ((S_81874988_5 *)packet)->unk_24.at00u.v--;
                 }
-                if ((s16)((S_81874988_5 *)packet)->unk_0A > (s16)((S_81874988_5 *)packet)->unk_22) {
+                if (((S_81874988_5 *)packet)->unk_0A > ((S_81874988_5 *)packet)->unk_22) {
                     ((S_81874988_5 *)packet)->unk_1C.at01.v--;
                     ((S_81874988_5 *)packet)->unk_24.at01.v--;
                 }

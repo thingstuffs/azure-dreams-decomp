@@ -250,13 +250,14 @@ typedef struct ActorRecord {
     /* 0x09A */ unsigned char action_id; /* action-table selector */
     /* 0x09B */ unsigned char action_phase; /* phase within the selected action */
     /* 0x09C */ signed char unk_9C;
-    /* 0x09D */ unsigned char unk_9D;
-    /* 0x09E */ unsigned short unk_9E;
+    /* 0x09D */ signed char unk_9D;
+    /* 0x09E */ short unk_9E;
+    /* UNION: src/dungeon/monster/kewne/update_staged_movement_and_idle.c:65,67,69,80 (high half) and :111,142 (whole word) -
+     * the same ActorRecord body reads and writes the high half and updates the whole scratch word. */
     /* 0x0A0 */ union {
         int value;
         struct { unsigned short low; unsigned short high; } parts;
-        ActorScratchHalves halves;
-    } unk_A0; /* callback scratch word with signed and unsigned halfword views */
+    } unk_A0; /* callback scratch word; signed halfword reads use value casts */
     /* 0x0A4 */ union {
         int value; /* landing uses it for accumulated 16.16 vertical displacement */
         ActorScratchHalves halves;

@@ -38,12 +38,6 @@ typedef struct floor_spawns_isolated_8028B660_S_8001E660_0 {
     u8 pad_00[0xFB];
     u8 unk_FB;
 } floor_spawns_isolated_8028B660_S_8001E660_0;
-typedef struct floor_spawns_isolated_8028B824_S_8001E824_0 {
-    u8 unk_00;
-    u8 unk_01;
-    s8 unk_02;
-    s8 unk_03;
-} floor_spawns_isolated_8028B824_S_8001E824_0;
 typedef struct {
     u16 flags;
     u8 pad2[18];

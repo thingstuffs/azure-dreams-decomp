@@ -31,7 +31,7 @@ typedef struct S_FUNC_8197C800_BODY_0 {
     u8 unk_09;
     u16 unk_0A;
     u8 pad_0C[0x44];
-    u16 unk_50;
+    s16 unk_50;
     u16 unk_52;
 } S_FUNC_8197C800_BODY_0;   /* arg0 in update_directional_actor_effect */
 
@@ -243,7 +243,7 @@ void update_directional_actor_effect(void *input, void *output)
     return;
 
     case 2:
-    if (((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_50) > 0) {
+    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50 > 0) {
         return;
     }
     result = read_sound_mode_blocking_status(4);
@@ -261,7 +261,7 @@ void update_directional_actor_effect(void *input, void *output)
     return;
 
     case 3:
-    if (((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_50) < 3) {
+    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50 < 3) {
         remaining = 1;
         height = (s16)sample_terrain_surface_height((u16)view_reference_entity.x.w.i, (u16)view_reference_entity.y.w.i, (s16)(view_reference_entity.z.w.i - 0x80));
         particle_script = (void *)move_sprite_until_animation_ends;
@@ -416,7 +416,7 @@ void update_directional_actor_effect(void *input, void *output)
             remaining -= 1;
         } while (remaining >= 0);
     }
-    if (((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_50) > 0) {
+    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50 > 0) {
         return;
     }
     tail_timer = 32;
@@ -429,7 +429,7 @@ store_state:
     return;
 
     case 4:
-    if (!(reference_tile_object.sprite_flags & 0x8000) && ((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_50) >= 0) {
+    if (!(reference_tile_object.sprite_flags & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 >= 0) {
         return;
     }
     if (((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_52) & 0x8000) {

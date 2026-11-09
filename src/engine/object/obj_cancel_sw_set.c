@@ -5,7 +5,7 @@
 #include "sdk/libgte.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "slus/data.h"
-
+#include "shared/object_node.h"
 
 /* Shared display-cancellation state; retail initializes it to zero. */
 s32 object_render_cancel_switch = 0;
@@ -37,10 +37,10 @@ s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
  * texture-page, CLUT, and draw-flag overrides, invokes each node callback after saving the
  * primitive cursor, and restores the matrix stack.
  */
-s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, u8 *first_context) {
+s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameState *first_context) {
     SpriteLinkedScratch *scratch;
     u8 *transform;
-    u8 *context;
+    SpriteFrameState *context;
     u8 *object;
     u8 *sprite_data;
     u8 *sprite;
@@ -104,8 +104,8 @@ s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, u8 *first_cont
         object = PTR_AT(node, 0x0);
         callback = *(void (**)(void *))(node + 0x8);
         scratch->ordering_depth = S32_AT(object, 0x60);
-        context_flags = U16_AT(context, 0x14);
-        sprite_data = PTR_AT(context, 0x8);
+        context_flags = context->flags;
+        sprite_data = context->source;
         scratch->context_flags = context_flags;
         scratch->input_x = S32_AT(object, 0x20);
         scratch->input_y = S32_AT(object, 0x24);
@@ -255,7 +255,7 @@ sprite_loop:
                 projected_xy3 = *(s32 *)&scratch->projected_vertices[3];
                 S32_AT(primitive, 0x20) = projected_xy3;
                 U8_AT(primitive, 0x3) = 9;
-                U16_AT(context, 0x14) &= 0x7FFF;
+                context->flags &= 0x7FFF;
 
                 sum_u = scratch->uv_u_extent + scratch->uv_u_start;
                 scratch->uv_u_extent = sum_u;
@@ -274,7 +274,7 @@ sprite_loop:
                 scratch->uv_v_extent = bottom_v_bits;
                 uv_word <<= 8;
                 scratch->uv_v_start = uv_word;
-                clut_base = U16_AT(context, 0x12);
+                clut_base = context->clut;
                 uv_word += scratch->uv_u_start;
                 clut_value = clut_base;
                 if (clut_base == 0) {
@@ -284,7 +284,7 @@ sprite_loop:
                 S32_AT(primitive, 0xC) = uv_word;
 
                 U16_AT(primitive, 0x14) = (u16)scratch->uv_v_start + (u16)scratch->uv_u_extent;
-                tpage_base = U16_AT(context, 0x10);
+                tpage_base = context->tpage_abr;
                 if (tpage_base != 0) {
                     tpage_value = tpage_base + (U16_AT(sprite, 0x3) & 0xFF9F);
                 } else {
@@ -317,25 +317,25 @@ sprite_loop:
                 }
 
                 clut_base = U8_AT(sprite, 0x0);
-                U8_AT(context, 0xF) = clut_base;
+                context->color.c.code = clut_base;
                 draw_flags = scratch->context_flags;
                 if (draw_flags & 8) {
                     if (draw_flags & 4) {
-                        U8_AT(context, 0xF) = clut_base | 2;
+                        context->color.c.code = clut_base | 2;
                     } else {
-                        U8_AT(context, 0xF) = (u8)clut_base & 0xFD;
+                        context->color.c.code = (u8)clut_base & 0xFD;
                     }
                 }
                 if (scratch->context_flags & 0x10) {
-                    U8_AT(context, 0xF) &= 0xFE;
+                    context->color.c.code &= 0xFE;
                 } else {
-                    U8_AT(context, 0xF) |= 1;
+                    context->color.c.code |= 1;
                 }
 
-                S32_AT(primitive, 0x4) = S32_AT(context, 0xC);
+                S32_AT(primitive, 0x4) = context->color.word;
                 AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), primitive);
             } else {
-                U16_AT(context, 0x14) |= 0x8000;
+                context->flags |= 0x8000;
             }
 
             if (S8_AT(sprite_data, 0) >= 0) {
@@ -359,7 +359,7 @@ sprite_loop:
             break;
         }
         transform = PTR_AT(next_node, 0x8);
-        context = PTR_AT(next_node, 0xC);
+        context = NODE_HEADER(next_node + 0x20)->sprite;
     }
 
     PopMatrix();

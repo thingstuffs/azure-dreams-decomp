@@ -27,7 +27,7 @@ typedef struct S_80813AB0_0 {
         struct { u8 pad[0x2]; s16 v; } at02;
     } unk_30;   /* overlapping accesses */
     s16 unk_34;
-    s16 unk_36;
+    u16 unk_36;
     s16 unk_38;
     s16 unk_3A;
     u8 pad_3C[0x30];

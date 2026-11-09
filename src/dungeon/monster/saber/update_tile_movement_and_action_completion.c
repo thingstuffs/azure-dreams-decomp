@@ -53,7 +53,7 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
                         /* fall through */
 
     case 1:
-        move_ticks = (s16)(action->unk_9E);
+        move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -67,15 +67,15 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                (s16)(action->unk_9E);
+                action->unk_9E;
 
             action->unk_A4.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
+                (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;
         height_step = action->unk_A4.value;
-        next_tick = action->unk_9E;
+        next_tick = (u16)action->unk_9E;
         height_offset += height_step;
         next_tick -= 1;
         action->unk_9E = next_tick;

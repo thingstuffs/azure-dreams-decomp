@@ -13,7 +13,6 @@ s32 func_80017D80(Rec_func_800165F4_arg0 *record, s32 entry_index);
 
 s32 func_800176B8(Rec_func_800165F4_arg0 *record, s32 entry_index);
 s32 func_80018504(Rec_func_800165F4_arg0 *record, s32 entry_index);
-void set_indexed_entry_flag(Rec_func_800165F4_arg0 *record, s32 entry_index);
 
 s32 process_context_entry_with_fallback(Rec_func_800165F4_arg0 *record, s32 entry_index);
 void dispatch_after_condition_12_c_4(Rec_func_800165F4_arg0 *record, s32 entry_index);

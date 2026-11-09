@@ -22,11 +22,11 @@ void advance_record_state_and_set_completion_flags(void *record_data, DelayMotio
 }
 
 /* Create a tinted sprite effect at the supplied position with a random variant. */
-void create_tinted_sprite_effect_supplied_position(void *unused, void *position_data, SpriteFrameState *unused_primitive) {
+void create_tinted_sprite_effect_supplied_position(void *unused, ObjectPosition *position_data, SpriteFrameState *unused_primitive) {
     T_8017406C_S_8017406C_0 *effect_state;
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
-    T_8017406C_S_8017406C_3 *source_pos = position_data;
+    ObjectPosition *source_pos = position_data;
     ObjectPosition *effect_pos;
 
     effect = allocate_flagged_object_node(0x212);
@@ -39,11 +39,11 @@ void create_tinted_sprite_effect_supplied_position(void *unused, void *position_
         sprite->tpage_abr = 0x20;
         sprite->flags = (u16)(sprite->flags | 0xC);
         effect_pos = effect->position;
-        effect_state->unk_40 = (s32)source_pos->unk_00.at00.v;
-        effect_state->unk_44 = (s32)source_pos->unk_04.at00.v;
-        effect_pos->x.w.i = (u16)source_pos->unk_00.at02.v;
-        effect_pos->y.w.i = (u16)source_pos->unk_04.at02.v;
-        effect_pos->z.w.i = (u16)source_pos->unk_0A;
+        effect_state->unk_40 = (s32)source_pos->x.v;
+        effect_state->unk_44 = (s32)source_pos->y.v;
+        effect_pos->x.w.i = (u16)source_pos->x.unsigned_parts.integer;
+        effect_pos->y.w.i = (u16)source_pos->y.unsigned_parts.integer;
+        effect_pos->z.w.i = (u16)source_pos->z.unsigned_parts.integer;
         sprite = effect->sprite;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;

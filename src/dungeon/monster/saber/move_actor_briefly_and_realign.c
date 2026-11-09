@@ -96,7 +96,7 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
             target_y = actor->tile_y << 6;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y =
-                ((target_y - current_y) << 16) / (s16)(action->action_timer);
+                ((target_y - current_y) << 16) / (s16)action->action_timer;
         }
         timer_bits = action->action_timer;
         action->action_timer = timer_bits - 1;

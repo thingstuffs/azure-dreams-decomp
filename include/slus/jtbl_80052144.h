@@ -43,7 +43,6 @@ extern void mark_sine_motion_effect_complete(void *);
 extern void mark_timed_animation_sequence_complete(void *);
 extern void mark_fade_in_out_effect_complete(void *);
 extern void mark_color_fade_effect_complete(void *);
-extern void request_scene_state_with_parameters(s32, s32, s32, s32, s32);
 
 /* Advances the timed child sequence and retires the controller when all children finish. */
 

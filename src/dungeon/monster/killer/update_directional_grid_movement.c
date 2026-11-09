@@ -63,12 +63,12 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
             motion->velocity_y +=
                 *(s16 *)(y_table + table_offset) << 14;
         }
-        if ((s16)(action->action_timer) > 0) {
+        if ((s16)action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (entity->flags & 0x6000) {
             action->action_timer = 0;
         }
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             return;
         }
         if (source->hp == 0) {
@@ -83,16 +83,16 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
         return;
 
     case 2:
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             target_x = entity->tile_x << 6;
             current_x = motion->x.w.i - 0x20;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_x =
                 ((target_x - current_x) << 15) /
-                (s16)(action->action_timer);
+                (s16)action->action_timer;
             motion->velocity_y =
                 (((entity->tile_y << 6) - current_y) << 15) /
-                (s16)(action->action_timer);
+                (s16)action->action_timer;
         }
         timer = action->action_timer - 1;
         action->action_timer = timer;

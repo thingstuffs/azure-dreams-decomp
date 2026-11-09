@@ -2,39 +2,25 @@
 #include "common.h"
 #include "engine/audio.h"
 
-/* Shared gauge/timer struct layout also used by D_800848F8 / D_80084858
- * (see service_audio_events / check_cd_stream_end / reset_audio_status family notes):
- * field0 (fn ptr), field4 (s32 state), field8 (s16 current value),
- * fieldA (s16 target), field16 (u16 increment step), field18 (u16 decrement step). */
-typedef struct S_800545F4 {
-    /*0x00*/ sound_task_callback_fn field0;
-    /*0x04*/ s32 field4;
-    /*0x08*/ s16 field8;
-    /*0x0A*/ s16 fieldA;
-    /*0x0C*/ u8 pad0C[0xA];
-    /*0x16*/ u16 field16;
-    /*0x18*/ u16 field18;
-} S_800545F4;
-
 /* Raises or lowers the active gauge, calling its callback after an update or returning -1 on depletion. */
-s32 update_audio_fade(S_800545F4 *gauge)
+s32 update_audio_fade(SoundTask *gauge)
 {
     u16 next_value;
 
-    switch (gauge->field4) {
+    switch (gauge->unk_04) {
     case 1:
-        next_value = (u16)(gauge->field8 + gauge->field16);
-        gauge->field8 = next_value;
-        if (gauge->fieldA < (s16)next_value) {
-            gauge->field8 = (s16)gauge->fieldA;
-            gauge->field4 = 3;
+        next_value = (u16)(gauge->unk_08 + (u16)gauge->unk_16);
+        gauge->unk_08 = next_value;
+        if (gauge->unk_0A < (s16)next_value) {
+            gauge->unk_08 = (s16)gauge->unk_0A;
+            gauge->unk_04 = 3;
         }
         break;
     case 2:
-        next_value = (u16)(gauge->field8 - gauge->field18);
-        gauge->field8 = next_value;
+        next_value = (u16)(gauge->unk_08 - (u16)gauge->unk_18);
+        gauge->unk_08 = next_value;
         if ((s16)next_value <= 0) {
-            gauge->field8 = 0;
+            gauge->unk_08 = 0;
             return -1;
         }
         break;
@@ -42,8 +28,8 @@ s32 update_audio_fade(S_800545F4 *gauge)
         return 0;
     }
 
-    if (gauge->field0 != 0) {
-        gauge->field0();
+    if (gauge->callback != 0) {
+        gauge->callback();
     }
     return 0;
 }

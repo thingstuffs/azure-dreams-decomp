@@ -18,7 +18,6 @@ struct S_80170A98_2;
 
 
 extern s32 generate_random_value(void);
-extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void func_8016AA58(void *entity, struct S_80170A98_2 *motion, SpriteFrameState *monster);
 extern void func_8016AE5C(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);

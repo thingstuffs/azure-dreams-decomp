@@ -100,7 +100,7 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
                         ((u8 *)idle_anim)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    actor->unk_A0.halves.high.s = 0;
+                    actor->unk_A0.parts.high = 0;
                     actor->unk_9E = 0;
                 }
             } else {
@@ -111,7 +111,7 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
                         ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    actor->unk_A0.halves.high.s = 0;
+                    actor->unk_A0.parts.high = 0;
                     actor->unk_9E = 0;
                 }
             }
@@ -131,7 +131,7 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
             adjusted_angle = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
-            actor->unk_A0.halves.high.s = 0;
+            actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
             actor->unk_90.parts.high.s = adjusted_angle;
             func_80175078(actor, actor_aux, sprite, entity);

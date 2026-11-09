@@ -9,6 +9,7 @@
 #include "dungeon/monster/univern/create_actor_child_display.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/monster/death.h"
+#include "dungeon/actor.h"
 
 /* Allocates and initializes an object and its child display items. */
 /* Creates Univern with frames at D_80150494 and a directional child display linked to the actor's sprite
@@ -160,7 +161,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
             {
                 s32 child_count;
 
-                child_count = (s16)(stable_object->unk_9E);
+                child_count = stable_object->unk_9E;
                 outer_index++;
                 if (outer_index >= child_count) {
                     break;

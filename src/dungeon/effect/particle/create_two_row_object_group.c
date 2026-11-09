@@ -130,7 +130,7 @@ s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
             SetPolyFT4(packet);
             SetSemiTrans(packet, 1);
 
-            packet->tpage = ((u16)((TwoRowObjectGroupBody *)quad_data)->unk_04);
+            packet->tpage = ((TwoRowObjectGroupBody *)quad_data)->unk_04;
             packet->clut = ((TwoRowObjectGroupBody *)quad_data)->unk_06;
 
             tile_index = (s16)(((s16)((TwoRowObjectGroupBody *)quad_data)->unk_02) % 8);
@@ -241,7 +241,7 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
         effect_data->points[index].unk_04 += effect_data->unk_20.unk_24;
     }
 
-    state = effect_data->unk_00;
+    state = (s16)effect_data->unk_00;
     switch (state) {
     case 0:
         effect_data->unk_10.at00.v = 0;

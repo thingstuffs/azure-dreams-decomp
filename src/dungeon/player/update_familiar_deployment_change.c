@@ -49,15 +49,6 @@ typedef union ScratchS1 {
     void **base;
 } ScratchS1;
 
-typedef struct S_8009345C_0 {
-    u8 pad_00[0x8C];
-    ActorCallback action_callback; /* 0x8C */
-    u8 pad_90[0x6];
-    u16 wait_ticks; /* 0x96 */
-    u8 pad_98[0x3];
-    u8 phase; /* 0x9B */
-} S_8009345C_0;   /* actor in update_familiar_deployment_change */
-
    /* entity in update_familiar_deployment_change */
 
 
@@ -103,7 +94,7 @@ typedef struct S_8009345C_14 {
 
 
 /* Advances the object replacement sequence, including animation, messages, and cleanup. */
-void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteFrameState *entity, ActorRecord *context) {
+void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, SpriteFrameState *entity, ActorRecord *context) {
 
     u8 *remove_text;
     u8 *create_text;
@@ -129,7 +120,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
     ObjectPosition *object_position;
     ScratchS1 message_or_list;
 
-    state = ((S_8009345C_0 *)actor)->phase;
+    state = actor->action_phase;
     switch (state) {
     case 0:
         if (!(entity->flags & 0x6000)) {
@@ -143,26 +134,26 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
         entity_flags = entity->flags;
         familiar_removed_during_change = 0;
         entity->flags = (u16) (entity_flags | 0x200);
-        ((S_8009345C_0 *)actor)->wait_ticks = 0x10U;
+        actor->action_timer = 0x10U;
         selected_slot = context->unk_8A;
         slot_bits = context->unk_8A;
-        selected_object = ((ActorRecord *)(((selected_slot * 4) + actor)))->unk_AC.address;
+        selected_object = ((ActorRecord *)(((selected_slot * 4) + (u8 *)actor)))->unk_AC.address;
         (*(u16 *)&familiar_deployment_slots.slot) = slot_bits;
         context->target = selected_object;
-        ((S_8009345C_0 *)actor)->phase++;
+        actor->action_phase++;
         return;
     case 1:
-        start_ticks = ((S_8009345C_0 *)actor)->wait_ticks - 1;
-        ((S_8009345C_0 *)actor)->wait_ticks = start_ticks;
+        start_ticks = actor->action_timer - 1;
+        actor->action_timer = start_ticks;
         if ((start_ticks << 0x10) > 0) {
             return;
         }
         if (context->target != NULL) {
             store_recalled_familiar(actor, map, entity, context);
-            ((S_8009345C_0 *)actor)->phase++;
+            actor->action_phase++;
             return;
         }
-        next_state = ((S_8009345C_0 *)actor)->phase + 2;
+        next_state = actor->action_phase + 2;
         break;
     case 2:
         if (!(((ActorRecord *)(context->target))->flags1C & 0x800000)) {
@@ -181,7 +172,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
         old_object = context->target;
         familiar_removed_during_change = 1;
         mark_owned_linked_actor_actions(old_object);
-        ((ActorRecord *)(((familiar_deployment_slots.slot * 4) + actor)))->unk_AC.value = 0;
+        ((ActorRecord *)(((familiar_deployment_slots.slot * 4) + (u8 *)actor)))->unk_AC.value = 0;
         decrement_monster_entry_count(((ActorRecord *)(context->target))->species, 3);
         unlink_entity_node(context->target);
         removed_object = context->target;
@@ -189,11 +180,11 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
             | 0x8000);
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         if (selected_item_record_alias[0] == NULL) {
-            ((S_8009345C_0 *)actor)->wait_ticks = 0U;
-            next_state = ((S_8009345C_0 *)actor)->phase + 4;
+            actor->action_timer = 0U;
+            next_state = actor->action_phase + 4;
             break;
         }
-        ((S_8009345C_0 *)actor)->phase++;
+        actor->action_phase++;
         return;
     case 3:
         if ((has_pending_dungeon_activity(0) << 0x10) != 0) {
@@ -207,7 +198,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
             (*&entity_resource_read_complete) = 0;
             Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         }
-        ((S_8009345C_0 *)actor)->phase++;
+        actor->action_phase++;
         return;
     case 4:
         if (((S_8009345C_8 *)(&entity_resource_read_complete))->unk_00 == 0) {
@@ -216,7 +207,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
         if (loaded_entity_sprite_resource != 0) {
             register_and_upload_sprite_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, loaded_entity_sprite_resource);
         }
-        ((S_8009345C_0 *)actor)->phase++;
+        actor->action_phase++;
         return;
     case 5:
         message_or_list.base = selected_item_record_alias;
@@ -227,7 +218,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
                 context->target_tile_x, context->target_tile_y,
                 (s16) (context->ground_height - 0x20));
             if (new_object != NULL) {
-                (*(void **)((u8 *)(((familiar_deployment_slots.slot * 4) + actor)) + (0xAC))) = new_object;
+                (*(void **)((u8 *)(((familiar_deployment_slots.slot * 4) + (u8 *)actor)) + (0xAC))) = new_object;
                 familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
                 object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
                 object_scale->scale_y = 0x800;
@@ -241,7 +232,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
                 object_flags = ((ActorRecord *)new_object)->flags1C;
                 object_slot = familiar_deployment_slots.slot;
                 ((ActorRecord *)new_object)->flags1C = object_flags | 0x02000000;
-                ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = selected_item_record_alias[0];
+                ((S_8009345C_14 *)(((object_slot * 4) + (u8 *)actor)))->unk_D0 = selected_item_record_alias[0];
                 ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
                 message_or_list.text = get_unused_text_buffer();
                 create_message = message_or_list.text;
@@ -263,37 +254,37 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
                 play_sound_if_enabled(0x704);
             }
         }
-        next_state = ((S_8009345C_0 *)actor)->phase;
+        next_state = actor->action_phase;
         start_ticks = 0x10U;
-        ((S_8009345C_0 *)actor)->wait_ticks = start_ticks;
+        actor->action_timer = start_ticks;
         next_state = next_state + 1;
         break;
     case 7:
-        end_ticks = ((S_8009345C_0 *)actor)->wait_ticks - 1;
-        ((S_8009345C_0 *)actor)->wait_ticks = end_ticks;
+        end_ticks = actor->action_timer - 1;
+        actor->action_timer = end_ticks;
         if ((end_ticks << 0x10) > 0) {
             return;
         }
         entity->frameTable = familiar_save_frames;
         set_sprite_animation_frame(entity, familiar_save_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + context->facing + 0x100)
             >> 9) & 7], 0, 1);
-        ((S_8009345C_0 *)actor)->phase++;
+        actor->action_phase++;
         return;
     case 8:
         if (!(entity->flags & 0x6000)) {
             return;
         }
-        ((S_8009345C_0 *)actor)->action_callback = handle_player_input;
+        actor->unk_8C.run = handle_player_input;
         process_unflagged_linked_entries_alt(context->next_actor_header);
         process_unflagged_linked_entries(context->next_actor_header);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
         entity->flags = (u16) (entity->flags & 0xFDFF);
     case 6:
-        ((S_8009345C_0 *)actor)->phase++;
+        actor->action_phase++;
         return;
     case 9:
     default:
         return;
     }
-    ((S_8009345C_0 *)actor)->phase = next_state;
+    actor->action_phase = next_state;
 }

@@ -7,6 +7,8 @@
 #include "shared/object_flags.h"
 #include "dungeon/effect/mesh.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
+#include "dungeon/item.h"
 void (*const dungeon_1924800_entry)(S_func_81905FD0_1 *, S_func_81905FD0_2 *, S_func_81905FD0_3 *) = update_traveling;
 const u16 strip_texture_rect[4] = {832,256,96,84};
 const u16 strip_small_texture_rect[4] = {832,340,4,4};

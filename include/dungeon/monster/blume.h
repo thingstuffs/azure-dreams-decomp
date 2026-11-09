@@ -42,7 +42,7 @@ typedef struct GrowingCollidingEffectBody {
     s32 unk_74;
 } GrowingCollidingEffectBody;
 
-void update_damped_height_effect(DirectionalParticlesAndResetActorBody *state, void *position, SpriteFrameState *object);
+void update_damped_height_effect(DirectionalParticlesAndResetActorBody *state, ObjectPosition *position, SpriteFrameState *object);
 void update_growing_colliding_effect(GrowingCollidingEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* Callback entry points. */

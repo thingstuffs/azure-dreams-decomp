@@ -2,6 +2,7 @@
 #include "script_symbols.h"
 #include "shared/object_flags.h"
 #include "town/map/door.h"
+#include "town.h"
 #include "town/map.h"
 #include "engine/script.h"
 #include "town/person.h"

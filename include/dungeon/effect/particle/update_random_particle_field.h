@@ -50,8 +50,8 @@ typedef struct FallingParticleFieldSpellBody {
     SpellEffectHeader spell;
     u16 unk_0C;
     u16 unk_0E;
-    u16 unk_10;
-    u16 unk_12;
+    s16 unk_10;
+    s16 unk_12;
     u16 unk_14;
 } FallingParticleFieldSpellBody;
 

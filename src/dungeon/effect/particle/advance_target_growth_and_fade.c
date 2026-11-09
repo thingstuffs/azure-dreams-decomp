@@ -21,7 +21,7 @@ typedef struct S_func_818DA800_1 {
     u8 pad_08[2];
     u16 unk_0A;
     u8 pad_0C[0x44];
-    u16 unk_50;
+    s16 unk_50;
     u16 unk_52;
 } S_func_818DA800_1;
 

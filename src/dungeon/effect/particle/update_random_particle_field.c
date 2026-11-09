@@ -79,8 +79,8 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
             ObjectPosition *copy_page;
             *output_data = *(Copy24 *)&view_reference_entity;
             copy_page = &view_reference_entity;
-            self->unk_10 = ((u16)copy_page->x.w.i);
-            self->unk_12 = ((u16)copy_page->y.w.i);
+            self->unk_10 = copy_page->x.w.i;
+            self->unk_12 = copy_page->y.w.i;
             page_value = ((u16)copy_page->z.w.i);
         }
         self->unk_0C = 0x3C;
@@ -104,7 +104,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
-                origin_component = (s16)self->unk_10;
+                origin_component = self->unk_10;
                 rand_quotient = random_value / 512;
                 value = origin_component + ((random_value % 512)) - 0x100;
                 if (value < 0) {
@@ -115,7 +115,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
-                origin_component = (s16)self->unk_12;
+                origin_component = self->unk_12;
                 rand_quotient = random_value / 512;
                 value = origin_component + ((random_value % 512)) - 0x100;
                 if (value < 0) {

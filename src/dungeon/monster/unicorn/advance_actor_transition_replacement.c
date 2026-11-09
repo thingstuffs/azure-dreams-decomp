@@ -190,13 +190,13 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         target_color = (S_80174704_4 *)actor_effect_color_targets[lookup_masked_byte_table(actor)];
         ((S_80174704_3 *)object)->unk_A8 +=
             (target_color->unk_00 - ((S_80174704_3 *)object)->unk_A8) /
-            (s16)(action->action_timer);
+            (s16)action->action_timer;
         ((S_80174704_3 *)object)->unk_A9 +=
             (target_color->unk_01 - ((S_80174704_3 *)object)->unk_A9) /
-            (s16)(action->action_timer);
+            (s16)action->action_timer;
         ((S_80174704_3 *)object)->unk_AA +=
             (target_color->unk_02 - ((S_80174704_3 *)object)->unk_AA) /
-            (s16)(action->action_timer);
+            (s16)action->action_timer;
         return;
     }
 

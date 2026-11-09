@@ -8,6 +8,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kid/allocate_object_with_child_entries.h"
 #include "dungeon/monster/kid.h"
+#include "dungeon/actor.h"
 
 /* Creates a Kid actor and its linked directional display, then initializes status and tile placement. */
 void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_value)
@@ -158,7 +159,7 @@ void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_by
             {
                 s32 child_count;
 
-                child_count = (s16)(stable_object->unk_9E);
+                child_count = stable_object->unk_9E;
                 outer_index++;
                 if (outer_index >= child_count) {
                     break;

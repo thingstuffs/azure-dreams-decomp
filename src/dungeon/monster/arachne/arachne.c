@@ -21,7 +21,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = spawn_animated_monster;
-void (*const resource12_slot0_entry1)(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part) = create_directional_template_effect;
+void (*const resource12_slot0_entry1)(void *entity, ObjectPosition *motion, SpriteFrameState *part) = create_directional_template_effect;
 
 /* Creates an Arachne actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -98,7 +98,7 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
 }
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
+void create_directional_template_effect(void *entity, ObjectPosition *motion, SpriteFrameState *part)
 {
     R12_80170A44_S_80170A28_1 *entity_base = entity;
     s16 old_state;
@@ -154,33 +154,33 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
         try_move_actor_to_valid_position(entity, motion, part, entity);
     }
 
-    part_flags = ((R12_80170A44_S_80170A28_0 *)part)->unk_14;
+    part_flags = part->flags;
     if (!(part_flags & 0x8000)) {
         rounded_angle = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_copy) {
-            if (((R12_80170A44_S_80170A28_0 *)part)->unk_2C != 0) {
+            if (((u8 *)part->frameTable) != 0) {
                 select_indirect_table_entry(part,
-                              ((R12_80170A44_S_80170A28_0 *)part)->unk_2C[direction_copy],
-                              ((R12_80170A44_S_80170A28_0 *)part)->unk_04);
+                              ((u8 *)part->frameTable)[direction_copy],
+                              part->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = state_or_direction;
         }
 
         direction_flag = dir_sprite_flag[direction_index];
         if (direction_flag != 0) {
-            ((R12_80170A44_S_80170A28_0 *)part)->unk_14 |= 1;
+            part->flags |= 1;
         } else {
-            ((R12_80170A44_S_80170A28_0 *)part)->unk_14 &= 0xFFFE;
+            part->flags &= 0xFFFE;
         }
         if (!(entity_base->unk_1C & 0x20)) {
-            if (!(((R12_80170A44_S_80170A28_0 *)part)->unk_14 & 0x40)) {
+            if (!(part->flags & 0x40)) {
                 advance_sprite_animation_and_textures(part);
             }
         } else {
-            ((R12_80170A44_S_80170A28_0 *)part)->unk_14 |= 0x7000;
+            part->flags |= 0x7000;
         }
         apply_monster_koyaw_data(entity_base->unk_1C, (u8 *)part + 0xC);
     } else {
@@ -189,23 +189,23 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
         } else {
             new_part_flags = part_flags | 0x7000;
         }
-        ((R12_80170A44_S_80170A28_0 *)part)->unk_14 = new_part_flags;
+        part->flags = new_part_flags;
     }
 
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
         (*(s8 *)((u8 *)entity + 0x9D)) = 0;
     } else {
-        motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
+        motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
         (*(s8 *)((u8 *)entity + 0x9D)) = (u8)(*(s8 *)((u8 *)entity + 0x9D)) + 1;
     }
-    (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
+    (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
 
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
-        ground_height = ((s16)sample_terrain_surface_height(motion->unk_00.at02.v,
-                               motion->unk_04.at02.v,
+        ground_height = ((s16)sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                               motion->y.unsigned_parts.integer,
                                (s16)(entity_base->unk_88 - 0x20)));
         if (ground_height < 0x200) {
             base_height = (s16)entity_base->unk_88;
@@ -213,11 +213,11 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
                 entity_base->unk_1C &= 0xF7FFFFFF;
             } else if (ground_height >= base_height) {
                 (*(s32 *)((u8 *)entity + 0x90)) = 0;
-                motion->unk_14 = 0;
+                motion->velocity_z = 0;
                 entity_base->unk_1C |= 0x08000000;
                 (*(s8 *)((u8 *)entity + 0x9D)) = 0;
             } else {
-                motion->unk_14 = 0;
+                motion->velocity_z = 0;
                 entity_base->unk_1C |= 0x08000000;
                 (*(s8 *)((u8 *)entity + 0x9D)) = 0;
                 (*(s16 *)((u8 *)entity + 0x92)) = ground_height - entity_base->unk_88;
@@ -227,8 +227,8 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
             if (entity_flags & 0x40000000) {
                 entity_base->unk_1C = entity_flags & 0xBFFFFFFF;
                 ground_height = ((s16)sample_terrain_surface_height(
-                    (((R12_80170A44_S_80170A28_0 *)part)->unk_24 << 6) | 0x20,
-                    (((R12_80170A44_S_80170A28_0 *)part)->unk_25 << 6) | 0x20,
+                    ((u8)part->tile_x << 6) | 0x20,
+                    (part->tile_y << 6) | 0x20,
                     (s16)(entity_base->unk_88 - 0x20)));
                 (*(s16 *)((u8 *)entity + 0x92)) +=
                     entity_base->unk_88 - ground_height;
@@ -242,9 +242,9 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
     }
 
     entity_base = (R12_80170A44_S_80170A28_1 *)((u8 *)entity_base + 0x88);
-    motion->unk_0A =
+    motion->z.w.i =
         *(u16 *)entity_base + (*(u16 *)((u8 *)entity + 0x92));
-    ((R12_80170A44_S_80170A28_0 *)part)->unk_14 |= 0x40;
+    part->flags |= 0x40;
 
     return;
 }
@@ -1116,7 +1116,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             play_sound_if_enabled(0x813);
         }
-        if ((s16)(body->action_timer) > 0)
+        if ((s16)body->action_timer > 0)
             return;
         body->action_timer = 8;
         sprite->flags &= 0xF7FF;
@@ -1141,7 +1141,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             (s32)((((sprite->tile_y << 6) + 0x20) << 16) -
                   position->y.v) >> 1;
         if ((sprite->flags & 0xE000) ||
-            ((s16)(body->action_timer) <= 0)) {
+            ((s16)body->action_timer <= 0)) {
             position->velocity_z = 0;
             position->velocity_y = 0;
             position->velocity_x = 0;
@@ -2703,11 +2703,11 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
         color_index = lookup_masked_byte_table(actor);
         target_color = ((u8 * *)actor_effect_color_targets)[color_index];
         scene_color->view.tint.parts.tint_r += ((s32)target_color[0]
-            - scene_color->view.tint.parts.tint_r) / (s16)(sequence->action_timer);
+            - scene_color->view.tint.parts.tint_r) / (s16)sequence->action_timer;
         scene_color->view.tint.parts.tint_g += ((s32)target_color[1]
-            - scene_color->view.tint.parts.tint_g) / (s16)(sequence->action_timer);
+            - scene_color->view.tint.parts.tint_g) / (s16)sequence->action_timer;
         scene_color->view.tint.parts.tint_b += ((s32)target_color[2]
-            - scene_color->view.tint.parts.tint_b) / (s16)(sequence->action_timer);
+            - scene_color->view.tint.parts.tint_b) / (s16)sequence->action_timer;
         return;
 
     case 4:

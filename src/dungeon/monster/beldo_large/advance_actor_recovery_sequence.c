@@ -94,7 +94,7 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
             offset_pos = motion->y.w.i;
             offset_pos -= 0x20;
             motion->velocity_y =
-                ((tile_pos - offset_pos) << 16) / (s16)(body->action_timer);
+                ((tile_pos - offset_pos) << 16) / (s16)body->action_timer;
         }
         if ((s16)(body->action_timer--) > 0) {
             return;

@@ -72,7 +72,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
 
     if (!((*(u32 *)((u8 *)body + 0x1C)) & 0x40000) &&
         !(body->action_state_flags & 8)) {
-        motion->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        motion->velocity_z += (body->unk_9D) * 0x14000;
         body->unk_9D++;
     } else {
         body->unk_9D = 0;

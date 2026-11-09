@@ -49,7 +49,7 @@ void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, Sprit
     if (object->action_state_flags & 8) {
         object->unk_9D = 0;
     } else {
-        motion->velocity_z += (s8)(object->unk_9D) * 0x14000;
+        motion->velocity_z += (object->unk_9D) * 0x14000;
         object->unk_9D++;
     }
     object->unk_90.value += motion->velocity_z;

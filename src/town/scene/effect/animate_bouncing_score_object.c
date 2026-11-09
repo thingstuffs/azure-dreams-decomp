@@ -6,9 +6,8 @@
 typedef struct { s32 words[22]; } Payload88;
 typedef struct { s32 words[6]; } Initial24;
 typedef struct State State;
-typedef struct Motion Motion;
 typedef struct Actor Actor;
-typedef void (*ObjectCallback)(State *, Motion *, Actor *);
+typedef void (*ObjectCallback)(State *, struct ObjectPosition *, Actor *);
 
 typedef struct {
     s32 word00;

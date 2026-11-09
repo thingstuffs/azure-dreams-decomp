@@ -41,8 +41,8 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
 
 /* Callback entry points. */
 struct DirectionalEffectBody;
-void advance_item_motion_collision(struct DirectionalEffectBody *motion, void *position, SpriteFrameState *update_arg);
-void update_monster_appearance_motion(ActorRecord *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
+void advance_item_motion_collision(struct DirectionalEffectBody *motion, ObjectPosition *position, SpriteFrameState *update_arg);
+void update_monster_appearance_motion(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);

@@ -91,7 +91,7 @@ void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPos
     ObjectNodeHeader *particle;
 
     if (effect->unk_00 == 0) {
-        if (!(effect->unk_0A & 1)) {
+        if (!((u16)effect->unk_0A & 1)) {
             spark_kind = rand() & 7;
             spark_speed = (rand() & 0xFF) | 0x80;
             func_800245BC(((void *)effect) - 0x20, spark_kind, 0xF0, spark_speed, 0, 0,

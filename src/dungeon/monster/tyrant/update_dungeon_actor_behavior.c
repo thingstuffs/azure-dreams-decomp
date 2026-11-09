@@ -27,7 +27,7 @@ void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_w
 s32 check_action_eligibility_updates_actor_state_directional_animation_success(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173900(void *, void *, void *, void *);
-extern void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 extern s32 tyrant_action_resume_address;
 extern u8 tyrant_direction_frames[];

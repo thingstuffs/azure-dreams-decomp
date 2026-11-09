@@ -20,17 +20,6 @@ struct Dst;
 
 struct Elem;
 
-typedef struct S_8009792C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} S_8009792C_2;
-
 /* arg0 in spawn_radial_objects */
 typedef struct S_80097AD0_1 {
     union { u16 u16; s32 s32; } unk_00;   /* accessed as both */
@@ -64,7 +53,7 @@ extern s32 rcos(s32 value);
 extern s32 rand(void);
 
 /* Functions defined in this translation unit. */
-void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle);
+void *create_randomized_offset_effect(StackRecord *source, u32 angle);
 void spawn_radial_objects(MovingPosition *origin, S_80097AD0_1 *spread, s32 count);
 
 #endif

@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/volcano/spawn_effect_object.h"
+#include "dungeon/actor.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Volcano with default frames at D_80150510, applies spawn flags, and attempts valid tile

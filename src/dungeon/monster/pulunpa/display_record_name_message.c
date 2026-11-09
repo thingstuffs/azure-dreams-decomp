@@ -1,6 +1,7 @@
 #include "shared/game_work.h"
 #include "dungeon/system.h"
 #include "dungeon/item/message.h"
+#include "dungeon/item.h"
 #include "dungeon/monster/pulunpa.h"
 
 extern u8 D_80176440[9];

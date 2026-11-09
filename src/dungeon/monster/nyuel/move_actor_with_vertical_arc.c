@@ -47,7 +47,7 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
         action->action_phase++;
                         /* fall through */
     case 1:
-        move_ticks = (s16)(action->unk_9E);
+        move_ticks = action->unk_9E;
         action->unk_90.value =
             action->unk_90.value - action->unk_A0.value;
         if (move_ticks != 0) {
@@ -61,9 +61,9 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
             axis_pos = motion->y.w.i - 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - axis_pos) << 16) /
-                (s16)action->unk_9E;
+                action->unk_9E;
             action->unk_A0.value =
-                (-rsin((s16)(action->unk_9E) * 0x155)) << 9;
+                (-rsin(action->unk_9E * 0x155)) << 9;
         }
         action->unk_90.value += action->unk_A0.value;
         next_move_ticks = --action->unk_9E;

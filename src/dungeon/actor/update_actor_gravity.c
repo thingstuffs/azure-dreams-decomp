@@ -50,7 +50,7 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
     if (update_obj->action_state_flags & 8) {
         update_obj->unk_9D = 0;
     } else {
-        motion->velocity_z += (s8)(update_obj->unk_9D) * 0x14000;
+        motion->velocity_z += (update_obj->unk_9D) * 0x14000;
         update_obj->unk_9D++;
     }
     fall_offset = object->unk_90.value;

@@ -81,7 +81,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
         if (!(body->flags1C & 0x40000) &&
             !(body->action_state_flags & 8)) {
             motion->velocity_z = motion->velocity_z +
-                ((s8)(body->unk_9D) * 0x14000);
+                ((body->unk_9D) * 0x14000);
             body->unk_9D++;
         } else {
             body->unk_9D = 0;

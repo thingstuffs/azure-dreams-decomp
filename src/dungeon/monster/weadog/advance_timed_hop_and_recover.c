@@ -58,7 +58,7 @@ void advance_timed_hop_and_recover(ActorRecord *motion_state, void *motion, Spri
         motion_state->action_phase++;
 
     case 1:
-        hop_ticks = ((s16)motion_state->unk_9E);
+        hop_ticks = motion_state->unk_9E;
         motion_state->unk_90.value -= motion_state->unk_A0.value;
         if (hop_ticks != 0) {
             target_x = sprite->tile_x;
@@ -71,9 +71,9 @@ void advance_timed_hop_and_recover(ActorRecord *motion_state, void *motion, Spri
             position_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
                 (((sprite->tile_y << 6) - position_y) << 16) /
-                ((s16)motion_state->unk_9E);
+                motion_state->unk_9E;
             motion_state->unk_A0.value =
-                (-rsin(((s16)motion_state->unk_9E) * 0x199)) << 10;
+                (-rsin(motion_state->unk_9E * 0x199)) << 10;
         }
 
         motion_state->unk_90.value += motion_state->unk_A0.value;

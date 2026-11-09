@@ -321,12 +321,11 @@ void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_sta
 {
     s32 remaining_ticks;
 
-    countdown_state->ticks_remaining =
-        (u16)(countdown_state->ticks_remaining - 1);
+    countdown_state->ticks_remaining = countdown_state->ticks_remaining - 1;
     animation_state->scale_x = (u16)(animation_state->scale_x + 0x320);
     animation_state->scale_y = (u16)(animation_state->scale_y + 0x320);
     animation_state->angle_z = (u16)(animation_state->angle_z + 0x190);
-    remaining_ticks = (s16)countdown_state->ticks_remaining;
+    remaining_ticks = countdown_state->ticks_remaining;
     tint_particle_effect_updated = 1;
     if (remaining_ticks <= 0) {
         NODE_HEADER(countdown_state)->flags |= NODE_REMOVE;

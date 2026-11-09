@@ -64,13 +64,13 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
         motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
 
-        if ((s16)(action->action_timer) > 0) {
+        if ((s16)action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
             action->action_timer = 0;
         }
 
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -118,7 +118,7 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / (s16)(action->action_timer);
+                    ((target_y - current_y) << 15) / (s16)action->action_timer;
             }
         }
 

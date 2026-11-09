@@ -13,17 +13,6 @@
 #include "shared/object_payload.h"
 #include "engine/node.h"
 
-typedef struct S_800A878C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} S_800A878C_2;
-
 /* arg0 in create_reverse_motion_effect */
 
 /* arg0 in spawn_radial_effect_objects */
@@ -36,7 +25,7 @@ typedef struct S_800A895C_1 {
 /* arg1 in spawn_radial_effect_objects */
 /* object in spawn_radial_effect_objects */
 
-typedef struct {
+typedef struct StackRecord {
     s16 unk0;
     s16 x;
     s16 unk4;
@@ -63,6 +52,6 @@ extern s32 rcos(s32 value);
 s32 rand(void);
 
 /* Functions defined in this translation unit. */
-void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags);
+void *create_reverse_motion_effect(StackRecord *source_motion, u32 flags);
 
 #endif

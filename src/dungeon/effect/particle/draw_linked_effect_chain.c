@@ -359,7 +359,7 @@ void choose_random_sign(EntityEffectSequenceBody *effect, s32 unused, void *prim
     *(s8 *)((u8 *)primitive + 0x0D) = intensity;
     *(s8 *)((u8 *)primitive + 0x0C) = intensity;
     state->unk_8C -= 1;
-    *(u16 *)((u8 *)primitive + 0x1A) += (u16)state->prefix.random40;
+    *(u16 *)((u8 *)primitive + 0x1A) += state->prefix.random40;
     if (state->prefix.timer3A <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -534,7 +534,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                         if (task != 0) {
                             effect->timer3A = 20;
                             effect->timer3C = 20;
-                            effect->random40 = (s16)((func_80069EF8() & 0xFF) + 200);
+                            effect->random40 = (func_80069EF8() & 0xFF) + 200;
                             task->callback = particle_callback;
                             register_node(task, project_sprite_chain);
                             sprite = task->sprite;

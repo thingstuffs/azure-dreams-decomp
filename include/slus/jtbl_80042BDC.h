@@ -65,7 +65,6 @@ extern void          *get_unused_text_buffer(void);
 extern u8 * append_entity_display_text(void *ent, void *ctx);
 extern u8 * expand_text_control_codes(char *str,u8 *arg);
 extern u8 *clear_byte_and_advance(s8 *arg);
-extern s32 display_text_with_fullwidth_adjustment(void *ctx);
 extern void           refresh_actor_proximity_state(S_80042BDC *ent);
 extern void           create_colored_effect_with_event(struct ObjectNodeHeader *p, int a1, int a2);
 extern u8 *find_or_retain_sprite_resource_slot(int a0, s16 a1);
@@ -84,7 +83,6 @@ extern void begin_actor_move_to_target_facing(S_80042BDC *obj,void *a1, void *a2
 extern s32 update_actor_transform_from_parent(S_80042BDC *obj, void *a1, void *a2,void *a3);
 extern void           unlink_entity_node(S_80042BDC *ent);
 extern void           cycle_map_cell_flags(int a0, int a1, int a2);
-extern s32 try_move_actor_to_valid_position(void *ent,void *a1,void *a2,void *a3);
 extern void apply_entity_effects(void *entity);
 extern void           func_80041E70(S_80042BDC *ent);
 

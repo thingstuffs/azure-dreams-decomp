@@ -8,6 +8,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
 #include "dungeon/monster/naplass.h"
+#include "dungeon/actor.h"
 
 /* Creates an actor and initializes its parts and flags for the requested kind. */
 /* Creates Naplass with default frames at D_80150194, applies spawn flags, and attempts valid tile

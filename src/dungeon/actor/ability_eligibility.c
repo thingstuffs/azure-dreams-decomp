@@ -953,7 +953,7 @@ void advance_status_timers(ActorRecord *record) {
         status = record->status[slot_index].type;
         if (status != 0) {
             if (status == STATUS_POISON) {
-                apply_capped_damage_and_hit_effect(record, (Rec_func_800A5DFC_arg1 *)NODE_HEADER(record)->position);
+                apply_capped_damage_and_hit_effect(record, NODE_HEADER(record)->position);
             }
             duration = record->status[slot_index].value;
             if (duration != 0) {

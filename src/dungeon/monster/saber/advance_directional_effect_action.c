@@ -11,7 +11,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 
-void create_randomly_rotated_offset_effect(void *node, s32 tile_x, s32 tile_y, s16 target_height);
+void create_randomly_rotated_offset_effect(ActorRecord *actor, s32 tile_x, s32 tile_y, s16 target_height);
 
 
 
@@ -40,7 +40,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             s32 tile_x;
             s32 x_offset;
             s32 y_offset;
-            void *effect_actor;
+            ActorRecord *effect_actor;
 
             flags = sprite->flags;
             effect_actor = actor;
@@ -55,12 +55,12 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             coord_value = sprite->tile_y + y_offset;
             create_randomly_rotated_offset_effect(effect_actor, x_sum, coord_value & 0xFFFF, height);
         }
-        if (((s16)(action->action_timer) == 0x0A) ||
+        if (((s16)action->action_timer == 0x0A) ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x605);
         }
-        if (((s16)(action->action_timer) == 9) ||
+        if (((s16)action->action_timer == 9) ||
             (sprite->flags & 0x8000)) {
             SaberTileOffset *offset;
             u16 angle;
@@ -81,7 +81,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             x = x_sum & 0xFFFF;
             process_nodes_at_target_tile(actor, x, coord_value & 0xFFFF, height);
         }
-        if (((s16)(action->action_timer) <= 0) ||
+        if (((s16)action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
             action->action_timer = 0;
             action->action_phase++;

@@ -35,17 +35,6 @@ typedef struct S_801747F0_1 {
     s16 unk_16;
 } S_801747F0_1;   /* arg1 in update_motion_and_terrain_collision */
 
-typedef struct S_801747F0_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_801747F0_2;   /* arg2 in update_motion_and_terrain_collision */
-
 typedef struct S_801747F0_3 {
     s16 unk_00;
     s16 unk_02;
@@ -60,9 +49,9 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 /* Update motion and terrain collisions, then settle at a target or finish falling. */
 /* Moves an item through terrain checks, settles it using four saved item bytes, or shrinks its falling
  * sprite. */
-void update_motion_and_terrain_collision(TossedItemMotionBody *motion, S_801747F0_1 *position, void *object_arg)
+void update_motion_and_terrain_collision(TossedItemMotionBody *motion, S_801747F0_1 *position, SpriteFrameState *object_arg)
 {
-    S_801747F0_2 *object = object_arg;
+    SpriteFrameState *object = object_arg;
     u8 colors[4];
     s32 move_frames;
     s32 fall_height;
@@ -147,12 +136,12 @@ settle:
             colors[2] = motion->arg.param;
             colors[3] = motion->arg.flags;
             place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
-                          position->unk_16, object->unk_08, colors);
+                          position->unk_16, (s32)(unsigned long)object->source, colors);
             (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        if (object->unk_14 & 0x8000) {
+        if (object->flags & 0x8000) {
             goto settle;
         }
     }
@@ -160,9 +149,9 @@ fall:
     if (motion->phase.s == 2) {
         position->unk_08.at00.v += motion->velocity_z;
         motion->velocity_z += motion->acceleration_z;
-        next_scale = object->unk_1E - 0xC8;
-        object->unk_1E = next_scale;
-        object->unk_1C = next_scale;
+        next_scale = object->scale_y - 0xC8;
+        object->scale_y = next_scale;
+        object->scale_x = next_scale;
         {
             s32 fall_cell_x;
             s32 fall_cell_y;
@@ -183,7 +172,7 @@ fall:
                 return;
             }
         }
-        if (object->unk_14 & 0x8000) {
+        if (object->flags & 0x8000) {
             goto fall;
         }
     }
@@ -228,7 +217,7 @@ fall:
                     motion->cell_y.u += *((motion->direction.s * 4) + directions
                         + 2);
                 }
-                object->unk_06 = 0;
+                object->depth_bias = 0;
             }
         }
         position->unk_08.at00.v += motion->velocity_z;
@@ -257,5 +246,5 @@ fall:
                 motion->velocity_z = 0xFFF80000;
             }
         }
-    } while (object->unk_14 & 0x8000);
+    } while (object->flags & 0x8000);
 }

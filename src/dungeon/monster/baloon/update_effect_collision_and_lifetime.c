@@ -12,7 +12,7 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Updates effect motion, terrain collisions, visual properties, and lifetime. */
-void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect, OriginMotionEffectPosition *position, SpriteFrameState *visual)
+void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect, ObjectPosition *position, SpriteFrameState *visual)
 {
     s16 life_left;
     s32 current_z;
@@ -22,50 +22,50 @@ void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect, Origin
     u16 x;
     u16 z;
 
-    position->unk_08.at00.v += effect->velocity_z;
+    position->z.v += effect->velocity_z;
     effect->velocity_z += effect->acceleration_z;
 
-    x = position->unk_00.at02.v;
-    z = position->unk_08.at02.v;
-    current_z = position->unk_08.at02u.v;
+    x = position->x.unsigned_parts.integer;
+    z = position->z.unsigned_parts.integer;
+    current_z = position->z.w.i;
     terrain_z = sample_terrain_surface_height(x,
-                              position->unk_04.at02.v,
+                              position->y.unsigned_parts.integer,
                               (s16)(z - 4));
     if (terrain_z - 0x10 < current_z) {
         effect->velocity_z = 0;
-        position->unk_08.at02u.v =
-            sample_terrain_surface_height(position->unk_00.at02.v,
-                          position->unk_04.at02.v,
-                          (s16)(position->unk_08.at02.v - 4)) - 0x11;
-        position->unk_08.at00u.v = 0;
+        position->z.w.i =
+            sample_terrain_surface_height(position->x.unsigned_parts.integer,
+                          position->y.unsigned_parts.integer,
+                          (s16)(position->z.unsigned_parts.integer - 4)) - 0x11;
+        position->z.w.frac = 0;
         if (effect->state == 0) {
             effect->state = 1;
         }
     }
 
     if (effect->state == 1) {
-        position->unk_00.at00.v += effect->velocity_x;
+        position->x.v += effect->velocity_x;
         effect->velocity_x += effect->acceleration_x;
-        if (sample_terrain_surface_height(position->unk_00.at02.v,
-                          position->unk_04.at02.v,
-                          position->unk_08.at02u.v) < 0x200 &&
-            (s16)check_left_tile_and_center_height(position->unk_00.at02.v,
-                               position->unk_04.at02.v,
-                               position->unk_08.at02u.v) != 0) {
-            position->unk_00.at00.v -= effect->velocity_x;
+        if (sample_terrain_surface_height(position->x.unsigned_parts.integer,
+                          position->y.unsigned_parts.integer,
+                          position->z.w.i) < 0x200 &&
+            (s16)check_left_tile_and_center_height(position->x.unsigned_parts.integer,
+                               position->y.unsigned_parts.integer,
+                               position->z.w.i) != 0) {
+            position->x.v -= effect->velocity_x;
             effect->velocity_x = 0;
             effect->acceleration_x = 0;
         }
 
-        position->unk_04.at00.v += effect->velocity_y;
+        position->y.v += effect->velocity_y;
         effect->velocity_y += effect->acceleration_y;
-        if (sample_terrain_surface_height(position->unk_00.at02.v,
-                          position->unk_04.at02.v,
-                          position->unk_08.at02u.v) < 0x200 &&
-            (s16)check_left_tile_and_center_height(position->unk_00.at02.v,
-                               position->unk_04.at02.v,
-                               position->unk_08.at02u.v) != 0) {
-            position->unk_04.at00.v -= effect->velocity_y;
+        if (sample_terrain_surface_height(position->x.unsigned_parts.integer,
+                          position->y.unsigned_parts.integer,
+                          position->z.w.i) < 0x200 &&
+            (s16)check_left_tile_and_center_height(position->x.unsigned_parts.integer,
+                               position->y.unsigned_parts.integer,
+                               position->z.w.i) != 0) {
+            position->y.v -= effect->velocity_y;
             effect->velocity_y = 0;
             effect->acceleration_y = 0;
         }

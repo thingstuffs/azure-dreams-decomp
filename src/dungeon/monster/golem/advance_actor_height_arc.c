@@ -119,19 +119,19 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
 
                 owner = actor->target;
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
-                arc_sample = rsin((s16)(action->action_timer) << 7) >> 4;
+                arc_sample = rsin((s16)action->action_timer << 7) >> 4;
                 fall_step = entity_height_offsets[
                     ((ActorRecord *)actor->target)->species] + 0x20;
                 scaled_arc = arc_sample * fall_step;
                 height_delta = (((ObjectPosition *)owner)->z.w.i - actor->ground_height) << 13;
-                height_delta *= 0x11 - (s16)(action->action_timer);
+                height_delta *= 0x11 - (s16)action->action_timer;
                 arc_sample = scaled_arc << 8;
                 next_height = height_delta - arc_sample;
                 action->unk_A0.value = next_height;
             } else if (action->unk_AC.bytes[3] != 0) {
                 s32 arc_sample;
 
-                arc_sample = rsin((s16)(action->action_timer) << 7) >> 4;
+                arc_sample = rsin((s16)action->action_timer << 7) >> 4;
                 action->unk_A0.value = -((arc_sample * 3) << 13);
             } else {
                 s32 direction;
@@ -147,11 +147,11 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                     (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
-                arc_sample = rsin((s16)(action->action_timer) << 7);
+                arc_sample = rsin((s16)action->action_timer << 7);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
                 height_delta = (signed_terrain_height - actor->ground_height) << 13;
-                scaled_arc = (s16)(action->action_timer);
+                scaled_arc = (s16)action->action_timer;
                 height_offset = height_delta * (0x11 - scaled_arc);
                 arc_sample = ((arc_sample >> 4) * 3) << 13;
                 action->unk_A0.value = height_offset - arc_sample;
@@ -220,20 +220,20 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
 
                 owner = actor->target;
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
-                arc_sample = rsin((s16)(action->action_timer) << 8);
+                arc_sample = rsin((s16)action->action_timer << 8);
                 height_delta = ((ObjectPosition *)owner)->z.w.i -
                            entity_height_offsets[((ActorRecord *)actor->target)->species] -
                            actor->ground_height;
                 height_delta <<= 13;
-                height_offset = height_delta * (s16)(action->action_timer);
+                height_offset = height_delta * (s16)action->action_timer;
                 arc_sample = (arc_sample >> 4) << 13;
                 action->unk_A0.value = height_offset - arc_sample;
             } else if (action->unk_AC.bytes[3] != 0) {
                 s32 arc_sample;
 
-                arc_sample = rsin((s16)(action->action_timer) << 8) >> 4;
+                arc_sample = rsin((s16)action->action_timer << 8) >> 4;
                 action->unk_A0.value =
-                    -((s16)(action->action_timer) << 19) - (arc_sample << 13);
+                    -((s16)action->action_timer << 19) - (arc_sample << 13);
             } else {
                 s32 direction;
                 s32 height_delta;
@@ -249,14 +249,14 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                     (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
-                arc_sample = rsin((s16)(action->action_timer) << 8);
+                arc_sample = rsin((s16)action->action_timer << 8);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
                 base_height = actor->ground_height;
                 base_height += 0x40;
                 height_delta = signed_terrain_height - base_height;
                 height_delta <<= 13;
-                height_offset = height_delta * (s16)(action->action_timer);
+                height_offset = height_delta * (s16)action->action_timer;
                 arc_sample = (arc_sample >> 4) << 13;
                 action->unk_A0.value = height_offset - arc_sample;
             }

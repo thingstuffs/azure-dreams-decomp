@@ -199,7 +199,7 @@ void func_80041344(s32 data_base, void *scratch);
 void run_image_load_commands(s32 data_base, void *scratch);
 
 /* runtime_transform_sprite_attachment_point.c */
-void runtime_transform_sprite_attachment_point(void *transform, void *point, void *result);
+void runtime_transform_sprite_attachment_point(struct SpriteFrameState *transform, void *point, void *result);
 
 /* scale_four_points_about_center.c */
 void copy_and_scale_screen_outline_points(void);

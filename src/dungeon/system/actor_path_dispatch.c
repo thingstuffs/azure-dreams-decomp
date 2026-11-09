@@ -9,7 +9,7 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-static void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path);
+static void advance_actor_along_path_points(void *motion, s32 unused, void *position, ActorRecord *path);
 #include "dungeon/actor/state.h"
 typedef struct S_800C9F34_3 {
     u8 pad_00[0x24];
@@ -20,17 +20,6 @@ typedef struct S_800C9F34_3 {
 #include "shared/dungeon_moving_views.h"
 #include "shared/actor_status.h"
 #include "dungeon/item.h"
-typedef struct S_800CA0DC_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    u8 unk_71;
-    u8 pad_72[0x18];
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_800CA0DC_0;
-
 /* Routes actor updates through path movement, defeat or level checks, and pending action selection. */
 void dispatch_actor_behavior_state(ActorRecord *actor_state, s32 context, S_800C9F34_3 *position, ActorRecord *entity) {
 
@@ -69,34 +58,34 @@ void dispatch_actor_behavior_state(ActorRecord *actor_state, s32 context, S_800C
 }
 
 /* Advances to the next stored path tile, updates facing, and sets the movement animation duration. */
-static void advance_actor_along_path_points(void *motion_arg, s32 unused, void *position_arg, void *path_arg)
+static void advance_actor_along_path_points(void *motion_arg, s32 unused, void *position_arg, ActorRecord *path_arg)
 {
     MovingTile *position = position_arg;
     Rec_func_800C9F34_arg0 *motion = motion_arg;
     s32 step_count;
     s32 old_x;
     s32 old_y;
-    S_800CA0DC_0 *path = path_arg;
+    ActorRecord *path = path_arg;
 
-    if (((s8)path->unk_71) <= 0) {
+    if (((s8)path->movement_queue_state) <= 0) {
         return;
     }
-    if (path->unk_71 <= path->unk_8A.s) {
+    if (path->movement_queue_state <= path->unk_8A) {
         return;
     }
 
     old_x = position->tile_x;
     old_y = position->tile_y;
     position->tile_x =
-        ((ActorStatusBytesView *)((u8 *)path + path->unk_8A.s))->path_x;
+        ((ActorStatusBytesView *)((u8 *)path + path->unk_8A))->path_x;
     position->tile_y =
-        ((ActorStatusBytesView *)((u8 *)path + path->unk_8A.s))->path_y;
-    path->unk_8A.u++;
+        ((ActorStatusBytesView *)((u8 *)path + path->unk_8A))->path_y;
+    path->unk_8A = (u16)((u16)path->unk_8A + 1);
 
-    path->unk_2A =
+    path->facing =
         get_rounded_facing_and_rounding_flag(old_x, old_y, position->tile_x,
                       position->tile_y, (u8 *)motion + 0x98);
-    path->unk_1C |= 0x40000000;
+    path->flags1C |= 0x40000000;
     motion->unk_9A.as_u8 = 0xF;
     motion->unk_8C = 0;
 
@@ -106,7 +95,7 @@ static void advance_actor_along_path_points(void *motion_arg, s32 unused, void *
     }
 
     motion->unk_96 = 8;
-    step_count = path->unk_71;
+    step_count = path->movement_queue_state;
     if (step_count > 0) {
         motion->unk_96 = 8 / step_count;
     }

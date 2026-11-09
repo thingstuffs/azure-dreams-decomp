@@ -931,7 +931,7 @@ void mark_staged_motion_effect_complete(Struct_80051528 *object) {
     }
 }
 
-extern void update_sine_motion_effect(struct EffectState800517CC *effect, struct VecState800517CC *motion, SpriteFrameState *color);
+extern void update_sine_motion_effect(struct EffectState800517CC *effect, struct ObjectPosition *motion, SpriteFrameState *color);
 
 typedef struct {
     char pad_00[0x10];

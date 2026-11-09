@@ -165,7 +165,7 @@ typedef struct S_func_81904990_7 {
         } as_u8_0D;
     } unk_0C;
     u16 unk_0E;
-    s16 unk_10;
+    u16 unk_10;
     s16 unk_12;
     union {
         s16 as_s16_14;
@@ -176,7 +176,7 @@ typedef struct S_func_81904990_7 {
         } as_u8_15;
     } unk_14;
     u16 unk_16;
-    s16 unk_18;
+    u16 unk_18;
     s16 unk_1A;
     union {
         s16 as_s16_1C;
@@ -476,13 +476,10 @@ extern const u16 strip_small_texture_rect[4];
 extern const s16 strip_direction_steps[8][2];
 extern void *get_unused_text_buffer(s32, s32);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *write_text_byte_and_advance(s8 value, s8 *dest);
-extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 #include "dungeon/effect/screen.h"
 #include "shared/entity.h"
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
 extern u8 counter_halved_message[];
 extern u8 counter_halve_failed_message[];

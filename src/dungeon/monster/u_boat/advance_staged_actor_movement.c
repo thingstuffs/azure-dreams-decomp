@@ -91,13 +91,13 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         s8 entity_kind;
         u16 timer;
 
-        if ((s16)(action->action_timer) == 0xB) {
+        if ((s16)action->action_timer == 0xB) {
             motion->velocity_x = 0;
             motion->velocity_y = 0;
         }
 
         eight = 8;
-        if ((s16)(action->action_timer) == eight) {
+        if ((s16)action->action_timer == eight) {
             u8 *animation_ids;
 
             animation_ids = u_boat_frame_set_1;
@@ -172,7 +172,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             }
         }
 
-        if ((s16)(action->action_timer) > 0 &&
+        if ((s16)action->action_timer > 0 &&
             !(record->flags & 0x8000)) {
             return;
         }
@@ -214,11 +214,11 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             axis_position -= 0x20;
             distance -= axis_position;
             motion->velocity_y =
-                (distance << 16) / (s16)(action->action_timer);
+                (distance << 16) / (s16)action->action_timer;
         }
 
         action->action_timer--;
-        if ((s16)(action->action_timer) > 0 &&
+        if ((s16)action->action_timer > 0 &&
             !(record->flags & 0x8000)) {
             return;
         }

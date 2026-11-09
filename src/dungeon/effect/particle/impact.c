@@ -2017,7 +2017,7 @@ typedef struct S_func_80026418_0 {
     u8 pad_09[1];
     u16 unk_0A;
     u8 pad_0C[0x10];
-    s16 unk_1C;
+    u16 unk_1C;
     u8 pad_1E[6];
     s16 unk_24;
     u8 pad_26[2];
@@ -2156,7 +2156,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             colors->view.tint.parts.tint_b -= 2;
         }
         effect->unk_1C = (u16)effect->unk_1C - 1;
-        if (effect->unk_1C > 0) {
+        if ((s16)effect->unk_1C > 0) {
             return;
         }
         reset_timer = 0x3C;
@@ -2176,7 +2176,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
             effect->unk_1C = (u16)effect->unk_1C - 1;
-            if (effect->unk_1C >= 0) {
+            if ((s16)effect->unk_1C >= 0) {
                 return;
             }
         }

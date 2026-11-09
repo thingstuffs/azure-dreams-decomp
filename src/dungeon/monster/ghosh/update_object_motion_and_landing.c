@@ -12,17 +12,6 @@ s16 sample_terrain_surface_height();
    /* the 0x2 bytes before arg0 in update_object_motion_and_landing, addressed as arg0[-1] */
 
 
-typedef struct S_8016E528_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8016E528_1;   /* arg2 in update_object_motion_and_landing */
-
 typedef struct S_8016E528_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -53,8 +42,8 @@ typedef struct S_8016E528_4 {
 /* Updates object motion, landing interpolation, and removal. */
 /* Waits before moving Ghosh's item, checks terrain, then places it using saved item bytes or shrinks its
  * falling sprite. */
-void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, S_8016E528_2 *position, void *object_arg) {
-    S_8016E528_1 *object = object_arg;
+void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, S_8016E528_2 *position, SpriteFrameState *object_arg) {
+    SpriteFrameState *object = object_arg;
     u8 item_data[4];
     s32 fall_height;
     s16 move_height;
@@ -79,7 +68,7 @@ void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, S_801
         motion->unk_1A = (u16) (delay_ticks + 1);
         if ((s16) delay_ticks >= 0x38) {
             motion->unk_12 = 0;
-            object->unk_14 = (u16) (object->unk_14 & 0xFF7F);
+            object->flags = (u16) (object->flags & 0xFF7F);
             motion->unk_1A = 0U;
             motion->unk_60 = 0x14900;
         }
@@ -150,10 +139,10 @@ repeat_settling:
         item_data[2] = motion->unk_46;
         item_data[3] = motion->unk_47;
         place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
-            position->unk_16, object->unk_08, item_data);
+            position->unk_16, (s32)(unsigned long)object->source, item_data);
         goto mark_removed;
     }
-    if (object->unk_14 & 0x8000) {
+    if (object->flags & 0x8000) {
         goto repeat_settling;
     }
     do {
@@ -164,9 +153,9 @@ check_falling:
         position->unk_08.at00.v = (s32) (position->unk_08.at00.v
             + motion->unk_54);
         motion->unk_54 = (s32) (motion->unk_54 + motion->unk_60);
-        scale = object->unk_1E - 0xC8;
-        object->unk_1E = scale;
-        object->unk_1C = scale;
+        scale = object->scale_y - 0xC8;
+        object->scale_y = scale;
+        object->scale_x = scale;
         probe_height = position->unk_08.at02u.v;
         fall_height = position->unk_08.at02.v;
         if ((sample_terrain_surface_height((motion->unk_48 << 6) & 0xFFC0,
@@ -181,7 +170,7 @@ mark_removed:
         NODE_HEADER(motion)->flags = (u16) (NODE_HEADER(motion)->flags | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
-    } while (object->unk_14 & 0x8000);
+    } while (object->flags & 0x8000);
     do {
             if (motion->unk_12 != 0) {
                 return;
@@ -221,7 +210,7 @@ mark_removed:
                         motion->unk_49 = (s8) ((u8) motion->unk_49
                             + ((S_8016E528_4 *)(((motion->unk_18 * 4) + direction_table)))->unk_02);
                     }
-                    object->unk_06 = 0;
+                    object->depth_bias = 0;
                 }
             }
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v
@@ -246,6 +235,6 @@ mark_removed:
                     motion->unk_54 = 0xFFF80000;
                 }
             }
-    } while (object->unk_14 & 0x8000);
+    } while (object->flags & 0x8000);
     return;
 }

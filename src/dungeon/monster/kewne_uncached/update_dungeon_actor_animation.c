@@ -109,7 +109,7 @@ void update_dungeon_actor_animation(ActorRecord *actor, ObjectPosition *actor_au
                         0);
                 }
                 sprite->frame_ticks = 1;
-                actor->unk_A0.halves.high.s = 0;
+                actor->unk_A0.parts.high = 0;
                 actor->unk_9E = 0;
             }
         }
@@ -129,7 +129,7 @@ state_done:
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, actor_data);
             delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
-            actor->unk_A0.halves.high.s = 0;
+            actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
             actor->unk_90.parts.high.s = delta;
             func_80169078(actor, actor_aux, sprite, actor_data);

@@ -56,7 +56,7 @@ extern void unlink_node_if_registered(void *);
 /* Functions defined in this translation unit. */
 ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id);
 ObjectNodeHeader *create_preset_sprite_object(IntVector3 *position);
-void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, EntityRec *output, s32 unused);
+void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, ObjectPosition *output, s32 unused);
 void invoke_emote_object_callback(EmoteCallbackObject *object, ObjectPosition *motion, s32 context);
 void advance_emote_motion(S_800A7360_1 *object, ObjectPosition *motion);
 void advance_position_and_handle_ground_contact(void *entity, ObjectPosition *motion, s32 context);

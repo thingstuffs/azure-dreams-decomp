@@ -59,8 +59,8 @@ typedef struct S_8017256C_1 {
     u8 pad_64[0x9];
     u8 unk_6D;
     u8 pad_6E[0x4];
-    u8 unk_72;
-    u8 unk_73;
+    s8 unk_72;
+    s8 unk_73;
 } S_8017256C_1;   /* arg3 in advance_actor_action_and_target */
 
 
@@ -163,8 +163,8 @@ void advance_actor_action_and_target(S_8017256C_0 *action, void *motion, SpriteF
                         sprite->tile_y,
                         ((S_8017256C_1 *)actor)->unk_2A,
                         0x10);
-                    abs_x = abs(((s8)((S_8017256C_1 *)actor)->unk_72));
-                    abs_y = abs(((s8)((S_8017256C_1 *)actor)->unk_73));
+                    abs_x = abs(((S_8017256C_1 *)actor)->unk_72);
+                    abs_y = abs(((S_8017256C_1 *)actor)->unk_73);
                     ((S_8017256C_1 *)actor)->unk_72 = abs_x;
                     ((S_8017256C_1 *)actor)->unk_73 = abs_y;
                 }

@@ -41,8 +41,8 @@ ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 stat
 }
 
 /* Copy the indexed table value to the output and advance the object state. */
-void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, EntityRec *output, s32 unused) {
-    output->flags14 = D_800D0DF8[object->unk_90.as_s16];
+void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, ObjectPosition *output, s32 unused) {
+    output->velocity_z = D_800D0DF8[object->unk_90.as_s16];
     object->unk_50.as_pm = &D_800A7360;
 }
 
@@ -89,7 +89,7 @@ void advance_position_and_handle_ground_contact(void *entity, ObjectPosition *mo
             callback(entity, motion, context);
             return;
         }
-        copy_indexed_motion_value_and_advance(entity, (EntityRec *)motion, context);
+        copy_indexed_motion_value_and_advance(entity, motion, context);
         return;
     }
     add_hex_20000_s_signed_offset_hex_14(motion);

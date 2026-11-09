@@ -949,7 +949,7 @@ typedef struct ProjectileSelf {
     u8 unk_09;
     u16 state;
     u8 pad_0C[0x6C];
-    u16 target_y;
+    s16 target_y;
     u8 flags;
     u8 frames_left;
     u8 pad_7C[0x2];
@@ -961,7 +961,7 @@ typedef struct ProjectileSelf {
     s16 frames_squared;
     u8 pad_8C[0x4];
     s16 shrinking;
-    s16 pulse_ticks;
+    u16 pulse_ticks;
     s16 pulse_period;
     u16 pulse_step;
     u8 pad_98[0x4];
@@ -1332,7 +1332,7 @@ void set_record_pair_to_one(ProjectileSelf *self, ObjectPosition *position, Spri
         }
         position->velocity_x = (s32)velocities.entries[self->direction].x << 16;
         position->velocity_y = (u32)velocities.entries[self->direction].y << 16;
-        position->velocity_z = (((s32)(s16)self->target_y << 16)
+        position->velocity_z = (((s32)self->target_y << 16)
             - position->z.v)
         / (s8)self->frames_left;
         self->timer = 0;

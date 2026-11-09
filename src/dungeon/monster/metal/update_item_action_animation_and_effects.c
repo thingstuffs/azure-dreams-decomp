@@ -175,7 +175,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
                 action->action_phase++;
                 sprite->flags &= 0xF7FF;
             }
-            if ((s16)(action->action_timer) < 7) {
+            if ((s16)action->action_timer < 7) {
                 return;
             }
         }

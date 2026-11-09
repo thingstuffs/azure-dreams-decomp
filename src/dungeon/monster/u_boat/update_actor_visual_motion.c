@@ -88,7 +88,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
 
     if (!((*(u32 *)((u8 *)body + (0x1C))) & 0x40000) &&
         !(body->action_state_flags & 8)) {
-        motion_arg->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        motion_arg->velocity_z += (body->unk_9D) * 0x14000;
         body->unk_9D++;
     } else {
         body->unk_9D = 0;

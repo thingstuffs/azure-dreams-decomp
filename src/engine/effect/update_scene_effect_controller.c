@@ -7,6 +7,7 @@
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
 #include "slus/jtbl_80052144.h"
+#include "slus.h"
 
 /* Times child effects, cancels them on a skip flag, and requests the next scene after all children finish. */
 void update_scene_effect_controller(Controller *controller)

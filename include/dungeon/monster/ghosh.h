@@ -107,7 +107,7 @@ void advance_three_state_bytes(u16 *words);
 void animate_timed_fade_effect(void *effect);
 void apply_boss_direction_table_state(void *record_data);
 struct S_8016E528_2;
-void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, struct S_8016E528_2 *position, void *object);
+void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, struct S_8016E528_2 *position, SpriteFrameState *object);
 
 /* begin_ghosh_front_attack.c and its imports. */
 s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);

@@ -37,7 +37,7 @@ typedef struct S_80024100_2 {
         struct { u8 pad[0x2]; s16 v; } at02;
     } unk_10;   /* overlapping accesses */
     s16 unk_14;
-    s16 unk_16;
+    u16 unk_16;
     s16 unk_18;
     s16 unk_1A;
 } S_80024100_2;   /* part in initialize_mogura_minigame */
@@ -153,7 +153,7 @@ s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unuse
             third_element = NODE_BODY(object);
             object->update_callback = update_callback;
             register_node(object, render_data);
-            element_flags = ((u16)third_element->unk_16);
+            element_flags = third_element->unk_16;
             third_element->unk_0C.at02.v = 0xB0;
             third_element->unk_10.at00u.v = 0x50;
             third_element->unk_10.at02.v = 0x20;

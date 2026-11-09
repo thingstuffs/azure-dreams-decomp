@@ -4,6 +4,7 @@
 #include "shared/town_root.h"
 #include "town/scene.h"
 #include "town/scene/motion.h"
+#include "town/scene/flags.h"
 
 typedef struct TownDispatch {
     u8 pad00[0x54];
@@ -20,7 +21,6 @@ typedef struct TownState {
 } TownState;
 
 extern void decrement_current_entry_counter_condition(void *);
-extern s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key); /* placed copy of resolve_entry_flag */
 
 extern s16 scene_request_flag_id;
 extern s32 D_80018B40;

@@ -69,7 +69,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
                 action->action_phase++;
                 sprite->flags |= 0x0800;
             }
-            if ((s16)(action->action_timer) == 9) {
+            if ((s16)action->action_timer == 9) {
                 play_sound_if_enabled(0x809);
                 return;
             }
@@ -77,7 +77,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
         }
 
     case 3:
-        if ((s16)(action->action_timer) > 0) {
+        if ((s16)action->action_timer > 0) {
             u16 timer = action->action_timer - 1;
 
             action->action_timer = timer;

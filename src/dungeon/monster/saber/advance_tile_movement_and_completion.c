@@ -53,7 +53,7 @@ void advance_tile_movement_and_completion(ActorRecord *action, ObjectPosition *m
         action->action_phase++;
 
     case 1:
-        move_ticks = (s16)(action->unk_9E);
+        move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = map_entity->tile_x;
@@ -67,15 +67,15 @@ void advance_tile_movement_and_completion(ActorRecord *action, ObjectPosition *m
             pos_y -= 0x20;
             motion->velocity_y =
                 (((map_entity->tile_y << 6) - pos_y) << 16) /
-                (s16)(action->unk_9E);
+                action->unk_9E;
 
             action->unk_A4.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
+                (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
         height = action->unk_90.value;
         arc_offset = action->unk_A4.value;
-        next_move_ticks = action->unk_9E;
+        next_move_ticks = (u16)action->unk_9E;
         height += arc_offset;
         next_move_ticks -= 1;
         action->unk_9E = next_move_ticks;

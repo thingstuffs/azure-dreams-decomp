@@ -60,7 +60,7 @@ void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition 
             visual_data->color.word = 0x00808080;
         }
 
-        if ((s16)(fade_state->action_timer) == 0) {
+        if ((s16)fade_state->action_timer == 0) {
             play_sound_if_enabled(0x805);
         }
         if (!(visual_data->flags & 0x8000)) {

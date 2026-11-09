@@ -23,7 +23,7 @@ extern Callback glacier_callbacks[];
 
 
 /* Runs entity callbacks, updates monster appearance, and advances motion with floor collision. */
-void update_monster_appearance_motion(ActorRecord *body, void *motion_arg, SpriteFrameState *sprite)
+void update_monster_appearance_motion(ActorRecord *body, ObjectPosition *motion_arg, SpriteFrameState *sprite)
 {
     ObjectPosition *motion = motion_arg;
     SpriteFrameState *monster= sprite;
@@ -149,7 +149,7 @@ flags_done:
     if ((body->action_state_flags) & 8) {
         (body->unk_9D) = 0;
     } else {
-        motion->velocity_z += ((s8)(body->unk_9D)) * 0x14000;
+        motion->velocity_z += ((body->unk_9D)) * 0x14000;
         (body->unk_9D)++;
     }
 

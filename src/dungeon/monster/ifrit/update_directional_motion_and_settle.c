@@ -56,12 +56,12 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
             dir_step_x[direction] << 14;
         motion->velocity_y -=
             dir_step_y[direction] << 14;
-        if ((s16)(body->action_timer) > 0) {
+        if ((s16)body->action_timer > 0) {
             body->action_timer = body->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
             body->action_timer = 0;
         }
-        if ((s16)(body->action_timer) != 0) {
+        if ((s16)body->action_timer != 0) {
             return;
         }
         if (source->hp == 0) {
@@ -77,7 +77,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
         return;
 
     case 2:
-        if ((s16)(body->action_timer) != 0) {
+        if ((s16)body->action_timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;

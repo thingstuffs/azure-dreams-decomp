@@ -264,8 +264,8 @@ s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 u
 }
 
 /* Sets an item's parameter and flags from category-specific random rolls. */
-void init_random_floor_item_parameters(void *entity_data) {
-    floor_spawns_isolated_8028B824_S_8001E824_0 *entity = entity_data;
+void init_random_floor_item_parameters(DungeonItemEntry *entity_data) {
+    DungeonItemEntry *entity = entity_data;
     s16 output_flags;
     s16 combined_flags;
     s16 output_value;
@@ -274,7 +274,7 @@ void init_random_floor_item_parameters(void *entity_data) {
     u8 case_value;
 
     output_flags = 0;
-    case_value = entity->unk_01;
+    case_value = entity->kind;
     output_value = output_flags;
     switch (case_value) {
     case ITEM_KIND_BALL:

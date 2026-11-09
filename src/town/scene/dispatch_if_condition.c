@@ -4,6 +4,7 @@
 
 #include "town/scene/record_actions.h"
 #include "town/scene.h"
+#include "town/scene/flags.h"
 
 /*
  * Sets the indexed entry flag and returns one only while F_s24_door_open has a nonzero script flag

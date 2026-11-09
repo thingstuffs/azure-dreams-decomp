@@ -95,7 +95,7 @@ void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPo
                 hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
                 0);
             sprite->frame_ticks = 1;
-            ((ActorRecord *)actor_arg)->unk_A0.halves.high.s = 0;
+            ((ActorRecord *)actor_arg)->unk_A0.parts.high = 0;
             ((ActorRecord *)actor_arg)->unk_9E = 0;
         }
 
@@ -111,7 +111,7 @@ void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPo
         if (((u32)stats->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite, stats);
             ((ActorRecord *)actor_arg)->unk_90.parts.high.u -= ((ActorRecord *)actor_arg)->unk_A0.parts.high;
-            ((ActorRecord *)actor_arg)->unk_A0.halves.high.s = 0;
+            ((ActorRecord *)actor_arg)->unk_A0.parts.high = 0;
             ((ActorRecord *)actor_arg)->unk_9E = 0;
             update_directional_sprite_state_and_signals(actor_arg, context_arg, sprite, stats);
             return;

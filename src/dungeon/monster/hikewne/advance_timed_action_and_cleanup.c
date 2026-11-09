@@ -38,7 +38,7 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
         return;
 
     case 1:
-        if (action->unk_A0.halves.high.s != 0 &&
+        if ((s16)action->unk_A0.parts.high != 0 &&
             !(sprite->flags & 0x8000)) {
             return;
         }
@@ -49,7 +49,7 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
             0);
         state = action->action_phase;
         action->action_timer = 0;
-        action->unk_A0.halves.high.s = 0;
+        action->unk_A0.parts.high = 0;
         action->unk_9E = 0;
         action->action_phase = state + 1;
         return;
@@ -62,7 +62,7 @@ void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *
             action->action_timer = 0;
             action->action_phase++;
         }
-        if ((s16)(action->action_timer) != 6) {
+        if ((s16)action->action_timer != 6) {
             return;
         }
         play_sound_if_enabled(0x808);

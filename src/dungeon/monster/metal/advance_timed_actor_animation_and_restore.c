@@ -47,7 +47,7 @@ void advance_timed_actor_animation_and_restore(ActorRecord *action, ObjectPositi
                 0);
             sprite->flags |= 0x0800;
         }
-        if ((s16)(action->action_timer) == 7 ||
+        if ((s16)action->action_timer == 7 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             action->action_timer = 0;
@@ -60,7 +60,7 @@ void advance_timed_actor_animation_and_restore(ActorRecord *action, ObjectPositi
         if ((s16)++action->action_timer == 2) {
             sprite->flags |= 0x0800;
         }
-        if ((s16)(action->action_timer) == 8 ||
+        if ((s16)action->action_timer == 8 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x808);

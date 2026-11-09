@@ -167,7 +167,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
             spawn_random_color_burst_particle(action, transform, sprite, actor);
         }
 
-        if ((s16)(action->action_timer) == 0x16) {
+        if ((s16)action->action_timer == 0x16) {
             spawn_growing_rotating_flash(action, transform, sprite);
         }
         ticks_left = action->action_timer - 1;

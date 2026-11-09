@@ -12,11 +12,11 @@ void update_growing_rotating_fade_slot_d(void *effect, void *unused, void *visua
 void *spawn_block_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_height);
 void update_block_motion_and_facing_slot_d(ActorRecord *entity, CL_CC5000_80170C24_S_80170C24_2 *motion, SpriteFrameState *sprite);
 void dispatch_block_turn_actions_slot_d(CL_CC5000_8017102C_S_8017102C_0 *state, void *motion, CL_CC5000_8017102C_S_8017102C_2 *sprite, struct ActorRecord *actor);
-void advance_block_path_slot_d(void *motion, ObjectPosition *update_param, void *entity, void *state);
+void advance_block_path_slot_d(void *motion, ObjectPosition *update_param, void *entity, ActorRecord *state);
 void choose_block_move_slot_d(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data);
 void begin_block_hop_slot_d(CL_CC5000_80171F58_S_80171F58_0 *state, ObjectPosition *unused_position, CL_CC5000_80171F58_S_80171F58_1 *render_state, CL_CC5000_80171F58_S_80171F58_2 *entity);
 s32 try_begin_block_attack_slot_d(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor);
-void begin_block_attack_slot_d(CL_CC5000_80172180_S_80172180_1 *state, s32 position, CL_CC5000_80172180_S_80172180_2 *render_state, void *entity);
+void begin_block_attack_slot_d(CL_CC5000_80172180_S_80172180_1 *state, s32 position, CL_CC5000_80172180_S_80172180_2 *render_state, ActorRecord *entity);
 s32 check_block_action_ready_slot_d(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_block_tile_move_slot_d(struct ActorRecord *state_arg,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_hop_slot_d(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entry, ActorRecord *actor);

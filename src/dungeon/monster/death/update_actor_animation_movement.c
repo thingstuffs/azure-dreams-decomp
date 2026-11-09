@@ -92,7 +92,7 @@ void update_actor_animation_movement(ActorRecord *body, ObjectPosition *motion, 
 
     if (!(body->flags1C & 0x40000) &&
         !(body->action_state_flags & 8)) {
-        motion->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        motion->velocity_z += (body->unk_9D) * 0x14000;
         body->unk_9D++;
     } else {
         body->unk_9D = 0;

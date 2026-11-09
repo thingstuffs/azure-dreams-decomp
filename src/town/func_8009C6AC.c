@@ -7,6 +7,7 @@
 #include "shared/town_handler.h"
 #include "town.h"
 #include "town/player/motion.h"
+#include "town/player/state.h"
 
 
 

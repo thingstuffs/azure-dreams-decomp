@@ -52,12 +52,12 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
     case 1:
         motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
-        if ((s16)(action->action_timer) > 0) {
+        if ((s16)action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (tile->flags & 0x6000) {
             action->action_timer = 0;
         }
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -72,7 +72,7 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
         return;
 
     case 2:
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             {
                 s32 target_x;
                 s32 current_x;

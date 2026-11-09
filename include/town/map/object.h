@@ -50,7 +50,7 @@ void *create_positioned_graphic_object_2(struct TownPropPosition *position, s32 
 void *create_positioned_visual_object(struct TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data);
 
 /* deactivate_object_triggered.c */
-void deactivate_object_triggered(void *object, void *position, SpriteFrameState *rotation);
+void deactivate_object_triggered(void *object, ObjectPosition *position, SpriteFrameState *rotation);
 
 /* decrease_town_map_object_field_and_transition.c */
 void decrease_town_map_object_field_0a_and_transition(struct S_8008BA44_0 *obj);

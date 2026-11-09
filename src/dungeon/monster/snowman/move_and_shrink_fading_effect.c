@@ -1168,7 +1168,7 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         action->action_phase++;
 
     case 1:
-        move_ticks = (s16)(action->unk_9E);
+        move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -1182,15 +1182,15 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                (s16)(action->unk_9E);
+                action->unk_9E;
 
             action->unk_A4.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
+                (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;
         height_step = action->unk_A4.value;
-        next_move_ticks = action->unk_9E;
+        next_move_ticks = (u16)action->unk_9E;
         height_offset += height_step;
         next_move_ticks -= 1;
         action->unk_9E = next_move_ticks;
@@ -1319,7 +1319,7 @@ void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPositi
             action->action_timer = 0;
             action->action_phase++;
         }
-        if ((s16)(action->action_timer) == 5) {
+        if ((s16)action->action_timer == 5) {
             play_sound_if_enabled(0x808);
             return;
         }
@@ -1485,10 +1485,10 @@ case 2:
     } while (particle_index < 5);
 
     actor->unk_9E--;
-    if ((s16)actor->unk_9E == 1) {
+    if (actor->unk_9E == 1) {
         tile_arg->flags |= 0x800;
     }
-    if ((s16)(actor->action_timer) == 5) {
+    if ((s16)actor->action_timer == 5) {
         tile_arg->flags &= 0xF7FF;
     }
     actor->action_timer--;
@@ -1634,7 +1634,7 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
                 origin_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     (((entity->tile_y << 6) - origin_y) << 16) /
-                    (s16)(action->action_timer);
+                    (s16)action->action_timer;
             }
             previous_frames = action->action_timer;
             action->action_timer = previous_frames - 1;
@@ -2050,16 +2050,16 @@ void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s3
 }
 
 /* Prepares the owner's attack for actors at the target tile and height, excluding kinds 0x33-0x36. */
-void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s32 tile_y, s16 target_height)
+void prepare_directional_attacks_for_neighbor_entities(ActorRecord *node, s32 tile_x, s32 tile_y, s16 target_height)
 {
     s32 match_x = tile_x;
     s32 match_y = tile_y;
     void *head = node;
-    R10_80174670_S_80174800_4 *actor = head;
+    ActorRecord *actor = head;
     void *owner;
 
     owner = ((R10_80174670_S_80174800_0_pre *)head)[-1].unk_00;
-    node = (u8 *)((R10_80174670_S_80174800_0 *)head)->unk_5C + 0x20;
+    node = (ActorRecord *)((u8 *)(unsigned long)actor->next_actor_header + 0x20);
     while (node != head) {
         R10_80174670_S_80174800_2 *tile = ((R10_80174670_S_80174800_1_pre *)node)[-1].unk_04;
         R10_80174670_S_80174800_3 *height_data = ((R10_80174670_S_80174800_1_pre *)node)[-1].unk_00;
@@ -2072,11 +2072,11 @@ void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s
             ((u32)(((Rec_func_80174800_arg0 *)node)->unk_13 - 0x33) >= 4U)) {
             actor->unk_84 = 0x7C;
             actor->unk_85 =
-                (s8)((s32)(actor->unk_26 * 3) >> 1);
+                (s8)((s32)(actor->current_attack * 3) >> 1);
             prepare_directional_attack(actor, owner,
-                          actor->unk_2A, 1, 0);
+                          actor->facing, 1, 0);
         }
-        node = (u8 *)((Rec_func_80174800_arg0 *)node)->unk_5C + 0x20;
+        node = NODE_BODY(((Rec_func_80174800_arg0 *)node)->unk_5C);
     }
 }
 
@@ -2138,12 +2138,12 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
             target_x = target_x & 0xFFFF;
             prepare_directional_attacks_for_neighbor_entities(entity, target_x, offset_coord & 0xFFFF, height);
         }
-        if (((s16)(action->action_timer) == 0x0A) ||
+        if (((s16)action->action_timer == 0x0A) ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x606);
         }
-        if (((s16)(action->action_timer) == 9) ||
+        if (((s16)action->action_timer == 9) ||
             (sprite->flags & 0x8000)) {
             R10_80174898_OffsetPair *direction_offset;
             u16 angle;
@@ -2164,7 +2164,7 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
             x = target_x & 0xFFFF;
             resolve_linked_attack_hits_and_particle_bursts(entity, x, offset_coord & 0xFFFF, height);
         }
-        if (((s16)(action->action_timer) <= 0) ||
+        if (((s16)action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
             action->action_timer = 0;
             action->action_phase++;

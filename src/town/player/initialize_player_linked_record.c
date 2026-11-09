@@ -5,6 +5,7 @@
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
 #include "town/player.h"
+#include "town/player/state.h"
 
 
 

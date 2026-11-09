@@ -74,7 +74,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
     case 2:
         action->unk_A4.value += action->unk_AC.value;
         action->unk_AC.value += action->unk_B0.value;
-        if ((s16)(action->action_timer) < 2) {
+        if ((s16)action->action_timer < 2) {
             motion->velocity_x =
                 dir_step_x[((u16)actor->facing >> 9) & 7] << 19;
             motion->velocity_y =
@@ -125,14 +125,14 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             s32 current_x = motion->x.w.i - 0x20;
 
             motion->velocity_x = ((target_x - current_x) << 16)
-            / (s16)(action->action_timer);
+            / (s16)action->action_timer;
         }
         {
             s32 target_y = sprite->tile_y << 6;
             s32 current_y = motion->y.w.i - 0x20;
 
             motion->velocity_y = ((target_y - current_y) << 16)
-            / (s16)(action->action_timer);
+            / (s16)action->action_timer;
         }
         return;
 
@@ -152,7 +152,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16)
-                / (s16)(action->action_timer);
+                / (s16)action->action_timer;
             }
         }
     }

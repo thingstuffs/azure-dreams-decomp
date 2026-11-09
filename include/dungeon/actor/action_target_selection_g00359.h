@@ -33,20 +33,6 @@ typedef struct S_800CA444_0 {
     s8 unk_26;
 } S_800CA444_0;
 
-/* arg2 in update_actor_targeting_for_tile */
-typedef struct S_800CA444_1 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x16];
-    u16 unk_88;
-} S_800CA444_1;
-
 /* arg3 in update_actor_targeting_for_tile */
 typedef struct S_800CA444_2 {
     u8 pad_00[0x98];
@@ -118,7 +104,7 @@ extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Functions defined in this translation unit. */
 s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset);
-void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *tile, void *actor);
+void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *tile, ActorRecord *actor);
 s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, void *target_ptr, void *actor_ptr);
 
 #endif

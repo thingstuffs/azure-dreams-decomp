@@ -3,8 +3,8 @@
 #include "shared/town_root.h"
 #include "town/scene/event.h"
 #include "town/scene.h"
+#include "town/scene/flags.h"
 
-extern s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key); /* placed copy of resolve_entry_flag */
 extern s32 D_80018AF8;
 extern s32 D_80019A30;
 

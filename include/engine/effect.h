@@ -167,7 +167,7 @@ void update_shaded_line_effect(struct S_52CE0 *anim, ObjectPosition *position, S
 
 /* update_sine_motion_effect.c */
 void func_800517CC(struct EffectState800517CC *effect, struct VecState800517CC *motion, SpriteFrameState *color);
-void update_sine_motion_effect(struct EffectState800517CC *effect, struct VecState800517CC *motion, SpriteFrameState *color);
+void update_sine_motion_effect(struct EffectState800517CC *effect, ObjectPosition *motion, SpriteFrameState *color);
 
 /* update_staged_motion_effect.c */
 void update_staged_motion_effect(CdCueEffectBody *obj, ObjectPosition *position, SpriteFrameState *flags);

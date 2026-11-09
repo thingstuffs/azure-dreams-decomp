@@ -1,7 +1,7 @@
 #include "town/person/state_callbacks_api.h"
 #include "common.h"
 #include "town/person/motion.h"
-#include "town_callbacks_api.h"
+#include "town.h"
 
 typedef struct town_person_countdown_state {
     u8 pad_00[0x50];

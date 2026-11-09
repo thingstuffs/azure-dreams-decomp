@@ -255,7 +255,7 @@ void update_block_motion_and_facing_slot_d(ActorRecord *entity, CL_CC5000_80170C
     if (entity->action_state_flags & 8) {
         entity->unk_9D = 0;
     } else {
-        motion->unk_14 += (s8)(entity->unk_9D) * 0x14000;
+        motion->unk_14 += (entity->unk_9D) * 0x14000;
         entity->unk_9D++;
     }
 
@@ -413,7 +413,7 @@ void dispatch_block_turn_actions_slot_d(CL_CC5000_8017102C_S_8017102C_0 *state, 
 }
 
 /* Advances an actor along stored path tiles, updates tile occupancy, and selects walk or hop animation. */
-void advance_block_path_slot_d(void *motion, ObjectPosition *update_param, void *entity, void *state) {
+void advance_block_path_slot_d(void *motion, ObjectPosition *update_param, void *entity, ActorRecord *state) {
     ActorRecord *rounding_owner = motion;
     s32 tile_mask;
     s32 old_x;
@@ -425,10 +425,10 @@ void advance_block_path_slot_d(void *motion, ObjectPosition *update_param, void 
     s16 stored_result;
     s32 result_code;
 
-    if (((s8)((CL_CC5000_80171590_S_80171590_0 *)state)->unk_71) <= 0) {
+    if (((s8)state->movement_queue_state) <= 0) {
         return;
     }
-    if (!((s32)((CL_CC5000_80171590_S_80171590_0 *)state)->unk_71 > ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_8A.s)) {
+    if (!((s32)state->movement_queue_state > state->unk_8A)) {
         return;
     }
 
@@ -436,14 +436,14 @@ void advance_block_path_slot_d(void *motion, ObjectPosition *update_param, void 
         (*(u8 * *)((u8 *)entity + 0x2C)) = block_slot_d_frame_set_2;
         select_sprite_entry(
             entity,
-            block_slot_d_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            block_slot_d_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
             0);
     }
 
     old_x = ((CL_CC5000_80171590_S_80171590_1 *)entity)->unk_24;
     old_y = ((CL_CC5000_80171590_S_80171590_1 *)entity)->unk_25;
     tile_mask = 0x3000;
-    if (((CL_CC5000_80171590_S_80171590_0 *)state)->unk_1C & 0x2000) {
+    if (state->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
@@ -451,32 +451,32 @@ void advance_block_path_slot_d(void *motion, ObjectPosition *update_param, void 
     heading = get_rounded_facing_and_rounding_flag(
         old_x,
         old_y,
-        ((CL_CC5000_80171590_S_80171590_3 *)((u8 *)state + ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_74,
-        ((CL_CC5000_80171590_S_80171590_3 *)((u8 *)state + ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_7C,
+        state->path_x[state->unk_8A],
+        state->path_y[state->unk_8A],
         &rounding_owner->action_state_flags);
     move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
     ((CL_CC5000_80171590_S_80171590_1 *)entity)->unk_24 =
-        ((CL_CC5000_80171590_S_80171590_3 *)((u8 *)state + ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_74;
+        state->path_x[state->unk_8A];
     ((CL_CC5000_80171590_S_80171590_1 *)entity)->unk_25 =
-        ((CL_CC5000_80171590_S_80171590_3 *)((u8 *)state + ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_7C;
-    ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_8A.u++;
+        state->path_y[state->unk_8A];
+    state->unk_8A = (u16) ((u16) state->unk_8A + 1);
 
     new_x = ((CL_CC5000_80171590_S_80171590_1 *)entity)->unk_24;
     new_y = ((CL_CC5000_80171590_S_80171590_1 *)entity)->unk_25;
     tile_mask = 0x3000;
-    if (((CL_CC5000_80171590_S_80171590_0 *)state)->unk_1C & 0x2000) {
+    if (state->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     cycle_map_cell_flags(new_x, new_y, tile_mask);
-    ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_2A = heading;
+    state->facing = heading;
 
     stored_result = move_result;
     result_code = move_result;
     if (result_code == 2) {
         if (!(g_dungeon_status.flags & 0x80)) {
             if (!(((CL_CC5000_80171590_S_80171590_1 *)entity)->unk_14 & 0x8000)) {
-                begin_block_hop_slot_d(motion, update_param, entity, state);
+                begin_block_hop_slot_d(motion, update_param, entity, (CL_CC5000_80171F58_S_80171F58_2 *)state);
                 ((CL_CC5000_80171590_S_80171590_2 *)motion)->unk_A4 = stored_result;
             } else {
                 ((CL_CC5000_80171590_S_80171590_2 *)motion)->unk_9A = 15;
@@ -486,7 +486,7 @@ void advance_block_path_slot_d(void *motion, ObjectPosition *update_param, void 
         }
     } else {
         if (result_code == 3 && !(g_dungeon_status.flags & 0x80) && !(((CL_CC5000_80171590_S_80171590_1 *)entity)->unk_14 & 0x8000)) {
-            begin_block_hop_slot_d(motion, update_param, entity, state);
+            begin_block_hop_slot_d(motion, update_param, entity, (CL_CC5000_80171F58_S_80171F58_2 *)state);
             ((CL_CC5000_80171590_S_80171590_2 *)motion)->unk_A4 = stored_result;
         } else {
             ((CL_CC5000_80171590_S_80171590_2 *)motion)->unk_9A = 15;
@@ -494,14 +494,14 @@ void advance_block_path_slot_d(void *motion, ObjectPosition *update_param, void 
     }
 
     ((CL_CC5000_80171590_S_80171590_2 *)motion)->unk_8C = 0;
-    (*(u32 *)((u8 *)state + 0x1C)) |= 0x40000000;
+    state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
         ((CL_CC5000_80171590_S_80171590_2 *)motion)->unk_96 = 0;
         return;
     }
     ((CL_CC5000_80171590_S_80171590_2 *)motion)->unk_96 = 8;
     {
-        s32 step_count = ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_71;
+        s32 step_count = state->movement_queue_state;
         if (step_count > 0) {
             ((CL_CC5000_80171590_S_80171590_2 *)motion)->unk_96 = 8 / step_count;
         }
@@ -800,20 +800,20 @@ s32 try_begin_block_attack_slot_d(Rec_func_800A9E70_arg0 *action_state, ObjectPo
 }
 
 /* Claims the actor action slot and starts a directional attack when dungeon activity allows it. */
-void begin_block_attack_slot_d(CL_CC5000_80172180_S_80172180_1 *state, s32 position, CL_CC5000_80172180_S_80172180_2 *render_state, void *entity) {
-    ((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_71 = (u8) (((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_71 & 0x7F);
+void begin_block_attack_slot_d(CL_CC5000_80172180_S_80172180_1 *state, s32 position, CL_CC5000_80172180_S_80172180_2 *render_state, ActorRecord *entity) {
+    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
     if (!(dungeon_status_flags_alias & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target(entity - 0x20, position, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(entity), position, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             state->action = 0x11;
             state->handler = 0;
             state->action_tick = 0;
             render_state->unk_2C = block_slot_d_direction_frames;
-            select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_2A + 0x100) >> 9) & 7) + block_slot_d_direction_frames), 0);
-            ((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_6D = (u8) (((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_6D - 1);
-            prepare_directional_attack(entity, render_state, ((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_2A, 1, 0);
-            ((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_84 = 0x7C;
-            ((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_85 = 0;
+            select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + block_slot_d_direction_frames), 0);
+            entity->pending_turn_updates = (u8) ((u8)entity->pending_turn_updates - 1);
+            prepare_directional_attack(entity, render_state, entity->facing, 1, 0);
+            entity->unk_84 = 0x7C;
+            entity->unk_85 = 0;
         }
     }
 }
@@ -908,7 +908,7 @@ void update_block_hop_slot_d(ActorRecord *action, ObjectPosition *motion, Sprite
         action->unk_A8 = (u16) ((u16)motion->z.w.i);
                         /* fall through */
     case 1:
-        move_frames = (s16)(action->unk_9E);
+        move_frames = action->unk_9E;
         action->unk_90.value = (s32) (action->unk_90.value - action->unk_A0.value);
         if (move_frames != 0) {
             move_value = map_entry->tile_x;
@@ -922,11 +922,11 @@ void update_block_hop_slot_d(ActorRecord *action, ObjectPosition *motion, Sprite
             move_operand -= 0x20;
             move_value <<= 6;
             move_value -= move_operand;
-            move_operand = (s16)(action->unk_9E);
+            move_operand = action->unk_9E;
             move_value = (move_value << 0x10) / move_operand;
             motion->velocity_y = move_value;
             if (action->unk_A4.halves.low.s == 3) {
-                action->unk_A0.value = (s32) ((0 - rsin((s16)(action->unk_9E) * 0x155))
+                action->unk_A0.value = (s32) ((0 - rsin(action->unk_9E * 0x155))
                     << 9);
                 action->unk_90.value += action->unk_A0.value;
             } else {
@@ -963,7 +963,7 @@ void update_block_hop_slot_d(ActorRecord *action, ObjectPosition *motion, Sprite
                 }
             }
         }
-        next_move_frame = (u16) action->unk_9E - 1;
+        next_move_frame = action->unk_9E - 1;
         action->unk_9E = next_move_frame;
         if (next_move_frame < 0) {
             action->unk_90.value = 0;
@@ -1070,13 +1070,13 @@ void update_block_attack_slot_d(ActorRecord *action, ObjectPosition *motion, Spr
         if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if ((s16)(action->action_timer) == 6) {
+        if ((s16)action->action_timer == 6) {
             play_sound_if_enabled(0x808);
         }
-        if ((s16)(action->action_timer) == 8) {
+        if ((s16)action->action_timer == 8) {
             sprite->flags |= 0x0800;
         }
-        if ((s16)(action->action_timer) == 15 ||
+        if ((s16)action->action_timer == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             next_state = action->action_phase;

@@ -230,7 +230,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
             body->action_phase++;
             sprite->flags &= 0xF7FF;
         }
-        if ((s16)(body->action_timer) >= 7) {
+        if ((s16)body->action_timer >= 7) {
             i = 0;
             do {
                 s32 brightness;

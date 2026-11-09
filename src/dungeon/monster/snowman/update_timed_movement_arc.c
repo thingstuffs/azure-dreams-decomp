@@ -54,7 +54,7 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
         body->action_phase++;
                         /* fallthrough */
     case 1:
-        move_frames = (s16)(body->unk_9E);
+        move_frames = body->unk_9E;
         body->unk_90.value -= body->unk_A4.value;
         if (move_frames != 0) {
             target_x = sprite->tile_x;
@@ -68,15 +68,15 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                (s16)(body->unk_9E);
+                body->unk_9E;
 
             body->unk_A4.value =
-                (-rsin((s16)(body->unk_9E) * 0x199)) << 10;
+                (-rsin(body->unk_9E * 0x199)) << 10;
         }
 
         height_offset = body->unk_90.value;
         arc_offset = body->unk_A4.value;
-        next_frames = body->unk_9E;
+        next_frames = (u16)body->unk_9E;
         height_offset += arc_offset;
         next_frames -= 1;
         body->unk_9E = next_frames;

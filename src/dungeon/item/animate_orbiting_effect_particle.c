@@ -1,12 +1,12 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/item.h"
+#include "shared/sprite_frame_state.h"
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 
 typedef struct EffectState EffectState;
 typedef struct EffectWork EffectWork;
-typedef struct EffectColor EffectColor;
 
 struct EffectState {
     s16 type;
@@ -30,18 +30,8 @@ struct EffectWork {
     s32 offset;
 };
 
-struct EffectColor {
-    s8 pad_00[0x0c];
-    u8 r;
-    u8 g;
-    u8 b;
-    s8 pad_0f[0x0d];
-    u16 value_1c;
-    u16 value_1e;
-};
-
 /* Updates effect brightness, paired color values, and motion through three stages. */
-void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, EffectColor *color) {
+void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, SpriteFrameState *color) {
     s16 stage;
 
     stage = state->type;
@@ -53,15 +43,15 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Effe
         s32 old_pair_value;
         u16 pair_value;
 
-        old_brightness = color->b;
+        old_brightness = color->color.c.b;
         brightness = old_brightness + (((state->mode != 0 ? 0xf0 : 0x40) - old_brightness) / ((s16 *)state)[1]);
-        old_pair_value = color->value_1e;
-        color->b = brightness;
-        color->g = brightness;
-        color->r = brightness;
+        old_pair_value = color->scale_y;
+        color->color.c.b = brightness;
+        color->color.c.g = brightness;
+        color->color.c.r = brightness;
         pair_value = old_pair_value + (((state->mode != 0 ? 0x100 : 0x400) - old_pair_value) / ((s16 *)state)[1]);
-        color->value_1e = pair_value;
-        color->value_1c = pair_value;
+        color->scale_y = pair_value;
+        color->scale_x = pair_value;
         work->offset -= 0x200;
     }
         if (((state->count = state->count - 1) << 16) <= 0) {
@@ -81,9 +71,9 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Effe
             } else {
                 brightness = 0xf0;
             }
-            color->b = brightness;
-            color->g = brightness;
-            color->r = brightness;
+            color->color.c.b = brightness;
+            color->color.c.g = brightness;
+            color->color.c.r = brightness;
         }
     }
         if (((state->count = state->count - 1) << 16) <= 0) {
@@ -105,9 +95,9 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Effe
             } else {
                 brightness = 0x10;
             }
-            color->b = brightness;
-            color->g = brightness;
-            color->r = brightness;
+            color->color.c.b = brightness;
+            color->color.c.g = brightness;
+            color->color.c.r = brightness;
         }
     }
         if (((state->count = state->count - 1) << 16) <= 0) {

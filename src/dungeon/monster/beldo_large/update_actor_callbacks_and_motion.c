@@ -155,7 +155,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
     if (body->action_state_flags & 8) {
         body->unk_9D = 0;
     } else {
-        motion->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        motion->velocity_z += (body->unk_9D) * 0x14000;
         body->unk_9D++;
     }
     body->unk_90.value += motion->velocity_z;

@@ -9,7 +9,7 @@
 #include "town/person/offset_effect_body.h"
 
 /* Creates an offset effect with randomized motion and initializes its appearance. */
-void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
+void *create_randomized_offset_effect(StackRecord *source, u32 angle) {
     u32 direction;
     SpriteFrameState *appearance;
     ObjectPosition *motion;
@@ -25,11 +25,11 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
         appearance = effect->sprite;
         effect->update_callback = update_person_effect_fade;
         register_node(effect, project_sprite_chain);
-        motion->x.w.i = source->unk_02 - dir_step_x[direction] * 0x10;
-        motion->y.w.i = source->unk_06 - dir_step_y[direction] * 0x10;
-        motion->z.w.i = source->unk_0A;
-        motion->velocity_x = -(source->unk_0C * ((rand() & 1) + 2)) / 16;
-        motion->velocity_y = -(source->unk_10 * ((rand() & 1) + 2)) / 16;
+        motion->x.w.i = (u16)source->x - dir_step_x[direction] * 0x10;
+        motion->y.w.i = (u16)source->z - dir_step_y[direction] * 0x10;
+        motion->z.w.i = source->y;
+        motion->velocity_x = -(source->fieldC * ((rand() & 1) + 2)) / 16;
+        motion->velocity_y = -(source->field10 * ((rand() & 1) + 2)) / 16;
         motion->velocity_z = (~rand() & 1) << 0xF;
         select_record_entry_and_value(appearance, &radial_sprite_entries, 0);
         appearance->color.c.b = 0xFF;
@@ -76,10 +76,10 @@ void spawn_radial_objects(MovingPosition *origin, S_80097AD0_1 *spread, s32 coun
             record.fieldC = rcos(angle) << 5;
             first_trig_value = rsin(angle);
             {
-                void *record_ptr = &record;
+                StackRecord *record_ptr = &record;
                 first_trig_value <<= 5;
                 record.field10 = first_trig_value;
-                object = create_randomized_offset_effect((S_8009792C_2 *)record_ptr, (u32)(s16)angle);
+                object = create_randomized_offset_effect(record_ptr, (u32)(s16)angle);
             }
             if (object != 0) {
                 angle_component = rsin(angle) << 5;

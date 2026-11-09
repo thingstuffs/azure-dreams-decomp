@@ -255,7 +255,7 @@ void update_block_motion_and_facing_slot_c(ActorRecord *entity, CL_CCB000_80170C
     if (entity->action_state_flags & 8) {
         entity->unk_9D = 0;
     } else {
-        motion->unk_14 += (s8)(entity->unk_9D) * 0x14000;
+        motion->unk_14 += (entity->unk_9D) * 0x14000;
         entity->unk_9D++;
     }
 
@@ -908,7 +908,7 @@ void update_block_hop_slot_c(ActorRecord *action, ObjectPosition *motion, Sprite
         action->unk_A8 = (u16) ((u16)motion->z.w.i);
                         /* fall through */
     case 1:
-        move_frames = (s16)(action->unk_9E);
+        move_frames = action->unk_9E;
         action->unk_90.value = (s32) (action->unk_90.value - action->unk_A0.value);
         if (move_frames != 0) {
             move_value = map_entry->tile_x;
@@ -922,11 +922,11 @@ void update_block_hop_slot_c(ActorRecord *action, ObjectPosition *motion, Sprite
             move_operand -= 0x20;
             move_value <<= 6;
             move_value -= move_operand;
-            move_operand = (s16)(action->unk_9E);
+            move_operand = action->unk_9E;
             move_value = (move_value << 0x10) / move_operand;
             motion->velocity_y = move_value;
             if (action->unk_A4.halves.low.s == 3) {
-                action->unk_A0.value = (s32) ((0 - rsin((s16)(action->unk_9E) * 0x155))
+                action->unk_A0.value = (s32) ((0 - rsin(action->unk_9E * 0x155))
                     << 9);
                 action->unk_90.value += action->unk_A0.value;
             } else {
@@ -963,7 +963,7 @@ void update_block_hop_slot_c(ActorRecord *action, ObjectPosition *motion, Sprite
                 }
             }
         }
-        next_move_frame = (u16) action->unk_9E - 1;
+        next_move_frame = action->unk_9E - 1;
         action->unk_9E = next_move_frame;
         if (next_move_frame < 0) {
             action->unk_90.value = 0;
@@ -1070,13 +1070,13 @@ void update_block_attack_slot_c(ActorRecord *action, ObjectPosition *motion, Spr
         if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if ((s16)(action->action_timer) == 6) {
+        if ((s16)action->action_timer == 6) {
             play_sound_if_enabled(0x808);
         }
-        if ((s16)(action->action_timer) == 8) {
+        if ((s16)action->action_timer == 8) {
             sprite->flags |= 0x0800;
         }
-        if ((s16)(action->action_timer) == 15 ||
+        if ((s16)action->action_timer == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             next_state = action->action_phase;

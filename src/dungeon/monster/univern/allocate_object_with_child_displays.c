@@ -7,6 +7,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/univern/allocate_object_with_child_displays.h"
+#include "dungeon/actor.h"
 
 /* Creates a Univern actor and its linked directional display, then initializes status and tile placement. */
 void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_value_25, s32 copy_value)
@@ -156,7 +157,7 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
             {
                 s32 child_count;
 
-                child_count = (s16)(stable_object->unk_9E);
+                child_count = stable_object->unk_9E;
                 outer_index++;
                 if (outer_index >= child_count) {
                     break;

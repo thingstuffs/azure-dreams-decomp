@@ -99,8 +99,8 @@ typedef struct CreatureState {
     u8 pad_64[0x09];
     u8 actionsLeft;
     u8 pad_6E[0x04];
-    u8 targetX;
-    u8 targetY;
+    s8 targetX;
+    s8 targetY;
 } CreatureState;
 
 typedef struct EffectObject {
@@ -232,8 +232,8 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                             actor_data->facing,
                             0x10);
                         actor_data->target = target;
-                        abs_x = abs(((s8)actor_data->targetX));
-                        abs_y = abs(((s8)actor_data->targetY));
+                        abs_x = abs(actor_data->targetX);
+                        abs_y = abs(actor_data->targetY);
                         actor_data->targetX = abs_x;
                         actor_data->targetY = abs_y;
                     }

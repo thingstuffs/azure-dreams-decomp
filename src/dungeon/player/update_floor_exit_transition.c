@@ -30,7 +30,7 @@ typedef struct S_800930F0_4 {
     u8 pad_238[0x1E58];
     s32 unk_2090;
     u8 pad_2094[0x1680];
-    s16 unk_3714;
+    u16 unk_3714;
     s16 unk_3716;
     s16 unk_3718;
     s16 unk_371A;
@@ -52,7 +52,7 @@ typedef struct S_800930F0_7 {
 
 typedef struct S_800930F0_8 {
     u8 pad_00[0x3CD0];
-    s8 unk_3CD0;
+    u8 unk_3CD0;
 } S_800930F0_8;
 
 typedef struct S_800930F0_9 {
@@ -111,8 +111,8 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
         }
         transition_base = (s32 *)0x800E0000;
         saved_state_base = (S_800930F0_4 *)0x80010000;
-        if (((u16)saved_state_base->unk_3714) & 4) {
-            if (((u8)((S_800930F0_8 *)transition_base)->unk_3CD0) != 0) {
+        if (saved_state_base->unk_3714 & 4) {
+            if (((S_800930F0_8 *)transition_base)->unk_3CD0 != 0) {
                 break;
             }
             ((S_800930F0_8 *)transition_base)->unk_3CD0 = 1;
@@ -179,7 +179,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
     case 16:
         transition_base = (s32 *)0x800E0000;
         if (((S_800930F0_7 *)(((s32 *)&system_update_flags)))->unk_00 & 4) {
-            if (((u8)((S_800930F0_8 *)transition_base)->unk_3CD0) != 0) {
+            if (((S_800930F0_8 *)transition_base)->unk_3CD0 != 0) {
                 break;
             }
             ((S_800930F0_8 *)transition_base)->unk_3CD0 = 1;

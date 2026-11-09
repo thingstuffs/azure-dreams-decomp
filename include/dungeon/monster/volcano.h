@@ -13,7 +13,6 @@ struct ObjectPosition;
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-struct E_80170A58_S_80170A58_2;
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/dir_step.h"
@@ -69,16 +68,6 @@ typedef struct E_80170A58_S_80170A58_1 {
     u8 pad_6E[0x1A];
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
 } E_80170A58_S_80170A58_1;   /* actor in func_80170A58 */
-
-typedef struct E_80170A58_S_80170A58_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} E_80170A58_S_80170A58_2;   /* motion in func_80170A58 */
 
 /* Updates monster facing, runs actor callbacks, and applies motion and floor contact. */
 
@@ -450,11 +439,6 @@ typedef struct E_80173E48_S_80172628_0 {
 
 typedef s32 E_80174084_M2C_UNK;
 
-typedef struct E_80174084_S_80DE6884_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} E_80174084_S_80DE6884_0;   /* setup_arg1 in func_80174084 */
-
 typedef struct E_80174084_S_80DE6884_1 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -480,11 +464,6 @@ typedef struct E_80174084_S_80DE6884_4 {
     s32 unk_10;
     s32 unk_14;
 } E_80174084_S_80DE6884_4;   /* temp_s0_2 in func_80174084 */
-
-typedef struct E_80174084_S_80DE6884_5 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} E_80174084_S_80DE6884_5;   /* held_arg0 in func_80174084 */
 
 
 #define NULL 0
@@ -570,7 +549,8 @@ extern u8 D_801745CC[];
 extern u8 D_801745F8[];
 extern int abs(int);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s32);
+struct GteShortVector;
+extern SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *, SpriteFrameState *, struct GteShortVector *, s16);
 extern s32 get_cd_command_queue_depth(void);
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
@@ -589,8 +569,6 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *,u8 *);
-u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_entity_display_text(void *,u8 *);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
@@ -635,12 +613,12 @@ extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern void *create_actor_with_tile_flags(s32, s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 
 void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height);
-void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *motion, SpriteFrameState *monster);
+void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *monster);
 void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *entry_context, SpriteFrameState *tile, ActorRecord *actor);
 void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 void set_actor_directional_animation(void *object, ObjectPosition *unused, SpriteFrameState *display, void *orientation);
-s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, void *sprite, ActorRecord *actor);
+s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, ActorRecord *actor);
 void start_actor_directional_animation(ActorRecord *actor_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
@@ -667,7 +645,7 @@ void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context,
 void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *entity_id, SpriteFrameState *action, ActorRecord *entity);
 s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void dampen_actor_motion(void *state_data, s32 *motion, SpriteFrameState *object);
-void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg, void *origin_arg);
+void create_four_directional_effects(ActorRecord *owner_arg, ObjectPosition *motion_arg, SpriteFrameState *origin_arg);
 void advance_effect_record_counters(u16 *counter, ObjectPosition *unused_position, SpriteFrameState *record);
 void * create_directional_effect_object(ActorRecord *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin);
 void display_formatted_actor_message(ActorRecord *record);

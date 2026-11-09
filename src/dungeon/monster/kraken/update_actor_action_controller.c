@@ -170,7 +170,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
             }
             current = (u8 *)current + 4;
             count++;
-        } while (count < (s16)(actor->unk_9E));
+        } while (count < actor->unk_9E);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

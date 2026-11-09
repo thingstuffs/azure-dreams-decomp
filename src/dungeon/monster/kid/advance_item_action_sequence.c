@@ -176,7 +176,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         action->action_phase++;
 
     case 2:
-        if ((s16)(action->action_timer) > 0 &&
+        if ((s16)action->action_timer > 0 &&
             !(sprite->flags & 0xE000)) {
             return;
         }
@@ -191,11 +191,11 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
         return;
 
     case 3:
-        if ((s16)(action->action_timer) < 4) {
+        if ((s16)action->action_timer < 4) {
             motion->velocity_x = -step_x << 18;
             motion->velocity_y = -step_z << 18;
         }
-        if ((s16)(action->action_timer) > 0) {
+        if ((s16)action->action_timer > 0) {
             return;
         }
         next_state = 4;
@@ -218,7 +218,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
             motion->velocity_y = (target_z - current_z) << 14;
         }
         if (!(owner_sprite->flags & 0x8000) &&
-            (s16)(action->action_timer) > 0) {
+            (s16)action->action_timer > 0) {
             return;
         }
         motion->velocity_z = 0;

@@ -7,6 +7,7 @@
 #include "engine/graphics.h"
 #include "engine/node.h"
 #include "engine/object.h"
+#include "slus.h"
 
 /* The controller body follows the standard object-node header. */
 

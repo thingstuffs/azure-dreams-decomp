@@ -1,4 +1,6 @@
 #include "shared/entity.h"
+#include "dungeon/system.h"
+#include "dungeon/item.h"
 /* Spell resource ids g01008.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01008 - CL:dungeon/func_800A3C30, CL:dungeon/func_800A40CC, PD:dungeon/engine:800DD8E7.
  */

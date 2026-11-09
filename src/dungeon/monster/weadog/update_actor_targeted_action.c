@@ -193,10 +193,10 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
             action->action_timer = 0;
             action->action_phase++;
         }
-        if ((s16)(action->action_timer) == 2) {
+        if ((s16)action->action_timer == 2) {
             action->action_state_flags |= 0x80;
         }
-        if ((s16)(action->action_timer) < 0xA) {
+        if ((s16)action->action_timer < 0xA) {
             return;
         }
 

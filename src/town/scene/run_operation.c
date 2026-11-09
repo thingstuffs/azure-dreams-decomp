@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 #include "town/player/script_flags.h"
 #include "town/scene/position_entries.h"
+#include "town/scene/flags.h"
 
 void decrement_current_entry_counter_condition(void);                            /* extern */
-extern s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key); /* placed copy of resolve_entry_flag */
 extern s16 scene_request_flag_id;
 extern ScenePositionEntry D_80018B28;
 extern s32 D_80018E38;

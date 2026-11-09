@@ -60,7 +60,7 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
     }
                         /* fall through */
     case 1:
-        move_frames = (s16)(action->unk_9E);
+        move_frames = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
         if (move_frames != 0) {
             target_x = sprite->tile_x;
@@ -73,15 +73,15 @@ void update_actor_movement_animation_states_completes_timed_action(ActorRecord *
             world_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - world_y) << 16) /
-                (s16)(action->unk_9E);
+                action->unk_9E;
 
             action->unk_A4.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
+                (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
         height = action->unk_90.value;
         height_offset = action->unk_A4.value;
-        move_count = action->unk_9E;
+        move_count = (u16)action->unk_9E;
         height += height_offset;
         move_count -= 1;
         action->unk_9E = move_count;

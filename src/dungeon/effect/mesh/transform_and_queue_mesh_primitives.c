@@ -139,7 +139,7 @@ typedef struct S_func_800241A8_6 {
         } as_u8_07;
     } unk_04;
     s16 unk_08;
-    u16 unk_0A;
+    s16 unk_0A;
     u16 unk_0C;
     u16 unk_0E;
     u16 unk_10;
@@ -160,7 +160,7 @@ typedef struct S_func_800241A8_6 {
     } unk_1C;
     u8 pad_1E[0x2];
     s16 unk_20;
-    u16 unk_22;
+    s16 unk_22;
     union {
         u16 as_u16_24;
         u8 as_u8_24;
@@ -276,13 +276,13 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
 
             if ((u32)ot_index < 0x1E0 &&
                 ((((u16)((u16)packet->unk_08 + 0x20) < 0x181) &&
-                  ((u16)(packet->unk_0A + 0x20) < 0x121)) |
+                  ((u16)((u16)packet->unk_0A + 0x20) < 0x121)) |
                  (((u16)(packet->unk_10 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_12 + 0x20) < 0x121)) |
                  (((u16)(packet->unk_18 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_1A + 0x20) < 0x121)) |
                  (((u16)((u16)packet->unk_20 + 0x20) < 0x181) &&
-                  ((u16)(packet->unk_22 + 0x20) < 0x121)))) {
+                  ((u16)((u16)packet->unk_22 + 0x20) < 0x121)))) {
                 packet->unk_00.unk_03 = 9;
                 packet->unk_04.as_u8_07.unk_07 = 0x2C;
                 object->flags &= 0x7FFF;
@@ -335,7 +335,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
                     packet->unk_14.as_u8_14--;
                     packet->unk_24.as_u8_24--;
                 }
-                if ((s16)packet->unk_0A > (s16)packet->unk_22) {
+                if (packet->unk_0A > packet->unk_22) {
                     packet->unk_1C.as_u8_1D.unk_1D--;
                     packet->unk_24.as_u8_25.unk_25--;
                 }

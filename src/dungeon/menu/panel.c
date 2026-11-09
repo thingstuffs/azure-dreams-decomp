@@ -456,8 +456,8 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
             }
 
             {
-                s16 remaining_steps = ((u16)((S_800B14FC_0 *)effect)->unk_22) - 1;
-                (*(u16 *)&((S_800B14FC_0 *)effect)->unk_22) = remaining_steps;
+                s16 remaining_steps = ((S_800B14FC_0 *)effect)->unk_22 - 1;
+                ((S_800B14FC_0 *)effect)->unk_22 = remaining_steps;
                 if ((s16)remaining_steps != 0) {
                     return;
                 }
@@ -488,8 +488,8 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
             }
 
             {
-                u16 remaining_steps = ((u16)((S_800B14FC_0 *)effect)->unk_22) - 1;
-                (*(u16 *)&((S_800B14FC_0 *)effect)->unk_22) = remaining_steps;
+                u16 remaining_steps = ((S_800B14FC_0 *)effect)->unk_22 - 1;
+                ((S_800B14FC_0 *)effect)->unk_22 = remaining_steps;
                 if ((s16)remaining_steps > 0) {
                     return;
                 }

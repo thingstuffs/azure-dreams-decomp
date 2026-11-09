@@ -330,7 +330,7 @@ void update_effect_base_state(s32 effect_or_count) {
     ((S_81844F2C_1 *)page)->unk_52 |= 0x8000;
     position = effect.v->unk_04;
     step = effect.v->unk_0C;
-    effect_or_count = effect.v->unk_2A;
+    effect_or_count = (u16)effect.v->unk_2A;
     position += step;
     effect.v->unk_04 = position;
     position = effect.v->unk_06;
@@ -351,7 +351,7 @@ void update_effect_base_state(s32 effect_or_count) {
                 ((u32 *)((u8 *)effect.v + 0x14))[i] += 0xFFDFDFE0;
             }
         }
-        if ((s16)effect.v->unk_2A > 0) {
+        if (effect.v->unk_2A > 0) {
             return;
         }
         effect.v->unk_2A = 3;
@@ -570,14 +570,14 @@ void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, VecState *m
     motion->y += motion->vy;
     motion->z += motion->vz;
 
-    state = effect->state;
+    state = (s16)effect->state;
     switch (state) {
     case 0:
         timer = effect->timer - 1;
         effect->timer = timer;
         if ((s16)timer <= 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            effect->state = (u16)effect->state + 1;
+            effect->state = effect->state + 1;
         }
         break;
 

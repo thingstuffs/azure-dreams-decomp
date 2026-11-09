@@ -427,9 +427,9 @@ typedef struct S_8002466C_0 {
     s16 unk_42;
     s16 unk_44;
     s16 unk_46;
-    u16 unk_48;
+    s16 unk_48;
     u16 unk_4A;
-    s16 unk_4C;
+    u16 unk_4C;
     u16 unk_4E;
     u16 unk_50;
     u16 unk_52;
@@ -483,7 +483,7 @@ void update_animated_target_effect(void *effect_arg)
     void *display;
 
     owner = effect->unk_00;
-    effect->unk_48 = effect->unk_48 + 1;
+    effect->unk_48 = (u16)effect->unk_48 + 1;
     owner->unk_52 |= 0x8000;
     last_particle = -1;
     state = effect->unk_4C;
@@ -559,9 +559,9 @@ void update_animated_target_effect(void *effect_arg)
     }
     particle_index = last_particle;
 
-    effect->unk_40 = ((effect->unk_48 & 3) << 5) + 0x80;
+    effect->unk_40 = (((u16)effect->unk_48 & 3) << 5) + 0x80;
     effect->unk_42 =
-        (((s32)(effect->unk_48 << 16) >> 18) << 5) + 0x80;
+        (((s32)((u16)effect->unk_48 << 16) >> 18) << 5) + 0x80;
     if (particle_index >= 0) {
         particle_data = build_and_queue_interpolated_vertical_quads_around_five_perimeter_points;
         display = secondary_sprite;

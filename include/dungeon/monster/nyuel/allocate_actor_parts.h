@@ -50,7 +50,6 @@ extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(Body *, s32, s32);
-extern s32 try_move_actor_to_valid_position(void *,void *,void *,void *);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 

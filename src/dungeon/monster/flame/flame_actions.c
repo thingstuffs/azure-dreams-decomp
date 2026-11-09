@@ -26,7 +26,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource06_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = spawn_animated_monster;
-void (*const resource06_slot0_entry1)(u8 *actor, u8 *motion, u8 *entity) = create_anchored_directional_object;
+void (*const resource06_slot0_entry1)(u8 *actor, u8 *motion, SpriteFrameState *entity) = create_anchored_directional_object;
 
 /* Creates a Flame actor with three child display objects and initializes its status and tile placement. */
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
@@ -164,7 +164,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
 }
 
 /* Runs actor callbacks and updates child sprite colors, facing, animation, motion, and ground contact. */
-void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
+void create_anchored_directional_object(u8 *actor, u8 *motion, SpriteFrameState *entity)
 {
     R06_80170BB8_S_80170BB8_1 *subject = (R06_80170BB8_S_80170BB8_1 *)actor;
     s16 state_index;
@@ -304,7 +304,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                 }
             }
 
-            entity_flags = ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14;
+            entity_flags = entity->flags;
             if (!(entity_flags & 0x8000)) {
                 {
                     s32 view_angle;
@@ -317,28 +317,28 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
 
                     if ((*(s16 *)(actor + 0x94)) != (view_dir = (s16)state_index)) {
                         select_indirect_table_entry(entity,
-                                      (*((((R06_80170BB8_S_80170BB8_4 *)entity)->unk_2C) + view_dir)),
-                                      ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_04);
+                                      (*((((u8 *)entity->frameTable)) + view_dir)),
+                                      entity->unk_04);
                         (*(s16 *)(actor + 0x94)) = state_index;
                     }
 
                     if (D_8006CCF8[view_dir] != 0) {
-                        ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14 |= 1;
+                        entity->flags |= 1;
                     } else {
-                        ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14 &= 0xFFFE;
+                        entity->flags &= 0xFFFE;
                     }
                 }
 
                 if ((*(actor + 0x9A)) != 8) {
-                    apply_monster_koyaw_data(subject->unk_1C.s, entity + 0xC);
+                    apply_monster_koyaw_data(subject->unk_1C.s, (u8 *)entity + 0xC);
                 }
 
                 if (!(subject->unk_1C.s & 0x20)) {
-                    if (!(((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14 & 0x40)) {
+                    if (!(entity->flags & 0x40)) {
                         advance_sprite_animation_and_textures(entity);
                     }
                 } else {
-                    ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14 |= 0x7000;
+                    entity->flags |= 0x7000;
                     subject->unk_1C.u &= 0xFFFBFFFF;
                 }
 
@@ -346,8 +346,8 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                 subject_flags = subject->unk_1C.u;
 
                 if (subject_flags & 0x00040000) {
-                    if (!(((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14 & 0x40) &&
-                        ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_2C == flame_direction_frames) {
+                    if (!(entity->flags & 0x40) &&
+                        ((u8 *)entity->frameTable) == flame_direction_frames) {
                         u16 bob_frame = (*(u16 *)(actor + 0xB8));
 
                         (*(u16 *)(actor + 0xB8)) = bob_frame + 1;
@@ -409,9 +409,9 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                 }
             } else {
                 if (entity_flags & 0x800) {
-                    ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14 = entity_flags & 0x8FFF;
+                    entity->flags = entity_flags & 0x8FFF;
                 } else {
-                    ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14 = entity_flags | 0x7000;
+                    entity->flags = entity_flags | 0x7000;
                 }
 
                 subject->unk_1C.u &= 0xF7FFFFFF;
@@ -437,8 +437,8 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                     }
                     subject_flags = subject->unk_1C.u;
                 } else {
-                    if (!(((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14 & 0x40) &&
-                        ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_2C == flame_direction_frames) {
+                    if (!(entity->flags & 0x40) &&
+                        ((u8 *)entity->frameTable) == flame_direction_frames) {
                         u16 bob_frame = (*(u16 *)(actor + 0xB8));
 
                         (*(u16 *)(actor + 0xB8)) = bob_frame + 1;
@@ -472,8 +472,8 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
             }
             if (subject_flags & 0x40000000) {
                 subject->unk_1C.u = subject_flags & 0xBFFFFFFF;
-                ground_height = sample_terrain_surface_height((((R06_80170BB8_S_80170BB8_4 *)entity)->unk_24 << 6) | 0x20,
-                                       (((R06_80170BB8_S_80170BB8_4 *)entity)->unk_25 << 6) | 0x20,
+                ground_height = sample_terrain_surface_height(((u8)entity->tile_x << 6) | 0x20,
+                                       (entity->tile_y << 6) | 0x20,
                                        (s16)(subject->unk_88 - 0x20));
                 if ((s16)ground_height < 0x200) {
                     (*(u16 *)(actor + 0x92)) +=
@@ -485,7 +485,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
             ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_0A = subject->unk_88 +
                                       (*(u16 *)(actor + 0x92)) -
                                       (*(u16 *)(actor + 0xB6));
-            ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_14 |= 0x40;
+            entity->flags |= 0x40;
         }
     }
 
@@ -678,7 +678,7 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
 }
 
 /* Advances one stored path step, updates occupied tiles and facing, and sets the movement delay. */
-void update_actor_object_motion(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state)
+void update_actor_object_motion(void *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *path_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -687,10 +687,10 @@ void update_actor_object_motion(void *motion, ObjectPosition *unused, SpriteFram
     s32 new_y;
     s32 tile_mask;
 
-    if (((R06_80171964_S_8017169C_0 *)path_state)->unk_71.s <= 0) {
+    if ((s8)path_state->movement_queue_state <= 0) {
         return;
     }
-    if (((R06_80171964_S_8017169C_0 *)path_state)->unk_71.u <= ((R06_80171964_S_8017169C_0 *)path_state)->unk_8A.s) {
+    if (path_state->movement_queue_state <= path_state->unk_8A) {
         return;
     }
 
@@ -699,36 +699,36 @@ void update_actor_object_motion(void *motion, ObjectPosition *unused, SpriteFram
         (actor->frameTable) = flame_direction_frames;
         select_sprite_entry(
             actor,
-            flame_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_80171964_S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            flame_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + path_state->facing + 0x100) >> 9) & 7],
             0);
     }
 
     old_x = actor->tile_x;
     old_y = actor->tile_y;
     tile_mask = 0x3000;
-    if (((R06_80171964_S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
+    if (path_state->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
     actor->tile_x =
-        ((R06_80171964_S_8017169C_3 *)((u8 *)path_state + ((R06_80171964_S_8017169C_0 *)path_state)->unk_8A.s))->unk_74;
+        path_state->path_x[path_state->unk_8A];
     actor->tile_y =
-        ((R06_80171964_S_8017169C_3 *)((u8 *)path_state + ((R06_80171964_S_8017169C_0 *)path_state)->unk_8A.s))->unk_7C;
-    ((R06_80171964_S_8017169C_0 *)path_state)->unk_8A.u++;
+        path_state->path_y[path_state->unk_8A];
+    path_state->unk_8A++;
 
     new_x = actor->tile_x;
     new_y = actor->tile_y;
     tile_mask = 0x3000;
-    if (((R06_80171964_S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
+    if (path_state->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     cycle_map_cell_flags(new_x, new_y, tile_mask);
 
-    ((R06_80171964_S_8017169C_0 *)path_state)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
+    path_state->facing = ((s16)get_rounded_facing_and_rounding_flag(
         old_x, old_y, actor->tile_x, actor->tile_y,
         (u8 *)motion + 0x98));
-    ((R06_80171964_S_8017169C_0 *)path_state)->unk_1C.u |= 0x40000000;
+    path_state->flags1C |= 0x40000000;
     ((R06_80171964_S_8017169C_2 *)motion)->unk_9A = 0xF;
     (*(s32 *)((u8 *)motion + 0x8C)) = 0;
 
@@ -739,7 +739,7 @@ void update_actor_object_motion(void *motion, ObjectPosition *unused, SpriteFram
 
     ((R06_80171964_S_8017169C_2 *)motion)->unk_96 = 8;
     {
-        s32 step_count = ((R06_80171964_S_8017169C_0 *)path_state)->unk_71.u;
+        s32 step_count = path_state->movement_queue_state;
         if (step_count > 0) {
             ((R06_80171964_S_8017169C_2 *)motion)->unk_96 = 8 / step_count;
         }
@@ -1386,12 +1386,12 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
             dir_step_x[direction] << 14;
         motion->velocity_y -=
             dir_step_y[direction] << 14;
-        if ((s16)(action->action_timer) > 0) {
+        if ((s16)action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (tile_state->flags & 0x6000) {
             action->action_timer = 0;
         }
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -1407,7 +1407,7 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
         return;
 
     case 2:
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             {
                 s32 target_coord = tile_state->tile_x << 6;
                 s32 current_coord = motion->x.w.i - 0x20;
@@ -2737,9 +2737,9 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
                 return;
             }
             target_color = (R06_80175270_S_80175270_3 *)((u8 **)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
-            work->unk_A8 += (target_color->unk_00 - work->unk_A8) / (s16)(action->action_timer);
-            work->unk_A9 += (target_color->unk_01 - work->unk_A9) / (s16)(action->action_timer);
-            work->unk_AA += (target_color->unk_02 - work->unk_AA) / (s16)(action->action_timer);
+            work->unk_A8 += (target_color->unk_00 - work->unk_A8) / (s16)action->action_timer;
+            work->unk_A9 += (target_color->unk_01 - work->unk_A9) / (s16)action->action_timer;
+            work->unk_AA += (target_color->unk_02 - work->unk_AA) / (s16)action->action_timer;
             return;
         }
 
@@ -2841,7 +2841,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
         {
 
             action->action_timer--;
-            if ((s16)(action->action_timer) > 0) {
+            if ((s16)action->action_timer > 0) {
                 return;
             }
             ((R06_80175270_S_80175270_9 *)actor->target)->unk_2A = (u16)actor->unk_8A;

@@ -297,7 +297,7 @@ s32 process_linked_record_values(void *object, s32 x, s32 initial_value);
 void queue_adjacent_shaded_quads(struct Func800AB788Arg *strip);
 
 /* radial_motion_effect_g00586.c */
-void *create_reverse_motion_effect(struct S_800A878C_2 *source_motion, u32 flags);
+void *create_reverse_motion_effect(struct StackRecord *source_motion, u32 flags);
 void spawn_radial_effect_objects(MovingPosition *center, struct S_800A895C_1 *spread, s32 count);
 
 /* randomized_position_effect_g00585.c */

@@ -55,7 +55,7 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
                         /* fallthrough */
 
     case 1:
-        hop_frames = (s16)(action->unk_9E);
+        hop_frames = action->unk_9E;
         action->unk_90.value =
             action->unk_90.value - action->unk_A0.value;
         if (hop_frames != 0) {
@@ -68,13 +68,13 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
                 (((sprite->tile_y << 6) -
                   (tile_origin_y = motion->y.w.i - 0x20)) <<
                  0x10) /
-                (s16)(action->unk_9E);
+                action->unk_9E;
             action->unk_A0.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 9;
+                (-rsin(action->unk_9E * 0x199)) << 9;
         }
         action->unk_90.value =
             action->unk_90.value + action->unk_A0.value;
-        next_hop_frame = action->unk_9E - 1;
+        next_hop_frame = (u16)action->unk_9E - 1;
         action->unk_9E = next_hop_frame;
         if ((s16)next_hop_frame < 0) {
             action->unk_90.value = 0;

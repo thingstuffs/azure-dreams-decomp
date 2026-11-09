@@ -189,8 +189,8 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
     if (entity->action_state_flags & 8) {
         entity->unk_9D = 0;
     } else {
-        motion->velocity_z += (s8)entity->unk_9D * 0x14000;
-        entity->unk_9D = (u8)entity->unk_9D + 1;
+        motion->velocity_z += (entity->unk_9D) * 0x14000;
+        entity->unk_9D = entity->unk_9D + 1;
     }
     entity->unk_90.value += motion->velocity_z;
 
@@ -977,7 +977,7 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         action->action_phase++;
 
     case 1:
-        move_ticks = (s16)(action->unk_A8);
+        move_ticks = (s16)action->unk_A8;
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -991,10 +991,10 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                (s16)(action->unk_A8);
+                (s16)action->unk_A8;
 
             action->unk_A4.value =
-                (-rsin((s16)(action->unk_A8) * 0x199)) << 10;
+                (-rsin((s16)action->unk_A8 * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;

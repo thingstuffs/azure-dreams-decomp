@@ -15,7 +15,7 @@ typedef struct S_800A51CC_0 {
         struct { u16 v; } at00u;
         struct { u8 pad[0x2]; u16 v; } at02;
     } unk_10;   /* overlapping accesses */
-    u16 unk_14;
+    s16 unk_14;
     u8 pad_16[0x2];
     s32 unk_18;
     u8 pad_1C[0x4];
@@ -36,7 +36,7 @@ void update_current_and_saved_coordinates(S_800A51CC_0 *object)
     if ((position_pair != *(s32 *)&reference->view.view_offset.words[0]) ||
         (object->unk_04 != reference->view.view_offset.parts.view_offset_z)) {
         if ((position_pair != object->unk_10.at00.v) ||
-            (object->unk_04 != ((s16)object->unk_14))) {
+            (object->unk_04 != object->unk_14)) {
             object->unk_18 = 9;
             object->unk_20 = interpolate_view_components;
             return;

@@ -8,12 +8,12 @@
 typedef struct SceneActionEntry {
     u8 pad_00[0x18];
     s16 unk_18;
-} UnkStruct;
+} SceneActionEntry;
 
 extern s16 D_80018CFA[5];
 
 /* Initializes the object and selects follow-up actions from status checks. */
-s32 initialize_scene_action_state(UnkStruct *object, s32 value) {
+s32 initialize_scene_action_state(SceneActionEntry *object, s32 value) {
     s32 status;
 
     store_scene_value_pair(object, value);

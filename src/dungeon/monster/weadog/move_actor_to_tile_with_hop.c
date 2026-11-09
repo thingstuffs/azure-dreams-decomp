@@ -53,7 +53,7 @@ void move_actor_to_tile_with_hop(void *action, ObjectPosition *motion, SpriteFra
         ((ActorRecord *)action)->action_phase++;
 
     case 1:
-        move_ticks = (s16)((ActorRecord *)action)->unk_9E;
+        move_ticks = ((ActorRecord *)action)->unk_9E;
         ((ActorRecord *)action)->unk_90.value -= ((ActorRecord *)action)->unk_A0.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -66,9 +66,9 @@ void move_actor_to_tile_with_hop(void *action, ObjectPosition *motion, SpriteFra
             pos_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                (s16)((ActorRecord *)action)->unk_9E;
+                ((ActorRecord *)action)->unk_9E;
             ((ActorRecord *)action)->unk_A0.value =
-                (-rsin((s16)((ActorRecord *)action)->unk_9E * 0x199)) << 10;
+                (-rsin(((ActorRecord *)action)->unk_9E * 0x199)) << 10;
         }
 
         ((ActorRecord *)action)->unk_90.value += ((ActorRecord *)action)->unk_A0.value;

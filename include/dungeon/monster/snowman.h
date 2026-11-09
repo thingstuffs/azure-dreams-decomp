@@ -311,10 +311,6 @@ typedef struct R10_80174670_S_80174800_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } R10_80174670_S_80174800_0_pre;
-typedef struct R10_80174670_S_80174800_0 {
-    u8 pad_00[0x5C];
-    void * unk_5C;
-} R10_80174670_S_80174800_0;
 typedef struct R10_80174670_S_80174800_1_pre {
     void * unk_00;
     void * unk_04;
@@ -329,15 +325,6 @@ typedef struct R10_80174670_S_80174800_3 {
     u8 pad_00[0xA];
     s16 unk_0A;
 } R10_80174670_S_80174800_3;
-typedef struct R10_80174670_S_80174800_4 {
-    u8 pad_00[0x26];
-    u8 unk_26;
-    u8 pad_27[0x3];
-    s16 unk_2A;
-    u8 pad_2C[0x58];
-    s8 unk_84;
-    s8 unk_85;
-} R10_80174670_S_80174800_4;
 typedef struct R10_80174898_S_80174898_0 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
@@ -625,7 +612,7 @@ void settle_snowman_on_tile(ActorRecord *state, ObjectPosition *motion, SpriteFr
 void create_positioned_sprite_effect(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void fade_in_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s32 target_y, s32 target_height);
-void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s32 tile_y, s16 target_height);
+void prepare_directional_attacks_for_neighbor_entities(ActorRecord *node, s32 tile_x, s32 tile_y, s16 target_height);
 void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position, R10_80174BE4_Entry *entry, s32 unused);

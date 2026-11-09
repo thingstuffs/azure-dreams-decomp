@@ -9,7 +9,7 @@ typedef struct S_800251E8_0_pre {
 typedef struct S_800251E8_0 {
     void * unk_00;
     u16 unk_04;
-    u16 unk_06;
+    s16 unk_06;
     u16 unk_08;
 } S_800251E8_0;   /* object in func_800251E8 */
 
@@ -40,28 +40,28 @@ void update_timed_particle_arrays(void *object_data)
     switch (state) {
     case 0:
         ((S_800251E8_0 *)object)->unk_08 -= 0xC0;
-        if (((s16)((S_800251E8_0 *)object)->unk_06) < 8) {
+        if (((S_800251E8_0 *)object)->unk_06 < 8) {
             break;
         }
         ((S_800251E8_0 *)object)->unk_06 = 0;
         ((S_800251E8_0 *)object)->unk_04++;
         break;
     case 1:
-        if (((s16)((S_800251E8_0 *)object)->unk_06) < 12) {
+        if (((S_800251E8_0 *)object)->unk_06 < 12) {
             break;
         }
         ((S_800251E8_0 *)object)->unk_06 = 0;
         ((S_800251E8_0 *)object)->unk_04++;
         break;
     case 2:
-        if (((s16)((S_800251E8_0 *)object)->unk_06) < 4) {
+        if (((S_800251E8_0 *)object)->unk_06 < 4) {
             break;
         }
         ((S_800251E8_0 *)object)->unk_06 = 0;
         ((S_800251E8_0 *)object)->unk_04++;
         break;
     case 3:
-        if (((s16)((S_800251E8_0 *)object)->unk_06) < 8) {
+        if (((S_800251E8_0 *)object)->unk_06 < 8) {
             break;
         }
         ((S_800251E8_0 *)object)->unk_06 = 0;

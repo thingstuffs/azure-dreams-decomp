@@ -6,6 +6,7 @@
 #include "shared/town_handler.h"
 #include "town/player/object.h"
 #include "town.h"
+#include "town/player/state.h"
 
 typedef struct SceneActionReset {
      s8 unk0[4];

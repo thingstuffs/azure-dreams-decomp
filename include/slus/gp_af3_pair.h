@@ -34,7 +34,6 @@ extern void wait_until_sound_idle(void);
 extern void func_80044698(void);
 extern s32 load_sound_set(s16 state_index);
 extern s32 func_8004450C(s16 mode);
-extern s32 Control_CD(s32 a0, void *a1, s32 a2);
 extern void drain_cd_command_queue(void);
 extern short SD_Call(int a0);
 
@@ -57,7 +56,6 @@ extern S_8006E6F4 sound_set_resources[];
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
 
-extern int Control_CD(int a0, void *a1, int a2);
 extern void DrawSync(s32 a0);
 extern void drain_cd_command_queue(void);
 extern void set_sound_payload_slot(int a0);

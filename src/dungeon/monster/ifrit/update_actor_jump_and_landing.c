@@ -45,7 +45,7 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
 
     switch (phase) {
     case 0:
-        if ((s16)(motion->action_timer) < 8) {
+        if ((s16)motion->action_timer < 8) {
             motion->action_state_flags |= 8;
             position->velocity_z = 0xFFEE0000;
             actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -55,7 +55,7 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
         }
         break;
     case 1:
-        frames_left = (s16)(motion->action_timer);
+        frames_left = (s16)motion->action_timer;
         motion->unk_90.value -= motion->unk_A0.value;
         if (frames_left != 0) {
             {
@@ -72,12 +72,12 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
             current_y = position->y.w.i - 0x20;
             position->velocity_y =
                 (((sprite->tile_y << 6) - current_y) << 16) /
-                (s16)(motion->action_timer);
+                (s16)motion->action_timer;
             motion->unk_A0.value += position->velocity_z;
             position->velocity_z += 0x40000;
         }
         motion->unk_90.value += motion->unk_A0.value;
-        if ((s16)(motion->action_timer) < 3) {
+        if ((s16)motion->action_timer < 3) {
             motion->unk_90.value = 0;
             motion->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
@@ -136,6 +136,6 @@ void update_actor_jump_and_landing(ActorRecord *motion, ObjectPosition *position
         motion->unk_8C.address = &ifrit_action_resume_address;
         on_actor_status_updated(actor);
     }
-    sprite->scale_x = frame_path.point[(s16)(motion->action_timer)].x;
-    sprite->scale_y = frame_path.point[(s16)(motion->action_timer)].y;
+    sprite->scale_x = frame_path.point[(s16)motion->action_timer].x;
+    sprite->scale_y = frame_path.point[(s16)motion->action_timer].y;
 }

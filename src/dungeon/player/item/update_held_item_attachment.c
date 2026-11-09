@@ -81,7 +81,7 @@ void update_held_item_attachment(void *effect, ObjectPosition *position, SpriteF
     switch (state) {
     case 0:
         ((S_8008D470_0 *)effect)->unk_A4 = 6;
-        ((S_8008D470_0 *)effect)->unk_A2 = ((u16)((S_8008D470_0 *)effect)->unk_A2) + 1;
+        ((S_8008D470_0 *)effect)->unk_A2 = ((S_8008D470_0 *)effect)->unk_A2 + 1;
     case 1:
         source_sprite = ((S_8008D470_0 *)effect)->unk_90;
         if (resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &offsets, 0) != 0 &&((PlayerRecord *)dungeon_actor_ring_anchor)->unk_124 != 0) {

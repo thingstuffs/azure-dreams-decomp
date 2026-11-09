@@ -99,7 +99,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
             - green) / (s16)state->action_timer));
         sprite->color.c.b = (u8) (blue + ((s32) (0x20
             - blue) / (s16)state->action_timer));
-        fade_ticks = (u16)state->action_timer - 1;
+        fade_ticks = state->action_timer - 1;
         state->action_timer = fade_ticks;
         if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((sprite->flags & 0x8000) != 0))) {
             if (!(((ActorRecord *)entity)->flags14 & 0x20000000)) {
@@ -165,7 +165,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         sprite->scale_y = (u16) (scale_y
             - ((s32) scale_y / (s16)state->action_timer));
         ((S_800AD058_1 *)sprite)->unk_27 = (u8) (((S_800AD058_1 *)sprite)->unk_27 + 1);
-        spiral_ticks = (u16)state->action_timer - 1;
+        spiral_ticks = state->action_timer - 1;
         state->action_timer = spiral_ticks;
         finished = 0;
         if ((spiral_ticks << 0x10) <= 0) {

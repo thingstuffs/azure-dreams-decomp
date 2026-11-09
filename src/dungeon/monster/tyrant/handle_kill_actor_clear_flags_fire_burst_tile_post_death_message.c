@@ -2,9 +2,11 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/system.h"
+#include "dungeon/item.h"
 
 /* Kill the actor: clear its flags, fire the burst at its tile and post its death message. */
-void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, ObjectPosition *part_a, SpriteFrameState *part_b_in, ActorRecord *actor) {
+void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(ActorRecord *work_in, ObjectPosition *part_a, SpriteFrameState *part_b_in, ActorRecord *actor) {
     s32 burst;
     void *handle;
     void *msg;
@@ -15,10 +17,12 @@ void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work
     u8 call_a1;
     s32 call_flags;
     T_80173AD4_S_80173AD4_2 *work;
+    void *work_arg;
     SpriteFrameState *part_b;
 
     flags71 = actor->movement_queue_state;
-    work = work_in;
+    work_arg = work_in;
+    work = work_arg;
     actor->movement_queue_state = flags71 & 0x7F;
     part_b = part_b_in;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
@@ -28,7 +32,7 @@ void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work
         work->unk_96 = 0;
         if (!(work->unk_98 & 0x8000)) {
             work->unk_A6 = (u16) part_b->clut;
-            work->unk_AA = (s16) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_14 & 7);
+            work->unk_AA = (s16) (actor->flags14 & 7);
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         actor->pending_turn_updates = (u8) (actor->pending_turn_updates - 1);

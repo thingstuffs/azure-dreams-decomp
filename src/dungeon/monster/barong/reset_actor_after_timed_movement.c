@@ -95,7 +95,7 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
 
                 motion->velocity_y =
                     ((target_coord - current_coord) << 16) /
-                    (s16)(action->action_timer);
+                    (s16)action->action_timer;
             }
         }
         old_timer = action->action_timer;

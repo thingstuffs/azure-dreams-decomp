@@ -123,15 +123,15 @@ void advance_effect_toward_target(ParentReturnEffectBody *effect, ObjectPosition
 
 /* Moves the effect with halved velocity each frame, fades its color, and removes it when its timer
  * expires. */
-void advance_damped_motion_and_fade_effect(FadeEffect *effect,EffectMotion *motion) {
+void advance_damped_motion_and_fade_effect(FadeEffect *effect,ObjectPosition *motion) {
  s32 red,green,blue;
  s16 remaining;
- motion->x+=motion->dx;
- motion->y+=motion->dy;
- motion->z+=motion->dz;
- motion->dx/=2;
- motion->dy/=2;
- motion->dz/=2;
+ motion->x.v+=motion->velocity_x;
+ motion->y.v+=motion->velocity_y;
+ motion->z.v+=motion->velocity_z;
+ motion->velocity_x/=2;
+ motion->velocity_y/=2;
+ motion->velocity_z/=2;
  red=effect->base_color.c.r*effect->remaining;
  effect->current.color.red=red/effect->total;
  green=effect->base_color.c.g*effect->remaining;

@@ -88,7 +88,7 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
                 /* fallthrough */
     case 1:
         body->unk_90.value -= body->unk_A0.value;
-        if ((s16)(body->unk_9E) != 0) {
+        if (body->unk_9E != 0) {
             s32 target_x;
             s32 x_origin;
             s32 x_velocity;
@@ -97,16 +97,16 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
             target_x = sprite->tile_x << 6;
             x_origin = motion->x2 - 0x20;
             x_velocity = ((target_x - x_origin) << 16) /
-                         (s16)(body->unk_9E);
+                         body->unk_9E;
             y_origin = motion->y6 - 0x20;
             motion->dxC = x_velocity;
             motion->dy10 = (((sprite->tile_y << 6) - y_origin) << 16) /
-                         (s16)(body->unk_9E);
-            body->unk_A0.value = -rsin((s16)(body->unk_9E) * 0x199) << 9;
+                         body->unk_9E;
+            body->unk_A0.value = -rsin(body->unk_9E * 0x199) << 9;
         }
         body->unk_90.value += body->unk_A0.value;
         body->unk_9E--;
-        if ((s16)(body->unk_9E) < 0) {
+        if (body->unk_9E < 0) {
             body->action_state_flags &= 0xFFF7;
             body->unk_90.value = 0;
             entity->flags1C |= ACTOR_GROUNDED;
@@ -133,7 +133,7 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
 
 end_state:
     body->action_timer--;
-    if ((s16)(body->action_timer) > 0) {
+    if ((s16)body->action_timer > 0) {
         return;
     }
 

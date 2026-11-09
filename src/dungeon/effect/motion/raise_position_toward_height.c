@@ -514,7 +514,7 @@ typedef struct S_func_8190B2D0_0 {
     u8 pad_C[0x6C];
     u16 unk_78;
     u8 unk_7A;
-    u8 unk_7B;
+    s8 unk_7B;
     u8 pad_7C[0x2];
     s16 unk_7E;
     u8 pad_80[0x2];
@@ -808,7 +808,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             sprite->scale_x = 0;
             return;
         }
-        frames_left = effect->unk_7B - 1;
+        frames_left = (u8)effect->unk_7B - 1;
         effect->unk_7B = frames_left;
         if ((s8)frames_left <= 0) {
             if (owner->unk_60 != 0) {

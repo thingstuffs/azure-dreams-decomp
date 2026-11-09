@@ -73,7 +73,7 @@ typedef struct {
 } Part;
 typedef struct RotatingCountdownSpriteBody {
     u8 pad_00[0x2A];
-    u16 ticks_remaining;
+    s16 ticks_remaining;
 } RotatingCountdownSpriteBody;
 
 /* The minigame consumer keeps this legacy spelling while the dungeon body uses the full type. */
@@ -150,16 +150,16 @@ typedef struct TintParticleSequence {
     u16 attachment_x;
     u16 attachment_y;
     u16 attachment_z;
-    u16 previous_x;
-    u16 previous_y;
-    u16 previous_z;
+    s16 previous_x;
+    s16 previous_y;
+    s16 previous_z;
     s16 midpoint_x;
     s16 midpoint_y;
     s16 midpoint_z;
     u8 pad_1E[2];
     s16 timer;
     u8 pad_22[4];
-    u16 facing;
+    s16 facing;
     u8 pad_28[2];
     u16 tick;
     u8 pad_2C[0x38];

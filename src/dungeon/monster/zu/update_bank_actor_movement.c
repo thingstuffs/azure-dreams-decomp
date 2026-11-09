@@ -177,7 +177,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
 
     if (!(entity->flags1C & 0x40000) &&
         !(entity->action_state_flags & 8)) {
-        motion_arg->velocity_z += (s8)entity->unk_9D * 0x14000;
+        motion_arg->velocity_z += (entity->unk_9D) * 0x14000;
         entity->unk_9D++;
     } else {
         entity->unk_9D = 0;
@@ -222,14 +222,14 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
             if (!(sprite_arg->flags & 0x40)) {
                 {
                     s32 bob_wave = rsin(
-                        (entity->unk_A0.halves.low.s << 12) / 40);
+                        ((s16)entity->unk_A0.parts.low << 12) / 40);
                     if (entity->action_id == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
                     }
                 }
-                entity->unk_A0.parts.low = (entity->unk_A0.halves.low.s + 1) % 40;
+                entity->unk_A0.parts.low = ((s16)entity->unk_A0.parts.low + 1) % 40;
             }
 
             if (!(entity->action_state_flags & 8)) {
@@ -289,14 +289,14 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
             if (!(sprite_arg->flags & 0x40)) {
                 {
                     s32 bob_wave = rsin(
-                        (entity->unk_A0.halves.low.s << 12) / 40);
+                        ((s16)entity->unk_A0.parts.low << 12) / 40);
                     if (entity->action_id == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
                     }
                 }
-                entity->unk_A0.parts.low = (entity->unk_A0.halves.low.s + 1) % 40;
+                entity->unk_A0.parts.low = ((s16)entity->unk_A0.parts.low + 1) % 40;
             }
 
             if (!(entity->action_state_flags & 8)) {

@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "town/player/motion.h"
 #include "shared/sprite_frame_state.h"
+#include "town/player/state.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

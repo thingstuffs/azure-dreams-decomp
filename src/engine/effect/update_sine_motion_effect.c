@@ -13,7 +13,7 @@
 /* Advances a triggered sprite through curved and oscillating motion, then detaches it from its parent. */
 void update_sine_motion_effect(
     EffectState800517CC *effect,
-    VecState800517CC *motion,
+    ObjectPosition *motion,
     SpriteFrameState *color)
 {
     u32 state_index;
@@ -37,18 +37,18 @@ void update_sine_motion_effect(
         }
         return;
     case 2:
-        motion->x = 0x01A00000 - ((rsin((s16)effect->timer << 4) >> 4) << 16);
-        motion->y = ((rcos((s16)effect->timer << 4) >> 4) << 14) + 0x00200000;
+        motion->x.v = 0x01A00000 - ((rsin((s16)effect->timer << 4) >> 4) << 16);
+        motion->y.v = ((rcos((s16)effect->timer << 4) >> 4) << 14) + 0x00200000;
         if ((s16)effect->timer >= 0x40) {
             effect->timer = 0;
             effect->state = (u16)effect->state + 1;
         }
         return;
     case 3:
-        motion->x = 0x00C00000 - ((rcos((s16)effect->timer << 5) >> 4) << 13);
-        motion->y = ((rsin((s16)effect->timer << 5) >> 4) << 12) + 0x00200000;
+        motion->x.v = 0x00C00000 - ((rcos((s16)effect->timer << 5) >> 4) << 13);
+        motion->y.v = ((rsin((s16)effect->timer << 5) >> 4) << 12) + 0x00200000;
         if ((s16)effect->timer >= 0x20) {
-            motion->z = 0x00800000;
+            motion->z.v = 0x00800000;
             effect->wait = (rand() % 64) + 0x20;
             effect->timer = 0;
             effect->state = (u16)effect->state + 1;
@@ -78,17 +78,17 @@ void update_sine_motion_effect(
 
         cos_value = rcos(((s16)effect->timer + 0x100) << 3) >> 4;
         accel = (cos_value * 3) << 11;
-        displacement = motion->x;
+        displacement = motion->x.v;
         center_offset = (s32)0xFF280000;
         displacement += center_offset;
         accel -= displacement;
         round_bias = (s32)((u32)accel >> 31);
         accel += round_bias;
         accel >>= 1;
-        next_vx = motion->vx + accel;
-        next_x = motion->x + next_vx;
-        motion->vx = next_vx;
-        motion->x = next_x;
+        next_vx = motion->velocity_x + accel;
+        next_x = motion->x.v + next_vx;
+        motion->velocity_x = next_vx;
+        motion->x.v = next_x;
     }
 
         {
@@ -101,17 +101,17 @@ void update_sine_motion_effect(
 
             accel = rcos((s16)effect->timer << 3) >> 4;
             accel <<= 10;
-            displacement = motion->y;
+            displacement = motion->y.v;
             center_offset = (s32)0xFFD40000;
             displacement += center_offset;
             accel -= displacement;
             round_bias = (s32)((u32)accel >> 31);
             accel += round_bias;
             accel >>= 1;
-            next_vy = motion->vy + accel;
-            next_y = motion->y + next_vy;
-            motion->vy = next_vy;
-            motion->y = next_y;
+            next_vy = motion->velocity_y + accel;
+            next_y = motion->y.v + next_vy;
+            motion->velocity_y = next_vy;
+            motion->y.v = next_y;
         }
 
         if ((s16)effect->timer >= 0x100) {
@@ -137,17 +137,17 @@ void update_sine_motion_effect(
 
         cos_value = rcos((s16)effect->timer << 4) >> 4;
         accel = (cos_value * 3) << 11;
-        displacement = motion->x;
+        displacement = motion->x.v;
         center_offset = (s32)0xFF280000;
         displacement += center_offset;
         accel -= displacement;
         round_bias = (s32)((u32)accel >> 31);
         accel += round_bias;
         accel >>= 1;
-        next_vx = motion->vx + accel;
-        next_x = motion->x + next_vx;
-        motion->vx = next_vx;
-        motion->x = next_x;
+        next_vx = motion->velocity_x + accel;
+        next_x = motion->x.v + next_vx;
+        motion->velocity_x = next_vx;
+        motion->x.v = next_x;
     }
 
         {
@@ -160,17 +160,17 @@ void update_sine_motion_effect(
 
             accel = rcos(((s16)effect->timer + 0x80) << 4) >> 4;
             accel <<= 10;
-            displacement = motion->y;
+            displacement = motion->y.v;
             center_offset = (s32)0xFFD40000;
             displacement += center_offset;
             accel -= displacement;
             round_bias = (s32)((u32)accel >> 31);
             accel += round_bias;
             accel >>= 1;
-            next_vy = motion->vy + accel;
-            next_y = motion->y + next_vy;
-            motion->vy = next_vy;
-            motion->y = next_y;
+            next_vy = motion->velocity_y + accel;
+            next_y = motion->y.v + next_vy;
+            motion->velocity_y = next_vy;
+            motion->y.v = next_y;
         }
 
         if ((s16)effect->timer >= 0x80) {
@@ -186,8 +186,8 @@ void update_sine_motion_effect(
         }
         return;
     case 7:
-        motion->x += (s32)0xFFF40000;
-        motion->y += 0x00020000;
+        motion->x.v += (s32)0xFFF40000;
+        motion->y.v += 0x00020000;
         if ((s16)effect->timer < 0x40) {
             return;
         }

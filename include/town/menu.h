@@ -50,6 +50,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
 s16 *get_cached_catalog_glyph(s16 char_code);
 void initialize_menu_overlay_objects(u8 *owner, s32 value);
 void initialize_randomized_scale_timer(TownObjectRecord *object, void *unused_state, void *unused_context);
+void update_opposing_scale_effect(TownObjectRecord *state, s32 unused_1, SpriteFrameState *scale, s32 unused_3);
 u8 is_catalog_entry_available(s32 index);
 void no_op_callback_a(void *unused_ptr, s32 unused_state_id, s32 unused_state_arg);
 s32 store_record_value_and_table_lookup(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);

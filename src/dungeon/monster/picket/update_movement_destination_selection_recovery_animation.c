@@ -73,7 +73,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
     case 1:
         if (!(sprite->flags & 0x8000)) {
             state->action_timer--;
-            if ((s16)(state->action_timer) > 0) {
+            if ((s16)state->action_timer > 0) {
                 return;
             }
         }
@@ -164,14 +164,14 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
 
     case 5:
         {
-            sprite->scale_x = D_80174FC4[(s16)(state->action_timer)];
-            sprite->scale_y = D_80174FD4[(s16)(state->action_timer)];
-            if ((s16)(state->action_timer) == 4) {
+            sprite->scale_x = D_80174FC4[(s16)state->action_timer];
+            sprite->scale_y = D_80174FD4[(s16)state->action_timer];
+            if ((s16)state->action_timer == 4) {
                 play_sound_if_enabled(0x705);
             }
             if (!(sprite->flags & 0x8000)) {
                 state->action_timer++;
-                if ((s16)(state->action_timer) < 8) {
+                if ((s16)state->action_timer < 8) {
                     return;
                 }
             }

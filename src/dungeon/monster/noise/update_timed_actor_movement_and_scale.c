@@ -48,7 +48,7 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
             motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y = (((sprite->tile_y << 6) - current_y) << 16) /
-                               (s16)(state->unk_9E);
+                               state->unk_9E;
             frames_left = (state->unk_9E);
             state->unk_A4.value = (-rsin(frames_left * 0x199)) << 9;
         }

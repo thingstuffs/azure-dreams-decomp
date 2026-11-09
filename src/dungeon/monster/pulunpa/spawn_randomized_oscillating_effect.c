@@ -66,10 +66,10 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *moti
             target_delta = sprite->tile_y << 6;
             target_delta -= axis_pos;
             motion_arg->velocity_y =
-                (target_delta << 16) / (s16)(body->unk_9E);
+                (target_delta << 16) / body->unk_9E;
 
             body->unk_A0.value =
-                (-rsin((s16)(body->unk_9E) * 409)) << 9;
+                (-rsin(body->unk_9E * 409)) << 9;
         }
 
         body->unk_90.value += body->unk_A0.value;

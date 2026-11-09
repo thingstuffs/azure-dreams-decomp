@@ -92,8 +92,8 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
             + motion_arg->velocity_y);
         if (!(actor_arg->flags1C & 0x40000) && !(actor_arg->action_state_flags & 8)) {
             motion_arg->velocity_z = (s32) (motion_arg->velocity_z
-                + ((s8)(actor_arg->unk_9D) * 0x14000));
-            actor_arg->unk_9D = (u8) (actor_arg->unk_9D + 1);
+                + ((actor_arg->unk_9D) * 0x14000));
+            actor_arg->unk_9D =  (actor_arg->unk_9D + 1);
         } else {
             actor_arg->unk_9D = 0;
         }
@@ -166,7 +166,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                             actor_arg->unk_A8 = 0;
                         }
                     }
-                    bob_offset = rsin(((s16)(actor_arg->unk_A8) << 0xC) / 20) >> 0xA;
+                    bob_offset = rsin(((s16)actor_arg->unk_A8 << 0xC) / 20) >> 0xA;
                     actor_arg->unk_A8 = (s16) ((u16) actor_arg->unk_A8 + 1);
                 }
                 if (!(actor_arg->action_state_flags & 8)) {
@@ -263,7 +263,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                             actor_arg->unk_A8 = 0;
                         }
                     }
-                    bob_offset = rsin(((s16)(actor_arg->unk_A8) << 0xC) / 20) >> 0xA;
+                    bob_offset = rsin(((s16)actor_arg->unk_A8 << 0xC) / 20) >> 0xA;
                     actor_arg->unk_A8 = (s16) ((u16) actor_arg->unk_A8 + 1);
                 }
                 if (!(actor_arg->action_state_flags & 8)) {

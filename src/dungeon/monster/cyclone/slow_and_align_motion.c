@@ -59,13 +59,13 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
         division_bias = y_velocity;
         motion->velocity_y = y_velocity - (division_bias / 4);
 
-        if ((s16)(motion_state->action_timer) > 0) {
+        if ((s16)motion_state->action_timer > 0) {
             motion_state->action_timer = motion_state->action_timer - 1;
         } else if (tile->flags & 0x6000) {
             motion_state->action_timer = 0;
         }
 
-        if ((s16)(motion_state->action_timer) != 0) {
+        if ((s16)motion_state->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -94,7 +94,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
             coord_offset -= 0x20;
             tile_coord = tile->tile_y << 6;
             motion->velocity_y =
-                ((tile_coord - coord_offset) << 16) / (s16)(motion_state->action_timer);
+                ((tile_coord - coord_offset) << 16) / (s16)motion_state->action_timer;
         }
 
         next_timer = motion_state->action_timer - 1;

@@ -4,6 +4,7 @@
 #include "town/player/script_flags.h"
 #include "town/scene/record_actions.h"
 #include "town/player/state.h"
+#include "town/scene/flags.h"
 
 typedef struct S_800161C0_0 {
     u8 pad_00[0x24];

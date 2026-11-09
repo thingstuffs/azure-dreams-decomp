@@ -115,7 +115,7 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
         }
         ((S_800C4F20_0 *)anim)->unk_32 = 0;
         ((S_800C4F20_0 *)anim)->unk_2A = 0x20;
-        ((S_800C4F20_0 *)anim)->unk_28 = (s16) (((u16)((S_800C4F20_0 *)anim)->unk_28) + 1);
+        ((S_800C4F20_0 *)anim)->unk_28++;
         break;
     case 1:
         orbit_offset = rcos(((S_800C4F20_0 *)anim)->unk_2E);
@@ -145,10 +145,10 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
         state_or_mode = exit_mode;
         if (state_or_mode == 1 || state_or_mode == 3) {
             ((S_800C4F20_0 *)anim)->unk_2A = 0x10;
-            ((S_800C4F20_0 *)anim)->unk_28 = (s16) (((u16)((S_800C4F20_0 *)anim)->unk_28) + 1);
+            ((S_800C4F20_0 *)anim)->unk_28++;
         } else {
             ((S_800C4F20_0 *)anim)->unk_2A = 0x20;
-            ((S_800C4F20_0 *)anim)->unk_28 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_28 + 0x10);
+            ((S_800C4F20_0 *)anim)->unk_28 += 0x10;
             play_sound_if_enabled(0x518);
         }
         break;
@@ -190,7 +190,7 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
             break;
         }
         ((S_800C4F20_0 *)anim)->unk_2A = 0x10;
-        ((S_800C4F20_0 *)anim)->unk_28 = (s16) (((u16)((S_800C4F20_0 *)anim)->unk_28) + 1);
+        ((S_800C4F20_0 *)anim)->unk_28++;
         break;
     case 3:
         shrink_ticks = ((S_800C4F20_0 *)anim)->unk_2A;

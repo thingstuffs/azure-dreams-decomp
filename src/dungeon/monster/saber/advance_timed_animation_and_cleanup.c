@@ -58,7 +58,7 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
             sequence->action_timer = 0;
             sequence->action_phase++;
         }
-        if ((s16)(sequence->action_timer) == 6) {
+        if ((s16)sequence->action_timer == 6) {
             play_sound_if_enabled(0x808);
             return;
         }
@@ -68,7 +68,7 @@ void advance_timed_animation_and_cleanup(ActorRecord *sequence, ObjectPosition *
         if ((s16)++sequence->action_timer == 6) {
             sprite->flags |= 0x0800;
         }
-        if ((s16)(sequence->action_timer) == 15 ||
+        if ((s16)sequence->action_timer == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
             sequence->action_timer = 0;

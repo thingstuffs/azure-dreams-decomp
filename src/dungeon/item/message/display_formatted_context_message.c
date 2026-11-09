@@ -1,4 +1,5 @@
 #include "dungeon/item/message.h"
+#include "dungeon/item.h"
 #include "dungeon/system.h"
 
 /* Expand the supplied text into a free buffer and display the result. */

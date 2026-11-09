@@ -132,7 +132,7 @@ void move_toward_actor_tile_center(ActorRecord *body, Motion *motion, SpriteFram
     }
 
     body->action_timer--;
-    if ((s16)(body->action_timer) > 0) {
+    if ((s16)body->action_timer > 0) {
         return;
     }
 

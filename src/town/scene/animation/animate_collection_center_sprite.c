@@ -220,8 +220,8 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
     case 5:
         view->angle_z += (u16)ctrl->unk_72;
         work->unk_1A += (u16)ctrl->unk_72;
-        case_value_3 = (u16)ctrl->unk_74 + 1;
-        ctrl->unk_74 = (u16)case_value_3;
+        case_value_3 = ctrl->unk_74 + 1;
+        ctrl->unk_74 = case_value_3;
         if ((case_value_3 & 3) == 0) {
             ctrl->unk_72 = (u16)(ctrl->unk_72 - 2);
         }

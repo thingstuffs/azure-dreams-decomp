@@ -131,7 +131,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
     case 1:
         motion->velocity_x -= dir_step_x[particle_or_dir_index] << 14;
         motion->velocity_y -= dir_step_y[particle_or_dir_index] << 14;
-        timer = (s16)(actor->action_timer);
+        timer = (s16)actor->action_timer;
         if (timer > 0) {
             actor->action_timer = actor->action_timer - 1;
         } else {
@@ -139,7 +139,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
                 actor->action_timer = 0;
             }
         }
-        if ((s16)(actor->action_timer) != 0) {
+        if ((s16)actor->action_timer != 0) {
             break;
         }
         if (entity->unk_28 == 0) {
@@ -155,7 +155,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
         break;
 
     case 2:
-        if ((s16)(actor->action_timer) != 0) {
+        if ((s16)actor->action_timer != 0) {
             speed_work = sprite->tile_x;
             component_work = motion->x.w.i;
             speed_work <<= 6;

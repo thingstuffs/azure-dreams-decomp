@@ -56,7 +56,7 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
         action->action_phase++;
 
     case 1:
-        move_ticks = (s16)(action->unk_9E);
+        move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A0.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
@@ -69,9 +69,9 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
             position_y -= 0x20;
             motion->velocity_y =
                 (((sprite->tile_y << 6) - position_y) << 16) /
-                (s16)(action->unk_9E);
+                action->unk_9E;
             action->unk_A0.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
+                (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
         action->unk_90.value += action->unk_A0.value;

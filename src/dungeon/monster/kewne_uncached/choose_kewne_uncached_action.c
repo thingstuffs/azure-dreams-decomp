@@ -101,7 +101,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                         ((u8 *)idle_anim)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    actor->unk_A0.halves.high.s = 0;
+                    actor->unk_A0.parts.high = 0;
                     actor->unk_9E = 0;
                 }
             } else {
@@ -112,7 +112,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                         ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    actor->unk_A0.halves.high.s = 0;
+                    actor->unk_A0.parts.high = 0;
                     actor->unk_9E = 0;
                 }
             }
@@ -132,7 +132,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
 
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
             base_height = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
-            actor->unk_A0.halves.high.s = 0;
+            actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
             actor->unk_90.parts.high.s = base_height;
             func_8016F078(actor, context, sprite, entity);

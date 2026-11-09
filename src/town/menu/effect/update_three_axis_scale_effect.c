@@ -6,7 +6,7 @@ typedef struct S_800A70EC_0 {
     u8 pad_00[0x50];
     s32 unk_50;
     u8 pad_54[0x18];
-    u16 unk_6C;
+    s16 unk_6C;
 } S_800A70EC_0;   /* arg0 in update_three_axis_scale_effect */
 
 typedef struct S_800A70EC_1 {
@@ -34,9 +34,9 @@ void update_three_axis_scale_effect(S_800A70EC_0 *state, s32 unused_1, s32 unuse
     }
     x_wave = rsin((s16) ticks_left * 0xCC);
     scale->unk_1C = (s16) ((x_wave / 8) + 0x1000);
-    y_wave = rsin(((s16)state->unk_6C) * 0xCC);
+    y_wave = rsin(state->unk_6C * 0xCC);
     scale->unk_1E = (s16) ((y_wave / 8) + 0x1000);
-    z_wave = rsin(((s16)state->unk_6C) * 0xCC);
+    z_wave = rsin(state->unk_6C * 0xCC);
     z_offset = z_wave >> 3;
     if (z_wave < 0) {
         z_offset = (s32) (z_wave + 7) >> 3;

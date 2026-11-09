@@ -402,7 +402,7 @@ void card_boot_layout_alternate_slot_window(void *context);
 void card_boot_populate_slot_window_display(s32 *state);
 
 /* process_nonzero.c */
-void process_nonzero(void *record);
+void process_nonzero(struct ObjectNodeHeader *record);
 
 /* render_rotated_grid_surface.c */
 void *render_rotated_grid_surface(s32 parent, s32 context, s32 mode);

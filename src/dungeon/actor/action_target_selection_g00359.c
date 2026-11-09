@@ -57,7 +57,7 @@ s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1
 }
 
 /* Find a movement direction, record the tile, and update the actor's position and height. */
-void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *tile, void *actor) {
+void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *tile, ActorRecord *actor) {
     s16 next_heading;
     s16 height;
     s16 scan_result;
@@ -78,15 +78,15 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     update_actor_proximity_flag(tile, actor, 3, 6, motion + 0x9C);
     tile_type = tile->unk_26;
     if (tile_type >= 0 && (dungeon_rooms[tile_type].flags & ROOM_HOLY_BEAM)) {
-        select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
-    } else if (!(((S_800CA444_1 *)actor)->unk_46 & 0x8000)) {
-        select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
+        select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, (void *)actor, motion + 0x98);
+    } else if (!(actor->action_flags & 0x8000)) {
+        select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, (void *)actor, motion + 0x98);
     }
     scan_result = 0;
     heading_offsets = actor_turn_angle_offsets;
     map_state = &reference_tile_object;
     for (; scan_result < 8; scan_result++) {
-        heading = ((S_800CA444_1 *)actor)->unk_2A;
+        heading = actor->facing;
         if (((S_800CA444_2 *)motion)->unk_98 & 2) {
             heading_offset = heading_offsets[scan_result];
             next_heading = heading - heading_offset;
@@ -94,12 +94,12 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
             heading_offset = heading_offsets[scan_result];
             next_heading = heading + heading_offset;
         }
-        if ((get_adjacent_tile_for_action(next_heading, tile, actor, 0x20) << 0x10) > 0) {
-            ((S_800CA444_1 *)actor)->unk_2A = next_heading;
-            ((ActorRecord *)actor)->path_x[((S_800CA444_1 *)actor)->unk_71 & 0x7F] = tile->unk_24.at00.v;
-            ((ActorRecord *)actor)->path_y[((S_800CA444_1 *)actor)->unk_71 & 0x7F] = tile->unk_24.at01.v;
-            ((S_800CA444_1 *)actor)->unk_71++;
-            direction_index = (((u16) ((S_800CA444_1 *)actor)->unk_2A) >> 9) & 7;
+        if ((get_adjacent_tile_for_action(next_heading, tile, (void *)actor, 0x20) << 0x10) > 0) {
+            actor->facing = next_heading;
+            actor->path_x[actor->movement_queue_state & 0x7F] = tile->unk_24.at00.v;
+            actor->path_y[actor->movement_queue_state & 0x7F] = tile->unk_24.at01.v;
+            actor->movement_queue_state++;
+            direction_index = (((u16) actor->facing) >> 9) & 7;
             tile->unk_24.at00.v += dir_step_x[direction_index];
             tile->unk_24.at01.v += dir_step_y[direction_index];
             break;
@@ -112,24 +112,24 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     }
 
     if (scan_result >= 8) {
-        ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
-        ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
+        actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
+        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         update_actor_status_and_mp(actor);
         return;
     }
-    ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
+    actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
     ((S_800CA444_2 *)motion)->unk_9C = (s8) (u8) tile->unk_26;
-    ((S_800CA444_1 *)actor)->unk_6D.u = (u8) (((S_800CA444_1 *)actor)->unk_6D.u - 1);
+    actor->pending_turn_updates = (u8) ((u8) actor->pending_turn_updates - 1);
     g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
-    if (((S_800CA444_1 *)actor)->unk_6D.s == 0) {
-        ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
+    if (actor->pending_turn_updates == 0) {
+        actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
         return;
     }
     scan_result = (s16)sample_terrain_surface_height((tile->unk_24.at00.v << 6) | 0x20, (tile->unk_24.at01.v << 6) | 0x20,
-        (s16) (((S_800CA444_1 *)actor)->unk_88 - 0x20));
+        (s16) ((u16) actor->ground_height - 0x20));
     height = scan_result;
     if (height < 0x200) {
-        ((S_800CA444_1 *)actor)->unk_88 = (u16) scan_result;
+        actor->ground_height = (u16) scan_result;
     }
 }
 

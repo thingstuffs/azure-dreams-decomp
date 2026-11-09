@@ -13,14 +13,6 @@
 #include "dungeon/player/object.h"
 struct EntityLinkNode;
 
-typedef struct S_800D34CC_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_800D34CC_0;   /* state in update_actor_fade_state */
-
-
 typedef struct S_800D34CC_2 {
     u8 pad_00[0xC];
     union {
@@ -45,7 +37,7 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);            
 
 /* Waits for pending actions, shrinks and darkens the actor sprite, then detaches the actor and clears
    its map occupancy. */
-void update_actor_fade_state(S_800D34CC_0 *state, void *unused, S_800D34CC_2 *data, void *entity) {
+void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *data, void *entity) {
     s32 selectedValue;
     s16 countdown;
     s16 countdownNext;
@@ -60,7 +52,7 @@ void update_actor_fade_state(S_800D34CC_0 *state, void *unused, S_800D34CC_2 *da
     u8 byte0;
     u8 byte1;
 
-    stateId = state->unk_9B;
+    stateId = state->action_phase;
     switch (stateId) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
@@ -69,25 +61,25 @@ void update_actor_fade_state(S_800D34CC_0 *state, void *unused, S_800D34CC_2 *da
         ((ActorRecord *)entity)->flags1C = (s32) (((ActorRecord *)entity)->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
         data->unk_0C.at00.v = 0x808080;
-        state->unk_96 = 0x10;
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->action_timer = 0x10;
+        state->action_phase = (u8) (state->action_phase + 1);
     case 1:
         byte0 = (u8) data->unk_0C.at00.v;
         data->unk_0C.at00u.v = (u8) (byte0 + ((0x20
-            - byte0) / (s16) state->unk_96));
+            - byte0) / (s16) state->action_timer));
         byte1 = data->unk_0C.at01.v;
-        countdown = state->unk_96;
+        countdown = (s16)state->action_timer;
         byte1Next = byte1 + ((0x20 - byte1) / countdown);
         byte2 = data->unk_0C.at02.v;
         data->unk_0C.at01.v = (u8) byte1Next;
         data->unk_0C.at02u.v = (u8) (byte2 + ((0x20
-            - byte2) / (s16) state->unk_96));
+            - byte2) / (s16) state->action_timer));
         value1C = data->unk_1C;
-        data->unk_1C = (u16) (value1C - (value1C / (s16) state->unk_96));
+        data->unk_1C = (u16) (value1C - (value1C / (s16) state->action_timer));
         value1E = data->unk_1E;
-        data->unk_1E = (u16) (value1E - (value1E / (s16) state->unk_96));
-        countdownNext = (u16) state->unk_96 - 1;
-        state->unk_96 = countdownNext;
+        data->unk_1E = (u16) (value1E - (value1E / (s16) state->action_timer));
+        countdownNext = (u16) state->action_timer - 1;
+        state->action_timer = countdownNext;
         if (((countdownNext << 0x10) <= 0) || ((data->unk_14 & 0x8000) != 0)) {
             statusValue = ((s32)g_dungeon_status.pending_display_owner);
             if (statusValue == (entity - 0x20)) {

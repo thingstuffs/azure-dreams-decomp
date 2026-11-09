@@ -43,7 +43,7 @@ void load_indexed_item_module(s32 entry_index);
 
 #include "shared/entity.h"
 #include "records/Rec_func_800A5DFC_arg1.h"
-void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_arg1 *effect_pos);
+void apply_capped_damage_and_hit_effect(ActorRecord *entity, ObjectPosition *effect_pos);
 
 void call_indexed_handler_and_clear(s32 *record);
 s16 count_floor_items_at_tile(s16 first_key, s16 second_key);

@@ -2,13 +2,13 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 #include "town/scene.h"
+#include "town/scene/flags.h"
 
 extern s16 scene_request_flag_id;
 extern s32 D_80018B00;
 extern s32 D_80019A30;
 extern s32 D_80019ACC;
 
-extern s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key); /* placed copy of resolve_entry_flag */
 
 /* Prepare request state and select a result buffer based on status checks. */
 void *prepare_scene_request_state(void *request_id, s32 unused, s32 request_value)

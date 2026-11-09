@@ -141,35 +141,35 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             target_x = ((reference_tile_object.tile_position.parts.tile_x << 6) + 0x20) << 16;
             target_y = ((reference_tile_object.tile_position.parts.tile_y << 6) + 0x20) << 16;
             target_z = view_reference_entity.z.v - 0x600000;
-            approach_ticks = (s16)(action->action_timer);
+            approach_ticks = (s16)action->action_timer;
             if (approach_ticks >= 0xE) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 9);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((s16)(action->action_timer) - 9);
+                    ((s16)action->action_timer - 9);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    ((s16)(action->action_timer) - 9);
+                    ((s16)action->action_timer - 9);
             } else if (approach_ticks >= 0xB) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 7);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((s16)(action->action_timer) - 7);
+                    ((s16)action->action_timer - 7);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    ((s16)(action->action_timer) - 7);
+                    ((s16)action->action_timer - 7);
             } else if (approach_ticks >= 5) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 2);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((s16)(action->action_timer) - 2);
+                    ((s16)action->action_timer - 2);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    ((s16)(action->action_timer) - 2);
+                    ((s16)action->action_timer - 2);
             } else {
                 motion->velocity_x = (target_x
                     - motion->x.v) / approach_ticks;
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (s16)(action->action_timer);
+                    (s16)action->action_timer;
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    (s16)(action->action_timer);
+                    (s16)action->action_timer;
             }
             ticks_left = action->action_timer - 1;
             action->action_timer = ticks_left;
@@ -320,34 +320,34 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             target_x = ((sprite->tile_x << 6) + 0x20) << 16;
             target_y = ((sprite->tile_y << 6) + 0x20) << 16;
             target_z = (action->unk_B4.halves.low.s - 0x20) << 16;
-            return_ticks = (s16)(action->action_timer);
+            return_ticks = (s16)action->action_timer;
             if (return_ticks >= 0xE) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 9);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((s16)(action->action_timer) - 9);
+                    ((s16)action->action_timer - 9);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    ((s16)(action->action_timer) - 9);
+                    ((s16)action->action_timer - 9);
             } else if (return_ticks >= 0xB) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 7);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((s16)(action->action_timer) - 7);
+                    ((s16)action->action_timer - 7);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    ((s16)(action->action_timer) - 7);
+                    ((s16)action->action_timer - 7);
             } else if (return_ticks >= 5) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 2);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((s16)(action->action_timer) - 2);
+                    ((s16)action->action_timer - 2);
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    ((s16)(action->action_timer) - 2);
+                    ((s16)action->action_timer - 2);
             } else {
                 motion->velocity_x = (target_x - motion->x.v) / return_ticks;
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (s16)(action->action_timer);
+                    (s16)action->action_timer;
                 motion->velocity_z = (target_z - action->unk_90.value) /
-                    (s16)(action->action_timer);
+                    (s16)action->action_timer;
             }
 
             ticks_left = action->action_timer - 1;

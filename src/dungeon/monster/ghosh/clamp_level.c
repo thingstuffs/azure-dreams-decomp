@@ -313,9 +313,9 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
             entity->unk_9D = 0;
         } else {
             motion->velocity_z = (s32) (motion->velocity_z
-                + ((s8)(entity->unk_9D) * 0x14000));
-            fall_ticks = (u8) entity->unk_9D + 1;
-            entity->unk_9D = (s8) fall_ticks;
+                + ((entity->unk_9D) * 0x14000));
+            fall_ticks =  entity->unk_9D + 1;
+            entity->unk_9D = fall_ticks;
         }
         motion_position = entity->unk_90.value;
         motion_delta = motion->velocity_z;

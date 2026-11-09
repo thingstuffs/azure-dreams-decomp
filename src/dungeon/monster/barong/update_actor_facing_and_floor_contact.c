@@ -113,7 +113,7 @@ void update_actor_facing_and_floor_contact(ActorRecord *body, ObjectPosition *mo
     if (body->action_state_flags & 8) {
         body->unk_9D = 0;
     } else {
-        motion->velocity_z += (s8)(body->unk_9D) * 0x14000;
+        motion->velocity_z += (body->unk_9D) * 0x14000;
         body->unk_9D++;
     }
 

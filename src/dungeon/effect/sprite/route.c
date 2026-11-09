@@ -477,7 +477,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
             s32 d;
             s32 aw;
             d = pos->x.w.i;
-            d -= star->unk_02;
+            d -= (s16)star->unk_02;
             aw = d;
             aw = abs(aw);
             if (aw < 8) {
@@ -503,7 +503,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
             s32 d;
             s32 aw;
             d = pos->y.w.i;
-            d -= star->unk_06;
+            d -= (s16)star->unk_06;
             aw = (d >= 0) ? d : (0 - d);
             if (aw < 8) {
                 s32 v;
@@ -531,7 +531,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
                 a2v = pos->x.unsigned_parts.integer;
                 d = pos->x.w.i;
                 a1v = (u16)star->unk_02;
-                st = star->unk_02;
+                st = (s16)star->unk_02;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
@@ -566,7 +566,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
                 a2v = pos->y.unsigned_parts.integer;
                 d = pos->y.w.i;
                 a1v = (u16)star->unk_06;
-                st = star->unk_06;
+                st = (s16)star->unk_06;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {

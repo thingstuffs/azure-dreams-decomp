@@ -84,7 +84,7 @@ void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, Sprite
             if ((segment == 2) || (segment == 5)) {
                 effect->unk_18 = (u16) ((u16)effect->unk_18 - 2);
             }
-            effect->unk_1A = (u16) source->action_timer;
+            effect->unk_1A =  source->action_timer;
             effect->unk_1C = segment;
             effect->unk_1E = 0;
             effect->unk_24 = effect_position;

@@ -14,6 +14,8 @@
 #include "slus/jtbl_80042BDC.h"
 #include "engine/message.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor.h"
+#include "dungeon/system.h"
 
 /* Applies status-ending changes to actor flags, form and tile occupancy, with messages when enabled. */
 void end_status_effect_message(S_80042BDC *ent, s16 action) {

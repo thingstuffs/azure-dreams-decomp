@@ -71,13 +71,13 @@ void update_movement_animation_settles_actor_target_tile(ActorRecord *body, Obje
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
 
-        motion->velocity_z += (5 - (s16)(body->action_timer)) << 16;
-        if ((s16)(body->action_timer) < 3) {
+        motion->velocity_z += (5 - (s16)body->action_timer) << 16;
+        if ((s16)body->action_timer < 3) {
             motion->velocity_z = 0;
         }
         motion->velocity_x -= (motion->velocity_x << 2) / 5;
         motion->velocity_y -= (motion->velocity_y << 2) / 5;
-        if ((s16)(body->action_timer) > 0) {
+        if ((s16)body->action_timer > 0) {
             return;
         }
         motion->velocity_z = 0;

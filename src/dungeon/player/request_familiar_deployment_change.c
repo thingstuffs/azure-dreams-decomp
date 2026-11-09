@@ -1,4 +1,5 @@
 #include "dungeon/item/message.h"
+#include "dungeon/item.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/tile_object.h"

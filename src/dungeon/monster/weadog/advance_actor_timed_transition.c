@@ -48,7 +48,7 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
         }
         controller->action_timer = timer_init;
     case 1:
-        timer_signed = (s16)(controller->action_timer);
+        timer_signed = (s16)controller->action_timer;
         timer_unsigned = controller->action_timer;
         if (timer_signed > 0) {
             controller->action_timer = timer_unsigned - 1;
@@ -56,7 +56,7 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
             controller->action_timer = 0;
         }
 
-        if ((s16)(controller->action_timer) != 0) {
+        if ((s16)controller->action_timer != 0) {
             return;
         }
         if (entity_data->hp == 0) {

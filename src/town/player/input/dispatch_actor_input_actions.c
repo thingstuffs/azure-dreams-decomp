@@ -15,6 +15,7 @@
 #include "town/map.h"
 #include "town/map/position.h"
 #include "town/player/input.h"
+#include "town.h"
 extern void submit_object_resource_data();
 void init_ground_input_fallback(s32 * *, void *, void *);
 struct TownObjectRecord; void initialize_randomized_object_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);

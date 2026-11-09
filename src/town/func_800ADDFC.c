@@ -1,10 +1,10 @@
-#include "town_callbacks_api.h"
+#include "town.h"
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
 #include "town/person.h"
 #include "town/person/motion.h"
 
-typedef struct town_timed_transition_state {
+typedef struct TownTimedTransitionState {
     u8 pad_00[0x50];
     void *state;
     u8 pad_54[0x18];
@@ -13,13 +13,13 @@ typedef struct town_timed_transition_state {
     u16 unk72;
     u8 pad_74[0x1C];
     s16 value;
-} State;
+} TownTimedTransitionState;
 
 
 
 
 /* Changes the handler below value 100 and on timer expiry; otherwise turns field +0x72 by -0x400. */
-void update_timed_state_transition(State *state) {
+void update_timed_state_transition(TownTimedTransitionState *state) {
     u16 timer;
 
     if (state->value < 100) {

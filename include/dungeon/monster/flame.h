@@ -120,17 +120,6 @@ typedef struct R06_80170BB8_S_80170BB8_3 {
     s16 unk_02;
     u16 unk_04;
 } R06_80170BB8_S_80170BB8_3;
-typedef struct R06_80170BB8_S_80170BB8_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R06_80170BB8_S_80170BB8_4;
 typedef struct R06_8017140C_S_8017140C_0 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -769,9 +758,9 @@ extern u8 D_80175920[];
 extern u8 flame_effect_load_done[];
 extern u8 flame_transition_object[];
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id);
-void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity);
+void create_anchored_directional_object(u8 *actor, u8 *motion, SpriteFrameState *entity);
 void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *sprite, ActorRecord *creature);
-void update_actor_object_motion(void *motion, ObjectPosition *unused, struct SpriteFrameState *actor, void *path_state);
+void update_actor_object_motion(void *motion, ObjectPosition *unused, struct SpriteFrameState *actor, ActorRecord *path_state);
 void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);

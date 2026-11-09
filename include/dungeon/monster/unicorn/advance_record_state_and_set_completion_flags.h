@@ -39,14 +39,6 @@ typedef struct T_8017406C_S_8017406C_1 {
     u8 unk_20;
 } T_8017406C_S_8017406C_1;   /* temp_v0 in func_8017406C */
 
-typedef struct T_8017406C_S_8017406C_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} T_8017406C_S_8017406C_3;   /* temp_s3 in func_8017406C */
-
-
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -82,7 +74,7 @@ extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 shared_sprite_entries;
 extern s32 directional_sprite_entries;
 void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, SpriteFrameState *update_arg);
-void create_tinted_sprite_effect_supplied_position(void *unused, void *position_data, SpriteFrameState *unused_primitive);
+void create_tinted_sprite_effect_supplied_position(void *unused, ObjectPosition *position_data, SpriteFrameState *unused_primitive);
 void update_orbit_height_and_fade_effect(AngularOffsetEffectBody *effect, ObjectPosition *position, SpriteFrameState *primitive);
 void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
     s16 angle, u16 height_offset);

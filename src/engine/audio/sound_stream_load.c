@@ -1,6 +1,7 @@
 /* Double-buffered sound stream selection and loading of sound-set resources from CD. */
 #include "slus/gp_af3_pair.h"
 #include "common.h"
+#include "slus.h"
 
 
 s8 sound_stream_state_index = -1;

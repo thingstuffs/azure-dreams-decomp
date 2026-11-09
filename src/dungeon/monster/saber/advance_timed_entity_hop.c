@@ -55,7 +55,7 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
                         /* fall through */
 
     case 1:
-        hop_frames = (s16)(action->unk_9E);
+        hop_frames = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
         if (hop_frames != 0) {
             target_x = map_entity->tile_x;
@@ -69,15 +69,15 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
             pos_y -= 0x20;
             motion->velocity_y =
                 (((map_entity->tile_y << 6) - pos_y) << 16) /
-                (s16)(action->unk_9E);
+                action->unk_9E;
 
             action->unk_A4.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 10;
+                (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
         height_offset = action->unk_90.value;
         arc_offset = action->unk_A4.value;
-        hop_timer = action->unk_9E;
+        hop_timer = (u16)action->unk_9E;
         height_offset += arc_offset;
         hop_timer -= 1;
         action->unk_9E = hop_timer;

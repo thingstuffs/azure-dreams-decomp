@@ -497,14 +497,14 @@ void move_the_effect_count_down_timer_fade_sprite_black(SpriteFadeCountdownBody 
     motion->unk_04 += delta_y;
     motion->unk_08 += delta_z;
 
-    state = effect->unk_4C;
+    state = (s16)effect->unk_4C;
     switch (state) {
     case 0:
         timer = effect->unk_48 - 1;
         effect->unk_48 = timer;
         if ((timer << 16) <= 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            effect->unk_4C = (u16)effect->unk_4C + 1;
+            effect->unk_4C = effect->unk_4C + 1;
         }
         break;
 

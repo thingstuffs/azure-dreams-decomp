@@ -10,7 +10,7 @@
  * match for town_position_callback_address. Clears town_overlap_origin when neither key list
  * matches.
  */
-void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(TownPlayerRecord *entry, void *forwarded_a, void *forwarded_b)
+void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(TownPlayerRecord *entry, ObjectPosition *forwarded_a, void *forwarded_b)
 {
     void **key_cursor;
     void **match_cursor;
@@ -52,7 +52,7 @@ void clear_global_80100_d_20(void) {
  * plus the supplied vector, publishing computed_position through town_overlap_origin. Clears the
  * published pointer when no record is found.
  */
-void compute_the_based_position_offset_publishes_resulting_vector(void *object_arg, IntVector3 *offset, void *resources) {
+void compute_the_based_position_offset_publishes_resulting_vector(TownPlayerRecord *object_arg, ObjectPosition *offset, void *resources) {
     TownPlayerRecord *object = object_arg;
 
     Record *record;
@@ -69,10 +69,10 @@ void compute_the_based_position_offset_publishes_resulting_vector(void *object_a
         y = (-record->scale * rsin(angle)) << 5;
         height = record->height;
         town_overlap_origin = &computed_position;
-        computed_position.x = town_fallback_origin.x + offset->x + x;
-        computed_position.y = town_fallback_origin.y + offset->y + y;
+        computed_position.x = town_fallback_origin.x + offset->x.v + x;
+        computed_position.y = town_fallback_origin.y + offset->y.v + y;
         height <<= 17;
-        computed_position.z = town_fallback_origin.z + offset->z + height;
+        computed_position.z = town_fallback_origin.z + offset->z.v + height;
         return;
     }
     town_overlap_origin = 0;

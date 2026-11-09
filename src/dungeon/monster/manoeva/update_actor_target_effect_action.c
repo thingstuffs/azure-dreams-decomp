@@ -13,6 +13,7 @@
 #include "engine/node.h"
 #include "dungeon/item/message.h"
 #include "dungeon/item/message/text.h"
+#include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect/screen.h"
 

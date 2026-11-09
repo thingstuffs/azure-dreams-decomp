@@ -41,11 +41,11 @@ typedef struct StarEdgeEffectBody {
     u8 unk_4E;
     u8 unk_4F;
     u8 pad_50[0x8];
-    u16 unk_58;
+    s16 unk_58;
     u16 unk_5A;
     u16 unk_5C;
     u16 unk_5E;
-    u16 unk_60;
+    s16 unk_60;
     u16 unk_62;
     u16 unk_64;
     u16 unk_66;

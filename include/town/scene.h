@@ -80,6 +80,10 @@ extern u8 *D_80017AA4;
 struct Rec_func_800165F4_arg0;
 s32 process_entry_with_exit_flag(struct Rec_func_800165F4_arg0 *, s32);
 
+struct SceneActionEntry;
+s32 initialize_scene_action_state(struct SceneActionEntry *object, s32 value);
+s32 update_scene_and_select_action(struct SceneActionEntry *object, s32 value);
+
 /* Signed scene-position deltas. */
 struct S_80019DE0_0;
 void apply_signed_stat_deltas(void *stat_deltas);

@@ -9,7 +9,7 @@
 #include "engine/window.h"
 
 /* Creates an effect behind the source with randomized reverse motion and launch speed. */
-void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
+void *create_reverse_motion_effect(StackRecord *source_motion, u32 flags) {
     s16 *direction_y;
     s16 launch_speed;
     s16 stored_speed;
@@ -31,14 +31,14 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
         effect->update_callback = update_fading_effect_motion;
         register_node(effect, project_sprite_chain);
         direction_index = direction;
-        motion->x.w.i = (s16) (source_motion->unk_02 - (dir_step_x[direction_index] * 0x10));
+        motion->x.w.i = (s16) ((u16)source_motion->x - (dir_step_x[direction_index] * 0x10));
         direction_y = &dir_step_y[direction_index];
-        motion->y.w.i = (s16) (source_motion->unk_06 - (*direction_y * 0x10));
-        motion->z.w.i = (u16) source_motion->unk_0A;
-        velocity_x = 0 - (source_motion->unk_0C * ((rand() & 1) + 2));
+        motion->y.w.i = (s16) ((u16)source_motion->z - (*direction_y * 0x10));
+        motion->z.w.i = (u16) source_motion->y;
+        velocity_x = 0 - (source_motion->fieldC * ((rand() & 1) + 2));
         launch = ((void *)effect) + 0x20;
         motion->velocity_x = (s32) (velocity_x / 16);
-        velocity_y = 0 - (source_motion->unk_10 * ((rand() & 1) + 2));
+        velocity_y = 0 - (source_motion->field10 * ((rand() & 1) + 2));
         motion->velocity_y = (s32) (velocity_y / 16);
         motion->velocity_z = (s32) ((~rand() & 1) << 0xF);
         select_record_entry_and_value(sprite, &map_animation_sprite_entries, 0);
@@ -92,10 +92,10 @@ void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s
             record.fieldC = rcos(angle) << 5;
             first_trig_value = rsin(angle);
             {
-                void *record_ptr = &record;
+                StackRecord *record_ptr = &record;
                 first_trig_value <<= 5;
                 record.field10 = first_trig_value;
-                object = create_reverse_motion_effect((S_800A878C_2 *)record_ptr, (s16)angle);
+                object = create_reverse_motion_effect(record_ptr, (s16)angle);
             }
             if (object != 0) {
                 angle_value = rsin(angle) << 5;

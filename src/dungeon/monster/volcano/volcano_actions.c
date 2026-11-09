@@ -76,7 +76,7 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
 #include "dungeon/monster/volcano.h"
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *motion, SpriteFrameState *monster)
+void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *monster)
 {
     E_80170A58_S_80170A58_1 *actor = entity;
     s32 direction;
@@ -156,21 +156,21 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
         try_move_actor_to_valid_position(entity, motion, monster, actor);
     }
 
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
         (*((u8 *)entity + 0x9D)) = 0;
     } else {
-        motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
+        motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
         (*((u8 *)entity + 0x9D))++;
     }
 
-    (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
+    (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
 
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
-        floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
-                              motion->unk_04.at02.v,
+        floor_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                              motion->y.unsigned_parts.integer,
                               (s16)(actor->unk_88.u - 0x20));
         if (floor_height < 0x200) {
             actor_height = actor->unk_88.s;
@@ -183,7 +183,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
                     (*(s16 *)((u8 *)entity + 0x92)) = floor_height - actor->unk_88.u;
                 }
 
-                motion->unk_14 = 0;
+                motion->velocity_z = 0;
                 actor->unk_1C |= 0x08000000;
                 (*((u8 *)entity + 0x9D)) = 0;
             }
@@ -202,7 +202,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
         actor->unk_1C &= 0xF7FFFFFF;
     }
 
-    motion->unk_0A =
+    motion->z.unsigned_parts.integer =
         actor->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     monster->flags |= 0x40;
 
@@ -770,7 +770,7 @@ void set_actor_directional_animation(void *object, ObjectPosition *unused, Sprit
 #include "dungeon/monster/volcano.h"
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, void *sprite, ActorRecord *actor) {
+s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
     ActorRecord *move_heading;
@@ -780,7 +780,7 @@ s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *ac
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    move_heading = probe_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+    move_heading = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y,
         actor->facing);
     if ((check_entity_interaction_compatibility(actor, move_heading) << 0x10) == 0) {
         return 0;
@@ -808,7 +808,7 @@ s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *ac
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         direction_table = &volcano_frame_set_10;
-        (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
+        sprite->frameTable = direction_table;
         select_sprite_entry(sprite, direction_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
@@ -1016,16 +1016,16 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, SpriteF
         anim->action_phase++;
                         /* fall through */
     case 1:
-        hop_frames = (s16)(anim->unk_9E);
+        hop_frames = anim->unk_9E;
         anim->unk_90.value -= anim->unk_A0.value;
         if (hop_frames != 0) {
             motion->velocity_x =
                 (((actor->tile_x << 6) - ({ motion->x.w.i - 0x20; })) << 16) / hop_frames;
             motion->velocity_y =
                 (((actor->tile_y << 6) - (tile_origin_y = motion->y.w.i - 0x20)) << 16) /
-                (s16)(anim->unk_9E);
+                anim->unk_9E;
             anim->unk_A0.value =
-                (-rsin((s16)(anim->unk_9E) * 0x199)) << 9;
+                (-rsin(anim->unk_9E * 0x199)) << 9;
         }
 
         anim->unk_90.value += anim->unk_A0.value;
@@ -1323,12 +1323,12 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
             s32 velocity_y = motion->velocity_y;
             motion->velocity_y = velocity_y - velocity_y / 4;
         }
-        if ((s16)(action->action_timer) > 0) {
+        if ((s16)action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (tile_state->flags & 0x6000) {
             action->action_timer = 0;
         }
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             return;
         }
         if (entity->hp != 0) {
@@ -1355,7 +1355,7 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
                 s32 target_y = tile_state->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 16) / (s16)(action->action_timer);
+                    ((target_y - current_y) << 16) / (s16)action->action_timer;
             }
         }
         timer = action->action_timer - 1;
@@ -1919,12 +1919,12 @@ void dampen_actor_motion(void *state_data, s32 *motion, SpriteFrameState *object
 #include "shared/sprite_frame_state.h"
 
 /* Creates four gray sprite effects with randomized rotation and motion along the actor's facing. */
-void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg, void *origin_arg) {
+void create_four_directional_effects(ActorRecord *owner_arg, ObjectPosition *motion_arg, SpriteFrameState *origin_arg) {
     u16 offsets[3];
     s32 effect_index;
-    E_80174084_S_80DE6884_5 *owner;
+    ActorRecord *owner;
     s32 *effect_data;
-    E_80174084_S_80DE6884_0 *origin;
+    SpriteFrameState *origin;
     void *render_config;
     SpriteFrameState *render_data;
     E_80174084_S_80DE6884_4 *motion;
@@ -1936,7 +1936,7 @@ void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg
     offsets[1] = 0;
     offsets[0] = 0;
     owner = owner_arg;
-    resolve_record_orientation_or_fallback(origin->unk_08, origin, (s16 *)offsets, 0);
+    resolve_record_orientation_or_fallback(origin->source, origin, (struct GteShortVector *)offsets, 0);
     effect_index = 0;
     effect_data = (s32 *)(dampen_actor_motion);
     do {
@@ -1962,8 +1962,8 @@ void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg
             motion->unk_00.at02.v = offset_coord(motion->unk_00.at02.v, offsets[0]);
             motion->unk_04.at02.v = offset_coord(motion->unk_04.at02.v, offsets[1]);
             motion->unk_08.at02.v = offset_coord(motion->unk_08.at02.v, offsets[2]);
-            motion->unk_0C = (s32)((rcos(owner->unk_2A) >> 4) << 0xB);
-            motion->unk_10 = (s32)((rsin(owner->unk_2A) >> 4) << 0xB);
+            motion->unk_0C = (s32)((rcos(owner->facing) >> 4) << 0xB);
+            motion->unk_10 = (s32)((rsin(owner->facing) >> 4) << 0xB);
             motion->unk_14 = 0x9C40;
         }
         effect_index += 1;

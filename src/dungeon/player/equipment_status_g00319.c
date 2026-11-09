@@ -3,6 +3,8 @@
 #include "dungeon/player/equipment_status_g00319.h"
 #include "dungeon/player/object.h"
 #include "dungeon/player.h"
+#include "dungeon/system.h"
+#include "dungeon/item.h"
 
 /* Changes equipped items unless blocked, displays the result, and updates actor sprites and palettes. */
 void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item) {

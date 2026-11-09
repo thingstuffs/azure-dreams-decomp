@@ -219,8 +219,8 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         state->unk_20 = ((s16)planar_radius * rcos(azimuth)) >> 12;
         state->unk_22 = ((s16)planar_radius * rsin(azimuth)) >> 12;
 
-        state->unk_26 = (u16)state->unk_20 + project_and_queue_visible_shaded_quad(0x10) - 8;
-        state->unk_28 = (u16)state->unk_22 + project_and_queue_visible_shaded_quad(0x10) - 8;
+        state->unk_26 = state->unk_20 + project_and_queue_visible_shaded_quad(0x10) - 8;
+        state->unk_28 = state->unk_22 + project_and_queue_visible_shaded_quad(0x10) - 8;
         random_value = project_and_queue_visible_shaded_quad(0x10);
         state->unk_36 = 0;
         state->unk_34 = 0;
@@ -228,7 +228,7 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         state->unk_30 = 0;
         state->unk_2E = 0;
         state->unk_2C = 0;
-        state->unk_2A = (u16)state->unk_24 + random_value - 8;
+        state->unk_2A = state->unk_24 + random_value - 8;
 
         position = effect->position;
         position->x.w.i = origin->unk_02;
@@ -474,7 +474,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
         }
     }
     if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 0) {
-        start_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
+        start_frame = (u16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = (u16) (start_frame + 1);
         if ((s16) start_frame >= 6) {
             effect_id = shaded_quad_frame_set[0];
@@ -564,7 +564,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
                     + ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C);
                 ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v + velocity_y);
                 ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v + velocity_z);
-                frames_left = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 1;
+                frames_left = (u16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 1;
                 ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = frames_left;
                 if ((frames_left << 0x10) == 0) {
                     ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 = 2U;
@@ -609,7 +609,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
 update_impact:
     impact_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
     if (impact_state == 2) {
-        impact_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
+        impact_frame = (u16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = impact_frame;
         if ((s16) impact_frame == impact_state) {
             create_positioned_render_effect(effect, motion, sprite);
@@ -644,7 +644,7 @@ update_impact:
         }
     }
     if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 3) {
-        burst_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
+        burst_frame = (u16)((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = burst_frame;
         if ((s16) burst_frame < 0x12) {
             burst_index = 0;

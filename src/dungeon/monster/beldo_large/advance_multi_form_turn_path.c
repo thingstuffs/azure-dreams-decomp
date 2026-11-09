@@ -110,6 +110,6 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
     step_count = movement->movement_queue_state;
     if (step_count > 0) {
         actor->action_timer =
-            (s16)(actor->action_timer) / step_count;
+            (s16)actor->action_timer / step_count;
     }
 }

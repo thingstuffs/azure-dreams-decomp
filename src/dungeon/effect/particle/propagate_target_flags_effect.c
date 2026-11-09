@@ -396,7 +396,7 @@ void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unu
         state->size_y = size;
         effect->callback.handler = advance_colliding_particle_sprite;
         register_node(effect, project_sprite_chain);
-        render = effect->visual.sprite_frame;
+        render = effect->visual;
         render->flags |= 0xC;
         render->tpage_abr = 0x60;
         render->flags |= 2;
@@ -419,7 +419,7 @@ void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unu
         (position->z).unsigned_parts.integer += (jitter);
         state->seed = rand();
         state->scale = 0x1000;
-        render = effect->visual.sprite_frame;
+        render = effect->visual;
         render->scale_x = 0xC00;
         render->scale_y = 0xC00;
         render->color.c.b = 0x80;
@@ -979,7 +979,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
 {
     OffsetTable offsets;
     Effect *effect;
-    Sprite *sprite;
+    SpriteFrameState *sprite;
     Motion *motion;
     register s32 particle_index;
     ObjectPosition *pos;
@@ -1044,10 +1044,10 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         *(s16 *)&effect->payload.motion.pad0[0x2C] = 33;
                         effect->callback.update = update_timed;
                         register_node(effect, project_sprite_chain);
-                        sprite = effect->visual.sprite;
-                        sprite->unk10 = 32;
+                        sprite = effect->visual;
+                        sprite->tpage_abr = 32;
                         sprite->flags |= 0xC;
-                        sprite->unk6 = -4;
+                        sprite->depth_bias = -4;
                         pos = effect->coordinates;
                         pos->x.w.i = work->x;
                         local_y = work->y;
@@ -1058,11 +1058,11 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                         sprite->scale_x = 0x900;
                         sprite->scale_y = 0x604;
-                        sprite->b = 0x80;
-                        sprite->g = 0x80;
-                        sprite->r = 0x80;
+                        sprite->color.c.b = 0x80;
+                        sprite->color.c.g = 0x80;
+                        sprite->color.c.r = 0x80;
                         effect->payload.state.sprite_template = D_80026990;
-                        sprite->image = &effect->payload.state.sprite_template;
+                        sprite->source = &effect->payload.state.sprite_template;
                     }
                 }
 
@@ -1072,10 +1072,10 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         *(s16 *)&effect->payload.motion.pad0[0x2C] = 1;
                         effect->callback.update = draw_effect_and_restore_clip;
                         register_node(effect, project_sprite_chain);
-                        sprite = effect->visual.sprite;
-                        sprite->unk10 = 32;
+                        sprite = effect->visual;
+                        sprite->tpage_abr = 32;
                         sprite->flags |= 0xC;
-                        sprite->unk6 = -4;
+                        sprite->depth_bias = -4;
                         pos = effect->coordinates;
                         pos->x.w.i = work->x;
                         local_y = work->y;
@@ -1086,11 +1086,11 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                         sprite->scale_x = 0x1800;
                         sprite->scale_y = 0x1000;
-                        sprite->b = 0x80;
-                        sprite->g = 0x80;
-                        sprite->r = 0x80;
+                        sprite->color.c.b = 0x80;
+                        sprite->color.c.g = 0x80;
+                        sprite->color.c.r = 0x80;
                         effect->payload.state.sprite_template = D_8002699C;
-                        sprite->image = &effect->payload.state.sprite_template;
+                        sprite->source = &effect->payload.state.sprite_template;
                     }
                 }
 
@@ -1142,8 +1142,8 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             *(s16 *)&motion->pad0[0x2E] = 30;
                             effect->callback.update = advance_particle_emitting_projectile;
                             register_node(effect, project_sprite_chain);
-                            sprite = effect->visual.sprite;
-                            sprite->unk10 = 32;
+                            sprite = effect->visual;
+                            sprite->tpage_abr = 32;
                             sprite->flags |= 0xC;
                             motion->vel_z = (s32)0xFFF20000;
                             motion->accel_z = 0x00020000;
@@ -1165,11 +1165,11 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                             sprite->scale_y = 0x1000;
                             sprite->scale_x = 0x1000;
-                            sprite->b = 0x80;
-                            sprite->g = 0x80;
-                            sprite->r = 0x80;
+                            sprite->color.c.b = 0x80;
+                            sprite->color.c.g = 0x80;
+                            sprite->color.c.r = 0x80;
                             effect->payload.state.sprite_template = D_800269A8;
-                            sprite->image = &effect->payload.state.sprite_template;
+                            sprite->source = &effect->payload.state.sprite_template;
                         }
                         if (work->timer == spawn_timer) {
                             effect = allocate_flagged_object_node(0x212);
@@ -1179,8 +1179,8 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 *(s16 *)&motion->pad0[0x2E] = 30;
                                 effect->callback.update = shrink_particle_emitting_projectile;
                                 register_node(effect, project_sprite_chain);
-                                sprite = effect->visual.sprite;
-                                sprite->unk10 = 32;
+                                sprite = effect->visual;
+                                sprite->tpage_abr = 32;
                                 sprite->flags |= 0xC;
                                 motion->vel_z = (s32)0xFFF20000;
                                 motion->accel_z = 0x00020000;
@@ -1202,11 +1202,11 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                                 sprite->scale_y = 0x1000;
                                 sprite->scale_x = 0x1000;
-                                sprite->b = 0x80;
-                                sprite->g = 0x80;
-                                sprite->r = 0x80;
+                                sprite->color.c.b = 0x80;
+                                sprite->color.c.g = 0x80;
+                                sprite->color.c.r = 0x80;
                                 effect->payload.state.sprite_template = D_800269A8;
-                                sprite->image = &effect->payload.state.sprite_template;
+                                sprite->source = &effect->payload.state.sprite_template;
                             }
                         }
                     }
@@ -1221,8 +1221,8 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     *(s16 *)&motion->pad0[0x2E] = 7;
                     effect->callback.update = shrink_effect_and_step_texture;
                     register_node(effect, project_sprite_chain);
-                    sprite = effect->visual.sprite;
-                    sprite->unk10 = 32;
+                    sprite = effect->visual;
+                    sprite->tpage_abr = 32;
                     sprite->flags |= 0xC;
                     pos = effect->coordinates;
                     pos->x.w.i = work->x;
@@ -1234,11 +1234,11 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                     sprite->scale_x = 0x1800;
                     sprite->scale_y = 0x1000;
-                    sprite->b = 0x80;
-                    sprite->g = 0x80;
-                    sprite->r = 0x80;
+                    sprite->color.c.b = 0x80;
+                    sprite->color.c.g = 0x80;
+                    sprite->color.c.r = 0x80;
                     effect->payload.state.sprite_template = D_8002699C;
-                    sprite->image = &effect->payload.state.sprite_template;
+                    sprite->source = &effect->payload.state.sprite_template;
                 }
             }
             if (work->timer >= 13) {

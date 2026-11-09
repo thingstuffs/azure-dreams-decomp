@@ -255,7 +255,7 @@ void update_block_motion_and_facing_slot_a(ActorRecord *entity, CL_CD7000_80170C
     if (entity->action_state_flags & 8) {
         entity->unk_9D = 0;
     } else {
-        motion->unk_14 += (s8)(entity->unk_9D) * 0x14000;
+        motion->unk_14 += (entity->unk_9D) * 0x14000;
         entity->unk_9D++;
     }
 

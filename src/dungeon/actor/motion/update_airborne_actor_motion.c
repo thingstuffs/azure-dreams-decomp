@@ -71,7 +71,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         } else {
             body->action_timer = (u16) (body->action_timer - 1);
         }
-        if ((s16)(body->action_timer) == 0) {
+        if ((s16)body->action_timer == 0) {
             if (((PlayerRecord *)body)->unk_102 == 0) {
                 actor->unk_20 = 1;
                 if (resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1) == 0) {

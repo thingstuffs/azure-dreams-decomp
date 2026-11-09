@@ -63,24 +63,6 @@ typedef struct S_func_800D8728_0 {
 
 /* state in advance_actor_queued_path */
 
-typedef struct S_800D92C0_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x3];
-    s8 unk_71;
-    u8 pad_72[0x16];
-    u16 unk_88;
-} S_800D92C0_0;
-
 /* arg3 in advance_actor_traversable_heading */
 typedef struct S_800D92C0_1 {
     u8 pad_00[0x2A];
@@ -137,6 +119,6 @@ extern s32 check_movement_clearance_and_height(u32, void *, void *, s16);
 /* Functions defined in this translation unit. */
 void update_actor_movement_and_contact(S_func_800D8728_0 *entity, ObjectPosition *motion, SpriteFrameState *monster);
 void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *context, S_800D92C0_2 *position, void *actor);
+void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *context, S_800D92C0_2 *position, ActorRecord *actor);
 
 #endif

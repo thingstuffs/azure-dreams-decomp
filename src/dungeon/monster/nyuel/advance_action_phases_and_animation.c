@@ -98,7 +98,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
             {
                 s32 target_coord = sprite->tile_y << 6;
                 s32 current_coord = motion->y.w.i - 0x20;
-                motion->velocity_y = ((target_coord - current_coord) << 0x10) / (s16)(action->action_timer);
+                motion->velocity_y = ((target_coord - current_coord) << 0x10) / (s16)action->action_timer;
             }
         } else {
             motion->velocity_z = 0;
@@ -125,7 +125,7 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
             {
                 s32 target_coord = sprite->tile_y << 6;
                 s32 current_coord = motion->y.w.i - 0x20;
-                motion->velocity_y = ((target_coord - current_coord) << 0x10) / (s16)(action->action_timer);
+                motion->velocity_y = ((target_coord - current_coord) << 0x10) / (s16)action->action_timer;
             }
         } else {
             motion->velocity_z = 0;

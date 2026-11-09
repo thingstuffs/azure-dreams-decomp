@@ -154,7 +154,7 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
     if (entity->action_state_flags & 8) {
         entity->unk_9D = 0;
     } else {
-        motion->velocity_z += (s8)(entity->unk_9D) * 0x14000;
+        motion->velocity_z += (entity->unk_9D) * 0x14000;
         entity->unk_9D++;
     }
     entity->unk_90.value += motion->velocity_z;

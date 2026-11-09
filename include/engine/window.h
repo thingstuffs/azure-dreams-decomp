@@ -36,7 +36,7 @@ struct S_800364BC_0;
 struct S_8003661C_0;
 struct S_80036880_0;
 struct S_80036900;
-struct S_8004A24C_0;
+struct AnimatedMenuPanelBody;
 struct AnimatedMenuPanelNode;
 struct S_func_80035484_4;
 struct S_func_80035484_5;
@@ -115,7 +115,7 @@ void init_menu_choice_timed(struct Object *object);
 void init_menu_choice_wide(struct S_func_8003666C_0 *state);
 
 /* init_menu_panel.c */
-void init_menu_panel(struct S_8004A24C_0 *state, s32 config_id, s32 resource_id, s16 x, s16 y, s32 size);
+void init_menu_panel(struct AnimatedMenuPanelBody *state, s32 config_id, s32 resource_id, s16 x, s16 y, s32 size);
 
 /* init_window_object.c */
 void func_80035614(struct S_80035614_0 *object);

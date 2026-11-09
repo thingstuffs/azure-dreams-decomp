@@ -113,7 +113,7 @@ void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, Sprite
 
             motion->velocity_x = (s32)(((((s32)info->tile_x << 6) - (origin_x = motion->x.w.i - 0x20)) << 15) / frames_left);
             origin_y = motion->y.w.i - 0x20;
-            motion->velocity_y = (s32)(((((s32)info->tile_y << 6) - origin_y) << 15) / (s16)(state->action_timer));
+            motion->velocity_y = (s32)(((((s32)info->tile_y << 6) - origin_y) << 15) / (s16)state->action_timer);
         }
         next_frames = (state->action_timer) - 1;
         state->action_timer = next_frames;

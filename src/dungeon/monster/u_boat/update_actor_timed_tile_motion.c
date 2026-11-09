@@ -49,7 +49,7 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
         s32 move_ticks;
         s16 next_move_ticks;
 
-        move_ticks = (s16)(action->unk_A8);
+        move_ticks = (s16)action->unk_A8;
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             s32 tile_delta;
@@ -66,9 +66,9 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             motion->velocity_y =
-                (tile_delta << 16) / (s16)(action->unk_A8);
+                (tile_delta << 16) / (s16)action->unk_A8;
             action->unk_A4.value =
-                -rsin((s16)(action->unk_A8) * 0x199) << 9;
+                -rsin((s16)action->unk_A8 * 0x199) << 9;
         }
 
         action->unk_90.value += action->unk_A4.value;

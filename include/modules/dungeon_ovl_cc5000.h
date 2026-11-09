@@ -206,16 +206,6 @@ typedef struct CL_CC5000_8017102C_S_8017102C_5 {
 
 /* Advance the action dispatcher and select the actor's next movement or animation state. */
 
-typedef struct CL_CC5000_80171590_S_80171590_0 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    u8 unk_71;
-    u8 pad_72[0x18];
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} CL_CC5000_80171590_S_80171590_0;   /* state in func_8015F590 */
 
 typedef struct CL_CC5000_80171590_S_80171590_1 {
     u8 pad_00[0x14];
@@ -238,12 +228,6 @@ typedef struct CL_CC5000_80171590_S_80171590_2 {
     s16 unk_A4;
 } CL_CC5000_80171590_S_80171590_2;   /* arg0 in func_8015F590 */
 
-typedef struct CL_CC5000_80171590_S_80171590_3 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} CL_CC5000_80171590_S_80171590_3;   /* (u8 *)state + ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_8A.s in func_8015F590 */
 
 /* Advances the entity along its stored path and updates movement state. */
 
@@ -285,18 +269,6 @@ typedef struct CL_CC5000_80171FBC_S_80171DA0_1 {
  /* extern */
                           /* extern */
  /* extern */
-
-typedef struct CL_CC5000_80172180_S_80172180_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x12];
-    s8 unk_84;
-    s8 unk_85;
-} CL_CC5000_80172180_S_80172180_0;   /* entity in func_80160180 */
 
 typedef struct CL_CC5000_80172180_S_80172180_1 {
     u8 pad_00[0x8C];

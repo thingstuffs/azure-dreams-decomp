@@ -21,13 +21,12 @@ extern s16 D_800D5078[];
 #include "town/person/position.h"
 
 /* Return the current object's cached value or look it up at the town coordinates. */
-s16 get_cached_or_coordinate_transform_value(void *object, void *lookup_mode)
+s16 get_cached_or_coordinate_transform_value(TownObjectRecord *object, void *lookup_mode)
 {
     TownState *state = &town_actor_control;
 
     if (object == state->current &&
-        object == (u8 *)object_index_slots[*(s32 *)((u8 *)object + 0x60)].object +
-                    0x20) {
+        object == object_index_slots[object->slot].object + 0x20) {
         return D_800D5078[state->object_index];
     }
 

@@ -112,7 +112,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
                     u32 particle_color;
                     s32 draw_param;
 
-                    random_offset %= (s16)(body->unk_A8) + 0x60;
+                    random_offset %= (s16)body->unk_A8 + 0x60;
                     particle_render = 0x00040404;
                     particle_color = 0x00500000;
                     source_z = position->z;

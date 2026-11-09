@@ -12,7 +12,7 @@ typedef struct S_80172610_0 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x68];
-    u16 unk_94;
+    s16 unk_94;
     u16 unk_96;
     u8 pad_98[0x2];
     u8 unk_9A;
@@ -126,7 +126,7 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, Spri
 
     direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
     direction_short = direction_index;
-    if (((s16)actor->unk_94) != direction_short) {
+    if (actor->unk_94 != direction_short) {
         select_sprite_entry(context, (*((((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
         actor->unk_94 = direction_index;
     }

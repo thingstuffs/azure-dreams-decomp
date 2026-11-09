@@ -32,9 +32,9 @@ typedef struct RotatingClippedSpriteBody {
 } RotatingClippedSpriteBody;
 
 typedef struct TwoRowObjectGroupBody {
-    s16 unk_00;
+    u16 unk_00;
     u16 unk_02;
-    s16 unk_04;
+    u16 unk_04;
     u16 unk_06;
     s16 unk_08;
     s16 unk_0A;
@@ -65,7 +65,7 @@ typedef struct DirectionalParticleChainBody {
     u16 unk_02;
     u8 pad_04[0x4];
     s16 unk_08;
-    u16 unk_0A;
+    s16 unk_0A;
     u8 pad_0C[0x9];
     u8 unk_15;
     u16 unk_16;

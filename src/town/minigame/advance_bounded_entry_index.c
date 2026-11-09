@@ -2,15 +2,9 @@
 #include "m2c_compat.h"
 #include "town/minigame/entry_state.h"
 #include "town/minigame.h"
+#include "shared/entity.h"
 
 
-
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-} Bounds;
 
 typedef struct {
     u16 count;
@@ -29,7 +23,7 @@ extern M2C_UNK D_800240F0;
 
 
 /* Advance the entry index when the point is inside its bounds, counting completed cycles. */
-void advance_bounded_entry_index(void *bounds_data, void *state_data_arg) {
+void advance_bounded_entry_index(ObjectPosition *bounds_data, void *state_data_arg) {
     State *state_data = state_data_arg;
     s16 next_index;
     s16 entry_y;
@@ -38,11 +32,10 @@ void advance_bounded_entry_index(void *bounds_data, void *state_data_arg) {
     s32 point_y;
     void *entries;
     Entry *entry;
-    Bounds *bounds = bounds_data;
     State *state = state_data;
 
-    point_x = bounds->f1;
-    point_y = bounds->f3;
+    point_x = bounds_data->x.w.i;
+    point_y = bounds_data->y.w.i;
     entries = &D_800240F0;
     entry = ((state->index * 8) + entries);
     entry_x = entry->f0;

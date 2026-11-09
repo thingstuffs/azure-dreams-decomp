@@ -118,7 +118,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         return;
 
     case 5:
-        switch ((s16)(body->action_timer)) {
+        switch ((s16)body->action_timer) {
         case 0:
             position->velocity_z = -0x140000;
             body->unk_AC.value = 0x30000;
@@ -133,7 +133,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         }
         position->velocity_z += body->unk_AC.value;
 
-        if ((s16)(body->action_timer) < 2) {
+        if ((s16)body->action_timer < 2) {
             particle_index = 0;
             do {
                 scatter_x = (s16)((rand() & 0x1F) - 0x10);
@@ -142,14 +142,14 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
                 particle_index++;
             } while (particle_index < 4);
         }
-        if ((s16)(body->action_timer) == 1) {
+        if ((s16)body->action_timer == 1) {
             create_anchored_directional_object(body, position, sprite, object, 1);
             play_sound_if_enabled(0x80A);
         }
-        if ((s16)(body->action_timer) == 2) {
+        if ((s16)body->action_timer == 2) {
             create_directional_template_effect(body, (BaloonTemplateAnchor *)position, sprite, object);
         }
-        if ((s16)(body->action_timer) == 6) {
+        if ((s16)body->action_timer == 6) {
             create_anchored_directional_object(body, position, sprite, object, 0x1A);
             play_sound_if_enabled(0x705);
         }

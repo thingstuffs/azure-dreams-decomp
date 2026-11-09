@@ -2443,8 +2443,8 @@ s16 choose_unblocked_cardinal_direction(s16 x, s16 y, s16 dir)
 }
 
 /* Chooses a random point just outside the requested room edge, or (0, 0) for an inactive room. */
-void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, floor_generate_isolated_80289CEC_Entry *room) {
-    if (room->fieldA == 0) {
+void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, DungeonRoom *room) {
+    if (room->active == 0) {
         *out_x = 0;
         *out_y = 0;
         return;
@@ -2452,22 +2452,22 @@ void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, floor_gener
 
     switch (side) {
     case 0:
-        *out_x = room->field4;
-        *out_y = ((u16)generate_random_value() % (room->field6 - 2)) + 1;
+        *out_x = (u16)room->w;
+        *out_y = ((u16)generate_random_value() % ((u16)room->h - 2)) + 1;
         break;
 
     case 2:
-        *out_x = ((u16)generate_random_value() % (room->field4 - 2)) + 1;
-        *out_y = room->field6;
+        *out_x = ((u16)generate_random_value() % ((u16)room->w - 2)) + 1;
+        *out_y = (u16)room->h;
         break;
 
     case 4:
         *out_x = -1;
-        *out_y = ((u16)generate_random_value() % (room->field6 - 2)) + 1;
+        *out_y = ((u16)generate_random_value() % ((u16)room->h - 2)) + 1;
         break;
 
     default:
-        *out_x = ((u16)generate_random_value() % (room->field4 - 2)) + 1;
+        *out_x = ((u16)generate_random_value() % ((u16)room->w - 2)) + 1;
         *out_y = -1;
         break;
     }

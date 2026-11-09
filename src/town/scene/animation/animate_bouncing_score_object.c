@@ -1,19 +1,11 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/town_state.h"
 #include "town/scene/animation.h"
 #include "town/data.h"
 #include "town/devkit/old_minigame_imports.h"
 
 
-
-typedef struct Motion {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} Motion;
 
 typedef struct Actor {
     void *handler;
@@ -52,7 +44,7 @@ extern s32 scene_value_total;
 
 
 /* Bounces a pickup, applies its reward on a successful position test, and handles blinking and removal. */
-void animate_bouncing_score_object(State *st, Motion *mot, Actor *actor)
+void animate_bouncing_score_object(State *st, ObjectPosition *mot, Actor *actor)
 {
     Actor *act = actor;
     Entity *entity;
@@ -136,17 +128,17 @@ void animate_bouncing_score_object(State *st, Motion *mot, Actor *actor)
 
 case 2:
     func_8003EA54(act);
-    mot->x += mot->dx;
-    mot->y += mot->dy;
-    mot->z += mot->dz;
-    mot->dz += 0x30000;
+    mot->x.v += mot->velocity_x;
+    mot->y.v += mot->velocity_y;
+    mot->z.v += mot->velocity_z;
+    mot->velocity_z += 0x30000;
     st->timer--;
     if (st->timer > 0) {
         return;
     }
 
-    mot->z = -0x400000;
-    mot->dz = ((func_80071494() & 0xff) << 11) - 0x180000;
+    mot->z.v = -0x400000;
+    mot->velocity_z = ((func_80071494() & 0xff) << 11) - 0x180000;
     st->timer = (func_80071494() & 0xf) + 30;
     st->state = 3;
     return;
@@ -156,13 +148,13 @@ case 2:
         s32 floor;
         s32 z;
         func_8003EA54(act);
-        mot->z += mot->dz;
-        mot->dz += 0x30000;
-        z = mot->z;
+        mot->z.v += mot->velocity_z;
+        mot->velocity_z += 0x30000;
+        z = mot->z.v;
         floor = -0x400000;
         if (z > floor) {
-            mot->z = floor;
-            mot->dz = (-mot->dz) >> 1;
+            mot->z.v = floor;
+            mot->velocity_z = (-mot->velocity_z) >> 1;
         }
         if (func_80240810(score_bounce_update_address, mot, score_bounce_motion_data, town_motion_state)) {
             s32 product;
@@ -183,7 +175,7 @@ case 2:
         act->height = 0;
         act->mode = 0;
         act->variant = 0;
-        mot->z = floor;
+        mot->z.v = floor;
         return;
     }
 

@@ -222,7 +222,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         } else {
             action_state->action_timer = (u16) (action_state->action_timer - 1);
         }
-        if ((s16)(action_state->action_timer) == 0) {
+        if ((s16)action_state->action_timer == 0) {
             if (((PlayerRecord *)action_state)->unk_102 == 0) {
                 s32 attack_target;
 

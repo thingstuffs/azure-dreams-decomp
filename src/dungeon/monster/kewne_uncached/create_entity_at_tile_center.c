@@ -624,7 +624,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         motion_in->y.v = motion_y + velocity_y;
         if (!(entity->flags1C & 0x40000) && !(actor_in->action_state_flags & 8)) {
             motion_in->velocity_z = (s32) (motion_in->velocity_z
-                + ((s8)(actor_in->unk_9D) * 0x14000));
+                + ((actor_in->unk_9D) * 0x14000));
             actor_in->unk_9D += 1;
         } else {
             actor_in->unk_9D = 0;

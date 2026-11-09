@@ -42,7 +42,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
         }
         break;
     case 1:
-        timer = (u16)controller->action_timer - 1;
+        timer = controller->action_timer - 1;
         controller->action_timer = timer;
         if (timer > 0) {
             transform->velocity_x =
@@ -88,7 +88,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
                 transform->velocity_x = axis_step;
                 axis_pos -= 0x20;
                 axis_step = (entity->tile_y << 6) - axis_pos;
-                axis_step = (axis_step << 16) / (s16)(controller->action_timer);
+                axis_step = (axis_step << 16) / (s16)controller->action_timer;
                 transform->velocity_y = axis_step;
             }
 

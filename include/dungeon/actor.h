@@ -23,10 +23,10 @@ s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, Moving
 void copy_indexed_entry_data(void *entity);
 void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner);
 void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state);
-void run_saved_actor_action(void *object, void *unused, void *animation, void *actor);
+void run_saved_actor_action(void *object, void *unused, SpriteFrameState *animation, ActorRecord *actor);
 void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
 void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sprite, ActorRecord *status);
-extern void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_mode,struct SpriteFrameState *actor, void *map);
+extern void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_mode,struct SpriteFrameState *actor, ActorRecord *map);
 
 struct S_800AB778_1;
 s32 advance_actor_removal(struct S_800AB778_1 *state, ObjectPosition *unused_context, SpriteFrameState *visual, void *actor);

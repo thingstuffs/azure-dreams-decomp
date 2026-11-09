@@ -2,6 +2,7 @@
 #include "town/player.h"
 #include "shared/entity.h"
 #include "town/player/scene_action_setup.h"
+#include "town/player/state.h"
 
 typedef struct S_8009A18C_0 {
     u8 pad_00[0x4];

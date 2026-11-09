@@ -8,7 +8,6 @@
 
 struct CdCueSequenceNode;
 struct SoundTask;
-struct S_800545F4;
 struct S_80055ADC_arg0;
 
 /* activate_pending_playback.c */
@@ -165,7 +164,7 @@ void submit_tagged_driver_byte(u8 type_group, u8 type_variant, u8 value);
 s32 test_sound_channel_availability(s16 bit_index);
 
 /* update_audio_fade.c */
-s32 update_audio_fade(struct S_800545F4 *gauge);
+s32 update_audio_fade(struct SoundTask *gauge);
 
 /* update_audio_ramp.c */
 void update_audio_ramp(struct SoundTask *ramp);

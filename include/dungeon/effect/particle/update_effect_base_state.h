@@ -60,7 +60,7 @@ typedef struct FadingProjectileEffectBody {
     u8 pad_04[0x44];
     u16 timer;
     union { u16 u; s16 s; u8 byte; } brightness_step;
-    s16 state;
+    u16 state;
 } FadingProjectileEffectBody;
 
 
@@ -127,7 +127,7 @@ typedef struct S_81844F2C_0 {
     u16 unk_0C;
     u16 unk_0E;
     u8 pad_10[0x1A];
-    u16 unk_2A;
+    s16 unk_2A;
     u16 unk_2C;
 } S_81844F2C_0;   /* base in func_8002472C */
 

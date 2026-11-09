@@ -6,10 +6,8 @@ struct SpriteFrameState;
 #include "common.h"
 #include "shared/town_object.h"
 
-void init_threshold_countdown_action(TownObjectRecord *record, void *unused, void *handler_context);
 void init_sound_threshold_action(s32 **record, struct ObjectPosition *unused, s32 setup_value);
 void set_item_selection_data_pointer(void *object, void *unused_position, void *unused_context);
-void select_next_item_state(void *object, void *position, void *context);
 void init_timed_dispatch_action(TownObjectRecord *record, void *unused, void *handler_context);
 void init_actor_action_state(TownObjectRecord *record, void *unused, void *handler_context);
 s32 init_record_target_approach(TownObjectRecord *record, struct ObjectPosition *setup_value, struct SpriteFrameState *init_context);

@@ -89,7 +89,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
             (sprite_in->frameTable) = anim_table;
             select_sprite_entry(sprite_in,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
-                (s16)(actor->unk_A8));
+                (s16)actor->unk_A8);
         }
 
         entity->flags1C |= 0x40000;

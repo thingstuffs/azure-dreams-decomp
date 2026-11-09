@@ -82,7 +82,6 @@ extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 s32 rand(void);
 s16 get_tile_chebyshev_distance();
-s32 display_text_with_fullwidth_adjustment(s8 *text);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern u8 D_80089080[];
 extern u8 spell_mp_costs[];

@@ -79,14 +79,14 @@ void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition 
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x0800;
         }
-        if ((s16)(action->action_timer) == 12 ||
+        if ((s16)action->action_timer == 12 ||
             (sprite->flags & 0xE000)) {
             action->action_timer = 0;
             action->action_phase++;
             sprite->flags &= 0xF7FF;
         }
         call_actor = actor;
-        if ((s16)(action->action_timer) == 1 ||
+        if ((s16)action->action_timer == 1 ||
             (sprite->flags & 0xE000)) {
             call_sprite = sprite;
             resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);

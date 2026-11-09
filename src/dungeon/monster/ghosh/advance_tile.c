@@ -99,7 +99,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
                     ((S_8016FCE4_0 *)actor_in)->unk_2A = get_rounded_facing_and_rounding_flag(sprite->tile_x,
                         sprite->tile_y, target_position->tile_x, target_position->tile_y,
                         &move_state->action_state_flags);
-                    (*(u8 *)&((S_8016FCE4_0 *)actor_in)->unk_71) = ((u8)((S_8016FCE4_0 *)actor_in)->unk_71) & 0x7F;
+                    ((S_8016FCE4_0 *)actor_in)->unk_71 &= 0x7F;
                     return;
                 }
                 move_result = ((S_8016FCE4_0 *)actor_in)->unk_14;
@@ -112,7 +112,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
                 move_result = probe_directional_neighbor(actor_in, sprite->tile_x,
                     sprite->tile_y, (s16) ((S_8016FCE4_0 *)actor_in)->unk_2A);
                 if (move_result != 0) {
-                    ((S_8016FCE4_0 *)actor_in)->unk_71 = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71 & 0x7F);
+                    ((S_8016FCE4_0 *)actor_in)->unk_71 &= 0x7F;
                     return;
                 }
             }
@@ -150,7 +150,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
                             limit_turns = 1;
                         }
                     } else {
-                        ((S_8016FCE4_0 *)actor_in)->unk_71 = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71 & 0x7F);
+                        ((S_8016FCE4_0 *)actor_in)->unk_71 &= 0x7F;
                         return;
                     }
                 } else {
@@ -175,17 +175,17 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
                 if (turn_index >= 3) {
                     move_result = limit_turns;
                     if (move_result != 0) {
-                        ((S_8016FCE4_0 *)actor_in)->unk_71 = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71 & 0x7F);
+                        ((S_8016FCE4_0 *)actor_in)->unk_71 &= 0x7F;
                         return;
                     }
                 }
                 {
                     ((S_8016FCE4_0 *)actor_in)->unk_2A = (u16) trial_heading;
-                    ((ActorRecord *)actor_in)->path_x[((u8) ((S_8016FCE4_0 *)actor_in)->unk_71 & 0x7F)] =
+                    ((ActorRecord *)actor_in)->path_x[((S_8016FCE4_0 *)actor_in)->unk_71 & 0x7F] =
                         (u8) sprite->tile_x;
-                    ((ActorRecord *)actor_in)->path_y[((u8) ((S_8016FCE4_0 *)actor_in)->unk_71 & 0x7F)] =
+                    ((ActorRecord *)actor_in)->path_y[((S_8016FCE4_0 *)actor_in)->unk_71 & 0x7F] =
                         (u8) sprite->tile_y;
-                    ((S_8016FCE4_0 *)actor_in)->unk_71 = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71 + 1);
+                    ((S_8016FCE4_0 *)actor_in)->unk_71++;
                     update_map_cell_flags_with_item_limit(sprite->tile_x,
                         sprite->tile_y,
                                   (((S_8016FCE4_0 *)actor_in)->unk_1C & 0x2000) ? 0x300 : 0x3000);
@@ -217,7 +217,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
         } while (turn_index < 8);
         move_result = turn_index < 8;
         if (move_result == 0) {
-            ((S_8016FCE4_0 *)actor_in)->unk_71 = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71 & 0x7F);
+            ((S_8016FCE4_0 *)actor_in)->unk_71 &= 0x7F;
             ((S_8016FCE4_0 *)actor_in)->unk_46 = (u16) (((S_8016FCE4_0 *)actor_in)->unk_46 & 0x7FFF);
             update_actor_status_and_mp(actor_in);
             return;
@@ -227,7 +227,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
         ((S_8016FCE4_0 *)actor_in)->unk_6D = (u8) (((S_8016FCE4_0 *)actor_in)->unk_6D - 1);
         g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
         if (((s8)((S_8016FCE4_0 *)actor_in)->unk_6D) == 0) {
-            ((S_8016FCE4_0 *)actor_in)->unk_71 = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71 & 0x7F);
+            ((S_8016FCE4_0 *)actor_in)->unk_71 &= 0x7F;
             return;
         }
         turn_index = (s16) sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,

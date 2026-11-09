@@ -5,6 +5,7 @@
 #include "town/scene/position_entries.h"
 #include "town/scene/entry_requests.h"
 #include "town/scene/motion.h"
+#include "town/scene.h"
 
 typedef struct {
     s16 x;

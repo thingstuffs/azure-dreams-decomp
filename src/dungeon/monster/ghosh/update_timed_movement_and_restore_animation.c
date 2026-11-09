@@ -113,7 +113,7 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
             tile_y = sprite->tile_y << 6;
             offset_y = motion->y.w.i - 32;
             motion->velocity_y =
-            ((tile_y - offset_y) << 16) / (s16)(body->action_timer);
+            ((tile_y - offset_y) << 16) / (s16)body->action_timer;
         }
         saved_timer = body->action_timer;
         next_timer = (s16)(saved_timer - 1);

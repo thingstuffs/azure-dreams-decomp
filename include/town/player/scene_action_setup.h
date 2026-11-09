@@ -8,7 +8,6 @@ struct ObjectPosition;
 struct SceneActionReset;
 struct EntityRec;
 
-void update_actor_and_dispatch_state(void *actor, struct ObjectPosition *record, s32 context);
 /* Registered code-address alias for update_actor_and_dispatch_state. */
 void D_8009204C(void *actor, struct EntityRec *record, s32 context);
 

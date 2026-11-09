@@ -35,6 +35,9 @@ void forward_context_request_to_handler_e(void *context, s32 request);
 void forward_context_request_to_handler_f(void *context, s32 request);
 void forward_context_request_to_handler_g(void *context, s32 request);
 void set_scene_entry_flag_k(void);
+void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y);
+struct TownTimedTransitionState;
+void update_timed_state_transition(struct TownTimedTransitionState *state);
 
 #include "shared/item_menu.h"
 struct S_800B3178_0;

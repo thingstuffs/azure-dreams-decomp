@@ -51,12 +51,12 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
             ((s16 *)((s8 *)dir_step_x))[((u16)((s16)actor->movement_facing) >> 9) & 7] << 10;
         motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[((u16)((s16)actor->movement_facing) >> 9) & 7] << 10;
-        if ((s16)(action->action_timer) > 0) {
+        if ((s16)action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (entity->flags & 0x6000) {
             action->action_timer = 0;
         }
-        if ((s16)(action->action_timer) != 0) {
+        if ((s16)action->action_timer != 0) {
             return;
         }
         if (actor->hp == 0) {
@@ -87,7 +87,7 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
 
                 motion->velocity_y =
                     ((target_y - current_y) << 15) /
-                    (s16)(action->action_timer);
+                    (s16)action->action_timer;
             }
         }
         frames_left = action->action_timer - 1;

@@ -12,7 +12,7 @@
 
 
 /* Transforms a flipped point using local scale, rotation, and offsets, then adjusts for view angles. */
-void runtime_transform_sprite_attachment_point(void *transform, void *point, void *result)
+void runtime_transform_sprite_attachment_point(SpriteFrameState *transform, void *point, void *result)
 {
     GameWork *render_state;
     SpriteFrameState *sprite = transform;

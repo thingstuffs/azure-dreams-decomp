@@ -165,7 +165,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
                 ((S_80092018_3 *)motion)->unk_10.at00.v = (s32) ((delta
                     << 0x10) / (s16) actor->action_timer);
             }
-            if ((s16)(actor->action_timer) != 0) {
+            if ((s16)actor->action_timer != 0) {
                 settle_frames_left = actor->action_timer - 1;
                 actor->action_timer = settle_frames_left;
                 if ((settle_frames_left << 0x10) == 0) {
@@ -179,7 +179,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
             if (!(anim_flags & 0x6000)) {
                 return;
             }
-            if ((s16)(actor->action_timer) != 0) {
+            if ((s16)actor->action_timer != 0) {
                 return;
             }
         }

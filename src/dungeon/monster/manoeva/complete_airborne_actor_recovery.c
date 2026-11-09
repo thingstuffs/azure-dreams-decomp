@@ -67,9 +67,9 @@ void complete_airborne_actor_recovery(ActorRecord *action, ObjectPosition *motio
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             motion->velocity_y =
-                (tile_delta << 16) / (s16)(action->unk_9E);
+                (tile_delta << 16) / action->unk_9E;
             action->unk_A0.value =
-                (-rsin((s16)(action->unk_9E) * 0x199)) << 9;
+                (-rsin(action->unk_9E * 0x199)) << 9;
         }
 
         action->unk_90.value += action->unk_A0.value;

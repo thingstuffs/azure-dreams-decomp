@@ -67,19 +67,10 @@ typedef struct OriginMotionEffectBody {
     s32 acceleration_z;
 } OriginMotionEffectBody;
 
-typedef struct OriginMotionEffectPosition {
-    union { struct { s32 v; } at00; struct { u8 pad[2]; u16 v; } at02; } unk_00;
-    union { struct { s32 v; } at00; struct { u8 pad[2]; u16 v; } at02; } unk_04;
-    union {
-        struct { s32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u8 pad[2]; u16 v; } at02;
-        struct { u8 pad[2]; s16 v; } at02u;
-    } unk_08;
-} OriginMotionEffectPosition;
+
 
 void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect,
-    OriginMotionEffectPosition *position, SpriteFrameState *visual);
+    ObjectPosition *position, SpriteFrameState *visual);
 
 void initialize_angle_indexed_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *target, ActorRecord *angleSource);
 s32 random_below_limit(s32 limit);

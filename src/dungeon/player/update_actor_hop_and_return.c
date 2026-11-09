@@ -62,7 +62,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
         play_sound_if_enabled(0x701);
         return;
     case 1:
-        if ((s16)(body->action_timer) != 0) {
+        if ((s16)body->action_timer != 0) {
             position->x.v = (s32) (position->x.v + (rcos(actor->facing + 0x400) << 6));
             position->y.v = (s32) (position->y.v + (rsin(actor->facing + 0x400) << 6));
             body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin((s16) body->action_timer
@@ -102,7 +102,7 @@ void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, Sp
             {
                 s32 y_numerator = (y_step - y_origin) << 0x10;
 
-                y_remaining = (s16)(body->action_timer);
+                y_remaining = (s16)body->action_timer;
                 y_step = y_numerator / y_remaining;
             }
             y_work = position->y.v + y_step;

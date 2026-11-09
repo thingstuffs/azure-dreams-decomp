@@ -343,7 +343,7 @@ typedef struct EntityEffectSequencePrefix {
     s16 timer3A;
     s16 timer3C;
     s16 mode3E;
-    s16 random40;
+    u16 random40;
     u8 pad42[0x12];
     s16 path[18];
 } EntityEffectSequencePrefix;

@@ -214,7 +214,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
                 sprite->flags |= 0x800;
                 body->action_timer = 0xF;
             }
-            if ((s16)(body->action_timer) == 8) {
+            if ((s16)body->action_timer == 8) {
                 u8 *animations;
                 s32 direction;
 
@@ -224,7 +224,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animations[direction], 0);
             }
-            if ((s16)(body->action_timer) < 2) {
+            if ((s16)body->action_timer < 2) {
                 return;
             }
         }

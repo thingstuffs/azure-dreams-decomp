@@ -16,7 +16,6 @@ extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *object, s32 attr_a, s16 attr_b);
 extern void initialize_actor_sprite_and_animation(void *object, void *attr_a, void *attr_b, s32 attr_c);
-extern s32 try_move_actor_to_valid_position(void *object, void *attr_a, void *attr_b, void *attr_c);
 
 extern void func_8014CE5C(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 extern u8 volcano_frame_set[];
