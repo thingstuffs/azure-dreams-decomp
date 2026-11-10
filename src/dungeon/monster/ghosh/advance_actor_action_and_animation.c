@@ -18,7 +18,7 @@
 s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/monster/ghosh_frames.h"
-void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
 
 extern u8 ghosh_action_resume_address[];
 extern u8 D_801746AC[];

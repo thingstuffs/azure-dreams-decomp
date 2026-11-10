@@ -200,8 +200,8 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_context)
 {
     ovl_188298c_81862ED8_S_800246D8_3 *line_or_red;
-    u8 *scratch = (u8 *)0x1F800000;
-    u8 *packet;
+    ovl_188298c_81862ED8_S_800246D8_0 *scratch = (ovl_188298c_81862ED8_S_800246D8_0 *)0x1F800000;
+    ovl_188298c_81862ED8_S_800246D8_2 *packet;
     void *projection_out_a;
     void *projection_out_b;
     ovl_188298c_81862ED8_PackedDelta delta;
@@ -217,20 +217,20 @@ s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_co
     u32 *ordering_table;
     u8 *render_ctx = g_game_work.draw_buffer;
 
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
+    scratch->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;
     line_or_red = line_bytes;
-    ((GpuContext *)render_ctx)->packetCursor = packet + 0x14;
+    ((GpuContext *)render_ctx)->packetCursor = (u8 *)packet + 0x14;
 
-    ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_00.at03.v = 4;
-    ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_07 = 0x50;
+    packet->unk_00.at03.v = 4;
+    packet->unk_07 = 0x50;
 
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_64 = line_or_red->unk_22;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_66 = line_or_red->unk_26;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_68 = line_or_red->unk_2A;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6C = line_or_red->unk_3A;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6E = line_or_red->unk_3E;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_70 = line_or_red->unk_42;
+    scratch->unk_64 = line_or_red->unk_22;
+    scratch->unk_66 = line_or_red->unk_26;
+    scratch->unk_68 = line_or_red->unk_2A;
+    scratch->unk_6C = line_or_red->unk_3A;
+    scratch->unk_6E = line_or_red->unk_3E;
+    scratch->unk_70 = line_or_red->unk_42;
 
     phase_or_depth = line_or_red->unk_10 - 1;
     switch (phase_or_depth) {
@@ -250,30 +250,30 @@ s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_co
         s32 step_y;
         s32 end_z;
 
-        delta.word = first_delta_s32_s32(((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6C, (x0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_64))
+        delta.word = first_delta_s32_s32(scratch->unk_6C, (x0 = scratch->unk_64))
         << 16;
         delta.word >>= 3;
         delta.word *= line_or_red->unk_10 + 1;
 
-        y0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_66;
+        y0 = scratch->unk_66;
         mask = 0xFFFF0000;
         step_x = (delta.word & mask) >> 16;
-        delta.half.high = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6E - y0;
+        delta.half.high = scratch->unk_6E - y0;
         delta.word &= mask;
-        ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6C = x0 + step_x;
+        scratch->unk_6C = x0 + step_x;
         delta.word >>= 3;
         delta.word *= line_or_red->unk_10 + 1;
 
-        end_z = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_70;
-        z0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_68;
+        end_z = scratch->unk_70;
+        z0 = scratch->unk_68;
         step_y = delta.half.high;
         delta.half.high = end_z - z0;
         delta.word &= mask;
-        ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6E = y0 + step_y;
+        scratch->unk_6E = y0 + step_y;
         delta.word >>= 3;
         delta.word *= line_or_red->unk_10 + 1;
         z0 += delta.half.high;
-        ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_70 = z0;
+        scratch->unk_70 = z0;
     }
         {
             s32 level;
@@ -285,24 +285,24 @@ s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_co
             multiplier = 23;
             y = level * multiplier;
             level = 0x40;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_04 = level;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_05 = level;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_06 = level;
+            packet->unk_04 = level;
+            packet->unk_05 = level;
+            packet->unk_06 = level;
             level -= (7 - mask_or_phase) * 8;
             multiplier = (s32)line_or_red + 0x40;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0D = level;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0C = multiplier;
+            packet->unk_0D = level;
+            packet->unk_0C = multiplier;
             multiplier = y + 0x40;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0E = multiplier;
+            packet->unk_0E = multiplier;
         }
         break;
     case 7:
-        ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_04 = 0x40;
-        ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_05 = 0x40;
-        ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_06 = 0x40;
-        ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0C = 0x7F;
-        ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0D = 0;
-        ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0E = 0xFF;
+        packet->unk_04 = 0x40;
+        packet->unk_05 = 0x40;
+        packet->unk_06 = 0x40;
+        packet->unk_0C = 0x7F;
+        packet->unk_0D = 0;
+        packet->unk_0E = 0xFF;
         break;
     case 8:
     case 9:
@@ -320,30 +320,30 @@ s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_co
         s32 step_y;
         s32 end_z;
 
-        delta.word = first_delta_s32_s32(((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6C, (x0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_64))
+        delta.word = first_delta_s32_s32(scratch->unk_6C, (x0 = scratch->unk_64))
         << 16;
         delta.word >>= 3;
         delta.word *= line_or_red->unk_10 - 7;
 
-        y0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_66;
+        y0 = scratch->unk_66;
         mask = 0xFFFF0000;
         step_x = (delta.word & mask) >> 16;
-        delta.half.high = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6E - y0;
+        delta.half.high = scratch->unk_6E - y0;
         delta.word &= mask;
-        ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_64 = x0 + step_x;
+        scratch->unk_64 = x0 + step_x;
         delta.word >>= 3;
         delta.word *= line_or_red->unk_10 - 7;
 
-        end_z = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_70;
-        z0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_68;
+        end_z = scratch->unk_70;
+        z0 = scratch->unk_68;
         step_y = delta.half.high;
         delta.half.high = end_z - z0;
         delta.word &= mask;
-        ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_66 = y0 + step_y;
+        scratch->unk_66 = y0 + step_y;
         delta.word >>= 3;
         delta.word *= line_or_red->unk_10 - 7;
         z0 += delta.half.high;
-        ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_68 = z0;
+        scratch->unk_68 = z0;
     }
         {
             s32 k;
@@ -355,53 +355,53 @@ s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_co
             line_or_red = (ovl_188298c_81862ED8_S_800246D8_3 *)(mask_or_phase * k);
             k23 = 23;
             mask_or_phase *= k23;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0D = 0;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_05 = (k - y) * 8;
+            packet->unk_0D = 0;
+            packet->unk_05 = (k - y) * 8;
             multiplier = 0x7F;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0C = multiplier;
+            packet->unk_0C = multiplier;
             multiplier = 0xFF;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0E = multiplier;
+            packet->unk_0E = multiplier;
             multiplier = (s32)line_or_red + 0x40;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_04 = multiplier;
+            packet->unk_04 = multiplier;
             multiplier = mask_or_phase + 0x40;
-            ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_06 = multiplier;
+            packet->unk_06 = multiplier;
         }
         break;
     }
 
-    projection_out_a = scratch + 0x84;
-    projection_out_b = scratch + 0x88;
+    projection_out_a = (u8 *)scratch + 0x84;
+    projection_out_b = (u8 *)scratch + 0x88;
     first_z = RotTransPers((void *)((u32)scratch | 0x64),
                             (void *)((u32)scratch | 0xD8), projection_out_a, projection_out_b);
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_F4 = first_z;
+    scratch->unk_F4 = first_z;
     second_z = RotTransPers((void *)((u32)scratch | 0x6C),
                              (void *)((u32)scratch | 0xDC), projection_out_a, projection_out_b);
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_F8 = second_z;
+    scratch->unk_F8 = second_z;
 
-    ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_08 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_D8;
-    ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0A = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_DA;
-    ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_10 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_DC;
-    ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_12 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_DE;
+    packet->unk_08 = scratch->unk_D8;
+    packet->unk_0A = scratch->unk_DA;
+    packet->unk_10 = scratch->unk_DC;
+    packet->unk_12 = scratch->unk_DE;
 
-    depth_sum = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_F4;
-    depth_sum += ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_F8;
+    depth_sum = scratch->unk_F4;
+    depth_sum += scratch->unk_F8;
     depth_or_tag = (s32)(depth_sum + ((u32)depth_sum >> 31)) >> 1;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_B4 = depth_or_tag;
+    scratch->unk_B4 = depth_or_tag;
     if ((u32)depth_or_tag < 0x1E0U) {
         u32 entry_addr;
         u32 *ot_base;
         s32 low_mask;
         low_mask = 0x00FFFFFF;
         entry_addr = depth_or_tag << 2;
-        ot_base = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_18;
+        ot_base = scratch->unk_18;
         depth_or_tag = 0xFF000000;
         entry_addr += (u32)ot_base;
-        ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_00.at00.v =
-            (((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_00.at00.v & depth_or_tag) |
+        packet->unk_00.at00.v =
+            (packet->unk_00.at00.v & depth_or_tag) |
             (*(u32 *)entry_addr & low_mask);
 
-        phase_or_depth = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_B4;
-        ordering_table = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_18;
+        phase_or_depth = scratch->unk_B4;
+        ordering_table = scratch->unk_18;
         ordering_table[phase_or_depth] =
             (ordering_table[phase_or_depth] & depth_or_tag) |
             ((u32)packet & low_mask);

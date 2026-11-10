@@ -7,6 +7,7 @@
 #include "engine/item.h"
 #include "town/menu.h"
 #include "town/menu/state.h"
+#include "slus.h"
 
 typedef struct S_80126890_0 {
     u8 pad_00[0xC];
@@ -17,7 +18,6 @@ typedef struct S_80126890_0 {
     void * unk_20;
 } S_80126890_0;   /* node in create_catalog_display_node */
 
-extern void SD_Call(s32);
 
 extern s8 animation_tick_scale;
 extern s32 D_80126704;

@@ -29,7 +29,7 @@ void *reset_actor_animation_state(ActorRecord *body)
     u8 *map;
     s32 map_index;
     void *entity_arg;
-    u8 *parent;
+    S_800D8590_0 *parent;
     ActorRecord *object;
     s32 frame_index;
 
@@ -39,7 +39,7 @@ void *reset_actor_animation_state(ActorRecord *body)
         g_dungeon_status.pending_display_owner = (s32)parent & 0x7FFFFFFF;
     }
 
-    child = ((S_800D8590_0 *)parent)->unk_0C;
+    child = parent->unk_0C;
     if (body->species == 0) {
         clear_player_linked_action_flags();
         ((SpriteFrameState *)child)->flags |= 0x8000;
@@ -59,11 +59,11 @@ void *reset_actor_animation_state(ActorRecord *body)
             map += map_index;
             map[0xF9] = 1;
         }
-        bzero(parent + 0xAC, 0x24);
+        bzero((u8 *)parent + 0xAC, 0x24);
 
-        object = (ActorRecord *)(parent + 0x20);
-        object->unk_AC.value = ((S_800D8590_0 *)parent)->unk_10;
-        ((S_800D8590_0 *)parent)->unk_10 = (s32)D_800D8728 & 0x7FFFFFFF;
+        object = (ActorRecord *)((u8 *)parent + 0x20);
+        object->unk_AC.value = parent->unk_10;
+        parent->unk_10 = (s32)D_800D8728 & 0x7FFFFFFF;
         object->unk_A8 = body->species;
         body->species = MONSTER_FROG;
         object->action_id = 0xFF;

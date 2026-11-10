@@ -138,7 +138,7 @@ void apply_record_values_and_process_record(ItemMenuInputObject *record)
 {
     func_800B3A80((s32)record->item_menu_object);
     process_object_resources_and_high_flag((u8 *)record->source_menu);
-    refresh_object_components_and_high_flag((u8 *)record->destination_menu);
+    refresh_object_components_and_high_flag(record->destination_menu);
     NODE_HEADER(record)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     came_bright_set(3);

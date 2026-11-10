@@ -76,7 +76,7 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
     u8 *render_state = g_game_work.draw_buffer;
     u32 draw_flags;
     void **render_state_ref;
-    u8 *packet;
+    S_80166968_5 *packet;
     s8 *texture_entry;
     u32 color;
     s32 zero;
@@ -126,7 +126,7 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
 
     for (;;) {
         packet = ((GpuContext *)(*render_state_ref))->packetCursor;
-        ((GpuContext *)(*render_state_ref))->packetCursor = packet + 0x10;
+        ((GpuContext *)(*render_state_ref))->packetCursor = (u8 *)packet + 0x10;
 
         point_a = (u8 *)scratch + 0xB0;
         mid_a_x = (geometry->unk_74 + geometry->unk_7A) / 2;
@@ -152,8 +152,8 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         scratch->unk_BC = mid_b_z;
 
         ot_index = RotAverage4(point_a, point_b, point_a_copy, point_b_copy,
-                                 packet + 8, packet + 0xC,
-                                 packet + 8, packet + 0xC,
+                                 (u8 *)packet + 8, (u8 *)packet + 0xC,
+                                 (u8 *)packet + 8, (u8 *)packet + 0xC,
                                  (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - (s16)saved_depth_bias - 6;
         scratch->unk_100 = ot_index;
 
@@ -169,11 +169,11 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
 
         zero = 0;
         color = geometry->unk_00;
-        ((S_80166968_5 *)packet)->unk_00.at03.v = 3;
-        ((S_80166968_5 *)packet)->unk_04.at00.v = color;
-        ((S_80166968_5 *)packet)->unk_04.at03.v = 0x42;
+        packet->unk_00.at03.v = 3;
+        packet->unk_04.at00.v = color;
+        packet->unk_04.at03.v = 0x42;
 
-        ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |
+        packet->unk_00.at00.v = (packet->unk_00.at00.v & length_mask) |
             ((*(u32 *)((u8 *)(scratch->unk_24)
                 + scratch->unk_100 * 4)) & address_mask);
         (*(u32 *)((u8 *)(scratch->unk_24) + scratch->unk_100 * 4)) =
@@ -182,13 +182,13 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
             ((u32)packet & address_mask);
 
         packet = ((GpuContext *)(*render_state_ref))->packetCursor;
-        ((GpuContext *)(*render_state_ref))->packetCursor = packet + 0xC;
+        ((GpuContext *)(*render_state_ref))->packetCursor = (u8 *)packet + 0xC;
         SetDrawMode(packet, zero, zero, GetTPage(zero, 1, zero, zero) & 0xFFFF, zero);
 
-        ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |
+        packet->unk_00.at00.v = (packet->unk_00.at00.v & length_mask) |
             ((*(u32 *)((u8 *)(scratch->unk_24)
                 + scratch->unk_100 * 4)) & address_mask);
-        packet = (u8 *)((u32)packet & address_mask);
+        packet = (S_80166968_5 *)((u32)packet & address_mask);
         (*(u32 *)((u8 *)(scratch->unk_24) + scratch->unk_100 * 4)) =
             ((*(u32 *)((u8 *)(scratch->unk_24)
                 + scratch->unk_100 * 4)) & length_mask) |

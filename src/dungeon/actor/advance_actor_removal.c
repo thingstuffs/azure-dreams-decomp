@@ -93,7 +93,8 @@ typedef struct {
 
 s32 get_entity_class();
 struct DungeonItemEntry;
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 s16 find_entity_slot_by_field_ac();
 #include "dungeon/player/object/action_state.h"

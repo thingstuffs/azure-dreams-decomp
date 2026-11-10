@@ -369,7 +369,6 @@ void RotMatrix(void *, void *);
 u16 GetTPage(s32, s32, s32, s32);
 void SetDrawMode(void *, s32, s32, u16, s32);
 s32 project_and_queue_visible_shaded_quad(s32);
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 rsin(s32);
 s32 rcos(s32);
 s32 advance_sprite_animation_and_textures(void *effect_data);
@@ -394,6 +393,6 @@ void update_effect_values_and_expire(Row_819231FC_S_800249FC_1 *object, s32 unus
 void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite);
 void advance_radial_effect_state(void *entity_data, s32 unused, SpriteFrameState *effect_data);
 void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite);
-void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState *sprite);
+void update_effect_cycle_and_bursts(Row_8192365C_S_80024E5C_0 *effect, Row_8192365C_S_80024E5C_2 *motion, SpriteFrameState *sprite);
 extern u8 shaded_effect_update_flag[];
 #endif

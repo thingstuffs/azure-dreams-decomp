@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "shared/object_flags.h"
+struct StorageMenuNode;
 
 typedef struct S_800B4648_1 {
     u8 pad_00[0x18];
@@ -24,6 +25,6 @@ extern void release_null_terminated_entries(void *entries);
 
 /* Functions defined in this translation unit. */
 void submit_five_paired_entry_values(S_800B4648_0 *owner);
-void refresh_object_components_and_high_flag(u8 *object);
+void refresh_object_components_and_high_flag(struct StorageMenuNode *object);
 
 #endif

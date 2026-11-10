@@ -9,7 +9,7 @@
 #include "dungeon/monster/maximum.h"
 
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
+#include "dungeon/actor/spend_actor_mp_api.h"
                 /* extern */
 
 /* Process an interaction and reset the object's state when the checks allow it. */

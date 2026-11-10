@@ -2,7 +2,7 @@
 #include "shared/dir_step.h"
 #include "dungeon/item/position.h"
 
-extern s16 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 
 /* Finds the first neighboring direction with a negative probe result. */
 s32 find_neighbor_with_negative_tile_probe(u8 *entity, s16 *direction) {

@@ -39,7 +39,7 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
     s32 radius_offset;
     u8 *packet;
     s32 point_index;
-    u8 *scratch;
+    S_800BB218_0 *scratch;
     u8 *object;
     MovingPosition *coords;
     u32 addr_mask;
@@ -56,8 +56,8 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
     object = first_object;
     coords = first_coords;
     render_state = &g_game_work;
-    scratch = (u8 *)0x1F800000;
-    ((S_800BB218_0 *)scratch)->unk_10 = render_state->draw_buffer + 0xB0;
+    scratch = (S_800BB218_0 *)0x1F800000;
+    scratch->unk_10 = render_state->draw_buffer + 0xB0;
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;
 
@@ -80,39 +80,39 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
             {
                 s32 base_radius = ((TownObjectRecord *)object)->unk_97;
                 radius_offset = (point_index / 8) % 12 + 0x48;
-                ((S_800BB218_0 *)scratch)->unk_14 =
+                scratch->unk_14 =
                     coords->x + ((x_scale * (base_radius + radius_offset)) >> 8);
             }
 
-            ((S_800BB218_0 *)scratch)->unk_16 =
+            scratch->unk_16 =
                 coords->y +
                 (((rcos(angle) >> 4) *
                   (((TownObjectRecord *)object)->unk_97 + radius_offset)) >> 8);
 
-            ((S_800BB218_0 *)scratch)->unk_18 =
+            scratch->unk_18 =
                 coords->z -
                 (((rsin((point_index % 16) << 6) >> 4) *
                   (((TownObjectRecord *)object)->unk_66 + 0x10)) >> 8);
 
-            ((S_800BB218_0 *)scratch)->unk_04 = RotTransPers(
-                scratch + 0x14, scratch, scratch + 8, scratch + 0xC);
-            ((S_800BB218_4 *)packet)->unk_08 = ((S_800BB218_0 *)scratch)->unk_00;
-            ((S_800BB218_4 *)packet)->unk_0A = ((S_800BB218_0 *)scratch)->unk_02;
+            scratch->unk_04 = RotTransPers(
+                &scratch->unk_14, (s32 *)scratch, (u8 *)scratch + 8, (u8 *)scratch + 0xC);
+            ((S_800BB218_4 *)packet)->unk_08 = scratch->unk_00;
+            ((S_800BB218_4 *)packet)->unk_0A = scratch->unk_02;
 
-            ot_link = ((S_800BB218_0 *)scratch)->unk_04;
+            ot_link = scratch->unk_04;
             if (ot_link < 0x1E0) {
                 ot_link <<= 2;
-                ot_link += (unsigned long)((S_800BB218_0 *)scratch)->unk_10;
+                ot_link += (unsigned long)scratch->unk_10;
                 packet_tag = ((S_800BB218_4 *)packet)->unk_00;
                 ot_link = *(u32 *)ot_link;
                 ot_link &= addr_mask;
                 linked_tag = packet_tag & tag_mask;
                 linked_tag |= ot_link;
                 ((S_800BB218_4 *)packet)->unk_00 = linked_tag;
-                *(u32 *)(((S_800BB218_0 *)scratch)->unk_10 +
-                         ((S_800BB218_0 *)scratch)->unk_04 * 4) =
-                    (*(u32 *)(((S_800BB218_0 *)scratch)->unk_10 +
-                              ((S_800BB218_0 *)scratch)->unk_04 * 4) & tag_mask) |
+                *(u32 *)(scratch->unk_10 +
+                         scratch->unk_04 * 4) =
+                    (*(u32 *)(scratch->unk_10 +
+                              scratch->unk_04 * 4) & tag_mask) |
                     ((u32)packet & addr_mask);
             }
         } while (++point_index < 0x180);

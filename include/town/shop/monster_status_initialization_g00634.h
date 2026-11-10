@@ -11,7 +11,7 @@ struct ShopFirstCallbackObject;
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800D17C8;
 /* extern */
-s32 invalidate_cached_state_and_queue_read(void *);
+s32 invalidate_cached_state_and_queue_read(Rec_func_800B683C_arg0 *);
 /* extern */
 
 extern void initialize_positioned_display_templates(void *owner, void *instance_data, void *instance1, s32 x, s32 y_arg, s32 z_arg);

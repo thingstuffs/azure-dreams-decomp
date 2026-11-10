@@ -17,7 +17,7 @@ struct Source_827C;
 
 extern s32 load_and_publish_texture_resource_pair(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern struct Source_827C * bind_sprite_resource_slot_record(struct Source_827C *source, short entry_id);
-extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 
 extern s32 loaded_entity_sprite_resource[];
 extern s8 spell_effect_selector_cache[];

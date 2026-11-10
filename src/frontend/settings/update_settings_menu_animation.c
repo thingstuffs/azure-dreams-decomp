@@ -8,6 +8,7 @@
 #include "main/data.h"
 #include "engine/resource.h"
 #include "engine/scene.h"
+#include "slus.h"
 
 #ifndef NULL
 #define NULL 0
@@ -15,7 +16,6 @@
 
 extern u8 animation_tick_scale[];
 
-extern short SD_Call(int flags);
 extern void func_80089c24();
 
 /* Updates menu animation, selection, and idle demo transitions. */

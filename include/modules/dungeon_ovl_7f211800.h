@@ -18,7 +18,6 @@ struct ObjectNodeHeader;
 
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void set_or_clear_actor_status_slot();
 extern void func_8016AA68(void *entity, struct R03_80170A28_S_80170A28_2 *motion, void *part);

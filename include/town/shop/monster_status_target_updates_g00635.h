@@ -47,14 +47,6 @@ typedef struct S_800B9464_a0 {
 } S_800B9464_a0;
 
 /* extern */
-typedef struct S_800B6C30_0 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s16 unk_08;
-    u8 pad_0A[0x8E];
-    s32 unk_98;
-} S_800B6C30_0;
-
 #include "engine/resource.h"
 #include "slus.h"
 /* Canonical global flags word shared by several sibling functions across
@@ -64,8 +56,9 @@ typedef struct S_800B6C30_0 {
 extern int D_800814A0;
 extern void release_null_terminated_entries(u16 **a0);
 void process_object_data_by_mode(void *);
+struct Rec_func_800B683C_arg0;
 /* extern */
-s32 invalidate_cached_state_and_queue_read(void *);
+s32 invalidate_cached_state_and_queue_read(struct Rec_func_800B683C_arg0 *);
 
 /* Functions defined in this translation unit. */
 void process_handled_entry_types(void **entries);

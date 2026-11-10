@@ -65,7 +65,7 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
   } else { actor->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
    sprite->frameTable=volcano_frame_set_6;
   }
-  object->header.update_callback=update_entity_facing_and_ground;
+  object->header.update_callback=update_volcano_motion_and_facing;
   initialize_actor_sprite_and_animation(&object->header,motion,sprite,saved_flags);
   state->action_id=0xFF;
   state->unk_9C=-1;
@@ -77,7 +77,7 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
 #include "dungeon/monster/volcano.h"
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void update_entity_facing_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster)
+void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster)
 {
     ActorRecord *actor = entity;
     s32 direction;
@@ -315,7 +315,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((s16)check_entity_relation(status,
                             previous_actor) != 0) {
@@ -625,7 +625,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                         ActorRecord *previous_actor;
 
                         previous_node = primary_actor_record->previous_actor_header;
-                        previous_body = previous_node + 1;
+                        previous_body = NODE_BODY(previous_node);
                         previous_actor = previous_body;
                         if ((check_entity_relation(actor, previous_actor) << 16) != 0) {
                             return;
@@ -1162,7 +1162,7 @@ void resolve_actor_attack_damage(ActorRecord *body, ObjectPosition *position, Sp
 
 /* Starts a targeted spell and linked effect, then restores movement and status after loading and
  * animation. */
-void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E_80172A58_S_80172A58_5 *sprite, ActorRecord *actor) {
+void update_actor_spell_action(E_80172A58_S_80172A58_0 *state, E_80172A58_S_80172A58_6 *position, E_80172A58_S_80172A58_5 *sprite, ActorRecord *actor) {
     s32 result;
     s32 next_ticks;
     s16 use_player_target;
@@ -1174,7 +1174,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
     E_80172A58_S_80172A58_4 *target_position;
     E_80172A58_S_80172A58_3_pre *target_link;
 
-    phase = ((E_80172A58_S_80172A58_0 *)state)->unk_9B;
+    phase = state->unk_9B;
     use_player_target = 0;
     switch (phase) {                              /* switch 1; irregular */
     case 0:                                         /* switch 1 */
@@ -1197,7 +1197,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
             }
         }
         if (*action_entry != 0) {
-            ((E_80172A58_S_80172A58_0 *)state)->unk_98 = (u16) (((E_80172A58_S_80172A58_0 *)state)->unk_98 & 0xFF7F);
+            state->unk_98 = (u16) (state->unk_98 & 0xFF7F);
             if (use_player_target != 0) {
                 target_link = (E_80172A58_S_80172A58_3_pre *)primary_actor_record;
                 actor->target = target_link;
@@ -1216,9 +1216,9 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
                 actor->target_tile_x = abs(actor->target_tile_x);
                 actor->target_tile_y = abs(actor->target_tile_y);
             }
-            if (create_actor_spell_effect(actor, action_entry, use_player_target, state + 0x98) != 0) {
+            if (create_actor_spell_effect(actor, action_entry, use_player_target, &state->unk_98) != 0) {
                 create_actor_linked_effect(actor);
-                ((E_80172A58_S_80172A58_0 *)state)->unk_9B = (u8) (((E_80172A58_S_80172A58_0 *)state)->unk_9B + 1);
+                state->unk_9B = (u8) (state->unk_9B + 1);
                 return;
             }
             return;
@@ -1231,7 +1231,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
         primary_actor_record->unk_A4.halves.high.u = (u16) (primary_actor_record->unk_A4.halves.high.u - 1);
         advance_status_timers(actor);
         actor->pending_turn_updates = actor->pending_turn_updates - 1;
-        ((E_80172A58_S_80172A58_0 *)state)->unk_8C = update_actor_behavior_facing_and_animation_2;
+        state->unk_8C = update_actor_behavior_facing_and_animation_2;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
@@ -1242,17 +1242,17 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
             return;
         }
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
-        ((E_80172A58_S_80172A58_0 *)state)->unk_9B = (u8) (((E_80172A58_S_80172A58_0 *)state)->unk_9B + 1);
+        state->unk_9B = (u8) (state->unk_9B + 1);
     case 2:                                         /* switch 1 */
         if (((sprite->unk_04 == 3) && (sprite->unk_14 & 0x1000)) || (sprite->unk_14 & 0xE000)) {
             sprite->unk_14 = (u16) (sprite->unk_14 | 0x800);
-            ((E_80172A58_S_80172A58_0 *)state)->unk_96 = 1U;
-            ((E_80172A58_S_80172A58_0 *)state)->unk_98 = (u16) (((E_80172A58_S_80172A58_0 *)state)->unk_98 | 0x80);
+            state->unk_96 = 1U;
+            state->unk_98 = (u16) (state->unk_98 | 0x80);
         }
-        remaining_ticks = ((E_80172A58_S_80172A58_0 *)state)->unk_96 - 1;
-        ((E_80172A58_S_80172A58_0 *)state)->unk_96 = remaining_ticks;
+        remaining_ticks = state->unk_96 - 1;
+        state->unk_96 = remaining_ticks;
         if ((remaining_ticks << 0x10) <= 0) {
-            ((E_80172A58_S_80172A58_0 *)state)->unk_96 = 0U;
+            state->unk_96 = 0U;
             sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
         }
         if (sprite->unk_14 & 0xE000) {
@@ -1266,7 +1266,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
             }
             if (g_dungeon_status.active_actor == 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (g_dungeon_status.activity_counts.parts.pending_action_count - 1);
-                ((E_80172A58_S_80172A58_0 *)state)->unk_8C = update_actor_behavior_facing_and_animation_2;
+                state->unk_8C = update_actor_behavior_facing_and_animation_2;
                 advance_status_timers(actor);
                 actor->target_tile_y = 0;
                 actor->target_tile_x = 0;
@@ -1492,7 +1492,7 @@ void handle_actor_pending_action(ActorRecord *action, ObjectPosition *context, S
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(entity,
                             previous_actor) << 16) != 0) {
@@ -1616,7 +1616,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *contex
                     ActorRecord *previous_actor;
 
                     previous_node = owner->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((s16)check_entity_relation(actor, previous_actor) != 0) {
                         return;

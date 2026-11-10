@@ -4,7 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 
-extern void update_actor_status_and_mp(void *);
+#include "dungeon/actor/state.h"
 
 /* Updates the actor state, consumes completed counts, and dispatches its action. */
 void dispatch_actor_action_2(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *state) {

@@ -30,8 +30,9 @@ struct ActorRecord;
 
 s32 check_diagonal_side_height(s32, s16, s16, s16);
 extern s32 check_movement_clearance_and_height();
-s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);
-void update_actor_status_and_mp(struct ActorRecord *);
+#include "dungeon/item/get_actor_height_difference_api.h"
+#include "dungeon/actor/state.h"
+
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 
 extern s16 actor_turn_angle_offsets[];
@@ -254,7 +255,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
         if (attempt == 0) {
             if ((reference_tile_object.tile_position.word != *(u16 *)&position->tile_x)
                 &&
-                ((s16)check_entity_relation(actor, (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) != 0)) {
+                ((s16)check_entity_relation(actor, NODE_BODY(primary_actor_record->previous_actor_header)) != 0)) {
                 return;
             }
         }

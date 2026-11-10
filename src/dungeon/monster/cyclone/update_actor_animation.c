@@ -150,7 +150,7 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((s16)check_entity_relation(
                             stats, previous_actor) != 0) {

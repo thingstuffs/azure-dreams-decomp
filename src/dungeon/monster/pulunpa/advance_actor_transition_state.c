@@ -15,7 +15,8 @@
 
 extern void store_recalled_familiar(void *, void *, void *, ActorRecord *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void unlink_entity_node(void *);
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 s32 find_entity_slot_by_field_ac(void *target_value);
 
 extern void spend_actor_mp(void *, s32);

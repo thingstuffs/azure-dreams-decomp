@@ -24,7 +24,7 @@ typedef struct S_800D4DE8_8 {
 } S_800D4DE8_8;   /* ((Rec_func_800D4BD4_arg1 *)arg0)->unk_00 in emit_particles_until_expired */
 
 /* Emit particles around the parent position and retire the emitter when its lifetime expires. */
-void emit_particles_until_expired(void *emitter, ObjectPosition *position, s32 init_param) {
+void emit_particles_until_expired(Rec_func_800D4BD4_arg1 *emitter, ObjectPosition *position, s32 init_param) {
     s32 particle_index;
     u16 age;
     u16 life_left;
@@ -33,18 +33,18 @@ void emit_particles_until_expired(void *emitter, ObjectPosition *position, s32 i
     ObjectNodeHeader *particle;
     FadingMotionParticleBody *particle_state;
 
-    parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
+    parent = emitter->unk_24;
     position->x.w.i =
         (s16)(parent->position->x.unsigned_parts.integer +
-              ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
+              emitter->unk_3C);
     position->y.w.i =
         (s16)(parent->position->y.unsigned_parts.integer +
-              ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
+              emitter->unk_3E);
     position->z.w.i =
         (s16)(parent->position->z.unsigned_parts.integer +
-              ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
-    age = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
-    ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = age;
+              emitter->unk_40);
+    age = emitter->unk_16 + 1;
+    emitter->unk_16 = age;
     if ((s16)age < 0x14) {
         particle_index = 0;
         do {
@@ -64,13 +64,13 @@ void emit_particles_until_expired(void *emitter, ObjectPosition *position, s32 i
                     ((rand() & 0x7FFF) - 0x4000) << 7;
                 particle_motion->z.w.i =
                     (u16)particle_motion->z.w.i -
-                    (entity_height_offsets[((S_800D4DE8_8 *)(((Rec_func_800D4BD4_arg1 *)emitter)->unk_00))->unk_13] >> 1);
+                    (entity_height_offsets[((S_800D4DE8_8 *)(emitter->unk_00))->unk_13] >> 1);
             }
             particle_index += 1;
         } while (particle_index < 4);
     }
-    life_left = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E - 1;
-    ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E = life_left;
+    life_left = emitter->unk_1E - 1;
+    emitter->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         NODE_HEADER(emitter)->flags = NODE_HEADER(emitter)->flags | 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

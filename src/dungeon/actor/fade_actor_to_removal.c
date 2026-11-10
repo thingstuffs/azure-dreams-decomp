@@ -15,7 +15,7 @@
 
 
 void unlink_entity_node(void *node);
-void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flag_mask);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Fade the entity to dark gray, then remove it and update its tile flags. */
 s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *visual, ActorRecord *entity) {

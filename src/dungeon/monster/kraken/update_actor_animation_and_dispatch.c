@@ -155,7 +155,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
         if (((S_801711A4_2 *)sprite)->unk_24.at00u.v != reference_tile_object.tile_position.word) {
             if (!(status->action_flags & ACTOR_ACTION_PENDING)) {
                 if (g_dungeon_status.flags & 0x2000) {
-                    if ((check_entity_relation(status, ((s32)primary_actor_record->previous_actor_header) + 0x20) << 0x10) != 0) {
+                    if ((check_entity_relation(status, NODE_BODY(primary_actor_record->previous_actor_header)) << 0x10) != 0) {
                         return;
                     }
                 }

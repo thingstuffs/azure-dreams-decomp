@@ -16,7 +16,7 @@
    cleanup. */
 void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0800_2 *motion_arg, Row_818E0800_S_818E0800_10 *actor_state)
 {
-    void *actor;
+    Row_818E0800_S_818E0800_1 *actor;
     Row_818E0800_S_818E0800_3 *actor_base;
     ObjectNodeHeader *entity;
     void *target;
@@ -32,7 +32,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
     Row_818E0800_S_818E0800_9_pre *found_target;
     s32 hit_effect;
 
-    actor = ((void *)effect_arg->x.v);
+    actor = ((Row_818E0800_S_818E0800_1 *)effect_arg->x.v);
     timer = effect_arg->unk_50;
     actor_data = ((Row_818E0800_S_818E0800_1_pre *)actor)[-1].unk_00;
     timer -= 1;
@@ -41,7 +41,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
     actor_base = (Row_818E0800_S_818E0800_3 *)((u8 *)actor - 0x20);
 
     if (initial_state == 2) {
-        target = ((Row_818E0800_S_818E0800_1 *)actor)->unk_60;
+        target = actor->unk_60;
         if (target == 0) {
             motion_arg->unk_00.at00.v =
                 ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_00.at00.v;
@@ -99,13 +99,13 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
             return;
         }
         found_target = scan_actor_along_heading(
-            actor, actor_data->unk_24, actor_data->unk_25,
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_2A,
+            (ActorRecord *)actor, actor_data->unk_24, actor_data->unk_25,
+            actor->unk_2A,
             (s16)get_definition_entry_byte_13(0x23));
-        ((Row_818E0800_S_818E0800_1 *)actor)->unk_60 = found_target;
+        actor->unk_60 = found_target;
         if (found_target == 0) {
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = actor_data->unk_24;
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = actor_data->unk_25;
+            actor->unk_72.s = actor_data->unk_24;
+            actor->unk_73.s = actor_data->unk_25;
         } else {
             render_state = found_target[-1].unk_00;
             if (render_state->flags & 0x8000) {
@@ -114,8 +114,8 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
                     return;
                 }
             }
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = render_state->tile_x;
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = render_state->tile_y;
+            actor->unk_72.s = render_state->tile_x;
+            actor->unk_73.s = render_state->tile_y;
         }
         motion_arg->unk_00.at02.v =
             ((Row_818E0800_S_818E0800_12 *)(actor_base->unk_08))->unk_00.at02.v;
@@ -126,7 +126,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
         effect_arg->unk_50 = 8;
 
         {
-            s32 delta_x = ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.u;
+            s32 delta_x = actor->unk_72.u;
             s32 origin_x = motion_arg->unk_00.at02.v;
             delta_x <<= 6;
             origin_x -= 0x20;
@@ -135,7 +135,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
         }
         motion_arg->unk_0C.at00.v /= ((s16)effect_arg->unk_50);
         {
-            s32 delta_y = ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.u;
+            s32 delta_y = actor->unk_73.u;
             s32 origin_y = motion_arg->unk_04.at02.v - 0x20;
             delta_y <<= 6;
             delta_y -= origin_y;
@@ -159,7 +159,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
         if (((s16)effect_arg->unk_50) > 0) {
             return;
         }
-        if (((Row_818E0800_S_818E0800_1 *)actor)->unk_60 != 0) {
+        if (actor->unk_60 != 0) {
             next_timer = 24;
         } else {
             next_timer = 10;
@@ -175,7 +175,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
         if (((s16)effect_arg->unk_50) > 0) {
             return;
         }
-        active_target = ((Row_818E0800_S_818E0800_1 *)actor)->unk_60;
+        active_target = actor->unk_60;
         sound_id = 8;
         if (active_target == 0) {
             effect_arg->unk_50 = 10;
@@ -188,13 +188,13 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
         return;
     }
     case 0xF0:
-        jitter_effect_position_and_fade(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, ((s16)effect_arg->unk_50));
+        jitter_effect_position_and_fade(actor->unk_60, ((s16)effect_arg->unk_50));
         if (((s16)effect_arg->unk_50) == 2 &&
-            !try_trigger_target_record_effect(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, 2, actor)) {
-            if (((Row_818E0800_S_818E0800_15 *)(((Row_818E0800_S_818E0800_1 *)actor)->unk_60))->unk_14 & 1) {
-                if (((Row_818E0800_S_818E0800_1 *)actor)->unk_60 != 0) {
+            !try_trigger_target_record_effect(actor->unk_60, 2, actor)) {
+            if (((Row_818E0800_S_818E0800_15 *)(actor->unk_60))->unk_14 & 1) {
+                if (actor->unk_60 != 0) {
                     hit_effect = (((Row_818E0800_S_818E0800_11 *)current_spell_effect_variant)->unk_00 == 0xFF) ? 0xFF : 0x10;
-                    try_apply_effect_four_by_chance(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, hit_effect, 2);
+                    try_apply_effect_four_by_chance(actor->unk_60, hit_effect, 2);
                 }
             }
         }

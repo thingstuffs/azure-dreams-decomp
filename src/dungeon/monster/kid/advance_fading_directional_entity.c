@@ -13,7 +13,7 @@ struct EntityLinkNode;
 
 
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
    /* the 0x2 bytes before arg3 in advance_fading_directional_entity, addressed as arg3[-1] */
 

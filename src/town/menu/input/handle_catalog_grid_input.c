@@ -6,6 +6,7 @@
 #include "town/menu/catalog.h"
 #include "engine/item.h"
 #include "town/scene.h"
+#include "slus.h"
 
 typedef struct {
     void *field_0;
@@ -30,8 +31,6 @@ typedef struct {
 extern u8 scene_mode_code;
 extern s8 animation_tick_scale;
 extern s8 catalog_display_node_slots;
-
-extern void SD_Call(s32);
 
 /* Handles input to update object selections, action states, and exit behavior. */
 void handle_catalog_grid_input(Object *object)

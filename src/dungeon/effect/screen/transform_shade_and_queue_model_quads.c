@@ -113,7 +113,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
 {
     S_800C9088_0 *model = model_arg;
     ObjectPosition *translation = translation_arg;
-    u8 *scratch;
+    S_800C9088_1 *scratch;
     u8 *indices;
     u8 *positions;
     u8 *normals;
@@ -147,47 +147,47 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     PushMatrix();
 
     scale_x = model->unk_1C;
-    scratch = (u8 *)0x1F800000;
-    ((S_800C9088_1 *)scratch)->unk_30 = scale_x;
-    ((S_800C9088_1 *)scratch)->unk_34 = model->unk_1E;
-    ((S_800C9088_1 *)scratch)->unk_38 = model->unk_20;
-    ((S_800C9088_1 *)scratch)->unk_40 = translation->x.w.i;
-    ((S_800C9088_1 *)scratch)->unk_44 = translation->y.w.i;
-    ((S_800C9088_1 *)scratch)->unk_48 = translation->z.w.i;
+    scratch = (S_800C9088_1 *)0x1F800000;
+    scratch->unk_30 = scale_x;
+    scratch->unk_34 = model->unk_1E;
+    scratch->unk_38 = model->unk_20;
+    scratch->unk_40 = translation->x.w.i;
+    scratch->unk_44 = translation->y.w.i;
+    scratch->unk_48 = translation->z.w.i;
 
     ReadRotMatrix(&saved_transform);
 
-    ((S_800C9088_1 *)scratch)->unk_60 = 0x1000;
-    ((S_800C9088_1 *)scratch)->unk_58 = 0x1000;
-    ((S_800C9088_1 *)scratch)->unk_50 = 0x1000;
-    ((S_800C9088_1 *)scratch)->unk_5E = 0;
-    ((S_800C9088_1 *)scratch)->unk_5C = 0;
-    ((S_800C9088_1 *)scratch)->unk_5A = 0;
-    ((S_800C9088_1 *)scratch)->unk_56 = 0;
-    ((S_800C9088_1 *)scratch)->unk_54 = 0;
-    ((S_800C9088_1 *)scratch)->unk_52 = 0;
+    scratch->unk_60 = 0x1000;
+    scratch->unk_58 = 0x1000;
+    scratch->unk_50 = 0x1000;
+    scratch->unk_5E = 0;
+    scratch->unk_5C = 0;
+    scratch->unk_5A = 0;
+    scratch->unk_56 = 0;
+    scratch->unk_54 = 0;
+    scratch->unk_52 = 0;
 
-    RotMatrixX(model->unk_16, scratch + 0x50);
-    RotMatrixZ(model->unk_1A, scratch + 0x50);
-    RotMatrixY(model->unk_18, scratch + 0x50);
+    RotMatrixX(model->unk_16, &scratch->unk_50);
+    RotMatrixZ(model->unk_1A, &scratch->unk_50);
+    RotMatrixY(model->unk_18, &scratch->unk_50);
 
     if (model->unk_14 & 1) {
-        ((S_800C9088_1 *)scratch)->unk_30 = -((S_800C9088_1 *)scratch)->unk_30;
+        scratch->unk_30 = -scratch->unk_30;
     }
     if (model->unk_14 & 2) {
-        ((S_800C9088_1 *)scratch)->unk_34 = -((S_800C9088_1 *)scratch)->unk_34;
+        scratch->unk_34 = -scratch->unk_34;
     }
 
-    ScaleMatrix(scratch + 0x50, scratch + 0x30);
-    TransMatrix(scratch + 0x50, scratch + 0x40);
-    CompMatrix(scratch + 0x50, parent_matrix, scratch + 0xD0);
-    CompMatrix(&saved_transform, scratch + 0xD0, scratch + 0x50);
-    SetTransMatrix(scratch + 0x50);
-    SetRotMatrix(scratch + 0x50);
+    ScaleMatrix(&scratch->unk_50, &scratch->unk_30);
+    TransMatrix(&scratch->unk_50, &scratch->unk_40);
+    CompMatrix(&scratch->unk_50, parent_matrix, (u8 *)scratch + 0xD0);
+    CompMatrix(&saved_transform, (u8 *)scratch + 0xD0, &scratch->unk_50);
+    SetTransMatrix(&scratch->unk_50);
+    SetRotMatrix(&scratch->unk_50);
 
     state = state_table[0];
     base_color = (u8 *)model + 0xC;
-    ((S_800C9088_1 *)scratch)->unk_20.s = state + 0xB0;
+    scratch->unk_20.s = state + 0xB0;
     packet = ((GpuContext *)state)->packetCursor;
     model->unk_14 |= 0x8000;
 
@@ -199,42 +199,42 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     for (;;) {
     vertex_xy = ((S_800C9088_12 *)(positions + ((u16 *)indices)[0] * 8))->unk_00;
     vertex_index = (*(u16 *)(indices + 2));
-    ((S_800C9088_1 *)scratch)->unk_70 = vertex_xy;
+    scratch->unk_70 = vertex_xy;
     vertex_xy = ((S_800C9088_6 *)(positions + vertex_index * 8))->unk_00;
     vertex2_pos = (S_800C9088_7 *)((*(u16 *)(indices + 4)) * 8 + (u32)positions);
-    ((S_800C9088_1 *)scratch)->unk_78 = vertex_xy;
+    scratch->unk_78 = vertex_xy;
     last_index = (*(u16 *)(indices + 6));
     vertex2_xy = vertex2_pos->unk_00;
     vertex3_pos = (S_800C9088_8 *)(last_index * 8 + (unsigned long)positions);
-    ((S_800C9088_1 *)scratch)->unk_80 = vertex2_xy;
+    scratch->unk_80 = vertex2_xy;
     z_index = ((u16 *)indices)[0];
     vertex3_xy = vertex3_pos->unk_00;
 
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
-    ((S_800C9088_1 *)scratch)->unk_74 = vertex_z;
+    scratch->unk_74 = vertex_z;
 
     vertex_z = ((S_800C9088_13 *)(positions + (*(u16 *)(indices + 2)) * 8))->unk_04;
-    vertex0 = scratch + 0x70;
-    ((S_800C9088_1 *)scratch)->unk_7C = vertex_z;
+    vertex0 = (u8 *)scratch + 0x70;
+    scratch->unk_7C = vertex_z;
 
     z_index = (*(u16 *)(indices + 4));
-    vertex1 = scratch + 0x78;
+    vertex1 = (u8 *)scratch + 0x78;
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
-    vertex2 = scratch + 0x80;
-    ((S_800C9088_1 *)scratch)->unk_84 = vertex_z;
+    vertex2 = (u8 *)scratch + 0x80;
+    scratch->unk_84 = vertex_z;
 
     z_index = (*(u16 *)(indices + 6));
-    vertex3 = scratch + 0x88;
-    ((S_800C9088_1 *)scratch)->unk_88 = vertex3_xy;
+    vertex3 = (u8 *)scratch + 0x88;
+    scratch->unk_88 = vertex3_xy;
     vertex3_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
 
-    ((S_800C9088_1 *)scratch)->unk_8C = vertex3_z;
+    scratch->unk_8C = vertex3_z;
     depth = RotAverage4(vertex0, vertex1,
                           vertex2, vertex3,
                           packet + 8, packet + 0x14,
                           packet + 0x20, packet + 0x2C,
-                          scratch + 0x90, scratch + 0x94);
-    ((S_800C9088_1 *)scratch)->unk_C0 = depth;
+                          (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+    scratch->unk_C0 = depth;
 
     flags = model->unk_14 & 3;
     switch (flags) {
@@ -260,10 +260,10 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
         break;
     }
     winding = NormalClip(screen_xy0, screen_xy1, screen_xy2);
-    ((S_800C9088_1 *)scratch)->unk_114 = winding;
-    if (((S_800C9088_1 *)scratch)->unk_114 > 0) {
-        ((S_800C9088_1 *)scratch)->unk_C0 -= depth_bias;
-        if ((u32)((S_800C9088_1 *)scratch)->unk_C0 < 0x1E0) {
+    scratch->unk_114 = winding;
+    if (scratch->unk_114 > 0) {
+        scratch->unk_C0 -= depth_bias;
+        if ((u32)scratch->unk_C0 < 0x1E0) {
             func_80065034(normals + (*(u16 *)(indices + 0x10)) * 8,
                           base_color, packet + 4);
             func_80065034(normals + (*(u16 *)(indices + 0x12)) * 8,
@@ -291,8 +291,8 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
                     packet[7] |= 2;
                 }
             }
-            AddPrim((u8 *)((S_800C9088_1 *)scratch)->unk_20.u +
-                          ((S_800C9088_1 *)scratch)->unk_C0 * 4,
+            AddPrim((u8 *)scratch->unk_20.u +
+                          scratch->unk_C0 * 4,
                           packet);
             packet += 0x34;
             model->unk_14 &= 0x7FFF;

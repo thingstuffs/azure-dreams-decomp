@@ -22,7 +22,8 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/kid_frames.h"
-extern void update_actor_status_and_mp(void *);
+#include "dungeon/actor/state.h"
+
 extern void func_80174218(void *, void *, void *, void *);
 
 extern u8 kid_action_resume_address[];
@@ -112,7 +113,7 @@ void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPositio
                     current_body = actor;
                     current_actor = current_body;
                     previous_node = owner->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(current_actor,
                             previous_actor) << 16) != 0) {

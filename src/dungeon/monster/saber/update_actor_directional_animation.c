@@ -12,7 +12,7 @@
 #include "dungeon/level.h"
 
 #include "dungeon/player/object/action_state.h"
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"

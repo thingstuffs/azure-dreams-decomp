@@ -59,7 +59,8 @@ extern Rect D_80170874;
 extern u8 D_801741A4[];
 
 extern void unlink_entity_node(void *);
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates an entity's particles, projectile, and fade-out sequence before removing it. */

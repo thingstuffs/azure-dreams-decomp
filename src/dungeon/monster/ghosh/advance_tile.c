@@ -41,14 +41,16 @@ typedef struct S_8016FCE4_4 {
 
    /* (arg3 + ((u8) ((S_8016FCE4_0 *)arg3)->unk_71 & 0x7F)) in advance_boss_actor_movement_state */
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 s32 check_movement_clearance_and_height(s32, void *, void *, s32);
 s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 void *find_adjacent_actor(void *entity, u16 x, u16 y);
 s32 probe_directional_neighbor(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
-void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern s16 actor_turn_angle_offsets[];
 extern TileObject D_80082E80_b __asm__("D_80082E80");
 
@@ -208,7 +210,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
             }
             if ((turn_index != 0) || (reference_tile_object.tile_position.word == *(u16 *)&sprite->tile_x)
                 || ((check_entity_relation(actor_in, (previous_node = primary_actor_record->previous_actor_header,
-                    previous_body = previous_node + 1, previous_actor = previous_body)) << 0x10) == 0)) {
+                    previous_body = NODE_BODY(previous_node), previous_actor = previous_body)) << 0x10) == 0)) {
                 turn_index += 1;
                 turn_offsets += 1;
             } else {

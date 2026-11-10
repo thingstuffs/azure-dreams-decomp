@@ -92,7 +92,6 @@ typedef struct {
 
 extern s32 resolve_record_orientation_or_fallback();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 
 extern s8 view_direction_depth_biases[];

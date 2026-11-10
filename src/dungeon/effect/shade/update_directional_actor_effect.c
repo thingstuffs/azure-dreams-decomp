@@ -428,7 +428,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
     Row_8194D1E4_Packed8 direction;
     Row_8194D1E4_FourWords transform[2];
     s16 offset[3];
-    s32 *target_pos;
+    Row_8194D354_S_80024B54_7 *target_pos;
     TileObject *tile_or_y_steps;
     s32 *effect_pool;
     ObjectPosition *origin;
@@ -528,41 +528,41 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
             tile_or_y_steps->tile_position.parts.tile_y, (s16)actor_or_frame->unk_2A, 8);
         effect_arg->unk_14 = target;
         if (target != NULL) {
-            target_pos = *(M2C_UNK * *)&NODE_HEADER(target)->position;
+            target_pos = (Row_8194D354_S_80024B54_7 *)*(M2C_UNK * *)&NODE_HEADER(target)->position;
         } else {
-            target_pos = fallback_pos;
+            target_pos = (Row_8194D354_S_80024B54_7 *)fallback_pos;
             step_count = 0;
-            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (tile_or_y_steps->tile_position.parts.tile_x << 6) + 0x20;
+            target_pos->unk_02 = (tile_or_y_steps->tile_position.parts.tile_x << 6) + 0x20;
             tile_y = tile_or_y_steps->tile_position.parts.tile_y;
-            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (tile_y << 6) + 0x20;
+            target_pos->unk_06 = (tile_y << 6) + 0x20;
             do {
                 actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
                 forward_dx = dir_step_x[(actor_or_frame->unk_2A >> 9) & 7];
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 + (forward_dx << 6);
+                target_pos->unk_02 = target_pos->unk_02 + (forward_dx << 6);
                 forward_dy = dir_step_y[(actor_or_frame->unk_2A >> 9) & 7];
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 + (forward_dy << 6);
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = (u16)actor_or_frame->unk_88;
+                target_pos->unk_06 = target_pos->unk_06 + (forward_dy << 6);
+                target_pos->unk_0A = (u16)actor_or_frame->unk_88;
                 ground_height = get_surface_height_at_record(target_pos);
-                ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = ground_height;
+                target_pos->unk_0A = ground_height;
                 if ((s16)ground_height > 0x200) {
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A =
+                    target_pos->unk_0A =
                         primary_actor_record->ground_height;
                 }
-                position_valid = check_left_tile_and_center_height(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02,
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A);
+                position_valid = check_left_tile_and_center_height(target_pos->unk_02,
+                    target_pos->unk_06, (s16)target_pos->unk_0A);
                 if ((position_valid << 0x10) != 0) {
                     actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
                     backtrack_dx = dir_step_x[(actor_or_frame->unk_2A >> 9) & 7];
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 = (((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02 - (backtrack_dx
+                    target_pos->unk_02 = (target_pos->unk_02 - (backtrack_dx
                         << 5));
                     backtrack_dy = dir_step_y[(actor_or_frame->unk_2A >> 9) & 7];
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 = (((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06 - (backtrack_dy
+                    target_pos->unk_06 = (target_pos->unk_06 - (backtrack_dy
                         << 5));
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = (u16)actor_or_frame->unk_88;
+                    target_pos->unk_0A = (u16)actor_or_frame->unk_88;
                     near_height = get_surface_height_at_record(target_pos);
-                    ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = near_height;
+                    target_pos->unk_0A = near_height;
                     if ((s16)near_height > 0x200) {
-                        ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A =
+                        target_pos->unk_0A =
                             primary_actor_record->ground_height;
                     }
                     break;
@@ -571,8 +571,8 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
             } while (step_count < 8);
         }
         update_directional_actor_effect(position->x.w.i, position->y.w.i,
-            position->z.w.i, ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02,
-            (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06, (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A, &direction);
+            position->z.w.i, target_pos->unk_02,
+            (s32)target_pos->unk_06, (s32)target_pos->unk_0A, &direction);
         RotMatrix(&direction, transform);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, phase, transform[0], transform[1], direction);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);

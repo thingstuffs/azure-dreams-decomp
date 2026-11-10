@@ -22,7 +22,8 @@
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+             /* extern */
  /* extern */
 extern s32 sprite_resource_pointer_slots[];
 extern u8 actor_default_frames[];

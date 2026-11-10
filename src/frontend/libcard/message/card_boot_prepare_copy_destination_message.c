@@ -22,27 +22,27 @@ typedef struct S_800254E4_0 {
 /* Selects a record update based on its table entry and status and assigns data pointers. */
 void card_boot_prepare_copy_destination_message(void *context)
 {
-    u8 *record;
+    S_800254E4_0 *record;
     s32 table_index;
     s32 status;
 
     record = context;
-    table_index = ((S_800254E4_0 *)record)->unk_28;
-    context = record - 0x20;
+    table_index = record->unk_28;
+    context = NODE_HEADER(record);
 
     if (card_save_slot_metadata[table_index].words[0] == 0) {
         status = card_boot_get_remaining_block_summary();
         context = 0;
-        context = record - 0x20;
+        context = NODE_HEADER(record);
         if (status < 3) {
-            ((S_800254E4_0 *)record)->unk_34 = card_boot_resume_menu_after_slot_refresh;
+            record->unk_34 = card_boot_resume_menu_after_slot_refresh;
             card_boot_show_insufficient_space_card_advice(context);
         } else {
             card_boot_enter_copying_progress(record);
             return;
         }
     } else {
-        ((S_800254E4_0 *)record)->unk_34 = card_boot_resume_menu_after_slot_refresh;
+        record->unk_34 = card_boot_resume_menu_after_slot_refresh;
         card_boot_show_overwrite_protected_notice(context);
     }
 

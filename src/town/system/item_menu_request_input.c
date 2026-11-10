@@ -5,11 +5,11 @@
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "shared/game_work.h"
 #include "town/shop/item.h"
+#include "slus.h"
 
 /* arg0 in handle_item_menu_input */
 
 
-short SD_Call(int flags);
 
 /* Routes a menu request result of 1 to its secondary handler and 2 to its data pointer. */
 static void dispatch_item_menu_request_result(ItemMenuInput *request) {

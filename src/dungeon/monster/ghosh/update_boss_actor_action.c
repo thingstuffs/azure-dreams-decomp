@@ -14,8 +14,9 @@
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 #include "dungeon/actor/motion.h"
 struct ActorRecord;                      /* extern */
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
-void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
+#include "dungeon/item/find_active_rect_containing_point_api.h"
+#include "dungeon/actor/state.h"
+                      /* extern */
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2;  /* extern */
 void func_8016FA84(void *actor, void *action, SpriteFrameState *entity, void *path_arg);                            /* extern */
 void advance_boss_actor_movement_state(ActorRecord *, void *, SpriteFrameState *, void *); /* extern */
@@ -71,7 +72,7 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
-            if (!(g_dungeon_status.flags & 0x2000) || ((check_entity_relation(entity, (struct ActorRecord *)(((u8 *)primary_actor_record->previous_actor_header) + 0x20)) << 0x10)
+            if (!(g_dungeon_status.flags & 0x2000) || ((check_entity_relation(entity, NODE_BODY(primary_actor_record->previous_actor_header)) << 0x10)
                 == 0)) {
                 if (system_update_flags & 8) {
                     advance_boss_command_stream(actor, context, sprite);

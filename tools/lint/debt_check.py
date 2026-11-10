@@ -758,7 +758,7 @@ def report_cache_keys(root):
     return tool_hash, h.hexdigest()
 
 
-def census(root, only=None, macro_casts=False, cache_dir=None):
+def census(root, only=None, macro_casts=False, cache_dir=None, readcounts=False):
     available = sorted(p.relative_to(root).as_posix() for p in (root / 'src').rglob('*.c'))
     if not available:
         raise ValueError('no src/**/*.c files')
@@ -840,6 +840,11 @@ def census(root, only=None, macro_casts=False, cache_dir=None):
                                            note='report only; baseline records total, no ratchet')
         extra['header_macro_casts_report'] = dict(casts=header_hidden['casts'], uses=header_hidden['uses'],
                                                   note='report only; reachable include/ macros, lexical #if scope')
+    if readcounts and not only:
+        # Report-only readability and prototype-gap counts (tools/lint/readcounts.py): no baseline, no ratchet.
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import readcounts as RC
+        extra['readcounts'] = RC.report(root, cache_dir, cache_value)
     return dict(**extra, schema_version=SCHEMA, classes=list(CLASSES), limited=bool(only),
                 source_files=len(selected), function_count=sum(len(s) - 1 for s in functions.values()),
                 by_class=totals(files.values()), by_file=files, by_function=functions,
@@ -1048,7 +1053,7 @@ def write_outputs(out, summary, baseline=None):
                                           if k.startswith('macro:'))
                         writer.writerow([rel, key, row['line'], row['counts']['pointer_casts'],
                                          hidden['casts'], hidden['uses'], macros])
-    compact = {k: v for k, v in summary.items() if k not in ('by_function', 'by_file')}
+    compact = {k: v for k, v in summary.items() if k not in ('by_function', 'by_file', 'readcounts')}
     (out / 'debt_summary.json').write_text(json.dumps(compact, indent=2) + '\n')
     with (out / 'debt_bad_label_unions.tsv').open('w', newline='') as stream:
         writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
@@ -1131,6 +1136,8 @@ def main(argv=None):
     parser.add_argument('--cache-dir', type=Path,
                         help='report cache directory for --summary (default: $XDG_CACHE_HOME/debt_check/<root hash> '
                              'when set, else <root>/build/debt_report_cache; never inside the tracked tree)')
+    parser.add_argument('--readcounts-out', type=Path,
+                        help='directory for the --summary readcounts item lists (default: <root>/build/readcounts)')
     parser.add_argument('--no-report-cache', action='store_true',
                         help='recompute all lexical report rows when using --summary')
     parser.add_argument('--macro-casts', action='store_true',
@@ -1199,7 +1206,7 @@ def main(argv=None):
         report_macros = args.macro_casts or args.summary or args.write_baseline
         cache_dir = (report_cache_dir(args.root.resolve(), args.cache_dir)
                      if args.summary and not args.no_report_cache else None)
-        summary = census(args.root.resolve(), args.only, report_macros, cache_dir)
+        summary = census(args.root.resolve(), args.only, report_macros, cache_dir, readcounts=args.summary)
         problems = check_baseline(summary, baseline) if args.check else []
         problems += summary['errors']
         write_outputs(args.out, summary, baseline)
@@ -1221,6 +1228,11 @@ def main(argv=None):
         for key, value in summary['view_inventory_report'].items():
             if key != 'note':
                 print(f'{key} (report only)\t{value}')
+        if 'readcounts' in summary:
+            import readcounts as RC
+            for line in RC.summary_lines(summary['readcounts']):
+                print(line)
+            RC.write_lists(args.readcounts_out or args.root.resolve() / 'build/readcounts', summary['readcounts'])
         access_path = args.access_summary or args.root / 'out/access_summary.json'
         sites_path = args.access_sites or args.root / 'out/access_sites.tsv'
         if args.access_sites or (not access_path.is_file() and sites_path.is_file()):

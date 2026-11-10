@@ -93,7 +93,7 @@ void create_randomized_grayscale_effect(s32 user_data, ObjectPosition *source_po
 
 /* Emits grayscale particles along three expanding spirals, fades the emission color, and signals
    completion. */
-void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *position) {
+void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, Rec_func_80024264_arg1 *position) {
     s32 radial_product;
     s32 fade_angle;
     s32 grow_angle;
@@ -110,9 +110,9 @@ void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *p
     state = *(s16 *)effect;
     switch (state) {
     case 0:
-        ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v =
-            (u16) (((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v - 4);
-        create_randomized_grayscale_effect(effect->unk_0C, position, effect->unk_10);
+        position->unk_08.at02_u16.v =
+            (u16) (position->unk_08.at02_u16.v - 4);
+        create_randomized_grayscale_effect(effect->unk_0C, (ObjectPosition *)position, effect->unk_10);
         if (effect->phase_ticks < 8) {
             return;
         }
@@ -135,16 +135,16 @@ void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *p
             grow_angle = grow_angle_fixed >> 0x10;
             radial_product = (rsin((s16) effect->unk_08 + grow_angle)
                 >> 4) * (s16) effect->unk_06;
-            ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v =
-                (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
+            position->unk_00.at02_u16.v =
+                (u16) (position->unk_0C.at02_u16.v + (radial_product >> 8));
             radial_product = (rcos((s16) effect->unk_08 + grow_angle)
                 >> 4) * (s16) effect->unk_06;
-            ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
-                (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
-            if ((check_left_tile_and_center_height(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
-                ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
-                (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v) << 0x10) == 0) {
-                create_randomized_grayscale_effect(effect->unk_0C, position, effect->unk_10);
+            position->unk_04.at02_u16.v =
+                (u16) (position->unk_10.at02_u16.v + (radial_product >> 8));
+            if ((check_left_tile_and_center_height(position->unk_00.at02_u16.v,
+                position->unk_04.at02_u16.v,
+                (s16) position->unk_08.at02_u16.v) << 0x10) == 0) {
+                create_randomized_grayscale_effect(effect->unk_0C, (ObjectPosition *)position, effect->unk_10);
             }
             grow_angle_fixed += 0x05550000;
             grow_point += 1;
@@ -169,16 +169,16 @@ void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *p
             fade_angle = fade_angle_fixed >> 0x10;
             radial_product = (rsin((s16) effect->unk_08 + fade_angle)
                 >> 4) * (s16) effect->unk_06;
-            ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v =
-                (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
+            position->unk_00.at02_u16.v =
+                (u16) (position->unk_0C.at02_u16.v + (radial_product >> 8));
             radial_product = (rcos((s16) effect->unk_08 + fade_angle)
                 >> 4) * (s16) effect->unk_06;
-            ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
-                (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
-            if ((check_left_tile_and_center_height(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
-                ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
-                (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v) << 0x10) == 0) {
-                create_randomized_grayscale_effect(effect->unk_0C, position, effect->unk_10);
+            position->unk_04.at02_u16.v =
+                (u16) (position->unk_10.at02_u16.v + (radial_product >> 8));
+            if ((check_left_tile_and_center_height(position->unk_00.at02_u16.v,
+                position->unk_04.at02_u16.v,
+                (s16) position->unk_08.at02_u16.v) << 0x10) == 0) {
+                create_randomized_grayscale_effect(effect->unk_0C, (ObjectPosition *)position, effect->unk_10);
             }
             fade_angle_fixed += 0x05550000;
             grow_point += 1;
@@ -318,7 +318,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, SpriteFrameState *unused_r
 {
     ovl_188898c_818690C8_S_800248C8_3 *line;
     ovl_188898c_818690C8_S_800248C8_0 *scratch = (ovl_188898c_818690C8_S_800248C8_0 *)0x1F800000;
-    u8 *packet;
+    ovl_188898c_818690C8_S_800248C8_2 *packet;
     void *projection_work_a;
     void *projection_work_b;
     ovl_188898c_818690C8_PackedDelta coord_delta;
@@ -338,10 +338,10 @@ s32 interpolate_shade_and_queue_line(void *line_data, SpriteFrameState *unused_r
     scratch->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;
     line = line_bytes;
-    ((GpuContext *)render_ctx)->packetCursor = packet + 0x14;
+    ((GpuContext *)render_ctx)->packetCursor = (u8 *)packet + 0x14;
 
-    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_00.at03.v = 4;
-    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_07 = 0x50;
+    packet->unk_00.at03.v = 4;
+    packet->unk_07 = 0x50;
 
     scratch->unk_64 = line->unk_1A;
     scratch->unk_66 = line->unk_1E;
@@ -404,25 +404,25 @@ s32 interpolate_shade_and_queue_line(void *line_data, SpriteFrameState *unused_r
             multiplier = 23;
             coord_y = level * multiplier;
             level = 0x40;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_04 = level;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_05 = level;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_06 = level;
+            packet->unk_04 = level;
+            packet->unk_05 = level;
+            packet->unk_06 = level;
             level -= (7 - bit_mask) * 8;
             multiplier = (s32)line + 0x40;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0D = level;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0C = multiplier;
+            packet->unk_0D = level;
+            packet->unk_0C = multiplier;
             multiplier = coord_y + 0x40;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0E = multiplier;
+            packet->unk_0E = multiplier;
         }
         break;
     case 7:
 
-        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_04 = 0x40;
-        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_05 = 0x40;
-        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_06 = 0x40;
-        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0C = 0x7F;
-        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0D = 0;
-        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0E = 0xFF;
+        packet->unk_04 = 0x40;
+        packet->unk_05 = 0x40;
+        packet->unk_06 = 0x40;
+        packet->unk_0C = 0x7F;
+        packet->unk_0D = 0;
+        packet->unk_0E = 0xFF;
         break;
     case 8:
     case 9:
@@ -476,16 +476,16 @@ s32 interpolate_shade_and_queue_line(void *line_data, SpriteFrameState *unused_r
             line = (ovl_188898c_818690C8_S_800248C8_3 *)(bit_mask * k);
             k23 = 23;
             bit_mask *= k23;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0D = 0;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_05 = (k - coord_y) * 8;
+            packet->unk_0D = 0;
+            packet->unk_05 = (k - coord_y) * 8;
             multiplier = 0x7F;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0C = multiplier;
+            packet->unk_0C = multiplier;
             multiplier = 0xFF;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0E = multiplier;
+            packet->unk_0E = multiplier;
             multiplier = (s32)line + 0x40;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_04 = multiplier;
+            packet->unk_04 = multiplier;
             multiplier = bit_mask + 0x40;
-            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_06 = multiplier;
+            packet->unk_06 = multiplier;
         }
         break;
     }
@@ -499,10 +499,10 @@ s32 interpolate_shade_and_queue_line(void *line_data, SpriteFrameState *unused_r
                              (void *)((u32)scratch | 0xDC), projection_work_a, projection_work_b);
     scratch->unk_F8 = second_z;
 
-    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_08 = scratch->unk_D8;
-    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0A = scratch->unk_DA;
-    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_10 = scratch->unk_DC;
-    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_12 = scratch->unk_DE;
+    packet->unk_08 = scratch->unk_D8;
+    packet->unk_0A = scratch->unk_DA;
+    packet->unk_10 = scratch->unk_DC;
+    packet->unk_12 = scratch->unk_DE;
 
     depth_sum = scratch->unk_F4;
     depth_sum += scratch->unk_F8;
@@ -517,8 +517,8 @@ s32 interpolate_shade_and_queue_line(void *line_data, SpriteFrameState *unused_r
         ot_base = scratch->unk_18;
         depth = 0xFF000000;
         entry_addr += (u32)ot_base;
-        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_00.at00.v =
-            (((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_00.at00.v & depth) |
+        packet->unk_00.at00.v =
+            (packet->unk_00.at00.v & depth) |
             (*(u32 *)entry_addr & low_mask);
 
         index = scratch->unk_B4;

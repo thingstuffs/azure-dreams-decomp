@@ -260,8 +260,8 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
 {
     SpriteFrameState *color_source = color_source_arg;
     u8 *render_buffer;
-    u8 *packet;
-    u8 *scratch;
+    B28_818B6F90_S_818B6F90_2 *packet;
+    B28_818B6F90_S_818B6F90_0 *scratch;
     s32 texture_u;
     s16 texture_id;
     u32 *ot_read;
@@ -276,86 +276,86 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
     u8 *depth_cue;
     u8 *transform_flags;
 
-    scratch = (u8 *)0x1F800000;
+    scratch = (B28_818B6F90_S_818B6F90_0 *)0x1F800000;
     render_buffer = g_game_work.draw_buffer;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_00 = render_buffer + 0xB0;
+    scratch->unk_00 = render_buffer + 0xB0;
     packet = ((GpuContext *)render_buffer)->packetCursor;
-    ((GpuContext *)render_buffer)->packetCursor = packet + 0x34;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_00.at03.v = 0x0C;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_07 = 0x3E;
+    ((GpuContext *)render_buffer)->packetCursor = (u8 *)packet + 0x34;
+    packet->unk_00.at03.v = 0x0C;
+    packet->unk_07 = 0x3E;
 
     texture_id = GetTPage(0, 3, 0x300, 0x100);
     texture_u = (texture_index << 16) >> 13;
     texture_u += 0x80;
-    screen_xy0 = scratch + 0x70;
-    screen_xy1 = scratch + 0x74;
-    screen_xy2 = scratch + 0x78;
-    screen_xy3 = scratch + 0x7C;
-    depth_cue = scratch + 0x08;
-    transform_flags = scratch + 0x0C;
+    screen_xy0 = (u8 *)scratch + 0x70;
+    screen_xy1 = (u8 *)scratch + 0x74;
+    screen_xy2 = (u8 *)scratch + 0x78;
+    screen_xy3 = (u8 *)scratch + 0x7C;
+    depth_cue = (u8 *)scratch + 0x08;
+    transform_flags = (u8 *)scratch + 0x0C;
 
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1A = texture_id;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_0E = 0x7DCF;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_0C = texture_u;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_0D = 0x40;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_18 = texture_u | 7;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_19 = 0x40;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_24 = texture_u | 7;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_25 = 0x7F;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_30 = texture_u;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_31 = 0x7F;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_04 = 0;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_05 = 0;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_06 = 0;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_10 = 0;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_11 = 0;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_12 = 0;
+    packet->unk_1A = texture_id;
+    packet->unk_0E = 0x7DCF;
+    packet->unk_0C = texture_u;
+    packet->unk_0D = 0x40;
+    packet->unk_18 = texture_u | 7;
+    packet->unk_19 = 0x40;
+    packet->unk_24 = texture_u | 7;
+    packet->unk_25 = 0x7F;
+    packet->unk_30 = texture_u;
+    packet->unk_31 = 0x7F;
+    packet->unk_04 = 0;
+    packet->unk_05 = 0;
+    packet->unk_06 = 0;
+    packet->unk_10 = 0;
+    packet->unk_11 = 0;
+    packet->unk_12 = 0;
 
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1C = color_source->color.c.r;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1D = color_source->color.c.g;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1E = color_source->color.c.b;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_28 = color_source->color.c.r;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_29 = color_source->color.c.g;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_2A = color_source->color.c.b;
+    packet->unk_1C = color_source->color.c.r;
+    packet->unk_1D = color_source->color.c.g;
+    packet->unk_1E = color_source->color.c.b;
+    packet->unk_28 = color_source->color.c.r;
+    packet->unk_29 = color_source->color.c.g;
+    packet->unk_2A = color_source->color.c.b;
 
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_10 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_30 >> 16;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_18 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_40 >> 16;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_20 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_50 >> 16;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_28 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_60 >> 16;
+    scratch->unk_10 = scratch->unk_30 >> 16;
+    scratch->unk_18 = scratch->unk_40 >> 16;
+    scratch->unk_20 = scratch->unk_50 >> 16;
+    scratch->unk_28 = scratch->unk_60 >> 16;
 
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_12 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_34 >> 16;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_1A = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_44 >> 16;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_22 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_54 >> 16;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_2A = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_64 >> 16;
+    scratch->unk_12 = scratch->unk_34 >> 16;
+    scratch->unk_1A = scratch->unk_44 >> 16;
+    scratch->unk_22 = scratch->unk_54 >> 16;
+    scratch->unk_2A = scratch->unk_64 >> 16;
 
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_14 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_38 >> 16;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_1C = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_48 >> 16;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_24 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_58 >> 16;
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_2C = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_68 >> 16;
+    scratch->unk_14 = scratch->unk_38 >> 16;
+    scratch->unk_1C = scratch->unk_48 >> 16;
+    scratch->unk_24 = scratch->unk_58 >> 16;
+    scratch->unk_2C = scratch->unk_68 >> 16;
 
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_04.v = RotAverage4(
-        scratch + 0x10, scratch + 0x18, scratch + 0x20, scratch + 0x28,
+    scratch->unk_04.v = RotAverage4(
+        &scratch->unk_10, &scratch->unk_18, &scratch->unk_20, &scratch->unk_28,
         screen_xy0, screen_xy1, screen_xy2, screen_xy3,
         depth_cue, transform_flags);
 
-    (*(u16 *)(packet + (0x08))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_70;
-    (*(u16 *)(packet + (0x0A))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_72;
-    (*(u16 *)(packet + (0x14))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_74;
-    (*(u16 *)(packet + (0x16))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_76;
-    (*(u16 *)(packet + (0x20))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_78;
-    (*(u16 *)(packet + (0x22))) = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_7A;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_2C = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_7C;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_2E = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_7E;
+    (*(u16 *)((u8 *)packet + (0x08))) = scratch->unk_70;
+    (*(u16 *)((u8 *)packet + (0x0A))) = scratch->unk_72;
+    (*(u16 *)((u8 *)packet + (0x14))) = scratch->unk_74;
+    (*(u16 *)((u8 *)packet + (0x16))) = scratch->unk_76;
+    (*(u16 *)((u8 *)packet + (0x20))) = scratch->unk_78;
+    (*(u16 *)((u8 *)packet + (0x22))) = scratch->unk_7A;
+    packet->unk_2C = scratch->unk_7C;
+    packet->unk_2E = scratch->unk_7E;
 
-    depth_index = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_04.v2;
+    depth_index = scratch->unk_04.v2;
     if (depth_index < 0x1E0) {
-        ot_read = ((u32 *)((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_00);
+        ot_read = ((u32 *)scratch->unk_00);
         ot_entry = ot_read[depth_index];
-        ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_00.at00.v =
-            (((B28_818B6F90_S_818B6F90_2 *)packet)->unk_00.at00.v & 0xFF000000) |
+        packet->unk_00.at00.v =
+            (packet->unk_00.at00.v & 0xFF000000) |
             (ot_entry & 0x00FFFFFF);
-        write_depth = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_04.v2;
-        ot_write = ((u32 *)((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_00);
+        write_depth = scratch->unk_04.v2;
+        ot_write = ((u32 *)scratch->unk_00);
         ot_write[write_depth] =
             (ot_write[write_depth] & 0xFF000000) |
             ((u32)packet & 0x00FFFFFF);
@@ -882,7 +882,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
     SpriteFrameState *source_data;
     B28_818B7F38_S_80025738_7 *destination;
     B28_818B7F38_S_80025738_3 *source_header;
-    void *owner;
+    ActorRecord *owner;
     B28_818B7F38_S_80025738_8 *target;
     B28_818B7F38_S_80025738_6 *source_position;
     SpriteFrameState *tile_data;
@@ -897,7 +897,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
         state->unk_0E = (u16) (((u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_2A >> 9) & 7);
         render->color.word = 0x808080;
     case 1:
-        source_header = owner - 0x20;
+        source_header = (void *)owner - 0x20;
         source_data = source_header->unk_0C;
         if (resolve_record_orientation_or_fallback(source_data->source, source_data, &frame.offset.orientation, 0) != 0) {
             source_position = source_header->unk_08;
@@ -923,19 +923,19 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
             if (!(*state->spell.context & 0x80)) {
                 break;
             }
-            target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
+            target = owner->target;
             index = 1;
         } else {
             motion_in->z.unsigned_parts.integer = source_z - 0x40;
             if (!(*state->spell.context & 0x80)) {
                 break;
             }
-            target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
+            target = owner->target;
             index = 1;
         }
         if (target != NULL) {
             state->unk_18 = target;
-            destination = ((B28_818B7F38_S_80025738_14_pre *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))[-1].unk_00;
+            destination = ((B28_818B7F38_S_80025738_14_pre *)(owner->target))[-1].unk_00;
             target_dx = destination->unk_00.at02.v;
             target_dx -= motion_in->x.w.i;
             if (target_dx < 0) {
@@ -946,7 +946,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
             target_dy -= motion_in->y.w.i;
             target_dy = abs(target_dy);
             frame.offset.distance[1] = (u16) target_dy;
-            target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
+            target = owner->target;
             current_z = motion_in->z.w.i;
             target_dz = target->unk_88;
             target_dz -= current_z;
@@ -971,7 +971,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
             motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
                 - motion_in->y.v) / state->unk_12);
             motion_in->velocity_z =
-                (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
+                (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(owner->target))->unk_88 << 0x10)
                 - motion_in->z.v) / state->unk_12);
             spawn_owner_random_variant_effect(state, motion_in);
             next_phase = state->spell.phase + 1;
@@ -985,19 +985,19 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
             while (index < 8) {
                 grid_x = (s16)tile_x;
                 grid_y = (s16)tile_y;
-                if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, ((B28_818B7F38_S_80025738_1 *)owner)->unk_88,
+                if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, owner->ground_height,
                     (s16) (state->unk_0E << 9)) != 0) {
                     break;
                 }
                 source_position = (B28_818B7F38_S_80025738_6 *)&dir_step_x[(s16) state->unk_0E];
-                probe_z = (u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_88;
+                probe_z = (u16) owner->ground_height;
                 probe_z -= 0x20;
                 probe_z = (u32)probe_z << 16;
                 probe_z >>= 16;
                 step_y = &dir_step_y[(s16) state->unk_0E];
                 floor_z = sample_terrain_surface_height(((grid_x + *(s16 *)source_position) << 6) + 0x20 & 0xFFE0,
                     ((grid_y + *step_y) << 6) + 0x20 & 0xFFE0, probe_z);
-                if (floor_z >= 0x201 || (s16) (floor_z - (u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_88) < -0x3F) {
+                if (floor_z >= 0x201 || (s16) (floor_z - (u16) owner->ground_height) < -0x3F) {
                     break;
                 }
                 index += 1;
@@ -1061,7 +1061,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
         if ((s16) state->unk_10 < 0x30) {
             break;
         }
-        interpolate_view_parameters(((B28_818B7F38_S_80025738_1 *)owner)->unk_60, state->spell.variant, owner);
+        interpolate_view_parameters(owner->target, state->spell.variant, owner);
 advance_phase:
         state->unk_10 = 0U;
         state->spell.phase++;

@@ -20,12 +20,14 @@
 #include "dungeon/monster/dragon/transition_effect.h"
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern s32 check_diagonal_side_height(s32, u8, u8, s16);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
-extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
+#include "dungeon/item/get_actor_height_difference_api.h"
 extern u32 find_nearest_floor_item_in_room(void *, s32, s16 *, s16 *);
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern s8 actor_turn_angle_offsets;
@@ -301,7 +303,7 @@ loop_setup:
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((s16)check_entity_relation(
                             actor_arg,

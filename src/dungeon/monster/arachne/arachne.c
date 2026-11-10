@@ -22,7 +22,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = spawn_animated_monster;
-void (*const resource12_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part) = create_directional_template_effect;
+void (*const resource12_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part) = update_arachne_motion_and_facing;
 
 /* Creates an Arachne actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -49,7 +49,7 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
-        obj->update_callback = create_directional_template_effect;
+        obj->update_callback = update_arachne_motion_and_facing;
         work->species = 0xC;
         register_node(obj, project_sprite_chain);
 
@@ -99,7 +99,7 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
 }
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void create_directional_template_effect(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part)
+void update_arachne_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part)
 {
     ActorRecord *entity_base = entity;
     s16 old_state;
@@ -352,7 +352,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
         if ((action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
-                        actor, (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
+                        actor, NODE_BODY(primary_actor_record->previous_actor_header)) != 0) {
                     return;
                 }
             }
@@ -710,7 +710,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         if (turn_index == 0 &&
             reference_tile_object.tile_position.word != *(u16 *)&position_data->tile_x) {
             if (((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20)) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header))) != 0) {
                 do {
                     return;
                 } while (0);
@@ -753,12 +753,12 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
  * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
  * from D_80175A64.
  */
-void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation) {
+void advance_linked_actor_motion_script(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation) {
     s32 directionIndex;
     u8 *directionTable;
 
-    *((s8 *)object + 0x9A) = 0x10;
-    *((s8 *)object + 0x9B) = 0;
+    object->action_id = 0x10;
+    object->action_phase = 0;
     directionTable = D_80175A64;
     display->frameTable = directionTable;
     directionIndex = ((g_game_work.view.camera_rotation.parts.viewAngle + orientation->facing + 0x100) >> 9) & 7;
@@ -1611,7 +1611,7 @@ void advance_arachne_status_action(ActorRecord *in_controller, ObjectPosition *i
 
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 if ((check_entity_relation(actor,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                     return;
                 }
             }
@@ -1746,7 +1746,7 @@ void resume_actor_target_selection_after_status_animation(ActorRecord *controlle
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }

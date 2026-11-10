@@ -17,7 +17,7 @@
 
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"
@@ -94,7 +94,7 @@ void advance_actor_action_and_direction(ActorRecord *action, ObjectPosition *con
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(actor_in,
                             previous_actor) << 16) != 0) {

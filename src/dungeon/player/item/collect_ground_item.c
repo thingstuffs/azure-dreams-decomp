@@ -51,7 +51,7 @@ extern char D_800E0B07[];
 #include "dungeon/item.h"
 
 s32 get_scaled_byte_value(DungeonItemEntry *);
-void update_map_cell_flags_with_item_limit(s32, s32, s32);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Picks up an item, applying special effects or moving it into inventory. */
 s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *unit) {

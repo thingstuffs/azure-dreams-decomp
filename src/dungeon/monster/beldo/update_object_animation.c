@@ -133,7 +133,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
         if ((state->action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
-                        state, (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
+                        state, NODE_BODY(primary_actor_record->previous_actor_header)) != 0) {
                     return;
                 }
             }

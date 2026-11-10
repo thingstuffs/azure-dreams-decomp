@@ -13,7 +13,8 @@
 
 
 #include "dungeon/player/object/action_state.h"
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern void func_80174520(void *, void *, void *, void *);
 
 #include "dungeon/monster/cyclone.h"
@@ -105,7 +106,7 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
                 ActorRecord *previous_actor;
 
                 previous_node = primary_actor_record->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
                 if ((check_entity_relation(entity,
                         previous_actor) << 16) != 0) {

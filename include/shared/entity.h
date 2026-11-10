@@ -208,7 +208,7 @@ typedef struct ActorRecord {
         struct DungeonItemEntry *item; /* the same record, typed */
     } unk_50; /* Step 0b: one word, read as two halfwords or as the player's shield record pointer */
     /* 0x054 */ int status_flags; /* derived-effect mask; bits 1..4 double HP/MP/attack/defense baselines, capped at 255 by apply_entity_effects */
-    /* 0x058 */ void * previous_actor_header; /* previous live actor list entry, pointing to its ObjectNodeHeader */
+    /* 0x058 */ struct ObjectNodeHeader *previous_actor_header; /* previous live actor list entry: its ObjectNodeHeader (check_entity_relation and clear_entry_flag_and_link_owner store node headers; readers take NODE_BODY) */
     /* 0x05C */ struct ObjectNodeHeader *next_actor_header; /* next live actor list entry: its ObjectNodeHeader (check_entity_relation and clear_entry_flag_and_link_owner store node headers; readers take NODE_BODY) */
     /* 0x060 */ void * target; /* borrowed actor-body target; while lifted, this is the carrier backlink rather than an attack target */
     /* 0x064 */ short hp_delta; /* signed pending HP delta; effective HP is hp + unk_64 before applying queued damage */

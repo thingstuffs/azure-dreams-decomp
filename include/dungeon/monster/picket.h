@@ -1,6 +1,7 @@
 #ifndef DUNGEON_MONSTER_PICKET_H
 #define DUNGEON_MONSTER_PICKET_H
 struct ActorRecord;
+struct S_80174978_0;
 
 #include "common.h"
 #include "shared/entity.h"
@@ -13,7 +14,7 @@ void update_movement_animation_settles_actor_target_tile(ActorRecord *body, Obje
 
 
 
-void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosition *motion, SpriteFrameState *visual);
+void update_a_timed_movement_animation_marks_completion(struct S_80174978_0 *actor, ObjectPosition *motion, SpriteFrameState *visual);
 void update_movement_destination_selection_recovery_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

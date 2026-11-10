@@ -2,9 +2,7 @@
 #include "engine/audio.h"
 #include "town/event/object.h"
 #include "town/event.h"
-
-extern short SD_Call(int a0);
-
+#include "slus.h"
 
 /* Clear object state, assign the context handler, and trigger effects if the check succeeds. */
 void initialize_object_and_maybe_play_sound(u8 *context, s8 *object, s32 *state, s32 unused)

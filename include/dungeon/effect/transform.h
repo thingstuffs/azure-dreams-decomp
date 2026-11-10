@@ -89,7 +89,6 @@ typedef struct Row_8189EBBC_S_800243BC_4 {
 } Row_8189EBBC_S_800243BC_4;   /* temp_v1_3 in func_800243BC */
 
 /* Creates an object with a random sprite variant and copies its transform. */
-void func_8004491C(void *, void *);
 s32 rand(void);
 void advance_sprite_animation_and_textures(void *record);
 void select_record_entry_and_value(void *state, void *entries, short index);

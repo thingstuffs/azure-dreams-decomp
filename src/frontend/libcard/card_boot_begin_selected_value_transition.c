@@ -3,12 +3,12 @@
 #include "frontend/libcard.h"
 
 /* Set the object's value, preserve its previous value, and reset its state. */
-void card_boot_begin_selected_value_transition(s32 object_addr, s32 value) {
+void card_boot_begin_selected_value_transition(void *panel, s32 value) {
     s32 *state_fields;
     s32 previous_value;
 
-    if (object_addr != 0) {
-        state_fields = (s32 *)(object_addr + 0x20);
+    if (panel != 0) {
+        state_fields = NODE_BODY(panel);
         previous_value = *(s32 *)((u8 *)state_fields + 0x88);
         *(s32 *)((u8 *)state_fields + 0x84) = 0;
         *(s32 *)((u8 *)state_fields + 0x80) = 3;

@@ -25,7 +25,8 @@ typedef struct {
     u32 words[8];
 } __attribute__((packed)) LocalTable;
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 

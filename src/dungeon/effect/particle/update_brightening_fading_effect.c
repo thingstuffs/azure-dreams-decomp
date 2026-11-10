@@ -515,7 +515,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
 {
     S_8195F43C_1 *origin = origin_arg;
     u8 **render_state = (u8 **)((u8 *)(&g_game_work));
-    u8 *scratch = (u8 *)0x1F800000;
+    S_8195F43C_0 *scratch = (S_8195F43C_0 *)0x1F800000;
     u8 *height_grid = ((u8 *)terrain_effect_height_grid);
     u8 *render_ctx;
     u8 *packet;
@@ -541,10 +541,10 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
 
     (void)unused;
     render_ctx = *render_state;
-    ((S_8195F43C_0 *)scratch)->unk_20 = render_ctx + 0xB0;
-    ((S_8195F43C_0 *)scratch)->unk_E4 = origin->unk_02 + ((tile_x - 3) << 6);
-    ((S_8195F43C_0 *)scratch)->unk_E8 = origin->unk_06 + ((tile_y - 3) << 6);
-    ((S_8195F43C_0 *)scratch)->unk_EC = origin->unk_0A;
+    scratch->unk_20 = render_ctx + 0xB0;
+    scratch->unk_E4 = origin->unk_02 + ((tile_x - 3) << 6);
+    scratch->unk_E8 = origin->unk_06 + ((tile_y - 3) << 6);
+    scratch->unk_EC = origin->unk_0A;
 
     height_row = (S_8195F43C_2 *)((u32)(tile_y * 2) +
         (unsigned long)(height_grid + tile_x * 0x10));
@@ -554,11 +554,11 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
     {
 
         depth = height_row->unk_00;
-        ((S_8195F43C_0 *)scratch)->unk_74 = (s16)depth / 2;
+        scratch->unk_74 = (s16)depth / 2;
     }
-    ((S_8195F43C_0 *)scratch)->unk_7C = (s16)next_height_row->unk_00 / 2;
-    ((S_8195F43C_0 *)scratch)->unk_84 = (s16)height_row->unk_02 / 2;
-    ((S_8195F43C_0 *)scratch)->unk_8C = (s16)next_height_row->unk_02 / 2;
+    scratch->unk_7C = (s16)next_height_row->unk_00 / 2;
+    scratch->unk_84 = (s16)height_row->unk_02 / 2;
+    scratch->unk_8C = (s16)next_height_row->unk_02 / 2;
 
     packet = ((GpuContext *)render_ctx)->packetCursor;
     PushMatrix();
@@ -569,34 +569,34 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
     VFIELD(scratch, u16, 0x102) = 0;
     VFIELD(scratch, u16, 0x104) = 0;
     VFIELD(scratch, u16, 0x100) = 0;
-    ((S_8195F43C_0 *)scratch)->unk_34 = scale_y * 2;
-    RotMatrix(scratch + 0x100, scratch + 0xD0);
-    ReadRotMatrix(scratch + 0x11C);
-    CompMatrix(scratch + 0x11C, scratch + 0xD0, scratch + 0x50);
-    ScaleMatrix(scratch + 0x50, scratch + 0x30);
-    SetTransMatrix(scratch + 0x50);
-    SetRotMatrix(scratch + 0x50);
+    scratch->unk_34 = scale_y * 2;
+    RotMatrix((u8 *)scratch + 0x100, (u8 *)scratch + 0xD0);
+    ReadRotMatrix((u8 *)scratch + 0x11C);
+    CompMatrix((u8 *)scratch + 0x11C, (u8 *)scratch + 0xD0, &scratch->unk_50);
+    ScaleMatrix(&scratch->unk_50, (u8 *)scratch + 0x30);
+    SetTransMatrix(&scratch->unk_50);
+    SetRotMatrix(&scratch->unk_50);
 
     texture = (S_8195F43C_6 *)((S_8195F43C_5 *)object)->unk_08;
     left = (s8)texture->unk_02;
-    ((S_8195F43C_0 *)scratch)->unk_80 = left;
-    ((S_8195F43C_0 *)scratch)->unk_70 = left;
+    scratch->unk_80 = left;
+    scratch->unk_70 = left;
     right = left + texture->unk_0A;
-    ((S_8195F43C_0 *)scratch)->unk_88 = right;
-    ((S_8195F43C_0 *)scratch)->unk_78 = right;
+    scratch->unk_88 = right;
+    scratch->unk_78 = right;
     top = (s8)texture->unk_03;
-    ((S_8195F43C_0 *)scratch)->unk_7A = top;
-    ((S_8195F43C_0 *)scratch)->unk_72 = top;
+    scratch->unk_7A = top;
+    scratch->unk_72 = top;
     bottom = top + texture->unk_0B;
-    ((S_8195F43C_0 *)scratch)->unk_8A = bottom;
-    ((S_8195F43C_0 *)scratch)->unk_82 = bottom;
+    scratch->unk_8A = bottom;
+    scratch->unk_82 = bottom;
 
-    depth = RotAverage4(scratch + 0x70, scratch + 0x78,
-                          scratch + 0x80, scratch + 0x88,
+    depth = RotAverage4(&scratch->unk_70, &scratch->unk_78,
+                          &scratch->unk_80, &scratch->unk_88,
                           packet + 8, packet + 0x10,
                           packet + 0x18, packet + 0x20,
-                          scratch + 0x90, scratch + 0x94);
-    ((S_8195F43C_0 *)scratch)->unk_C0 = depth;
+                          (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+    scratch->unk_C0 = depth;
 
     if (depth < 0x1E0U) {
         visible_0 = 0;
@@ -666,7 +666,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
 
                         width = PFIELD(scratch, s32, 0x10);
                         edge_uv = PFIELD(scratch, s32, 8);
-                        v = *(s32 *)(scratch + 0xC);
+                        v = *(s32 *)((u8 *)scratch + 0xC);
                         width += edge_uv;
                         edge_uv = v;
                         set_v_width((s32 *)scratch, edge_uv, width);
@@ -681,7 +681,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
                     }
                 }
                 VFIELD(scratch, s32, 0x14) = v_end;
-                packed_u = *(u16 *)(scratch + 8);
+                packed_u = *(u16 *)((u8 *)scratch + 8);
                 PFIELD(scratch, s32, 0x14) = v_end << 8;
                 (*(u16 *)(packet + 0xC)) = uv_row + packed_u;
             }
@@ -689,7 +689,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
             (*(u16 *)(packet + 0x1C)) = PFIELD(scratch, u16, 0x14) + PFIELD(scratch, u16, 8);
             (*(u16 *)(packet + 0x24)) = PFIELD(scratch, u16, 0x14) + PFIELD(scratch, u16, 0x10);
 
-            if (((S_8195F43C_0 *)scratch)->unk_50 >= 0x1800) {
+            if (scratch->unk_50 >= 0x1800) {
                 edge_uv = ((S_8195F43C_7 *)packet)->unk_24;
                 {
                     s32 edge_uv_prev;
@@ -699,7 +699,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
                 }
                 ((S_8195F43C_7 *)packet)->unk_14 = edge_uv;
             }
-            if (((S_8195F43C_0 *)scratch)->unk_58 >= 0x1800) {
+            if (scratch->unk_58 >= 0x1800) {
                 edge_uv = ((S_8195F43C_7 *)packet)->unk_25;
                 {
                     s32 edge_uv_prev;
@@ -728,11 +728,11 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
             address_mask = 0x00FFFFFF;
             tag_mask = 0xFF000000;
             ((S_8195F43C_7 *)packet)->unk_00.at00.v = (((S_8195F43C_7 *)packet)->unk_00.at00.v & tag_mask) |
-                ((*(u32 *)((((S_8195F43C_0 *)scratch)->unk_20)
-                    + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & address_mask);
-            (*(u32 *)((((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) =
-                ((*(u32 *)((((S_8195F43C_0 *)scratch)->unk_20)
-                    + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & tag_mask) |
+                ((*(u32 *)((scratch->unk_20)
+                    + scratch->unk_C0 * 4)) & address_mask);
+            (*(u32 *)((scratch->unk_20) + scratch->unk_C0 * 4)) =
+                ((*(u32 *)((scratch->unk_20)
+                    + scratch->unk_C0 * 4)) & tag_mask) |
                 ((u32)packet & address_mask);
             packet += 0x28;
         }
@@ -881,7 +881,7 @@ void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect)
 void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
 {
     s32 view_matrix[8];
-    u8 *scratch = (u8 *)0x1F800000;
+    S_8195FD40_0 *scratch = (S_8195FD40_0 *)0x1F800000;
     u8 **render_context = (u8 **)((u8 *)(&g_game_work));
     s32 *ot_entry;
     s32 packet_addr;
@@ -900,41 +900,41 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
     S_8195FD40_5 *texture;
 
     (void)unused;
-    ((S_8195FD40_0 *)scratch)->unk_20 = *render_context + 0xB0;
-    ((S_8195FD40_0 *)scratch)->unk_E4 = position->unk_02;
-    ((S_8195FD40_0 *)scratch)->unk_E8 = position->unk_06;
-    ((S_8195FD40_0 *)scratch)->unk_EC = position->unk_0A;
+    scratch->unk_20 = *render_context + 0xB0;
+    scratch->unk_E4 = position->unk_02;
+    scratch->unk_E8 = position->unk_06;
+    scratch->unk_EC = position->unk_0A;
     packet = ((GpuContext *)(*render_context))->packetCursor;
     texture = (S_8195FD40_5 *)quad->unk_08;
     PushMatrix();
 
-    ((S_8195FD40_0 *)scratch)->unk_30 = quad->unk_1C * 2;
-    ((S_8195FD40_0 *)scratch)->unk_34 = quad->unk_1E * 2;
-    ((S_8195FD40_0 *)scratch)->unk_38 = 0x2000;
-    ((S_8195FD40_0 *)scratch)->unk_100 = quad->unk_16;
-    ((S_8195FD40_0 *)scratch)->unk_104 = quad->unk_1A;
-    ((S_8195FD40_0 *)scratch)->unk_102 = quad->unk_18;
-    RotMatrix(scratch + 0x100, scratch + 0xD0);
+    scratch->unk_30 = quad->unk_1C * 2;
+    scratch->unk_34 = quad->unk_1E * 2;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_100 = quad->unk_16;
+    scratch->unk_104 = quad->unk_1A;
+    scratch->unk_102 = quad->unk_18;
+    RotMatrix(&scratch->unk_100, (u8 *)scratch + 0xD0);
     ReadRotMatrix(&view_matrix);
-    CompMatrix(&view_matrix, scratch + 0xD0, scratch + 0x50);
-    ScaleMatrix(scratch + 0x50, scratch + 0x30);
-    SetTransMatrix(scratch + 0x50);
-    SetRotMatrix(scratch + 0x50);
+    CompMatrix(&view_matrix, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
+    ScaleMatrix((u8 *)scratch + 0x50, &scratch->unk_30);
+    SetTransMatrix((u8 *)scratch + 0x50);
+    SetRotMatrix((u8 *)scratch + 0x50);
 
-    ((S_8195FD40_0 *)scratch)->unk_78 = 0x20;
-    ((S_8195FD40_0 *)scratch)->unk_88 = 0x200000;
-    ((S_8195FD40_0 *)scratch)->unk_80 = 0x200000;
-    ((S_8195FD40_0 *)scratch)->unk_70 = 0;
-    ((S_8195FD40_0 *)scratch)->unk_8C = 0;
-    ((S_8195FD40_0 *)scratch)->unk_84 = 0;
-    ((S_8195FD40_0 *)scratch)->unk_7C = 0;
-    ((S_8195FD40_0 *)scratch)->unk_74 = 0;
-    depth = RotAverage4(scratch + 0x70, scratch + 0x78,
-                          scratch + 0x80, scratch + 0x88,
+    scratch->unk_78 = 0x20;
+    scratch->unk_88 = 0x200000;
+    scratch->unk_80 = 0x200000;
+    scratch->unk_70 = 0;
+    scratch->unk_8C = 0;
+    scratch->unk_84 = 0;
+    scratch->unk_7C = 0;
+    scratch->unk_74 = 0;
+    depth = RotAverage4(&scratch->unk_70, &scratch->unk_78,
+                          &scratch->unk_80, &scratch->unk_88,
                           packet + 8, packet + 0x10,
                           packet + 0x18, packet + 0x20,
-                          scratch + 0x90, scratch + 0x94) - depth_bias;
-    ((S_8195FD40_0 *)scratch)->unk_C0 = depth;
+                          (u8 *)scratch + 0x90, (u8 *)scratch + 0x94) - depth_bias;
+    scratch->unk_C0 = depth;
 
     if (depth < 0x1E0U) {
         corner0_visible = 0;
@@ -978,10 +978,10 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
             }
             packet_addr = (s32)packet & 0xFFFFFF;
             ((S_8195FD40_4 *)packet)->unk_00.at00.v = (((S_8195FD40_4 *)packet)->unk_00.at00.v & 0xFF000000) |
-                (((S_8195FD40_6 *)((u8 *)((((S_8195FD40_0 *)scratch)->unk_C0 * 4) +
-                              ((S_8195FD40_0 *)scratch)->unk_20)))->unk_00 & 0xFFFFFF);
-            ot_entry = (s32 *)((((S_8195FD40_0 *)scratch)->unk_C0 * 4) +
-                               ((S_8195FD40_0 *)scratch)->unk_20);
+                (((S_8195FD40_6 *)((u8 *)((scratch->unk_C0 * 4) +
+                              scratch->unk_20)))->unk_00 & 0xFFFFFF);
+            ot_entry = (s32 *)((scratch->unk_C0 * 4) +
+                               scratch->unk_20);
             packet += 0x28;
             *ot_entry = (*ot_entry & 0xFF000000) | packet_addr;
         }

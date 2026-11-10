@@ -16,7 +16,7 @@
 
 struct EntityLinkNode;
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 typedef struct S_800AD058_1 {
     u8 pad_00[0xC];
@@ -68,7 +68,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
     u8 entity_type;
     u8 red;
     u8 green;
-    void *entity = entity_data;
+    ActorRecord *entity = entity_data;
 
     switch (state->action_phase) {
     case 0:
@@ -80,8 +80,8 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         sprite->tpage_abr = 0x20;
         sprite->clut = (u16) (sprite->clut - 0x80);
         sprite->flags = (u16) (sprite->flags | 0xC);
-        ((ActorRecord *)entity)->flags1C = (s32) (((ActorRecord *)entity)->flags1C | 0x10000000);
-        entity_type = ((ActorRecord *)entity)->species;
+        entity->flags1C = (s32) (entity->flags1C | 0x10000000);
+        entity_type = entity->species;
         if ((entity_type == 5) || (sound_id = 0x805, (entity_type == 0x1E))) {
             sound_id = 0x806;
         }
@@ -102,29 +102,29 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         fade_ticks = state->action_timer - 1;
         state->action_timer = fade_ticks;
         if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((sprite->flags & 0x8000) != 0))) {
-            if (!(((ActorRecord *)entity)->flags14 & 0x20000000)) {
+            if (!(entity->flags14 & 0x20000000)) {
                 DungeonGlobalStatus *shared_state = &g_dungeon_status;
-                if ((shared_state->pending_display_owner) == entity - 0x20) {
+                if ((shared_state->pending_display_owner) == NODE_HEADER(entity)) {
                     shared_state->pending_display_owner = (s32) (((s32)shared_state->pending_display_owner) & 0x7FFFFFFF);
                 }
             }
-            entity_flags = ((ActorRecord *)entity)->flags14;
+            entity_flags = entity->flags14;
             if (!(entity_flags & 0x4000)) {
-                distribute_experience_and_report_gains(entity);
+                distribute_experience_and_report_gains((EntityRec *)entity);
                 detach_record_and_update_slot_state(entity);
-                if (((ActorRecord *)entity)->unk_49 != 0 && !(((ActorRecord *)entity)->unk_4B & 0x20)) {
+                if (entity->unk_49 != 0 && !(entity->unk_4B & 0x20)) {
                     create_effect_or_fallback(position->x.w.i, position->y.w.i,
-                        ((ActorRecord *)entity)->ground_height, entity + 0x48);
+                        entity->ground_height, (u8 *)entity + 0x48);
                 }
                 break;
             }
             if (!(entity_flags & 0x20000000)) {
                 announce_familiar_defeat(entity);
             }
-            distribute_experience_and_report_gains(entity);
+            distribute_experience_and_report_gains((EntityRec *)entity);
             detach_record_and_update_slot_state(entity);
             if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
-                effect_flags = ((ActorRecord *)entity)->flags1C;
+                effect_flags = entity->flags1C;
                 tile_x = sprite->tile_x;
                 tile_y = sprite->tile_y;
                 special_tile_mask = 0x3000;
@@ -133,7 +133,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
                 }
                 update_map_cell_flags_with_item_limit(tile_x, tile_y, special_tile_mask);
             }
-            unlink_entity_node(entity);
+            unlink_entity_node((struct EntityLinkNode *)entity);
             ((S_800AD058_2_pre *)entity)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)entity)[-1].unk_00 | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             play_sound_if_enabled(0x609);
@@ -154,8 +154,8 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
             s32 vertical_step;
 
             vertical_step = rsin((state->action_timer) * 8) >> 6;
-            ((ActorRecord *)entity)->ground_height = ((ActorRecord *)entity)->ground_height +
-                ((view_reference_entity.z.w.i - vertical_step - ((ActorRecord *)entity)->ground_height)
+            entity->ground_height = entity->ground_height +
+                ((view_reference_entity.z.w.i - vertical_step - entity->ground_height)
                     >> 4);
         }
         scale_x = sprite->scale_x;
@@ -174,7 +174,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
             active_count = ((u16)shared_state->activity_counts.parts.pending_action_count);
             active_count--;
             shared_state->activity_counts.parts.pending_action_count = active_count;
-            distribute_experience_and_report_gains(entity);
+            distribute_experience_and_report_gains((EntityRec *)entity);
             detach_record_and_update_slot_state(entity);
         } else {
             return finished;
@@ -184,7 +184,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         return 0;
     }
     if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
-        effect_flags = ((ActorRecord *)entity)->flags1C;
+        effect_flags = entity->flags1C;
         tile_x = sprite->tile_x;
         tile_y = sprite->tile_y;
         tile_mask = 0x3000;
@@ -193,7 +193,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
     }
-    unlink_entity_node(entity);
+    unlink_entity_node((struct EntityLinkNode *)entity);
     ((S_800AD058_2_pre *)entity)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)entity)[-1].unk_00 | 0x8000);
     finished = 1;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;

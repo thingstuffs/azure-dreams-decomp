@@ -238,7 +238,7 @@ void step_beldo_old_toward_target(Rec_func_800A9E70_arg0 *move_state_arg, void *
         if (turn_index == 0 &&
             *(u16 *)&cd_queue_buffered_argument_word_1 != *(u16 *)&position_arg->tile_x) {
             if (func_80098F70(actor_arg,
-                    (u8 *)beldo_old_target_actor->previous_actor_header + 0x20) != 0) {
+                    NODE_BODY(beldo_old_target_actor->previous_actor_header)) != 0) {
                 return;
             }
         }

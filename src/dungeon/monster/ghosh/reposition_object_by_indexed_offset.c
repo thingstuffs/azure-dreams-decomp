@@ -13,7 +13,8 @@ typedef struct {
     s32 flags;
 } Status;
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern Copy12 D_8016A858[];
 
 /* Reposition the current object using an indexed offset from the reference coordinates. */

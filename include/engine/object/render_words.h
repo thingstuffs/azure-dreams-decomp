@@ -31,7 +31,6 @@ typedef struct S_80035888_6 {
 } S_80035888_6;   /* ((S_80035888_1 *)object)->unk_74 in func_80035888 */
 
 
-extern void func_8004491C(void *, void *);
 extern void prepend_embedded_object_node(void *, void *);
 
 extern s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, struct SpriteFrameState *first_context);

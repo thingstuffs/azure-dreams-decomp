@@ -8,8 +8,8 @@
 #include "dungeon/actor.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
-extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 static void advance_actor_along_path_points(ActorRecord *motion, s32 unused, void *position, ActorRecord *path);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 #include "dungeon/actor/state.h"
 typedef struct S_800C9F34_3 {
     u8 pad_00[0x24];
@@ -52,7 +52,7 @@ void dispatch_actor_behavior_state(ActorRecord *actor_state, s32 context, S_800C
     if ((entity->pending_turn_updates > 0) &&
         (!(g_dungeon_status.flags & 0x2000) ||
          ((check_entity_relation(entity,
-            primary_actor_record->previous_actor_header + 0x20) << 0x10) == 0))) {
+            NODE_BODY(primary_actor_record->previous_actor_header)) << 0x10) == 0))) {
         choose_best_eligible_entry_for_actor(actor_state, context, position);
     }
 }

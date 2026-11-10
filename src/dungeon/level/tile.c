@@ -101,32 +101,21 @@ void process_unflagged_linked_entries_alt(void *firstNodeBase) {
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 
-typedef struct S_80099FDC_2 {
-    u8 pad_00[0x58];
-    void * unk_58;
-    void * unk_5C;
-} S_80099FDC_2;
-
-typedef struct S_80099FDC_3 {
-    u8 pad_00[0x5C];
-    void * unk_5C;
-} S_80099FDC_3;
-
 /* Clear the entry flag and link the entry into the current owner list. */
 void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry)
 {
-    S_80099FDC_2 *entry_links;
-    S_80099FDC_3 *neighbor_links;
+    ActorRecord *entry_links;
+    ActorRecord *neighbor_links;
     ActorRecord *owner;
 
     owner = primary_actor_record;
     entry->update_callback = *(s32 *)&entry->update_callback & 0x7FFFFFFF;
-    neighbor_links = (u8 *)owner->previous_actor_header + 0x20;
+    neighbor_links = NODE_BODY(owner->previous_actor_header);
     entry_links = NODE_BODY(entry);
-    entry_links->unk_5C = neighbor_links->unk_5C;
-    entry_links->unk_58 = owner->previous_actor_header;
+    entry_links->next_actor_header = neighbor_links->next_actor_header;
+    entry_links->previous_actor_header = owner->previous_actor_header;
     owner->previous_actor_header = entry;
-    neighbor_links->unk_5C = entry;
+    neighbor_links->next_actor_header = entry;
 }
 #include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
 #include "common.h"
@@ -1325,7 +1314,7 @@ s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *cont
 #include "shared/dungeon_status.h"
 #include "shared/object_node.h"
 
-extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
+#include "dungeon/item/get_actor_height_difference_api.h"
 extern s32 is_map_coordinate_out_of_bounds(s32, s32);
 
 /* Adds the supplied tile offset to the center coordinate. */

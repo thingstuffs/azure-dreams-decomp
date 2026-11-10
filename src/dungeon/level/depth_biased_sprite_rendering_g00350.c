@@ -45,6 +45,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
     u8 *perspective;
     u8 *clip_flags;
     u8 *scratch;
+    S_800BC4D4_1 *scratch_view;
     u8 **root_ptr;
     u8 *matrix;
     u8 *packet;
@@ -68,63 +69,64 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
     screen_pos = (u8 *)((u32)screen_pos | 0xB8);
     perspective = scratch_base;
     scratch = scratch_base;
+    scratch_view = (S_800BC4D4_1 *)scratch;
     perspective = (u8 *)((u32)perspective | 0x90);
     root = g_game_work.draw_buffer;
     packet = ((GpuContext *)root)->packetCursor;
-    ((S_800BC4D4_1 *)scratch)->unk_20 = root + 0xB0;
-    ((S_800BC4D4_1 *)scratch)->unk_EC = 0;
-    ((S_800BC4D4_1 *)scratch)->unk_E8 = 0;
-    ((S_800BC4D4_1 *)scratch)->unk_E4 = 0;
-    ((S_800BC4D4_1 *)scratch)->unk_8C = 0;
-    ((S_800BC4D4_1 *)scratch)->unk_84 = 0;
-    ((S_800BC4D4_1 *)scratch)->unk_7C = 0;
-    ((S_800BC4D4_1 *)scratch)->unk_74 = 0;
+    scratch_view->unk_20 = root + 0xB0;
+    scratch_view->unk_EC = 0;
+    scratch_view->unk_E8 = 0;
+    scratch_view->unk_E4 = 0;
+    scratch_view->unk_8C = 0;
+    scratch_view->unk_84 = 0;
+    scratch_view->unk_7C = 0;
+    scratch_view->unk_74 = 0;
 
     texture = ((S_800BC4D4_2 *)sprite)->unk_08;
     sprite_flags = ((S_800BC4D4_2 *)sprite)->unk_14;
     clip_flags = scratch_base;
-    ((S_800BC4D4_1 *)scratch)->unk_24 = sprite_flags;
+    scratch_view->unk_24 = sprite_flags;
     world_x = ((u16) position->x.w.i);
     clip_flags = (u8 *)((u32)clip_flags | 0x94);
-    ((S_800BC4D4_1 *)scratch)->unk_00 = world_x;
+    scratch_view->unk_00 = world_x;
     world_y = ((u16) position->y.w.i);
     root_ptr = (u8 **)&g_game_work;
-    ((S_800BC4D4_1 *)scratch)->unk_02 = world_y;
-    ((S_800BC4D4_1 *)scratch)->unk_04 = world_z;
+    scratch_view->unk_02 = world_y;
+    scratch_view->unk_04 = world_z;
 
     projected_depth = RotTransPers(scratch_base, screen_pos,
                               perspective, clip_flags);
     matrix = sprite_projection_matrix;
-    ((S_800BC4D4_1 *)scratch)->unk_C0 = projected_depth;
+    scratch_view->unk_C0 = projected_depth;
     ((S_800BC4D4_4 *)matrix)->unk_1C = projected_depth * 4;
     biased_depth = projected_depth - 7;
     ot_index = biased_depth - depth_bias;
-    ((S_800BC4D4_1 *)scratch)->unk_C0 = ot_index;
+    scratch_view->unk_C0 = ot_index;
 
     if (ot_index < 0x1E0U) {
         PushMatrix();
 
-        screen_x = ((S_800BC4D4_1 *)scratch)->unk_B8;
-        sprite_z = ((S_800BC4D4_1 *)scratch)->unk_04;
-        ((S_800BC4D4_1 *)scratch)->unk_B8 = screen_x - 0xA0;
-        ((S_800BC4D4_1 *)scratch)->unk_BA -= 0x78;
+        screen_x = scratch_view->unk_B8;
+        sprite_z = scratch_view->unk_04;
+        scratch_view->unk_B8 = screen_x - 0xA0;
+        scratch_view->unk_BA -= 0x78;
         scale = ((position->z.w.i - (s16)sprite_z) << 5) + 0x1000;
-        ((S_800BC4D4_1 *)scratch)->unk_38 = scale;
+        scratch_view->unk_38 = scale;
         if (scale < 0) {
-            ((S_800BC4D4_1 *)scratch)->unk_38 = 0;
+            scratch_view->unk_38 = 0;
         }
 
-        clamped_scale = ((S_800BC4D4_1 *)scratch)->unk_38;
-        ((S_800BC4D4_1 *)scratch)->unk_30.s = clamped_scale;
-        ((S_800BC4D4_1 *)scratch)->unk_34.s = (s32)(clamped_scale + ((u32)clamped_scale >> 31)) >> 1;
+        clamped_scale = scratch_view->unk_38;
+        scratch_view->unk_30.s = clamped_scale;
+        scratch_view->unk_34.s = (s32)(clamped_scale + ((u32)clamped_scale >> 31)) >> 1;
         RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
 
         CompMatrix(matrix, (void *)0x1F8000D0, (void *)0x1F800050);
         ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
 
-        ((S_800BC4D4_1 *)scratch)->unk_30.u = ((S_800BC4D4_2 *)sprite)->unk_1C;
-        ((S_800BC4D4_1 *)scratch)->unk_34.u = ((S_800BC4D4_2 *)sprite)->unk_1E;
-        ((S_800BC4D4_1 *)scratch)->unk_38 = 0x1000;
+        scratch_view->unk_30.u = ((S_800BC4D4_2 *)sprite)->unk_1C;
+        scratch_view->unk_34.u = ((S_800BC4D4_2 *)sprite)->unk_1E;
+        scratch_view->unk_38 = 0x1000;
         ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
         SetTransMatrix((void *)0x1F800050);
         SetRotMatrix((void *)0x1F800050);

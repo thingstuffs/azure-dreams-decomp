@@ -131,7 +131,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
         if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(actor,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
+                        NODE_BODY(primary_actor_record->previous_actor_header)) != 0) {
                     return;
                 }
             }

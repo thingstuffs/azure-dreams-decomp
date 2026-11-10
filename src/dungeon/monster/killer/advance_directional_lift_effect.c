@@ -27,7 +27,7 @@ typedef struct S_80173C20_1 {
     s8 unk_6D;
 } S_80173C20_1;   /* entity_data in advance_directional_lift_effect */
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 extern void *actor_update_node_cursor;
 extern u8 D_80170854[];

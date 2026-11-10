@@ -8,12 +8,12 @@
 #include "engine/item.h"
 #include "sdk/libgte.h"
 #include "town/menu.h"
+#include "slus.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-short SD_Call(int flags);
 extern s8 animation_tick_scale;
 extern s32 D_80126704;
 

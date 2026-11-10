@@ -71,7 +71,6 @@ typedef struct Object_800128C8 {
     /* 0x44 */ s32 callback_index;
 } Object_800128C8;
 struct CardMessageDialogBody;
-struct S_80025030_0;
 struct CardChoiceOwner;
 struct S_800491F4;
 struct UnkStruct1E;
@@ -87,7 +86,7 @@ void advance_timed_visual(s32 *dest, s32 value);
 void assign_object_descriptor_on_check(void *object_data_addr);
 
 /* build_and_queue_interpolated_vertical_quads_around_five_perimeter_points.c */
-void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(u8 *window_state);
+void configure_card_file_list_windows(u8 *window_state);
 
 /* build_install.c */
 void build_install(CardSlotMenuState *object);
@@ -99,7 +98,7 @@ s32 card_boot_animate_three_row_selection(CardCommandPanelBody *state);
 void card_boot_apply_slot_deletion_response(void *object);
 
 /* card_boot_begin_selected_value_transition.c */
-void card_boot_begin_selected_value_transition(s32 object_addr, s32 value);
+void card_boot_begin_selected_value_transition(void *panel, s32 value);
 
 /* card_boot_bind_command_panel_resources.c */
 void card_boot_bind_command_panel_resources(CardCommandPanelBody *panel);
@@ -211,7 +210,7 @@ void *card_boot_open_save_slot_selection(struct ObjectNodeHeader *request);
 void card_boot_open_selected_request_menu(CardChooserBody *record);
 
 /* card_boot_refresh_five_slot_selection.c */
-void card_boot_refresh_five_slot_selection(struct S_80025030_0 *state);
+void card_boot_refresh_five_slot_selection(CardSlotMenuState *state);
 
 /* card_boot_refresh_paired_choice_labels.c */
 void card_boot_refresh_paired_choice_labels(u8 *state);
@@ -412,7 +411,7 @@ void *render_rotated_grid_surface(s32 parent, s32 context, s32 mode);
 void route_save_slot_validation(CardSaveMenuBody *context);
 
 /* set_entry_destination_and_value.c */
-void set_entry_destination_and_value(struct CardChoiceOwner *state);
+void position_paired_choice_items(struct CardChoiceOwner *state);
 
 /* set_record_pair_to_one.c */
 void set_record_pair_to_one(CardSlotMenuState *record);

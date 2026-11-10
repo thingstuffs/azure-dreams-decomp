@@ -15,7 +15,7 @@
 
 
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 
 extern u8 tyrant_slot_f_action_callback;
@@ -23,7 +23,7 @@ extern u8 D_8016DFD8[];
 extern u8 D_8016DFE0[];
 
 /* Updates a jump toward the destination tile and completes movement when its timer expires. */
-void jump_tyrant_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *sprite, void *actor) {
+void jump_tyrant_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 facing_aux;
     s32 frames_left;
     s16 next_timer;
@@ -39,11 +39,11 @@ void jump_tyrant_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameS
         sprite->frameTable = D_8016DFD8;
         select_sprite_entry(
             sprite,
-            D_8016DFD8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_8016DFD8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         jump->action_state_flags |= 8;
         motion->velocity_z = 0xFFE80000;
-        ((EntityRec *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         jump->unk_A0.value = 0;
         jump->action_phase++;
 
@@ -71,12 +71,12 @@ void jump_tyrant_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameS
         if ((jump->action_timer) < 2) {
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;
-            ((EntityRec *)actor)->flags1C |= ACTOR_GROUNDED;
+            actor->flags1C |= ACTOR_GROUNDED;
             jump->action_phase++;
         }
 
     case 2:
-        if (((u32)((EntityRec *)actor)->flags1C) & ACTOR_GROUNDED) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             jump->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -85,7 +85,7 @@ void jump_tyrant_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameS
             sprite->frameTable = D_8016DFE0;
             select_sprite_entry(
                 sprite,
-                D_8016DFE0[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_8016DFE0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             jump->action_phase++;
         }
@@ -109,15 +109,15 @@ void jump_tyrant_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameS
             }
         }
 
-        actor_flags = ((u32)((EntityRec *)actor)->flags1C);
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
-            if (((EntityRec *)actor)->unk_46 & 0x8000) {
-                ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+            if (actor->action_flags & 0x8000) {
+                actor->action_flags &= 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
+                actor->facing = get_rounded_facing_and_rounding_flag(
                     sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
             }

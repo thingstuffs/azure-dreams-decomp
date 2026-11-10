@@ -481,11 +481,6 @@ typedef struct S_8187B1F4_2 {
     u16 unk_1A;
 } S_8187B1F4_2;   /* arg2 in project_shaded_points_to_ordering_table */
 
-typedef struct S_8187B1F4_3_pre {
-    u8 * unk_00;
-    u8 pad_04[0x4];
-} S_8187B1F4_3_pre;   /* the 0x8 bytes before arg0 in project_shaded_points_to_ordering_table, addressed as arg0[-1] */
-
 typedef struct S_8187B1F4_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
     union {
@@ -497,13 +492,6 @@ typedef struct S_8187B1F4_4 {
         struct { u8 pad[0x3]; s8 v; } at03;
     } unk_04;   /* overlapping accesses */
 } S_8187B1F4_4;
-
-typedef struct S_8187B1F4_6 {
-    u32 unk_00;
-    u8 pad_04[0x4];
-    u8 * unk_08;
-    u8 * unk_0C;
-} S_8187B1F4_6;   /* tail in project_shaded_points_to_ordering_table */
 
 #define VFIELD(base, type, offset) (((struct { u8 _pad_[offset]; type v; } *)(base))->v)
 
@@ -529,7 +517,7 @@ typedef struct GlobalRef {
 typedef struct PrimitiveTag { unsigned addr : 24; unsigned len : 8; } PrimitiveTag;
 
 /* Projects points and adds brightness-scaled pixel primitives to the ordering table. */
-s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orientation) {
+s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points, SignedPositionView *position, u8 *orientation) {
     s32 view_matrix[8];
     void *model_matrix;
     u8 *scratch;
@@ -552,16 +540,16 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
     void *depth_cue;
     void *projection_flags;
     u8 *tail;
-    u8 *tail_2;
+    ObjectNodeHeader *tail_2;
 
     global = (GlobalRef *)((GlobalState * *)(&g_game_work));
     scratch = (u8 *)0x1F800000;
     model_matrix = (u8 *)((u32)scratch | 0x74);
     transform_matrix = (u8 *)((u32)scratch | 0x54);
     do {
-        VFIELD(scratch, s32, 0x88) = ((SignedPositionView *)position)->x;
-        VFIELD(scratch, s32, 0x8C) = ((SignedPositionView *)position)->y;
-        ((S_8187B1F4_1 *)scratch)->unk_90 = ((SignedPositionView *)position)->z;
+        VFIELD(scratch, s32, 0x88) = position->x;
+        VFIELD(scratch, s32, 0x8C) = position->y;
+        ((S_8187B1F4_1 *)scratch)->unk_90 = position->z;
         PushMatrix();
         VFIELD(scratch, s32, 0x3C) = 0x1000;
         VFIELD(scratch, s32, 0x38) = 0x1000;
@@ -583,7 +571,7 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
         VFIELD(scratch, void *, 0x24) = ordering_table;
         VFIELD(scratch, void *, 0x1C) = state;
         point_index = 0;
-        if (((RandomRadialVectorEffectBody *)points)->unk_14 > 0) {
+        if (points->unk_14 > 0) {
             point_coords = (u16 *)points;
             do {
                 VFIELD(scratch, u16, 4) = point_coords[point_index + 0xB];
@@ -600,16 +588,16 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
                                       depth_cue, projection_flags);
                 VFIELD(scratch, u32, 0x100) = depth;
                 if (depth < 0x1E0U) {
-                    ((S_8187B1F4_4 *)point_packet)->unk_04.at00.v = ((RandomRadialVectorEffectBody *)points)->unk_00;
+                    ((S_8187B1F4_4 *)point_packet)->unk_04.at00.v = points->unk_00;
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at00u.v =
                         (s8)((((S_8187B1F4_4 *)point_packet)->unk_04.at00p.v *
-                        ((RandomRadialVectorEffectBody *)points)->unk_10.s) / ((RandomRadialVectorEffectBody *)points)->unk_12);
+                        points->unk_10.s) / points->unk_12);
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at01.v =
                         (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at01.v *
-                        ((RandomRadialVectorEffectBody *)points)->unk_10.s) / ((RandomRadialVectorEffectBody *)points)->unk_12);
+                        points->unk_10.s) / points->unk_12);
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at02.v =
                         (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at02.v *
-                        ((RandomRadialVectorEffectBody *)points)->unk_10.s) / ((RandomRadialVectorEffectBody *)points)->unk_12);
+                        points->unk_10.s) / points->unk_12);
                     ((S_8187B1F4_4 *)point_packet)->unk_00.at03.v = 2;
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at03.v = 0x6A;
                     ((PrimitiveTag *)point_packet)->addr =
@@ -629,21 +617,21 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
                     tag_state = (GlobalState *)((u8 *)tag_state +
                                                 (u32)VFIELD(scratch, void *, 0x24));
                     ((PrimitiveTag *)tag_state)->addr = (u32)draw_mode_packet;
-                    point_count = ((RandomRadialVectorEffectBody *)points)->unk_14;
+                    point_count = points->unk_14;
                 } else {
-                    point_count = ((RandomRadialVectorEffectBody *)points)->unk_14;
+                    point_count = points->unk_14;
                 }
                 point_index += 1;
             } while (point_index < point_count);
         }
         PopMatrix();
-        tail_2 = ((S_8187B1F4_3_pre *)points)[-1].unk_00;
-        points = tail_2 + 0x20;
+        tail_2 = NODE_HEADER(points)->chain_next;
+        points = NODE_BODY(tail_2);
         if (tail_2 == 0) {
             break;
         }
-        point_packet = ((S_8187B1F4_6 *)tail_2)->unk_0C;
-        position = (((S_8187B1F4_6 *)tail_2)->unk_08);
+        point_packet = (u8 *)tail_2->sprite;
+        position = (SignedPositionView *)tail_2->position;
         orientation = point_packet;
     } while (1);
     return hard_zero;

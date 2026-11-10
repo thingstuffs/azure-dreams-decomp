@@ -842,7 +842,7 @@ extern void RotMatrix(void *, void *);
 void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
     S_80024BF4_0 *scratch = (S_80024BF4_0 *)0x1F800000;
-    u8 *packet;
+    S_80024BF4_5 *packet;
     u8 *texture;
     s32 ot_index;
     u16 draw_flags;
@@ -873,7 +873,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     texture = render_state->source;
     scratch->unk_28 = render_state->flags;
     packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
-    ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet + 0x34;
+    ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = (u8 *)packet + 0x34;
 
     scratch->unk_B0 = quad->unk_4A;
     scratch->unk_B8 = quad->unk_50;
@@ -890,35 +890,35 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
 
     ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
                              (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
-                             packet + 8, packet + 0x14,
-                             packet + 0x20, packet + 0x2C,
+                             &packet->unk_08, &packet->unk_14,
+                             &packet->unk_20, &packet->unk_2C,
                              (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
     scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
-        if ((((u16)(((S_80024BF4_5 *)packet)->unk_08 + 0x20) < 0x181) &&
-             ((u16)(((S_80024BF4_5 *)packet)->unk_0A + 0x20) < 0x121)) |
-            (((u16)(((S_80024BF4_5 *)packet)->unk_14 + 0x20) < 0x181) &&
-             ((u16)(((S_80024BF4_5 *)packet)->unk_16 + 0x20) < 0x121)) |
-            (((u16)(((S_80024BF4_5 *)packet)->unk_20 + 0x20) < 0x181) &&
-             ((u16)(((S_80024BF4_5 *)packet)->unk_22 + 0x20) < 0x121)) |
-            (((u16)(((S_80024BF4_5 *)packet)->unk_2C + 0x20) < 0x181) &&
-             ((u16)(((S_80024BF4_5 *)packet)->unk_2E + 0x20) < 0x121))) {
+        if ((((u16)(packet->unk_08 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_0A + 0x20) < 0x121)) |
+            (((u16)(packet->unk_14 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_16 + 0x20) < 0x121)) |
+            (((u16)(packet->unk_20 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_22 + 0x20) < 0x121)) |
+            (((u16)(packet->unk_2C + 0x20) < 0x181) &&
+             ((u16)(packet->unk_2E + 0x20) < 0x121))) {
             render_state->flags &= 0x7FFF;
-            ((S_80024BF4_5 *)packet)->unk_0E = quad->unk_3C;
-            ((S_80024BF4_5 *)packet)->unk_1A = quad->unk_40;
-            ((S_80024BF4_5 *)packet)->unk_0C = quad->unk_3A;
-            ((S_80024BF4_5 *)packet)->unk_18 = quad->unk_3E;
-            ((S_80024BF4_5 *)packet)->unk_24 = quad->unk_44;
-            ((S_80024BF4_5 *)packet)->unk_30 = quad->unk_46;
-            ((S_80024BF4_5 *)packet)->unk_0D = quad->unk_3B;
-            ((S_80024BF4_5 *)packet)->unk_19 = quad->unk_3F;
-            ((S_80024BF4_5 *)packet)->unk_25 = quad->unk_45;
-            ((S_80024BF4_5 *)packet)->unk_31 = quad->unk_47;
-            ((S_80024BF4_5 *)packet)->unk_04.at00.v = quad->unk_0C;
-            ((S_80024BF4_5 *)packet)->unk_10 = quad->unk_10;
-            ((S_80024BF4_5 *)packet)->unk_1C = quad->unk_14;
-            ((S_80024BF4_5 *)packet)->unk_28 = quad->unk_18;
+            packet->unk_0E = quad->unk_3C;
+            packet->unk_1A = quad->unk_40;
+            packet->unk_0C = quad->unk_3A;
+            packet->unk_18 = quad->unk_3E;
+            packet->unk_24 = quad->unk_44;
+            packet->unk_30 = quad->unk_46;
+            packet->unk_0D = quad->unk_3B;
+            packet->unk_19 = quad->unk_3F;
+            packet->unk_25 = quad->unk_45;
+            packet->unk_31 = quad->unk_47;
+            packet->unk_04.at00.v = quad->unk_0C;
+            packet->unk_10 = quad->unk_10;
+            packet->unk_1C = quad->unk_14;
+            packet->unk_28 = quad->unk_18;
 
             SetPolyGT4(packet);
 
@@ -930,8 +930,8 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((S_80024BF4_5 *)packet)->unk_04.at03.v |= render_state->color.c.code;
-            ((S_80024BF4_5 *)packet)->unk_00 = (((S_80024BF4_5 *)packet)->unk_00 & 0xFF000000) |
+            packet->unk_04.at03.v |= render_state->color.c.code;
+            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
                 ((*(u32 *)((u8 *)(scratch->unk_24.p2)
                     + scratch->unk_100 * 4)) & 0x00FFFFFF);
 

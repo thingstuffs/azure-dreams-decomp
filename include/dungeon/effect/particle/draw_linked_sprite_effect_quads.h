@@ -11,6 +11,6 @@ struct SpriteEffect;
 s32 draw_linked_sprite_effect_quads(struct SpriteEffect *);
 struct EffectRecord;
 struct SpriteEntry;
-void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(struct EffectRecord *, void *, SpriteFrameState *);
+void mark_owner_while_sprite_animates(struct EffectRecord *, void *, SpriteFrameState *);
 
 #endif

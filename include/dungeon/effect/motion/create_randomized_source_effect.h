@@ -273,7 +273,6 @@ typedef struct Row_8191CD78_S_func_80024578_13 {
 
 /* Updates effect movement, target spinning, and completion across animation states. */
 void select_record_entry_and_value(void *state, void *entries, short index);
-s32 func_8004491C(void *, void *);
 s32 rand(void);
 int abs(int);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);

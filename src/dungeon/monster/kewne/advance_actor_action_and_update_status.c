@@ -16,7 +16,8 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/kewne_frames.h"
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern void update_actor_state_after_map_check(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 extern s32 kewne_action_resume_address;
@@ -107,7 +108,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
                 ActorRecord *previous_actor;
 
                 previous_node = primary_actor_record->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
                 if ((check_entity_relation(entity,
                         previous_actor) << 16) != 0) {

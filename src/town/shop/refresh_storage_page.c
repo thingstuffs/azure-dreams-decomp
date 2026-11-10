@@ -14,6 +14,6 @@
 extern void func_800B5020(void *work);
 
 void refresh_storage_page(StoragePageOwner *object) {
-    func_800B5020(object->work);
-    populate_paged_entries_with_brightness(object->work->page, object->source->page, object->source->value);
+    func_800B5020(object->parts);
+    populate_paged_entries_with_brightness(&object->parts[16], object->source->page, object->source->value);
 }

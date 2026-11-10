@@ -833,8 +833,9 @@ typedef struct S_800A6620_2 {
 } S_800A6620_2;   /* entry in release_entity_slot_and_update_flags */
 
 
-extern void unlink_entity_node(void *object);
-extern void update_map_cell_flags_with_item_limit(u8 sound_x, u8 sound_y, s32 sound_mode);
+#include "dungeon/level/unlink_entity_node_api.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern s16 find_entity_slot_by_field_ac(void *object);
 
 extern void *familiar_record_slots[];

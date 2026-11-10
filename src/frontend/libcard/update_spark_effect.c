@@ -24,6 +24,6 @@ void update_spark_effect(void *menu_data)
     card_boot_set_slot_details_selection(
         menu->slot_details,
         menu->unk_28,
-        menu->unk_44
+        menu->selected_command
         );
 }

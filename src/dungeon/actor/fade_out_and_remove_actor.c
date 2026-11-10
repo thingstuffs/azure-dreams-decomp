@@ -20,7 +20,7 @@ typedef struct S_800ACBE4_2 {
 extern void register_node(void *, void *);
 extern void unlink_node(void *);
 extern void unlink_entity_node(void *);
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Fades the actor to black, then triggers an effect and marks it for removal. */
 void fade_out_and_remove_actor(void *actor_data_arg, s32 unused, SpriteFrameState *visual, void *current_actor)

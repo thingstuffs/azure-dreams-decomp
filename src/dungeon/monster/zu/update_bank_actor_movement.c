@@ -455,7 +455,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
             if (!(action_state & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(stats,
-                            (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                            NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                         return;
                     }
                 }
@@ -843,7 +843,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
         if (turn_index == 0 &&
             *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_x) {
             if ((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) != 0) {
                 return;
             }
         }
@@ -1693,7 +1693,7 @@ typedef struct S_80173294_1 {
 
 
 
-extern void unlink_entity_node(struct EntityLinkNode *node);
+#include "dungeon/level/unlink_entity_node_api.h"
 extern void distribute_experience_and_report_gains(EntityRec *entity);
 extern void * detach_record_and_update_slot_state(void *record);
 
@@ -1940,7 +1940,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
             ActorRecord *owner = primary_actor_record;
 
             if ((check_entity_relation(actor,
-                    (u8 *)owner->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(owner->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }
@@ -2096,7 +2096,7 @@ void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *conte
             ActorRecord *owner = primary_actor_record;
 
             if ((check_entity_relation(entity,
-                    (u8 *)owner->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(owner->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }

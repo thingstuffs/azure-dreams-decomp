@@ -6,7 +6,7 @@
 #include "shared/tile_object.h"
 #include "dungeon/item/state.h"
 
-extern s8 find_active_rect_containing_point(u8, u8);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void update_all_actor_proximity_flags(s16 near_limit, s16 far_limit);
 
 /* Updates the default or linked state and dispatches action (3, 6). */

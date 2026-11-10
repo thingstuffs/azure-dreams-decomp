@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
 #include "shared/dungeon_status.h"
@@ -237,7 +238,7 @@ void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_w
         if ((step_index == 0) &&
             (U16_AT(&reference_tile_position_alias, 0) != U16_AT(position, 0x24)) &&
             ((check_entity_relation(
-                  actor, (s32)primary_actor_record->previous_actor_header + 0x20) << 16) != 0)) {
+                  actor, NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0)) {
             return;
         }
     }

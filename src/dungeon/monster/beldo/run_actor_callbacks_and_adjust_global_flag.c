@@ -4,7 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/beldo.h"
 
-void spend_actor_mp();
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 extern s32 beldo_action_dispatch_address;
 

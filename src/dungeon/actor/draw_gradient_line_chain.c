@@ -36,7 +36,7 @@ typedef struct LineG2 { u32 tag; PackedColor color0; s16 x0; s16 y0; PackedColor
 static __inline__ void init_line_colors(LineG2 *line, u32 color0, u32 color1) { line->color0.word = color0; line->color1.word = color1; }
 
 /* Draw depth-sorted gradient lines for the linked nodes. */
-s32 draw_gradient_line_chain(u8 *node)
+s32 draw_gradient_line_chain(S_80024740_0 *node)
 {
     u16 endpoint[4];
     s32 projection_param;
@@ -58,11 +58,11 @@ s32 draw_gradient_line_chain(u8 *node)
         init_line_colors(line, 0x202020, 0);
         SetLineG2(line);
         SetSemiTrans(line, 1);
-        endpoint[0] = ((S_80024740_0 *)node)->unk_1E;
-        endpoint[1] = ((S_80024740_0 *)node)->unk_22;
-        endpoint[2] = ((S_80024740_0 *)node)->unk_26;
+        endpoint[0] = node->unk_1E;
+        endpoint[1] = node->unk_22;
+        endpoint[2] = node->unk_26;
         start_depth = RotTransPers(endpoint, &line->x0, &projection_param, &projection_flags);
-        mean_depth = (start_depth + RotTransPers(node + 0xC, &line->x1, &projection_param, &projection_flags)) >> 1;
+        mean_depth = (start_depth + RotTransPers((u8 *)node + 0xC, &line->x1, &projection_param, &projection_flags)) >> 1;
         zero = 0;
         if ((u16)mean_depth < 0x1E0U) {
             ot_offset = (s16)mean_depth * 4;
@@ -75,7 +75,7 @@ s32 draw_gradient_line_chain(u8 *node)
         }
         next_node = ((S_80024740_0_pre *)node)[-1].unk_00;
         if (next_node != 0) {
-            node = next_node + 0x20;
+            node = (S_80024740_0 *)(next_node + 0x20);
             continue;
         }
         break;

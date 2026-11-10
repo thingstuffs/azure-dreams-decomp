@@ -1994,7 +1994,7 @@ extern void SetDrawMode(void *, s32, s32, s32, s32);
 /* Project a quad and enqueue it with its draw mode when depth and screen bounds allow. */
 void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, void *owner_data, s16 depth_bias)
 {
-    u8 *scratch;
+    S_800BA414_0 *scratch;
     u8 *prim;
     u8 **state_slot;
     S_800BA414_4 *owner;
@@ -2023,21 +2023,21 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
 
     (void)unused;
     state = *(u8 **)((s8 *)(&g_game_work));
-    scratch = (u8 *)0x1F800000;
+    scratch = (S_800BA414_0 *)0x1F800000;
     owner = owner_data;
     depth_offset = depth_bias;
-    ((S_800BA414_0 *)scratch)->unk_20 = state + 0xB0;
-    ((S_800BA414_0 *)scratch)->unk_E4 = position->unk_02;
-    ((S_800BA414_0 *)scratch)->unk_E8 = position->unk_06;
-    ((S_800BA414_0 *)scratch)->unk_EC = position->unk_0A;
+    scratch->unk_20 = state + 0xB0;
+    scratch->unk_E4 = position->unk_02;
+    scratch->unk_E8 = position->unk_06;
+    scratch->unk_EC = position->unk_0A;
     prim = ((GpuContext *)state)->packetCursor;
     state_slot = (u8 **)((s8 *)(&g_game_work));
 
     PushMatrix();
     rotation = (u8 *)0x1F800100;
     local_matrix = (u8 *)0x1F8000D0;
-    ((S_800BA414_0 *)scratch)->unk_100 = 0;
-    ((S_800BA414_0 *)scratch)->unk_104 = 0;
+    scratch->unk_100 = 0;
+    scratch->unk_104 = 0;
     RotMatrix(rotation, local_matrix);
     view_matrix = (u8 *)0x1F80011C;
     ReadRotMatrix(view_matrix);
@@ -2060,7 +2060,7 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
                               prim + 8, prim + 0xC, prim + 0x10, prim + 0x14,
                               depth_cue, transform_flags) -
                 depth_offset) - 8;
-    ((S_800BA414_0 *)scratch)->unk_C0 = ot_index;
+    scratch->unk_C0 = ot_index;
 
     if (ot_index < 0x1E0U) {
         first_pair_visible = 0;
@@ -2107,14 +2107,14 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
             draw_mode = prim + 0x18;
             ((S_800BA414_3 *)prim)->unk_04.at03.v |= 2;
             prim += 0x24;
-            AddPrim(((S_800BA414_0 *)scratch)->unk_20 +
-                          ((S_800BA414_0 *)scratch)->unk_C0 * 4,
+            AddPrim(scratch->unk_20 +
+                          scratch->unk_C0 * 4,
                           quad);
             mode_ptr = draw_mode;
             mode_zero = 0;
             SetDrawMode(mode_ptr, (s32)mode_zero, (s32)mode_zero, 0x20, 0);
-            AddPrim(((S_800BA414_0 *)scratch)->unk_20 +
-                          ((S_800BA414_0 *)scratch)->unk_C0 * 4,
+            AddPrim(scratch->unk_20 +
+                          scratch->unk_C0 * 4,
                           draw_mode);
         }
     }
@@ -2623,7 +2623,8 @@ typedef struct {
     s16 unk20;
 } Func800B5948Object;
 
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern void clear_slot_and_detach_entity(s32 slot_index);
 
 /* Updates the object's countdown and triggers an effect when it expires. */
@@ -2785,22 +2786,22 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, vo
 {
     CoordPair bottom_center;
     u8 **state_addr;
-    u8 *state;
+    GpuContext *state;
     GpuContext *buf;
     u8 *ordering_table;
-    u8 *packet;
+    S_800BB2E4_2 *packet;
     u8 *primitive;
     s32 y;
     s16 odd;
 
     state_addr = (u8 **)((u8 *)(&g_game_work));
-    state = *(u8 **)((u8 *)(&g_game_work));
-    ordering_table = state + 0x8B0;
+    state = (GpuContext *)*(u8 **)((u8 *)(&g_game_work));
+    ordering_table = (u8 *)state + 0x8B0;
     odd = state != upper_draw_context;
 
     if (content_id != 0) {
-        primitive = ((GpuContext *)state)->packetCursor;
-        ((GpuContext *)state)->packetCursor = primitive + 0xC;
+        primitive = state->packetCursor;
+        state->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 0, 0);
         AddPrim(ordering_table, primitive);
 
@@ -2813,17 +2814,17 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, vo
         func_80067EF4(primitive, 1, 0);
         AddPrim(ordering_table, primitive);
     } else if (fill == 0) {
-        packet = ((GpuContext *)state)->packetCursor;
-        ((GpuContext *)state)->packetCursor = packet + 0x10;
-        ((S_800BB2E4_2 *)packet)->unk_08.at00.v = *line_start;
-        ((S_800BB2E4_2 *)packet)->unk_0C.at00.v = *line_end;
+        packet = state->packetCursor;
+        state->packetCursor = (u8 *)packet + 0x10;
+        packet->unk_08.at00.v = *line_start;
+        packet->unk_0C.at00.v = *line_end;
         if (odd) {
-            ((S_800BB2E4_2 *)packet)->unk_08.at02.v -= 0xE0;
-            ((S_800BB2E4_2 *)packet)->unk_0C.at02.v -= 0xE0;
+            packet->unk_08.at02.v -= 0xE0;
+            packet->unk_0C.at02.v -= 0xE0;
         }
-        ((S_800BB2E4_2 *)packet)->unk_03 = 3;
-        ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0;
-        ((S_800BB2E4_2 *)packet)->unk_04.at03.v = 0x40;
+        packet->unk_03 = 3;
+        packet->unk_04.at00.v = 0;
+        packet->unk_04.at03.v = 0x40;
         AddPrim(ordering_table, packet);
 
         buf = (GpuContext *)(*(u8 **)((u8 *)(&g_game_work)));
@@ -2836,17 +2837,17 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, vo
     if (fill != 0) {
         buf = (GpuContext *)(*state_addr);
         packet = buf->packetCursor;
-        buf->packetCursor = packet + 0x10;
-        ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0x60000000;
-        ((S_800BB2E4_2 *)packet)->unk_03 = 3;
-        ((S_800BB2E4_2 *)packet)->unk_08.at00u.v = ((S_800BB2E4_1 *)rect)->unk_00;
+        buf->packetCursor = (u8 *)packet + 0x10;
+        packet->unk_04.at00.v = 0x60000000;
+        packet->unk_03 = 3;
+        packet->unk_08.at00u.v = ((S_800BB2E4_1 *)rect)->unk_00;
         y = ((S_800BB2E4_1 *)rect)->unk_02.s;
         if (odd) {
             y -= 0xE0;
         }
-        ((S_800BB2E4_2 *)packet)->unk_08.at02u.v = y;
-        ((S_800BB2E4_2 *)packet)->unk_0C.at00u.v = ((S_800BB2E4_1 *)rect)->unk_04;
-        ((S_800BB2E4_2 *)packet)->unk_0C.at02.v = ((S_800BB2E4_1 *)rect)->unk_06;
+        packet->unk_08.at02u.v = y;
+        packet->unk_0C.at00u.v = ((S_800BB2E4_1 *)rect)->unk_04;
+        packet->unk_0C.at02.v = ((S_800BB2E4_1 *)rect)->unk_06;
         AddPrim(ordering_table, packet);
 
         buf = (GpuContext *)(*state_addr);
@@ -3057,7 +3058,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
     s32 setup_word_60) {
     s32 call_data[2];
     s16 angle;
-    void *effect;
+    ObjectNodeHeader *effect;
     ObjectPosition *position;
     SpriteFrameState *render_data;
     s16 held_pos_z = pos_z;
@@ -3073,20 +3074,20 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
         FivePointEffectBody *setup_cursor;
 
         play_sound_if_enabled(0x704);
-        ((ObjectNodeHeader *)effect)->update_callback = update_five_point_effect;
+        effect->update_callback = update_five_point_effect;
         register_node(effect, process_linked_menu_effect);
-        position = ((ObjectNodeHeader *)effect)->position;
+        position = effect->position;
         position->x.w.i = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         position->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
         position->z.w.i = held_pos_z;
-        render_data = ((ObjectNodeHeader *)effect)->sprite;
+        render_data = effect->sprite;
         render_data->source = &familiar_restore_sprite_data;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->color.word = 0x808080;
         render_data->depth_bias = 8;
-        setup_base = effect + 0x20;
-        select_record_entry_and_value(effect + 0x2C, held_transform, 0);
+        setup_base = (u8 *)effect + 0x20;
+        select_record_entry_and_value((u8 *)effect + 0x2C, held_transform, 0);
         setup_cursor = setup_base;
         setup_cursor->scale_y = (s16) scale;
         setup_cursor->scale_x = (s16) scale;
@@ -3249,49 +3250,49 @@ extern void SetDrawMode(void *, s32, s32, s32, s32);
 /* Projects and queues a shaded quad with optional semitransparency. */
 void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    S_800BBDEC_0 *scratch = (S_800BBDEC_0 *)0x1F800000;
     void **render_ctx = (void **)((u8 *)(&g_game_work));
     u8 *prim;
     u32 depth_index;
     s32 color_word;
     s16 end_z;
 
-    ((S_800BBDEC_0 *)scratch)->unk_20 = (u8 *)*render_ctx + 0xB0;
-    ((S_800BBDEC_0 *)scratch)->unk_E4 = position->x.w.i;
-    ((S_800BBDEC_0 *)scratch)->unk_E8 = position->y.w.i;
-    ((S_800BBDEC_0 *)scratch)->unk_EC = position->z.w.i;
+    scratch->unk_20 = (u8 *)*render_ctx + 0xB0;
+    scratch->unk_E4 = position->x.w.i;
+    scratch->unk_E8 = position->y.w.i;
+    scratch->unk_EC = position->z.w.i;
     prim = ((GpuContext *)(*render_ctx))->packetCursor;
 
     PushMatrix();
 
-    ((S_800BBDEC_0 *)scratch)->unk_100 = appearance->angle_x;
-    ((S_800BBDEC_0 *)scratch)->unk_104 = appearance->angle_z;
-    ((S_800BBDEC_0 *)scratch)->unk_102 = appearance->angle_y;
-    RotMatrix(scratch + 0x100, scratch + 0xD0);
-    ReadRotMatrix(scratch + 0x11C);
-    CompMatrix(scratch + 0x11C, scratch + 0xD0, scratch + 0x50);
-    SetTransMatrix(scratch + 0x50);
-    SetRotMatrix(scratch + 0x50);
+    scratch->unk_100 = appearance->angle_x;
+    scratch->unk_104 = appearance->angle_z;
+    scratch->unk_102 = appearance->angle_y;
+    RotMatrix(&scratch->unk_100, (u8 *)scratch + 0xD0);
+    ReadRotMatrix((u8 *)scratch + 0x11C);
+    CompMatrix((u8 *)scratch + 0x11C, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
+    SetTransMatrix((u8 *)scratch + 0x50);
+    SetRotMatrix((u8 *)scratch + 0x50);
 
-    ((S_800BBDEC_0 *)scratch)->unk_7C = 0;
-    ((S_800BBDEC_0 *)scratch)->unk_74 = 0;
+    scratch->unk_7C = 0;
+    scratch->unk_74 = 0;
     end_z = -object->vertical_extent;
-    ((S_800BBDEC_0 *)scratch)->unk_88 = 0x10;
-    ((S_800BBDEC_0 *)scratch)->unk_78 = 0x10;
-    ((S_800BBDEC_0 *)scratch)->unk_80 = 0;
-    ((S_800BBDEC_0 *)scratch)->unk_70 = 0;
-    ((S_800BBDEC_0 *)scratch)->unk_7A = 0;
-    ((S_800BBDEC_0 *)scratch)->unk_72 = 0;
-    ((S_800BBDEC_0 *)scratch)->unk_8A = 0;
-    ((S_800BBDEC_0 *)scratch)->unk_82 = 0;
-    ((S_800BBDEC_0 *)scratch)->unk_8C = end_z;
-    ((S_800BBDEC_0 *)scratch)->unk_84 = end_z;
+    scratch->unk_88 = 0x10;
+    scratch->unk_78 = 0x10;
+    scratch->unk_80 = 0;
+    scratch->unk_70 = 0;
+    scratch->unk_7A = 0;
+    scratch->unk_72 = 0;
+    scratch->unk_8A = 0;
+    scratch->unk_82 = 0;
+    scratch->unk_8C = end_z;
+    scratch->unk_84 = end_z;
 
-    depth_index = RotAverage4(scratch + 0x70, scratch + 0x78,
-                          scratch + 0x80, scratch + 0x88,
+    depth_index = RotAverage4(&scratch->unk_70, &scratch->unk_78,
+                          &scratch->unk_80, &scratch->unk_88,
                           prim + 8, prim + 0x10, prim + 0x18, prim + 0x20,
-                          scratch + 0x90, scratch + 0x94);
-    ((S_800BBDEC_0 *)scratch)->unk_C0 = depth_index;
+                          (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+    scratch->unk_C0 = depth_index;
 
     if (depth_index < 0x1E0U) {
         color_word = appearance->color.word;
@@ -3307,15 +3308,15 @@ void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition
             ((S_800BBDEC_5 *)prim)->unk_04.at03.v |= 2;
         }
 
-        AddPrim((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
-                      ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
+        AddPrim((u8 *)scratch->unk_20 +
+                      scratch->unk_C0 * 4,
                       prim);
         prim += 0x24;
 
         if (appearance->flags & 4) {
             SetDrawMode(prim, 0, 0, 0x20, 0);
-            AddPrim((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
-                          ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
+            AddPrim((u8 *)scratch->unk_20 +
+                          scratch->unk_C0 * 4,
                           prim);
             prim += 0xC;
         }

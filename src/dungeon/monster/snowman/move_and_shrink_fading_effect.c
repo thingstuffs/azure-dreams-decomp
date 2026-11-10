@@ -598,7 +598,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         if (!(entity_arg->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(entity_arg,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
+                        NODE_BODY(primary_actor_record->previous_actor_header)) != 0) {
                     return;
                 }
             }
@@ -946,7 +946,7 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         if (turn_index == 0 &&
             reference_tile_object.tile_position.word != *(u16 *)&position_data->tile_x) {
             if (((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20)) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header))) != 0) {
                 do {
                     return;
                 } while (0);
@@ -1761,7 +1761,7 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 if ((check_entity_relation(actor_in,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                        NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                     return;
                 }
             }
@@ -1896,7 +1896,7 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
             update_actor_status_and_mp(entity);

@@ -70,7 +70,6 @@ typedef void (*unicorn_orbit_update_fn)(void *effect, ObjectPosition *position, 
 
 extern s32 advance_sprite_animation_and_textures();
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 shared_sprite_entries;
 extern s32 directional_sprite_entries;
 void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, SpriteFrameState *update_arg);

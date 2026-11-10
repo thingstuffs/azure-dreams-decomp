@@ -36,7 +36,6 @@ typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
 s16 get_entity_effect_value();                 /* extern */ /* Unprototyped: return_width */
 #include "engine/texture.h"
-extern short SD_Call(int flags);                     /* extern */
 #include "dungeon/player/input.h"
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */

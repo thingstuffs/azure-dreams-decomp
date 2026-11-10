@@ -291,7 +291,6 @@ typedef struct R08_80174648_S_80174648_11 {
 extern int abs(int);
 extern s32 Control_CD();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
 void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
@@ -338,7 +337,6 @@ s32 update_actor_fade_in();
 void project_sprite_commands(void *context, void *position, struct Entry *entry, s16 depth_bias);
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 void unlink_node();
-void func_80044A50(struct ObjectNodeHeader *node);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);

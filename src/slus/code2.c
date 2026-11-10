@@ -78,7 +78,7 @@ void bind_view_triplet_source(void *state)
 /* func_800419EC */
 /* Struct at D_80083CA8 (also referenced elsewhere as D_80083CAE at offset 6):
  * offset 0: int  (rate/quotient, decremented each tick by other code)
- * offset 4: int  (accumulator, used by advance_timed_entity_motion)
+ * offset 4: int  (accumulator, used by apply_camera_shake)
  * offset 6: short (aka D_80083CAE - value copied from a1)
  * offset 8: short (countdown counter, copied from a0)
  * Declared >8 bytes so hi/lo addressing is used. */

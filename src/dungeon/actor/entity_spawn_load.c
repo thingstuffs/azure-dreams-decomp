@@ -95,14 +95,14 @@ s32 advance_staged_entity_load(s32 unused, ActorRecord *entity)
     s32 scale;
     s32 replace_call_zero;
     s32 load_kind;
-    void *spawned;
-    u8 *replacement;
+    S_800A504C_4 *spawned;
+    S_800A504C_4 *replacement;
     ObjectNodeHeader *shifted;
     u8 *entity_data;
     S_800A504C_2_pre *mode_page;
     S_800A504C_5 *record;
     u8 *record_data;
-    u8 *tail_dst;
+    S_800A504C_3 *tail_dst;
     u8 *copy_src;
     u8 *copy_dst;
     u8 *copy_end;
@@ -123,12 +123,12 @@ s32 advance_staged_entity_load(s32 unused, ActorRecord *entity)
         if (read_sound_mode_blocking_status(4) != 0) {
             return 0;
         }
-        spawned = find_or_retain_sprite_resource_slot(entity->species, 2);
+        spawned = (S_800A504C_4 *)find_or_retain_sprite_resource_slot(entity->species, 2);
         if (spawned == NULL) {
             return 0;
         }
         load_result = queue_cd_resource(entity->species);
-        load_spawned = spawned;
+        load_spawned = (u8 *)spawned;
         loaded_entity_sprite_resource = load_result;
         load_monster_code_module(entity->species, load_spawned, 0);
         entity_resource_read_complete[0] = 0;
@@ -145,7 +145,7 @@ case 1:
         return 0;
 
 case 2:
-        spawned = find_or_retain_sprite_resource_slot(entity->species, 2);
+        spawned = (S_800A504C_4 *)find_or_retain_sprite_resource_slot(entity->species, 2);
         if (spawned == NULL) {
             return 0;
         }
@@ -157,10 +157,10 @@ case 2:
             return 0;
         }
         base = (S_800A504C_0 *)entity;
-        tail_dst = spawned;
-        saved_word_5c = ((S_800A504C_3 *)tail_dst)->unk_5C;
-        saved_word_58 = ((S_800A504C_3 *)tail_dst)->unk_58;
-        copy_dst = tail_dst;
+        tail_dst = (S_800A504C_3 *)spawned;
+        saved_word_5c = tail_dst->unk_5C;
+        saved_word_58 = tail_dst->unk_58;
+        copy_dst = (u8 *)tail_dst;
         copy_src = (u8 *)entity;
         copy_end = ((u8 *)entity) + 0x80;
         do {
@@ -169,43 +169,43 @@ case 2:
             copy_dst += sizeof(EntityCopyBlock);
         } while (copy_src != copy_end);
         *(EntityCopyTail *)copy_dst = *(EntityCopyTail *)copy_src;
-        ((S_800A504C_4 *)spawned)->unk_4C = 0;
-        ((S_800A504C_4 *)spawned)->unk_50 = 0;
-        ((S_800A504C_4 *)spawned)->unk_5C = saved_word_5c;
-        ((S_800A504C_4 *)spawned)->unk_58 = saved_word_58;
-        func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
+        spawned->unk_4C = 0;
+        spawned->unk_50 = 0;
+        spawned->unk_5C = saved_word_5c;
+        spawned->unk_58 = saved_word_58;
+        func_80042640(spawned, spawned->unk_10.at03.v);
 
-        copy_call_entity = spawned;
+        copy_call_entity = (u8 *)spawned;
         copy_call_zero = 0;
         scale = 0x1000;
         entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
         ((SpriteFrameState *)entity_data)->scale_y = scale;
         ((SpriteFrameState *)entity_data)->scale_x = scale;
-        ((S_800A504C_4 *)spawned)->unk_14 &= -8;
-        ((S_800A504C_4 *)spawned)->unk_1C &= -8;
-        ((S_800A504C_4 *)spawned)->unk_14 |= entity->flags14 & 7;
-        ((S_800A504C_4 *)spawned)->unk_1C |= entity->flags1C & 7;
-        apply_actor_template_and_class(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
+        spawned->unk_14 &= -8;
+        spawned->unk_1C &= -8;
+        spawned->unk_14 |= entity->flags14 & 7;
+        spawned->unk_1C |= entity->flags1C & 7;
+        apply_actor_template_and_class(copy_call_entity, spawned->unk_10.at03.v,
                       copy_call_zero);
         copy_entity_record(spawned, entity);
-        ((S_800A504C_4 *)spawned)->unk_14 &= ~0x4000;
+        spawned->unk_14 &= ~0x4000;
 
-        ((S_800A504C_3 *)tail_dst)->unk_8C = base->unk_8C;
-        ((S_800A504C_3 *)tail_dst)->unk_90 = base->unk_90;
-        ((S_800A504C_3 *)tail_dst)->unk_94 = base->unk_94;
-        ((S_800A504C_3 *)tail_dst)->unk_98 = base->unk_98;
-        ((S_800A504C_3 *)tail_dst)->unk_9A = base->unk_9A;
-        ((S_800A504C_3 *)tail_dst)->unk_9B = base->unk_9B;
+        tail_dst->unk_8C = base->unk_8C;
+        tail_dst->unk_90 = base->unk_90;
+        tail_dst->unk_94 = base->unk_94;
+        tail_dst->unk_98 = base->unk_98;
+        tail_dst->unk_9A = base->unk_9A;
+        tail_dst->unk_9B = base->unk_9B;
 
         offset = find_entity_slot_by_field_ac(entity);
         record = ((S_800A504C_5 *)primary_actor_record);
         offset = (offset << 16) >> 14;
         offset += (s32)record;
         record = (S_800A504C_5 *)offset;
-        record->unk_AC = spawned;
+        record->unk_AC = (u8 *)spawned;
         update_map_cell_flags_with_item_limit(entity_data[0x24], entity_data[0x25], 0x300);
-        unlink_entity_node(spawned);
-        shifted = spawned - 0x20;
+        unlink_entity_node((struct EntityLinkNode *)spawned);
+        shifted = NODE_HEADER(spawned);
         unlink_node(shifted);
         update_flags = 0x80000000;
         flags_result = ((S_800A504C_4 *)shifted)->unk_10.at00.v;
@@ -226,14 +226,14 @@ case 2:
         case 0:
 
         load_kind = 3;
-        replacement = find_or_retain_sprite_resource_slot(entity->species - 1,
+        replacement = (S_800A504C_4 *)find_or_retain_sprite_resource_slot(entity->species - 1,
                                       load_kind);
         if (replacement != NULL) {
             entity->species--;
             func_8003E188(entity->species, 0);
             sprite_resource_base = D_80023000;
             load_result = begin_sprite_resource_load_with_completion_flag(entity->species, sprite_resource_completion_flag);
-            load_spawned = replacement;
+            load_spawned = (u8 *)replacement;
 
             loaded_entity_sprite_resource = load_result;
             load_monster_code_module(entity->species, load_spawned, 0);
@@ -255,7 +255,7 @@ case 1:
         break;
 
 case 2:
-        replacement = find_or_retain_sprite_resource_slot(entity->species, 3);
+        replacement = (S_800A504C_4 *)find_or_retain_sprite_resource_slot(entity->species, 3);
         if (replacement == NULL) {
             return 0;
         }
@@ -264,42 +264,42 @@ case 2:
         replacement = spawn(1, entity_data[0x24], entity_data[0x25],
                         (s16)(entity->ground_height - 0x20));
         if (replacement != NULL) {
-            ((S_800A504C_4 *)replacement)->unk_14 |= ACTOR_PARTY_MEMBER;
+            replacement->unk_14 |= ACTOR_PARTY_MEMBER;
             offset = find_entity_slot_by_field_ac(entity);
             record = ((S_800A504C_5 *)primary_actor_record);
             offset = (offset << 16) >> 14;
             offset += (s32)record;
             record = (S_800A504C_5 *)offset;
             record_data = record->unk_D0;
-            record->unk_AC = replacement;
+            record->unk_AC = (u8 *)replacement;
             record_data[0] = entity->species;
-            (*(u8 * *)(familiar_record_slots + (record_data[3] & 0x1F) * 4)) = replacement;
+            (*(u8 * *)(familiar_record_slots + (record_data[3] & 0x1F) * 4)) = (u8 *)replacement;
 
             entity_data = ((S_800A504C_4_pre *)replacement)[-1].unk_00;
             ((SpriteFrameState *)entity_data)->scale_y = 0x1000;
             ((SpriteFrameState *)entity_data)->scale_x = 0x1000;
-            func_80042640(replacement, ((S_800A504C_4 *)replacement)->unk_10.at03.v);
-            copy_call_entity = replacement;
+            func_80042640(replacement, replacement->unk_10.at03.v);
+            copy_call_entity = (u8 *)replacement;
             replace_call_zero = 0;
-            ((S_800A504C_4 *)replacement)->unk_14 &= -8;
-            ((S_800A504C_4 *)replacement)->unk_1C &= -8;
-            ((S_800A504C_4 *)replacement)->unk_14 |= entity->flags14 & 7;
-            ((S_800A504C_4 *)replacement)->unk_1C |= entity->flags1C & 7;
-            apply_actor_template_and_class(copy_call_entity, ((S_800A504C_4 *)replacement)->unk_10.at03.v,
+            replacement->unk_14 &= -8;
+            replacement->unk_1C &= -8;
+            replacement->unk_14 |= entity->flags14 & 7;
+            replacement->unk_1C |= entity->flags1C & 7;
+            apply_actor_template_and_class(copy_call_entity, replacement->unk_10.at03.v,
                           replace_call_zero);
             copy_entity_record(replacement, entity);
 
-            if (((S_800A504C_4 *)replacement)->unk_43 < 0x40) {
+            if (replacement->unk_43 < 0x40) {
                 TablePage *table_page = (TablePage *)0x80010000;
-                s32 table_index = ((S_800A504C_4 *)replacement)->unk_43;
-                u8 table_value = ((S_800A504C_4 *)replacement)->unk_10.at03.v;
+                s32 table_index = replacement->unk_43;
+                u8 table_value = replacement->unk_10.at03.v;
                 table_page->table84[table_index].value = table_value;
                 table_page->table4[table_index].value = table_value;
             }
-            retain_spawn_resource(((S_800A504C_4 *)replacement)->unk_10.at03.v, 3);
+            retain_spawn_resource(replacement->unk_10.at03.v, 3);
             replay_actor_status_slots(replacement);
             angle = ((u16)entity->facing);
-            (*(u16 *)(replacement + 0x2A)) = angle;
+            (*(u16 *)((u8 *)replacement + 0x2A)) = angle;
             offset = ((g_game_work.view.camera_rotation.parts.viewAngle + (s16)angle + 0x100) >> 9) & 7;
             select_indirect_table_entry(entity_data, ((u8 *)((SpriteFrameState *)entity_data)->frameTable)[offset],
                           ((SpriteFrameState *)entity_data)->unk_04);

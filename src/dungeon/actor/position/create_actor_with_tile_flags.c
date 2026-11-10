@@ -20,7 +20,7 @@ struct ObjectNodeHeader;
 #endif
 
 
-extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 
 extern u8 D_800D4158;
 extern u8 actor_default_action_address;

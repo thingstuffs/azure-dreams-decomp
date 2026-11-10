@@ -27,26 +27,9 @@ typedef struct {
     u16 field_A6;
 } D800814A8FieldView_81252D6C;
 
-extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, struct S_80170E18_3 *facing_source);
+extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, ActorRecord *facing_source);
 
 extern u8 D_80173EDC[8];
-
-typedef struct S_8017256C_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    union { void * p; u8 * p2; } unk_60;   /* accessed as both */
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x4];
-    s8 unk_72;
-    s8 unk_73;
-} S_8017256C_1;   /* arg3 in advance_actor_action_and_target */
-
 
 typedef struct S_8017256C_5 {
     u8 pad_00[0xC];
@@ -58,7 +41,7 @@ typedef struct S_8017256C_5 {
 /* Advances an actor's action state, updating its target, animation, and completion. */
 /* Starts a targeted Beldo spell, emits a sprite effect during its casting sequence, then recenters and
  * updates status. */
-void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFrameState *sprite, void *actor)
+void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     register s32 is_special = 0;
     u8 *action_entry;
@@ -68,13 +51,13 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
     u32 kind_index;
     u16 ticks;
     s32 next_ticks;
-    u8 *target_link;
+    void *target_link;
 
     state = action->action_phase;
     switch (state) {
     case 0:
-        if (((S_8017256C_1 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) {
-            kind_index = ((S_8017256C_1 *)actor)->unk_46 & 0x3FFF;
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
+            kind_index = actor->action_flags & 0x3FFF;
             switch (kind_index) {
             case 7:
                 is_special = 1;
@@ -99,7 +82,7 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
                 break;
             }
         } else {
-            kind = ((S_8017256C_1 *)actor)->unk_46 & 0x3FFF;
+            kind = actor->action_flags & 0x3FFF;
             switch (kind) {
             case 3:
                 action_entry = (u8 *)actor + 0xE;
@@ -122,18 +105,18 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
 
                 if (use_player_target) {
                     target_link = primary_actor_record;
-                    ((S_8017256C_1 *)actor)->unk_60.p = target_link;
+                    actor->target = target_link;
                     kind = (s32)*(u8 * *)&((ObjectNodeHeader *)(target_link - 0x20))->sprite;
 
-                    ((S_8017256C_1 *)actor)->unk_72 = ((SpriteFrameState *)kind)->tile_x;
-                    ((S_8017256C_1 *)actor)->unk_73 = ((SpriteFrameState *)kind)->tile_y;
+                    actor->target_tile_x = ((SpriteFrameState *)kind)->tile_x;
+                    actor->target_tile_y = ((SpriteFrameState *)kind)->tile_y;
                 } else if (item_action_definitions[*action_entry].kind == 2) {
-                    target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
+                    target_link = actor->target;
                     if (target_link != 0) {
                         kind = (s32)*(u8 * *)&((ObjectNodeHeader *)(target_link - 0x20))->sprite;
 
-                        ((S_8017256C_1 *)actor)->unk_72 = ((SpriteFrameState *)kind)->tile_x;
-                        ((S_8017256C_1 *)actor)->unk_73 = ((SpriteFrameState *)kind)->tile_y;
+                        actor->target_tile_x = ((SpriteFrameState *)kind)->tile_x;
+                        actor->target_tile_y = ((SpriteFrameState *)kind)->tile_y;
                     }
                 } else {
                     s32 x;
@@ -141,16 +124,16 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
                     s32 abs_y;
                     s32 y;
 
-                    ((S_8017256C_1 *)actor)->unk_60.p = scan_actor_along_heading(
+                    actor->target = scan_actor_along_heading(
                         actor,
                         sprite->tile_x,
                         sprite->tile_y,
-                        ((S_8017256C_1 *)actor)->unk_2A,
+                        actor->facing,
                         0x10);
-                    abs_x = abs(((S_8017256C_1 *)actor)->unk_72);
-                    abs_y = abs(((S_8017256C_1 *)actor)->unk_73);
-                    ((S_8017256C_1 *)actor)->unk_72 = abs_x;
-                    ((S_8017256C_1 *)actor)->unk_73 = abs_y;
+                    abs_x = abs(actor->target_tile_x);
+                    abs_y = abs(actor->target_tile_y);
+                    actor->target_tile_x = abs_x;
+                    actor->target_tile_y = abs_y;
                 }
             }
             if (create_actor_spell_effect(actor, action_entry, is_special, (u8 *)action + 0x98) == 0) {
@@ -170,11 +153,11 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        ((S_8017256C_1 *)actor)->unk_6D--;
+        actor->pending_turn_updates--;
         action->unk_8C.handler = &update_object_animation;
-        ((S_8017256C_1 *)actor)->unk_73 = 0;
-        ((S_8017256C_1 *)actor)->unk_72 = 0;
-        ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -214,7 +197,7 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
         (sprite->frameTable) = D_80173EDC;
         select_sprite_entry(
             sprite,
-            D_80173EDC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80173EDC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         return;
 
@@ -265,7 +248,7 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
         (sprite->frameTable) = beldo_frame_set_1;
         select_sprite_entry(
             sprite,
-            beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->unk_9E = 0;
         action->unk_90.parts.high = -0x20;
@@ -280,10 +263,10 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             action->unk_8C.handler = &update_object_animation;
             advance_status_timers(actor);
-            ((S_8017256C_1 *)actor)->unk_6D--;
-            ((S_8017256C_1 *)actor)->unk_73 = 0;
-            ((S_8017256C_1 *)actor)->unk_72 = 0;
-            ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
+            actor->pending_turn_updates--;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }
         return;

@@ -37,6 +37,6 @@ void initialize_mode_offset_entry(s32 mode, s32 value_base, S_800B6CCC_0 *entry,
 s32 get_mapped_object_code(void *object);
 void initialize_coordinate_entry(void *object);
 void clear_monster_status_texture(void *texture);
-s32 invalidate_cached_state_and_queue_read(void *state);
+s32 invalidate_cached_state_and_queue_read(Rec_func_800B683C_arg0 *state);
 
 #endif

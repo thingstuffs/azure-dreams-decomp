@@ -16,8 +16,8 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
 {
     Row_81922998_S_80024198_2 *render_state = render_state_arg;
     Row_81922998_S_80024198_1 *position = position_arg;
-    u8 *scratch = (u8 *)0x1F800000;
-    u8 *packet;
+    Row_81922998_S_80024198_0 *scratch = (Row_81922998_S_80024198_0 *)0x1F800000;
+    Row_81922998_S_80024198_4 *packet;
     u8 *texture;
     s32 ot_index;
     u16 render_flags;
@@ -25,34 +25,34 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
     u8 **render_context_ptr = (u8 **)((u8 *)(&g_game_work));
     Row_81922998_MATRIX current_matrix;
 
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_88 = position->unk_02;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_8C = position->unk_06;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_90 = position->unk_0A;
+    scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
+    scratch->unk_88 = position->unk_02;
+    scratch->unk_8C = position->unk_06;
+    scratch->unk_90 = position->unk_0A;
     render_state->unk_14 |= 0x8000;
 
     PushMatrix();
 
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_3C = 0x2000;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_38 = 0x2000;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_34 = 0x2000;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_A4 = render_state->unk_16;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_A8 = render_state->unk_1A;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_A6 = render_state->unk_18;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = render_state->unk_16;
+    scratch->unk_A8 = render_state->unk_1A;
+    scratch->unk_A6 = render_state->unk_18;
+    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&current_matrix);
-    CompMatrix(&current_matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&current_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     texture = (*(u8 **)((u8 *)render_state + 8));
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_28 = render_state->unk_14;
+    scratch->unk_28 = render_state->unk_14;
 
-    packet = ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0;
-    ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
+    packet = (Row_81922998_S_80024198_4 *)((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0;
+    ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0 = (u8 *)packet + 0xC;
     SetDrawMode(packet, 0, 1, GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
-    (*(u32 *)(packet + 0)) = (((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
+    packet->unk_00.at00.v = (packet->unk_00.at00.v & 0xFF000000) |
         (((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
     (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
         (((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_B0 & 0xFF000000) |
@@ -62,72 +62,72 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
         Row_81922998_S_80024198_5 *render_context;
 
         render_context = g_game_work.draw_buffer;
-        packet = render_context->unk_8D0;
-        render_context->unk_8D0 = packet + 0x24;
+        packet = (Row_81922998_S_80024198_4 *)render_context->unk_8D0;
+        render_context->unk_8D0 = (u8 *)packet + 0x24;
     }
 
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_B0 = quad->unk_20;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_B8 = quad->unk_26;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_C0 = quad->unk_2C;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_C8 = quad->unk_32;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_B2 = quad->unk_22;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_BA = quad->unk_28;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_C2 = quad->unk_2E;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_CA = quad->unk_34;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_B4 = quad->unk_24;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_BC = quad->unk_2A;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_C4 = quad->unk_30;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_CC = quad->unk_36;
+    scratch->unk_B0 = quad->unk_20;
+    scratch->unk_B8 = quad->unk_26;
+    scratch->unk_C0 = quad->unk_2C;
+    scratch->unk_C8 = quad->unk_32;
+    scratch->unk_B2 = quad->unk_22;
+    scratch->unk_BA = quad->unk_28;
+    scratch->unk_C2 = quad->unk_2E;
+    scratch->unk_CA = quad->unk_34;
+    scratch->unk_B4 = quad->unk_24;
+    scratch->unk_BC = quad->unk_2A;
+    scratch->unk_C4 = quad->unk_30;
+    scratch->unk_CC = quad->unk_36;
 
-    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                             scratch + 0xC0, scratch + 0xC8,
-                             packet + 8, packet + 0x10,
-                             packet + 0x18, packet + 0x20,
-                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_100 = ot_index;
+    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
+                             &scratch->unk_C0, &scratch->unk_C8,
+                             &packet->unk_08, &packet->unk_10,
+                             &packet->unk_18, &packet->unk_20,
+                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+    scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
-        if ((((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_08 + 0x20) < 0x181) &&
-             ((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_0A + 0x20) < 0x121)) |
-            (((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_10 + 0x20) < 0x181) &&
-             ((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_12 + 0x20) < 0x121)) |
-            (((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_18 + 0x20) < 0x181) &&
-             ((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_1A + 0x20) < 0x121)) |
-            (((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_20 + 0x20) < 0x181) &&
-             ((u16)(((Row_81922998_S_80024198_4 *)packet)->unk_22 + 0x20) < 0x121))) {
+        if ((((u16)(packet->unk_08 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_0A + 0x20) < 0x121)) |
+            (((u16)(packet->unk_10 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_12 + 0x20) < 0x121)) |
+            (((u16)(packet->unk_18 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_1A + 0x20) < 0x121)) |
+            (((u16)(packet->unk_20 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_22 + 0x20) < 0x121))) {
             render_state->unk_14 &= 0x7FFF;
             texture_flags = texture[1];
             render_state->unk_0F = texture_flags;
-            render_flags = ((Row_81922998_S_80024198_0 *)scratch)->unk_28;
+            render_flags = scratch->unk_28;
             if (render_flags & 8) {
                 render_state->unk_0F = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((Row_81922998_S_80024198_4 *)packet)->unk_04.at00.v = quad->unk_00;
-            ((Row_81922998_S_80024198_4 *)packet)->unk_0C = quad->unk_04;
-            ((Row_81922998_S_80024198_4 *)packet)->unk_14 = quad->unk_08;
-            ((Row_81922998_S_80024198_4 *)packet)->unk_1C = quad->unk_0C;
-            ((Row_81922998_S_80024198_4 *)packet)->unk_00.at03.v = 8;
-            ((Row_81922998_S_80024198_4 *)packet)->unk_04.at03.v = 0x3A;
+            packet->unk_04.at00.v = quad->unk_00;
+            packet->unk_0C = quad->unk_04;
+            packet->unk_14 = quad->unk_08;
+            packet->unk_1C = quad->unk_0C;
+            packet->unk_00.at03.v = 8;
+            packet->unk_04.at03.v = 0x3A;
 
-            ((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v = (((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((Row_81922998_S_80024198_0 *)scratch)->unk_24.p2)
-                    + ((Row_81922998_S_80024198_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((Row_81922998_S_80024198_0 *)scratch)->unk_24.p2) + ((Row_81922998_S_80024198_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((Row_81922998_S_80024198_0 *)scratch)->unk_24.p2)
-                    + ((Row_81922998_S_80024198_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+            packet->unk_00.at00.v = (packet->unk_00.at00.v & 0xFF000000) |
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            packet = ((Row_81922998_S_80024198_7 *)(*render_context_ptr))->unk_8D0;
-            ((Row_81922998_S_80024198_7 *)(*render_context_ptr))->unk_8D0 = packet + 0xC;
+            packet = (Row_81922998_S_80024198_4 *)((Row_81922998_S_80024198_7 *)(*render_context_ptr))->unk_8D0;
+            ((Row_81922998_S_80024198_7 *)(*render_context_ptr))->unk_8D0 = (u8 *)packet + 0xC;
             SetDrawMode(packet, 0, 1, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
-            ((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v = (((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((Row_81922998_S_80024198_0 *)scratch)->unk_24.p2)
-                    + ((Row_81922998_S_80024198_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((Row_81922998_S_80024198_0 *)scratch)->unk_24.p2) + ((Row_81922998_S_80024198_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((Row_81922998_S_80024198_0 *)scratch)->unk_24.p2)
-                    + ((Row_81922998_S_80024198_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+            packet->unk_00.at00.v = (packet->unk_00.at00.v & 0xFF000000) |
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }
@@ -412,7 +412,7 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
    retail's addiu before the three sb operations. */
 
 /* Cycles sprite colors, moves toward a target or along a path, then spawns impact and radial bursts. */
-void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState *sprite) {
+void update_effect_cycle_and_bursts(Row_8192365C_S_80024E5C_0 *effect, Row_8192365C_S_80024E5C_2 *motion, SpriteFrameState *sprite) {
     s32 delta_x;
     s16 reduced_scale;
     u8 *height_table;
@@ -451,171 +451,171 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
     u8 effect_id;
     Row_8192365C_S_80024E5C_3 *target_position;
 
-    initial_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
+    initial_state = effect->unk_58;
     (*(s16 *)shaded_effect_update_flag) = 1;
     if (initial_state < 3U) {
         sprite->color.c.b = 0x3C;
         sprite->color.c.g = 0x3C;
         sprite->color.c.r = 0x3C;
-        color_cycle = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_72;
+        color_cycle = effect->unk_72;
         next_color = color_cycle + 1;
-        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 = next_color;
+        effect->unk_72 = next_color;
         if (!(next_color & 7)) {
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 = (u16) (color_cycle + 2);
+            effect->unk_72 = (u16) (color_cycle + 2);
         }
-        if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 & 1) {
+        if (effect->unk_72 & 1) {
             sprite->color.c.r = 0x80;
         }
-        if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 & 2) {
+        if (effect->unk_72 & 2) {
             sprite->color.c.g = 0x80;
         }
-        if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 & 4) {
+        if (effect->unk_72 & 4) {
             sprite->color.c.b = 0x80;
         }
     }
-    if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 0) {
-        start_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
-        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = start_frame + 1;
+    if (effect->unk_58 == 0) {
+        start_frame = effect->unk_5A;
+        effect->unk_5A = start_frame + 1;
         if ((s16) start_frame >= 6) {
             effect_id = shaded_quad_frame_set[0];
             sprite->frameTable = shaded_quad_frame_set;
             select_sprite_entry(sprite, effect_id, 0);
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = 0U;
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58++;
-            ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v = (u16) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v - 0x5A);
+            effect->unk_5A = 0U;
+            effect->unk_58++;
+            motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - 0x5A);
         }
     }
-    completion_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
+    completion_state = effect->unk_58;
     if (completion_state == 1) {
-        if ((check_adjacent_tile_height_clearance(((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02.v, ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at02.v,
-            (s16) ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v, ((Row_8192365C_S_80024E5C_0 *)effect)->unk_88) << 0x10) == 0) {
-            if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_60 != 0) {
-                target_position = (Row_8192365C_S_80024E5C_3 *)NODE_HEADER(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88)->position;
+        if ((check_adjacent_tile_height_clearance(motion->unk_00.at02.v, motion->unk_04.at02.v,
+            (s16) motion->unk_08.at02.v, effect->unk_88) << 0x10) == 0) {
+            if (effect->unk_60 != 0) {
+                target_position = (Row_8192365C_S_80024E5C_3 *)NODE_HEADER(effect->unk_88)->position;
                 sprite->depth_bias = 8;
-                if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A == 0) {
+                if (effect->unk_5A == 0) {
                     delta_x = target_position->unk_00.at02.v;
-                    delta_x -= ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02u.v;
+                    delta_x -= motion->unk_00.at02u.v;
                     distance_x = abs(delta_x);
                     if (distance_x < 0) {
                         distance_x += 0x3F;
                     }
                     travel_distance = abs(target_position->unk_04.at02.v -
-                                          ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at02u.v);
+                                          motion->unk_04.at02u.v);
                     if (travel_distance < 0) {
                         travel_distance += 0x3F;
                     }
                     travel_distance = (distance_x >> 6) + (travel_distance >> 6);
-                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = ((s32) (travel_distance << 0x10) >> 0xF) + 0xB;
+                    effect->unk_5A = ((s32) (travel_distance << 0x10) >> 0xF) + 0xB;
                 }
                 height_table = entity_height_offsets;
-                travel_frames = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
+                travel_frames = effect->unk_5A;
                 target_z = target_position->unk_08
-                - (((u8) *(((Row_8192365C_S_80024E5C_4 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))->unk_13 + height_table) >> 1)
+                - (((u8) *(((Row_8192365C_S_80024E5C_4 *)(effect->unk_88))->unk_13 + height_table) >> 1)
                     << 0x10);
                 near_target = travel_frames < 0xE;
                 target_x_or_z_step = target_position->unk_00.at00.v;
                 target_y = target_position->unk_04.at00.v;
                 if (near_target == 0) {
-                    current_x = ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v;
-                    ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames
+                    current_x = motion->unk_00.at00.v;
+                    motion->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames
                         - 0xB));
-                    ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
-                        - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A
+                    motion->unk_10 = (s32) ((s32) (target_y
+                        - motion->unk_04.at00.v) / (s32) (effect->unk_5A
                         - 0xB));
-                    ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = (target_z
-                        - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v) / (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 0xB);
+                    motion->unk_14 = (target_z
+                        - motion->unk_08.at00.v) / (effect->unk_5A - 0xB);
                 } else {
                     if (travel_frames >= 0xB) {
-                        current_x = ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v;
-                        ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step
+                        current_x = motion->unk_00.at00.v;
+                        motion->unk_0C = (s32) ((target_x_or_z_step
                             - current_x) / (s32) (travel_frames - 9));
-                        ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
-                            - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A
+                        motion->unk_10 = (s32) ((s32) (target_y
+                            - motion->unk_04.at00.v) / (s32) (effect->unk_5A
                             - 9));
-                        ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = (target_z
-                            - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v) / (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 9);
+                        motion->unk_14 = (target_z
+                            - motion->unk_08.at00.v) / (effect->unk_5A - 9);
                     } else {
                         if (travel_frames >= 5) {
                             s32 divisor;
                             s32 z_step;
-                            current_x = ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v;
-                            ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step
+                            current_x = motion->unk_00.at00.v;
+                            motion->unk_0C = (s32) ((target_x_or_z_step
                                 - current_x) / (s32) (travel_frames - 4));
-                            ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
-                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A
+                            motion->unk_10 = (s32) ((s32) (target_y
+                                - motion->unk_04.at00.v) / (s32) (effect->unk_5A
                                 - 4));
-                            z_step = target_z - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v;
-                            divisor = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 4;
+                            z_step = target_z - motion->unk_08.at00.v;
+                            divisor = effect->unk_5A - 4;
                             z_step /= divisor;
-                            ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = z_step;
+                            motion->unk_14 = z_step;
                         } else {
-                            ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = (s32) ((s32) (target_x_or_z_step
-                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v) / travel_frames);
-                            ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
-                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v) / ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A);
-                            ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = (s32) ((s32) (target_z
-                                - ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v) / ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A);
+                            motion->unk_0C = (s32) ((s32) (target_x_or_z_step
+                                - motion->unk_00.at00.v) / travel_frames);
+                            motion->unk_10 = (s32) ((s32) (target_y
+                                - motion->unk_04.at00.v) / effect->unk_5A);
+                            motion->unk_14 = (s32) ((s32) (target_z
+                                - motion->unk_08.at00.v) / effect->unk_5A);
                         }
                     }
                 }
-                velocity_y = ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10;
-                velocity_z = ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14;
-                ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v
-                    + ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C);
-                ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v + velocity_y);
-                ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v + velocity_z);
-                frames_left = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A - 1;
-                ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = frames_left;
+                velocity_y = motion->unk_10;
+                velocity_z = motion->unk_14;
+                motion->unk_00.at00.v = (s32) (motion->unk_00.at00.v
+                    + motion->unk_0C);
+                motion->unk_04.at00.v = (s32) (motion->unk_04.at00.v + velocity_y);
+                motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + velocity_z);
+                frames_left = effect->unk_5A - 1;
+                effect->unk_5A = frames_left;
                 if ((frames_left << 0x10) == 0) {
-                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 = 2U;
-                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_62 = 6;
-                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = 0U;
-                    ((Row_8192365C_S_80024E5C_2 *)motion)->unk_14 = 0;
-                    ((Row_8192365C_S_80024E5C_2 *)motion)->unk_10 = 0;
-                    ((Row_8192365C_S_80024E5C_2 *)motion)->unk_0C = 0;
-                    ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = 0x1E;
+                    effect->unk_58 = 2U;
+                    effect->unk_62 = 6;
+                    effect->unk_5A = 0U;
+                    motion->unk_14 = 0;
+                    motion->unk_10 = 0;
+                    motion->unk_0C = 0;
+                    effect->unk_56 = 0x1E;
                 }
             } else {
-                ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = 0xAU;
-                ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5C = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5C - 1);
-                ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at00.v
-                    + ((Row_8192365C_S_80024E5C_0 *)effect)->unk_98);
-                ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at00.v
-                    + ((Row_8192365C_S_80024E5C_0 *)effect)->unk_9C);
-                ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v = (s32) (((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at00.v
-                    + ((Row_8192365C_S_80024E5C_0 *)effect)->unk_A0);
-                if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5C <= 0) {
-                    ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
+                effect->unk_5A = 0xAU;
+                effect->unk_5C = (u16) (effect->unk_5C - 1);
+                motion->unk_00.at00.v = (s32) (motion->unk_00.at00.v
+                    + effect->unk_98);
+                motion->unk_04.at00.v = (s32) (motion->unk_04.at00.v
+                    + effect->unk_9C);
+                motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v
+                    + effect->unk_A0);
+                if ((s16) effect->unk_5C <= 0) {
+                    ((Row_8192365C_S_80024E5C_5 *)(effect->unk_8C))->unk_86 = completion_state;
                     (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                     return;
                 }
             }
-            if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 5) {
+            if (effect->unk_5A >= 5) {
                 trail_index = 0;
                 do {
-                    create_random_offset_effect(effect, motion, sprite);
+                    create_random_offset_effect(effect, (Rec_func_800247B8_arg1 *)motion, sprite);
                     next_trail = trail_index + 1;
                     trail_index = next_trail;
                 } while (next_trail < 4);
             }
         } else {
-            ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
+            ((Row_8192365C_S_80024E5C_5 *)(effect->unk_8C))->unk_86 = completion_state;
             (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }
 update_impact:
-    impact_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58;
+    impact_state = effect->unk_58;
     if (impact_state == 2) {
-        impact_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
-        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = impact_frame;
+        impact_frame = effect->unk_5A + 1;
+        effect->unk_5A = impact_frame;
         if ((s16) impact_frame == impact_state) {
-            create_positioned_render_effect(effect, motion, sprite);
+            create_positioned_render_effect((Row_819232EC_S_80024AEC_1 *)effect, (Rec_func_800247B8_arg1 *)motion, sprite);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
-        if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0xA) {
+        if (effect->unk_5A >= 0xA) {
             scale = sprite->scale_x;
             if (scale != 0) {
                 reduced_scale = scale - 0xC8;
@@ -627,66 +627,66 @@ update_impact:
                 sprite->scale_y = clamped_scale;
             }
         }
-        if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0x1E) {
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 + 3);
-            create_randomized_radial_effect(effect, motion, sprite);
-            if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0x28) {
-                create_randomized_radial_effect(effect, motion, sprite);
+        if (effect->unk_5A >= 0x1E) {
+            effect->unk_56 = (u16) (effect->unk_56 + 3);
+            create_randomized_radial_effect((Rec_func_800247B8_arg0 *)effect, (Rec_func_800247B8_arg1 *)motion, sprite);
+            if (effect->unk_5A >= 0x28) {
+                create_randomized_radial_effect((Rec_func_800247B8_arg0 *)effect, (Rec_func_800247B8_arg1 *)motion, sprite);
             }
-            if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0x2D) {
-                create_randomized_radial_effect(effect, motion, sprite);
+            if (effect->unk_5A >= 0x2D) {
+                create_randomized_radial_effect((Rec_func_800247B8_arg0 *)effect, (Rec_func_800247B8_arg1 *)motion, sprite);
             }
         }
-        if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A >= 0x32) {
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 = 3U;
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = 0U;
+        if (effect->unk_5A >= 0x32) {
+            effect->unk_58 = 3U;
+            effect->unk_5A = 0U;
             sprite->flags = (u16) (sprite->flags | 0x80);
         }
     }
-    if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58 == 3) {
-        burst_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A + 1;
-        ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A = burst_frame;
+    if (effect->unk_58 == 3) {
+        burst_frame = effect->unk_5A + 1;
+        effect->unk_5A = burst_frame;
         if ((s16) burst_frame < 0x12) {
             burst_index = 0;
-            ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 - 3);
+            effect->unk_56 = (u16) (effect->unk_56 - 3);
             do {
-                create_randomized_radial_effect(effect, motion, sprite);
+                create_randomized_radial_effect((Rec_func_800247B8_arg0 *)effect, (Rec_func_800247B8_arg1 *)motion, sprite);
                 next_burst = burst_index + 1;
                 burst_index = next_burst;
             } while (next_burst < 5);
         }
-        if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A == 0x10) {
+        if (effect->unk_5A == 0x10) {
             pair_index = 0;
             do {
-                create_randomized_radial_effect(effect, motion, sprite);
+                create_randomized_radial_effect((Rec_func_800247B8_arg0 *)effect, (Rec_func_800247B8_arg1 *)motion, sprite);
                 next_pair = pair_index + 1;
                 pair_index = next_pair;
             } while (next_pair < 2);
         }
         triple_index = 0;
-        if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A == 0x11) {
+        if (effect->unk_5A == 0x11) {
             do {
-                create_randomized_radial_effect(effect, motion, sprite);
+                create_randomized_radial_effect((Rec_func_800247B8_arg0 *)effect, (Rec_func_800247B8_arg1 *)motion, sprite);
                 next_triple = triple_index + 1;
                 triple_index = next_triple;
             } while (next_triple < 3);
         }
         quad_index = 0;
-        if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A == 0x12) {
+        if (effect->unk_5A == 0x12) {
             do {
-                create_randomized_radial_effect(effect, motion, sprite);
+                create_randomized_radial_effect((Rec_func_800247B8_arg0 *)effect, (Rec_func_800247B8_arg1 *)motion, sprite);
                 next_quad = quad_index + 1;
                 quad_index = next_quad;
             } while (next_quad < 4);
         }
-        end_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
+        end_frame = effect->unk_5A;
         completion_state = 1;
         if (end_frame == 1) {
-            create_attached_effect(effect, motion, sprite);
-            end_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A;
+            create_attached_effect((Rec_func_800247B8_arg0 *)effect, motion, sprite);
+            end_frame = effect->unk_5A;
         }
         if (end_frame >= 0x1B) {
-            ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
+            ((Row_8192365C_S_80024E5C_5 *)(effect->unk_8C))->unk_86 = completion_state;
             (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;

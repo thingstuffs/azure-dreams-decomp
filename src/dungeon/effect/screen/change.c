@@ -75,33 +75,33 @@ void draw_fullscreen_fade(void *effect, ObjectPosition *unused, S_8009BE2C_2 *fa
     s32 intensity;
     s16 color_value;
     s8 frames_left;
-    void *packet;
+    S_8009BE2C_1 *packet;
     GameWork *render_context;
 
     packet = ((S_8009BE2C_5 *)(g_game_work.draw_buffer))->unk_8D0;
     ((S_8009BE2C_5 *)(g_game_work.draw_buffer))->unk_8D0 =
-        (packet + 0x10);
-    ((S_8009BE2C_1 *)packet)->unk_0C = 0x140;
-    ((S_8009BE2C_1 *)packet)->unk_08 = 0;
-    ((S_8009BE2C_1 *)packet)->unk_0A = 0;
-    ((S_8009BE2C_1 *)packet)->unk_0E = 0xE0;
+        ((u8 *)packet + 0x10);
+    packet->unk_0C = 0x140;
+    packet->unk_08 = 0;
+    packet->unk_0A = 0;
+    packet->unk_0E = 0xE0;
     intensity = (0xC0 / (s16) fade->unk_06) * fade->unk_05;
     color_value = intensity;
     render_context = &g_game_work;
     if (fade->unk_04 != 0) {
-        ((S_8009BE2C_1 *)packet)->unk_04.at02.v = color_value;
-        ((S_8009BE2C_1 *)packet)->unk_04.at01.v = color_value;
-        ((S_8009BE2C_1 *)packet)->unk_04.at00.v = color_value;
+        packet->unk_04.at02.v = color_value;
+        packet->unk_04.at01.v = color_value;
+        packet->unk_04.at00.v = color_value;
     } else {
-        ((S_8009BE2C_1 *)packet)->unk_04.at00u.v = (s32) (s16) color_value;
+        packet->unk_04.at00u.v = (s32) (s16) color_value;
     }
     SetTile(packet, intensity);
-    ((S_8009BE2C_1 *)packet)->unk_04.at03.v = (u8) (((S_8009BE2C_1 *)packet)->unk_04.at03.v | 2);
+    packet->unk_04.at03.v = (u8) (packet->unk_04.at03.v | 2);
     AddPrim(render_context->draw_buffer + 0xB0, packet);
     packet = ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0;
-    ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0 = (packet + 0xC);
-    ((S_8009BE2C_1 *)packet)->unk_03 = 1;
-    ((S_8009BE2C_1 *)packet)->unk_04.at00u.v = 0xE1000020;
+    ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0 = ((u8 *)packet + 0xC);
+    packet->unk_03 = 1;
+    packet->unk_04.at00u.v = 0xE1000020;
     AddPrim(render_context->draw_buffer + 0xB0, packet);
     frames_left = (u8) fade->unk_05 - 1;
     fade->unk_05 = frames_left;
@@ -292,7 +292,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     u8 kind_check;
     S_8009C12C_4 *target_data;
     s32 element_product;
-    void *target;
+    S_8009C12C_3 *target;
     void *blocked_actor;
     void *null_result;
 
@@ -340,7 +340,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             message_cursor = write_text_byte_and_advance(0xA, message_cursor);
         } else {
             attacker_blocked = ((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x4000;
-            if ((attacker_blocked != 0) || (message_state = -1, ((((S_8009C12C_3 *)target)->unk_14 & ACTOR_PARTY_MEMBER) != 0))) {
+            if ((attacker_blocked != 0) || (message_state = -1, ((target->unk_14 & ACTOR_PARTY_MEMBER) != 0))) {
                 blocked_actor = target;
                 if (attacker_blocked != 0) {
                     blocked_actor = attacker_in;
@@ -350,9 +350,9 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 message_state = 1;
             }
         }
-        ((S_8009C12C_3 *)target)->unk_14 = (s32) (((S_8009C12C_3 *)target)->unk_14 | 0x01000000);
+        target->unk_14 = (s32) (target->unk_14 | 0x01000000);
     } else {
-        ((S_8009C12C_3 *)target)->unk_14 = (s32) (((S_8009C12C_3 *)target)->unk_14 | 0x01000000);
+        target->unk_14 = (s32) (target->unk_14 | 0x01000000);
     }
     if (((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x04000000) {
         create_actor_value_popup(3, target, -1, 0);
@@ -375,24 +375,24 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     }
     attack_script = ((S_8009C12C_0 *)attacker_in)->unk_4C;
     if ((attack_script != NULL) && (*attack_script == 0xF0D)) {
-        ((S_8009C12C_3 *)target)->unk_22.n = ((S_8009C12C_3 *)target)->unk_27;
+        target->unk_22.n = target->unk_27;
     } else {
-        ((S_8009C12C_3 *)target)->unk_22.v = (u16) (((S_8009C12C_3 *)target)->unk_27 + clamp_adjusted_value_0_to_99(target));
+        target->unk_22.v = (u16) (target->unk_27 + clamp_adjusted_value_0_to_99((ActorRecord *)target));
     }
-    if ((get_entity_effect_value(target, STATUS_FROG) << 0x10) != 0) {
-        ((S_8009C12C_3 *)target)->unk_22.n = (u16) ((s32) (((S_8009C12C_3 *)target)->unk_22.n << 0x10) >> 0x11);
+    if ((get_entity_effect_value((struct ActorRecord *)target, STATUS_FROG) << 0x10) != 0) {
+        target->unk_22.n = (u16) ((s32) (target->unk_22.n << 0x10) >> 0x11);
     }
     {
-        s16 defense = ((S_8009C12C_3 *)target)->unk_22.n2;
-        u16 defense_raw = ((S_8009C12C_3 *)target)->unk_22.v;
+        s16 defense = target->unk_22.n2;
+        u16 defense_raw = target->unk_22.v;
         if (defense == 0) {
-            ((S_8009C12C_3 *)target)->unk_22.n = (u16) (defense_raw + 1);
+            target->unk_22.n = (u16) (defense_raw + 1);
         }
     }
     attack_elements = get_masked_record_flags(attacker_in, 7, 1);
-    target_elements = get_masked_record_flags(target, 7, 0);
+    target_elements = get_masked_record_flags((EntityRec *)target, 7, 0);
     if (attack_elements & 1) {
-        if ((get_entity_effect_value(target, STATUS_WATER_PROTECT) << 0x10) != 0) {
+        if ((get_entity_effect_value((struct ActorRecord *)target, STATUS_WATER_PROTECT) << 0x10) != 0) {
             ((S_8009C12C_0 *)attacker_in)->unk_20 = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20 << 0x10)
                 >> 0x12);
         } else {
@@ -407,7 +407,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     }
     element_match = attack_elements & 2;
     if (element_match != 0) {
-        if ((get_entity_effect_value(target, STATUS_WIND_PROTECT) << 0x10) != 0) {
+        if ((get_entity_effect_value((struct ActorRecord *)target, STATUS_WIND_PROTECT) << 0x10) != 0) {
             ((S_8009C12C_0 *)attacker_in)->unk_20 = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20 << 0x10)
                 >> 0x12);
         } else {
@@ -422,7 +422,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     }
     element_check = attack_elements & 4;
     if (element_check != 0) {
-        if ((get_entity_effect_value(target, STATUS_FIRE_PROTECT) << 0x10) != 0) {
+        if ((get_entity_effect_value((struct ActorRecord *)target, STATUS_FIRE_PROTECT) << 0x10) != 0) {
             ((S_8009C12C_0 *)attacker_in)->unk_20 = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20 << 0x10)
                 >> 0x12);
         } else {
@@ -436,7 +436,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             }
         }
     }
-    height_diff = (u16) ((S_8009C12C_0 *)attacker_in)->unk_88 - ((S_8009C12C_3 *)target)->unk_88;
+    height_diff = (u16) ((S_8009C12C_0 *)attacker_in)->unk_88 - target->unk_88;
     if (height_diff >= 0x20) {
         modifier -= 1;
     } else {
@@ -467,18 +467,18 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         ((S_8009C12C_0 *)attacker_in)->unk_20 = (u16)(bonus_base + ((s16)bonus_base >> 3) * attack_bonus);
     }
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
-        half_delta = (s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n
+        half_delta = (s32) ((s16) target->unk_22.n
             - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20) / 2;
         quarter_delta = (s32) ((s16) half_delta + ((u32) (half_delta << 0x10) >> 0x1F)) >> 1;
-        ((S_8009C12C_3 *)target)->unk_64 = (s16) (half_delta + quarter_delta);
+        target->unk_64 = (s16) (half_delta + quarter_delta);
     } else {
-        ((S_8009C12C_3 *)target)->unk_64 = (s16) ((s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n
+        target->unk_64 = (s16) ((s32) ((s16) target->unk_22.n
             - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20) / 2);
     }
-    if (((S_8009C12C_3 *)target)->unk_64 >= 0) {
-        ((S_8009C12C_3 *)target)->unk_64 = -1;
+    if (target->unk_64 >= 0) {
+        target->unk_64 = -1;
     }
-    modifier = get_entity_effect_value(target, STATUS_DAMAGE_GUARD);
+    modifier = get_entity_effect_value((struct ActorRecord *)target, STATUS_DAMAGE_GUARD);
     signed_value = message_state;
     signed_value <<= 0x10;
     if (signed_value == 0) {
@@ -496,7 +496,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 display_damage = 0;
                 message_cursor = format_unsigned_double_byte_decimal(display_damage, message_cursor);
             } else {
-                display_damage = ((S_8009C12C_3 *)target)->unk_64;
+                display_damage = target->unk_64;
                 display_damage = 0 - display_damage;
                 message_cursor = format_unsigned_double_byte_decimal(display_damage, message_cursor);
             }
@@ -509,20 +509,20 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         display_text_with_fullwidth_adjustment(message_start);
     }
     if (distance == 1) {
-        prepare_quarter_damage_return(attacker_in, target);
+        prepare_quarter_damage_return(attacker_in, (ActorRecord *)target);
     }
     effect_flags = 0xDFFFFFFF;
     target_data = (S_8009C12C_4 *)D_800E0000;
-    target_flags = ((S_8009C12C_3 *)target)->unk_1C & effect_flags;
+    target_flags = target->unk_1C & effect_flags;
     target_data = target_data->unk_3D7C;
-    ((S_8009C12C_3 *)target)->unk_1C = target_flags;
+    target->unk_1C = target_flags;
     if (target == target_data) {
-        add_random_quarter_value(target, attacker_in);
+        add_random_quarter_value((ActorRecord *)target, attacker_in);
     }
     signed_value = modifier << 0x10;
     damage = 0;
     if (signed_value == 0) {
-        signed_value = 0 - (u16) ((S_8009C12C_3 *)target)->unk_64;
+        signed_value = 0 - (u16) target->unk_64;
         signed_value <<= 0x10;
         damage = signed_value >> 0x10;
     }
@@ -530,9 +530,9 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     if (target == (void *)dungeon_actor_ring_anchor) {
         clear_player_linked_action_flags();
     }
-    ((S_8009C12C_3 *)target)->unk_60 = attacker_in;
+    target->unk_60 = attacker_in;
     ((S_8009C12C_0 *)attacker_in)->unk_60 = target;
-    g_dungeon_status.pending_display_owner = target - 0x20;
+    g_dungeon_status.pending_display_owner = NODE_HEADER(target);
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
         opposite_x_ptr = (s16 *)(4);
         play_sound_if_enabled(0x700);

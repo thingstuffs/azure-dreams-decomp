@@ -22,7 +22,8 @@
 
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern void func_80174890(void *, void *, void *, void *);
 
 extern u8 blume_action_resume_address[];
@@ -110,7 +111,7 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
                 ActorRecord *previous_actor;
 
                 previous_node = primary_actor_record->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
                 if ((s16)check_entity_relation(
                         actor, previous_actor) != 0) {

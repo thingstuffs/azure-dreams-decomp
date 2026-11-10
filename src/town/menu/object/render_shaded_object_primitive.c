@@ -54,14 +54,14 @@ void render_shaded_object_primitive(void *object, ObjectPosition *coords, Sprite
     s32 green_scaled;
     s32 blue_scaled;
     S_800A1D1C_2 *global_page;
-    u8 *scratch;
+    S_800A1D1C_4 *scratch;
     void *position;
     void *matrix;
-    void *render_state;
+    S_800A1D1C_1 *render_state;
 
     render_state = ((S_800A1D1C_0 *)object)->unk_10;
-    scratch = (u8 *)0x1F800000;
-    if (((S_800A1D1C_1 *)render_state)->unk_0A != 0) {
+    scratch = (S_800A1D1C_4 *)0x1F800000;
+    if (render_state->unk_0A != 0) {
         ((ObjectRetirementFlags *)object)[-1].flags = (u16) (((ObjectRetirementFlags *)object)[-1].flags | 0x8000);
         global_page = (S_800A1D1C_2 *)0x80080000;
         global_page->unk_14A0 |= 0x8000;
@@ -69,35 +69,35 @@ void render_shaded_object_primitive(void *object, ObjectPosition *coords, Sprite
     }
     ((S_800A1D1C_0 *)object)->unk_00(object, coords, primitive);
     if (((S_800A1D1C_0 *)object)->unk_3C != 0) {
-        primitive->color.c.r = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        primitive->color.c.r = render_state->unk_10.u8;
     } else {
-        red_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
+        red_scaled = render_state->unk_10.s16 * 3;
         primitive->color.c.r = (s8) (red_scaled / 4);
     }
     if (((S_800A1D1C_0 *)object)->unk_3D != 0) {
-        primitive->color.c.g = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        primitive->color.c.g = render_state->unk_10.u8;
     } else {
-        green_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
+        green_scaled = render_state->unk_10.s16 * 3;
         primitive->color.c.g = (s8) (green_scaled / 4);
     }
     if (((S_800A1D1C_0 *)object)->unk_3E != 0) {
-        primitive->color.c.b = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        primitive->color.c.b = render_state->unk_10.u8;
     } else {
-        blue_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
+        blue_scaled = render_state->unk_10.s16 * 3;
         primitive->color.c.b = (s8) (blue_scaled / 4);
     }
-    ((S_800A1D1C_4 *)scratch)->unk_2C = ((S_800A1D1C_0 *)object)->unk_24;
-    ((S_800A1D1C_4 *)scratch)->unk_2E = ((S_800A1D1C_0 *)object)->unk_28;
-    ((S_800A1D1C_4 *)scratch)->unk_30 = ((S_800A1D1C_0 *)object)->unk_2C;
+    scratch->unk_2C = ((S_800A1D1C_0 *)object)->unk_24;
+    scratch->unk_2E = ((S_800A1D1C_0 *)object)->unk_28;
+    scratch->unk_30 = ((S_800A1D1C_0 *)object)->unk_2C;
     matrix_index = ((S_800A1D1C_0 *)object)->unk_22 != 0;
     PushMatrix();
-    matrix = render_state + ((matrix_index << 5) + 0x14);
+    matrix = (u8 *)render_state + ((matrix_index << 5) + 0x14);
     SetRotMatrix(matrix);
     SetTransMatrix(matrix);
-    position = scratch + 0x2C;
+    position = &scratch->unk_2C;
     RotTransSV(position, position, (void *)((u32)scratch | 0x98));
     PopMatrix();
-    coords->x.w.i = ((S_800A1D1C_4 *)scratch)->unk_2C;
-    coords->y.w.i = ((S_800A1D1C_4 *)scratch)->unk_2E;
-    coords->z.w.i = ((S_800A1D1C_4 *)scratch)->unk_30;
+    coords->x.w.i = scratch->unk_2C;
+    coords->y.w.i = scratch->unk_2E;
+    coords->z.w.i = scratch->unk_30;
 }

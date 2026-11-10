@@ -13,7 +13,7 @@ typedef struct S_8125414C_1 {
 
 extern u8 *beldo_active_entity;
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Repositions the current entity relative to the origin and updates its motion. */
 void reposition_global_effect_entity(s32 offset_index)

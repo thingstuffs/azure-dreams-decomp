@@ -41,11 +41,9 @@ extern void func_80158F74(void *actor_in, void *actor_data_in, SpriteFrameState 
 
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern s16 set_or_clear_actor_status_slot();
 extern void unlink_node(struct ObjectNodeHeader *node);
-extern void func_80044A50(struct ObjectNodeHeader *node);
 
 void * func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 #endif

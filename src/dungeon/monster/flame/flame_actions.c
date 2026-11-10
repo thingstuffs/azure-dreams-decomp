@@ -27,7 +27,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource06_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = spawn_animated_monster;
-void (*const resource06_slot0_entry1)(u8 *actor, u8 *motion, SpriteFrameState *entity) = create_anchored_directional_object;
+void (*const resource06_slot0_entry1)(u8 *actor, u8 *motion, SpriteFrameState *entity) = update_flame_motion_and_facing;
 
 /* Creates a Flame actor with three child display objects and initializes its status and tile placement. */
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
@@ -60,7 +60,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
     obj = allocate_list_node((s32)alloc_or_entry, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
-        obj->update_callback = create_anchored_directional_object;
+        obj->update_callback = update_flame_motion_and_facing;
         ((R06_8017087C_S_8017087C_1 *)work)->unk_13 = MONSTER_FLAME;
         register_node(obj, project_sprite_chain);
 
@@ -165,7 +165,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
 }
 
 /* Runs actor callbacks and updates child sprite colors, facing, animation, motion, and ground contact. */
-void create_anchored_directional_object(u8 *actor, u8 *motion, SpriteFrameState *entity)
+void update_flame_motion_and_facing(u8 *actor, u8 *motion, SpriteFrameState *entity)
 {
     R06_80170BB8_S_80170BB8_1 *subject = (R06_80170BB8_S_80170BB8_1 *)actor;
     s16 state_index;
@@ -500,7 +500,7 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
 
     if (g_dungeon_status.flags & 0x1000) {
         actor->action_id = 0xE;
-        update_actor_object_motion(actor, actor_context, sprite, creature);
+        advance_flame_path_step(actor, actor_context, sprite, creature);
         return;
     }
 
@@ -597,7 +597,7 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
             if (!(creature->action_flags & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(creature,
-                            (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                            NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                         return;
                     }
                 }
@@ -679,7 +679,7 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
 }
 
 /* Advances one stored path step, updates occupied tiles and facing, and sets the movement delay. */
-void update_actor_object_motion(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *path_state)
+void advance_flame_path_step(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *path_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -928,7 +928,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
         if (turn_index == 0 &&
             reference_tile_object.tile_position.word != *(u16 *)&position_data->tile_x) {
             if (((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20)) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header))) != 0) {
                 do {
                     return;
                 } while (0);
@@ -1688,7 +1688,7 @@ void update_actor_state_by_flags(ActorRecord *in_actor, ObjectPosition *in_conte
                 ActorRecord *owner = primary_actor_record;
 
                 if ((check_entity_relation(in_entity,
-                        (u8 *)owner->previous_actor_header + 0x20) << 16) != 0) {
+                        NODE_BODY(owner->previous_actor_header)) << 16) != 0) {
                     return;
                 }
             }
@@ -1836,7 +1836,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
             if ((check_entity_relation(actor,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }

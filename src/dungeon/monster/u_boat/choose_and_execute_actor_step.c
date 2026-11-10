@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/monster/u_boat.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/actor_status_ids.h"
@@ -26,8 +27,9 @@ extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 check_directional_move_and_terrain();
-extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/item/get_actor_height_difference_api.h"
+#include "dungeon/actor/state.h"
+
 extern s16 sample_terrain_surface_height();
 
 extern u8 dir_step_x[16];
@@ -279,7 +281,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
         }
         if (attempt == 0) {
             if (reference_tile_object.tile_position.word != U16_AT(position, 0x24)) {
-                if ((check_entity_relation(actor, (s32)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                if ((check_entity_relation(actor, NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                     return;
                 }
             }

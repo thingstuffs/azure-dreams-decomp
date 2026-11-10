@@ -16,7 +16,7 @@
 #include "dungeon/item/message.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
+#include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern void teleport_familiar_near_player(s32, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 

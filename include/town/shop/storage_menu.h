@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/item_menu.h"
+#include "shared/timed_stream.h"
 
 /* Storage menu display parts; offsets follow complete recovered callbacks. */
 typedef struct StorageEntryPosition {
@@ -16,27 +17,24 @@ typedef struct StorageEntry {
     void *text;
     StorageEntryPosition *position;
 } StorageEntry;
+/* Display record load_storage_display_resource fills (allocate_object_and_mark_failed_setup_for_cleanup passes
+ * the monster-status display body): the shared part vector, the part table and its buffer list. */
 typedef struct StorageWork {
-    u8 pad_00[0x10];
-    void *cursor;
-    void **target;
-    u8 pad_18[0x28];
-    u8 page[0x28];
-    u8 page_loader[0x14];
+    u8 pad_00[0x7C];
     DisplayPositionWords vector;
     u8 pad_88[0x10];
-    s32 handle;
-    s32 buffer;
+    ItemMenuPart **parts; /* +0x98: part table from realloc_field_0_buffer */
+    s32 buffer; /* +0x9C: first word of the buffer list realloc_field_0_buffer fills */
 } StorageWork;
 typedef struct StorageOwner {
     void *owner;
     u8 pad_04[8];
     s32 edge_flags; /* +0x0C: low two bits mark the control range bounds */
     u8 pad_10[4];
-    u8 cursor[0x3C];
-    u8 pad_50[8];
+    FrameState cursor; /* +0x14: cursor stream initialize_storage_cursor starts on part 4 */
+    u8 pad_20[0x38];
     ItemMenuPart *chain; /* +0x58: part chain installed by create_storage_owner_menu */
-    StorageWork *work;
+    ItemMenuPart **parts; /* +0x5C: the 41-part table initialize_object_resources builds (StorageMenuObject.parts) */
 } StorageOwner;
 typedef struct StorageSource {
     u8 pad_00[0x2C];
@@ -46,7 +44,7 @@ typedef struct StorageSource {
 typedef struct StoragePageOwner {
     StorageSource *source;
     u8 pad_04[0x58];
-    StorageWork *work;
+    ItemMenuPart **parts; /* +0x5C: the storage owner's part table */
 } StoragePageOwner;
 typedef union StorageDisplayBlock {
     s32 words[4];

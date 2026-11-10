@@ -9,7 +9,7 @@
 #include "dungeon/monster/beldo.h"
 #include "dungeon/data.h"
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Advances a queued movement step and updates position, direction, and timing. */
 void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *path) {

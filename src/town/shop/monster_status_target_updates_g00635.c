@@ -1,6 +1,7 @@
 /* Release handled entries and change the monster status target (G00635). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B93B0, CL:town/func_800B97F4. */
 #include "town/shop/monster_status_target_updates_g00635.h"
+#include "records/Rec_func_800B683C_arg0.h"
 #include "shared/object_flags.h"
 #include "town/shop.h"
 #include "town/shop/state.h"
@@ -44,7 +45,7 @@ void process_object_pointer_array(S_800B9464_a0 *object)
 
 /* Updates the embedded object state and runs its associated helpers. */
 void change_monster_status_display_target(s32 objectAddress, s32 field04Value, s16 field08Value) {
-    S_800B6C30_0 *objectState;
+    Rec_func_800B683C_arg0 *objectState;
 
     if (objectAddress != 0) {
         objectState = objectAddress + 0x20;

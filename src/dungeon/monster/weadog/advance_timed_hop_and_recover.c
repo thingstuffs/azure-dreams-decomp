@@ -24,7 +24,7 @@ extern u8 D_80168ED0[];
 extern u8 D_80168ED8[];
 
 /* Updates a timed hop toward the target tile and handles actor recovery when the timer expires. */
-void advance_timed_hop_and_recover(ActorRecord *motion_state, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
+void advance_timed_hop_and_recover(ActorRecord *motion_state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 direction_aux;
     s32 state;
@@ -62,14 +62,14 @@ void advance_timed_hop_and_recover(ActorRecord *motion_state, void *motion, Spri
         motion_state->unk_90.value -= motion_state->unk_A0.value;
         if (hop_ticks != 0) {
             target_x = sprite->tile_x;
-            position_x = ((EntityRec *)motion)->x.w.i;
+            position_x = motion->x.w.i;
             target_x <<= 6;
             position_x -= 0x20;
-            ((EntityRec *)motion)->unk_0C = ((target_x - position_x) << 16) / hop_ticks;
+            motion->velocity_x = ((target_x - position_x) << 16) / hop_ticks;
 
-            position_y = ((EntityRec *)motion)->y.w.i;
+            position_y = motion->y.w.i;
             position_y -= 0x20;
-            ((EntityRec *)motion)->unk_10 =
+            motion->velocity_y =
                 (((sprite->tile_y << 6) - position_y) << 16) /
                 motion_state->unk_9E;
             motion_state->unk_A0.value =
@@ -89,9 +89,9 @@ void advance_timed_hop_and_recover(ActorRecord *motion_state, void *motion, Spri
     case 2:
         if (actor->flags1C & 0x08000000) {
             motion_state->action_state_flags &= 0xFFF7;
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
             sprite->frameTable = D_80168ED8;
@@ -123,9 +123,9 @@ void advance_timed_hop_and_recover(ActorRecord *motion_state, void *motion, Spri
         return;
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);

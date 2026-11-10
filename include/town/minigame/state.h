@@ -8,7 +8,6 @@ struct SceneTileObject;
 #include "shared/sprite_frame_state.h"
 #include "town/minigame/position.h"
 
-struct Arg2;
 struct ObjectPosition;
 
 /* The fixed effect creator writes setup_value and installs the interaction callback. */

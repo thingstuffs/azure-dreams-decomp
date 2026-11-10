@@ -21,7 +21,7 @@
 #include "dungeon/item.h"
 #include "dungeon/item/message.h"
 #include "dungeon/effect/dispatch.h"
-extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern u8 D_800893D4[];
 extern u8 D_800E1684[];

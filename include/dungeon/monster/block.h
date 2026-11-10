@@ -611,11 +611,6 @@ typedef struct CB_80174320_S_80174320_1 {
 
 /* Update an effect's color phases, burst, movement, and remaining lifetime. */
 
-typedef struct CB_80174724_S_80C96F24_0 {
-    u8 pad_00[0xA4];
-    u16 unk_A4;
-} CB_80174724_S_80C96F24_0;   /* arg0 in func_80174724 */
-
 typedef struct CB_80174724_S_80C96F24_1 {
     u8 unk_00;
     u8 unk_01;
@@ -640,11 +635,6 @@ typedef struct CB_80174724_S_80C96F24_1 {
     s16 unk_58;
     s16 unk_5A;
 } CB_80174724_S_80C96F24_1;   /* work in func_80174724 */
-
-typedef struct CB_80174724_S_80C96F24_2 {
-    u8 pad_00[0xA4];
-    u16 unk_A4;
-} CB_80174724_S_80C96F24_2;   /* arg0_reload in func_80174724 */
 
 typedef struct CB_80174724_S_80C96F24_3 {
     u8 pad_00[0x8];
@@ -855,9 +845,7 @@ extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 func_80042900(ActorRecord *entry, s32 effect_id);
 extern void func_80042B68(ActorRecord *owner, s8 match_type);
 extern int read_stream_cue_start_offset(void);
-extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern void unlink_node(void *node);
-extern void func_80044A50(ObjectNodeHeader *node);
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *, s16, s16);
 extern void advance_sprite_animation_and_textures(void *entity);
@@ -952,10 +940,10 @@ void create_randomized_rotated_effect(void *unused_context, ObjectPosition *sour
 void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position, void *render_info, s16 depth_bias);
 s32 project_linked_effect_quads(void *point, ObjectPosition *position, void *color);
 void update_radial_effect_band(u8 *effect, ObjectPosition *position, s32 effect_param);
-void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, struct ObjectPosition *origin, void *entity);
+void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, struct ObjectPosition *origin, void *entity);
 void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *unused_render_state, ActorRecord *entity);
 void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input);
-void replace_actor_with_faded_effect(void *state, struct ObjectPosition *position, SpriteFrameState *entity, void *actor);
+void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, struct ObjectPosition *position, SpriteFrameState *entity, void *actor);
 void resume_actor_after_floor_trap(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 void resume_actor_after_action_flag(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 

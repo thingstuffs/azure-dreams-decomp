@@ -174,7 +174,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(actor_in,
                             previous_actor) << 16) != 0) {

@@ -28,7 +28,6 @@ typedef struct S_8015E854_4 {
 } S_8015E854_4;   /* actor in func_8015E854 */
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern u8 D_8015EA28[];
 extern u8 dragon_slot_d_action_callback;

@@ -46,7 +46,8 @@ extern u8 D_8017086C[];
 extern u8 D_80170898[];
 
 void unlink_entity_node();
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 void *find_eligible_actor_at_tile_and_height();
 void update_actor_status_and_mp();
 

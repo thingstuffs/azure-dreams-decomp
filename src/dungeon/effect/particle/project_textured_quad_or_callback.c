@@ -162,7 +162,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
     S_81874988_4 *quad = quad_arg;
     u8 *render_state = g_game_work.draw_buffer;
     S_81874988_0 *scratch = (S_81874988_0 *)0x1F800000;
-    u8 *packet;
+    S_81874988_5 *packet;
     u32 tex_attr;
     u8 *texture;
     Callback callback;
@@ -178,7 +178,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
     scratch->unk_90 = position->z.w.i;
 
     packet = ((GpuContext *)render_state)->packetCursor;
-    ((GpuContext *)render_state)->packetCursor = packet + 0x28;
+    ((GpuContext *)render_state)->packetCursor = (u8 *)packet + 0x28;
 
     material->flags |= 0x8000;
     PushMatrix();
@@ -220,24 +220,24 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 
         depth_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
                               (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
-                              packet + 8, packet + 0x10,
-                              packet + 0x18, packet + 0x20,
+                              (u8 *)packet + 8, (u8 *)packet + 0x10,
+                              (u8 *)packet + 0x18, (u8 *)packet + 0x20,
                               (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
         scratch->unk_100 = depth_index;
 
         if ((u32)depth_index < 0x1E0) {
             if (
-                (((u16)((u16)((S_81874988_5 *)packet)->unk_08 + 0x20) < 0x181) &&
-                 ((u16)((u16)((S_81874988_5 *)packet)->unk_0A + 0x20) < 0x121)) |
-                (((u16)(((S_81874988_5 *)packet)->unk_10 + 0x20) < 0x181) &&
-                 ((u16)(((S_81874988_5 *)packet)->unk_12 + 0x20) < 0x121)) |
-                (((u16)(((S_81874988_5 *)packet)->unk_18 + 0x20) < 0x181) &&
-                 ((u16)(((S_81874988_5 *)packet)->unk_1A + 0x20) < 0x121)) |
-                (((u16)((u16)((S_81874988_5 *)packet)->unk_20 + 0x20) < 0x181) &&
-                 ((u16)((u16)((S_81874988_5 *)packet)->unk_22 + 0x20) < 0x121))
+                (((u16)((u16)packet->unk_08 + 0x20) < 0x181) &&
+                 ((u16)((u16)packet->unk_0A + 0x20) < 0x121)) |
+                (((u16)(packet->unk_10 + 0x20) < 0x181) &&
+                 ((u16)(packet->unk_12 + 0x20) < 0x121)) |
+                (((u16)(packet->unk_18 + 0x20) < 0x181) &&
+                 ((u16)(packet->unk_1A + 0x20) < 0x121)) |
+                (((u16)((u16)packet->unk_20 + 0x20) < 0x181) &&
+                 ((u16)((u16)packet->unk_22 + 0x20) < 0x121))
                 ) {
-                ((S_81874988_5 *)packet)->unk_00.at03.v = 9;
-                ((S_81874988_5 *)packet)->unk_04.at03.v = 0x2C;
+                packet->unk_00.at03.v = 9;
+                packet->unk_04.at03.v = 0x2C;
                 material->flags &= 0x7FFF;
 
                 scratch->unk_14 += scratch->unk_0C;
@@ -254,40 +254,40 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                 tex_adjust = material->clut;
                 if (tex_adjust) {
                     if (scratch->unk_28 & 0x100) {
-                        ((S_81874988_5 *)packet)->unk_0E = tex_adjust;
+                        packet->unk_0E = tex_adjust;
                     } else {
                         tex_attr = tex_adjust + (*(u16 *)(texture + 6));
-                        (*(u16 *)(packet + 0xE)) = tex_attr;
+                        packet->unk_0E = tex_attr;
                     }
                 } else {
-                    (*(u16 *)(packet + 0xE)) = (*(u16 *)(texture + 6));
+                    packet->unk_0E = (*(u16 *)(texture + 6));
                 }
 
-                (*(u16 *)(packet + 0xC)) = (*(u16 *)((u8 *)scratch + 0x10)) +
+                (*(u16 *)((u8 *)packet + 0xC)) = (*(u16 *)((u8 *)scratch + 0x10)) +
                                           (*(u16 *)((u8 *)scratch + 0xC));
-                ((S_81874988_5 *)packet)->unk_14 = (*(u16 *)((u8 *)scratch + 0x10)) +
+                packet->unk_14 = (*(u16 *)((u8 *)scratch + 0x10)) +
                                            (*(u16 *)((u8 *)scratch + 0x14));
 
                 tex_adjust = material->tpage_abr;
                 if (tex_adjust) {
-                    (*(u16 *)(packet + 0x16)) = tex_adjust +
+                    (*(u16 *)((u8 *)packet + 0x16)) = tex_adjust +
                                    ((*(u16 *)(texture + 4)) & 0xFF9F);
                 } else {
-                    (*(u16 *)(packet + 0x16)) = (*(u16 *)(texture + 4));
+                    (*(u16 *)((u8 *)packet + 0x16)) = (*(u16 *)(texture + 4));
                 }
 
-                ((S_81874988_5 *)packet)->unk_1C.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
+                packet->unk_1C.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
                                            (*(u16 *)((u8 *)scratch + 0xC));
-                ((S_81874988_5 *)packet)->unk_24.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
+                packet->unk_24.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
                                            (*(u16 *)((u8 *)scratch + 0x14));
 
-                if (((S_81874988_5 *)packet)->unk_08 > ((S_81874988_5 *)packet)->unk_20) {
-                    (*(u8 *)&((S_81874988_5 *)packet)->unk_14)--;
-                    ((S_81874988_5 *)packet)->unk_24.at00u.v--;
+                if (packet->unk_08 > packet->unk_20) {
+                    (*(u8 *)&packet->unk_14)--;
+                    packet->unk_24.at00u.v--;
                 }
-                if (((S_81874988_5 *)packet)->unk_0A > ((S_81874988_5 *)packet)->unk_22) {
-                    ((S_81874988_5 *)packet)->unk_1C.at01.v--;
-                    ((S_81874988_5 *)packet)->unk_24.at01.v--;
+                if (packet->unk_0A > packet->unk_22) {
+                    packet->unk_1C.at01.v--;
+                    packet->unk_24.at01.v--;
                 }
 
                 tex_flags = texture[1];
@@ -298,8 +298,8 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                         (tex_flags | 2) : (tex_flags & 0xFD);
                 }
 
-                ((S_81874988_5 *)packet)->unk_04.at00.v = ((u32)(material->color.word));
-                ((S_81874988_5 *)packet)->unk_00.at00.v = (((S_81874988_5 *)packet)->unk_00.at00.v & 0xFF000000) |
+                packet->unk_04.at00.v = ((u32)(material->color.word));
+                packet->unk_00.at00.v = (packet->unk_00.at00.v & 0xFF000000) |
                     ((*(u32 *)(scratch->unk_24
                         + scratch->unk_100 * 4)) & 0x00FFFFFF);
                 (*(u32 *)(scratch->unk_24 + scratch->unk_100 * 4)) =
@@ -1174,7 +1174,7 @@ void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, Object
 {
     Vec3s delta;
     Copy32 copy;
-    void *obj;
+    ActorRecord *obj;
     S_800259D8_1 *base;
     S_800259D8_5 *entry;
     void *node;
@@ -1251,15 +1251,15 @@ L0_adjust_z:
             sprite->flags |= 0xC;
             effect->unk_7A |= 4;
         }
-        if (((S_800259D8_3 *)obj)->unk_60 != 0) {
+        if (obj->target != 0) {
             SpriteFrameState *resident_work;
-            entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
+            entry = ((S_800259D8_15_pre *)(obj->target))[-1].unk_00;
             effect->unk_74 = entry->unk_00.at02u.v;
             effect->unk_76 = entry->unk_04.at02u.v;
             {
                 s32 depth_bias;
                 s32 resident_value;
-                depth_bias = entity_height_offsets[((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13];
+                depth_bias = entity_height_offsets[((S_800259D8_15 *)(obj->target))->unk_13];
                 resident_value = entry->unk_08.at02.v - depth_bias - 0x60;
                 effect->unk_78 = resident_value;
             }
@@ -1268,9 +1268,9 @@ L0_adjust_z:
                 dir_step_x[effect->unk_80];
             effect->unk_AF = resident_work->tile_y +
                 dir_step_y[effect->unk_80];
-            entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
+            entry = ((S_800259D8_15_pre *)(obj->target))[-1].unk_00;
             {
-                if (((S_800259D8_3 *)obj)->unk_72 != resident_work->tile_x) {
+                if (obj->target_tile_x != resident_work->tile_x) {
                     s32 resident_delta;
                     s32 resident_copy;
                     resident_delta = entity->x.w.i;
@@ -1382,9 +1382,9 @@ L0_adjust_z:
             effect->unk_A0 = 0;
         }
         result = check_adjacent_tile_height_clearance(entity->x.unsigned_parts.integer, entity->y.unsigned_parts.integer,
-                               entity->z.w.i, ((S_800259D8_3 *)obj)->unk_60);
+                               entity->z.w.i, obj->target);
         if ((result << 16) == 0) {
-            node = ((S_800259D8_3 *)obj)->unk_60;
+            node = obj->target;
             if (node == 0) {
                 sprite->color.c.r -= 4;
                 sprite->color.c.g -= 4;
@@ -1398,10 +1398,10 @@ L0_adjust_z:
             if (count > 0) {
                 goto L1_calc;
             }
-            if (((S_800259D8_3 *)obj)->unk_60 != 0) {
+            if (obj->target != 0) {
                 effect->spell.phase = 3;
                 effect->unk_84 = 0;
-                entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
+                entry = ((S_800259D8_15_pre *)(obj->target))[-1].unk_00;
                 entity->x.unsigned_parts.integer = entry->unk_00.at02u.v;
                 entity->y.unsigned_parts.integer = entry->unk_04.at02u.v;
                 entity->z.unsigned_parts.integer = effect->unk_78;
@@ -1445,7 +1445,7 @@ L1_calc:
                 entry = NODE_BODY(spawn);
                 entry->unk_00.at02.v = 0;
                 entry->unk_38 = obj;
-                entry->unk_3C = ((S_800259D8_3 *)obj)->unk_60;
+                entry->unk_3C = obj->target;
                 entry->unk_40 = effect;
                 entry->unk_08.at02u.v = 0x0C;
                 entry->unk_0C = 8;
@@ -1454,7 +1454,7 @@ L1_calc:
                 entry->unk_12 = 0;
                 entry->unk_1C = 0;
                 entry->unk_1A = 0x40;
-                entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
+                entry = ((S_800259D8_15_pre *)(obj->target))[-1].unk_00;
                 spawn->update_callback = spawn_randomized_spark_burst;
                 register_node(spawn, draw_chained_object_records);
                 work = spawn->sprite;
@@ -1463,8 +1463,8 @@ L1_calc:
                 dst = spawn->position;
                 dst->x.v = entry->unk_00.at00.v;
                 dst->y.v = entry->unk_04.at00.v;
-                index = ((S_800259D8_3 *)obj)->unk_60 != 0;
-                index = ((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13;
+                index = obj->target != 0;
+                index = ((S_800259D8_15 *)(obj->target))->unk_13;
                 dst->z.v = entry->unk_08.at00.v -
                     (entity_height_offsets[index] << 15);
                 work = spawn->sprite;
@@ -1530,7 +1530,7 @@ L1_calc:
         S_800259D8_11 *fade_entry;
         count = effect->unk_84 + 1;
         effect->unk_84 = count;
-        fade_node = ((S_800259D8_3 *)obj)->unk_60;
+        fade_node = obj->target;
         ((S_800259D8_10 *)fade_node)->unk_1C |= 0x10000000;
         fade_entry = ((S_800259D8_10_pre *)fade_node)[-1].unk_00;
         if (effect->unk_84 >= 36) {
@@ -1547,13 +1547,13 @@ L1_calc:
         }
         {
             void *tail_node;
-            tail_node = ((S_800259D8_3 *)obj)->unk_60;
+            tail_node = obj->target;
             ((S_800259D8_12 *)tail_node)->unk_1C &= 0xEFFFFFFF;
             fade_entry = ((S_800259D8_12_pre *)tail_node)[-1].unk_00;
             fade_entry->unk_0E = 0x80;
             fade_entry->unk_0D = 0x80;
             fade_entry->unk_0C = 0x80;
-            apply_random_duration_actor_status(((S_800259D8_3 *)obj)->unk_60, effect->spell.variant, obj);
+            apply_random_duration_actor_status(obj->target, effect->spell.variant, obj);
         }
         effect->unk_84 = 13;
         effect->spell.phase++;

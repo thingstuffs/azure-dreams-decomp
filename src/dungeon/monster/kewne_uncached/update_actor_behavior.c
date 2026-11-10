@@ -15,7 +15,7 @@
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 
-extern void spend_actor_mp(void *, s32);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 extern u8 kewne_uncached_action_resume_address[];
 extern u8 D_80175C78[];

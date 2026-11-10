@@ -424,7 +424,7 @@ extern u8 effect_sprite_sources[];
 void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     s16 offset[3];
     PathBlock velocity_table;
-    void *source;
+    ActorRecord *source;
     s32 state;
     ActorRecord *target_graphics;
     ObjectNodeHeader *impact;
@@ -492,7 +492,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                 }
 
                 default_steps = 8;
-                target = ((S_80024BE8_3 *)source)->unk_60;
+                target = source->target;
                 if (target != 0) {
                     target_height = target->unk_88;
                     direction = effect->unk_7E;
@@ -514,10 +514,10 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                     direction = *(u8 *)direction;
                     direction_table = (direction_table + direction);
                     effect->unk_A3 = (s32)direction_table;
-                    tile_distance = ((S_80024BE8_3 *)source)->unk_72;
+                    tile_distance = source->target_tile_x;
                     source_coord = target_graphics->mp_value.parts.fraction;
                     if (tile_distance == source_coord) {
-                        tile_distance = ((S_80024BE8_3 *)source)->unk_73;
+                        tile_distance = source->target_tile_y;
                         source_coord = target_graphics->mp_value.parts.whole;
                     }
                     tile_distance -= source_coord;
@@ -557,7 +557,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
         s32 random_intensity;
 
         if ((check_adjacent_tile_height_clearance(((u16) motion->x.w.i), ((u16) motion->y.w.i),
-            motion->z.w.i, ((S_80024BE8_3 *)source)->unk_60) << 16) != 0) {
+            motion->z.w.i, source->target) << 16) != 0) {
             effect->spell.phase = 8;
             effect->unk_82 = 0;
             sprite->flags |= 0x80;
@@ -581,16 +581,16 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
         if (effect->unk_7B <= 0) {
             unlink_node((u8 *)effect - 0x20);
             color_mode = 4;
-            if (((S_80024BE8_3 *)source)->unk_60 != 0) {
+            if (source->target != 0) {
                 effect->unk_86 = 0;
                 effect->spell.phase++;
-                target_position = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_00;
+                target_position = ((S_80024BE8_23_pre *)(source->target))[-1].unk_00;
                 motion->x.w.i = target_position->x.unsigned_parts.integer;
                 motion->y.w.i = target_position->y.unsigned_parts.integer;
                 motion->z.w.i = effect->unk_78;
-                source_sprite = ((S_80024BE8_3 *)source)->unk_60;
+                source_sprite = source->target;
                 ((S_80024BE8_23 *)source_sprite)->unk_1C |= 0x10000000;
-                target_graphics = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_04;
+                target_graphics = ((S_80024BE8_23_pre *)(source->target))[-1].unk_04;
                 random_intensity = 0x80;
                 target_graphics->unk_0C.bytes[0] = random_intensity;
                 target_graphics->unk_0C.bytes[1] = random_intensity;
@@ -619,9 +619,9 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                     ((SpriteFrameState *)impact_sprite)->scale_x = 1;
                     ((SpriteFrameState *)impact_sprite)->flags ^= 0xC;
                     ((S_80024BE8_13 *)(void *)impact_position)->unk_08.at02.v =
-                        ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_88;
+                        ((S_80024BE8_23 *)(source->target))->unk_88;
                 }
-                motion->z.w.i = ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_88;
+                motion->z.w.i = ((S_80024BE8_23 *)(source->target))->unk_88;
             } else {
                 effect->spell.phase = 8;
                 effect->unk_82 = 0;
@@ -709,7 +709,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
         color_step = (u16)effect->unk_86;
         color_step += 2;
         effect->unk_86 = color_step;
-        target_graphics = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_04;
+        target_graphics = ((S_80024BE8_23_pre *)(source->target))[-1].unk_04;
         target_graphics->unk_0C.bytes[2] = (s16)color_step * 3 - 0x70;
         target_graphics->unk_0C.bytes[1] = 0x70 - effect->unk_86 * 3;
         target_graphics->unk_0C.bytes[0] = 0x70 - effect->unk_86 * 3;
@@ -856,14 +856,14 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             effect->unk_86 = 0;
             effect->unk_82 = 0;
             effect->spell.phase++;
-            target_actor = ((S_80024BE8_3 *)source)->unk_60;
+            target_actor = source->target;
             target_actor->flags1C ^= target_flag;
-            current_target = ((S_80024BE8_3 *)source)->unk_60;
+            current_target = source->target;
             target_graphics = current_target[-1].unk_00;
             target_graphics->unk_0C.bytes[0] = 0x80;
             target_graphics->unk_0C.bytes[1] = 0x80;
             target_graphics->unk_0C.bytes[2] = 0x80;
-            apply_attack_power_and_element_effects(((S_80024BE8_3 *)source)->unk_60, 0x10, effect->spell.variant, 2,
+            apply_attack_power_and_element_effects(source->target, 0x10, effect->spell.variant, 2,
                 (s16)(effect->unk_7E << 9), source, 2);
         }
         break;

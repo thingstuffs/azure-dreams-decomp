@@ -35,7 +35,7 @@ typedef struct WeadogFlightBody {
 
 
 void advance_timed_actor_hop(void *action, void *motion, SpriteFrameState *sprite, void *actor);
-void advance_timed_hop_and_recover(ActorRecord *motion_state, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_timed_hop_and_recover(ActorRecord *motion_state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_weadog_timed_move(void *action, void *motion, SpriteFrameState *sprite, void *actor);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

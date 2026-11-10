@@ -13,7 +13,7 @@ void (*const dungeon_ovl_18d0850_entry)(ovl_18d0850_818B1664_State *state_arg, o
 
 /* Adds a random actor value delta with an optional quarter bonus, clamps it, displays a popup, and
    applies it. */
-void follow_brighten(EntityRec *entity, s32 value_id, void *record) {
+void apply_random_actor_value_gain(EntityRec *entity, s32 value_id, void *record) {
     if (try_trigger_target_record_effect(entity, 4, record) == 0) {
         s32 base_gain;
         s16 bonus;
@@ -846,7 +846,7 @@ create_loop:
         if (state_arg->timer2 < 32) {
             break;
         }
-        follow_brighten(entity->child, state_arg->id, entity);
+        apply_random_actor_value_gain(entity->child, state_arg->id, entity);
         index = 9;
         cleanup_base = (void *)0x80080000;
         next_state = (u16)state_arg->state;

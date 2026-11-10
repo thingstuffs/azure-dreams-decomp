@@ -17,7 +17,8 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/kid_frames.h"
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern void func_80174218(void *, void *, void *, void *);
 
 extern u8 kid_action_resume_address[];

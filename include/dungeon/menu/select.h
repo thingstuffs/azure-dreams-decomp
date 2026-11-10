@@ -686,7 +686,6 @@ extern s32 func_800429E4(void *);
 extern void set_code_for_entity_mode(void *);
 extern void func_8004397C(void *);
 extern void unlink_node(void *);
-extern void func_80044A50(void *);
 extern void enqueue_script_message_command(void);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 struct EntityLinkNode;

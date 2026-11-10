@@ -50,7 +50,7 @@ extern u8 D_80170994[];
 extern u8 D_801709B8[];
 
 extern s32 get_entity_class(void *);
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 /* Updates the actor's approach, descent, and return sequence. */
 /* Spends MP to descend with the player, then saves party state for a scene change or returns with a

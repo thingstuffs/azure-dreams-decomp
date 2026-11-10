@@ -19,7 +19,7 @@ extern u8 D_800E12A9[];
 #include "dungeon/item/message.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
+#include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 /* Applies a value according to the target and mode, then updates bookkeeping. */
 s32 use_item_to_reveal_items(ActorRecord *target, DungeonItemEntry *value, s16 mode, s32 context)

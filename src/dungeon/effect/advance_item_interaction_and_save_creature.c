@@ -160,7 +160,8 @@ typedef struct S_func_800B1364_19 {
 #include "engine/graphics.h"
 struct DungeonItemEntry;
 struct EntityLinkNode;
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 #include "dungeon/item.h"
 #include "engine/resource.h"
 #include "slus.h"

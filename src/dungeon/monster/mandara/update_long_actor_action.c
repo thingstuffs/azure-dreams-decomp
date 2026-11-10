@@ -328,7 +328,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
             if ((g_dungeon_status.flags & 0x2000) &&
                 ((check_entity_relation(entity,
                     (previous_node = primary_actor_record->previous_actor_header,
-                    previous_body = previous_node + 1, previous_actor = previous_body)) << 16) != 0)) {
+                    previous_body = NODE_BODY(previous_node), previous_actor = previous_body)) << 16) != 0)) {
                 return;
             }
             if ((update_entity_state_from_query(self_object, aux_entity, sprite, 0) << 16) == 0) {

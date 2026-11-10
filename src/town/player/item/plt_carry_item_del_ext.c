@@ -24,30 +24,30 @@ typedef struct CarryLinkedObject {
 
 /* plt_carry_item_del_ext: Updates the carried object and detaches it when its type or state matches. */
 void plt_carry_item_del_ext(void) {
-    void *base;
+    CarryRecord *base;
     ObjectNodeHeader *input_values;
     struct ObjectPosition *position;
     struct SpriteFrameState *sprite;
     u8 *saved_object;
     void *context;
 
-    base = &scene_object_payload_alias;
+    base = (CarryRecord *)&scene_object_payload_alias;
     context = base;
     input_values = NODE_HEADER(base);
     position = input_values->position;
     sprite = input_values->sprite;
-    saved_object = ((CarryRecord *)base)->linked_object;
+    saved_object = base->linked_object;
 
     if (get_linked_carry_item_data(context, position, sprite) != 0) {
         CarryLinkedObject *linked_object;
 
         initialize_record_and_select_active_data(base, position, sprite);
         do {
-            linked_object = (CarryLinkedObject *)((CarryRecord *)base)->linked_object;
+            linked_object = (CarryLinkedObject *)base->linked_object;
         } while (0);
         if (linked_object != 0 && (linked_object->type == 4 || linked_object->state == 0xD)) {
             ((CarryLinkedObject *)saved_object)->handler = unlink_and_remove_scene_object;
-            ((CarryRecord *)base)->linked_object = 0;
+            base->linked_object = 0;
         }
     }
 }

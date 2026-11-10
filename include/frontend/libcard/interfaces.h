@@ -11,7 +11,7 @@ struct CardSaveHeadingDisplayPrefix;
 struct Object_800128C8;
 
 /* MAIN frontend contracts. Context pointers retain their existing opaque views. */
-void card_boot_begin_selected_value_transition(s32 object_addr, s32 value);
+void card_boot_begin_selected_value_transition(void *panel, s32 value);
 void card_boot_bind_command_panel_resources(CardCommandPanelBody *panel);
 void card_boot_bind_save_heading_display_data(struct CardSaveHeadingDisplayPrefix *record);
 s32 card_boot_build_eight_entry_presence_mask(void);

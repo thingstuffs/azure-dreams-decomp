@@ -165,7 +165,6 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 void advance_sprite_animation_and_textures(void *);
 s32 rand(void);
 s32 register_node(void *, void *);
-s32 func_8004491C(void *, void *);
 extern u8 coordinate_effect_sprite_data[];
 extern u8 ribbon_sprite_entries[];
 #include "shared/sprite_source.h"

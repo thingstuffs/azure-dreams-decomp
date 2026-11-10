@@ -37,15 +37,6 @@ typedef struct T_80170AD0_S_80170AD0_2 {
     u8 unk_0B;
 } T_80170AD0_S_80170AD0_2;   /* stats in func_80170AD0 */
 
-typedef struct T_80170AD0_S_80170AD0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} T_80170AD0_S_80170AD0_3;   /* coords in func_80170AD0 */
-
 typedef struct T_80170AD0_S_80170AD0_4 {
     u8 pad_00[0x2];
     u16 unk_02;

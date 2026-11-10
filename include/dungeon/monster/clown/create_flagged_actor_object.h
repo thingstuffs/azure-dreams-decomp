@@ -17,7 +17,6 @@ extern s32 D_8016E20C;
 extern s32 D_8016E25C;
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 
    /* var_s0 in func_8016A878 */

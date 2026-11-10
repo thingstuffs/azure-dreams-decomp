@@ -14,7 +14,7 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFrameState *) = follow_brighten;
+void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFrameState *) = update_accelerating_condition_projectile;
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
 #include "shared/entity_height_offsets.h"
@@ -34,7 +34,7 @@ extern s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
-void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameState *part)
+void update_accelerating_condition_projectile(TrackingEffect *self, ObjectPosition *motion, SpriteFrameState *part)
 {
     ActorRecord *owner;
     ObjectNodeHeader *owner_base;
@@ -900,7 +900,7 @@ extern u8 resident_globals_page[];
 s32 queue_projected_point_primitives(void *node_data, void *position_data, void *appearance_data) {
     MovingPosition *position = position_data;
     S_800252E0_3 *appearance = appearance_data;
-    u8 *scratch = (u8 *)0x1F800000;
+    S_800252E0_1 *scratch = (S_800252E0_1 *)0x1F800000;
     u8 *render_slot = resident_globals_page + 0x3160;
     u32 addr_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
@@ -910,44 +910,44 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
     {
         S_800252E0_0 *render_state = (*(void **)(resident_globals_page + 0x3160));
         void *packet_cursor = render_state->unk_8D0;
-        ((S_800252E0_1 *)scratch)->unk_20 = (u8 *)render_state + 0xB0;
-        ((S_800252E0_1 *)scratch)->unk_18 = packet_cursor;
+        scratch->unk_20 = (u8 *)render_state + 0xB0;
+        scratch->unk_18 = packet_cursor;
     }
     for (;;) {
         u16 coord = position->x;
-        ((S_800252E0_1 *)scratch)->unk_00 = coord;
+        scratch->unk_00 = coord;
         coord = position->y;
-        ((S_800252E0_1 *)scratch)->unk_02 = coord;
-        ((S_800252E0_1 *)scratch)->unk_04 = position->z;
-        packet = ((S_800252E0_1 *)scratch)->unk_18;
-        ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
-        ((S_800252E0_1 *)scratch)->unk_C0 = RotTransPers(
-            scratch, (u8 *)packet + 8, scratch + 0x90, scratch + 0x94);
-        if (((S_800252E0_1 *)scratch)->unk_C0 < 0x1E0) {
+        scratch->unk_02 = coord;
+        scratch->unk_04 = position->z;
+        packet = scratch->unk_18;
+        scratch->unk_18 = (u8 *)packet + 0xC;
+        scratch->unk_C0 = RotTransPers(
+            scratch, (u8 *)packet + 8, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+        if (scratch->unk_C0 < 0x1E0) {
             s32 color = appearance->unk_0C;
             packet->unk_00.at03.v = 2;
             packet->unk_04.at00.v = color;
             packet->unk_04.at03.v = 0x6A;
             packet->unk_00.at00.v = (packet->unk_00.at00.v & length_mask) |
-                (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
-                          (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);
+                (*(s32 *)((scratch->unk_C0 << 2) +
+                          (u32)scratch->unk_20) & addr_mask);
             {
                 u32 depth_index;
-                depth_index = *(u32 *)(scratch + 0xC0);
+                depth_index = scratch->unk_C0;
                 ot_entry.pointer = (s32 *)((depth_index << 2) +
-                              (u32)*(void **)(scratch + 0x20));
+                              (u32)scratch->unk_20);
             }
             *ot_entry.pointer = (*ot_entry.pointer & length_mask) | ((u32)packet & addr_mask);
-            packet = ((S_800252E0_1 *)scratch)->unk_18;
-            ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
+            packet = scratch->unk_18;
+            scratch->unk_18 = (u8 *)packet + 0xC;
             SetDrawMode(packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
             packet->unk_00.at00.v = (packet->unk_00.at00.v & length_mask) |
-                (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
-                          (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);
+                (*(s32 *)((scratch->unk_C0 << 2) +
+                          (u32)scratch->unk_20) & addr_mask);
             {
-                ot_entry.value = *(u32 *)(scratch + 0xC0);
+                ot_entry.value = scratch->unk_C0;
                 ot_entry.value = (ot_entry.value << 2) +
-                           (u32)*(void **)(scratch + 0x20);
+                           (u32)scratch->unk_20;
                 packet = (void *)((u32)packet & addr_mask);
                 *(s32 *)ot_entry.value = (*(s32 *)ot_entry.value & length_mask) |
                                    (u32)packet;
@@ -957,7 +957,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
             S_800252E0_7 *next_node = ((S_800252E0_5_pre *)node_data)[-1].unk_00;
             if (next_node == NULL) {
                 ((S_800252E0_8 *)(((S_800252E0_6 *)render_slot)->unk_00))->unk_8D0 =
-                    ((S_800252E0_1 *)scratch)->unk_18;
+                    scratch->unk_18;
                 return 0;
             }
             node_data = (u8 *)next_node + 0x20;

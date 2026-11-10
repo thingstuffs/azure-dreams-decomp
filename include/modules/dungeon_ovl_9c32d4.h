@@ -66,14 +66,6 @@ typedef struct {
     u8 pad18[4];
     void *field1C;
 } ovl_9c32d4_809A32D4_Actor;
-typedef struct {
-    u8 pad00[2];
-    u16 field02;
-    u8 pad04[2];
-    u16 field06;
-    u8 pad08[2];
-    s16 field0A;
-} ovl_9c32d4_809A32D4_Output;
 #define DUNGEON_INITIAL (g_game_work.draw_buffer)
 #define DUNGEON_FROM_PAGE (g_game_work.draw_buffer)
 typedef struct ovl_9c32d4_809A35A0_S_80174DA0_0 {
@@ -167,7 +159,6 @@ typedef struct ovl_9c32d4_809A38E4_RingRadii {
     u16 outer_y;
 } ovl_9c32d4_809A38E4_RingRadii;
 extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
 extern void AddPrim(void *, void *);
 extern void SetDrawArea(void *, void *);
 void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,

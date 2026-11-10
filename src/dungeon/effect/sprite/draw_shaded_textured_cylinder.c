@@ -93,18 +93,18 @@ typedef struct TagWord { u32 addr:24; u32 len:8; } TagWord;
 s32 draw_shaded_textured_cylinder(B22_81893474_EffectState *unused_data, MovingPosition *center, s32 unused_value, s16 rotation,
                   s32 height, s16 radius, u8 blend_mode, u8 brightness)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    S_80024930_0 *scratch = (S_80024930_0 *)0x1F800000;
     s32 edge_z;
     s16 segment;
     void **global_page = (void **)((u8 *)(&g_game_work));
 
-    ((S_80024930_0 *)scratch)->unk_18.p = (u8 *)(*global_page) + 0xB0;
+    scratch->unk_18.p = (u8 *)(*global_page) + 0xB0;
     edge_z = center->z - height + 1;
-    ((S_80024930_0 *)scratch)->unk_70 = edge_z;
-    ((S_80024930_0 *)scratch)->unk_68 = edge_z;
+    scratch->unk_70 = edge_z;
+    scratch->unk_68 = edge_z;
     edge_z = center->z;
-    ((S_80024930_0 *)scratch)->unk_78 = edge_z;
-    ((S_80024930_0 *)scratch)->unk_80 = edge_z;
+    scratch->unk_78 = edge_z;
+    scratch->unk_80 = edge_z;
 
     for (segment = 0; segment < 16; segment++) {
         register u8 *prim;
@@ -163,45 +163,45 @@ s32 draw_shaded_textured_cylinder(B22_81893474_EffectState *unused_data, MovingP
         angle_offset = (biased_angle >> 12) << 12;
         angle = raw_angle - angle_offset;
 
-        ((S_80024930_0 *)scratch)->unk_74 = center->x +
+        scratch->unk_74 = center->x +
             ((rsin(angle) >> 4) * radius >> 8);
-        ((S_80024930_0 *)scratch)->unk_64 = ((S_80024930_0 *)scratch)->unk_74;
+        scratch->unk_64 = scratch->unk_74;
 
-        ((S_80024930_0 *)scratch)->unk_7C = center->x +
+        scratch->unk_7C = center->x +
             ((rsin((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
-        ((S_80024930_0 *)scratch)->unk_6C = ((S_80024930_0 *)scratch)->unk_7C;
+        scratch->unk_6C = scratch->unk_7C;
 
-        ((S_80024930_0 *)scratch)->unk_76 = center->y +
+        scratch->unk_76 = center->y +
             ((rcos(angle) >> 4) * radius >> 8);
-        ((S_80024930_0 *)scratch)->unk_66 = ((S_80024930_0 *)scratch)->unk_76;
+        scratch->unk_66 = scratch->unk_76;
 
-        ((S_80024930_0 *)scratch)->unk_7E = center->y +
+        scratch->unk_7E = center->y +
             ((rcos((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
-        ((S_80024930_0 *)scratch)->unk_6E = ((S_80024930_0 *)scratch)->unk_7E;
+        scratch->unk_6E = scratch->unk_7E;
 
-        ((S_80024930_0 *)scratch)->unk_B4 = RotAverage4(
-            scratch + 0x64, scratch + 0x6C, scratch + 0x74, scratch + 0x7C,
-            scratch + 0xD8, scratch + 0xDC, scratch + 0xE0, scratch + 0xE4,
-            scratch + 0x84, scratch + 0x88);
+        scratch->unk_B4 = RotAverage4(
+            &scratch->unk_64, &scratch->unk_6C, &scratch->unk_74, &scratch->unk_7C,
+            (u8 *)scratch + 0xD8, (u8 *)scratch + 0xDC, (u8 *)scratch + 0xE0, (u8 *)scratch + 0xE4,
+            (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
 
-        ((S_80024930_3 *)prim)->unk_08 = ((S_80024930_0 *)scratch)->unk_D8;
-        ((S_80024930_3 *)prim)->unk_0A = ((S_80024930_0 *)scratch)->unk_DA;
-        ((S_80024930_3 *)prim)->unk_14 = ((S_80024930_0 *)scratch)->unk_DC;
-        ((S_80024930_3 *)prim)->unk_16 = ((S_80024930_0 *)scratch)->unk_DE;
-        ((S_80024930_3 *)prim)->unk_20 = ((S_80024930_0 *)scratch)->unk_E0;
-        ((S_80024930_3 *)prim)->unk_22 = ((S_80024930_0 *)scratch)->unk_E2;
-        ((S_80024930_3 *)prim)->unk_2C = ((S_80024930_0 *)scratch)->unk_E4;
-        ((S_80024930_3 *)prim)->unk_2E = ((S_80024930_0 *)scratch)->unk_E6;
+        ((S_80024930_3 *)prim)->unk_08 = scratch->unk_D8;
+        ((S_80024930_3 *)prim)->unk_0A = scratch->unk_DA;
+        ((S_80024930_3 *)prim)->unk_14 = scratch->unk_DC;
+        ((S_80024930_3 *)prim)->unk_16 = scratch->unk_DE;
+        ((S_80024930_3 *)prim)->unk_20 = scratch->unk_E0;
+        ((S_80024930_3 *)prim)->unk_22 = scratch->unk_E2;
+        ((S_80024930_3 *)prim)->unk_2C = scratch->unk_E4;
+        ((S_80024930_3 *)prim)->unk_2E = scratch->unk_E6;
 
         {
-            u32 depth_or_mask = ((S_80024930_0 *)scratch)->unk_B4;
+            u32 depth_or_mask = scratch->unk_B4;
 
             if (depth_or_mask < 0x1E0U) {
                 u32 ot_entry_addr = depth_or_mask * 4;
-                ot_entry_addr += (u32)((S_80024930_0 *)scratch)->unk_18.p2;
+                ot_entry_addr += (u32)scratch->unk_18.p2;
                 ((TagWord *)prim)->addr = ((S_80024930_4 *)(void *)ot_entry_addr)->unk_00;
-                ((TagWord *)(((S_80024930_0 *)scratch)->unk_18.p2 +
-                    ((S_80024930_0 *)scratch)->unk_B4 * 4))->addr = (u32)prim;
+                ((TagWord *)(scratch->unk_18.p2 +
+                    scratch->unk_B4 * 4))->addr = (u32)prim;
             }
         }
     }

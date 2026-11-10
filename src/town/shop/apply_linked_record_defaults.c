@@ -5,7 +5,7 @@
 
 
 extern M2C_UNK D_80071244;
-struct S8004CBFC_a1; extern struct S8004CBFC_a1 shop_cursor_template;
+extern FrameNode shop_cursor_template;
 
 
 /* Apply D_800792DC using the linked value and set the linked target to D_80071244. */

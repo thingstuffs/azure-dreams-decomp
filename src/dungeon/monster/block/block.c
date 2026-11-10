@@ -374,7 +374,7 @@ void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, 
    }
    if(!(actor->action_flags & 0x8000)) {
     if((!(g_dungeon_status.flags & 0x2000) || (check_entity_relation(actor,(previous_node = primary_actor_record->previous_actor_header,
-        previous_body = previous_node + 1, previous_actor = previous_body))<<16)==0)
+        previous_body = NODE_BODY(previous_node), previous_actor = previous_body))<<16)==0)
        && (resolve_actor_action_readiness(state,motion,sprite,0)<<16)!=0) {
      flags=actor->action_flags | 0x4000;
      actor->action_flags=flags;
@@ -717,7 +717,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                 ActorRecord *previous_actor;
 
                 previous_node = primary_actor_record->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
                 if ((s16)check_entity_relation(actor_data,
                         previous_actor) != 0) {
@@ -1471,7 +1471,7 @@ void wait_actor_status_and_animate(ActorRecord *action, ObjectPosition *context,
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(actor_in,
                             previous_actor) << 16) != 0) {
@@ -1617,7 +1617,7 @@ void wait_actor_mp_and_animate(ActorRecord *actor_in, ObjectPosition *actor_inde
                 ActorRecord *previous_actor;
 
                 previous_node = primary_actor_record->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
                 if ((check_entity_relation(entity,
                         previous_actor) << 16) != 0) {
@@ -2037,7 +2037,7 @@ void update_radial_effect_band(u8 *effect, ObjectPosition *position, s32 effect_
 }
 
 /* Creates three bands of eight colored radial segments around the supplied position. */
-void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, ObjectPosition *origin, void *entity) {
+void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition *origin, void *entity) {
     u16 band;
     register s32 shade_offset;
 
@@ -2298,7 +2298,7 @@ void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input)
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void replace_actor_with_faded_effect(void *state, ObjectPosition *position, SpriteFrameState *entity, void *actor) {
+void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, ObjectPosition *position, SpriteFrameState *entity, void *actor) {
     s16 direction;
     u16 fade_ticks;
     u16 finish_ticks;
@@ -2313,16 +2313,16 @@ void replace_actor_with_faded_effect(void *state, ObjectPosition *position, Spri
     void *new_model;
     void *model;
 
-    status = ((CB_80174D14_S_80C97514_0 *)state)->phase;
+    status = state->phase;
     switch (status) {
     case 0:
-        next_state = ((CB_80174D14_S_80C97514_0 *)state)->phase + 1;
-        ((CB_80174D14_S_80C97514_0 *)state)->phase = next_state;
+        next_state = state->phase + 1;
+        state->phase = next_state;
         return;
     case 1:
         run_cd_image_commands(&block_image_commands, &block_image_load_done, 0);
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_A4 = 0;
-        ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
+        state->unk_A4 = 0;
+        state->phase = (u8) (state->phase + 1);
         ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100)
@@ -2341,30 +2341,30 @@ void replace_actor_with_faded_effect(void *state, ObjectPosition *position, Spri
         (*(s8 *)&block_effect_load_done) = 0;
         Control_CD(0xFF, &resource_completion_callback_address, &block_effect_load_done);
         select_nearby_target_and_initialize_slot(actor - 0x20, position, 8, 0x300);
-        ((CB_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
-        ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
+        state->timer = 0x10U;
+        state->phase = (u8) (state->phase + 1);
         create_radial_effect_bands(state, position, entity);
     case 3:
-        previous_ticks = ((CB_80174D14_S_80C97514_0 *)state)->timer;
+        previous_ticks = state->timer;
         fade_ticks = previous_ticks - 1;
-        ((CB_80174D14_S_80C97514_0 *)state)->timer = fade_ticks;
+        state->timer = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
             status = ((CB_80174D14_S_80C97514_2 *)(&block_effect_load_done))->unk_00;
-            ((CB_80174D14_S_80C97514_0 *)state)->timer = previous_ticks;
+            state->timer = previous_ticks;
             if (status == 0) {
                 return;
             }
-            ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
+            state->phase = (u8) (state->phase + 1);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         effect_data = ((void **)&actor_effect_color_targets)[lookup_masked_byte_table(actor)];
         scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (effect_data->unk_00
-            - scene_color->view.tint.parts.tint_r) / (s16) ((CB_80174D14_S_80C97514_0 *)state)->timer));
+            - scene_color->view.tint.parts.tint_r) / (s16) state->timer));
         scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (effect_data->unk_01
-            - scene_color->view.tint.parts.tint_g) / (s16) ((CB_80174D14_S_80C97514_0 *)state)->timer));
+            - scene_color->view.tint.parts.tint_g) / (s16) state->timer));
         scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (effect_data->unk_02
-            - scene_color->view.tint.parts.tint_b) / (s16) ((CB_80174D14_S_80C97514_0 *)state)->timer));
+            - scene_color->view.tint.parts.tint_b) / (s16) state->timer));
         return;
     case 4:
     {
@@ -2377,7 +2377,7 @@ void replace_actor_with_faded_effect(void *state, ObjectPosition *position, Spri
         }
         effect->update_callback = finish_sprite_and_restore_tint;
         register_node(effect, project_sprite_chain);
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_AC = effect;
+        state->unk_AC = effect;
         ((CB_80174D14_S_80C97514_14 *)(((CB_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
         ((CB_80174D14_S_80C97514_14 *)(((CB_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
         ((CB_80174D14_S_80C97514_14 *)(((CB_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_08 = (s32) position->z.v;
@@ -2394,26 +2394,26 @@ void replace_actor_with_faded_effect(void *state, ObjectPosition *position, Spri
         effect_data = (void *)(*((s32 *)&D_80175318 + (s16) effect_index) + (u8 *)&dungeon_resource_buffer);
         select_record_entry_and_value(render_obj, effect_data, 0);
         entity->flags = (u16) (entity->flags | 0x80);
-        ((CB_80174D14_S_80C97514_0 *)state)->timer = 0U;
-        next_state = ((CB_80174D14_S_80C97514_0 *)state)->phase + 1;
-        ((CB_80174D14_S_80C97514_0 *)state)->phase = next_state;
+        state->timer = 0U;
+        next_state = state->phase + 1;
+        state->phase = next_state;
         return;
     }
     case 5:
-        render_obj = ((CB_80174D14_S_80C97514_0 *)state)->unk_AC;
+        render_obj = state->unk_AC;
         render_obj = render_obj->unk_0C.u;
         if (render_obj->unk_14 & 0xE000) {
-            ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
+            state->phase = (u8) (state->phase + 1);
         }
     case 6:
-        if (((CB_80174D14_S_80C97514_0 *)state)->phase != 6) {
+        if (state->phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, D_801753AC, D_80175314, &staged_spawn_count) == 0) {
             return;
         }
-        ((CB_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
-        ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
+        state->timer = 0x10U;
+        state->phase = (u8) (state->phase + 1);
         decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
@@ -2426,8 +2426,8 @@ void replace_actor_with_faded_effect(void *state, ObjectPosition *position, Spri
         if (new_model == NULL) {
             return;
         }
-        ((CB_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
-        ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
+        state->timer = 0x10U;
+        state->phase = (u8) (state->phase + 1);
         ((CB_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A =
             (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
         model = ((Rec_D_80082E80 *)actor)->unk_60.as_pv;
@@ -2436,8 +2436,8 @@ void replace_actor_with_faded_effect(void *state, ObjectPosition *position, Spri
             + (s16) ((CB_80174D14_S_80C97514_9 *)model)->unk_2A + 0x100) >> 9) & 7], render_obj->unk_04);
         render_obj->unk_14 = (u16) (render_obj->unk_14 & 0xFFFE);
     case 8:
-        finish_ticks = ((CB_80174D14_S_80C97514_0 *)state)->timer - 1;
-        ((CB_80174D14_S_80C97514_0 *)state)->timer = finish_ticks;
+        finish_ticks = state->timer - 1;
+        state->timer = finish_ticks;
         if ((finish_ticks << 0x10) > 0) {
             return;
         }

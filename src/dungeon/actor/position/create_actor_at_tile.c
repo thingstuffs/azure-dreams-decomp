@@ -33,7 +33,7 @@ typedef struct S_800D1C70_0 {
 } S_800D1C70_0;
 
 
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 void process_actor_status_transitions(s32 actor, s32 action_context, s32 sprite, u8 *state);
 
 /* Creates a dungeon object at the given tile and height, initializing its sprite and tile flags. */

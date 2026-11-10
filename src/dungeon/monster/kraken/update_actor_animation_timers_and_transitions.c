@@ -33,7 +33,8 @@ typedef struct S_8017352C_5 {
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173D10(void *, void *, void *, void *);
@@ -130,7 +131,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
                     ActorRecord *previous_actor;
 
                     previous_node = owner->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(actor,
                             previous_actor) << 16) != 0) {

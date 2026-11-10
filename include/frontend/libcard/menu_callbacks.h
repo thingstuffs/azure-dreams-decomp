@@ -7,9 +7,9 @@
 typedef void (*card_boot_menu_action_fn)(void *state);
 
 /* Four-action memory-card menu table supplied by static data.
- * card_boot_dispatch_selected_menu_action copies it and indexes it with the object callback selector. */
+ * card_boot_dispatch_selected_menu_action copies it and indexes it with the selected command. */
 typedef struct card_boot_menu_table {
-    card_boot_menu_action_fn cb[4]; /* menu actions indexed by the object selector at +0x44; each receives that object */
+    card_boot_menu_action_fn cb[4]; /* menu actions indexed by CardSlotMenuState.selected_command; each receives that object */
 } card_boot_menu_table;
 
 extern card_boot_menu_table D_800200A8;

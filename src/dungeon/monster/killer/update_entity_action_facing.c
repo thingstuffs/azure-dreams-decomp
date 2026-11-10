@@ -127,7 +127,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((s16)check_entity_relation(entity,
                             previous_actor) != 0) {

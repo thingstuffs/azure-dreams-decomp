@@ -75,7 +75,8 @@ extern void *actor_update_node_cursor[];
 
 extern s32 find_floor_item_at_world_position(s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 extern void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 struct SpriteFrameState;
 extern void spend_actor_mp(Object *, s32);
 

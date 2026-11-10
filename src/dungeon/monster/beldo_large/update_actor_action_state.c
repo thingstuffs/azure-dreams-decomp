@@ -23,7 +23,8 @@ s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/beldo_large_frames.h"
 
-void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* Processes object action states, dispatches actor_arg actions, and updates directional tiles. */
@@ -116,7 +117,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(actor_arg, previous_actor) << 0x10) != 0) {
                         return;

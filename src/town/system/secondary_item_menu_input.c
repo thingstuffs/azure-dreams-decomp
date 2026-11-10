@@ -15,10 +15,10 @@ void sort_entries_by_category(S_8004AFE8 **entries);
 #include "town/shop.h"
 #include "town/shop/resource_entry_initialization_g01156.h"
 #include "town/shop/object.h"
+#include "slus.h"
 /* arg0 in handle_item_menu_input_2 */
 
 
-extern void SD_Call(s32);
 static void sort_selected_record_entries(void *);
 
 /*

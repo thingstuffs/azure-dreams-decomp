@@ -13,7 +13,8 @@ typedef struct {
 } DungeonEntry;
 
 extern s16 get_tile_chebyshev_distance(void *, void *);
-extern void update_actor_status_and_mp(void *);
+#include "dungeon/actor/state.h"
+
 extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
 
 extern DungeonEntry floor_objects[];

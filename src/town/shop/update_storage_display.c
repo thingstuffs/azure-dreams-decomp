@@ -19,5 +19,5 @@ void update_storage_display(StorageOwner *object) {
     forward_source_data_to_component(object);
     refresh_storage_page(object);
     update_control_indicators_and_flags(object);
-    forward_record_fields_to_page_loader(object->work->page_loader, object);
+    forward_record_fields_to_page_loader(&object->parts[26], object);
 }

@@ -12,7 +12,7 @@ void card_boot_clear_menu_state(void *ptr);
 void card_boot_handle_menu_selection_input(CardChooserBody *menu);
 
 /* card_boot_initialize_menu_pointer.c */
-void card_boot_initialize_menu_pointer(void *ptr);
+void card_boot_initialize_menu_pointer(CardChooserBody *ptr);
 
 /* card_boot_poll_status_and_select_context.c */
 void card_boot_poll_status_and_select_context(void *state);

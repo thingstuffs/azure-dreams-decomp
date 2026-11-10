@@ -609,11 +609,11 @@ void render_shaded_map_tiles(void) {
 void draw_empty_map_cell_quads(u32 packet_limit)
 {
     MapQuadScratch *scratch;
-    u8 *state;
+    S_800AD138_1 *state;
     MapGrid *map_bounds;
     u8 *render_state;
     u8 *edge_buffer;
-    u8 *packet_fields;
+    S_800AD138_2 *packet_fields;
     u16 *cell_table;
     u32 addr_mask;
     u32 length_mask;
@@ -674,8 +674,8 @@ void draw_empty_map_cell_quads(u32 packet_limit)
 
     scratch->normal_z = -0x1000;
 
-    state = ((u8 *)(&g_game_work));
-    map_bounds = (MapGrid *)(state + 0x1DC);
+    state = ((S_800AD138_1 *)(&g_game_work));
+    map_bounds = (MapGrid *)((u8 *)state + 0x1DC);
     scratch->normal_x = 0;
     scratch->normal_y = 0;
     render_state = g_game_work.draw_buffer;
@@ -689,7 +689,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     scratch->step_x = 0x40 << x_shift;
     bound_x = map_bounds->maskX;
     bound_y = map_bounds->maskY;
-    uv_scroll = (((S_800AD138_1 *)state)->unk_04 >> 1) & 0x3F;
+    uv_scroll = (state->unk_04 >> 1) & 0x3F;
     map_height = 0x40 << y_shift;
     scratch->step_y = map_height;
     scratch->map_width = bound_x;
@@ -697,15 +697,15 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     scratch->uv_scroll.value = uv_scroll;
 
     packet = ((S_800AD138_5 *)render_state)->unk_8D0;
-    scratch->color = ((S_800AD138_1 *)state)->unk_A8;
+    scratch->color = state->unk_A8;
     draw_rect[0] = 0;
     draw_rect[1] = initial_size;
-    cell_table = ((S_800AD138_1 *)state)->unk_1DC;
+    cell_table = state->unk_1DC;
     SetDrawMode(packet, (s32)edge_buffer, edge_count_addr, 0x20, draw_rect);
     AddPrim((void *)scratch->chain_address, packet);
     packet += 3;
     scratch->edge_count = 4;
-    clip_vertices = (s16 *)(state + 0x20);
+    clip_vertices = (s16 *)((u8 *)state + 0x20);
     edge_buffer = scratch;
     edge_buffer = (u8 *)((u32)edge_buffer | 0x1C);
     edge_count_addr = (s32)scratch;
@@ -803,7 +803,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
             edge_index = 3;
             if (scratch->min_x.value <= scratch->max_x) {
                 do {
-                    packet_fields = (u8 *)packet + 7;
+                    packet_fields = (S_800AD138_2 *)((u8 *)packet + 7);
                     cell_x = scratch->cell_x;
                     if (cell_x < 0) {
                         cell_index = scratch->row_base;
@@ -898,23 +898,23 @@ void draw_empty_map_cell_quads(u32 packet_limit)
                             gte_strgb((u8 *)packet + 4);
 
                             uv_left = scratch->uv_scroll.low_byte;
-                            ((S_800AD138_2 *)packet_fields)->unk_15 = uv_left;
-                            ((S_800AD138_2 *)packet_fields)->unk_05 = uv_left;
+                            packet_fields->unk_15 = uv_left;
+                            packet_fields->unk_05 = uv_left;
                             uv_right = scratch->uv_scroll.low_byte + 0x3F;
-                            ((S_800AD138_2 *)packet_fields)->unk_1D = uv_right;
-                            ((S_800AD138_2 *)packet_fields)->unk_0D = uv_right;
+                            packet_fields->unk_1D = uv_right;
+                            packet_fields->unk_0D = uv_right;
                             uv_top = -(s32)scratch->uv_scroll.low_byte;
                             red = ((S_800AD138_2_pre *)packet_fields)[-1].unk_01;
-                            ((S_800AD138_2 *)packet_fields)->unk_0E = uv_top;
-                            ((S_800AD138_2 *)packet_fields)->unk_06 = uv_top;
+                            packet_fields->unk_0E = uv_top;
+                            packet_fields->unk_06 = uv_top;
                             v_scroll = scratch->uv_scroll.low_byte;
-                            ((MapQuadTextureWords *)(packet_fields - 7))->texture_page = 0x2D;
-                            ((MapQuadTextureWords *)(packet_fields - 7))->palette = 0x75C1;
+                            ((MapQuadTextureWords *)((u8 *)packet_fields - 7))->texture_page = 0x2D;
+                            ((MapQuadTextureWords *)((u8 *)packet_fields - 7))->palette = 0x75C1;
                             ((S_800AD138_2_pre *)packet_fields)[-1].unk_01 = red >> 1;
                             ((S_800AD138_2_pre *)packet_fields)[-1].unk_02 >>= 1;
                             uv_bottom = 0x3F - v_scroll;
-                            ((S_800AD138_2 *)packet_fields)->unk_1E = uv_bottom;
-                            ((S_800AD138_2 *)packet_fields)->unk_16 = uv_bottom;
+                            packet_fields->unk_1E = uv_bottom;
+                            packet_fields->unk_16 = uv_bottom;
                             ((S_800AD138_2_pre *)packet_fields)[-1].unk_03 >>= 1;
                             chain_tag = ((S_800AD138_4 *)((void *)scratch->chain_address))->unk_00;
                             packet_tag = ((S_800AD138_3 *)((u8 *)packet))->unk_00;
@@ -964,6 +964,6 @@ done:
     SetDrawMode(packet, 0, 0, 0x20, draw_rect);
     AddPrim((void *)scratch->chain_address, packet);
     packet += 3;
-    ((S_800AD138_5 *)(((S_800AD138_1 *)state)->unk_00))->unk_8D0 = packet;
+    ((S_800AD138_5 *)(state->unk_00))->unk_8D0 = packet;
     return;
 }

@@ -1317,7 +1317,8 @@ typedef struct S_807B040C_7 {
     u16 unk_16;
 } S_807B040C_7;   /* motion in update_special_actor_transition */
 
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Move the entity to a passable tile near the room and update tile occupancy. */

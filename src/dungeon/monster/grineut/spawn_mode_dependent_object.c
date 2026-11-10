@@ -338,7 +338,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
         if (!(other_entity->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(other_entity,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                        NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                     return;
                 }
             }
@@ -746,7 +746,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         if (turn_index == 0 &&
             reference_tile_object.tile_position.word != *(u16 *)&position_data->tile_x) {
             if (((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20)) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header))) != 0) {
                 do {
                     return;
                 } while (0);
@@ -1666,8 +1666,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
                 if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                     if ((check_entity_relation(
                              actor,
-                             ((s32)primary_actor_record->previous_actor_header)
-                                 + 0x20)
+                             NODE_BODY(primary_actor_record->previous_actor_header))
                          << 16)
                         != 0) {
                         return;
@@ -1805,7 +1804,7 @@ void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *conte
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }

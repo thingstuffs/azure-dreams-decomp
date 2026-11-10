@@ -6,7 +6,8 @@
 #include "dungeon/monster/beldo.h"
 #include "dungeon/data.h"
 
-extern void update_actor_status_and_mp();
+#include "dungeon/actor/state.h"
+
 extern void func_80171BE0(); /* Slot contract: loading images do not establish one callee contract. */
 
 extern u8 *beldo_effect_stream;

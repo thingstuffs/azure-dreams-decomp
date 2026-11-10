@@ -36,7 +36,8 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon.h"
 #include "dungeon/monster/mandara_frames.h"
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern void func_80174250(void *, void *, void *, void *);
 
 extern u8 mandara_action_resume_address[];
@@ -248,7 +249,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
                 ActorRecord *previous_actor;
 
                 previous_node = primary_actor_record->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
                 if ((s16)check_entity_relation(
                         actor, previous_actor) != 0) {

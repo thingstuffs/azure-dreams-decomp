@@ -14,7 +14,7 @@
 #include "dungeon/item/message.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *request, s32 record_data); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
+#include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 typedef struct {
     s16 flags;

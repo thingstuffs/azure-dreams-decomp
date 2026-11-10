@@ -24,7 +24,8 @@ typedef struct S_80175E6C_6_pre {
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/pulunpa.h"
-void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern u8 D_80176348[];
 
 /*

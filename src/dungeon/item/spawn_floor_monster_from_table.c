@@ -19,8 +19,9 @@ extern u8 entity_spawn_variant_code;
 
 extern void init_monster_from_stats(void *, s32);
 struct EntityLinkNode;
-extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
-extern s32 find_active_rect_containing_point(s32, s32);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 /* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */
 extern s32 select_random_eligible_item_entry(void *);
 

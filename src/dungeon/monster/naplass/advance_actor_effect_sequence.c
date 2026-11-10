@@ -37,7 +37,8 @@ s16 get_tile_chebyshev_distance();
 #include "dungeon.h"
 #include "dungeon/monster/naplass_frames.h"
 
-void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition *position,struct SpriteFrameState *actor, void *model);
 extern u8 effect_update_tag[];
 extern u8 naplass_action_continuation_address[];
@@ -145,7 +146,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         if (actor_state->pending_turn_updates == 0)
             return;
         if ((has_pending_actor_or_turn_action(actor_state) << 0x10) != 0) {
-            if ((check_entity_relation(actor_state, ((s32)primary_actor_record->previous_actor_header) + 0x20) << 0x10) != 0)
+            if ((check_entity_relation(actor_state, NODE_BODY(primary_actor_record->previous_actor_header)) << 0x10) != 0)
                 return;
         }
         update_actor_status_and_mp(actor_state);

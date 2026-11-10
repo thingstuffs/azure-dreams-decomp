@@ -2,6 +2,7 @@
 #include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -62,12 +63,14 @@ typedef struct S_8017405C_10 {
 
 
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
-extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
+#include "dungeon/item/get_actor_height_difference_api.h"
 extern s16 check_diagonal_side_height(s32, s32, s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern void cycle_map_cell_flags(s32, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
@@ -300,7 +303,7 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
                 break;
             }
             if (move_index == 0 && reference_tile_position_alias != actor->unk_24.at00u.v) {
-                if (check_entity_relation(movement, primary_actor_record->previous_actor_header + 0x20) != 0) {
+                if (check_entity_relation(movement, NODE_BODY(primary_actor_record->previous_actor_header)) != 0) {
                     return;
                 }
             }

@@ -24,7 +24,7 @@
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern void create_anchored_directional_object(void *, void *, void *, ActorRecord *, s32);
 extern void create_origin_motion_effect(ActorRecord *, ObjectPosition *, SpriteFrameState *, s32, s32, s32);
@@ -32,7 +32,7 @@ extern void create_origin_motion_effect(ActorRecord *, ObjectPosition *, SpriteF
 /* Advances the entity animation sequence and relocates it to a distant tile. */
 /* Animates Baloon's rising effect, tries to relocate at least 33 tile steps from the player, then spends
  * MP and restores idle. */
-void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *object)
+void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *object)
 {
     s32 particle_index;
     s32 tries_left;
@@ -62,7 +62,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
             return;
         }
         body->action_state_flags |= 8;
-        ((ActorRecord *)object)->flags1C &= ~0x40000;
+        object->flags1C &= ~0x40000;
         body->unk_A0.value = 0;
         body->unk_90.parts.high -= 8;
         body->action_phase++;
@@ -73,7 +73,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
     case 1:
         (sprite->frameTable) = D_800E23B8;
         select_sprite_entry(sprite,
-            D_800E23B8[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
+            D_800E23B8[((g_game_work.view.camera_rotation.parts.viewAngle + object->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer = 0;
         body->action_phase++;
@@ -85,7 +85,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         }
         (sprite->frameTable) = D_800E23C0;
         select_sprite_entry(sprite,
-            D_800E23C0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
+            D_800E23C0[((g_game_work.view.camera_rotation.parts.viewAngle + object->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer = 0;
         body->action_phase++;
@@ -169,7 +169,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
 
     case 7:
         update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y,
-            (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
+            (object->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         tries_left = 0x20;
         old_x = sprite->tile_x;
         old_y = sprite->tile_y;
@@ -199,15 +199,15 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         position->z.w.i = ground_z;
         body->unk_90.parts.high = height_offset;
         body->unk_A0.value = 0;
-        ((ActorRecord *)object)->ground_height = -0x200;
+        object->ground_height = -0x200;
         ground_z = sample_terrain_surface_height(
             (sprite->tile_x << 6) | 0x20,
             (sprite->tile_y << 6) | 0x20,
             -0x200);
-        ((ActorRecord *)object)->ground_height = ground_z;
+        object->ground_height = ground_z;
 
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
-            (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
+            (object->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         refresh_actor_proximity_state(object);
         spend_actor_mp(object, 0x1000);
         body->unk_8C.address = update_actor_turn_behavior;
@@ -216,20 +216,20 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
         position->velocity_y = 0;
         position->velocity_x = 0;
         body->unk_90.parts.high = height_offset;
-        ((ActorRecord *)object)->flags1C |= 0x40000;
+        object->flags1C |= 0x40000;
         body->action_state_flags |= 8;
 
         animations = baloon_default_frames;
         if (*(u8 **)&sprite->frameTable != animations) {
             (sprite->frameTable) = animations;
             select_sprite_entry(sprite,
-                animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
+                animations[((g_game_work.view.camera_rotation.parts.viewAngle + object->facing + 0x100) >> 9) & 7],
                 0);
             sprite->frame_ticks = 1;
             body->unk_A0.parts.high = 0;
             body->unk_9E = 0;
         }
-        ((ActorRecord *)object)->action_flags &= 0x7FFF;
+        object->action_flags &= 0x7FFF;
 
     default:
         return;

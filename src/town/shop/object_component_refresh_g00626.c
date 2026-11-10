@@ -21,17 +21,17 @@ void submit_five_paired_entry_values(S_800B4648_0 *owner) {
 }
 
 /* Updates two object components and sets the object and global high flags. */
-void refresh_object_components_and_high_flag(u8 *object)
+void refresh_object_components_and_high_flag(StorageMenuNode *object)
 {
     u16 object_flags;
     s32 global_flags;
 
     if (object != 0) {
-        submit_five_paired_entry_values((S_800B4648_0 *)(object + 0x20));
-        release_null_terminated_entries(object + 0x80);
-        object_flags = *(u16 *)(object + 0x1E) | 0x8000;
+        submit_five_paired_entry_values((S_800B4648_0 *)&object->menu);
+        release_null_terminated_entries(object->menu.allocations);
+        object_flags = object->header.flags | 0x8000;
         global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
-        *(u16 *)(object + 0x1E) = object_flags;
+        object->header.flags = object_flags;
         object_flag_block.flags = global_flags;
     }
 }

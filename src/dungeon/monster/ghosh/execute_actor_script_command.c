@@ -9,7 +9,7 @@
 #include "dungeon/data.h"
 
 
-extern void update_actor_status_and_mp();
+#include "dungeon/actor/state.h"
 
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];

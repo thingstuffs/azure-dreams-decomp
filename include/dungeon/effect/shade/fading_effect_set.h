@@ -220,7 +220,6 @@ extern s32 abs(s32);
 extern void advance_sprite_animation_and_textures(void *render_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 #include "shared/sprite_source.h"
 struct ObjectNodeHeader;
 extern SpriteSourceEntry rising_sprite_entries[];
@@ -231,7 +230,7 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
 void advance_fading_effect(void *effect, ObjectPosition *position, SpriteFrameState *render_data);
 void create_randomized_grayscale_effect(s32 user_data, ObjectPosition *source_pos, u8 intensity);
-void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *position);
+void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, Rec_func_80024264_arg1 *position);
 void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords);
 void shrink_and_brighten_effect(DelayAndFadeParticleBody *state_ref, void *unused, SpriteFrameState *effect);
 void delay_and_fade_particle(s32 value, void *source_data);

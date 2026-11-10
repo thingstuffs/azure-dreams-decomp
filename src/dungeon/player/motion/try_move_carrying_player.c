@@ -20,7 +20,8 @@ struct SpriteFrameState;
 extern u8 player_carry_move_frames[8];
 extern u8 player_carry_frames[8];
 
-extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern s16 classify_adjacent_tile_height(s16, void *,struct SpriteFrameState *, s16, s32);
 
 /* Synthetic batch key: func_800869DC; true rowbase link symbol: try_move_carrying_player. */

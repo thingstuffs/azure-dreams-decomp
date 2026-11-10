@@ -31,7 +31,7 @@ struct ActorRecord;
 
 /* Updates the object action state and applies direction data to its target. */
 void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state) {
-    void *object;
+    ActorRecord *object;
     s32 special_action;
     u8 *slot_data;
     DefEntry *type_data;
@@ -42,13 +42,13 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
     s32 type_index;
 
     object = actor;
-    ((ActorRecord *)object)->movement_queue_state &= 0x7F;
+    object->movement_queue_state &= 0x7F;
     input_flags = g_dungeon_status.flags;
     special_action = 0;
 
     if (!(input_flags & 0x2008)) {
-        if ((((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) &&
-            ((((s16)((ActorRecord *)object)->action_flags) & 0x3FFF) >= 5)) {
+        if ((object->flags1C & ACTOR_PLAYER_SIDE) &&
+            ((((s16)object->action_flags) & 0x3FFF) >= 5)) {
             special_action = 1;
             if (((((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_98 & 0x3000) == 0x2000) &&
                 (dungeon_actor_ring_anchor->unk_A4.halves.high.u == 0)) {
@@ -57,7 +57,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
                 g_dungeon_status.activity_counts.parts.pending_action_count++;
             } else {
                 advance_status_timers(object);
-                ((ActorRecord *)object)->pending_turn_updates--;
+                object->pending_turn_updates--;
                 ((ActorRecord *)actor)->unk_8C.address = next_state;
 
                 return;
@@ -72,13 +72,13 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
             }
         }
         if (!special_action) {
-            if (((ActorRecord *)object)->flags1C & ACTOR_CONFUSED) {
+            if (object->flags1C & ACTOR_CONFUSED) {
                 s32 object_flags;
-                object_flags = ((ActorRecord *)object)->flags14;
+                object_flags = object->flags14;
                 if (!(object_flags & 0x80000000)) {
                     object_flags |= 0x80000000;
-                    ((ActorRecord *)object)->flags14 = object_flags;
-                    ((ActorRecord *)object)->facing += (generate_random_value() & 7) << 9;
+                    object->flags14 = object_flags;
+                    object->facing += (generate_random_value() & 7) << 9;
                 }
             }
 
@@ -90,16 +90,16 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
                 type_index--;
                 type_table = item_action_definitions;
                 slot_offset = type_index * 3;
-                slot_data = object;
+                slot_data = (u8 *)object;
                 slot_data += slot_offset;
                 type_index = slot_data[8];
                 type_data = type_table + type_index;
-                if ((type_data->kind == 2) && (((ActorRecord *)object)->target == 0)) {
-                    ((ActorRecord *)object)->target = scan_actor_along_heading(
+                if ((type_data->kind == 2) && (object->target == 0)) {
+                    object->target = scan_actor_along_heading(
                         object,
                         target->tile_x,
                         target->tile_y,
-                        ((ActorRecord *)object)->facing,
+                        object->facing,
                         type_data->unk_13);
 
                 }
@@ -115,7 +115,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
             (target->frameTable) = direction_table;
             select_sprite_entry(
                 target,
-                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + object->facing + 0x100) >> 9) & 7],
                 0);
         }
         target->flags |= 0x800;

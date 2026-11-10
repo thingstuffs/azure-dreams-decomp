@@ -30,13 +30,6 @@ typedef struct S_800CB8CC_1 {
 
 /* extern */
 
-/* extern */
-typedef struct S_800CB9B8_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_800CB9B8_1;
-
 /* arg1 in update_entity_relative_position */
 
 /* ((Rec_D_80082D58 *)arg0)->unk_9C in update_entity_relative_position */

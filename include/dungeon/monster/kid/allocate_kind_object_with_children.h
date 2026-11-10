@@ -29,7 +29,6 @@ typedef struct S_801588DC_8 {
 } S_801588DC_8;   /* outer_base in func_801588DC */
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);

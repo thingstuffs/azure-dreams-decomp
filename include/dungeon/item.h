@@ -63,7 +63,8 @@ void adjust_source_value_and_finalize(void *context, const void *source);
 
 /* Callback entry points. */
 s32 begin_return_magic_for_player_and_familiars(void);
-void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameState *sprite);
+struct S_800C2824_0;
+void update_return_magic_sacrifice(struct S_800C2824_0 *effect, void *vertices, SpriteFrameState *sprite);
 
 void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_param, void *actor);
 

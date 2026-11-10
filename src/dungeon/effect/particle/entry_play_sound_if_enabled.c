@@ -84,7 +84,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
     ObjectPosition *spawn_position;
     ObjectNodeHeader *node;
     S_818154FC_4 *parent_sprite;
-    void *parent;
+    ActorRecord *parent;
     S_818154FC_1 *parent_node;
     MovingPosition *parent_position;
     SpriteFrameState *spawn_sprite;
@@ -94,7 +94,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
     points = *point_table;
     point_base = (LocalPoint *)&points;
     state = effect->spell.phase;
-    parent_node = parent - 0x20;
+    parent_node = (void *)parent - 0x20;
     parent_position = parent_node->unk_08;
     effect->unk_82 = (u16) (effect->unk_82 + 1);
     switch (state) {
@@ -200,7 +200,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                         map->tile_y + table_base[index];
                 }
 
-                if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
+                if (parent->target != NULL) {
                     s32 tile_distance;
                     s32 compare_one;
                     ObjectPosition *motion;
@@ -208,11 +208,11 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                     s32 other_z;
 
                     work->unk_08 = 1;
-                    if (((S_818154FC_3 *)parent)->unk_72 != map->tile_x) {
-                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - map->tile_x);
+                    if (parent->target_tile_x != map->tile_x) {
+                        tile_distance = __builtin_abs(parent->target_tile_x - map->tile_x);
                         work->unk_02 = tile_distance * 2;
                     } else {
-                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - map->tile_y);
+                        tile_distance = __builtin_abs(parent->target_tile_y - map->tile_y);
                         work->unk_02 = tile_distance * 2;
                     }
 
@@ -240,7 +240,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                     work->unk_08 = 0;
                 }
                 if (effect->unk_84 == 9) {
-                    if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
+                    if (parent->target != NULL) {
                         u16 end_time;
 
                         end_time = work->unk_02;

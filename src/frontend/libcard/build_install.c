@@ -75,8 +75,8 @@ void build_install(CardSlotMenuState *object)
                 object->unk_28 =
                     advance_index_with_single_wrap(object->unk_28, selection_step, 5);
             } else {
-                object->unk_44 =
-                    advance_index_with_single_wrap(object->unk_44, selection_step, 3);
+                object->selected_command =
+                    advance_index_with_single_wrap(object->selected_command, selection_step, 3);
             }
             card_boot_refresh_five_slot_selection(object);
         }

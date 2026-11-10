@@ -21,7 +21,7 @@ typedef struct S_800251E8_1 {
 /* Advances the object's timed state and updates its 30 entries. */
 void update_timed_particle_arrays(void *object_data)
 {
-    void *object;
+    S_800251E8_0 *object;
     S_800251E8_1 *linked;
     s32 state;
     s32 entry_index;
@@ -33,39 +33,39 @@ void update_timed_particle_arrays(void *object_data)
     s32 adjusted_value;
 
     object = object_data;
-    linked = ((S_800251E8_0 *)object)->unk_00;
+    linked = object->unk_00;
     linked->unk_1A++;
-    ((S_800251E8_0 *)object)->unk_06++;
-    state = ((s16)((S_800251E8_0 *)object)->unk_04);
+    object->unk_06++;
+    state = ((s16)object->unk_04);
     switch (state) {
     case 0:
-        ((S_800251E8_0 *)object)->unk_08 -= 0xC0;
-        if (((S_800251E8_0 *)object)->unk_06 < 8) {
+        object->unk_08 -= 0xC0;
+        if (object->unk_06 < 8) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06 = 0;
-        ((S_800251E8_0 *)object)->unk_04++;
+        object->unk_06 = 0;
+        object->unk_04++;
         break;
     case 1:
-        if (((S_800251E8_0 *)object)->unk_06 < 12) {
+        if (object->unk_06 < 12) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06 = 0;
-        ((S_800251E8_0 *)object)->unk_04++;
+        object->unk_06 = 0;
+        object->unk_04++;
         break;
     case 2:
-        if (((S_800251E8_0 *)object)->unk_06 < 4) {
+        if (object->unk_06 < 4) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06 = 0;
-        ((S_800251E8_0 *)object)->unk_04++;
+        object->unk_06 = 0;
+        object->unk_04++;
         break;
     case 3:
-        if (((S_800251E8_0 *)object)->unk_06 < 8) {
+        if (object->unk_06 < 8) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06 = 0;
-        ((S_800251E8_0 *)object)->unk_04++;
+        object->unk_06 = 0;
+        object->unk_04++;
         break;
     case 4:
         ((S_800251E8_0_pre *)object)[-1].unk_00 |= 0x8000;
@@ -78,7 +78,7 @@ void update_timed_particle_arrays(void *object_data)
     entry_offset = 0;
     do {
         accumulated_value = ((u16 *)object)[entry_offset + 0x23];
-        increment = ((S_800251E8_0 *)object)->unk_08;
+        increment = object->unk_08;
         counter = ((u16 *)object)[entry_offset + 5];
         counter++;
         ((u16 *)object)[entry_offset + 0x23] = accumulated_value + increment;

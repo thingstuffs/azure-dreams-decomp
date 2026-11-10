@@ -19,7 +19,7 @@ typedef struct S_80047784 S_80047784;
 
 struct SpriteFrameState;
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 extern u8 D_80175278[];
 extern u8 D_80175280[];

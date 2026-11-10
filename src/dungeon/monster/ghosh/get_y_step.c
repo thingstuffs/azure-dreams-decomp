@@ -3,6 +3,7 @@
 #include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -25,11 +26,12 @@ void cycle_map_cell_flags(s16, s16, u16);             /* extern */
 s32 check_diagonal_side_height(s32, s16, s16, s16);                /* extern */
 s32 check_movement_clearance_and_height();    /* extern */
 s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);                  /* extern */
-s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);                  /* extern */
+#include "dungeon/item/get_actor_height_difference_api.h"
 u16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */          /* extern */
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);  /* extern */
 s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *); /* extern */
-void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
+#include "dungeon/actor/state.h"
+                      /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);          /* extern */
 
@@ -269,7 +271,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
                 break;
             }
             if ((turn_index == 0) && (reference_tile_position_alias != *(u16 *)&position->tile_x)
-                && ((check_entity_relation(actor, (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) << 0x10) != 0)) {
+                && ((check_entity_relation(actor, NODE_BODY(primary_actor_record->previous_actor_header)) << 0x10) != 0)) {
                 return;
             }
             turn_index += 1;

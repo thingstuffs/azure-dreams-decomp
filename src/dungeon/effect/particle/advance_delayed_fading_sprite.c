@@ -314,7 +314,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
     u8 bright_level;
     u8 fade_level;
     DelaySprite *particle_sprite;
-    void *particle;
+    DelayObject *particle;
     DelayOwner *owner;
     DelayParticleTimers *particle_state;
     void *particle_data;
@@ -349,21 +349,21 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
             do {
                 particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (particle != NULL) {
-                    ((DelayObject *)particle)->update_callback = particle_data;
-                    particle_sprite = ((DelayObject *)particle)->sprite;
-                    ((DelayVelocity *)(((DelayObject *)particle)->position))->x = (s32) motion->x;
-                    ((DelayVelocity *)(((DelayObject *)particle)->position))->y = (s32) motion->y;
+                    particle->update_callback = particle_data;
+                    particle_sprite = particle->sprite;
+                    ((DelayVelocity *)(particle->position))->x = (s32) motion->x;
+                    ((DelayVelocity *)(particle->position))->y = (s32) motion->y;
                     random = rand();
                     {
-                        DelayMotionZ *particle_motion = ((DelayObject *)particle)->position;
+                        DelayMotionZ *particle_motion = particle->position;
                         particle_motion->unk_08 = (s32) (motion->z + ((random & 0x1F) << 0x10));
                         random = rand();
                     }
-                    ((DelayVelocity *)(((DelayObject *)particle)->position))->velocity_x =
+                    ((DelayVelocity *)(particle->position))->velocity_x =
                         (s32) (((random & 0xFFF) - 0x7FF) << 8);
                     random = rand();
                     color = 0x800000;
-                    ((DelayVelocity *)(((DelayObject *)particle)->position))->velocity_y =
+                    ((DelayVelocity *)(particle->position))->velocity_y =
                         (s32) (((random & 0xFFF) - 0x7FF) << 8);
                     particle_sprite->scale_y = 0x1000;
                     particle_sprite->scale_x = 0x1000;
@@ -380,7 +380,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
                     particle_state->timer = (s16) (rand() & 3);
                     particle_state->fade_step = 0xC;
                     particle_state->phase = 0;
-                    ((DelayObject *)particle)->owner = ((DelayParticle *)effect_arg)->owner;
+                    particle->owner = ((DelayParticle *)effect_arg)->owner;
                 }
                 count_or_step -= 1;
             } while (count_or_step >= 0);

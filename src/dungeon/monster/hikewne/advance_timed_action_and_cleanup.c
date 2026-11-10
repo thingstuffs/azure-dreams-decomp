@@ -11,7 +11,7 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-extern void spend_actor_mp(void *, s32);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 /* Advances a timed action through animation setup, execution, and cleanup. */
 void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor_data)

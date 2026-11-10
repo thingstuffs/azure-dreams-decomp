@@ -8,7 +8,8 @@
 
 
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+             /* extern */
 
    /* arg0 in rotate_actor_movement_queue */
 

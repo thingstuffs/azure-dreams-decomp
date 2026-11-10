@@ -32,14 +32,14 @@ extern s32 D_80100B68;
 /* Move toward the target and finalize the object when its countdown expires. */
 void move_toward_target_finalize_countdown_expires(void *object_arg, s32 context, ObjectPosition *motion) {
     Rec_D_80082D58 *object = object_arg;
-    s32 *target_pos;
+    IntVector3 *target_pos;
     s32 *global_flags;
     u16 ticks_or_flags;
 
-    target_pos = shop_target_position;
-    motion->velocity_x = (s32) ((s32) (((IntVector3 *)target_pos)->x - motion->x.v) / 2);
-    motion->velocity_y = (s32) ((s32) (((IntVector3 *)target_pos)->y - motion->y.v) / 2);
-    motion->velocity_z = (s32) ((s32) (((IntVector3 *)target_pos)->z - motion->z.v) / 2);
+    target_pos = (IntVector3 *)shop_target_position;
+    motion->velocity_x = (s32) ((s32) (target_pos->x - motion->x.v) / 2);
+    motion->velocity_y = (s32) ((s32) (target_pos->y - motion->y.v) / 2);
+    motion->velocity_z = (s32) ((s32) (target_pos->z - motion->z.v) / 2);
     add_motion_deltas_to_position(motion);
     call_the_same_context_both_processing_routines(context, motion);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(context, motion);

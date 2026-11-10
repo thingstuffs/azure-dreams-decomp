@@ -61,7 +61,7 @@ void update_attached_effect_position(void *object_arg, ObjectPosition *position,
     s16 phase;
     s32 reflected_phase;
     S_800B0D34_2 *color;
-    void *info;
+    ActorRecord *info;
     s32 mode;
 
     frame_count = object->unk_12;
@@ -78,16 +78,16 @@ void update_attached_effect_position(void *object_arg, ObjectPosition *position,
     }
 
     color = (S_800B0D34_2 *)((u8 *)color + 4);
-    if ((s32)((ActorRecord *)info)->max_hp /
-        (s32)((((ActorRecord *)info)->level >> 1) + 2) >=
-        (s32)((ActorRecord *)info)->hp) {
+    if ((s32)info->max_hp /
+        (s32)((info->level >> 1) + 2) >=
+        (s32)info->hp) {
         color->unk_00 = -0x80 - phase * 8;
         color->unk_02 = 0x10;
         color->unk_01 = 0x10;
     }
 
     color = (S_800B0D34_2 *)((u8 *)color + 4);
-    if (((ActorRecord *)info)->mp_value.parts.whole < 10) {
+    if (info->mp_value.parts.whole < 10) {
         color->unk_00 = -0x80 - phase * 8;
         color->unk_02 = 0x10;
         color->unk_01 = 0x10;
@@ -147,7 +147,7 @@ void update_attached_effect_position(void *object_arg, ObjectPosition *position,
         u16 source_z;
         position->x.w.i = source->x;
         position->y.w.i = source->y;
-        z_adjustment = entity_height_offsets[((ActorRecord *)info)->species] + 0x50;
+        z_adjustment = entity_height_offsets[info->species] + 0x50;
         source_z = source->z;
         position->z.w.i = source_z - z_adjustment;
     }

@@ -41,7 +41,7 @@ typedef struct {
     u8 pad02[10];
 } RegionPos;
 
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 
 /* Finds the nearest matching entry in the entity's region and writes its coordinates. */
 u32 find_nearest_floor_item_in_room(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
@@ -95,7 +95,7 @@ typedef struct {
     u8 pad[10];
 } Entry;
 
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Clear active entries at the target coordinates and update their map tile. */
 void remove_floor_items_at_tile(s16 target_x, s16 target_y) {

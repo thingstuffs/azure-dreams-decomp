@@ -4,7 +4,7 @@
 #include "engine/resource.h"
 #include "sdk/libgte.h"
 
-extern void advance_timed_entity_motion(GteMatrix *m);
+extern void apply_camera_shake(GteMatrix *matrix);
 
 /* Build and install the combined rotation and translation from global transform state. */
 void compose_and_install_camera_transform(void)
@@ -37,7 +37,7 @@ void compose_and_install_camera_transform(void)
     SetTransMatrix(&base_mat);
     RotTrans(&transform->view_offset.parts.view_offset_x, &rotated_pos, &gte_flags);
     TransMatrix(&base_mat, &rotated_pos);
-    advance_timed_entity_motion(&base_mat);
+    apply_camera_shake(&base_mat);
     CompMatrix(&base_mat, &offset_mat, &combined_mat);
     SetTransMatrix(&combined_mat);
     SetRotMatrix(&combined_mat);

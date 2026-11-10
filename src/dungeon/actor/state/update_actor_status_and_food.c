@@ -9,7 +9,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/actor.h"
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);             /* extern */
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 
 /* Process an entity's pending updates and clear its update flags. */

@@ -28,7 +28,7 @@ extern u8 D_800E1303[];
 #include "dungeon/system.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
+#include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 typedef struct S_800BF7FC_1 {
     u8 pad_00[0x24];

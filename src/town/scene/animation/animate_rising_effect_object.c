@@ -76,7 +76,7 @@ extern void D_8052F8C4();
 /* Per-frame step for the town scene object: dispatch its mode and update the sprite it draws. */
 void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void *input) {
     register RisingEffectObject *obj_held = obj;
-    register void *state_held = state_in;
+    register IntVector3 *state_held = state_in;
     register S_8052F2C8_3 *work;
     s16 state;
     s16 mode;
@@ -114,14 +114,14 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
 
     if (root->unk_54 == 9) {
         mode = obj_held->mode.s;
-        if (mode == 1 && ((IntVector3 *)state_held)->x <= 0x04DFFFFF) {
+        if (mode == 1 && state_held->x <= 0x04DFFFFF) {
             state = root->unk_56;
             switch (state) {
             case 0:
                 work->unk_0C.u8 = 0xFF;
                 count = 3;
                 do {
-                    func_8052F960(state_held);
+                    func_8052F960((struct SpawnSeed *)state_held);
                     count--;
                 } while (count >= 0);
                 break;
@@ -129,7 +129,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
                 work->unk_14 |= 0xC;
                 count = 2;
                 do {
-                    func_8052FB08(state_held);
+                    func_8052FB08((struct SpawnSeed *)state_held);
                     count--;
                 } while (count >= 0);
                 break;
@@ -164,8 +164,8 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
     case 1:
         step = obj_held->field_04 + obj_held->field_08;
         obj_held->field_04 = step;
-        sum = ((IntVector3 *)state_held)->x + obj_held->field_04;
-        ((IntVector3 *)state_held)->x = sum;
+        sum = state_held->x + obj_held->field_04;
+        state_held->x = sum;
         if (sum <= 0x0427FFFF) {
             obj_held->field_0E = 6;
             money = &D_80095AAC;
@@ -185,7 +185,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
 
             target_y_addr = &collection_target_y;
             target_y = *target_y_addr;
-            current_y = ((IntVector3 *)state_held)->y;
+            current_y = state_held->y;
             delta = target_y - current_y;
             delta = abs(delta);
             if (delta > 0x200000) {
@@ -231,9 +231,9 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
                 func_8003BC18(work, score_sprite_draw_callback_address);
                 position = work->unk_08;
                 entity_data = work->unk_0C.p32;
-                position->x.v = ((IntVector3 *)state_held)->x;
-                position->y.v = ((IntVector3 *)state_held)->y;
-                position->z.v = ((IntVector3 *)state_held)->z;
+                position->x.v = state_held->x;
+                position->y.v = state_held->y;
+                position->z.v = state_held->z;
                 work_value = obj_held->field_04;
                 work->unk_20 = root;
                 work->unk_24 = work_value;
@@ -259,9 +259,9 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
         count = 7;
         do {
             count--;
-            x = (((func_80071494() & 0xFF) - 0x80) << 14) + ((IntVector3 *)state_held)->x;
+            x = (((func_80071494() & 0xFF) - 0x80) << 14) + state_held->x;
             rnd = func_80071494();
-            create_object_position_configures_color(0, x, ((IntVector3 *)state_held)->y + 0x80000,
+            create_object_position_configures_color(0, x, state_held->y + 0x80000,
                           ((rnd % 80) << 16) + 0xFFB00000);
         } while (count >= 0);
         timer_end = (u16)obj_held->field_0E - 1;
@@ -273,8 +273,8 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
 
     case 3:
         root->unk_58 |= 2;
-        sum3 = ((IntVector3 *)state_held)->x + obj_held->field_04;
-        ((IntVector3 *)state_held)->x = sum3;
+        sum3 = state_held->x + obj_held->field_04;
+        state_held->x = sum3;
         if (sum3 > 0x055FFFFF) {
             obj_held->field_0E = 5;
             func_80058F88(0x50C);
@@ -287,7 +287,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
         for (count4 = 7; count4 >= 0; count4--) {
             x4 = (((func_80071494() & 0xFF) - 0x80) << 14) + 0x05600000;
             color4 = ((func_80071494() & 0x3F) << 16) | 0xFFC00000;
-            create_object_position_configures_color(0, x4, ((IntVector3 *)state_held)->y + 0x80000, color4);
+            create_object_position_configures_color(0, x4, state_held->y + 0x80000, color4);
         }
 
 

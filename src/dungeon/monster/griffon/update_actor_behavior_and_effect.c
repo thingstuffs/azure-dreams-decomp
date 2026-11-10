@@ -342,7 +342,7 @@ void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *positi
         if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor_data,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                        NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                     return;
                 }
             }
@@ -754,7 +754,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         if (turn_index == 0 &&
             reference_tile_object.tile_position.word != *(u16 *)&position_data->tile_x) {
             if (((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20)) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header))) != 0) {
                 do {
                     return;
                 } while (0);
@@ -1669,8 +1669,7 @@ void update_object_or_select_directional_data(ActorRecord *controller, ObjectPos
                 if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                     if ((check_entity_relation(
                              actor,
-                             ((s32)primary_actor_record->previous_actor_header)
-                                 + 0x20)
+                             NODE_BODY(primary_actor_record->previous_actor_header))
                          << 16)
                         != 0) {
                         return;
@@ -1808,7 +1807,7 @@ void resume_actor_effect_behavior_after_status_animation(ActorRecord *controller
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }

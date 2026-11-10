@@ -18,7 +18,8 @@ typedef struct S_func_8132B8AC_1 S_func_8132B8AC_1;
 typedef struct S_func_8132B8AC_2 S_func_8132B8AC_2;
 
 void unlink_entity_node(); /* extern */
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags); /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+ /* extern */
 void func_801730AC(ActorRecord *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite);
 
 typedef struct S_80173F6C_0 {

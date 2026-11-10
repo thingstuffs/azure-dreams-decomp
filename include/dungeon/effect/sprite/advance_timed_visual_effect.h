@@ -110,7 +110,6 @@ s32 DrawSync(s32);
 void LoadImage(void *, void *);
 void StoreImage(void *, void *);
 void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 
 extern Row_818FF19C_Rect8 D_80024028;
 extern Row_818FF19C_Rect8 D_80024030;

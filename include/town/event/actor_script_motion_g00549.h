@@ -72,7 +72,7 @@ extern TownControl town_actor_control;
 
 /* Functions defined in this translation unit. */
 s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *context, void *extra_ptr);
-void update_actor_surface_motion(void *actor, void *subject, void *motion, struct SpriteFrameState *context);
+void update_actor_surface_motion(TownObjectRecord *actor, void *subject, void *motion, struct SpriteFrameState *context);
 void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, struct SpriteFrameState *output);
 
 #endif

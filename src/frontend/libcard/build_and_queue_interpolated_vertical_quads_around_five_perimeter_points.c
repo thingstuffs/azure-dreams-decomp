@@ -14,7 +14,7 @@ typedef struct {
 } WinObj;
 
 /* Initialize window data and configure the four window objects. */
-void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(u8 *window_state) {
+void configure_card_file_list_windows(u8 *window_state) {
     void *window_data;
     WinObj *window;
 

@@ -13,7 +13,7 @@ extern void *actor_update_node_cursor;
 
 extern u8 D_80173D58[];
 
-void spend_actor_mp(void *, s32);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 /*
  * Starts Stealth's directional attack, resolves damage after two ticks, then recenters, spends MP,

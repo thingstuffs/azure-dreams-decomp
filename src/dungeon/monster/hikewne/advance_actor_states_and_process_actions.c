@@ -17,7 +17,8 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/hikewne_frames.h"
 
-extern void update_actor_status_and_mp(void *);
+#include "dungeon/actor/state.h"
+
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
 /* Advance actor states, select directional animations, and process entity actions. */
@@ -98,7 +99,7 @@ void advance_actor_states_and_process_actions(ActorRecord *actor, ObjectPosition
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }

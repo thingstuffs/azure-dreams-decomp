@@ -8,7 +8,7 @@
 #include "slus.h"
 #include "dungeon/system.h"
 
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern u8 temporary_item_record[];
 extern void *held_item_record;

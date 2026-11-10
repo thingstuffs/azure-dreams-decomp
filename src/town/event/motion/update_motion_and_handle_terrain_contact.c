@@ -15,6 +15,7 @@
 #include "town/map/position.h"
 #include "town/data.h"
 #include "town/event.h"
+#include "slus.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
@@ -26,7 +27,6 @@ typedef struct S_8009B6B4_2 {
     void * unk_50;
 } S_8009B6B4_2;   /* arg0 in update_motion_and_handle_terrain_contact */
 
-extern void SD_Call(u32);
 
 
 

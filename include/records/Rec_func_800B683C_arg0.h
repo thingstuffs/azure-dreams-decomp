@@ -23,7 +23,7 @@ typedef struct Rec_func_800B683C_arg0 {
     u8 pad_9C[0x34];
     s32 unk_D0;
     s32 unk_D4;
-    u8 pad_D8[0x4];
+    s32 cd_read_target;   /* +0xD8: first word of the two-word CD read descriptor initialize_coordinate_entry fills here (unk_DC is the second); Control_CD(6) is passed its address */
     s32 unk_DC;
 } Rec_func_800B683C_arg0;
 

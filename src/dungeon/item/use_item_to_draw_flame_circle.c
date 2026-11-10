@@ -32,7 +32,7 @@ typedef struct S_800C13C8_0 {
 
 #include "dungeon/player/item.h" /* extern */
 s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */           /* extern */
-void clear_slot_and_update_linked_state(DungeonItemEntry *slot);                         /* extern */
+#include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 extern u8 ribbon_sprite_entries[];
 extern u8 D_800E1482[];
 

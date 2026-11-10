@@ -9,7 +9,7 @@
 #include "dungeon/monster/battnel.h"
 
 extern void unlink_entity_node(void *node);
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Advance the action phase and process the actor when the tile flags are set. */
 void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *tile, ActorRecord *actor) {

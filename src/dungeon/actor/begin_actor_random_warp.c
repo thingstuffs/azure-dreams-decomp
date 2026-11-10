@@ -7,7 +7,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 typedef struct {
     u8 pad[10];
     u16 counter;

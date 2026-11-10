@@ -21,7 +21,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/motion.h"
 
-extern void update_actor_status_and_mp(void *);
+#include "dungeon/actor/state.h"
 
 extern u8 actor_action_frames[];
 
@@ -92,7 +92,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
 
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
             if ((check_entity_relation(actor,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }

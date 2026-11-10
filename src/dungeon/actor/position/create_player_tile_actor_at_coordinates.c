@@ -33,7 +33,7 @@ extern D80089430_t D_80089430;
 typedef struct { u8 bytes[11]; } ResultCopy __attribute__((aligned(4)));
 
 
-extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void select_record_entry_and_value(void *a0, s32 a1, s32 a2);
 
 /* Creates an entity at the given tile and height and initializes its sprite state. */

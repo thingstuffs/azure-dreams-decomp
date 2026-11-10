@@ -75,7 +75,7 @@ s32 create_linked_value_display(void)
 {
     RootPair roots[2];
     u8 *base;
-    u8 *obj;
+    S_80813AB0_0 *obj;
     void **slot;
     u8 *copy_src;
     s32 i;
@@ -93,9 +93,9 @@ s32 create_linked_value_display(void)
     copy_src = D_805267A8;
     i = 2;
     if (obj != 0) {
-        base = obj + 0x20;
-        ((S_80813AB0_0 *)obj)->unk_10 = D_8052EDB8;
-        ((S_80813AB0_0 *)obj)->unk_38 = func_80071494() & 1;
+        base = (u8 *)obj + 0x20;
+        obj->unk_10 = D_8052EDB8;
+        obj->unk_38 = func_80071494() & 1;
     }
 
     scale = 0x1000;
@@ -104,25 +104,25 @@ s32 create_linked_value_display(void)
         obj = func_800373DC(0x136);
         *slot = obj;
         if (obj != 0) {
-            u8 *part;
+            S_80813AB0_1 *part;
             u32 *packet;
 
-            ((S_80813AB0_0 *)obj)->unk_10 = D_8052EA14;
+            obj->unk_10 = D_8052EA14;
             func_8003BC18(obj, score_sprite_draw_callback_address);
-            part = ((S_80813AB0_0 *)obj)->unk_0C;
-            packet = ((S_80813AB0_0 *)obj)->unk_08.p;
+            part = (S_80813AB0_1 *)obj->unk_0C;
+            packet = obj->unk_08.p;
             packet[0] = 0x05600000;
             packet[1] = (i << 22) + 0x03E00000;
             packet[2] = 0x00800000;
             packet[5] = 0xFFFC0000;
-            ((S_80813AB0_0 *)obj)->unk_20 = base;
-            ((S_80813AB0_0 *)obj)->unk_76 = i;
-            ((S_80813AB0_1 *)part)->unk_1E = scale;
-            ((S_80813AB0_1 *)part)->unk_1C = scale;
+            obj->unk_20 = base;
+            obj->unk_76 = i;
+            part->unk_1E = scale;
+            part->unk_1C = scale;
             func_80034A1C(part, shop_panel_sprite_entries, 0, packet);
-            ((S_80813AB0_1 *)part)->unk_0C = 0x00808080;
-            ((S_80813AB0_0 *)obj)->unk_6C = D_805267AC;
-            func_8023FA58(obj + 0x24, ((S_80813AB0_0 *)obj)->unk_08.p2, D_805301F0);
+            part->unk_0C = 0x00808080;
+            obj->unk_6C = D_805267AC;
+            func_8023FA58(&obj->unk_24, obj->unk_08.p2, D_805301F0);
         }
         i--;
         slot--;
@@ -133,15 +133,15 @@ s32 create_linked_value_display(void)
     do {
         obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
-            ((S_80813AB0_0 *)obj)->unk_10 = D_8052FD0C;
+            obj->unk_10 = D_8052FD0C;
             func_8003BC18(obj, menu_entry_draw_callback_address);
-            ((S_80813AB0_0 *)obj)->unk_34 = 0x20;
-            ((S_80813AB0_0 *)obj)->unk_38 = 3;
-            ((S_80813AB0_0 *)obj)->unk_3A = 0x7C80;
-            ((S_80813AB0_0 *)obj)->unk_36 = y;
-            ((S_80813AB0_0 *)obj)->unk_30.at00.v = 0x00808080;
-            ((S_80813AB0_0 *)obj)->unk_24 = ((void **)roots)[i];
-            ((S_80813AB0_0 *)obj)->unk_2C.at00.v = base;
+            obj->unk_34 = 0x20;
+            obj->unk_38 = 3;
+            obj->unk_3A = 0x7C80;
+            obj->unk_36 = y;
+            obj->unk_30.at00.v = 0x00808080;
+            obj->unk_24 = ((void **)roots)[i];
+            obj->unk_2C.at00.v = base;
         }
         i--;
         y -= 0xC;
@@ -173,21 +173,21 @@ s32 create_linked_value_display(void)
     do {
         obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
-            ((S_80813AB0_0 *)obj)->unk_10 = D_8052FD60;
+            obj->unk_10 = D_8052FD60;
             func_8003BC18(obj, menu_entry_draw_callback_address);
-            ((S_80813AB0_0 *)obj)->unk_34 = 0x50;
-            ((S_80813AB0_0 *)obj)->unk_38 = 3;
-            ((S_80813AB0_0 *)obj)->unk_3A = 0x7C80;
-            ((S_80813AB0_0 *)obj)->unk_36 = (s32)slot;
-            ((S_80813AB0_0 *)obj)->unk_30.at00.v = 0x00808080;
-            ((S_80813AB0_0 *)obj)->unk_24 = ((void **)roots)[i + 2];
-            y = (s32)(obj + 0x20);
+            obj->unk_34 = 0x50;
+            obj->unk_38 = 3;
+            obj->unk_3A = 0x7C80;
+            obj->unk_36 = (s32)slot;
+            obj->unk_30.at00.v = 0x00808080;
+            obj->unk_24 = ((void **)roots)[i + 2];
+            y = (s32)((u8 *)obj + 0x20);
             switch (i) {
             case 0:
-                ((S_80813AB0_0 *)obj)->unk_28.p = base + 0x12;
+                obj->unk_28.p = base + 0x12;
                 break;
             case 1:
-                ((S_80813AB0_0 *)obj)->unk_28.p = base + 0x14;
+                obj->unk_28.p = base + 0x14;
                 break;
             }
             ((S_80813AB0_2 *)((u8 *)y))->unk_0C = base;
@@ -201,18 +201,18 @@ s32 create_linked_value_display(void)
         s32 final_dim;
         u32 final_color;
 
-        ((S_80813AB0_0 *)obj)->unk_10 = reset_effect_callback_state;
+        obj->unk_10 = reset_effect_callback_state;
         func_8003BC18(obj, menu_cursor_object_template);
         final_color = 0x00404040;
         final_dim = 0x1C;
-        ((S_80813AB0_0 *)obj)->unk_2C.at00u.v = final_dim;
-        ((S_80813AB0_0 *)obj)->unk_2C.at02.v = final_dim;
-        ((S_80813AB0_0 *)obj)->unk_30.at00u.v = 0x48;
-        ((S_80813AB0_0 *)obj)->unk_30.at02.v = final_dim;
-        ((S_80813AB0_0 *)obj)->unk_34 = 2;
-        ((S_80813AB0_0 *)obj)->unk_28.i = final_color;
-        ((S_80813AB0_0 *)obj)->unk_24 = base;
-        ((S_80813AB0_0 *)obj)->unk_36 |= 1;
+        obj->unk_2C.at00u.v = final_dim;
+        obj->unk_2C.at02.v = final_dim;
+        obj->unk_30.at00u.v = 0x48;
+        obj->unk_30.at02.v = final_dim;
+        obj->unk_34 = 2;
+        obj->unk_28.i = final_color;
+        obj->unk_24 = base;
+        obj->unk_36 |= 1;
     }
     return 0;
 }

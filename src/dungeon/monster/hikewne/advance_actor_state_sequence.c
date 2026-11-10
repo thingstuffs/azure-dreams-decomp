@@ -22,7 +22,8 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/monster/hikewne_frames.h"
 
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
-extern void update_actor_status_and_mp(void *);
+#include "dungeon/actor/state.h"
+
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
 extern u8 D_801740F8[];
@@ -160,7 +161,7 @@ void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, 
                 ActorRecord *owner = primary_actor_record;
 
                 if ((s16)check_entity_relation(actor,
-                        (u8 *)owner->previous_actor_header + 0x20) != 0) {
+                        NODE_BODY(owner->previous_actor_header)) != 0) {
                     return;
                 }
             }

@@ -563,7 +563,7 @@ void update_animated_target_effect(void *effect_arg)
     effect->unk_42 =
         (((s32)((u16)effect->unk_48 << 16) >> 18) << 5) + 0x80;
     if (particle_index >= 0) {
-        particle_data = build_and_queue_interpolated_vertical_quads_around_five_perimeter_points;
+        particle_data = mark_owner_while_sprite_animates;
         display = secondary_sprite;
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -632,9 +632,9 @@ typedef struct SpriteEntry {
     u16 status;
 } SpriteEntry;
 
-/* Retail 819B32CC (build_and_queue_interpolated_vertical_quads_around_five_perimeter_points): marks the owner, and once the sprite reaches status 0x6000 marks the
+/* Retail 819B32CC: marks the owner, and once the sprite reaches status 0x6000 marks the
  * effect's own header and the global object flags too. */
-void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(EffectRecord *effect, void *unused, SpriteFrameState *sprite) {
+void mark_owner_while_sprite_animates(EffectRecord *effect, void *unused, SpriteFrameState *sprite) {
     EffectOwner *owner = effect->owner;
 
     owner->flags |= 0x8000;

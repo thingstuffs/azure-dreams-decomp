@@ -17,7 +17,7 @@
 typedef struct Ent Ent;
 
 Ent *prepare_directional_attack();
-s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
+#include "dungeon/item/get_actor_height_difference_api.h"
 s32 check_entity_interaction_compatibility();
 
 /* Checks action readiness and initializes the actor state and directional animation. */

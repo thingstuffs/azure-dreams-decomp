@@ -15,7 +15,8 @@ typedef struct {
     s32 flags_1C;
 } Entity;
 
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern void unlink_entity_node(Entity *);
 
 /* Update an entity using source bytes and a flag-dependent mask, then set completion flags. */

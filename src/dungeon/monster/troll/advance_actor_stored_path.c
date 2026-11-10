@@ -343,7 +343,7 @@ void select_and_advance_actor_move(ActorRecord *move_input, ObjectPosition *acti
         if (attempt == 0) {
             if ((reference_tile_object.tile_position.word != *(u16 *)&position->tile_x)
                 &&
-                ((s16)check_entity_relation(actor, ((s32)primary_actor_record->previous_actor_header) + 0x20) != 0)) {
+                ((s16)check_entity_relation(actor, NODE_BODY(primary_actor_record->previous_actor_header)) != 0)) {
                 return;
             }
         }

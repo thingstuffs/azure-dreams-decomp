@@ -60,7 +60,7 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
     s32 texture_y;
     s32 height;
     register s32 top_z;
-    u8 *render_state;
+    GpuContext *render_state;
     POLY_FT4 *textured_quad;
     FlatOverlayQuadPacket *overlay_quad;
     u8 *draw_mode;
@@ -200,8 +200,8 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
     textured_quad->y3 = scratch->screen[3].y;
 
     render_state = g_game_work.draw_buffer;
-    overlay_quad = ((GpuContext *)render_state)->packetCursor;
-    ((GpuContext *)render_state)->packetCursor = (u8 *)overlay_quad + 0x18;
+    overlay_quad = render_state->packetCursor;
+    render_state->packetCursor = (u8 *)overlay_quad + 0x18;
     overlay_quad->red = sprite->unk_12;
     overlay_quad->green = sprite->unk_12;
     overlay_quad->blue = sprite->unk_12;
@@ -217,24 +217,24 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
     overlay_quad->y3 = scratch->screen[3].y;
 
     render_state = g_game_work.draw_buffer;
-    scratch->ordering_table = (s32)(render_state + 0xB0);
-    draw_mode = ((GpuContext *)render_state)->packetCursor;
-    ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
+    scratch->ordering_table = (s32)((u8 *)render_state + 0xB0);
+    draw_mode = render_state->packetCursor;
+    render_state->packetCursor = draw_mode + 0xC;
     SetDrawMode(draw_mode, 1, 0, texture_page & 0xFFFF, &D_800D0A40);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), draw_mode);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), overlay_quad);
 
     render_state = g_game_work.draw_buffer;
-    draw_mode = ((GpuContext *)render_state)->packetCursor;
-    ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
+    draw_mode = render_state->packetCursor;
+    render_state->packetCursor = draw_mode + 0xC;
     SetDrawMode(draw_mode, 1, 0,
         GetTPage(0, 1, 0x140, 0) & 0xFFFF, 0);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), draw_mode);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), textured_quad);
 
     render_state = g_game_work.draw_buffer;
-    draw_mode = ((GpuContext *)render_state)->packetCursor;
-    ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
+    draw_mode = render_state->packetCursor;
+    render_state->packetCursor = draw_mode + 0xC;
     SetDrawMode(draw_mode, 1, 0, texture_page & 0xFFFF, texture_window);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), draw_mode);
 }

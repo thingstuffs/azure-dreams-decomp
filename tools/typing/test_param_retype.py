@@ -114,6 +114,16 @@ class Pure(unittest.TestCase):
         self.assertEqual(out, '#include "common.h"\n#include "shared/tile_object.h"\n\ns32 f(void);\n')
         self.assertEqual(R.ensure_include(out, 'include/shared/tile_object.h'), out)
 
+    def test_ensure_include_stays_inside_the_guard(self):
+        bare = '#ifndef M_H\n#define M_H\nstruct P;\ns32 f(struct P *p);\n#endif\n'
+        out = R.ensure_include(bare, 'include/dungeon/effect/mesh.h')
+        self.assertEqual(out, '#ifndef M_H\n#define M_H\n#include "dungeon/effect/mesh.h"\nstruct P;\n'
+                              's32 f(struct P *p);\n#endif\n')
+        commented = '/* module */\n#ifndef M_H\n#define M_H\n#include "common.h"\ns32 f(void);\n#endif\n'
+        out = R.ensure_include(commented, 'include/shared/tile_object.h')
+        self.assertEqual(out, '/* module */\n#ifndef M_H\n#define M_H\n#include "common.h"\n'
+                              '#include "shared/tile_object.h"\ns32 f(void);\n#endif\n')
+
     def test_respell_declaration(self):
         text = 'extern s32 f();\ns32 g(Rec_X *start, Rec_X *end);\nvoid h(u8 *);\n'
         self.assertIsNone(R.respell_in_text(text, 'f', 0, 'TileObject *'))
@@ -403,6 +413,136 @@ class KitV2(unittest.TestCase):
         self.assertNotIn('refused', plan, plan)
         self.assertIn('s32 integer(Body *p)', text)
         self.assertIn('return p->x;', text)
+
+
+TRIAL_HEADER = """typedef int s32;
+typedef struct Shared { s32 a; s32 b; } Shared;
+typedef struct Holder { Shared *who; } Holder;
+"""
+
+TRIAL_SRC = """#include "trial.h"
+typedef unsigned char u8;
+typedef struct ObjectNodeHeader { s32 flags; } ObjectNodeHeader;
+#define NODE_HEADER(p) ((ObjectNodeHeader *)((u8 *)(p) - 0x20))
+typedef struct S_80001000_0 {
+    s32 a;
+    s32 b;
+    u8 *link;
+} S_80001000_0;
+typedef struct Rec { s32 a; } Rec;
+extern void reg(u8 *p);
+extern void take(Rec *r);
+
+s32 header_walk(u8 *self) {
+    ((S_80001000_0 *)self)->a = 1;
+    ((S_80001000_0 *)self)->b = 2;
+    reg(self - 32);
+    return ((S_80001000_0 *)self)->a + NODE_HEADER(((S_80001000_0 *)self)->link)->flags;
+}
+
+void converts(void *self) {
+    Rec *r;
+
+    ((S_80001000_0 *)self)->a = 1;
+    ((S_80001000_0 *)self)->b = 2;
+    r = self;
+    take(r);
+    ((S_80001000_0 *)self)->a = 3;
+}
+
+void scratch_local(void) {
+    void *scratch = (void *)0x1F800000;
+
+    ((S_80001000_0 *)scratch)->a = 1;
+    ((S_80001000_0 *)scratch)->b = 2;
+    ((S_80001000_0 *)scratch)->a += ((S_80001000_0 *)scratch)->b;
+}
+
+void from_shared(Holder *h) {
+    void *who;
+
+    who = h->who;
+    ((S_80001000_0 *)who)->a = 1;
+    ((S_80001000_0 *)who)->b = 2;
+}
+"""
+
+
+class OwnViewTrial(unittest.TestCase):
+    """own-view --trial: static refusals become counted minority casts; locals are trial rows too."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        root = Path(self.tmp.name)
+        (root / 'include').mkdir()
+        (root / 'src').mkdir()
+        (root / 'src/trial.c').write_text(TRIAL_SRC)
+        (root / 'include/trial.h').write_text(TRIAL_HEADER)
+        self.root = root
+        self.units = R.Units(root)
+        self.saved = R.TRIAL
+
+    def tearDown(self):
+        R.TRIAL = self.saved
+        self.tmp.cleanup()
+
+    def plan(self, fname, var):
+        unit = self.units.get('src/trial.c')
+        fn = R.find_function(unit, 'src/trial.c', fname)
+        decl = next(d for k, i, d in R.trial_vars(fn) if d['name'] == var)
+        target, count, why = R.own_view_candidate(unit, 'src/trial.c', fn, decl, 2)
+        self.assertEqual((target, why), ('S_80001000_0 *', ''))
+        plan = R.plan_retype(unit, 'src/trial.c', fn, decl, R.Target(unit, target))
+        text = None if 'refused' in plan else R.apply_text_edits(unit.text('src/trial.c'), plan['edits'])
+        return plan, text
+
+    def test_pointer_arithmetic_keeps_old_type_by_cast(self):
+        R.TRIAL = False
+        plan, _ = self.plan('header_walk', 'self')
+        self.assertEqual(plan.get('refused'), 'pointer_arithmetic')
+        R.TRIAL = True
+        plan, text = self.plan('header_walk', 'self')
+        self.assertNotIn('refused', plan, plan)
+        self.assertEqual(plan['inserted'], 1)
+        self.assertIn('s32 header_walk(S_80001000_0 *self)', text)
+        self.assertIn('reg((u8 *)self - 32);', text)
+        self.assertIn('return self->a + NODE_HEADER(self->link)->flags;', text)
+        self.assertNotIn('((S_80001000_0 *)', text.split('header_walk')[1].split('void converts')[0])
+
+    def test_converted_to_other_record_takes_cast(self):
+        R.TRIAL = False
+        plan, _ = self.plan('converts', 'self')
+        self.assertTrue(plan.get('refused', '').startswith('converted_to_'), plan)
+        R.TRIAL = True
+        plan, text = self.plan('converts', 'self')
+        self.assertEqual(plan['inserted'], 1)
+        self.assertIn('r = (Rec *)self;', text)
+        self.assertEqual(plan['removed'], 3)
+
+    def test_local_scratch_row_and_initializer(self):
+        R.TRIAL = True
+        plan, text = self.plan('scratch_local', 'scratch')
+        self.assertEqual(plan['inserted'], 0)
+        self.assertIn('S_80001000_0 *scratch = (S_80001000_0 *)0x1F800000;', text)
+        self.assertIn('scratch->a += scratch->b;', text)
+        rows = R.own_view_trial_scan(self.root, ['src'], min_casts=2, log=lambda m: None, units=self.units)
+        got = {(r['function'], r['var'], r['kind']): (r['hold'], r['status'], r['target_kind']) for r in rows}
+        self.assertEqual(got[('scratch_local', 'scratch', 'local')], ('', 'candidate', 'own_view'))
+        self.assertEqual(got[('header_walk', 'self', 'param')], ('body:pointer_arithmetic', 'candidate', 'own_view'))
+        self.assertFalse(R.TRIAL is False)   # the scan restores the caller's mode
+
+    def test_value_of_shared_record_names_the_record(self):
+        R.TRIAL = True
+        plan, _ = self.plan('from_shared', 'who')
+        self.assertEqual(plan.get('refused'), 'assigned_from_record:Shared *')
+        unit = self.units.get('src/trial.c')
+        fn = R.find_function(unit, 'src/trial.c', 'from_shared')
+        decl = next(d for k, i, d in R.trial_vars(fn) if d['name'] == 'who')
+        plan = R.plan_retype(unit, 'src/trial.c', fn, decl, R.Target(unit, 'Shared *'))
+        text = R.apply_text_edits(unit.text('src/trial.c'), plan['edits'])
+        self.assertIn('Shared *who;', text)
+        self.assertIn('who->a = 1;', text)
+        self.assertIn('who->b = 2;', text)
 
 
 if __name__ == '__main__':

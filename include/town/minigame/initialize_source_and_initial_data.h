@@ -37,7 +37,6 @@ typedef struct {
 
 struct ObjectNodeHeader;
 struct SpriteFrameState;
-extern s32 func_8004491C(struct ObjectNodeHeader *, void *registration_id);
 extern void configure_the_set_mode_n_1(void *, void *, void *);
 extern u8 D_80020014[], minigame_source_bounds[];
 extern s32 project_sprite_chain(void *, s32, struct SpriteFrameState *, s32);

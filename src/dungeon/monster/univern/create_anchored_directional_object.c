@@ -19,7 +19,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource17_slot0_entry0)(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value) = spawn_univern_actor;
-void (*const resource17_slot0_entry1)(ActorRecord *actor, void *motion, SpriteFrameState *object) = create_anchored_directional_object;
+void (*const resource17_slot0_entry1)(ActorRecord *actor, void *motion, SpriteFrameState *object) = update_univern_motion_and_facing;
 #include "dungeon/monster/univern.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level/room_flags.h"
@@ -62,7 +62,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             object = NODE_BODY(allocated);
             init_root = allocated;
             setup = project_sprite_chain;
-            init_root->update_callback = ((u8 *)create_anchored_directional_object);
+            init_root->update_callback = ((u8 *)update_univern_motion_and_facing);
             object->species = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
@@ -188,7 +188,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 #include "dungeon/monster/univern.h"
 
 /* Runs actor callbacks and updates facing, animation, bobbing height, movement, and terrain contact. */
-void create_anchored_directional_object(ActorRecord *actor, void *motion, SpriteFrameState *object)
+void update_univern_motion_and_facing(ActorRecord *actor, void *motion, SpriteFrameState *object)
 {
     u16 initial_flags = g_dungeon_status.flags;
     s32 bob = 0;
@@ -525,7 +525,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
         if ((action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
-                        status, (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
+                        status, NODE_BODY(primary_actor_record->previous_actor_header)) != 0) {
                     return;
                 }
             }
@@ -862,7 +862,7 @@ void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         if (turn_index == 0 &&
             reference_tile_object.tile_position.word != *(u16 *)&position_data->tile_x) {
             if (((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20)) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header))) != 0) {
                 do {
                     return;
                 } while (0);
@@ -1817,7 +1817,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(
-                     entity, (u8 *)primary_actor_record->previous_actor_header + 0x20)
+                     entity, NODE_BODY(primary_actor_record->previous_actor_header))
                  << 16) != 0) {
                 return;
             }

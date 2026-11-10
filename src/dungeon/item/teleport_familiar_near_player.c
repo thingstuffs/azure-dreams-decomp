@@ -33,7 +33,7 @@ typedef struct {
 
 
 extern s32 get_entity_class(void *);
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Creates a relocation task and updates the object's tile and height. */
 void *teleport_familiar_near_player(void *object, s16 action_arg) {

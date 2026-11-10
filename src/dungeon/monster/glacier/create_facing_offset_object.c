@@ -92,7 +92,7 @@ extern u8 glacier_object_callback_2[];
 extern u8 glacier_direction_offsets[];
 extern u8 D_8017612C[];
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Creates an object offset from the origin in the owner's facing direction and links its secondary object. */
 void create_facing_offset_object(ActorRecord *owner, ObjectPosition *position, SpriteFrameState *sprite) {

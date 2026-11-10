@@ -19,7 +19,7 @@ extern u8 held_item_record[];
 extern DungeonRecord dungeon_ground_item_positions[];
 
 extern s16 find_table_value_index(DungeonItemEntry *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Clears a slot and updates its associated entry or dungeon state. */
 void clear_slot_and_update_linked_state(DungeonItemEntry *slot) {

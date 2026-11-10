@@ -12,7 +12,7 @@
 #include "dungeon/level.h"
 
 #include "dungeon/player/object/action_state.h"
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
 
 
 
@@ -81,7 +81,7 @@ void advance_actor_action_animation(ActorRecord *action, ObjectPosition *actor_i
             return;
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-            if ((check_entity_relation(actor, ((s32)primary_actor_record->previous_actor_header) + 0x20) << 16) != 0) {
+            if ((check_entity_relation(actor, NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }

@@ -13,7 +13,7 @@ typedef struct S_8016EC04_1 {
 
 extern u8 *beldo_actor_nodes;
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Reposition the current entity relative to the origin using the selected offset. */
 void relocate_multi_form_actor(s32 offset_index)

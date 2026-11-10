@@ -121,7 +121,6 @@ extern void func_80025118(void);
 extern s32 get_random_scaled_value(s16 input_value);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern s32 rand(void);

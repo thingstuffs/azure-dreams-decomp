@@ -16,7 +16,7 @@
 #include "engine/graphics.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
-void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
 
 
 typedef struct S_800AC82C_6 {

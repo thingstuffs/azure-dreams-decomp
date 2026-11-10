@@ -10,13 +10,13 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
 {
     u8 *batch = initial_batch;
     s32 dispatch_arg = initial_dispatch_arg;
-    u8 *params = initial_params;
+    S_800B06F0_3 *params = (S_800B06F0_3 *)initial_params;
     u8 *transform = (u8 *)0x1F8000D0;
     GameWork *global_addr = &g_game_work;
-    u8 *scratch;
+    S_800B06F0_0 *scratch;
     S_800B06F0_7 *manager;
     u8 *initial_manager;
-    u8 *packet;
+    S_800B06F0_5 *packet;
     u8 **primitive_list;
     u8 *texture_data;
     u8 *primitive;
@@ -34,98 +34,98 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
 
     global_value = global_addr->view.projection_distance;
     initial_manager = g_game_work.draw_buffer;
-    scratch = (u8 *)0x1F800000;
-    ((S_800B06F0_0 *)scratch)->unk_EC = global_value;
-    packet = ((S_800B06F0_1 *)initial_manager)->unk_8D0;
-    ((S_800B06F0_0 *)scratch)->unk_20 = initial_manager + 0xB0;
+    scratch = (S_800B06F0_0 *)0x1F800000;
+    scratch->unk_EC = global_value;
+    packet = (S_800B06F0_5 *)((S_800B06F0_1 *)initial_manager)->unk_8D0;
+    scratch->unk_20 = initial_manager + 0xB0;
 
     for (;;) {
     quad_batch_callbacks[((S_800B06F0_2 *)batch)->unk_08 & 1](dispatch_arg, params, scratch);
 
     primitive_list = ((S_800B06F0_2 *)batch)->unk_00;
-    depth = ((S_800B06F0_0 *)scratch)->unk_C0.i;
+    depth = scratch->unk_C0.i;
     texture_data = ((S_800B06F0_2 *)batch)->unk_04;
 
     if (depth < 0x1E0U) {
         ot_entry_addr = depth * 4;
-        ot_entry_addr += (u32)((S_800B06F0_0 *)scratch)->unk_20;
-        ((S_800B06F0_0 *)scratch)->unk_C0.p = (u8 *)ot_entry_addr;
-        ((S_800B06F0_0 *)scratch)->unk_B8 -= 0xA0;
-        ((S_800B06F0_0 *)scratch)->unk_BA -= 0x78;
+        ot_entry_addr += (u32)scratch->unk_20;
+        scratch->unk_C0.p = (u8 *)ot_entry_addr;
+        scratch->unk_B8 -= 0xA0;
+        scratch->unk_BA -= 0x78;
         PushMatrix(depth);
 
-        ((S_800B06F0_0 *)scratch)->unk_100 = ((S_800B06F0_3 *)params)->unk_16;
-        ((S_800B06F0_0 *)scratch)->unk_102 = ((S_800B06F0_3 *)params)->unk_18;
-        ((S_800B06F0_0 *)scratch)->unk_104 = ((S_800B06F0_3 *)params)->unk_1A;
-        ((S_800B06F0_0 *)scratch)->unk_E4 = ((S_800B06F0_3 *)params)->unk_20;
-        ((S_800B06F0_0 *)scratch)->unk_E8 = ((S_800B06F0_3 *)params)->unk_22;
-        ((S_800B06F0_0 *)scratch)->unk_30 = ((S_800B06F0_3 *)params)->unk_1C;
-        ((S_800B06F0_0 *)scratch)->unk_34 = ((S_800B06F0_3 *)params)->unk_1E;
-        ((S_800B06F0_0 *)scratch)->unk_38 = 0x1000;
+        scratch->unk_100 = params->unk_16;
+        scratch->unk_102 = params->unk_18;
+        scratch->unk_104 = params->unk_1A;
+        scratch->unk_E4 = params->unk_20;
+        scratch->unk_E8 = params->unk_22;
+        scratch->unk_30 = params->unk_1C;
+        scratch->unk_34 = params->unk_1E;
+        scratch->unk_38 = 0x1000;
 
-        RotMatrix(scratch + 0x100, transform);
-        ScaleMatrix(transform, scratch + 0x30);
+        RotMatrix(&scratch->unk_100, transform);
+        ScaleMatrix(transform, &scratch->unk_30);
         SetTransMatrix(transform);
         SetRotMatrix(transform);
 
         primitive = *primitive_list;
         while (primitive != 0) {
-            ((S_800B06F0_0 *)scratch)->unk_8C = 0;
-            ((S_800B06F0_0 *)scratch)->unk_84 = 0;
-            ((S_800B06F0_0 *)scratch)->unk_7C = 0;
-            ((S_800B06F0_0 *)scratch)->unk_74 = 0;
+            scratch->unk_8C = 0;
+            scratch->unk_84 = 0;
+            scratch->unk_7C = 0;
+            scratch->unk_74 = 0;
 
             primitive = (u8 *)((u32)primitive | 0x80000000U);
 
-            if ((primitive[0] ^ ((S_800B06F0_3 *)params)->unk_14) & 1) {
-                vertex_x = -(s8)primitive[2] - ((S_800B06F0_3 *)params)->unk_20;
-                ((S_800B06F0_0 *)scratch)->unk_80 = vertex_x;
-                ((S_800B06F0_0 *)scratch)->unk_70 = vertex_x;
+            if ((primitive[0] ^ params->unk_14) & 1) {
+                vertex_x = -(s8)primitive[2] - params->unk_20;
+                scratch->unk_80 = vertex_x;
+                scratch->unk_70 = vertex_x;
                 vertex_x -= primitive[0xA];
-                (*(s16 *)(scratch + 0x88)) = vertex_x;
-                (*(s16 *)(scratch + 0x78)) = vertex_x;
+                (*(s16 *)((u8 *)scratch + 0x88)) = vertex_x;
+                (*(s16 *)((u8 *)scratch + 0x78)) = vertex_x;
             } else {
-                vertex_x = (s8)primitive[2] - ((S_800B06F0_3 *)params)->unk_20;
-                ((S_800B06F0_0 *)scratch)->unk_80 = vertex_x;
-                ((S_800B06F0_0 *)scratch)->unk_70 = vertex_x;
+                vertex_x = (s8)primitive[2] - params->unk_20;
+                scratch->unk_80 = vertex_x;
+                scratch->unk_70 = vertex_x;
                 quad_extent = primitive[0xA];
                 vertex_x = vertex_x + quad_extent;
-                (*(s16 *)(scratch + 0x88)) = vertex_x;
-                (*(s16 *)(scratch + 0x78)) = vertex_x;
+                (*(s16 *)((u8 *)scratch + 0x88)) = vertex_x;
+                (*(s16 *)((u8 *)scratch + 0x78)) = vertex_x;
             }
 
-            if ((primitive[0] ^ ((S_800B06F0_3 *)params)->unk_14) & 2) {
-                vertex_y = -(s8)primitive[3] - ((S_800B06F0_3 *)params)->unk_22;
-                ((S_800B06F0_0 *)scratch)->unk_7A = vertex_y;
-                ((S_800B06F0_0 *)scratch)->unk_72 = vertex_y;
+            if ((primitive[0] ^ params->unk_14) & 2) {
+                vertex_y = -(s8)primitive[3] - params->unk_22;
+                scratch->unk_7A = vertex_y;
+                scratch->unk_72 = vertex_y;
                 vertex_y -= primitive[0xB];
-                ((S_800B06F0_0 *)scratch)->unk_8A = vertex_y;
-                ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
+                scratch->unk_8A = vertex_y;
+                scratch->unk_82 = vertex_y;
             } else {
-                vertex_y = (s8)primitive[3] - ((S_800B06F0_3 *)params)->unk_22;
-                ((S_800B06F0_0 *)scratch)->unk_7A = vertex_y;
-                ((S_800B06F0_0 *)scratch)->unk_72 = vertex_y;
+                vertex_y = (s8)primitive[3] - params->unk_22;
+                scratch->unk_7A = vertex_y;
+                scratch->unk_72 = vertex_y;
                 quad_extent = primitive[0xB];
                 vertex_y = vertex_y + quad_extent;
-                ((S_800B06F0_0 *)scratch)->unk_8A = vertex_y;
-                ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
+                scratch->unk_8A = vertex_y;
+                scratch->unk_82 = vertex_y;
             }
 
             RotTransPers4(
-                scratch + 0x70, scratch + 0x78,
-                scratch + 0x80, scratch + 0x88,
-                scratch + 0xF0, scratch + 0xF4,
-                scratch + 0xF8, scratch + 0xFC,
-                scratch + 0x90, scratch + 0x94);
+                (u8 *)scratch + 0x70, (u8 *)scratch + 0x78,
+                (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
+                (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
+                (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
+                (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
 
             signed_flags = ((S_800B06F0_4 *)primitive)->unk_00;
             primitive_flags = primitive[0];
             if ((signed_flags >= 0) && (primitive_flags & 8)) {
                 reverse_winding = primitive_flags & 4;
                 if (NormalClip(
-                        ((S_800B06F0_0 *)scratch)->unk_F0.at00.v,
-                        ((S_800B06F0_0 *)scratch)->unk_F4.at00.v,
-                        ((S_800B06F0_0 *)scratch)->unk_F8.at00.v, primitive_flags) <= 0
+                        scratch->unk_F0.at00.v,
+                        scratch->unk_F4.at00.v,
+                        scratch->unk_F8.at00.v, primitive_flags) <= 0
                             ? reverse_winding == 0 : reverse_winding != 0) {
                     if (primitive[1] == 0x2C) {
                         texture_data += 4;
@@ -137,40 +137,40 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
             }
 
             if (primitive[0] & 4) {
-                swap_int_values(scratch + 0xF0, scratch + 0xF4);
-                swap_int_values(scratch + 0xF8, scratch + 0xFC);
+                swap_int_values((u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4);
+                swap_int_values((u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC);
             }
 
-            ((S_800B06F0_5 *)packet)->unk_08 = ((S_800B06F0_0 *)scratch)->unk_F0.at00u.v
-                + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)packet)->unk_0A = ((S_800B06F0_0 *)scratch)->unk_F0.at02.v
-                + ((S_800B06F0_0 *)scratch)->unk_BA;
-            ((S_800B06F0_5 *)packet)->unk_10 = ((S_800B06F0_0 *)scratch)->unk_F4.at00u.v
-                + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)packet)->unk_12 = ((S_800B06F0_0 *)scratch)->unk_F4.at02.v
-                + ((S_800B06F0_0 *)scratch)->unk_BA;
-            ((S_800B06F0_5 *)packet)->unk_18 = ((S_800B06F0_0 *)scratch)->unk_F8.at00u.v
-                + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)packet)->unk_1A = ((S_800B06F0_0 *)scratch)->unk_F8.at02.v
-                + ((S_800B06F0_0 *)scratch)->unk_BA;
-            ((S_800B06F0_5 *)packet)->unk_20 = ((S_800B06F0_0 *)scratch)->unk_FC + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)packet)->unk_22 = ((S_800B06F0_0 *)scratch)->unk_FE + ((S_800B06F0_0 *)scratch)->unk_BA;
+            packet->unk_08 = scratch->unk_F0.at00u.v
+                + scratch->unk_B8;
+            packet->unk_0A = scratch->unk_F0.at02.v
+                + scratch->unk_BA;
+            packet->unk_10 = scratch->unk_F4.at00u.v
+                + scratch->unk_B8;
+            packet->unk_12 = scratch->unk_F4.at02.v
+                + scratch->unk_BA;
+            packet->unk_18 = scratch->unk_F8.at00u.v
+                + scratch->unk_B8;
+            packet->unk_1A = scratch->unk_F8.at02.v
+                + scratch->unk_BA;
+            packet->unk_20 = scratch->unk_FC + scratch->unk_B8;
+            packet->unk_22 = scratch->unk_FE + scratch->unk_BA;
 
             if ((primitive[1] & 0xFC) == 0x2C) {
-                packet = submit_textured_quad(((S_800B06F0_0 *)scratch)->unk_C0.i, params, &primitive, packet);
-                multiply_rgb_tint_saturated(packet - 0x24, texture_data);
+                packet = submit_textured_quad(scratch->unk_C0.i, (SpriteFrameState *)params, &primitive, packet);
+                multiply_rgb_tint_saturated((u8 *)packet - 0x24, texture_data);
                 if (primitive != 0) {
                     continue;
                 }
                 texture_data += 4;
             } else {
                 {
-                    OtSlot ot_entry = { ((S_800B06F0_0 *)scratch)->unk_C0.i };
+                    OtSlot ot_entry = { scratch->unk_C0.i };
 
 
                     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_800AAF90). */
                     do {
-                        packet = emit_gpu_packets(ot_entry.entry, params, &primitive, packet);
+                        packet = emit_gpu_packets(ot_entry.entry, (u8 *)params, &primitive, (u8 *)packet);
                     } while (0);
                 }
                 if (primitive != 0) {
@@ -191,10 +191,10 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     batch = reverse_winding;
     primitive_list = ((S_800B06F0_6 *)next_batch)->unk_08;
     dispatch_arg = primitive_list;
-    params = ((S_800B06F0_6 *)next_batch)->unk_0C;
+    params = (S_800B06F0_3 *)((S_800B06F0_6 *)next_batch)->unk_0C;
     }
     manager = global_addr->draw_buffer;
-    manager->unk_8D0 = packet;
+    manager->unk_8D0 = (u8 *)packet;
     return hard_zero;
 }
 

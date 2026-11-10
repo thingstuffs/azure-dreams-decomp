@@ -1293,27 +1293,27 @@ extern void RotMatrixZ(u16, void *);
 /* Build and install a transform from position, rotation, and a base matrix. */
 void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rotation)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    S_8002593C_0 *scratch = (S_8002593C_0 *)0x1F800000;
     MATRIX matrix;
 
-    ((S_8002593C_0 *)scratch)->unk_40 = position->unk_02;
-    ((S_8002593C_0 *)scratch)->unk_44 = position->unk_06;
-    ((S_8002593C_0 *)scratch)->unk_48 = position->unk_0A;
+    scratch->unk_40 = position->unk_02;
+    scratch->unk_44 = position->unk_06;
+    scratch->unk_48 = position->unk_0A;
     ReadRotMatrix(&matrix);
 
-    ((S_8002593C_0 *)scratch)->unk_50 = ((S_8002593C_0 *)scratch)->unk_58 =
-        ((S_8002593C_0 *)scratch)->unk_60 = 0x1000;
-    ((S_8002593C_0 *)scratch)->unk_52 = ((S_8002593C_0 *)scratch)->unk_54 =
-        ((S_8002593C_0 *)scratch)->unk_56 = ((S_8002593C_0 *)scratch)->unk_5A =
-        ((S_8002593C_0 *)scratch)->unk_5C = ((S_8002593C_0 *)scratch)->unk_5E = 0;
+    scratch->unk_50 = scratch->unk_58 =
+        scratch->unk_60 = 0x1000;
+    scratch->unk_52 = scratch->unk_54 =
+        scratch->unk_56 = scratch->unk_5A =
+        scratch->unk_5C = scratch->unk_5E = 0;
 
-    RotMatrixX(rotation->unk_16, scratch + 0x50);
-    RotMatrixZ(rotation->unk_1A, scratch + 0x50);
-    RotMatrixY(rotation->unk_18, scratch + 0x50);
-    TransMatrix(scratch + 0x50, scratch + 0x40);
-    CompMatrix(scratch + 0x50, base_matrix, scratch + 0xD0);
-    SetTransMatrix(scratch + 0xD0);
-    SetRotMatrix(scratch + 0xD0);
+    RotMatrixX(rotation->unk_16, &scratch->unk_50);
+    RotMatrixZ(rotation->unk_1A, &scratch->unk_50);
+    RotMatrixY(rotation->unk_18, &scratch->unk_50);
+    TransMatrix(&scratch->unk_50, &scratch->unk_40);
+    CompMatrix(&scratch->unk_50, base_matrix, (u8 *)scratch + 0xD0);
+    SetTransMatrix((u8 *)scratch + 0xD0);
+    SetRotMatrix((u8 *)scratch + 0xD0);
 }
 
 #include "modules/dungeon_ovl_19cc800.h"

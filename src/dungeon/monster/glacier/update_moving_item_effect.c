@@ -60,7 +60,8 @@ typedef struct {
 
 extern void cycle_map_cell_flags(s32, s32, s32);
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern void apply_attack_power_and_element_effects();
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16, u16, s16);

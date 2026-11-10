@@ -6,10 +6,11 @@
 #include "shared/dungeon_status.h"
 
 #include "common.h"
+#include "records/Rec_func_800D4BD4_arg1.h"
 
 typedef s32 M2C_UNK;
 
-void emit_randomized_relative_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
+void emit_randomized_relative_particles(Rec_func_800D4BD4_arg1 *emitter, ObjectPosition *position, s32 spawn_context);
 #include "shared/sprite_source.h"
 #include "dungeon/system.h"
 

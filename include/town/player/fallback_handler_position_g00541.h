@@ -7,6 +7,7 @@
 
 #include "common.h"
 #include "shared/entity.h"
+struct SpriteFrameState;
 #include "shared/vector.h"
 
 
@@ -31,7 +32,7 @@ extern IntVector3 *town_overlap_origin;
 void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(TownPlayerRecord *entry, ObjectPosition *forwarded_a, void *forwarded_b);
 void clear_global_80100_d_20(void);
 void compute_the_based_position_offset_publishes_resulting_vector(TownPlayerRecord *object, ObjectPosition *offset, void *resources);
-void *call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(void *object, u8 *values, s32 index);
+void *call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(struct SpriteFrameState *object, u8 *values, s32 index);
 void *get_second_word_indexed_entry_in_s_nested_table(void *record, s32 row_index, s32 entry_index, s32 unused);
 
 #endif

@@ -1,5 +1,5 @@
 {
- "count": 1461,
+ "count": 1460,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -1280,7 +1280,6 @@
   "src/dungeon/monster/barong/update_motion_and_terrain_collision.c::S_801747F0_1.unk_00",
   "src/dungeon/monster/barong/update_motion_and_terrain_collision.c::S_801747F0_1.unk_04",
   "src/dungeon/monster/barong/update_motion_and_terrain_collision.c::S_801747F0_1.unk_08",
-  "src/dungeon/monster/beldo/advance_actor_action_and_target.c::S_8017256C_1.unk_60",
   "src/dungeon/monster/beldo/copy_part_state.c::S_81257000_2.unk_04",
   "src/dungeon/monster/beldo/create_flagged_actor_object.c::S_81263000_2.unk_04",
   "src/dungeon/monster/beldo/update_actor_movement_and_height.c::DivProduct.DivProduct",

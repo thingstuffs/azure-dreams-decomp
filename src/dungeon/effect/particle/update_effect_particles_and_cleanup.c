@@ -189,7 +189,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
     SpriteFrameState *second_sprite;
     ParticleCleanupEffectBody *child_effect;
     MovingPosition *parent_position;
-    void *parent;
+    S_818FF710_2 *parent;
     ObjectNodeHeader *third_object;
     ObjectNodeHeader *fourth_object;
     ObjectNodeHeader *first_object;
@@ -207,14 +207,14 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
     texture_rect.packed = D_80024028;
     direction_steps.packed = D_80024038;
     state = effect->state;
-    parent_object = parent - 0x20;
+    parent_object = (void *)parent - 0x20;
     parent_position = parent_object->unk_08;
     switch ((u32)(state)) {
     case 0:
         sprite->color.word = 0x808080;
         effect->sprite_data = D_80025E70;
         sprite->source = &effect->sprite_data;
-        parent_flags = ((S_818FF710_2 *)parent)->unk_2A;
+        parent_flags = parent->unk_2A;
         particle_update_flag = 1;
         effect->direction = (s16) ((parent_flags >> 9) & 7);
         effect->state = (s16) ((u16) effect->state + 1);
@@ -249,7 +249,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         if (!(effect->animation->flags & 0x80)) {
             return;
         }
-        flight_target = ((S_818FF710_2 *)parent)->unk_60;
+        flight_target = parent->unk_60;
         if (flight_target != NULL) {
             target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
             effect->target_height = (s16) (target_pos_or_step->z.unsigned_parts.integer
@@ -257,13 +257,13 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             origin = ((SpriteLinkPrefixView *)parent)[-1].sprite;
             effect->next_tile_x = (s8) (origin->tile_x + ((u8 *)dir_step_x)[effect->direction * 2]);
             effect->next_tile_y = (s8) (origin->tile_y + ((u8 *)dir_step_y)[effect->direction * 2]);
-            parent_tile = ((S_818FF710_2 *)parent)->unk_72;
+            parent_tile = parent->unk_72;
             tile_distance = parent_tile;
             origin_tile = origin->tile_x;
             if (tile_distance != origin_tile) {
                 tile_distance = tile_distance - origin_tile;
             } else {
-                parent_tile = ((S_818FF710_2 *)parent)->unk_73;
+                parent_tile = parent->unk_73;
                 tile_distance = parent_tile;
                 origin_tile = origin->tile_y;
                 tile_distance = tile_distance - origin_tile;
@@ -273,7 +273,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             }
             effect->flight_ticks = (s8) ((tile_distance * 2) - 1);
         } else {
-            effect->target_height = (s16) (((S_818FF710_2 *)parent)->unk_88 - 0x50);
+            effect->target_height = (s16) (parent->unk_88 - 0x50);
             effect->flight_ticks = 0x20;
         }
         motion->velocity_x = (s32) (direction_steps.pair[effect->direction].first << 0x10);
@@ -318,7 +318,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         sprite->color.c.b =
             (s8) (((s32) (blue_tick * blue_tick * 0x6C) / (s16) effect->ticks_squared) + 0x14);
         if ((check_adjacent_tile_height_clearance(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
-            (s16) motion->z.unsigned_parts.integer, ((S_818FF710_2 *)parent)->unk_60) << 0x10) != 0) {
+            (s16) motion->z.unsigned_parts.integer, parent->unk_60) << 0x10) != 0) {
             effect->state = 8;
             effect->timer = 0U;
             sprite->color.c.b = 0;
@@ -329,18 +329,18 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         remaining_ticks = (u8) effect->flight_ticks - 1;
         effect->flight_ticks = remaining_ticks;
         if ((remaining_ticks << 0x18) <= 0) {
-            if (((S_818FF710_2 *)parent)->unk_60 != NULL) {
+            if (parent->unk_60 != NULL) {
                 effect->state = 3;
                 effect->timer = 0U;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-                impact_target = ((S_818FF710_2 *)parent)->unk_60;
+                impact_target = parent->unk_60;
                 target_hit_flags = ((SpriteLinkPrefixView *)impact_target)[-1].sprite;
                 if ((u32) (((ActorRecord *)impact_target)->species - 0x33) >= 4U) {
                     target_hit_flags->flags = (u16) (target_hit_flags->flags | 0x800);
-                    hit_target = ((S_818FF710_2 *)parent)->unk_60;
+                    hit_target = parent->unk_60;
                     hit_target->velocity_z = (s32) (hit_target->velocity_z | 0x100000);
                 }
-                target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+                target_pos_or_step = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_00;
                 motion->x.unsigned_parts.integer = (u16) target_pos_or_step->x.unsigned_parts.integer;
                 motion->y.unsigned_parts.integer = (u16) target_pos_or_step->y.unsigned_parts.integer;
                 motion->z.unsigned_parts.integer = (u16) effect->target_height;
@@ -396,7 +396,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             texture_rect.half[3] = (s16) rect_height;
             texture_rect.half[4] = (s16) rect_right;
             texture_rect.half[5] = (s16) 0x19A;
-            draw_transformed_sprite_with_clip_rect(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
+            draw_transformed_sprite_with_clip_rect(parent->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
             texture_start = rect_start;
             texture_end = rect_end;
             texture_rect.half[0] = (s16) rect_left;
@@ -408,7 +408,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             texture_rect.half[4] = (s16) rect_right;
             rect_bottom = 0x1EF;
             texture_rect.half[5] = (s16) rect_bottom;
-            draw_transformed_sprite_with_clip_rect(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
+            draw_transformed_sprite_with_clip_rect(parent->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
         }
         impact_tick = (s16) effect->timer;
         if (impact_tick != 4) {
@@ -432,7 +432,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             first_position = first_object->position;
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
-            target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+            target_pos_or_step = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_00;
             first_position->x.v = (s32) target_pos_or_step->x.v;
             first_position->y.v = (s32) target_pos_or_step->y.v;
             first_position->z.v = (s32) target_pos_or_step->z.v;
@@ -440,7 +440,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             first_sprite->scale_x = 0x1004;
             first_sprite->scale_y = 0x1004;
             first_sprite->offset_y = (s16) ((s32) (0
-                - entity_height_offsets[((S_818FF710_31 *)(((S_818FF710_2 *)parent)->unk_60))->unk_13]) / 2);
+                - entity_height_offsets[((S_818FF710_31 *)(parent->unk_60))->unk_13]) / 2);
             first_sprite->color.c.b = 0x80;
             first_sprite->color.c.g = 0x80;
             first_sprite->color.c.r = 0x80;
@@ -459,14 +459,14 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             second_sprite->tpage_abr = 0x20;
             second_sprite->flags |= 0x80;
             child_effect->unk_2C = parent;
-            follow_target = ((S_818FF710_2 *)parent)->unk_60;
+            follow_target = parent->unk_60;
             child_effect->unk_34 = effect;
             child_effect->unk_30 = follow_target;
             second_sprite->depth_bias = 0;
             second_position = second_object->position;
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
-            target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+            target_pos_or_step = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_00;
             second_position->x.v = (s32) target_pos_or_step->x.v;
             second_position->y.v = (s32) target_pos_or_step->y.v;
             second_position->z.v = (s32) target_pos_or_step->z.v;
@@ -498,7 +498,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             third_position = third_object->position;
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
-            target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+            target_pos_or_step = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_00;
             third_position->x.v = (s32) target_pos_or_step->x.v;
             third_position->y.v = (s32) target_pos_or_step->y.v;
             third_position->z.v = (s32) target_pos_or_step->z.v;
@@ -517,7 +517,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             particle_owner = fourth_object;
             sprite_resource = (void *) project_sprite_chain;
             child_effect->unk_2C = parent;
-            fourth_position = ((S_818FF710_2 *)parent)->unk_60;
+            fourth_position = parent->unk_60;
             child_effect->unk_30 =  fourth_position;
             child_effect->unk_34 = effect;
             child_effect->unk_38 = NODE_BODY(first_object);
@@ -537,7 +537,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             fourth_position = fourth_object->position;
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
-            target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+            target_pos_or_step = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_00;
             fourth_position->x.v = (s32) target_pos_or_step->x.v;
             fourth_position->y.v = (s32) target_pos_or_step->y.v;
             fourth_position->z.v = (s32) target_pos_or_step->z.v;
@@ -601,7 +601,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         if (current_spell_effect_variant != 0xFF) {
             source_id = effect->variant;
         }
-        apply_random_actor_value_adjustment(((S_818FF710_2 *)parent)->unk_60, source_id, parent);
+        apply_random_actor_value_adjustment(parent->unk_60, source_id, parent);
         effect->timer = 0U;
         effect->state = (s16) ((u16) effect->state + 1);
         return;
@@ -611,9 +611,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         if ((s16) release_tick < 0x1F) {
             return;
         }
-        target_release_flags = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_04;
+        target_release_flags = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_04;
         target_release_flags->unk_14 = (u16) (target_release_flags->unk_14 & 0xF7FF);
-        released_target = ((S_818FF710_2 *)parent)->unk_60;
+        released_target = parent->unk_60;
         released_target->velocity_z = (s32) (released_target->velocity_z & 0xFFEFFFFF);
         effect->state = 8;
         effect->timer = 0x1EU;

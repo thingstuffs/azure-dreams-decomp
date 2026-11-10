@@ -34,7 +34,6 @@ extern u8 volcano_frame_set_4[];
 extern u8 D_80162538[];
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 
 void * create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);

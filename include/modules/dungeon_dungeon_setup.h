@@ -275,7 +275,6 @@ extern s32 D_800E3D1C;
 extern u8 familiar_record_storage[];
 extern void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
 extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
 extern void zero_words(void *, s32);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 extern s32 test_resident_bit(s16 value);

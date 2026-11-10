@@ -248,6 +248,32 @@ files used by exactly one function in that file. `debt_view_inventory.tsv`
 shows each source typedef and its function users. These report-only counts
 do not judge whether a named local view is appropriate.
 
+### Readability and prototype-gap counts (report only)
+
+`debt_check.py --summary` also prints nine report-only lines computed by
+`tools/lint/readcounts.py`. They have no baseline and `--check` never fails on
+them; they say how far the tree is from one canonical signature per function
+and from code a reader can follow. Comments and string contents never count.
+Per-file facts and the whole aggregate are cached under the report cache
+(`readcounts/`), keyed by content hashes of every `src/**/*.[ch]` and
+`include/**/*.h` file plus the two tool files, so an unchanged tree costs one
+read-and-hash pass. The item lists land in `build/readcounts/` (or
+`--readcounts-out DIR`), never in the tracked tree or `work/`:
+
+| Summary line | Meaning | List |
+| --- | --- | --- |
+| `prototype names multi-signature` | Declared function names (non-static, every prototype, block-scope extern and definition in `src/` and `include/`) with more than one distinct signature after `decl_agreement` normalisation (`()` is skipped, as it agrees with anything); the declaration sites of those names; how many also disagree beyond `()` and `void *`. | `signature_conflicts.tsv` |
+| `declaration sites per declared name` | Mean declaration-plus-definition sites per name, names in more than one site, and the top five names. | `signature_conflicts.tsv` |
+| `duplicate function definitions` | Non-static names defined more than once, split into identical bodies (same normalised head and body text) and differing bodies. Placed copies in different overlays are legitimate; the differing count is the one to triage. | `duplicate_definitions.tsv` |
+| `address-named tokens` | `func_8xxxxxxx` and `D_8xxxxxxx` identifier tokens in code (and distinct names), plus how many more sit in comments. | `address_func_tokens.tsv`, `address_data_tokens.tsv` |
+| `unk_/pad_ member tokens` | Identifier tokens starting `unk_` and `pad_`. | `unk_tokens_by_file.tsv`, `pad_tokens_by_file.tsv` |
+| `struct typedefs in .c files` | `typedef struct [tag] { ... } Name;` in `.c` files, copies sharing an exactly equal body, and type names carrying several different bodies. | `struct_duplicate_bodies.tsv`, `struct_names_with_several_bodies.tsv` |
+| `duplicate #include lines` | Extra copies of the same `#include` within one file. | `duplicate_includes.tsv` |
+| `stale tool comments` | Comments carrying lane or tool stamps (`cfail-repair`/`tf7-phase`, evidence banners, tool-written header notes, cohort/group ids, lane receipts, review pending, `MECHANISM:`); a comment counts once per tag. | `stale_tool_comments.tsv` |
+| `placeholder identifiers` | `argN`, `var_*` and `temp_*` identifier tokens in code, and how many are named only in comments. | `placeholder_identifiers_by_file.tsv` |
+
+Unit tests: `python3 -m unittest tools/lint/test_readcounts.py`.
+
 ### Bridge-cast ledger (decision 75)
 
 `ledger/bridge_casts.jsonl` preserves 264 rows from the four legacy TSV

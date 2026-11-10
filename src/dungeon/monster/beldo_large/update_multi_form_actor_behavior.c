@@ -16,7 +16,7 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/beldo_large_frames.h"
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
@@ -97,7 +97,7 @@ void update_multi_form_actor_behavior(ActorRecord *context, ObjectPosition *call
             return;
         }
         if ((has_pending_actor_or_turn_action(actor_arg) << 16) != 0) {
-            if ((check_entity_relation(actor_arg, primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+            if ((check_entity_relation(actor_arg, NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
         }

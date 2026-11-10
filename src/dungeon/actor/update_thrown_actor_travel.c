@@ -15,7 +15,7 @@
 s32 check_neighbor_tile_blocking();             /* extern */
 struct Ent *prepare_directional_attack(); /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 void begin_actor_random_warp(ActorRecord *entity, ObjectPosition *unused, SpriteFrameState *position, ActorRecord *entity_state); /* extern */
 
 /* Advance tile movement, handle object contact, and finalize the stopping position. */

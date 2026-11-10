@@ -12,7 +12,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 
 /* Fades and reshapes the sprite, then removes the entity when the effect ends. */

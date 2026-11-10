@@ -14,7 +14,7 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/data.h"
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 /* Advance the action phases, updating movement and directional animation. */
 void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

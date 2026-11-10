@@ -11,6 +11,7 @@
 #include "slus/utility_hooks.h"
 #include "shared/sound_volume.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/timed_stream.h"
 #include "engine/entity.h"
 #include "engine/text.h"
 #include "slus.h"
@@ -635,25 +636,14 @@ void *create_item_view_without_event(int object, int value)
 
 extern unsigned char animation_tick_scale;
 
-struct S8004CBFC_a1 {
-    unsigned short f0;
-    unsigned short pad2;
-    int f4;
-};
-
-struct S8004CBFC_a0 {
-    int f0;
-    int *f4;
-    struct S8004CBFC_a1 *f8;
-};
-
-/* Initialize entry state, compute its rate, and optionally copy its value to the cursor. */
-void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor) {
-    state->f8 = entry;
-    state->f0 = entry->f0 / animation_tick_scale;
-    state->f4 = cursor;
+/* Start a timed stream at entry: scale its duration by the animation tick rate and, when there is an
+ * output word, write the entry's value to it. */
+void initialize_scaled_entry_cursor(FrameState *state, FrameNode *entry, int *cursor) {
+    state->node = entry;
+    state->countdown = entry->duration / animation_tick_scale;
+    state->output = cursor;
     if (cursor != 0) {
-        *cursor = entry->f4;
+        *cursor = entry->value;
     }
 }
 

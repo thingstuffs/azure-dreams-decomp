@@ -16,7 +16,7 @@
 #include "dungeon/item.h"
 
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 
 extern u8 picket_action_resume_address;

@@ -1,7 +1,8 @@
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern void update_actor_status_and_mp(void *);
 extern void unlink_entity_node(void *);
 

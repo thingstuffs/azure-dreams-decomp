@@ -8,7 +8,7 @@ typedef struct {
     u8 data[24];
 } Config24;
 extern u8 D_8016A87C[];
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 
 /* Move the entity to a selected offset from the origin and update its cell flags. */

@@ -7,7 +7,7 @@
 
 
 
-/* Target-tracking work passed at node +0x20 to follow_brighten. The signed
+/* Target-tracking work passed at node +0x20 to update_accelerating_condition_projectile. The signed
  * packed tile pairs are compared together when the effect crosses a tile. */
 typedef union TrackingTilePair {
     s16 packed;
@@ -50,7 +50,7 @@ typedef struct BrighteningFollowerEffectBody {
     u16 particle_count;
 } BrighteningFollowerEffectBody;
 
-/* State for each ring particle emitted while follow_brighten is active. */
+/* State for each ring particle emitted while update_accelerating_condition_projectile is active. */
 typedef struct RisingFadingEmitterBody {
     u8 pad_00[0xA];
     u16 state;
@@ -63,7 +63,7 @@ typedef struct RisingFadingEmitterBody {
     s16 effect_value;
 } RisingFadingEmitterBody;
 
-void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameState *part);
+void update_accelerating_condition_projectile(TrackingEffect *self, ObjectPosition *motion, SpriteFrameState *part);
 
 void advance_rising_fading_emitter(RisingFadingEmitterBody *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 

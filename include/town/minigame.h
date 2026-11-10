@@ -127,7 +127,7 @@ s32 initialize_casino_minigame(void);
 /* Update callbacks it installs; their definitions take file-local views. */
 void update_betting_effect(TownEffect *effect);
 void update_effect_position_spin_phases(struct SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg);
-void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_80021E88_arg1 *position, SpriteFrameState *display);
+void update_minigame_transition(MinigameTransitionObject *controller, ObjectPosition *position, SpriteFrameState *display);
 /* Mode-three record setup (town/scene/configure_set_mode_n_d.c) as the minigame constructors call it. */
 #include "town/scene/list_setup.h"
 extern s32 pickup_reward_total[];

@@ -153,6 +153,19 @@ class RenameAndFullTests(unittest.TestCase):
             self.assertEqual(C.report(base, head, [], [], {}, 0), 1)
         self.assertIn('hint: possibly old_name renamed', out.getvalue())
 
+    def test_rename_recorded_in_names_is_not_new(self):
+        base = [finding('src/a.c', 'old_name', '-Wshadow', ['src/a.c:4:1'])]
+        head = [finding('src/a.c', 'new_name', '-Wshadow', ['src/a.c:4:1'])]
+        names = {'old_name': {'0x80024050'}, 'new_name': {'0x80024050'}}
+        with redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(C.report(base, head, [], [], {}, 0, names), 0)
+        self.assertIn('renamed -Wshadow src/a.c old_name -> new_name', out.getvalue())
+        moved = [finding('src/a.c', 'new_name', '-Wshadow', ['src/a.c:9:1'])]
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(C.report(base, moved, [], [], {}, 0, names), 1)   # a different site is new
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(C.report(base, head, [], [], {}, 0, {'new_name': {'0x1'}}), 1)  # no names.tsv row
+
     def census(self, directory, findings, **summary):
         directory.mkdir(parents=True, exist_ok=True)
         fields = ['finding', 'file', 'function', 'warning', 'subsystem', 'count', 'tu_count',

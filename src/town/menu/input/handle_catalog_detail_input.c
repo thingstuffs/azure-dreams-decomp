@@ -3,6 +3,7 @@
 #include "town/menu.h"
 #include "town/menu/catalog.h"
 #include "town/data.h"
+#include "slus.h"
 
 typedef struct {
     void **images;
@@ -10,8 +11,6 @@ typedef struct {
     u8 pad[3];
 } ImageList;
 
-
-extern void SD_Call(s32);
 
 extern ImageList catalog_detail_images[];
 

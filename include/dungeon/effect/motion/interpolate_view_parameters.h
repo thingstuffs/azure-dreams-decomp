@@ -359,7 +359,6 @@ typedef struct Row_81917C08_ActionSlot { s32 value; } Row_81917C08_ActionSlot;
  * (the compiler merges the identical stage tails into one copy). */
 void view_interpolation_update_address(void);
 void register_node(void *, void *);
-void func_8004491C(void *, void *);
 void SetTile(void *, s32);
 void AddPrim(void *, void *);
 #include "engine/node/allocation.h"

@@ -31,7 +31,7 @@ s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entit
         ((g_dungeon_status.activity_counts.parts.pending_movement_count != 0) ||
          ((g_dungeon_status.flags & 0x2808) != 0)) &&
         ((s16)check_entity_relation(entity,
-                            (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0)) {
+                            NODE_BODY(primary_actor_record->previous_actor_header)) != 0)) {
         register s16 failure = -1;
 
         entity_flags = entity->action_flags;

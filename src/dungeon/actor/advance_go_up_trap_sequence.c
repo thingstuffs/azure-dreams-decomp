@@ -61,7 +61,8 @@ typedef struct S_800CB9DC_9 {
     s32 unk_14A0;
 } S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+             /* extern */
 extern s16 floor_generation_state[3];
 
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */

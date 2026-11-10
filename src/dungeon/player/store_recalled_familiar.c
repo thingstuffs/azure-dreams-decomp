@@ -27,7 +27,8 @@ typedef struct {
     s32 words[35];
 } Copy140;
 
-void update_map_cell_flags_with_item_limit(u8, u8, s32);     /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+     /* extern */
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 

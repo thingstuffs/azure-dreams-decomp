@@ -158,7 +158,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(actor,
                             previous_actor) << 16) != 0) {

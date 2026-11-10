@@ -13,5 +13,5 @@ void init_card_file_list_panel(CardFileListPanel *panel, s32 selection)
 {
     advance_timed_visual(&panel->selection, selection);
     func_80024BB4(&panel->list_heading, &panel->heading_block, &panel->heading_vector);
-    build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(panel);
+    configure_card_file_list_windows(panel);
 }

@@ -32,7 +32,8 @@ typedef struct S_800BE6F0_0_pre {
 #include "dungeon/player/item.h"
 #include "dungeon/player/object.h"
 struct EntityLinkNode;
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect.h"
 #include "dungeon/item.h"

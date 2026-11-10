@@ -19,7 +19,7 @@ struct ObjectNodeHeader;
 #include "dungeon/actor/state.h"
 #include "dungeon/player/object.h"
 
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 
 void advance_actor_status_turn_second(s32 actor, s32 action_context, s32 sprite, u8 *state);
 #include "shared/sprite_source.h"

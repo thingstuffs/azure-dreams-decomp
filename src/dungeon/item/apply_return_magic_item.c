@@ -27,7 +27,7 @@ extern u8 D_800E13B7[];
 #include "dungeon/item/message.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
+#include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 /* Apply an event to the target and update the event count on completion. */
 s32 apply_return_magic_item(ActorRecord *entity, DungeonItemEntry *event, s16 target_type, s32 target_record) {

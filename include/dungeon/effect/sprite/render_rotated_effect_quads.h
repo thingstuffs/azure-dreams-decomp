@@ -1,6 +1,12 @@
 #ifndef DUNGEON_OVL_190C800_H
 #define DUNGEON_OVL_190C800_H
 #include "common.h"
+/* The retail matrix-stack calls pass extra words through K&R declarations. */
+#define PushMatrix __sdk_PushMatrix
+#define PopMatrix __sdk_PopMatrix
+#include "sdk/libgte.h"
+#undef PushMatrix
+#undef PopMatrix
 #include "m2c_compat.h"
 #include "shared/scratchpad.h"
 #include "shared/game_work.h"
@@ -79,7 +85,6 @@ void PopMatrix();
 void *ScaleMatrix(void *, void *);
 void SetRotMatrix(void *);
 void SetTransMatrix(void *);
-s32 RotTransPers4(void *, void *, void *, void *, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);
 void *RotMatrix(void *, void *);
 void func_80067EF4();
 void SetDrawArea(void *, void *);

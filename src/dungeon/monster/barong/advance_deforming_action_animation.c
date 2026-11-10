@@ -10,7 +10,7 @@
 #include "dungeon/data.h"
 
 
-extern void spend_actor_mp(void *, s32);
+#include "dungeon/actor/spend_actor_mp_api.h"
 extern void create_randomized_item_object(ActorRecord *, ObjectPosition *, SpriteFrameState *, void *);
 
 extern u8 barong_action_resume_address[];

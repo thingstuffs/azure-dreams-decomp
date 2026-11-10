@@ -4,9 +4,8 @@
 #include "slus.h"
 #include "town/shop/item.h"
 
-struct S8004CBFC_a1;
 extern M2C_UNK D_80071244;
-extern struct S8004CBFC_a1 shop_cursor_template;
+extern FrameNode shop_cursor_template;
 
 
 /* When the menu lists entries, start the cursor stream on part 4 and point part 5 at the cursor frame. */

@@ -23,15 +23,8 @@ typedef struct {
 extern M2C_UNK D_80170D44;
 
 
-typedef struct S_80170E18_3 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_80170E18_3;   /* arg3 in create_effect_from_sprite_and_facing */
-
-   /* arg1 in create_effect_from_sprite_and_facing */
-
 /* Creates an effect using the supplied sprite data, transform, and facing. */
-void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, S_80170E18_3 *facing_source) {
+void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, ActorRecord *facing_source) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
     BeldoExpandingFadeBody *effect_state;
@@ -69,7 +62,7 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
         sprite->flags = (u16) (sprite->flags | 0xC);
         register_node(effect, project_sprite_chain);
         sprite->frameTable = &beldo_frame_set_3;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->facing + 0x100) >> 9) & 7)
             + beldo_frame_set_3), 0);
         transform = effect->position;
         transform->x.w.i = (u16) source_transform->x;

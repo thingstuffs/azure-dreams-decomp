@@ -84,8 +84,9 @@ typedef struct S_func_81008664_12 {
     s16 unk_0A;
 } S_func_81008664_12;
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
+#include "dungeon/actor/spend_actor_mp_api.h"
 extern s16 dungeon_room_count;
 extern u8 D_801748F0[];
 extern u8 D_801748F8[];

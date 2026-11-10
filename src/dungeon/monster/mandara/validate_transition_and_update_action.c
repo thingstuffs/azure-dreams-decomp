@@ -10,7 +10,7 @@
 
 
 extern struct Ent *prepare_directional_attack();
-extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
+#include "dungeon/item/get_actor_height_difference_api.h"
 extern s32 check_entity_interaction_compatibility();
 #include "dungeon/monster/mandara.h"
 #include "engine/graphics.h"

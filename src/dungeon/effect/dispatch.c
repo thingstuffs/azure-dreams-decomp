@@ -107,7 +107,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     ObjectPosition *record = record_arg;
     u8 saved_matrix[0x20];
     s16 depth_bias = depth_offset;
-    u8 *scratch;
+    S_800C55F4_1 *scratch;
     u8 *vector_arg;
     u8 *screen_arg;
     void *perspective_out;
@@ -142,96 +142,96 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
 
     vector_arg = (u8 *)0x1F800028;
     screen_arg = (u8 *)0x1F800000;
-    scratch = (u8 *)0x1F800000;
+    scratch = (S_800C55F4_1 *)0x1F800000;
 
-    ((S_800C55F4_1 *)scratch)->unk_30 = (*(u16 *)((u8 *)mesh_data + 0x1C));
+    scratch->unk_30 = (*(u16 *)((u8 *)mesh_data + 0x1C));
     {
         u32 translation_y;
 
         translation_y = ((SpriteFrameState *)mesh_data)->scale_y;
         screen_arg = (u8 *)((u32)screen_arg | 0xF0);
-        ((S_800C55F4_1 *)scratch)->unk_34 = translation_y;
+        scratch->unk_34 = translation_y;
     }
-    ((S_800C55F4_1 *)scratch)->unk_38 = ((SpriteFrameState *)mesh_data)->offset_x;
+    scratch->unk_38 = ((SpriteFrameState *)mesh_data)->offset_x;
 
     {
         s32 translation_coord;
 
         translation_coord = record->x.w.i;
-        ((S_800C55F4_1 *)scratch)->unk_64 = translation_coord;
-        ((S_800C55F4_1 *)scratch)->unk_28 = translation_coord;
+        scratch->unk_64 = translation_coord;
+        scratch->unk_28 = translation_coord;
         translation_coord = record->y.w.i;
-        ((S_800C55F4_1 *)scratch)->unk_68 = translation_coord;
-        ((S_800C55F4_1 *)scratch)->unk_2A = translation_coord;
+        scratch->unk_68 = translation_coord;
+        scratch->unk_2A = translation_coord;
         translation_coord = record->z.w.i;
-        ((S_800C55F4_1 *)scratch)->unk_6C = translation_coord;
-        ((S_800C55F4_1 *)scratch)->unk_2C = translation_coord;
+        scratch->unk_6C = translation_coord;
+        scratch->unk_2C = translation_coord;
     }
 
     result = RotTransPers(vector_arg, screen_arg,
                            (void *)0x1F800090, (void *)0x1F800094);
     depth_bias = narrow_depth(depth_bias);
-    ((S_800C55F4_1 *)scratch)->unk_CC = result - depth_bias;
+    scratch->unk_CC = result - depth_bias;
     ReadRotMatrix(saved_matrix);
-    RotMatrix((u8 *)mesh_data + 0x16, scratch + 0x50);
-    ScaleMatrix(scratch + 0x50, scratch + 0x30);
-    CompMatrix(saved_matrix, scratch + 0x50, scratch + 0xD0);
-    SetTransMatrix(scratch + 0xD0);
-    SetRotMatrix(scratch + 0xD0);
+    RotMatrix((u8 *)mesh_data + 0x16, (u8 *)scratch + 0x50);
+    ScaleMatrix((u8 *)scratch + 0x50, &scratch->unk_30);
+    CompMatrix(saved_matrix, (u8 *)scratch + 0x50, (u8 *)scratch + 0xD0);
+    SetTransMatrix((u8 *)scratch + 0xD0);
+    SetRotMatrix((u8 *)scratch + 0xD0);
 
     render_state = global_base->draw_buffer;
-    ((S_800C55F4_1 *)scratch)->unk_20 = render_state + 0xB0;
+    scratch->unk_20 = render_state + 0xB0;
     prim = ((GpuContext *)render_state)->packetCursor;
     packet_code = prim + 7;
     ((SpriteFrameState *)mesh_data)->flags |= 0x8000;
 
     for (;;) {
         vertex_index = face->v0;
-        ((S_800C55F4_1 *)scratch)->unk_70 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_00;
+        scratch->unk_70 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_00;
         vertex_index = face->v1;
-        ((S_800C55F4_1 *)scratch)->unk_78 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_00;
+        scratch->unk_78 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_00;
         vertex_index = face->v2;
-        ((S_800C55F4_1 *)scratch)->unk_80 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_00;
+        scratch->unk_80 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_00;
         vertex_index = face->v0;
-        ((S_800C55F4_1 *)scratch)->unk_74 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_04;
+        scratch->unk_74 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_04;
         vertex_index = face->v1;
-        ((S_800C55F4_1 *)scratch)->unk_7C = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_04;
+        scratch->unk_7C = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_04;
         vertex_index = face->v2;
         perspective_arg = perspective_out;
         flags_arg = flags_out;
-        ((S_800C55F4_1 *)scratch)->unk_84 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_04;
+        scratch->unk_84 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_04;
 
         {
             s32 depth;
 
-            depth = RotTransPers(scratch + 0x70, prim + 8,
+            depth = RotTransPers(&scratch->unk_70, prim + 8,
                                         perspective_arg, flags_arg);
             perspective_arg = perspective_out;
             flags_arg = flags_out;
-            ((S_800C55F4_1 *)scratch)->unk_C0 = depth;
-            depth = RotTransPers(scratch + 0x78, prim + 0x10,
+            scratch->unk_C0 = depth;
+            depth = RotTransPers(&scratch->unk_78, prim + 0x10,
                                         perspective_arg, flags_arg);
             perspective_arg = perspective_out;
             flags_arg = flags_out;
-            ((S_800C55F4_1 *)scratch)->unk_C4 = depth;
-            depth = RotTransPers(scratch + 0x80, prim + 0x18,
+            scratch->unk_C4 = depth;
+            depth = RotTransPers(&scratch->unk_80, prim + 0x18,
                                         perspective_arg, flags_arg);
-            ((S_800C55F4_1 *)scratch)->unk_C8 = depth;
+            scratch->unk_C8 = depth;
         }
 
         result = NormalClip((*(s32 *)(packet_code + 1)),
                                (*(s32 *)(packet_code + 9)),
                                (*(s32 *)(packet_code + 0x11)));
-        ((S_800C55F4_1 *)scratch)->unk_114 = result;
+        scratch->unk_114 = result;
 
         if (result > 0) {
             s32 third_depth;
 
-            ((S_800C55F4_1 *)scratch)->unk_C0 -= depth_bias;
-            third_depth = ((S_800C55F4_1 *)scratch)->unk_C8;
-            ((S_800C55F4_1 *)scratch)->unk_C4 -= depth_bias;
-            vertex_depth = *(u32 *)(scratch + 0xC0);
-            ((S_800C55F4_1 *)scratch)->unk_C8 = third_depth - depth_bias;
+            scratch->unk_C0 -= depth_bias;
+            third_depth = scratch->unk_C8;
+            scratch->unk_C4 -= depth_bias;
+            vertex_depth = *(u32 *)((u8 *)scratch + 0xC0);
+            scratch->unk_C8 = third_depth - depth_bias;
             if (vertex_depth < 0x1E0) {
                 s32 shade;
                 {
@@ -239,7 +239,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
                     vector_arg = (u8 *)(((S_800C55F4_8 *)params)->unk_32);
                     shade -= (s32)vector_arg;
                     shade -=
-                        (((S_800C55F4_1 *)scratch)->unk_CC - vertex_depth) << 5;
+                        (scratch->unk_CC - vertex_depth) << 5;
                     if (shade < 0x20) {
                         shade = 0x20;
                     } else if (shade >= 0x100) {
@@ -258,8 +258,8 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
 
                     vector_arg = (u8 *)0x100;
                     shade_arg = ((S_800C55F4_8 *)params)->unk_32;
-                    second_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
-                    shade = ((S_800C55F4_1 *)scratch)->unk_C4;
+                    second_delta = scratch->unk_CC;
+                    shade = scratch->unk_C4;
                     vector_arg -= shade_arg;
                     second_delta -= shade;
                     second_delta <<= 5;
@@ -282,8 +282,8 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
 
                     vector_arg = (u8 *)0x100;
                     shade_arg = ((S_800C55F4_8 *)params)->unk_32;
-                    third_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
-                    shade = ((S_800C55F4_1 *)scratch)->unk_C8;
+                    third_delta = scratch->unk_CC;
+                    shade = scratch->unk_C8;
                     vector_arg -= shade_arg;
                     third_delta -= shade;
                     third_delta <<= 5;
@@ -307,16 +307,16 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
                 prim += 0x1C;
                 ((S_800C55F4_4 *)packet_code)->unk_00 = packet_flags | 2;
                 packet_code += 0x1C;
-                AddPrim(((S_800C55F4_1 *)scratch)->unk_20 +
-                              (((S_800C55F4_1 *)scratch)->unk_C0 << 2), packet);
+                AddPrim(scratch->unk_20 +
+                              (scratch->unk_C0 << 2), packet);
 
                 packet_code += 0xC;
                 ((SpriteFrameState *)mesh_data)->flags &= 0x7FFF;
                 SetDrawMode(prim, 0, 0, 0, 0);
                 packet = prim;
                 prim += 0xC;
-                AddPrim(((S_800C55F4_1 *)scratch)->unk_20 +
-                              (((S_800C55F4_1 *)scratch)->unk_C0 << 2), packet);
+                AddPrim(scratch->unk_20 +
+                              (scratch->unk_C0 << 2), packet);
             }
         }
 
@@ -572,8 +572,9 @@ extern u8 D_800E0BA1[];
 
 s32 get_entity_class();
 struct EntityLinkNode;
-void unlink_entity_node(struct EntityLinkNode *node);
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/unlink_entity_node_api.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 void process_active_slots_at_coordinates(s16, s16);
 
 #define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << *(s16 *)(fld + 20))))

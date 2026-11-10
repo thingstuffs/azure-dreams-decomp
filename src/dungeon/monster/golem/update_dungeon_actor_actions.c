@@ -155,7 +155,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         if (!(stats->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(stats,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
+                        NODE_BODY(primary_actor_record->previous_actor_header)) != 0) {
                     return;
                 }
             }

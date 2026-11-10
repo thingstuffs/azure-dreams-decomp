@@ -454,7 +454,6 @@ u16 GetTPage(s32, s32, s32, s32);
 void SetDrawMode(void *, s32, s32, u16, s32);
 void advance_sprite_animation_and_textures(void *);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 void select_record_entry_and_value(void *state, void *entries, short index);
 struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, void *, s32);
 s32 func_8003DF74(void *, void *, void *, s32);

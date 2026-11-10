@@ -752,32 +752,32 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
 
    /* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */
 void update_timed(void *effect_data, s32 unused, void *sprite) {
-    u8 *effect = effect_data;
+    S_8196BE48_0 *effect = effect_data;
     u8 *global_page = (u8 *)&particle_activity - 0x69B4;
     u16 frame_ticks;
     u16 frame_index;
     u8 texture_u;
 
-    ((S_8196BE48_0 *)effect)->unk_2C = (u16)(((S_8196BE48_0 *)effect)->unk_2C - 1);
+    effect->unk_2C = (u16)(effect->unk_2C - 1);
     ((S_8196BE48_1 *)sprite)->unk_1C = (u16)(((S_8196BE48_1 *)sprite)->unk_1C + 0x7C);
     ((S_8196BE48_1 *)sprite)->unk_1E = (u16)(((S_8196BE48_1 *)sprite)->unk_1E + 0x54);
-    frame_ticks = ((S_8196BE48_0 *)effect)->unk_34 + 1;
+    frame_ticks = effect->unk_34 + 1;
     *(s16 *)(global_page + 0x69B4) = 1;
-    ((S_8196BE48_0 *)effect)->unk_34 = frame_ticks;
+    effect->unk_34 = frame_ticks;
     if ((s16)frame_ticks == 3) {
-        frame_index = ((S_8196BE48_0 *)effect)->unk_50 + 1;
-        ((S_8196BE48_0 *)effect)->unk_50 = frame_index;
+        frame_index = effect->unk_50 + 1;
+        effect->unk_50 = frame_index;
         if ((s16)frame_index < 7) {
-            ((S_8196BE48_0 *)effect)->unk_34 = 0;
-            texture_u = ((S_8196BE48_0 *)effect)->unk_40 + 0x18;
-            ((S_8196BE48_0 *)effect)->unk_40 = texture_u;
+            effect->unk_34 = 0;
+            texture_u = effect->unk_40 + 0x18;
+            effect->unk_40 = texture_u;
             if ((texture_u & 0xFF) == 0x60) {
-                ((S_8196BE48_0 *)effect)->unk_40 = 0;
-                ((S_8196BE48_0 *)effect)->unk_41 = (u8)(((S_8196BE48_0 *)effect)->unk_41 + 0x20);
+                effect->unk_40 = 0;
+                effect->unk_41 = (u8)(effect->unk_41 + 0x20);
             }
         }
     }
-    if ((s16)((S_8196BE48_0 *)effect)->unk_2C <= 0) {
+    if ((s16)effect->unk_2C <= 0) {
         NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

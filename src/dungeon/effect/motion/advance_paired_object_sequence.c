@@ -444,7 +444,7 @@ case 4:
                     &result_flags);
                 owner->target = object_m;
                 if (object_m != 0) {
-                    void *other;
+                    S_800253C0_17 *other;
                     S_800253C0_4 *child_slot;
                     object_index_m = 0;
                     do {
@@ -483,10 +483,10 @@ case 4:
                             u16 child_y;
                             object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
                             other = ((SpriteLinkPrefixView *)object_m)[-1].sprite;
-                            child_y = ((S_800253C0_17 *)other)->unk_12;
-                            ((S_800253C0_17 *)other)->unk_10 = sprite_x;
-                            ((S_800253C0_17 *)other)->unk_14 = sprite_flags;
-                            ((S_800253C0_17 *)other)->unk_12 = child_y - 128;
+                            child_y = other->unk_12;
+                            other->unk_10 = sprite_x;
+                            other->unk_14 = sprite_flags;
+                            other->unk_12 = child_y - 128;
                             final_slot = (u8 *)final_slot + 4;
                             object_index_m++;
                         } while (object_index_m < 2);

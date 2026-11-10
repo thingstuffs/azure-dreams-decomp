@@ -26,7 +26,7 @@ static __inline__ s16 delta_axis(s8 target, u16 start) {
 
 /* Updates a staged effect, moves it toward its target, and emits particles. */
 void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosition *motion, SpriteFrameState *source_render) {
-    void *owner;
+    ActorRecord *owner;
     Vec3 delta;
     s32 target_timer;
     void *owner_start;
@@ -97,30 +97,30 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
             owner,
             owner_sprite->tile_x,
             owner_sprite->tile_y,
-            ((ActorRecord *)owner)->facing,
+            owner->facing,
             (s16)get_definition_entry_byte_13(9));
-        ((ActorRecord *)owner)->target = target;
+        owner->target = target;
         if (target == 0) {
-            ((ActorRecord *)owner)->target_tile_x = owner_sprite->tile_x;
-            ((ActorRecord *)owner)->target_tile_y = owner_sprite->tile_y;
+            owner->target_tile_x = owner_sprite->tile_x;
+            owner->target_tile_y = owner_sprite->tile_y;
         } else {
             sprite = target[-1].unk_00;
             if ((sprite->flags & 0x8000) != 0) {
                 if ((source_render->flags & 0x8000) != 0) {
                     apply_attack_power_and_element_effects(
-                        ((ActorRecord *)owner)->target,
+                        owner->target,
                         10,
                         effect->spell.variant,
                         4,
-                        ((ActorRecord *)owner)->facing,
+                        owner->facing,
                         owner,
                         2);
                     effect->spell.phase = 5;
                     return;
                 }
             }
-            ((ActorRecord *)owner)->target_tile_x = sprite->tile_x;
-            ((ActorRecord *)owner)->target_tile_y = sprite->tile_y;
+            owner->target_tile_x = sprite->tile_x;
+            owner->target_tile_y = sprite->tile_y;
         }
         {
             if (resolve_record_orientation_or_fallback(
@@ -140,7 +140,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
                     ((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_0A + delta.z;
                 effect->unk_50 = 8;
                 {
-                    target_x = ((ActorRecord *)owner)->target_tile_x;
+                    target_x = owner->target_tile_x;
                     {
                         ((S_81844800_3 *)motion)->unk_0C.at02.v =
                             delta_axis(target_x, motion->x.unsigned_parts.integer);
@@ -148,7 +148,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
                 }
                 motion->velocity_x /= (s16)effect->unk_50;
                 {
-                    target_x = ((ActorRecord *)owner)->target_tile_y;
+                    target_x = owner->target_tile_y;
                     {
                         ((S_81844800_3 *)motion)->unk_10.at02.v =
                             delta_axis(target_x, motion->y.unsigned_parts.integer);
@@ -192,7 +192,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
         if ((state << 16) > 0) {
             return;
         }
-        if (((ActorRecord *)owner)->target == 0) {
+        if (owner->target == 0) {
             effect->unk_50 = 8;
             effect->spell.phase = 5;
             return;
@@ -221,13 +221,13 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
             }
         }
         if ((s16)effect->unk_50 == 7 &&
-            ((ActorRecord *)owner)->target != 0) {
+            owner->target != 0) {
             apply_attack_power_and_element_effects(
-                ((ActorRecord *)owner)->target,
+                owner->target,
                 10,
                 effect->spell.variant,
                 4,
-                ((ActorRecord *)owner)->facing,
+                owner->facing,
                 owner,
                 2);
         }

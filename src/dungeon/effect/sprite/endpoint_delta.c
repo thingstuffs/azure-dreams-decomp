@@ -86,9 +86,9 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
     s32 color_base;
     s32 delta_mask;
     s32 radial_step;
-    u8 *scratch;
+    S_800247D4_0 *scratch;
     s32 lines_left;
-    u8 *packet;
+    S_800247D4_2 *packet;
     void *project_work_a = 0;
     void *project_work_b = 0;
     s32 fixed_delta;
@@ -107,28 +107,28 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
     delta_mask = 0xFFFF0000;
     color_base = 0x40;
     radial_step = 0x15;
-    scratch = (u8 *)0x1F800000;
-    ((S_800247D4_0 *)scratch)->unk_18 = initial_render_ctx + 0xB0;
+    scratch = (S_800247D4_0 *)0x1F800000;
+    scratch->unk_18 = initial_render_ctx + 0xB0;
 
     do {
         s32 red;
         render_ctx = (GpuContext *)(*ctx_ref);
         packet = render_ctx->packetCursor;
-        render_ctx->packetCursor = packet + 0x14;
+        render_ctx->packetCursor = (u8 *)packet + 0x14;
 
-        ((S_800247D4_2 *)packet)->unk_00.at03.v = 4;
-        ((S_800247D4_2 *)packet)->unk_07 = 0x50;
+        packet->unk_00.at03.v = 4;
+        packet->unk_07 = 0x50;
 
-        ((S_800247D4_0 *)scratch)->unk_64 = effect->unk_3A;
-        ((S_800247D4_0 *)scratch)->unk_66 = effect->unk_3E;
-        ((S_800247D4_0 *)scratch)->unk_68 = effect->unk_42;
+        scratch->unk_64 = effect->unk_3A;
+        scratch->unk_66 = effect->unk_3E;
+        scratch->unk_68 = effect->unk_42;
 
         angle = (radial_step % 8) << 9;
-        ((S_800247D4_0 *)scratch)->unk_6C =
+        scratch->unk_6C =
             effect->unk_52 + ((rsin(angle) * 2) >> 8);
-        ((S_800247D4_0 *)scratch)->unk_6E =
+        scratch->unk_6E =
             effect->unk_56 + ((rcos(angle) * 2) >> 8);
-        ((S_800247D4_0 *)scratch)->unk_70 = effect->unk_5A;
+        scratch->unk_70 = effect->unk_5A;
 
         stage_index = effect->unk_10 - 1;
         switch (stage_index) {
@@ -136,8 +136,8 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
         {
             s32 start_or_fade;
 
-            end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
-            start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
+            end_or_blue = scratch->unk_6C;
+            start_or_fade = scratch->unk_64;
             fixed_delta &= 0xFFFF;
             fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
             fixed_delta &= delta_mask;
@@ -145,28 +145,28 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
             fixed_delta *= effect->unk_10 + 1;
 
             offset_or_depth = fixed_delta >> 16;
-            end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
-            y_or_blue = ((S_800247D4_0 *)scratch)->unk_66;
+            end_or_blue = scratch->unk_6E;
+            y_or_blue = scratch->unk_66;
             fixed_delta &= 0xFFFF;
             fixed_delta |= (end_or_blue - y_or_blue) << 16;
             fixed_delta &= delta_mask;
             start_or_fade += offset_or_depth;
-            ((S_800247D4_0 *)scratch)->unk_6C = start_or_fade;
+            scratch->unk_6C = start_or_fade;
             fixed_delta >>= 3;
             fixed_delta *= effect->unk_10 + 1;
 
             offset_or_depth = fixed_delta >> 16;
-            end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
-            start_or_fade = ((S_800247D4_0 *)scratch)->unk_68;
+            end_or_blue = scratch->unk_70;
+            start_or_fade = scratch->unk_68;
             fixed_delta &= 0xFFFF;
             fixed_delta |= (end_or_blue - start_or_fade) << 16;
             fixed_delta &= delta_mask;
             y_or_blue += offset_or_depth;
-            ((S_800247D4_0 *)scratch)->unk_6E = y_or_blue;
+            scratch->unk_6E = y_or_blue;
             fixed_delta >>= 3;
             fixed_delta *= effect->unk_10 + 1;
             start_or_fade += fixed_delta >> 16;
-            ((S_800247D4_0 *)scratch)->unk_70 = start_or_fade;
+            scratch->unk_70 = start_or_fade;
 
             start_or_fade = effect->unk_10;
             {
@@ -174,27 +174,27 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
                     (start_or_fade + 1) * red_scale;
 
                 y_or_blue = (start_or_fade + 1) * blue_scale;
-                ((S_800247D4_2 *)packet)->unk_04 = color_base;
-                ((S_800247D4_2 *)packet)->unk_05 = color_base;
-                ((S_800247D4_2 *)packet)->unk_06 = color_base;
-                ((S_800247D4_2 *)packet)->unk_0D = color_base - ((7 - start_or_fade) * 8);
+                packet->unk_04 = color_base;
+                packet->unk_05 = color_base;
+                packet->unk_06 = color_base;
+                packet->unk_0D = color_base - ((7 - start_or_fade) * 8);
                 {
                     red = 0x40 + red_offset;
 
-                    ((S_800247D4_2 *)packet)->unk_0C = red;
+                    packet->unk_0C = red;
                 }
-                ((S_800247D4_2 *)packet)->unk_0E = 0x40 + y_or_blue;
+                packet->unk_0E = 0x40 + y_or_blue;
             }
         }
             break;
 
         case 7:
-        ((S_800247D4_2 *)packet)->unk_04 = color_base;
-        ((S_800247D4_2 *)packet)->unk_05 = color_base;
-        ((S_800247D4_2 *)packet)->unk_06 = color_base;
-        ((S_800247D4_2 *)packet)->unk_0C = (u8)red_cap;
-        ((S_800247D4_2 *)packet)->unk_0D = 0;
-        ((S_800247D4_2 *)packet)->unk_0E = 0xFF;
+        packet->unk_04 = color_base;
+        packet->unk_05 = color_base;
+        packet->unk_06 = color_base;
+        packet->unk_0C = (u8)red_cap;
+        packet->unk_0D = 0;
+        packet->unk_0E = 0xFF;
             break;
 
         case 8: case 9: case 10: case 11: case 12: case 13: case 14:
@@ -202,8 +202,8 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
             s32 color_step;
             s32 start_or_fade;
 
-            end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
-            start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
+            end_or_blue = scratch->unk_6C;
+            start_or_fade = scratch->unk_64;
             fixed_delta &= 0xFFFF;
             fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
             fixed_delta &= delta_mask;
@@ -211,28 +211,28 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
             fixed_delta *= effect->unk_10 - 7;
 
             offset_or_depth = fixed_delta >> 16;
-            end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
-            y_or_blue = ((S_800247D4_0 *)scratch)->unk_66;
+            end_or_blue = scratch->unk_6E;
+            y_or_blue = scratch->unk_66;
             fixed_delta &= 0xFFFF;
             fixed_delta |= (end_or_blue - y_or_blue) << 16;
             fixed_delta &= delta_mask;
             start_or_fade += offset_or_depth;
-            ((S_800247D4_0 *)scratch)->unk_64 = start_or_fade;
+            scratch->unk_64 = start_or_fade;
             fixed_delta >>= 3;
             fixed_delta *= effect->unk_10 - 7;
 
             offset_or_depth = fixed_delta >> 16;
-            end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
-            start_or_fade = ((S_800247D4_0 *)scratch)->unk_68;
+            end_or_blue = scratch->unk_70;
+            start_or_fade = scratch->unk_68;
             fixed_delta &= 0xFFFF;
             fixed_delta |= (end_or_blue - start_or_fade) << 16;
             fixed_delta &= delta_mask;
             y_or_blue += offset_or_depth;
-            ((S_800247D4_0 *)scratch)->unk_66 = y_or_blue;
+            scratch->unk_66 = y_or_blue;
             fixed_delta >>= 3;
             fixed_delta *= effect->unk_10 - 7;
             start_or_fade += fixed_delta >> 16;
-            ((S_800247D4_0 *)scratch)->unk_68 = start_or_fade;
+            scratch->unk_68 = start_or_fade;
 
             start_or_fade = effect->unk_10;
             color_step = start_or_fade - 7;
@@ -241,53 +241,53 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
                     color_step * red_scale;
 
                 y_or_blue = color_step * blue_scale;
-                ((S_800247D4_2 *)packet)->unk_0D = 0;
+                packet->unk_0D = 0;
                 color_step = 0xFF;
-                ((S_800247D4_2 *)packet)->unk_0C = (u8)red_cap;
+                packet->unk_0C = (u8)red_cap;
                 start_or_fade = red_scale - start_or_fade;
                 start_or_fade <<= 3;
-                ((S_800247D4_2 *)packet)->unk_0E = (u8)color_step;
+                packet->unk_0E = (u8)color_step;
                 {
                     red = 0x40 + red_offset;
 
-                    ((S_800247D4_2 *)packet)->unk_04 = red;
+                    packet->unk_04 = red;
                 }
-                ((S_800247D4_2 *)packet)->unk_05 = (u8)start_or_fade;
-                ((S_800247D4_2 *)packet)->unk_06 = 0x40 + y_or_blue;
+                packet->unk_05 = (u8)start_or_fade;
+                packet->unk_06 = 0x40 + y_or_blue;
             }
         }
         }
 
-        project_work_a = scratch + 0x84;
-        project_work_b = scratch + 0x88;
+        project_work_a = (u8 *)scratch + 0x84;
+        project_work_b = (u8 *)scratch + 0x88;
         {
-            u8 *start_pos = scratch + 0x64;
-            u8 *start_screen = scratch + 0xD8;
+            u8 *start_pos = (u8 *)scratch + 0x64;
+            u8 *start_screen = (u8 *)scratch + 0xD8;
             start_depth = RotTransPers(start_pos, start_screen, project_work_a, project_work_b);
         }
-        ((S_800247D4_0 *)scratch)->unk_F4 = start_depth;
+        scratch->unk_F4 = start_depth;
         {
-            u8 *end_pos = scratch + 0x6C;
-            u8 *end_screen = scratch + 0xDC;
+            u8 *end_pos = (u8 *)scratch + 0x6C;
+            u8 *end_screen = (u8 *)scratch + 0xDC;
             end_depth = RotTransPers(end_pos, end_screen, project_work_a, project_work_b);
         }
-        ((S_800247D4_0 *)scratch)->unk_F8 = end_depth;
+        scratch->unk_F8 = end_depth;
 
-        ((S_800247D4_2 *)packet)->unk_08 = ((S_800247D4_0 *)scratch)->unk_D8;
-        ((S_800247D4_2 *)packet)->unk_0A = ((S_800247D4_0 *)scratch)->unk_DA;
-        ((S_800247D4_2 *)packet)->unk_10 = ((S_800247D4_0 *)scratch)->unk_DC;
-        ((S_800247D4_2 *)packet)->unk_12 = ((S_800247D4_0 *)scratch)->unk_DE;
+        packet->unk_08 = scratch->unk_D8;
+        packet->unk_0A = scratch->unk_DA;
+        packet->unk_10 = scratch->unk_DC;
+        packet->unk_12 = scratch->unk_DE;
 
         {
-            s32 depth_sum = ((S_800247D4_0 *)scratch)->unk_F4;
-            s32 depth_or_sign = ((S_800247D4_0 *)scratch)->unk_F8;
+            s32 depth_sum = scratch->unk_F4;
+            s32 depth_or_sign = scratch->unk_F8;
 
             depth_sum += depth_or_sign;
             depth_or_sign = (u32)depth_sum >> 31;
             depth_sum += depth_or_sign;
             offset_or_depth = depth_sum >> 1;
         }
-        ((S_800247D4_0 *)scratch)->unk_B4 = offset_or_depth;
+        scratch->unk_B4 = offset_or_depth;
         if ((u32)offset_or_depth < 0x1E0U) {
             u32 *ordering_table;
 
@@ -297,18 +297,18 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
                 u32 bucket_addr =
                     (u32)offset_or_depth << 2;
                 u32 *table_base =
-                    ((S_800247D4_0 *)scratch)->unk_18;
+                    scratch->unk_18;
 
                 {
                     tag_mask = 0xFF000000;
 
                     bucket_addr += (u32)table_base;
-                    ((S_800247D4_2 *)packet)->unk_00.at00.v =
-                        (((S_800247D4_2 *)packet)->unk_00.at00.v & tag_mask) |
+                    packet->unk_00.at00.v =
+                        (packet->unk_00.at00.v & tag_mask) |
                         (((S_800247D4_4 *)((void *)bucket_addr))->unk_00 & address_mask);
-                    ordering_table = ((S_800247D4_0 *)scratch)->unk_18;
-                    ordering_table[((S_800247D4_0 *)scratch)->unk_B4] =
-                        (ordering_table[((S_800247D4_0 *)scratch)->unk_B4] & tag_mask) |
+                    ordering_table = scratch->unk_18;
+                    ordering_table[scratch->unk_B4] =
+                        (ordering_table[scratch->unk_B4] & tag_mask) |
                         ((u32)packet & address_mask);
                 }
             }

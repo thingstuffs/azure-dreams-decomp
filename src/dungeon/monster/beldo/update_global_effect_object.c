@@ -7,7 +7,8 @@
 
 extern u8 *beldo_active_entity;
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern void unlink_entity_node(void *node);
 
 /* Updates the active object, triggers its positional effect, and clears its slot. */

@@ -117,7 +117,6 @@ extern void push_node_onto_free_list(struct ObjectNodeHeader *);
 extern s8 town_map_link_slots;
 extern u8 town_map_status;
 extern void *register_node(void *, void *);
-extern void *func_8004491C(void *, void *);
 extern void copy_window_params(void *, u32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 struct Container;
 struct Source;

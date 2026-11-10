@@ -23,7 +23,8 @@ typedef struct S_8008CD4C_2 {
     s16 unk_88;
 } S_8008CD4C_2;   /* actor in begin_player_push */
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 s32 can_push_adjacent_actor();
 void * find_eligible_actor_at_tile_and_height();
 

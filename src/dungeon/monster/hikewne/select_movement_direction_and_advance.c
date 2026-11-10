@@ -19,11 +19,13 @@
 #include "dungeon/item.h"
 #include "dungeon/item/state.h"
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
+#include "dungeon/actor/state.h"
+
+#include "dungeon/item/get_actor_height_difference_api.h"
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
@@ -230,7 +232,7 @@ void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPositio
                 ActorRecord *previous_actor;
 
                 previous_node = primary_actor_record->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
                 if (check_entity_relation(actor_data,
                         previous_actor) != 0) {

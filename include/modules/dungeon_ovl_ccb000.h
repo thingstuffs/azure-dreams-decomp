@@ -980,7 +980,6 @@ extern int read_stream_cue_start_offset(void);
 extern s32 register_node(ObjectNodeHeader *, void *);
 extern s32 func_8004491C(ObjectNodeHeader *, void *);
 extern void unlink_node(void *node);
-extern void func_80044A50(void *node);
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *, s16, s16);
 extern void advance_sprite_animation_and_textures(void *entity);

@@ -8297,7 +8297,7 @@
 "Rec_func_800B683C_arg0": {
 "class": "param:town:func_800B683C:arg0",
 "header": "records/Rec_func_800B683C_arg0.h",
-"sha256": "4c3172ca32ceb04af617db5b91cbfb86df4540ed91160d409f62a23408102b7c",
+"sha256": "a0aec3946f596a409525be37296084013f295eedc2f7c2ce0c036499078f86bf",
 "needs_compat": true,
 "compiles": true,
 "paths": {

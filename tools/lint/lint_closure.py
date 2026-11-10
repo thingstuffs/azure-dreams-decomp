@@ -545,7 +545,8 @@ def run(args, parser):
           f'{len(head_failures)} failed jobs')
     write_json(out / 'closure_result.json', dict(plan=plan, base_findings=base_findings,
                head_findings=head_findings, base_failures=base_failures, head_failures=head_failures))
-    code = report(base_findings, head_findings, base_failures, head_failures, plan['renames'], started)
+    code = report(base_findings, head_findings, base_failures, head_failures, plan['renames'], started,
+                  recorded_renames(root))
     if not args.no_decl_check:
         code |= decl_check(args, root, head_tree, plan['functions'], plan['renames'], base_tree)
     return code
@@ -580,9 +581,41 @@ def rename_hints(base_findings, head_findings, rising, renames=None):
     return hints
 
 
-def report(base_findings, head_findings, base_failures, head_failures, renames, started):
+def recorded_renames(root):
+    """{name: {address}} from config/names.tsv: a function renamed at its address keeps one row per name."""
+    out = collections.defaultdict(set)
+    path = Path(root) / 'config/names.tsv'
+    if path.is_file():
+        for line in path.read_text(errors='replace').splitlines():
+            cols = line.split('\t')
+            if len(cols) >= 3 and cols[0].startswith('0x'):
+                out[cols[2]].add(cols[0].lower())
+    return out
+
+
+def proven_rename(base_findings, row, old, names):
+    """A hinted rename is the same warning site, not a new one, when the BASE group under the old name lists
+    exactly the same sites and config/names.tsv records both names at one address (an R6 rename)."""
+    if not names or not (names.get(old, set()) & names.get(row['function'], set())):
+        return False
+    for b in base_findings:
+        if b['file'] == row['file'] and b['function'] == old and b['warning'] == row['warning']:
+            return b.get('sites') == row['sites']
+    return False
+
+
+def report(base_findings, head_findings, base_failures, head_failures, renames, started, names=None):
     rising = increases(base_findings, head_findings, renames)
     hints = rename_hints(base_findings, head_findings, rising, renames)
+    kept = []
+    for row in rising:
+        old = hints.get((row['file'], row['function'], row['warning']))
+        if old and proven_rename(base_findings, row, old, names):
+            print(f"renamed {row['warning']} {row['file']} {old} -> {row['function']}: the same "
+                  f"{row['head_sites']} site(s), both names at one address in config/names.tsv (not new)")
+        else:
+            kept.append(row)
+    rising = kept
     back = {old: new for new, old in (renames or {}).items()}
     base_failed = {(back.get(f['tu'], f['tu']), f['mode'], f['phase']) for f in base_failures}
     new_failures = [f for f in head_failures if (f['tu'], f['mode'], f['phase']) not in base_failed]
@@ -622,7 +655,7 @@ def run_full(args, root, out, started):
     head_failures = list(csv.DictReader((census / 'lint_compile_failures.tsv').open(), delimiter='\t'))
     renames = {new: old for status, old, new in changes(root, args.base, None) if status == 'R'}
     result = report(read_census(base_dir), read_census(census), base_failures, head_failures,
-                    renames, started)
+                    renames, started, recorded_renames(root))
     if not args.no_decl_check:
         import decl_agreement
         names = decl_agreement.changed_function_names(root, args.base, None)

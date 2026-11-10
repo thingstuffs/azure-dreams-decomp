@@ -11,7 +11,7 @@
 #include "dungeon/item/message.h"
 #include "dungeon/monster/dreamin.h"
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 extern void try_apply_action_by_chance(void *, s32, s32);
 
 extern void *actor_update_node_cursor;

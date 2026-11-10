@@ -17,6 +17,7 @@
 #include "town/data.h"
 #include "town/scene.h"
 #include "town/shop/display_objects.h"
+#include "slus.h"
 
 #ifndef NULL
 #define NULL 0
@@ -32,7 +33,6 @@ extern u8 D_80024470[];
 extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
-extern s16 SD_Call(s32 value);
 extern void *create_familiar_deployment_effect_with_owner_state(void);
 
 typedef struct ReelSlotCursor {

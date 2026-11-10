@@ -12,7 +12,7 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "slus.h"
 #include "dungeon/actor.h"
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
 
 extern u8 actor_action_resume_address[];
 extern void *actor_action_frames[];
@@ -63,7 +63,7 @@ void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context
         }
         if ((has_pending_actor_or_turn_action(actor) << 0x10) != 0) {
             if ((check_entity_relation(actor,
-                    primary_actor_record->previous_actor_header + 0x20) << 0x10) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 0x10) != 0) {
                 return;
             }
         }

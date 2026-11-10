@@ -363,9 +363,9 @@ typedef struct { u8 prefix[0x18]; PointCoord x[5]; PointCoord y[5]; } EffectCoor
  * edges from adjacent saved X/Y points over the supplied duration. Projects and queues each quad
  * with its draw mode only for depths below 0x1E0.
  */
-void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in)
+void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(ovl_1930844_81911BF4_Obj81911BF4 *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in)
 {
-    void *effect = effect_in;
+    ovl_1930844_81911BF4_Obj81911BF4 *effect = effect_in;
     s32 step = step_in;
     s32 duration = duration_in;
 
@@ -425,13 +425,13 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
     for (; point_index < 5; point_index = next_index) {
         twice_index = point_index * 2;
         angle_x_or_mask_2 = (twice_index + 1) * 0x199;
-        link = (u32 *)(angle_x_or_mask_2 + ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0A);
+        link = (u32 *)(angle_x_or_mask_2 + effect->angle);
         radial_x = rsin((s32)link);
-        target_x = radial_coordinate(origin->unk_00, radial_x, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0E);
-        row_off = rcos(angle_x_or_mask_2 + ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0A);
+        target_x = radial_coordinate(origin->unk_00, radial_x, effect->scale);
+        row_off = rcos(angle_x_or_mask_2 + effect->angle);
         row_off >>= 4;
         radial_y = origin->unk_04 +
-            ((row_off * ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0E) << 8);
+            ((row_off * effect->scale) << 8);
         target_y = radial_y;
         {
             GpuContext **pool = (GpuContext **)context_slot;
@@ -440,22 +440,22 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
         }
         ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_00.at03.v = 8;
         ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_07 = 0x3A;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_04 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_05 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_06 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0C = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0D = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0E = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_14 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_15 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_16 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1C = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1D = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1E = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_04 = effect->field40;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_05 = effect->field41;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_06 = effect->field42;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0C = effect->field40;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0D = effect->field41;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0E = effect->field42;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_14 = effect->field40;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_15 = effect->field41;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_16 = effect->field42;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1C = effect->field40;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1D = effect->field41;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1E = effect->field42;
         start_x = ((EffectCoords *)effect)->x[point_index].half.high;
         ovl_1930844_819112CC_SP16(0x74) = start_x;
         ovl_1930844_819112CC_SP16(0x64) = start_x;
-        delta_x = target_x - ((EffectCoords *)effect)->x[point_index].value;
+        delta_x = target_x - effect->x[point_index];
         ovl_1930844_819112CC_SP32(0x108) = delta_x;
         if (interpolate != 0) {
             ovl_1930844_819112CC_SP32(0x108) = (delta_x / duration) * step;
@@ -466,7 +466,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
         start_y = ((EffectCoords *)effect)->y[point_index].half.high;
         ovl_1930844_819112CC_SP16(0x76) = start_y;
         ovl_1930844_819112CC_SP16(0x66) = start_y;
-        delta_y = radial_y - ((EffectCoords *)effect)->y[point_index].value;
+        delta_y = radial_y - effect->y[point_index];
         ovl_1930844_819112CC_SP32(0x10C) = delta_y;
         if (interpolate != 0) {
             ovl_1930844_819112CC_SP32(0x10C) = (delta_y / duration) * step;
@@ -474,7 +474,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
         end_y = ((EffectCoords *)effect)->y[point_index].half.high + ovl_1930844_819112CC_SP16(0x10E);
         ovl_1930844_819112CC_SP16(0x7E) = end_y;
         ovl_1930844_819112CC_SP16(0x6E) = end_y;
-        bottom_z = origin->unk_0A - ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_10;
+        bottom_z = origin->unk_0A - effect->field10;
         ovl_1930844_819112CC_SP16(0x70) = bottom_z;
         ovl_1930844_819112CC_SP16(0x68) = bottom_z;
         top_z = origin->unk_0A;
@@ -516,7 +516,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
                 ctx->packetCursor = prim + 0xC;
             }
             SetDrawMode(prim, 0, 0,
-                          GetTPage(0, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
+                          GetTPage(0, effect->field12, 0, 0) & 0xFFFF,
                           0);
             ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(&((u32 *)ovl_1930844_819112CC_SP32(0x18))[ovl_1930844_819112CC_SP32(0xB4)]));
             link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
@@ -531,19 +531,19 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
         }
         ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_00.at03.v = 8;
         ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_07 = 0x3A;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_04 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_05 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_04 = effect->field40;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_05 = effect->field41;
         next_index = point_index + 1;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_06 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0C = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0D = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0E = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_14 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_15 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_16 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1C = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1D = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
-        row_off = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_06 = effect->field42;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0C = effect->field40;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0D = effect->field41;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0E = effect->field42;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_14 = effect->field40;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_15 = effect->field41;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_16 = effect->field42;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1C = effect->field40;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1D = effect->field41;
+        row_off = effect->field42;
         ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1E = row_off;
         modulo_result = next_index % 5;
         row_off = modulo_result;
@@ -599,7 +599,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
                 ctx->packetCursor = prim + 0xC;
             }
             SetDrawMode(prim, 0, 0,
-                          GetTPage(0, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
+                          GetTPage(0, effect->field12, 0, 0) & 0xFFFF,
                           0);
             ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(&((u32 *)ovl_1930844_819112CC_SP32(0x18))[ovl_1930844_819112CC_SP32(0xB4)]));
             link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
@@ -616,24 +616,24 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
     ovl_1930844_81911A8C_S_81911A8C_4 *fade_state = fade_state_arg;
     s8 green_blue;
     s8 frames_left;
-    void *overlay;
+    ovl_1930844_81911A8C_S_81911A8C_3 *overlay;
     ovl_1930844_81911A8C_S_81911A8C_1 *effect_state;
 
     effect_state = ((ovl_1930844_81911A8C_S_81911A8C_0 *)effect)->unk_00;
     effect_state->unk_14 = (u16) (effect_state->unk_14 + 1);
     overlay = ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0;
     ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0 =
-        (overlay + 0x10);
-    ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0C = 0x140;
-    ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0E = 0xE0;
-    ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_08 = 0;
-    ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0A = 0;
-    ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_04 = 0xC0;
+        (overlay + 1);
+    overlay->unk_0C = 0x140;
+    overlay->unk_0E = 0xE0;
+    overlay->unk_08 = 0;
+    overlay->unk_0A = 0;
+    overlay->unk_04 = 0xC0;
     green_blue = -0x40 - (fade_state->unk_05 * 0xC);
-    ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_06 = green_blue;
-    ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_05 = green_blue;
+    overlay->unk_06 = green_blue;
+    overlay->unk_05 = green_blue;
     SetTile(overlay);
-    ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 = (u8) (((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 | 2);
+    overlay->unk_07 = (u8) (overlay->unk_07 | 2);
     AddPrim(g_game_work.draw_buffer + 0xB0, overlay);
     frames_left = (u8) fade_state->unk_05 - 1;
     fade_state->unk_05 = frames_left;
@@ -861,10 +861,10 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
     s32 model;
     SpriteFrameState *source_sprite;
     ovl_1930844_81912154_S_80025954_8 *destination;
-    ovl_1930844_81912154_S_80025954_3 *owner_links;
-    void *owner;
+    ObjectNodeHeader *owner_links;
+    ActorRecord *owner;
     ovl_1930844_81912154_S_80025954_7_pre *target;
-    ovl_1930844_81912154_S_80025954_6 *origin;
+    ObjectPosition *origin;
     ovl_1930844_81912154_S_80025954_9 *entity;
     SpriteFrameState *grid_source;
     s16 *y_lookup_first;
@@ -881,21 +881,21 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
     case 0:
         state->unk_10 = 0U;
         state->spell.phase++;
-        state->unk_0E = (u16) (((u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_2A >> 9) & 7);
+        state->unk_0E = (u16) (((u16) owner->facing >> 9) & 7);
         appearance->color.word = 0x808080;
     case 1:
-        owner_links = owner - 0x20;
-        source_sprite = owner_links->unk_0C;
+        owner_links = NODE_HEADER(owner);
+        source_sprite = owner_links->sprite;
         if (resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &stack.offset.orientation, 0) == 0
-            && !(owner_links->unk_0C->flags & 0x8000)) {
+            && !(owner_links->sprite->flags & 0x8000)) {
             break;
         }
-        origin = owner_links->unk_08;
-        motion->x.unsigned_parts.integer = (u16) origin->unk_02;
-        motion->y.unsigned_parts.integer = (u16) origin->unk_06;
-        origin_z = origin->unk_0A;
+        origin = owner_links->position;
+        motion->x.unsigned_parts.integer = origin->x.w.i;
+        motion->y.unsigned_parts.integer = origin->y.w.i;
+        origin_z = (u16)origin->z.w.i;
         motion->z.unsigned_parts.integer = origin_z;
-        if (!(owner_links->unk_0C->flags & 0x8000)) {
+        if (!(owner_links->sprite->flags & 0x8000)) {
             motion->x.unsigned_parts.integer = (u16) (motion->x.unsigned_parts.integer
                 + stack.offset.distance[0]);
             motion->y.unsigned_parts.integer = (u16) (motion->y.unsigned_parts.integer
@@ -908,7 +908,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
         if (!(*state->spell.context & 0x80)) {
             break;
         }
-        target = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
+        target = owner->target;
         if (target != NULL) {
             step_count = 1;
             destination = target[-1].unk_00;
@@ -918,7 +918,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
             y_distance = destination->unk_04.at02.v - motion->y.w.i;
             y_distance = abs(y_distance);
             stack.offset.distance[1] = y_distance;
-            entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
+            entity = owner->target;
             z_table = entity_height_offsets[entity->unk_13] << 0x10;
             z_distance = destination->unk_08.at02.v - z_table;
             z_base = motion->z.w.i + 0x300000;
@@ -940,7 +940,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
                 - motion->x.v) / state->unk_12;
             motion->velocity_y = (destination->unk_04.at00.v
                 - motion->y.v) / state->unk_12;
-            entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
+            entity = owner->target;
             z_table2 = entity_height_offsets[entity->unk_13] << 0x10;
             z_velocity = destination->unk_08.at00.v - z_table2;
             z_base2 = motion->z.v + 0x300000;
@@ -951,20 +951,20 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
         } else {
             table_origin = dir_step_x;
             step_count = 0;
-            grid_source = owner_links->unk_0C;
+            grid_source = owner_links->sprite;
             tile_x = grid_source->tile_x;
             tile_y = grid_source->tile_y;
             end_tile_x = tile_x;
             end_tile_y = tile_y;
             do {
                 if ((check_layer_offset_height(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0,
-                    ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88, (s16) (state->unk_0E << 9)) << 0x10)
+                    owner->ground_height, (s16) (state->unk_0E << 9)) << 0x10)
                     != 0) {
                     goto grid_hit;
                 }
                 {
                     direction = (s16) state->unk_0E;
-                    height = (u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88;
+                    height = (u16) owner->ground_height;
                     entity = (void *)&dir_step_x[direction];
                 }
                 height = (s16) (height - 0x20);
@@ -974,7 +974,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
                 if (floor_height >= 0x201) {
                     break;
                 }
-                if ((s16) (floor_height - (u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88) < -0x3F) {
+                if ((s16) (floor_height - (u16) owner->ground_height) < -0x3F) {
                     break;
                 }
                 step_direction = (s16) state->unk_0E;
@@ -1043,7 +1043,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
         if ((s16) state->unk_10 < state->unk_12) {
             break;
         }
-        create_and_initializes_copying_n_24_bytes_source_data(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
+        create_and_initializes_copying_n_24_bytes_source_data(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(owner->target))->unk_88);
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         state->unk_10 = 0U;
         state->spell.phase++;
@@ -1060,7 +1060,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Approa
         if ((s16) state->unk_10 < 0x44) {
             break;
         }
-        apply_attack_power_and_element_effects(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60, 0x18, state->spell.variant, 1,
+        apply_attack_power_and_element_effects(owner->target, 0x18, state->spell.variant, 1,
             (s32) (s16) (state->unk_0E << 9), owner, 1);
         state->unk_10 = 0U;
         state->spell.phase++;

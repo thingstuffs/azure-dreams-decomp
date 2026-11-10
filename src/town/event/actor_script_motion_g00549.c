@@ -62,7 +62,7 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner_arg, void
 }
 
 /* Update movement and height, transition the actor state, and copy its value to the context. */
-void update_actor_surface_motion(void *actor, void *subject, void *motion, SpriteFrameState *context) {
+void update_actor_surface_motion(TownObjectRecord *actor, void *subject, void *motion, SpriteFrameState *context) {
     s16 surface_height;
     void *actor_callback;
     s32 *actor_value;
@@ -78,13 +78,13 @@ void update_actor_surface_motion(void *actor, void *subject, void *motion, Sprit
             *(s32 *)((u8 *)motion + 0xC) = 0;
             *(s32 *)((u8 *)motion + 0x10) = 0;
             *(s32 *)((u8 *)motion + 0x14) = 0;
-            *(void **)((u8 *)actor + 0x50) = actor_output_update_address;
+            actor->unk_50.as_pv = actor_output_update_address;
         }
     }
-    dispatch_active_town_object_script(actor, subject, motion, context);
-    actor_callback = *(void **)((u8 *)actor + 0x50);
+    dispatch_active_town_object_script((TownObject *)actor, subject, motion, context);
+    actor_callback = actor->unk_50.as_pv;
     if (actor_callback != actor_surface_callback_address && actor_callback != actor_output_update_address && actor_callback != update_actor_with_controlled_motion) {
-        actor_value = *(s32 **)((u8 *)actor + 0x7C);
+        actor_value = actor->unk_7C.as_pv;
         if (actor_value != 0)
             *(s32 *)((u8 *)context + 8) = *actor_value;
     }

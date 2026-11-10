@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "engine/runtime.h"
 #include "town/data.h"
+#include "slus.h"
 
 typedef struct {
     s16 state;
@@ -75,7 +76,6 @@ extern s32 keima_payout_remaining;
 extern void func_800201C8(void *, void *);
 extern void func_8002025C(void *, void *);
 extern void return_zero_variadic(void *, s32);
-extern void SD_Call(s32);
 extern s32 create_dual_buffer_object(s32, s32, s32);
 extern void set_object_data_pointer_2(s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 

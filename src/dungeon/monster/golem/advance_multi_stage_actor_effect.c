@@ -11,7 +11,7 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-extern void spend_actor_mp(void *, s32);
+#include "dungeon/actor/spend_actor_mp_api.h"
 extern void *create_randomized_offset_object(ActorRecord *, void *, SpriteFrameState *);
 
 extern u8 golem_direction_frames[8];

@@ -8,7 +8,7 @@
 
 
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
+#include "dungeon/actor/spend_actor_mp_api.h"
                 /* Updates the target and resets state after a successful check or a reset flag. */
 void update_actor_target_after_check(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *target) {
     if (update_actor_movement_to_tile(state, motion, sprite, target) != 0) {

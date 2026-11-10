@@ -76,9 +76,10 @@ typedef struct S_800C2824_12 {
 typedef struct S_800C2824_16 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800C2824_16;   /* ((S_800C2824_0 *)effect)->unk_00 in update_return_magic_sacrifice */
+} S_800C2824_16;   /* effect->unk_00 in update_return_magic_sacrifice */
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 void draw_transformed_sprite_with_clip_rect();
 void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void retire_tracked_effect_by_id(s32 targetId);
@@ -106,7 +107,7 @@ enum ReturnSacrificeState {
 };
 
 /* Advance the object effect through fading, tile cleanup, and completion. */
-void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameState *sprite) {
+void update_return_magic_sacrifice(S_800C2824_0 *effect, void *vertices, SpriteFrameState *sprite) {
     StackArgs effect_args;
     s32 object_slot;
     s32 release_flags;
@@ -143,19 +144,19 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
     ActorRecord *effect_object;
     u8 *slots_page;
 
-    state = ((S_800C2824_0 *)effect)->unk_04;
+    state = effect->unk_04;
     switch (state) {
     case RETURN_SACRIFICE_INIT:
-        if (!(((S_800C2824_16 *)(((S_800C2824_0 *)effect)->unk_00))->unk_14 & 0x4000)) {
-            ((S_800C2824_0 *)effect)->unk_04 = RETURN_SACRIFICE_ACTOR_EFFECT;
+        if (!(((S_800C2824_16 *)(effect->unk_00))->unk_14 & 0x4000)) {
+            effect->unk_04 = RETURN_SACRIFICE_ACTOR_EFFECT;
             return;
         }
         effect_args.clip_origin_xy = 0x01800340;
         effect_args.clip_extent_wh = 0x400040;
         effect_args.screen_x = 0x360;
         effect_args.screen_y = 0x1B8;
-        draw_transformed_sprite_with_clip_rect(((S_800C2824_0 *)effect)->unk_00, &effect_args.clip_origin_xy, &effect_args.screen_x, 1, 2);
-        object_base = ((S_800C2824_0 *)effect)->unk_00 - 0x20;
+        draw_transformed_sprite_with_clip_rect(effect->unk_00, &effect_args.clip_origin_xy, &effect_args.screen_x, 1, 2);
+        object_base = effect->unk_00 - 0x20;
         unlink_node(object_base);
         retire_tracked_effect_by_id(object_base);
         object_vertices = object_base->position;
@@ -168,31 +169,31 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
         vertex_z = (u16)object_vertices->z.w.i;
         ((S_800C2824_3 *)vertices)->unk_0A = vertex_z;
         ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
-        register_node(effect - 0x20, process_linked_mesh_states_mode_1);
+        register_node(NODE_HEADER(effect), process_linked_mesh_states_mode_1);
         sprite->tpage_abr = 0x20;
         sprite->source = &return_magic_sprite_data;
         sprite->color.word = 0x808080;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->flags = (u16) (sprite->flags | 0xC);
-        ((S_800C2824_0 *)effect)->unk_06 = 0x10;
+        effect->unk_06 = 0x10;
         play_sound_if_enabled(1);
-        ((S_800C2824_0 *)effect)->unk_04 = (s16) ((u16) ((S_800C2824_0 *)effect)->unk_04 + 1);
+        effect->unk_04 = (s16) ((u16) effect->unk_04 + 1);
     case RETURN_SACRIFICE_FADE_OUT:
         shade = (u8) sprite->color.word;
-        faded_shade = shade - ((s32) shade / (s16) ((S_800C2824_0 *)effect)->unk_06);
+        faded_shade = shade - ((s32) shade / (s16) effect->unk_06);
         sprite->color.c.r = faded_shade;
         sprite->color.c.b = faded_shade;
         sprite->color.c.g = faded_shade;
-        fade_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
-        ((S_800C2824_0 *)effect)->unk_06 = fade_ticks;
+        fade_ticks = (u16) effect->unk_06 - 1;
+        effect->unk_06 = fade_ticks;
         if ((fade_ticks << 0x10) > 0) {
             return;
         }
-        ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+        effect->unk_04 = (u16) effect->unk_04 + 1;
         return;
     case RETURN_SACRIFICE_RELEASE_ACTOR:
-        linked_object = detach_record_and_update_slot_state(((S_800C2824_0 *)effect)->unk_00);
+        linked_object = detach_record_and_update_slot_state(effect->unk_00);
         if (linked_object != 0) {
             object_slot = release_entity_slot_and_update_flags(linked_object, 0);
             if (object_slot < 0x40) {
@@ -201,8 +202,8 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
                 ((s32 *)0x80010980)[object_slot] = 0;
             }
         }
-        if ((get_entity_effect_value(((S_800C2824_0 *)effect)->unk_00, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
-            release_object = ((S_800C2824_0 *)effect)->unk_00;
+        if ((get_entity_effect_value(effect->unk_00, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
+            release_object = effect->unk_00;
             release_status = release_object->unk_1C;
             release_coord = (u32)NODE_HEADER(release_object)->sprite;
             release_status &= 0x2000;
@@ -214,9 +215,9 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
             }
             update_map_cell_flags_with_item_limit(release_x, release_coord, release_flags);
         }
-        unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
-        adjust_source_value_and_finalize(((S_800C2824_0 *)effect)->unk_00, D_800E1640);
-        ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+        unlink_entity_node(effect->unk_00);
+        adjust_source_value_and_finalize(effect->unk_00, D_800E1640);
+        effect->unk_04 = (u16) effect->unk_04 + 1;
         return;
     case RETURN_SACRIFICE_PLAYER_EFFECT:
     {
@@ -229,7 +230,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
             return;
         }
         flags_page = (S_800C2824_10 *)0x80080000;
-        marked_object = ((S_800C2824_0 *)effect)->unk_00;
+        marked_object = effect->unk_00;
         NODE_HEADER(marked_object)->flags = (u16) (NODE_HEADER(marked_object)->flags
             | NODE_REMOVE);
         effect_flags = flags_page->unk_14A0;
@@ -240,7 +241,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
         return;
     }
     case RETURN_SACRIFICE_ACTOR_EFFECT:
-        source_object = ((S_800C2824_0 *)effect)->unk_00;
+        source_object = effect->unk_00;
         object_coords = (NODE_HEADER(source_object)->sprite);
         effect_object = source_object;
         effect_param = effect_object->ground_height;
@@ -249,25 +250,25 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
             effect_param, &D_800DF45C, 0x2800, 0x208020, &create_and_store_pending_actor_fade) == 0) {
             return;
         }
-        ((S_800C2824_0 *)effect)->unk_06 = 0x3C;
-        ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+        effect->unk_06 = 0x3C;
+        effect->unk_04 = (u16) effect->unk_04 + 1;
         return;
     case RETURN_SACRIFICE_WAIT_EFFECT:
-        wait_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
-        ((S_800C2824_0 *)effect)->unk_06 = wait_ticks;
+        wait_ticks = (u16) effect->unk_06 - 1;
+        effect->unk_06 = wait_ticks;
         if ((wait_ticks << 0x10) > 0) {
             return;
         }
-        detach_record_and_update_slot_state(((S_800C2824_0 *)effect)->unk_00);
-        if ((get_entity_effect_value(((S_800C2824_0 *)effect)->unk_00, STATUS_NO_TILE_OCCUPANCY) << 0x10) != 0) {
-            unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
-            finished_object = ((S_800C2824_0 *)effect)->unk_00;
+        detach_record_and_update_slot_state(effect->unk_00);
+        if ((get_entity_effect_value(effect->unk_00, STATUS_NO_TILE_OCCUPANCY) << 0x10) != 0) {
+            unlink_entity_node(effect->unk_00);
+            finished_object = effect->unk_00;
             (*(u16 *)((u8 *)finished_object + -2)) = (u16) (NODE_HEADER(finished_object)->flags | NODE_REMOVE);
             final_object = return_magic_fade_object;
             flags_page = (S_800C2824_10 *)0x80080000;
             effect_flags = flags_page->unk_14A0;
         } else {
-            expired_object = ((S_800C2824_0 *)effect)->unk_00;
+            expired_object = effect->unk_00;
             expired_status = expired_object->unk_1C;
             expired_coord = (u32)NODE_HEADER(expired_object)->sprite;
             expired_status &= 0x2000;
@@ -278,8 +279,8 @@ void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameStat
                 tile_flags = 0x300;
             }
             update_map_cell_flags_with_item_limit(expired_x, expired_coord, tile_flags);
-            unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
-            finished_object = ((S_800C2824_0 *)effect)->unk_00;
+            unlink_entity_node(effect->unk_00);
+            finished_object = effect->unk_00;
             (*(u16 *)((u8 *)finished_object + -2)) = (u16) (NODE_HEADER(finished_object)->flags | NODE_REMOVE);
             final_object = return_magic_fade_object;
             flags_page = (S_800C2824_10 *)0x80080000;

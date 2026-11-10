@@ -152,7 +152,6 @@ typedef struct ovl_18b8824_81898EBC_Scratch {
 #define ovl_18b8824_81898EBC_map_flags scratch.ovl_18b8824_81898EBC_map_flags
 extern s32 rand(void);
 extern void register_node(void *, void *);
-extern void func_8004491C(void *, void *);
 extern u8 D_80024E88[];
 extern void advance_sprite_animation_and_textures(void *target);
 void select_record_entry_and_value(void *state, void *entries, short index);

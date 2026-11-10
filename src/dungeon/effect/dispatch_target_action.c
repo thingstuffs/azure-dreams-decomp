@@ -8,7 +8,7 @@
 #include "engine/entity.h"
 #include "dungeon/player/object.h"
 
-extern s8 find_active_rect_containing_point(u8, u8);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
 #include "dungeon/player/object/action_state.h"
 

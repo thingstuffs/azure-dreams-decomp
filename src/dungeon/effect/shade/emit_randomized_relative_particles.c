@@ -16,7 +16,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Emit randomized particles at the parent-relative position and expire the emitter when its lifetime ends. */
-void emit_randomized_relative_particles(void *emitter, ObjectPosition *position, M2C_UNK spawn_context) {
+void emit_randomized_relative_particles(Rec_func_800D4BD4_arg1 *emitter, ObjectPosition *position, s32 spawn_context) {
     s32 particle_index;
     u16 tick_or_offset;
     u16 life_left;
@@ -28,15 +28,15 @@ void emit_randomized_relative_particles(void *emitter, ObjectPosition *position,
     ObjectNodeHeader *particle;
     FadingMotionParticleBody *particle_state;
 
-    parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
+    parent = emitter->unk_24;
     position->x.w.i = (s16) (parent->position->x.unsigned_parts.integer
-        + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
+        + emitter->unk_3C);
     position->y.w.i = (s16) (parent->position->y.unsigned_parts.integer
-        + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
+        + emitter->unk_3E);
     position->z.w.i = (s16) (parent->position->z.unsigned_parts.integer
-        + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
-    tick_or_offset = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
-    ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = tick_or_offset;
+        + emitter->unk_40);
+    tick_or_offset = emitter->unk_16 + 1;
+    emitter->unk_16 = tick_or_offset;
     if ((s16) tick_or_offset < 0x14) {
         particle_index = 0;
         particle_size = 0x20;
@@ -65,8 +65,8 @@ void emit_randomized_relative_particles(void *emitter, ObjectPosition *position,
             particle_index += 1;
         } while (particle_index < 4);
     }
-    life_left = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E - 1;
-    ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E = life_left;
+    life_left = emitter->unk_1E - 1;
+    emitter->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         NODE_HEADER(emitter)->flags = (u16) (NODE_HEADER(emitter)->flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

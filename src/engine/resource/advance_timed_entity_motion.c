@@ -8,7 +8,7 @@
  * for the two axis offsets below). */
 /* D_80083CA8: sibling struct of code2.c's func_800419EC (which documents
  * offset 0 = rate/quotient, offset 4 = accumulator, offset 6 = short
- * (aka D_80083CAE), offset 8 = countdown timer). advance_timed_entity_motion reads the
+ * (aka D_80083CAE), offset 8 = countdown timer). apply_camera_shake reads the
  * offset-4 accumulator both as a full 32-bit int AND, via the same bytes,
  * as the offset-6 short -- modeled with a union so both views are legal. */
 typedef struct {
@@ -29,23 +29,25 @@ extern S_80041900_D80083CA8 timed_entity_motion_state;
  * retail refetches it via a fresh hi/lo instead of reusing the already
  * -materialized D_80083CA8 base register, so it must be its own symbol. */
 
-/* Moves the entity while the timer runs, then ticks the timer and decays the motion accumulator. */
-void advance_timed_entity_motion(GteMatrix *entity)
+/* While the shake countdown runs, push the camera matrix's translation up or down by half the shake
+ * amplitude and sideways by a quarter (directions from the frame word's low bits), then tick the
+ * countdown and decay the amplitude by the per-tick step initialize_timed_motion_step computed. */
+void apply_camera_shake(GteMatrix *matrix)
 {
     GameWork *direction_state = &g_game_work;
     S_80041900_D80083CA8 *motion_state = &timed_entity_motion_state;
 
     if (motion_state->field8 != 0) {
         if (direction_state->unk_004 & 2) {
-            entity->t[1] += (s16)motion_state->u.h.field6 >> 1;
+            matrix->t[1] += (s16)motion_state->u.h.field6 >> 1;
         } else {
-            entity->t[1] -= (s16)motion_state->u.h.field6 >> 1;
+            matrix->t[1] -= (s16)motion_state->u.h.field6 >> 1;
         }
 
         if (direction_state->unk_004 & 1) {
-            entity->t[0] += (s16)timed_entity_motion_delta_alias[0] >> 2;
+            matrix->t[0] += (s16)timed_entity_motion_delta_alias[0] >> 2;
         } else {
-            entity->t[0] -= (s16)timed_entity_motion_delta_alias[0] >> 2;
+            matrix->t[0] -= (s16)timed_entity_motion_delta_alias[0] >> 2;
         }
 
         timed_entity_motion_state.field8 -= 1;

@@ -587,7 +587,7 @@ extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern void *create_actor_with_tile_flags(s32, s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 
 void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height);
-void update_entity_facing_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster);
+void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster);
 void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *entry_context, SpriteFrameState *tile, ActorRecord *actor);
 void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
@@ -600,7 +600,7 @@ void move_actor_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motio
 void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, struct SpriteFrameState *actor, ActorRecord *actor_state);
 void update_linked_actor_motion_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void resolve_actor_attack_damage(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void update_actor_spell_action(void *state, struct E_80172A58_S_80172A58_6 *position, struct E_80172A58_S_80172A58_5 *sprite, ActorRecord *actor);
+void update_actor_spell_action(struct E_80172A58_S_80172A58_0 *state, struct E_80172A58_S_80172A58_6 *position, struct E_80172A58_S_80172A58_5 *sprite, ActorRecord *actor);
 void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void remove_defeated_volcano(void *state,void *position,void *render_state,void *entity);
 void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor);

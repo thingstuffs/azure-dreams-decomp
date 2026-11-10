@@ -33,11 +33,12 @@ typedef struct S_800D34CC_2 {
 } S_800D34CC_2;   /* data in update_actor_fade_state */
 
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+             /* extern */
 
 /* Waits for pending actions, shrinks and darkens the actor sprite, then detaches the actor and clears
    its map occupancy. */
-void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *data, void *entity) {
+void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *data, ActorRecord *entity) {
     s32 selectedValue;
     s16 countdown;
     s16 countdownNext;
@@ -58,7 +59,7 @@ void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *dat
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             break;
         }
-        ((ActorRecord *)entity)->flags1C = (s32) (((ActorRecord *)entity)->flags1C | 0x10000000);
+        entity->flags1C = (s32) (entity->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
         data->unk_0C.at00.v = 0x808080;
         state->action_timer = 0x10;
@@ -82,7 +83,7 @@ void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *dat
         state->action_timer = countdownNext;
         if (((countdownNext << 0x10) <= 0) || ((data->unk_14 & 0x8000) != 0)) {
             statusValue = ((s32)g_dungeon_status.pending_display_owner);
-            if (statusValue == (entity - 0x20)) {
+            if (statusValue == ((u8 *)entity - 0x20)) {
                 g_dungeon_status.pending_display_owner = (s32) (statusValue & 0x7FFFFFFF);
             }
             detach_record_and_update_slot_state(entity);
@@ -90,12 +91,12 @@ void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *dat
                 value24 = data->unk_24;
                 value25 = data->unk_25;
                 selectedValue = 0x3000;
-                if (((ActorRecord *)entity)->flags1C & ACTOR_PLAYER_SIDE) {
+                if (entity->flags1C & ACTOR_PLAYER_SIDE) {
                     selectedValue = 0x300;
                 }
                 update_map_cell_flags_with_item_limit(value24, value25, selectedValue);
             }
-            unlink_entity_node(entity);
+            unlink_entity_node((struct EntityLinkNode *)entity);
             (((ObjectNodeHeader *)entity - 1)->flags) = (u16) (((ObjectNodeHeader *)entity - 1)->flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             decrement_bounded_counter();

@@ -27,7 +27,7 @@ typedef struct S_80172258_0 {
     s32 unk_A8;
 } S_80172258_0;   /* arg0 in complete_actor_jump_to_destination */
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 
 extern u8 ashra_action_continuation_address;

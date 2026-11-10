@@ -22,7 +22,8 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/ifrit_frames.h"
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern void func_80173F28(void *, void *, void *, void *);
 
 extern u8 ifrit_action_resume_address[];
@@ -101,7 +102,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(actor,
                         previous_actor) << 16) != 0) {

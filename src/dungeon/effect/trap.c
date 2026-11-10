@@ -1445,7 +1445,7 @@ typedef struct S_800CD6E0_6 {
 } S_800CD6E0_6;   /* spr in create_four_owner_sprite_effects */
 
 /* Conditionally creates four sprites around the source owner. */
-s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits) {
+s32 create_four_owner_sprite_effects(S_800CD6E0_0 *source, s16 slot_index, s32 slot_bits) {
     S_800CD6E0_3 *effect;
     S_800CD6E0_1 *owner;
     S_800CD6E0_4 *position;
@@ -1469,8 +1469,8 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
         roll = 0;
     } else {
         random = generate_random_value() & 0xFFFF;
-        if (((S_800CD6E0_0 *)source)->unk_03 != 0) {
-            roll = random % ((S_800CD6E0_0 *)source)->unk_03;
+        if (source->unk_03 != 0) {
+            roll = random % source->unk_03;
         } else {
             roll = 0;
         }
@@ -1479,7 +1479,7 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
     if (roll < 0x30) {
         owner = ((S_800CD6E0_0_pre *)source)[-1].unk_00;
         if (owner->unk_14 & 0x8000) {
-            apply_mode_selected_trap_mask(source, 0x10);
+            apply_mode_selected_trap_mask((ActorRecord *)source, 0x10);
             return 1;
         }
         if (has_enough_available_runtime_nodes(4) == 0) {
@@ -1510,7 +1510,7 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
             spawn_roll = (spawn_roll << 5) + 0x20;
             owner_coord += spawn_roll;
             position->unk_06 = owner_coord;
-            position->unk_0A = ((S_800CD6E0_0 *)source)->unk_88 - 0x200;
+            position->unk_0A = source->unk_88 - 0x200;
 
             sprite = effect->unk_0C;
             spawn_roll = 0x1000;
@@ -1526,7 +1526,7 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
             sprite->unk_14 |= 0xC;
 
             effect_link = (FourOwnerSpriteEffectsBody *)((u8 *)effect + 0x20);
-            effect_link->threshold.u = ((S_800CD6E0_0 *)source)->unk_88;
+            effect_link->threshold.u = source->unk_88;
             effect->unk_20 = source;
             effect_link->timer = 0xC;
             color = effect_index;
@@ -1540,7 +1540,7 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
         return 1;
     }
 
-    if (((S_800CD6E0_0 *)source)->unk_13 == 0) {
+    if (source->unk_13 == 0) {
         display_fixed_item_action_message();
     }
     return 1;
@@ -2125,7 +2125,7 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
     u16 *offset_cell;
     s32 random_offset;
     u8 *base_row;
-    u8 *grid_data;
+    S_800CE4E8_0 *grid_data;
     GridEffectObject *object;
     u8 *row_data;
     u8 *row_base;
@@ -2135,17 +2135,17 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
     if (object != NULL) {
         row = 0;
         reverse_flag = (s16)reverse_offset;
-        grid_data = (u8 *)&object->field_20;
-        row_data = grid_data;
+        grid_data = (S_800CE4E8_0 *)&object->field_20;
+        row_data = (u8 *)grid_data;
         object->field_10 = floor_trap_update_address;
         object->field_20 = center_x - 2;
-        ((S_800CE4E8_0 *)grid_data)->unk_02 = center_y - 2;
+        grid_data->unk_02 = center_y - 2;
         do {
             col = 0;
             row_base = row_data;
             offset_cell = (u16 *)(row_data + 0x36);
             do {
-                base_row = grid_data;
+                base_row = (u8 *)grid_data;
                 origin_x = ((S_800CE4E8_0 *)base_row)->unk_00;
                 origin_y = ((S_800CE4E8_0 *)base_row)->unk_02;
                 tile_value = get_surface_height_at_coordinates(
@@ -2170,12 +2170,12 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
             row_data += 0xA;
         } while (row < 5);
 
-        ((S_800CE4E8_0 *)grid_data)->unk_6C = 0x10;
-        ((S_800CE4E8_0 *)grid_data)->unk_68 = 0x20;
-        ((S_800CE4E8_0 *)grid_data)->unk_6E = offset_mode;
+        grid_data->unk_6C = 0x10;
+        grid_data->unk_68 = 0x20;
+        grid_data->unk_6E = offset_mode;
         initialize_timed_motion_step(0x20, 8);
 
-        if (((S_800CE4E8_0 *)grid_data)->unk_6E == 0) {
+        if (grid_data->unk_6E == 0) {
             dungeon_floor_flags |= 0x80080000;
         } else {
             dungeon_floor_flags |= 0x40080000;

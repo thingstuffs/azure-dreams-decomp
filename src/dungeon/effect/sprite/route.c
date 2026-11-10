@@ -33,7 +33,7 @@ const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,3
 s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, void *start_coords)
 {
     u8 **state_ptr;
-    u8 *scratch;
+    B32_818CE83C_S_8002403C_1 *scratch;
     u8 *render_state;
     u8 *final_state;
     u8 *packet_end;
@@ -48,22 +48,22 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
     coords = start_coords;
     state_ptr = (u8 **)((u8 *)(&g_game_work));
     render_state = *(u8 **)&g_game_work.draw_buffer;
-    scratch = (u8 *)0x1F800000;
+    scratch = (B32_818CE83C_S_8002403C_1 *)0x1F800000;
 
-    *(u8 **)(scratch + 0x18) = ((GpuContext *)render_state)->packetCursor;
-    ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_20.p = render_state + 0xB0;
+    scratch->unk_18 = ((GpuContext *)render_state)->packetCursor;
+    scratch->unk_20.p = render_state + 0xB0;
 
     for (;;) {
         coord_x = coords->unk_02;
-        packet = *(u8 **)(scratch + 0x18);
-        ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_00 = coord_x;
-        ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_02 = coords->unk_06;
-        ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_04 = coords->unk_0A;
-        *(u8 **)(scratch + 0x18) = packet + 0xC;
+        packet = scratch->unk_18;
+        scratch->unk_00 = coord_x;
+        scratch->unk_02 = coords->unk_06;
+        scratch->unk_04 = coords->unk_0A;
+        scratch->unk_18 = packet + 0xC;
 
-        depth_index = RotTransPers(scratch, packet + 8, scratch + 0x90,
-                             scratch + 0x94);
-        ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_C0 = depth_index;
+        depth_index = RotTransPers(scratch, packet + 8, (u8 *)scratch + 0x90,
+                             (u8 *)scratch + 0x94);
+        scratch->unk_C0 = depth_index;
 
         if (depth_index < 0x1E0) {
             s32 color_or_tpage;
@@ -101,29 +101,29 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
             ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at03.v = opcode;
 
             ((B32_818CE83C_PacketTag *)packet)->addr =
-                ((B32_818CE83C_PacketTag *)((u8 *)(((B32_818CE83C_S_8002403C_1 *)scratch)->unk_20.p2) + (((B32_818CE83C_S_8002403C_1 *)scratch)->unk_C0 * 4)))->addr;
+                ((B32_818CE83C_PacketTag *)((u8 *)(scratch->unk_20.p2) + (scratch->unk_C0 * 4)))->addr;
             {
                 u32 *ot_entry;
                 u32 ot_tag;
                 u32 packet_addr;
 
-                ot_entry = (u32 *)(((B32_818CE83C_S_8002403C_1 *)scratch)->unk_C0 << 2);
+                ot_entry = (u32 *)(scratch->unk_C0 << 2);
                 ot_entry = (u32 *)((u32)ot_entry +
-                                (u32)((B32_818CE83C_S_8002403C_1 *)scratch)->unk_20.p2);
+                                (u32)scratch->unk_20.p2);
                 ot_tag = *ot_entry;
                 *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
-            mode_packet = *(u8 **)(scratch + 0x18);
-            ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_18 = mode_packet + 0xC;
+            mode_packet = scratch->unk_18;
+            scratch->unk_18 = mode_packet + 0xC;
             color_or_tpage = GetTPage(texture_depth, blend_mode, page_x, texture_depth);
             SetDrawMode(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 
             ((B32_818CE83C_PacketTag *)mode_packet)->addr =
-                ((B32_818CE83C_PacketTag *)((u8 *)(((B32_818CE83C_S_8002403C_1 *)scratch)->unk_20.p2) + (((B32_818CE83C_S_8002403C_1 *)scratch)->unk_C0 * 4)))->addr;
+                ((B32_818CE83C_PacketTag *)((u8 *)(scratch->unk_20.p2) + (scratch->unk_C0 * 4)))->addr;
             mode_packet = (u8 *)((u32)mode_packet & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((B32_818CE83C_S_8002403C_1 *)scratch)->unk_20.p2) + (((B32_818CE83C_S_8002403C_1 *)scratch)->unk_C0 * 4))) =
-                ((*(u32 *)((u8 *)(((B32_818CE83C_S_8002403C_1 *)scratch)->unk_20.p2) + (((B32_818CE83C_S_8002403C_1 *)scratch)->unk_C0 * 4))) & 0xFF000000) |
+            (*(u32 *)((u8 *)(scratch->unk_20.p2) + (scratch->unk_C0 * 4))) =
+                ((*(u32 *)((u8 *)(scratch->unk_20.p2) + (scratch->unk_C0 * 4))) & 0xFF000000) |
                 (u32)mode_packet;
         }
 
@@ -136,7 +136,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
     }
 
     final_state = *state_ptr;
-    packet_end = ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_18;
+    packet_end = scratch->unk_18;
     ((GpuContext *)final_state)->packetCursor = packet_end;
     return 0;
 }
@@ -204,7 +204,7 @@ void create_jittered_terrain_seeking_point(
     s16 offset_y,
     s16 offset_z)
 {
-    void *source_obj = source;
+    B32_818CEB58_S_818CEB58_1 *source_obj = source;
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
     ObjectNodeHeader *object_cursor;
@@ -223,11 +223,11 @@ void create_jittered_terrain_seeking_point(
     B32_818CEB58_S_818CEB58_3 *dest_y;
     B32_818CEB58_S_818CEB58_5 *dest_z;
 
-    object_cursor = allocate_list_node(0x211, source_obj);
+    object_cursor = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (object_cursor != NULL) {
         object_cursor->update_callback = advance_jittered_effect_toward_terrain;
         jitter_x = rand() & 0x1F;
-        position_x = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_02;
+        position_x = ((B32_818CEB58_S_818CEB58_6 *)(source_obj->unk_08))->unk_02;
         dest_x = object_cursor->position;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
@@ -235,7 +235,7 @@ void create_jittered_terrain_seeking_point(
         dest_x->unk_02 = (s16)position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_06;
+        position_y = ((B32_818CEB58_S_818CEB58_6 *)(source_obj->unk_08))->unk_06;
         dest_y = object_cursor->position;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
@@ -245,7 +245,7 @@ void create_jittered_terrain_seeking_point(
         jitter_z = rand();
         init_data = project_linked_shaded_points;
         jitter_z &= 0x1F;
-        position_z = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_0A;
+        position_z = ((B32_818CEB58_S_818CEB58_6 *)(source_obj->unk_08))->unk_0A;
         fields = NODE_BODY(object_cursor);
         dest_z = object_cursor->position;
         position_z += jitter_z;

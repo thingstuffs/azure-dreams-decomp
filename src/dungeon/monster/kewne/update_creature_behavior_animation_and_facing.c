@@ -163,7 +163,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                     ActorRecord *previous_actor;
 
                     previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = previous_node + 1;
+                    previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
                     if ((check_entity_relation(creature,
                             previous_actor) << 16) != 0) {

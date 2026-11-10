@@ -10,5 +10,5 @@ void card_boot_dispatch_selected_menu_action(CardSlotMenuState *object)
     CallbackTable callbacks;
 
     callbacks = D_800200A8;
-    callbacks.cb[object->unk_44](object);
+    callbacks.cb[object->selected_command](object);
 }

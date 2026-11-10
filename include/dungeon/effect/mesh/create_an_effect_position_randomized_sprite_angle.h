@@ -257,23 +257,10 @@ typedef struct ovl_1930844_81912074_S_80025874_1 {
     s8 unk_41;
     s8 unk_42;
 } ovl_1930844_81912074_S_80025874_1;
-typedef struct ovl_1930844_81912154_S_80025954_1 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    void * unk_60;
-    u8 pad_64[0x24];
-    s16 unk_88;
-} ovl_1930844_81912154_S_80025954_1;
 typedef struct ovl_1930844_81912154_S_80025954_2 {
     u8 pad_00[0xC];
     s32 unk_0C;
 } ovl_1930844_81912154_S_80025954_2;
-typedef struct ovl_1930844_81912154_S_80025954_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    SpriteFrameState *unk_0C;
-} ovl_1930844_81912154_S_80025954_3;
 typedef struct ovl_1930844_81912154_S_80025954_4 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -298,14 +285,6 @@ typedef struct ovl_1930844_81912154_S_80025954_5 {
     s32 unk_10;
     s32 unk_14;
 } ovl_1930844_81912154_S_80025954_5;
-typedef struct ovl_1930844_81912154_S_80025954_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} ovl_1930844_81912154_S_80025954_6;
 typedef struct ovl_1930844_81912154_S_80025954_7_pre {
     void * unk_00;
     u8 pad_04[0x14];
@@ -347,7 +326,6 @@ typedef struct ovl_1930844_81912154_LocalStack {
     GteOffset offset;
 } ovl_1930844_81912154_LocalStack;
 s32 rsin(s32);
-extern s32 func_8004491C(void *, void *);
 extern s32 rand(void);
 extern u8 D_800DE720[9];
 extern s32 rcos(s32);
@@ -365,7 +343,7 @@ void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ovl_193084
 void * create_an_effect_position_randomized_sprite_angle(ApproachingImpactSpellBody *owner, ObjectPosition *source_position);
 void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void *origin, s16 step_index, s16 scale_factor);
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den);
-void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in);
+void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(ovl_1930844_81911BF4_Obj81911BF4 *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in);
 void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *effect, void *unused, void *fade_state);
 void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value);
 void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position);

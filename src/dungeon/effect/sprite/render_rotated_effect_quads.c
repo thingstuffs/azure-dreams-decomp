@@ -408,21 +408,21 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
     render_rotated_effect_quads(call_pos, call_data, call_order_table, call_param);
 
     if (clear_enabled != 0) {
-        u8 *fill_packet;
+        Row_818ED25C_S_80024A5C_4 *fill_packet;
 
         packet_page = g_game_work.draw_buffer;
-        fill_packet = packet_page->unk_8D0;
-        packet_page->unk_8D0 = fill_packet + 0x10;
-        ((Row_818ED25C_S_80024A5C_4 *)fill_packet)->unk_04 = 0x60000000;
-        ((Row_818ED25C_S_80024A5C_4 *)fill_packet)->unk_00.at03.v = 3;
-        ((Row_818ED25C_S_80024A5C_4 *)fill_packet)->unk_08 = clip_rect->unk_00;
+        fill_packet = (Row_818ED25C_S_80024A5C_4 *)packet_page->unk_8D0;
+        packet_page->unk_8D0 = (u8 *)fill_packet + 0x10;
+        fill_packet->unk_04 = 0x60000000;
+        fill_packet->unk_00.at03.v = 3;
+        fill_packet->unk_08 = clip_rect->unk_00;
         rect_y = clip_rect->unk_02;
         if (offset_y != 0) {
             rect_y -= 0xE0;
         }
-        ((Row_818ED25C_S_80024A5C_4 *)fill_packet)->unk_0A = rect_y;
-        ((Row_818ED25C_S_80024A5C_4 *)fill_packet)->unk_0C = clip_rect->unk_04;
-        ((Row_818ED25C_S_80024A5C_4 *)fill_packet)->unk_00.at00.v = (((Row_818ED25C_S_80024A5C_4 *)fill_packet)->unk_00.at00.v & tag_mask) |
+        fill_packet->unk_0A = rect_y;
+        fill_packet->unk_0C = clip_rect->unk_04;
+        fill_packet->unk_00.at00.v = (fill_packet->unk_00.at00.v & tag_mask) |
                                  (order_table->unk_00 & 0x00FFFFFFU);
         order_table->unk_00 = (order_table->unk_00 & tag_mask) |
                             ((u32)fill_packet & 0x00FFFFFFU);

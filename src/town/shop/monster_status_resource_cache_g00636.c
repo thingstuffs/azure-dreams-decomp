@@ -60,33 +60,33 @@ void clear_monster_status_texture(void *texture) {
 }
 
 /* Invalidates changed cached state and starts the corresponding CD operations. */
-s32 invalidate_cached_state_and_queue_read(void *state) {
+s32 invalidate_cached_state_and_queue_read(Rec_func_800B683C_arg0 *state) {
     s32 state_code;
     s32 cache_addr;
     CachedObjectCodePair *cached_state;
 
-    ((Rec_func_800B683C_arg0 *)state)->unk_0A = (s16)get_mapped_object_code((void *)((Rec_func_800B683C_arg0 *)state)->unk_04);
-    state_code = get_enabled_record_flag_priority(((Rec_func_800B683C_arg0 *)state)->unk_04);
-    ((Rec_func_800B683C_arg0 *)state)->unk_10 = state_code;
+    state->unk_0A = (s16)get_mapped_object_code((void *)state->unk_04);
+    state_code = get_enabled_record_flag_priority(state->unk_04);
+    state->unk_10 = state_code;
     if (state_code == 3) {
-        ((Rec_func_800B683C_arg0 *)state)->unk_10 = 0;
+        state->unk_10 = 0;
     }
     if (release_monster_status_request_handles(state) != 0) {
-        *((((Rec_func_800B683C_arg0 *)state)->unk_08 * 2) + display_resource_cache_keys) = -1;
+        *((state->unk_08 * 2) + display_resource_cache_keys) = -1;
     }
-    cached_state = (((Rec_func_800B683C_arg0 *)state)->unk_08 * 2) + display_resource_cache_keys;
-    if ((cached_state->unk_00 != ((Rec_func_800B683C_arg0 *)state)->unk_0A)
-        || (cached_state->unk_02 != ((Rec_func_800B683C_arg0 *)state)->unk_10)) {
+    cached_state = (state->unk_08 * 2) + display_resource_cache_keys;
+    if ((cached_state->unk_00 != state->unk_0A)
+        || (cached_state->unk_02 != state->unk_10)) {
         cached_state->unk_00 = -1;
-        cache_addr = ((Rec_func_800B683C_arg0 *)state)->unk_08;
+        cache_addr = state->unk_08;
         cache_addr <<= 2;
         cache_addr += (s32)display_resource_cache_keys;
         ((S_800B6E3C_2 *)((void *)cache_addr))->unk_02 = -1;
-        clear_monster_status_texture((void *)(((Rec_func_800B683C_arg0 *)state)->unk_14));
-        ((Rec_func_800B683C_arg0 *)state)->unk_DC = 0;
+        clear_monster_status_texture((void *)(state->unk_14));
+        state->unk_DC = 0;
         initialize_coordinate_entry(state);
-        ((Rec_func_800B683C_arg0 *)state)->unk_D0 = Control_CD(6, state + 0xD8, NULL);
-        ((Rec_func_800B683C_arg0 *)state)->unk_D4 = Control_CD(0xFF, complete_display_transfer, state);
+        state->unk_D0 = Control_CD(6, &state->cd_read_target, NULL);
+        state->unk_D4 = Control_CD(0xFF, complete_display_transfer, state);
         return 1;
     }
     return 0;

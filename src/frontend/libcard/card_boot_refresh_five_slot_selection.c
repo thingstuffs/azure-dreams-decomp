@@ -13,34 +13,23 @@
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 
-typedef struct S_80025030_0 {
-    u8 pad_00[0x18];
-    s32 unk_18;
-    void *unk_1C;
-    u8 pad_20[0x8];
-    s32 unk_28;
-    u8 pad_2C[0x18];
-    s32 unk_44;
-    s32 unk_48;
-} S_80025030_0;   /* state in card_boot_refresh_five_slot_selection */
-
-/* Draw the party panel: five slots, the one at index unk_28 drawn with the highlight flag. */
-void card_boot_refresh_five_slot_selection(S_80025030_0 *state) {
+/* Refresh the slot menu: highlight the selected command unless the slot row has focus, mark the selected one of the five slots and update the slot details. */
+void card_boot_refresh_five_slot_selection(CardSlotMenuState *state) {
     s32 highlight;
     s32 i;
 
     if (state->unk_48 == 1) {
         highlight = 1;
     } else {
-        card_boot_begin_selected_value_transition(state->unk_18, state->unk_44);
+        card_boot_begin_selected_value_transition(state->command_panel, state->selected_command);
         highlight = 0;
     }
     for (i = 0; i < 5; i++) {
         if (i == state->unk_28) {
-            card_boot_set_slot_selection_marker(((ObjectNodeHeader **)state)[i + 1], highlight);
+            card_boot_set_slot_selection_marker(state->slots[i], highlight);
         } else {
-            card_boot_clear_slot_selection_marker(((s32 *)state)[i + 1]);
+            card_boot_clear_slot_selection_marker(state->slots[i]);
         }
     }
-    card_boot_set_slot_details_selection(state->unk_1C, state->unk_28, state->unk_44);
+    card_boot_set_slot_details_selection(state->slot_details, state->unk_28, state->selected_command);
 }

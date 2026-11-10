@@ -64,7 +64,7 @@ void spawn_periodic_source_effect(S_7FFEA1CC_0 *source, s32 spawn_arg1, s32 spaw
     s16 elapsed_ticks;
     u16 remaining_ticks;
     S_7FFEA1CC_2 *effect_position;
-    void *effect;
+    S_7FFEA1CC_1 *effect;
     S_7FFEA1CC_3 *render_state;
 
     elapsed_ticks = source->unk_16 + 1;
@@ -73,15 +73,15 @@ void spawn_periodic_source_effect(S_7FFEA1CC_0 *source, s32 spawn_arg1, s32 spaw
         effect = func_7003CF18(0x212);
         if (effect != NULL) {
             func_7010C7A8(effect, source, spawn_arg1, spawn_arg2);
-            ((S_7FFEA1CC_1 *)effect)->unk_3E = 0x1E;
-            ((S_7FFEA1CC_1 *)effect)->unk_40 = 0x1E;
-            ((S_7FFEA1CC_1 *)effect)->unk_10 = &D_8010C460;
-            effect_position = ((S_7FFEA1CC_1 *)effect)->unk_08;
+            effect->unk_3E = 0x1E;
+            effect->unk_40 = 0x1E;
+            effect->unk_10 = &D_8010C460;
+            effect_position = effect->unk_08;
             effect_position->unk_0A = (u16) (effect_position->unk_0A
                 - (emitter_height_offsets[((S_7FFEA1CC_4 *)(source->unk_00))->unk_13] >> 1));
-            render_state = ((S_7FFEA1CC_1 *)effect)->unk_0C;
+            render_state = effect->unk_0C;
             memcpy((s8 *) effect + 0x62, &D_8010C984, 0xC);
-            render_state->unk_08 = (effect + 0x62);
+            render_state->unk_08 = ((u8 *)effect + 0x62);
             render_state->unk_1E = 0x32C8;
             render_state->unk_1C = 0x32C8;
             render_state->unk_06 = 0x64;

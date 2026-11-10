@@ -12,7 +12,7 @@
 #include "dungeon/item.h"
 #include "dungeon/monster/maximum.h"
 
-extern void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 
 extern u8 maximum_action_continuation_address;

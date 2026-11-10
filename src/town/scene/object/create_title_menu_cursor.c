@@ -59,7 +59,7 @@ s32 create_title_menu_cursor(void)
     u8 *anchor = 0;
     Triple positions0 = D_80526670;
     Triple positions1 = D_80526688;
-    u8 *object;
+    S_808106E0_0 *object;
     s32 shared_part_y;
     s32 i;
     s32 y_second;
@@ -71,26 +71,26 @@ s32 create_title_menu_cursor(void)
     object = func_800374FC(0x136, &scene_object_factory_data);
     i = 2;
     if (object != 0) {
-        anchor = object + 0x20;
-        ((S_808106E0_0 *)object)->unk_10 = D_8052B5A4;
-        ((S_808106E0_0 *)object)->unk_28.at02.v = 0x1E;
-        ((S_808106E0_0 *)object)->unk_24.u16 = func_80071494() & 3;
-        ((S_808106E0_0 *)object)->unk_2C.at00.v |= 4;
+        anchor = (u8 *)object + 0x20;
+        object->unk_10 = D_8052B5A4;
+        object->unk_28.at02.v = 0x1E;
+        object->unk_24.u16 = func_80071494() & 3;
+        object->unk_2C.at00.v |= 4;
     }
 
     shared_part_y = 0xD0;
     do {
         object = func_800374FC(1, &scene_object_factory_data);
         if (object != 0) {
-            ((S_808106E0_0 *)object)->unk_10 = D_8052BAAC;
+            object->unk_10 = D_8052BAAC;
             func_8003BC18(object, menu_entry_draw_callback_address);
-            ((S_808106E0_0 *)object)->unk_36 = 0xB4;
-            ((S_808106E0_0 *)object)->unk_38 = 3;
-            ((S_808106E0_0 *)object)->unk_3A = 0x7C80;
-            ((S_808106E0_0 *)object)->unk_34 = shared_part_y;
-            ((S_808106E0_0 *)object)->unk_30.at00.v = 0x00808080;
-            ((S_808106E0_0 *)object)->unk_24.u32 = positions0.e[i];
-            ((S_808106E0_0 *)object)->unk_2C.at00u.v = anchor;
+            object->unk_36 = 0xB4;
+            object->unk_38 = 3;
+            object->unk_3A = 0x7C80;
+            object->unk_34 = shared_part_y;
+            object->unk_30.at00.v = 0x00808080;
+            object->unk_24.u32 = positions0.e[i];
+            object->unk_2C.at00u.v = anchor;
         }
         i--;
         shared_part_y -= 0x58;
@@ -101,25 +101,25 @@ s32 create_title_menu_cursor(void)
     do {
         object = func_800374FC(1, &scene_object_factory_data);
         if (object != 0) {
-            ((S_808106E0_0 *)object)->unk_10 = D_8052BB00;
+            object->unk_10 = D_8052BB00;
             func_8003BC18(object, menu_entry_draw_callback_address);
-            ((S_808106E0_0 *)object)->unk_36 = 0xC4;
-            ((S_808106E0_0 *)object)->unk_38 = 3;
-            ((S_808106E0_0 *)object)->unk_3A = 0x7C80;
-            ((S_808106E0_0 *)object)->unk_34 = y_second;
-            ((S_808106E0_0 *)object)->unk_30.at00.v = 0x00808080;
-            ((S_808106E0_0 *)object)->unk_24.u32 = positions1.e[i];
+            object->unk_36 = 0xC4;
+            object->unk_38 = 3;
+            object->unk_3A = 0x7C80;
+            object->unk_34 = y_second;
+            object->unk_30.at00.v = 0x00808080;
+            object->unk_24.u32 = positions1.e[i];
 
             shared_part_y = (s32)object + 0x20;
             switch (i) {
             case 0:
-                ((S_808106E0_0 *)object)->unk_28.at00.v = anchor + 6;
+                object->unk_28.at00.v = anchor + 6;
                 break;
             case 2:
-                ((S_808106E0_0 *)object)->unk_28.at00.v = anchor + 10;
+                object->unk_28.at00.v = anchor + 10;
                 break;
             case 1:
-                ((S_808106E0_0 *)object)->unk_28.at00.v = anchor + 8;
+                object->unk_28.at00.v = anchor + 8;
                 break;
             }
             ((S_808106E0_1 *)shared_part_y)->unk_0C = anchor;
@@ -134,16 +134,16 @@ s32 create_title_menu_cursor(void)
         object = func_800374FC(1, &scene_object_factory_data);
         i--;
         if (object != 0) {
-            ((S_808106E0_0 *)object)->unk_10 = D_8052BB98;
+            object->unk_10 = D_8052BB98;
             func_8003BC18(object, menu_cursor_object_template);
-            ((S_808106E0_0 *)object)->unk_2C.at02.v = 0xB0;
-            ((S_808106E0_0 *)object)->unk_30.at00u.v = 0x50;
-            ((S_808106E0_0 *)object)->unk_30.at02.v = 0x20;
-            ((S_808106E0_0 *)object)->unk_2C.at00p.v = shared_part_y;
-            ((S_808106E0_0 *)object)->unk_34 = 2;
-            ((S_808106E0_0 *)object)->unk_28.at00u.v = 0x00404040;
-            ((S_808106E0_0 *)object)->unk_24.p32 = anchor;
-            ((S_808106E0_0 *)object)->unk_36 |= 1;
+            object->unk_2C.at02.v = 0xB0;
+            object->unk_30.at00u.v = 0x50;
+            object->unk_30.at02.v = 0x20;
+            object->unk_2C.at00p.v = shared_part_y;
+            object->unk_34 = 2;
+            object->unk_28.at00u.v = 0x00404040;
+            object->unk_24.p32 = anchor;
+            object->unk_36 |= 1;
         }
         shared_part_y -= 0x58;
     } while (i >= 0);

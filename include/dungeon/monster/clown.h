@@ -253,7 +253,6 @@ typedef struct R16_80173CEC_S_80173CEC_9 {
 extern s32 abs(s32);
 s32 Control_CD();
 void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 void advance_sprite_animation_and_textures(void *entity);
 s32 refresh_actor_facing_and_lifecycle();
@@ -295,7 +294,6 @@ s32 update_actor_fade_in();
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_node();
-void func_80044A50(struct ObjectNodeHeader *node);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 int read_stream_cue_start_offset(void);

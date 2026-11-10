@@ -5,8 +5,9 @@
 
 
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void update_actor_status_and_mp(void *);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
+#include "dungeon/actor/state.h"
 
 #include "dungeon/monster/ghosh.h"
 #include "dungeon/item.h"

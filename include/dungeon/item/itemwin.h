@@ -224,7 +224,6 @@ extern s32 func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
 extern s32 allocate_and_append_callback_payload(s32 *values, s32 lookup_key);
 extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(struct ItemMenuPart **entries, struct DisplayPositionWords *value, s32 count);
 extern void register_node(ovl_1830850_81811168_DungeonObj81811168 *, void *);
-extern void func_8004491C(ovl_1830850_81811168_DungeonObj81811168 *, void *);
 extern void release_null_terminated_entries(void *);
 extern void func_8004B248(void *);
 extern int func_8004CAA0(void *object, int unused, void *data);

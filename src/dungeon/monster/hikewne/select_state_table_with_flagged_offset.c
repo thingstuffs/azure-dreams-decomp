@@ -6,7 +6,7 @@
 #include "dungeon/monster/hikewne.h"
 
 
-extern void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 
 extern s32 hikewne_action_resume_address[];

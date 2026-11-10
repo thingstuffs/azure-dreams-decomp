@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/timed_stream.h"
 
 /* Five pointer planes begin at +0x10, +0x24, +0x38, +0x4C and +0x60.
  * The layout routine positions all five rows; the population routine stores
@@ -43,14 +44,10 @@ typedef struct ShopWindow {
     /* 0x1C */ s32 page_edge_flags; /* low two bits mark the page bounds */
     /* 0x20 */ u8 pad_20[4];
     /* 0x24 */ s32 item_address;
-    /* 0x28 */ u8 cursor_record[0xC];
+    /* 0x28 */ FrameState cursor_record; /* cursor stream initialize_shop_window_layout starts on the cursor widget */
     /* 0x34 */ u8 header_record[0x98];
     /* 0xCC */ ShopWindowWidgets *widgets;
 } ShopWindow;
-
-struct S8004CBFC_a0;
-
-struct S8004CBFC_a1;
 
 typedef struct S_800B1390_0 {
     s32 *unk_m10;
@@ -73,7 +70,7 @@ typedef struct S_800B1390_1 {
 void process_shop_record_and_subrecord(u8 *);
 void position_shop_row_widgets(ShopWindow *menu);
 extern M2C_UNK D_800788E0;
-struct S8004CBFC_a1; extern struct S8004CBFC_a1 shop_cursor_template;
+extern FrameNode shop_cursor_template;
 extern M2C_UNK D_800D15F4;
 extern s32 D_800B0824[];
 extern void initialize_shop_parts(void *, void *, void *);

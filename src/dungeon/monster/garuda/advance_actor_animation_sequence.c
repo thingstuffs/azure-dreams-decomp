@@ -13,7 +13,7 @@ extern void *actor_update_node_cursor;
 
 extern u8 D_801748B8[];
 
-void spend_actor_mp(void *, s32);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 /* Advances the actor animation sequence and resets its action state on completion. */
 void advance_actor_animation_sequence(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite,

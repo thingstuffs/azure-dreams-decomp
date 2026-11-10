@@ -15,7 +15,7 @@ extern s32 D_80024438[];
 extern s32 D_80024444[];
 
 /* Updates the object transition state, height, and display values. */
-void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_80021E88_arg1 *position, SpriteFrameState *display) {
+void update_minigame_transition(MinigameTransitionObject *controller, ObjectPosition *position, SpriteFrameState *display) {
     s16 state;
     s16 transition_pending;
     s32 transition;
@@ -38,11 +38,11 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
     state = controller->state;
     switch (state) {
     case 0:
-        position->unk_08 += 0xFFF80000;
-        if (position->unk_08 > 0) {
+        position->z.v += 0xFFF80000;
+        if (position->z.v > 0) {
             return;
         }
-        position->unk_08 = 0;
+        position->z.v = 0;
         display->color.word = 0x808080;
         controller->state = 1;
         return;
@@ -67,9 +67,9 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
         return;
 
     case 2:
-        position->unk_08 += 0x80000;
-        if (position->unk_08 > 0x3FFFFF) {
-            position->unk_08 = 0x400000;
+        position->z.v += 0x80000;
+        if (position->z.v > 0x3FFFFF) {
+            position->z.v = 0x400000;
             return;
         }
         return;

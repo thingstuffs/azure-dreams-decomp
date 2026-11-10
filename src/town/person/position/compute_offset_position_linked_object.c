@@ -13,7 +13,7 @@ extern s32 check_actor_data_references_match(void *actor);
 void compute_offset_position_linked_object(OwnerFollowingSpriteBody *object, ObjectPosition *out_pos)
 {
     void *linked_object = object->linked_object;
-    IntVector3 *base_pos = *(IntVector3 **)((u8 *)linked_object - 0x18);
+    ObjectPosition *base_pos = NODE_HEADER(linked_object)->position;
 
     if (check_actor_data_references_match(linked_object) == 0) {
         unlink_node_if_registered(object);
@@ -21,7 +21,7 @@ void compute_offset_position_linked_object(OwnerFollowingSpriteBody *object, Obj
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    out_pos->x.v = base_pos->x + rsin(*(s16 *)((u8 *)object->linked_object + 0x72)) * 0x140;
-    out_pos->y.v = base_pos->y + rcos(*(s16 *)((u8 *)object->linked_object + 0x72)) * 0x140;
-    out_pos->z.v = base_pos->z + (s32)0xFFE60000;
+    out_pos->x.v = base_pos->x.v + rsin(*(s16 *)((u8 *)object->linked_object + 0x72)) * 0x140;
+    out_pos->y.v = base_pos->y.v + rcos(*(s16 *)((u8 *)object->linked_object + 0x72)) * 0x140;
+    out_pos->z.v = base_pos->z.v + (s32)0xFFE60000;
 }

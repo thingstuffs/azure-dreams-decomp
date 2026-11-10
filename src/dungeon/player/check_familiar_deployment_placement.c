@@ -27,7 +27,8 @@ typedef struct DungeonSlot {
     u32 flags;
 } DungeonSlot;
 
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
 extern DungeonSlot *familiar_record_slots[];
 
 /* Check the forward tile and selected slot, then clear the actor action flags on success. */

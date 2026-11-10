@@ -32,29 +32,29 @@ extern u8 D_80020000[];
  */
 void advance_object_counters_animation_values_flag_expiration(void *object_ptr)
 {
-    u8 *object_bytes;
+    S_800251F0_0 *object_bytes;
     u16 remaining_ticks;
     s32 value_index;
 
     object_bytes = object_ptr;
-    remaining_ticks = ((S_800251F0_0 *)object_bytes)->unk_02;
+    remaining_ticks = object_bytes->unk_02;
     ((S_800251F0_1 *)D_80020000)->unk_6428 = 1;
-    ((S_800251F0_0 *)object_bytes)->unk_02 = remaining_ticks - 1;
-    ((S_800251F0_0 *)object_bytes)->unk_8C += 200;
-    ((S_800251F0_0 *)object_bytes)->unk_0A++;
-    if ((s16)((S_800251F0_0 *)object_bytes)->unk_0A >= 2) {
-        ((S_800251F0_0 *)object_bytes)->unk_0A = 0;
-        ((S_800251F0_0 *)object_bytes)->unk_0C = (u16)(((S_800251F0_0 *)object_bytes)->unk_0C + 1);
+    object_bytes->unk_02 = remaining_ticks - 1;
+    object_bytes->unk_8C += 200;
+    object_bytes->unk_0A++;
+    if ((s16)object_bytes->unk_0A >= 2) {
+        object_bytes->unk_0A = 0;
+        object_bytes->unk_0C = (u16)(object_bytes->unk_0C + 1);
     }
-    if (((S_800251F0_0 *)object_bytes)->unk_0C >= 33) {
-        ((S_800251F0_0 *)object_bytes)->unk_0C = 32;
+    if (object_bytes->unk_0C >= 33) {
+        object_bytes->unk_0C = 32;
     }
 
     value_index = 0;
-    while (value_index < ((S_800251F0_0 *)object_bytes)->unk_0C) {
+    while (value_index < object_bytes->unk_0C) {
         u8 *value_base;
 
-        value_base = object_bytes + value_index;
+        value_base = (u8 *)object_bytes + value_index;
         value_base[0x50] += 2;
         value_index++;
     }
@@ -62,7 +62,7 @@ void advance_object_counters_animation_values_flag_expiration(void *object_ptr)
     {
         s32 state;
 
-        state = *(s16 *)(object_bytes + 0x1E);
+        state = *(s16 *)((u8 *)object_bytes + 0x1E);
         switch (state) {
         case 0:
         case 1:
@@ -70,24 +70,24 @@ void advance_object_counters_animation_values_flag_expiration(void *object_ptr)
         case 4:
         case 5:
         case 6:
-            ((S_800251F0_0 *)object_bytes)->unk_1E++;
-            ((S_800251F0_0 *)object_bytes)->unk_28 += 0x10;
+            object_bytes->unk_1E++;
+            object_bytes->unk_28 += 0x10;
             break;
         case 3:
-            ((S_800251F0_0 *)object_bytes)->unk_1E++;
-            ((S_800251F0_0 *)object_bytes)->unk_28 -= 0x30;
-            ((S_800251F0_0 *)object_bytes)->unk_29 += 0x20;
+            object_bytes->unk_1E++;
+            object_bytes->unk_28 -= 0x30;
+            object_bytes->unk_29 += 0x20;
             break;
         case 7:
-            ((S_800251F0_0 *)object_bytes)->unk_28 -= 0x30;
-            ((S_800251F0_0 *)object_bytes)->unk_29 -= 0x20;
-            ((S_800251F0_0 *)object_bytes)->unk_1E = 0;
+            object_bytes->unk_28 -= 0x30;
+            object_bytes->unk_29 -= 0x20;
+            object_bytes->unk_1E = 0;
             break;
         }
     }
 
-    if ((s16)((S_800251F0_0 *)object_bytes)->unk_02 <= 0) {
-        (*(u16 *)(object_bytes + -2)) |= NODE_REMOVE;
+    if ((s16)object_bytes->unk_02 <= 0) {
+        (*(u16 *)((u8 *)object_bytes + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

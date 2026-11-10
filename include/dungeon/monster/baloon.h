@@ -29,14 +29,9 @@ typedef struct {
     u16 height;
 } BaloonTemplateAnchor;
 
-typedef struct {
-    u8 pad_00[0x2A];
-    s16 facing;
-} BaloonTemplateFacing;
-
 /* Directional template constructor used by the Baloon rise effect. */
 void create_directional_template_effect(void *unused, BaloonTemplateAnchor *anchor,
-    SpriteFrameState *object_template, BaloonTemplateFacing *facing_source);
+    SpriteFrameState *object_template, ActorRecord *facing_source);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effect_param);
@@ -75,7 +70,7 @@ void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect,
 void initialize_angle_indexed_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *target, ActorRecord *angleSource);
 s32 random_below_limit(s32 limit);
 
-void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *object);
+void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *object);
 
 void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void clear_high_flag_and_update_counter(ActorRecord *body, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *actor);

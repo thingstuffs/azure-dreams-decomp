@@ -17,7 +17,8 @@
 
 
 void unlink_entity_node();                      /* extern */
-void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+             /* extern */
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/monster/beldo_large_frames.h"
 extern void *beldo_script_node;

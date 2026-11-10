@@ -26,7 +26,8 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon.h"
 #include "dungeon/monster/maximum_frames.h"
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
+
 extern void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *creature);
 
 extern u8 maximum_action_continuation_address;
@@ -123,7 +124,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
                 ActorRecord *previous_actor;
 
                 previous_node = primary_actor_record->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
                 if ((check_entity_relation(
                          entity,

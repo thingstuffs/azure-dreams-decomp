@@ -20,7 +20,7 @@ typedef struct S_80172F04_4 {
     s32 unk_346C;
 } S_80172F04_4;   /* (u8 *)work in advance_item_animation_sequence */
 
-extern void spend_actor_mp(void *, s32);
+#include "dungeon/actor/spend_actor_mp_api.h"
 
 extern u8 D_801760CC[];
 

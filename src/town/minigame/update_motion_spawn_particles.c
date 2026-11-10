@@ -39,7 +39,7 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 #include "sdk/libgpu.h"
 #include "town/minigame.h"
 #include "town/data.h"
-short SD_Call(int flags);
+#include "slus.h"
 extern void set_linked_object_and_global_flags(void);
 
 extern u8 map_animation_sprite_entries[];

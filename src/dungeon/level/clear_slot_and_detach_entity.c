@@ -25,7 +25,7 @@ typedef struct GlobalFlags {
 extern s32 floor_objects[0x20];
 extern EntitySlot dungeon_floor_object_positions[0x20];
 
-extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 type);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Clears a slot's state and flags any attached entity before detaching it. */
 void clear_slot_and_detach_entity(s32 slot_index) {

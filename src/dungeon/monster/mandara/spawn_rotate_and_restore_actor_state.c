@@ -66,7 +66,7 @@ typedef struct {
     s16 y;
 } Position2;
 
-void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+#include "dungeon/actor/spend_actor_mp_api.h"
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 
 extern u8 rotating_particle_sprite_entries[];

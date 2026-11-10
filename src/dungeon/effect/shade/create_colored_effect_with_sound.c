@@ -6,10 +6,11 @@
 #include "shared/dungeon_status.h"
 
 #include "common.h"
+#include "records/Rec_func_800D4BD4_arg1.h"
 
 typedef s32 M2C_UNK;
 
-void emit_particles_until_expired(void *emitter, ObjectPosition *position, s32 init_param);
+void emit_particles_until_expired(Rec_func_800D4BD4_arg1 *emitter, ObjectPosition *position, s32 init_param);
 #include "shared/sprite_source.h"
 #include "dungeon/system.h"
 

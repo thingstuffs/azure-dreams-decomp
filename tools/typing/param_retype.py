@@ -6,6 +6,7 @@
                            [--max-closure 400] [--workers 4] [--no-decls]
     param_retype.py callbacks --spec SPEC.json --scope ... --out DIR [--exclude P...]
     param_retype.py own-view --scope src/dungeon/monster --out DIR [--apply] [--min-casts 3]
+    param_retype.py own-view --trial --scope src/dungeon/effect --exclude ... --out DIR [--limit 0] [--jobs 2]
 
 A callee whose real prototype tools/proto cannot publish because a caller passes a value of another
 type ('u8 *' to 's32 *', 'int' to 'void *', 'u8 *' to 'Rec_D_80082E80 *', ...) usually carries a
@@ -107,6 +108,8 @@ INT_PLACEHOLDER = False  # "int_placeholder": an int/u32 parameter holding the p
 BYTE_ARITH = False  # "byte_arith": p+K / p-K / p[K] / *p on a byte or void * parameter keep a (u8 *) view
 COMPARE_UNCAST = False  # "compare_uncast": `p == (s32)q` drops the cast when q already has a pointer type
 BYTE_MACROS = False  # "byte_macros": a use as the pointer argument of U8_AT/S16_AT/PTR_AT... (they cast it to u8 *)
+TRIAL = False  # own-view --trial: a use the new type cannot serve keeps the old type through an inserted (counted)
+#                value cast instead of refusing the retype; the compile trial (identity + falling casts) decides
 
 
 def own_view_candidate(unit, file, fn, decl, min_casts=3):
@@ -516,16 +519,71 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
     def refuse(why):
         return {'refused': why, 'uses': uses}
 
+    inserted = []
+    shared_from = []
+
+    def minority(ref, spelling, why, wrap=False):
+        """TRIAL: keep one use on its old type with an explicit cast; False when the use cannot be spelled."""
+        vr = A.node_range(ref, text)
+        if vr is None or '(' in spelling or not is_ptr(new_c) or not is_ptr(decay(unit.canon(spelling))):
+            # only pointer -> pointer: an integer use means the variable holds two kinds of value, and a pointer
+            # -> 32-bit integer cast is a new -Wpointer-to-int-cast site on the 64-bit native build
+            return False
+        name = text[vr[0]:vr[1]]
+        cast = '(%s)' % spelled(spelling)
+        edits.append((vr[0], vr[1], '(%s%s)' % (cast, name) if wrap else cast + name))
+        inserted.append(why)
+        uses['minority_' + why] += 1
+        return True
+
+    def cast_value(rhs, why):
+        """TRIAL: a value stored into the retyped variable takes a cast to the new type."""
+        r = A.strip_parens(rhs)
+        rr = A.node_range(r, text)
+        if rr is None or not is_ptr(new_c):
+            return False
+        src = A.strip_implicit(r)
+        src_t = C.qtype(A.strip_implicit(A.kids(src)[0]) if src.get('kind') == 'CStyleCastExpr' and A.kids(src) else src)
+        src_key = unit.record_of_pointer(src_t)
+        if not is_ptr(decay(unit.canon(src_t))) and C.int_value(src) != 0:
+            return False  # an integer stored into a pointer would be an int -> pointer pun: the variable is two things
+        if src_key and src_key != target.key and (type_home(unit, spelled(src_t)) or '').startswith('include/'):
+            # the value already has a shared record type: that record, not a cast to this view, is the evidence
+            shared_from.append(spelled(src_t))
+            return False
+        inner = text[rr[0]:rr[1]]
+        if r.get('kind') == 'CStyleCastExpr':
+            m = re.match(r'\(\s*[^()]*?\)', inner)
+            if not m:
+                return False
+            edits.append((rr[0], rr[0] + m.end(), '(%s)' % target.spelling))
+        else:
+            simple = r.get('kind') in ('DeclRefExpr', 'CallExpr', 'MemberExpr', 'ArraySubscriptExpr', 'ParenExpr',
+                                       'IntegerLiteral') or (r.get('kind') == 'ImplicitCastExpr')
+            edits.append((rr[0], rr[1], '(%s)%s' % (target.spelling, inner if simple else '(' + inner + ')')))
+        inserted.append(why)
+        uses['minority_' + why] += 1
+        return True
+
     if decl.get('kind') == 'VarDecl' and decl.get('init') and A.kids(decl):
         rhs = A.kids(decl)[0]
         ok = value_into(unit, rhs, target, text, edits)
-        if ok is None:
-            return refuse('initializer_needs_cast')
-        removed += ok
+        if ok is None and not (TRIAL and cast_value(rhs, 'initializer')):
+            return refuse('assigned_from_record:' + shared_from[0] if shared_from else 'initializer_needs_cast')
+        removed += ok or 0
     for ref in refs:
         if A.in_macro(ref):
             if BYTE_MACROS and byte_macro_arg(ref, text):
                 uses['byte_macro'] += 1
+                continue
+            if TRIAL:
+                e = macro_arg_cast_removal(unit, file, ref, text, new_c)
+                if e:
+                    edits.append(e)
+                    removed += 1
+                    uses['macro_arg_cast_to_new'] += 1
+                else:
+                    uses['macro_left'] += 1   # left as written: the native check and the compile trial decide
                 continue
             return refuse('use_in_macro')
         node, p = up(parents, ref)
@@ -536,9 +594,9 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
         if k == 'BinaryOperator' and p.get('opcode') == '=' and A.kids(p)[0] is node:
             uses['assigned'] += 1
             ok = value_into(unit, A.kids(p)[1], target, text, edits)
-            if ok is None:
-                return refuse('assigned_value_needs_cast')
-            removed += ok
+            if ok is None and not (TRIAL and cast_value(A.kids(p)[1], 'assigned')):
+                return refuse('assigned_from_record:' + shared_from[0] if shared_from else 'assigned_value_needs_cast')
+            removed += ok or 0
             continue
         if k == 'UnaryOperator' and p.get('opcode') == '&':
             return refuse('address_taken')
@@ -590,6 +648,9 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
             cc = decay(unit.canon(cast_t))
             if cc == new_c and is_ptr(new_c) or (cc == new_c and new_c in INT_SIZES):
                 e = cast_removal_edit(parents, q, ref, text)
+                if e is None and TRIAL:
+                    uses['macro_left'] += 1
+                    continue
                 if e is None:
                     return refuse('cast_in_macro')
                 edits.append(e)
@@ -642,6 +703,8 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
                     removed += 1
                     uses['compare_uncast'] += 1
                     continue
+                if TRIAL and minority(ref, old, 'compare'):
+                    continue
                 return refuse('compare_needs_cast')
             if (r or {}).get('kind') == 'BinaryOperator' and r.get('opcode') in ('+', '-', '*', '/', '&', '|', '^', '<<', '>>', '%'):
                 if is_ptr(new_c) != is_ptr(old_c):
@@ -660,6 +723,8 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
                         return refuse('converted_in_macro')
                     edits.append((vr[0], vr[0], '(%s)' % spelled(C.qtype(q))))
                     uses['alias_cast'] += 1
+                    continue
+                if TRIAL and minority(ref, spelled(C.qtype(q)), 'converted'):
                     continue
                 return refuse('converted_to_' + dst)
             uses['converted'] += 1
@@ -686,6 +751,8 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
                 removed += 1
                 uses['compare_uncast'] += 1
                 continue
+            if TRIAL and minority(ref, old, 'compare'):
+                continue
             return refuse('compare_needs_cast')
         if qk == 'CallExpr' and A.kids(q)[0] is not node:
             if not prototyped(q):
@@ -693,6 +760,8 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
                 continue
             if assignable(old_c, new_c):
                 uses['passed'] += 1
+                continue
+            if TRIAL and minority(ref, old, 'passed'):
                 continue
             return refuse('passed_as_' + old_c)
         if qk in ('ReturnStmt', 'VarDecl', 'InitListExpr') or (qk == 'BinaryOperator' and q.get('opcode') == '='):
@@ -709,6 +778,8 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
                 edits.append((vr[0], vr[0], '(%s)' % spelled(old)))
                 uses['alias_cast'] += 1
                 continue
+            if TRIAL and minority(ref, old, 'stored'):
+                continue
             return refuse('stored_as_' + old_c)
         if qk == 'ArraySubscriptExpr' or (qk == 'UnaryOperator' and q.get('opcode') == '*'):
             if old_c == new_c:
@@ -718,6 +789,9 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
                 edits.append(e)
                 uses['byte_arith'] += 1
                 continue
+            if TRIAL and is_ptr(old_c) and minority(ref, old, 'dereference' if qk == 'UnaryOperator' else 'subscript',
+                                                    wrap=qk == 'ArraySubscriptExpr'):
+                continue
             return refuse('dereference' if qk == 'UnaryOperator' else 'subscript')
         if qk == 'BinaryOperator' and q.get('opcode') in ('+', '-'):
             if old_c == new_c:
@@ -726,6 +800,22 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
             if e:
                 edits.append(e)
                 uses['byte_arith'] += 1
+                continue
+            if TRIAL and target.key and q.get('opcode') == '+' and A.kids(q)[0] is node:
+                # `p + K` handed on as a void *: the address of the member at +K (`&p->m`), no cast
+                e = member_address_edit(unit, target, q, ref, parents, text)
+                if e:
+                    edits.append(e)
+                    uses['member_address'] += 1
+                    continue
+            if TRIAL and q.get('opcode') == '-' and A.kids(q)[0] is node:
+                e = node_header_edit(unit, q, ref, parents, text)
+                if e:
+                    edits.append(e)
+                    uses['node_header'] += 1
+                    continue
+            if TRIAL and is_ptr(old_c) and minority(ref, void_arith_spelling(unit, q, parents, old_c, old),
+                                                    'pointer_arithmetic'):
                 continue
             return refuse('pointer_arithmetic')
         if qk == 'BinaryOperator' and q.get('opcode') == ',':
@@ -737,7 +827,70 @@ def plan_retype(unit, file, fn, decl, target, edit_decl=True):
         if isinstance(e, str):
             return refuse(e)
         edits.append(e)
-    return {'edits': edits, 'removed': removed, 'renamed': renamed, 'uses': uses}
+    return {'edits': edits, 'removed': removed, 'renamed': renamed, 'uses': uses, 'inserted': len(inserted)}
+
+
+def node_header_edit(unit, q, ref, parents, text):
+    """TRIAL (R4): `p - 0x20` handed on as a void * or an ObjectNodeHeader * is the node header: NODE_HEADER(p)."""
+    if C.int_value(A.strip_implicit(A.kids(q)[1])) != 0x20 or not unit.record_of_pointer('ObjectNodeHeader *'):
+        return None
+    qr, vr = A.node_range(q, text), A.node_range(ref, text)
+    outer, holder = up(parents, q)
+    if qr is None or vr is None or (holder or {}).get('kind') != 'ImplicitCastExpr':
+        return None
+    dst = C.qtype(holder)
+    if decay(unit.canon(dst)) != 'void*' and unit.record_of_pointer(dst) != unit.record_of_pointer('ObjectNodeHeader *'):
+        return None
+    return (qr[0], qr[1], 'NODE_HEADER(%s)' % text[vr[0]:vr[1]])
+
+
+def void_arith_spelling(unit, q, parents, old_c, old):
+    """The cast that keeps `p + K` on its old type: byte arithmetic on a void * reads as (u8 *) unless the result
+    converts to another object pointer (then `(void *)p + K` keeps that implicit conversion)."""
+    if old_c != 'void*':
+        return old
+    outer, holder = up(parents, q)
+    if (holder or {}).get('kind') == 'ImplicitCastExpr' and decay(unit.canon(C.qtype(holder))) not in ('void*',):
+        return old
+    return 'u8 *'
+
+
+def member_address_edit(unit, target, q, ref, parents, text):
+    """TRIAL: `p + K` whose value converts to void * becomes `&p->m` when a named member of the target starts at K."""
+    k = C.int_value(A.strip_implicit(A.kids(q)[1]))
+    qr, vr = A.node_range(q, text), A.node_range(ref, text)
+    if k is None or k < 0 or qr is None or vr is None:
+        return None
+    outer, holder = up(parents, q)
+    if (holder or {}).get('kind') != 'ImplicitCastExpr' or decay(unit.canon(C.qtype(holder))) != 'void*':
+        return None
+    for path, lt, _ in target.unit.leaves_at(target.key, k):
+        if not PAD.search(path) and '.' not in path and '[' not in path:
+            return (qr[0], qr[1], '&%s->%s' % (text[vr[0]:vr[1]], path))
+    return None
+
+
+def macro_arg_cast_removal(unit, file, ref, text, new_c):
+    """TRIAL: `((T *)p)` spelled as a macro argument at the call site (NODE_HEADER(((T *)p)->link)) is an identity
+    cast once p is T *: the edit that drops it, located by spelling offsets and checked against the text."""
+    b = ((ref.get('range') or {}).get('begin') or {})
+    spell = b.get('spellingLoc') or {}
+    exp = b.get('expansionLoc') or {}
+    name = (ref.get('referencedDecl') or {}).get('name') or ''
+    off = spell.get('offset')
+    if off is None or not name or not exp.get('isMacroArgExpansion') or not text.isascii() or \
+            spell.get('includedFrom') or (spell.get('file') and not spell['file'].endswith(file)):
+        return None
+    if text[off:off + len(name)] != name or re.match(r'\w', text[off + len(name):off + len(name) + 1] or ' '):
+        return None
+    m = re.search(r'\(\(\s*((?:struct\s+)?\w+\s*\*)\s*\)\s*$', text[max(0, off - 120):off])
+    after = re.match(r'\s*\)', text[off + len(name):])
+    if not m or not after:
+        return None
+    if decay(unit.canon(spelled(m.group(1)))) != new_c:
+        return None
+    start = off - (len(text[max(0, off - 120):off]) - m.start())
+    return (start, off + len(name) + after.end(), name)
 
 
 BYTE_MACRO = re.compile(r'^(?:[US](?:8|16|32)|PTR|PTR32|FIELD_[US](?:8|16|32))(?:_AT)?\s*\(')
@@ -1572,16 +1725,23 @@ def apply_text_edits(text, edits):
     return text
 
 
+GUARD = re.compile(r'\A(?:\s*(?:/\*.*?\*/|//[^\n]*))*\s*#\s*ifndef\s+(\w+)[ \t]*\n\s*#\s*define\s+\1\b[^\n]*\n', re.S)
+
+
 def ensure_include(text, header_rel):
-    """Add `#include "<header>"` after the last leading include (no-op when present)."""
+    """Add `#include "<header>"` after the last leading include (no-op when present).
+
+    In a guarded header the include goes inside the guard: after its last include, or right after the guard's
+    #define when it has none (never above #ifndef, where it would sit outside the guard)."""
     inc = header_rel.removeprefix('include/')
     if re.search(r'#\s*include\s*"' + re.escape(inc) + '"', text):
         return text
     import tools.proto.prototypes as P
     scan = P.cscan.scan(text)
+    guard = GUARD.match(text)
     first_use = min((it.start for it in scan.items), default=len(text))
-    includes = [d for d in scan.directives if d.kind == 'include' and d.end <= first_use and d.depth <= int(header_rel.endswith('.h'))]
-    at = includes[-1].end if includes else 0
+    includes = [d for d in scan.directives if d.kind == 'include' and d.end <= first_use and d.depth <= int(bool(guard))]
+    at = includes[-1].end if includes else (guard.end() if guard else 0)
     line = '#include "%s"\n' % inc
     if at and text[at - 1] != '\n':
         line = '\n' + line
@@ -2140,7 +2300,8 @@ def plan_callback(root, units, index, symbol, param, spelling, editable, replace
             base = ensure_include(base, h)
         texts[f] = base
     summary = dict(params=['%d:%s->%s' % (param, cur_c, tgt.spelling)], holders=0,
-                   casts_dropped=plan.get('removed', 0), renamed=plan.get('renamed', 0))
+                   casts_dropped=plan.get('removed', 0), renamed=plan.get('renamed', 0),
+                   inserted=plan.get('inserted', 0))
     return dict(texts=texts, touched=touched, headers=headers, summary=summary), ''
 
 
@@ -2309,6 +2470,239 @@ def own_view_run(root, out, scope, min_casts, apply, limit, workers, max_closure
                                                   indent=2, sort_keys=True) + '\n')
 
 
+# ------------------------------------------------------------------------------ own-view compile trial
+
+OWN_TRIAL_FIELDS = ['file', 'function', 'var', 'kind', 'param', 'old', 'target', 'target_kind', 'casts', 'hold',
+                    'status', 'reason', 'removed', 'inserted', 'casts_before', 'casts_after']
+TRIAL_HOLDS = ('two_type', 'union_view', 'parse_failed')  # semantic questions: never decided by a compile
+
+
+def locals_of(fn):
+    """Automatic local variables of `fn` (block scope, not static/extern), in document order."""
+    return [n for n, _ in A.walk(fn) if n.get('kind') == 'VarDecl' and n.get('name')
+            and n.get('storageClass') not in ('static', 'extern')]
+
+
+def trial_vars(fn):
+    """[(kind, param index or '', decl)] for every parameter and local of `fn`; locals named twice are skipped."""
+    out = [('param', i, d) for i, d in enumerate(params_of(fn))]
+    names = collections.Counter(d['name'] for d in locals_of(fn))
+    out += [('local', '', d) for d in locals_of(fn) if names[d['name']] == 1]
+    return out
+
+
+def target_kind(unit, spelling):
+    """own_view: a layout private to this source file (generated or file-local); shared_record: a header type."""
+    home = type_home(unit, spelling) or ''
+    return 'shared_record' if home.startswith('include/') else 'own_view'
+
+
+def own_view_trial_scan(root, scope, exclude=(), min_casts=3, log=print, units=None):
+    """Read-only: every (function, variable) whose body reaches one record view through `((T *)v)->` casts, with
+    the static planner's refusal kept as `hold` (the reason the old own-view mode stopped at)."""
+    global TRIAL
+    units, rows = units or Units(root), []
+    files = sorted({p.relative_to(root).as_posix() for item in scope for p in
+                    ((Path(root) / item).rglob('*.c') if (Path(root) / item).is_dir() else [Path(root) / item])})
+    files = [f for f in files if in_scope(f, scope, exclude)]
+    saved, TRIAL = TRIAL, False
+    try:
+        for n, rel in enumerate(files, 1):
+            if (Path(root) / rel).read_text().count(')->') < min_casts:
+                continue
+            unit = units.get(rel)
+            if unit is None:
+                rows.append(dict(file=rel, function='', var='', kind='', param='', old='', target='', target_kind='',
+                                 casts=0, hold='parse_failed', status='held', reason='parse_failed'))
+                continue
+            for f, fn in unit.functions({rel}):
+                for kind, i, decl in trial_vars(fn):
+                    target, count, why = own_view_candidate(unit, rel, fn, decl, min_casts)
+                    if why in ('no_member_cast', 'below_min_casts', 'already_typed'):
+                        continue
+                    row = dict(file=rel, function=fn['name'], var=decl['name'], kind=kind, param=i, old=C.qtype(decl),
+                               target=target, target_kind=target_kind(unit, target) if target else '', casts=count,
+                               hold=why, status='candidate', reason='')
+                    if not why:
+                        plan = plan_retype(unit, rel, fn, decl, Target(unit, target))
+                        row['hold'] = 'body:' + plan['refused'] if plan.get('refused') else ''
+                    if row['hold'].startswith(TRIAL_HOLDS):
+                        row.update(status='held', reason=row['hold'])
+                    rows.append(row)
+            if n % 100 == 0:
+                log('own-view trial scan: %d/%d files, %d rows' % (n, len(files), len(rows)))
+    finally:
+        TRIAL = saved
+    return rows
+
+
+def find_trial_decl(unit, rel, row):
+    fn = find_function(unit, rel, row['function']) if unit else None
+    if fn is None:
+        return None, None
+    for kind, i, decl in trial_vars(fn):
+        if kind == row['kind'] and decl.get('name') == row['var'] and (kind == 'local' or str(i) == str(row['param'])):
+            return fn, decl
+    return fn, None
+
+
+def trial_one(root, units, prover, get_index, row, editable, local_only, log):
+    """Compile trial of one row on the current text: (status, reason, info).  status is kept, reverted or deferred
+    (a parameter whose declarations live in other files, when local_only)."""
+    rel = row['file']
+    unit = units.get(rel)
+    fn, decl = find_trial_decl(unit, rel, row)
+    if decl is None:
+        return 'reverted', 'stale:variable_not_found', {}
+    target, count, why = own_view_candidate(unit, rel, fn, decl, 1)
+    if why == 'already_typed':
+        return 'reverted', 'stale:already_typed', {}
+    if target != row['target']:
+        return 'reverted', 'stale:' + (why or target), {}
+    if row['kind'] == 'param':
+        plan, why = plan_callback(root, units, get_index(), row['function'] + '@' + rel, int(row['param']),
+                                  target, editable, own_view=True)
+        if why:
+            return 'reverted', 'plan:' + why, {}
+        if local_only and set(plan['texts']) - {rel}:
+            return 'deferred', 'declarations:' + ','.join(sorted(set(plan['texts']) - {rel})), {}
+        inserted = plan['summary'].get('inserted', 0)
+    else:
+        plan = plan_retype(unit, rel, fn, decl, Target(unit, target))
+        if (plan.get('refused') or '').startswith('assigned_from_record:'):
+            # the variable is assigned a shared record: retype to that record (R3 evidence) instead of the view
+            record = plan['refused'].split(':', 1)[1]
+            plan = plan_retype(unit, rel, fn, decl, Target(unit, record))
+            if plan.get('refused'):
+                return 'reverted', 'plan:%s (as %s, the record assigned to it)' % (plan['refused'], record), {}
+            row['target'], row['target_kind'] = record, 'shared_record:assigned'
+        if plan.get('refused'):
+            return 'reverted', 'plan:' + plan['refused'], {}
+        try:
+            texts = {rel: apply_text_edits(unit.text(rel), plan['edits'])}
+        except ValueError:
+            return 'reverted', 'plan:overlapping_edits', {}
+        inserted = plan.get('inserted', 0)
+        plan = dict(texts=texts, touched={rel: {row['function']}}, headers={})
+    verdict, info = transact(root, prover, units, 'own-view-trial:%s:%s' % (row['function'], row['var']),
+                             plan['texts'], plan['touched'], plan['headers'], fold=True)
+    if verdict:
+        return 'reverted', verdict, dict(inserted=inserted)
+    if info['casts_removed'] <= 0:
+        for f, t in info['before'].items():
+            (Path(root) / f).write_text(t)
+        units.drop(info['before'])
+        return 'reverted', 'casts_not_falling:%d' % info['casts_removed'], dict(inserted=inserted)
+    before = info['before'][rel] if rel in info['before'] else (Path(root) / rel).read_text()
+    return 'kept', 'casts_removed:%d' % info['casts_removed'], dict(
+        inserted=inserted, removed=info['casts_removed'] + inserted, files=info['files'],
+        casts_before=casts_of(rel, before), casts_after=casts_of(rel, (Path(root) / rel).read_text()))
+
+
+def _trial_worker(job):
+    """One process: the rows of a set of files that share no physical TU with another worker's files."""
+    global TRIAL
+    root, out, rows, scope, exclude, max_closure = job
+    TRIAL = True
+    root, out = Path(root), Path(out)
+    logf = open(out / 'run.log', 'a')
+
+    def log(msg):
+        logf.write(time.strftime('%H:%M:%S ') + msg + '\n')
+        logf.flush()
+
+    units, prover = Units(root), Prover(root, out, 1, max_closure, log)
+    index = []
+    get_index = lambda: index[0] if index else (index.append(Index(root)) or index[0])
+    editable = lambda f: in_scope(f, scope, exclude) or (f.startswith('include/') and in_scope(f, ['include'], exclude))
+    results = []
+    for row in rows:
+        status, reason, info = trial_one(root, units, prover, get_index, row, editable, True, log)
+        row = dict(row, status=status, reason=reason, **{k: info.get(k, '') for k in
+                                                         ('removed', 'inserted', 'casts_before', 'casts_after')})
+        log('trial %s:%s %s %s %s' % (row['file'], row['function'], row['var'], status, reason))
+        results.append((row, prover.receipts[-len(prover.receipts):] if status == 'kept' else []))
+        prover.receipts = []
+    return results
+
+
+def own_view_trial_run(root, out, scope, exclude, min_casts, limit, jobs, max_closure, log, plan_file=None,
+                       skip_targets=()):
+    """own-view --trial: replace the static holds by a compile trial per (function, variable) group.
+
+    Each group's declaration itself is retyped (parameters with every typed declaration of the function), the casts
+    that become identity are dropped, a use the new type cannot serve keeps its old type through an inserted value
+    cast (counted), cast_fold folds raw offsets on the newly typed base, and the change is kept only when every TU of
+    the closure stays byte-identical (raw, canonical assembly and object), the strict native check gains no error,
+    no per-function debt class rises and the file's pointer casts fall.  Files that share no TU run in parallel."""
+    rows = read_tsv(plan_file) if plan_file else own_view_trial_scan(root, scope, exclude, min_casts, log)
+    for r in rows:
+        if r['status'] == 'candidate' and type_name(r['target']) in skip_targets:
+            r.update(status='held', reason='skipped_target')   # owned by another change set
+    write_tsv(out / 'scan.tsv', rows, OWN_TRIAL_FIELDS)
+    trial = sorted((r for r in rows if r['status'] == 'candidate'), key=lambda r: (-int(r['casts']), r['file']))
+    trial = trial[:limit] if limit else trial
+    log('own-view trial: %d rows, %d to trial (static holds among them: %s)' % (
+        len(rows), len(trial), dict(collections.Counter(re.split(r'[:@]', r['hold'][5:])[0] if r['hold'] else 'none'
+                                                          for r in trial))))
+    prover = Prover(root, out, max(1, jobs), max_closure, log)  # dependency map once, cached for the workers
+    comp = {}
+
+    def find(x):
+        while comp.setdefault(x, x) != x:
+            x = comp[x]
+        return x
+    for f in {r['file'] for r in trial}:
+        for t in prover.closure([f]) or [f]:
+            comp[find(f)] = find('tu:' + t)
+    groups = collections.defaultdict(list)
+    for r in trial:
+        groups[find(r['file'])].append(r)
+    buckets = [[] for _ in range(max(1, jobs))]
+    for g in sorted(groups.values(), key=lambda g: -sum(int(r['casts']) for r in g)):
+        min(buckets, key=lambda b: sum(int(r['casts']) for r in b)).extend(g)
+    results, receipts = [], []
+    with ProcessPoolExecutor(max_workers=len(buckets)) as ex:
+        for part in ex.map(_trial_worker, [(str(root), str(out), b, scope, exclude, max_closure) for b in buckets if b]):
+            for row, rec in part:
+                results.append(row)
+                receipts += rec
+    deferred = [r for r in results if r['status'] == 'deferred']
+    if deferred:
+        global TRIAL
+        TRIAL = True
+        units, index = Units(root), []
+        get_index = lambda: index[0] if index else (index.append(Index(root)) or index[0])
+        editable = lambda f: in_scope(f, scope, exclude) or (f.startswith('include/') and
+                                                            in_scope(f, ['include'], exclude))
+        for row in deferred:
+            status, reason, info = trial_one(root, units, prover, get_index, row, editable, False, log)
+            row.update(status=status, reason=reason, **{k: info.get(k, '') for k in
+                                                        ('removed', 'inserted', 'casts_before', 'casts_after')})
+            log('trial (shared declarations) %s:%s %s %s %s' % (row['file'], row['function'], row['var'], status,
+                                                                 reason))
+        receipts += prover.receipts
+    done = {(r['file'], r['function'], r['var'], r['kind']) for r in results}
+    final = results + [r for r in rows if (r['file'], r['function'], r['var'], r['kind']) not in done]
+    write_tsv(out / 'trial.tsv', final, OWN_TRIAL_FIELDS)
+    with open(out / 'receipt.jsonl', 'w') as fh:
+        for receipt in receipts:
+            fh.write(json.dumps(receipt, sort_keys=True) + '\n')
+    kept = [r for r in results if r['status'] == 'kept']
+    (out / 'changed_files.txt').write_text(''.join(f + '\n' for f in sorted({r['file'] for r in kept})))
+    by_hold = collections.defaultdict(collections.Counter)
+    for r in results:
+        by_hold[re.split(r'[:@]', r['hold'][5:])[0] if r['hold'] else 'none'][r['status']] += 1
+    summ = dict(status=dict(collections.Counter(r['status'] for r in final)),
+                by_static_hold={k: dict(v) for k, v in sorted(by_hold.items())},
+                revert_reasons=dict(collections.Counter(re.split(r'[:@]', r['reason'])[0] for r in results
+                                                        if r['status'] == 'reverted')),
+                casts_removed=sum(int(r['removed'] or 0) for r in kept),
+                casts_inserted=sum(int(r['inserted'] or 0) for r in kept))
+    (out / 'summary.json').write_text(json.dumps(summ, indent=2, sort_keys=True) + '\n')
+    log('own-view trial: ' + json.dumps(summ, sort_keys=True))
+
+
 # --------------------------------------------------------------------------------------------- main
 
 def main(argv=None):
@@ -2332,6 +2726,10 @@ def main(argv=None):
     ap.add_argument('--min-casts', type=int, default=3, help='own-view: minimum member casts on a parameter')
     ap.add_argument('--plan', type=Path, help='own-view: reuse a dry plan from this unchanged base')
     ap.add_argument('--entry-only', action='store_true', help='own-view: retain generic signature, hoist one cast')
+    ap.add_argument('--trial', action='store_true', help='own-view: compile trial per (function, variable) group '
+                    '(parameters and locals) instead of the static holds; --limit 0 trials every row')
+    ap.add_argument('--skip-targets', nargs='*', default=[], help='own-view --trial: target type names to hold')
+    ap.add_argument('--jobs', type=int, default=2, help='own-view --trial: parallel workers over TU-disjoint files')
     args = ap.parse_args(argv)
     root = args.root.resolve()
     if root != ROOT:
@@ -2349,6 +2747,10 @@ def main(argv=None):
         logf.write(line + '\n')
         logf.flush()
 
+    if args.mode == 'own-view' and args.trial:
+        own_view_trial_run(root, out, args.scope, args.exclude, args.min_casts, args.limit, args.jobs,
+                           args.max_closure, log, args.plan, args.skip_targets)
+        return 0
     if args.mode == 'own-view':
         own_view_run(root, out, args.scope, args.min_casts, args.apply, args.limit, args.workers,
                      args.max_closure, log, args.plan, args.entry_only)

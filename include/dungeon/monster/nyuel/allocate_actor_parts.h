@@ -47,7 +47,6 @@ extern u8 D_8015EA98[9];
 
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(Body *, s32, s32);
 

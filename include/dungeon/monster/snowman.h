@@ -523,7 +523,6 @@ void initialize_timed_motion_step(unsigned short countdown, unsigned int amount)
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 s32 rcos(s32);
 void unlink_node();
-void func_80044A50(struct ObjectNodeHeader *node);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);

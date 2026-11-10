@@ -337,7 +337,6 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
 void *allocate_list_node(s32, ObjectNodeHeader **);
 ObjectNodeHeader *func_8003FD64(s32, ObjectNodeHeader **);
 s32 register_node(void *, void *, ...);
-s32 func_8004491C(void *, void *, ...);
 void advance_sprite_animation_and_textures(void *);
 s16 sample_terrain_surface_height(s32, s32, s16);
 void select_record_entry_and_value(void *state, void *entries, short index);

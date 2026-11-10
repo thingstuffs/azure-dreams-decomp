@@ -4,6 +4,7 @@
 #include "town/player.h"
 #include "engine/graphics.h"
 #include "town/player/record.h"
+#include "shared/sprite_frame_state.h"
 
 /*
  * Computes and publishes a position offset for a matching primary key, requiring a second key
@@ -79,8 +80,8 @@ void compute_the_based_position_offset_publishes_resulting_vector(TownPlayerReco
 }
 
 /* Passes an indexed byte and the object's signed field to get_second_word_indexed_entry_in_s_nested_table. */
-void *call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(void *object, u8 *values, s32 index) {
-    return get_second_word_indexed_entry_in_s_nested_table(object, values[index], ((s8 *)object)[4], 0);
+void *call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(SpriteFrameState *object, u8 *values, s32 index) {
+    return get_second_word_indexed_entry_in_s_nested_table(object, values[index], object->unk_04, 0);
 }
 
 /* Return the second word of an indexed entry in the record's nested table. */

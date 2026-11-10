@@ -15,7 +15,7 @@
 #include "dungeon/player/object.h"
 
 extern s32 find_active_rect_containing_point(u8, u8);
-extern void update_actor_status_and_mp(ActorRecord *entity);
+#include "dungeon/actor/state.h"
 
 extern void advance_stored_path_motion(void *, void *, void *, void *);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
@@ -126,7 +126,7 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
                         ActorRecord *previous_actor;
 
                         previous_node = primary_actor_record->previous_actor_header;
-                        previous_body = previous_node + 1;
+                        previous_body = NODE_BODY(previous_node);
                         previous_actor = previous_body;
                         if ((s16)check_entity_relation(state, previous_actor) != 0) {
                             return;

@@ -34,9 +34,9 @@ void func_800B47BC(struct MenuDisplay *object);
 #include "records/Rec_func_800B2DA0_arg1.h"
 void update_and_finalize_record(Rec_func_800B2DA0_arg1 *record);
 
-#include "records/Rec_func_80021E88_arg1.h"
+struct ObjectPosition;
 struct S_800A2A18_1;
-s32 test_three_axis_box_overlap(struct S_800A2A18_1 *box, Rec_func_80021E88_arg1 *offset);
+s32 test_three_axis_box_overlap(struct S_800A2A18_1 *box, struct ObjectPosition *offset);
 
 void create_entry_builder_controller(void);
 s32 *initialize_shared_script_data(void);
