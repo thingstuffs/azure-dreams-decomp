@@ -142,13 +142,13 @@ void *card_boot_create_three_row_command_panel(void *init_value);
 void card_boot_destroy_slot_selection_menu(struct UnkStruct1E *object);
 
 /* card_boot_dispatch_selected_menu_action.c */
-void card_boot_dispatch_selected_menu_action(struct Object_800128C8 *object);
+void card_boot_dispatch_selected_menu_action(CardSlotMenuState *object);
 
 /* card_boot_enter_copying_progress.c */
 void card_boot_enter_copying_progress(void *object_data);
 
 /* card_boot_enter_insufficient_space_advice.c */
-void card_boot_enter_insufficient_space_advice(void *record_part);
+void card_boot_enter_insufficient_space_advice(CardSaveMenuBody *record_part);
 
 /* card_boot_enter_overwrite_confirmation.c */
 void card_boot_enter_overwrite_confirmation(void *record_part);
@@ -354,7 +354,7 @@ void card_boot_initialize_dialog_packets_and_display(struct CardMessageDialogBod
 
 /* dialog_selection_highlight_g00379.c */
 void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 entry_count);
-void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 mode, s32 row, s32 row_value);
+void card_boot_position_dialog_selection_marker(CardMessageDialogBody *context, s32 column, s32 mode, s32 row, s32 row_value);
 void card_boot_update_message_choice_highlight(void *object);
 
 /* dispatch_menu_update_callback.c */
@@ -412,7 +412,7 @@ void *render_rotated_grid_surface(s32 parent, s32 context, s32 mode);
 void route_save_slot_validation(CardSaveMenuBody *context);
 
 /* set_entry_destination_and_value.c */
-void set_entry_destination_and_value(void *state);
+void set_entry_destination_and_value(struct CardChoiceOwner *state);
 
 /* set_record_pair_to_one.c */
 void set_record_pair_to_one(CardSlotMenuState *record);

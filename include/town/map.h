@@ -437,7 +437,7 @@ s32 tw_sd_se_ld_call(s32 sound_id, s32 sequence_id);
 s32 tw_seq_end_chk(void);
 
 /* update_angle_driven_offset.c */
-void update_angle_driven_offset(void *object, DelayMotionZ *offset_state);
+void update_angle_driven_offset(void *object, ObjectPosition *offset_state);
 
 /* update_current_and_saved_coordinates.c */
 void update_current_and_saved_coordinates(struct S_800A51CC_0 *object);

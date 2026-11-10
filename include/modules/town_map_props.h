@@ -13,7 +13,7 @@ struct TownGridOutputView;
 struct S_800BDFA0_0;
 struct TownPropAnimationActor;
 struct S_800BE214_0;
-struct TrailHeightView;
+struct ObjectPosition;
 void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_param, s32 graphics_id);
 void *create_positioned_visual_object(TownPropPosition *position, s32 object_data, s32 angle, s32 visual_data);
 void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mode, s32 pair_index);
@@ -22,7 +22,7 @@ void update_record_output_grid(struct S_800BDE7C_0 *record, s32 unused_value, st
 void no_op_effect_callback(void);
 void initialize_record_visual_state(struct S_800BDFA0_0 *record, s32 unused, SpriteFrameState *value);
 void copy_record_state_to_destination(struct TownPropAnimationActor *self, s32 unused_value, SpriteFrameState *destination);
-void advance_actor_animation_pose(struct S_800BE214_0 *actor, struct TrailHeightView *pose, SpriteFrameState *animation);
+void advance_actor_animation_pose(struct S_800BE214_0 *actor, struct ObjectPosition *pose, SpriteFrameState *animation);
 void select_record_entry_and_value(void *destination, void *animation, s16 mode);
 void *allocate_list_node(s32 object_type, void *list);
 void *func_8003FD64(s32 object_type, void *list);

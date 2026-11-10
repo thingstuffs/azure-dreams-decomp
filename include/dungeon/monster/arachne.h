@@ -306,14 +306,6 @@ typedef struct R12_80173FDC_S_80173FDC_8 {
     u8 pad_00[0x8];
     u8 * unk_08;
 } R12_80173FDC_S_80173FDC_8;
-typedef struct R12_8017458C_Entry {
-    u8 pad00[6];
-    s16 unk06;
-    void *unk08;
-    struct R12_8017458C_Entry *unk0C;
-    u8 pad10[4];
-    u16 unk14;
-} R12_8017458C_Entry;
 typedef struct {
     u8 pad[0x13C];
     s32 value;
@@ -679,9 +671,9 @@ void create_directional_template_effect(void *entity, ObjectPosition *motion, Sp
 void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *state);
 void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, void *display, void *orientation);
+void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation);
 s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
-void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, SpriteFrameState *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
 void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
@@ -702,7 +694,7 @@ void finish_spinning_actor_fall_then_select_target(ActorRecord *state, ObjectPos
 void finish_actor_fade_in_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void dim_effect_after_delay(ArachneActionEffectBody *effect);
 s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, SpriteFrameState *unused_sprite);
-s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_data, R12_8017458C_Entry *entry, s32 unused);
+s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused);
 void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias);
 s32 queue_line_packets_for_node_chain(void *initial_state, void *context, SpriteFrameState *data);
 void update_turning_fade_effect_and_model(void *record_data);

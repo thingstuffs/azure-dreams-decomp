@@ -19,13 +19,6 @@ typedef struct EffectState {
     u16 grid[4][3];
 } EffectState;
 
-typedef struct EffectColor {
-    u8 pad00[0xC];
-    u8 red;
-    u8 green;
-    u8 blue;
-} EffectColor;
-
 typedef struct RenderData {
     u8 pad00[6];
     s16 field06;
@@ -61,7 +54,7 @@ extern u8 D_80174108[];
 extern Packed12 D_80174FC0;
 
 /* Fades the effect color, spawns four textured objects, and expires the effect when its lifetime ends. */
-void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, EffectColor *color)
+void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, SpriteFrameState *color)
 {
     EffectObject *object;
     u8 *effect_data;
@@ -78,9 +71,9 @@ void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, E
 
     switch (state->phase) {
     case 0:
-        color->red = state->red * (50 - state->lifetime) / 10;
-        color->green = state->green * (50 - state->lifetime) / 10;
-        color->blue = state->blue * (50 - state->lifetime) / 10;
+        color->color.c.r = state->red * (50 - state->lifetime) / 10;
+        color->color.c.g = state->green * (50 - state->lifetime) / 10;
+        color->color.c.b = state->blue * (50 - state->lifetime) / 10;
         if (state->lifetime < 41) {
             state->phase++;
         }
@@ -91,9 +84,9 @@ void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, E
         }
         break;
     case 2:
-        color->red = state->red * state->lifetime / 10;
-        color->green = state->green * state->lifetime / 10;
-        color->blue = state->blue * state->lifetime / 10;
+        color->color.c.r = state->red * state->lifetime / 10;
+        color->color.c.g = state->green * state->lifetime / 10;
+        color->color.c.b = state->blue * state->lifetime / 10;
         break;
     }
 
@@ -124,9 +117,9 @@ void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, E
 
             do {
                 color_entry = effect_data + color_index * 4;
-                color_entry[4] = color->red;
-                color_entry[5] = color->green;
-                color_entry[6] = color->blue;
+                color_entry[4] = color->color.c.r;
+                color_entry[5] = color->color.c.g;
+                color_entry[6] = color->color.c.b;
                 color_index++;
             } while (color_index < 4);
 

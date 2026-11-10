@@ -31,7 +31,7 @@ void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition 
 void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* Callback entry points. */
-s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appearance);
+s32 draw_layered_wavy_object_strips(void *object_data, void *unused, SpriteFrameState *appearance);
 void advance_actor_replacement_sequence(RotateAndRestoreActorStateBody *effect, s32 unused, SpriteFrameState *primitive);
 
 /* Animation counters and the image buffer consumed by StoreImage. */

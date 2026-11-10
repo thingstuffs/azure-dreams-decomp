@@ -9,7 +9,7 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-static void advance_actor_along_path_points(void *motion, s32 unused, void *position, ActorRecord *path);
+static void advance_actor_along_path_points(ActorRecord *motion, s32 unused, void *position, ActorRecord *path);
 #include "dungeon/actor/state.h"
 typedef struct S_800C9F34_3 {
     u8 pad_00[0x24];
@@ -58,10 +58,10 @@ void dispatch_actor_behavior_state(ActorRecord *actor_state, s32 context, S_800C
 }
 
 /* Advances to the next stored path tile, updates facing, and sets the movement animation duration. */
-static void advance_actor_along_path_points(void *motion_arg, s32 unused, void *position_arg, ActorRecord *path_arg)
+static void advance_actor_along_path_points(ActorRecord *motion_arg, s32 unused, void *position_arg, ActorRecord *path_arg)
 {
     MovingTile *position = position_arg;
-    Rec_func_800C9F34_arg0 *motion = motion_arg;
+    ActorRecord *motion = motion_arg;
     s32 step_count;
     s32 old_x;
     s32 old_y;
@@ -84,19 +84,19 @@ static void advance_actor_along_path_points(void *motion_arg, s32 unused, void *
 
     path->facing =
         get_rounded_facing_and_rounding_flag(old_x, old_y, position->tile_x,
-                      position->tile_y, (u8 *)motion + 0x98);
+                      position->tile_y, &motion->action_state_flags);
     path->flags1C |= 0x40000000;
-    motion->unk_9A.as_u8 = 0xF;
-    motion->unk_8C = 0;
+    motion->action_id = 0xF;
+    motion->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
-        motion->unk_96 = 0;
+        motion->action_timer = 0;
         return;
     }
 
-    motion->unk_96 = 8;
+    motion->action_timer = 8;
     step_count = path->movement_queue_state;
     if (step_count > 0) {
-        motion->unk_96 = 8 / step_count;
+        motion->action_timer = 8 / step_count;
     }
 }

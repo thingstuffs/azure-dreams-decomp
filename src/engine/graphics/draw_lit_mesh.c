@@ -22,9 +22,9 @@ typedef struct {
 } RenderObject;
 
 /* Transform, light, and queue visible textured mesh quads for rendering. */
-void draw_lit_mesh(void *unused, u8 *position_arg, RenderObject *object, s16 depth_bias)
+void draw_lit_mesh(void *unused, ObjectPosition *position_arg, RenderObject *object, s16 depth_bias)
 {
-    Fixed1616 *position = position_arg;
+    ObjectPosition *position = position_arg;
     GteMatrix view_matrix;
     GameWork *render_globals;
     Vertex *vertex_table;
@@ -61,9 +61,9 @@ void draw_lit_mesh(void *unused, u8 *position_arg, RenderObject *object, s16 dep
     scratch->scale[0] = vertex_word;
     scratch->scale[1] = object->scale[1];
     scratch->scale[2] = object->scale[2];
-    scratch->translation[0] = position[0].w.i;
-    scratch->translation[1] = position[1].w.i;
-    scratch->translation[2] = position[2].w.i;
+    scratch->translation[0] = position->x.w.i;
+    scratch->translation[1] = position->y.w.i;
+    scratch->translation[2] = position->z.w.i;
 
     ReadRotMatrix(&view_matrix);
     vertex_0 = scratch;

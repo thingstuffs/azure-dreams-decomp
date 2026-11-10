@@ -14,7 +14,7 @@ extern void update_actor_status_and_mp(void *);
 extern u8 D_80174A9C[];
 
 /* Advance the command stream and update the object's direction, animation, and effects. */
-s32 advance_boss_command_stream(ActorRecord *object_arg, void *context_arg, SpriteFrameState *entity_arg) {
+s32 advance_boss_command_stream(ActorRecord *object_arg, ObjectPosition *context_arg, SpriteFrameState *entity_arg) {
     s32 audio_param;
     s16 elapsed_ticks;
     s32 command;
@@ -123,7 +123,7 @@ s32 advance_boss_command_stream(ActorRecord *object_arg, void *context_arg, Spri
                 anim[((g_game_work.view.camera_rotation.parts.viewAngle + obj->facing + 0x100) >> 9) & 7],
                 0);
             create_linked_facing_sprite(entity->tile_x, entity->tile_y,
-                ((ObjectPosition *)context_arg)->z.w.i);
+                context_arg->z.w.i);
             retain_spawn_resource(0x15, 1);
         }
         break;

@@ -9,11 +9,11 @@
 
 /* Prepares an ellipse render region, follows the linked position, emits particles, and fades out the
  * effect. */
-void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, SpriteFrameState *sprite)
+void update_actor_render_effect_and_position(u8 *actor_data, ObjectPosition *output_data, SpriteFrameState *sprite)
 {
     ovl_9c32d4_809A32D4_LocalArgs draw_region;
     ovl_9c32d4_809A32D4_Actor *actor;
-    ovl_9c32d4_809A32D4_Output *output;
+    ObjectPosition *output;
     u8 *initial_page;
     ovl_9c32d4_809A32D4_S_80174AD4_1 *rect_page;
     ovl_9c32d4_809A32D4_S_80174AD4_3 *region_page;
@@ -34,7 +34,7 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, Sp
     u8 rise_level;
 
     actor = (ovl_9c32d4_809A32D4_Actor *)actor_data;
-    output = (ovl_9c32d4_809A32D4_Output *)output_data;
+    output = output_data;
     initial_page = DUNGEON_INITIAL;
     base_page = upper_draw_context;
     state = actor->state;
@@ -108,9 +108,9 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, Sp
     }
     steps_left = 4;
     if (actor->state != 3) {
-        output->field02 = ((ovl_9c32d4_809A32D4_S_80174AD4_5 *)(actor->field1C))->unk_02;
-        output->field06 = ((ovl_9c32d4_809A32D4_S_80174AD4_5 *)(actor->field1C))->unk_06;
-        output->field0A = ((ovl_9c32d4_809A32D4_S_80174AD4_5 *)(actor->field1C))->unk_0A - 0xC;
+        output->x.w.i = ((ovl_9c32d4_809A32D4_S_80174AD4_5 *)(actor->field1C))->unk_02;
+        output->y.w.i = ((ovl_9c32d4_809A32D4_S_80174AD4_5 *)(actor->field1C))->unk_06;
+        output->z.w.i = ((ovl_9c32d4_809A32D4_S_80174AD4_5 *)(actor->field1C))->unk_0A - 0xC;
         do {
             spawn_randomized_directional_motion_object((u8 *)actor - 0x20, (((ovl_9c32d4_809A32D4_S_80174AD4_7 *)(((ovl_9c32d4_809A32D4_S_80174AD4_6 *)actor)->unk_0C))->unk_00 >> 9) & 7,
                 0xFF);

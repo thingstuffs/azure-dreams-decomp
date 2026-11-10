@@ -76,6 +76,6 @@ extern s32 directional_sprite_entries;
 void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, SpriteFrameState *update_arg);
 void create_tinted_sprite_effect_supplied_position(void *unused, ObjectPosition *position_data, SpriteFrameState *unused_primitive);
 void update_orbit_height_and_fade_effect(AngularOffsetEffectBody *effect, ObjectPosition *position, SpriteFrameState *primitive);
-void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
+void create_angular_offset_effect(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
     s16 angle, u16 height_offset);
 #endif

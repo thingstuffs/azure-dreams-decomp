@@ -10,10 +10,26 @@ import copy
 import gzip
 import hashlib
 import json
-import marshal
 import os
 from pathlib import Path
 import types
+
+
+def portable(value, root_text):
+    """A walker's behaviour as JSON, independent of where its checkout lives and of interpreter state. Marshalled
+    code is neither: its bytes embed the absolute co_filename and depend on object reference counts (FLAG_REF), so
+    the same include walker hashed differently in a scratch root, and in any run after placement validation ran."""
+    if isinstance(value, types.CodeType):
+        return ['code', value.co_name, value.co_code.hex(), value.co_argcount, value.co_posonlyargcount,
+                value.co_kwonlyargcount, value.co_flags, value.co_names, value.co_varnames, value.co_freevars,
+                value.co_cellvars, [portable(c, root_text) for c in value.co_consts]]
+    if isinstance(value, (frozenset, set)):
+        return [type(value).__name__, sorted(json.dumps(portable(v, root_text)) for v in value)]
+    if isinstance(value, tuple):
+        return ['tuple', [portable(v, root_text) for v in value]]
+    if isinstance(value, dict):
+        return ['dict', sorted([repr(k), portable(v, root_text)] for k, v in value.items())]
+    return repr(value).replace(root_text, '<root>')
 
 
 class RecipeCache:
@@ -148,8 +164,9 @@ class RecipeCache:
                 if not source_path.is_relative_to(self.root.resolve()):
                     return sorted(walker(root, starts))
                 source_name = source_path.relative_to(self.root.resolve()).as_posix()
-            function_code = [(n, hashlib.sha256(marshal.dumps(v.__code__)).hexdigest(),
-                              repr(v.__defaults__), repr(v.__kwdefaults__))
+            root_text = os.fspath(self.root.resolve())
+            function_code = [(n, hashlib.sha256(json.dumps(portable(v.__code__, root_text)).encode()).hexdigest(),
+                              portable(v.__defaults__, root_text), portable(v.__kwdefaults__, root_text))
                              for n, v in sorted(functions.items())]
             identity = [getattr(module, '__name__', type(module).__qualname__), source_name,
                         self.digest(source_name) if source_name else None, function_code]

@@ -19,7 +19,7 @@ extern SpriteSourceEntry D_800EE344[];
 
 
 /* Allocate and initialize an object at an offset from the supplied position. */
-void * create_offset_effect_object(IntVector3 *source_pos) {
+void * create_offset_effect_object(ObjectPosition *source_pos) {
     ObjectPosition *position;
     OwnerCallbackObject *object_state;
     SpriteFrameState *render_state;
@@ -33,9 +33,9 @@ void * create_offset_effect_object(IntVector3 *source_pos) {
     position = object->position;
     render_state = object->sprite;
     object_state = NODE_BODY(object);
-    position->x.v = source_pos->x;
-    position->y.v = source_pos->y;
-    offset_z = source_pos->z + 0xFFDC0000;
+    position->x.v = source_pos->x.v;
+    position->y.v = source_pos->y.v;
+    offset_z = source_pos->z.v + 0xFFDC0000;
     position->velocity_x = 0x100000;
     position->velocity_y = 0;
     position->z.v = offset_z;

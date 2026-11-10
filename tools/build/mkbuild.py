@@ -96,6 +96,13 @@ def run(argv, **kw):
     return result.stdout
 
 
+# The landing's accounting step (land_make.accounting) rewrites ledger/levels.jsonl AFTER configure, so every landing
+# commit carries levels the build state never saw. The module L3/placement screens read it only inside configure
+# checkpoints, so it is bound per checkpoint (like an undeclared probe) instead of content-guarding all of them: a
+# levels-only change regenerates just the checkpoints whose screens read it.
+RECORD_BOUND = {'ledger/levels.jsonl'}
+
+
 def configure_inputs(extra=(), inventory_receipt=None):
     # Landing/accounting code and ordinary documentation cannot alter a recipe.
     # Review inputs are added explicitly below, including reviews outside docs/.
@@ -108,7 +115,7 @@ def configure_inputs(extra=(), inventory_receipt=None):
                   'tools/overlay_module_evidence.py'])
     manifest = content_cache.load(ROOT/'config/overlays/modules.json')
     names.update(n for m in manifest.get('modules', ()) for n in m.get('review_inputs', ()))
-    ledgers = content_cache.inventory(ROOT, ('ledger',))
+    ledgers = content_cache.inventory(ROOT, ('ledger',), RECORD_BOUND)
     names.update(ledgers)
     if inventory_receipt is not None:
         inventory_receipt.update(ledgers)
@@ -118,7 +125,8 @@ def configure_inputs(extra=(), inventory_receipt=None):
     names.update(['ledger/rows.jsonl', 'ledger/layout.jsonl', 'ledger/layout_inline.jsonl',
                   'ledger/tu_layout.jsonl', 'ledger/modules.jsonl', 'ledger/containers.jsonl',
                   'ledger/instance_load_regions.jsonl'])
-    names.update(n for n in extra if n not in irrelevant and not n.startswith(('build/.state/', 'build_slus/build/partition_sources/')))
+    names.update(n for n in extra if n not in irrelevant and n not in RECORD_BOUND
+                 and not n.startswith(('build/.state/', 'build_slus/build/partition_sources/')))
     return names
 
 

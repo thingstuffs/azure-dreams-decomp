@@ -48,7 +48,7 @@ typedef struct S_800A1D1C_4 {
    /* arg1 in render_shaded_object_primitive */
 
 /* Update primitive shading and transform object coordinates, or mark it inactive. */
-void render_shaded_object_primitive(void *object, MovingPosition *coords, SpriteFrameState *primitive) {
+void render_shaded_object_primitive(void *object, ObjectPosition *coords, SpriteFrameState *primitive) {
     s32 matrix_index;
     s32 red_scaled;
     s32 green_scaled;
@@ -97,7 +97,7 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, Sprite
     position = scratch + 0x2C;
     RotTransSV(position, position, (void *)((u32)scratch | 0x98));
     PopMatrix();
-    coords->x = ((S_800A1D1C_4 *)scratch)->unk_2C;
-    coords->y = ((S_800A1D1C_4 *)scratch)->unk_2E;
-    coords->z = ((S_800A1D1C_4 *)scratch)->unk_30;
+    coords->x.w.i = ((S_800A1D1C_4 *)scratch)->unk_2C;
+    coords->y.w.i = ((S_800A1D1C_4 *)scratch)->unk_2E;
+    coords->z.w.i = ((S_800A1D1C_4 *)scratch)->unk_30;
 }

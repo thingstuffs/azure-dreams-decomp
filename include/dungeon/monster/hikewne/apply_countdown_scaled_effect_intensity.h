@@ -32,7 +32,7 @@ typedef struct HikewneExpandingFadeBody {
     u8 pad_98[0x12];
     s16 duration;
     u8 pad_AC[0x4];
-    MovingPosition *source_position;
+    ObjectPosition *source_position;
 } HikewneExpandingFadeBody;
 
    /* arg1 in func_80170970 */
@@ -56,7 +56,7 @@ typedef struct {
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void func_80047784(void *, u8, s32);
-void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect, MovingPosition *transform, SpriteFrameState *render_state);
+void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect, ObjectPosition *transform, SpriteFrameState *render_state);
 extern u8 D_80174128[8];
 
 typedef struct S_80975244_3 {

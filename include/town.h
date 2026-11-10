@@ -1,6 +1,7 @@
 #ifndef TOWN_H
 #define TOWN_H
 struct ObjectPosition;
+struct SpriteFrameState;
 
 #include "common.h"
 
@@ -9,7 +10,7 @@ struct ObjectPosition;
 s32 town_table_contains_first_byte_d(s32 target_value);
 
 /* Callback entry points. */
-void fade_effect_and_mark_cleanup(void *record, s32 unused, void *effect);
+void fade_effect_and_mark_cleanup(void *record, s32 unused, struct SpriteFrameState *effect);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void *set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3);

@@ -241,7 +241,7 @@ int read_stream_cue_start_offset(void)
     return ticks + status[1];
 }
 
-extern void draw_lit_mesh(void *a0, void *a1, void *a2, short a3);
+extern void draw_lit_mesh(void *a0, ObjectPosition *a1, void *a2, short a3);
 
 typedef struct Node46398 {
     char pad0[6];

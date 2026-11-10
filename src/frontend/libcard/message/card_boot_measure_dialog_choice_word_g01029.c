@@ -91,20 +91,19 @@ void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 
 
 /* Returns four times the column minus half the context width plus the 0xA2 screen offset. */
 static __inline__ u32 calculate_x(
-    void *context,
+    CardMessageDialogBody *context,
     s32 column
     )
 {
-    CardMessageDialogBody *dialog = context;
     u32 x;
 
     x = (u32)column * 4U;
-    x -= (u32)(dialog->width / 2);
+    x -= (u32)(context->width / 2);
     return x + 0xA2;
 }
 
 /* Positions the current record and updates the specified row. */
-void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 mode, s32 row, s32 row_value)
+void card_boot_position_dialog_selection_marker(CardMessageDialogBody *context, s32 column, s32 mode, s32 row, s32 row_value)
 {
     CardMessageDialogBody *state = context;
     CardMenuDisplayNode *record;

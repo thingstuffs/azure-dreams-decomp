@@ -28,7 +28,7 @@ typedef struct {
 extern u8 D_8017573C;
 
 /* Allocate and initialize an object with source direction, render properties, and copied data. */
-void *create_directional_render_object(void *direction_src, Copy24 *initial_data, void *render_src) {
+void *create_directional_render_object(ActorRecord *direction_src, Copy24 *initial_data, SpriteFrameState *render_ref) {
     SpriteFrameState *render_data;
     DirectionalRenderObjectBody *object_state;
     ObjectNodeHeader *object;
@@ -36,7 +36,6 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
     u16 render_attr;
     ActorRecord *direction_ref = direction_src;
     Copy24 *data_src = initial_data;
-    SpriteFrameState *render_ref = render_src;
 
     object = allocate_flagged_object_node(0x312);
     if (object != NULL) {

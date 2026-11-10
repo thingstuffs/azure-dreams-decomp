@@ -70,7 +70,7 @@ s32 initialize_object_items_in_reverse(struct TownObject *object, void *item_dat
 void initialize_timed_scale_object(void *object, ObjectPosition *state, struct SpriteFrameState *context);
 
 /* render_shaded_object_primitive.c */
-void render_shaded_object_primitive(void *object, MovingPosition *coords, struct SpriteFrameState *primitive);
+void render_shaded_object_primitive(void *object, ObjectPosition *coords, struct SpriteFrameState *primitive);
 
 /* swap_paired_entry_values_and_node_halfwords.c */
 

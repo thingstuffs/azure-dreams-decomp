@@ -1927,26 +1927,26 @@ void finish_actor_fade_in_then_initialize_destination(ActorRecord *state, Object
 }
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data, R06_80173E08_Entry *entry, s32 unused)
+s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
     R06_80173E08_Scratchpad *scratch = (R06_80173E08_Scratchpad *)0x1F800000;
-    R06_80173E08_Entry *next_entry;
+    ObjectNodeHeader *next_node;
 
     for (;;) {
         scratch->value = ((s16 *)D_8017591C)[0];
 
-        if (!(entry->unk14 & 0x80)) {
-            project_sprite_commands(payload, entry_data, entry,(s16)(entry->unk06));
+        if (!(entry->flags & 0x80)) {
+            project_sprite_commands(payload, entry_data, entry, entry->depth_bias);
         }
 
-        next_entry = *(R06_80173E08_Entry **)((u8 *)payload - 8);
-        if (next_entry == 0) {
+        next_node = NODE_HEADER(payload)->chain_next;
+        if (next_node == 0) {
             return 0;
         }
-        payload = (u8 *)next_entry + 0x20;
-        entry_data = next_entry->unk08;
-        entry = next_entry->unk0C;
+        payload = NODE_BODY(next_node);
+        entry_data = next_node->position;
+        entry = next_node->sprite;
     }
 }
 
@@ -2511,7 +2511,7 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
 }
 
 /* Creates sixteen colored ring segments around the supplied position, each with a fading strip callback. */
-void create_sixteen_segment_ring(R06_80174E78_Source *source, ObjectPosition *center, SpriteFrameState *unused_context)
+void create_sixteen_segment_ring(ActorRecord *source, ObjectPosition *center, SpriteFrameState *unused_context)
 {
     s16 segment_index;
     void (*update_callback)(void);
@@ -2547,7 +2547,7 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, ObjectPosition *ce
         initial_count = 50;
         setup_entity = entity;
         sub->field_1A = initial_count;
-        sub->field_1C = source->field_96;
+        sub->field_1C = source->action_timer;
         entity->update_callback = update_callback;
         register_node(setup_entity, project_sprite_chain);
 

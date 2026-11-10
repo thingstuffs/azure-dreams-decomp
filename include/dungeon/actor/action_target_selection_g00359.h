@@ -97,6 +97,6 @@ extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 /* Functions defined in this translation unit. */
 s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset);
 void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0 *tile, ActorRecord *actor);
-s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, void *target_ptr, void *actor_ptr);
+s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, MovingTile *target_ptr, void *actor_ptr);
 
 #endif

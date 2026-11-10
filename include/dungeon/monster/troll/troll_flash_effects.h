@@ -380,7 +380,7 @@ void create_targeted_motion_effect(ActorRecord *source_handle, ObjectPosition *o
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite);
 void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, ObjectPosition *position, SpriteFrameState *part_state);
-void create_tracked_attachment_sprite(ActorRecord *attachment, T_80171BEC_S_80171BEC_3 *base_position);
+void create_tracked_attachment_sprite(ActorRecord *attachment, ObjectPosition *base_position);
 void * create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);
 void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 

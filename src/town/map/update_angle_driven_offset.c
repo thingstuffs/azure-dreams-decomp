@@ -11,7 +11,7 @@
 
 
 /* Updates an angle-driven offset and handles inactive objects. */
-void update_angle_driven_offset(void *object_arg, DelayMotionZ *offset_state)
+void update_angle_driven_offset(void *object_arg, ObjectPosition *offset_state)
 {
     Rec_D_80082D58 *object = object_arg;
     s16 angle;
@@ -31,7 +31,7 @@ void update_angle_driven_offset(void *object_arg, DelayMotionZ *offset_state)
     sector = angle / 0x200;
     if ((s8)(sector % 4) == object->unk_97) {
         phase_value = rsin((s16)(angle % 0x200) * 2);
-        offset_state->unk_08 = -((phase_value >> 4) * 0x1E00);
+        offset_state->z.v = -((phase_value >> 4) * 0x1E00);
         object->unk_66 = 30;
         return;
     }
@@ -46,12 +46,12 @@ void update_angle_driven_offset(void *object_arg, DelayMotionZ *offset_state)
                      * object->unk_66) << 8;
         offset = -amplitude;
 
-        offset_state->unk_08 = offset;
+        offset_state->z.v = offset;
         if (offset > 0) {
-            offset_state->unk_08 = amplitude;
+            offset_state->z.v = amplitude;
             return;
         }
     } else {
-        offset_state->unk_08 = 0;
+        offset_state->z.v = 0;
     }
 }

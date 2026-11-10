@@ -111,7 +111,7 @@ void create_minigame_display_objects(void);
 /* Callback entry points. */
 struct PairedIndicators;
 s32 draw_depth_sorted_line_nodes(struct PairedIndicators *node);
-void advance_fading_particle_until_animation_boundary(u8 *effect, u8 *motion, u8 *visual);
+void advance_fading_particle_until_animation_boundary(u8 *effect, ObjectPosition *motion, SpriteFrameState *visual);
 void rotate_gym_mesh_y(s32 unused_0, ObjectPosition *unused_1, SpriteFrameState *object);
 void tick_scene_value_text(void *message);
 void tick_summed_scene_value_text(TerminalSceneTextObject *entry);

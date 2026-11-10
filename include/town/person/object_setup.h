@@ -13,7 +13,7 @@ void initialize_object_and_update(TownObjectRecord *object, void *update_context
 void apply_object_setup_update(void *object, void *callback_arg_1, struct SpriteFrameState *callback_arg_2);
 struct EntityRec;
 void advance_object_position(TownObjectRecord *context, struct EntityRec *object, struct SpriteFrameState *finish_arg);
-void move_position_toward_target(void *work_data, void *position_data, void *completion_arg);
+void move_position_toward_target(void *work_data, struct ObjectPosition *position_data, void *completion_arg);
 void initialize_object_handlers(TownObjectRecord *object, void *unused_context, void *unused_setup);
 s32 select_object_setup_path(void *object, void *request_data, void *request_param);
 

@@ -200,14 +200,6 @@ typedef struct R16_80172D50_S_80173E50_0 {
 
 
 
-typedef struct R16_801736AC_Entry {
-    u8 pad00[6];
-    s16 unk06;
-    void *unk08;
-    struct R16_801736AC_Entry *unk0C;
-    u8 pad10[4];
-    u16 unk14;
-} R16_801736AC_Entry;
 typedef struct {
     u8 pad[0x13C];
     s32 value;
@@ -369,12 +361,12 @@ void finish_spinning_actor_fall_then_dispatch_transition(ActorRecord *state, Obj
 void finish_actor_action_flag_propagation_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_fade_in_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, R16_801736AC_Entry *entry, s32 unused);
+s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, SpriteFrameState *entry, s32 unused);
 void update_expanding_spiral_effect(AngledSourceEffectBody *effect, ObjectPosition *position, struct SpriteFrameState *primitive);
 void create_angled_source_effect(
     s32 unused_0, struct ObjectPosition *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset);
 void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, void *other_data);
-void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source_data);
+void fade_entity_colors_to_neutral(void *entity_data, void *unused, SpriteFrameState *source_data);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, struct ObjectPosition *position, struct SpriteFrameState *actor, void *model);
 
 

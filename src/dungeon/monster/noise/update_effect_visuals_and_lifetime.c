@@ -4,7 +4,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Update effect brightness, size and position, then decrement its lifetime. */
-void update_effect_visuals_and_lifetime(void *state_arg, void *position, SpriteFrameState *effect_arg)
+void update_effect_visuals_and_lifetime(void *state_arg, ObjectPosition *position, SpriteFrameState *effect_arg)
 {
     TimedActorVisualEffectBody *state = state_arg;
     struct {
@@ -15,7 +15,7 @@ void update_effect_visuals_and_lifetime(void *state_arg, void *position, SpriteF
         s32 out20;
         s32 out24;
     } coord_work;
-    T_80170AD0_S_80170AD0_3 *effect_coords;
+    ObjectPosition *effect_coords;
     SpriteFrameState *effect;
     s16 ticks_left;
     s16 next_ticks;
@@ -73,9 +73,9 @@ void update_effect_visuals_and_lifetime(void *state_arg, void *position, SpriteF
     effect->offset_y = (s16)(((s32)(-scaled_offset)) / 2);
 
     if (state->use_linked_position == 0) {
-        coord_work.xyz[0] = effect_coords->unk_02;
-        coord_work.xyz[1] = effect_coords->unk_06;
-        coord_work.xyz[2] = effect_coords->unk_0A;
+        coord_work.xyz[0] = effect_coords->x.w.i;
+        coord_work.xyz[1] = effect_coords->y.w.i;
+        coord_work.xyz[2] = effect_coords->z.w.i;
         position_value = RotTransPers(coord_work.xyz, &coord_work.out18.value, &coord_work.out20, &coord_work.out24);
 
         reference_coords = state->reference_position;

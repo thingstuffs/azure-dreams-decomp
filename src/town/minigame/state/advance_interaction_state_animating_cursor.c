@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
 #include "engine/script.h"
 #include "sdk/libc.h"
@@ -7,16 +8,6 @@
 #include "town/minigame/state.h"
 #include "town/person.h"
 
-
-typedef struct Arg1 {
-    s32 x;
-    s32 y;
-} Arg1;
-
-typedef struct Arg2 {
-    char pad0[0x1A];
-    u16 cursor;
-} Arg2;
 
 typedef struct Entry {
     u8 bytes[8];
@@ -36,7 +27,7 @@ extern u8 D_80011F81[];
 extern Counter town_money;
 
 /* Advances the interaction state, animating the cursor and vertical position. */
-void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, Arg1 *position, Arg2 *cursor_data) {
+void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, ObjectPosition *position, SpriteFrameState *cursor_data) {
     EntryPair entries;
     s32 state;
     register s32 x_range_check;
@@ -68,7 +59,7 @@ void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self
     {
         x_range_check = 0x3FFFFF;
         current_x = view_reference_entity.x.v;
-        target_x = position->x;
+        target_x = position->x.v;
         {
             s32 x_distance = abs((s32)((u32)current_x - (u32)target_x));
             x_range_check = x_range_check < x_distance;
@@ -89,13 +80,13 @@ void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self
         return;
 
     case 1:
-        if (view_reference_entity.y.v < position->y + 0x800000) {
+        if (view_reference_entity.y.v < position->y.v + 0x800000) {
             view_reference_entity.y.v += 0x40000;
         }
         {
-            register s32 cursor = cursor_data->cursor;
+            register s32 cursor = cursor_data->angle_z;
             cursor -= 0x20;
-            cursor_data->cursor = cursor;
+            cursor_data->angle_z = cursor;
         }
         if ((s16)self->counter > 0) {
             return;
@@ -117,7 +108,7 @@ void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self
         }
 
     case 4:
-        cursor_data->cursor += 0x20;
+        cursor_data->angle_z += 0x20;
         if ((s16)self->counter > 0) {
             return;
         }

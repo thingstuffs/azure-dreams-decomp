@@ -5,7 +5,7 @@
 #include "town/person/object/initialize_object_entries_api.h"  /* extern */
 #include "shared/vector.h"
 #include "town/person.h"
-struct IntVector3; void * create_offset_effect_object(IntVector3 *source_pos);                     /* extern */
+void * create_offset_effect_object(ObjectPosition *source_pos);                     /* extern */
 extern M2C_UNK D_800C84B8;
 extern s32 D_800D62AC[];
 
@@ -17,7 +17,7 @@ void advance_object_after_timeout_variant_1(TownObjectRecord *object, ObjectPosi
     ticks_left = object->timer - 1;
     object->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        create_offset_effect_object((struct IntVector3 *)(update_context));
+        create_offset_effect_object(update_context);
         initialize_object_entries((object), state_context, D_800D62AC);
         object->handler = &D_800C84B8;
         object->timer = 0x15U;

@@ -56,11 +56,6 @@ typedef struct {
 } AllocationObject;
 
 typedef struct {
-    u8 pad0[0x2a];
-    u16 angle;
-} Arg0Object;
-
-typedef struct {
     u8 pad0[0xa];
     u16 height;
 } Arg1Object;
@@ -100,7 +95,7 @@ extern u8 D_8017612C[];
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 /* Creates an object offset from the origin in the owner's facing direction and links its secondary object. */
-void create_facing_offset_object(Arg0Object *owner, ObjectPosition *position, SpriteFrameState *sprite) {
+void create_facing_offset_object(ActorRecord *owner, ObjectPosition *position, SpriteFrameState *sprite) {
     ObjectNodeHeader *allocated;
     BlockObject *block;
     ObjectPosition *payload;
@@ -123,10 +118,10 @@ void create_facing_offset_object(Arg0Object *owner, ObjectPosition *position, Sp
         child = allocated->sprite;
         child->tpage_abr = 0x20;
         child->flags |= 0xc;
-        block->field4c = (s8)(sprite->tile_x + glacier_direction_offsets[(owner->angle >> 7) & 0x1c]);
+        block->field4c = (s8)(sprite->tile_x + glacier_direction_offsets[(owner->facing >> 7) & 0x1c]);
         {
             u8 origin_y = sprite->tile_y;
-            u16 angle = owner->angle;
+            u16 angle = owner->facing;
             u8 *direction_offset = glacier_direction_offsets + ((angle >> 7) & 0x1c);
             block->field4d = (s8)(origin_y + direction_offset[2]);
         }
@@ -136,8 +131,8 @@ void create_facing_offset_object(Arg0Object *owner, ObjectPosition *position, Sp
         payload->y.v = (((block->field4d << 6) + 0x20) << 0x10);
         payload->z.v = sample_terrain_surface_height(payload->x.unsigned_parts.integer, ((u16)(payload->y.w.i)),
             (s16)(position->z.w.i - 0x20)) << 0x10;
-        block->angle_copy = owner->angle;
-        block->angle_index = (owner->angle >> 9) & 7;
+        block->angle_copy = owner->facing;
+        block->angle_index = (owner->facing >> 9) & 7;
         child = allocated->sprite;
         child->scale_x = 0x2400;
         child->scale_y = 0x1c00;

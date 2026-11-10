@@ -616,7 +616,7 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
 void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *entry_context, SpriteFrameState *tile, ActorRecord *actor);
 void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-void set_actor_directional_animation(void *object, ObjectPosition *unused, SpriteFrameState *display, void *orientation);
+void set_actor_directional_animation(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation);
 s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, ActorRecord *actor);

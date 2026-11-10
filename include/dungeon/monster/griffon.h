@@ -161,14 +161,6 @@ typedef struct R08_80173234_S_80173234_1 {
 } R08_80173234_S_80173234_1;
 
 
-typedef struct R08_801740F4_Entry {
-    u8 pad00[6];
-    s16 unk06;
-    void *unk08;
-    struct R08_801740F4_Entry *unk0C;
-    u8 pad10[4];
-    u16 unk14;
-} R08_801740F4_Entry;
 typedef struct {
     u8 pad[0x13C];
     s32 value;
@@ -413,11 +405,11 @@ void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(Actor
 void finish_actor_terrain_interpolation_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void create_four_directional_effects(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_fade_in_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801740F4_Entry *entry, s32 unused);
+s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, SpriteFrameState *entry, s32 unused);
 void advance_object_angle_and_height(u16 *record_data, ObjectPosition *unused_position, SpriteFrameState *object);
 void create_tinted_rotated_sprite(PositionedSpriteEffectBody *unused_0, ObjectPosition *source_pos, SpriteFrameState *unused_sprite, s8 green, u8 red_blue);
 void update_timed_effect_and_expire(PositionedSpriteEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
-void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context);
+void create_positioned_sprite_effect(M2C_UNK unused, ObjectPosition *source_pos, void *unused_context);
 void wait_for_griffon_action_slot(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *other_data);
 void finish_griffon_effect_and_tint(u8 *task, void *context, u8 *input);
 void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);

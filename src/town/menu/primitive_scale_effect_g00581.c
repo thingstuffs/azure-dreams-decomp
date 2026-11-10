@@ -12,7 +12,7 @@ void update_scale_effect_and_advance(TownObjectRecord *state, void *context, Spr
 
     scale->scale_x = (s16) (((state->unk_90 - ((s16)state->timer)) * 8) + 0x1000);
     scale->scale_y = (s16) (0x1000 - ((state->unk_90 - ((s16)state->timer)) * 2));
-    ticks_left = (u16) ((s16)state->timer) - 1;
+    ticks_left = (u16) state->timer - 1;
     state->timer = ticks_left;
     if (ticks_left < 0) {
         initialize_neutral_primitive(state, context, scale);

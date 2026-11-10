@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/map.h"
+#include "town/player/position_upper_bound_g00540.h"
 
 typedef struct {
     s32 x;
@@ -16,7 +17,7 @@ typedef struct {
 } S_8008ECC0_Vec;
 
 /* Query the summed position and subtract the selected offset's integer z component. */
-s16 query_offset_position_minus_z(S_8008ECC0 *position, S_8008ECC0 *offsets, s32 offset_index)
+s16 query_offset_position_minus_z(LocalVec *position, S_8008ECC0 *offsets, s32 offset_index)
 {
     S_8008ECC0_Vec query_position;
     S_8008ECC0 *offset;

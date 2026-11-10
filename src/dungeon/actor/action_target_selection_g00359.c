@@ -134,7 +134,7 @@ void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0
 }
 
 /* Attempt an action toward the target and decrement the actor counter on success. */
-s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, void *target_ptr, void *actor_ptr)
+s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, MovingTile *target_ptr, void *actor_ptr)
 {
     s32 target_direction;
     s32 clear_action_flag;

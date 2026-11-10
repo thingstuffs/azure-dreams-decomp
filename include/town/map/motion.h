@@ -24,7 +24,7 @@ typedef struct FadingEffectMotionObject {
 void initialize_object_motion_and_animation(void *object_data, ObjectPosition *motion, struct SpriteFrameState *anim);
 
 /* update_effect_motion_and_fade.c */
-void update_effect_motion_and_fade(void *effect, ObjectPosition *motion_data, void *display_data);
+void update_effect_motion_and_fade(void *effect, ObjectPosition *motion_data, SpriteFrameState *display_data);
 
 /* update_effect_motion_size_and_brightness.c */
 void update_effect_motion_size_and_brightness(void *effect_fields, ObjectPosition *position, SpriteFrameState *sprite);

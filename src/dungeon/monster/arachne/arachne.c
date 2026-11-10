@@ -755,15 +755,15 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
  * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
  * from D_80175A64.
  */
-void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, void *display, void *orientation) {
+void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation) {
     s32 directionIndex;
     u8 *directionTable;
 
     *((s8 *)object + 0x9A) = 0x10;
     *((s8 *)object + 0x9B) = 0;
     directionTable = D_80175A64;
-    *(void **)((u8 *)display + 0x2C) = directionTable;
-    directionIndex = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)orientation + 0x2A) + 0x100) >> 9) & 7;
+    display->frameTable = directionTable;
+    directionIndex = ((g_game_work.view.camera_rotation.parts.viewAngle + orientation->facing + 0x100) >> 9) & 7;
     select_sprite_entry(display, directionTable[directionIndex], 0);
 }
 
@@ -819,7 +819,7 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor) {
+void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
@@ -827,7 +827,7 @@ void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *a
             action_state->action_id = 0x11;
             action_state->unk_8C.run = 0;
             action_state->action_phase = 0;
-            (*(s32 **)((u8 *)sprite + 0x2C)) = arachne_direction_frames;
+            sprite->frameTable = arachne_direction_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + arachne_direction_frames), 0);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
@@ -2091,26 +2091,26 @@ grid_loop:
 }
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_data, R12_8017458C_Entry *entry, s32 unused)
+s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
     R12_8017458C_Scratchpad *scratch = (R12_8017458C_Scratchpad *)0x1F800000;
-    R12_8017458C_Entry *next_entry;
+    ObjectNodeHeader *next_node;
 
     for (;;) {
         scratch->value = ((s16 *)D_80175B20)[0];
 
-        if (!(entry->unk14 & 0x80)) {
-            project_sprite_commands(payload, entry_data, entry,(s16)(entry->unk06));
+        if (!(entry->flags & 0x80)) {
+            project_sprite_commands(payload, entry_data, entry, entry->depth_bias);
         }
 
-        next_entry = *(R12_8017458C_Entry **)((u8 *)payload - 8);
-        if (next_entry == 0) {
+        next_node = NODE_HEADER(payload)->chain_next;
+        if (next_node == 0) {
             return 0;
         }
-        payload = (u8 *)next_entry + 0x20;
-        entry_data = next_entry->unk08;
-        entry = next_entry->unk0C;
+        payload = NODE_BODY(next_node);
+        entry_data = next_node->position;
+        entry = next_node->sprite;
     }
 }
 

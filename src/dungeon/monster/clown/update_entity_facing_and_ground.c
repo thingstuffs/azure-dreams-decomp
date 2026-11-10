@@ -1566,26 +1566,26 @@ void finish_actor_floor_trap_then_dispatch_transition(ActorRecord *state, Object
 }
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, R16_801736AC_Entry *entry, s32 unused)
+s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
     R16_801736AC_Scratchpad *scratch = (R16_801736AC_Scratchpad *)0x1F800000;
-    R16_801736AC_Entry *next_entry;
+    ObjectNodeHeader *next_node;
 
     for (;;) {
         scratch->value = ((s16 *)clown_fade_count)[0];
 
-        if (!(entry->unk14 & 0x80)) {
-            project_sprite_commands(payload, position, entry,(s16)(entry->unk06));
+        if (!(entry->flags & 0x80)) {
+            project_sprite_commands(payload, position, entry, entry->depth_bias);
         }
 
-        next_entry = *(R16_801736AC_Entry **)((u8 *)payload - 8);
-        if (next_entry == 0) {
+        next_node = NODE_HEADER(payload)->chain_next;
+        if (next_node == 0) {
             return 0;
         }
-        payload = (u8 *)next_entry + 0x20;
-        position = next_entry->unk08;
-        entry = next_entry->unk0C;
+        payload = NODE_BODY(next_node);
+        position = next_node->position;
+        entry = next_node->sprite;
     }
 }
 
@@ -1709,7 +1709,7 @@ void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused
 }
 
 /* Advances the transition sprite, then restores the view tint to neutral and removes the effect. */
-void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source_data)
+void fade_entity_colors_to_neutral(void *entity_data, void *unused, SpriteFrameState *source_data)
 {
     u8 *entity = entity_data;
     SpriteFrameState *source= source_data;

@@ -75,7 +75,7 @@ void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u
 void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *position_arg, SpriteFrameState *source_arg, ActorRecord *context_arg);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *source_sprite);
+void spawn_manoeva_particle_burst(ObjectPosition *origin, SpriteFrameState *source_sprite);
 
 s32 draw_linked_record_chain(u8 *record_data, ObjectPosition *position, u8 *linked_data);
 

@@ -91,7 +91,7 @@ void update_orbit_height_and_fade_effect(AngularOffsetEffectBody *effect, Object
 /* Creates a yellow effect at an angular offset from the supplied position. */
 /* Creates a yellow Unicorn effect on a circular offset, with supplied height, random texture variant, and
  * orbit callback. */
-void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
+void create_angular_offset_effect(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
     s16 angle, u16 height_offset) {
     ObjectNodeHeader *effect;
     AngularOffsetEffectBody *effect_state;
@@ -113,8 +113,8 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         sprite->flags |= 0xC;
 
         position = effect->position;
-        effect_state->center_x = origin->unk_00.at00_s32.v;
-        effect_state->center_y = origin->unk_04.at00_s32.v;
+        effect_state->center_x = origin->x.v;
+        effect_state->center_y = origin->y.v;
 
         while (wrapped_angle >= 0x1001) {
             wrapped_angle -= 0x1000;
@@ -122,7 +122,7 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
 
         position->x.v = effect_state->center_x + rcos(wrapped_angle) * 0x280;
         position->y.v = effect_state->center_y + rsin(wrapped_angle) * 0x280;
-        position->z.w.i = origin->unk_0A + height_offset;
+        position->z.w.i = origin->z.w.i + height_offset;
 
         sprite = effect->sprite;
         sprite->scale_y = 0x400;

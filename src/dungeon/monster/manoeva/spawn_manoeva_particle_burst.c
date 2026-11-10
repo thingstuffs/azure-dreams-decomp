@@ -23,7 +23,7 @@ typedef struct S_80E3CC80_0 {
 extern void select_sprite_entry(void *object, s32 table_index, s32 entry_index);
 
 /* Spawns up to sixteen particles with randomized offsets and velocities. */
-void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *source_sprite) {
+void spawn_manoeva_particle_burst(ObjectPosition *origin, SpriteFrameState *source_sprite) {
     s32 remaining;
     s32 image;
     u16 sprite_flags;
@@ -51,9 +51,9 @@ void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *sour
             sprite->clut = source_y - 0x80;
             select_sprite_entry(sprite, 0x41, 0);
             motion = particle->node.position;
-            motion->x.w.i = origin->x;
-            motion->y.w.i = origin->y;
-            motion->z.w.i = origin->z - (rand() & 0x1F);
+            motion->x.w.i = origin->x.w.i;
+            motion->y.w.i = origin->y.w.i;
+            motion->z.w.i = origin->z.w.i - (rand() & 0x1F);
             *((s16 *)&motion->velocity_z + 1) = ((0 - (rand() & 0xF)) - 8) * 2;
             motion->velocity_x = ((rand() & 3) - 2) << 0x10;
             motion->velocity_y = ((rand() & 3) - 2) << 0x10;

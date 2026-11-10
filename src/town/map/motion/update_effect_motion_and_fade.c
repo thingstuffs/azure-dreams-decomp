@@ -9,7 +9,7 @@
 #include "shared/object_node.h"
 
 /* Updates the effect's motion and fade state, then refreshes its display. */
-void update_effect_motion_and_fade(void *effect, ObjectPosition *motion_data, void *display_data) {
+void update_effect_motion_and_fade(void *effect, ObjectPosition *motion_data, SpriteFrameState *display_data) {
     s16 ticks_left;
     s16 phase_value;
     s32 random_drop;

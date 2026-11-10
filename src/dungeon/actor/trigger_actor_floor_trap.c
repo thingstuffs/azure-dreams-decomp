@@ -8,12 +8,6 @@ typedef struct Ent {
     /* 0x03 */ u8 unk3;
 } Ent;
 
-typedef struct Actor {
-    /* 0x00 */ u8 pad0[0x24];
-    /* 0x24 */ u8 unk24;
-    /* 0x25 */ u8 unk25;
-} Actor;
-
 typedef struct Ctx {
     /* 0x00 */ u8 pad0[0x88];
     /* 0x88 */ s16 unk88;
@@ -25,7 +19,7 @@ extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 extern s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 
 /* Process the actor's matching entry if enabled, clearing its enable bit unless retained. */
-s32 trigger_actor_floor_trap(Actor *actor, ActorRecord *ctx)
+s32 trigger_actor_floor_trap(SpriteFrameState *actor, ActorRecord *ctx)
 {
     s16 entry_index;
     Ent *entries;
@@ -33,7 +27,7 @@ s32 trigger_actor_floor_trap(Actor *actor, ActorRecord *ctx)
     u8 entry_flags;
     s32 result;
 
-    entry_index = (s16)find_entry_at_tile_coordinates(actor->unk24, actor->unk25, ctx->ground_height);
+    entry_index = (s16)find_entry_at_tile_coordinates(actor->tile_x, actor->tile_y, ctx->ground_height);
     if (entry_index < 0) {
         return 1;
     }

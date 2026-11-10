@@ -989,11 +989,11 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
  * Sets action state 0x10, selects camera-relative snowman step frames, and clears the action tick,
  * counter, substate, and linked action field.
  */
-void begin_snowman_step_animation(ActorRecord *actor_state, ObjectPosition *action_state, SpriteFrameState *sprite, void *orientation) {
+void begin_snowman_step_animation(ActorRecord *actor_state, ObjectPosition *action_state, SpriteFrameState *sprite, ActorRecord *orientation) {
     actor_state->action_id = 0x10;
     actor_state->action_phase = 0;
     sprite->frameTable = snowman_frame_set_2;
-    select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80172730_S_80172688_1 *)orientation)->unk_2A + 0x100)
+    select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + orientation->facing + 0x100)
         >> 9) & 7) + snowman_frame_set_2), 0);
     actor_state->unk_90.value = 0;
     action_state->velocity_z = 0;
@@ -2200,26 +2200,26 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
 
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position, R10_80174BE4_Entry *entry, s32 unused)
+s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
     R10_80174BE4_Scratchpad *scratch = (R10_80174BE4_Scratchpad *)0x1F800000;
-    R10_80174BE4_Entry *next_entry;
+    ObjectNodeHeader *next_node;
 
     for (;;) {
         scratch->value = ((s16 *)D_80175A18)[0];
 
-        if (!(entry->unk14 & 0x80)) {
-            project_sprite_commands(payload, position, entry,(s16)(entry->unk06));
+        if (!(entry->flags & 0x80)) {
+            project_sprite_commands(payload, position, entry, entry->depth_bias);
         }
 
-        next_entry = *(R10_80174BE4_Entry **)((u8 *)payload - 8);
-        if (next_entry == 0) {
+        next_node = NODE_HEADER(payload)->chain_next;
+        if (next_node == 0) {
             return 0;
         }
-        payload = (u8 *)next_entry + 0x20;
-        position = next_entry->unk08;
-        entry = next_entry->unk0C;
+        payload = NODE_BODY(next_node);
+        position = next_node->position;
+        entry = next_node->sprite;
     }
 }
 

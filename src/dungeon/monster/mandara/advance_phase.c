@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/monster/mandara.h"
+#include "shared/object_node.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
@@ -59,7 +60,7 @@ typedef union {
     struct { u16 x; u16 y; } parts;
 } PackedScreenPoint;
 
-s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appearance)
+s32 draw_layered_wavy_object_strips(void *object_data, void *unused, SpriteFrameState *appearance)
 {
     s16 bounds[4];
     PackedPair material;
@@ -106,7 +107,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
         s32 top_copy;
         s32 crop_product;
         s32 bottom_page;
-        void *next_object;
+        ObjectNodeHeader *next_object;
         scratch.outer = 48;
         right_x = (u16) scratch.outer;
         index_or_row = 3;
@@ -248,10 +249,10 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
                         frame = render_state->draw_buffer;
                         poly = *((u8 **) (frame + 0x8D0));
                         *((u8 **) (frame + 0x8D0)) = poly + 40;
-                        *((s32 *) (poly + 4)) = *((s32 *) (((u8 *) appearance) + 0xC));
+                        *((s32 *) (poly + 4)) = appearance->color.word;
                         SetPolyFT4(poly);
                         SetSemiTrans(poly, 1);
-                        *((s16 *) (poly + 0x16)) = (s16) GetTPage(2, ((u8 *) appearance)[0xC] != 0x80,
+                        *((s16 *) (poly + 0x16)) = (s16) GetTPage(2, appearance->color.c.r != 0x80,
                             0x340, 0x100);
                         *((poly + 0x14)) = 0;
                         *((poly + 0x0C)) = 0;
@@ -305,12 +306,12 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
             }
             while ((--scratch.outer) > 0);
         }
-        next_object = *((void **) (((u8 *) object_data) - 8));
+        next_object = NODE_HEADER(object_data)->chain_next;
         if (next_object == 0) {
             break;
         }
-        object_data = ((u8 *) next_object) + 0x20;
-        appearance = *((void **) (((u8 *) next_object) + 0xC));
+        object_data = NODE_BODY(next_object);
+        appearance = next_object->sprite;
     }
 
     return 0;

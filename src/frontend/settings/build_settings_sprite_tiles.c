@@ -15,7 +15,7 @@
     setaddr((ordering_table), (primitive)))
 
 /* Builds layered sprite tiles and texture-page commands for each linked node. */
-s32 build_settings_sprite_tiles(void *node_data, void *scroll_state)
+s32 build_settings_sprite_tiles(void *node_data, ObjectPosition *scroll_state)
 {
     FrameDrawContextSlot *ctx_ptr;
     s32 layer_offset;
@@ -53,7 +53,7 @@ s32 build_settings_sprite_tiles(void *node_data, void *scroll_state)
                     screen_x <<= 8;
                     screen_x += layer_offset;
                     sprite->x = screen_x;
-                    scroll_y = ((ObjectPosition *)scroll_state)->y.unsigned_parts.integer;
+                    scroll_y = scroll_state->y.unsigned_parts.integer;
                     sprite->width = 0x100;
                     sprite->height = 0x100;
                     sprite->texture.packed = 0;

@@ -35,13 +35,6 @@ typedef struct S_800B0D34_2 {
     s8 unk_02;
 } S_800B0D34_2;   /* out in update_attached_effect_position */
 
-typedef struct S_800B0D34_3 {
-    u8 pad_00[0x4];
-    u8 unk_04;
-    u8 pad_05[0x13];
-    u16 unk_18;
-} S_800B0D34_3;   /* arg2 in update_attached_effect_position */
-
 typedef struct S_800B0D34_4 {
     u8 pad_00[0x104];
     void * unk_104;
@@ -61,8 +54,7 @@ typedef struct S_800B0D34_6_pre {
    /* source in update_attached_effect_position */
 
 /* Updates status colors and exit animation, releases finished objects, and copies their position. */
-void update_attached_effect_position(void *object_arg, ObjectPosition *position, void *anim_state_arg) {
-    S_800B0D34_3 *anim_state = anim_state_arg;
+void update_attached_effect_position(void *object_arg, ObjectPosition *position, SpriteFrameState *anim_state) {
     S_800B0D34_0 *object = object_arg;
     u16 frame_count;
     s32 base_phase;
@@ -106,9 +98,9 @@ void update_attached_effect_position(void *object_arg, ObjectPosition *position,
     switch (mode) {
     case 0:
     {
-        u16 anim_offset = anim_state->unk_18;
+        u16 anim_offset = anim_state->angle_y;
         if (anim_offset != 0) {
-            anim_state->unk_18 = anim_offset + 0x80;
+            anim_state->angle_y = anim_offset + 0x80;
         }
         if (((S_800B0D34_4 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_104 !=
             object->unk_14) {
@@ -119,10 +111,10 @@ void update_attached_effect_position(void *object_arg, ObjectPosition *position,
         break;
     case 1:
     {
-        s16 signed_offset = ((s16)anim_state->unk_18);
-        u16 anim_offset = anim_state->unk_18;
+        s16 signed_offset = anim_state->angle_y;
+        u16 anim_offset = anim_state->angle_y;
         if (signed_offset >= -0x3FF) {
-            anim_state->unk_18 = anim_offset - 0x100;
+            anim_state->angle_y = anim_offset - 0x100;
             anim_state->unk_04 = 0;
         } else {
             func_8004E994(object->unk_5C);

@@ -2245,7 +2245,7 @@ typedef struct {
 extern void transform_rotated_vertices(void *);
 
 /* Updates the effect's motion and fade, then marks it for removal. */
-void update_bank_effect_fade(void *effect_arg, MovingPosition *position, SpriteFrameState *visual)
+void update_bank_effect_fade(void *effect_arg, ObjectPosition *position, SpriteFrameState *visual)
 {
     BankEffectFadeBody *effect = effect_arg;
     CallRecord transform;
@@ -2295,9 +2295,9 @@ void update_bank_effect_fade(void *effect_arg, MovingPosition *position, SpriteF
         transform.field18 = 1;
         transform.field1A = 1;
         transform_rotated_vertices(&transform);
-        position->x = transformed_pos.x;
-        position->y = transformed_pos.y;
-        position->z = transformed_pos.z;
+        position->x.w.i = transformed_pos.x;
+        position->y.w.i = transformed_pos.y;
+        position->z.w.i = transformed_pos.z;
         effect->unk_48--;
         break;
     case 1:

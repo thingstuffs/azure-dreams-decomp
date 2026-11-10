@@ -23,7 +23,7 @@ void card_boot_initialize_three_row_command_panel(void *record, void *init_value
 void func_80023730(void *sprite, void *data, void *context);
 void card_boot_layout_five_entry_list(struct CardMessageDialogBody *context);
 void card_boot_layout_three_row_command_panel(CardCommandPanelBody *panel);
-void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 mode, s32 row, s32 row_value);
+void card_boot_position_dialog_selection_marker(struct CardMessageDialogBody *context, s32 column, s32 mode, s32 row, s32 row_value);
 void card_boot_refresh_paired_choice_labels(u8 *state);
 void card_boot_reset_three_row_highlight(CardCommandPanelBody *panel);
 void card_boot_resume_menu_after_slot_refresh(void *object_data);

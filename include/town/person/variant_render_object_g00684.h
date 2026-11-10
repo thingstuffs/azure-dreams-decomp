@@ -72,7 +72,7 @@ extern M2C_UNK D_800D6A58;
 extern void *D_800D68B0[];
 
 /* Functions defined in this translation unit. */
-void update_entity_relative_position(Rec_D_80082D58 *entity, IntVector3 *out_pos);
+void update_entity_relative_position(Rec_D_80082D58 *entity, struct ObjectPosition *out_pos);
 void invoke_object_handler(S_800CBAAC_0 *object, s32 callback_arg1, s32 callback_arg2);
 void allocate_variant_object(s32 variant, s32 x, s32 y);
 

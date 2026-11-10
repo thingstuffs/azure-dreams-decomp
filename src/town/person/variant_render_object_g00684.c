@@ -35,7 +35,7 @@ void * create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
 }
 
 /* Compute an entity-relative position, or run fallback updates if its state check fails. */
-void update_entity_relative_position(Rec_D_80082D58 *entity, IntVector3 *out_pos) {
+void update_entity_relative_position(Rec_D_80082D58 *entity, ObjectPosition *out_pos) {
     void *state;
     IntVector3 *base_pos;
     ObjectPayloadView *height_info;
@@ -50,9 +50,9 @@ void update_entity_relative_position(Rec_D_80082D58 *entity, IntVector3 *out_pos
         clear_object_slot_and_mark_removed(entity);
         return;
     }
-    out_pos->x = (s32) (base_pos->x + (rsin(((TownObjectRecord *)(entity->unk_9C))->heading) * 0x140));
-    out_pos->y = (s32) (base_pos->y + (rcos(((TownObjectRecord *)(entity->unk_9C))->heading) * 0x140));
-    out_pos->z = (s32) (base_pos->z + (((S_800CB9B8_6 *)(height_info->unk_08))->unk_03 << 0x11) + 0x100000);
+    out_pos->x.v = (s32) (base_pos->x + (rsin(((TownObjectRecord *)(entity->unk_9C))->heading) * 0x140));
+    out_pos->y.v = (s32) (base_pos->y + (rcos(((TownObjectRecord *)(entity->unk_9C))->heading) * 0x140));
+    out_pos->z.v = (s32) (base_pos->z + (((S_800CB9B8_6 *)(height_info->unk_08))->unk_03 << 0x11) + 0x100000);
 }
 
 /* Invoke the object handler with the object and forwarded arguments. */

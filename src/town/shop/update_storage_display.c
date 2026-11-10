@@ -12,7 +12,7 @@
 #include "town/shop/object.h"
 #include "town/shop/state.h"
 extern void forward_source_data_to_component(void *object);
-extern void update_control_indicators_and_flags(void *object);
+extern void update_control_indicators_and_flags(StorageOwner *object);
 extern void forward_record_fields_to_page_loader(void *loader, void *object);
 
 void update_storage_display(StorageOwner *object) {

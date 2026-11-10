@@ -2,14 +2,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
-/* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct S_80025B38_0 {
-    u8 pad_00[0x20];
-    void *request;
-} S_80025B38_0;
-/* cfail-repair: tf7-phase1-cache-v3 */
-
-static void card_boot_set_slot_menu_request(S_80025B38_0 *object, void *value) {
+#include "frontend/libcard/slot_menu.h"
+static void card_boot_set_slot_menu_request(CardSlotMenuState *object, void *value) {
     object->request = value;
 }
 

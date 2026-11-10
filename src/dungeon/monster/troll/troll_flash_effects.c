@@ -576,7 +576,7 @@ void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, Objec
 }
 
 /* Creates a render object at the supplied position with an optional owner offset. */
-void create_tracked_attachment_sprite(ActorRecord *body, T_80171BEC_S_80171BEC_3 *base_position)
+void create_tracked_attachment_sprite(ActorRecord *body, ObjectPosition *base_position)
 {
     T_80171BEC_Offset3 offset;
     ObjectNodeHeader *object;
@@ -596,9 +596,9 @@ void create_tracked_attachment_sprite(ActorRecord *body, T_80171BEC_S_80171BEC_3
         render->flags |= 0xC;
 
         position = object->position;
-        position->x.v = base_position->unk_00;
-        position->y.v = base_position->unk_04;
-        position->z.v = base_position->unk_08;
+        position->x.v = base_position->x.v;
+        position->y.v = base_position->y.v;
+        position->z.v = base_position->z.v;
 
         owner = ((T_80171BEC_S_80171BEC_4_pre *)body)[-1].unk_00;
         if (resolve_record_orientation_or_fallback(owner->unk_08, owner, &offset, 0) != 0) {

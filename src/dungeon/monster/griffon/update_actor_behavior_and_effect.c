@@ -1900,26 +1900,26 @@ void finish_actor_fade_in_then_resume_effect_behavior(ActorRecord *state, Object
 }
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801740F4_Entry *entry, s32 unused)
+s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
     R08_801740F4_Scratchpad *scratch = (R08_801740F4_Scratchpad *)0x1F800000;
-    R08_801740F4_Entry *next_entry;
+    ObjectNodeHeader *next_node;
 
     for (;;) {
         scratch->value = ((s16 *)D_80174D14)[0];
 
-        if (!(entry->unk14 & 0x80)) {
-            project_sprite_commands(payload, entry_data, entry,(s16)(entry->unk06));
+        if (!(entry->flags & 0x80)) {
+            project_sprite_commands(payload, entry_data, entry, entry->depth_bias);
         }
 
-        next_entry = *(R08_801740F4_Entry **)((u8 *)payload - 8);
-        if (next_entry == 0) {
+        next_node = NODE_HEADER(payload)->chain_next;
+        if (next_node == 0) {
             return 0;
         }
-        payload = (u8 *)next_entry + 0x20;
-        entry_data = (s32)next_entry->unk08;
-        entry = next_entry->unk0C;
+        payload = NODE_BODY(next_node);
+        entry_data = (s32)next_node->position;
+        entry = next_node->sprite;
     }
 }
 
@@ -2007,7 +2007,7 @@ void update_timed_effect_and_expire(PositionedSpriteEffectBody *effect, ObjectPo
 }
 
 /* Creates a black sprite effect at the supplied position with a 45-tick lifetime. */
-void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context) {
+void create_positioned_sprite_effect(M2C_UNK unused, ObjectPosition *source_pos, void *unused_context) {
     ObjectNodeHeader *effect_node;
     void *node_storage;
     void *position_storage;

@@ -22,7 +22,7 @@
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void create_directional_template_effect(void *, void *, void *, void *);
+extern void create_directional_template_effect(void *, ObjectPosition *, void *, void *);
 
 extern u8 D_80174110[];
 

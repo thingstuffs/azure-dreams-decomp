@@ -31,7 +31,7 @@ typedef struct S_800BE214_0 {
 } S_800BE214_0;   /* arg0 in advance_actor_animation_pose */
 
    /* Advances the actor animation state and applies a timed pose offset. */
-void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, SpriteFrameState *animation) {
+void advance_actor_animation_pose(S_800BE214_0 *actor, ObjectPosition *pose, SpriteFrameState *animation) {
     void *animations[9];
     s16 animation_index;
     s32 state;
@@ -56,7 +56,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Sp
         select_record_entry_and_value((struct Dst *)animation, (struct Elem *)animations[0], 0);
         actor->pose_ticks = 0;
         actor->animation_index = 0;
-        pose->unk_0A = (u16)actor->base_height;
+        pose->z.w.i = (u16)actor->base_height;
         actor->state = 0x60;
         break;
     case 0x23:
@@ -91,7 +91,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Sp
         actor->state = 0x60;
         break;
     case 0x40:
-        pose->unk_0A = (u16)(actor->base_height + (rcos((actor->pose_ticks << 0xC) / 22) >> 8));
+        pose->z.w.i = (u16)(actor->base_height + (rcos((actor->pose_ticks << 0xC) / 22) >> 8));
         elapsed_frames = (u16)actor->pose_ticks;
         actor->pose_ticks = (s16)(elapsed_frames + 1);
         if ((s16)elapsed_frames >= 0xDC) {

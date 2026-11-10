@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/vector.h"
 #include "slus/data.h"
 
 /* D_80083160: shared state table (own view). Only the flags halfword at
@@ -28,29 +29,23 @@ extern S_80041900_D80083CA8 timed_entity_motion_state;
  * retail refetches it via a fresh hi/lo instead of reusing the already
  * -materialized D_80083CA8 base register, so it must be its own symbol. */
 
-typedef struct {
-    char pad0[0x14];
-    s32 unk14;
-    s32 unk18;
-} S_80041900_Obj;
-
 /* Moves the entity while the timer runs, then ticks the timer and decays the motion accumulator. */
-void advance_timed_entity_motion(S_80041900_Obj *entity)
+void advance_timed_entity_motion(GteMatrix *entity)
 {
     GameWork *direction_state = &g_game_work;
     S_80041900_D80083CA8 *motion_state = &timed_entity_motion_state;
 
     if (motion_state->field8 != 0) {
         if (direction_state->unk_004 & 2) {
-            entity->unk18 += (s16)motion_state->u.h.field6 >> 1;
+            entity->t[1] += (s16)motion_state->u.h.field6 >> 1;
         } else {
-            entity->unk18 -= (s16)motion_state->u.h.field6 >> 1;
+            entity->t[1] -= (s16)motion_state->u.h.field6 >> 1;
         }
 
         if (direction_state->unk_004 & 1) {
-            entity->unk14 += (s16)timed_entity_motion_delta_alias[0] >> 2;
+            entity->t[0] += (s16)timed_entity_motion_delta_alias[0] >> 2;
         } else {
-            entity->unk14 -= (s16)timed_entity_motion_delta_alias[0] >> 2;
+            entity->t[0] -= (s16)timed_entity_motion_delta_alias[0] >> 2;
         }
 
         timed_entity_motion_state.field8 -= 1;

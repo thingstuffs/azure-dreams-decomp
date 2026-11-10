@@ -8,7 +8,6 @@ struct SceneTileObject;
 #include "shared/sprite_frame_state.h"
 #include "town/minigame/position.h"
 
-struct Arg1;
 struct Arg2;
 struct ObjectPosition;
 
@@ -84,7 +83,7 @@ typedef struct TakoLabelBody {
 void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 check_mode);
 
 /* advance_interaction_state_animating_cursor.c */
-void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, struct Arg1 *position, struct Arg2 *cursor_data);
+void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, struct ObjectPosition *position, struct SpriteFrameState *cursor_data);
 
 /* process_slot_machine_state.c */
 void process_slot_machine_state(State8081FF68 *state, void *position);

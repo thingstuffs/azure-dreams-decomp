@@ -6,7 +6,7 @@
 
 /* Moves the position toward the object's target over the remaining steps, then lowers its height by 0x40
  * and clamps it with get_clamped_transform_coordinate. */
-void move_position_toward_target(void *work_data, void *position_data, void *completion_arg) {
+void move_position_toward_target(void *work_data, ObjectPosition *position_data, void *completion_arg) {
     ObjectPosition *pos;
     TownObjectRecord *work;
     u16 remaining_count;

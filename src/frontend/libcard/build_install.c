@@ -35,7 +35,7 @@ void build_install(CardSlotMenuState *object)
                 set_record_pair_to_one(object);
                 needs_refresh = 1;
             } else {
-                card_boot_dispatch_selected_menu_action((struct Object_800128C8 *)object);
+                card_boot_dispatch_selected_menu_action(object);
             }
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {

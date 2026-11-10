@@ -53,7 +53,7 @@ void update_directional_sprite_state_and_signals(ActorRecord *state, ObjectPosit
 void restore_bank_actor_callback_b(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_bank_actor_callback_c(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_bank_actor_callback_d(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
-void update_bank_effect_fade(void *effect, MovingPosition *position, struct SpriteFrameState *visual);
+void update_bank_effect_fade(void *effect, ObjectPosition *position, struct SpriteFrameState *visual);
 struct CylindricalEffectWork;
 
 /* Spin, height drift, and fade phase for a bank effect particle. */

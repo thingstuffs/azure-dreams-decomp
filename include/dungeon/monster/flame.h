@@ -277,14 +277,6 @@ typedef struct R06_801738E0_S_801738E0_4 {
 } R06_801738E0_S_801738E0_4;
 
 
-typedef struct R06_80173E08_Entry {
-    u8 pad00[6];
-    s16 unk06;
-    void *unk08;
-    struct R06_80173E08_Entry *unk0C;
-    u8 pad10[4];
-    u16 unk14;
-} R06_80173E08_Entry;
 typedef struct {
     u8 pad[0x13C];
     s32 value;
@@ -598,11 +590,6 @@ typedef struct {
     u8 pad_14[0x0C];
     R06_80174E78_Sub sub;
 } R06_80174E78_Entity;
-typedef struct {
-    u8 pad_00[0x96];
-    u16 field_96;
-} R06_80174E78_Source;
-
 typedef struct R06_80175270_S_80175270_0_pre {
     u16 unk_00;
 } R06_80175270_S_80175270_0_pre;
@@ -780,7 +767,7 @@ void finish_thrown_actor_travel_then_initialize_destination(ActorRecord *state, 
 void finish_actor_terrain_interpolation_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_spinning_actor_fall_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_fade_in_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data, R06_80173E08_Entry *entry, s32 unused);
+s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused);
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg);
 void advance_randomized_motion_and_complete(PointRecord *object_data, ObjectPosition *position, SpriteFrameState *state);
 void advance_actor_action_and_update_status(
@@ -795,7 +782,7 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
 s32 project_textured_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data);
 void advance_record_countdown(void *record_data);
 void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteFrameState *render_data);
-void create_sixteen_segment_ring(R06_80174E78_Source *source, struct ObjectPosition *center, struct SpriteFrameState *unused_context);
+void create_sixteen_segment_ring(ActorRecord *source, struct ObjectPosition *center, struct SpriteFrameState *unused_context);
 void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *other_data);
 void fade_effect_to_neutral_and_finish(void *entity_data, ObjectPosition *unused, SpriteFrameState *source_data);
 void advance_actor_transition_and_restore_child_angle(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);

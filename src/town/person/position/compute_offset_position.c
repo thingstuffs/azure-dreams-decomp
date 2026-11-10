@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 #include "shared/object_payload.h"
 #include "shared/vector.h"
@@ -30,7 +31,7 @@ typedef struct S_800C52D0_1 {
 
 
 /* Computes an offset position and subtracts 0x20 from the output state. */
-void compute_offset_position(S_800C52D0_0 *object, IntVector3 *out_pos, SpriteFrameState *state) {
+void compute_offset_position(S_800C52D0_0 *object, ObjectPosition *out_pos, SpriteFrameState *state) {
     s32 z_product;
     SpriteFrameState *offsets;
     IntVector3 *base_pos;
@@ -39,9 +40,9 @@ void compute_offset_position(S_800C52D0_0 *object, IntVector3 *out_pos, SpriteFr
     object_data = object->unk_9C;
     base_pos = object_data->unk_08;
     offsets = object_data->unk_0C;
-    out_pos->y = (s32) base_pos->y;
-    out_pos->x = (s32) (base_pos->x + (offsets->scale_x * D_800D5138));
+    out_pos->y.v = (s32) base_pos->y;
+    out_pos->x.v = (s32) (base_pos->x + (offsets->scale_x * D_800D5138));
     z_product = ((S_800C52D0_7 *)offsets->source)->unk_03 * offsets->scale_y;
-    out_pos->z = (s32) (base_pos->z + ((z_product / 4096) * D_800D513C));
+    out_pos->z.v = (s32) (base_pos->z + ((z_product / 4096) * D_800D513C));
     state->angle_z = (u16) (state->angle_z - 0x20);
 }

@@ -27,18 +27,18 @@ void apply_countdown_scaled_effect_intensity(void *record_data, void *unused, Sp
 }
 
 /* Follows the source position while growing and fading the sprite, then removes it when the timer expires. */
-void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect_arg, MovingPosition *transform, SpriteFrameState *render_state)
+void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect_arg, ObjectPosition *transform, SpriteFrameState *render_state)
 {
     HikewneExpandingFadeBody *effect = effect_arg;
     s16 ticks_left;
     s32 brightness;
     u16 render_offset;
-    MovingPosition *source_transform;
+    ObjectPosition *source_transform;
 
     source_transform = effect->source_position;
-    transform->x = source_transform->x;
-    transform->y = source_transform->y;
-    transform->z = source_transform->z;
+    transform->x.w.i = source_transform->x.w.i;
+    transform->y.w.i = source_transform->y.w.i;
+    transform->z.w.i = source_transform->z.w.i;
 
     render_offset = render_state->scale_y + 0x320;
     render_state->scale_y = render_offset;
@@ -59,7 +59,7 @@ void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect_arg, M
 }
 
 /* Copies a sprite template into a gray directional effect linked to the source position. */
-void create_directional_template_effect(void *unused, MovingPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
+void create_directional_template_effect(void *unused, ObjectPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
     HikewneExpandingFadeBody *effect_state;
@@ -100,8 +100,8 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80174128), 0);
         effect_pos = effect->position;
-        effect_pos->x.w.i = (u16) source_pos->x;
-        effect_pos->y.w.i = (u16) source_pos->y;
-        effect_pos->z.w.i = (u16) source_pos->z;
+        effect_pos->x.w.i = source_pos->x.w.i;
+        effect_pos->y.w.i = source_pos->y.w.i;
+        effect_pos->z.w.i = source_pos->z.w.i;
     }
 }

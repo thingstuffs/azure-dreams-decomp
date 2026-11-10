@@ -42,7 +42,7 @@ void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPositio
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 
 /* update_attached_effect_position.c */
-void update_attached_effect_position(void *object, ObjectPosition *position, void *anim_state);
+void update_attached_effect_position(void *object, ObjectPosition *position, SpriteFrameState *anim_state);
 
 /* update_position_history_and_shading.c */
 void update_position_history_and_shading(struct ActorTrailWork *obj, TrailMotion *coords_out, SpriteFrameState *rgb);

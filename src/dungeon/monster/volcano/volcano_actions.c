@@ -757,15 +757,15 @@ void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, Spr
  * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
  * from D_80174528.
  */
-void set_actor_directional_animation(void *object, ObjectPosition *unused, SpriteFrameState *display, void *orientation) {
+void set_actor_directional_animation(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation) {
     s32 directionIndex;
     u8 *directionTable;
 
-    *((s8 *)object + 0x9A) = 0x10;
-    *((s8 *)object + 0x9B) = 0;
+    object->action_id = 0x10;
+    object->action_phase = 0;
     directionTable = D_80174528;
     display->frameTable = directionTable;
-    directionIndex = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)orientation + 0x2A) + 0x100) >> 9) & 7;
+    directionIndex = ((g_game_work.view.camera_rotation.parts.viewAngle + orientation->facing + 0x100) >> 9) & 7;
     select_sprite_entry(display, directionTable[directionIndex], 0);
 }
 #include "dungeon/monster/volcano.h"

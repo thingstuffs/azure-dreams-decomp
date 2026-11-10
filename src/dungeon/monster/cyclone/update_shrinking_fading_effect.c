@@ -51,7 +51,7 @@ typedef struct S_80172FC0_6 {
     s32 unk_04;
 } S_80172FC0_6;   /* selected_model in update_shrinking_fading_effect */
 
-extern void *create_directional_render_object(void *, void *, void *);
+extern void *create_directional_render_object(ActorRecord *, void *, SpriteFrameState *);
 
 extern s32 D_800814A0;
 

@@ -25,7 +25,7 @@ void set_style_for_tagged_glyph_entries(u8 *entries, s32 process_arg);
 void card_boot_measure_dialog_choice_word( u8 *text, s32 word_index, s32 *offset_out, s32 *length_out, s32 *prior_chars_out );
 void *card_boot_build_slot_marker_packet(s32 unused, Struct_8000F300 *packet, s32 slot_index);
 void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 entry_count);
-void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 mode, s32 row, s32 row_value);
+void card_boot_position_dialog_selection_marker(CardMessageDialogBody *context, s32 column, s32 mode, s32 row, s32 row_value);
 void card_boot_update_message_choice_highlight(void *object);
 
 #endif

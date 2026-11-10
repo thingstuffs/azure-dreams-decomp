@@ -111,7 +111,7 @@ struct Obj;
 struct SettingsPositionPair;
 
 /* build_settings_sprite_tiles.c */
-s32 build_settings_sprite_tiles(void *node_data, void *scroll_state);
+s32 build_settings_sprite_tiles(void *node_data, ObjectPosition *scroll_state);
 
 /* create_settings_controller.c */
 void create_settings_controller(void);
