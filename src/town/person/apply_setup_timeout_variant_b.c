@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/town_object.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */
 
 #include "town/person/object_setup.h"

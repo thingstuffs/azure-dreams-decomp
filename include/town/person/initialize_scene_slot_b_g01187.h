@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_INITIALIZE_SCENE_SLOT_B_G01187_H
 #define TOWN_PERSON_INITIALIZE_SCENE_SLOT_B_G01187_H
 /* Initialize scene slot b. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01187 - PD:town/engine:800D6824, PD:town/engine:800D682C, PD:town/engine:800D6854, PD:town/engine:800D6858. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - PD:town/engine:800D6824, PD:town/engine:800D682C, PD:town/engine:800D6854, PD:town/engine:800D6858. */
 
 #include "common.h"
 #include "town/person.h"

@@ -5,7 +5,6 @@
 #include "shared/slus_callbacks.h"
 extern int abs(int);
 extern void *allocate_list_node(s32, void *);
-extern void *func_8003FD64(s32, void *);
 extern s32 rand(void);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern void register_node(void *, void *);

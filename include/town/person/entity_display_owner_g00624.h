@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_ENTITY_DISPLAY_OWNER_G00624_H
 #define TOWN_PERSON_ENTITY_DISPLAY_OWNER_G00624_H
-/* Entity display owner (G00624). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B678C, CL:town/func_800B6858, CL:town/func_800B6980, CL:town/func_800B6A28, CL:town/func_800B6BF0, CL:town/func_800B6C88, CL:town/func_800B6D34. */
+/* Entity display owner. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B678C, town/func_800B6858, town/func_800B6980, town/func_800B6A28, town/func_800B6BF0, town/func_800B6C88, town/func_800B6D34. */
 
 #include "common.h"
 #include "m2c_compat.h"
@@ -34,7 +34,6 @@ void func_800B426C(void *);
 extern EntityDisplayLayout D_800D1658[5];
 extern M2C_UNK entity_display_gradient_color;
 /* arg0 in set_record_base_and_data_pointer_alt; pointer addresses record offset 0x10 */
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern void D_800B3E68(void *);
 extern void initialize_entity_display_parts();
 

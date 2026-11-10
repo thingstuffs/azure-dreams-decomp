@@ -1,4 +1,3 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/tile_object.h"

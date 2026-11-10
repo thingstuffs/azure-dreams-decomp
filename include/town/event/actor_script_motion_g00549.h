@@ -4,8 +4,8 @@
 #ifndef TOWN_EVENT_ACTOR_SCRIPT_MOTION_G00549_H
 #define TOWN_EVENT_ACTOR_SCRIPT_MOTION_G00549_H
 struct SpriteFrameState;
-/* inferred-strong G00549: actor_script_motion_g00549; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009DB64. */
+/* inferred-strong actor_script_motion_g00549; shared declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009DB64. */
 
 #include "common.h"
 #include "town/player/scene_action_setup.h"

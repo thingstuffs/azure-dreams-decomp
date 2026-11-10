@@ -2,7 +2,6 @@
 #include "engine/message/data.h"
 #include "shared/object_index_slots.h"
 
-#include "common.h"
 #include "engine/message.h"
 
 extern u8 message_motion_type_a[];

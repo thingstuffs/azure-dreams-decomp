@@ -5,7 +5,6 @@
 #include "town/system/object_hooks.h"
 #include "shared/town_object.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */
 
 
@@ -22,10 +21,8 @@ void decrement_object_timer_and_update(TownObjectRecord *object, void *callback_
         apply_object_setup_and_update(object, callback_arg_1, callback_arg_2);
     }
 }
-#include "common.h"
 #include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */
 
 

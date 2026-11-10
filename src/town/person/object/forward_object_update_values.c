@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "town/person/object_setup.h"
 #include "town/person/object.h"
 

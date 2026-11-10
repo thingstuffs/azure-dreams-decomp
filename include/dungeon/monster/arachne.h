@@ -566,7 +566,6 @@ typedef struct R12_80175470_S_80175470_5 {
 } R12_80175470_S_80175470_5;
 extern int abs(int);
 s32 Control_CD();
-void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 generate_random_value(void);
 void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 void advance_sprite_animation_and_textures(void *entity);

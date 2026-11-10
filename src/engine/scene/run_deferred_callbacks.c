@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/scene.h"
 
 typedef struct S_8003AEF8_1 {

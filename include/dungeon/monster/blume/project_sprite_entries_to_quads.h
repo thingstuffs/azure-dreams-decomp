@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_DD9000_P03_H
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "slus/data.h"
 /* Keep this bank's existing matrix return contract pending its own probe. */
 #define RotMatrix __sdk_RotMatrix
 #include "sdk/libgte.h"
@@ -197,5 +198,4 @@ void SetRotMatrix(void *);
 void SetTransMatrix(void *);
 extern s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 extern void RotMatrix();
-extern s32 sprite_projection_matrix[];
 #endif

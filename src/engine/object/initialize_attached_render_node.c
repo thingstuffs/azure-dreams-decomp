@@ -8,7 +8,6 @@
 s32 attached_node_initial_word_14 = 0x01DE03E0;
 s32 attached_node_initial_word_18 = 0x00100030;
 
-#include "engine/object/render_words.h"
 
 /* Registers an attached message-window node with fade, drawing and update callbacks and variant data. */
 void initialize_attached_message_window_node(void *node_storage, void *attached_object, s32 *init_data, s16 object_id, void *owner)

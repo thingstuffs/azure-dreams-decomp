@@ -1,6 +1,5 @@
 #include "slus/owned_80047338.h"
 
-#include "slus/owned_80047338.h"
 #include "engine/graphics.h"
 
 /* Packs and uploads a texture in a 64-word by 256-row VRAM area, resetting on a generation change. */

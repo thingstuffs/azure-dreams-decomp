@@ -1,5 +1,5 @@
 /* Dispatch indexed handler g01154.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01154 - CL:town/func_800B47B0, CL:town/func_800B47E8.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800B47B0, town/func_800B47E8.
  */
 #include "town/shop/dispatch_indexed_handler_g01154.h"
 #include "town/shop.h"

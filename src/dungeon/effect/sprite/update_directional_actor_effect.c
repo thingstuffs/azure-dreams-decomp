@@ -3,8 +3,6 @@
 #include "shared/sprite_frame_state.h"
 #include "sdk/libgte.h"
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
-#include "shared/sprite_frame_state.h"
-#include "dungeon/effect/sprite/update_directional_actor_effect.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -204,7 +202,6 @@ loop:
     }
     }
 }
-#include "dungeon/effect/sprite/update_directional_actor_effect.h"
 #include "shared/game_work.h"
 
 typedef struct S_81988C1C_0 {
@@ -384,13 +381,8 @@ s32 create_counted_sprite_effect(void *first_item) {
 
     return 0;
 }
-#include "dungeon/effect/sprite/update_directional_actor_effect.h"
-#include "shared/object_node.h"
-#include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
-#include "shared/entity.h"
 
 typedef struct MainObject {
     void *link;
@@ -570,8 +562,6 @@ void update_effect_and_spawn_fragments(MainObject *obj)
         }
     } while (--count >= 0);
 }
-#include "dungeon/effect/sprite/update_directional_actor_effect.h"
-#include "shared/object_flags.h"
 
 /* Marks the referenced object and updates entry and global flags based on target status. */
 void mark_referenced_object_and_update_flags(FragmentSpawningEffectBody *entry, void *unused, SpriteFrameState *target) {
@@ -586,8 +576,6 @@ void mark_referenced_object_and_update_flags(FragmentSpawningEffectBody *entry, 
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/sprite/update_directional_actor_effect.h"
-#include "slus.h"
 
 
 typedef struct S_80024B20_1 {

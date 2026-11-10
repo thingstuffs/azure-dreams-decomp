@@ -1,9 +1,9 @@
+#include "slus/data.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
 #include "town/player/state.h"
 
-extern char scene_string_fallback[];
 extern char scene_choice_text[];
 extern char D_8001D6B5[];
 extern char D_8001D7A5[];

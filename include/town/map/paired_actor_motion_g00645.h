@@ -5,7 +5,7 @@ struct SpriteFrameState;
 #include "town/person/position.h"
 
 struct SpriteFrameState;
-/* Paired actor motion (G00645). */
+/* Paired actor motion. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D20CC, PD:town/engine:800E9E14, PD:town/engine:800E9E34, PD:town/engine:800E9E7C. */
 
 #include "common.h"

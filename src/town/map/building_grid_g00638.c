@@ -1,5 +1,5 @@
-/* Building grid (G00638). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B9C24, CL:town/func_800B9C70, CL:town/func_800B9C90. */
+/* Building grid. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B9C24, town/func_800B9C70, town/func_800B9C90. */
 #include "town/map/building_grid_g00638.h"
 #include "town/map.h"
 

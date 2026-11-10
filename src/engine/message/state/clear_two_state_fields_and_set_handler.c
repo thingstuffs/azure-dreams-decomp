@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/message/state.h"
 #include "engine/message/callbacks.h"
 

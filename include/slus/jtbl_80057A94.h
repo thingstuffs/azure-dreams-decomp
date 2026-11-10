@@ -5,7 +5,6 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 
-#include "common.h"
 
 typedef struct {
     u8 pad00[0x4C];

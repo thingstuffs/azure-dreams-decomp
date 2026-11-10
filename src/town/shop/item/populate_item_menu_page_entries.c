@@ -1,4 +1,3 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "engine/item.h"
 #include "shared/item_menu.h"

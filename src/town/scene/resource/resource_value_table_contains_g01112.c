@@ -1,5 +1,5 @@
 /* Resource value table contains g01112.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01112 - CL:town/func_8008DB84, CL:town/func_8008DBC8, CL:town/func_8008DC4C, PD:town/engine:800CF828, PD:town/engine:800CF838.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8008DB84, town/func_8008DBC8, town/func_8008DC4C, PD:town/engine:800CF828, PD:town/engine:800CF838.
  */
 #include "town/scene/resource/resource_value_table_contains_g01112.h"
 #include "town/scene/resource.h"

@@ -70,7 +70,6 @@ extern void           create_colored_effect_with_event(struct ObjectNodeHeader *
 extern u8 *find_or_retain_sprite_resource_slot(int a0, s16 a1);
 extern void           update_map_cell_flags_with_item_limit(int a0, int a1, int a2);
 extern Ctor_80042BDC  load_monster_code_module(int a0, void *a1, int a2);
-extern void           drain_cd_command_queue(void);
 extern void           set_code_for_entity_mode(S_80042BDC *ent);
 extern void           func_8004397C(S_80042BDC *ent);
 extern void           copy_entity_record(S_80042BDC *obj, S_80042BDC *ent);

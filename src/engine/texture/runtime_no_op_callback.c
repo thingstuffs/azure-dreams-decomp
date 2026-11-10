@@ -1,5 +1,6 @@
 /* Texture resource loading, image-tile uploads and sprite metadata relocation. */
 #include "slus/gp_shared_8152c.h"
+#include "engine/cd.h"
 #include "engine/texture.h"
 
 

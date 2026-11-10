@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 
-#include "common.h"
 #include "engine/script.h"
 #include "slus/data.h"
 

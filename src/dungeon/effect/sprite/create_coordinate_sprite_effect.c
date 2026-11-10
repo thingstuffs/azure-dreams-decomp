@@ -3,7 +3,6 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/actor.h"
 

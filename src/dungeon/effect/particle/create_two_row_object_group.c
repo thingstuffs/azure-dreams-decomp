@@ -4,8 +4,6 @@
 #include "dungeon/effect/particle.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/particle/create_two_row_object_group.h"
-#include "shared/sprite_frame_state.h"
-#include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "engine/node/allocation.h"
@@ -42,7 +40,6 @@ void create_two_row_object_group(void *payload, s16 value_scale) {
         row--;
     } while (row >= 0);
 }
-#include "common.h"
 #include "shared/game_work.h"
 
 typedef struct S_800DA93C_0 {
@@ -168,7 +165,6 @@ s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
 
     return 0;
 }
-#include "common.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -315,8 +311,6 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
     phase_value = effect_data->unk_02;
     effect_data->unk_02 = phase_value - 1;
 }
-#include "common.h"
-#include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
@@ -345,10 +339,7 @@ void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_val
         object_data->unk_48 = initial_value;
     }
 }
-#include "common.h"
-#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 
 typedef struct S_800DAEF4_2 {
     u8 pad_00[0x2];
@@ -458,9 +449,6 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
     }
 
 }
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -517,10 +505,6 @@ void update_timed_effect_animation(ScatteredTimedEffectBody *effect, ObjectPosit
         advance_sprite_animation_and_textures(visual);
     }
 }
-#include "common.h"
-#include "m2c_compat.h"
-#include "shared/object_node.h"
-#include "shared/dungeon_moving_views.h"
 
 struct D_800DB420_Obj;
 struct D_800DB420_RngOut;
@@ -613,10 +597,6 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
         group_step -= 3;
     } while (group_step >= 0);
 }
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct D_800DB420_Obj {
@@ -677,8 +657,6 @@ void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *pos
 
     return;
 }
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Subtracts the limit when available, otherwise marks the record and global flags. */
 void subtract_limit_or_flag_record(void *record) {
@@ -692,8 +670,6 @@ void subtract_limit_or_flag_record(void *record) {
     *(u16 *)((s8 *)record - 2) |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct
 {
@@ -937,7 +913,6 @@ s32 draw_fading_linked_quads(Item *item)
 
     return 0;
 }
-#include "common.h"
 
 extern void PushMatrix(void);
 extern void PopMatrix(void);

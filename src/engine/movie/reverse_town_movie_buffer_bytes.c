@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/movie.h"
 
 /* Reverse the buffer bytes in place and return the original buffer pointer. */

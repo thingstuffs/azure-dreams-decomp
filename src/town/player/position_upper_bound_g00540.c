@@ -1,5 +1,5 @@
-/* G00540: position upper bound. */
-/* Original-file evidence (G00540): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80099028, CL:town/func_80099080, PD:town/engine:800FE5D4. */
+/* position upper bound. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80099028, town/func_80099080, PD:town/engine:800FE5D4. */
 #include "town/player/position_upper_bound_g00540.h"
 #include "town/player.h"
 

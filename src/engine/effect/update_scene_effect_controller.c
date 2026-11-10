@@ -6,7 +6,6 @@
 /* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
-#include "slus/jtbl_80052144.h"
 #include "slus.h"
 
 /* Times child effects, cancels them on a skip flag, and requests the next scene after all children finish. */

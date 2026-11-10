@@ -29,7 +29,6 @@ enum SelectionShadeState {
 #include "dungeon/menu/select.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/menu/select.h"
 #include "dungeon/player/motion.h"
 #include "engine/graphics.h"
 
@@ -88,7 +87,6 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
         draw_state->flags = (u16) (draw_state->flags & 0xFF7F);
     }
 }
-#include "dungeon/menu/select.h"
 
 /* Creates the menu selection sprite with its image, normal scale, owner data, and movement and
    blinking callback. */
@@ -110,7 +108,6 @@ void *allocate_sprite_data_object(s32 user_data) {
     }
     return object;
 }
-#include "dungeon/menu/select.h"
 
 /* Animates the direction-selection menu, handles familiar direction changes, and retires its child
    objects. */
@@ -475,7 +472,6 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
             break;
     }
 }
-#include "dungeon/menu/select.h"
 
 /* Fades a directional actor sprite in and out with the selection menu while updating its facing animation. */
 void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg)
@@ -582,7 +578,6 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
     ((S_80025A14_2 *)obj_arg)->unk_14 = render_flags;
     return;
 }
-#include "dungeon/menu/select.h"
 
 /* Moves and fades a familiar preview, draws it with the menu rotation, and dims the unselected familiar. */
 void draw_and_restore_fading_object(void *object_arg, void *position_arg, SpriteFrameState *sprite_arg) {
@@ -737,7 +732,6 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, Sprite
     sprite->color.c.b = blue;
     return;
 }
-#include "dungeon/menu/select.h"
 
 /* Restores the previous menu entry's directional tile offsets and updates the selection index in both
    linked states. */
@@ -772,7 +766,6 @@ void switch_active_object_index(void *object, s16 new_index) {
         }
     }
 }
-#include "dungeon/menu/select.h"
 
 /* Creates familiar direction-preview objects, or closes the menu and waits for its children to stop
    updating. */
@@ -1004,7 +997,6 @@ void initialize_children_or_shutdown(void *owner)
 
     return;
 }
-#include "dungeon/menu/select.h"
 /* Sets up a shaded rectangle, fades its center to gray over eight updates, and fades it out when state
    3 is set. */
 void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control)
@@ -1076,7 +1068,6 @@ void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control)
         return;
     }
 }
-#include "dungeon/menu/select.h"
 
 /* Creates a selection menu controller, sets the initial value, and starts its message mode and script. */
 void *initialize_available_object(s16 initialValue) {
@@ -1093,7 +1084,6 @@ void *initialize_available_object(s16 initialValue) {
     }
     return object;
 }
-#include "dungeon/menu/select.h"
 /* Projects a three-by-three terrain preview and its actor sprites, then restores the view transform. */
 #define S16(b, o) (*(s16 *)((u8 *)(b) + (o)))
 #define U16(b, o) (*(u16 *)((u8 *)(b) + (o)))
@@ -1352,7 +1342,6 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
 #undef S16
 #undef U16
 #undef S32
-#include "dungeon/menu/select.h"
 
 /*
  * Writes negated camera X/Y rotations and zero Z rotation to scratchpad, then renders the
@@ -1369,7 +1358,6 @@ void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mo
     render_projected_sprite_with_depth_bias(call_value, call_option, call_mode, call_extra);
 }
 
-#include "dungeon/menu/select.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 /* POLY_G4 packet: four packed color words interleaved with screen points. */

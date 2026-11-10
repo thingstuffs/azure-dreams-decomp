@@ -3,6 +3,7 @@
 #include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 #include "common.h"
+#include "slus/data.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "engine/entity.h"
 #include "engine/graphics.h"
@@ -30,7 +31,6 @@ typedef struct {
 } S_80045340_HwFlag;
 
 /* Processes unflagged entries across groups until the stop condition or end of the chain. */
-extern u32 sprite_projection_matrix[8];
 
 /* Projects unhidden sprite groups until the chain ends or the frame packet arena overflows. */
 s32 project_sprite_chain(void *group_data, s32 context, SpriteFrameState *entry, s32 unused)
@@ -180,7 +180,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         u32 base_depth;
         sort_depth = (base_depth = projected_depth - 10, base_depth - depth_bias);
     }
-    sprite_projection_matrix[7] = projected_depth * 4;
+    sprite_projection_matrix.t[2] = projected_depth * 4;
     scratch->sort_depth = sort_depth;
 
     if (sort_depth < 0x1D6U) {
@@ -218,7 +218,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         scratch->input_z = 0x1000;
         scratch->input_y = scale_y;
         ScaleMatrix(&scratch->local_matrix, &scratch->input_x);
-        CompMatrix(sprite_projection_matrix, &scratch->local_matrix, &scratch->matrix);
+        CompMatrix(&sprite_projection_matrix, &scratch->local_matrix, &scratch->matrix);
         SetTransMatrix(&scratch->matrix);
         SetRotMatrix(&scratch->matrix);
 

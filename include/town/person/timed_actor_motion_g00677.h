@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_TIMED_ACTOR_MOTION_G00677_H
 #define TOWN_PERSON_TIMED_ACTOR_MOTION_G00677_H
-/* G00677: shared declarations for timed actor motion. */
-/* Original-file evidence (G00677): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6268. */
+/* shared declarations for timed actor motion. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6268. */
 
 #include "common.h"
 #include "m2c_compat.h"

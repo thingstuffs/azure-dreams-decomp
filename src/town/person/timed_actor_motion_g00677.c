@@ -1,5 +1,5 @@
-/* G00677: timed actor motion. */
-/* Original-file evidence (G00677): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6268. */
+/* timed actor motion. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6268. */
 #include "town/person/timed_actor_motion_g00677.h"
 #include "town/person.h"
 

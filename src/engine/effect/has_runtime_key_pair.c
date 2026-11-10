@@ -1,6 +1,5 @@
 #include "slus/owned_800448BC.h"
 
-#include "slus/owned_800448BC.h"
 #include "engine/effect.h"
 
 /* Searches a zero-terminated list for the two arguments truncated to 16-bit keys; returns 1 on a match. */

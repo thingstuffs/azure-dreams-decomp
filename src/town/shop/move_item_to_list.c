@@ -1,4 +1,3 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/item_ids.h"
 #include "records/Rec_func_800B1DCC_arg0.h"

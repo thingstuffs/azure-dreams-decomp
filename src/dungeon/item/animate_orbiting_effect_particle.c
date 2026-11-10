@@ -4,7 +4,6 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "dungeon/item.h"
-#include "shared/sprite_frame_state.h"
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 

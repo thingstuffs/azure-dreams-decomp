@@ -7,7 +7,7 @@ struct SpriteFrameState;
 
 struct ObjectPosition;
 /* Initialize effect and adjust value. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01140 - CL:town/func_800A7E6C, CL:town/func_800A8134. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800A7E6C, town/func_800A8134. */
 
 #include "common.h"
 #include "town/scene/collision.h"
@@ -26,10 +26,6 @@ struct ObjectPosition;
 /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
-#include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"
-#include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"
-#include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
-#include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 #include "shared/town_action_flag.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 

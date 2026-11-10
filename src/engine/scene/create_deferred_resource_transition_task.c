@@ -1,7 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
 
-#include "common.h"
 #include "engine/resource.h"
 #include "engine/scene.h"
 

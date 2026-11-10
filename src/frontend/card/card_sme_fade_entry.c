@@ -2,7 +2,6 @@
 #include "frontend/card.h"
 #include "frontend/card/server_imports.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 typedef struct S_80020D0C_0 {
     u8 pad_00[0xFC];

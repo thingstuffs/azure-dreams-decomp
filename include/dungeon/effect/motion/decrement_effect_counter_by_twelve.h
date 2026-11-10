@@ -37,7 +37,6 @@ typedef struct Row_818F33BC_S_80024BBC_6 {
 
 /* Creates an object with randomized position offsets and initializes its state and callbacks. */
 void *allocate_list_node(s32, void *);
-void *func_8003FD64(s32, void *);
 s32 rand(void);
 extern s16 D_800259AC;
 void decrement_effect_counter_by_twelve(RandomOffsetEffectObjectBody *object);

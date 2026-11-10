@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 #include "slus.h"
 
 typedef struct CursorInfo {

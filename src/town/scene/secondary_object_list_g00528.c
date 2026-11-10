@@ -1,5 +1,5 @@
-/* Secondary object list (G00528).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80092594.
+/* Secondary object list.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80092594.
  */
 #include "town/scene/secondary_object_list_g00528.h"
 #include "town/scene.h"

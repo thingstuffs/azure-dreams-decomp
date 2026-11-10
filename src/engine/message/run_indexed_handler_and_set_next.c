@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/message.h"
 
 typedef struct S_80038708_0 {

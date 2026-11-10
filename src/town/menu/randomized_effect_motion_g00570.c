@@ -1,5 +1,5 @@
 /* Initializes randomized effect motion and resets appearance when its countdown expires. */
-/* inferred-strong G00570: randomized_effect_motion_g00570; joins PD:town/engine:800D0B20; no crossing cuts. */
+/* inferred-strong randomized_effect_motion_g00570; joins PD:town/engine:800D0B20; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0B20. */
 #include "town/menu/randomized_effect_motion_g00570.h"
 #include "shared/object_node.h"

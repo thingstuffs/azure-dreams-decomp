@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/town.h"
 
 void del_t_item_w_ptr(s32 item_ptr);

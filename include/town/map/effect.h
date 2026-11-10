@@ -29,4 +29,14 @@ void no_op_secondary_effect_callback(TownObjectRecord *unused_object, ObjectPosi
 /* update_projected_effect_points.c */
 void update_projected_effect_points(void *object, s32 phase, void *source_data, SpriteFrameState *extent);
 
+
+typedef struct Core {
+    u8 pad0[0x66];
+    u16 angle;
+    u8 pad68[0x2F];
+    s8 index;
+    s32 value;
+    struct Core *parent;
+} Core;
+
 #endif

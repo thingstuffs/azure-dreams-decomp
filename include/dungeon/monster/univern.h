@@ -83,15 +83,6 @@ typedef struct R17_8017089C_S_8017089C_8 {
 } R17_8017089C_S_8017089C_8;
 
 typedef void (*R17_80170BB8_EntityCallback)(void *, void *, void *, void *);
-typedef struct R17_80170BB8_S_80170BB8_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} R17_80170BB8_S_80170BB8_0;
 
 typedef struct R17_80170BB8_S_if_0 {
     u8 pad_00[0x2A];
@@ -271,8 +262,6 @@ typedef struct R17_80173F10_S_80173ED8_5 {
 
 
 
-void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 
@@ -330,7 +319,7 @@ extern u8 D_801744DC[];
 extern u8 D_801744AC[];
 extern u8 univern_frame_set_2[];
 void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value);
-void update_univern_motion_and_facing(ActorRecord *actor, void *motion, struct SpriteFrameState *object);
+void update_univern_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, struct SpriteFrameState *object);
 void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
 void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

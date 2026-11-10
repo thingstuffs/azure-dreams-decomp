@@ -3,6 +3,7 @@
 /* Imported data declarations for this image; maintained by tools/headers. */
 
 #include "common.h"
+#include "sdk/libgte_matrix.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/resident_resources.h"
@@ -13,6 +14,8 @@
 struct InputRecord;
 
 /* Data declarations. */
+extern char scene_string_fallback[];
+extern MATRIX sprite_projection_matrix;
 extern u8 D_80012D6E[ 9 ];
 extern u8 D_80013614[ 16 ];
 extern s32 D_80013628;
@@ -21,6 +24,7 @@ extern int D_800212DC[ 8 ];
 extern s16 D_8006AE18[ 5 ];
 extern s8 D_800712E4[ ];
 extern u8 D_800712F0[ ];
+extern MATRIX effect_view_matrix; /* view matrix the effect and linked-sprite renderers compose with; t[2] takes the projection distance or the scaled sprite depth */
 extern int item_name_text_table[ 4 ];
 extern unsigned char menu_backdrop_link_indices[ 16 ];
 extern unsigned char selection_menu_link_indices[ 16 ];

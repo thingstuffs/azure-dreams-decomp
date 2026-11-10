@@ -1,5 +1,5 @@
-/* G00533: periodic action effect. */
-/* Original-file evidence (G00533): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009408C. */
+/* periodic action effect. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009408C. */
 #include "town/player/periodic_action_effect_g00533.h"
 #include "town/player.h"
 #include "engine/window.h"

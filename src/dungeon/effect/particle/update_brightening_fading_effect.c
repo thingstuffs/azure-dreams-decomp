@@ -161,10 +161,7 @@ void update_directional_actor_effect(void *object)
     bright_effect_palette_work[8] = (palette->unk_004 & 0x1F) + 0x80;
     bright_effect_palette_work[9] = palette->unk_004 & 0x1F;
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 #include "dungeon/effect/particle/brightening_fade.h"
 
    /* Updates the effect position, brightens and fades its primitive, and marks completion. */
@@ -219,8 +216,6 @@ void update_brightening_fading_effect(BrighteningFadeBody *effect, S_8195EB88_2 
         }
     }
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
 
    /* obj in func_8002453C */
 
@@ -268,8 +263,6 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
     }
     return handle;
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
 
    /* arg0 in update_effect_and_spawn_fragments */
 
@@ -316,10 +309,6 @@ void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion
 /* MECHANISM: An s32-held 0x48 condition produces retail's signed load and exact s0/s1/ra frame.
    Reading the counter first preserves retail emission order; a guarded $v1 runtime-value pin
    fixes the final counter/base coloring while the natural CFG retains both delay-slot stores. */
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -380,10 +369,6 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
     }
     return obj;
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
 
 extern u8 D_80027334[][8];
 
@@ -477,10 +462,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
         }
     }
 }
-#include "modules/dungeon_ovl_197e800.h"
 #include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
 
    /* scratch in project_height_grid_object_quad */
 
@@ -741,8 +723,6 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
     PopMatrix();
     ((GpuContext *)(*render_state))->packetCursor = packet;
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
 
 /* Sets tile bounds and dispatches tiles for a seven-by-seven grid. */
 s32 dispatch_seven_by_seven_tile_grid(void *tile_data, ObjectPosition *draw_arg_1, SpriteFrameState *draw_arg_2) {
@@ -783,8 +763,6 @@ s32 dispatch_seven_by_seven_tile_grid(void *tile_data, ObjectPosition *draw_arg_
     } while (row < 7);
     return 0;
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
 #include "m2c_compat.h"
 
 /* Clears the 8-by-8 grid and initializes an object at the given position. */
@@ -841,9 +819,6 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
         object_data->unk_4C = 0x10;
     }
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Advance motion, fade the effect, and flag expiry when its timer runs out. */
 void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect)
@@ -872,10 +847,6 @@ void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
 
    /* Transform a textured quad and add it to the ordering table if visible. */
 void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
@@ -989,7 +960,6 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
     PopMatrix();
     ((GpuContext *)(*render_context))->packetCursor = packet;
 }
-#include "modules/dungeon_ovl_197e800.h"
 #include "modules/dungeon_draw_chain.h"
 
 /* Object-list node header (0x20 bytes) that precedes each payload. */
@@ -1012,8 +982,6 @@ s32 draw_linked_object_chain(void *payload, void *position, void *render)
         render = next->render;
     }
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "modules/dungeon_draw_chain.h"
 
 #ifndef NULL
 #define NULL 0
@@ -1073,11 +1041,6 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
         render->source = primitive;
     }
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "m2c_compat.h"
 
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
@@ -1146,9 +1109,6 @@ void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
         tile_y += 1;
     } while (row < 7U);
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 
 /* Copies a 7-by-7 tile region from the source grid into the dungeon map around the current coordinates. */
@@ -1197,9 +1157,6 @@ void restore_saved_map_tile_region(void)
     } while (rows_copied < 7);
 }
 
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/game_work.h"
 
    /* Select a cell surface at the given position using plane height and containment tests. */
 void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
@@ -1300,9 +1257,6 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
 
     return best_polygon;
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 extern u8 upper_draw_context[16];
 
@@ -1367,9 +1321,6 @@ void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode)
 /* MECHANISM: The 0x30 frame holds s0-s5; D_80083160 stays in s5 and the long-lived OT base in s1.
    Fixed a0/a1 ABI locals move both args before func_8006658C, freeing its delay slot for the disjoint s0=s2 copy.
    Leaving buffer_shift naturally allocated preserves retail's xor-in-v0 followed by sltu-into-s2 sequence. */
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 extern u8 bright_effect_palette_work[12];
 typedef struct TextureConfig {
@@ -1497,10 +1448,6 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
     record = (Record *)((u8 *)record + 0x28);
     ((Root *)globals->draw_buffer)->record = record;
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 
    /* scratch in update_rotating_fading_tile_quad */
 
@@ -1630,9 +1577,6 @@ void update_rotating_fading_tile_quad(void *quad, S_81960CD4_2 *motion, S_81960C
     }
 }
 
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 #define SCRATCH ((Bank56_819611CC_Scratch *)0x1F800000)
 
@@ -1697,9 +1641,6 @@ s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, M
     (*slot)->packet = (u8 *)packet;
     return 0;
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "m2c_compat.h"
 
    /* Creates a terrain tile quad using grid heights and the supplied origin. */
 void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
@@ -1843,14 +1784,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         brightening_effect_update_count.value = (s16) ((*(u16 *)((s16 *)&brightening_effect_update_count)) + 1);
     }
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
-#include "shared/tile_object.h"
 #include "shared/entity_objects.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dir_step.h"
 
 extern void **actor_direction_sprites;
 
@@ -2000,8 +1934,6 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
     }
     return;
 }
-#include "modules/dungeon_ovl_197e800.h"
-#include "common.h"
 
 #ifndef NULL
 #define NULL 0

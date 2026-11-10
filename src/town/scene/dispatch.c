@@ -1,5 +1,4 @@
 #include "town/scene/dispatch.h"
-#include "town/scene/dispatch.h"
 #include "town/scene/flags.h"
 
 /* Passes the value and line to the handler with its fixed data tables. */

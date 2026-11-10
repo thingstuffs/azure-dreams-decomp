@@ -243,11 +243,6 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         return;
     }
 }
-#include "modules/dungeon_ovl_185e800.h"
-#include "common.h"
-#include "shared/vector.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 
 /* Waits for the effect delay, then moves and fades the sprite until it expires. */
 void advance_delayed_fading_sprite(DelayParticle *effect, DelayPosition *motion, SpriteFrameState *sprite) {
@@ -294,12 +289,6 @@ void advance_delayed_fading_sprite(DelayParticle *effect, DelayPosition *motion,
         break;
     }
 }
-#include "modules/dungeon_ovl_185e800.h"
-#include "shared/sprite_source.h"
-#include "common.h"
-#include "shared/vector.h"
-#include "shared/object_node.h"
-#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */

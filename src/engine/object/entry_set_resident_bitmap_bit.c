@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "shared/resident_resources.h"
 #include "engine/object.h"
 #include "slus/data.h"

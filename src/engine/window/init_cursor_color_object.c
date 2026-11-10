@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/window.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"

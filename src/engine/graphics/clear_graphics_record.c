@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "records/Rec_D_80082A38.h"
 #include "engine/graphics.h"
 

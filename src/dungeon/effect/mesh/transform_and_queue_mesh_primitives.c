@@ -57,7 +57,6 @@ void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameS
     }
 }
 #include "modules/dungeon_ovl_189a800.h"
-#include "modules/dungeon_native_abi.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -441,10 +440,8 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
     }
     PopMatrix();
 }
-#include "dungeon/effect/mesh.h"
 #include "shared/object_node.h"
 
-#include "modules/dungeon_ovl_189a800.h"
 
 /* Retail 8187B1A0 (decrement_object_counter).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
@@ -463,8 +460,6 @@ s32 decrement_object_counter(void *record, void *context, void *data) {
         data = node->sprite;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "shared/game_work.h"
 #include "shared/position_views.h"
 
 typedef struct S_8187B1F4_1 {
@@ -636,7 +631,6 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
     } while (1);
     return hard_zero;
 }
-#include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 
 typedef struct S_8187B540_0 {
@@ -659,7 +653,6 @@ void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, Obje
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/dungeon_native_abi.h"
 
 #define FIELD_U8(base, off)  (*(u8 *)((u8 *)(base) + (off)))
 #define FIELD_S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
@@ -748,8 +741,6 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
     FIELD_PTR(*context_slot, 0x8D0) = FIELD_PTR(scratch, 0x18);
     return 0;
 }
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_flags.h"
 
 /* Conditionally advances the position and decrements a counter, setting flags when it expires. */
 void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object, s16 *position)
@@ -772,9 +763,7 @@ void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/dungeon_native_abi.h"
 #include "shared/dungeon_moving_views.h"
-#include "shared/position_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -860,9 +849,6 @@ void create_terrain_seeking_colored_point(
     }
 }
 
-#include "modules/dungeon_ovl_189a800.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/dungeon_moving_views.h"
 #include "shared/dungeon_projectile_views.h"
 
 #ifndef NULL
@@ -923,8 +909,6 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
         state->unk_00 = initial_value;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_flags.h"
 
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
@@ -1052,8 +1036,6 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
     }
 }
 
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_flags.h"
 
 
 
@@ -1107,10 +1089,6 @@ void update_projectile_trail_flash(ProjectileTrailFlashBody *effect, s32 unused,
     }
 }
 
-#include "modules/dungeon_ovl_189a800.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_moving_views.h"
 
 typedef struct S_8187BFE0_1 {
     u8 pad_00[0x8];
@@ -1323,10 +1301,7 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
 /* MECHANISM: A held 0x80020000 page and s32 mode local fix the prologue/store slot.
    Scoped $v1 edge/$v0 span tails plus scheduling fences preserve coordinate load delays.
    Default-first noreturn layout encodes true-space joins; division by 5 restores the magic divide. */
-#include "modules/dungeon_ovl_189a800.h"
 #include "shared/entity_height_offsets.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 

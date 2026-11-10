@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "town/person.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_800CCF30_0 {
     u8 pad_00[0x68];
     u16 unk_68;

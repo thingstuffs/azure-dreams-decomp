@@ -30,11 +30,11 @@ extern void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition
 
 s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, SpriteFrameState *visual, void *actor);
 s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target);
-void advance_actor_action_controller(void *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_actor_action_controller(ActorRecord *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_actor_flagged_action(Rec_func_800A9E70_arg0 *entity, void *unused, SpriteFrameState *status, EntityRec *event_state);
 void initialize_actor_direction_table(void *object, void *unusedContext, SpriteFrameState *tableTarget, ActorRecord *headingSource);
 void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord *search_state);
-void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor);
+void update_actor_landing(ActorRecord *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor);
 
 
 

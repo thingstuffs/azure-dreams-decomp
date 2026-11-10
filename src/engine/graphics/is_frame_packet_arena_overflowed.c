@@ -3,7 +3,6 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 #include "engine/entity.h"
 #include "engine/graphics.h"
 #include "sdk/libgte.h"

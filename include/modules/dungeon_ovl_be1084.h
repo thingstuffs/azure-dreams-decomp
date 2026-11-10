@@ -73,9 +73,7 @@ struct ObjectNodeHeader;
    /* ((S_80BC1528_1 *)saved_arg0)->unk_08 in func_80170D28 */
 
 extern void *allocate_list_node(s32, void *);
-extern void *func_8003FD64(s32, void *);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 
 /* Creates an offset effect and initializes its motion back toward the parent. */
 

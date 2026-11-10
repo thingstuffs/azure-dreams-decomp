@@ -46,7 +46,6 @@ typedef struct FadingSpriteSequenceBody {
 } FadingSpriteSequenceBody;
 
 #include "modules/dungeon_native_abi.h"
-#include "common.h"
 
 /* Timer, origin, and local offset stored by follow_origin_and_fade_sprite. */
 typedef struct OriginFollowingFadeSpriteBody {

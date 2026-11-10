@@ -1,5 +1,5 @@
-/* Flagged tile scan (G00593).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AE700, CL:town/func_800AE78C, CL:town/func_800AEA50, CL:town/func_800AEC1C.
+/* Flagged tile scan.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AE700, town/func_800AE78C, town/func_800AEA50, town/func_800AEC1C.
  */
 #include "town/map/flagged_tile_scan_g00593.h"
 #include "town/map.h"

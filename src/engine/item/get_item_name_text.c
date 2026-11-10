@@ -2,7 +2,6 @@
 #include "shared/item_ids.h"
 #include "engine/item.h"
 
-#include "common.h"
 #include "sdk/libc.h"
 #include "slus/data.h"
 

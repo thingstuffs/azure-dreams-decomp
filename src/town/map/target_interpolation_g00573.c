@@ -1,5 +1,5 @@
-/* Target interpolation (G00573).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A7198, CL:town/func_800A7434, CL:town/func_800A74B0, CL:town/func_800A7588.
+/* Target interpolation.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A7198, town/func_800A7434, town/func_800A74B0, town/func_800A7588.
  */
 #include "town/map/target_interpolation_g00573.h"
 #include "town/map.h"

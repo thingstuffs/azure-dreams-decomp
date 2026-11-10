@@ -1,4 +1,4 @@
-/* Scene slot pair initialization (G00694).
+/* Scene slot pair initialization.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D784C, PD:town/engine:800D7854, PD:town/engine:800D787C, PD:town/engine:800D7880.
  */
 #include "town/scene/scene_slot_pair_initialization_g00694.h"

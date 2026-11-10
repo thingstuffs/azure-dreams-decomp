@@ -5,7 +5,6 @@
 
    /* ((TownObjectRecord *)arg0)->unk_80 in set_record_data_pointer */
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800D6924;
 
 /* Sets the record's associated data pointer to D_800D6924. */

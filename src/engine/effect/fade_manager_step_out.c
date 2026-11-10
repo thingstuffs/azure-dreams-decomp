@@ -2,7 +2,6 @@
 #include "shared/entity.h"
 #include "shared/object_flags.h"
 
-#include "common.h"
 #include "engine/node.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/effect.h"

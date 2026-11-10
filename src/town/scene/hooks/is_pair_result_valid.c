@@ -2,7 +2,6 @@
 #include "town/scene/hooks.h"
 #include "town/scene.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Return whether func_8001DA48 produces a value other than -1. */
 s32 is_pair_result_valid(s32 first_input, s32 second_input) {

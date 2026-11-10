@@ -1,5 +1,5 @@
-/* G00538: direction entry status. */
-/* Original-file evidence (G00538): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0464, PD:town/engine:800D046C. */
+/* direction entry status. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0464, PD:town/engine:800D046C. */
 #include "town/player/direction_entry_status_g00538.h"
 #include "town/player.h"
 

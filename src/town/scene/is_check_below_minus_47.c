@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 s32 get_current_nested_record_value(void);                                /* extern */
 
 /* Check whether the queried value is below -47. */

@@ -1,5 +1,5 @@
 /* Dispatch town callback fallback g00763.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00763 - CL:town/func_80774928.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80774928.
  */
 #include "town/scene/dispatch_town_callback_fallback_g00763.h"
 #include "town/scene.h"

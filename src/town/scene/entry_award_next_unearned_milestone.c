@@ -1,8 +1,8 @@
+#include "slus/data.h"
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
 #include "town/scene.h"
 
-extern char scene_string_fallback[];
 extern char D_8001B9E8[];
 extern char event_string_fallback[];
 extern char D_80021386[];

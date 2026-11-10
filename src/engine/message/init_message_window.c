@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/message/data.h"
 
-#include "common.h"
 #include "engine/script/vm.h"
 
 extern u8 message_window_state_data[];

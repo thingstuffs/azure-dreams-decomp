@@ -3,7 +3,7 @@
 #define TOWN_PLAYER_TARGET_MOTION_G00547_H
 struct ObjectPosition;
 struct TownObjectRecord;
-/* Move player motion toward target coordinates (G00547). */
+/* Move player motion toward target coordinates. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0608. */
 
 #include "common.h"

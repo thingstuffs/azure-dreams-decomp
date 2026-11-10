@@ -1,5 +1,4 @@
 #include "shared/town_root.h"
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene/position_entries.h"

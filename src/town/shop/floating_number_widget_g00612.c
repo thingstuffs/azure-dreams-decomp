@@ -1,5 +1,5 @@
-/* Floating number widget (G00612). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B41D8, CL:town/func_800B4200, CL:town/func_800B4298, CL:town/func_800B43B0, CL:town/func_800B4410. */
+/* Floating number widget. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B41D8, town/func_800B4200, town/func_800B4298, town/func_800B43B0, town/func_800B4410. */
 #include "town/shop/floating_number_widget_g00612.h"
 #include "shared/object_node.h"
 #include "town/shop/display_objects.h"

@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/movie.h"
 #include "engine/town.h"
 

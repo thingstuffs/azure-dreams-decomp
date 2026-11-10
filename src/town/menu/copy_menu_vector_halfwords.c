@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "town/menu.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_800A1330_0 {
     u16 unk_00;
     u16 unk_02;

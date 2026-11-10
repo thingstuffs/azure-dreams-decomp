@@ -47,7 +47,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
     u8 *scratch;
     S_800BC4D4_1 *scratch_view;
     u8 **root_ptr;
-    u8 *matrix;
+    MATRIX *matrix;
     u8 *packet;
     u8 *packet_next;
     u8 *texture;
@@ -96,9 +96,9 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
 
     projected_depth = RotTransPers(scratch_base, screen_pos,
                               perspective, clip_flags);
-    matrix = sprite_projection_matrix;
+    matrix = &sprite_projection_matrix;
     scratch_view->unk_C0 = projected_depth;
-    ((S_800BC4D4_4 *)matrix)->unk_1C = projected_depth * 4;
+    matrix->t[2] = projected_depth * 4;
     biased_depth = projected_depth - 7;
     ot_index = biased_depth - depth_bias;
     scratch_view->unk_C0 = ot_index;

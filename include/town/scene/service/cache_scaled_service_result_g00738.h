@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_SERVICE_CACHE_SCALED_SERVICE_RESULT_G00738_H
 #define TOWN_SCENE_SERVICE_CACHE_SCALED_SERVICE_RESULT_G00738_H
 /* Cache scaled service result. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00738 - PD:town/ll34_581000_80016000:80017FB8, PD:town/ll34_594800_80016000:80019268. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/ll34_581000_80016000:80017FB8, PD:town/ll34_594800_80016000:80019268. */
 
 #include "common.h"
 #include "shared/record_ptrs.h"

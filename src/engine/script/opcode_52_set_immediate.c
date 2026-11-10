@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/script.h"
 
 typedef struct Func80039FC0Table {

@@ -1,6 +1,5 @@
 #include "engine/texture/gp_split_storage.h"
 
-#include "engine/texture/gp_split_storage.h"
 #include "engine/sprite.h"
 
 static u16 shared_scroll_frame_id;

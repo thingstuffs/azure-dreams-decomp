@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_ACTIVE_OBJECT_OVERLAP_G00529_H
 #define TOWN_SCENE_ACTIVE_OBJECT_OVERLAP_G00529_H
 /* Active object overlap shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009263C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009263C. */
 
 #include "common.h"
 #include "shared/entity.h"

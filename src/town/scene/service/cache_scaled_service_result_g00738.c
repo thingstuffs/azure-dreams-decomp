@@ -1,5 +1,5 @@
 /* Cache scaled service result.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00738 - PD:town/ll34_581000_80016000:80017FB8, PD:town/ll34_594800_80016000:80019268.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/ll34_581000_80016000:80017FB8, PD:town/ll34_594800_80016000:80019268.
  */
 #include "town/scene/service/cache_scaled_service_result_g00738.h"
 #include "town/scene/service.h"

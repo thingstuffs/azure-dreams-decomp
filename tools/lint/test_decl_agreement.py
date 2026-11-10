@@ -87,6 +87,86 @@ class NormalizeTests(unittest.TestCase):
         self.assertEqual(D.void_stale_params(entry('void f();'), entry('void f(Rec *a) {}')), [])
 
 
+class DataTests(unittest.TestCase):
+    """Data objects: extern declarations and definitions grouped by name."""
+
+    def scan(self, files, symbols=''):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'include').mkdir()
+            (root / 'config').mkdir()
+            (root / 'config/slus_006.14.symbols.txt').write_text(symbols)
+            for path, text in files.items():
+                (root / path).parent.mkdir(parents=True, exist_ok=True)
+                (root / path).write_text(text)
+            return D.data_census(root)[0]
+
+    def test_incomplete_array_and_spelling_agree(self):
+        found = self.scan({
+            'src/m/a.c': 'extern u8 tab[32];\nextern struct Foo foo;\nextern unsigned int w[];\n',
+            'src/m/b.c': 'void g(void) {\n    extern unsigned char tab[];\n    extern Foo foo;\n}\nextern u32 w[4];\n',
+            'include/m/c.h': 'extern const u8 tab[0x20];\nextern int fn(int);\nextern void (*cb)(int);\n',
+        })
+        self.assertEqual(found, {})
+
+    def test_classes(self):
+        found = self.scan({
+            'src/m/a.c': 'extern u8 sized[3];\nextern u8 sign[4];\nextern u32 words[8];\nextern MATRIX mat;\n'
+                         'extern int *ptr;\nextern int arr[];\n',
+            'src/m/b.c': 'extern u8 sized[32];\nextern s8 sign[4];\nextern u8 words[32];\nextern u8 mat[3];\n'
+                         'extern int arr[];\n',
+            'include/m/c.h': 'extern int ptr[];\n',
+        })
+        self.assertEqual({n: r['klass'] for n, r in found.items()},
+                         {'sized': 'size mismatch', 'sign': 'element type only', 'words': 'incompatible type',
+                          'mat': 'incompatible type', 'ptr': 'incompatible type'})
+        self.assertEqual(len(found['sized']['rows']), 2)
+
+    def test_definition_is_a_reference_and_static_is_local(self):
+        found = self.scan({
+            'src/m/def.c': 'u8 table[16] = {0};\nstatic u8 local[4];\n',
+            'src/m/use.c': 'extern u8 table[8];\nextern s32 local[2];\nstatic u16 local[9];\n',
+        })
+        self.assertEqual(list(found), ['table'])
+        self.assertEqual([r[0] for r in found['table']['rows']], ['def', 'decl'])
+
+    def test_symbol_size_is_the_reference_without_definition(self):
+        found = self.scan({'src/m/a.c': 'extern u8 sym[16];\nextern u8 ok[8];\nextern u8 open[];\n'},
+                          'sym = 0x80010000; // type:u8 size:0x20\nok = 0x80010020; // type:u8 size:8\n'
+                          'open = 0x80010030; // type:u8 size:0x20\n')
+        self.assertEqual(list(found), ['sym'])
+        self.assertIn(('symbol', 'config/slus_006.14.symbols.txt', '32 bytes'), found['sym']['rows'])
+
+    def test_overlay_address_names_are_per_image(self):
+        found = self.scan({'src/town/a.c': 'extern u8 D_80010000[4];\n', 'src/dungeon/a.c': 'extern int D_80010000;\n'})
+        self.assertEqual(found, {})
+
+    def test_new_disagreement_vs_base_and_tsv(self):
+        base = self.scan({'src/m/a.c': 'extern u8 a[4];\nextern u8 b[4];\n', 'src/m/b.c': 'extern u16 b[2];\n'})
+        head = self.scan({'src/m/a.c': 'extern u8 a[4];\nextern u8 b[4];\n',
+                          'src/m/b.c': 'extern u16 b[2];\nextern u32 b[1];\n',
+                          'src/m/c.c': 'extern u8 a[5];\n'})
+        self.assertEqual(D.new_data_disagreements(head, base), ['a', 'b'])
+        self.assertEqual(D.new_data_disagreements(base, base), [])
+
+    def test_check_data_reports_and_writes_list(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            for sub, text in (('base', 'extern u8 m[32];\n'), ('head', 'extern u8 m[32];\n')):
+                (root / sub / 'src/m').mkdir(parents=True)
+                (root / sub / 'src/m/a.c').write_text(text)
+            (root / 'head/src/m/b.c').write_text('extern u8 m[3];\n')
+            (root / 'head/config').mkdir()
+            (root / 'head/config/names.tsv').write_text('0x8006CD10\tD_8006CD10\tm\tnote\n')
+            with redirect_stdout(io.StringIO()) as out:
+                self.assertEqual(D.check_data(root / 'head', root / 'head', root / 'base'), 1)
+                self.assertEqual(D.check_data(root / 'base', root / 'base', root / 'base'), 0)
+            self.assertIn('data declaration agreement FAIL: 1 new', out.getvalue())
+            rows = (root / 'head/build/decl_data.tsv').read_text().splitlines()
+            self.assertEqual(len(rows), 3)
+            self.assertTrue(rows[1].startswith('m\t0x8006CD10\tsize mismatch\tdecl\tsrc/m/a.c:1\t'))
+
+
 class TreeTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()

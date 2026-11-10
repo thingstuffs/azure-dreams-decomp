@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/person.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_800C8644(s32, s32, s32);
 
 /* Forward the three values to func_800C8644. */

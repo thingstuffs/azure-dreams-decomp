@@ -38,14 +38,7 @@ typedef struct Primitive {
     s16 scaleZ;
 } Primitive;
 
-typedef struct Core {
-    u8 pad0[0x66];
-    u16 angle;
-    u8 pad68[0x2F];
-    s8 index;
-    s32 value;
-    struct Core *parent;
-} Core;
+
 
 typedef struct Object {
     u8 pad0[8];

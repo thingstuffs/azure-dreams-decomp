@@ -2,7 +2,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "records/Rec_func_800384A8_arg0.h"
 #include "slus.h"
 #include "engine/message.h"

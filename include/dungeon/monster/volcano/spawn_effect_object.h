@@ -11,7 +11,6 @@
 typedef void (*Callback)(void);
 
 
-extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *object, s32 attr_a, s16 attr_b);
 extern void initialize_actor_sprite_and_animation(void *object, void *attr_a, void *attr_b, s32 attr_c);

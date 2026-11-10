@@ -5,7 +5,6 @@
 /* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
-#include "slus/jtbl_80041344.h"
 
 /* Runs image commands to decompress, upload or copy data, adjust palettes and relocate pointers. */
 void run_image_load_commands(s32 data_base, void *scratch)

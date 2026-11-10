@@ -3,7 +3,6 @@
 #include "m2c_compat.h"
 #include "frontend/libcard/state.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 /* Clear flag 0x2000 and restore the saved field when the flag is set. */
 void reset_menu_object_state_2(void *record_part) {
     u16 flags;

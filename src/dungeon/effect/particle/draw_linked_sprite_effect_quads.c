@@ -238,11 +238,8 @@ next_target:
         return;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 #include "shared/game_work.h"
 #include "shared/gpu_packets.h"
-#include "shared/object_node.h"
 
 /* A sprite effect record (the object header precedes it): world position of the centre, the size and the
  * texture window of the quad it draws.  The coordinates sit in 4-byte slots with only the second halfword used. */
@@ -404,13 +401,8 @@ s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
 
     return 0;
 }
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -610,10 +602,6 @@ void update_animated_target_effect(void *effect_arg)
    OWN local j words, all solving true link base 0x8002466C vs the synthetic
    0x819B2E6C - a rowbase base shift, not a C or compiler gap. */
 
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/object_flags.h"
 
 /* The object an effect belongs to: bit 0x8000 of its +0x52 flag word marks it. */
 typedef struct EffectOwner {
@@ -644,9 +632,6 @@ void mark_owner_while_sprite_animates(EffectRecord *effect, void *unused, Sprite
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_flags.h"
-#include "common.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -705,9 +690,6 @@ void update_actor_movement_animation_collision(void *object_arg) {
         (object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct Quad {
     u32 tag;

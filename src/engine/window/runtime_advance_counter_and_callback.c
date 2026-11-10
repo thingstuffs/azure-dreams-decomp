@@ -2,9 +2,7 @@
 #include "common.h"
 #include "engine/window.h"
 
-#include "common.h"
 #include "slus/data.h"
-#include "engine/window/model_prefix.h"
 
    /* arg0 in runtime_advance_counter_and_callback */
 

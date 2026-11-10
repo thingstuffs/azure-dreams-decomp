@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 
 typedef s32 (*Func80038690Handler)(s32, s32, s32, s32);
 

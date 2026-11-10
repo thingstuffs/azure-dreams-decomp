@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 
 /* manual g1 strike 2: preserve the incoming second argument through the call */
-#include "common.h"
 #include "engine/graphics.h"
 #include "slus.h"
 #include "slus/data.h"

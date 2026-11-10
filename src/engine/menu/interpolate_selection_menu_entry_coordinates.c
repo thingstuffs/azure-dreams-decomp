@@ -2,7 +2,6 @@
 #include "shared/object_node.h"
 #include "common.h"
 
-#include "common.h"
 #include "engine/menu.h"
 #include "slus/data.h"
 

@@ -6,7 +6,6 @@
 #include "m2c_compat.h"
 #include "frontend/libcard.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Stores a value in the object's embedded state and processes that state. */
 void card_boot_set_paired_choice_selection(ObjectNodeHeader *object_addr, s32 value) {
@@ -15,7 +14,6 @@ void card_boot_set_paired_choice_selection(ObjectNodeHeader *object_addr, s32 va
     state->selection = value;
     card_boot_refresh_paired_choice_labels(body);
 }
-#include "common.h"
 #include "frontend/card.h"
 
 typedef struct Object13B18 Object13B18;

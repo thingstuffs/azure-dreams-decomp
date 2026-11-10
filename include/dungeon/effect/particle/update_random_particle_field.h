@@ -111,7 +111,6 @@ typedef struct S_81934C5C_4 {
 extern M2C_UNK D_80024928;
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry rising_sprite_entries[];
-#include "shared/sprite_source.h"
 extern SpriteSourceEntry moving_sprite_entries[];
 
 /* Updates effect motion and spawns an impact effect on reaching the surface. */
@@ -120,7 +119,6 @@ extern void (*const D_80024000)(FallingParticleFieldSpellBody *, void *);
 
 
 void *allocate_list_node(s32, void *);
-void *func_8003FD64(s32, void *);
 void register_node(void *, void *);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 s16 sample_terrain_surface_height();

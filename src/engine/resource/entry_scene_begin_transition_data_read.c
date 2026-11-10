@@ -2,7 +2,6 @@
 #include "engine/effect/resource_transition.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/graphics.h"
 #include "engine/resource.h"
 #include "engine/scene.h"

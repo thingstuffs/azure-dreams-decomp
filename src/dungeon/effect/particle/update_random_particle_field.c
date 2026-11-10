@@ -5,7 +5,6 @@
 #include "dungeon/effect/particle/update_random_particle_field.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/effect/particle/update_random_particle_field.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/object.h"
 #include "dungeon/effect/particle.h"

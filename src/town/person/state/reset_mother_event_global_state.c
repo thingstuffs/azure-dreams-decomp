@@ -4,7 +4,6 @@
 #include "town/person/state.h"
 #include "town/data.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Clear D_80082680 and pass the object to initialize_mother_event_defaults. */
 void reset_mother_event_global_state(void *object) {

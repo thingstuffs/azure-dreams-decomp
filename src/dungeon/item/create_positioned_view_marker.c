@@ -5,7 +5,6 @@
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_7ce800.h"
 #include "shared/monster_ids.h"
-#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "dungeon/item.h"
 #include "dungeon/item/slot_view_marker.h"
@@ -20,9 +19,6 @@
 void update_sprite_from_third_argument(ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value) {
     advance_sprite_animation_and_textures(value);
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "shared/sprite_frame_state.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 
@@ -54,10 +50,7 @@ void create_positioned_view_marker(s16 x, s16 y) {
         position->z.w.i = (s16) (sample_terrain_surface_height(x & 0xFFFF, y & 0xFFFF, -0x400) - 8);
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 #include "shared/tile_object.h"
-#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -201,8 +194,6 @@ void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, ObjectPosition
 }
 
 const DirectionOffsets dungeon_7ce800_directions = {1,0,1,1,0,1,-1,1,-1,0,-1,-1,0,-1,1,-1};
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 
 s32 draw_linked_lit_meshes(void *,void *,void *);
 extern s32 default_textured_quad_color;
@@ -250,10 +241,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
 
 /* MECHANISM: The 0x30/no-local frame follows from six natural held values; s32 slot plus symbolic
    D_800F8A44[index] removes the sign-extension and scale-by-16 length cascade. */
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 #include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 extern s32 D_80013718;
 
@@ -293,11 +281,8 @@ void update_overlay_state_and_retire(void *data)
    for the D_80013718 lui/lw pair instead of gcc's separate symbolic page register.
    A held 0x80080000 page splits the flags address around count initialization as
    retail's lui / li / addiu while preserving both pointer inductions and the exact CFG. */
-#include "modules/dungeon_ovl_7ce800.h"
 #include "shared/runtime_dispatch.h"
-#include "common.h"
 #include "shared/sys_flags.h"
-#include "shared/game_work.h"
 typedef struct S_800F65CC_0 {
     u8 pad_00[0x10];
     s32 * unk_10;
@@ -393,11 +378,7 @@ void initialize_overlay_effect_state(void) {
         entry->unk_04.u = (s16)(entry_flags | 0x8000);
     } while (index < 0x21);
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
-#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 
 
 /* Set flag 0x800000 on type 0x32 entities in the ring and set the global state to 0x1F. */
@@ -415,11 +396,6 @@ void mark_special_actors_and_set_player_tile(void) {
     } while (entity != first_entity);
     reference_tile_object.tile_position.parts.tile_x = 0x1F;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
-#include "shared/tile_object.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 typedef struct {
     s32 base;
@@ -541,18 +517,12 @@ void update_dungeon_tile_boundary_state(void *owner) {
     } while (i < 2);
     scripted_boundary_active.first = 0;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 
 /* Set the returned object's data pointer to update_dungeon_tile_boundary_state. */
 void create_tile_boundary_updater(void) {
     ((ObjectNodeHeader *)(allocate_flagged_object_node(0)))->update_callback = (void *)update_dungeon_tile_boundary_state;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "shared/runtime_dispatch.h"
-#include "common.h"
 #include "shared/dungeon_floor.h"
-#include "shared/game_work.h"
 
 typedef struct {
     s32 field0;
@@ -608,8 +578,6 @@ void mark_scripted_map_boundary(void)
     global_state->flags16 |= 1;
     dungeon_floor_flags |= 0x10000000;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 #include "shared/entity_objects.h"
 
 /* Returns the direction to the target position, or 9 for a coincident position. */
@@ -641,7 +609,6 @@ s32 get_direction_toward_target_position(s16 *target_pos)
     }
     return 6;
 }
-#include "modules/dungeon_ovl_7ce800.h"
 /* Return the base of the next type 0x15 entity in the ring, or null if absent. */
 void *find_linked_entity_of_type_21(void *entity)
 {
@@ -663,8 +630,6 @@ void *find_linked_entity_of_type_21(void *entity)
     }
     return 0;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 #include "shared/game_work.h"
 
 typedef struct DungeonRoot DungeonRoot;
@@ -821,8 +786,6 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
     ((DungeonRoot *)root_slot->draw_buffer)->cursor = packet_cursor;
     return 0;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 #include "shared/object_flags.h"
 
 
@@ -880,8 +843,6 @@ void advance_linked_particle_effect_state(S807AF9A4 *data)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 typedef struct S_807AFAE4_0 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -912,11 +873,8 @@ void create_linked_particle_controller(void *sourceData) {
         play_sound_if_enabled(0x703);
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 #include "dungeon/item/converging_color_particle.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 
 
@@ -963,12 +921,8 @@ void converge_particle_position_and_color(void *transition_arg, ObjectPosition *
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "shared/sprite_frame_state.h"
-#include "common.h"
 #include "dungeon/item/converging_color_particle.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 extern M2C_UNK view_marker_sprite_data;
@@ -1018,8 +972,6 @@ void create_converging_color_particle(ObjectNodeHeader *spawn_arg, ObjectPositio
         effect_state->target_position = origin;
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 #include "dungeon/item/owner_attached_color_effect.h"
 #include "shared/object_flags.h"
 
@@ -1113,11 +1065,6 @@ void update_owner_attached_color_effect(void *effect_arg, ObjectPosition *positi
         }
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "shared/sprite_frame_state.h"
-#include "common.h"
-#include "dungeon/item/owner_attached_color_effect.h"
-#include "shared/slus_callbacks.h"
 
 typedef struct Bank7ce_18_Pair {
     s32 first;
@@ -1165,9 +1112,6 @@ void create_owner_attached_color_effect(void *parent_data) {
         draw_textured_ellipse(D_800FBE3C, rect_ptr, 1, 0);
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
 /* Updates position using decaying speed and sets completion flags when speed expires. */
@@ -1188,13 +1132,7 @@ void advance_reverse_direction_particle(void *motion_data, s16 *position) {
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "shared/sprite_frame_state.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
-#include "shared/dungeon_moving_views.h"
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800F7A38 */
 
@@ -1234,10 +1172,6 @@ void create_reverse_direction_particle(EntityRec *source, s16 state_value, s32 r
         effect_state->unk_32 = (s16) ((rand() & 0xFF) | 0x80);
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
-#include "shared/sys_flags.h"
-#include "shared/dungeon_status.h"
 
 extern s8 spell_effect_selector_cache;
 
@@ -1248,18 +1182,11 @@ void begin_active_object_action(void) {
     g_dungeon_status.activity_counts.parts.pending_action_count++;
     system_update_flags |= 8;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 /* Calls play_sound_if_enabled with the fixed argument 0xB4. */
 void play_b4_sound(void) {
     play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
-#include "shared/sys_flags.h"
-#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad0[0x71];
@@ -1278,11 +1205,6 @@ void finish_active_object_action(void) {
     system_update_flags &= 0xFFF7;
     entity->flags &= 0x7F;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "shared/sprite_frame_state.h"
-#include "common.h"
-#include "shared/tile_object.h"
-#include "shared/entity_objects.h"
 
 typedef struct S_807B040C_1 {
     u8 pad_00[0x1C];
@@ -1530,9 +1452,6 @@ s32 update_special_actor_transition(void) {
     }
     return 0;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 
 /* Clears the state block's fields at offsets 0x96 and 0x9B. */
@@ -1543,8 +1462,6 @@ void reset_active_object_action(void) {
     state->action_timer = 0;
     state->action_phase = 0;
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 
 /* Allocate and initialize an object at the center of the specified tile. */
 void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) {
@@ -1563,12 +1480,7 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
         state->tick_count.u16 = 0;
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "shared/sprite_frame_state.h"
-#include "common.h"
-#include "m2c_compat.h"
 #include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -1616,8 +1528,6 @@ void emit_scattered_animated_particles(TerrainParticleEmitterBody *emitter) {
         }
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 /* The root-pointer member at D_80083150 + 0x10. */
 typedef struct { u8 *root; } RenderRootSlot;
 
@@ -2125,8 +2035,6 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         return zero_result;
     }
 }
-#include "modules/dungeon_ovl_7ce800.h"
-#include "common.h"
 
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 

@@ -1,6 +1,5 @@
 #include "slus/owned_8004713C.h"
 
-#include "slus/owned_8004713C.h"
 #include "engine/graphics.h"
 
 /* Uploads consecutive 0x2000-byte image blocks at offsets derived from the selected VRAM tile. */

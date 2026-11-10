@@ -1,7 +1,6 @@
 #include "shared/audio_commands.h"
 #include "common.h"
 
-#include "common.h"
 #include "engine/message.h"
 #include "engine/script.h"
 #include "slus.h"

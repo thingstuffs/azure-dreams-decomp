@@ -1,4 +1,3 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "town/map/building_grid_g00638.h"
 #include "town/map.h"
 

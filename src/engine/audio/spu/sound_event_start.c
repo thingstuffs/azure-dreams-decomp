@@ -1,6 +1,5 @@
 #include "engine/audio/spu/sound_event_service.h"
 
-#include "engine/audio/spu/sound_event_service.h"
 #include "engine/audio/spu.h"
 #include "sdk/libapi.h"
 

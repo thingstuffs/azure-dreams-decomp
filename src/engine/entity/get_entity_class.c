@@ -1,7 +1,6 @@
 #include "shared/actor_property_flags.h"
 #include "common.h"
 
-#include "common.h"
 #include "slus/data.h"
 #include "engine/entity.h"
 

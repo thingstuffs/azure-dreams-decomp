@@ -6,7 +6,6 @@
 #include "dungeon/system.h"
 
 void (*const dungeon_1966800_entry)(void *, void *) = decrement_flagged_item_parameters;
-#include "dungeon/effect/decrement_flagged_item_parameters.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 

@@ -1,5 +1,5 @@
-/* Paired value dispatch (G00647).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3620, PD:town/engine:800D25C0.
+/* Paired value dispatch.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C3620, PD:town/engine:800D25C0.
  */
 #include "town/scene/paired_value_dispatch_g00647.h"
 #include "town/scene.h"

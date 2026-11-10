@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/script.h"
 
 /* Sets the output flag when is_list_nonempty returns nonzero. */

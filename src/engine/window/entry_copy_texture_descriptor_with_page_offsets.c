@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
 
-#include "common.h"
 #include "engine/window.h"
 
 typedef struct {

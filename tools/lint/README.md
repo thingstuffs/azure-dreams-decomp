@@ -469,6 +469,23 @@ prototype leaves the same GCC diagnostic at the same site. `lint_closure.py` run
 after its warning gate (`--no-decl-check` skips it). Tests: `python3 -m unittest
 tools.lint.test_decl_agreement`.
 
+Data objects get the same pass. Every `extern` object declaration (file scope and block
+scope) and every non-static file-scope definition of a name under `src/` and `include/` is
+grouped by name; raw address names (`D_80123456`) group per overlay directory because every
+overlay reuses the addresses. Element type and dimensions compare after the same
+normalisation (`T x[]` agrees with `T x[N]`, qualifiers and `struct` tags do not matter, an
+extent that is an expression is not evaluated). Classes: `incompatible type` (different
+element, pointer against array, different rank), `size mismatch` (same element, different
+known extent, or an extent that differs from the size in `config/slus_006.14.symbols.txt`,
+the only per-object size source: other objects have no recorded size, so only declarations
+are compared with each other) and `element type only` (same width, opposite sign). A name
+fails `--fail-new` (and `lint_closure.py`) when it disagrees on HEAD and did not on BASE, or
+gained a declared type BASE lacked; `--no-data` skips the pass. `decl_agreement.py
+--data-census` lists every disagreeing name in the checkout, writes `build/decl_data.tsv`
+(name, address from `config/names.tsv`, class, then every declaration site, definition and
+symbol size with its type) and prints the top names; `debt_check.py --summary` prints the
+count as the report-only `data_decl_disagreements` line.
+
 Tool notes (landing-review gaps): `debt_check.py --summary` keeps its report cache under
 `build/debt_report_cache` (or `$XDG_CACHE_HOME/debt_check/...`, or `--cache-dir`), never `out/`, and `/out/` is
 git-ignored so a stray `out/` cannot fail the lander's clean-worktree check.  Sign-view counting includes named

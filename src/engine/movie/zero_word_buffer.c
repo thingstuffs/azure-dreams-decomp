@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/movie.h"
 
 /* Zero the requested number of 32-bit words. */

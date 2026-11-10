@@ -1,5 +1,5 @@
 /* Set lshop special flag.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00699 - CL:town/func_8032E634, CL:town/func_8032E6A8, CL:town/func_8032E9EC.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8032E634, town/func_8032E6A8, town/func_8032E9EC.
  */
 #include "town/shop/state/set_lshop_special_flag_g00699.h"
 #include "shared/item_ids.h"

@@ -23,6 +23,12 @@ typedef struct S_800C9088_0 {
     u16 unk_20;
 } S_800C9088_0;   /* object in transform_shade_and_queue_model_quads */
 
+typedef struct {
+    s16 m[3][3];
+    s16 pad;
+    s32 t[3];
+} MATRIX;
+
 typedef struct S_800C9088_1 {
     u8 pad_00[0x20];
     union { u8 * s; void * u; } unk_20;   /* accessed as both */
@@ -56,9 +62,14 @@ typedef struct S_800C9088_1 {
     u8 pad_86[0x2];
     s32 unk_88;
     u16 unk_8C;
-    u8 pad_8E[0x32];
+    u8 pad_8E[0x2];
+    s32 depth_cue; /* RotAverage4 depth-cue output */
+    s32 gte_flag; /* RotAverage4 GTE flag output */
+    u8 pad_98[0x28];
     s32 unk_C0;
-    u8 pad_C4[0x50];
+    u8 pad_C4[0xC];
+    MATRIX composed_matrix; /* CompMatrix of the model matrix and the parent matrix, then composed with the saved GTE matrix */
+    u8 pad_F0[0x24];
     volatile s32 unk_114;
 } S_800C9088_1;   /* scratch in transform_shade_and_queue_model_quads */
 
@@ -102,12 +113,6 @@ typedef struct S_800C9088_13 {
 } S_800C9088_13;   /* table + (*(u16 *)((u8 *)ptr_s1 + -0x1D)) * 8 in transform_shade_and_queue_model_quads */
 
 
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MATRIX;
-
 /* Transform, shade, and enqueue visible textured quads for the model. */
 void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation_arg, void *model_arg, s16 depth_bias)
 {
@@ -122,10 +127,10 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     u8 *state;
     u8 **state_table = (u8 **)((u8 *)(&g_game_work));
     S_800C9088_4 *descriptor;
-    u8 *vertex0;
-    u8 *vertex1;
-    u8 *vertex2;
-    u8 *vertex3;
+    s32 *vertex0;
+    s32 *vertex1;
+    s32 *vertex2;
+    s32 *vertex3;
     s32 vertex_xy;
     u32 vertex_index;
     u32 last_index;
@@ -180,8 +185,8 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
 
     ScaleMatrix(&scratch->unk_50, &scratch->unk_30);
     TransMatrix(&scratch->unk_50, &scratch->unk_40);
-    CompMatrix(&scratch->unk_50, parent_matrix, (u8 *)scratch + 0xD0);
-    CompMatrix(&saved_transform, (u8 *)scratch + 0xD0, &scratch->unk_50);
+    CompMatrix(&scratch->unk_50, parent_matrix, &scratch->composed_matrix);
+    CompMatrix(&saved_transform, &scratch->composed_matrix, &scratch->unk_50);
     SetTransMatrix(&scratch->unk_50);
     SetRotMatrix(&scratch->unk_50);
 
@@ -214,17 +219,17 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     scratch->unk_74 = vertex_z;
 
     vertex_z = ((S_800C9088_13 *)(positions + (*(u16 *)(indices + 2)) * 8))->unk_04;
-    vertex0 = (u8 *)scratch + 0x70;
+    vertex0 = &scratch->unk_70;
     scratch->unk_7C = vertex_z;
 
     z_index = (*(u16 *)(indices + 4));
-    vertex1 = (u8 *)scratch + 0x78;
+    vertex1 = &scratch->unk_78;
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
-    vertex2 = (u8 *)scratch + 0x80;
+    vertex2 = &scratch->unk_80;
     scratch->unk_84 = vertex_z;
 
     z_index = (*(u16 *)(indices + 6));
-    vertex3 = (u8 *)scratch + 0x88;
+    vertex3 = &scratch->unk_88;
     scratch->unk_88 = vertex3_xy;
     vertex3_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
 
@@ -233,7 +238,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
                           vertex2, vertex3,
                           packet + 8, packet + 0x14,
                           packet + 0x20, packet + 0x2C,
-                          (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+                          &scratch->depth_cue, &scratch->gte_flag);
     scratch->unk_C0 = depth;
 
     flags = model->unk_14 & 3;
@@ -308,7 +313,6 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     PopMatrix();
     ((GpuContext *)state_table[0])->packetCursor = packet;
 }
-#include "common.h"
 #include "m2c_compat.h"
 
 typedef struct S_800C95C0_0 {
@@ -349,7 +353,6 @@ s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_value
     }
     return 0;
 }
-#include "common.h"
 
 struct S_Rect;
 struct S_Arg1;
@@ -376,7 +379,6 @@ s32 process_linked_entries_at_position(void *entry_data, void *position) {
     }
     return 0;
 }
-#include "common.h"
 
 typedef struct {
     char pad0[0x8D0];

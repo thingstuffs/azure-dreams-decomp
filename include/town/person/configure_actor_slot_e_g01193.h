@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_CONFIGURE_ACTOR_SLOT_E_G01193_H
 #define TOWN_PERSON_CONFIGURE_ACTOR_SLOT_E_G01193_H
 /* Configure actor slot e. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01193 - PD:town/engine:800D7238, PD:town/engine:800D7240, PD:town/engine:800D7268, PD:town/engine:800D726C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - PD:town/engine:800D7238, PD:town/engine:800D7240, PD:town/engine:800D7268, PD:town/engine:800D726C. */
 
 /* Configure this callback using its own slot, table addresses and state constants. */
 #include "common.h"

@@ -3,6 +3,7 @@
 struct TravelingSpriteEffectBody;
 #include "shared/dungeon_effect_views.h"
 #include "common.h"
+#include "slus/data.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/dir_step.h"
@@ -197,11 +198,6 @@ typedef struct S_func_81904990_7 {
         } as_u8_25;
     } unk_24;
 } S_func_81904990_7;
-
-typedef struct S_func_81904990_8 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_func_81904990_8;
 
 typedef struct ScreenPos {
     u16 x;
@@ -492,7 +488,6 @@ extern void SetTransMatrix(void *);
 extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void RotMatrix(void *, void *);
 extern void func_80067EF4();
-extern u8 effect_view_matrix[3];
 extern u8 upper_draw_context[16];
 extern void SetDrawArea(void *, void *);
 extern u32 RotTransPers(void *, void *, void *, void *);

@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_SCENE_OBJECT_UPDATES_G00578_H
 #define TOWN_PLAYER_SCENE_OBJECT_UPDATES_G00578_H
-/* Initialize and update enabled player scene objects (G00578). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A8BC8, CL:town/func_800A9234, CL:town/func_800A9334, CL:town/func_800A9410, PD:town/engine:800D0C78, PD:town/engine:800D0D54, PD:town/engine:80100E24, PD:town/engine:80100E28. */
+/* Initialize and update enabled player scene objects. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A8BC8, town/func_800A9234, town/func_800A9334, town/func_800A9410, PD:town/engine:800D0C78, PD:town/engine:800D0D54, PD:town/engine:80100E24, PD:town/engine:80100E28. */
 
 #include "common.h"
 #include "town/scene/list_setup.h"

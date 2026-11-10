@@ -15,7 +15,6 @@ ObjectNodeHeader *func_8003FD64(s32 flags, ObjectNodeHeader **head);
 #include "shared/dungeon_height_query.h"
 /* Some retail callers supply an additional ignored context word in a2. */
 s32 register_node(void *entry, void *registration_key, ...);
-s32 func_8004491C(void *entry, void *registration_key, ...);
 void advance_sprite_animation_and_textures(void *render_entry);
 s32 play_sound_if_enabled(s32 query_value);
 #endif

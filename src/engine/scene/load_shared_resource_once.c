@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/cd.h"
 #include "engine/scene.h"
 #include "slus.h"

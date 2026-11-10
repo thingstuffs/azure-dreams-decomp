@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_POSITION_UPPER_BOUND_G00540_H
 #define TOWN_PLAYER_POSITION_UPPER_BOUND_G00540_H
-/* G00540: shared declarations for position upper bound. */
-/* Original-file evidence (G00540): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80099028, CL:town/func_80099080, PD:town/engine:800FE5D4. */
+/* shared declarations for position upper bound. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80099028, town/func_80099080, PD:town/engine:800FE5D4. */
 
 #include "common.h"
 #include "m2c_compat.h"
@@ -25,7 +25,6 @@ struct EntityRec;
 
 extern s16 max_adjusted_z_query();
 extern s32 D_800D040C[];
-/* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */
 extern s8 D_800CFCE8;
 

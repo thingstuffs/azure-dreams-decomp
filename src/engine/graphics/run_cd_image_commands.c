@@ -3,7 +3,6 @@
 /* Rodata owner: the row's switch emits its jump table into this object's .rodata,
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
-#include "common.h"
 #include "engine/graphics.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"

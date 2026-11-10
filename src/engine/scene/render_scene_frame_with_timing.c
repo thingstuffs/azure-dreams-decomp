@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 #include "engine/audio.h"
 #include "engine/effect.h"
 #include "engine/resource.h"

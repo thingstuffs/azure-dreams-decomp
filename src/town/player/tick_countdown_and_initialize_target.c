@@ -4,7 +4,6 @@
 #include "shared/position_views.h"
 #include "town/player.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */
 
    /* arg0 in tick_countdown_and_initialize_target */

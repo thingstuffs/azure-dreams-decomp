@@ -1,6 +1,6 @@
 #ifndef TOWN_MENU_WASHED_DISH_EFFECTS_G00584_H
 #define TOWN_MENU_WASHED_DISH_EFFECTS_G00584_H
-/* inferred-strong G00584: washed_dish_effects_g00584; shared declarations. */
+/* inferred-strong washed_dish_effects_g00584; shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0E44, PD:town/engine:800F8A70. */
 
 #include "common.h"

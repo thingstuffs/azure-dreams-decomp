@@ -274,7 +274,6 @@ typedef struct Row_8194D354_S_80024B54_11 {
 /* Updates a three-way effect, selects its target, and animates the target color. */
 void register_node(void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 void advance_sprite_animation_and_textures(void *entity);
 void select_record_entry_and_value(void *state, void *entries, short index);
 

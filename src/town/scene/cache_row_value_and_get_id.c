@@ -9,7 +9,6 @@ typedef struct S_8065C17C_0 {
 } S_8065C17C_0;   /* D_800183CC in cache_row_value_and_get_id */
 
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800183D4;
 extern S_8065C17C_0 *D_800183CC;
 

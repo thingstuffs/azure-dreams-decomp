@@ -3,7 +3,6 @@
 #include "shared/entity_height_offsets.h"
 #include "dungeon/actor/animation.h"
 #include "shared/entity.h"
-#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "records/Rec_D_80082E80.h"

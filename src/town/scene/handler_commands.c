@@ -1,5 +1,5 @@
 /* Handler state and command requests
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00679 - PD:town/ll34_5db800_80016000:80018340, PD:town/ll34_5db800_80016000:800183D0.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/ll34_5db800_80016000:80018340, PD:town/ll34_5db800_80016000:800183D0.
  * PD:town/ll34_5db800_80016000:80018340
  * PD:town/ll34_5db800_80016000:800183D0
  */
@@ -7,7 +7,7 @@
 
 /* Private declarations retained from the member sources. */
 /* Handler state and command requests */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00679 - PD:town/ll34_5db800_80016000:80018340, PD:town/ll34_5db800_80016000:800183D0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/ll34_5db800_80016000:80018340, PD:town/ll34_5db800_80016000:800183D0. */
 
 #include "common.h"
 #include "shared/record_ptrs.h"

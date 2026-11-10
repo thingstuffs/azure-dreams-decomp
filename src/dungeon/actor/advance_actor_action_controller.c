@@ -26,11 +26,11 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 extern u8 actor_action_frames[];
 
 /* Advances the actor action state and updates its directional animation. */
-void advance_actor_action_controller(void *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor)
+void advance_actor_action_controller(ActorRecord *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
 
-    state = ((ActorRecord *)controller)->action_phase;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0xE000) {
@@ -44,7 +44,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
-            ((ActorRecord *)controller)->action_phase++;
+            controller->action_phase++;
         }
         return;
     case 1:
@@ -131,7 +131,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
-            ((ActorRecord *)controller)->action_phase++;
+            controller->action_phase++;
             return;
         }
         break;
@@ -149,5 +149,5 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
     }
 
     actor->flags1C &= ~ACTOR_ASLEEP;
-    ((ActorRecord *)controller)->unk_8C.address = update_actor_facing_animation;
+    controller->unk_8C.address = update_actor_facing_animation;
 }

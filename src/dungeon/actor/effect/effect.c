@@ -1,6 +1,7 @@
 #include "dungeon/item.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "common.h"
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "engine/node/registration.h"
 #include "engine/scene.h"
@@ -18,10 +19,9 @@ struct ObjectNodeHeader;
 #include "dungeon/actor/effect/effect.h"
 #include "shared/item_ids.h"
 #include "shared/monster_ids.h"
-#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_engine_entity_effects_storage.h"
 #include "shared/dungeon_item_entries.h"
-#include "common.h"
+#include "slus/data.h"
 #include "dungeon/effect.h"
 #include "dungeon/player.h"
 #include "engine/menu.h"
@@ -85,9 +85,6 @@ u32 find_nearest_floor_item_in_room(Entity *entity, s32 filter, s16 *out_x, s16 
     }
     return (s16)best_index >= 0;
 }
-#include "modules/dungeon_engine_entity_effects_storage.h"
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
 
 typedef struct {
     u8 unk0;
@@ -128,9 +125,6 @@ void remove_floor_items_at_tile(s16 target_x, s16 target_y) {
         entry++;
     } while (entry_index < 0x40);
 }
-#include "modules/dungeon_engine_entity_effects_storage.h"
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
 
 typedef struct {
     u8 x;
@@ -185,8 +179,6 @@ s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
 /* MECHANISM: True-space epilogue targets are two pre-scan return trampolines; s32 formals
    plus guarded s1/s2/s0 carriers reproduce the raw/narrow argument lifetimes and 0x28 saves.
    Counter/y carriers fix volatile roles; v0 page keeps emit the split +36C8/+3548 bases. */
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
 
 /* Returns the first entry index with a zero second byte among 64 entries, or -1. */
 s32 find_first_empty_floor_item_slot(void) {
@@ -205,7 +197,6 @@ s32 find_first_empty_floor_item_slot(void) {
     } while (entry_index < 0x40);
     return -1;
 }
-#include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -255,7 +246,6 @@ s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, 
     }
     return 0;
 }
-#include "common.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -331,7 +321,6 @@ void update_effect_bounce_and_fade(FuncState *effect, FuncArg1 *motion, FuncArg2
     }
     motion->value_8 = motion->value_8 + motion->value_14;
 }
-#include "common.h"
 #include "shared/object_node.h"
 
 #include "m2c_compat.h"
@@ -372,13 +361,8 @@ DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s3
     return descriptor;
 }
 #include "modules/dungeon_engine_entity_effects_abi_views.h"
-#include "modules/dungeon_engine_entity_effects_storage.h"
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 x;
@@ -460,9 +444,6 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
 /* MECHANISM: Preserve the seed's 0x20 frame, s0 object hold, s1 target hold, and v0 entry pin.
    The allocator call is zero-arity: the preceding signed divisor may remain incidental in a0,
    avoiding the false unsigned reload at word 36 and restoring retail's post-mflo nop. */
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/dungeon_status.h"
 
 typedef struct S_800A794C_2 {
     u8 pad_00[0x98];
@@ -505,7 +486,6 @@ void * create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 
     g_dungeon_status.activity_counts.parts.pending_action_count++;
     return object;
 }
-#include "common.h"
 extern u8 item_effect_descriptor[];
 
 /* Resolve the item's description: kind 0x12 uses the fixed table, everything else is looked up. */
@@ -522,11 +502,6 @@ s32 get_item_category_value(void *item_data)
     }
     return result;
 }
-#include "modules/dungeon_engine_entity_effects_storage.h"
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
-#include "shared/tile_object.h"
-#include "shared/record_ptrs.h"
 
 typedef struct {
     u8 b0;
@@ -594,9 +569,6 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
     display_text_with_fullwidth_adjustment(output_start);
     return 0;
 }
-#include "shared/object_node.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 extern s32 D_800A7CC4(s32 unused0, s32 unused1, SpriteFrameState *render_params);
 
@@ -617,9 +589,6 @@ void create_floor_item_renderer(void) {
         render_data->scale_x = 0x1000;
     }
 }
-#include "modules/dungeon_engine_entity_effects_storage.h"
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
 #include "shared/game_work.h"
 
 void * CompMatrix(void *, void *, void *);
@@ -634,7 +603,6 @@ void * RotMatrix(void *, void *);
 extern void AddPrim();
 void SetPolyFT4(void *);
 
-extern u8 sprite_projection_matrix[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;
 typedef struct { u8 b0, b1; u16 h2, h4; u8 *p8; } Ent12;
 
@@ -682,7 +650,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
     depth_offset = 0x90;
     flags_offset = 0x94;
     entity_index = 0;
-    view_matrix = (FloorItemMatrix *)sprite_projection_matrix;
+    view_matrix = (FloorItemMatrix *)&sprite_projection_matrix;
     rotation_matrix = &scratch->rotation;
     transform = &scratch->transform;
     vertex0 = &scratch->vertices[0];
@@ -892,7 +860,6 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
     ((GpuContext *)render_state->draw_buffer)->packetCursor = prim;
     return 0;
 }
-#include "common.h"
 #include "shared/slus_callbacks.h"
 #ifndef NULL
 #define NULL 0
@@ -924,7 +891,6 @@ void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y,
     }
     return object;
 }
-#include "common.h"
 
 /* Removes an entry by shifting subsequent entries down and clearing the final slot. */
 void compact_item_entry_table(s32 entry_index) {
@@ -939,16 +905,9 @@ void compact_item_entry_table(s32 entry_index) {
         *(s32 *)(page + 0x29C + entry_index * 4) = 0;
     }
 }
-#include "modules/dungeon_engine_entity_effects_abi_views.h"
 #include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
 #include "shared/entity.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 s32 check_neighbor_tile_blocking();
@@ -1321,10 +1280,6 @@ check_completion:
     motion->z.v = (s32) (motion->z.v
         + motion->velocity_z);
 }
-#include "modules/dungeon_engine_entity_effects_storage.h"
-#include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -1434,8 +1389,6 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
     }
     return object;
 }
-#include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
-#include "common.h"
 
 /* Sets flag 0x400 and bitmap bits for items without flag 0x200 in selected item categories. */
 void mark_category_items_flag_400(s32 group_bit) {
@@ -1480,8 +1433,6 @@ void mark_category_items_flag_400(s32 group_bit) {
         group_index += 1;
     } while (group_index < 0x13);
 }
-#include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
-#include "common.h"
 
 /* Updates the selected item through item_clear_recorded_category_pair and clears its flag 0x400 in the item category table. */
 void clear_selected_item_flag_400(void *selection)
@@ -1491,8 +1442,6 @@ void clear_selected_item_flag_400(void *selection)
     item_clear_recorded_category_pair(key[1], key[0]);
     item_category_groups[key[1]].entries[key[0]].flags &= 0xFBFF;
 }
-#include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
-#include "common.h"
 
 typedef struct S_800A9160_0 {
     u8 pad_00[0x5720];
@@ -1560,8 +1509,6 @@ void pack_item_flag_400_bitmap(u16 unused_saved_setting)
    and the outer +20 delay-slot stride. Held current/inner group roles plus an
    index-first 0x80010000 RAM address reproduce t2/t0 and the 0x5720 accesses.
    A preincrement condition emits count-load before index increment and closes. */
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
 struct EntityLinkNode;
 struct Node;
 

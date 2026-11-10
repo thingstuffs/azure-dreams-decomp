@@ -1,5 +1,4 @@
 #include "modules/town_map_props.h"
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"

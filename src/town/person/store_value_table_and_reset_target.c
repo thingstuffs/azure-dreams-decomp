@@ -1,4 +1,3 @@
-/* cfail-repair: true-space rowbase definition */
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"

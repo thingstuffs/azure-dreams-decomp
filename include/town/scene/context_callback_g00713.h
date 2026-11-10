@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_CONTEXT_CALLBACK_G00713_H
 #define TOWN_SCENE_CONTEXT_CALLBACK_G00713_H
-/* Dispatch context callbacks and initialize entry tables (G00713). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8047E130. */
+/* Dispatch context callbacks and initialize entry tables. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8047E130. */
 
 #include "modules/town_ovl_3fe0d0_p00.h"
 

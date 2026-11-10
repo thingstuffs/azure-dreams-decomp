@@ -1,7 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 s32 set_script_flag_bit();                         /* extern */
 
 /* Calls initialize_state_two_entries_pointer with ID 0x98F and returns its result. */

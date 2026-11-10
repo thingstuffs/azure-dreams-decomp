@@ -4,11 +4,6 @@
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
 
-extern s32 read_sound_mode_blocking_status(s32 a0);
-extern s16 SD_Call(s32 a0);
-extern s32 update_vsync_frame_id(s32 id_mode);
-extern void func_80044618(s32 a0);
-extern s32 VSync(s32 mode);
 
 extern u16 sound_idle_vsync_frame_alias;
 

@@ -1,4 +1,4 @@
-/* G00740: Initialize the global interface and select its byte entry.
+/* Initialize the global interface and select its byte entry.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/ll34_594800_80016000:80018FB4.
  * Only the strong PD gap is included; complete file edges remain unknown.
  */

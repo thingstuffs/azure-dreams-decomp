@@ -1,5 +1,5 @@
-/* G00680: actor slot global state. */
-/* Original-file evidence (G00680): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6674, PD:town/engine:800D667C, PD:town/engine:800D66A4, PD:town/engine:800D66A8. */
+/* actor slot global state. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6674, PD:town/engine:800D667C, PD:town/engine:800D66A4, PD:town/engine:800D66A8. */
 #include "town/person/actor_slot_global_state_g00680.h"
 #include "shared/sprite_frame_state.h"
 #include "town/person.h"

@@ -1,12 +1,12 @@
 /* Card event service
- * Original-file evidence: proven (string literals) - group G00002 - J1:main/image_25c800#g0008.
+ * Original-file evidence: proven (string literals) - J1:main/image_25c800#g0008.
  * J1:main/image_25c800#g0008
  */
 #include "frontend/card.h"
 
 /* Private declarations retained from the member sources. */
 /* Card event service */
-/* Original-file evidence: proven (string literals) - group G00002 - J1:main/image_25c800#g0008. */
+/* Original-file evidence: proven (string literals) - J1:main/image_25c800#g0008. */
 
 #include "common.h"
 #include "sdk/libapi.h"

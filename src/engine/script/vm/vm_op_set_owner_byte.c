@@ -2,7 +2,6 @@
 #include "engine/script.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/script/vm.h"
 
 typedef struct S_800399EC_1 {

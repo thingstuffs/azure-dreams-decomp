@@ -3,7 +3,6 @@
 #include "m2c_compat.h"
 #include "town.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800170B0;
 
 /* Returns the address of D_800170B0. */

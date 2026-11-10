@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/effect.h"
 #include "engine/runtime.h"
 #include "slus/data.h"

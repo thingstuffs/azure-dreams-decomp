@@ -7,7 +7,6 @@
 #include "frontend/libcard.h"
 #include "frontend/libcard/resource.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Update the record, run the shared follow-up, and install its next table. */
 void update_record_and_install_next_table(void *record_data) {

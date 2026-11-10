@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_SCENE_SLOT_PAIR_SETUP_G00692_H
 #define TOWN_PERSON_SCENE_SLOT_PAIR_SETUP_G00692_H
-/* G00692: shared declarations for scene slot pair setup. */
-/* Original-file evidence (G00692): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D7484, PD:town/engine:800D748C, PD:town/engine:800D74B4, PD:town/engine:800D74B8. */
+/* shared declarations for scene slot pair setup. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D7484, PD:town/engine:800D748C, PD:town/engine:800D74B4, PD:town/engine:800D74B8. */
 
 #include "common.h"
 #include "town/person.h"

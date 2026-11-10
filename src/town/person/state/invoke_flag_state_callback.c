@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "town/person/state.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800D6FBC;
 
 typedef struct S_800CCC34_0 {

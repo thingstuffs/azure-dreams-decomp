@@ -1,5 +1,5 @@
-/* Radial motion effect (G00586).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AB02C.
+/* Radial motion effect.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AB02C.
  */
 #include "town/map/radial_motion_effect_g00586.h"
 #include "shared/entity.h"

@@ -1,5 +1,5 @@
-/* Initialize player effect handlers from prior state (G00576). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A7DDC. */
+/* Initialize player effect handlers from prior state. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A7DDC. */
 #include "town/player/effect_handlers_g00576.h"
 #include "town/player.h"
 #include "town/player/effect.h"

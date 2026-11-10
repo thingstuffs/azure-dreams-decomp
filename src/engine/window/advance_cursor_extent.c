@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-#include "common.h"
 #include "engine/node.h"
 #include "engine/script/vm.h"
 #include "engine/window.h"

@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/text.h"
 #include "sdk/libgpu.h"
 

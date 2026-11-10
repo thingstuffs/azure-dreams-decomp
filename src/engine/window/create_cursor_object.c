@@ -3,7 +3,6 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 
-#include "common.h"
 #include "records/Rec_D_80081FDC.h"
 #include "records/Rec_func_80036210_arg0.h"
 #include "engine/node.h"

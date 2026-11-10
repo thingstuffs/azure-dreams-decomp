@@ -69,7 +69,6 @@ s32 can_entity_gain_level(void *entity) {
     return can_level_up;
 }
 #include "modules/dungeon_engine_experience_fragment_bc5ec.h"
-#include "common.h"
 #include "shared/def_table.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
@@ -423,11 +422,6 @@ loop_0:
         }
     }
 }
-#include "modules/dungeon_engine_experience_fragment_bc5ec.h"
-#include "common.h"
-#include "shared/def_table.h"
-#include "shared/sys_flags.h"
-#include "shared/dungeon_status.h"
 
 #include "m2c_compat.h"
 
@@ -743,9 +737,6 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
     }
     return 1;
 }
-#include "modules/dungeon_engine_experience_fragment_bc5ec.h"
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 /* Clears dungeon_event_pending_flag and decrements the pending action count. */
 void clear_counted_action(void) {
@@ -753,9 +744,6 @@ void clear_counted_action(void) {
     dungeon_event_pending_flag[0] = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count--;
 }
-#include "modules/dungeon_engine_experience_fragment_bc5ec.h"
-#include "common.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 /* Store tile coordinates as centered positions in 64-unit tiles. */
@@ -763,9 +751,6 @@ void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile
     record->x.w.i = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
     record->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
 }
-#include "modules/dungeon_engine_experience_fragment_bc5ec.h"
-#include "common.h"
-#include "shared/sys_flags.h"
 
 extern u8 camera_transition_timer;
 
@@ -776,8 +761,6 @@ s32 is_dungeon_action_blocked(void) {
     }
     return 0;
 }
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 extern s32 is_dungeon_action_blocked(void);
 
@@ -802,8 +785,6 @@ s16 try_claim_dungeon_action_slot(ActorRecord *actor) {
     }
     return is_dungeon_action_blocked();
 }
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 /* Return whether any checked global state value or flag is set. */
 s32 has_pending_dungeon_activity(void *unused_actor) {
@@ -815,8 +796,6 @@ s32 has_pending_dungeon_activity(void *unused_actor) {
     }
     return 0;
 }
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 /* Returns whether any of the state fields at offsets 0x0A, 0x0C, and 0x10 is nonzero. */
 s32 has_pending_actor_or_turn_action(void *unused_actor) {
@@ -826,8 +805,6 @@ s32 has_pending_actor_or_turn_action(void *unused_actor) {
     }
     return 0;
 }
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 /* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
 s32 has_actor_or_actions(ActorRecord *body) {
@@ -839,16 +816,11 @@ s32 has_actor_or_actions(ActorRecord *body) {
     }
     return has_value;
 }
-#include "common.h"
-#include "m2c_compat.h"
 
 /* Checks whether the record's byte at offset 0x25 is below 0x40. */
 s32 has_low_actor_mp(ActorRecord *record) {
     return (u8) record->mp_value.parts.whole < 0x40U;
 }
-#include "common.h"
-#include "m2c_compat.h"
-#include "shared/entity.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
@@ -875,7 +847,6 @@ u32 check_entity_interaction_compatibility(void *entity_arg, ActorRecord *other_
     return (((((u32)entity->flags1C) ^
               (u32)(other_entity->flags1C)) & 0x2000) << 16) >> 16;
 }
-#include "common.h"
 #include "shared/dungeon_floor.h"
 
 /* Adds to the big-endian value at offset 0x41, saturates at 0xFFFF, and sets the update flag. */
@@ -892,9 +863,6 @@ void accumulate_experience_award(u8 *record, u16 amount)
     record[0x42] = value;
     dungeon_floor_flags |= 0x100000;
 }
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -1044,9 +1012,6 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
     }
     return experience;
 }
-#include "common.h"
-#include "m2c_compat.h"
-#include "shared/entity.h"
 
 extern void *monster_species_table;
 
@@ -1135,10 +1100,6 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
 /* MECHANISM: The seed's 0x20 frame, s1/s2/s0 roles, CFG, and 124-word shape were already exact.
    The middle get_unused_text_buffer result stays guarded in v0 through the D_8007359C load, then copies
    to guarded s0 in that load-delay slot; this fixes both equal-length register substitutions. */
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/dungeon_status.h"
-#include "shared/entity.h"
 
 typedef struct Entity Entity;
 
@@ -1196,10 +1157,6 @@ void mark_owned_linked_actor_actions(Entity *owner_entity) {
         }
     }
 }
-#include "common.h"
-#include "shared/dungeon_status.h"
-#include "m2c_compat.h"
-#include "shared/entity.h"
 
 typedef struct S_800A32A4_1 {
     u8 pad_00[0x14A8];

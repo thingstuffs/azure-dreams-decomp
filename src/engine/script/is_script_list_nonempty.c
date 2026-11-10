@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/script.h"
 
 extern u8 runtime_script_state[];

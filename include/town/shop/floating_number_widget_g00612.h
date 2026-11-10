@@ -2,8 +2,8 @@
 #define TOWN_SHOP_FLOATING_NUMBER_WIDGET_G00612_H
 
 struct ObjectNodeHeader;
-/* Floating number widget declarations (G00612). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B41D8, CL:town/func_800B4200, CL:town/func_800B4298, CL:town/func_800B43B0, CL:town/func_800B4410. */
+/* Floating number widget declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B41D8, town/func_800B4200, town/func_800B4298, town/func_800B43B0, town/func_800B4410. */
 
 #include "common.h"
 #include "engine/node/registration.h"

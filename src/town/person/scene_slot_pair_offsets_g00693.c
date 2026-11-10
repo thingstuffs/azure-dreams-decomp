@@ -1,5 +1,5 @@
-/* G00693: scene slot pair offsets. */
-/* Original-file evidence (G00693): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D75E0, PD:town/engine:800D75E8, PD:town/engine:800D7610, PD:town/engine:800D7614. */
+/* scene slot pair offsets. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D75E0, PD:town/engine:800D75E8, PD:town/engine:800D7610, PD:town/engine:800D7614. */
 #include "town/person/scene_slot_pair_offsets_g00693.h"
 #include "shared/sprite_frame_state.h"
 

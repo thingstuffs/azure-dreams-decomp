@@ -2,7 +2,6 @@
 #include "shared/transition_slots.h"
 #include "shared/object_flags.h"
 
-#include "common.h"
 #include "engine/resource.h"
 #include "engine/scene.h"
 #include "slus.h"

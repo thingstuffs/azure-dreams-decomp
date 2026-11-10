@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/graphics.h"
 #include "engine/town.h"
 void plt_init_sleep_set(void);                            /* extern */

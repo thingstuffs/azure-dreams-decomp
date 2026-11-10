@@ -1,7 +1,7 @@
 #ifndef FRONTEND_CARD_SAVE_COPY_COMPLETION_G00392_H
 #define FRONTEND_CARD_SAVE_COPY_COMPLETION_G00392_H
 /* Save copy completion; G00392; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_80012358. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - main/func_80012358. */
 
 #include "common.h"
 #include "modules/main_server_ship_interfaces.h"

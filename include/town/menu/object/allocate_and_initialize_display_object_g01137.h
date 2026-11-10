@@ -6,7 +6,7 @@
 struct Func800A4B70Object;
 struct Func800A4B70Output;
 /* Allocate and initialize display object. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01137 - CL:town/func_800A48A0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800A48A0. */
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"

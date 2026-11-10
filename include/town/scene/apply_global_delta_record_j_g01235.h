@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_APPLY_GLOBAL_DELTA_RECORD_J_G01235_H
 #define TOWN_SCENE_APPLY_GLOBAL_DELTA_RECORD_J_G01235_H
 /* Apply global delta record j. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01235 - PR:town/ll34_3e5000_80016000:80017B9C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - PR:town/ll34_3e5000_80016000:80017B9C. */
 
 #include "common.h"
 #include "shared/town_delta_words.h"

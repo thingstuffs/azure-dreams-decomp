@@ -4,7 +4,6 @@
 #include "town/player/motion.h"
 #include "shared/sprite_frame_state.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Forward the object and values to initialize_record_with_handler_table. */
 void forward_player_motion_update(void *object, ObjectPosition *position, SpriteFrameState *sprite) {

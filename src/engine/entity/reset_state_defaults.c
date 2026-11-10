@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/entity.h"
 
 /* Reset global state and initialize default parameters. */

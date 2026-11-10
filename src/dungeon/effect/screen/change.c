@@ -110,7 +110,6 @@ void draw_fullscreen_fade(void *effect, ObjectPosition *unused, S_8009BE2C_2 *fa
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
-#include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
@@ -133,7 +132,6 @@ void create_type_212_object(s32 flag, s8 value) {
         object->sprite->unk_04 = (s8) ((flag << 0x10) != 0);
     }
 }
-#include "common.h"
 
 #define NULL ((void *)0)
 
@@ -186,11 +184,8 @@ void add_random_quarter_value(ActorRecord *body, ActorRecord *target) {
 }
 #include "modules/dungeon_engine_transition_effects_abi_views.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
-#include "common.h"
-#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 
 typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
@@ -565,9 +560,6 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         ((S_8009C12C_0 *)attacker_in)->unk_2A);
     return target;
 }
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/dir_step.h"
 
 typedef struct Ent {
     u8 pad0[3];        /* 0x00 */
@@ -757,7 +749,6 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     }
     return ent2;
 }
-#include "common.h"
 #include "shared/entity.h"
 
 #ifndef NULL
@@ -834,13 +825,7 @@ s32 get_masked_record_flags(EntityRec *record, s32 mask, s32 mode) {
     }
     return flags;
 }
-#include "modules/dungeon_engine_transition_effects_abi_views.h"
-#include "shared/entity.h"
 #include "records/Rec_D_800287A4.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
 
 typedef struct S_8009CE1C_1 {
     void * unk_00;
@@ -1008,10 +993,6 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
             element_mask, (s32) (s16) hit_angle);
     }
 }
-#include "common.h"
-#include "m2c_compat.h"
-#include "shared/entity.h"
-#include "records/Rec_D_800287A4.h"
 
 s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
 
@@ -1081,19 +1062,14 @@ s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in
  *    keeps the two create_owner_linked_pulsing_effect/func_8009D368 tails legitimately merged.
  */
 #include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
-#include "common.h"
 
 /* Process the 0x200-byte global buffer and run the follow-up routine. */
 void process_global_buffer_and_submit(void) {
     zero_words(packed_tile_heights, 0x200);
     update_packed_map_levels();
 }
-#include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
-#include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
-#include "shared/game_work.h"
-#include "shared/dir_step.h"
 
 /* Update packed map levels for the current region or neighboring tiles, then submit the map. */
 void update_packed_map_levels(void) {
@@ -1170,10 +1146,6 @@ void update_packed_map_levels(void) {
     }
     LoadImage(&map_params, packed_tile_heights);
 }
-#include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
-#include "common.h"
-#include "shared/game_work.h"
-#include "m2c_compat.h"
 
 typedef struct S_8009D6F4_1 {
     u8 pad_00[0x2];
@@ -1279,9 +1251,6 @@ void refresh_packed_grid_nibbles(void) {
     }
     LoadImage(&saved_data, base);
 }
-#include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
-#include "common.h"
-#include "shared/game_work.h"
 struct Object;
 struct Other;
 

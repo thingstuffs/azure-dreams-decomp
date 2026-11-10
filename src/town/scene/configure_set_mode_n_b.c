@@ -4,7 +4,6 @@
 #include "shared/town_object.h"
 #include "town/scene.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 
 /*

@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_MOTION_MOVE_FLAG_OBJECT_UNTIL_TIMER_EXPIRY_G01192_H
 #define TOWN_PERSON_MOTION_MOVE_FLAG_OBJECT_UNTIL_TIMER_EXPIRY_G01192_H
 /* Move flag object until timer expiry. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01192 - CL:town/func_800CF814. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800CF814. */
 
 #include "common.h"
 

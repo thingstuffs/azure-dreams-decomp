@@ -36,8 +36,6 @@ extern s32 D_800814A0;
 
 extern void reset_group_and_flag_children(struct Main *main);
 extern void func_800530C4(void *);
-extern s16 SD_Call(s32);
-extern s32 read_sound_mode_blocking_status(s32);
 extern void mark_staged_motion_effect_complete(void *);
 extern void mark_sine_motion_effect_complete(void *);
 extern void mark_timed_animation_sequence_complete(void *);

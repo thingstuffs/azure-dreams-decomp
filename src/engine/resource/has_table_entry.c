@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/resource.h"
 
 /* Checks whether the indexed table entry has a nonzero first word. */

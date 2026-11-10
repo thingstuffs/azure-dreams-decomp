@@ -165,7 +165,6 @@ void *create_panel_effect_object(ActorRecord *owner)
     }
     return panel;
 }
-#include "common.h"
 
 
 /*
@@ -183,7 +182,6 @@ s32 allocate_panel_offset_or_zero(void) {
     }
     return adjusted_value;
 }
-#include "common.h"
 
 /* Offset the two coordinate bytes in each record through the end marker. */
 void offset_record_coordinates(u8 *record, s32 x_offset, s32 y_offset) {
@@ -199,7 +197,6 @@ void offset_record_coordinates(u8 *record, s32 x_offset, s32 y_offset) {
         record += 0xC;
     }
 }
-#include "common.h"
 
 /* Set record flags and negate each x coordinate when flag 4 is set. */
 void set_record_flags_and_negate_x(u8 *record, s32 flags) {
@@ -257,7 +254,6 @@ void set_record_flags_and_negate_x(u8 *record, s32 flags) {
  *     --container work/s3_splat/extract/DUNGEON_DUNGEON.BIN
  * -> MATCH ... size=32 words_off=0
  */
-#include "common.h"
 
 /*
  * Writes the halfword at offset 6 in each 12-byte record, including the terminating record whose
@@ -273,7 +269,6 @@ void stamp_halfword_across_records(void *list, s16 value) {
         list = (u8 *)list + 12;
     }
 }
-#include "common.h"
 
 /* Applies a flag mask to each record through the terminal record. */
 void apply_record_flags_through_end(void *record, s32 flag_mask) {
@@ -288,7 +283,6 @@ void apply_record_flags_through_end(void *record, s32 flag_mask) {
         record = (u8 *)record + 12;
     }
 }
-#include "common.h"
 
 /* Set flags in the second byte of each record through the end marker. */
 void set_record_byte_flags_through_end(u8 *record, s32 flags) {
@@ -300,7 +294,6 @@ void set_record_byte_flags_through_end(u8 *record, s32 flags) {
         record += 12;
     }
 }
-#include "common.h"
 
 /* Copy records through the end marker and return the next destination slot. */
 void *copy_records_through_end(void *dest, void *src) {
@@ -320,7 +313,6 @@ void *copy_records_through_end(void *dest, void *src) {
         src += 0xC;
     } while (1);
 }
-#include "common.h"
 
 /* Find the first record with its end marker set. */
 s8 *find_first_ended_record(s8 *record) {
@@ -332,16 +324,13 @@ s8 *find_first_ended_record(s8 *record) {
     }
     return record;
 }
-#include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 
 /* Returns whether the global record's unk_104 field is zero. */
 s32 check_global_record_field_zero(void) {
     return ((PlayerRecord *)dungeon_actor_ring_anchor)->unk_104 == 0;
 }
-#include "common.h"
 
 extern u8 held_item_kind_alias;
 
@@ -349,16 +338,11 @@ extern u8 held_item_kind_alias;
 s32 check_global_data_byte_zero(void) {
     return held_item_kind_alias == 0;
 }
-#include "common.h"
-#include "shared/entity.h"
-#include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 
 /* Return whether the current record's unk_9A value differs from 0x29. */
 s32 check_current_record_value_not_29(void) {
     return dungeon_actor_ring_anchor->action_id != 0x29;
 }
-#include "common.h"
 #include "shared/object_flags.h"
 
 typedef struct S_800B14FC_0 {
@@ -529,8 +513,6 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
         }
     }
 }
-#include "common.h"
-#include "shared/object_node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -758,8 +740,6 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
         sub->field26 = unused_flags;
     }
 }
-#include "common.h"
-#include "shared/object_node.h"
 typedef struct S_800B1B10_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -973,8 +953,6 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
         ((S_800B1B10_2 *)sub)->unk_26 = flags_held;
     }
 }
-#include "common.h"
-#include "m2c_compat.h"
 
 /* Advance the cyclic table index every four ticks and apply the selected entry. */
 void advance_cyclic_panel_entry(EntityPanelObjectBody *state) {
@@ -993,8 +971,6 @@ void advance_cyclic_panel_entry(EntityPanelObjectBody *state) {
         upload_vram_row_and_cache(((s16) state->palette_row_offset * 4) + dungeon_palette_row_sources, 0x7340, 1, 2);
     }
 }
-#include "shared/object_node.h"
-#include "common.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_800B1F00_0 {
@@ -1011,8 +987,6 @@ void create_entity_panel_object(void) {
         object->unk_10 = advance_cyclic_panel_entry;
     }
 }
-#include "common.h"
-#include "shared/record_ptrs.h"
 
 typedef struct S_800B1F34_0 {
     s16 * unk_00;
@@ -1073,10 +1047,6 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, ObjectPosition *motion)
     update_state->flags1C |= 0x40000000;
     *animation->unk_00 = 0x20 - motion->z.unsigned_parts.integer;
 }
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/entity.h"
 #include "shared/game_work.h"
 struct S_800B1F34_0;
 extern void advance_timed_panel_motion(struct S_800B1F34_0 *animation, ObjectPosition *motion);
@@ -1144,7 +1114,6 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
         state_fields->unk_0E = inherited_value;
     }
 }
-#include "common.h"
 
 extern struct { s32 unk0; s32 pad[2]; } D_800814A0;
 
@@ -1161,8 +1130,6 @@ void advance_panel_accumulator(void *counter_state, void *accumulator, void *upd
         D_800814A0.unk0 = D_800814A0.unk0 | OBJECT_REMOVE_PENDING;
     }
 }
-#include "shared/object_node.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct {

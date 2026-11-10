@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/resource.h"
 #include "engine/effect.h"
 

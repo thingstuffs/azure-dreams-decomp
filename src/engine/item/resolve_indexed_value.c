@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-#include "common.h"
 #include "engine/item.h"
 #include "slus.h"
 extern s32 familiar_record_slots[];

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/window.h"
 
-#include "common.h"
 #include "slus/data.h"
 
 typedef struct S_80036484_0 {

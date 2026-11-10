@@ -11,7 +11,6 @@
 #include "shared/dungeon_effect_state.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
 void (*const dungeon_1864800_entry)(FadingProjectileSpellBody *, ObjectPosition *, SpriteFrameState *) = run_fading_target_projectile;
-#include "dungeon/effect/particle/update_effect_base_state.h"
 
 /*
  * Returns the signed 16-bit difference between the target grid coordinate scaled by 64 and the
@@ -308,7 +307,6 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
         return;
     }
 }
-#include "dungeon/effect/particle/update_effect_base_state.h"
 
 /*
  * Advances the two position halfwords, sets successive color words to 0x00808080, then subtracts
@@ -369,7 +367,6 @@ void update_effect_base_state(s32 effect_or_count) {
         ((S_81844F2C_4 *)page)->unk_14A0 |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/update_effect_base_state.h"
 
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
@@ -386,7 +383,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
 {
     u32 uv_choices[4];
     Packed8 world_pos;
-    Coord screen_coords[3];
+    ProjectedXY screen_coords[3];
     u8 *node;
     u8 *effect_node;
     u8 *next_link;
@@ -395,9 +392,9 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
     u8 *alloc_ctx_2;
     u8 *ot_entry;
     u8 *prim;
-    Coord *screen_base;
-    Coord *screen_pos;
-    register Coord *scratch_or_height;
+    ProjectedXY *screen_base;
+    ProjectedXY *screen_pos;
+    register ProjectedXY *scratch_or_height;
     s32 index_or_jitter;
     s32 depth_bucket;
     u16 half_width;
@@ -437,7 +434,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
                 *(u16 *)((u8 *)&world_pos + 4) + 0xB0;
         } while (index_or_jitter < 2);
 
-        scratch_or_height = (Coord *)(screen_coords[0].y - screen_coords[1].y);
+        scratch_or_height = (ProjectedXY *)(screen_coords[0].y - screen_coords[1].y);
 
         if ((u32)depth_bucket < 0x1E0) {
             alloc_ctx = render_state->draw_buffer;
@@ -549,7 +546,6 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
 
     return 0;
 }
-#include "dungeon/effect/particle/update_effect_base_state.h"
 #include "shared/game_work.h"
 
 /* Updates effect motion, waits for its timer, then fades its sprite to black. */

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 #include "engine/message.h"
 
 struct Func80038A10State;

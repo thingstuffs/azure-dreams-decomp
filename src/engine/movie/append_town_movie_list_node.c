@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/movie.h"
 
 /* Appends a node to the end of the linked list. */

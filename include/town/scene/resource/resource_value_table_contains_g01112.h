@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_RESOURCE_RESOURCE_VALUE_TABLE_CONTAINS_G01112_H
 #define TOWN_SCENE_RESOURCE_RESOURCE_VALUE_TABLE_CONTAINS_G01112_H
 /* resource value table contains g01112. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01112 - CL:town/func_8008DB84, CL:town/func_8008DBC8, CL:town/func_8008DC4C, PD:town/engine:800CF828, PD:town/engine:800CF838. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8008DB84, town/func_8008DBC8, town/func_8008DC4C, PD:town/engine:800CF828, PD:town/engine:800CF838. */
 
 #include "common.h"
 

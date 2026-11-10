@@ -12,12 +12,10 @@ extern unsigned char D_80023000[0x10];
 extern void *runtime_texture_resource_handle;
 
 extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, unsigned short a2); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void drain_cd_command_queue(void);
 extern void *func_80047AB0(void *a0, unsigned short a1, int a2, int a3, void *a4);
 
 /* Loads image data by resource ID, uploads its tiles, and returns the global object slot. */
 
-#include "common.h"
 
 /* Regular (>8B) globals accessed via %hi/%lo. */
 extern unsigned char resource_queue_input_buffer[0x10];
@@ -31,7 +29,6 @@ extern void *upload_image_tiles(void *a0, unsigned short a1, int a2, int a3, voi
 
 /* Uploads image tiles from fixed global buffers and stores the result in D_8008152C. */
 
-#include "common.h"
 
 /* S_80016000: opaque >8B blob (16 bytes) whose address is passed around by
    this wave's siblings; no fields are dereferenced inside THIS function

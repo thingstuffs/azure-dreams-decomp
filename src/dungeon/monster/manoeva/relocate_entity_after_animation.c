@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "slus/data.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_800D6DC0_arg2.h"
 #include "dungeon/monster/manoeva.h"
@@ -98,7 +99,6 @@ typedef struct S_80175594_7 {
 
    /* *global in project_depth_sorted_sprite_quads */
 
-extern u8 sprite_projection_matrix[];
 
 typedef struct {
     s32 tag;
@@ -141,7 +141,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     GameWork *render_globals = &g_game_work;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *state;
-    u8 *matrix;
+    MATRIX *matrix;
     Packet *packet;
     Texture *texture;
     s32 scaled_coord;
@@ -178,8 +178,8 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
         u32 sort_depth;
         u32 biased_depth;
         sort_depth = (biased_depth = depth - 6, biased_depth - (s16)depth_bias);
-        matrix = sprite_projection_matrix;
-        ((S_80175594_5 *)matrix)->unk_1C = depth * 4;
+        matrix = &sprite_projection_matrix;
+        matrix->t[2] = depth * 4;
         ((S_80175594_1 *)scratch)->unk_C0 = sort_depth;
     }
 

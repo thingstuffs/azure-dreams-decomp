@@ -5,7 +5,6 @@
 /* Directional attack trails, target sprite distortion, and homing particles. */
 #include "modules/dungeon_ovl_1852800.h"
 #include "shared/sprite_frame_state.h"
-#include "modules/dungeon_ovl_1852800.h"
 #include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"

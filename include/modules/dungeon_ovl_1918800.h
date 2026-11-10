@@ -20,19 +20,49 @@ typedef struct {
 typedef struct {
     Copy4 entries[8];
 } __attribute__((packed)) Copy24;
+typedef struct {
+    u8 bytes[12];
+} __attribute__((packed)) Copy12;
+
+/* Wave body built by the projectile impact (allocate_flagged_object_node(0x212)): its 0x60 levels are the per-row
+ * displacement amplitudes, rotation_angle the starting sine phase and unk_9A the phase step per strip; the node
+ * allocator clears the body, so a zero wave_axis displaces rows and a nonzero one columns. */
+typedef struct ParticleState {
+    s16 phase;
+    s16 unk_02; /* fade duration or timed-wave frame, according to installed callback */
+    s16 frame;
+    u8 pad_06[0x4];
+    s16 peak_frame;
+    u8 pad_0C[0xE];
+    Copy12 anim;
+    u8 pad_26[0x2];
+    void *parent;
+    void *target;
+    struct ProjectileSelf *source;
+    void *flash_state;
+    u8 levels[0x60];
+    s16 rotation_angle;
+    s16 unk_9A;
+    s16 wave_axis; /* draw_wave_distorted_sprite: zero displaces rows along X, nonzero columns along Y */
+} ParticleState;
+
+typedef struct WaveScreenOrigin {
+    u16 x;
+    u16 y;
+} WaveScreenOrigin; /* screen position draw_wave_sprite_in_draw_area draws the wave sprite at */
+
 extern s16 wave_effect_update_flag;
 extern const PackedVector wave_texture_rect;
 extern const PackedVector wave_source_rect;
 extern const Copy24 wave_direction_steps;
 struct CountdownRecord;
-struct ParticleState;
 struct PointRecord;
 struct Position;
 struct ProjectileSelf;
 struct SpriteFrameState;
 
-void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control);
-void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, struct Position *restore_area, struct Position *draw_pos, u32 clear_area, s32 draw_option);
+void draw_wave_distorted_sprite(struct WaveScreenOrigin *screen_pos, struct ParticleState *wave, void *context, s32 *ordering_table, s32 draw_control);
+void draw_wave_sprite_in_draw_area(struct ParticleState *wave, void *context, struct Position *restore_area, struct Position *draw_pos, u32 clear_area, s32 draw_option);
 s32 draw_linked_brightness_points(struct PointRecord *start_node, ObjectPosition *start_coords);
 s32 advance_effect_sequence(void);
 void create_random_jitter_child( ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);

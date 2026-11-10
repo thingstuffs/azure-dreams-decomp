@@ -1,4 +1,4 @@
-/* G00753: Reset the event buffer and advance the eight step counter.
+/* Reset the event buffer and advance the eight step counter.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/ll34_657800_80016000:80019114.
  * Only the strong PD gap is included; complete file edges remain unknown.
  */

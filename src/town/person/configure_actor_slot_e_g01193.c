@@ -1,5 +1,5 @@
 /* Configure actor slot e.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01193 - PD:town/engine:800D7238, PD:town/engine:800D7240, PD:town/engine:800D7268, PD:town/engine:800D726C.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - PD:town/engine:800D7238, PD:town/engine:800D7240, PD:town/engine:800D7268, PD:town/engine:800D726C.
  */
 #include "town/person/configure_actor_slot_e_g01193.h"
 #include "shared/sprite_frame_state.h"

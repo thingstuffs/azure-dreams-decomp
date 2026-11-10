@@ -1,5 +1,5 @@
 /* Initializes a town object, replaces table callbacks, and dispatches the callback entries. */
-/* inferred-strong G00653: object_callback_tables_g00653; joins PD:town/engine:800D4668; no crossing cuts. */
+/* inferred-strong object_callback_tables_g00653; joins PD:town/engine:800D4668; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D4668. */
 #include "town/map/object_callback_tables_g00653.h"
 #include "shared/object_node.h"

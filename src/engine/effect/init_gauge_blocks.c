@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "shared/gpu_packets.h"
 #include "engine/graphics.h"
 #include "shared/menu_display.h"

@@ -1,7 +1,6 @@
 #include "town/minigame/initialize_source_and_initial_data.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "town/minigame/initialize_source_and_initial_data.h"
 #include "town/minigame.h"
 
 /* Creates a bouncing pickup from copied source and motion data and initializes its sprite. */

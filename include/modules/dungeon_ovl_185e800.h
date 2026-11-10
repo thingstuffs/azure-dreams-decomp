@@ -9,7 +9,6 @@ extern u8 secondary_sprite[];
 extern u8 landing_sprite_entries[];
 extern u8 fading_sprite_entries[];
 void *allocate_list_node(s32, void *);
-void *func_8003FD64(s32, void *);
 s32 rand(void);
 s32 get_definition_entry_byte_13(s16);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);

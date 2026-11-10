@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/node.h"
 
 typedef struct S_80033D08_0_pre {

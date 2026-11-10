@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_DISPLAY_FADE_G00643_H
 #define TOWN_MAP_DISPLAY_FADE_G00643_H
-/* Display fade (G00643). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BEA7C, PD:town/engine:80111FB0. */
+/* Display fade. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800BEA7C, PD:town/engine:80111FB0. */
 
 #include "common.h"
 #include "engine/node/registration.h"

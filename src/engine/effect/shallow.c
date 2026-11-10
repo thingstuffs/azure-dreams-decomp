@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 
 typedef struct {
     s16 vx;

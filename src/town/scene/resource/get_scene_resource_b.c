@@ -2,7 +2,6 @@
 #include "town/scene/resource.h"
 #include "town/scene/flags.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_80019184[];
 
 /* Call func_80017BA0, then return D_80019184. */

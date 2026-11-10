@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/texture.h"
 
 /* Object self-relocation: if live address != last-known anchor at +0x24,

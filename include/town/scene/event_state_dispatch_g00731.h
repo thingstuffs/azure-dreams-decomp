@@ -1,5 +1,5 @@
-/* G00731: Reset event state and dispatch the next eligible event.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8059E8A0, PD:town/ll34_51e000_80016000:80019088.
+/* Reset event state and dispatch the next eligible event.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8059E8A0, PD:town/ll34_51e000_80016000:80019088.
  * Only the two strong CL/PD gaps are included; complete file edges remain unknown.
  */
 #ifndef TOWN_SCENE_EVENT_STATE_DISPATCH_G00731_H

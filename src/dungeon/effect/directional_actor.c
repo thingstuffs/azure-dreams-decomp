@@ -6,7 +6,6 @@
 #include "dungeon/effect/directional_actor.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/effect/directional_actor.h"
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect/screen.h"

@@ -5,7 +5,6 @@ s32 camera_default_rotation_xy = 0xFD80;
 s32 camera_default_rotation_tail = 0x0;
 s32 camera_default_origin_xy = 0x0;
 s32 camera_default_origin_tail = 0x400;
-#include "engine/util/state_defaults.h"
 #include "engine/camera.h"
 
 /* Clears camera transition fields, restores the default origin and rotation, and binds the view reference. */

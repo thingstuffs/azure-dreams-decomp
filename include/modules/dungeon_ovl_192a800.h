@@ -4,8 +4,8 @@
 #include "modules/dungeon_native_abi.h"
 typedef struct { u16 x,y,w,h; } __attribute__((packed)) Rect;
 typedef struct { s16 x,y; } Point;
-typedef struct { s16 x; u16 y; } Coord;
-typedef struct { Coord value[8]; } __attribute__((packed)) CoordTable;
+typedef struct { s16 x; u16 y; } OctantOffset; /* one of the eight 32-unit octant steps in rising_effect_octant_offsets */
+typedef struct { OctantOffset value[8]; } __attribute__((packed)) CoordTable;
 typedef struct { u32 word[3]; } __attribute__((packed)) Packed12;
 extern const Rect D_80024038, rising_effect_texture_rect;
 extern const CoordTable rising_effect_octant_offsets;

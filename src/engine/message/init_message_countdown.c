@@ -2,7 +2,6 @@
 #include "engine/message.h"
 #include "engine/script.h"
 
-#include "common.h"
 
 typedef struct S_8003832C_0 {
     u8 pad_00[0x10];

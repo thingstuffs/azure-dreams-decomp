@@ -1,5 +1,5 @@
-/* State countdown updates (G00558). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A1510. */
+/* State countdown updates. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A1510. */
 #include "town/shop/state_countdown_updates_g00558.h"
 #include "town/shop.h"
 #include "town/scene/motion.h"

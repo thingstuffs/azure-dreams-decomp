@@ -1,5 +1,4 @@
 #include "modules/town_ovl_629100.h"
-#include "modules/town_ovl_629100.h"
 
 void invoke_callback_and_set_shared_pointer(void) {
     Callback firstCallback;

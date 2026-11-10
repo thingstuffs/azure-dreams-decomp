@@ -1,4 +1,3 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/person/entity_display_owner_g00624.h"

@@ -13,6 +13,7 @@ struct ObjectPosition;
 #include "dungeon/effect/dispatch.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "slus/data.h"
 #include "dungeon/system/random.h"
 #include "shared/game_work.h"
 #include "dungeon/effect.h"
@@ -23,6 +24,7 @@ struct ObjectPosition;
 #include "slus.h"
 #include "dungeon/effect/screen.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/data.h"
 #include "dungeon/player/object.h"
@@ -44,10 +46,8 @@ typedef struct S_800C55F4_1 {
     u32 unk_30;
     u32 unk_34;
     u32 unk_38;
-    u8 pad_3C[0x28];
-    s32 unk_64;
-    s32 unk_68;
-    s32 unk_6C;
+    u8 pad_3C[0x14];
+    MATRIX local_matrix; /* RotMatrix and ScaleMatrix output; its translation takes the mesh position */
     u32 unk_70;
     u16 unk_74;
     u8 pad_76[0x2];
@@ -61,7 +61,8 @@ typedef struct S_800C55F4_1 {
     s32 unk_C4;
     s32 unk_C8;
     s32 unk_CC;
-    u8 pad_D0[0x44];
+    MATRIX composed_matrix; /* CompMatrix of the caller's matrix and local_matrix; loaded with SetRotMatrix/SetTransMatrix */
+    u8 pad_F0[0x24];
     s32 unk_114;
 } S_800C55F4_1;   /* scratch in transform_mesh_and_append_draw_packets */
 
@@ -158,13 +159,13 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
         s32 translation_coord;
 
         translation_coord = record->x.w.i;
-        scratch->unk_64 = translation_coord;
+        scratch->local_matrix.t[0] = translation_coord;
         scratch->unk_28 = translation_coord;
         translation_coord = record->y.w.i;
-        scratch->unk_68 = translation_coord;
+        scratch->local_matrix.t[1] = translation_coord;
         scratch->unk_2A = translation_coord;
         translation_coord = record->z.w.i;
-        scratch->unk_6C = translation_coord;
+        scratch->local_matrix.t[2] = translation_coord;
         scratch->unk_2C = translation_coord;
     }
 
@@ -173,11 +174,11 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     depth_bias = narrow_depth(depth_bias);
     scratch->unk_CC = result - depth_bias;
     ReadRotMatrix(saved_matrix);
-    RotMatrix((u8 *)mesh_data + 0x16, (u8 *)scratch + 0x50);
-    ScaleMatrix((u8 *)scratch + 0x50, &scratch->unk_30);
-    CompMatrix(saved_matrix, (u8 *)scratch + 0x50, (u8 *)scratch + 0xD0);
-    SetTransMatrix((u8 *)scratch + 0xD0);
-    SetRotMatrix((u8 *)scratch + 0xD0);
+    RotMatrix((u8 *)mesh_data + 0x16, &scratch->local_matrix);
+    ScaleMatrix(&scratch->local_matrix, &scratch->unk_30);
+    CompMatrix(saved_matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
     render_state = global_base->draw_buffer;
     scratch->unk_20 = render_state + 0xB0;
@@ -230,7 +231,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
             scratch->unk_C0 -= depth_bias;
             third_depth = scratch->unk_C8;
             scratch->unk_C4 -= depth_bias;
-            vertex_depth = *(u32 *)((u8 *)scratch + 0xC0);
+            vertex_depth = scratch->unk_C0;
             scratch->unk_C8 = third_depth - depth_bias;
             if (vertex_depth < 0x1E0) {
                 s32 shade;
@@ -330,8 +331,6 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     PopMatrix();
     ((GpuContext *)(((u8 *)global_base->draw_buffer)))->packetCursor = prim;
 }
-#include "common.h"
-#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -366,11 +365,8 @@ void damp_effect_motion_and_fade(DampedParticleBurstBody *body, s32 *motion, Spr
     }
 }
 #include "shared/object_node.h"
-#include "shared/sprite_frame_state.h"
-#include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
-#include "shared/dungeon_status.h"
 
 struct Dst;
 struct Elem;
@@ -433,12 +429,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
     }
     return first_particle;
 }
-#include "common.h"
-#include "shared/sprite_frame_state.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800C5D80_0 {
     u8 pad_00[0x8];
@@ -477,11 +468,6 @@ void advance_effect_motion_and_fade(VerticalParticleBurstBody *effect_data, S_80
 /* MECHANISM: Separate compound RMWs preserve retail's shared +0x14 load and v1 copy.
    A named D_80083460 base keeps +0xA as a displacement; the corrected u8 quotient
    expression restores the divide sequence, with cdk-G0 providing the retail schedule. */
-#include "shared/object_node.h"
-#include "shared/sprite_frame_state.h"
-#include "common.h"
-#include "shared/dungeon_status.h"
-#include "records/Rec_D_80082E80.h"
 
 typedef struct CounterBlock {
     u8 pad[0xA];
@@ -554,12 +540,8 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
         effect_index -= 1;
     } while (effect_index >= 0);
 }
-#include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
 extern u8 floor_generation_state[];
@@ -577,23 +559,40 @@ struct EntityLinkNode;
 
 void process_active_slots_at_coordinates(s16, s16);
 
-#define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << *(s16 *)(fld + 20))))
+/* Room-collapse work in the static node D_800E58B8: create_record_with_effect_callback clears its 0x10 words and
+ * installs dispatch_action_callback_by_opcode as the update callback, which reads every field below as a halfword. */
+typedef struct FloorCollapseWork {
+    s16 phase; /* 0: count down and show the three warnings, then pick the room; 1: lower it; 2: leave the floor */
+    s16 unk_02; /* set to 0x20 when the room is chosen; not read here */
+    s16 lower_passes; /* lowering passes so far; phase 1 lowers each column by up to this many steps */
+    s16 room_index; /* dungeon_rooms index of the collapsing room, or -1 for the whole floor */
+    s16 x0; /* first tile column of the collapsing rectangle (room x - 1) */
+    s16 y0; /* first tile row (room y - 1) */
+    s16 x1; /* tile column past the rectangle (room x + w + 1) */
+    s16 y1; /* tile row past the rectangle (room y + h + 1) */
+    u16 lower_delay; /* frames until the next lowering pass */
+    s16 player_in_room; /* set when the player stood in the room and was teleported; phase 1 then leaves the floor */
+    s16 message_step; /* warning message shown last (1..3) */
+    s16 message_delay; /* frames until the next warning message */
+} FloorCollapseWork;
+
+#define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << fld->shiftX)))
 
 /* Displays timed messages, clears and lowers a selected room, and handles the player's floor transition. */
-void dispatch_action_callback_by_opcode(u8 *w) {
+void dispatch_action_callback_by_opcode(FloorCollapseWork *w) {
     GameWork *ctx;
     u8 *cells;
-    u8 *fld;
+    MapGrid *fld;
     s32 st;
     u8 *sys;
     u8 *room;
     u8 *cnt;
     u8 *cnt2;
-    u8 *rooms;
+    DungeonRoom *rooms;
     u8 *rbase;
-    u8 *rm;
-    u8 *e;
-    u8 *ep;
+    DungeonRoom *rm;
+    ActorRecord *e;
+    SpriteFrameState *ep;
     void *o;
     u8 *q;
     ActorRecord *p;
@@ -617,9 +616,9 @@ void dispatch_action_callback_by_opcode(u8 *w) {
     u16 a;
 
     ctx = &g_game_work;
-    phase0 = *(s16 *)w;
+    phase0 = w->phase;
     cells = ctx->map.cells;
-    fld = (u8 *)ctx + 0x1DC;
+    fld = &ctx->map;
     if (phase0 == 0) {
         st = (s32) ((u8 *)(&g_dungeon_status));
         f = *(u16 *)((u8 *) st + 2);
@@ -658,13 +657,14 @@ void dispatch_action_callback_by_opcode(u8 *w) {
             return;
         }
         *(u16 *)((u8 *) st + 2) = a & 0xFDFF;
-        if (*(s16 *)(w + 22) != 0) {
-            *(u16 *)(w + 22) = *(u16 *)(w + 22) - 1;
+        if (w->message_delay != 0) {
+            w->message_delay = w->message_delay - 1;
             return;
         }
         play_sound_if_enabled(0x818);
         initialize_timed_motion_step(0x20, 8);
-        *(u16 *)(w + 20) = *(u16 *)(w + 20) + 1;
+        /* BYTES: a plain w->message_step store is a struct access gcc 2.7.2 does not order against the fixed-address system_update_flags load below, and sched moves it into the branch delay slot; retail stores first */
+        *(u16 *) &w->message_step = w->message_step + 1;
         sys = (u8 *)0x80010000;
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
             ic = *(u16 *)((u8 *) st + 10);
@@ -673,7 +673,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
         }
         phase = 1;
         hnd = get_unused_text_buffer();
-        v = *(s16 *)(w + 20);
+        v = w->message_step;
         if (v == phase) {
             r = expand_text_control_codes(D_800E0B65, hnd);
             if (!(*(u16 *)(sys + 0x3714) & 1)) {
@@ -683,7 +683,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
             }
             clear_byte_and_advance(r);
             display_text_with_fullwidth_adjustment(hnd);
-            *(s16 *)(w + 22) = 0x80;
+            w->message_delay = 0x80;
             return;
         }
         if (v != 2) {
@@ -697,22 +697,23 @@ void dispatch_action_callback_by_opcode(u8 *w) {
         }
         clear_byte_and_advance(r);
         display_text_with_fullwidth_adjustment(hnd);
-        *(s16 *)(w + 22) = 0x40;
+        w->message_delay = 0x40;
         return;
 L_found:
-        *(s16 *)(w + 6) = phase;
+        w->room_index = phase;
         t = *(u16 *)(room + 0);
         t = t - 1;
-        *(s16 *)(w + 8) = t;
-        *(s16 *)(w + 12) = t + *(u16 *)(room + 4) + 2;
+        w->x0 = t;
+        w->x1 = t + *(u16 *)(room + 4) + 2;
         t = *(u16 *)(room + 2);
         t = t - 1;
-        *(s16 *)(w + 10) = t;
-        *(s16 *)(w + 14) = t + *(u16 *)(room + 6) + 2;
+        w->y0 = t;
+        w->y1 = t + *(u16 *)(room + 6) + 2;
         goto L_zero;
 L_third:
         r = expand_text_control_codes(D_800E0BA1, hnd);
-        *(s16 *)(w + 22) = 0;
+        /* BYTES: as at message_step, a plain struct store is scheduled after the system_update_flags load; retail stores first */
+        *(u16 *) &w->message_delay = 0;
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
             r = write_text_byte_and_advance(0x11, r);
             r = write_text_byte_and_advance(0x4C, r);
@@ -720,9 +721,9 @@ L_third:
         }
         clear_byte_and_advance(r);
         display_text_with_fullwidth_adjustment(hnd);
-        *(s16 *)w = phase;
+        w->phase = phase;
         *(u16 *)((u8 *) st + 10) = *(u16 *)((u8 *) st + 10) + 1;
-        *(u16 *)(w + 4) = *(u16 *)(w + 4) + 1;
+        w->lower_passes = w->lower_passes + 1;
         rv = generate_random_value() & 0xFFFF;
         cnt = floor_generation_state;
         cc = *(s16 *)(cnt + 6);
@@ -742,19 +743,19 @@ L_third:
         }
 L_zero:
         if (st == 0) {
-            *(s16 *)(w + 6) = -1;
+            w->room_index = -1;
         }
-        v = *(s16 *)(w + 6);
-        *(s16 *)(w + 2) = 0x20;
-        *(s16 *)(w + 16) = 1;
-        *(s16 *)(w + 4) = 1;
+        v = w->room_index;
+        w->unk_02 = 0x20;
+        w->lower_delay = 1;
+        w->lower_passes = 1;
         if (v >= 0) {
-            x = *(s16 *)(w + 8);
-            x1 = *(s16 *)(w + 12);
-            y1 = *(s16 *)(w + 14);
+            x = w->x0;
+            x1 = w->x1;
+            y1 = w->y1;
             if (x < x1) {
                 do {
-                    y = *(s16 *)(w + 10);
+                    y = w->y0;
                     if (y < y1) {
                         do {
                             *(u16 *)(CELL(x, y) + 4) |= 0x8000;
@@ -785,13 +786,13 @@ L_zero:
             } while (x < x1);
         }
         tbl = actor_event_values;
-        phase = *(s16 *)(w + 6);
-        e = ((u8 *)dungeon_actor_ring_anchor);
-        *(s16 *)(w + 18) = 0;
+        phase = w->room_index;
+        e = dungeon_actor_ring_anchor;
+        w->player_in_room = 0;
         do {
-            ep = *(u8 * *)&NODE_HEADER(e)->sprite;
-            if (phase == (s16)find_padded_rectangle(*(ep + 36), *(ep + 37))) {
-                if (*(e + 19) == 0) {
+            ep = NODE_HEADER(e)->sprite;
+            if (phase == (s16)find_padded_rectangle(ep->tile_x, ep->tile_y)) {
+                if (e->species == 0) {
                     dungeon_floor_flags |= 0x2000;
                     create_orbiting_teleport_effect(e, tbl[get_entity_class(e)], 0, 0);
                     p = dungeon_actor_ring_anchor;
@@ -806,20 +807,21 @@ L_zero:
                     if (q != 0) {
                         create_orbiting_teleport_effect(q, tbl[get_entity_class(q)], 1, 0);
                     }
-                    *(s16 *)(w + 18) = 1;
-                } else if (*(u32 *)(e + 20) & 0x4000) {
-                    if (*(s16 *)(w + 18) == 0) {
-                        teleport_familiar_near_player(e, *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 172) != e);
+                    w->player_in_room = 1;
+                } else if (e->flags14 & 0x4000) {
+                    if (w->player_in_room == 0) {
+                        teleport_familiar_near_player(e, dungeon_actor_ring_anchor->unk_AC.address != e);
                     }
                 } else {
-                    if (*(s16 *)(w + 18) != 0) {
-                        *(s16 *)(e + 108) = 0;
+                    if (w->player_in_room != 0) {
+                        /* BYTES: retail clears unk_6C and pending_turn_updates (+0x6D) with one sh zero,0x6C; two byte-member stores compile to two sb */
+                        *(s16 *)&e->unk_6C = 0;
                     }
                     o = e;
-                    ea = *(ep + 36);
-                    eb = *(ep + 37);
+                    ea = ep->tile_x;
+                    eb = ep->tile_y;
                     mode = 0x3000;
-                    e = *(u8 **)(o + 88) + 32;
+                    e = NODE_BODY(e->previous_actor_header);
                     if (*(u32 *)(o + 28) & 0x2000) {
                         mode = 0x300;
                     }
@@ -833,29 +835,29 @@ L_zero:
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 }
             }
-            e = *(u8 **)(e + 92) + 32;
-        } while (e != ((u8 *)dungeon_actor_ring_anchor));
+            e = NODE_BODY(e->next_actor_header);
+        } while (e != dungeon_actor_ring_anchor);
         if (phase < 0) {
             return;
         }
         rooms = dungeon_rooms;
-        rm = rooms + phase * 20;
-        *(s16 *)(rm + 10) = 0;
+        rm = &rooms[phase];
+        rm->active = 0;
         return;
     }
     if (phase0 == 1) {
-        if (*(s16 *)(w + 6) >= 0) {
-            x = *(s16 *)(w + 8);
-            x1 = *(s16 *)(w + 12);
-            y1 = *(s16 *)(w + 14);
+        if (w->room_index >= 0) {
+            x = w->x0;
+            x1 = w->x1;
+            y1 = w->y1;
             k = 0;
-            if (*(s16 *)(w + 4) > 0) {
+            if (w->lower_passes > 0) {
                 do {
-                    y = *(s16 *)(w + 10);
+                    y = w->y0;
                     if (y < y1) {
                         do {
                             s32 mul8 = 8 - (generate_random_value() & 7);
-                            s32 dec = *(s16 *)(w + 4) - 1;
+                            s32 dec = w->lower_passes - 1;
                             *(u16 *)(CELL(x, y) + 2) -= mul8 * (dec - k);
                             *(u16 *)(CELL(x, y) + 4) &= 0xFF73;
                             *(u16 *)(CELL(x, y) + 4) |= 0x8000;
@@ -867,19 +869,19 @@ L_zero:
                         break;
                     }
                     k = k + 1;
-                } while (k < *(s16 *)(w + 4));
+                } while (k < w->lower_passes);
             }
         } else {
             x = 1;
             y1 = x1 = 63;
             k = 0;
-            if (*(s16 *)(w + 4) > 0) {
+            if (w->lower_passes > 0) {
                 do {
                     y = 1;
                     if (y < y1) {
                         do {
                             s32 mul8 = 8 - (generate_random_value() & 7);
-                            s32 dec = *(s16 *)(w + 4) - 1;
+                            s32 dec = w->lower_passes - 1;
                             *(u16 *)(CELL(x, y) + 2) -= mul8 * (dec - k);
                             *(u16 *)(CELL(x, y) + 4) &= 0xFF73;
                             *(u16 *)(CELL(x, y) + 4) |= 0x8000;
@@ -891,28 +893,28 @@ L_zero:
                         break;
                     }
                     k = k + 1;
-                } while (k < *(s16 *)(w + 4));
+                } while (k < w->lower_passes);
             }
         }
-        t16 = *(u16 *)(w + 16) - 1;
-        *(u16 *)(w + 16) = t16;
+        t16 = w->lower_delay - 1;
+        w->lower_delay = t16;
         if ((s16) t16 > 0) {
             return;
         }
-        *(s16 *)(w + 16) = 1;
-        *(u16 *)(w + 4) = *(u16 *)(w + 4) + 1;
+        w->lower_delay = 1;
+        w->lower_passes = w->lower_passes + 1;
         refresh_packed_grid_nibbles();
-        if (!((x1 + 16) < *(s16 *)(w + 4))) {
+        if (!((x1 + 16) < w->lower_passes)) {
             return;
         }
-        if (*(s16 *)(w + 18) == 0) {
-            *(s16 *)w = 0;
+        if (w->player_in_room == 0) {
+            w->phase = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             return;
         }
         ctx->view.slot[0].callback = 0;
         ctx->view.slot[2].callback = 0;
-        *(u16 *)w = *(u16 *)w + 1;
+        w->phase = w->phase + 1;
         return;
     }
     o = (u8 *)0x80010000;
@@ -935,11 +937,9 @@ L_zero:
     current_dungeon_floor = *(u16 *)(o + 0x234);
     request_scene_dispatch_state(ch);
     mark_sprite_resources_for_purge();
-    *(u16 *)(w - 2) |= NODE_REMOVE;
+    NODE_HEADER(w)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
-#include "common.h"
-#include "shared/object_node.h"
 
 typedef struct {
     s32 unk0[4];
@@ -953,7 +953,6 @@ extern s32 D_800E58B8[];
 void create_record_with_effect_callback(void) {
     initialize_runtime_node_storage(0, D_800E58B8, 0x10, &scene_object_list_anchor.next)->field10 = dispatch_action_callback_by_opcode;
 }
-#include "common.h"
 
 typedef struct Func800C138CData {
     u8 pad0[8];
@@ -978,9 +977,6 @@ s32 process_linked_states_mode_zero(ActorRecord *initial_state, ObjectPosition *
     }
 }
 /* cfail-repair: tf7-phase1-cache-v3 */
-#include "common.h"
-#include "shared/game_work.h"
-#include "m2c_compat.h"
 
 typedef struct ScratchDepth {
     u8 pad0[0xC0];
@@ -1040,7 +1036,6 @@ typedef struct {
     u16 origin_y;
 } RotationWork;
 
-extern s32 sprite_projection_matrix[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
 void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias) {
@@ -1126,7 +1121,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
     *(u16 *)(scratch->b + 0x004) = (u16)(*(u16 *)((u8 *)position + 0xA));
     packet_next = *(QuadPrim **)(state + 0x8D0);
     scratch->w[48] = RotTransPers(scratch, scratch->b + 0xB8, scratch->b + 0x90, scratch->b + 0x94);
-    matrix_or_u = (s32)sprite_projection_matrix;
+    matrix_or_u = (s32)&sprite_projection_matrix;
     sprite->flags = (u16)(sprite->flags | 0x8000);
     depth = scratch->w[48];
     *(s32 *)((u8 *)matrix_or_u + 0x1C) = (s32)(depth * 4);
@@ -1369,9 +1364,6 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
     }
     *(QuadPrim **)(*(u32 *)&render_globals->draw_buffer + 0x8D0) = packet_next;
 }
-#include "common.h"
-#include "shared/object_node.h"
-#include "m2c_compat.h"
 
 typedef struct {
     u8 pad0[2];
@@ -1499,8 +1491,6 @@ CentralChildEffectObject *create_central_and_child_effects(s16 tile_x, s16 tile_
     }
     return parent;
 }
-#include "common.h"
-#include "shared/game_work.h"
 
 extern u8 camera_transition_timer[];
 
@@ -1551,10 +1541,7 @@ void update_target_tracking_and_transition(void *tracker) {
     state->view_offset.parts.view_offset_x = (s32)(((u16)state->view_offset.parts.view_offset_x) << 0x10) >> 0x12;
     state->view_offset.parts.view_offset_y = (s32)(((u16)state->view_offset.parts.view_offset_y) << 0x10) >> 0x12;
 }
-#include "common.h"
 #include "shared/entity_objects.h"
-#include "shared/game_work.h"
-#include "shared/entity.h"
 
 extern u8 camera_transition_timer[];
 
@@ -1606,8 +1593,6 @@ s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_
     *(s16 *)(slot + 0x24) = target_id;
     return change_flags;
 }
-#include "common.h"
-#include "shared/entity_objects.h"
 
 /* Sets up the object at the supplied position if both planar distances are at most 192. */
 void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s32 mode, s32 settings)
@@ -1634,9 +1619,6 @@ void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s3
         }
     }
 }
-#include "common.h"
-#include "shared/entity_objects.h"
-#include "shared/entity.h"
 
 
 typedef struct S_800C7930_2 {
@@ -1704,8 +1686,6 @@ s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s
     }
     return 0;
 }
-#include "common.h"
-#include "shared/entity_objects.h"
 
 /* Process the midpoint of two objects when it is near the reference position. */
 void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg) {
@@ -1748,11 +1728,6 @@ void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height
         }
     }
 }
-#include "common.h"
-#include "shared/entity_objects.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
 
 /* Entity transition state */
 typedef struct Entity {
@@ -1822,7 +1797,6 @@ void blend_entity_toward_target_state(void *entity_data) {
         g_dungeon_status.activity_counts.parts.pending_action_count = g_dungeon_status.activity_counts.parts.pending_action_count - 1;
     }
 }
-#include "common.h"
 
 typedef void (*Callback)(s16, s16, s16, s16);
 
@@ -1848,8 +1822,6 @@ void run_indexed_callback_list(s16 list_index) {
         entry++;
     }
 }
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 typedef struct DungeonCell {
     s16 flags;

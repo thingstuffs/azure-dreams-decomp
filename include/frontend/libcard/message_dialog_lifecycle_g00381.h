@@ -1,7 +1,7 @@
 #ifndef FRONTEND_LIBCARD_MESSAGE_DIALOG_LIFECYCLE_G00381_H
 #define FRONTEND_LIBCARD_MESSAGE_DIALOG_LIFECYCLE_G00381_H
 /* Message dialog lifecycle; G00381; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000F934, CL:main/func_8000FAE8, CL:main/func_8000FB20, CL:main/func_8000FB48, CL:main/func_8000FBE8, CL:main/func_8000FC48, CL:main/func_8000FC90. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - main/func_8000F934, main/func_8000FAE8, main/func_8000FB20, main/func_8000FB48, main/func_8000FBE8, main/func_8000FC48, main/func_8000FC90. */
 
 #include "common.h"
 #include "frontend/libcard.h"

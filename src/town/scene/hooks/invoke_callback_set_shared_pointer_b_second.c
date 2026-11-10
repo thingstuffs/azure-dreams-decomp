@@ -1,5 +1,4 @@
 #include "modules/town_ovl_4d9100.h"
-#include "modules/town_ovl_4d9100.h"
 
 /* Invokes the callback and points the shared pointer at D_800173FC. */
 void invoke_callback_and_set_shared_pointer(void *callback_arg) {

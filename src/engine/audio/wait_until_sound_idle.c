@@ -1,7 +1,9 @@
 #include "slus/owned_80044698.h"
 
-#include "slus/owned_80044698.h"
 #include "engine/audio.h"
+#include "engine/graphics.h"
+#include "sdk/libetc.h"
+#include "slus.h"
 
 /* Waits for sound mode 1 to become idle, issuing command 0xC1 if needed and servicing sound each field. */
 void wait_until_sound_idle(void)

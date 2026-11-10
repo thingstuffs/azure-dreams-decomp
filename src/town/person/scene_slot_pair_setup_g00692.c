@@ -1,5 +1,5 @@
-/* G00692: scene slot pair setup. */
-/* Original-file evidence (G00692): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D7484, PD:town/engine:800D748C, PD:town/engine:800D74B4, PD:town/engine:800D74B8. */
+/* scene slot pair setup. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D7484, PD:town/engine:800D748C, PD:town/engine:800D74B4, PD:town/engine:800D74B8. */
 #include "town/person/scene_slot_pair_setup_g00692.h"
 #include "shared/sprite_frame_state.h"
 

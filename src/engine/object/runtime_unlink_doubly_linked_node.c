@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "shared/object_links.h"
 #include "engine/object.h"
 #include "engine/object/runtime_linked_node.h"

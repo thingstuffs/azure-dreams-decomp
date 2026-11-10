@@ -1,4 +1,4 @@
-/* Scene slot context initialization (G00669).
+/* Scene slot context initialization.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D5EF4, PD:town/engine:800D5EFC, PD:town/engine:800D5F24, PD:town/engine:800D5F28.
  */
 #include "town/scene/scene_slot_context_initialization_g00669.h"

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/town.h"
 #include "slus.h"
 #include "slus/data.h"

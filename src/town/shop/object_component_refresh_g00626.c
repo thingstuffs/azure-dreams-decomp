@@ -1,5 +1,5 @@
-/* Refresh paired object components and their high flags (G00626). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B6EE8. */
+/* Refresh paired object components and their high flags. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B6EE8. */
 #include "town/shop/object_component_refresh_g00626.h"
 #include "shared/object_flags.h"
 #include "town/shop.h"

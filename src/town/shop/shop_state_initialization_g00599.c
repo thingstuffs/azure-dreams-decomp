@@ -1,5 +1,5 @@
-/* Shop state initialization (G00599). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0888, CL:town/func_800B0994, CL:town/func_800B09E8, CL:town/func_800B0B44. */
+/* Shop state initialization. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B0888, town/func_800B0994, town/func_800B09E8, town/func_800B0B44. */
 #include "shared/object_node.h"
 #include "town/shop/shop_state_initialization_g00599.h"
 #include "shared/object_flags.h"

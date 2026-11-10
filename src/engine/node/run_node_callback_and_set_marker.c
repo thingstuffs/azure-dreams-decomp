@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 #include "engine/effect.h"
 #include "engine/node.h"
 #include "shared/entity.h"

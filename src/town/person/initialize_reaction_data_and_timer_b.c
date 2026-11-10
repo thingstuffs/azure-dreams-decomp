@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "town/person.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern void ease_reaction_position_to_target();
 
 /* Initializes the object's data pointer and sets its initial value to 10. */

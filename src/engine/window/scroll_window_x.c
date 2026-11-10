@@ -1,7 +1,6 @@
 #include "engine/window/model_prefix.h"
 #include "common.h"
 
-#include "common.h"
 #include "engine/window.h"
 #include "slus/data.h"
 

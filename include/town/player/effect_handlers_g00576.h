@@ -2,8 +2,8 @@
 #define TOWN_PLAYER_EFFECT_HANDLERS_G00576_H
 
 #include "town/player/record.h"
-/* Initialize player effect handlers from prior state (G00576). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A7DDC. */
+/* Initialize player effect handlers from prior state. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A7DDC. */
 
 #include "common.h"
 #include "m2c_compat.h"

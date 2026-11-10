@@ -1,4 +1,3 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "town/scene.h"
 #include "town/devkit/old_minigame_imports.h"

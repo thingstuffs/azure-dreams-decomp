@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_POSITION_OBJECT_INITIALIZATION_G00563_H
 #define TOWN_SHOP_POSITION_OBJECT_INITIALIZATION_G00563_H
-/* Position object initialization declarations (G00563). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A2ACC. */
+/* Position object initialization declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A2ACC. */
 
 #include "common.h"
 #include "shared/entity.h"

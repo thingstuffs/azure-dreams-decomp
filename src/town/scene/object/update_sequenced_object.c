@@ -1,4 +1,3 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "town/scene/collection.h"

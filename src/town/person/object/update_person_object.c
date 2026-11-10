@@ -1,5 +1,4 @@
 #include "town/menu.h"
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "engine/node/registration.h"
 #include "shared/sprite_frame_state.h"

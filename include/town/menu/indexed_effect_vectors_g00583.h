@@ -1,7 +1,7 @@
 #ifndef TOWN_MENU_INDEXED_EFFECT_VECTORS_G00583_H
 #define TOWN_MENU_INDEXED_EFFECT_VECTORS_G00583_H
-/* inferred-strong G00583: indexed_effect_vectors_g00583; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AAAE8. */
+/* inferred-strong indexed_effect_vectors_g00583; shared declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AAAE8. */
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"

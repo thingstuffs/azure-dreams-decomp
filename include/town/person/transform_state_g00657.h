@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_TRANSFORM_STATE_G00657_H
 #define TOWN_PERSON_TRANSFORM_STATE_G00657_H
-/* Transform state (G00657). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C520C. */
+/* Transform state. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C520C. */
 
 #include "common.h"
 #include "m2c_compat.h"

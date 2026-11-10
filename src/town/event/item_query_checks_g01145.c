@@ -1,5 +1,5 @@
 /* Item query checks g01145.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01145 - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, CL:town/func_800AC278, CL:town/func_800AC2D8, CL:town/func_800AC37C, CL:town/func_800AC3CC (+1 more).
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800AC118, town/func_800AC164, town/func_800AC198, town/func_800AC210, town/func_800AC278, town/func_800AC2D8, town/func_800AC37C, town/func_800AC3CC (+1 more).
  */
 #include "town/event/item_query_checks_g01145.h"
 #include "shared/object_node.h"

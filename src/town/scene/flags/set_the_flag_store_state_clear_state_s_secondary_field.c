@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "town/scene/flags.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_8008F534_0 {
     u8 pad_00[0x39];
     s8 unk_39;

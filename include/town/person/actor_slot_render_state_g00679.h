@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_ACTOR_SLOT_RENDER_STATE_G00679_H
 #define TOWN_PERSON_ACTOR_SLOT_RENDER_STATE_G00679_H
-/* G00679: shared declarations for actor slot render state. */
-/* Original-file evidence (G00679): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6430, PD:town/engine:800D6438, PD:town/engine:800D6460, PD:town/engine:800D6464. */
+/* shared declarations for actor slot render state. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6430, PD:town/engine:800D6438, PD:town/engine:800D6460, PD:town/engine:800D6464. */
 
 #include "common.h"
 #include "town/person.h"

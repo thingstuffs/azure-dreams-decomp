@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/texture.h"
 
 // Sets bit 15 on 255 consecutive entries or the last 15 entries of each 16-entry group.

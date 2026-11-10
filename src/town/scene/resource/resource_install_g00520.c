@@ -1,5 +1,5 @@
-/* Resource install (G00520).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8008D588, CL:town/func_8008D5BC, CL:town/func_8008D630, CL:town/func_8008D6EC, CL:town/func_8008D7CC, CL:town/func_8008D850, CL:town/func_8008D988, PD:town/engine:800CF720.
+/* Resource install.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8008D588, town/func_8008D5BC, town/func_8008D630, town/func_8008D6EC, town/func_8008D7CC, town/func_8008D850, town/func_8008D988, PD:town/engine:800CF720.
  */
 #include "town/scene/resource/resource_install_g00520.h"
 #include "town/scene/resource.h"

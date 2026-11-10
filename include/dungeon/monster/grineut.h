@@ -176,8 +176,6 @@ typedef struct R07_80173238_S_80173238_2 {
 
 
 
-void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
 void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 
-#include "common.h"
 #include "engine/graphics.h"
 #include "engine/scene.h"
 

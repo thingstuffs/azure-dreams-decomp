@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/sys_flags.h"
 
-#include "common.h"
 #include "engine/node.h"
 #include "slus.h"
 

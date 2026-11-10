@@ -2489,23 +2489,23 @@ void restore_snowman_scene_tint(u8 *task, void *context, SpriteFrameState *input
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void advance_actor_transition_and_restore_facing(void *transition, ObjectPosition *position, SpriteFrameState *record, void *actor) {
+void advance_actor_transition_and_restore_facing(R10_80175398_S_80175398_0 *transition, ObjectPosition *position, SpriteFrameState *record, void *actor) {
     void *object_data = ((&g_game_work));
     u8 state;
     u32 next_state;
 
-    state = ((R10_80175398_S_80175398_0 *)transition)->phase;
+    state = transition->phase;
     switch (state) {
 
     case 0:
-        next_state = ((R10_80175398_S_80175398_0 *)transition)->phase + 1;
-        ((R10_80175398_S_80175398_0 *)transition)->phase = next_state;
+        next_state = transition->phase + 1;
+        transition->phase = next_state;
         return;
 
     case 1:
         run_cd_image_commands(snowman_image_commands, snowman_image_load_done, 0);
-        ((R10_80175398_S_80175398_0 *)transition)->unk_AC = 0;
-        ((R10_80175398_S_80175398_0 *)transition)->phase++;
+        transition->unk_AC = 0;
+        transition->phase++;
         ((R10_80175398_S_80175398_1 *)actor)->unk_8A = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
 
     case 2:
@@ -2528,24 +2528,24 @@ void advance_actor_transition_and_restore_facing(void *transition, ObjectPositio
         (*snowman_effect_load_done) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), snowman_effect_load_done);
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
-        ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0x10;
-        ((R10_80175398_S_80175398_0 *)transition)->phase++;
+        transition->timer.u = 0x10;
+        transition->phase++;
     }
 
     case 3:
     {
-        u16 old_timer = ((R10_80175398_S_80175398_0 *)transition)->timer.u;
+        u16 old_timer = transition->timer.u;
         u16 timer = old_timer - 1;
         R10_80175398_S_80175398_3 *target_color;
 
-        ((R10_80175398_S_80175398_0 *)transition)->timer.u = timer;
+        transition->timer.u = timer;
         if ((s32)(timer << 16) <= 0) {
             u8 cd_finished = (*snowman_effect_load_done);
-            ((R10_80175398_S_80175398_0 *)transition)->timer.u = old_timer;
+            transition->timer.u = old_timer;
             if (cd_finished == 0) {
                 return;
             }
-            ((R10_80175398_S_80175398_0 *)transition)->phase++;
+            transition->phase++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
@@ -2553,13 +2553,13 @@ void advance_actor_transition_and_restore_facing(void *transition, ObjectPositio
         target_color = (R10_80175398_S_80175398_3 *)((u8 **)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
         ((R10_80175398_S_80175398_2 *)object_data)->unk_A8 +=
             (target_color->unk_00 - ((R10_80175398_S_80175398_2 *)object_data)->unk_A8) /
-            ((R10_80175398_S_80175398_0 *)transition)->timer.s;
+            transition->timer.s;
         ((R10_80175398_S_80175398_2 *)object_data)->unk_A9 +=
             (target_color->unk_01 - ((R10_80175398_S_80175398_2 *)object_data)->unk_A9) /
-            ((R10_80175398_S_80175398_0 *)transition)->timer.s;
+            transition->timer.s;
         ((R10_80175398_S_80175398_2 *)object_data)->unk_AA +=
             (target_color->unk_02 - ((R10_80175398_S_80175398_2 *)object_data)->unk_AA) /
-            ((R10_80175398_S_80175398_0 *)transition)->timer.s;
+            transition->timer.s;
         return;
     }
 
@@ -2573,7 +2573,7 @@ void advance_actor_transition_and_restore_facing(void *transition, ObjectPositio
 
             effect->update_callback = ((u8 *)restore_snowman_scene_tint);
             register_node(effect, ((u8 *)project_snowman_sprite_chain));
-            ((R10_80175398_S_80175398_0 *)transition)->unk_A8.p = effect;
+            transition->unk_A8.p = effect;
             effect->position->x.v = position->x.v;
             effect->position->y.v = position->y.v;
             (*(s16 *)D_80175A18) = -2;
@@ -2594,38 +2594,38 @@ void advance_actor_transition_and_restore_facing(void *transition, ObjectPositio
             select_record_entry_and_value(object_data, dungeon_resource_buffer + ((s32 *)D_80175A00)[resource_index], 0);
         }
         record->flags |= 0x80;
-        ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0;
-        next_state = ((R10_80175398_S_80175398_0 *)transition)->phase + 1;
-        ((R10_80175398_S_80175398_0 *)transition)->phase = next_state;
+        transition->timer.u = 0;
+        next_state = transition->phase + 1;
+        transition->phase = next_state;
         return;
 
     case 5:
     {
-        u16 old_timer = ((R10_80175398_S_80175398_0 *)transition)->timer.u;
-        ((R10_80175398_S_80175398_0 *)transition)->timer.u = old_timer + 1;
+        u16 old_timer = transition->timer.u;
+        transition->timer.u = old_timer + 1;
         if ((s16)old_timer < 30) {
             s16 update_count = 0;
             do {
-                spawn_randomized_oscillating_effect(transition, position, record, actor);
+                spawn_randomized_oscillating_effect((ActorRecord *)transition, position, record, actor);
                 update_count++;
             } while (update_count < 8);
         }
     }
-        object_data = ((R10_80175398_S_80175398_0 *)transition)->unk_A8.p2;
+        object_data = transition->unk_A8.p2;
         object_data = ((R10_80175398_S_80175398_2 *)object_data)->unk_0C;
         if (((R10_80175398_S_80175398_2 *)object_data)->unk_14 & 0xE000) {
-            ((R10_80175398_S_80175398_0 *)transition)->phase++;
+            transition->phase++;
         }
 
     case 6:
-        if (((R10_80175398_S_80175398_0 *)transition)->phase != 6) {
+        if (transition->phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, (*(void **)D_80175A84), (*(s16 *)D_80175A18), staged_spawn_count) == 0) {
             return;
         }
-        ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0x10;
-        ((R10_80175398_S_80175398_0 *)transition)->phase++;
+        transition->timer.u = 0x10;
+        transition->phase++;
         decrement_monster_entry_count(((R10_80175398_S_80175398_1 *)actor)->unk_13, 3);
         update_map_cell_flags_with_item_limit(record->tile_x, record->tile_y, 0x300);
         unlink_entity_node(actor);
@@ -2640,8 +2640,8 @@ void advance_actor_transition_and_restore_facing(void *transition, ObjectPositio
         if (linked_actor == NULL) {
             return;
         }
-        ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0x10;
-        ((R10_80175398_S_80175398_0 *)transition)->phase++;
+        transition->timer.u = 0x10;
+        transition->phase++;
         ((R10_80175398_S_80175398_7 *)(((R10_80175398_S_80175398_1 *)actor)->unk_60))->unk_2A = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
         {
             u8 *linked_state = ((R10_80175398_S_80175398_1 *)actor)->unk_60;
@@ -2658,8 +2658,8 @@ void advance_actor_transition_and_restore_facing(void *transition, ObjectPositio
 
     case 8:
     {
-        u16 timer = ((R10_80175398_S_80175398_0 *)transition)->timer.u - 1;
-        ((R10_80175398_S_80175398_0 *)transition)->timer.u = timer;
+        u16 timer = transition->timer.u - 1;
+        transition->timer.u = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

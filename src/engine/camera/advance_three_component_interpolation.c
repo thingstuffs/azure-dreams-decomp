@@ -2,7 +2,6 @@
 #include "shared/game_work.h"
 #include "common.h"
 
-#include "common.h"
 #include "engine/camera.h"
 #include "engine/util.h"
 

@@ -5,7 +5,6 @@
 
 struct S_8046C8C4_1;
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 typedef struct S_8046C8C4_0 {
     u8 pad_00[0x10];

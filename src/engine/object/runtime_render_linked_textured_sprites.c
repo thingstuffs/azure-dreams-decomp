@@ -12,8 +12,6 @@
 #include "slus/data.h"
 
 
-extern u8 effect_view_matrix[32];
-extern u8 sprite_projection_matrix[32];
 
 /* Renders linked textured sprites with dimmed offset copies near the screen center. */
 s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *position, u8 *render_state)
@@ -59,7 +57,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
     u8 draw_code;
     ObjectNodeHeader *next_node;
     u8 *copy_matrix_a;
-    u8 *copy_matrix_b;
+    MATRIX *copy_matrix_b;
     GpuContext **render_pools;
     GpuContext *render_pool;
     u8 *next_prim;
@@ -73,14 +71,14 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
     fixed_matrix = (GteMatrix *) 0x1F8000C8;
     do {
         copy_matrix_a = sprite_fixed_transform_matrix;
-        copy_matrix_b = effect_view_matrix;
+        copy_matrix_b = &effect_view_matrix;
         scratch->h[0x04 / 2] = position->x.unsigned_parts.integer;
         scratch->h[0x06 / 2] = position->y.unsigned_parts.integer;
         scratch->h[0x08 / 2] = position->z.unsigned_parts.integer;
         scratch->sw[0xC4 / 4] = RotTransPers(scratch->b + 0x04, &scratch->sw[0xBC / 4], &scratch->sw[0x94 / 4], &scratch->sw[0x98 / 4]);
         *((u16 *) (render_state + 0x14)) |= 0x8000;
         sprite_scaled_depth_word[0] = (scaled_depth = (scratch->sw[0xC4 / 4]) << 2);
-        *((s32 *) (copy_matrix_b + 0x1C)) = scaled_depth;
+        copy_matrix_b->t[2] = scaled_depth;
         *((s32 *) (copy_matrix_a + 0x1C)) = scaled_depth;
         depth_value = (scratch->sw[0xC4 / 4]) - (*((s16 *) (render_state + 0x06)));
         scratch->sw[0xC4 / 4] = depth_value;
@@ -135,11 +133,11 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
                         CompMatrix(sprite_fixed_transform_matrix, fixed_matrix, scratch->b + 0x54);
                     }
                     else {
-                        CompMatrix(effect_view_matrix, fixed_matrix, scratch->b + 0x54);
+                        CompMatrix(&effect_view_matrix, fixed_matrix, scratch->b + 0x54);
                     }
                 }
                 else {
-                    CompMatrix(sprite_projection_matrix, fixed_matrix, scratch->b + 0x54);
+                    CompMatrix(&sprite_projection_matrix, fixed_matrix, scratch->b + 0x54);
                 }
                 SetTransMatrix(scratch->b + 0x54);
                 SetRotMatrix(scratch->b + 0x54);

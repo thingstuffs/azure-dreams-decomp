@@ -27,7 +27,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource06_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = spawn_animated_monster;
-void (*const resource06_slot0_entry1)(u8 *actor, u8 *motion, SpriteFrameState *entity) = update_flame_motion_and_facing;
+void (*const resource06_slot0_entry1)(u8 *actor, ObjectPosition *motion, SpriteFrameState *entity) = update_flame_motion_and_facing;
 
 /* Creates a Flame actor with three child display objects and initializes its status and tile placement. */
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
@@ -165,7 +165,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
 }
 
 /* Runs actor callbacks and updates child sprite colors, facing, animation, motion, and ground contact. */
-void update_flame_motion_and_facing(u8 *actor, u8 *motion, SpriteFrameState *entity)
+void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFrameState *entity)
 {
     R06_80170BB8_S_80170BB8_1 *subject = (R06_80170BB8_S_80170BB8_1 *)actor;
     s16 state_index;
@@ -221,17 +221,17 @@ void update_flame_motion_and_facing(u8 *actor, u8 *motion, SpriteFrameState *ent
                 try_move_actor_to_valid_position(actor, motion, entity, actor);
             }
 
-            ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_00.at00.v += ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_0C;
-            ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_04.at00.v += ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_10;
+            motion->x.v += motion->velocity_x;
+            motion->y.v += motion->velocity_y;
 
             if (!((*(u32 *)(actor + 0x1C)) & 0x00040000) &&
                 !((*(u16 *)(actor + 0x98)) & 8)) {
-                ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_14 += (*(s8 *)(actor + 0x9D)) * 0x14000;
+                motion->velocity_z += (*(s8 *)(actor + 0x9D)) * 0x14000;
                 (*(actor + 0x9D))++;
             } else {
                 (*(actor + 0x9D)) = 0;
             }
-            (*(s32 *)(actor + 0x90)) += ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_14;
+            (*(s32 *)(actor + 0x90)) += motion->velocity_z;
 
             if (subject->unk_1C.u & 0x200) {
                 if ((*(u16 *)(actor + 0x98)) & 0x4000) {
@@ -358,7 +358,7 @@ void update_flame_motion_and_facing(u8 *actor, u8 *motion, SpriteFrameState *ent
 
                     if (!((*(u16 *)(actor + 0x98)) & 8)) {
                         ground_offset = (s16)(sample_terrain_surface_height(
-                            ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_00.at02.v, ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_04.at02.v,
+                            (u16)motion->x.w.i, (u16)motion->y.w.i,
                             (s16)(subject->unk_88 - 0x20)) -
                                               subject->unk_88);
                         height_offset = (*(s16 *)(actor + 0x92));
@@ -394,13 +394,13 @@ void update_flame_motion_and_facing(u8 *actor, u8 *motion, SpriteFrameState *ent
                         (*(s32 *)(actor + 0x90)) -= reset_bob_offset;
                         if (!((*(u16 *)(actor + 0x98)) & 8)) {
                             reset_ground_height = sample_terrain_surface_height(
-                                ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_00.at02.v, ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_04.at02.v,
+                                (u16)motion->x.w.i, (u16)motion->y.w.i,
                                 (s16)(subject->unk_88 - 0x20));
                             reset_floor_offset = (s16)(reset_ground_height - subject->unk_88);
                             if (reset_floor_offset < (*(s16 *)(actor + 0x92))) {
                                 (*(s16 *)(actor + 0x92)) = reset_floor_offset;
                                 (*(actor + 0x9D)) = 0;
-                                ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_14 = 0;
+                                motion->velocity_z = 0;
                                 subject->unk_1C.u |= 0x08000000;
                             }
                         }
@@ -426,13 +426,13 @@ void update_flame_motion_and_facing(u8 *actor, u8 *motion, SpriteFrameState *ent
                     (*(s32 *)(actor + 0x90)) -= bob_offset;
                     if (!((*(u16 *)(actor + 0x98)) & 8)) {
                         ground_height = sample_terrain_surface_height(
-                            ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_00.at02.v, ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_04.at02.v,
+                            (u16)motion->x.w.i, (u16)motion->y.w.i,
                             (s16)(subject->unk_88 - 0x20));
                         floor_offset = (s16)(ground_height - subject->unk_88);
                         if (floor_offset < (*(s16 *)(actor + 0x92))) {
                             (*(s16 *)(actor + 0x92)) = floor_offset;
                             (*(actor + 0x9D)) = 0;
-                            ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_14 = 0;
+                            motion->velocity_z = 0;
                             subject->unk_1C.u |= 0x08000000;
                         }
                     }
@@ -449,7 +449,7 @@ void update_flame_motion_and_facing(u8 *actor, u8 *motion, SpriteFrameState *ent
 
                     if (!((*(u16 *)(actor + 0x98)) & 8)) {
                         ground_offset = (s16)(sample_terrain_surface_height(
-                            ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_00.at02.v, ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_04.at02.v,
+                            (u16)motion->x.w.i, (u16)motion->y.w.i,
                             (s16)(subject->unk_88 - 0x20)) -
                                               subject->unk_88);
                         height_offset = (*(s16 *)(actor + 0x92));
@@ -483,7 +483,7 @@ void update_flame_motion_and_facing(u8 *actor, u8 *motion, SpriteFrameState *ent
                 }
             }
 
-            ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_0A = subject->unk_88 +
+            motion->z.w.i = subject->unk_88 +
                                       (*(u16 *)(actor + 0x92)) -
                                       (*(u16 *)(actor + 0xB6));
             entity->flags |= 0x40;

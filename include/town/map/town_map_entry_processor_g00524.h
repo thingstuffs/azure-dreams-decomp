@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_TOWN_MAP_ENTRY_PROCESSOR_G00524_H
 #define TOWN_MAP_TOWN_MAP_ENTRY_PROCESSOR_G00524_H
 /* Town map entry processor shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8008E9D4, CL:town/func_8008EA64, CL:town/func_8008EAB4, CL:town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8008E9D4, town/func_8008EA64, town/func_8008EAB4, town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428. */
 
 #include "common.h"
 #include "m2c_compat.h"

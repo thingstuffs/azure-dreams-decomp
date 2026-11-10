@@ -1,4 +1,4 @@
-/* Actor data references (G00663). */
+/* Actor data references. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D58B8. */
 #include "town/person/actor_data_references_g00663.h"
 #include "town/person.h"

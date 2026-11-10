@@ -6,7 +6,6 @@
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 
 extern void bzero(void *dst, s32 len);
 extern void bind_view_triplet_source(void *entity);

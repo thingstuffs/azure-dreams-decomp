@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "shared/position_views.h"
 #include "engine/window.h"
 

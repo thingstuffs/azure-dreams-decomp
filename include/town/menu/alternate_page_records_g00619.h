@@ -1,7 +1,7 @@
 #ifndef TOWN_MENU_ALTERNATE_PAGE_RECORDS_G00619_H
 #define TOWN_MENU_ALTERNATE_PAGE_RECORDS_G00619_H
-/* inferred-strong G00619: alternate_page_records_g00619; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80035C0C, CL:town/func_800B5978, CL:town/func_800B5B74. */
+/* inferred-strong alternate_page_records_g00619; shared declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80035C0C, town/func_800B5978, town/func_800B5B74. */
 
 /* Update alternate menu page bounds. */
 #include "common.h"

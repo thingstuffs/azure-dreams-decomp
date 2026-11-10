@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
+#include "slus/data.h"
 #include "dungeon/system/random.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/mesh.h"
@@ -11,6 +12,11 @@
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
+#include "sdk/libgpu_packets.h"
+#include "engine/graphics/sprite_scratch.h"
+#include "shared/gpu_packets.h"
+#include "shared/object_node.h"
 #include "dungeon/system.h"
 
 void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct ObjectPosition *position, struct SpriteFrameState *render_data) = set_record_pair_to_one;
@@ -18,43 +24,36 @@ const PackedVector wave_texture_rect = {832,340,96,84};
 const PackedVector wave_source_rect = {832,256,96,84};
 const Copy24 wave_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 /* cfail-repair: tf7-phase1-cache-v3 */
-#include "common.h"
 #include "shared/game_work.h"
 
 extern void func_80067EF4(void *, s32, s32);
-extern u8 effect_view_matrix[8];
 
-typedef struct Quad40 {
-    s32 w0;
-    s32 w1;
-    u16 h8;
-    u16 h10;
-    u8  b12;
-    u8  b13;
-    u8  b14;
-    u8  b15;
-    s16 h16;
-    s16 h18;
-    s32 w20;
-    s16 h24;
-    s16 h26;
-    s32 w28;
-    s32 w32;
-    s32 w36;
-} Quad40;
+/* Twelve-byte sprite part command read from SpriteFrameState.source. A negative flags byte ends the list; flag 0x20
+ * replaces the texture bytes with a draw callback word (see draw_wave_distorted_sprite). */
+typedef struct SpritePart {
+    u8 flags;
+    u8 code;
+    s8 offset_x;
+    s8 offset_y;
+    u16 tpage;
+    u16 clut;
+    u8 texture_u;
+    u8 texture_v;
+    u8 width;
+    u8 height;
+} SpritePart;
 
-typedef struct Scratchpad {
-    u8 bytes[0x10C];
-} Scratchpad;
+typedef POLY_FT4 *(*SpritePartDraw)(void *context, ObjectPosition *position, SpriteFrameState *sprite,
+                                     SpritePart *part, POLY_FT4 *packet);
 
 /* Draw sprite parts as textured strips displaced by a wave along either axis. */
-void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control)
+void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wave, void *context, s32 *ordering_table, s32 draw_control)
 {
-    Quad40 base_quad;
-    Quad40 strip_quad;
+    POLY_FT4 base_quad;
+    POLY_FT4 strip_quad;
     u16 saved_draw_control;
-    s32 callback_arg;
-    void *part;
+    ObjectPosition *callback_arg;
+    SpritePart *part;
     s32 tag_mask;
     s16 flipped_x;
     s16 start_x;
@@ -65,13 +64,13 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
     s32 phase;
     s32 row_phase;
     s32 column_phase;
-    s32 *(*draw_part)(void *, s32, void *, void *, s32 *);
-    s32 *row_link;
-    s32 *column_link;
-    s32 *start_link;
-    s32 *end_link;
-    s32 *end_packet;
-    s32 *packet;
+    SpritePartDraw draw_part;
+    u32 *row_link;
+    u32 *column_link;
+    u32 *start_link;
+    u32 *end_link;
+    POLY_FT4 *end_packet;
+    POLY_FT4 *packet;
     s32 texture_right;
     s32 texture_bottom;
     u16 projected_y;
@@ -87,181 +86,167 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
     u8 right_u;
     u8 bottom_v;
     u8 draw_command;
-    void *row_wave;
-    void *column_wave;
-    void *sprite;
+    SpriteFrameState *sprite;
     GameWork *globals;
-    u8 *view_matrix;
-    void *screen_link;
+    MATRIX *view_matrix;
+    u32 screen_link;
     s32 wave_index;
-    Scratchpad *scratch;
-    screen_link = screen_pos;
+    SpriteQuadScratch *scratch;
     globals = &g_game_work;
-    sprite = *((void **) (((s8 *) context) + (-0x14)));
-    part = *((void **) (((s8 *) sprite) + 8));
-    callback_arg = *((s32 *) (((s8 *) context) + (-0x18)));
-    scratch = (Scratchpad *) 0x1F800000;
-    *((s32 *) (((u8 *) scratch) + 0xEC)) = 0;
-    *((u16 *) (((u8 *) scratch) + 0x8C)) = 0;
-    *((u16 *) (((u8 *) scratch) + 0x84)) = 0;
-    *((u16 *) (((u8 *) scratch) + 0x7C)) = 0;
-    *((u16 *) (((u8 *) scratch) + 0x74)) = 0;
-    packet = *((s32 **) (((s8 *) g_game_work.draw_buffer) + 0x8D0));
-    *((s32 *) (((u8 *) scratch) + 0x20)) = (s32) ordering_table;
-    *((s32 *) (((u8 *) scratch) + 0xC0)) = 0;
-    *((u16 *) (((u8 *) scratch) + 0xB8)) = (u16) ((*((u16 *) (((s8 *) screen_link) + 0))) - 0xA0);
-    *((u16 *) (((u8 *) scratch) + 0xBA)) = (u16) ((*((u16 *) (((s8 *) screen_link) + 2))) - 0x78);
-    saved_draw_control = (u16) draw_control;
+    sprite = NODE_HEADER(context)->sprite;
+    part = sprite->source;
+    callback_arg = NODE_HEADER(context)->position;
+    scratch = (SpriteQuadScratch *) 0x1F800000;
+    scratch->local_matrix.t[2] = 0;
+    scratch->vertices[3].z = 0;
+    scratch->vertices[2].z = 0;
+    scratch->vertices[1].z = 0;
+    scratch->vertices[0].z = 0;
+    packet = ((GpuContext *) g_game_work.draw_buffer)->packetCursor;
+    scratch->ordering_table = (u32) ordering_table;
+    scratch->sort_depth = 0;
+    scratch->screen_origin.x = screen_pos->x - 0xA0;
+    scratch->screen_origin.y = screen_pos->y - 0x78;
+    saved_draw_control = draw_control;
     tag_mask = 0;
     if ((draw_control << 0x10) != 0) {
         func_80067EF4(packet, 0, 0);
         tag_mask = 0xFF000000;
-        *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
-        start_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
-        screen_link = (void *) (((s32) packet) & 0xFFFFFF);
-        packet += 3;
-        *start_link = ((*start_link) & 0xFF000000) | ((s32) screen_link);
+        packet->tag = (packet->tag & 0xFF000000) | (*(u32 *) scratch->ordering_table & 0xFFFFFF);
+        start_link = (u32 *) scratch->ordering_table;
+        screen_link = (u32) packet & 0xFFFFFF;
+        packet = (POLY_FT4 *) ((u32 *) packet + 3);
+        *start_link = (*start_link & 0xFF000000) | screen_link;
     }
-    view_matrix = (u8 *) (&effect_view_matrix);
-    *((s32 *) (view_matrix + 0x1C)) = (s32) (globals->view.projection_distance);
+    view_matrix = &effect_view_matrix;
+    view_matrix->t[2] = globals->view.projection_distance;
     PushMatrix();
-    *((s32 *) (((u8 *) scratch) + 0x30)) = globals->view.camera_rotation.parts.camera_rotation_x;
-    *((s32 *) (((u8 *) scratch) + 0x34)) = globals->view.camera_rotation.parts.camera_rotation_y;
-    *((s32 *) (((u8 *) scratch) + 0x38)) = globals->view.camera_rotation.parts.viewAngle;
-    *((u16 *) (((u8 *) scratch) + 0x100)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x16)));
-    *((u16 *) (((u8 *) scratch) + 0x104)) = (s16) ((*((u16 *) (((s8 *) sprite) + 0x1A))) - (*((u16 *) (((u8 *) scratch)
-        + 0x34))));
-    *((u16 *) (((u8 *) scratch) + 0x102)) = (s16) (((((*((u16 *) (((u8 *) scratch) + 0x38))) + 0x100) & 0x1FF) - 0x100)
-        + (*((u16 *) (((s8 *) sprite) + 0x18))));
-    origin_x = *((u16 *) (((s8 *) sprite) + 0x20));
-    *((s32 *) (((u8 *) scratch) + 0xE4)) = origin_x;
-    *((u16 *) (((u8 *) scratch) + 0x108)) = origin_x;
-    origin_y = *((u16 *) (((s8 *) sprite) + 0x22));
-    *((s32 *) (((u8 *) scratch) + 0xE8)) = origin_y;
-    *((u16 *) (((u8 *) scratch) + 0x10A)) = origin_y;
-    RotMatrix((void *) 0x1F800100, (void *) 0x1F8000D0);
-    *((s32 *) (((u8 *) scratch) + 0x30)) = *((u16 *) (((s8 *) sprite) + 0x1C));
-    *((s32 *) (((u8 *) scratch) + 0x34)) = *((u16 *) (((s8 *) sprite) + 0x1E));
-    *((s32 *) (((u8 *) scratch) + 0x38)) = 0x1000;
-    ScaleMatrix((void *) 0x1F8000D0, (void *) 0x1F800030);
-    CompMatrix(view_matrix, (void *) 0x1F8000D0, (void *) 0x1F800050);
-    SetTransMatrix((void *) 0x1F800050);
-    SetRotMatrix((void *) 0x1F800050);
-    *((u16 *) (((u8 *) scratch) + 0x24)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
+    scratch->input_x = globals->view.camera_rotation.parts.camera_rotation_x;
+    scratch->input_y = globals->view.camera_rotation.parts.camera_rotation_y;
+    scratch->input_z = globals->view.camera_rotation.parts.viewAngle;
+    scratch->angle_x = sprite->angle_x;
+    scratch->angle_z = sprite->angle_z - scratch->input_y;
+    scratch->angle_y = (s16) ((((scratch->input_z + 0x100) & 0x1FF) - 0x100) + sprite->angle_y);
+    origin_x = sprite->offset_x;
+    scratch->local_matrix.t[0] = origin_x;
+    scratch->extent_x = origin_x;
+    origin_y = sprite->offset_y;
+    scratch->local_matrix.t[1] = origin_y;
+    scratch->extent_y = origin_y;
+    RotMatrix(&scratch->angle_x, &scratch->local_matrix);
+    scratch->input_x = sprite->scale_x;
+    scratch->input_y = sprite->scale_y;
+    scratch->input_z = 0x1000;
+    ScaleMatrix(&scratch->local_matrix, &scratch->input_x);
+    CompMatrix(view_matrix, &scratch->local_matrix, &scratch->matrix);
+    SetTransMatrix(&scratch->matrix);
+    SetRotMatrix(&scratch->matrix);
+    scratch->sprite_flags = sprite->flags;
     for (;;) {
-        if (!((*((u8 *) (((s8 *) part) + 0))) & 0x20)) {
-            *((s32 *) (((u8 *) scratch) + 0x08)) = *((u8 *) (((s8 *) part) + 8));
-            *((s32 *) (((u8 *) scratch) + 0x0C)) = (s32) (*((u8 *) (((s8 *) part) + 9)));
-            *((s32 *) (((u8 *) scratch) + 0x10)) = (s32) (*((u8 *) (((s8 *) part) + 10)));
-            *((s32 *) (((u8 *) scratch) + 0x14)) = (s32) (*((u8 *) (((s8 *) part) + 11)));
-            if (((*((u8 *) (((s8 *) part) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 1) {
-                flipped_x = (0 - ((s8) (*((u8 *) (((s8 *) part) + 2))))) - (*((u16 *) (((u8 *) scratch) + 0x108)));
-                *((u16 *) (((u8 *) scratch) + 0x80)) = flipped_x;
-                *((u16 *) (((u8 *) scratch) + 0x70)) = flipped_x;
-                end_x = flipped_x - ((u16) (*((s32 *) (((u8 *) scratch) + 0x10))));
-                *((u16 *) (((u8 *) scratch) + 0x88)) = end_x;
-                *((u16 *) (((u8 *) scratch) + 0x78)) = end_x;
+        if (!(part->flags & 0x20)) {
+            scratch->uv_u_start = part->texture_u;
+            scratch->uv_v_start = part->texture_v;
+            scratch->uv_u_extent = part->width;
+            scratch->uv_v_extent = part->height;
+            if ((part->flags ^ scratch->sprite_flags) & 1) {
+                flipped_x = (0 - part->offset_x) - scratch->extent_x;
+                scratch->vertices[2].x = flipped_x;
+                scratch->vertices[0].x = flipped_x;
+                end_x = flipped_x - scratch->uv_u_extent;
+                scratch->vertices[3].x = end_x;
+                scratch->vertices[1].x = end_x;
             }
             else {
-                start_x = ((s8) (*((u8 *) (((s8 *) part) + 2)))) - (*((u16 *) (((u8 *) scratch) + 0x108)));
-                *((u16 *) (((u8 *) scratch) + 0x80)) = start_x;
-                *((u16 *) (((u8 *) scratch) + 0x70)) = start_x;
-                end_x = start_x + ((u16) (*((s32 *) (((u8 *) scratch) + 0x10))));
-                *((u16 *) (((u8 *) scratch) + 0x88)) = end_x;
-                *((u16 *) (((u8 *) scratch) + 0x78)) = end_x;
+                start_x = part->offset_x - scratch->extent_x;
+                scratch->vertices[2].x = start_x;
+                scratch->vertices[0].x = start_x;
+                end_x = start_x + scratch->uv_u_extent;
+                scratch->vertices[3].x = end_x;
+                scratch->vertices[1].x = end_x;
             }
-            if (((*((u8 *) (((s8 *) part) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 2) {
-                flipped_y = (0 - ((s8) (*((u8 *) (((s8 *) part) + 3))))) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
-                *((u16 *) (((u8 *) scratch) + 0x7A)) = flipped_y;
-                *((u16 *) (((u8 *) scratch) + 0x72)) = flipped_y;
-                end_y = flipped_y - ((u16) (*((s32 *) (((u8 *) scratch) + 0x14))));
-                *((u16 *) (((u8 *) scratch) + 0x8A)) = end_y;
-                *((u16 *) (((u8 *) scratch) + 0x82)) = end_y;
+            if ((part->flags ^ scratch->sprite_flags) & 2) {
+                flipped_y = (0 - part->offset_y) - scratch->extent_y;
+                scratch->vertices[1].y = flipped_y;
+                scratch->vertices[0].y = flipped_y;
+                end_y = flipped_y - scratch->uv_v_extent;
+                scratch->vertices[3].y = end_y;
+                scratch->vertices[2].y = end_y;
             }
             else {
-                start_y = ((s8) (*((u8 *) (((s8 *) part) + 3)))) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
-                *((u16 *) (((u8 *) scratch) + 0x7A)) = start_y;
-                *((u16 *) (((u8 *) scratch) + 0x72)) = start_y;
-                end_y = start_y + ((u16) (*((s32 *) (((u8 *) scratch) + 0x14))));
-                *((u16 *) (((u8 *) scratch) + 0x8A)) = end_y;
-                *((u16 *) (((u8 *) scratch) + 0x82)) = end_y;
+                start_y = part->offset_y - scratch->extent_y;
+                scratch->vertices[1].y = start_y;
+                scratch->vertices[0].y = start_y;
+                end_y = start_y + scratch->uv_v_extent;
+                scratch->vertices[3].y = end_y;
+                scratch->vertices[2].y = end_y;
             }
-            RotTransPers4( (((u8 *) scratch) + 0x70),  (((u8 *) scratch) + 0x78),
-                 (((u8 *) scratch) + 0x80),  (((u8 *) scratch) + 0x88),
-                (void *) (((u8 *) scratch) + 0xF0), (void *) (((u8 *) scratch) + 0xF4),
-                (void *) (((u8 *) scratch) + 0xF8), (void *) (((u8 *) scratch) + 0xFC),
-                (void *) (((u8 *) scratch) + 0x90), (void *) (((u8 *) scratch) + 0x94));
-            *((s16 *) (((s8 *) packet) + 8)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF0)))
-                + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-            *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF2)))
-                + (*((u16 *) (((u8 *) scratch) + 0xBA))));
-            *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF4)))
-                + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-            *((s16 *) (((s8 *) packet) + 0x12)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF6)))
-                + (*((u16 *) (((u8 *) scratch) + 0xBA))));
-            *((s16 *) (((s8 *) packet) + 0x18)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF8)))
-                + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-            *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFA)))
-                + (*((u16 *) (((u8 *) scratch) + 0xBA))));
-            *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFC)))
-                + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-            projected_y = *((u16 *) (((u8 *) scratch) + 0xFE));
-            screen_y = *((u16 *) (((u8 *) scratch) + 0xBA));
-            *((((s8 *) packet) + 3)) = 9;
-            *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (projected_y + screen_y);
-            texture_right = (*((s32 *) (((u8 *) scratch) + 0x10))) + ((*((s32 *) (((u8 *) scratch) + 0x08))) - 1);
-            *((s32 *) (((u8 *) scratch) + 0x10)) = texture_right;
+            RotTransPers4(&scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2], &scratch->vertices[3],
+                (s32 *) &scratch->projected_vertices[0], (s32 *) &scratch->projected_vertices[1],
+                (s32 *) &scratch->projected_vertices[2], (s32 *) &scratch->projected_vertices[3],
+                &scratch->depth_cue, &scratch->gte_flag);
+            packet->x0 = scratch->projected_vertices[0].x + scratch->screen_origin.x;
+            packet->y0 = scratch->projected_vertices[0].y + scratch->screen_origin.y;
+            packet->x1 = scratch->projected_vertices[1].x + scratch->screen_origin.x;
+            packet->y1 = scratch->projected_vertices[1].y + scratch->screen_origin.y;
+            packet->x2 = scratch->projected_vertices[2].x + scratch->screen_origin.x;
+            packet->y2 = scratch->projected_vertices[2].y + scratch->screen_origin.y;
+            packet->x3 = scratch->projected_vertices[3].x + scratch->screen_origin.x;
+            projected_y = scratch->projected_vertices[3].y;
+            screen_y = scratch->screen_origin.y;
+            ((GpuLinkTag *) &packet->tag)->len = 9;
+            packet->y3 = projected_y + screen_y;
+            texture_right = scratch->uv_u_extent + (scratch->uv_u_start - 1);
+            scratch->uv_u_extent = texture_right;
             if (texture_right & 0x100) {
-                *((s32 *) (((u8 *) scratch) + 0x10)) = texture_right - 1;
+                scratch->uv_u_extent = texture_right - 1;
             }
-            texture_bottom = (*((s32 *) (((u8 *) scratch) + 0x14))) + ((*((s32 *) (((u8 *) scratch) + 0x0C))) - 1);
-            *((s32 *) (((u8 *) scratch) + 0x14)) = texture_bottom;
+            texture_bottom = scratch->uv_v_extent + (scratch->uv_v_start - 1);
+            scratch->uv_v_extent = texture_bottom;
             if (texture_bottom & 0x100) {
-                *((s32 *) (((u8 *) scratch) + 0x14)) = texture_bottom - 1;
+                scratch->uv_v_extent = texture_bottom - 1;
             }
-            *((s32 *) (((u8 *) scratch) + 0x14)) <<= 8;
-            *((s32 *) (((u8 *) scratch) + 0x0C)) <<= 8;
-            clut_base = *((u16 *) (((s8 *) sprite) + 0x12));
+            scratch->uv_v_extent <<= 8;
+            scratch->uv_v_start <<= 8;
+            clut_base = sprite->clut;
             if (clut_base != 0) {
-                if ((*((u16 *) (((u8 *) scratch) + 0x24))) & 0x100) {
-                    *((u16 *) (((s8 *) packet) + 0xE)) = clut_base;
+                if (scratch->sprite_flags & 0x100) {
+                    packet->clut = clut_base;
                 }
                 else {
-                    *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (clut_base + (*((u16 *) (((s8 *) part) + 6))));
+                    packet->clut = clut_base + part->clut;
                 }
             }
             else {
-                *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (*((u16 *) (((s8 *) part) + 6)));
+                packet->clut = part->clut;
             }
-            *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C))))
-                + ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
-            *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C))))
-                + ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
-            texture_page = *((u16 *) (((s8 *) sprite) + 0x10));
+            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            *(s16 *) &packet->u0 = scratch->uv_v_start + scratch->uv_u_start;
+            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            *(s16 *) &packet->u1 = scratch->uv_v_start + scratch->uv_u_extent;
+            texture_page = sprite->tpage_abr;
             if (texture_page != 0) {
-                *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (texture_page + ((*((u16 *) (((s8 *) part)
-                    + 4))) & 0xFF9F));
+                packet->tpage = texture_page + (part->tpage & 0xFF9F);
             }
             else {
-                *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (*((u16 *) (((s8 *) part) + 4)));
+                packet->tpage = part->tpage;
             }
-            *((s16 *) (((s8 *) packet) + 0x1C)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14))))
-                | ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
-            *((s16 *) (((s8 *) packet) + 0x24)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14))))
-                | ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
-            if ((*((s16 *) (((s8 *) packet) + 8))) > (*((s16 *) (((s8 *) packet) + 0x20)))) {
-                right_u = *((u8 *) (((s8 *) packet) + 0x24));
-                *((u8 *) (((s8 *) packet) + 0x24)) = (u8) (right_u + 0xFF);
-                *((u8 *) (((s8 *) packet) + 0x14)) = right_u;
+            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            *(s16 *) &packet->u2 = scratch->uv_v_extent | scratch->uv_u_start;
+            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            *(s16 *) &packet->u3 = scratch->uv_v_extent | scratch->uv_u_extent;
+            if (packet->x0 > packet->x3) {
+                right_u = packet->u3;
+                packet->u3 = right_u + 0xFF;
+                packet->u1 = right_u;
             }
-            if ((*((s16 *) (((s8 *) packet) + 0xA))) > (*((s16 *) (((s8 *) packet) + 0x22)))) {
-                bottom_v = *((u8 *) (((s8 *) packet) + 0x25));
-                *((u8 *) (((s8 *) packet) + 0x25)) = (u8) (bottom_v + 0xFF);
-                *((u8 *) (((s8 *) packet) + 0x1D)) = bottom_v;
+            if (packet->y0 > packet->y3) {
+                bottom_v = packet->v3;
+                packet->v3 = bottom_v + 0xFF;
+                packet->v2 = bottom_v;
             }
-            part_command = *((u8 *) (((s8 *) part) + 1));
-            *((u8 *) (((s8 *) sprite) + 0xF)) = part_command;
-            sprite_flags = *((u16 *) (((u8 *) scratch) + 0x24));
+            part_command = part->code;
+            sprite->color.c.code = part_command;
+            sprite_flags = scratch->sprite_flags;
             if (sprite_flags & 8) {
                 if (sprite_flags & 4) {
                     draw_command = part_command | 2;
@@ -269,86 +254,71 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
                 else {
                     draw_command = part_command & 0xFD;
                 }
-                *((u8 *) (((s8 *) sprite) + 0xF)) = draw_command;
+                sprite->color.c.code = draw_command;
             }
-            ;
-            *((s32 *) (((s8 *) packet) + 4)) = (s32) (*((s32 *) (((s8 *) sprite) + 0xC)));
-            base_quad = *((Quad40 *) packet);
+            /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+            *(s32 *) &packet->r0 = sprite->color.word;
+            base_quad = *packet;
             strip_quad = base_quad;
-            phase = *((s16 *) (((s8 *) wave) + 0x98));
+            phase = wave->rotation_angle;
             wave_index = 0;
-            if ((*((s16 *) (((s8 *) wave) + 0x9C))) == 0) {
+            if (wave->wave_axis == 0) {
                 do {
-                    *((((s8 *) packet) + 0x3)) = 9;
-                    *((Quad40 *) packet) = base_quad;
-                    *((u16 *) (((s8 *) packet) + 0x8)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x8)))
-                        + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) (row_wave = wave + wave_index))
-                        + 0x38))))) >> 0x10));
-                    *((u16 *) (((s8 *) packet) + 0x10)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x10)))
-                        + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
-                    row_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
+                    ((GpuLinkTag *) &packet->tag)->len = 9;
+                    *packet = base_quad;
+                    packet->x0 = packet->x0
+                        + ((rsin(phase) * wave->levels[wave_index]) >> 0x10);
+                    packet->x1 = packet->x1 + ((rsin(phase) * wave->levels[wave_index]) >> 0x10);
+                    row_phase = phase + wave->unk_9A;
                     if (row_phase >= 0x1001) {
                         row_phase -= 0x1000;
                     }
-                    *((u16 *) (((s8 *) packet) + 0x18)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x18)))
-                        + (((s32) (rsin(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                    packet->x2 = packet->x2 + ((rsin(row_phase) * wave->levels[wave_index]) >> 0x10);
+                    packet->x3 = packet->x3 + ((rsin(row_phase) * wave->levels[wave_index]) >> 0x10);
                     wave_index += 1;
-                    *((u16 *) (((s8 *) packet) + 0x20)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x20)))
-                        + (((s32) (rsin(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
                     if (wave_index >= 0x60) {
                         wave_index = 0;
                     }
-                    *((u16 *) (((s8 *) packet) + 0xA)) = strip_quad.h10;
-                    *((u16 *) (((s8 *) packet) + 0x12)) = strip_quad.h10;
-                    *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((strip_quad.h10) + 1);
-                    *((s16 *) (((s8 *) packet) + 0x22)) = (s16) ((strip_quad.h10) + 1);
-                    *((u8 *) (((s8 *) packet) + 0xD)) = strip_quad.b13;
-                    *((u8 *) (((s8 *) packet) + 0x15)) = strip_quad.b13;
-                    *((((s8 *) packet) + 0x1D)) = (s8) ((strip_quad.b13) + 1);
-                    *((((s8 *) packet) + 0x25)) = (s8) ((strip_quad.b13) + 1);
-                    *packet = ((*packet) & 0xFF000000)
-                    | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
-                    row_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
-                    *row_link = ((*row_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
-                    strip_quad = *((Quad40 *) packet);
-                    next_y = (strip_quad.h10) + 1;
-                    strip_quad.h10 = next_y;
-                    strip_quad.b13 += 1;
-                    phase = row_phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
-                    packet += 10;
+                    packet->y0 = strip_quad.y0;
+                    packet->y1 = strip_quad.y0;
+                    packet->y2 = strip_quad.y0 + 1;
+                    packet->y3 = strip_quad.y0 + 1;
+                    packet->v0 = strip_quad.v0;
+                    packet->v1 = strip_quad.v0;
+                    packet->v2 = strip_quad.v0 + 1;
+                    packet->v3 = strip_quad.v0 + 1;
+                    packet->tag = (packet->tag & 0xFF000000) | (*(u32 *) scratch->ordering_table & 0xFFFFFF);
+                    row_link = (u32 *) scratch->ordering_table;
+                    *row_link = (*row_link & 0xFF000000) | ((u32) packet & 0xFFFFFF);
+                    strip_quad = *packet;
+                    next_y = strip_quad.y0 + 1;
+                    strip_quad.y0 = next_y;
+                    strip_quad.v0 += 1;
+                    phase = row_phase + wave->unk_9A;
+                    packet += 1;
                     if (phase >= 0x1001) {
                         phase -= 0x1000;
                     }
                 }
-                while (((s16) next_y) < (base_quad.h26));
+                while ((s16) next_y < base_quad.y2);
             }
             else {
                 do {
-                    *((((s8 *) packet) + 0x3)) = 9;
-                    *((Quad40 *) packet) = base_quad;
-                    *((u16 *) (((s8 *) packet) + 0xA)) = (u16) ((*((u16 *) (((s8 *) packet) + 0xA)))
-                        + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) (column_wave = wave + wave_index))
-                        + 0x38))))) >> 0x10));
-                    *((u16 *) (((s8 *) packet) + 0x1A)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x1A)))
-                        + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
-                    column_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
+                    ((GpuLinkTag *) &packet->tag)->len = 9;
+                    *packet = base_quad;
+                    packet->y0 = packet->y0
+                        + ((rsin(phase) * wave->levels[wave_index]) >> 0x10);
+                    packet->y2 = packet->y2 + ((rsin(phase) * wave->levels[wave_index]) >> 0x10);
+                    column_phase = phase + wave->unk_9A;
                     if (column_phase >= 0x1001) {
                         column_phase -= 0x1000;
-                        *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12)))
-                            + (((s32) (rsin(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
-                               >> 0x10));
+                        packet->y1 = packet->y1 + ((rsin(column_phase) * wave->levels[wave_index]) >> 0x10);
+                        packet->y3 = packet->y3 + ((rsin(column_phase) * wave->levels[wave_index]) >> 0x10);
                         wave_index += 1;
-                        *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22)))
-                            + (((s32) (rsin(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
-                               >> 0x10));
                     } else {
-                        *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12)))
-                            + (((s32) (rsin(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
-                               >> 0x10));
+                        packet->y1 = packet->y1 + ((rsin(column_phase) * wave->levels[wave_index]) >> 0x10);
+                        packet->y3 = packet->y3 + ((rsin(column_phase) * wave->levels[wave_index]) >> 0x10);
                         wave_index += 1;
-                        *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22)))
-                            + (((s32) (rsin(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
-                               >> 0x10));
                     }
                     if (wave_index >= 0x60) {
                         wave_index = 0;
@@ -356,24 +326,24 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
                     do {
                         do {
                             do {
-                                *((u16 *) (((s8 *) packet) + 0x8)) = strip_quad.h8;
-                                *((u16 *) (((s8 *) packet) + 0x18)) = strip_quad.h8;
-                                *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((strip_quad.h8) + 1);
-                                *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((strip_quad.h8) + 1);
-                                *((u8 *) (((s8 *) packet) + 0xC)) = strip_quad.b12;
-                                *((u8 *) (((s8 *) packet) + 0x1C)) = strip_quad.b12;
-                                *((((s8 *) packet) + 0x14)) = (s8) ((strip_quad.b12) + 1);
-                                *((((s8 *) packet) + 0x24)) = (s8) ((strip_quad.b12) + 1);
-                                *packet = ((*packet) & 0xFF000000)
-                                | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
-                                column_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
-                                *column_link = ((*column_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
-                                strip_quad = *((Quad40 *) packet);
-                                next_x = (strip_quad.h8) + 1;
-                                strip_quad.h8 = next_x;
-                                strip_quad.b12 += 1;
-                                phase = column_phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
-                                packet += 10;
+                                packet->x0 = strip_quad.x0;
+                                packet->x2 = strip_quad.x0;
+                                packet->x1 = strip_quad.x0 + 1;
+                                packet->x3 = strip_quad.x0 + 1;
+                                packet->u0 = strip_quad.u0;
+                                packet->u2 = strip_quad.u0;
+                                packet->u1 = strip_quad.u0 + 1;
+                                packet->u3 = strip_quad.u0 + 1;
+                                packet->tag = (packet->tag & 0xFF000000)
+                                | (*(u32 *) scratch->ordering_table & 0xFFFFFF);
+                                column_link = (u32 *) scratch->ordering_table;
+                                *column_link = (*column_link & 0xFF000000) | ((u32) packet & 0xFFFFFF);
+                                strip_quad = *packet;
+                                next_x = strip_quad.x0 + 1;
+                                strip_quad.x0 = next_x;
+                                strip_quad.u0 += 1;
+                                phase = column_phase + wave->unk_9A;
+                                packet += 1;
                             } while (0);
                         } while (0);
                     } while (0);
@@ -381,47 +351,40 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
                         phase -= 0x1000;
                     }
                 }
-                while (((s16) next_x) < (base_quad.h16));
+                while ((s16) next_x < base_quad.x1);
             }
         }
         else {
-            draw_part = (s32 *(*)(void *, s32, void *, void *, s32 *)) (*((s32 *) (((s8 *) part) + 8)));
+            /* BYTES: with flag 0x20 the four texture bytes at part+8 hold a draw callback, which retail loads with one lw */
+            draw_part = *(SpritePartDraw *) &part->texture_u;
             if (draw_part != 0) {
                 packet = draw_part(context, callback_arg, sprite, part, packet);
             }
         }
-        if (((s8) (*((u8 *) (((s8 *) part) + 0)))) < 0) {
+        if ((s8) part->flags < 0) {
             break;
         }
-        part =  (((u8 *) part) + 0xC);
+        part += 1;
     }
     end_packet = packet;
     if ((saved_draw_control << 0x10) != 0) {
         func_80067EF4(end_packet, 0, 1);
-        *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
-        end_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
-        end_packet = (s32 *) (((s32) packet) & 0xFFFFFF);
-        packet += 3;
-        *end_link = ((*end_link) & 0xFF000000) | ((s32) end_packet);
+        packet->tag = (packet->tag & 0xFF000000) | (*(u32 *) scratch->ordering_table & 0xFFFFFF);
+        end_link = (u32 *) scratch->ordering_table;
+        end_packet = (POLY_FT4 *) ((u32) packet & 0xFFFFFF);
+        packet = (POLY_FT4 *) ((u32 *) packet + 3);
+        *end_link = (*end_link & 0xFF000000) | (u32) end_packet;
     }
     PopMatrix();
-    *((s32 **) (((s8 *) (globals->draw_buffer)) + 0x8D0)) = packet;
+    ((GpuContext *) globals->draw_buffer)->packetCursor = packet;
 }
 
-#include "modules/dungeon_ovl_1918800.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct Position {
     u16 x;
     s16 y;
     s32 value;
 } Position;
-
-typedef struct Coord {
-    u16 x;
-    s16 y;
-} Coord;
 
 typedef struct DungeonState {
     u8 pad0[0x8B0];
@@ -441,10 +404,10 @@ typedef struct Packet16 {
 extern u8 upper_draw_context[16];
 
 /* Queue drawing with an optional cleared rectangle, then restore the drawing area. */
-void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position *restore_area, Position *draw_pos,
+void draw_wave_sprite_in_draw_area(ParticleState *wave, void *context, Position *restore_area, Position *draw_pos,
                    u32 clear_area, s32 draw_option)
 {
-    Coord pos;
+    WaveScreenOrigin pos;
     u16 clear_enabled;
     DungeonState *state;
     void **state_ptr;
@@ -477,7 +440,7 @@ void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position 
 
     {
         s32 signed_option = (s16)saved_option;
-        draw_wave_distorted_sprite(&pos, draw_param_a, draw_param_b, ordering_table, signed_option);
+        draw_wave_distorted_sprite(&pos, wave, context, ordering_table, signed_option);
     }
 
     if (clear_enabled != 0) {
@@ -519,7 +482,6 @@ void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position 
 #include "shared/dungeon_effect_views.h"
 #include "modules/dungeon_ovl_1918800.h"
 #include "shared/gpu_packets.h"
-#include "common.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/object_node.h"
@@ -625,8 +587,6 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
     return 0;
 }
 
-#include "modules/dungeon_ovl_1918800.h"
-#include "common.h"
 
 /* Return a random sign of either -1 or 1. */
 s32 advance_effect_sequence(void) {
@@ -641,11 +601,8 @@ s32 advance_effect_sequence(void) {
 
 #include "shared/dungeon_effect_views.h"
 #include "modules/dungeon_ovl_1918800.h"
-#include "common.h"
 #include "modules/dungeon_native_abi.h"
-#include "shared/entity.h"
 #include "shared/object_flags.h"
-#include "shared/object_node.h"
 
 /* Raise the entity toward the queried ground height and set flags when the countdown expires. */
 void raise_entity_to_ground(PointRecord *state, ObjectPosition *position)
@@ -667,12 +624,6 @@ void raise_entity_to_ground(PointRecord *state, ObjectPosition *position)
     }
 }
 
-#include "shared/dungeon_effect_views.h"
-#include "modules/dungeon_ovl_1918800.h"
-#include "common.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/entity.h"
-#include "shared/object_node.h"
 
 /* Retail 818F9A28 (create_random_jitter_child): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
@@ -741,10 +692,6 @@ void create_random_jitter_child(
     }
 }
 
-#include "modules/dungeon_ovl_1918800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/object_node.h"
 
 /* The effect's record; its ObjectNodeHeader sits right before it. */
 typedef struct CountdownRecord {
@@ -767,31 +714,6 @@ void advance_record_counter(CountdownRecord *record)
     }
 }
 
-#include "modules/dungeon_ovl_1918800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-
-typedef struct {
-    u8 bytes[12];
-} __attribute__((packed)) Copy12;
-
-typedef struct ParticleState {
-    s16 phase;
-    s16 unk_02; /* fade duration or timed-wave frame, according to installed callback */
-    s16 frame;
-    u8 pad_06[0x4];
-    s16 peak_frame;
-    u8 pad_0C[0xE];
-    Copy12 anim;
-    u8 pad_26[0x2];
-    void *parent;
-    void *target;
-    struct ProjectileSelf *source;
-    void *flash_state;
-    u8 levels[0x60];
-    u16 rotation_angle;
-    s16 unk_9A;
-} ParticleState;
 
 typedef struct CursorView {
     u8 pad_00[0x38];
@@ -889,7 +811,7 @@ void process_five_context_entries_or_fallback(ParticleState *effect, void *unuse
     derived.x = source.x + ((s16)source.z >> 1);
     one = 1;
     derived.y = source.y + 0x3C;
-    move_linked_effect_along_path(effect, effect->flash_state, render_source, derived_ptr, one, one);
+    draw_wave_sprite_in_draw_area(effect, effect->flash_state, render_source, derived_ptr, one, one);
 
     next_frame = (u16)effect->frame + 1;
     effect->frame = next_frame;
@@ -899,9 +821,6 @@ void process_five_context_entries_or_fallback(ParticleState *effect, void *unuse
     }
 }
 
-#include "modules/dungeon_ovl_1918800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Updates a grayscale fade, advances its progress, and flags completion. */
 void advance_grayscale_fade(ParticleState *state, s32 unused, SpriteFrameState *out)
@@ -935,9 +854,6 @@ void advance_grayscale_fade(ParticleState *state, s32 unused, SpriteFrameState *
     }
 }
 
-#include "modules/dungeon_ovl_1918800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 struct ParentView;
 struct SelfChildView;
@@ -1057,7 +973,7 @@ void update_timed(ParticleState *state, ObjectPosition *position_out, SpriteFram
     effect_arg->scale_y = motion->scale_y;
     motion->scale_y = 0x1000;
     motion->scale_x = 0x1000;
-    move_linked_effect_along_path(state, state->target, &origin, &anchor, one, one);
+    draw_wave_sprite_in_draw_area(state, state->target, &origin, &anchor, one, one);
     motion->scale_x = saved_scale_x;
     motion->scale_y = saved_scale_y;
 
@@ -1075,11 +991,8 @@ void update_timed(ParticleState *state, ObjectPosition *position_out, SpriteFram
 
 /* MECHANISM: Separate packed source/derived locals preserve the 0x40 frame and retail slots. */
 
-#include "modules/dungeon_ovl_1918800.h"
 #include "shared/entity_height_offsets.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"

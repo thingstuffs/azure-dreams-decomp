@@ -78,7 +78,6 @@ typedef struct DdcbcEntry {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
-#include "dungeon/player/item.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/item.h"
 #include "dungeon/system.h"

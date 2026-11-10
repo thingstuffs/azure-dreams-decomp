@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/object.h"
 
 /* Writes zero through the supplied 32-bit word pointer. */

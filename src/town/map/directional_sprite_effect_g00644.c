@@ -1,4 +1,4 @@
-/* Directional sprite effect (G00644). */
+/* Directional sprite effect. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800F15E4. */
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"

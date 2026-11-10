@@ -1,5 +1,5 @@
-/* Process flagged entries and clear scene history (G00711). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80471198. */
+/* Process flagged entries and clear scene history. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80471198. */
 #include "town/scene/flagged_entry_actions_g00711.h"
 #include "town/scene.h"
 #include "town/player/state.h"

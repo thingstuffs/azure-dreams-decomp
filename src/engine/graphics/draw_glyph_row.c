@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/graphics.h"
 
-#include "common.h"
 
 
 /* Draw a zero-terminated sequence of two-byte glyph codes in a horizontal row. */

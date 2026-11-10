@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/script/vm.h"
 #include "engine/window.h"
 

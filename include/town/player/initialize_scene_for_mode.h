@@ -131,7 +131,6 @@ extern void clear_resident_bitmap_bit(s32 flag_id);
 extern s32 test_resident_bitmap_bit(s32 bit_id);
 extern void zero_words(void *ptr, s32 count);
 extern void register_node(func_80092868_TownObject *object, void *data);
-extern void func_8004491C(func_80092868_TownObject *object, void *data);
 extern void initialize_circular_list_head(void);
 extern void initialize_pointer_table_self_links(void);
 extern void initialize_the_store_two_values_set_state_flags(void *record, func_80092868_ScenePos *scene, void *value_0c); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */

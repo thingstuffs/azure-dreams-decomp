@@ -17,8 +17,6 @@ const RectTable linked_particle_texture_rects = {{
  {0x380,0x140,0x40,0x40}, {0x380,0x180,0x40,0x40},
  {0x380,0x1C0,0x40,0x40}, {0x340,0x100,0x40,0x40}
 }};
-#include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
-#include "dungeon/effect/particle.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
@@ -60,11 +58,8 @@ void fade_linked_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused_
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
-#include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 
 typedef struct {
     u32 word[4];
@@ -182,9 +177,6 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
 typedef struct Copy12 {
     s32 word[3];
 } __attribute__((packed)) Copy12;
@@ -246,9 +238,6 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, ObjectP
         part->source = (((void *)object) + 0x92);
     }
 }
-#include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 /*
  * Clamps nonzero primitive brightness above 64, reduces it by five, and decrements the lifetime.
@@ -280,13 +269,7 @@ void fade_the_primitive_flag_effect_countdown_expires(void *effect, void *unused
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
-#include "common.h"
-#include "shared/entity.h"
-#include "shared/object_node.h"
-#include "shared/record_ptrs.h"
 #include "shared/entity_objects.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
 /* Recovered action payload; byte/halfword members follow retail access widths. */

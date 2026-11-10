@@ -2,7 +2,6 @@
 #include "town/scene/data_access.h"
 #include "town.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_8001B324;
 
 /* Sets D_8001B324 to the supplied value. */

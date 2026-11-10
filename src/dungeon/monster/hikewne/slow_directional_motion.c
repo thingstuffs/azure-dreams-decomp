@@ -13,7 +13,7 @@
 extern u8 hikewne_motion_frame_set;
 
 /* Slows directional motion, then recenters the entity on its tile. */
-void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, Rec_D_80082E80 *tile_state, void *entity)
+void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, Rec_D_80082E80 *tile_state, ActorRecord *entity)
 {
     s16 timer;
     s32 x_speed_or_entity;
@@ -26,12 +26,12 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            -dir_step_x[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
+            -dir_step_x[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -dir_step_y[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
+            -dir_step_y[(entity->movement_facing >> 9) & 7] << 15;
         motion_state->action_phase++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -44,7 +44,7 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
             return;
         }
         timer = -1;
-        if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
         motion_state->action_timer = timer;
@@ -71,7 +71,7 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
         if (motion_state->action_timer != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;

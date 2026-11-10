@@ -16,7 +16,10 @@ typedef struct S_800247D4_0 {
     u16 unk_6C;
     u16 unk_6E;
     u16 unk_70;
-    u8 pad_72[0x42];
+    u8 pad_72[0x12];
+    s32 depth_cue; /* RotTransPers depth-cue output */
+    s32 gte_flag; /* RotTransPers GTE flag output */
+    u8 pad_8C[0x28];
     s32 unk_B4;
     u8 pad_B8[0x20];
     u16 unk_D8;
@@ -258,16 +261,16 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
         }
         }
 
-        project_work_a = (u8 *)scratch + 0x84;
-        project_work_b = (u8 *)scratch + 0x88;
+        project_work_a = &scratch->depth_cue;
+        project_work_b = &scratch->gte_flag;
         {
-            u8 *start_pos = (u8 *)scratch + 0x64;
+            u16 *start_pos = &scratch->unk_64;
             u8 *start_screen = (u8 *)scratch + 0xD8;
             start_depth = RotTransPers(start_pos, start_screen, project_work_a, project_work_b);
         }
         scratch->unk_F4 = start_depth;
         {
-            u8 *end_pos = (u8 *)scratch + 0x6C;
+            u16 *end_pos = &scratch->unk_6C;
             u8 *end_screen = (u8 *)scratch + 0xDC;
             end_depth = RotTransPers(end_pos, end_screen, project_work_a, project_work_b);
         }

@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/sprite.h"
 
 typedef struct S_800477F4_Sub {

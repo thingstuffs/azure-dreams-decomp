@@ -3,7 +3,6 @@
 #include "town/scene/event.h"
 #include "town/player/state.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Call func_800177C4 for IDs 0x58E and 0x596 in order. */
 void run_events_58e_596(void) {

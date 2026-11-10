@@ -4,7 +4,6 @@
 #include "records/Rec_D_80082D58.h"
 #include "town/person.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800D6374[];
 
 

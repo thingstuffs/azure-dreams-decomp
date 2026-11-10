@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "town/scene/flags.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800194E8;
 
 /* Call func_80017BA0, then return the address of D_800194E8. */

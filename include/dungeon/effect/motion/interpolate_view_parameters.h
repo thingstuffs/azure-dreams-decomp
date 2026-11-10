@@ -362,7 +362,6 @@ void register_node(void *, void *);
 void SetTile(void *, s32);
 void AddPrim(void *, void *);
 #include "engine/node/allocation.h"
-void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 int abs(int);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s16 check_layer_offset_height(u16, u16, s16, s16);

@@ -1,4 +1,4 @@
-/* Move player motion toward target coordinates (G00547). */
+/* Move player motion toward target coordinates. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0608. */
 #include "town/player/target_motion_g00547.h"
 #include "town/player.h"

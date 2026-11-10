@@ -1,7 +1,7 @@
 #ifndef TOWN_EVENT_MESH_QUAD_TRANSFORM_G00591_H
 #define TOWN_EVENT_MESH_QUAD_TRANSFORM_G00591_H
-/* inferred-strong G00591: mesh_quad_transform_g00591; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC7B4, CL:town/func_800AC8E4, CL:town/func_800AC908, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. */
+/* inferred-strong mesh_quad_transform_g00591; shared declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AC7B4, town/func_800AC8E4, town/func_800AC908, town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. */
 
 #include "common.h"
 #include "m2c_compat.h"
@@ -10,7 +10,6 @@
 
 #define OTSLOT() (*(u32 *)((u8 *)scratch->unk_24 + scratch->unk_C4 * 4))
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_800AA044_0 {
     u16 unk_00;
     u16 unk_02;

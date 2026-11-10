@@ -3,7 +3,6 @@
 #include "town/player.h"
 #include "town/player/state.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 typedef struct S_80098CC0_0 {
     u8 pad_00[0x4];

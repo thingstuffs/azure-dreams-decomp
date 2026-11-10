@@ -2,7 +2,6 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
-#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"

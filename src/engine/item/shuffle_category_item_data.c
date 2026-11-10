@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/item.h"
 
 /* 20-byte item record; offset 0xC is the pointer this function shuffles. */

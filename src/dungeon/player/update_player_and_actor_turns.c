@@ -1,3 +1,4 @@
+#include "common.h"
 #include "dungeon/player/object/action_state.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -10,7 +11,6 @@
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/object_node.h"
-#include "common.h"
 #include "dungeon/system/random.h"
 #include "slus/imports.h"
 #include "shared/dir_step.h"
@@ -39,7 +39,6 @@ s16 get_entity_effect_value();                 /* extern */ /* Unprototyped: ret
 #include "dungeon/player/input.h"
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
-#include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "slus.h"
 #include "engine/graphics.h"

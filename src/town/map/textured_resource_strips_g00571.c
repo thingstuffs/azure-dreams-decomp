@@ -1,5 +1,5 @@
-/* Textured resource strips (G00571).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A6420, CL:town/func_800A6A78, PD:town/engine:80100D88, PD:town/engine:80100D8A.
+/* Textured resource strips.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A6420, town/func_800A6A78, PD:town/engine:80100D88, PD:town/engine:80100D8A.
  */
 #include "town/map/textured_resource_strips_g00571.h"
 #include "shared/object_node.h"

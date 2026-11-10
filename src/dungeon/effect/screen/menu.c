@@ -93,9 +93,6 @@ void draw_textured_ellipse(void *draw_value, GpuRect *rect, u16 fill_rect, u16 d
     SetDrawArea(command_cursor, rect);
     AddPrim(draw_list, command_cursor);
 }
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct DungeonPosition
 {
@@ -270,11 +267,9 @@ loop_0:
     }
     (*state_slot)->packetCursor = cursor;
 }
-#include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
-#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -492,11 +487,7 @@ void update_arcing_effect(ArcingEffectBody *motion, S_800B8830_3 *coords, S_800B
     }
     motion->unk_28++;
 }
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
-#include "shared/entity.h"
 
 typedef struct Child {
     u8 pad0[8];
@@ -572,8 +563,6 @@ void create_timed_model_effect(ObjectNodeHeader *owner, u16 *context, void *chil
         ((Tail *)object)->value8 = context;
     }
 }
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct S_800B8CF0_0 {
     u8 pad_00[0x2];
@@ -612,9 +601,6 @@ void update_blinking_sprite_flash(void *state_arg, ObjectPosition *unused, void 
     }
     primitive->unk_0C.at00u.v = 0x00101010;
 }
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 extern void update_blinking_sprite_flash(void *state, ObjectPosition *unused, void *primitive);
@@ -661,8 +647,6 @@ void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z) {
         effect->unk_22 = 6;
     }
 }
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct Object_800B36B8 {
     u8 pad0[2];
@@ -698,8 +682,6 @@ void attenuate_effect_scale_and_brightness(Object_800B36B8 *object, ObjectPositi
         state_flags->flags = state_flags->flags | 0x8000;
     }
 }
-#include "common.h"
-#include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -779,8 +761,6 @@ void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x,
         object->unk22 = object_tag;
     }
 }
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct Position {
     u16 x;
@@ -867,9 +847,6 @@ void draw_transformed_sprite_with_clip_rect(void *sprite, Position *clip_rect, P
     }
 }
 
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 /* Scratchpad used by draw_transformed_sprite_parts. The projection helper
  * writes one XY/depth pair per corner; texture arithmetic also reads the low
@@ -1238,10 +1215,6 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
     (*global_slot)->packetCursor = packet;
     return;
 }
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 extern void *screen_effect_target[];
 
@@ -1327,10 +1300,7 @@ void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition 
     marker_arg->angle_z = marker_arg->angle_z + 0x40;
     advance_sprite_animation_and_textures(marker_arg);
 }
-#include "common.h"
-#include "shared/object_node.h"
 #include "shared/entity_objects.h"
-#include "shared/dungeon_status.h"
 
 typedef struct SubA_800B4204 {
     u8 pad0[2];
@@ -1413,11 +1383,6 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
     return object;
 }
 #include "shared/entity_height_offsets.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 extern u8 D_800E0000[];
 extern u8 resident_globals_page[];
 
@@ -1695,13 +1660,6 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
     out->z = work->x + work->y.whole + (work->bias << 15);
     return;
 }
-#include "shared/object_node.h"
-#include "shared/entity_height_offsets.h"
-#include "common.h"
-#include "shared/entity_objects.h"
-#include "shared/record_ptrs.h"
-#include "shared/slus_callbacks.h"
-#include "shared/dungeon_status.h"
 
 typedef struct SubA_800B4914 {
     u8 pad0[2];
@@ -1872,7 +1830,6 @@ void *create_item_target_selector(u8 *selection_data) {
     build_owned_floating_number_widget(selection_data, 0x4C, 0x50, 0x200, 0, 2);
     return objects[0];
 }
-#include "common.h"
 
 #ifndef NULL
 #define NULL 0
@@ -1890,7 +1847,6 @@ s32 is_selectable_menu_target(ActorRecord *object) {
     }
     return 0;
 }
-#include "common.h"
 
 struct S_800BA414_1;
 extern void draw_projected_quad_with_depth_bias(void *unused, struct S_800BA414_1 *position, void *owner_data, s16 depth_bias);
@@ -1929,9 +1885,6 @@ s32 draw_linked_quad_chain(void *node_payload, s32 node_value, u8 *node_data) {
     result = 0;
     return result;
 }
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct S_800BA414_0 {
     u8 pad_00[0x20];
@@ -2122,10 +2075,6 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
     ((GpuContext *)(*state_slot))->packetCursor = prim;
     PopMatrix();
 }
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 typedef struct S_800BA6B8_0 {
     u8 pad_00[0x30];
@@ -2165,8 +2114,6 @@ void update_pulsing_sprite_color(void *channel_config_arg, void *unused, void *o
         output->unk_0E = channel_value;
     }
 }
-#include "shared/object_node.h"
-#include "common.h"
 
 /* Externals (never defined here -- the overlay gate's linker resolves them). */
 extern s32 draw_linked_quad_chain(void *node_payload, s32 node_value, u8 *node_data);
@@ -2211,10 +2158,8 @@ void *create_pulsing_tile_sprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_d
     }
     return object;
 }
-#include "common.h"
 #include "shared/def_table.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 
 typedef struct S_800BA810_0 {
     void * unk_00;
@@ -2370,8 +2315,6 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
     }
 }
 /* Warning: struct S_8006DE24_Entry is not defined (only forward-declared) */
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct DungeonObject DungeonObject;
 struct DungeonObject {
@@ -2523,9 +2466,6 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
         return result;
     }
 }
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "dungeon/effect/screen/actor_linked_particle.h"
 
 struct DungeonObject;
@@ -2575,7 +2515,6 @@ void advance_particle_effect_state(ActorLinkedParticleEffectBody *object) {
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "common.h"
 
 typedef struct S_800BB044_0 {
     u8 pad_00[0x8];
@@ -2609,8 +2548,6 @@ void create_actor_linked_effect(ActorRecord *source_data) {
         play_sound_if_enabled(0x703);
     }
 }
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad00[0x10];
@@ -2646,9 +2583,6 @@ void update_timed_tile_effect(Func800B5948Object *object, ObjectPosition *unused
     }
     related_object->unk1A = related_object->unk1A + 0x40;
 }
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
 typedef struct
 {
     void *next;
@@ -2738,9 +2672,6 @@ void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S
 
     return;
 }
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
 
    /* state in draw_content_or_rect */
 
@@ -2863,10 +2794,6 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, vo
         AddPrim(ordering_table, primitive);
     }
 }
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
@@ -3035,7 +2962,6 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
         }
     }
 }
-#include "common.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -3044,10 +2970,6 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data) {
     draw_linked_sprites_clipped(buffer, value, data);
     return 0;
 }
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/entity_objects.h"
-#include "m2c_compat.h"
 
 extern void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *position, s32 restore_link);
 extern s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data);
@@ -3105,8 +3027,6 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
     }
     return effect;
 }
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct OrbitingColorParticleBody {
     SpriteColor target_color;
@@ -3175,14 +3095,14 @@ void update_orbiting_color_particle(OrbitingColorParticleBody *state, Output *ou
         }
     }
 }
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
+
+#include "sdk/libgte_matrix.h"
 
 typedef struct S_800BBDEC_0 {
     u8 pad_00[0x20];
     void * unk_20;
-    u8 pad_24[0x4C];
+    u8 pad_24[0x2C];
+    MATRIX composed_matrix; /* CompMatrix(view_matrix, local_matrix); loaded with SetRotMatrix/SetTransMatrix */
     s16 unk_70;
     s16 unk_72;
     s16 unk_74;
@@ -3198,16 +3118,19 @@ typedef struct S_800BBDEC_0 {
     s16 unk_88;
     s16 unk_8A;
     s16 unk_8C;
-    u8 pad_8E[0x32];
+    u8 pad_8E[0x2];
+    s32 depth_cue; /* RotAverage4 depth-cue output */
+    s32 gte_flag; /* RotAverage4 GTE flag output */
+    u8 pad_98[0x28];
     u32 unk_C0;
-    u8 pad_C4[0x20];
-    s32 unk_E4;
-    s32 unk_E8;
-    s32 unk_EC;
+    u8 pad_C4[0xC];
+    MATRIX local_matrix; /* RotMatrix of the appearance angles; its translation takes the object position */
     u8 pad_F0[0x10];
     u16 unk_100;
     u16 unk_102;
     u16 unk_104;
+    u8 pad_106[0x16];
+    MATRIX view_matrix; /* ReadRotMatrix: the current GTE rotation and translation */
 } S_800BBDEC_0;   /* scratch in draw_shaded_vertical_quad */
 
    /* arg1 in draw_shaded_vertical_quad */
@@ -3258,9 +3181,9 @@ void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition
     s16 end_z;
 
     scratch->unk_20 = (u8 *)*render_ctx + 0xB0;
-    scratch->unk_E4 = position->x.w.i;
-    scratch->unk_E8 = position->y.w.i;
-    scratch->unk_EC = position->z.w.i;
+    scratch->local_matrix.t[0] = position->x.w.i;
+    scratch->local_matrix.t[1] = position->y.w.i;
+    scratch->local_matrix.t[2] = position->z.w.i;
     prim = ((GpuContext *)(*render_ctx))->packetCursor;
 
     PushMatrix();
@@ -3268,11 +3191,11 @@ void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition
     scratch->unk_100 = appearance->angle_x;
     scratch->unk_104 = appearance->angle_z;
     scratch->unk_102 = appearance->angle_y;
-    RotMatrix(&scratch->unk_100, (u8 *)scratch + 0xD0);
-    ReadRotMatrix((u8 *)scratch + 0x11C);
-    CompMatrix((u8 *)scratch + 0x11C, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
-    SetTransMatrix((u8 *)scratch + 0x50);
-    SetRotMatrix((u8 *)scratch + 0x50);
+    RotMatrix(&scratch->unk_100, &scratch->local_matrix);
+    ReadRotMatrix(&scratch->view_matrix);
+    CompMatrix(&scratch->view_matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
     scratch->unk_7C = 0;
     scratch->unk_74 = 0;
@@ -3291,7 +3214,7 @@ void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition
     depth_index = RotAverage4(&scratch->unk_70, &scratch->unk_78,
                           &scratch->unk_80, &scratch->unk_88,
                           prim + 8, prim + 0x10, prim + 0x18, prim + 0x20,
-                          (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+                          &scratch->depth_cue, &scratch->gte_flag);
     scratch->unk_C0 = depth_index;
 
     if (depth_index < 0x1E0U) {
@@ -3325,7 +3248,6 @@ void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition
     PopMatrix();
     ((GpuContext *)(*render_ctx))->packetCursor = prim;
 }
-#include "common.h"
 
 struct OrbitingColorParticleBody;
 extern void draw_shaded_vertical_quad(struct OrbitingColorParticleBody *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value);
@@ -3346,8 +3268,6 @@ s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteF
         data = next_node->sprite;
     }
 }
-#include "common.h"
-#include "shared/object_node.h"
 
 struct OrbitingColorParticleBody;
 struct Output;
@@ -3389,7 +3309,6 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 vertica
     }
     return object;
 }
-#include "common.h"
 
 extern void MoveImage();
 
@@ -3422,8 +3341,6 @@ void update_wrapped_texture_scroll(WrappedTextureScrollBody *scroll_state) {
     }
     MoveImage(sourceRect, 0x270, 0x120);
 }
-#include "shared/object_node.h"
-#include "common.h"
 
 typedef struct S_800BC228_0 {
     u8 pad_00[0x10];
@@ -3442,7 +3359,6 @@ void create_wrapped_texture_scroll(s16 value) {
         object->body.scroll_step = value;
     }
 }
-#include "common.h"
 
 #ifndef NULL
 #define NULL 0
@@ -3489,8 +3405,6 @@ void *create_tracked_effect(ObjectNodeHeader **owner, s16 mode, s32 param, void 
     }
     return object;
 }
-#include "common.h"
-#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -3528,8 +3442,6 @@ void retire_tracked_effect_by_id(s32 targetId) {
         } while (node != NULL);
     }
 }
-#include "common.h"
-#include "shared/object_flags.h"
 #include "engine/node.h"
 
 /* Mark completion when the referenced object is flagged or the tracked value is zero. */

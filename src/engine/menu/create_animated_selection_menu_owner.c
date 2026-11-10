@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-#include "common.h"
 #include "engine/menu.h"
 
 typedef struct AnimatedSelectionMenuOwnerNode {

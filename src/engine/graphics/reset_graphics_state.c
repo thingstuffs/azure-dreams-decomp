@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
 #include "slus.h"

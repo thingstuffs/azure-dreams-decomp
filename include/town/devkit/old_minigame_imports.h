@@ -13,7 +13,7 @@
  */
 #include "common.h"
 
-/* --- imports (tools/headers/foreign_imports.py): one declaration per address --- */
+/* Imported declarations, one per address. */
 #ifndef AZ_FOREIGN_LOCAL_FUNC_80034A1C
 void func_80034A1C(void *, void *, s32);
 #endif

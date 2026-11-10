@@ -3,7 +3,6 @@
 #include "m2c_compat.h"
 #include "town/scene/effect.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern unsigned char town_movie_callback_list[16];
 extern MovieListNode D_800D42CC;
 

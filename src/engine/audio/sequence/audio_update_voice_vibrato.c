@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 
 /* D_80085458 element (stride 0x78). Envelope channel A. */
 typedef struct {

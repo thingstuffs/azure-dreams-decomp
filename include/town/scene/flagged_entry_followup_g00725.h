@@ -1,5 +1,5 @@
-/* G00725: Append flagged entries and follow four linked entries.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8032EA2C.
+/* Append flagged entries and follow four linked entries.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8032EA2C.
  * Exclude the weaker left CL/CXP:10/8 join; right CXP:8/10 has no join.
  */
 #ifndef TOWN_SCENE_FLAGGED_ENTRY_FOLLOWUP_G00725_H

@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_OBJECT_INITIALIZATION_G00546_H
 #define TOWN_PLAYER_OBJECT_INITIALIZATION_G00546_H
 struct ObjectPosition;
-/* Initialize player object counters and fields (G00546). */
+/* Initialize player object counters and fields. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D01E0. */
 
 #include "common.h"

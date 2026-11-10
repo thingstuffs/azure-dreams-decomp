@@ -5,7 +5,6 @@
 #include "frontend/card.h"
 
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Stores the supplied value in the object's field at offset 0x20. */
 

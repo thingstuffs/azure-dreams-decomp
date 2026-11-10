@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/audio/slots.h"
 
 extern s32 SpuSetReverbModeParam(s32 *request);

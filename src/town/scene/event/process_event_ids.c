@@ -3,7 +3,6 @@
 #include "town/scene/event.h"
 #include "town/player/state.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Process IDs 0xFCB and 0xFCD through func_80018CEC, then return zero. */
 s32 process_event_ids(void) {

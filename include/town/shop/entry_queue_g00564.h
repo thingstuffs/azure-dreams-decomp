@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_ENTRY_QUEUE_G00564_H
 #define TOWN_SHOP_ENTRY_QUEUE_G00564_H
-/* Entry queue declarations (G00564). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A2B1C, CL:town/func_800A2CA4, CL:town/func_800A2D54, PD:town/engine:80100AA0. */
+/* Entry queue declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A2B1C, town/func_800A2CA4, town/func_800A2D54, PD:town/engine:80100AA0. */
 
 #include "common.h"
 #include "m2c_compat.h"

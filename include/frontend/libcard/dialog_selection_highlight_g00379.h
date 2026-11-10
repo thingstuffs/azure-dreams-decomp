@@ -1,7 +1,7 @@
 #ifndef FRONTEND_LIBCARD_DIALOG_SELECTION_HIGHLIGHT_G00379_H
 #define FRONTEND_LIBCARD_DIALOG_SELECTION_HIGHLIGHT_G00379_H
 /* Dialog selection highlight; G00379; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000F25C, CL:main/func_8000F300, CL:main/func_8000F33C, CL:main/func_8000F3B4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - main/func_8000F25C, main/func_8000F300, main/func_8000F33C, main/func_8000F3B4. */
 
 #include "common.h"
 #include "frontend/libcard.h"

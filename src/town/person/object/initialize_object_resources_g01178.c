@@ -1,5 +1,5 @@
 /* Initialize object resources.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01178 - CL:town/func_800C7AB4.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800C7AB4.
  */
 #include "town/person/object/initialize_object_resources_g01178.h"
 #include "shared/object_node.h"

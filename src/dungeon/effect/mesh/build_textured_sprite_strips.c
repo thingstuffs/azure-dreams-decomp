@@ -14,7 +14,6 @@ const u16 strip_texture_rect[4] = {832,256,96,84};
 const u16 strip_small_texture_rect[4] = {832,340,4,4};
 const s16 strip_direction_steps[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}};
 
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Apply a chance-based effect that halves the entity counter and reports the result. */
 void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
@@ -73,7 +72,6 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
     adjust_source_value_and_finalize(effect_input, counter_halve_failed_message);
     create_actor_value_popup(0x53, entity, -1, 1);
 }
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Build textured sprite strips and append their packets to the ordering table. */
@@ -121,7 +119,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     S_func_81904990_2 *frame;
     S_func_81904990_3 *frame_header;
     S_func_81904990_6 *setup_arg;
-    S_func_81904990_8 *view_matrix;
+    MATRIX *view_matrix;
     s16 quad_words;
     s32 tail_value;
     s32 tail_uv;
@@ -169,8 +167,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     quad_words = 9;
     addr_mask = 0xFFFFFF;
     length_mask = 0xFF000000;
-    view_matrix = (S_func_81904990_8 *)effect_view_matrix;
-    view_matrix->unk_1C = (s32) state_page->view.projection_distance;
+    view_matrix = &effect_view_matrix;
+    view_matrix->t[2] = (s32) state_page->view.projection_distance;
     PushMatrix((s32) setup_arg, matrix_arg);
     {
         s32 view_x;
@@ -472,7 +470,6 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
         final_state->packetCursor = packet;
     }
 }
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /*
  * Draws at a page-adjusted position with clipping commands and an optional black rectangle.
@@ -565,7 +562,6 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
                         ((u32)clip_packet & 0x00FFFFFFU);
 }
 #include "shared/entity.h"
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Retail 81905564 (draw_brightness_scaled_linked_tiles): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
@@ -649,8 +645,6 @@ s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition
     final_render_ctx->packetCursor = scratch->cursor;
     return 0;
 }
-#include "shared/entity.h"
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /*
  * Raises the source toward its height limit and flags the object when its counter expires.
@@ -686,8 +680,6 @@ void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "shared/entity.h"
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Retail 81905880 (get_half_byte_length): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
@@ -746,7 +738,6 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
         fields->color = saved_field_28;
     }
 }
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
    /* Update eight animation slots and mark completion when the countdown expires. */
 void update_effect_animation_slots(TravelingSpriteEffectBody *anim_state)
@@ -793,7 +784,6 @@ void update_effect_animation_slots(TravelingSpriteEffectBody *anim_state)
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /*
  * Decrement the record counter and set completion flags when it reaches zero.
@@ -813,7 +803,6 @@ void tick_effect_record(CountdownRecord *record)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Updates a timed brightness pulse and clears the linked object flag on completion. */
 void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unused, u8 *target)
@@ -861,7 +850,6 @@ void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unu
         *(u16 *)(linked_object + 0x14) = linked_flags;
     }
 }
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Builds an inverted pixel mask and updates a timed fade effect. */
 void build_inverted(TravelingSpriteEffectBody *context, void *unused, void *effect_data) {
@@ -974,7 +962,6 @@ void build_inverted(TravelingSpriteEffectBody *context, void *unused, void *effe
     }
     return;
 }
-#include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Updates a traveling effect, its target animation, and its cleanup state. */
 void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_81905FD0_3 *render)

@@ -17,7 +17,7 @@
 extern void *actor_action_frames[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
-void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor) {
+void update_actor_landing(ActorRecord *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor) {
     u16 direction_aux[2];
     void **animation_table;
     s32 frames_left;
@@ -30,18 +30,18 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
     s32 current_y;
     s32 phase;
 
-    phase = ((ActorRecord *)motion_state)->action_phase;
+    phase = motion_state->action_phase;
     switch (phase) {
     case 0:
-        ((ActorRecord *)motion_state)->action_state_flags = (u16) (((ActorRecord *)motion_state)->action_state_flags | 8);
+        motion_state->action_state_flags = (u16) (motion_state->action_state_flags | 8);
         transform->velocity_z = 0xFFF00000;
         actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
-        ((ActorRecord *)motion_state)->unk_A4.value = 0;
-        ((ActorRecord *)motion_state)->action_phase = (u8) (((ActorRecord *)motion_state)->action_phase + 1);
+        motion_state->unk_A4.value = 0;
+        motion_state->action_phase = (u8) (motion_state->action_phase + 1);
     case 1:
-        frames_left = ((ActorRecord *)motion_state)->action_timer;
-        ((ActorRecord *)motion_state)->unk_90.value = (s32) (((ActorRecord *)motion_state)->unk_90.value
-            - ((ActorRecord *)motion_state)->unk_A4.value);
+        frames_left = motion_state->action_timer;
+        motion_state->unk_90.value = (s32) (motion_state->unk_90.value
+            - motion_state->unk_A4.value);
         if (frames_left != 0) {
             target_x = map_entity->tile_x << 6;
             current_x = transform->x.w.i - 0x20;
@@ -50,22 +50,22 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
             transform->velocity_x = velocity_x;
             target_y = map_entity->tile_y << 6;
             transform->velocity_y = (s32) ((s32) ((target_y - current_y)
-                << 0x10) / ((ActorRecord *)motion_state)->action_timer);
-            ((ActorRecord *)motion_state)->unk_A4.value = (s32) (((ActorRecord *)motion_state)->unk_A4.value
+                << 0x10) / motion_state->action_timer);
+            motion_state->unk_A4.value = (s32) (motion_state->unk_A4.value
                 + transform->velocity_z);
             transform->velocity_z = (s32) (transform->velocity_z + 0x48000);
         }
-        ((ActorRecord *)motion_state)->unk_90.value = (s32) (((ActorRecord *)motion_state)->unk_90.value
-            + ((ActorRecord *)motion_state)->unk_A4.value);
-        if (((ActorRecord *)motion_state)->action_timer < 2) {
-            ((ActorRecord *)motion_state)->unk_90.value = 0;
-            ((ActorRecord *)motion_state)->action_state_flags = (u16) (((ActorRecord *)motion_state)->action_state_flags & 0xFFF7);
+        motion_state->unk_90.value = (s32) (motion_state->unk_90.value
+            + motion_state->unk_A4.value);
+        if (motion_state->action_timer < 2) {
+            motion_state->unk_90.value = 0;
+            motion_state->action_state_flags = (u16) (motion_state->action_state_flags & 0xFFF7);
             actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
-            ((ActorRecord *)motion_state)->action_phase = (u8) (((ActorRecord *)motion_state)->action_phase + 1);
+            motion_state->action_phase = (u8) (motion_state->action_phase + 1);
         }
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((ActorRecord *)motion_state)->action_state_flags = (u16) (((ActorRecord *)motion_state)->action_state_flags & 0xFFF7);
+            motion_state->action_state_flags = (u16) (motion_state->action_state_flags & 0xFFF7);
             transform->velocity_z = 0;
             transform->velocity_y = 0;
             transform->velocity_x = 0;
@@ -74,11 +74,11 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
             map_entity->frameTable = animation_table;
             select_record_entry_and_value(map_entity, *(void **)((u8 *)animation_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 7) & 0x1C)), 0);
-            ((ActorRecord *)motion_state)->action_phase = (u8) (((ActorRecord *)motion_state)->action_phase + 1);
+            motion_state->action_phase = (u8) (motion_state->action_phase + 1);
         }
     default:
-        next_timer = ((ActorRecord *)motion_state)->action_timer - 1;
-        ((ActorRecord *)motion_state)->action_timer = next_timer;
+        next_timer = motion_state->action_timer - 1;
+        motion_state->action_timer = next_timer;
         if ((next_timer << 0x10) <= 0) {
             transform->velocity_z = 0;
             transform->velocity_y = 0;
@@ -99,7 +99,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
                 }
             }
             if ((check_actor_floor_trap(map_entity, actor) << 0x10) > 0) {
-                ((ActorRecord *)motion_state)->unk_8C.address = &update_actor_facing_animation;
+                motion_state->unk_8C.address = &update_actor_facing_animation;
                 on_actor_status_updated(actor);
             }
         }

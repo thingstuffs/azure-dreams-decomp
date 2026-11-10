@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/message.h"
 
 typedef struct Func80037F70Inner {

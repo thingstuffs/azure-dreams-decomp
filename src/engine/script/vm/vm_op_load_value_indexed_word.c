@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/script.h"
 
-#include "common.h"
 #include "engine/script/vm.h"
 
 /* Opcode 0x47: Load word: v[var] = LE32(addr32 + 4 * v[index]). */

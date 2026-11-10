@@ -3,7 +3,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-#include "common.h"
 #include "engine/node.h"
 #include "engine/window.h"
 #include "engine/graphics.h"

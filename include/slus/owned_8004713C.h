@@ -4,7 +4,6 @@
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
 
-#include "common.h"
 
 typedef struct { s16 x, y, w, h; } RECT;
 

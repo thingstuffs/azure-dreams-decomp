@@ -2,7 +2,6 @@
 #include "shared/entity.h"
 #include "shared/object_flags.h"
 
-#include "common.h"
 #include "engine/effect.h"
 /* Fade through seven table entries, then advance the owner and mark completion. */
 void update_fade_in_out_effect(CdCueEffectBody *state, ObjectPosition *unused_arg, SpriteFrameState *visual)

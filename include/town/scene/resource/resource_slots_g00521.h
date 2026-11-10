@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_RESOURCE_RESOURCE_SLOTS_G00521_H
 #define TOWN_SCENE_RESOURCE_RESOURCE_SLOTS_G00521_H
 /* Resource slots shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8008DB84, CL:town/func_8008DBC8, CL:town/func_8008DC4C, PD:town/engine:800CF828, PD:town/engine:800CF838. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8008DB84, town/func_8008DBC8, town/func_8008DC4C, PD:town/engine:800CF828, PD:town/engine:800CF838. */
 
 #include "common.h"
 

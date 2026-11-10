@@ -2,7 +2,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_800B4978_0 {
     void * unk_00;
     u8 pad_04[0x58];

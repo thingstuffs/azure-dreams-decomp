@@ -1,5 +1,5 @@
 /* Set scaled record coordinates.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00704 - XB:town/func_8032FE28.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - XB:town/func_8032FE28.
  */
 #include "town/scene/set_scaled_record_coordinates_g00704.h"
 #include "town/scene.h"

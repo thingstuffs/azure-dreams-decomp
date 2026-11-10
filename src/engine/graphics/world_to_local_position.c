@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/vector.h"
 
-#include "common.h"
 #include "sdk/libgte.h"
 
 typedef struct {

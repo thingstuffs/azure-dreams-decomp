@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/graphics.h"
 
 extern u32 shared_primitive_color;

@@ -1,6 +1,6 @@
 #include "town/scene.h"
 /* Apply global delta record f.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01234 - PR:town/ll34_3e5000_80016000:80017B98.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - PR:town/ll34_3e5000_80016000:80017B98.
  */
 #include "town/scene/apply_global_delta_record_f_g01234.h"
 

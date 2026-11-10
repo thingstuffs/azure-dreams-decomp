@@ -2,7 +2,6 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/window.h"
 
 typedef struct S_8003626C_0 {

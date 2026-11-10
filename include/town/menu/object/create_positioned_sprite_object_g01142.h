@@ -1,7 +1,7 @@
 #ifndef TOWN_MENU_OBJECT_CREATE_POSITIONED_SPRITE_OBJECT_G01142_H
 #define TOWN_MENU_OBJECT_CREATE_POSITIONED_SPRITE_OBJECT_G01142_H
 /* Create positioned sprite object. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01142 - CL:town/func_800A9BA8. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800A9BA8. */
 
 #include "common.h"
 #include "shared/sprite_source.h"

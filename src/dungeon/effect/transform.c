@@ -3,7 +3,6 @@
 #include "dungeon/effect/transform.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/effect/transform.h"
 #include "dungeon/effect.h"
 
 /* Creates a gray, randomly rotated sprite with copied motion, a saved starting height, and the

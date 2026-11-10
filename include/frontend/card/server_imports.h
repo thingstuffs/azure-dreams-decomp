@@ -36,7 +36,7 @@ void func_80403DA0(void *entity, void *primary, void *secondary, s32 slot_index)
 void func_80404308(void *record, s32 setup_value, s32 processing_value);
 void func_80402EA4(void *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);   /* set_layout_params */
 
-/* --- imports (tools/headers/foreign_imports.py): one declaration per address --- */
+/* Imported declarations, one per address. */
 void func_8003830C(s32, void *);
 void *func_8003C480(s32);
 void *func_8003C714(s32, void *, s32);

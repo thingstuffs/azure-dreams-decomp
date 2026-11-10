@@ -1,5 +1,5 @@
-/* Shop record processing (G00608). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B3110. */
+/* Shop record processing. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B3110. */
 #include "town/shop/shop_record_processing_g00608.h"
 #include "town/shop.h"
 

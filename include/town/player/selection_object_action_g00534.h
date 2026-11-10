@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_SELECTION_OBJECT_ACTION_G00534_H
 #define TOWN_PLAYER_SELECTION_OBJECT_ACTION_G00534_H
-/* G00534: shared declarations for selection object action. */
-/* Original-file evidence (G00534): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80096098. */
+/* shared declarations for selection object action. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80096098. */
 
 #include "common.h"
 #include "shared/town_object.h"
@@ -69,7 +69,6 @@ extern s32 town_interaction_pending;
 extern void (*town_player_action_callback)(void *object, void *position, void *callback_data);
 extern u8 item_menu_scene_state[];
 
-#include "town/player/action_initializers.h"
 
 /* Functions defined in this translation unit. */
 s32 is_town_state_pair_accepted(void);

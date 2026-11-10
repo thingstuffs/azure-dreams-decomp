@@ -2,8 +2,8 @@
 #define TOWN_PLAYER_STATE_UPDATE_G00548_H
 struct ObjectPosition;
 struct SpriteFrameState;
-/* Advance and update the player state (G00548). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009D728, PD:town/engine:800D0620. */
+/* Advance and update the player state. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009D728, PD:town/engine:800D0620. */
 
 #include "common.h"
 #include "shared/game_work.h"

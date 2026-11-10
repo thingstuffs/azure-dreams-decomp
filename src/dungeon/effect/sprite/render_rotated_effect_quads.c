@@ -15,7 +15,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     u32 addr_mask;
     s32 draw_arg;
     u8 *render_state;
-    u8 *view_matrix;
+    MATRIX *view_matrix;
     s32 texture_word;
     void *render_context;
     void *final_context;
@@ -97,8 +97,8 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     }
     copy_end = &quad_copies[8];
     addr_mask = 0xFFFFFF;
-    view_matrix = (u8 *) (&effect_view_matrix);
-    *((s32 *) (((s8 *) view_matrix) + 0x1C)) = (s32) (*((s32 *) (((s8 *) render_state) + 0xA0)));
+    view_matrix = &effect_view_matrix;
+    view_matrix->t[2] = (s32) (*((s32 *) (((s8 *) render_state) + 0xA0)));
     PushMatrix((s32) setup_arg, draw_arg);
     view_axis_x = *((s16 *) (((s8 *) render_state) + 0xC4));
     view_axis_y = *((s16 *) (((s8 *) render_state) + 0xC6));

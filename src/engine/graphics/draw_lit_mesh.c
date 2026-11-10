@@ -6,7 +6,6 @@
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 

@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "town/shop/object.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_800B1730_0 {
     u8 pad_00[0x24];
     s32 unk_24;

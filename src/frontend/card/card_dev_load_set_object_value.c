@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "frontend/card.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_8001FF0C_0 {
     u8 pad_00[0x20];
     s32 unk_20;

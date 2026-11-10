@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_BUILD_SELECTED_ENTRY_OUTPUT_G01237_H
 #define TOWN_SCENE_BUILD_SELECTED_ENTRY_OUTPUT_G01237_H
 /* Build selected entry output. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01237 - PR:town/ll34_3e5000_80016000:80017ADC, PR:town/ll34_3e5000_80016000:80017AE8, PR:town/ll34_3e5000_80016000:80017AF4, PR:town/ll34_3e5000_80016000:80017B00, PR:town/ll34_3e5000_80016000:80017B0C, PR:town/ll34_3e5000_80016000:80017B18. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - PR:town/ll34_3e5000_80016000:80017ADC, PR:town/ll34_3e5000_80016000:80017AE8, PR:town/ll34_3e5000_80016000:80017AF4, PR:town/ll34_3e5000_80016000:80017B00, PR:town/ll34_3e5000_80016000:80017B0C, PR:town/ll34_3e5000_80016000:80017B18. */
 
 #include "common.h"
 #include "m2c_compat.h"

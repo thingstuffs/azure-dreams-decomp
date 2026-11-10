@@ -1,12 +1,12 @@
 #ifndef TOWN_SHOP_RESOURCE_ENTRY_INITIALIZATION_G01156_H
 #define TOWN_SHOP_RESOURCE_ENTRY_INITIALIZATION_G01156_H
 /* resource entry initialization g01156. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01156 - CL:town/func_800B5204, CL:town/func_800B5270, CL:town/func_800B52D8, CL:town/func_800B5400, CL:town/func_800B550C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800B5204, town/func_800B5270, town/func_800B52D8, town/func_800B5400, town/func_800B550C. */
 
-/* Resource entry initialization (G00617). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B5204. */
-/* Resource entry initialization declarations (G00617). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B5204. */
+/* Resource entry initialization. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B5204. */
+/* Resource entry initialization declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B5204. */
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"

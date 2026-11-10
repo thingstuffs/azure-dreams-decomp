@@ -42,7 +42,6 @@ typedef struct S_8015E86C_8 {
     void * unk_A4;
 } S_8015E86C_8;   /* base in func_8015E86C */
 
-extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 generate_random_value(void);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);

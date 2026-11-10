@@ -2,7 +2,6 @@
 /* Targeted effect movement, particle spawning, sprite growth, and fading. */
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_18fa800.h"
-#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -353,9 +352,6 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     }
     }
 }
-#include "modules/dungeon_ovl_18fa800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct Unk818DAD38Owner {
     void *unk0;
@@ -425,9 +421,6 @@ void advance_target_growth_and_fade(Unk818DAD38Owner *owner, ObjectPosition *unu
 
 /* MECHANISM: Updating unk1C before unk1E selects retail's v1/v0 load-add order while held s1/s0
    preserve the 0x20 frame. The state ladder is a switch; the fade arm needs no barrier here. */
-#include "modules/dungeon_ovl_18fa800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct S_818DAE84_0 {
     void * unk_00;

@@ -91,15 +91,6 @@ typedef struct R06_8017087C_S_8017087C_9 {
     void * unk_10;
 } R06_8017087C_S_8017087C_9;
 typedef void (*R06_80170BB8_Callback)(void *, void *, void *, void *);
-typedef struct R06_80170BB8_S_80170BB8_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} R06_80170BB8_S_80170BB8_0;
 typedef struct R06_80170BB8_S_80170BB8_1 {
     u8 pad_00[0x1C];
     union { u32 u; s32 s; } unk_1C;   
@@ -653,8 +644,6 @@ typedef struct R06_80175270_S_80175270_10 {
 } R06_80175270_S_80175270_10;
 extern int abs(int);
 extern s32 Control_CD();
-void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 s32 generate_random_value(void);
 s32 select_sprite_entry();
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
@@ -743,7 +732,7 @@ extern u8 D_80175920[];
 extern u8 flame_effect_load_done[];
 extern u8 flame_transition_object[];
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id);
-void update_flame_motion_and_facing(u8 *actor, u8 *motion, SpriteFrameState *entity);
+void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFrameState *entity);
 void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *sprite, ActorRecord *creature);
 void advance_flame_path_step(ActorRecord *motion, ObjectPosition *unused, struct SpriteFrameState *actor, ActorRecord *path_state);
 void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

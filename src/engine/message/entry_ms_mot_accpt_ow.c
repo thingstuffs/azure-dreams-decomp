@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 
-#include "common.h"
 #include "engine/message.h"
 
 typedef struct Func80039470Entry {

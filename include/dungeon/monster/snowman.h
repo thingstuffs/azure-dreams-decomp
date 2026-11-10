@@ -479,9 +479,7 @@ extern const Resource10DirectionOffset D_80170854[8];
 extern const Resource10DirectionOffset D_80170874[8];
 s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 void advance_sprite_animation_and_textures(void *entity);
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 void select_record_entry_and_value(void *state, void *entries, short index);
-void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
@@ -600,7 +598,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
 void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *origin, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data);
 void restore_snowman_scene_tint(u8 *task, void *context, struct SpriteFrameState *input);
-void advance_actor_transition_and_restore_facing(void *transition, struct ObjectPosition *position, struct SpriteFrameState *record, void *actor);
+void advance_actor_transition_and_restore_facing(R10_80175398_S_80175398_0 *transition, struct ObjectPosition *position, struct SpriteFrameState *record, void *actor);
 void resolve_snowman_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void propagate_snowman_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

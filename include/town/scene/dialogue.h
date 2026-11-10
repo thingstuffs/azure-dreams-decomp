@@ -47,4 +47,12 @@ char *select_string_performs_any_associated(s32 unused_0, s32 unused_1, s32 sele
 /* wait_for_dialogue_then_close.c */
 s32 wait_for_dialogue_then_close(void *object, s32 entry_index);
 
+
+typedef struct {
+    u8 character;
+    u8 field1;
+    u8 field2;
+    u8 field3;
+} TextEntry;
+
 #endif

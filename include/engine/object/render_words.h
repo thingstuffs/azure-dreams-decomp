@@ -12,7 +12,6 @@
 
 struct SpriteFrameState;
 
-#include "common.h"
 #include "records/Rec_func_80034F58_arg0.h"
 
 

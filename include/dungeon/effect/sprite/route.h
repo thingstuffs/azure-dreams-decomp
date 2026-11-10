@@ -17,7 +17,6 @@ struct B32_818CF0E8_S_818CF0E8_9;
 #include "shared/gpu_packets.h"
 #include "shared/object_flags.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "shared/object_node.h"
 typedef struct ChasingStarEffectBody {
     u8 pad_00[2];
@@ -335,7 +334,6 @@ void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_
 void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
 void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);
 void *allocate_list_node(s32, ObjectNodeHeader **);
-ObjectNodeHeader *func_8003FD64(s32, ObjectNodeHeader **);
 s32 register_node(void *, void *, ...);
 void advance_sprite_animation_and_textures(void *);
 s16 sample_terrain_surface_height(s32, s32, s16);

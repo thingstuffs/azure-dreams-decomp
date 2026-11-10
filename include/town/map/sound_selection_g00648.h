@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_SOUND_SELECTION_G00648_H
 #define TOWN_MAP_SOUND_SELECTION_G00648_H
-/* Sound selection (G00648). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3884, CL:town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. */
+/* Sound selection. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C3884, town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. */
 
 #include "common.h"
 
@@ -31,7 +31,6 @@ extern s32 find_sound_entry_or_terminator_index(s32 target_value);
 extern GlobalState map_runtime_state;
 extern s16 town_pending_sound[];
 extern s16 town_sound_selection[];
-extern void drain_audio_commands_and_service_channels(void);
 extern s8 scene_music_hold[];
 extern s16 town_sound_command[];
 extern s16 town_stream_index[];

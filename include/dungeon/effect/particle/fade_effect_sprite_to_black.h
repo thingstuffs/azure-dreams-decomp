@@ -3,7 +3,6 @@
 #ifndef DUNGEON_OVL_184C800_H
 #define DUNGEON_OVL_184C800_H
 #include "common.h"
-#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/dir_step.h"

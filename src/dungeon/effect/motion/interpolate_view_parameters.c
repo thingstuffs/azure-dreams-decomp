@@ -6,7 +6,6 @@
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 #include "dungeon/effect/motion.h"
 #include "dungeon/system.h"
 

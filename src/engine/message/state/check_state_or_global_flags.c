@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 
 #include "engine/script.h"
 #include "engine/message.h"

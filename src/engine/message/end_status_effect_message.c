@@ -11,7 +11,7 @@
 /* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
-#include "slus/jtbl_80042BDC.h"
+#include "engine/cd.h"
 #include "engine/message.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"

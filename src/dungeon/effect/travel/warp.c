@@ -12,7 +12,6 @@
 #include "dungeon/system.h"
 
 void (*const dungeon_19cc800_entry)(struct EventState *event) = run_warp_effect_sequence;
-#include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -161,10 +160,7 @@ void run_warp_effect_sequence(EventState *event) {
     *(s16 *)warp_effect_counters = 0;
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 #include "records/Rec_func_800249DC_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/travel/warp_phase_effect.h"
@@ -253,10 +249,6 @@ void advance_effect_phases(WarpPhaseEffectBody *object, Rec_func_800249DC_arg0 *
     }
 }
 
-#include "shared/entity.h"
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/object_node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -305,14 +297,8 @@ void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base)
     return result;
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
-#include "shared/entity.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
 
 typedef struct S_819ACDA0_1 {
     u8 pad_00[0x2C];
@@ -478,9 +464,6 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -561,12 +544,7 @@ void *move_effect_toward_target(MovingPosition *src)
     return obj;
 }
 
-#include "shared/entity.h"
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
 #include "modules/dungeon_native_abi.h"
-#include "shared/object_flags.h"
-#include "shared/object_node.h"
 #include "shared/dir_step.h"
 
 /*
@@ -599,10 +577,6 @@ void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *posit
     }
 }
 
-#include "shared/entity.h"
-#include "modules/dungeon_ovl_19cc800.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/slus_callbacks.h"
 
 extern u8 D_80027484[12];
 extern s32 queue_linked_visible_rectangle_copies(void *, void *, SpriteFrameState *);
@@ -664,11 +638,6 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
     while (remaining > 0);
 }
 
-#include "shared/entity.h"
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/object_node.h"
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
@@ -704,11 +673,6 @@ void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPositi
     position->z.w.i = (u16)owner_pos->z.w.i;
 }
 
-#include "shared/entity.h"
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/slus_callbacks.h"
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
@@ -757,12 +721,7 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
     }
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "shared/dungeon_moving_views.h"
 
 
 typedef struct S_819AD81C_1 {
@@ -1018,11 +977,6 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
     }
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/tile_object.h"
-#include "shared/dir_step.h"
 
 typedef struct Obj Obj;
 
@@ -1155,8 +1109,6 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
     return objects[0];
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
 
 /* The 0x20-byte current-frame block the entry is expanded into. */
 typedef struct FrameState {
@@ -1181,8 +1133,6 @@ void update_traveling(FrameState *dst, AnimEntry *src)
     dst->field_1C = src->field_14;
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
 
 /*
  * Resolve the current entry, apply an index step, and enforce the index bounds.
@@ -1224,8 +1174,6 @@ void advance_animation_index_within_bounds(AnimPlayer *player, s16 *index_step, 
     player->flags &= 0xBFFF;
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
 
 /*
  * Sets the player's current entry address using a 22-byte stride.
@@ -1239,8 +1187,6 @@ void set_animation_entry_address(AnimPlayer *player, s16 entry_index) {
     player->entry = ((AnimOwner *)player->owner)->table + (entry_index * 0x16);
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
 
 typedef struct S_8002593C_0 {
     u8 pad_00[0x40];
@@ -1316,9 +1262,6 @@ void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rota
     SetRotMatrix((u8 *)scratch + 0xD0);
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Fade RGB toward black and set flags when red falls below eight. */
 void fade_color_to_black(void *owner, ObjectPosition *unused, void *color_data) {
@@ -1339,8 +1282,6 @@ void fade_color_to_black(void *owner, ObjectPosition *unused, void *color_data) 
     }
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
 
 typedef struct Entry {
     s32 field_0;
@@ -1389,9 +1330,6 @@ s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, Entry *i
 return 0;
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -1453,9 +1391,6 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
     return object;
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 #include "records/Rec_func_80025D28_arg0.h"
 
 extern s32 rsin();
@@ -1532,8 +1467,6 @@ void initialize_inventory_packet(Rec_func_80025D28_arg0 *state, ObjectPosition *
    A short raw signed-load local selects lh before the shift/truncation while preserving phase_angle in s1.
    Zero-operand scheduling barriers after both chained products reproduce retail multiply/mflo emission order. */
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
 
 typedef struct S_80025FCC_3 {
     u8 pad_00[0x1C];
@@ -1588,10 +1521,6 @@ void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param
     return effect;
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/object_node.h"
 
 /* Colour bytes of the effect's render data. */
 typedef struct EffectColor {
@@ -1622,9 +1551,6 @@ void fade_effect_color_to_black(void *record, ObjectPosition *unused, EffectColo
     }
 }
 
-#include "modules/dungeon_ovl_19cc800.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0

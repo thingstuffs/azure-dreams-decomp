@@ -17,7 +17,7 @@ typedef struct S_80024CD4_0 {
     u16 unk_1C;
     u8 pad_1E[0x4];
     s16 unk_22;
-} S_80024CD4_0;   /* arg0 in move_linked_effect_along_path */
+} S_80024CD4_0;   /* arg0 in emit_particle_then_wait_for_path_release */
 
 
 typedef struct {
@@ -34,7 +34,7 @@ extern Counter staged_fade_count;
 extern Flag path_effect_release_flag;
 
 /* Advance the effect state, update its ramp and color, and apply its transform. */
-void move_linked_effect_along_path(void *effect, ObjectPosition *transform, SpriteFrameState *visual) {
+void emit_particle_then_wait_for_path_release(void *effect, ObjectPosition *transform, SpriteFrameState *visual) {
     s16 state;
     u16 rising_value;
     u16 ramp_or_red;

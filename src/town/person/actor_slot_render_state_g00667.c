@@ -1,4 +1,4 @@
-/* Actor slot render state (G00667). */
+/* Actor slot render state. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D5DD4, PD:town/engine:800D5DDC, PD:town/engine:800D5E04, PD:town/engine:800D5E08. */
 #include "town/person/actor_slot_render_state_g00667.h"
 #include "shared/sprite_frame_state.h"

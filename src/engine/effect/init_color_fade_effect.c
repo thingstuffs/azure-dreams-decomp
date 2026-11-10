@@ -2,7 +2,6 @@
 #include "shared/entity.h"
 #include "common.h"
 
-#include "common.h"
 #include "shared/vector.h"
 #include "engine/node.h"
 #include "engine/graphics.h"

@@ -1,5 +1,5 @@
 /* Forward surface query with argument.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01117 - CL:town/func_8008F958, CL:town/func_8008FE64, CL:town/func_80090320, CL:town/func_80090854, CL:town/func_80090D8C, CL:town/func_800912C0, PD:town/engine:800FE480, PD:town/engine:800FE484.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8008F958, town/func_8008FE64, town/func_80090320, town/func_80090854, town/func_80090D8C, town/func_800912C0, PD:town/engine:800FE480, PD:town/engine:800FE484.
  */
 #include "town/map/forward_surface_query_with_argument_g01117.h"
 

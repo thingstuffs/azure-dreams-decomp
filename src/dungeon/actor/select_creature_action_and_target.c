@@ -32,7 +32,6 @@ extern s32 get_tile_chebyshev_distance();
 extern s32 get_actor_height_difference();
 extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
 #include "dungeon/player/object/action_state.h"
-#include "dungeon/actor/state.h"
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/player/object.h"

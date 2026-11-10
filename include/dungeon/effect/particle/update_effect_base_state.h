@@ -146,10 +146,10 @@ typedef struct Packed8 {
     u32 word1;
 } __attribute__((packed)) Packed8;
 
-typedef struct Coord {
+typedef struct ProjectedXY {
     s16 x;
     s16 y;
-} Coord;
+} ProjectedXY; /* RotTransPers screen-XY output word */
 
 typedef union Scratch {
     s32 word;
@@ -174,7 +174,7 @@ extern s32 rand(void);
 extern s32 get_definition_entry_byte_13(s16 entry_index);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern void *resolve_record_orientation_or_fallback(void *, void *, Vec3 *, s32);
-extern s32 RotTransPers(Packed8 *, Coord *, Coord *, Coord *);
+extern s32 RotTransPers(Packed8 *, ProjectedXY *, ProjectedXY *, ProjectedXY *);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 GetClut(s32, s32);
 extern void SetSemiTrans(void *, s32);

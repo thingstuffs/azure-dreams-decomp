@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 
 typedef s32 (*Func8003875CHandler)(u32);
 

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7E6E1800_H
 #define DUNGEON_OVL_7E6E1800_H
 #include "common.h"
+#include "sdk/libgte_matrix.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_sprite_data.h"
 #include "m2c_compat.h"
@@ -23,10 +24,9 @@ typedef struct Row_81922998_S_80024198_0 {
     s32 unk_34;
     s32 unk_38;
     s32 unk_3C;
-    u8 pad_40[0x48];
-    s32 unk_88;
-    s32 unk_8C;
-    s32 unk_90;
+    u8 pad_40[0x14];
+    MATRIX composed_matrix; /* CompMatrix(saved GTE matrix, local_matrix), scaled by unk_34..3C; loaded with SetRotMatrix/SetTransMatrix */
+    MATRIX local_matrix; /* RotMatrix of unk_A4..A8; its translation takes the position */
     u8 pad_94[0x10];
     u16 unk_A4;
     u16 unk_A6;
@@ -47,7 +47,10 @@ typedef struct Row_81922998_S_80024198_0 {
     u16 unk_C8;
     u16 unk_CA;
     u16 unk_CC;
-    u8 pad_CE[0x32];
+    u8 pad_CE[0x2];
+    s32 depth_cue; /* RotAverage4 depth-cue output */
+    s32 gte_flag; /* RotAverage4 GTE flag output */
+    u8 pad_D8[0x28];
     s32 unk_100;
 } Row_81922998_S_80024198_0;   /* scratch in func_80024198 */
 

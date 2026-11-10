@@ -165,6 +165,12 @@ class RenameAndFullTests(unittest.TestCase):
             self.assertEqual(C.report(base, moved, [], [], {}, 0, names), 1)   # a different site is new
         with redirect_stdout(io.StringIO()):
             self.assertEqual(C.report(base, head, [], [], {}, 0, {'new_name': {'0x1'}}), 1)  # no names.tsv row
+        shifted = lambda path, line: line + 5                       # an edit above moved the function down
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(C.report(base, moved, [], [], {}, 0, names, shifted), 0)
+        edited = lambda path, line: None                            # the site's own line was edited
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(C.report(base, moved, [], [], {}, 0, names, edited), 1)
 
     def census(self, directory, findings, **summary):
         directory.mkdir(parents=True, exist_ok=True)

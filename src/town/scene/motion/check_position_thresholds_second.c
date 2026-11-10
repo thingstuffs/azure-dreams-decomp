@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_80017954;
 
 /* Sets D_80017954 to 1. */

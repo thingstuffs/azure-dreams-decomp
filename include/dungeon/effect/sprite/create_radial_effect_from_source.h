@@ -23,8 +23,6 @@ void advance_and_fade_effect_flagging_expiration_timer_runs_out(struct Actor *, 
 struct RadialQuadWork;
 void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(struct RadialQuadWork *, ObjectPosition *, SpriteFrameState *);
 s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *);
-#include "modules/dungeon_native_abi.h"
-#include "m2c_compat.h"
 extern u16 D_80026324[];
 extern u16 D_80026326;
 extern s16 D_80026328[];

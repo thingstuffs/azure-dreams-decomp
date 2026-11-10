@@ -174,7 +174,6 @@ struct S_func_800D7FB8_0;
 void update_effect_controller(struct S_func_800D7FB8_0 *controller);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-#include "shared/dungeon_moving_views.h"
 s32 draw_shaded_textured_cylinder(struct B22_81893474_EffectState *unused_data, MovingPosition *center, s32 unused_value, s16 rotation, s32 height, s16 radius, u8 blend_mode, u8 brightness);
 
 struct EffectColor;

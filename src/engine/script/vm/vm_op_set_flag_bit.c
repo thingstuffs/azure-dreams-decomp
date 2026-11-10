@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/script.h"
 
-#include "common.h"
 #include "engine/script/vm.h"
 
 extern s32 set_resident_bitmap_bit(s32 value);

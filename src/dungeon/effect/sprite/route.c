@@ -12,7 +12,6 @@
 
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;
 const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
-#include "dungeon/effect/sprite/route.h"
 #include "shared/gpu_packets.h"
 /* func_8002403C (dungeon, foff 0x18EE83C) -- true base 0x8002403C by bank law
  * (bank 0x18EA800 -> 0x80020000, delta 0x7E735800, same delta as the proven region
@@ -140,8 +139,6 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
     ((GpuContext *)final_state)->packetCursor = packet_end;
     return 0;
 }
-#include "dungeon/effect/sprite/route.h"
-#include "common.h"
 #include "shared/object_flags.h"
 
 
@@ -174,8 +171,6 @@ void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *obj
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/sprite/route.h"
-#include "common.h"
 
 #ifndef NULL
 #define NULL 0
@@ -261,9 +256,6 @@ void create_jittered_terrain_seeking_point(
 
 /* MECHANISM: 2.7.2-cdk-G0 splits func_8002428C / func_8002403C itself (the lui in the beqz delay slot).
    The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */
-#include "dungeon/effect/sprite/route.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Advance position and object state, then flag completion on timeout or object status. */
 void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, void *position, SpriteFrameState *object)
@@ -295,9 +287,6 @@ void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, void *position, S
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/sprite/route.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
 void update_actor_effect_sequence(ChasingStarEffectBody *record)
@@ -317,9 +306,6 @@ void update_actor_effect_sequence(ChasingStarEffectBody *record)
 /* MECHANISM: A long-lived u8 base preserves the retail may-alias load-delay nops.
    Loading the counter before the global store lets that store cover load latency
    and naturally yields the a1 pointer, a0 constant, and v1 counter roles. */
-#include "dungeon/effect/sprite/route.h"
-#include "common.h"
-#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -398,12 +384,8 @@ void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/sprite/route.h"
-#include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 
    /* entity in update_chasing_star_effect */
 
@@ -821,10 +803,6 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
     }
     gfx->unk_1A = rand() & 0xFFF;
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/sprite/route.h"
-#include "common.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 

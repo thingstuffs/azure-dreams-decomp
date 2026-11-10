@@ -1,15 +1,11 @@
 #include "common.h"
+#include "town/scene/dialogue.h"
 
 typedef struct {
     u32 value;
 } __attribute__((packed)) PackedWord;
 
-typedef struct {
-    u8 character;
-    u8 field1;
-    u8 field2;
-    u8 field3;
-} TextEntry;
+
 
 extern PackedWord D_80016024;
 

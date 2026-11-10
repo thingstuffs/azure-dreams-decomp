@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 
 extern void sound_advance_shared_scroll_coordinates(u8 *, s32);
 extern void upload_tile_texture(u8 *, s32, s32);

@@ -323,9 +323,6 @@ void follow_brighten(MovingEffectState *self, MovingMotion *motion, MovingSprite
         self->unk_18.u = frame + 1;
     }
 }
-#include "modules/dungeon_ovl_18ac800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 
 /* Increment the object and global counters and flag the object after 256 counts. */

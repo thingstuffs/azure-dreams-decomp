@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_BUILDING_GRID_G00638_H
 #define TOWN_MAP_BUILDING_GRID_G00638_H
-/* Building grid (G00638). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B9C24, CL:town/func_800B9C70, CL:town/func_800B9C90. */
+/* Building grid. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B9C24, town/func_800B9C70, town/func_800B9C90. */
 
 #include "common.h"
 #include "m2c_compat.h"
@@ -9,7 +9,6 @@
 /* Image IDs used by the building grid exceed four; the full table bound is unknown. */
 extern u16 *D_800D1868[];
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 void initialize_building_region_resources(void);
 
 /* Functions defined in this translation unit. */

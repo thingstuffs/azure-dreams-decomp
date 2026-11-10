@@ -1,7 +1,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
-/* G00534: selection object action. */
-/* Original-file evidence (G00534): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80096098. */
+/* selection object action. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80096098. */
 #include "town/player/selection_object_action_g00534.h"
 #include "town/player.h"
 #include "town/menu.h"

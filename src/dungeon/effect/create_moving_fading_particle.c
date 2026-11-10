@@ -13,7 +13,7 @@ typedef struct ParticleRenderOwner {
 } ParticleRenderOwner;
 
 extern s16 D_80026476;
-extern void move_linked_effect_along_path(void *, s32, void *);
+extern void emit_particle_then_wait_for_path_release(void *effect, ObjectPosition *transform, SpriteFrameState *visual);
 
 extern u8 particle_quad_vertices[];
 
@@ -64,7 +64,7 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
 
     object = allocate_list_node(0x202, allocation_head);
     if (object != 0) {
-        object->update_callback = (void *)move_linked_effect_along_path;
+        object->update_callback = (void *)emit_particle_then_wait_for_path_release;
         register_node(object, build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
         positions = object->position;
         positions->x.w.i = (s16) (((u16)(origin->x.w.i)) + ((s32) (rcos(angle) * radius) >> 0xF));

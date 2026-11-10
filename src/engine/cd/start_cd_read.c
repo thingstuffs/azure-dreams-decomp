@@ -6,7 +6,6 @@
 s32 cd_read_command_words = 0;
 s32 cd_read_command_second_word = 0;
 
-#include "engine/scene/command_words.h"
 #include "engine/cd.h"
 #include "slus.h"
 

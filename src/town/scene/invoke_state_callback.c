@@ -1,6 +1,5 @@
 #include "script_symbols.h"
 #include "town/scene/invoke_state_callback.h"
-#include "town/scene/invoke_state_callback.h"
 #include "town/player/state.h"
 
 void invoke_state_callback(void) {

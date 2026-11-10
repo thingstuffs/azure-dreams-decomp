@@ -35,7 +35,6 @@ extern u8 D_8016DD30[];
 extern u8 D_8016DD78[];
 extern void func_8016AF74(ActorRecord *actor_in, ObjectPosition *actor_data_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 
-extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 generate_random_value(void);
 
 void * create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);

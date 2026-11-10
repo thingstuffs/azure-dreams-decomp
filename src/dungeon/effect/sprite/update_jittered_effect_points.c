@@ -1,3 +1,4 @@
+#include "common.h"
 #include "sdk/libc.h"
 /* Timed target effects, jittered intermediate points, and linked trail quad rendering. */
 #include "modules/dungeon_ovl_19c6800.h"
@@ -290,10 +291,6 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
     }
 }
 
-#include "modules/dungeon_ovl_19c6800.h"
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
@@ -402,11 +399,6 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
     }
 }
 
-#include "modules/dungeon_ovl_19c6800.h"
-#include "common.h"
-#include "shared/tile_object.h"
-#include "shared/entity_objects.h"
-#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -487,8 +479,6 @@ void update_jittered_effect_points(JitteredBoltSegmentBody *effect) {
 }
 
 
-#include "modules/dungeon_ovl_19c6800.h"
-#include "common.h"
 #include "shared/game_work.h"
 s32 RotTransPers(void *, s32 *, s32 *, s32 *);
 void transform_rotated_vertices();
@@ -625,9 +615,6 @@ s32 update_segment(void *node)
     return 0;
 }
 
-#include "modules/dungeon_ovl_19c6800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 
 

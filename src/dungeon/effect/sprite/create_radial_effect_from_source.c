@@ -4,7 +4,6 @@
 /* Targeted moving effects, radial color animation, shaded lines, and fragment creation. */
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "shared/entity.h"
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
@@ -565,10 +564,6 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     }
 }
 
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad0[2];
@@ -730,9 +725,6 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
     }
     effect->ticks++;
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 
 /* Creates an object, copies three source fields to its child, and runs 16 child setup steps. */
 void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value, void *source, s32 unused, s32 context)
@@ -768,11 +760,7 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
     }
     return object;
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 #include "shared/object_node.h"
-#include "shared/object_flags.h"
 
 extern u16 D_80026326;
 
@@ -797,12 +785,7 @@ void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mar
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "shared/sprite_frame_state.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_node.h"
 
 extern u8 linked_mesh_processor_address[];
 
@@ -868,8 +851,6 @@ ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_upda
     }
     return object;
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "common.h"
 #include "shared/game_work.h"
 
 typedef struct Scratch {
@@ -1013,10 +994,6 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
     }
     return 0;
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 
 
@@ -1148,9 +1125,6 @@ void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s3
     visual->unk_0D = 0x40;
     visual->unk_0E = 0xE0;
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 #include "shared/game_work.h"
 typedef struct
 {
@@ -1276,9 +1250,6 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
         return 0;
     }
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -1368,9 +1339,6 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
     }
     return object;
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 #include "shared/object_flags.h"
 
 typedef struct Actor {
@@ -1426,12 +1394,7 @@ void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Mo
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "shared/sprite_frame_state.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 
 struct Dst;
 struct Elem;
@@ -1466,10 +1429,6 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
         ((s16 *)NODE_BODY(effect))[0x1A / 2] = 0x10;
     }
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 extern void PushMatrix(s32);
 extern void PopMatrix(void);
@@ -1578,10 +1537,6 @@ void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(RadialQuadWor
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct S_80025E4C_0 {
     u8 pad_00[0x18];
@@ -1713,10 +1668,6 @@ s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *q
     return 0;
 }
 
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "shared/sprite_frame_state.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 
 #ifndef NULL
 #define NULL 0
@@ -1830,11 +1781,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
     }
     D_8002632A = 0;
 }
-#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 
-#include "dungeon/effect/screen.h"
 extern u8 D_800E1D01[9];
 
 /*

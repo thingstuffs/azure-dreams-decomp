@@ -1,3 +1,4 @@
+#include "slus/data.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
@@ -10,7 +11,6 @@
 typedef void (*TownCallback)(s32, s32, s32, s32);
 
 
-extern char scene_string_fallback[];
 extern char D_8001B9E0[];
 extern char D_80020E44[];
 extern char event_string_fallback[];

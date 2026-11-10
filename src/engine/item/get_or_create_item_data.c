@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/item.h"
 #include "sdk/libc.h"
 

@@ -7,7 +7,7 @@ struct ActorRecord;
 
 void *spawn_ashra(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
 void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void complete_actor_jump_to_destination(struct ActorRecord *jump, ObjectPosition *motion, void *sprite, void *actor);
+void complete_actor_jump_to_destination(struct ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_attack_and_resolve_damage(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Frame tables the spawn factory installs: the default set, and the set used

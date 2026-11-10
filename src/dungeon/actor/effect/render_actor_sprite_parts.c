@@ -1,6 +1,7 @@
 #include "sdk/libgte.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "slus/data.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -9,7 +10,6 @@
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
 
-extern u32 sprite_projection_matrix[8];
 
 typedef struct S_func_800CDFD8_1 {
     u16 unk_00;

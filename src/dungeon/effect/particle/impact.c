@@ -20,7 +20,6 @@ void (*const dungeon_19de800_entry)(struct S_func_80026418_0 *effect) = advance_
 typedef struct { s16 x, y; } BankDirections;
 const BankDirections impact_grid_offsets[9] = {{-1,-1},{0,-1},{1,-1},{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1}};
 const OffsetTable D_80024028 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
-#include "dungeon/effect/particle/impact.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -246,7 +245,6 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
     return best_polygon;
 }
 
-#include "common.h"
 #include "shared/object_flags.h"
 
 typedef struct S_80024398_0_pre {
@@ -346,7 +344,6 @@ void scale_effect_by_phase(void *effect_arg)
 }
 
 #include "shared/object_node.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_800244BC_0 {
@@ -396,7 +393,6 @@ void create_scaling_impact_sprite(s32 state_value, S_800244BC_3 *source_pos)
 }
 
 /* Selector 72, retail file [0x19DED8C, 0x19DEEB0); complete callable clone. */
-#include "common.h"
 
 /* Returns a uniform random sample in [0, limit) by rejection: the rand() bits are masked down to the
  * smallest bit range that covers limit, and the draw repeats while it is out of range.  Zero when limit is zero. */
@@ -443,8 +439,6 @@ s32 update_palette_particle_transition(s32 limit) {
     return sample;
 }
 
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */
 void advance_effect_motion_and_animation(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
@@ -478,12 +472,8 @@ void advance_effect_motion_and_animation(ImpactParticleWork *effect, ObjectPosit
     }
 }
 
-#include "shared/object_node.h"
-#include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/record_ptrs.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
 #ifndef NULL
@@ -641,9 +631,6 @@ void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origi
     }
 }
 
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 extern void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origin);
@@ -687,10 +674,7 @@ void create_shrinking_entry_particle_effect(s32 effect_value, S_80024AE8_3 *posi
 }
 
 /* Selector 72, retail file [0x19DF3A0, 0x19DF3F4); complete callable clone. */
-#include "common.h"
 #include "shared/entity.h"
-#include "shared/object_node.h"
-#include "shared/record_ptrs.h"
 
 /* Clears flag 0x2000 on every object in the circular list. */
 void clear_circular_list_flags(void)
@@ -722,8 +706,6 @@ void clear_circular_list_flags(void)
 }
 
 #include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct S_80024BF4_0 {
     u8 pad_00[0x24];
@@ -946,8 +928,6 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
 }
 
 /* Selector 72, retail file [0x19DF834, 0x19DF888); complete callable clone. */
-#include "common.h"
-#include "shared/object_node.h"
 
 /* Draw each linked mesh with zero depth bias; follow the node stored before its mesh. */
 s32 draw_linked_meshes(void *initial_mesh, void *transform, void *object) {
@@ -967,8 +947,6 @@ s32 draw_linked_meshes(void *initial_mesh, void *transform, void *object) {
     }
 }
 
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Updates motion and rotation and marks the object finished when flagged or expired. */
 void advance_rotating_ballistic_particle_and_expire(ImpactParticleWork *state, ObjectPosition *position, SpriteFrameState *render_state) {
@@ -1018,9 +996,6 @@ void advance_rotating_ballistic_particle_and_expire(ImpactParticleWork *state, O
     }
 }
 
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/dungeon_sprite_data.h"
 
 typedef struct S_800251F4_0 {
     u8 pad_00[0xC];
@@ -1242,7 +1217,6 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
     } while (tile_max < 4);
 }
 
-#include "common.h"
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
 void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
@@ -1274,7 +1248,6 @@ void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bou
     }
 }
 
-#include "common.h"
 
 typedef struct S_func_80025710_0 {
     u8 pad_00[0x8];
@@ -1348,9 +1321,6 @@ void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bou
     }
 }
 
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
 
 typedef struct {
     u16 x;
@@ -1566,9 +1536,6 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
     }
 }
 
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/object_flags.h"
 
 typedef unsigned long uptr;
 
@@ -1745,7 +1712,6 @@ u16 angle;
     return (s32)objects[0];
 }
 
-#include "common.h"
 
 typedef struct {
     s32 words[4];
@@ -1790,7 +1756,6 @@ void copy_and_expand_effect_record(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
 }
 
 /* Selector 72, retail file [0x19E0860, 0x19E092C); complete callable clone. */
-#include "common.h"
 
 /* The owner's table of 0x16-byte entries. */
 typedef struct Bank19de800_19e0860_EntryOwner {
@@ -1843,7 +1808,6 @@ void resolve_and_step_entry_index(void *object, s16 *index_step, s32 min_index, 
 }
 
 /* Selector 72, retail file [0x19E092C, 0x19E095C); complete callable clone. */
-#include "common.h"
 
 /* The owner's table of 0x16-byte entries. */
 typedef struct Bank19de800_19e092c_EntryOwner {
@@ -1863,8 +1827,6 @@ void set_mesh_entry_address(Bank19de800_19e092c_EntryCursor *object, s16 entry_i
     object->entry = object->owner->entries + entry_index * 0x16;
 }
 
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Updates effect motion and visual state, marking the effect inactive when its lifetime expires. */
 void update_effect_motion_and_visual(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
@@ -1898,10 +1860,6 @@ void update_effect_motion_and_visual(ImpactParticleWork *effect, ObjectPosition 
     }
 }
 
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/dungeon_sprite_data.h"
-#include "shared/slus_callbacks.h"
 
 typedef struct S_8002626C_0 {
     u8 pad_00[0x28];
@@ -1972,14 +1930,8 @@ void create_offset_colored_effect(
    so global.c ranks them after the bases ($s6/$s7, offset_z last in $fp).
    Byte-pointer BASE[index] sums select retail addu operand order. */
 
-#include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
-#include "shared/record_ptrs.h"
-#include "shared/entity.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad0[2];

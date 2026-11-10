@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/audio.h"
 #include "engine/graphics.h"
 #include "engine/movie.h"

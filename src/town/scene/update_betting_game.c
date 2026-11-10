@@ -101,9 +101,7 @@ typedef struct S_func_8080F4A4_8 {
  * Row func_8080F4A4, disassembled at the RECOVERED true load base
  * delta=0x7FD9AC00 (true vram 0x8052A0A4), not the synthetic
  * 0x80080000 sweep base the window yaml still declares.
- * Adopting this requires the after-wave overlay-base fix; do
- * not copy into work/overlay_wave/candidates/ (that directory is
- * globbed by tools/gen_noreturn_syms.py).
+ * Adoption requires the recovered overlay-base fix.
  */
 void func_802441A4();                   /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 extern u32 scene_value_total[3];

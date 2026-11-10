@@ -1,7 +1,6 @@
 #include "town/minigame.h"
 /* Starts town minigames, runs their resource setup, and dispatches table-selected map operations. */
 #include "town/minigame/dispatch.h"
-#include "town/minigame/dispatch.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "engine/object.h"
@@ -12,61 +11,40 @@ void initialize_resource_selector_six(void) {
     Control_CD(6, &minigame_module_read_descriptor, 0);
     drain_cd_command_queue();
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 /* start_mogura_func: initialize the mogura activity and reset its four control values. */
 void start_mogura_func(void) {
     initialize_resource_selector_six();
     initialize_mogura_minigame(0, 0, 0, 0);
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
-#include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Run start_tako_func initialization and reset the four control values. */
 void start_tako_func(void) {
     initialize_resource_selector_six();
     initialize_tako_minigame(0, 0, 0, 0);
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
-#include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Run func_sn_ball initialization and reset the four control values. */
 void scr_func_sn_ball(void) {
     initialize_resource_selector_six();
     initialize_snowball_minigame(0, 0, 0, 0);
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
-#include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* start_gym_func: Prepare and start the gym event. */
 void start_gym_func(void) {
     initialize_resource_selector_six();
     initialize_gym_minigame(0, 0, 0, 0);
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 /* Pass the keima resource to handler 6 and finalize the operation. */
 void finalize_keima_resource_operation(void) {
     Control_CD(6, &D_800D4748, 0);
     drain_cd_command_queue();
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_80020300(s32, s32, s32, s32);
 
 /* start_keima_func: Prepare and start the keima event. */
@@ -74,48 +52,32 @@ void start_keima_func(void) {
     finalize_keima_resource_operation();
     func_80020300(0, 0, 0, 0);
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
-#include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* start_keima2_func: Prepare and start the second keima event. */
 void start_keima2_func(void) {
     finalize_keima_resource_operation();
     initialize_keima_interface(0, 0, 0, 0);
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 /* Pass the town resource to handler 6 and finalize the operation. */
 void finalize_town_resource_operation(void) {
     Control_CD(6, &D_800D4750, 0);
     drain_cd_command_queue();
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
-#include "town/minigame.h"
 
 /* Run the two handlers for town script call 100. */
 void scr_func_sn_casino(void) {
     finalize_town_resource_operation();
     initialize_casino_minigame();
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
-#include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* func_sn_casino_slot: prepare and run the casino slot event. */
 void scr_func_sn_casino_slot(void) {
     finalize_town_resource_operation();
     create_minigame_display_objects();
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
 
 typedef struct InputRecord InputRecord;
 
@@ -126,8 +88,6 @@ s32 change_map_of(s32 map_index) {
     change_map(D_800D4758[map_index]);
     return 0;
 }
-#include "town/minigame/dispatch.h"
-#include "common.h"
 
 extern s16 D_800D4770[];
 

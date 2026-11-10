@@ -5,7 +5,6 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 
-#include "common.h"
 
 typedef struct {
     void *field_0;

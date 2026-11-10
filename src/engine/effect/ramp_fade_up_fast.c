@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/effect.h"
 
 // Increase the sprite's vertical scale by 0x400, clamping at 0x1000 and advancing the step when reached.

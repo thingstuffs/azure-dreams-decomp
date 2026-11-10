@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/message/data.h"
 
-#include "common.h"
 #include "engine/message.h"
 #include "slus.h"
 

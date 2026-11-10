@@ -3,7 +3,6 @@
 #include "town/person/state.h"
 #include "town/data.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_800CEDA4_0 {
     u8 pad_00[0x6E];
     s16 unk_6E;

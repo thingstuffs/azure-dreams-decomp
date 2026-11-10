@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 #include "engine/camera.h"
 
 /* Set position and rotation targets, adjusting rotation components across the 12-bit wrap. */

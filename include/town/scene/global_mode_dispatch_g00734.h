@@ -1,6 +1,6 @@
-/* G00734: Run the operation selected by the global mode.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_805D29B4, CL:town/func_805D2A4C.
- * Exclude the weaker left CL:town/func_805D29B4 join; complete file edges remain unknown.
+/* Run the operation selected by the global mode.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_805D29B4, town/func_805D2A4C.
+ * Exclude the weaker left town/func_805D29B4 join; complete file edges remain unknown.
  */
 #ifndef TOWN_SCENE_GLOBAL_MODE_DISPATCH_G00734_H
 #define TOWN_SCENE_GLOBAL_MODE_DISPATCH_G00734_H

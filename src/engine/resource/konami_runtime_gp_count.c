@@ -1,6 +1,5 @@
 #include "engine/resource/konami_runtime_gp_count.h"
 
-#include "engine/resource/konami_runtime_gp_count.h"
 #include "engine/resource.h"
 #include "engine/scene.h"
 

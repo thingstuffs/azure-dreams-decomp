@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/message.h"
 #include "slus.h"
 typedef struct S_8003832C_0 S_8003832C_0;

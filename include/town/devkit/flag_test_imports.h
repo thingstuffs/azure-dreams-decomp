@@ -13,7 +13,7 @@
  */
 #include "common.h"
 
-/* --- imports (tools/headers/foreign_imports.py): one declaration per address --- */
+/* Imported declarations, one per address. */
 void func_80000858(s32, s32);
 void func_80000BC8(s32);
 void func_80000C18(s32);

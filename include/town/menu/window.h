@@ -314,14 +314,12 @@ void update_object_pulse_brightness(TownObjectRecord *object, s32 context, struc
 void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectPosition *placement, struct SpriteFrameState *state);
 
 extern void register_node(s32, void *);
-extern void func_8004491C(s32, void *);
 void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
 void update_map_world_extents(void);
 void run_dual_context_callbacks(void);
 s32 test_resident_bitmap_bit(s32 bit_id);
 s32 check_four_vector_half_turn_gaps();
 extern void *allocate_list_node(s32 size, void *template);
-extern void *func_8003FD64(s32 size, void *template);
 extern void runtime_set_record_value_and_buffer(void *, s32);
 extern void ensure_packed_resource_list(u8 *entries_in);
 s32 select_record_entry_and_value();

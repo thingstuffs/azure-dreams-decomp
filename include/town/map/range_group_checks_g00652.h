@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_RANGE_GROUP_CHECKS_G00652_H
 #define TOWN_MAP_RANGE_GROUP_CHECKS_G00652_H
-/* inferred-strong G00652: range_group_checks_g00652; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C4508. */
+/* inferred-strong range_group_checks_g00652; shared declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C4508. */
 
 #include "common.h"
 #include "m2c_compat.h"

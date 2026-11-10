@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_RADIAL_MOTION_EFFECT_G00586_H
 #define TOWN_MAP_RADIAL_MOTION_EFFECT_G00586_H
 /* Radial motion effect shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AB02C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AB02C. */
 
 #include "common.h"
 #include "shared/object_node.h"

@@ -1,5 +1,5 @@
 /* Call the handler selects nonzero entry g01123.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01123 - CL:town/func_80097264, CL:town/func_80097300.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_80097264, town/func_80097300.
  */
 #include "town/player/call_the_handler_selects_nonzero_entry_g01123.h"
 #include "town/player.h"

@@ -4,7 +4,6 @@
 #include "dungeon/effect/screen/menu.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/effect/motion/update_directional_actor_effect.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"

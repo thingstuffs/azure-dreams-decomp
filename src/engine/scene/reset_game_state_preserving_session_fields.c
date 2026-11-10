@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/scene.h"
 #include "sdk/libc.h"
 #include "slus/data.h"

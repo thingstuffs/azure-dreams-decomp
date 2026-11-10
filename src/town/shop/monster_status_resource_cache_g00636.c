@@ -1,5 +1,5 @@
-/* Initialize and refresh monster status resource cache (G00636). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B956C, CL:town/func_800B958C, CL:town/func_800B95F4, CL:town/func_800B9634, CL:town/func_800B97F4. */
+/* Initialize and refresh monster status resource cache. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B956C, town/func_800B958C, town/func_800B95F4, town/func_800B9634, town/func_800B97F4. */
 #include "town/shop/monster_status_resource_cache_g00636.h"
 #include "town/shop.h"
 #include "town/shop/state.h"

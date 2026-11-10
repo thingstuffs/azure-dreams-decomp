@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/graphics.h"
 #include "engine/town.h"
 void town_seq_reserve(s16 sequence_effect, s16 sequence_id);            /* extern */

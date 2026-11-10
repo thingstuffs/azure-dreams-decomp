@@ -283,7 +283,6 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void restore_inventory_and_familiars(void *, void *, u8, u8);
 #include "engine/texture.h"
 extern s32 get_entity_effect_value(void *, s32);
-extern s32 func_80042900(void *, s32);
 extern void select_record_entry_and_value(void *, void *, s32);
 extern void create_tracked_effect(void *, s32, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s8 find_active_rect_containing_point(s32, s32, void *, u16);

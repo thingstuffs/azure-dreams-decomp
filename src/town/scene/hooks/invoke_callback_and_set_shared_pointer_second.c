@@ -1,6 +1,5 @@
 #include "script_symbols.h"
 #include "town/scene/hooks/invoke_callback_and_set_shared_pointer_second.h"
-#include "town/scene/hooks/invoke_callback_and_set_shared_pointer_second.h"
 #include "town/player/state.h"
 
 /* Installs shared buffers, clamps field +0x35C0 to at least 30, resets a counter, and updates three flags. */

@@ -1,6 +1,5 @@
 #include "engine/effect/cache_afe.h"
 
-#include "engine/effect/cache_afe.h"
 #include "engine/graphics.h"
 
 /* Services queued sound on a changed 8- or 9-bit VSync frame ID; returns 2 if the ID is unchanged. */

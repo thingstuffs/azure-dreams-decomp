@@ -1,6 +1,6 @@
 #ifndef TOWN_PERSON_ACTOR_DATA_REFERENCES_G00663_H
 #define TOWN_PERSON_ACTOR_DATA_REFERENCES_G00663_H
-/* Actor data references (G00663). */
+/* Actor data references. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D58B8. */
 
 #include "common.h"
@@ -34,7 +34,6 @@ typedef struct S_800C648C_1 {
 } S_800C648C_1;
 
 /* ((S_800C645C_1 *)arg0)->linked_data in set_linked_data_pointers_variant_2 */
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800D58F4;
 /* ((S_800C6478_0 *)arg0)->linked_data in set_linked_data_pointer_variant_3 */
 extern M2C_UNK D_800D5930;

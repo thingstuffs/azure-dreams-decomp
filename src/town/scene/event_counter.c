@@ -1,5 +1,5 @@
 /* Event counter reset and threshold
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00647 - PD:town/image_49e800:80019178, PD:town/ll34_49e800_80016000:80019178.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/image_49e800:80019178, PD:town/ll34_49e800_80016000:80019178.
  * PD:town/image_49e800:80019178
  * PD:town/ll34_49e800_80016000:80019178
  */
@@ -7,7 +7,7 @@
 
 /* Private declarations retained from the member sources. */
 /* Event counter reset and threshold */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00647 - PD:town/image_49e800:80019178, PD:town/ll34_49e800_80016000:80019178. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/image_49e800:80019178, PD:town/ll34_49e800_80016000:80019178. */
 
 #include "common.h"
 #include "script_symbols.h"

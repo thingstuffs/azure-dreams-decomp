@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800B6D74. */
 
 #include "common.h"
+#include "slus/data.h"
 #include "shared/game_work.h"
 #include "shared/gpu_packets.h"
 #include "dungeon/level.h"
@@ -156,7 +157,6 @@ extern void RotTransPers4(s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *
 extern void RotMatrix(void *, void *);
 extern void AddPrim(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
-extern u8 sprite_projection_matrix[];
 
 /* Functions defined in this translation unit. */
 

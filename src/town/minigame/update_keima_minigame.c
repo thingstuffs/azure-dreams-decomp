@@ -1,7 +1,6 @@
 #include "shared/minigame_body.h"
 #include "town/minigame/keima.h"
 #include "sdk/abs.h"
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/object_node.h"

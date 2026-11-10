@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_SHADED_TILE_RENDERING_G00594_H
 #define TOWN_MAP_SHADED_TILE_RENDERING_G00594_H
-/* Shaded tile rendering (G00594). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AF9D8, PD:town/engine:800D1548. */
+/* Shaded tile rendering. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AF9D8, PD:town/engine:800D1548. */
 
 #include "common.h"
 #include "shared/game_work.h"

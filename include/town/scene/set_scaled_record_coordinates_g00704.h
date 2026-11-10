@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_SET_SCALED_RECORD_COORDINATES_G00704_H
 #define TOWN_SCENE_SET_SCALED_RECORD_COORDINATES_G00704_H
 /* Set scaled record coordinates. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00704 - XB:town/func_8032FE28. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - XB:town/func_8032FE28. */
 
 #include "common.h"
 #include "shared/record_ptrs.h"

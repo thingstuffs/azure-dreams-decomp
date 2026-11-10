@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "slus/owned_80035484.h"
 #include "slus/data.h"
 void create_window_object(void *object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);   /* extern */

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "shared/dungeon_effect_state.h"
 #include "shared/object_node.h"
 #include "shared/audio_commands.h"
@@ -10,8 +11,6 @@
 #include "sdk/libc.h"
 #include "dungeon/data.h"
 void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, ObjectPosition *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
 #include "shared/object_flags.h"
 
 /* Advance motion and rotation, then set completion flags when the timer exceeds its limit. */
@@ -33,9 +32,6 @@ void advance_accelerating_spin_effect(B22_81892800_Entity *entity, B22_81892800_
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
 
    /* fields in create_randomly_rotated_sprite_object */
@@ -79,9 +75,6 @@ void *create_randomly_rotated_sprite_object(B22_81893474_EffectState *context, B
     }
     return 0;
 }
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
 void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, void *accumulator, SpriteFrameState *target)
@@ -112,10 +105,6 @@ void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -151,9 +140,6 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
     }
     return NULL;
 }
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
-#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
    /* Increment both counters and set completion flags when the count reaches its limit. */
@@ -170,8 +156,6 @@ void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state) {
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
 #include "shared/game_work.h"
 
    /* scratch in draw_red */
@@ -320,10 +304,6 @@ s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *ce
         return result;
     }
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 /* Creates an object with copied data, an adjusted field, and initialized arguments. */
 void *create_timed_transform_copy_effect(s32 object_arg, ObjectPosition *source_data, s16 initial_value, s16 field_delta) {
@@ -350,9 +330,6 @@ void *create_timed_transform_copy_effect(s32 object_arg, ObjectPosition *source_
     }
     return object;
 }
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
-#include "shared/object_flags.h"
    /* Advance the object counters, apply the initial frame offset, and flag completion. */
 void emit_animated_transform_copies(void *state_arg, ObjectPosition *draw_context, SpriteFrameState *update_context) {
     B22_818930F8_S_818930F8_0 *state = state_arg;
@@ -372,10 +349,6 @@ void emit_animated_transform_copies(void *state_arg, ObjectPosition *draw_contex
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
    /*
@@ -394,11 +367,6 @@ void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 
 extern s32 D_800253BC;
 /* Spawns a primary effect and eight randomly offset particles from the supplied data. */
@@ -456,11 +424,8 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
         particle_index += 1;
     } while (particle_index < 8);
 }
-#include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
-#include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"

@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_CALL_THE_HANDLER_SELECTS_NONZERO_ENTRY_G01123_H
 #define TOWN_PLAYER_CALL_THE_HANDLER_SELECTS_NONZERO_ENTRY_G01123_H
 /* call the handler selects nonzero entry g01123. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01123 - CL:town/func_80097264, CL:town/func_80097300. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_80097264, town/func_80097300. */
 
 #include "common.h"
 #include "m2c_compat.h"

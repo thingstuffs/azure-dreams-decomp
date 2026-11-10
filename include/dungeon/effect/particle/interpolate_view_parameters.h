@@ -7,7 +7,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/object_flags.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 #include "sdk/libc.h"
 struct ObjectPosition;

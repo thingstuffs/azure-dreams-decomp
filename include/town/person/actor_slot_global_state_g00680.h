@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_ACTOR_SLOT_GLOBAL_STATE_G00680_H
 #define TOWN_PERSON_ACTOR_SLOT_GLOBAL_STATE_G00680_H
-/* G00680: shared declarations for actor slot global state. */
-/* Original-file evidence (G00680): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6674, PD:town/engine:800D667C, PD:town/engine:800D66A4, PD:town/engine:800D66A8. */
+/* shared declarations for actor slot global state. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6674, PD:town/engine:800D667C, PD:town/engine:800D66A4, PD:town/engine:800D66A8. */
 
 /* Configure this callback using its own slot, table addresses and state constants. */
 #include "common.h"

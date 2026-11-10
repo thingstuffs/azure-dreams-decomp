@@ -1,5 +1,4 @@
 /* Relinked copy of town/func_80880298 (func_80880298.c); its callback table puts the two entries at +0x64/+0x70 (twin +0x68/+0x74), otherwise retail differs only at relocation sites. */
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "town/devkit.h"
 #include "town/scene.h"

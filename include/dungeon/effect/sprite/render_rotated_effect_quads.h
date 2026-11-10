@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_190C800_H
 #define DUNGEON_OVL_190C800_H
 #include "common.h"
+#include "slus/data.h"
 /* The retail matrix-stack calls pass extra words through K&R declarations. */
 #define PushMatrix __sdk_PushMatrix
 #define PopMatrix __sdk_PopMatrix
@@ -88,7 +89,6 @@ void SetTransMatrix(void *);
 void *RotMatrix(void *, void *);
 void func_80067EF4();
 void SetDrawArea(void *, void *);
-extern u8 effect_view_matrix[3];
 extern u8 upper_draw_context[16];
 void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode);
 void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);

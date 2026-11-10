@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_DIRECTION_ENTRY_STATUS_G00538_H
 #define TOWN_PLAYER_DIRECTION_ENTRY_STATUS_G00538_H
-/* G00538: shared declarations for direction entry status. */
-/* Original-file evidence (G00538): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0464, PD:town/engine:800D046C. */
+/* shared declarations for direction entry status. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0464, PD:town/engine:800D046C. */
 
 #include "common.h"
 #include "shared/game_work.h"

@@ -25,7 +25,6 @@ static inline s32 shift10(s32 value)
 
 /* Swap draw buffers and update the animated coordinate history on a new display field. */
 
-#include "common.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))

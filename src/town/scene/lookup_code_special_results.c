@@ -1,5 +1,4 @@
 #include "modules/town_ovl_64f118.h"
-#include "modules/town_ovl_64f118.h"
 #include "town/player.h"
 #include "town/scene/motion.h"
 

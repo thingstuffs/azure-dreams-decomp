@@ -2,7 +2,7 @@
 #define FRONTEND_LIBCARD_CARD_BOOT_STOP_TIMER_AND_INIT_SERVER_G01041_H
 struct ObjectNodeHeader;
 /* Card boot stop timer and init server. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01041 - CL:main/func_80014C60. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - main/func_80014C60. */
 
 #include "common.h"
 #include "frontend/libcard/interfaces.h"

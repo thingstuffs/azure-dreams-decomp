@@ -3,7 +3,6 @@
 #include "town.h"
 #include "town/data.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Set the D_80019BC4 flag. */
 void request_scene_rescan_a(void) {

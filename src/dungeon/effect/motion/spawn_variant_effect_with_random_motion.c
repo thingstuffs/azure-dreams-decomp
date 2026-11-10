@@ -29,8 +29,6 @@ extern M2C_UNK D_8006E24C;
 extern M2C_UNK D_8006E258;
 #include "shared/sprite_source.h"
 #include "dungeon/data.h"
-#include "shared/sprite_source.h"
-#include "shared/sprite_source.h"
 
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {

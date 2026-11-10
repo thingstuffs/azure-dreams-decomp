@@ -1,4 +1,3 @@
-/* cfail-repair baseline: preserve the selected draft's recovered shape. */
 #include "common.h"
 #include "town/scene/flags.h"
 #include "town/data.h"

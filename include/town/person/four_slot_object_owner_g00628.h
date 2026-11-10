@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_FOUR_SLOT_OBJECT_OWNER_G00628_H
 #define TOWN_PERSON_FOUR_SLOT_OBJECT_OWNER_G00628_H
-/* Four slot object owner (G00628). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/engine@3755C, CL:town/func_800B7604, CL:town/func_800B771C. */
+/* Four slot object owner. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/engine@3755C, town/func_800B7604, town/func_800B771C. */
 
 #include "common.h"
 #include "m2c_compat.h"
@@ -33,7 +33,6 @@ extern void func_800B4908(void *);
 extern void func_800B49A8(void *);
 extern void func_800B4A60(void *);
 /* arg0 in set_record_value_and_data_pointer; pointer addresses record offset 0x10 */
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800B4C38;
 
 /* Functions defined in this translation unit. */

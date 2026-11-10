@@ -1,14 +1,14 @@
 #ifndef OVMOVIE_GAME_MOVIE_PLAYBACK_G01063_H
 #define OVMOVIE_GAME_MOVIE_PLAYBACK_G01063_H
 /* Game movie playback and display lifecycle. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01063 - refs/tuweak1/split_plan.tsv:game_movie_playback. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - refs/tuweak1/split_plan.tsv:game_movie_playback. */
 
-/* Movie display setup (G00426).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00426 - CL:ovmovie/func_800402D8, CL:ovmovie/func_8004033C, CL:ovmovie/func_80040360, CL:ovmovie/func_800403EC, CL:ovmovie/func_80040954, CL:ovmovie/func_80040ED8, PD:ovmovie/ovmovie_bin:801781D8, PD:ovmovie/ovmovie_bin:80189390.
+/* Movie display setup.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - ovmovie/func_800402D8, ovmovie/func_8004033C, ovmovie/func_80040360, ovmovie/func_800403EC, ovmovie/func_80040954, ovmovie/func_80040ED8, PD:ovmovie/ovmovie_bin:801781D8, PD:ovmovie/ovmovie_bin:80189390.
  */
 #include "ovmovie/movie_display_setup_g00426.h"
-/* Movie frame playback (G00427).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00427 - CL:ovmovie/func_80040360, CL:ovmovie/func_800403EC, CL:ovmovie/func_80040690, CL:ovmovie/func_8004072C, CL:ovmovie/func_800408BC, CL:ovmovie/func_80040954, CL:ovmovie/func_80040ED8, PD:ovmovie/ovmovie_bin:801781D0.
+/* Movie frame playback.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - ovmovie/func_80040360, ovmovie/func_800403EC, ovmovie/func_80040690, ovmovie/func_8004072C, ovmovie/func_800408BC, ovmovie/func_80040954, ovmovie/func_80040ED8, PD:ovmovie/ovmovie_bin:801781D0.
  */
 #include "ovmovie/movie_frame_playback_g00427.h"
 

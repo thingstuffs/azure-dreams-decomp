@@ -3,7 +3,6 @@
 #include "town/player/script_flags.h"
 #include "town/scene/flags.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Returns whether func_80018B5C reports zero for ID 0x5BE. */
 s32 is_script_flag_5be_clear(void) {

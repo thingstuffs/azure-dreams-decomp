@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 
 typedef void (*Callback)(void);
 

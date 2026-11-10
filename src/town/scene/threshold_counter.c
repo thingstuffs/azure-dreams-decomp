@@ -1,5 +1,5 @@
 /* Threshold counter test and subtraction
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00672 - PD:town/ll34_581000_80016000:80017FB8, PD:town/ll34_594800_80016000:80019268, PD:town/ll34_5b2000_80016000:80017788.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/ll34_581000_80016000:80017FB8, PD:town/ll34_594800_80016000:80019268, PD:town/ll34_5b2000_80016000:80017788.
  * PD:town/ll34_581000_80016000:80017FB8
  * PD:town/ll34_594800_80016000:80019268
  * PD:town/ll34_5b2000_80016000:80017788
@@ -8,7 +8,7 @@
 
 /* Private declarations retained from the member sources. */
 /* Threshold counter test and subtraction */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00672 - PD:town/ll34_581000_80016000:80017FB8, PD:town/ll34_594800_80016000:80019268, PD:town/ll34_5b2000_80016000:80017788. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/ll34_581000_80016000:80017FB8, PD:town/ll34_594800_80016000:80019268, PD:town/ll34_5b2000_80016000:80017788. */
 
 #include "common.h"
 #include "m2c_compat.h"

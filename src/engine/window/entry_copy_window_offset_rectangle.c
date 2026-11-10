@@ -1,7 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80036210_arg0.h"
 
-#include "common.h"
 #include "engine/message.h"
 #include "engine/script/vm.h"
 #include "engine/window.h"

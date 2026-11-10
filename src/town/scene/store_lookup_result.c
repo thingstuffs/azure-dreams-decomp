@@ -3,7 +3,6 @@
 #include "town/scene.h"
 #include "town/data.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Store the result of calling func_80016B1C on D_80018AE8. */
 void store_lookup_result(void) {

@@ -2,7 +2,6 @@
 #include "shared/town_object.h"
 #include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */
 
 

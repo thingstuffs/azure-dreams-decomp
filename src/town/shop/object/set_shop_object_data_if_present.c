@@ -3,7 +3,6 @@
 #include "town/shop/object.h"
 #include "town/shop/state.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 typedef struct S_800B1718_0 {
     u8 pad_00[0x10];

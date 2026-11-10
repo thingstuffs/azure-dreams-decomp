@@ -5,7 +5,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 
 typedef struct Func80038A10State Func80038A10State;
 

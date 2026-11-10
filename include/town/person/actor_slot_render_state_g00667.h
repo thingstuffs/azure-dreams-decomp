@@ -1,6 +1,6 @@
 #ifndef TOWN_PERSON_ACTOR_SLOT_RENDER_STATE_G00667_H
 #define TOWN_PERSON_ACTOR_SLOT_RENDER_STATE_G00667_H
-/* Actor slot render state (G00667). */
+/* Actor slot render state. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D5DD4, PD:town/engine:800D5DDC, PD:town/engine:800D5E04, PD:town/engine:800D5E08. */
 
 #include "common.h"

@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/window.h"
 
 typedef struct S_800355EC_0 {

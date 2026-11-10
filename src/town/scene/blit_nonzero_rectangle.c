@@ -1,4 +1,3 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"

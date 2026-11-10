@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800C9858. */
 
 #include "common.h"
+#include "slus/data.h"
 #include "shared/game_work.h"
 
 typedef struct Node {
@@ -176,7 +177,6 @@ s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *
 s32 RotMatrix(void *, void *);
 u16 ratan2();
 s32 AddPrim(void *, void *);
-extern s32 sprite_projection_matrix[];
 
 /* Functions defined in this translation unit. */
 s32 process_linked_mesh_states_mode_1(void *initial_state, s32 value, void *data);

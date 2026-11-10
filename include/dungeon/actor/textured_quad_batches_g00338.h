@@ -18,17 +18,22 @@ typedef struct S_800B06F0_0 {
     s16 unk_70;
     s16 unk_72;
     u16 unk_74;
-    u8 pad_76[0x4];
+    u8 pad_76[0x2];
+    s16 unk_78; /* second RotTransPers4 vertex x */
     s16 unk_7A;
     u16 unk_7C;
     u8 pad_7E[0x2];
     s16 unk_80;
     s16 unk_82;
     u16 unk_84;
-    u8 pad_86[0x4];
+    u8 pad_86[0x2];
+    s16 unk_88; /* fourth RotTransPers4 vertex x */
     s16 unk_8A;
     u16 unk_8C;
-    u8 pad_8E[0x2A];
+    u8 pad_8E[0x2];
+    s32 depth_cue; /* RotTransPers4 depth-cue output */
+    s32 gte_flag; /* RotTransPers4 GTE flag output */
+    u8 pad_98[0x20];
     u16 unk_B8;
     u16 unk_BA;
     u8 pad_BC[0x4];

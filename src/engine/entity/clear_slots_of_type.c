@@ -2,7 +2,6 @@
 #include "shared/actor_status.h"
 #include "engine/entity.h"
 
-#include "common.h"
 #include "engine/message.h"
 #include "shared/entity.h"
 

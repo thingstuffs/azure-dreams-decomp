@@ -6,13 +6,13 @@
 #endif
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "slus/data.h"
 #include "shared/game_work.h"
 
 #include "m2c_compat.h"
 #include "slus.h"
 #include "dungeon/level.h"
 #include "sdk/libgpu.h"
-extern u8 effect_view_matrix[];
 typedef struct S_SCRATCH {
     u16 unk_000;
     u16 unk_002;
@@ -108,7 +108,6 @@ u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, 
 s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
 
 s32 RotMatrix(void *, void *, ...);        /* extern */
-extern u32 sprite_projection_matrix[8];
 extern s32 dungeon_floor_flags[3];
 extern u8 floor_objects[128];
 typedef struct DebugEntry {
@@ -214,7 +213,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, Sprit
     view_matrix = (u8 *) 0x1F800050;
     depth_cue = &scr->projection_aux;
     transform_flags = &scr->projection_flags;
-    matrix_base = (u8 *)&effect_view_matrix + 32;
+    matrix_base = (u8 *)&sprite_projection_matrix;
     do {
     entry_table = (u8 *) (&floor_objects);
 

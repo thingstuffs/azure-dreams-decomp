@@ -99,8 +99,6 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
     }
     return effect;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
 #include "shared/entity.h"
 
 typedef struct S_800CBCA0_0_pre {
@@ -166,12 +164,9 @@ value_ready:
     }
     return action_result != 0;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 extern u8 D_800E1B08[];
 extern u8 D_800E1B2E[];
@@ -236,11 +231,6 @@ void advance_timed_z_transition(s16 *transition) {
         break;
     }
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/dungeon_status.h"
 
 extern s32 D_800CBDB4;
 extern u8 D_800E1B5D;
@@ -280,11 +270,8 @@ s32 create_active_entity_effect_or_message(ActorRecord *entity)
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
 #define U8(p,o) (*(u8 *)((u8 *)(p)+(o)))
 extern s32 generate_random_value(void);
-#include "dungeon/actor/status.h"
 
 extern u8 D_800E1BBC[];
 /* Attempts a random status effect and plays its visual and sound effects on success. */
@@ -326,8 +313,6 @@ s32 attempt_random_status_effect(ActorRecord *entity, s32 rng_input_a, s32 rng_i
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
 #include "dungeon/actor/movement_overlap_wait_g00334.h"
 
 extern u8 D_800E1BDA[];
@@ -385,8 +370,6 @@ s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwar
     }
     return feedback_or_result;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
 
 typedef struct {
     u8 pad0[0x14];
@@ -420,11 +403,7 @@ s32 attempt_trap_request_ten_slots(void *object) {
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
 #include "shared/dungeon_item_entries.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
 
 #define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
@@ -464,10 +443,6 @@ void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 typedef struct S_800CC4F0_0 {
     u8 pad_00[0x2];
@@ -512,9 +487,6 @@ void update_directional_trap_effect(void *effect_data, S_800CC4F0_0 *position) {
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/object_node.h"
-#include "shared/game_work.h"
 
 
 typedef struct DungeonObject
@@ -610,9 +582,6 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
     }
     return obj;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Fade the color toward 0xE0, then to black, and flag completion. */
 void fade_trap_color_to_black(TrapFadeWork *fade, void *unused, SpriteFrameState *color) {
@@ -652,9 +621,6 @@ void fade_trap_color_to_black(TrapFadeWork *fade, void *unused, SpriteFrameState
         }
     }
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/object_node.h"
-#include "common.h"
 
 typedef struct CoordBlock {
     u8 pad0[2];
@@ -716,10 +682,6 @@ ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value,
     }
     return obj;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 /* Decrements the record countdown and marks completion when it reaches zero. */
 void tick_byte_timed_trap_effect(FivePartTargetEffectBody *effect) {
@@ -733,12 +695,6 @@ void tick_byte_timed_trap_effect(FivePartTargetEffectBody *effect) {
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/entity.h"
-#include "shared/record_ptrs.h"
-#include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 
    /* count_base in create_five_part_target_effect */
 
@@ -803,8 +759,6 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
         apply_attack_power_and_element_effects(target, 0xC, dungeon_actor_ring_anchor->level, 9, 0x400, 0, 3);
     }
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
 
 typedef struct {
     u8 pad[3];
@@ -894,11 +848,6 @@ s32 take_map_item_slot(ActorRecord *object, s16 slot)
 /* MECHANISM: Recover true-space joins locally and model the call workspace as an
    escaping 8-byte stack record.  Hold object/slot in s0/s1 and use guarded a0/v1
    RNG/remainder roles so the explicit result merge survives before the threshold. */
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 
 
@@ -976,12 +925,7 @@ void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, ObjectPosition 
     motion->y.v += motion->velocity_y;
     motion->z.v += motion->velocity_z;
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -1122,9 +1066,6 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
     }
     return effect != NULL;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/entity.h"
 
 extern s32 roll_chance_and_run_action(void *record, s16 chance, s8 action);
 extern s32 D_800DCF0C;
@@ -1172,9 +1113,6 @@ s32 roll_trap_hit_and_raise_event_520(EntityRec *actor) {
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800CD294_0 {
     void * unk_00;
@@ -1227,10 +1165,6 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "m2c_compat.h"
-#include "shared/entity.h"
 
 extern s32 D_800DCF1C;
 extern u8 D_800E1C14[17];
@@ -1269,10 +1203,6 @@ s32 attempt_trap_request_eight_slots(void *object) {
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 
 typedef struct S_800CD474_1 {
@@ -1361,8 +1291,6 @@ void advance_falling_trap_effect(FourOwnerSpriteEffectsBody *effect, S_800CD474_
     motion->unk_08.at00.v += motion->unk_14;
     effect->frame_count += 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
 
 /* Apply the global-mode mask to the target with a fixed value of 0x10. */
 void apply_mode_selected_trap_mask(ActorRecord *target, s32 unused_mask)
@@ -1375,10 +1303,6 @@ void apply_mode_selected_trap_mask(ActorRecord *target, s32 unused_mask)
     }
     try_apply_effect_four_by_chance(target, mode_mask, 0x10);
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 extern s32 generate_random_value(void);
@@ -1545,10 +1469,6 @@ s32 create_four_owner_sprite_effects(S_800CD6E0_0 *source, s16 slot_index, s32 s
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 /* Object shape as seen by tick_trap_effect_countdown: a 32-bit handle/value field at
  * offset 0x00 and a 16-bit countdown field at offset 0x06. The 16-bit
@@ -1571,12 +1491,8 @@ void tick_trap_effect_countdown(TrapOwnedTimedEffectBody *object)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/entity.h"
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-#include "dungeon/actor/status.h"
 extern u8 D_800E1C25[];
 
 /* Runs action 0xA when eligible, using the prior state for the flagged callback. */
@@ -1602,10 +1518,6 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
     }
     return 0;
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 generate_random_value(void);
@@ -1674,10 +1586,6 @@ s32 trigger_step_trap_effect(ActorRecord *object) {
     }
     return result;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/dungeon_status.h"
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 generate_random_value(void);
@@ -1715,8 +1623,6 @@ s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unu
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
 
 extern u8 D_800DF870[];
 
@@ -1762,10 +1668,6 @@ s32 apply_chance_based_trap_effect(void *state, s32 unused_1, s32 unused_2, s32 
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 
 
 /* Set flag 0x40000000 on every record in the circular list. */
@@ -1780,9 +1682,6 @@ void mark_all_actors_with_high_flag(void) {
         record = NODE_BODY(record->next_actor_header);
     } while (record != first_record);
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
 
 /* Add amount to active entries at the given coordinates in both arrays. */
 void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount)
@@ -1825,9 +1724,6 @@ void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount)
         entry_index++;
     } while (entry_index < 32);
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
 
 /* Sets the value of all active entries at the given coordinates in both tables. */
 void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value) {
@@ -1869,12 +1765,7 @@ void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value) {
 /* MECHANISM: Frameless leaf with exact 12-byte/24-byte record strides and narrow stores.
    Removing inherited keeps restored raw arg holds in t1/t2 and the exact 58-word shape.
    A guarded t0 pin for the second counter closed the final a1/a3/t0 role rotation. */
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
 #include "shared/dungeon_floor.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 typedef struct dungeon_long_lived_trap_effect {
     s16 x;
@@ -2074,11 +1965,6 @@ snap_target_tile:
     }
     return;
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -2184,9 +2070,6 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
     }
     return object;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/dungeon_floor.h"
 
 /* Return success if either global high flag is set, otherwise test the record lookup. */
 s32 check_trap_record_or_global_override(ActorRecord *record) {
@@ -2199,9 +2082,6 @@ s32 check_trap_record_or_global_override(ActorRecord *record) {
     return create_dual_grid_trap_effect(((u8 *)source_record)[0x24], ((u8 *)source_record)[0x25], record->ground_height,
         record, 0) != 0;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/dungeon_floor.h"
 
 /* Checks the entity at its linked coordinates unless a global override is set. */
 s32 check_linked_entity_or_global_override(ActorRecord *entity) {
@@ -2218,9 +2098,6 @@ s32 check_linked_entity_or_global_override(ActorRecord *entity) {
         entity,
         1) != 0;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800CE748_0 {
     void * unk_00;
@@ -2392,12 +2269,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
     }
     return 1;
 }
-#include "modules/trap_effects_candidate.h"
-#include "common.h"
-#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 typedef MonsterFactory SpawnFunc;
 
@@ -2570,10 +2442,6 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
         }
     }
 }
-#include "modules/trap_effects_candidate.h"
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/dungeon_status.h"
 #include "engine/node.h"
 struct State;
 

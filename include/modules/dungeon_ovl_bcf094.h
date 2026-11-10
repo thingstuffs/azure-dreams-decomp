@@ -27,7 +27,6 @@ typedef struct S_80158894_4 {
 } S_80158894_4;   /* (void *)actor_ptr in func_80158894 */
 
 extern void *allocate_list_node(s32, void *);
-extern void *func_8003FD64(s32, void *);
 extern void register_node(void *, void *);
 extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);

@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_OBJECT_PREPEND_SCENE_LIST_NODE_G01118_H
 #define TOWN_SCENE_OBJECT_PREPEND_SCENE_LIST_NODE_G01118_H
 /* Shared declarations for prepend_scene_list_node_g01118 */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01118 - CL:town/func_80091840. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_80091840. */
 
 #include "common.h"
 #include "m2c_compat.h"

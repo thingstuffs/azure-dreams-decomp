@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/script/vm.h"
 
 typedef struct S_80039ACC_0 {

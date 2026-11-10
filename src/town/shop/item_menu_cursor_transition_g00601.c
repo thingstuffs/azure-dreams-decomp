@@ -1,5 +1,5 @@
-/* Item menu cursor transition (G00601). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0FD4, CL:town/func_800B10F4. */
+/* Item menu cursor transition. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B0FD4, town/func_800B10F4. */
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "town/shop.h"
 

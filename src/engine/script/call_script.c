@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "records/Rec_D_80082A38.h"
 #include "engine/object.h"
 #include "engine/script.h"

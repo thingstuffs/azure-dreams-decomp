@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "frontend/card.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 s32 process_global(s32 flag_linked_object);                     /* extern */
 
 typedef struct S_8001B93C_0 {

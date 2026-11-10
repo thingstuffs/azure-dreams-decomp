@@ -3,7 +3,6 @@
 #ifndef DUNGEON_OVL_18CA83C_H
 #define DUNGEON_OVL_18CA83C_H
 #include "common.h"
-#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"

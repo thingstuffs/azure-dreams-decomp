@@ -719,6 +719,5 @@ extern s16 selection_blink_timer[5];
 extern u16 selection_blink_target[5];
 extern s16 selection_animation_counters[5];
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 void AddPrim(void *, void *);
 #endif

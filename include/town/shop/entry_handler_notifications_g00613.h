@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_ENTRY_HANDLER_NOTIFICATIONS_G00613_H
 #define TOWN_SHOP_ENTRY_HANDLER_NOTIFICATIONS_G00613_H
-/* Entry handler notifications declarations (G00613). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B47B0, CL:town/func_800B47E8. */
+/* Entry handler notifications declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B47B0, town/func_800B47E8. */
 
 #include "common.h"
 #include "m2c_compat.h"

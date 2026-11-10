@@ -1,3 +1,4 @@
+#include "common.h"
 #include "sdk/libc.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
@@ -21,8 +22,6 @@ void (*const dungeon_1894800_entry)(TargetParticleStatusSpellBody *, ObjectPosit
 const u8 no_effect_target_prefix[48] = { 0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x82, 0x92, 0x82, 0x85, 0x81, 0x40, 0x82, 0x97, 0x82, 0x81, 0x82, 0x93, 0x81, 0x40, 0x82, 0x8E, 0x82, 0x8F, 0x81, 0x40, 0x82, 0x85, 0x82, 0x86, 0x82, 0x86, 0x82, 0x85, 0x82, 0x83, 0x82, 0x94, 0x81, 0x40, 0x82, 0x8F, 0x82, 0x8E, 0x81, 0x40, 0x00, 0x00 };
 const u8 no_effect_target_period[4] = { 0x81, 0x44, 0x00, 0x00 };
 #include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
-#include "common.h"
 
 extern u8 D_800E1C8A[38];
 
@@ -59,10 +58,7 @@ void apply_random_duration_actor_status(void *entity, s32 direction, void *unuse
         }
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
 #include "shared/gpu_packets.h"
-#include "common.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -316,9 +312,6 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
     }
     PopMatrix();
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
-#include "common.h"
 #include "shared/object_node.h"
 
 /* Retail 81874F04 (project_linked_quad_record).
@@ -338,10 +331,6 @@ s32 project_linked_quad_record(void *record, ObjectPosition *context, SpriteFram
         data = node->sprite;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
-#include "common.h"
-#include "shared/game_work.h"
 typedef struct {
     u32 addr : 24;
     u32 len : 8;
@@ -570,10 +559,6 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
     }
     PopMatrix();
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
-#include "common.h"
-#include "shared/object_node.h"
 
 /* Retail 818757D4 (draw_chained_object_records).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
@@ -592,10 +577,6 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
         data = node->sprite;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 #define FIELD_U8(base, off)  (*(u8 *)((u8 *)(base) + (off)))
 #define FIELD_S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
@@ -681,9 +662,6 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, u8 *source_verte
     FIELD_PTR(*context_slot, 0x8D0) = FIELD_PTR(scratch, 0x18);
     return 0;
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
-#include "common.h"
 #include "shared/object_flags.h"
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
@@ -704,9 +682,6 @@ void advance_point_effect_toward_terrain(void *state, s16 *position)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
-#include "common.h"
 #include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
@@ -768,10 +743,6 @@ void create_terrain_seeking_point_effect(
         ((TerrainSeekingPointBody *)effect_ptr)->color = property_28;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct {
     u8 bytes[12];
@@ -938,10 +909,6 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
         return;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct S_81876014_1 {
     u8 pad_00[0xA];
@@ -1019,12 +986,8 @@ void update_effect_quad_and_completion(RotatingEffectQuadBody *effect, ObjectPos
     (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/project_textured_quad_or_callback.h"
 #include "shared/entity_height_offsets.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 

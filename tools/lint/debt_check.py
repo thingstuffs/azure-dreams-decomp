@@ -1233,6 +1233,10 @@ def main(argv=None):
             for line in RC.summary_lines(summary['readcounts']):
                 print(line)
             RC.write_lists(args.readcounts_out or args.root.resolve() / 'build/readcounts', summary['readcounts'])
+        import decl_agreement
+        data_rows, data_names = decl_agreement.data_census(args.root.resolve())
+        print(f'data_decl_disagreements (report only)\t{len(data_rows)}\tof {len(data_names)} data names declared '
+              f'with more than one type (tools/lint/decl_agreement.py --data-census)')
         access_path = args.access_summary or args.root / 'out/access_summary.json'
         sites_path = args.access_sites or args.root / 'out/access_sites.tsv'
         if args.access_sites or (not access_path.is_file() and sites_path.is_file()):

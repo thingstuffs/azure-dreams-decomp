@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene/hooks.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 s32 apply_selected_entry_values(s32, s32);
 
 /* Forward the inputs to func_800176B8. */

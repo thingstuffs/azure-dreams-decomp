@@ -44,7 +44,6 @@ void apply_scaled_entity_velocity(Entity94744 *entity) {
     entity->flags_1C &= 0x7FFFFFFF;
     entity->flags_14 &= 0x7FFE7FFF;
 }
-#include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 
@@ -71,9 +70,6 @@ void process_unflagged_linked_entries(void *firstEntryBase) {
         } while (entry != ((EntityRec *)(((s32 *)&primary_actor_record)))->x.v);
     }
 }
-#include "common.h"
-#include "shared/entity.h"
-#include "shared/record_ptrs.h"
 void apply_scaled_entity_velocity();                      /* extern */
 
 typedef struct S_80099F70_1 {
@@ -97,9 +93,6 @@ void process_unflagged_linked_entries_alt(void *firstNodeBase) {
         } while (currentEntry != ((EntityRec *)(((s32 *)&primary_actor_record)))->x.v);
     }
 }
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/entity.h"
 
 /* Clear the entry flag and link the entry into the current owner list. */
 void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry)
@@ -118,7 +111,6 @@ void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry)
     neighbor_links->next_actor_header = entry;
 }
 #include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
-#include "common.h"
 
 #ifndef NULL
 #define NULL 0
@@ -144,10 +136,7 @@ void unlink_entity_node(EntityLinkNode *node) {
         node->prev = NULL;
     }
 }
-#include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
-#include "common.h"
 #include "shared/dungeon_floor.h"
-#include "shared/record_ptrs.h"
 
 /* Mark and process entries without flag 0x4000, then set the global update flag. */
 void process_unflagged_entries_and_set_update(void)
@@ -170,8 +159,6 @@ void process_unflagged_entries_and_set_update(void)
 
     dungeon_floor_flags = dungeon_floor_flags | 0x10000000;
 }
-#include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
-#include "common.h"
 
 /* Linked-list node with a next pointer at offset 0x0 and a 16-bit
  * flags/state field at offset 0x1E (shared shape with integrate_active_node_vectors's
@@ -206,9 +193,6 @@ void process_flagged_nodes_and_clear_global_bit(void) {
         dungeon_floor_flags &= 0xEFFFFFFF;
     }
 }
-#include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
-#include "common.h"
-#include "shared/entity.h"
 
 
 /* Marks an actor processed and moves it beside the anchor in the actor ring unless already marked. */
@@ -247,8 +231,6 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     anchor->next_actor_header = link_bits;
     return 1;
 }
-#include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
-#include "common.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -290,8 +272,6 @@ void cycle_map_cell_flags(s16 x, s16 y, u16 flags)
     }
     cell->flags = new_flags;
 }
-#include "common.h"
-#include "shared/game_work.h"
 #include "shared/dir_step.h"
 
 /* Checks whether the adjacent tile has masked flags or a zero tile value. */
@@ -327,8 +307,6 @@ s32 is_neighbor_tile_blocked(s16 origin_x, s16 origin_y, s32 direction) {
 /* MECHANISM: Frameless leaf; ASM_KEEP holds D_80083160 at words 0-1.
    Symbolic s16 indexing reproduces the interleaved argument normalization.
    One v0 result lifetime plus an epilogue barrier prevents tail duplication. */
-#include "shared/game_work.h"
-#include "shared/dir_step.h"
 
 typedef struct {
     s16 value;
@@ -354,8 +332,6 @@ s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *fla
     *flags = entry->flags;
     return entry->value;
 }
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct {
     u8 pad[4];
@@ -402,7 +378,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags)
 #include "modules/dungeon_engine_tile_map_abi_views.h"
 extern s16 direction_y_offsets[];
 extern s16 direction_x_offsets[];
-#include "common.h"
 
 /* Checks the sides of a diagonal direction for terrain above 0x200. */
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height)
@@ -435,9 +410,6 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
     return 1;
 }
 #include "modules/dungeon_engine_tile_map_fragment_b4f0c.h"
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/dir_step.h"
 
 extern s16 find_active_rect_containing_point(u16, u16);
 
@@ -540,11 +512,6 @@ s32 check_movement_clearance_and_height(u32 move_flags, FuncArg1 *position, Func
     }
     return 0;
 }
-#include "modules/dungeon_engine_tile_map_fragment_b4f0c.h"
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/game_work.h"
-#include "shared/dir_step.h"
 
 typedef struct {
     u16 value;
@@ -699,11 +666,6 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, ActorRec
     }
     return result;
 }
-#include "modules/dungeon_engine_tile_map_fragment_b4f0c.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
 
 typedef struct {
     u8 pad0[2];
@@ -805,9 +767,6 @@ s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, 
     }
     return -2;
 }
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/dir_step.h"
 
 typedef unsigned long uptr;
 
@@ -875,13 +834,8 @@ s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, ActorRecord *actor, s16 
     return 0;
     return 1;
 }
-#include "modules/dungeon_engine_tile_map_abi_views.h"
 extern s16 direction_y_offsets[];
 extern s16 direction_x_offsets[];
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/dir_step.h"
-#include "shared/entity.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -983,9 +937,6 @@ s32 measure_directional_stopping_distance(u32 direction_flags, ObjectPosition *o
     return (s16)step;
 }
 
-#include "modules/dungeon_engine_tile_map_abi_views.h"
-#include "common.h"
-#include "shared/dir_step.h"
 
 typedef struct {
     s32 unk0[2];
@@ -1028,7 +979,6 @@ s32 check_neighbor_tile_blocking(u32 direction_bits, Arg1 *state_in, Arg2 *posit
     }
     return 0;
 }
-#include "common.h"
 
 typedef struct Node Node;
 typedef struct {
@@ -1081,8 +1031,6 @@ void *find_eligible_actor_at_tile_and_height(Node *node, s32 x, s32 y_in, s16 va
     return 0;
 }
 
-#include "common.h"
-#include "shared/record_ptrs.h"
 
 /* Find an eligible object at the tile within 64 units of the target height. */
 void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
@@ -1120,7 +1068,6 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
     return 0;
 }
 #include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
-#include "shared/game_work.h"
 
 typedef struct Rec
 {
@@ -1154,12 +1101,7 @@ void *find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y)
     }
     return 0;
 }
-#include "modules/dungeon_engine_tile_map_abi_views.h"
-#include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
 #include "shared/dungeon_item_entries.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/dir_step.h"
 
 typedef struct Source Source;
 typedef struct Spawned Spawned;
@@ -1277,11 +1219,7 @@ void *spawn_object_at_target_position(ActorRecord *source, s16 target_x, s16 tar
     }
     return 0;
 }
-#include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
-#include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "shared/entity.h"
 
 typedef union { s16 coordinate; struct { u8 low; u8 high; } bytes; } CoordinateOutput;
 typedef struct { CoordinateOutput first; CoordinateOutput second; } LocalBytes;
@@ -1307,12 +1245,6 @@ s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *cont
     }
     return 0;
 }
-#include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/dir_step.h"
-#include "shared/dungeon_status.h"
-#include "shared/object_node.h"
 
 #include "dungeon/item/get_actor_height_difference_api.h"
 extern s32 is_map_coordinate_out_of_bounds(s32, s32);

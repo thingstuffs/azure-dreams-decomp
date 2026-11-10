@@ -4,7 +4,6 @@
 #define DUNGEON_OVL_18D6800_H
 struct B28_818B6AFC_FxEffect;
 #include "common.h"
-#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dir_step.h"
@@ -14,7 +13,6 @@ struct B28_818B6AFC_FxEffect;
 #include "shared/gpu_packets.h"
 #include "shared/object_flags.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 #include "dungeon/effect.h"
 #include "dungeon/effect/spell_effect.h"
@@ -295,7 +293,8 @@ typedef struct B28_818B7264_S_80024A64_2 {
 typedef struct B28_818B6F90_S_818B6F90_0 {
     u8 * unk_00;
     union { s32 v; u32 v2; } unk_04;   /* accessed as both */
-    u8 pad_08[0x8];
+    s32 depth_cue; /* RotAverage4 depth-cue output */
+    s32 gte_flag; /* RotAverage4 GTE flag output */
     s16 unk_10;
     s16 unk_12;
     s16 unk_14;

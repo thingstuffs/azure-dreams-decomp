@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_VARIANT_RENDER_OBJECT_G00684_H
 #define TOWN_PERSON_VARIANT_RENDER_OBJECT_G00684_H
-/* G00684: shared declarations for variant render object. */
-/* Original-file evidence (G00684): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CE070, CL:town/func_800CE380, CL:town/func_800CE408, PD:town/engine:800D68B0. */
+/* shared declarations for variant render object. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800CE070, town/func_800CE380, town/func_800CE408, PD:town/engine:800D68B0. */
 
 #include "common.h"
 #include "town/person/object_setup.h"

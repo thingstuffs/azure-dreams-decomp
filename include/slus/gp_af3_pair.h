@@ -34,15 +34,8 @@ extern void wait_until_sound_idle(void);
 extern void func_80044698(void);
 extern s32 load_sound_set(s16 state_index);
 extern s32 func_8004450C(s16 mode);
-extern void drain_cd_command_queue(void);
-extern short SD_Call(int a0);
 
 /* Selects a buffered entry, registering it with the slot marker and applying the requested mode. */
-
-#include "common.h"
-
-/* gp-relative scalar: current registered state index */
-extern s8 sound_stream_state_index;
 
 /* S_8006E6F4: array of 8-byte entries, indexed by state; forces %hi/%lo
  * addressing (accessed with a computed base + reused offsets). */
@@ -57,16 +50,11 @@ extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
 
 extern void DrawSync(s32 a0);
-extern void drain_cd_command_queue(void);
-extern void set_sound_payload_slot(int a0);
-extern short SD_Call(int a0);
-extern void drain_audio_commands_and_service_channels(void);
 extern s16 test_sound_channel_availability(s16 n);
 
 /* Register callbacks and complete a state transition, returning 1 if already current. */
 
 s32 select_sound_stream(s16 entry_index, s16 mode);
 s32 func_8004437C(s16 entry_index, s16 mode);
-s32 func_8004450C(s16 state_index);
 
 #endif

@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/entity.h"
 
 typedef struct S_800E3E48

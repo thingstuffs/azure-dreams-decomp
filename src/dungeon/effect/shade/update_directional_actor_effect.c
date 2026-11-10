@@ -5,7 +5,6 @@
 #include "dungeon/effect/shade/update_directional_actor_effect.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/effect/shade/update_directional_actor_effect.h"
 #include "dungeon/item.h"
 #include "dungeon/effect/shade.h"
 

@@ -5,7 +5,6 @@
 #include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/actor.h"
@@ -26,9 +25,9 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
     Row_81922998_MATRIX current_matrix;
 
     scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    scratch->unk_88 = position->unk_02;
-    scratch->unk_8C = position->unk_06;
-    scratch->unk_90 = position->unk_0A;
+    scratch->local_matrix.t[0] = position->unk_02;
+    scratch->local_matrix.t[1] = position->unk_06;
+    scratch->local_matrix.t[2] = position->unk_0A;
     render_state->unk_14 |= 0x8000;
 
     PushMatrix();
@@ -39,12 +38,12 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
     scratch->unk_A4 = render_state->unk_16;
     scratch->unk_A8 = render_state->unk_1A;
     scratch->unk_A6 = render_state->unk_18;
-    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
+    RotMatrix(&scratch->unk_A4, &scratch->local_matrix);
     ReadRotMatrix(&current_matrix);
-    CompMatrix(&current_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
-    SetTransMatrix((u8 *)scratch + 0x54);
-    SetRotMatrix((u8 *)scratch + 0x54);
+    CompMatrix(&current_matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->unk_34);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
     texture = (*(u8 **)((u8 *)render_state + 8));
     scratch->unk_28 = render_state->unk_14;
@@ -83,7 +82,7 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
                              &scratch->unk_C0, &scratch->unk_C8,
                              &packet->unk_08, &packet->unk_10,
                              &packet->unk_18, &packet->unk_20,
-                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+                             &scratch->depth_cue, &scratch->gte_flag) - depth_bias - 6;
     scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {

@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_ITEM_MENU_OBJECT_LIFECYCLE_G00600_H
 #define TOWN_SHOP_ITEM_MENU_OBJECT_LIFECYCLE_G00600_H
-/* Item menu object lifecycle declarations (G00600). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0CB4. */
+/* Item menu object lifecycle declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B0CB4. */
 
 #include "common.h"
 #include "shared/object_node.h"

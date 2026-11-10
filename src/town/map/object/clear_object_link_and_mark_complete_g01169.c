@@ -1,5 +1,5 @@
 /* Clear object link and mark complete.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01169 - CL:town/func_800BDDA8, CL:town/func_800BDE1C.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800BDDA8, town/func_800BDE1C.
  */
 #include "town/map/object/clear_object_link_and_mark_complete_g01169.h"
 #include "shared/object_flags.h"

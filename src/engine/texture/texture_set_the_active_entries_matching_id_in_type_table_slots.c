@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/texture.h"
 
 typedef struct S_Entry {

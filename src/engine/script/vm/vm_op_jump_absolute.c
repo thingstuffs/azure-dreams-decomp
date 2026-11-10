@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/script/vm.h"
 
 typedef struct S_8003965C_0 {

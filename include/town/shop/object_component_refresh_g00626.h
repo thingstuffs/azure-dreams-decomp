@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_OBJECT_COMPONENT_REFRESH_G00626_H
 #define TOWN_SHOP_OBJECT_COMPONENT_REFRESH_G00626_H
-/* Refresh paired object components and their high flags (G00626): shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B6EE8. */
+/* Refresh paired object components and their high flags: shared declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B6EE8. */
 
 #include "common.h"
 #include "shared/object_flags.h"

@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/script.h"
 
 extern u8 runtime_script_state[];

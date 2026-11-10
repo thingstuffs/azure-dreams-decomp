@@ -2,7 +2,6 @@
 #include "shared/town_pointees.h"
 #include "shared/town_root.h"
 #include "town/scene/event_state_dispatch_g00731.h"
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene/event.h"

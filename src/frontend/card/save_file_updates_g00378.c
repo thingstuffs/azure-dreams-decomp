@@ -1,6 +1,6 @@
 #include "frontend/card/save_image.h"
 /* Save file updates; G00378; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000EB98, CL:main/func_8000EC4C, CL:main/func_8000EDF4, CL:main/func_8000EEB8, CL:main/func_8000EEE0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - main/func_8000EB98, main/func_8000EC4C, main/func_8000EDF4, main/func_8000EEB8, main/func_8000EEE0. */
 #include "frontend/card/save_file_updates_g00378.h"
 #include "frontend/card.h"
 

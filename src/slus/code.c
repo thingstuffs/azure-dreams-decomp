@@ -4,6 +4,7 @@
 #include "script_symbols.h"
 #include "slus/resource_transition_task.h"
 #include "slus/menu_count_template.h"
+#include "slus/list_cursor_e0.h"
 #include "shared/object_node.h"
 #include "shared/sound_state.h"
 #include "common.h"
@@ -188,8 +189,6 @@ int count_null_terminated_pointers(void **entries)
     }
     return count;
 }
-
-extern int *runtime_callback_write_cursor;
 
 /* Append a value to the global word list and restore its zero terminator. */
 void append_terminated_runtime_word(int value)

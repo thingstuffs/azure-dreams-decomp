@@ -1,6 +1,6 @@
 #ifndef TOWN_MENU_RANDOMIZED_EFFECT_MOTION_G00570_H
 #define TOWN_MENU_RANDOMIZED_EFFECT_MOTION_G00570_H
-/* inferred-strong G00570: randomized_effect_motion_g00570; shared declarations. */
+/* inferred-strong randomized_effect_motion_g00570; shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0B20. */
 
 #include "common.h"

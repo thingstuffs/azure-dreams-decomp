@@ -1,5 +1,5 @@
 /* Position object initialization g01134.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01134 - CL:town/func_800A2ACC, CL:town/func_800A2B1C, CL:town/func_800A2CA4, CL:town/func_800A2D54, PD:town/engine:80100AA0.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800A2ACC, town/func_800A2B1C, town/func_800A2CA4, town/func_800A2D54, PD:town/engine:80100AA0.
  */
 #include "town/shop/position_object_initialization_g01134.h"
 #include "town/shop.h"

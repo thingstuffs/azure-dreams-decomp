@@ -23,7 +23,7 @@ extern Callback baloon_callbacks[];
 /* Updates object callbacks, motion, sprite direction, and ground-relative height. */
 /* Runs Baloon's callbacks, facing, and motion, adds its idle bob, and uses a separate height rule for
  * action state 24. */
-void update_actor_object_motion(ActorRecord *object_arg, void *motion_arg, SpriteFrameState *part_arg)
+void update_actor_object_motion(ActorRecord *object_arg, ObjectPosition *motion_arg, SpriteFrameState *part_arg)
 {
     ActorRecord *base = object_arg;
     ActorActionHandler first_callback;
@@ -65,18 +65,18 @@ void update_actor_object_motion(ActorRecord *object_arg, void *motion_arg, Sprit
         }
     }
 
-    ((ObjectPosition *)motion_arg)->x.v += ((ObjectPosition *)motion_arg)->velocity_x;
-    ((ObjectPosition *)motion_arg)->y.v += ((ObjectPosition *)motion_arg)->velocity_y;
+    motion_arg->x.v += motion_arg->velocity_x;
+    motion_arg->y.v += motion_arg->velocity_y;
 
     if (!(object_arg->flags1C & 0x40000) &&
         !(object_arg->action_state_flags & 8)) {
-        ((ObjectPosition *)motion_arg)->velocity_z += object_arg->unk_9D * 0x14000;
+        motion_arg->velocity_z += object_arg->unk_9D * 0x14000;
         object_arg->unk_9D++;
     } else {
         object_arg->unk_9D = 0;
     }
 
-    object_arg->unk_90.value += ((ObjectPosition *)motion_arg)->velocity_z;
+    object_arg->unk_90.value += motion_arg->velocity_z;
     part_flags = part_arg->flags;
 
     if (!(part_flags & 0x8000)) {
@@ -123,14 +123,14 @@ void update_actor_object_motion(ActorRecord *object_arg, void *motion_arg, Sprit
             object_arg->unk_A0.value = 0;
             object_arg->unk_90.value -= landing_offset;
             if (!(object_arg->action_state_flags & 8)) {
-                landing_delta = sample_terrain_surface_height(((ObjectPosition *)motion_arg)->x.unsigned_parts.integer,
-                                      ((ObjectPosition *)motion_arg)->y.unsigned_parts.integer,
+                landing_delta = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
+                                      motion_arg->y.unsigned_parts.integer,
                                       (s16)(base->ground_height - 0x20)) -
                         base->ground_height;
                 if (landing_delta < object_arg->unk_90.parts.high) {
                     object_arg->unk_90.parts.high = landing_delta;
                     object_arg->unk_9D = 0;
-                    ((ObjectPosition *)motion_arg)->velocity_z = 0;
+                    motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
                 }
             }
@@ -180,14 +180,14 @@ void update_actor_object_motion(ActorRecord *object_arg, void *motion_arg, Sprit
             object_arg->unk_A0.value = 0;
             object_arg->unk_90.value -= bob_offset;
             if (!(object_arg->action_state_flags & 8)) {
-                ground_height = sample_terrain_surface_height(((ObjectPosition *)motion_arg)->x.unsigned_parts.integer,
-                                      ((ObjectPosition *)motion_arg)->y.unsigned_parts.integer,
+                ground_height = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
+                                      motion_arg->y.unsigned_parts.integer,
                                       (s16)(base->ground_height - 0x20)) -
                         base->ground_height;
                 if (ground_height < object_arg->unk_90.parts.high) {
                     object_arg->unk_90.parts.high = ground_height;
                     object_arg->unk_9D = 0;
-                    ((ObjectPosition *)motion_arg)->velocity_z = 0;
+                    motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
                 }
             }
@@ -235,11 +235,11 @@ void update_actor_object_motion(ActorRecord *object_arg, void *motion_arg, Sprit
         }
     }
     if (object_arg->action_id != 0x18) {
-        ((ObjectPosition *)motion_arg)->z.unsigned_parts.integer =
+        motion_arg->z.unsigned_parts.integer =
             base->ground_height + object_arg->unk_90.parts.high -
             object_arg->unk_A0.parts.high;
     } else {
-        ((ObjectPosition *)motion_arg)->z.unsigned_parts.integer = object_arg->unk_90.parts.high - object_arg->unk_A0.parts.high;
+        motion_arg->z.unsigned_parts.integer = object_arg->unk_90.parts.high - object_arg->unk_A0.parts.high;
     }
     part_arg->flags |= 0x40;
 }

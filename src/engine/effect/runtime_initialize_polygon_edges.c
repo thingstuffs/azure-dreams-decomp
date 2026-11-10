@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/effect.h"
 
 /* Initialize four polygon edges for rasterization and return the aligned minimum y. */

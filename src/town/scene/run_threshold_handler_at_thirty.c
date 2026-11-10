@@ -1,5 +1,4 @@
 #include "town/scene/run_threshold_handler_at_thirty.h"
-#include "town/scene/run_threshold_handler_at_thirty.h"
 #include "town/scene.h"
 #include "town/player.h"
 #include "town/scene/service.h"

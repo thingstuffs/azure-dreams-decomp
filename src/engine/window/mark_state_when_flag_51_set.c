@@ -1,7 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80036210_arg0.h"
 
-#include "common.h"
 #include "engine/window.h"
 
 typedef struct S_800364BC_2 {

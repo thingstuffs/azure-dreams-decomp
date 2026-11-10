@@ -4,7 +4,6 @@
 #include "town/player.h"
 #include "town/player/state.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */
 extern s8 D_800CFCED;
 

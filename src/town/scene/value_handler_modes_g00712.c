@@ -1,5 +1,5 @@
-/* Dispatch value handler modes (G00712). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8032EA2C. */
+/* Dispatch value handler modes. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8032EA2C. */
 #include "town/scene/value_handler_modes_g00712.h"
 #include "town/scene.h"
 #include "town/shop/state.h"

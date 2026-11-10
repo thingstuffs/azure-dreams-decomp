@@ -252,7 +252,6 @@ typedef struct R16_80173CEC_S_80173CEC_9 {
 } R16_80173CEC_S_80173CEC_9;
 extern s32 abs(s32);
 s32 Control_CD();
-void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 generate_random_value(void);
 void advance_sprite_animation_and_textures(void *entity);
 s32 refresh_actor_facing_and_lifecycle();

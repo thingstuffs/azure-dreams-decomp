@@ -1,5 +1,5 @@
 /* Read map cell at tile g01115.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01115 - CL:town/func_8008E9D4, CL:town/func_8008EA64, CL:town/func_8008EAB4, CL:town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8008E9D4, town/func_8008EA64, town/func_8008EAB4, town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428.
  */
 #include "town/map/position/read_map_cell_at_tile_g01115.h"
 #include "shared/object_node.h"

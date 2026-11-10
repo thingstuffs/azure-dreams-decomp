@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-#include "common.h"
 #include "engine/menu.h"
 #include "engine/resource.h"
 #include "slus/data.h"

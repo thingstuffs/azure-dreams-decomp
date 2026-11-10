@@ -529,12 +529,10 @@ struct GteShortVector;
 extern SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *, SpriteFrameState *, struct GteShortVector *, s16);
 extern s32 get_cd_command_queue_depth(void);
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
-extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern void func_80042640(void *, s32);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 func_80042900(ActorRecord *entry, s32 effect_id);
 extern void func_80042B68(ActorRecord *owner, s8 match_type);
-extern s32 func_8004491C(ObjectNodeHeader *entry, void *registration_id);
 
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 

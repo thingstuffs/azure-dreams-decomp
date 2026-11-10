@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/entity.h"
 #include "engine/item.h"
 #include "engine/scene.h"

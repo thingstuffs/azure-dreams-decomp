@@ -1,7 +1,6 @@
 /* SPU register and voice initialization, FIFO and DMA transfers, and completion signaling. */
 #include "slus/sound_dma_lifecycle.h"
 
-#include "slus/sound_dma_lifecycle.h"
 
 /* Initialize the SPU, resetting voice settings on a cold start. */
 s32 _spu_init(s32 warm)
@@ -86,7 +85,6 @@ s32 _spu_init(s32 warm)
     D_80079994 = 0;
     return result;
 }
-#include "slus/sound_dma_lifecycle.h"
 
 /* Writes source data to SPU RAM through the transfer FIFO and waits for completion. */
 void _spu_FwriteByIO(u16 *src, u32 bytes_left)
@@ -142,7 +140,6 @@ void _spu_FwriteByIO(u16 *src, u32 bytes_left)
         }
     }
 }
-#include "slus/sound_dma_lifecycle.h"
 
 /* Clears the SPU transfer mode, waits for it to clear, and signals completion. */
 void _spu_FiDMA(void)
@@ -173,7 +170,6 @@ void _spu_FiDMA(void)
         DeliverEvent(event_class | 9, 0x20);
     }
 }
-#include "slus/sound_dma_lifecycle.h"
 
 /* Starts a DMA transfer from SPU RAM to main RAM. */
 void _spu_Fr_(s32 ram_address, s16 spu_address, s32 block_count)
@@ -208,7 +204,6 @@ void _spu_Fr_(s32 ram_address, s16 spu_address, s32 block_count)
  *   D_800799AC is declared a volatile OBJECT with the store cast back to non-volatile
  *        so the reload survives cse without costing the bne's delay-slot fill.
  */
-#include "slus/sound_dma_lifecycle.h"
 
 typedef char *va_list_t;
 #define VA_START(ap, last) (ap = (char *)&(last) + sizeof(s32))
@@ -300,7 +295,6 @@ s32 _spu_t(s32 command, ...)
     }
     return 0;
 }
-#include "slus/sound_dma_lifecycle.h"
 #include "slus.h"
 
 /* Multiplies a volatile stack value by 13 sixty times, then discards the result. */

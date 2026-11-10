@@ -1,6 +1,6 @@
 /* Updates page boundary indicators and refreshes the linked menu display records. */
-/* inferred-strong G00619: alternate_page_records_g00619; joins CL:town/func_80035C0C,CL:town/func_800B5978,CL:town/func_800B5B74; no crossing cuts. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80035C0C, CL:town/func_800B5978, CL:town/func_800B5B74. */
+/* inferred-strong alternate_page_records_g00619; joins town/func_80035C0C,town/func_800B5978,town/func_800B5B74; no crossing cuts. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80035C0C, town/func_800B5978, town/func_800B5B74. */
 #include "town/menu/alternate_page_records_g00619.h"
 #include "town/menu.h"
 

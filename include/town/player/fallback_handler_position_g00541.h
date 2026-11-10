@@ -2,8 +2,8 @@
 #define TOWN_PLAYER_FALLBACK_HANDLER_POSITION_G00541_H
 
 #include "town/player/record.h"
-/* G00541: shared declarations for fallback handler position. */
-/* Original-file evidence (G00541): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800991C4, CL:town/func_800992D0, CL:town/func_800992FC. */
+/* shared declarations for fallback handler position. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800991C4, town/func_800992D0, town/func_800992FC. */
 
 #include "common.h"
 #include "shared/entity.h"

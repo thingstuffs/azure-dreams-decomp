@@ -1,7 +1,7 @@
 #ifndef TOWN_EVENT_ITEM_QUERY_CHECKS_G00588_H
 #define TOWN_EVENT_ITEM_QUERY_CHECKS_G00588_H
-/* inferred-strong G00588: item_query_checks_g00588; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, PD:town/engine:800D1054. */
+/* inferred-strong item_query_checks_g00588; shared declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AC118, town/func_800AC164, town/func_800AC198, town/func_800AC210, PD:town/engine:800D1054. */
 
 #include "common.h"
 #include "m2c_compat.h"

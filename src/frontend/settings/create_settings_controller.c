@@ -2,7 +2,6 @@
 #include "modules/main_title_callbacks.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
 #include "engine/graphics.h"

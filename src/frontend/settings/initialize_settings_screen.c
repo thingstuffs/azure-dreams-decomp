@@ -3,7 +3,6 @@
 /* Settings-screen object creation and initialization, with a helper for copying two words. */
 #include "modules/main_title_callbacks.h"
 #include "shared/object_node.h"
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
 #include "engine/node.h"
@@ -12,7 +11,6 @@
 #include "main/data.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
-#include "shared/entity.h"
 
 typedef struct Sol9Copy8 {
     u8 bytes[8];

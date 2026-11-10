@@ -1,5 +1,6 @@
 /* Resident helpers for scene callbacks, shared resource pointers, item state and sound controls. */
 #include "shared/runtime_dispatch.h"
+#include "slus/list_cursor_e0.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/item.h"
@@ -54,9 +55,6 @@ void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int valu
 }
 
 /* reset_scene_frame_callback_list */
-
-extern int runtime_callback_entries[8];
-extern void *runtime_callback_write_cursor;
 
 /* Resets runtime_callback_write_cursor to the list start and writes the initial null terminator. */
 void reset_scene_frame_callback_list(void) {

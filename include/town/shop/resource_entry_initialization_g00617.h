@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_RESOURCE_ENTRY_INITIALIZATION_G00617_H
 #define TOWN_SHOP_RESOURCE_ENTRY_INITIALIZATION_G00617_H
-/* Resource entry initialization declarations (G00617). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B5204. */
+/* Resource entry initialization declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B5204. */
 
 #include "common.h"
 #include "m2c_compat.h"

@@ -2,7 +2,6 @@
 #include "records/Rec_func_80036210_arg0.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "engine/window/message.h"
 #include "engine/window.h"
 

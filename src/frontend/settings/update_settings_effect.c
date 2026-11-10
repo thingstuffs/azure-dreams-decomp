@@ -3,7 +3,6 @@
 #include "engine/graphics.h"
 #include "shared/object_links.h"
 #include "shared/sprite_frame_state.h"
-#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"

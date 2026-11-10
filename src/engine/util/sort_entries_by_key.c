@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/util.h"
 
 #include "engine/audio/ram_block.h"

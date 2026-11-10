@@ -68,7 +68,8 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
 void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 struct DampedParticleBurstBody;
 void damp_effect_motion_and_fade(struct DampedParticleBurstBody *body, s32 *motion, SpriteFrameState *primitive);
-void dispatch_action_callback_by_opcode(u8 *w);
+struct FloorCollapseWork;
+void dispatch_action_callback_by_opcode(struct FloorCollapseWork *w);
 void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 void *func_8002522C(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
 void mark_all_actors_with_high_flag(void);

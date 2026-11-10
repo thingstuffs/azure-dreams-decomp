@@ -1,6 +1,6 @@
 #ifndef TOWN_MAP_OBJECT_CALLBACK_TABLES_G00653_H
 #define TOWN_MAP_OBJECT_CALLBACK_TABLES_G00653_H
-/* inferred-strong G00653: object_callback_tables_g00653; shared declarations. */
+/* inferred-strong object_callback_tables_g00653; shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D4668. */
 
 #include "common.h"

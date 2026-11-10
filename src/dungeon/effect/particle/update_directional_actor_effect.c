@@ -22,7 +22,6 @@ typedef struct DirectionalEffectWork {
 } DirectionalEffectWork;
 /* Directional particle travel, target impact geometry, and timed status effects. */
 #include "shared/entity.h"
-#include "shared/object_node.h"
 #include "modules/dungeon_ovl_190681c.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"

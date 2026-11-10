@@ -82,16 +82,16 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
                 scratch->unk_80 = vertex_x;
                 scratch->unk_70 = vertex_x;
                 vertex_x -= primitive[0xA];
-                (*(s16 *)((u8 *)scratch + 0x88)) = vertex_x;
-                (*(s16 *)((u8 *)scratch + 0x78)) = vertex_x;
+                scratch->unk_88 = vertex_x;
+                scratch->unk_78 = vertex_x;
             } else {
                 vertex_x = (s8)primitive[2] - params->unk_20;
                 scratch->unk_80 = vertex_x;
                 scratch->unk_70 = vertex_x;
                 quad_extent = primitive[0xA];
                 vertex_x = vertex_x + quad_extent;
-                (*(s16 *)((u8 *)scratch + 0x88)) = vertex_x;
-                (*(s16 *)((u8 *)scratch + 0x78)) = vertex_x;
+                scratch->unk_88 = vertex_x;
+                scratch->unk_78 = vertex_x;
             }
 
             if ((primitive[0] ^ params->unk_14) & 2) {
@@ -112,11 +112,11 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
             }
 
             RotTransPers4(
-                (u8 *)scratch + 0x70, (u8 *)scratch + 0x78,
-                (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
-                (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
-                (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
-                (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+                &scratch->unk_70, &scratch->unk_78,
+                &scratch->unk_80, &scratch->unk_88,
+                &scratch->unk_F0, &scratch->unk_F4,
+                &scratch->unk_F8, &scratch->unk_FC,
+                &scratch->depth_cue, &scratch->gte_flag);
 
             signed_flags = ((S_800B06F0_4 *)primitive)->unk_00;
             primitive_flags = primitive[0];
@@ -137,8 +137,8 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
             }
 
             if (primitive[0] & 4) {
-                swap_int_values((u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4);
-                swap_int_values((u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC);
+                swap_int_values(&scratch->unk_F0, &scratch->unk_F4);
+                swap_int_values(&scratch->unk_F8, &scratch->unk_FC);
             }
 
             packet->unk_08 = scratch->unk_F0.at00u.v

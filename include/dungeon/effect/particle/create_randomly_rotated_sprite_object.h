@@ -13,7 +13,6 @@ struct B22_81893474_EffectState;
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/tile_object.h"
-#include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 
 typedef struct B22_81893474_ColorPart {

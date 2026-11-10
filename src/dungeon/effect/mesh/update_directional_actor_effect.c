@@ -144,12 +144,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
     D_80024A70[0] = 0;
 }
 
-#include "modules/dungeon_ovl_19ba800.h"
-#include "common.h"
 #include "shared/entity.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/dungeon_delay_views.h"
 
@@ -362,11 +357,7 @@ loop_top:
 
 /* MECHANISM: The census baseline holds the 0x68 sibling-local frame and retail saved-register set.
    Register pins encode the surviving bases and late call operands; residual work starts at word 120. */
-#include "modules/dungeon_ovl_19ba800.h"
-#include "common.h"
 #include "shared/object_node.h"
-#include "shared/record_ptrs.h"
-#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0

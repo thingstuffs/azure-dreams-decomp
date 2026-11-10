@@ -1,6 +1,6 @@
 #include "shared/sprite_frame_state.h"
-/* Map cursor input (G00641). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BBAA4. */
+/* Map cursor input. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800BBAA4. */
 #include "town/map/map_cursor_input_g00641.h"
 #include "shared/game_work.h"
 #include "town/map.h"

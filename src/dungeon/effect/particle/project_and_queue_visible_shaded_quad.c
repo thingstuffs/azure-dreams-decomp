@@ -253,7 +253,6 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
 }
 
 /* Selector 59, retail file [0x1990D44, 0x1990D98); complete callable clone. */
-#include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 
 /* Draw each linked record with zero depth bias; the next record is chained through the previous header's
@@ -273,13 +272,9 @@ s32 draw_linked_records_zero_depth_bias(void *record, void *transform, void *obj
     }
 }
 
-#include "dungeon/effect/particle.h"
-#include "shared/dungeon_effect_views.h"
 #include "shared/entity.h"
 /* Selector 59, retail file [0x1990D98, 0x1990FE8); complete callable clone. */
 #include "shared/gpu_packets.h"
-#include "shared/game_work.h"
-#include "shared/object_node.h"
 
 /* Position the point is projected from: three 4-byte slots, only the second halfword of each is used. */
 
@@ -362,11 +357,8 @@ s32 project_scaled_colored_point(RisingPointEffectBody *record, ObjectPosition *
     return 0;
 }
 
-#include "dungeon/effect/particle/project_and_queue_visible_shaded_quad.h"
 /* Selector 59, retail file [0x1990FE8, 0x19910A8); complete callable clone. */
-#include "dungeon/effect/particle.h"
 #include "shared/object_flags.h"
-#include "shared/object_node.h"
 #include "modules/dungeon_native_abi.h"
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
@@ -388,10 +380,7 @@ void advance_rising_quad_countdown(RisingPointEffectBody *state, ObjectPosition 
     }
 }
 
-#include "shared/entity.h"
 /* Selector 59, retail file [0x19910A8, 0x19911E0); complete callable clone. */
-#include "dungeon/effect/particle.h"
-#include "modules/dungeon_native_abi.h"
 
 #ifndef NULL
 #define NULL 0
@@ -443,8 +432,6 @@ void spawn_random_offset_effect_record(
     }
 }
 
-#include "dungeon/effect/particle.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 
 /* Decrement the timer, update scale and position, and flag completion at zero. */
@@ -476,8 +463,6 @@ void follow_origin_and_fade_sprite(OriginFollowingFadeSpriteBody *state_arg, Mov
     }
 }
 
-#include "dungeon/effect/particle.h"
-#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad[0x38];
@@ -518,8 +503,6 @@ void fade_effect_color_by_quarter(QuarterColorFadeBody *effect, Motion *motion, 
     }
 }
 
-#include "dungeon/effect/particle.h"
-#include "shared/object_flags.h"
 
 typedef struct S_81971398_0 {
     u8 pad_00[0x38];
@@ -577,8 +560,6 @@ void fade_timed_quad_vertices(void *fade_data)
     }
 }
 
-#include "dungeon/effect/particle.h"
-#include "shared/object_flags.h"
 
 /* Advance an effect's fade and mark it finished when its countdown expires. */
 void render_linked_jittered_effect_strips(void *effect, s32 unused, void *packet)
@@ -602,8 +583,6 @@ void render_linked_jittered_effect_strips(void *effect, s32 unused, void *packet
     }
 }
 
-#include "dungeon/effect/particle.h"
-#include "shared/object_flags.h"
 
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
@@ -661,7 +640,6 @@ void advance_timed_visual(void *effect, s32 unused, void *visual)
     *(u32 *)(flags_page + 0x14A0) |= 0x8000;
 }
 
-#include "dungeon/effect/particle.h"
 #include "shared/slus_callbacks.h"
 
 struct Dst;
@@ -758,10 +736,7 @@ void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, Sprite
     }
 }
 
-#include "dungeon/effect/particle.h"
-#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "shared/dungeon_moving_views.h"
 
 s32 rand();
 extern M2C_UNK D_80025FE8;
@@ -831,15 +806,10 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, Spri
 }
 
 #include "shared/entity_height_offsets.h"
-#include "dungeon/effect/particle.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
-#include "shared/entity.h"
 #include "shared/record_ptrs.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "shared/dungeon_moving_views.h"
 
 
 

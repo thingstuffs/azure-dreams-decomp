@@ -7,7 +7,6 @@
 #include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"
 #include "shared/entity.h"
 #include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -577,13 +576,7 @@ case2_spawn_loop:
     }
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"
-#include "common.h"
-#include "modules/dungeon_native_abi.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_node.h"
-#include "shared/object_flags.h"
 
 /* Retail 81857050 (advance_motion_and_fade_sprite): updates the effect's motion, waits for its timer, then fades its sprite to
  * black and marks the effect (header and global flags) finished. */
@@ -635,9 +628,6 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
         break;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"
-#include "common.h"
 
 
 typedef struct DungeonShape {
@@ -786,9 +776,6 @@ s32 project_linked_shape_quads(void *shape_data)
     } while (1);
     return 0;
 }
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct {
     u16 x;
@@ -912,10 +899,6 @@ void animate_jittering_five_point_effect(Entity *entity)
         return;
     }
 }
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 typedef struct S_80024F40_0 {
     void * unk_00;

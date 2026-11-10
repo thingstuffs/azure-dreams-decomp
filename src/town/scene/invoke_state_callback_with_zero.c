@@ -1,5 +1,4 @@
 #include "town/scene/invoke_state_callback_with_zero.h"
-#include "town/scene/invoke_state_callback_with_zero.h"
 
 /* Select D_800174BC and invoke the state callback with zero. */
 void invoke_state_callback_with_zero(void) {

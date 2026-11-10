@@ -1,6 +1,5 @@
 #include "common.h"
 
-#include "common.h"
 #include "engine/camera.h"
 #include "engine/graphics.h"
 #include "engine/text.h"

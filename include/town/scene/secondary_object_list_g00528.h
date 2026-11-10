@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_SECONDARY_OBJECT_LIST_G00528_H
 #define TOWN_SCENE_SECONDARY_OBJECT_LIST_G00528_H
 /* Secondary object list shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80092594. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80092594. */
 
 #include "common.h"
 #include "m2c_compat.h"

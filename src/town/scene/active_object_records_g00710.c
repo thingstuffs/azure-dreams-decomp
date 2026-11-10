@@ -1,6 +1,6 @@
 #include "town/scene/motion/coordinate_entries.h"
-/* Build and submit active object records (G00710). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80470EB8, CL:town/func_80470F3C, PD:town/image_3ef000:8001B318. */
+/* Build and submit active object records. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80470EB8, town/func_80470F3C, PD:town/image_3ef000:8001B318. */
 #include "town/scene/active_object_records_g00710.h"
 #include "town/scene.h"
 #include "town/player/state.h"

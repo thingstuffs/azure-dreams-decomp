@@ -1,5 +1,5 @@
-/* Item menu object lifecycle (G00600). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0CB4. */
+/* Item menu object lifecycle. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B0CB4. */
 #include "town/shop/item_menu_object_lifecycle_g00600.h"
 #include "shared/object_flags.h"
 #include "town/shop.h"

@@ -19,7 +19,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource17_slot0_entry0)(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value) = spawn_univern_actor;
-void (*const resource17_slot0_entry1)(ActorRecord *actor, void *motion, SpriteFrameState *object) = update_univern_motion_and_facing;
+void (*const resource17_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *object) = update_univern_motion_and_facing;
 #include "dungeon/monster/univern.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level/room_flags.h"
@@ -188,7 +188,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 #include "dungeon/monster/univern.h"
 
 /* Runs actor callbacks and updates facing, animation, bobbing height, movement, and terrain contact. */
-void update_univern_motion_and_facing(ActorRecord *actor, void *motion, SpriteFrameState *object)
+void update_univern_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *object)
 {
     u16 initial_flags = g_dungeon_status.flags;
     s32 bob = 0;
@@ -229,17 +229,17 @@ void update_univern_motion_and_facing(ActorRecord *actor, void *motion, SpriteFr
         try_move_actor_to_valid_position(actor, motion, object, actor);
     }
 
-    ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_00.at00.v += ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_0C;
-    ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_04.at00.v += ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if (!(actor->flags1C & 0x40000) &&
         !(actor->action_state_flags & 8)) {
-        ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_14 += actor->unk_9D * 0x14000;
+        motion->velocity_z += actor->unk_9D * 0x14000;
         actor->unk_9D++;
     } else {
         actor->unk_9D = 0;
     }
-    actor->unk_90.value += ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_14;
+    actor->unk_90.value += motion->velocity_z;
     status_flags = object->flags;
 
     if (!(status_flags & 0x8000)) {
@@ -309,8 +309,8 @@ void update_univern_motion_and_facing(ActorRecord *actor, void *motion, SpriteFr
             }
 
             if (!(actor->action_state_flags & 8)) {
-                ground = (s16)(((s16)sample_terrain_surface_height(((R17_80170BB8_S_80170BB8_0 *)motion)->unk_00.at02.v,
-                    ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_04.at02.v,
+                ground = (s16)(((s16)sample_terrain_surface_height((u16)motion->x.w.i,
+                    (u16)motion->y.w.i,
                     (s16)(actor_state->ground_height - 0x20))) -
                     actor_state->ground_height);
                 if (actor->unk_90.parts.high > ground - 0x30) {
@@ -324,14 +324,14 @@ void update_univern_motion_and_facing(ActorRecord *actor, void *motion, SpriteFr
             actor->unk_A8 = 0;
             actor->action_state_flags = movement_flags & 0x7FFF;
             if (!(movement_flags & 8)) {
-                ground_offset = ((s16)sample_terrain_surface_height(((R17_80170BB8_S_80170BB8_0 *)motion)->unk_00.at02.v,
-                    ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_04.at02.v,
+                ground_offset = ((s16)sample_terrain_surface_height((u16)motion->x.w.i,
+                    (u16)motion->y.w.i,
                     (s16)(actor_state->ground_height - 0x20))) -
                     actor_state->ground_height;
                 if (ground_offset < actor->unk_90.parts.high) {
                     actor->unk_90.parts.high = ground_offset;
                     actor->unk_9D = 0;
-                    ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_14 = 0;
+                    motion->velocity_z = 0;
                     actor_state->flags1C |= 0x08000000;
                 }
             }
@@ -349,14 +349,14 @@ void update_univern_motion_and_facing(ActorRecord *actor, void *motion, SpriteFr
             actor->unk_90.parts.high -= bob;
             bob = 0;
             if (!(actor->action_state_flags & 8)) {
-                ground_offset = ((s16)sample_terrain_surface_height(((R17_80170BB8_S_80170BB8_0 *)motion)->unk_00.at02.v,
-                    ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_04.at02.v,
+                ground_offset = ((s16)sample_terrain_surface_height((u16)motion->x.w.i,
+                    (u16)motion->y.w.i,
                     (s16)(actor_state->ground_height - 0x20))) -
                     actor_state->ground_height;
                 if (ground_offset < actor->unk_90.parts.high) {
                     actor->unk_90.parts.high = ground_offset;
                     actor->unk_9D = 0;
-                    ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_14 = 0;
+                    motion->velocity_z = 0;
                     actor_state->flags1C |= 0x08000000;
                 }
             }
@@ -395,8 +395,8 @@ void update_univern_motion_and_facing(ActorRecord *actor, void *motion, SpriteFr
             }
 
             if (!(actor->action_state_flags & 8)) {
-                ground = (s16)(((s16)sample_terrain_surface_height(((R17_80170BB8_S_80170BB8_0 *)motion)->unk_00.at02.v,
-                    ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_04.at02.v,
+                ground = (s16)(((s16)sample_terrain_surface_height((u16)motion->x.w.i,
+                    (u16)motion->y.w.i,
                     (s16)(actor_state->ground_height - 0x20))) -
                     actor_state->ground_height);
                 if (actor->unk_90.parts.high > ground - 0x30) {
@@ -424,7 +424,7 @@ void update_univern_motion_and_facing(ActorRecord *actor, void *motion, SpriteFr
     height = (u16)actor_state->ground_height +
         (u16)actor->unk_90.parts.high;
     height += bob;
-    *(s16 *)((u8 *)motion + 0xA) = height;
+    motion->z.w.i = height;
     object->flags |= 0x40;
 }
 #include "dungeon/monster/univern.h"

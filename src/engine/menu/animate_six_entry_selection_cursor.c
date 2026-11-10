@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
 #include "shared/widget_views.h"
 #include "engine/menu.h"
 #include "shared/menu_display.h"

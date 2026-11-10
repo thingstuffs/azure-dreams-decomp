@@ -593,24 +593,68 @@ def recorded_renames(root):
     return out
 
 
-def proven_rename(base_findings, row, old, names):
+def diff_line_map(root, base):
+    """line_map(path, base_line) -> HEAD line of an unchanged BASE line, or None when the line was edited, from
+    `git diff -U0 BASE` of the working tree (edits above a function shift its lines without changing them)."""
+    cache = {}
+
+    def hunks(path):
+        if path not in cache:
+            out = git(root, 'diff', '-U0', '--no-ext-diff', base, '--', path, check=False)
+            cache[path] = [tuple(int(n) if n else 1 for n in m.groups())
+                           for m in re.finditer(r'^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@', out, re.M)]
+        return cache[path]
+
+    def line_map(path, line):
+        shift = 0
+        for old_start, old_len, new_start, new_len in hunks(path):
+            # git names the line before the change for an empty side (pure insertion or deletion)
+            old_first = old_start if old_len else old_start + 1
+            new_first = new_start if new_len else new_start + 1
+            if line < old_first:
+                break
+            if line < old_first + old_len:
+                return None
+            shift = (new_first + new_len) - (old_first + old_len)
+        return line + shift
+    return line_map
+
+
+def mapped_sites(sites, line_map):
+    out = []
+    for site in (sites or '').split(';'):
+        if site:
+            path, line, col = site.rsplit(':', 2)
+            head = line_map(path, int(line))
+            if head is None:
+                return None
+            out.append(f'{path}:{head}:{col}')
+    return ';'.join(out)
+
+
+def proven_rename(base_findings, row, old, names, line_map=None):
     """A hinted rename is the same warning site, not a new one, when the BASE group under the old name lists
-    exactly the same sites and config/names.tsv records both names at one address (an R6 rename)."""
+    the same sites and config/names.tsv records both names at one address (an R6 rename). With line_map the BASE
+    sites are first carried to their HEAD lines through unchanged lines, so an edit above the function that only
+    shifts it does not make its sites new."""
     if not names or not (names.get(old, set()) & names.get(row['function'], set())):
         return False
     for b in base_findings:
         if b['file'] == row['file'] and b['function'] == old and b['warning'] == row['warning']:
-            return b.get('sites') == row['sites']
+            if b.get('sites') == row['sites']:
+                return True
+            return bool(line_map) and mapped_sites(b.get('sites'), line_map) == row['sites']
     return False
 
 
-def report(base_findings, head_findings, base_failures, head_failures, renames, started, names=None):
+def report(base_findings, head_findings, base_failures, head_failures, renames, started, names=None,
+           line_map=None):
     rising = increases(base_findings, head_findings, renames)
     hints = rename_hints(base_findings, head_findings, rising, renames)
     kept = []
     for row in rising:
         old = hints.get((row['file'], row['function'], row['warning']))
-        if old and proven_rename(base_findings, row, old, names):
+        if old and proven_rename(base_findings, row, old, names, line_map):
             print(f"renamed {row['warning']} {row['file']} {old} -> {row['function']}: the same "
                   f"{row['head_sites']} site(s), both names at one address in config/names.tsv (not new)")
         else:
@@ -655,7 +699,7 @@ def run_full(args, root, out, started):
     head_failures = list(csv.DictReader((census / 'lint_compile_failures.tsv').open(), delimiter='\t'))
     renames = {new: old for status, old, new in changes(root, args.base, None) if status == 'R'}
     result = report(read_census(base_dir), read_census(census), base_failures, head_failures,
-                    renames, started, recorded_renames(root))
+                    renames, started, recorded_renames(root), diff_line_map(root, args.base))
     if not args.no_decl_check:
         import decl_agreement
         names = decl_agreement.changed_function_names(root, args.base, None)

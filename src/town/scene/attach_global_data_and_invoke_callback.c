@@ -3,7 +3,6 @@
 #include "town/scene/hooks.h"
 extern u8 D_800177C4[];
 extern s32 func_800161E4(void);
-#include "town/scene/attach_global_data_and_invoke_callback.h"
 
 /* Attach the global data pointers and invoke the state callback with mode 2. */
 void attach_global_data_and_invoke_callback(void)

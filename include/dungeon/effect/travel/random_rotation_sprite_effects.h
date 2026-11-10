@@ -157,7 +157,6 @@ extern void advance_sprite_animation_and_textures(void *target);
 void select_record_entry_and_value(void *state, void *entries, short index);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_80024EF4[];
-#include "shared/sprite_source.h"
 extern SpriteSourceEntry D_80024E40[];
 extern u8 D_80024FC4[];
 extern int abs(int);

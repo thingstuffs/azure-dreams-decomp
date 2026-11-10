@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_GROUND_INPUT_FALLBACK_G00532_H
 #define TOWN_PLAYER_GROUND_INPUT_FALLBACK_G00532_H
-/* G00532: shared declarations for ground input fallback. */
-/* Original-file evidence (G00532): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800938A0. */
+/* shared declarations for ground input fallback. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800938A0. */
 
 #include "common.h"
 #include "shared/town_object.h"

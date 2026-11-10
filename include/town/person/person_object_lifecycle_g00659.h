@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_PERSON_OBJECT_LIFECYCLE_G00659_H
 #define TOWN_PERSON_PERSON_OBJECT_LIFECYCLE_G00659_H
-/* Person object lifecycle (G00659). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C5ABC, CL:town/func_800C6064, PD:town/engine:800D5028. */
+/* Person object lifecycle. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C5ABC, town/func_800C6064, PD:town/engine:800D5028. */
 
 #include "common.h"
 #include "town/scene/list_setup.h"
@@ -12,7 +12,7 @@
 #include "town/system/clear_object_status_and_dispatch_target_api.h"
 #include "shared/slus_callbacks.h"
 /* extern */
-#include "town/system/clear_object_status_and_dispatch_target_api.h" /* extern */
+/* extern */
 
 /* extern */
 typedef struct S_800C3960_0 S_800C3960_0;

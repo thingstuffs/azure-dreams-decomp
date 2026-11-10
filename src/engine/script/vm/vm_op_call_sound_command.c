@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/script.h"
 
-#include "common.h"
 #include "slus.h"
 #include "engine/script/vm.h"
 

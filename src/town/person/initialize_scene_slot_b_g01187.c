@@ -1,5 +1,5 @@
 /* Initialize scene slot b.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01187 - PD:town/engine:800D6824, PD:town/engine:800D682C, PD:town/engine:800D6854, PD:town/engine:800D6858.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - PD:town/engine:800D6824, PD:town/engine:800D682C, PD:town/engine:800D6854, PD:town/engine:800D6858.
  */
 #include "town/person/initialize_scene_slot_b_g01187.h"
 #include "shared/sprite_frame_state.h"

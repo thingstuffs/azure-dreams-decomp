@@ -1,5 +1,5 @@
-/* Advance monster status opening and display spacing (G00633). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8E20, CL:town/func_800B8E78. */
+/* Advance monster status opening and display spacing. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B8E20, town/func_800B8E78. */
 #include "town/shop/monster_status_opening_g00633.h"
 #include "town/shop.h"
 #include "town/shop/object.h"

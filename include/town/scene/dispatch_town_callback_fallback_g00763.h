@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_DISPATCH_TOWN_CALLBACK_FALLBACK_G00763_H
 #define TOWN_SCENE_DISPATCH_TOWN_CALLBACK_FALLBACK_G00763_H
 /* dispatch town callback fallback g00763. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00763 - CL:town/func_80774928. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80774928. */
 
 #include "common.h"
 #include "shared/town_root.h"

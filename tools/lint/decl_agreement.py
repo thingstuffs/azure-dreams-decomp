@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Check that every declaration of a changed function agrees with its definition.
 
-    decl_agreement.py BASE [HEAD] [--root DIR] [--fail-new] [--names f,g]
+    decl_agreement.py BASE [HEAD] [--root DIR] [--fail-new] [--names f,g] [--no-data]
+    decl_agreement.py --data-census [--root DIR]
 
 GCC only compares a call with the declaration that is visible at the call, so a stale
 file-scope or block-scope `extern`/prototype line that disagrees with a retyped
@@ -31,6 +32,18 @@ left behind by a void * -> record retype is reported separately as `void_pointer
 a declaration whose parameter is `void *` where the definition takes a specific record
 pointer, listed only when the declaration is new on HEAD or the definition changed since
 BASE.  The class is report-only unless --fail-void is given.
+
+Data objects get the same treatment.  Every `extern` object declaration (file scope and block
+scope) and every non-static file-scope definition is grouped by name and compared by element
+type and dimensions: `T x[]` agrees with `T x[N]`, qualifiers, struct keywords and scalar
+typedefs do not matter, and an extent that is an expression is not evaluated.  Classes:
+incompatible type (different element, pointer against array, different rank), size mismatch
+(same element, different known extent, or an extent that differs from the size: in
+config/slus_006.14.symbols.txt, the only per-object size source) and element type only
+(same width, opposite sign, e.g. u8 against s8).  With --fail-new (and in lint_closure) a name
+fails when it disagrees on HEAD and it did not on BASE or gained a declared type BASE lacked.
+The full list (name, address from config/names.tsv, every declaration site with its type, the
+definition, the symbol size) goes to build/decl_data.tsv.
 """
 from __future__ import annotations
 
@@ -387,40 +400,371 @@ def report(problems, existing=(), out=None, void=(), fail_void=False):
     return 1 if failing else 0
 
 
-def check_change(root, base, head_tree, names, renames=None, out=None, base_tree=None, fail_void=False):
+def check_change(root, base, head_tree, names, renames=None, out=None, base_tree=None, fail_void=False, data=True):
     """Entry point for lint_closure: exit code 1 when a changed function has a new stale declaration.
 
     base_tree is an already materialised BASE (lint_closure's); without it BASE is extracted here."""
     import tempfile
-    if not names:
-        return report([], [], out, (), fail_void)
     with tempfile.TemporaryDirectory(prefix='decl_agreement.') as temporary:
         if base_tree is None:
-            base_tree = C.materialize(root, base, Path(temporary) / 'base')
-        new, existing = new_problems(base_tree, head_tree, names, renames)
-        void = void_pointer_stale(base_tree, head_tree, names, renames)
-    return report(new, existing, out, void, fail_void)
+            try:
+                base_tree = C.materialize(root, base, Path(temporary) / 'base')
+            except subprocess.CalledProcessError:     # BASE has no src/ or include/: nothing to compare
+                base_tree = Path(temporary) / 'base'
+                base_tree.mkdir(exist_ok=True)
+        if names:
+            new, existing = new_problems(base_tree, head_tree, names, renames)
+            void = void_pointer_stale(base_tree, head_tree, names, renames)
+        else:
+            new, existing, void = [], [], ()
+        code = report(new, existing, out, void, fail_void)
+        if data:
+            code |= check_data(root, head_tree, base_tree, out)
+    return code
 
 
 def main(argv=None):
     import tempfile
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('base')
+    parser.add_argument('base', nargs='?')
     parser.add_argument('head', nargs='?')
     parser.add_argument('--root', type=Path, default=HERE.parents[1])
     parser.add_argument('--fail-new', action='store_true', help='exit 1 when a disagreement is new since BASE')
     parser.add_argument('--fail-void', action='store_true',
                         help='also exit 1 for void_pointer_stale declarations (report-only by default)')
+    parser.add_argument('--no-data', action='store_true', help='skip the data-object declaration pass')
+    parser.add_argument('--data-census', action='store_true',
+                        help='no BASE: list every data name with disagreeing declarations in --root, write '
+                             'build/decl_data.tsv and print the top names')
     parser.add_argument('--names', help='comma-separated function names instead of the BASE..HEAD diff')
     args = parser.parse_args(argv)
     root = args.root.resolve()
+    if args.data_census:
+        return print_data_census(root)
+    if not args.base:
+        parser.error('BASE is required unless --data-census')
     with tempfile.TemporaryDirectory(prefix='decl_agreement.') as temporary:
         head_tree = C.materialize(root, args.head, Path(temporary) / 'head') if args.head else root
         names = set(args.names.split(',')) if args.names else changed_function_names(root, args.base, args.head)
         renames = {new: old for status, old, new in C.changes(root, args.base, args.head) if status == 'R'}
         print(f'{len(names)} changed function declarations checked')
-        code = check_change(root, args.base, head_tree, names, renames, fail_void=args.fail_void)
+        code = check_change(root, args.base, head_tree, names, renames, fail_void=args.fail_void,
+                            data=not args.no_data)
     return code if args.fail_new or args.fail_void else 0
+
+
+# ---------------------------------------------------------------------------------------------
+# Data objects: every `extern` object declaration and every non-static file-scope definition
+# of a name, compared by element type and total size.
+
+EXTERN_STATEMENT = re.compile(r'(?<![\w.>])extern\s+([^;{}]*);')
+DEFINITION_LINE = re.compile(
+    r'^(?!extern\b|static\b|typedef\b|return\b|#)([A-Za-z_][^;(){}=\n]*?)\b([A-Za-z_]\w*)\s*((?:\[[^\]\n]*\]\s*)*)(?:=|;)',
+    re.M)
+STATIC_LINE = re.compile(r'^static\b[^;(){}=\n]*?\b([A-Za-z_]\w*)\s*(?:\[[^\]\n]*\]\s*)*(?:=|;)', re.M)
+FNPTR_OBJECT = re.compile(r'^(.*?)\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\((.*)\)\s*$', re.S)
+QUALIFIERS = frozenset('const volatile register auto'.split())
+SCALAR_SIZE = {'char': 1, 'signed char': 1, 'unsigned char': 1, 'short': 2, 'unsigned short': 2, 'int': 4,
+               'unsigned': 4, 'long': 4, 'unsigned long': 4, 'long long': 8, 'unsigned long long': 8,
+               'float': 4, 'double': 8, 'long double': 8}
+SIGN_FAMILY = {'char': 'b', 'signed char': 'b', 'unsigned char': 'b', 'short': 'h', 'unsigned short': 'h',
+               'int': 'w', 'unsigned': 'w', 'long': 'w', 'unsigned long': 'w'}
+INTEGER = re.compile(r'^(?:0[xX][0-9a-fA-F]+|\d+)[uUlL]*$')
+SYMBOL_SIZE = re.compile(r'^(\w+)\s*=\s*(0[xX][0-9a-fA-F]+)\s*;\s*//.*?\bsize:(0[xX][0-9a-fA-F]+|\d+)', re.M)
+CLASS_ORDER = ('incompatible type', 'size mismatch', 'element type only')
+
+
+def clean_text(text):
+    return '\n'.join(' ' * len(l) if l.lstrip().startswith('#') else l
+                     for l in C.strip_comments(text).replace('\\\n', ' \n').split('\n'))
+
+
+def parse_dims(text):
+    """Tuple of dimensions: int, None for `[]`, or the expression text when it is not a literal."""
+    dims = []
+    for part in re.findall(r'\[([^\]]*)\]', text):
+        part = part.strip()
+        dims.append(None if not part else int(part.rstrip('uUlL'), 0) if INTEGER.match(part) else part)
+    return tuple(dims)
+
+
+def object_declarators(statement, aliases):
+    """[(name, element type, dims)] of an extern statement, or [] for function declarations."""
+    statement = statement.strip()
+    shape = FNPTR_OBJECT.match(statement)
+    if shape:
+        return [(shape[2], function_pointer_form(re.sub(r'\bstruct\b', '', shape[1]), shape[3], aliases), ())]
+    if '(' in statement:
+        return []
+    chunks = split_params(statement)
+    base, stars_base, out = None, 0, []
+    for index, chunk in enumerate(chunks):
+        tokens = [t for t in TOKEN.findall(chunk) if t not in QUALIFIERS]
+        end = tokens.index('[') if '[' in tokens else len(tokens)
+        head = tokens[:end]
+        ids = [i for i, t in enumerate(head) if re.match(r'[A-Za-z_]', t)]
+        if not ids:
+            return []
+        name_at = ids[-1]
+        name = head[name_at]
+        before = head[:name_at]
+        if index == 0:
+            words = [t for t in before if t != '*']
+            if not words or any(w in STORAGE and w != 'extern' for w in words):
+                words = [w for w in words if w not in STORAGE]
+            base = [w for w in words if w != 'extern']
+            if not base:
+                return []
+            stars = before.count('*')
+        else:
+            stars = before.count('*')
+        element = normalize_type(' '.join(base) + ' ' + '*' * stars, aliases)
+        out.append((name, element, parse_dims(''.join(tokens[end:]))))
+    return out
+
+
+def element_size(element):
+    if element.endswith('*') and '(' not in element:
+        return 4
+    return SCALAR_SIZE.get(element)
+
+
+def total_size(element, dims):
+    size = element_size(element)
+    if size is None or any(not isinstance(d, int) for d in dims):
+        return None
+    for d in dims:
+        size *= d
+    return size
+
+
+def dims_compatible(a, b):
+    if a == b:
+        return True
+    if len(a) == 1 and a[0] is None or len(b) == 1 and b[0] is None:
+        return True                              # `T x[]` agrees with any T extent
+    if len(a) != len(b):
+        return False
+    return all(x == y or x is None or y is None or isinstance(x, str) or isinstance(y, str)
+               for x, y in zip(a, b))
+
+
+def data_class(a, b):
+    """Disagreement class between two (element, dims) types, or None when they agree."""
+    (elem_a, dims_a), (elem_b, dims_b) = a, b
+    if elem_a != elem_b:
+        family = SIGN_FAMILY.get(elem_a)
+        if family is None or family != SIGN_FAMILY.get(elem_b):
+            return 'incompatible type'
+        return 'element type only' if dims_compatible(dims_a, dims_b) else 'size mismatch'
+    if dims_compatible(dims_a, dims_b):
+        return None
+    sizes = total_size(elem_a, dims_a), total_size(elem_a, dims_b)
+    if len(dims_a) != len(dims_b) and sizes[0] is not None and sizes[0] == sizes[1]:
+        return 'incompatible type'
+    return 'size mismatch'
+
+
+def show_type(element, dims):
+    return element + ''.join('[' + ('' if d is None else str(d)) + ']' for d in dims)
+
+
+def scan_data_text(text, aliases):
+    """(declarations, definitions, statics): declarations [(name, line, element, dims)],
+    definitions the same for non-static file-scope definitions, statics the set of static names."""
+    clean = clean_text(text)
+    decls, defs = [], []
+    if 'extern' in clean:
+        for match in EXTERN_STATEMENT.finditer(clean):
+            line = clean.count('\n', 0, match.start(1)) + 1
+            for name, element, dims in object_declarators(match[1], aliases):
+                decls.append((name, line, element, dims))
+    for match in DEFINITION_LINE.finditer(clean):
+        words = [t for t in TOKEN.findall(match[1]) if t not in QUALIFIERS]
+        if not words or any(w in KEYWORD_HEADS for w in words):
+            continue
+        stars = match[1].count('*')
+        base = [w for w in words if w != '*']
+        if not base:
+            continue
+        element = normalize_type(' '.join(base) + ' ' + '*' * stars, aliases)
+        line = clean.count('\n', 0, match.start(2)) + 1
+        defs.append((match[2], line, element, parse_dims(match[3])))
+    statics = {m[1] for m in STATIC_LINE.finditer(clean)}
+    return decls, defs, statics
+
+
+def symbol_sizes(root):
+    """{name: (address text, size)} from the SLUS symbol list; the only per-object size source."""
+    path = Path(root) / 'config/slus_006.14.symbols.txt'
+    if not path.is_file():
+        return {}
+    return {m[1]: (m[2].lower(), int(m[3], 0)) for m in SYMBOL_SIZE.finditer(path.read_text(errors='replace'))}
+
+
+def name_addresses(root):
+    """{name: address} from config/names.tsv (new and old spelling) and the SLUS symbol list."""
+    out = {}
+    path = Path(root) / 'config/names.tsv'
+    if path.is_file():
+        for line in path.read_text(errors='replace').splitlines():
+            parts = line.split('\t')
+            if len(parts) >= 3 and parts[0].startswith('0x'):
+                out.setdefault(parts[2], parts[0])
+                out.setdefault(parts[1], parts[0])
+    for name, (address, _) in symbol_sizes(root).items():
+        out.setdefault(name, address)
+    return out
+
+
+def data_files(root):
+    import os
+    root = str(root)
+    out = []
+    for top in ('src', 'include'):
+        for directory, _, names in os.walk(os.path.join(root, top)):
+            rel = os.path.relpath(directory, root).replace(os.sep, '/')
+            out += [f'{rel}/{n}' for n in names if n.endswith(C.SOURCE_SUFFIXES)]
+    return sorted(out)
+
+
+def parse_data_files(root, files=None, reuse=None):
+    """{file: (text hash, declarations, definitions, statics)}; a file whose text hash matches an
+    entry of `reuse` (a previous parse made with the same aliases) is not parsed again."""
+    root = Path(root)
+    aliases = scalar_aliases(root)
+    reuse = reuse if reuse and reuse['aliases'] == aliases else dict(files={})
+    parsed = {}
+    for rel in files if files is not None else data_files(root):
+        try:
+            text = (root / rel).read_text(errors='replace')
+        except OSError:
+            continue
+        digest = hash(text)
+        old = reuse['files'].get(rel)
+        parsed[rel] = old if old and old[0] == digest else (digest, *scan_data_text(text, aliases))
+    return dict(aliases=aliases, files=parsed)
+
+
+def group_data(parse):
+    """{name: {'decls': [(file, line, element, dims)], 'defs': [...]}} from a parse."""
+    found = collections.defaultdict(lambda: dict(decls=[], defs=[]))
+
+    def key(name, rel):
+        # raw address names (D_80123456) are reused by every overlay that loads there: one object per image
+        return f'{name}@{rel.split("/")[1]}' if name.startswith('D_') and rel.count('/') > 1 else name
+
+    for rel, (_, decls, defs, statics) in parse['files'].items():
+        for name, line, element, dims in decls:
+            if name not in statics:
+                found[key(name, rel)]['decls'].append((rel, line, element, dims))
+        for name, line, element, dims in defs:
+            if name not in statics:
+                found[key(name, rel)]['defs'].append((rel, line, element, dims))
+    return found
+
+
+def scan_data_tree(root, files=None):
+    return group_data(parse_data_files(root, files))
+
+
+def data_disagreements(found, symbols=None):
+    """{name: dict(klass, types, rows)} for each name whose declarations or definition disagree.
+
+    types is the set of distinct (element, dims); rows [(role, site, type)] lists every declaration,
+    each definition and the symbol-list size."""
+    symbols = symbols or {}
+    out = {}
+    for name, entry in found.items():
+        refs = [(f, l, e, d) for f, l, e, d in entry['defs']]
+        decls = entry['decls']
+        types = {(e, d) for _, _, e, d in decls + refs}
+        klass = None
+        ordered = sorted(types, key=lambda t: show_type(*t))
+        rank = lambda c: CLASS_ORDER.index(c)
+        for i, a in enumerate(ordered):
+            for b in ordered[i + 1:]:
+                c = data_class(a, b)
+                if c and (klass is None or rank(c) < rank(klass)):
+                    klass = c
+        symbol = symbols.get(name.split('@')[0])
+        if symbol and klass is None:
+            for e, d in ordered:
+                size = total_size(e, d)
+                if size is not None and size != symbol[1] and not (d and d[-1] is None):
+                    klass = 'size mismatch'
+        if klass is None:
+            continue
+        rows = [('def', f'{f}:{l}', show_type(e, d)) for f, l, e, d in refs]
+        rows += [('decl', f'{f}:{l}', show_type(e, d)) for f, l, e, d in decls]
+        if symbol:
+            rows.append(('symbol', 'config/slus_006.14.symbols.txt', f'{symbol[1]} bytes'))
+        out[name] = dict(klass=klass, types=types, rows=rows)
+    return out
+
+
+def address_of(name, addresses):
+    name = name.split('@')[0]
+    if name in addresses:
+        return addresses[name]
+    match = re.match(r'D_([0-9A-Fa-f]{8})$', name)
+    return '0x' + match[1].upper() if match else ''
+
+
+def write_data_list(path, disagreements, addresses):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open('w') as stream:
+        stream.write('name\taddress\tclass\trole\tsite\ttype\n')
+        for name in sorted(disagreements):
+            row = disagreements[name]
+            for role, site, shown in row['rows']:
+                stream.write(f'{name}\t{address_of(name, addresses)}\t{row["klass"]}\t{role}\t{site}\t{shown}\n')
+
+
+def new_data_disagreements(head, base):
+    """Names that disagree on HEAD and either did not on BASE or gained a type BASE lacked."""
+    return sorted(n for n, row in head.items() if n not in base or row['types'] - base[n]['types'])
+
+
+def data_census(root, tsv=None, files=None, parse=None):
+    """(disagreements by name, scanned names) for the tree; writes the list when tsv is given."""
+    found = group_data(parse or parse_data_files(root, files))
+    result = data_disagreements(found, symbol_sizes(root))
+    if tsv is not None:
+        write_data_list(tsv, result, name_addresses(root))
+    return result, found
+
+
+def check_data(root, head_tree, base_tree, out=None):
+    """Return code for the data pass: 1 when a name's data declarations disagree newly since BASE."""
+    out = out or sys.stdout
+    head_parse = parse_data_files(head_tree)
+    head, _ = data_census(head_tree, tsv=Path(root) / 'build/decl_data.tsv', parse=head_parse)
+    base, _ = data_census(base_tree, parse=parse_data_files(base_tree, reuse=head_parse))
+    new = new_data_disagreements(head, base)
+    for name in new:
+        row = head[name]
+        print(f'DATA DISAGREEMENT {name}: {row["klass"]}', file=out)
+        for role, site, shown in row['rows']:
+            print(f'    {role} {site}: {shown}', file=out)
+    by_class = collections.Counter(row['klass'] for row in head.values())
+    print(f'data declaration agreement {"FAIL" if new else "PASS"}: {len(new)} new disagreeing data names '
+          f'({len(head) - len(new)} already disagreed on BASE, not failing; '
+          f'{len(head)} disagreeing names on HEAD: ' + ', '.join(f'{by_class[c]} {c}' for c in CLASS_ORDER) + ')', file=out)
+    return 1 if new else 0
+
+
+def print_data_census(root, limit=20):
+    result, found = data_census(root, tsv=root / 'build/decl_data.tsv')
+    by_class = collections.Counter(row['klass'] for row in result.values())
+    print(f'{len(result)} of {len(found)} data names disagree: ' +
+          ', '.join(f'{by_class[c]} {c}' for c in CLASS_ORDER) + '; list in build/decl_data.tsv')
+    ranked = sorted(result.items(), key=lambda kv: (-len(kv[1]['types']), -len(kv[1]['rows']), kv[0]))
+    for name, row in ranked[:limit]:
+        print(f'{name}\t{row["klass"]}\t{len(row["types"])} types: ' +
+              ' | '.join(sorted(show_type(*t) for t in row['types'])))
+    return 0
 
 
 if __name__ == '__main__':

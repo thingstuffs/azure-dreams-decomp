@@ -1,7 +1,6 @@
 #include "shared/sprite_source.h"
 #include "common.h"
 
-#include "common.h"
 #include "engine/effect.h"
 #include "engine/resource.h"
 #include "slus.h"

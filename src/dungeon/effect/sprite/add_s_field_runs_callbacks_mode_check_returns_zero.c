@@ -5,7 +5,7 @@
 #include "dungeon/effect/screen.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-#include "dungeon/effect/screen.h"                 /* extern */
+/* extern */
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
 

@@ -1,5 +1,5 @@
 {
- "count": 1460,
+ "count": 1456,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -417,8 +417,6 @@
   "include/dungeon/monster/dragon.h::R03_80172258_S_80172258_0.unk_96",
   "include/dungeon/monster/dragon.h::R03_80172620_S_80172620_0.unk_A4",
   "include/dungeon/monster/dragon.h::R03_80172F14_S_80172F14_1.timer",
-  "include/dungeon/monster/flame.h::R06_80170BB8_S_80170BB8_0.unk_00",
-  "include/dungeon/monster/flame.h::R06_80170BB8_S_80170BB8_0.unk_04",
   "include/dungeon/monster/flame.h::R06_80170BB8_S_80170BB8_1.unk_1C",
   "include/dungeon/monster/flame.h::R06_80170BB8_S_80170BB8_2.unk_0C",
   "include/dungeon/monster/flame.h::R06_8017140C_S_8017140C_0.unk_92",
@@ -545,8 +543,6 @@
   "include/dungeon/monster/unicorn/settle_actor_after_movement.h::T_80172664_S_80172664_1.timer",
   "include/dungeon/monster/unicorn/update_directional_motion_and_recenter_actor.h::T_80173450_S_80173450_2.unk_0C",
   "include/dungeon/monster/univern.h::R17_8017089C_S_8017089C_2.unk_08",
-  "include/dungeon/monster/univern.h::R17_80170BB8_S_80170BB8_0.unk_00",
-  "include/dungeon/monster/univern.h::R17_80170BB8_S_80170BB8_0.unk_04",
   "include/dungeon/monster/univern.h::R17_801718D0_S_801718D0_0.unk_1C",
   "include/dungeon/monster/univern.h::R17_801718D0_S_801718D0_0.unk_71",
   "include/dungeon/monster/univern.h::R17_801718D0_S_801718D0_0.unk_8A",

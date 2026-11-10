@@ -33,7 +33,7 @@ typedef struct S_80172258_0 {
 extern u8 ashra_action_continuation_address;
 
 /* Updates a jump toward the destination tile and completes movement when its timer expires. */
-void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motion, void *sprite, void *actor) {
+void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 facing_aux;
     s32 frames_left;
     s16 next_timer;
@@ -43,17 +43,17 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
     state = jump->action_phase;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)sprite)->frameTable = ashra_frame_set_1;
+        sprite->frameTable = ashra_frame_set_1;
         select_sprite_entry(
             sprite,
-            ashra_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            ashra_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         jump->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
-        ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172258_0 *)jump)->unk_A8 = 0;
         jump->action_phase++;
 
@@ -62,13 +62,13 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
         jump->unk_90.value -= ((S_80172258_0 *)jump)->unk_A8;
         if (frames_left != 0) {
             {
-                s32 target_x = ((SpriteFrameState *)sprite)->tile_x << 6;
+                s32 target_x = sprite->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = ((SpriteFrameState *)sprite)->tile_y << 6;
+                s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
@@ -81,21 +81,21 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
         if (jump->action_timer < 2) {
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;
-            ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
+            actor->flags1C |= ACTOR_GROUNDED;
             jump->action_phase++;
         }
 
     case 2:
-        if (((u32)((ActorRecord *)actor)->flags1C) & ACTOR_GROUNDED) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             jump->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
-            ((SpriteFrameState *)sprite)->frameTable = ashra_frame_set_2;
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+            sprite->frameTable = ashra_frame_set_2;
             select_sprite_entry(
                 sprite,
-                ashra_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                ashra_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             jump->action_phase++;
         }
@@ -109,7 +109,7 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
@@ -119,16 +119,16 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
             }
         }
 
-        actor_flags = ((u32)((ActorRecord *)actor)->flags1C);
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
-            if (((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) {
-                ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+            if (actor->action_flags & ACTOR_ACTION_PENDING) {
+                actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                    ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y,
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
             }
         }

@@ -2,7 +2,6 @@
 #include "shared/object_flags.h"
 #include "shared/game_work.h"
 
-#include "common.h"
 #include "engine/camera.h"
 #include "engine/effect.h"
 #include "engine/graphics.h"

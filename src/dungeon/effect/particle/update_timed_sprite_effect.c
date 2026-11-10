@@ -282,8 +282,6 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
         return;
     }
 }
-#include "modules/dungeon_ovl_1858800.h"
-#include "common.h"
 #include "shared/game_work.h"
 
 
@@ -370,10 +368,7 @@ next_record:
    word 15, the `j 0x80024934` back edge at word 137); the projection loop must index through
    `screen_base`, not through `screen` directly, or gcc materialises the array address again
    (`addiu $s0,$sp,0x18`) where retail copies the base register (`move $s0,$s7`). */
-#include "modules/dungeon_ovl_1858800.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 

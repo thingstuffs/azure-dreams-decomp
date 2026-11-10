@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/item_ids.h"
 
-#include "common.h"
 #include "engine/item.h"
 
 extern u8 *town_item_list[];

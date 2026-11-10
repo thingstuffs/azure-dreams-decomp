@@ -31,7 +31,6 @@ typedef struct S_8014C89C_8 {
 
 extern s16 view_facing_angle_alias;
 
-extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 generate_random_value(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);

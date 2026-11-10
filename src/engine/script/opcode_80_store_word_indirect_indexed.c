@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/script.h"
 
-#include "common.h"
 
 /* Opcode 0x50: Store variable v[source] through entry [v[index]] of the pointer table at the inline address.
  * Retail reads only the first byte of that entry as the store address (lbu), unlike the load

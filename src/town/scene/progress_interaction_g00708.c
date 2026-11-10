@@ -1,5 +1,5 @@
-/* Prepare progress interactions (G00708). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80470808, PD:town/image_3ef000:8001B718. */
+/* Prepare progress interactions. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80470808, PD:town/image_3ef000:8001B718. */
 #include "town/scene/progress_interaction_g00708.h"
 #include "town/scene.h"
 #include "town/player/state.h"

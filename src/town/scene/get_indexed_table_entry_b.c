@@ -3,7 +3,6 @@
 #include "town/scene.h"
 #include "town/data.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 scene_choice_index[];
 
 /* Returns the table entry selected by the current index. */

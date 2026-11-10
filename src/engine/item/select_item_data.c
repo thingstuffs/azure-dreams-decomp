@@ -2,7 +2,6 @@
 #include "shared/item_ids.h"
 #include "shared/dungeon_item_entries.h"
 
-#include "common.h"
 #include "engine/item.h"
 typedef struct
 {

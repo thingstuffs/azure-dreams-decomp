@@ -8,7 +8,6 @@
 #include "dungeon/system.h"
 
 void (*const dungeon_18d6800_entry)(ReachableTileTravelBody *, ObjectPosition *, SpriteFrameState *) = advance_movement_toward_reachable_tile;
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -31,10 +30,7 @@ void interpolate_view_parameters(EntityRec *target, s32 gain_param, void *record
         apply_clamped_actor_value_delta(target);
     }
 }
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
    /* Increment counters, reduce the stored value, and propagate status flags. */
@@ -52,8 +48,6 @@ void lower_animated_sprite(ColoredOffsetSpriteBody *counter_state, B28_818B68B8_
     }
 }
 #include "shared/object_node.h"
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -98,9 +92,6 @@ void * create_colored_offset_sprite(s32 context_value, ObjectPosition *source_st
     }
     return 0;
 }
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
-#include "shared/object_flags.h"
    /* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
 void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, ObjectPosition *render_arg, B28_818B6AFC_FxColorOut *color_out) {
     s32 fade_in_color;
@@ -242,9 +233,7 @@ void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, ObjectPosition *rende
         }
     }
 }
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "shared/gpu_packets.h"
-#include "common.h"
 #include "shared/game_work.h"
 
    /* scratch in func_80024790 */
@@ -273,8 +262,8 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
     u8 *screen_xy1;
     u8 *screen_xy2;
     u8 *screen_xy3;
-    u8 *depth_cue;
-    u8 *transform_flags;
+    s32 *depth_cue;
+    s32 *transform_flags;
 
     scratch = (B28_818B6F90_S_818B6F90_0 *)0x1F800000;
     render_buffer = g_game_work.draw_buffer;
@@ -291,8 +280,8 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
     screen_xy1 = (u8 *)scratch + 0x74;
     screen_xy2 = (u8 *)scratch + 0x78;
     screen_xy3 = (u8 *)scratch + 0x7C;
-    depth_cue = (u8 *)scratch + 0x08;
-    transform_flags = (u8 *)scratch + 0x0C;
+    depth_cue = &scratch->depth_cue;
+    transform_flags = &scratch->gte_flag;
 
     packet->unk_1A = texture_id;
     packet->unk_0E = 0x7DCF;
@@ -363,8 +352,6 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
 
     return 0;
 }
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
 
    /* arg0 in draw_two_radial_effect_bands */
 
@@ -573,9 +560,6 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     } while (segment < 8);
     return 0;
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
 
 
 /* Creates an object from source data and payload, initializing two fields randomly. */
@@ -600,10 +584,6 @@ void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4
         register_node(obj, draw_two_radial_effect_bands);
     }
 }
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 /* Per-frame update for the four-phase spark effect: drift, tint ramp, hold, then mark the owner finished. */
 void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, SpriteFrameState *gfx) {
@@ -713,9 +693,6 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
         }
     }
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
 
    /* obj in spawn_owner_random_variant_effect */
 
@@ -776,9 +753,6 @@ s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosi
     }
     return 0;
 }
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 /* Advance counters, rotation, and position, and set flags when the counter exceeds its limit. */
 void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity)
@@ -797,9 +771,6 @@ void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
 
 
 /* Spawn a 0x212 effect object owned by `owner`, give it a random 12-bit spin and copy the source transform into it. */
@@ -845,12 +816,8 @@ s32 spawn_owned_random_spin_effect(void *owner, ObjectPosition *source)
     }
     return 0;
 }
-#include "dungeon/effect/travel/cycle_seven_color_fade.h"
-#include "common.h"
-#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 
    /* Advance movement toward a target or a reachable tile, then finish the timed action. */
 void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, ObjectPosition *motion_in, SpriteFrameState *render) {

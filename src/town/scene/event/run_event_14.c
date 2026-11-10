@@ -2,7 +2,6 @@
 #include "common.h"
 #include "town/player/state.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Calls func_800198D0 with argument 0x14. */
 void run_event_14(void) {

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "engine/audio/sequence.h"
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
@@ -10,7 +11,6 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "shared/actor_status_flags.h"
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/system/util.h"
-#include "common.h"
 #include "dungeon/menu.h"
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
@@ -35,7 +35,6 @@ s32 increment_bounded_counter(void) {
     }
     return 0;
 }
-#include "common.h"
 
 /* Decrement the counter if it is nonzero. */
 void decrement_bounded_counter(void) {
@@ -43,7 +42,6 @@ void decrement_bounded_counter(void) {
         bounded_runtime_counter = (u16) bounded_runtime_counter - 1;
     }
 }
-#include "common.h"
 #include "shared/sys_flags.h"
 
 /* Query the low 16 bits of the input unless flag bit 1 disables the call. */
@@ -57,8 +55,6 @@ s32 play_sound_if_enabled(s32 query_value) {
     }
     return result;
 }
-#include "common.h"
-#include "shared/sys_flags.h"
 
 typedef struct S_800A5720_0 {
     u8 unk_00;
@@ -87,7 +83,6 @@ s32 display_text_with_fullwidth_adjustment(s8 *text) {
     }
     return 0;
 }
-#include "common.h"
 
 /* Return the first of three entries matching the target's group, or -1. */
 s32 find_slot_by_item_group(void *entry, s16 target) {
@@ -105,7 +100,6 @@ s32 find_slot_by_item_group(void *entry, s16 target) {
     } while (index < 3);
     return -1;
 }
-#include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
@@ -185,7 +179,6 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition 
     linked_prim->color.c.g = brightness;
     linked_prim->color.c.b = brightness;
 }
-#include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -221,9 +214,6 @@ void *create_textured_ellipse_effect(ObjectPosition *object_id, void *state_valu
     }
     return object;
 }
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
 
 typedef struct S_800A5AF0_0_pre {
     u16 unk_00;
@@ -299,8 +289,6 @@ void update_effect_position_and_scale_transition(void *transition_arg, ObjectPos
         }
     }
 }
-#include "common.h"
-#include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -365,17 +353,12 @@ s32 check_action_available_without_nearby_actor(void) {
     return 1;
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
-#include "common.h"
 #include "shared/dungeon_status.h"
 
 /* Store the dungeon turn counter in its retained word. */
 void store_dungeon_turn_counter(void) {
     *(s32 *)0x8001362C = (s32) g_dungeon_status.turn_counter;
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad[0xA];
@@ -394,10 +377,6 @@ void advance_timed_object_and_retire(TimedStatusObjectBody *counter) {
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
-#include "shared/object_node.h"
-#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 extern s32 D_800A5D5C;
 
@@ -407,9 +386,6 @@ void create_timed_status_object(void) {
     ((s32 **)allocate_flagged_object_node(0))[4] = &D_800A5D5C;
     g_dungeon_status.activity_counts.parts.pending_action_count += 1;
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
-#include "common.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A5DFC_arg1.h"
 
@@ -447,9 +423,6 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, ObjectPosition *eff
         }
     }
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
-#include "common.h"
-#include "shared/dungeon_status.h"
 
 #include "shared/dungeon_item_entries.h"
 
@@ -466,11 +439,7 @@ void place_actor_item(void *object_context, struct DungeonItemEntry *target) {
     clear_slot_and_update_linked_state(target);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
-#include "common.h"
-#include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
-#include "m2c_compat.h"
 
 typedef struct S_800A5FC0_0 {
     u8 pad_00[0x8D0];
@@ -544,9 +513,6 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     AddPrim((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), draw_mode);
     return 0;
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 extern void *D_800DCF64;
 
@@ -573,8 +539,6 @@ void configure_shared_fade_primitive(void) {
         settings->unk_0C = 1;
     }
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
-#include "common.h"
 
 struct S_800A5FC0_2;
 
@@ -601,9 +565,6 @@ void * create_expanding_screen_rectangle(void) {
     }
     return object;
 }
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/object_flags.h"
 
 /* Advance the timed ramp to 255 and update completion and shutdown flags. */
 void advance_timed_intensity_ramp(void *ramp) {
@@ -629,8 +590,6 @@ void advance_timed_intensity_ramp(void *ramp) {
     }
 }
 #include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 typedef struct {
     u8 pad[0xA];
@@ -677,10 +636,7 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
     AddPrim((u8 *)g_game_work.draw_buffer + ((input->index * 4) + 0xB0), draw_mode);
     return 0;
 }
-#include "shared/object_node.h"
 
-#include "common.h"
-#include "m2c_compat.h"
 
 s32 register_node(void *entry, void *registration_id);           /* extern */
 
@@ -712,8 +668,6 @@ void *create_fullscreen_quad_updater(s16 initialValue) {
     return object;
 }
 
-#include "common.h"
-#include "m2c_compat.h"
 
 extern u8 D_800E0A03[];
 extern u8 D_800E0A12[];
@@ -735,7 +689,6 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
 }
 
 #include "dungeon/item/message.h"
-#include "common.h"
 
 extern u8 D_800E0A1B[];
 
@@ -752,8 +705,6 @@ void display_actor_item_status_message(void *actor, struct DungeonItemEntry *ite
     display_text_with_fullwidth_adjustment(original_value);
 }
 
-#include "common.h"
-#include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -764,7 +715,6 @@ void display_fixed_item_action_message(void) {
     display_formatted_context_message(&D_800E092B);
 }
 
-#include "common.h"
 
 extern s32 D_800DCF08[];
 extern s32 D_800DCF3C;
@@ -807,10 +757,6 @@ s32 select_object_state_value(void *object) {
 
     return selected_value;
 }
-#include "common.h"
-#include "m2c_compat.h"
-#include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
 
 typedef struct S_800A6620_1_pre {
     void * unk_00;
@@ -895,7 +841,6 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
     clear_slot_and_update_linked_state(handle);
     return index;
 }
-#include "common.h"
 
 extern s8 scene_music_hold;   /* keep-floor-music flag; declared scalar as in func_80087A70, func_802833F4, func_80084340 and the town readers */
 
@@ -916,10 +861,6 @@ s32 check_action_boundary_and_set_flag(void) {
     return 0;
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
-#include "common.h"
-#include "shared/sys_flags.h"
-#include "shared/dungeon_floor.h"
-#include "shared/dungeon_status.h"
 
 extern s8 dungeon_event_pending_flag[];
 extern s8 restore_actor_script[];
@@ -937,8 +878,6 @@ void clear_pending_item_action_state(void) {
         runtime_clear_state_and_entry_range();
     }
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
-#include "common.h"
 
 s32 generate_random_value(void);                             /* extern */
 
@@ -952,22 +891,12 @@ s32 get_random_scaled_value(s16 input_value) {
     }
     return ((s32) (adjusted_value << 0x10) >> 0x12) + (generate_random_value() & 3);
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
-#include "common.h"
-#include "shared/entity.h"
-#include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 
 /* Save and clear bit 4 of the current record flags. */
 void save_and_clear_entity_flag_ten(void) {
     D_800DD878 = ((u32) ((u32)dungeon_actor_ring_anchor->flags1C) >> 4) & 1;
     dungeon_actor_ring_anchor->flags1C = (u32) (((u32)dungeon_actor_ring_anchor->flags1C) & ~ACTOR_BLIND);
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
-#include "common.h"
-#include "shared/entity.h"
-#include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 
 /* Restore bit 4 of the current record flags when it was saved as set. */
 void restore_entity_flag_ten(void) {
@@ -975,8 +904,6 @@ void restore_entity_flag_ten(void) {
         dungeon_actor_ring_anchor->flags1C = (s32) (dungeon_actor_ring_anchor->flags1C | ACTOR_BLIND);
     }
 }
-#include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
-#include "common.h"
 
 /* Count the 20 table entries whose first halfword matches the packed input bytes. */
 s16 count_matching_packed_entity_keys(s32 high_byte, s32 low_byte) {
@@ -1001,7 +928,6 @@ s16 count_matching_packed_entity_keys(s32 high_byte, s32 low_byte) {
     } while (entry_index >= 0);
     return match_count;
 }
-#include "common.h"
 
 extern s32 utility_count_word(s32, s32) __asm__("count_matching_packed_entity_keys");
 
@@ -1026,7 +952,6 @@ s16 has_recorded_value_pair(s32 highByte, s32 lowByte) {
     }
     return utility_count_word(highByte & 0xFF, lowByte & 0xFF);
 }
-#include "common.h"
 
 extern void spawn_floor_monster_from_table(s32 spawn_mode);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
@@ -1052,8 +977,6 @@ void spawn_initial_floor_monsters(void) {
         } while (call_index < repeat_count);
     }
 }
-#include "common.h"
-#include "m2c_compat.h"
 
 #include "dungeon/actor/effect.h"
 
@@ -1065,7 +988,6 @@ void clear_item_flag_400_for_egg_one(void) {
     command[1] = 0x12;
     clear_selected_item_flag_400(&command[0]);
 }
-#include "common.h"
 
 typedef struct {
     u16 flags;
@@ -1141,7 +1063,6 @@ void restore_item_flag_400_bitmap(void)
    fix preheader order, and preincrement loads count before the inner increment.
    Loop-top ASM_KEEP holds the unrebased group base, yielding v0-high/a2-low
    split addressing with +2/+0xC fields; index-first RAM arithmetic fixes addu. */
-#include "common.h"
 
 typedef struct S_800A6B70_0 {
     u8 pad_00[0xC];
@@ -1167,7 +1088,6 @@ void update_sine_pulse_color(S_800A6B70_0 *phase_state, s32 unused, S_800A6B70_1
     color->unk_0D = intensity;
     color->unk_0C = intensity;
 }
-#include "common.h"
 
 typedef struct {
     s8 state;
@@ -1204,9 +1124,6 @@ void advance_record_values_by_step(Record *record, s16 step)
    own dbr sinks record++'s addiu into the back-edge j's delay slot with no
    pin; the former ASM_KEEP(value)/ASM_TAILSLOT_PIN_TIED(record) pair (needed
    only to fake liveness across the old pseudo-call) is gone along with the call. */
-#include "shared/object_node.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 s32 register_node(void *entry, void *registration_id);
 extern u8 D_80089074[];
@@ -1286,8 +1203,6 @@ void *create_pulsing_effect_object(void) {
     }
     return object;
 }
-#include "common.h"
-#include "shared/game_work.h"
 
 /* Advances the random seed and returns a 15-bit random value. */
 s32 generate_random_value(void) {
@@ -1297,8 +1212,6 @@ s32 generate_random_value(void) {
     g_game_work.randSeed = next_seed;
     return (next_seed >> 0x10) & 0x7FFF;
 }
-#include "common.h"
-#include "shared/game_work.h"
 
 /* Saves or restores the random seed according to the low 16 bits of save_seed. */
 void save_or_restore_random_seed(s32 save_seed) {
@@ -1311,15 +1224,12 @@ void save_or_restore_random_seed(s32 save_seed) {
     }
     rng_state->randSeed = saved_random_seed[0];
 }
-#include "common.h"
-#include "shared/game_work.h"
 
 /* Restore the saved dungeon RNG seed before the SLUS category shuffle.
  * randSeed is the resident 32-bit RNG state at g_game_work + 0x1FC. */
 void restore_dungeon_random_seed(s32 saved_seed) {
     g_game_work.randSeed = saved_seed;
 }
-#include "common.h"
 
 extern s32 generate_random_value(void);
 
@@ -1343,8 +1253,6 @@ s32 random_dungeon_range_16(u32 bound_a, u32 bound_b) {
     result = ((random_value % range) + lower) & 0xFFFF;
     return result;
 }
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
 
 extern s32 dungeon_ground_item_positions;
 

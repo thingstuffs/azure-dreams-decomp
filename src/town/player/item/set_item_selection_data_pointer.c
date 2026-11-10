@@ -3,7 +3,6 @@
 #include "town/player/action_initializers.h"
 #include "town/player/item.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Stores the address of D_800933FC in the output pointer. */
 void set_item_selection_data_pointer(void *object, void *unused_position, void *unused_context) {
