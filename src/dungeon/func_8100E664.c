@@ -359,7 +359,7 @@ commit_tile_positions:
         world_coord = ((world_coord << 6) + 0x20) << 0x10;
         partner_motion->y = world_coord;
         motion->y = world_coord;
-        motion->z.word = (s32) (((s16) partner->ground_height - 0x100) << 0x10);
+        motion->z.word = (s32) ((partner->ground_height - 0x100) << 0x10);
         partner_actor->heightOffset.word = (s32) actor->heightOffset.word;
         actor->ticks = 8;
         motion->dz = (s32) ((s32) ((entity->ground_height << 0x10)

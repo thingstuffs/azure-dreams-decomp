@@ -359,7 +359,7 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
     effect_state->remaining_count.s = 0xa;
     effect_state->divisor = 0xa;
     effect->update_callback = (void *)&update_normalized_gray_fade;
-    effect_state->facing = ((u16)actor->facing);
+    effect_state->facing = actor->facing;
     effect_data = effect->sprite;
     template_data = sprite_template;
     {
@@ -388,18 +388,18 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
         u8 *direction_offsets = D_80175EBC;
         linked_pos = ((T_801714FC_S_801714FC_8_pre *)(actor->target))[-1].unk_00;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = linked_pos->unk_02
-        - ((*(s16 *)(direction_offsets + ((((u16)actor->facing) >> 7) & 0x1c))) * 0x10);
+        - ((*(s16 *)(direction_offsets + ((actor->facing >> 7) & 0x1c))) * 0x10);
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = linked_pos->unk_06
-        - ((*(s16 *)(direction_offsets + (((((u16)actor->facing) >> 7) & 0x1c) + 2))) * 0x10);
+        - ((*(s16 *)(direction_offsets + (((actor->facing >> 7) & 0x1c) + 2))) * 0x10);
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = linked_pos->unk_0A
         - (entity_height_offsets[((T_801714FC_S_801714FC_8 *)(actor->target))->unk_13] >> 1);
         return;
     }
     if (actor->target_tile_x < 0) {
         s32 tile_x, tile_y;
-        actor->target_tile_x = -(u8)((u8)actor->target_tile_x);
+        actor->target_tile_x = -actor->target_tile_x;
         if (actor->target_tile_y < 0) {
-            actor->target_tile_y = -(u8)((u8)actor->target_tile_y);
+            actor->target_tile_y = -actor->target_tile_y;
         }
         tile_x = actor->target_tile_x;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = (tile_x << 6) + 0x20;

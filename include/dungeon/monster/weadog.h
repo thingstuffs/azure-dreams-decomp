@@ -45,4 +45,18 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
 void create_random_color_offset_effect(void *parent_arg, s16 initial_14, s32 unused, s16 initial_32, s16 offset_x, s16 offset_y, s16 offset_z);
 void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
+
+/* Flight callback contracts; their private records are defined by the updater TUs. */
+struct S_func_80EDF000_1;
+struct S_func_80EDF000_2;
+struct S_func_80EF1000_1;
+struct S_func_80EF1000_2;
+struct S_func_80EF1000_3;
+struct S_func_80EF7000_1;
+struct S_func_80EF7000_2;
+struct S_func_80EF7000_3;
+void update_flight_landing_and_fall(struct S_func_80EF1000_1 *motion, struct S_func_80EF1000_2 *position, struct S_func_80EF1000_3 *sprite);
+void advance_motion_through_landing_and_fall(struct S_func_80EF7000_1 *motion, struct S_func_80EF7000_2 *position, struct S_func_80EF7000_3 *animation);
+void advance_item_flight_to_floor(struct WeadogFlightBody *motion, struct S_func_80EDF000_1 *position, struct S_func_80EDF000_2 *render);
+
 #endif

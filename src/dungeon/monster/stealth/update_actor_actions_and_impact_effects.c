@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -12,7 +13,6 @@ extern void *actor_update_node_cursor;
 
 extern u8 D_80173D58[];
 
-void select_sprite_entry(void *, u8, s32);
 void spend_actor_mp(void *, s32);
 
 /*

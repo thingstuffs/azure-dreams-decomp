@@ -20,7 +20,7 @@
 #include "dungeon/effect/screen.h"
 
 void *(*const cb3000_spawn_entry)(s16,s16,s16,s32) = create_linked_object_position;
-void (*const cb3000_update_entry)(void *,ObjectPosition *,SpriteFrameState *) = set_boss_effect_flag;
+void (*const cb3000_update_entry)(ActorRecord *, ObjectPosition *, SpriteFrameState *) = set_boss_effect_flag;
 
 /* Stores the owner value, copies the source position, and initializes a gray sprite for rendering. */
 void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords)
@@ -173,61 +173,61 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
  * the a1/a2 temps into them, so sched1 schedules the parameter copies and the entry order is
  * retail's.
  */
-void set_boss_effect_flag(void *entity, ObjectPosition *motion, SpriteFrameState *monster)
+void set_boss_effect_flag(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster)
 {
-    CB_80170C24_S_80170C24_1 *actor = entity;
+    ActorRecord *actor = entity;
     s32 direction;
     s16 direction_copy;
     s32 direction_value;
     s16 old_direction;
-    CB_80170C24_Callback callback;
+    ActorActionHandler callback;
     u16 monster_flags;
     s16 floor_height;
     s16 actor_height;
     s16 direction_index;
 
     if (g_dungeon_status.flags & 0x2000) {
-        CB_80170C24_Callback early_callback;
+        ActorActionHandler early_callback;
 
-        early_callback = (*(CB_80170C24_Callback *)((u8 *)entity + 0x8C));
+        early_callback = entity->unk_8C.handler;
         if (early_callback == dispatch_actor_turn_and_motion) {
             early_callback(entity, motion, monster, entity);
         } else {
-            (*((u8 *)entity + 0x71)) &= 0x7F;
+            entity->movement_queue_state &= 0x7F;
         }
         return;
     }
 
 
-    old_direction = (s8)(*((u8 *)entity + 0x6D));
+    old_direction = entity->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(entity, motion, monster, entity) != 0) {
         return;
     }
 
-    callback = (*(CB_80170C24_Callback *)((u8 *)entity + 0x8C));
+    callback = entity->unk_8C.handler;
     if (callback != 0) {
         callback(entity, motion, monster, entity);
     }
 
-    block_callbacks[(*((u8 *)entity + 0x9A))](entity, motion, monster, entity);
+    block_callbacks[entity->action_id](entity, motion, monster, entity);
 
-    if ((s16)old_direction != (*(s8 *)((u8 *)entity + 0x6D))) {
+    if ((s16)old_direction != entity->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion, monster, entity);
     }
 
     monster_flags = monster->flags;
     if (!(monster_flags & 0x8000)) {
-        direction_value = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        direction_value = g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100;
         direction = (direction_value >> 9) & 7;
         direction_index = direction;
         direction_copy = direction;
 
-        if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
+        if (entity->unk_94 != direction_index) {
             u8 *tile_map = ((u8 *)monster->frameTable);
             if (tile_map != 0) {
                 select_indirect_table_entry(monster, tile_map[direction_index], monster->unk_04);
             }
-            (*(s16 *)((u8 *)entity + 0x94)) = direction;
+            entity->unk_94 = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
@@ -236,7 +236,7 @@ void set_boss_effect_flag(void *entity, ObjectPosition *motion, SpriteFrameState
             monster->flags &= 0xFFFE;
         }
 
-        if (!(actor->unk_1C & 0x20)) {
+        if (!(actor->flags1C & 0x20)) {
             if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
@@ -244,7 +244,7 @@ void set_boss_effect_flag(void *entity, ObjectPosition *motion, SpriteFrameState
             monster->flags |= 0x7000;
         }
 
-        apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
+        apply_monster_koyaw_data(actor->flags1C, (u8 *)monster + 0xC);
     } else {
         if (monster_flags & 0x0800) {
             monster->flags = monster_flags & 0x8FFF;
@@ -256,51 +256,51 @@ void set_boss_effect_flag(void *entity, ObjectPosition *motion, SpriteFrameState
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
 
-    if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
-        (*((u8 *)entity + 0x9D)) = 0;
+    if (entity->action_state_flags & 8) {
+        entity->unk_9D = 0;
     } else {
-        motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
-        (*((u8 *)entity + 0x9D))++;
+        motion->velocity_z += entity->unk_9D * 0x14000;
+        entity->unk_9D++;
     }
 
-    (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
+    entity->unk_90.value += motion->velocity_z;
 
-    if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
+    if (!(entity->action_state_flags & 4)) {
         floor_height = sample_terrain_surface_height((u16)motion->x.w.i,
                               (u16)motion->y.w.i,
-                              (s16)(actor->unk_88.u - 0x20));
+                              (s16)(actor->ground_height - 0x20));
         if (floor_height < 0x200) {
-            actor_height = actor->unk_88.s;
-            if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
-                actor->unk_1C &= 0xF7FFFFFF;
+            actor_height = actor->ground_height;
+            if (entity->unk_90.parts.high + actor_height < floor_height) {
+                actor->flags1C &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
-                    (*(s32 *)((u8 *)entity + 0x90)) = 0;
+                    entity->unk_90.value = 0;
                 } else {
-                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height - actor->unk_88.u;
+                    entity->unk_90.parts.high = floor_height - actor->ground_height;
                 }
 
                 motion->velocity_z = 0;
-                actor->unk_1C |= 0x08000000;
-                (*((u8 *)entity + 0x9D)) = 0;
+                actor->flags1C |= 0x08000000;
+                entity->unk_9D = 0;
             }
-            if (actor->unk_1C & 0x40000000) {
-                actor->unk_1C &= 0xBFFFFFFF;
+            if (actor->flags1C & 0x40000000) {
+                actor->flags1C &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height(((u8)monster->tile_x << 6) | 0x20,
                                       (monster->tile_y << 6) | 0x20,
-                                      (s16)(actor->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)entity + 0x92)) += actor->unk_88.u - floor_height;
-                actor->unk_88.u = floor_height;
+                                      (s16)(actor->ground_height - 0x20));
+                entity->unk_90.parts.high += actor->ground_height - floor_height;
+                actor->ground_height = floor_height;
             }
         } else {
-            actor->unk_1C &= 0xF7FFFFFF;
+            actor->flags1C &= 0xF7FFFFFF;
         }
     } else {
-        actor->unk_1C &= 0xF7FFFFFF;
+        actor->flags1C &= 0xF7FFFFFF;
     }
 
     motion->z.w.i =
-        actor->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
+        actor->ground_height + entity->unk_90.parts.high;
     monster->flags |= 0x40;
 
 }
@@ -629,7 +629,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
-                    ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
+                    (actor_data->facing >> 9) & 0xFFFF,
                     position_data->tile_x, position_data->tile_y,
                     (s16)(actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
@@ -647,7 +647,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
                 if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
-                            ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
+                            (actor_data->facing >> 9) & 0xFFFF,
                             position_data->tile_x,
                                 position_data->tile_y,
                             (s16)(actor_data->ground_height - 0x20)) != 0) {
@@ -697,7 +697,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = (((u16)(actor_data->facing)) >> 8) & 0xE;
+                step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
                 position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -829,7 +829,7 @@ void begin_unchecked_directional_attack(ActorRecord *state, ObjectPosition *posi
             state->action_phase = 0;
             render_state->frameTable = block_slot_g_direction_frames;
             select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + block_slot_g_direction_frames), 0);
-            entity->pending_turn_updates = (u8) (((CB_80172180_S_80172180_0 *)entity)->unk_6D - 1);
+            entity->pending_turn_updates = entity->pending_turn_updates - 1;
             prepare_directional_attack(entity, render_state, entity->facing, 1, 0);
             entity->unk_84 = 0x7C;
             entity->unk_85 = 0;

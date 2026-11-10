@@ -25,7 +25,7 @@ typedef struct { s32 value; } ItemWord;
     void *target;
     u8 *item_ptr;
 
-    direction_offset = ((u16) actor_bytes->facing >> 8) & 0xE;
+    direction_offset = (actor_bytes->facing >> 8) & 0xE;
     tile_slot = find_floor_item_at_world_position(
         (s16)(*(origin_bytes + 0x24) + (u16)dir_step_x[direction_offset >> 1]),
         (s16)(*(origin_bytes + 0x25) + (u16)dir_step_y[direction_offset >> 1]),

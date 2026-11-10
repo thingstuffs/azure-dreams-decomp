@@ -1424,7 +1424,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
         *(AggU12 *)((u8 *)effect + 0x98) = *(AggU12 *)&D_80026934;
         sprite->source = (u8 *)effect + 0x98;
         {
-            u16 facing = (u16)owner->facing;
+            u16 facing = owner->facing;
             point_cloud_update_flag[0] = 1;
             effect->direction = (facing >> 9) & 7;
         }

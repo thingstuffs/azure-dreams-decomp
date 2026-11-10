@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -6,7 +7,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/barong.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 extern void apply_scaled_entity_velocity(void *);
 
 extern u8 D_801755B4[];
@@ -43,7 +43,7 @@ void start_direction_based_action(ActorRecord *body, ObjectPosition *unused, Spr
             data_page = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             select_sprite_entry(animation, direction_table[data_page & 7], 0);
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - (1));
+            actor->pending_turn_updates = actor->pending_turn_updates - (1);
             *(u16 *)(action_data + 0xA) += 1;
         }
     }

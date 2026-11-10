@@ -35,7 +35,6 @@ typedef struct {
 } MapObject;
 
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 s32 update_entity_state_from_query(ActorRecord *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
 

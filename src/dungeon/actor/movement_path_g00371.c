@@ -353,7 +353,7 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
         sprite->tile_x = state->path_x[state->unk_8A];
         tile_mask = 0x3000;
         sprite->tile_y = state->path_y[state->unk_8A];
-        state->unk_8A = (u16)state->unk_8A + 1;
+        state->unk_8A = state->unk_8A + 1;
 
         {
             s32 new_x = sprite->tile_x;
@@ -425,7 +425,7 @@ void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *contex
                     flags_or_heading = 0x80000000;
                     marked_flags |= flags_or_heading;
                     actor->flags14 = marked_flags;
-                    actor->facing = (u16)((u16)actor->facing + ((generate_random_value() & 7) << 9));
+                    actor->facing = (actor->facing + ((generate_random_value() & 7) << 9));
                 }
             }
             goto init_loop;
@@ -447,7 +447,7 @@ void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *contex
                         turn_flags = ((void *)body) + 0x98;
                         target_heading = get_rounded_facing_and_rounding_flag(position->unk_24.at00u.v & 0xFF, position->unk_24.at01.v, (s16)target_x,
                             (s16)target_y, turn_flags);
-                        actor->facing = (u16) target_heading;
+                        actor->facing = target_heading;
                         if ((check_movement_clearance_and_height(target_heading, position, actor, 0x20) << 0x10) <= 0) {
                                                         actor->facing = get_rounded_facing_and_rounding_flag(position->unk_24.at00.v,
                                 position->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, turn_flags);
@@ -496,7 +496,7 @@ try_heading:
                     }
                 }
                 {
-                    actor->facing = (u16) candidate_heading;
+                    actor->facing = candidate_heading;
                     actor->path_x[(actor->movement_queue_state & 0x7F)] =
                         (u8) position->unk_24.at00.v;
                     actor->path_y[(actor->movement_queue_state & 0x7F)] =
@@ -504,7 +504,7 @@ try_heading:
                     actor->movement_queue_state = actor->movement_queue_state + 1;
                     update_map_cell_flags_with_item_limit(position->unk_24.at00.v, position->unk_24.at01.v,
                                   (actor->flags1C & 0x2000) ? 0x300 : 0x3000);
-                    direction_or_x = ((u16) (u16)actor->facing >> 8) & 0xE;
+                    direction_or_x = (actor->facing >> 8) & 0xE;
                     {
                         u8 *x_table_base = (u8 *)dir_step_x;
                         u8 next_x = position->unk_24.at00.v;
@@ -551,7 +551,7 @@ post_loop:
                 }
             }
             body->unk_9C = (s8) (u8) position->unk_26;
-            actor->pending_turn_updates = (u8) ((u8)actor->pending_turn_updates - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             {
                 g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
             }

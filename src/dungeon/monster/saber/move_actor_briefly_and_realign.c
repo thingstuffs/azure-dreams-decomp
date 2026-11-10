@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -8,7 +9,6 @@
 #include "dungeon/player/object.h"
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"

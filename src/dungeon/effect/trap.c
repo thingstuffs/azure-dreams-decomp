@@ -2255,8 +2255,6 @@ typedef struct S_800CE748_3 {
     u8 unk_25;
 } S_800CE748_3;   /* objectData in update_trap_effect_grid */
 
-void *get_unused_text_buffer(void);
-s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 
 extern u8 D_800E1B76[18];

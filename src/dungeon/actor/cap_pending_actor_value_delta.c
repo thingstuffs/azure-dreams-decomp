@@ -14,7 +14,7 @@ s32 cap_pending_actor_value_delta(void *entry) {
     limit = ((ActorRecord *)entry)->max_hp;
     if ((s32)limit < (adjustment + base)) {
         hoisted_1 = limit - base;
-        ((ActorRecord *)entry)->hp_delta = (s16)hoisted_1;
+        ((ActorRecord *)entry)->hp_delta = hoisted_1;
     }
     return ((ActorRecord *)entry)->hp_delta;
 }

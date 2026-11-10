@@ -147,7 +147,7 @@ void run_deferred_callbacks(void *head);
 void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream);
 
 /* runtime_reset_object_pool.c */
-void runtime_reset_object_pool(void);
+void runtime_reset_object_pool(s32 unused_mode);
 
 /* scene_begin_transition_data_read.c */
 void scene_begin_transition_data_read(u8 *state);

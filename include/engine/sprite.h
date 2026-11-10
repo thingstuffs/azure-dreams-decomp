@@ -27,7 +27,7 @@ s32 allocate_and_append_callback_payload(s32 *values, s32 lookup_key);
 s32 allocate_selection_menu_entry_buffers(struct S_80050AF0 *state, s32 allocation_arg);
 
 /* sound_advance_shared_scroll_coordinates.c */
-void sound_advance_shared_scroll_coordinates(struct S_80048660 *state);
+void sound_advance_shared_scroll_coordinates(struct S_80048660 *state, s32 unused_mode);
 
 /* Data declarations. */
 extern u16 sprite_pack_column_cursor;

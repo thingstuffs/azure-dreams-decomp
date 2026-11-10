@@ -112,7 +112,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         break;
     case 3:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
-            launch_direction_offset = ((u16) actor->facing >> 8) & 0xE;
+            launch_direction_offset = (actor->facing >> 8) & 0xE;
             motion->velocity_x = (s32) (dir_step_x[launch_direction_offset >> 1] << 0x11);
             motion->velocity_y = (s32) (dir_step_y[launch_direction_offset >> 1] << 0x11);
             motion->velocity_z = 0xFFEBC000;
@@ -197,7 +197,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         action_state->action_timer = mix_delay;
         D_800DF244[0] = vertical_velocity;
         if ((s16)mix_delay < 0) {
-            resume_direction_offset = ((u16) actor->facing >> 8) & 0xE;
+            resume_direction_offset = (actor->facing >> 8) & 0xE;
             motion->velocity_x = (s32) (dir_step_x[resume_direction_offset >> 1] << 0x11);
             motion->velocity_y = (s32) (dir_step_y[resume_direction_offset >> 1] << 0x11);
             motion->velocity_z = vertical_velocity;

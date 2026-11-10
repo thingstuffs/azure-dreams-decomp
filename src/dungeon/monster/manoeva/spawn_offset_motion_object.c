@@ -54,7 +54,7 @@ void spawn_offset_motion_object(ActorRecord *parent_data, ObjectPosition *origin
               coords->x.w.i = origin->x.unsigned_parts.integer + position_offset[0],
               coords->y.w.i = origin->y.unsigned_parts.integer + position_offset[1],
               coords->z.w.i = origin->z.unsigned_parts.integer + position_offset[2],
-              direction_offset = ((u16)parent_data->facing >> 8) & 0xE,
+              direction_offset = (parent_data->facing >> 8) & 0xE,
               *((u16 *)&coords->velocity_x + 1) = (u16)dir_step_x[direction_offset >> 1],
               *((u16 *)&coords->velocity_y + 1) = (u16)dir_step_y[direction_offset >> 1],
               motion->remaining_ticks = 0x10,

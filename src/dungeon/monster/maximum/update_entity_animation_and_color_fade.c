@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
@@ -17,7 +18,6 @@ typedef struct S_80173204_7 {
     u16 unk_0A;
 } S_80173204_7;   /* counter in update_entity_animation_and_color_fade */
 
-extern void select_sprite_entry(void *, u8, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"

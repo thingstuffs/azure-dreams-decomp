@@ -26,7 +26,7 @@ void begin_familiar_deployment_change(ActorRecord *obj, s32 unused, void *displa
         1);
 
     obj->target_tile_x = saved_mode;
-    obj->target_tile_y = (s8)variant;
+    obj->target_tile_y = variant;
 
     {
         s32 action_kind;

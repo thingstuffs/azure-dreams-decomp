@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
@@ -26,7 +27,6 @@ typedef struct {
     u16 field_A6;
 } D800814A8FieldView_81252D6C;
 
-extern s32 select_sprite_entry();
 extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, struct S_80170E18_3 *facing_source);
 
 extern u8 D_80173EDC[8];

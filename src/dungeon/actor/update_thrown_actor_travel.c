@@ -53,7 +53,7 @@ s32 update_thrown_actor_travel(ActorRecord *move_state, ObjectPosition *motion, 
     if ((ticks_left << 0x10) <= 0) {
         hit_object = prepare_directional_attack(actor, tile_pos, (actor->movement_facing), 0, 0);
         if (hit_object != NULL) {
-            apply_attack_power_and_element_effects(actor, 4, 1, 8, (s32) (s16) ( (actor->movement_facing) + 0x800), 0, 1);
+            apply_attack_power_and_element_effects(actor, 4, 1, 8, (s32) (s16) (actor->movement_facing + 0x800), 0, 1);
             apply_attack_power_and_element_effects(hit_object, 8, 1, 8, (s32) (actor->movement_facing), 0, 1);
             move_state->action_state_flags =
                 (u16) (move_state->action_state_flags & 0xFFF7);
@@ -88,8 +88,8 @@ s32 update_thrown_actor_travel(ActorRecord *move_state, ObjectPosition *motion, 
             }
         }
         if ((check_neighbor_tile_blocking((actor->movement_facing), motion, tile_pos) << 0x10) != 0 && --actor->unk_8A > 0) {
-            tile_pos->tile_x = (u8) (tile_pos->tile_x + *(( (actor->movement_facing) >> 9 & 7) + dir_step_x));
-            tile_pos->tile_y = (u8) (tile_pos->tile_y + *(( (actor->movement_facing) >> 9 & 7) + dir_step_y));
+            tile_pos->tile_x = (u8) (tile_pos->tile_x + *((actor->movement_facing >> 9 & 7) + dir_step_x));
+            tile_pos->tile_y = (u8) (tile_pos->tile_y + *((actor->movement_facing >> 9 & 7) + dir_step_y));
             move_state->action_timer = 2;
         } else {
             motion->velocity_z = 0;

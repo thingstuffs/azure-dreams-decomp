@@ -14,7 +14,7 @@ void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, Spri
     s32 state;
     s32 next_state;
 
-    direction_offset = ((u16)actor->facing >> 8) & 0xE;
+    direction_offset = (actor->facing >> 8) & 0xE;
     direction_x = dir_step_x[direction_offset >> 1];
     direction_y = dir_step_y[direction_offset >> 1];
     body->action_timer--;

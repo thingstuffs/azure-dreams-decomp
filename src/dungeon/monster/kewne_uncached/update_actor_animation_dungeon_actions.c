@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -19,9 +20,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/kewne_uncached_frames.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
-extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80154510(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_801546C8(void *, void *, void *, void *);
 extern s32 func_80154E10(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);

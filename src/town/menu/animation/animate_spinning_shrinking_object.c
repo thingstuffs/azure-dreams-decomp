@@ -53,7 +53,7 @@ typedef struct TownObject {
 } TownObject;
 
 /* Spin and shrink the object, update both transforms, and mark completion at zero extent. */
-s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionView *point)
+s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionView *point, s32 unused_arg2)
 {
     TownScratch *scratch = (TownScratch *)0x1F800000;
     TownVec32 *translation;

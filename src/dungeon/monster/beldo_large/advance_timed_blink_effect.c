@@ -1,3 +1,4 @@
+#include "slus.h"
 /* cfail-repair: recovered external dispatch table */
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
@@ -6,7 +7,6 @@
 #include "shared/object_node.h"
 
 
-extern void initialize_timed_motion_step(s32, s32);
 extern s16 encounter_blink_update_flag[5];
 
 

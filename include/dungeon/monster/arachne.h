@@ -39,12 +39,6 @@ typedef s32 R12_8017087C_M2C_UNK;
 
 
 typedef void (*R12_80170A44_EntityCallback)(void *, void *, void *, void *);
-typedef struct R12_80170A44_S_80170A28_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x68];
-    u16 unk_88;
-} R12_80170A44_S_80170A28_1;
 typedef struct R12_80170E70_S_80170E70_0 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -667,7 +661,7 @@ extern u8 D_80175B14[];
 extern u8 arachne_image_load_done[];
 extern u8 arachne_effect_load_done[];
 void *spawn_animated_monster(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
-void create_directional_template_effect(void *entity, ObjectPosition *motion, SpriteFrameState *part);
+void create_directional_template_effect(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
 void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *state);
 void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

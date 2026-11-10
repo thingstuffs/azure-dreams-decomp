@@ -20,7 +20,6 @@ typedef struct S_8001EFC4_0 {
 } S_8001EFC4_0;   /* root in card_dev_update_menu_input */
 
 
-extern void func_80063FF8(s32 code);
 extern void submit_stored_and_queried_boot_values(void);
 extern void propagate_object_high_bit_flags(void *obj);
 extern void allocate_or_reuse_effect_and_install_callback(void *current,void *mode);

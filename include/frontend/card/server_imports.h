@@ -105,6 +105,7 @@ void func_80408958(void);
 void InitCARD2_80408798(s32);
 void StartCARD2_804087A8(void);
 void StopCARD2_804087B8(void);
+void func_80063FF8(s32);
 /* --- end of imports --- */
 
 #endif

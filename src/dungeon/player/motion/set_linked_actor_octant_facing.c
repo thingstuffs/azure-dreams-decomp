@@ -16,5 +16,5 @@ void set_linked_actor_octant_facing(s32 index, s32 value) {
 
     table_base = ((s32)dungeon_actor_ring_anchor);
     entry_offset = (s32) (index << 0x10) >> 0xE;
-    ((ActorRecord *)(((S_80094548_0 *)(entry_offset + table_base))->unk_AC))->facing = (s16) (value << 9);
+    ((ActorRecord *)(((S_80094548_0 *)(entry_offset + table_base))->unk_AC))->facing = (value << 9);
 }

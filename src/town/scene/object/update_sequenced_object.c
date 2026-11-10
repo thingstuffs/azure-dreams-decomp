@@ -41,8 +41,6 @@ typedef struct S_8080C650_4 {
 } S_8080C650_4;   /* floor_height_or_spawned_object in update_sequenced_object */
 
 
-s32 func_8006A3A4(s32);                             /* extern */
-s32 func_8006A470();                             /* extern */
 s16 func_8025E01C(void *position);                          /* extern */
 extern s16 D_800133A0;
 extern u8 score_sprite_draw_callback_address[3];

@@ -372,7 +372,7 @@ char * func_80069E88();
 u32 get_half_byte_length(s32 string_index);
 void flag_object_for_removal(unsigned short *object);
 void reset_object_to_default_data();
-extern s16 SD_Call(s32 command, ...);
+short SD_Call(int flags);
 extern void *get_second_work_value(void *);
 extern void forward_stored_object_value(void *);
 extern void write_text_and_advance_selection(void *, void *);

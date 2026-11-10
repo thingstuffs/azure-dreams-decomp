@@ -27,7 +27,7 @@ void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *a
             action_state->unk_8C.word = 0;
             action_state->action_id = 0x11;
             action_state->action_phase = 0;
-            entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
+            entity->pending_turn_updates = entity->pending_turn_updates - 1;
             action_state->action_state_flags =
                 (u16) (action_state->action_state_flags & 0xFFF7);
             entity->flags1C = (s32) (entity->flags1C & 0xFFFBFFFF);

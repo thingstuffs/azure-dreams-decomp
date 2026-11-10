@@ -1,4 +1,5 @@
 #include "engine/node/registration.h"
+#include "slus.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 /* Actor-targeted effect movement, rotating particles, and target lift and spin animation. */

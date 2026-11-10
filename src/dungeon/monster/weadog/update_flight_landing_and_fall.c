@@ -91,7 +91,6 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern u8 weadog_slot_d_direction_steps[];
 extern FlagBlock D_800814A0;
 
-void update_flight_landing_and_fall(S_func_80EF1000_1 *motion, S_func_80EF1000_2 *position, S_func_80EF1000_3 *sprite);
 
 /* Update flight, landing interpolation, and falling motion until completion. */
 /* Animates a moving item with directions from D_8015E808; places it on the floor or shrinks its falling

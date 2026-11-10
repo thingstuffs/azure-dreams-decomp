@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/system/random.h"
@@ -6,7 +7,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/monster/stealth.h"
 #include "dungeon/system.h"

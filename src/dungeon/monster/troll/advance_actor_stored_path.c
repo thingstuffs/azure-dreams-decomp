@@ -327,7 +327,7 @@ void select_and_advance_actor_move(ActorRecord *move_input, ObjectPosition *acti
             actor->movement_queue_state++;
             update_map_cell_flags_with_item_limit(position->tile_x, position->tile_y,
                           (actor->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
-            direction_offset = ((u16)actor->facing >> 8) & 0xE;
+            direction_offset = (actor->facing >> 8) & 0xE;
             position->tile_x +=
                 *((u8 *)((u32)direction_offset + (u32)x_offsets));
             position->tile_y += *((u8 *)((s8 *)dir_step_y) + direction_offset);
@@ -479,7 +479,7 @@ s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *faci
         break;
     }
 
-    actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+    actor->pending_turn_updates = actor->pending_turn_updates - 1;
     if (actor->unk_48 == 15) {
 
         actor->target =

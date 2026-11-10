@@ -106,7 +106,7 @@ void func_80038A10(struct Func80038A10State *input_state);
 void update_message_window(struct Func80038A10State *input_state);
 
 /* update_text_row_scale.c */
-void update_text_row_scale(u8 *entity);
+void update_text_row_scale(u8 *entity, u8 unused_scale);
 
 /* wait_message_entry_ready.c */
 void wait_message_entry_ready(struct Object *object);

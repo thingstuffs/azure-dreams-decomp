@@ -250,7 +250,7 @@ void card_dev_load_wait_countdown(void *record_data);
 void card_dev_menu_wait_countdown(void *record_data);
 
 /* card_dev_no_op_save.c */
-void card_dev_no_op_save(void);
+void card_dev_no_op_save(s32 unused_event);
 
 /* card_dev_open_events.c */
 void card_dev_open_events(s32 unused0, s32 unused1, s32 unused2, s32 unused3);

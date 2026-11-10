@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "common.h"
 #include "dungeon/monster/saber.h"
 #include "shared/dungeon_moving_views.h"
@@ -47,7 +48,6 @@ typedef struct S_801745BC_4 {
 
 
 
-extern void initialize_timed_motion_step(u16, u32);
 
 /* Process nodes at the target tile and height, triggering type-specific effects. */
 void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 target_height)

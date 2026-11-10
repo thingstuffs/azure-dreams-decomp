@@ -8,7 +8,7 @@
 #include "slus/data.h"
 
 /* Copies an image to a table-spaced VRAM position when its destination X is in range. */
-void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y)
+void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y, s32 unused_mode)
 {
     s16 rect[4];
     s32 dest_x;

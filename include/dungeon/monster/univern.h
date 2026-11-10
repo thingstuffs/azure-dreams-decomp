@@ -93,14 +93,6 @@ typedef struct R17_80170BB8_S_80170BB8_0 {
     s32 unk_14;
 } R17_80170BB8_S_80170BB8_0;
 
-typedef struct R17_80170BB8_S_80170BB8_2 {
-    u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    union { u16 u; s16 s; } unk_88;   
-} R17_80170BB8_S_80170BB8_2;
 typedef struct R17_80170BB8_S_if_0 {
     u8 pad_00[0x2A];
     s16 unk_2A;
@@ -338,7 +330,7 @@ extern u8 D_801744DC[];
 extern u8 D_801744AC[];
 extern u8 univern_frame_set_2[];
 void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value);
-void create_anchored_directional_object(void *actor, void *motion, struct SpriteFrameState *object);
+void create_anchored_directional_object(ActorRecord *actor, void *motion, struct SpriteFrameState *object);
 void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
 void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

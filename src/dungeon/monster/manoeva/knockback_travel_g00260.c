@@ -66,7 +66,7 @@ void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *pos
         return;
     }
 
-    direction = (((s16)context_arg->facing >> 9) + 4) & 7;
+    direction = ((context_arg->facing >> 9) + 4) & 7;
     initial_result = (u16)check_adjacent_tile_height(source_arg->tile_x, source_arg->tile_y, position_arg->z.w.i, direction, &hit) << 16;
     if (initial_result == 0) {
         for (trial_dir = 0; trial_dir < 8; trial_dir++) {

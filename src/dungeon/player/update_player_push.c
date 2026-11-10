@@ -64,7 +64,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
             if ((heading_or_coord >> 0x10) == 0xFFF) {
                 return;
             }
-            if ((((u16) model->facing >> 9) & 7) == ((heading_or_coord >> 0x19) & 7)) {
+            if (((model->facing >> 9) & 7) == ((heading_or_coord >> 0x19) & 7)) {
                 return;
             }
             if ((has_action_input_without_modifier(heading_or_coord) << 0x10) == 0) {
@@ -74,8 +74,8 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
         actor->unk_8C.run = handle_player_input;
         return;
     case 16:
-        ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (dir_step_x[((u16) model->facing >> 9) & 7] * 8);
-        ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (dir_step_y[((u16) model->facing >> 9) & 7] * 8);
+        ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (dir_step_x[(model->facing >> 9) & 7] * 8);
+        ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (dir_step_y[(model->facing >> 9) & 7] * 8);
         start_frames_left = actor->action_timer - 1;
         actor->action_timer = start_frames_left;
         if ((start_frames_left << 0x10) > 0) {
@@ -105,7 +105,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
                 s32 delta;
                 s32 direction_offset;
                 delta = sprite->tile_x << 6;
-                direction_offset = dir_step_x[((u16) model->facing >> 9) & 7] * 0x10;
+                direction_offset = dir_step_x[(model->facing >> 9) & 7] * 0x10;
                 direction_offset += 0x20;
                 delta += direction_offset;
                 delta -= heading_or_coord;
@@ -117,7 +117,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
                 s32 delta;
                 s32 direction_offset;
                 delta = sprite->tile_y << 6;
-                direction_offset = dir_step_y[((u16) model->facing >> 9) & 7] * 0x10;
+                direction_offset = dir_step_y[(model->facing >> 9) & 7] * 0x10;
                 direction_offset += 0x20;
                 delta += direction_offset;
                 delta -= heading_or_coord;

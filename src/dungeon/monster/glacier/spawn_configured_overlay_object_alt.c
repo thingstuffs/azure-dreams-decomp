@@ -1,3 +1,4 @@
+#include "dungeon/actor.h"
 #include "shared/entity.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -14,7 +15,7 @@
 
 
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
+
 
 #include "dungeon/monster/glacier.h"
 #include "dungeon/monster/glacier_frames.h"

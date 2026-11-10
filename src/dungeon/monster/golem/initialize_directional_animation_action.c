@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -10,7 +11,6 @@
 #include "dungeon/player/object.h"
 #include "shared/object_node.h"
 
-extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 D_80175F30[];
 

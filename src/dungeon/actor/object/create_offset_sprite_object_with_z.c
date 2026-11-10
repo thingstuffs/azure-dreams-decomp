@@ -1,3 +1,4 @@
+#include "engine/node/allocation.h"
 #include "shared/entity_height_offsets.h"
 #include "engine/node/registration.h"
 #include "shared/entity.h"
@@ -19,7 +20,7 @@ typedef struct S_80027368_4 {
     s16 unk_66;
 } S_80027368_4;   /* work in create_offset_sprite_object_with_z */
 
-extern void *allocate_list_node(s32, void *);
+
 
 extern s32 D_80027164;
 extern s32 D_80028874;

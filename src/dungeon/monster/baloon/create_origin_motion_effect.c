@@ -8,6 +8,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
+#include "dungeon/monster/baloon.h"
 
 typedef s32 M2C_UNK;
 
@@ -25,9 +26,6 @@ typedef struct S_80D65810_0 {
 } S_80D65810_0;
 
    /* input in create_origin_motion_effect */
-
-struct OriginMotionEffectBody;
-extern void update_effect_collision_and_lifetime(struct OriginMotionEffectBody *, ObjectPosition *, SpriteFrameState *);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */
 void create_origin_motion_effect(ActorRecord *unused_0, ObjectPosition *origin_ptr_in, SpriteFrameState *unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {

@@ -475,7 +475,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
             effect_arg->unk_18 = 0xAU;
             primary_actor_record->unk_A4.halves.high.u--;
             (*(u8 *)&primary_actor_record->unk_A8) = effect_arg->spell.spell_id;
-            next_state_c1 = ((u16)primary_actor_record->facing);
+            next_state_c1 = primary_actor_record->facing;
             effect_arg->spell.phase++;
             effect_arg->unk_0E = next_state_c1;
             if (read_sound_mode_blocking_status(4) != 2) {
@@ -546,7 +546,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = ground_height;
                 if ((s16)ground_height > 0x200) {
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A =
-                        (u16)((u16)primary_actor_record->ground_height);
+                        primary_actor_record->ground_height;
                 }
                 position_valid = check_left_tile_and_center_height(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02,
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A);
@@ -563,7 +563,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A = near_height;
                     if ((s16)near_height > 0x200) {
                         ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A =
-                            (u16)((u16)primary_actor_record->ground_height);
+                            primary_actor_record->ground_height;
                     }
                     break;
                 }

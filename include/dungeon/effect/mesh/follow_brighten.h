@@ -261,7 +261,7 @@ extern void LoadImage();
 s32 DrawSync(s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 D_800814A0;
-extern void select_record_entry_and_value(void *, void *, s32, ...);
+void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 extern void register_node(ovl_18d0850_818B09F8_MainObj *, void *);
 extern void func_8004491C(ovl_18d0850_818B09F8_MainObj *, void *);
 extern u8 shared_sprite_entries[];

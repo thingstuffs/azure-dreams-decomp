@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "shared/entity.h"
 
 struct ObjectPosition;
@@ -54,7 +55,6 @@ typedef struct {
 
 extern u8 D_80174B30[9];
 
-extern void initialize_timed_motion_step(s32, s32);
 struct SpriteFrameState;
 extern void func_80170CE0(void);
 

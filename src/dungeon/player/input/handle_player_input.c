@@ -171,14 +171,14 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         return;
                     }
                     normalized = command->unk_01 & 7;
-                    old_angle = ((u16)((ActorRecord *)stats)->facing);
+                    old_angle = (((ActorRecord *)stats)->facing);
                 } else {
                     command = advance_monster_timed_sequence();
                     if (command == NULL) {
                         return;
                     }
                     normalized = command->unk_01 & 7;
-                    old_angle = ((u16)((ActorRecord *)stats)->facing);
+                    old_angle = (((ActorRecord *)stats)->facing);
                 }
                 normalized &= 0xFF;
                 target_angle = normalized << 9;
@@ -209,7 +209,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         angle_delta = 0 - angle_delta;
                     }
                     if (angle_delta >= 0x801) {
-                        ((ActorRecord *)stats)->facing = (u16) ((target_angle & ~0xFFF) | (angle_raw & 0xFFF));
+                        ((ActorRecord *)stats)->facing = ((target_angle & ~0xFFF) | (angle_raw & 0xFFF));
                     }
                     angle_or_flags = ((ActorRecord *)stats)->facing;
                     angle_raw = ((u16)((ActorRecord *)stats)->facing);
@@ -370,14 +370,14 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         input_angle = resolve_player_input_facing((((ActorRecord *)actor)->unk_9E), actor + 0xA2, stats
                             + 0x2A);
                         if (input_angle != 0xFFF) {
-                            ((ActorRecord *)stats)->facing = (u16) input_angle;
+                            ((ActorRecord *)stats)->facing = input_angle;
                             if (!(((u32)input->buttons) & 0x10)) {
                                 move_flags = ((ActorRecord *)actor)->unk_A0.parts.high;
                                 if (!(move_flags & 0x400)) {
                                     ((ActorRecord *)actor)->unk_A0.parts.high = move_flags & 0xFFFE;
                                     if (((ActorRecord *)stats)->flags1C & 0x400) {
                                         ((ActorRecord *)stats)->facing =
-                                            (u16) (((u16)((ActorRecord *)stats)->facing) + (generate_random_value() & 0xE00));
+                                            ((((ActorRecord *)stats)->facing) + (generate_random_value() & 0xE00));
                                     }
                                     try_move_player(actor, motion, sprite, stats);
                                     if (((ActorRecord *)actor)->action_id != 0xE) {
@@ -442,13 +442,13 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                 ((ActorRecord *)actor)->unk_A0.parts.high = turn_flags & 0xFFFE;
                 (*(u8 **)((u8 *)sprite + 0x2C)) = player_landing_frame_set;
                 set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                    + (s16) ((u16)((ActorRecord *)stats)->facing) + 0x100) >> 9) & 7], 0, 1);
+                    + (((ActorRecord *)stats)->facing) + 0x100) >> 9) & 7], 0, 1);
             }
         }
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             (*(u8 **)((u8 *)sprite + 0x2C)) = player_wait_frames;
             set_sprite_animation_frame(sprite, player_wait_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                + (s16) ((u16)((ActorRecord *)stats)->facing) + 0x100) >> 9) & 7], 0, 1);
+                + (((ActorRecord *)stats)->facing) + 0x100) >> 9) & 7], 0, 1);
         }
     }
     return;

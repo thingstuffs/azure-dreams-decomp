@@ -34,7 +34,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         position->x.w.i = (s16)((tile_state->tile_x << 6) + 0x20);
         position->y.w.i = (s16)((tile_state->tile_y << 6) + 0x20);
         position->z.w.i = height;
-        entity->facing = (s16)(get_direction_toward_target_position(position) << 9);
+        entity->facing = (get_direction_toward_target_position(position) << 9);
         entity->species = 2;
         entity->flags14 |= 0x6000;
         entity->flags1C |= 0x6000;
@@ -155,11 +155,11 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
     action_state = actor_in->unk_B8;
     if (action_state == 2) {
         direction = get_direction_toward_target_position(motion_in);
-        actor_in->facing = (s16) (direction << 9);
+        actor_in->facing = (direction << 9);
         if ((actor_in->unk_B8 == action_state)
             && (dungeon_actor_ring_anchor->action_id == 0xE)) {
             dungeon_actor_ring_anchor->facing =
-                (s16) (facing_lookup[direction & 7] << 9);
+                (facing_lookup[direction & 7] << 9);
         }
     }
     if (actor_in->unk_B8 == 3) {
@@ -202,9 +202,9 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                         actor_in->unk_B8 = 2U;
                         start_direction = get_direction_toward_target_position(motion_in);
                         facing_actor = dungeon_actor_ring_anchor;
-                        entity->facing = (s16) (start_direction << 9);
+                        entity->facing = (start_direction << 9);
                         if (facing_actor->action_id == 0xE) {
-                            facing_actor->facing = (s16) (((u16 *)&facing_map)[start_direction & 7] << 9);
+                            facing_actor->facing = (((u16 *)&facing_map)[start_direction & 7] << 9);
                         }
                         ((S_812A524C_5 *)(&scripted_status_target))->unk_00 = find_linked_entity_of_type_21(entity);
                     }
@@ -606,14 +606,14 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         entity->movement_queue_state &= 0x7F;
         return;
     }
-    previous_state = (s8) entity->pending_turn_updates;
+    previous_state = entity->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(actor_in, motion_in, sprite, entity) == 0) {
         update_actor = actor_in->unk_8C.run;
         if (update_actor != NULL) {
             update_actor(actor_in, motion_in, sprite, entity);
         }
         kewne_uncached_callbacks[actor_in->action_id](actor_in, motion_in, sprite, entity);
-        if ((s16) previous_state != (s8) entity->pending_turn_updates) {
+        if ((s16) previous_state != entity->pending_turn_updates) {
             try_move_actor_to_valid_position(actor_in, motion_in, sprite, entity);
         }
         motion_x = motion_in->x.v;

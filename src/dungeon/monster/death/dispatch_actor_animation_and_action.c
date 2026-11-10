@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -18,9 +19,7 @@
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/death_frames.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
-extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_801743F0(void *, void *, void *, void *);
 
 extern s32 death_action_resume_address;

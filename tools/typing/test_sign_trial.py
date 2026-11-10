@@ -124,6 +124,19 @@ class TypeResolutionTests(Base):
         self.assertEqual(self.kind(text, '((Other *)v)'), 'other')
         self.assertEqual(self.kind(text, 'w'), 'unresolved')           # undeclared: skipped, not stripped
 
+    def test_header_globals_resolve_unless_the_tu_declares_the_name(self):
+        self.index.add('typedef struct Twin {\n    u16 timer;\n} Twin;\n'
+                       'extern struct Rec *header_rec;\nextern Other *header_other;\n'
+                       'extern Rec *two_types;\nextern Twin *two_types;\n', 'g.h')
+        text = 'void f(void)\n{\n    x = header_rec->timer + header_other->timer + two_types->timer;\n}\n'
+        self.assertEqual(self.kind(text, 'header_rec'), 'match')
+        self.assertEqual(self.kind(text, 'header_other'), 'other')
+        self.assertEqual(self.kind(text, 'two_types'), 'unresolved')   # both types have the member: not guessed
+        self.index.add('typedef struct Wrap { Rec rec; } Wrap;\nextern Rec *wrapped;\nextern Wrap *wrapped;\n', 'w.h')
+        self.assertEqual(self.kind('void f(void)\n{\n    x = wrapped->timer;\n}\n', 'wrapped'), 'match')
+        local = 'void f(void)\n{\n    Other *header_rec;\n    x = header_rec->timer;\n}\n'
+        self.assertEqual(self.kind(local, 'header_rec'), 'other')
+
     def test_bare_local_named_like_the_field_is_not_a_member_cast(self):
         self.assertEqual(T.field_casts('x = (s16)timer; y = (s16)r->timer;', T.SPELLINGS['s16'], 'timer'),
                          [(20, 5, 'r', 'match')])

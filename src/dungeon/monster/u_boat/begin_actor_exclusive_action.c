@@ -67,7 +67,7 @@ void begin_actor_exclusive_action(ActorRecord *entity, ObjectPosition *unused_1,
         entity->unk_B4.signed_bytes[0] = raw_mode;
         if (mode == 0) {
             advance_status_timers(saved_entity);
-            saved_entity->pending_turn_updates = (u8)saved_entity->pending_turn_updates - 1;
+            saved_entity->pending_turn_updates = saved_entity->pending_turn_updates - 1;
         }
     }
 

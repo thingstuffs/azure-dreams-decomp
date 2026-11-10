@@ -1,3 +1,4 @@
+#include "engine/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -13,7 +14,6 @@
 
 typedef ActorActionHandler Callback;
 
-extern s32 get_entity_effect_value();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern s16 sample_terrain_surface_height();
 
@@ -57,7 +57,7 @@ void update_monster_appearance_motion(ActorRecord *body, ObjectPosition *motion_
         call_entity = body;
         call_motion = motion;
         call_monster = monster;
-        old_direction = (s8)(body->pending_turn_updates);
+        old_direction = body->pending_turn_updates;
         call_context = body;
     }
 

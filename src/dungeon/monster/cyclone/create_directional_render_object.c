@@ -43,7 +43,7 @@ void *create_directional_render_object(ActorRecord *direction_src, Copy24 *initi
         register_node(object, project_sprite_chain);
         object_state = NODE_BODY(object);
         object_state->facing_angle.u =
-            (u16)(u16)(direction_ref->facing);
+            direction_ref->facing;
         render_data = object->sprite;
         render_data->animation_resource =
             render_ref->animation_resource;

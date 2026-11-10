@@ -369,18 +369,18 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
         return;
     pressed_buttons = (input->pressed_buttons);
     if (pressed_buttons & 0x20) {
-        SD_Call(AUDIO_CANCEL, input);
+        SD_Call(AUDIO_CANCEL);
         reset_menu_object_state_2(menu);
         return;
     }
     if (pressed_buttons & 0x10) {
-        SD_Call(AUDIO_MENU_CONFIRM, input);
+        SD_Call(AUDIO_MENU_CONFIRM);
         reset_menu_object_state_2(menu);
         forward_stored_object_value(menu->unk44);
         return;
     }
     if (pressed_buttons & 0x40) {
-        SD_Call(AUDIO_MENU_CONFIRM, input);
+        SD_Call(AUDIO_MENU_CONFIRM);
         dispatch_menu_state_update(&menu->unk38, menu->unk14,
                       (menu->unk8 / 72) * 72, menu->unk28);
         write_text_and_advance_selection(get_second_work_value(menu->unk44),
@@ -428,7 +428,7 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
 
     if (index_step == 0)
         return;
-    SD_Call(AUDIO_CURSOR_MOVE, input);
+    SD_Call(AUDIO_CURSOR_MOVE);
     selected_index = menu->unk8;
     item_count = menu->unk3C;
     next_index = selected_index + index_step;

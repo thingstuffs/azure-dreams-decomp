@@ -5,7 +5,7 @@
 #include "slus/data.h"
 
 /* Updates the runtime scale and scaled value from lookup tables. */
-void update_text_row_scale(u8 *entity) {
+void update_text_row_scale(u8 *entity, u8 unused_scale) {
     u8 *runtime_data = entity + 0x8C;
 
     runtime_data[0x25] = message_mode_row_scale[entity[2]];

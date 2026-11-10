@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/manoeva.h"
 #include "shared/entity.h"
@@ -20,7 +21,6 @@ typedef struct S_80E3CC80_0 {
    /* arg0 in spawn_manoeva_particle_burst */
 
 
-extern void select_sprite_entry(void *object, s32 table_index, s32 entry_index);
 
 /* Spawns up to sixteen particles with randomized offsets and velocities. */
 void spawn_manoeva_particle_burst(ObjectPosition *origin, SpriteFrameState *source_sprite) {

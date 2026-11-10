@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "town/player/position.h"
 #include "town/player.h"
+#include "town/player/position_handlers.h"
 
 void set_global_800_cfcec_initialize_call_callee_800954_dc(ObjectPosition *, s32);                  /* extern */
 extern s32 town_secondary_probe_offset;

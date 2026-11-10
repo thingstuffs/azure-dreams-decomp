@@ -2,12 +2,12 @@
 
 #include "common.h"
 #include "engine/window.h"
+#include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 
 struct WindowCursorBody;
 struct SpriteFrameState;
-extern void update_blinking_cursor_with_bright_idle(struct WindowCursorBody *input, ObjectPosition *unused, struct SpriteFrameState *output);
 
 /* Initialize the display object and update its initial appearance. */
 void init_cursor_display_object(void *object_arg, void *display, s32 *data, s16 data_index,

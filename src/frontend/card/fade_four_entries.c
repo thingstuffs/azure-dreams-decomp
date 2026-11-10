@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
-s32 func_80051FBC(s32);
 
 typedef struct S_8001C3EC_0 {
     u8 pad_00[0x68C];

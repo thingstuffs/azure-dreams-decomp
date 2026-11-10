@@ -309,7 +309,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
         actor->unk_9E = bob_phase + 1;
         actor->unk_A0.value = (s32) (actor->unk_A0.value + (rsin((s16) bob_phase * 0x55) * 0x10));
         motion->unk_0A = (u16) (beldo->unk_88
-            + (actor->unk_90.parts.high) - actor->unk_A0.parts.high);
+            + actor->unk_90.parts.high - actor->unk_A0.parts.high);
         break;
     case 14:
         animation_timer = actor->action_timer + 1;

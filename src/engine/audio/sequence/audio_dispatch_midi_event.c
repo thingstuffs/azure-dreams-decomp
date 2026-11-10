@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/entity.h"
+#include "slus.h"
 
 typedef struct
 {
@@ -34,9 +35,7 @@ extern s32 audio_sequence_track_count[3];
 extern s32 audio_sequence_multitrack_mode[3];
 extern void start_channel_note(s32 a0, s32 a1, s32 a2);
 extern void audio_sequence_note_off(s32 a0, s32 a1, s32 a2);
-extern void noop_midi_a0(s32 a0, s32 a1, s32 a2);
 extern void audio_apply_channel_control(s32 a0, s32 a1, s32 a2);
-extern void noop_midi_d0(s32 a0, s32 a1);
 extern void sound_set_seven_bit_channel_value_and_notify(u8 index, s32 unused, s32 value);
 /* Dispatch a MIDI channel event and handle track state save, restore, and repeat controls. */
 void audio_dispatch_midi_event(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second_data)

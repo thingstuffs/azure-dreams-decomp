@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -10,7 +11,6 @@ struct ObjectPosition;
 #include "dungeon/monster/cyclone/bobbing_motion.h"
 #include "dungeon/monster/cyclone.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 
 /* Advances motion and output animation, then signals completion after a short delay. */
 void advance_motion_output_animation(CycloneBobbingMotionBody *motion, ObjectPosition *position, SpriteFrameState *output) {

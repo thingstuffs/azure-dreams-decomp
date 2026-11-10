@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/effect/screen.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
@@ -20,7 +21,6 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 pulunpa_action_resume_address[];
 

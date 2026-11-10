@@ -74,7 +74,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                     actor->flags14 = actor_state;
 
                     random_turn = generate_random_value();
-                    actor->facing = (u16)((u16)(actor->facing) + ((random_turn & 7) << 9));
+                    actor->facing = (actor->facing + ((random_turn & 7) << 9));
                 }
             }
         }
@@ -197,7 +197,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                 update_map_cell_flags_with_item_limit(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));
                 {
-                    s32 direction = ((u16)actor->facing >> 8) & 0xE;
+                    s32 direction = (actor->facing >> 8) & 0xE;
                     u8 *step_x = (u8 *)dir_step_x;
                     step_x += direction;
                     tile->tile_x += *step_x;

@@ -1,3 +1,4 @@
+#include "town/player/state.h"
 #include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
@@ -5,7 +6,6 @@
 #include "town/scene.h"
 
 
-void set_script_flag_bit(); /* Unprototyped: one or two arguments; the second register argument is ignored. */
 
 // Updates the selected entry's value and signals the update when the state is 2.
 s32 store_selected_entry_and_dispatch_402(void *entryOwner, s32 entryIndex) {

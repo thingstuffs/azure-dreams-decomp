@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -25,7 +26,6 @@ extern void *beldo_object_callback[];
 extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
 extern s32 register_node();
-extern void select_sprite_entry();
 
 /* Creates an attached sprite object with copied appearance and an optional position offset. */
 void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id) {
@@ -47,9 +47,9 @@ void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition 
         object->update_callback = beldo_object_callback;
         ((AttachedSpriteWithOffsetBody *)object_data)->unk_B6 = offset_id;
         ((AttachedSpriteWithOffsetBody *)object_data)->unk_AC.integer = (s32)NODE_HEADER(owner_data);
-        ((AttachedSpriteWithOffsetBody *)object_data)->unk_94 = (u16)owner_data->facing;
+        ((AttachedSpriteWithOffsetBody *)object_data)->unk_94 = owner_data->facing;
         copy_src = sprite_template;
-        ((AttachedSpriteWithOffsetBody *)object_data)->unk_2A = (u16)owner_data->facing;
+        ((AttachedSpriteWithOffsetBody *)object_data)->unk_2A = owner_data->facing;
         sprite = object->sprite;
         copy_dst = sprite;
         do {
@@ -60,7 +60,7 @@ void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition 
         register_node(object, project_sprite_chain, copy_dst, copy_src);
         sprite->frameTable = &beldo_frame_set_3;
         select_sprite_entry(sprite, *((u8 *)&beldo_frame_set_3 + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-            + (s16) (u16)owner_data->facing + 0x100) >> 9) & 7))), 0);
+            + owner_data->facing + 0x100) >> 9) & 7))), 0);
         sprite_flags = sprite->flags | 0xC;
         sprite->flags = sprite_flags;
         sprite->tpage_abr = 0x20;

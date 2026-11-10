@@ -77,18 +77,18 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
                 spawned_pos->y.w.i = position->y.unsigned_parts.integer;
                 spawned_pos->z.w.i = position->z.unsigned_parts.integer - 0x20;
                 direction_ptr = &direction_vectors;
-                direction_index = ((u16)actor->facing >> 7) & 0x1C;
+                direction_index = (actor->facing >> 7) & 0x1C;
                 spawned_work->velocity_x = direction_vectors[direction_index >> 2].x << 0x13;
-                direction_index = ((u16)actor->facing >> 7) & 0x1C;
+                direction_index = (actor->facing >> 7) & 0x1C;
                 spawned_work->velocity_y =
                     (*(u16 *)(direction_index + (u8 *)direction_ptr + 2)) << 0x13;
                 spawned_work->velocity_z = 0xFFF20000;
                 spawned_work->gravity = 0x14900;
-                spawned_work->direction = ((u16)actor->facing >> 9) & 7;
+                spawned_work->direction = (actor->facing >> 9) & 7;
                 spawned_sprite = spawned_actor->sprite;
                 spawned_sprite->scale_y = 0x1000;
                 spawned_sprite->scale_x = 0x1000;
-                direction_index = ((u16)actor->facing >> 7) & 0x1C;
+                direction_index = (actor->facing >> 7) & 0x1C;
                 direction_ptr = direction_index + (u8 *)direction_ptr;
                 direction_y = *(volatile u16 *)((u8 *)direction_ptr + 2);
                 spawned_sprite->depth_bias = direction_y * 6;

@@ -66,7 +66,6 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern u8 weadog_slot_g_direction_steps[];
 extern FlagBlock D_800814A0;
 
-void advance_item_flight_to_floor(WeadogFlightBody *motion, S_func_80EDF000_1 *position, S_func_80EDF000_2 *render);
 
 /* Advance motion, resolve tile collisions, and settle at the landing position. */
 /* Animates a moving item with directions from D_80170808; places it on the floor or shrinks its falling

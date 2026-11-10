@@ -1,3 +1,4 @@
+#include "engine/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 
@@ -15,7 +16,6 @@ struct ObjectPosition;
 #include "dungeon/effect.h"
 #include "dungeon/system.h"
 
-s32 get_entity_effect_value(void *, s32);
 extern s32 monster_species_table;
 extern s8 scene_music_hold;
 extern s8 D_80080AA0;

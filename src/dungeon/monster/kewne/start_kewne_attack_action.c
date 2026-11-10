@@ -25,7 +25,7 @@ void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_c
             (sprite->frameTable) = &kewne_frame_set_3;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &kewne_frame_set_3), 0);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             controller->action_state_flags = (u16) (controller->action_state_flags | 8);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;

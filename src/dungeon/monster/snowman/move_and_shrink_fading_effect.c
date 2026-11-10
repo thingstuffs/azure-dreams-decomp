@@ -25,7 +25,7 @@
 #include "dungeon/item/effect.h"
 
 void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = create_actor_with_optional_status;
-void (*const resource10_slot0_entry1)(u8 *actor, ObjectPosition *motion, SpriteFrameState *sprite) = update_actor_callbacks_animation_and_ground;
+void (*const resource10_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite) = update_actor_callbacks_animation_and_ground;
 
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
 s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
@@ -282,10 +282,10 @@ void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32
    into them, so sched1 schedules the parameter copies and the entry order is retail's. */
 
 /* Runs actor callbacks, cycles its idle hop animation, and updates facing, motion, and ground contact. */
-void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *motion, SpriteFrameState *sprite)
+void update_actor_callbacks_animation_and_ground(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    R10_80171104_S_80171104_1 *actor_copy;
-    R10_80171104_ActorCallback callback;
+    ActorRecord *actor_copy;
+    ActorActionHandler callback;
     s16 old_direction;
     s16 timer;
     u16 flags;
@@ -296,36 +296,36 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *moti
     u8 *animation;
     s32 shifted_direction;
 
-    actor_copy = (R10_80171104_S_80171104_1 *)actor;
+    actor_copy = actor;
 
     if (g_dungeon_status.flags & 0x2000) {
-        R10_80171104_ActorCallback early_callback;
-        void *early_actor;
+        ActorActionHandler early_callback;
+        ActorRecord *early_actor;
 
-        early_callback = (*(R10_80171104_ActorCallback *)(actor + 0x8C));
-        if (early_callback == (R10_80171104_ActorCallback)((void *)update_snowman_behavior)) {
+        early_callback = actor->unk_8C.handler;
+        if (early_callback == update_snowman_behavior) {
             early_actor = actor;
             early_callback(early_actor, motion, sprite, early_actor);
             return;
         }
-        (*(actor + 0x71)) &= 0x7F;
+        actor->movement_queue_state &= 0x7F;
         return;
     }
 
-    old_direction = (*(s8 *)(actor + 0x6D));
+    old_direction = actor->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(actor, motion, sprite, actor) != 0) {
         return;
     }
 
-    callback = (*(R10_80171104_ActorCallback *)(actor + 0x8C));
+    callback = actor->unk_8C.handler;
     if (callback != 0) {
         callback(actor, motion, sprite, actor);
     }
-    ((R10_80171104_ActorCallback *)D_80175A1C)[(*(actor + 0x9A))](actor, motion, sprite, actor);
+    ((R10_80171104_ActorCallback *)D_80175A1C)[actor->action_id](actor, motion, sprite, actor);
 
-    if ((*(actor + 0x9A)) != 0xE ||
+    if (actor->action_id != 0xE ||
         (sprite->flags & 0x40) ||
-        ((*(u32 *)(actor + 0x1C)) & 0x20)) {
+        (actor->flags1C & 0x20)) {
         shifted_direction = (s32)old_direction << 16;
     } else {
         if (((SpriteAnimationTableView *)sprite)->frame_table != snowman_direction_frames &&
@@ -334,74 +334,74 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *moti
             ((SpriteAnimationTableView *)sprite)->frame_table != snowman_frame_set_3) {
             sprite->frameTable = snowman_direction_frames;
             select_sprite_entry(sprite,
-                snowman_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)(actor + 0x2A)) + 0x100) >> 9) & 7], 0);
-            (*(u16 *)(actor + 0x9E)) = 0;
-            (*(s16 *)(actor + 0xA0)) = 10;
+                snowman_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            actor->unk_9E = 0;
+            actor->unk_A0.parts.low = 10;
         }
 
         if (((SpriteAnimationTableView *)sprite)->frame_table == snowman_direction_frames) {
-            timer = (*(u16 *)(actor + 0x9E));
-            (*(u16 *)(actor + 0x9E)) = timer + 1;
-            if (timer >= (*(s16 *)(actor + 0xA0))) {
+            timer = actor->unk_9E;
+            actor->unk_9E = timer + 1;
+            if (timer >= actor->unk_A0.parts.low) {
                 sprite->frameTable = snowman_frame_set_2;
                 select_sprite_entry(sprite,
-                    snowman_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7], 0);
+                    snowman_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->facing + 0x100) >> 9) & 7], 0);
                 advance_sprite_animation_and_textures(sprite);
-                (*(s16 *)(actor + 0xA0)) = 3;
+                actor->unk_A0.parts.low = 3;
             }
         }
 
         if (((SpriteAnimationTableView *)sprite)->frame_table == snowman_frame_set_2) {
-            timer = (*(u16 *)(actor + 0xA0)) - 1;
-            (*(s16 *)(actor + 0xA0)) = timer;
+            timer = actor->unk_A0.parts.low - 1;
+            actor->unk_A0.parts.low = timer;
             if ((timer << 16) <= 0 &&
                 (sprite->flags & 0xE000)) {
                 sprite->frameTable = snowman_frame_set;
                 select_sprite_entry(sprite,
-                    snowman_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7], 0);
+                    snowman_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->facing + 0x100) >> 9) & 7], 0);
                 advance_sprite_animation_and_textures(sprite);
-                (*(s16 *)(actor + 0xA0)) = 6;
-                (*(s32 *)(actor + 0x90)) += 0xFFE00000;
+                actor->unk_A0.parts.low = 6;
+                actor->unk_90.value += 0xFFE00000;
                 motion->velocity_z = 0;
-                (*(s8 *)(actor + 0x9D)) = 0;
+                actor->unk_9D = 0;
             }
         }
 
         if (((SpriteAnimationTableView *)sprite)->frame_table == snowman_frame_set) {
-            timer = (*(u16 *)(actor + 0xA0)) - 1;
-            (*(s16 *)(actor + 0xA0)) = timer;
+            timer = actor->unk_A0.parts.low - 1;
+            actor->unk_A0.parts.low = timer;
             if ((timer << 16) <= 0 &&
                 (sprite->flags & 0xE000)) {
                 sprite->frameTable = snowman_frame_set_3;
                 select_sprite_entry(sprite,
-                    snowman_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7], 0);
+                    snowman_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->facing + 0x100) >> 9) & 7], 0);
                 advance_sprite_animation_and_textures(sprite);
-                (*(s16 *)(actor + 0xA0)) = 3;
+                actor->unk_A0.parts.low = 3;
             }
         }
 
         if (((SpriteAnimationTableView *)sprite)->frame_table != snowman_frame_set_3) {
             shifted_direction = (s32)old_direction << 16;
         } else {
-            timer = (*(u16 *)(actor + 0xA0)) - 1;
-            (*(s16 *)(actor + 0xA0)) = timer;
+            timer = actor->unk_A0.parts.low - 1;
+            actor->unk_A0.parts.low = timer;
             if ((timer << 16) > 0) {
                 shifted_direction = (s32)old_direction << 16;
             } else {
                 if (sprite->flags & 0xE000) {
                     sprite->frameTable = snowman_direction_frames;
                     select_sprite_entry(sprite,
-                        snowman_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100)
+                        snowman_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->facing + 0x100)
                             >> 9) & 7], 0);
-                    (*(u16 *)(actor + 0x9E)) = 0;
-                    (*(s16 *)(actor + 0xA0)) = 20;
+                    actor->unk_9E = 0;
+                    actor->unk_A0.parts.low = 20;
                 }
                 shifted_direction = (s32)old_direction << 16;
             }
         }
     }
 
-    if ((shifted_direction >> 16) != actor_copy->unk_6D) {
+    if ((shifted_direction >> 16) != actor_copy->pending_turn_updates) {
         try_move_actor_to_valid_position(actor, motion, sprite, actor_copy);
     }
 
@@ -410,15 +410,15 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *moti
         s16 view_index;
         s32 saved_direction;
 
-        saved_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->unk_2A + 0x100) >> 9) & 7;
+        saved_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_copy->facing + 0x100) >> 9) & 7;
         view_index = saved_direction;
         view_index_copy = saved_direction;
-        if ((*(s16 *)(actor + 0x94)) != view_index) {
+        if (actor->unk_94 != view_index) {
             animation = ((SpriteAnimationTableView *)sprite)->frame_table;
             if (animation != 0) {
                 select_indirect_table_entry(sprite, animation[view_index], sprite->unk_04);
             }
-            (*(s16 *)(actor + 0x94)) = saved_direction;
+            actor->unk_94 = saved_direction;
         }
 
         if (dir_sprite_flag[view_index_copy] != 0) {
@@ -426,14 +426,14 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *moti
         } else {
             sprite->flags &= 0xFFFE;
         }
-        if (!(actor_copy->unk_1C.u & 0x20)) {
+        if (!(actor_copy->flags1C & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
             sprite->flags |= 0x7000;
         }
-        apply_monster_koyaw_data(actor_copy->unk_1C.s, &sprite->color.c.r);
+        apply_monster_koyaw_data(actor_copy->flags1C, &sprite->color.c.r);
     } else if (flags & 0x800) {
         sprite->flags = flags & 0x8FFF;
     } else {
@@ -443,47 +443,47 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *moti
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
 
-    if ((*(u16 *)(actor + 0x98)) & 8) {
-        (*(s8 *)(actor + 0x9D)) = 0;
+    if (actor->action_state_flags & 8) {
+        actor->unk_9D = 0;
     } else {
-        motion->velocity_z += (*(s8 *)(actor + 0x9D)) * 0x14000;
-        (*(actor + 0x9D))++;
+        motion->velocity_z += actor->unk_9D * 0x14000;
+        actor->unk_9D++;
     }
-    (*(s32 *)(actor + 0x90)) += motion->velocity_z;
+    actor->unk_90.value += motion->velocity_z;
 
-    if (!((*(u16 *)(actor + 0x98)) & 4)) {
-        floor_height = ((s16)sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,(s16)((s16)(actor_copy->unk_88.u - 0x20))));
+    if (!(actor->action_state_flags & 4)) {
+        floor_height = ((s16)sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,(s16)(actor_copy->ground_height - 0x20)));
         if (floor_height < 0x200) {
-            actor_height = actor_copy->unk_88.s;
-            if ((*(s16 *)(actor + 0x92)) + actor_height < floor_height) {
-                actor_copy->unk_1C.u &= 0xF7FFFFFF;
+            actor_height = actor_copy->ground_height;
+            if (actor->unk_90.parts.high + actor_height < floor_height) {
+                actor_copy->flags1C &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
-                    (*(s32 *)(actor + 0x90)) = 0;
+                    actor->unk_90.value = 0;
                 } else {
-                    height_delta = floor_height - actor_copy->unk_88.u;
-                    (*(s16 *)(actor + 0x92)) = height_delta;
+                    height_delta = floor_height - actor_copy->ground_height;
+                    actor->unk_90.parts.high = height_delta;
                 }
                 motion->velocity_z = 0;
-                actor_copy->unk_1C.u |= 0x08000000;
-                (*(s8 *)(actor + 0x9D)) = 0;
+                actor_copy->flags1C |= 0x08000000;
+                actor->unk_9D = 0;
             }
 
-            if (actor_copy->unk_1C.u & 0x40000000) {
-                actor_copy->unk_1C.u &= 0xBFFFFFFF;
+            if (actor_copy->flags1C & 0x40000000) {
+                actor_copy->flags1C &= 0xBFFFFFFF;
                 floor_height = ((s16)sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
-                                       (sprite->tile_y << 6) | 0x20,(s16)((s16)(actor_copy->unk_88.u - 0x20))));
-                (*(s16 *)(actor + 0x92)) += actor_copy->unk_88.u - floor_height;
-                actor_copy->unk_88.s = floor_height;
+                                       (sprite->tile_y << 6) | 0x20,(s16)(actor_copy->ground_height - 0x20)));
+                actor->unk_90.parts.high += actor_copy->ground_height - floor_height;
+                actor_copy->ground_height = floor_height;
             }
         } else {
-            actor_copy->unk_1C.u &= 0xF7FFFFFF;
+            actor_copy->flags1C &= 0xF7FFFFFF;
         }
     } else {
-        actor_copy->unk_1C.u &= 0xF7FFFFFF;
+        actor_copy->flags1C &= 0xF7FFFFFF;
     }
 
-    motion->z.w.i = actor_copy->unk_88.u + (*(s16 *)(actor + 0x92));
+    motion->z.w.i = actor_copy->ground_height + actor->unk_90.parts.high;
     sprite->flags |= 0x40;
 
     return;
@@ -815,7 +815,7 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     (generate_random_value() & 7) << 9;
             }
         } else {
-            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing)) != 0) {
+            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -865,7 +865,7 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
-        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing));
+        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing);
         blocker = (ActorRecord *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
@@ -933,7 +933,7 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = ((u16)actor_data->facing >> 8) & 0xE;
+                step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
                 position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -1063,7 +1063,7 @@ void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_cont
             sprite->frameTable = snowman_direction_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + snowman_direction_frames), 0);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
@@ -1286,7 +1286,7 @@ void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPositi
         if (sprite->flags & 0x8000) {
             action->action_phase = 3;
             sprite->flags |= 0x6000;
-            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,actor->facing,(s16)(1));
             return;
         }
         motion->velocity_z = 0;
@@ -1314,7 +1314,7 @@ void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPositi
         timer = action->action_timer + 1;
         action->action_timer = timer;
         if (((s16)timer == 7) || (sprite->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,actor->facing,(s16)(1));
             action->action_timer = 0;
             action->action_phase++;
         }
@@ -2094,7 +2094,7 @@ void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPos
                             + (u8 *)((s32 *)D_801759D8)),
                           0);
             advance_status_timers(actor);
-            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
         }
     }
 }
@@ -2129,7 +2129,7 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
             sprite->flags = flags | 0x0800;
             height = position->z.w.i;
             tile_x = sprite->tile_x;
-            direction_offset = &direction_offsets.entries[(((u16)entity->facing) >> 9) & 7];
+            direction_offset = &direction_offsets.entries[(entity->facing >> 9) & 7];
             x_offset = direction_offset->x;
             target_x = tile_x + x_offset;
             y_offset = direction_offset->y;
@@ -2152,7 +2152,7 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
             s32 target_x;
             s32 y_offset;
 
-            angle = ((u16)entity->facing);
+            angle = entity->facing;
             direction_offset = direction_offsets.entries + ((angle >> 9) & 7);
             height = position->z.w.i;
             tile_x = sprite->tile_x;

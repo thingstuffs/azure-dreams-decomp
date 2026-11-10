@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
@@ -13,7 +14,6 @@
 #include "sdk/libgte.h"
 #include "dungeon/data.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 ghosh_action_resume_address[];
 

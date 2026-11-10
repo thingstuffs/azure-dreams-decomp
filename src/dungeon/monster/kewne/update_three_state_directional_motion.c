@@ -74,7 +74,7 @@ void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *
         next_frame = anim_table + 1;
         anim_table -= 3;
         action->action_timer = next_frame;
-        direction_offset = ((u16)actor->facing >> 8) & 0xE;
+        direction_offset = (actor->facing >> 8) & 0xE;
         anim_table = (u32)anim_table < 8U;
         direction_base = (direction_offset + direction_base);
         delta_x = *(s16 *)direction_base;

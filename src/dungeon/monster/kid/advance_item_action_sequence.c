@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
@@ -25,7 +26,6 @@ typedef struct S_80172D74_5 {
     u8 pad_00[0x4];
     u16 unk_04;
 } S_80172D74_5;   /* part20 in advance_item_action_sequence */
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 kid_action_resume_address[];
 extern u8 D_80175168[];
@@ -48,7 +48,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
 
     special_item = 0;
     {
-        u32 direction_index = ((u16)actor->facing >> 8) & 0xE;
+        u32 direction_index = (actor->facing >> 8) & 0xE;
 
         owner = action->unk_A4.address;
         owner_flags = (S_80172D74_5 *)((u8 *)owner + 0x20);

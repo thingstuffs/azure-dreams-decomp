@@ -163,7 +163,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin_arg, s16 motion, 
         sprite->flags = (u16) (sprite->flags | 0xC);
         sprite->tpage_abr = (u16) (sprite->tpage_abr | 0x20);
         sprite->flags = (u16) (sprite->flags | 0x100);
-        select_record_entry_and_value(sprite, &shared_sprite_entries, (s16)frame_index % 16, (s16)frame_index);
+        select_record_entry_and_value(sprite, &shared_sprite_entries, (s16)frame_index % 16);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         register_node(node, project_sprite_chain);

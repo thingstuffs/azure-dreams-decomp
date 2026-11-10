@@ -104,7 +104,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
         void *call_motion = motion;
         void *call_data = sprite;
 
-        initial_state = (s8)actor->pending_turn_updates;
+        initial_state = actor->pending_turn_updates;
         if (refresh_actor_facing_and_lifecycle(call_owner, (s32)(call_motion), call_data, actor) != 0) {
             return;
         }

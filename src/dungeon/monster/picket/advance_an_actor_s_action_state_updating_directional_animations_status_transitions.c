@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -19,7 +20,6 @@
    /* arg2 in advance_an_actor_s_action_state_updating_directional_animations_status_transitions */
 
 
-extern void select_sprite_entry(void *, s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"

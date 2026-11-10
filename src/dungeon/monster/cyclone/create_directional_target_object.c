@@ -39,7 +39,7 @@ void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, S
     void *result;
     position_data = position;
     source_copy = sprite;
-    direction_flags = (u16)emitter->facing;
+    direction_flags = emitter->facing;
     emitter_copy = emitter;
     target_position = *position_data;
     direction_offset = (direction_flags >> 8) & 0xE;

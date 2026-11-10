@@ -27,7 +27,7 @@ void start_directional_animation_if_allowed(ActorRecord *action_state, ObjectPos
                 + &nyuel_frame_set_8), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         }
     }

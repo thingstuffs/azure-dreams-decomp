@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -25,7 +26,6 @@ typedef struct S_func_8016C64C_5 {
     s16 unk_00;
 } S_func_8016C64C_5;
 
-extern void select_sprite_entry(void *, u8, s32);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 D_80173A20[];

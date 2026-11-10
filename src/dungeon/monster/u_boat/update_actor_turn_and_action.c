@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/u_boat_frames.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
@@ -19,9 +20,7 @@
 
 
 
-extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
-extern void update_actor_status_and_mp(ActorRecord *entity);
 #include "dungeon/monster/u_boat.h"
 
 

@@ -29,7 +29,6 @@ const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{
 
 
 
-extern void *get_unused_text_buffer(void);
 #include "dungeon/effect/screen.h"
 extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
 

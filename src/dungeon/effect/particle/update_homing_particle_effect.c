@@ -235,13 +235,13 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 (s32)(s16) get_definition_entry_byte_13(6));
             source->target = found_target;
             if (found_target == NULL) {
-                source->target_tile_x = (u8) source_sprite->tile_x;
-                source->target_tile_y = (u8) source_sprite->tile_y;
+                source->target_tile_x = source_sprite->tile_x;
+                source->target_tile_y = source_sprite->tile_y;
             } else {
                 sprite = NODE_HEADER(found_target)->sprite;
                 if (!(sprite->flags & 0x8000) || !(((SpriteFrameState *) effect_sprite)->flags & 0x8000)) {
-                    source->target_tile_x = (u8) sprite->tile_x;
-                    source->target_tile_y = (u8) sprite->tile_y;
+                    source->target_tile_x = sprite->tile_x;
+                    source->target_tile_y = sprite->tile_y;
                 } else {
                     effect->unk_0A = 0xF0;
                     return;

@@ -75,7 +75,7 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
             call_state = body;
             call_motion = motion;
             call_part = sprite;
-            old_mode = (s8)body->pending_turn_updates;
+            old_mode = body->pending_turn_updates;
             call_context = body;
             if (refresh_actor_facing_and_lifecycle(call_state, call_motion, call_part, call_context) != 0) {
                 return;

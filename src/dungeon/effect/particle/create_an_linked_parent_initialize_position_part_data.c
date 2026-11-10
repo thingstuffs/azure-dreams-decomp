@@ -430,7 +430,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             state->countdown = 0x14;
             actor->unk_A4.halves.high.u -= 1; /* halfword counter at +0xA6 (high half of unk_A4) */
             (*(u8 *)&actor->unk_A8) = (u8) state->event_id;
-            actor_facing = (u16)primary_actor_record->facing;
+            actor_facing = primary_actor_record->facing;
             state->phase++;
             state->ticks = 0;
             state->facing = actor_facing;

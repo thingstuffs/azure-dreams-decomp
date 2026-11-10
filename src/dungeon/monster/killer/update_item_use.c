@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -80,7 +81,6 @@ typedef struct S_func_80FDD1A0_4 {
 } S_func_80FDD1A0_4;
 
 extern void register_node(void *, void *);
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 effect_update_tag[];
 extern u8 killer_action_resume_address;

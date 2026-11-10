@@ -156,9 +156,7 @@ void update_monster_facing_and_ground(ActorRecord *body, ObjectPosition *motion,
         actor->flags1C &= 0xF7FFFFFF;
     }
 
-    actor = (ActorRecord *)((u8 *)actor + 0x88);
-    motion->z.unsigned_parts.integer =
-        *(u16 *)actor + body->unk_90.parts.high;
+    motion->z.unsigned_parts.integer = actor->ground_height + body->unk_90.parts.high;
     sprite->flags |= 0x40;
 
 }

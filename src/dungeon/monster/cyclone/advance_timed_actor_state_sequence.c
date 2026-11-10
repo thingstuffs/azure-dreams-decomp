@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "dungeon/monster/cyclone.h"
 #include "shared/sprite_frame_state.h"
@@ -47,7 +48,6 @@ typedef struct {
 
 extern void spend_actor_mp(D3 *, s32);
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern void *create_directional_target_object(ActorRecord *, void *, SpriteFrameState *);
 extern void show_entity_message(s32, D3 *);
 

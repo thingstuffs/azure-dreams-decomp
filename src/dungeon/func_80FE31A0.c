@@ -1,3 +1,5 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "engine/node/allocation.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
@@ -124,9 +126,8 @@ typedef struct DungeonActionCounters {
     s32 pending;
 } DungeonActionCounters;
 
-extern void *allocate_list_node(s32, void *);
+
 extern void register_node(void *, void *);
-extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void create_two_row_object_group(void *, s16);
 

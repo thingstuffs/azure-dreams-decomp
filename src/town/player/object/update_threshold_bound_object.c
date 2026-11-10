@@ -4,6 +4,7 @@
 #include "town/person/effects.h"
 #include "town/player/coordinates.h"
 #include "town/player.h"
+#include "town/player/position_handlers.h"
 #include "town/player/object.h"
 #include "town/player/position.h"
 #include "town/system.h"

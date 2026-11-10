@@ -23,7 +23,6 @@
 
 
 struct ActorRecord; 
-void cycle_map_cell_flags(s16, s16, u16);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/item/state.h"
@@ -239,7 +238,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
             actor->movement_queue_state++;
             update_map_cell_flags_with_item_limit(position->tile_x, position->tile_y,
                           (actor->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
-            direction_offset = ((u16)actor->facing >> 8) & 0xE;
+            direction_offset = (actor->facing >> 8) & 0xE;
             position->tile_x +=
                 *((u8 *)((u32)direction_offset + (u32)x_offsets));
             position->tile_y += *((u8 *)((s8 *)dir_step_y) + direction_offset);

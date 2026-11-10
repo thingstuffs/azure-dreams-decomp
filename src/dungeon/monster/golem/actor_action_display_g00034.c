@@ -87,7 +87,7 @@ void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *act
                 + &golem_frame_set), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 4;
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack((Ent *)actor, (Pos *)sprite, actor->facing, 1, 0);
         }
     }

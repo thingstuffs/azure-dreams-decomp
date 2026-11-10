@@ -797,7 +797,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                     (generate_random_value() & 7) << 9;
             }
         } else {
-            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing)) != 0) {
+            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -847,7 +847,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
         select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
-        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing));
+        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing);
         blocker = (ActorRecord *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
@@ -915,7 +915,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = ((u16)actor_data->facing >> 8) & 0xE;
+                step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
                 position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -1030,7 +1030,7 @@ void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition
             sprite->frameTable = flame_frame_set;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + flame_frame_set), 0);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
             actor->unk_84 = 0x7C;
@@ -1129,7 +1129,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectP
         if (sprite->flags & 0x8000) {
             action->unk_9B = 3U;
             sprite->flags = (u16) (sprite->flags | 0x6000);
-            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,actor->facing,(s16)(1));
             return;
         }
         direction_frames = flame_frame_set;
@@ -1149,7 +1149,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectP
             return;
         }
         play_sound_if_enabled(0x804);
-        resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
+        resolve_attack_damage_and_effects(actor, sprite,actor->facing,(s16)(1));
         action->unk_9B++;
         return;
     case 3:
@@ -2693,12 +2693,12 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
         run_cd_image_commands(D_801758FC, D_80175920, 0);
         ((R06_80175270_S_80175270_0 *)action)->unk_BA = 0;
         action->action_phase++;
-        actor->unk_8A = (u16)actor->facing;
+        actor->unk_8A = actor->facing;
         actor->flags1C = (u32)((u32)actor->flags1C & (0xFFFBFFFF));
         /* fallthrough */
 
     case 2:
-        angle = (u16)actor->facing;
+        angle = actor->facing;
         raw_direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction = raw_direction & 7;
         if ((((u8 *)((void **)flame_transition_object))[-4] == 0) || (direction != 2)) {
@@ -2829,7 +2829,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             }
             action->action_timer = 0x10;
             action->action_phase++;
-            ((R06_80175270_S_80175270_9 *)actor->target)->unk_2A = (u16)actor->facing;
+            ((R06_80175270_S_80175270_9 *)actor->target)->unk_2A = actor->facing;
             child = actor->target;
             child_obj = ((R06_80175270_S_80175270_6_pre *)child)[-1].unk_00;
             heading = (g_game_work.view.camera_rotation.parts.viewAngle + ((R06_80175270_S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
@@ -2845,7 +2845,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             if (action->action_timer > 0) {
                 return;
             }
-            ((R06_80175270_S_80175270_9 *)actor->target)->unk_2A = (u16)actor->unk_8A;
+            ((R06_80175270_S_80175270_9 *)actor->target)->unk_2A = actor->unk_8A;
             ((R06_80175270_S_80175270_0_pre *)action)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count--;

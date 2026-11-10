@@ -20,7 +20,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource07_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_mode_dependent_112_object;
-void (*const resource07_slot0_entry1)(void *entity, ObjectPosition *motion, SpriteFrameState *part) = update_entity_facing_motion_and_ground;
+void (*const resource07_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part) = update_entity_facing_motion_and_ground;
 
 /* Creates a Grineut actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -88,9 +88,9 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
 }
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void update_entity_facing_motion_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *part)
+void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part)
 {
-    R07_80170A28_S_80170A28_1 *entity_base = entity;
+    ActorRecord *entity_base = entity;
     s16 old_state;
     s32 state_or_direction;
     s16 direction_index;
@@ -100,7 +100,7 @@ void update_entity_facing_motion_and_ground(void *entity, ObjectPosition *motion
     void *call_part;
     void *call_self;
     u32 unused_tail;
-    R07_80170A28_EntityCallback callback;
+    ActorActionHandler callback;
     s32 rounded_angle;
     s16 ground_height;
     s16 base_height;
@@ -110,53 +110,53 @@ void update_entity_facing_motion_and_ground(void *entity, ObjectPosition *motion
     u8 direction_flag;
 
     if (g_dungeon_status.flags & 0x2000) {
-        callback = (*(R07_80170A28_EntityCallback *)((u8 *)entity + 0x8C));
-        if (callback == (R07_80170A28_EntityCallback)((void *)dispatch_monster_move_attack_spell)) {
+        callback = entity->unk_8C.handler;
+        if (callback == dispatch_monster_move_attack_spell) {
             {
                 call_self = entity;
                 callback(call_self, motion, part, call_self);
             }
             return;
         }
-        (*((u8 *)entity + 0x71)) &= 0x7F;
+        entity->movement_queue_state &= 0x7F;
         return;
     }
 
     call_entity = entity;
     call_motion = motion;
     call_part = part;
-    old_state = (s8)(*((u8 *)entity + 0x6D));
+    old_state = entity->pending_turn_updates;
     call_self = entity;
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_part, call_self) != 0) {
         return;
     }
 
     {
-        R07_80170A28_EntityCallback update_callback;
-        update_callback = (*(R07_80170A28_EntityCallback *)((u8 *)entity + 0x8C));
+        ActorActionHandler update_callback;
+        update_callback = entity->unk_8C.handler;
         if (update_callback != 0) {
             update_callback(entity, motion, part, entity);
         }
     }
-    ((R07_80170A28_EntityCallback *)D_80174198)[(*((u8 *)entity + 0x9A))](entity, motion, part, entity);
+    ((R07_80170A28_EntityCallback *)D_80174198)[entity->action_id](entity, motion, part, entity);
 
-    if ((s16)old_state != (*(s8 *)((u8 *)entity + 0x6D))) {
+    if (old_state != entity->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion, part, entity);
     }
 
     part_flags = part->flags;
     if (!(part_flags & 0x8000)) {
-        rounded_angle = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        rounded_angle = g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;
-        if ((*(s16 *)((u8 *)entity + 0x94)) != direction_copy) {
+        if (entity->unk_94 != direction_copy) {
             if (((R07_80170A28_S_80170A28_0 *)part)->unk_2C != 0) {
                 select_indirect_table_entry(part,
                               ((R07_80170A28_S_80170A28_0 *)part)->unk_2C[direction_copy],
                               part->unk_04);
             }
-            (*(s16 *)((u8 *)entity + 0x94)) = state_or_direction;
+            entity->unk_94 = state_or_direction;
         }
 
         direction_flag = dir_sprite_flag[direction_index];
@@ -165,14 +165,14 @@ void update_entity_facing_motion_and_ground(void *entity, ObjectPosition *motion
         } else {
             part->flags &= 0xFFFE;
         }
-        if (!(entity_base->unk_1C & 0x20)) {
+        if (!(entity_base->flags1C & 0x20)) {
             if (!(part->flags & 0x40)) {
                 advance_sprite_animation_and_textures(part);
             }
         } else {
             part->flags |= 0x7000;
         }
-        apply_monster_koyaw_data(entity_base->unk_1C, (u8 *)part + 0xC);
+        apply_monster_koyaw_data(entity_base->flags1C, (u8 *)part + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;
@@ -185,55 +185,53 @@ void update_entity_facing_motion_and_ground(void *entity, ObjectPosition *motion
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
 
-    if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
-        (*(s8 *)((u8 *)entity + 0x9D)) = 0;
+    if (entity->action_state_flags & 8) {
+        entity->unk_9D = 0;
     } else {
-        motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
-        (*(s8 *)((u8 *)entity + 0x9D)) = (u8)(*(s8 *)((u8 *)entity + 0x9D)) + 1;
+        motion->velocity_z += entity->unk_9D * 0x14000;
+        entity->unk_9D = entity->unk_9D + 1;
     }
-    (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
+    entity->unk_90.value += motion->velocity_z;
 
-    if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
+    if (!(entity->action_state_flags & 4)) {
         ground_height = ((s16)sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                                motion->y.unsigned_parts.integer,
-                               (s16)(entity_base->unk_88 - 0x20)));
+                               (s16)(entity_base->ground_height - 0x20)));
         if (ground_height < 0x200) {
-            base_height = (s16)entity_base->unk_88;
-            if ((*(s16 *)((u8 *)entity + 0x92)) + base_height < ground_height) {
-                entity_base->unk_1C &= 0xF7FFFFFF;
+            base_height = entity_base->ground_height;
+            if (entity->unk_90.parts.high + base_height < ground_height) {
+                entity_base->flags1C &= 0xF7FFFFFF;
             } else if (ground_height >= base_height) {
-                (*(s32 *)((u8 *)entity + 0x90)) = 0;
+                entity->unk_90.value = 0;
                 motion->velocity_z = 0;
-                entity_base->unk_1C |= 0x08000000;
-                (*(s8 *)((u8 *)entity + 0x9D)) = 0;
+                entity_base->flags1C |= 0x08000000;
+                entity->unk_9D = 0;
             } else {
                 motion->velocity_z = 0;
-                entity_base->unk_1C |= 0x08000000;
-                (*(s8 *)((u8 *)entity + 0x9D)) = 0;
-                (*(s16 *)((u8 *)entity + 0x92)) = ground_height - entity_base->unk_88;
+                entity_base->flags1C |= 0x08000000;
+                entity->unk_9D = 0;
+                entity->unk_90.parts.high = ground_height - entity_base->ground_height;
             }
 
-            entity_flags = entity_base->unk_1C;
+            entity_flags = entity_base->flags1C;
             if (entity_flags & 0x40000000) {
-                entity_base->unk_1C = entity_flags & 0xBFFFFFFF;
+                entity_base->flags1C = entity_flags & 0xBFFFFFFF;
                 ground_height = ((s16)sample_terrain_surface_height(
                     (part->tile_x << 6) | 0x20,
                     (part->tile_y << 6) | 0x20,
-                    (s16)(entity_base->unk_88 - 0x20)));
-                (*(s16 *)((u8 *)entity + 0x92)) +=
-                    entity_base->unk_88 - ground_height;
-                entity_base->unk_88 = ground_height;
+                    (s16)(entity_base->ground_height - 0x20)));
+                entity->unk_90.parts.high +=
+                    entity_base->ground_height - ground_height;
+                entity_base->ground_height = ground_height;
             }
         } else {
-            entity_base->unk_1C &= 0xF7FFFFFF;
+            entity_base->flags1C &= 0xF7FFFFFF;
         }
     } else {
-        entity_base->unk_1C &= 0xF7FFFFFF;
+        entity_base->flags1C &= 0xF7FFFFFF;
     }
 
-    entity_base = (R07_80170A28_S_80170A28_1 *)((u8 *)entity_base + 0x88);
-    motion->z.w.i =
-        *(u16 *)entity_base + (*(u16 *)((u8 *)entity + 0x92));
+    motion->z.w.i = entity_base->ground_height + entity->unk_90.parts.high;
     part->flags |= 0x40;
 
     return;
@@ -617,7 +615,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     (generate_random_value() & 7) << 9;
             }
         } else {
-            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing)) != 0) {
+            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -667,7 +665,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
-        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing));
+        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing);
         blocker = (ActorRecord *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
@@ -735,7 +733,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = ((u16)actor_data->facing >> 8) & 0xE;
+                step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
                 position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -792,7 +790,7 @@ void initialize_opposite_facing_effect(ActorRecord *effect, ObjectPosition *posi
     s32 direction;
     s16 *direction_x;
 
-    direction = ((u16)source->facing >> 9) & 7;
+    direction = (source->facing >> 9) & 7;
     effect->action_id = 0x10;
     effect->action_phase = 0;
     sprite->frameTable = grineut_frame_set_5;
@@ -867,7 +865,7 @@ void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_cont
             sprite->frameTable = grineut_frame_set_1;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + grineut_frame_set_1), 0);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
@@ -1096,7 +1094,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
             return;
         }
 
-        facing = ((u16)actor->facing >> 9) & 7;
+        facing = (actor->facing >> 9) & 7;
         direction = facing + 4;
         wrap_base = direction;
         if (direction < 0) {
@@ -1146,7 +1144,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
 
         if (action->action_timer == 0x11) {
             play_sound_if_enabled(0x808);
-            direction = ((u16)actor->facing >> 9) & 7;
+            direction = (actor->facing >> 9) & 7;
             speed_component = dir_step_x[direction] * 0x30000;
             motion->velocity_x = speed_component + (speed_component >> 2);
             speed_component = dir_step_y[direction] * 0x30000;
@@ -1324,7 +1322,7 @@ copy_existing:
             (*(u16 *)(active_entity + 0xA6))--;
         }
         advance_status_timers(actor);
-        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -1406,7 +1404,7 @@ copy_existing:
         body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
-            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;

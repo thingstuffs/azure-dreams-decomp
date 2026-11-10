@@ -58,7 +58,7 @@ void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context,
             set_sprite_animation_frame(actor, animation_table[direction], controller->field10e, 1);
             controller->state++;
         } else {
-            facing->facing = (u16)facing->facing + 0x200;
+            facing->facing = facing->facing + 0x200;
         }
         break;
     case 1:

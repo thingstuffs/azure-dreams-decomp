@@ -38,7 +38,8 @@ extern s32 text_sprite_builder_address[4];
 extern u8 tako_minigame_sprites[];
 
 /* Creates a parent object, three children, paired display rows, and a final display element. */
-s32 initialize_tako_minigame(void)
+/* The dispatcher passes four explicit zero arguments. */
+s32 initialize_tako_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s32 unused_arg3)
 {
     u8 *parent_state = NULL;
     void * left_data[2] = { D_8002012C, D_80020134 };

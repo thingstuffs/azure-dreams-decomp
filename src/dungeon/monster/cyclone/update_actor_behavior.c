@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -19,7 +20,6 @@ typedef struct S_80173DD4_3 {
     u16 unk_0A;
 } S_80173DD4_3;   /* counter_base in update_actor_behavior_2 */
 
-extern void select_sprite_entry(void *, u8, s32);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);

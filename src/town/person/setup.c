@@ -11,7 +11,7 @@ typedef struct {
     s32 y;
     s32 z;
 } Vec3_32;
-struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);            /* extern */
+struct ObjectNodeHeader;             /* extern */
 
 /* Creates an object, initializes its render data, and runs its callback. */
 void * create_owner_following_sprite(TownObjectRecord *linked_object) {

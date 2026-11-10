@@ -1,3 +1,4 @@
+#include "dungeon/player/object.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -11,7 +12,6 @@
 
 extern struct Ent *prepare_directional_attack();
 extern s32 get_actor_height_difference();
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();
 extern u8 D_80175E50[];
 extern u8 kewne_frame_set_3[];

@@ -39,7 +39,7 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 #include "sdk/libgpu.h"
 #include "town/minigame.h"
 #include "town/data.h"
-extern void SD_Call(s32, s32);
+short SD_Call(int flags);
 extern void set_linked_object_and_global_flags(void);
 
 extern u8 map_animation_sprite_entries[];
@@ -73,7 +73,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, Sp
             break;
         }
 
-        SD_Call(0x519, gravity);
+        SD_Call(0x519);
         index = 15;
         do {
             particle = allocate_flagged_object_node(0x136);

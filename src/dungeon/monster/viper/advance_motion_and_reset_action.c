@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
@@ -34,7 +35,6 @@ typedef struct S_80172F5C_7 {
 } S_80172F5C_7;   /* block in advance_motion_and_reset_action */
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 viper_action_continuation_address[];
 
@@ -138,7 +138,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
-        actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         state->unk_8C.address = viper_action_continuation_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -195,7 +195,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
         state->unk_8C.address = viper_action_continuation_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
-            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;

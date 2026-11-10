@@ -47,8 +47,6 @@ typedef struct S_80174234_2 {
 /* the counter block at D_80083460 */
 
 
-void *get_unused_text_buffer(void);                                /* extern */
-u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);                 /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/data.h"

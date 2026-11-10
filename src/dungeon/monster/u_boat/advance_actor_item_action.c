@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -23,7 +24,6 @@ typedef struct Copy48 {
     u32 words[12];
 } Copy48;
 
-extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 D_800D58D8[];
 extern s8 view_direction_depth_biases[];
@@ -151,7 +151,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         actor_state->unk_8C.address = uboat_behavior_entry;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -267,7 +267,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;

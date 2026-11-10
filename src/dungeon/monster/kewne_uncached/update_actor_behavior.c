@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/kewne_uncached.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -14,7 +15,6 @@
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 
-extern void select_sprite_entry(void *, u8, s32);
 extern void spend_actor_mp(void *, s32);
 
 extern u8 kewne_uncached_action_resume_address[];
@@ -75,7 +75,7 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         next_tick = anim_table + 1;
         anim_table -= 3;
         action->action_timer = next_tick;
-        direction_off = ((u16)actor->facing >> 8) & 0xE;
+        direction_off = (actor->facing >> 8) & 0xE;
         anim_table = (u32)anim_table < 8U;
         direction_base = (direction_off + direction_base);
         delta_x = *(s16 *)direction_base;

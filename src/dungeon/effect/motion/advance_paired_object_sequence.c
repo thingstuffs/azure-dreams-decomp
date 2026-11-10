@@ -10,6 +10,7 @@
 #include "engine/graphics.h"
 #include "dungeon/item/message.h"
 #include "dungeon/item/state.h"
+#include "dungeon/actor/state.h"
 #include "slus.h"
 #include "dungeon/system.h"
 
@@ -131,7 +132,6 @@ extern void *create_six_offset_effects(void *, void *, void *, void *);
 
 extern void process_adjacent_objects_with_gray_nodes(void *, void *);
 extern void *create_linked_objects(void *, void *, s32, s16);
-extern void *merge_creature_abilities_and_state(void *, void *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void * build_status_effect_name_list(void *, void *);
 
 /* Advance the paired-object sequence, animating both objects and displaying the result. */
@@ -186,7 +186,7 @@ void advance_paired_object_sequence(ActorRecord *sequence, S_800253C0_10 *positi
         u16 old_angle;
 
         turn_scene = &g_game_work;
-        old_angle = (u16)owner->facing;
+        old_angle = owner->facing;
         index = ((turn_scene->view.camera_rotation.parts.viewAngle +
             owner->facing + 0x100) >> 9) & 7;
         if (index == 2) {

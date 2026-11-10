@@ -49,12 +49,6 @@ typedef struct R07_80170A28_S_80170A28_0 {
     u8 pad_26[0x6];
     u8 * unk_2C;
 } R07_80170A28_S_80170A28_0;
-typedef struct R07_80170A28_S_80170A28_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x68];
-    u16 unk_88;
-} R07_80170A28_S_80170A28_1;
 typedef struct R07_80170E54_S_80170E54_2 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -245,7 +239,7 @@ extern u8 D_80174170[];
 extern u8 D_80174180[];
 extern u8 D_80174178[];
 void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
-void update_entity_facing_motion_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *part);
+void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
 void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *entity, SpriteFrameState *object, ActorRecord *other_entity);
 void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void initialize_opposite_facing_effect(ActorRecord *effect, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *source);

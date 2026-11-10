@@ -61,7 +61,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(A
     select_sprite_entry(sprite,
         tyrant_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
-    actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+    actor->pending_turn_updates = actor->pending_turn_updates - 1;
     prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
     return 1;
 }

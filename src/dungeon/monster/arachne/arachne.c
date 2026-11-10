@@ -22,7 +22,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = spawn_animated_monster;
-void (*const resource12_slot0_entry1)(void *entity, ObjectPosition *motion, SpriteFrameState *part) = create_directional_template_effect;
+void (*const resource12_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part) = create_directional_template_effect;
 
 /* Creates an Arachne actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -99,9 +99,9 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
 }
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void create_directional_template_effect(void *entity, ObjectPosition *motion, SpriteFrameState *part)
+void create_directional_template_effect(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part)
 {
-    R12_80170A44_S_80170A28_1 *entity_base = entity;
+    ActorRecord *entity_base = entity;
     s16 old_state;
     s32 state_or_direction;
     s16 direction_index;
@@ -111,7 +111,7 @@ void create_directional_template_effect(void *entity, ObjectPosition *motion, Sp
     void *call_part;
     void *call_self;
     u32 unused_tail;
-    R12_80170A44_EntityCallback callback;
+    ActorActionHandler callback;
     s32 rounded_angle;
     s16 ground_height;
     s16 base_height;
@@ -121,53 +121,53 @@ void create_directional_template_effect(void *entity, ObjectPosition *motion, Sp
     u8 direction_flag;
 
     if (g_dungeon_status.flags & 0x2000) {
-        callback = (*(R12_80170A44_EntityCallback *)((u8 *)entity + 0x8C));
-        if (callback == (R12_80170A44_EntityCallback)((void *)update_actor_state_and_select_target)) {
+        callback = entity->unk_8C.handler;
+        if (callback == update_actor_state_and_select_target) {
             {
                 call_self = entity;
                 callback(call_self, motion, part, call_self);
             }
             return;
         }
-        (*((u8 *)entity + 0x71)) &= 0x7F;
+        entity->movement_queue_state &= 0x7F;
         return;
     }
 
     call_entity = entity;
     call_motion = motion;
     call_part = part;
-    old_state = (s8)(*((u8 *)entity + 0x6D));
+    old_state = entity->pending_turn_updates;
     call_self = entity;
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_part, call_self) != 0) {
         return;
     }
 
     {
-        R12_80170A44_EntityCallback update_callback;
-        update_callback = (*(R12_80170A44_EntityCallback *)((u8 *)entity + 0x8C));
+        ActorActionHandler update_callback;
+        update_callback = entity->unk_8C.handler;
         if (update_callback != 0) {
             update_callback(entity, motion, part, entity);
         }
     }
-    ((R12_80170A44_EntityCallback *)D_80175AAC)[(*((u8 *)entity + 0x9A))](entity, motion, part, entity);
+    ((R12_80170A44_EntityCallback *)D_80175AAC)[entity->action_id](entity, motion, part, entity);
 
-    if ((s16)old_state != (*(s8 *)((u8 *)entity + 0x6D))) {
+    if (old_state != entity->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion, part, entity);
     }
 
     part_flags = part->flags;
     if (!(part_flags & 0x8000)) {
-        rounded_angle = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        rounded_angle = g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;
-        if ((*(s16 *)((u8 *)entity + 0x94)) != direction_copy) {
+        if (entity->unk_94 != direction_copy) {
             if (((u8 *)part->frameTable) != 0) {
                 select_indirect_table_entry(part,
                               ((u8 *)part->frameTable)[direction_copy],
                               part->unk_04);
             }
-            (*(s16 *)((u8 *)entity + 0x94)) = state_or_direction;
+            entity->unk_94 = state_or_direction;
         }
 
         direction_flag = dir_sprite_flag[direction_index];
@@ -176,14 +176,14 @@ void create_directional_template_effect(void *entity, ObjectPosition *motion, Sp
         } else {
             part->flags &= 0xFFFE;
         }
-        if (!(entity_base->unk_1C & 0x20)) {
+        if (!(entity_base->flags1C & 0x20)) {
             if (!(part->flags & 0x40)) {
                 advance_sprite_animation_and_textures(part);
             }
         } else {
             part->flags |= 0x7000;
         }
-        apply_monster_koyaw_data(entity_base->unk_1C, (u8 *)part + 0xC);
+        apply_monster_koyaw_data(entity_base->flags1C, (u8 *)part + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;
@@ -196,55 +196,53 @@ void create_directional_template_effect(void *entity, ObjectPosition *motion, Sp
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
 
-    if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
-        (*(s8 *)((u8 *)entity + 0x9D)) = 0;
+    if (entity->action_state_flags & 8) {
+        entity->unk_9D = 0;
     } else {
-        motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
-        (*(s8 *)((u8 *)entity + 0x9D)) = (u8)(*(s8 *)((u8 *)entity + 0x9D)) + 1;
+        motion->velocity_z += entity->unk_9D * 0x14000;
+        entity->unk_9D = entity->unk_9D + 1;
     }
-    (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
+    entity->unk_90.value += motion->velocity_z;
 
-    if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
+    if (!(entity->action_state_flags & 4)) {
         ground_height = ((s16)sample_terrain_surface_height(motion->x.unsigned_parts.integer,
                                motion->y.unsigned_parts.integer,
-                               (s16)(entity_base->unk_88 - 0x20)));
+                               (s16)(entity_base->ground_height - 0x20)));
         if (ground_height < 0x200) {
-            base_height = (s16)entity_base->unk_88;
-            if ((*(s16 *)((u8 *)entity + 0x92)) + base_height < ground_height) {
-                entity_base->unk_1C &= 0xF7FFFFFF;
+            base_height = entity_base->ground_height;
+            if (entity->unk_90.parts.high + base_height < ground_height) {
+                entity_base->flags1C &= 0xF7FFFFFF;
             } else if (ground_height >= base_height) {
-                (*(s32 *)((u8 *)entity + 0x90)) = 0;
+                entity->unk_90.value = 0;
                 motion->velocity_z = 0;
-                entity_base->unk_1C |= 0x08000000;
-                (*(s8 *)((u8 *)entity + 0x9D)) = 0;
+                entity_base->flags1C |= 0x08000000;
+                entity->unk_9D = 0;
             } else {
                 motion->velocity_z = 0;
-                entity_base->unk_1C |= 0x08000000;
-                (*(s8 *)((u8 *)entity + 0x9D)) = 0;
-                (*(s16 *)((u8 *)entity + 0x92)) = ground_height - entity_base->unk_88;
+                entity_base->flags1C |= 0x08000000;
+                entity->unk_9D = 0;
+                entity->unk_90.parts.high = ground_height - entity_base->ground_height;
             }
 
-            entity_flags = entity_base->unk_1C;
+            entity_flags = entity_base->flags1C;
             if (entity_flags & 0x40000000) {
-                entity_base->unk_1C = entity_flags & 0xBFFFFFFF;
+                entity_base->flags1C = entity_flags & 0xBFFFFFFF;
                 ground_height = ((s16)sample_terrain_surface_height(
                     ((u8)part->tile_x << 6) | 0x20,
                     (part->tile_y << 6) | 0x20,
-                    (s16)(entity_base->unk_88 - 0x20)));
-                (*(s16 *)((u8 *)entity + 0x92)) +=
-                    entity_base->unk_88 - ground_height;
-                entity_base->unk_88 = ground_height;
+                    (s16)(entity_base->ground_height - 0x20)));
+                entity->unk_90.parts.high +=
+                    entity_base->ground_height - ground_height;
+                entity_base->ground_height = ground_height;
             }
         } else {
-            entity_base->unk_1C &= 0xF7FFFFFF;
+            entity_base->flags1C &= 0xF7FFFFFF;
         }
     } else {
-        entity_base->unk_1C &= 0xF7FFFFFF;
+        entity_base->flags1C &= 0xF7FFFFFF;
     }
 
-    entity_base = (R12_80170A44_S_80170A28_1 *)((u8 *)entity_base + 0x88);
-    motion->z.w.i =
-        *(u16 *)entity_base + (*(u16 *)((u8 *)entity + 0x92));
+    motion->z.w.i = entity_base->ground_height + entity->unk_90.parts.high;
     part->flags |= 0x40;
 
     return;
@@ -581,7 +579,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     (generate_random_value() & 7) << 9;
             }
         } else {
-            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing)) != 0) {
+            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -631,7 +629,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
-        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing));
+        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing);
         blocker = (ActorRecord *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
@@ -699,7 +697,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = ((u16)actor_data->facing >> 8) & 0xE;
+                step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
                 position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -830,7 +828,7 @@ void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *a
             sprite->frameTable = arachne_direction_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + arachne_direction_frames), 0);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
@@ -1039,7 +1037,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
     ArachneActionEffectBody *effect_data;
 
     state = body->action_phase;
-    dir_offset = ((u16)(actor->facing) >> 8) & 0xE;
+    dir_offset = (actor->facing >> 8) & 0xE;
     dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
     dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
     timer = (u16)body->action_timer - 1;
@@ -1051,7 +1049,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
         if (sprite->flags & 0x8000) {
             body->action_phase = 0xFF;
             sprite->flags |= 0x6000;
-            resolve_attack_damage_and_effects(action_actor, sprite,(s16)(action_actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(action_actor, sprite,action_actor->facing,(s16)(1));
             return;
         }
         position->velocity_x = (-dir_x) << 17;
@@ -1104,7 +1102,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
                     sample_terrain_surface_height(((sprite->tile_x + dir_x) << 6) & 0xFFC0,
                                   ((sprite->tile_y + dir_y) << 6) & 0xFFC0,(s16)((s16)(position->z.w.i - 0x80))) -
                     position->z.w.i;
-                effect_data->unk_10 = (u16)(actor->facing);
+                effect_data->unk_10 = actor->facing;
             }
             next_state = body->action_phase;
             next_state += 1;
@@ -1114,7 +1112,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
         return;
     case 3:
         if ((s16)timer == 0xA) {
-            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,actor->facing,(s16)(1));
             play_sound_if_enabled(0x813);
         }
         if (body->action_timer > 0)
@@ -1236,7 +1234,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
                     }
                 } else {
                     actor->target =
-                        scan_actor_along_heading(actor,(u8)(sprite->tile_x),(u8)(sprite->tile_y),(s16)(actor->facing), 0x10);
+                        scan_actor_along_heading(actor,(u8)(sprite->tile_x),(u8)(sprite->tile_y),actor->facing, 0x10);
                     actor->target_tile_x = abs(actor->target_tile_x);
                     actor->target_tile_y = abs(actor->target_tile_y);
                 }
@@ -1262,7 +1260,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
-        actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         action->unk_8C.address = ((u8 *)update_actor_state_and_select_target);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -1316,7 +1314,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
         action->unk_8C.address = ((u8 *)update_actor_state_and_select_target);
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
-            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;

@@ -141,16 +141,6 @@ typedef struct R10_80170F3C_S_80170F3C_4 {
 } R10_80170F3C_S_80170F3C_4;
 typedef void (*R10_80171104_ActorCallback)(void *, void *, void *, void *);
 
-typedef struct R10_80171104_S_80171104_1 {
-    u8 pad_00[0x1C];
-    union { u32 u; s32 s; } unk_1C;   
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    s8 unk_6D;
-    u8 pad_6E[0x1A];
-    union { u16 u; s16 s; } unk_88;   
-} R10_80171104_S_80171104_1;
 typedef struct R10_80171104_S_80171104_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   
@@ -577,7 +567,7 @@ void create_converging_fading_sprite(
     R10_80170CF8_S_80AC55DC_1 *origin, s16 effect_id, s32 effect_value, s16 duration,
     s32 offset_x, s32 offset_y, s32 offset_z);
 void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32 spawn_value);
-void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_actor_callbacks_animation_and_ground(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg);
 void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *state);
 void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

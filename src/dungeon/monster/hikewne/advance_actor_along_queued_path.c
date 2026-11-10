@@ -51,7 +51,7 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
         remaining_offset = ((u16)move_state->ground_height);
         motion->unk_90.parts.high = move_offset + 0x20;
         move_state->ground_height = remaining_offset - 0x20;
-        move_state->unk_8A = ((u16)move_state->unk_8A) + 1;
+        move_state->unk_8A = move_state->unk_8A + 1;
     } else {
         old_x = actor->tile_x;
         old_y = actor->tile_y;

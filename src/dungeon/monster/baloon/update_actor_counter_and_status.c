@@ -27,7 +27,7 @@ void update_actor_counter_and_status(ActorRecord *body, ObjectPosition *motion, 
             actor->ground_height = 0U;
             body->action_state_flags = (u16) (body->action_state_flags | 8);
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
         }
     }
 }

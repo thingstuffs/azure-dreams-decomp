@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/system/random.h"
@@ -14,7 +15,6 @@
 #include "dungeon/level.h"
 #include "engine/entity.h"
 
-void select_sprite_entry(void *, s32, s32);
 s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/monster/ghosh_frames.h"

@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/effect/screen.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
@@ -40,7 +41,6 @@ extern u8 manoeva_frame_set_1[8];
 extern u8 D_80176648[8];
 extern u8 manoeva_frame_set_2[8];
 
-extern void select_sprite_entry(void *, s32, s32);
 
 /* Advances an actor's item action through source selection, animation, and cleanup. */
 void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFrameState *sprite, ActorRecord *actor)
@@ -203,7 +203,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
         advance_status_timers(act);
         act->target_tile_y = 0;
         act->target_tile_x = 0;
-        act->pending_turn_updates = (u8)act->pending_turn_updates - 1;
+        act->pending_turn_updates = act->pending_turn_updates - 1;
         act->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;

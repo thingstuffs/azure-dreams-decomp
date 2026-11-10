@@ -172,7 +172,7 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
             ((ObjectPosition *)(((S_801728B4_6 *)new_effect)->unk_08))->z.v = (s32) (motion->z.v + 0xFF800000);
             ((S_801728B4_6 *)new_effect)->unk_BB = 0;
             effect_sprite = ((S_801728B4_6 *)new_effect)->unk_0C;
-            ((S_801728B4_6 *)new_effect)->unk_4A = (u16) action->facing;
+            ((S_801728B4_6 *)new_effect)->unk_4A = action->facing;
             action_value = sprite->animation_resource;
             effect_sprite->scale_y = 0x1000;
             effect_sprite->scale_x = 0x1000;
@@ -192,7 +192,7 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = (u16) (primary_actor_record->unk_A4.halves.high.u - 1);
             advance_status_timers(action);
-            action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);
+            action->pending_turn_updates = action->pending_turn_updates - 1;
             actor->unk_8C.address = &dispatch_monster_move_attack_spell;
             action->target_tile_y = 0;
             action->target_tile_x = 0;
@@ -246,8 +246,8 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
         actor->unk_8C.address = &dispatch_monster_move_attack_spell;
         advance_status_timers(action);
-        if ((s8) ((u8)action->pending_turn_updates) > 0) {
-            action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);
+        if (action->pending_turn_updates > 0) {
+            action->pending_turn_updates = action->pending_turn_updates - 1;
         }
         action->target_tile_y = 0;
         action->target_tile_x = 0;

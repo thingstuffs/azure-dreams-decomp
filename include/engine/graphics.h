@@ -136,7 +136,7 @@ void fill_vram_rect(s16 x, s16 y, s16 width, s16 height, u8 red, u8 green, u8 bl
 struct SpriteAttachment *find_flagged_record_by_id(struct SpriteAttachment *entry, u32 target_id);
 
 /* get_glyph_vram_rectangle.c */
-void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y);
+void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y, s32 unused_mode);
 
 /* get_sprite_attachment_vector.c */
 struct SpriteAttachmentEntry *func_8003DF74(struct SpriteAttachmentEntry *table, struct SpriteFrameState *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);

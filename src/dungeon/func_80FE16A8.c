@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -10,13 +11,11 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/player/object.h"
 #include "dungeon/level.h"
 
 #include "dungeon/monster/killer_frames.h"
-extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);

@@ -87,7 +87,8 @@ extern u8 D_800F2F28[];
 #include "slus.h"
 
 /* Initializes the town display objects, panel lines, and image tiles. */
-s32 initialize_snowball_minigame(void)
+/* The dispatcher passes four explicit zero arguments. */
+s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s32 unused_arg3)
 {
     TownDraw32 tile;
     TownDraw24 draw;

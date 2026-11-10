@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -5,7 +6,6 @@
 #include "dungeon/monster/beldo.h"
 #include "dungeon/data.h"
 
-extern s32 select_sprite_entry();
 extern void update_actor_status_and_mp();
 extern void func_80171BE0(); /* Slot contract: loading images do not establish one callee contract. */
 

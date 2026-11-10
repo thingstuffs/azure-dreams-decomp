@@ -45,7 +45,7 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
 
         sprite->frame_ticks -= 2;
         {
-            u32 direction_offset = ((u16)actor->facing >> 8) & 0xE;
+            u32 direction_offset = (actor->facing >> 8) & 0xE;
             movement->velocity_x -=
                 (s32)dir_step_x[direction_offset >> 1] << 16;
             movement->velocity_y -=
@@ -102,11 +102,11 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
 
         movement->velocity_x +=
             (s32)*(s16 *)(direction_x +
-                (((u16)actor->facing >> 8) & 0xE)) << 17;
+                ((actor->facing >> 8) & 0xE)) << 17;
 
         movement->velocity_y +=
             (s32)*(s16 *)(direction_y +
-                (((u16)actor->facing >> 8) & 0xE)) << 17;
+                ((actor->facing >> 8) & 0xE)) << 17;
 
         body->unk_A0.value -= (s32)body->action_timer << 17;
         timer = body->action_timer + 1;
@@ -124,11 +124,11 @@ void update_staged_movement_and_idle(ActorRecord *body, ObjectPosition *movement
 
         movement->velocity_x =
             -*(s16 *)(direction_x +
-                (((u16)actor->facing >> 8) & 0xE)) << 20;
+                ((actor->facing >> 8) & 0xE)) << 20;
 
         movement->velocity_y =
             -*(s16 *)(direction_y +
-                (((u16)actor->facing >> 8) & 0xE)) << 20;
+                ((actor->facing >> 8) & 0xE)) << 20;
         (*(s32 *)&body->unk_A8) = movement->velocity_x / 6;
         body->unk_AC.value = movement->velocity_y / 6;
         body->action_timer = 0;

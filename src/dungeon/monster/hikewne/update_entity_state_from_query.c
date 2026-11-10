@@ -6,7 +6,6 @@
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/state.h"
 
-void update_actor_status_and_mp();                      /* extern */
 
 
 /* Update entity state and flags according to the state query result. */

@@ -84,7 +84,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
         facing = ((ActorRecord *)((ActorRecord *)actor)->target)->facing;
         ((ActorRecord *)actor)->movement_facing = facing;
         tile->unk_24 = (u8) (parent_data->tile_x + *(u8 *) &dir_step_x[(facing >> 9) & 7]);
-        tile->unk_25 = (u8) (parent_data->tile_y + *(u8 *) &dir_step_y[( ((ActorRecord *)actor)->movement_facing >> 9) & 7]);
+        tile->unk_25 = (u8) (parent_data->tile_y + *(u8 *) &dir_step_y[(((ActorRecord *)actor)->movement_facing >> 9) & 7]);
         set_record_integer_tile_center(position, tile->unk_24, tile->unk_25);
         ground_height = sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) ((*(u16 *)((u8 *)actor
             + 0x88)) - 0x20));

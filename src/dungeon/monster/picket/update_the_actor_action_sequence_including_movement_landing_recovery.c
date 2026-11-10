@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
@@ -23,7 +24,6 @@
 
 
 extern void create_two_effect_groups(void *, void *, void *, s32);
-extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 picket_action_resume_address[];
 
@@ -45,7 +45,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
     u16 position[3];
 
     dir_x_table = dir_step_x;
-    angle = ((u16)actor->facing);
+    angle = actor->facing;
     dir_offset = angle >> 8;
     dir_offset &= 0xE;
     dir_x = *(s16 *)((u8 *)dir_x_table + dir_offset);

@@ -6,6 +6,8 @@ struct ObjectPosition;
 #include "common.h"
 #include "shared/entity.h"
 
+void update_actor_status_and_mp(ActorRecord *entity);
+
 struct SpriteFrameState;
 struct ActorRecord;
 void create_default_state_object(s16 new_state);

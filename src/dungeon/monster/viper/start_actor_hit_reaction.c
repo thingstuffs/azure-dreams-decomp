@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/system/random.h"
@@ -7,7 +8,6 @@
 #include "shared/entity.h"
 
 
-extern void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/data.h"
 #include "dungeon/monster/viper.h"
@@ -26,13 +26,13 @@ void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteF
             if (!(value & 0x80000000)) {
                 value |= 0x80000000;
                 actor->flags14 = (s32)value;
-                actor->facing = (u16)(((u16)actor->facing) + ((generate_random_value() & 7) << 9));
+                actor->facing = (actor->facing + ((generate_random_value() & 7) << 9));
             }
         }
         work->action_timer = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
-        actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         (part_b->frameTable) = viper_frame_set_1;
-        select_sprite_entry(part_b, viper_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(part_b, viper_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     }
 }

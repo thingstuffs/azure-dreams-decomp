@@ -68,7 +68,7 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
         move_result = check_movement_clearance_and_height(direction, entity, state, 0x20);
         entity->tile_x = state->path_x[state->unk_8A];
         entity->tile_y = state->path_y[state->unk_8A];
-        state->unk_8A = (u16)state->unk_8A + 1;
+        state->unk_8A = state->unk_8A + 1;
         if ((effect_status << 0x10) == 0) {
             s32 new_x;
             s32 new_y;

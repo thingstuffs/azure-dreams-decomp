@@ -278,7 +278,7 @@ s32 rand(void);
 int abs(int);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 check_layer_offset_height(s32, s32, s16, s32);
-void initialize_timed_motion_step(u16, u16);
+void initialize_timed_motion_step(u16, u32);
 s32 read_sound_mode_blocking_status(s32);
 void drain_audio_commands_and_service_channels(void);
 void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);

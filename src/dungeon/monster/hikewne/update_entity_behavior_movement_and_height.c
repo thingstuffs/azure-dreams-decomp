@@ -1,3 +1,5 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "slus.h"
 #include "common.h"
 #include "dungeon/monster/hikewne.h"
 #include "shared/sprite_frame_state.h"
@@ -13,8 +15,6 @@
 
 typedef ActorActionHandler Callback;
 
-extern void select_sprite_entry(void *, u8, s32);
-extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 extern void D_8016B4D4(void);

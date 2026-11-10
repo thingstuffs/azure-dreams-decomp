@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "town/player.h"
+#include "town/player/position_handlers.h"
 #include "town/player/object.h"
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */

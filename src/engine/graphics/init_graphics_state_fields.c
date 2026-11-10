@@ -1,10 +1,10 @@
 #include "common.h"
+#include "engine/message.h"
 
 #include "common.h"
 #include "engine/graphics.h"
 #include "slus/data.h"
 
-extern void update_text_row_scale(u8 *entity, u8 unused);
 
 /* Initializes state fields and copies the global default byte. */
 void init_graphics_state_fields(u8 *state, s32 init_value)

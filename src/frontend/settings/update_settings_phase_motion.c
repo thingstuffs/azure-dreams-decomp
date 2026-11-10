@@ -1,10 +1,10 @@
+#include "slus.h"
 #include "frontend/settings/controller_body.h"
 #include "frontend/settings.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
-extern void advance_sprite_animation_and_textures(void *);
 extern int abs(int);
 
 /* Updates phased motion and marks completion when stopped or out of bounds. */

@@ -49,7 +49,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
 
         action->unk_AC.bytes[3] = 0;
         if (actor->target == 0) {
-            direction = (((u16)actor->facing) >> 9) & 7;
+            direction = (actor->facing >> 9) & 7;
             if ((s16)check_layer_offset_height(record->tile_x << 6,
                                    record->tile_y << 6,
                                    actor->ground_height,
@@ -87,7 +87,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
         }
 
         if (action->unk_AC.bytes[3] == 0) {
-            direction = (((u16)actor->facing) >> 8) & 0xE;
+            direction = (actor->facing >> 8) & 0xE;
             motion->velocity_x =
                 (((s16 *)((s8 *)dir_step_x))[direction >> 1] << 22) / 8;
             motion->velocity_y =
@@ -140,7 +140,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                 s32 arc_sample;
                 s32 height_delta;
 
-                direction = (((u16)actor->facing) >> 8) & 0xE;
+                direction = (actor->facing >> 8) & 0xE;
                 terrain_height = sample_terrain_surface_height(
                     (((record->tile_x +
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
@@ -192,7 +192,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
              (record->flags & 0x1000)) ||
             (record->flags & 0xE000)) {
             if (action->unk_AC.bytes[3] == 0) {
-                direction = (((u16)actor->facing) >> 8) & 0xE;
+                direction = (actor->facing >> 8) & 0xE;
                 motion->velocity_x =
                     -((((s16 *)((s8 *)dir_step_x))[direction >> 1] << 22) / 8);
                 motion->velocity_y =
@@ -242,7 +242,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                 s32 signed_terrain_height;
                 s32 base_height;
 
-                direction = (((u16)actor->facing) >> 8) & 0xE;
+                direction = (actor->facing >> 8) & 0xE;
                 terrain_height = sample_terrain_surface_height(
                     (((record->tile_x +
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,

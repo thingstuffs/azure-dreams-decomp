@@ -1,3 +1,4 @@
+#include "town/player/state.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/flags.h"
@@ -9,7 +10,6 @@ extern u8 D_80018CC0[9];
 extern u8 D_80018D9F[9];
 extern u8 D_80018E42[9];
 
-extern void clear_script_flag_bit(u16);
 extern s32 get_script_flag_mask(s32 flag_index); /* placed copy of get_script_flag_mask */
 extern s32 record_value_table_contains(s32 target_value); /* placed copy of record_value_table_contains */
 

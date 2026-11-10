@@ -65,7 +65,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
     }
 
 
-    previous_state = (s8)((u8)body->pending_turn_updates);
+    previous_state = body->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(body, motion, sprite_arg, body) == 0) {
         update_callback = body->unk_8C.handler;
         if (update_callback != 0) {
@@ -73,7 +73,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
         }
         ((s32 (**)(void *, void *, void *, void *))&kraken_action_handlers)
         [body->action_id](body, motion, sprite_arg, body);
-        if ((s16)previous_state != (s8)((u8)body->pending_turn_updates)) {
+        if ((s16)previous_state != body->pending_turn_updates) {
             try_move_actor_to_valid_position(body, motion, sprite_arg, body);
         }
         motion->x.v += motion->velocity_x;

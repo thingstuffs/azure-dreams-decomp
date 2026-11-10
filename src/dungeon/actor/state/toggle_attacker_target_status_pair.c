@@ -1,3 +1,4 @@
+#include "dungeon/system.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -9,7 +10,6 @@
 #include "dungeon/item/message.h"
 
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
 extern s32 D_8008942C[];

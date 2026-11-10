@@ -77,7 +77,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
         part->scale_y = 0x800;
         part->scale_x = 0x800;
         part->source = D_800257E8;
-        self->direction = ((u16)owner->facing >> 9) & 7;
+        self->direction = (owner->facing >> 9) & 7;
         texture_init.words[0] = texture_flags;
         texture_init.words[1] = texture_size;
         draw_textured_ellipse(D_800257D0, &texture_init.rect, 1, 0);

@@ -110,7 +110,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
 
     case 3:
         {
-            u16 angle = ((u16)actor->facing);
+            u16 angle = actor->facing;
             if ((actor->facing == 0x400) ||
                 (sprite->flags & 0x8000)) {
                 select_sprite_entry(sprite, 0x37, 0);

@@ -2,7 +2,6 @@
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
 struct PulsingEffectWork;
-s32 display_text_with_fullwidth_adjustment(s8 *text);
 #include "dungeon/item/message/text.h"
 
 void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three ignored arguments. */
@@ -426,7 +425,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, ObjectPosition *eff
     if ((entity->flags1C & ACTOR_POISONED) && ((entity->hp + entity->hp_delta) >= 2)) {
         max_hp = entity->max_hp;
         rounded_hp = max_hp + 0xF;
-        entity->movement_facing = ((u16)entity->facing) + 0x800;
+        entity->movement_facing = entity->facing + 0x800;
         if (rounded_hp < 0) {
             rounded_hp = max_hp + 0x1E;
         }
@@ -439,7 +438,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, ObjectPosition *eff
             entity->flags1C = (s32) (entity->flags1C & 0xDFFFFFFF);
             if (!(NODE_HEADER(entity)->sprite->flags & 0x8000)) {
                 create_actor_value_popup(3, entity, (s16) damage, 0);
-                entity->hp_delta = (s16) ((u16) entity->hp_delta - damage);
+                entity->hp_delta = entity->hp_delta - damage;
                 spawn_randomized_particle_burst(effect_pos->x.w.i, effect_pos->y.w.i, (s16) (effect_pos->z.w.i - 8), 0x802080, 0x20,
                     1);
                 return;

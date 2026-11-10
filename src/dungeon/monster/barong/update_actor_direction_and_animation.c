@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -17,9 +18,7 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 #include "dungeon/monster/grineut/path_motion.h"
-extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8017430C(void *, void *, void *, void *);

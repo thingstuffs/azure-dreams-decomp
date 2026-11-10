@@ -180,7 +180,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         body->unk_8C.address = &saber_behavior_entry;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -317,7 +317,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
             advance_status_timers(actor);
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
-            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

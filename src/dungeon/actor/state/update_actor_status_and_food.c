@@ -28,7 +28,7 @@ void update_actor_status_and_mp(ActorRecord *entity) {
                     }
                     advance_status_timers(entity);
                 }
-                updates_left = (u8) entity->pending_turn_updates - 1;
+                updates_left = entity->pending_turn_updates - 1;
                 entity->pending_turn_updates = updates_left;
             } while ((updates_left << 0x18) != 0);
         }

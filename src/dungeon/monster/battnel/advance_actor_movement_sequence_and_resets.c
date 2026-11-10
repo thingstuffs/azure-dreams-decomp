@@ -34,7 +34,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
     s32 state;
     s32 height_delta;
 
-    direction_offset = (((u16)actor->facing) >> 8) & 0xE;
+    direction_offset = (actor->facing >> 8) & 0xE;
     x_step = dir_step_x[direction_offset >> 1];
     ticks_left = (u16)action->action_timer - 1;
     y_step = dir_step_y[direction_offset >> 1];

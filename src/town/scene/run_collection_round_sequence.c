@@ -15,8 +15,6 @@
 #undef AZ_FOREIGN_LOCAL_FUNC_80058F88
 
 void func_80058F88();        /* extern */ /* Unprototyped: JP identity SD_Call(int); the surplus source arguments preserve the retail instruction stream. */
-s32 func_8006A3A4(s32);                             /* extern */
-s32 func_8006A470();                             /* extern */
 void func_802441A4();                       /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 short func_8025E01C(void *position);                     /* extern */
 extern u8 D_80095AA0[8];

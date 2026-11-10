@@ -53,10 +53,10 @@ void advance_cursor_extent(struct S_80036900 *state);
 void cleanup_window_object(void *record);
 
 /* confirm_list_menu_choice.c */
-void confirm_list_menu_choice(struct S_80036880_0 *object);
+void confirm_list_menu_choice(struct S_80036880_0 *object, void *unused_arg1, void *unused_arg2);
 
 /* confirm_menu_choice.c */
-void confirm_menu_choice(struct S_80036434_0 *object);
+void confirm_menu_choice(struct S_80036434_0 *object, s32 unused_arg1, s32 unused_arg2);
 
 /* confirm_timed_menu_choice.c */
 void confirm_timed_menu_choice(struct S_8003661C_0 *object);

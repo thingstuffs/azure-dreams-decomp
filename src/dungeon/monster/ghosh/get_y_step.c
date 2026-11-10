@@ -252,7 +252,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
                     old_tile_mask = 0x300;
                 }
                 update_map_cell_flags_with_item_limit(tile_x_or_offset, first_tile_y, old_tile_mask);
-                tile_x_or_offset = ((u16)actor->facing >> 8) & 0xE;
+                tile_x_or_offset = (actor->facing >> 8) & 0xE;
                 x_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) x_offsets);
                 position->tile_x = (u8) (position->tile_x + *x_offset_ptr);
                 current_y = position->tile_y;

@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
@@ -26,7 +27,6 @@ typedef struct {
     u8 pad;
 } LocalItemInfo;
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_80171030[];
 extern u8 barong_action_resume_address[];
@@ -187,7 +187,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         body->unk_8C.address = barong_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -361,7 +361,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
             advance_status_timers(actor);
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
-            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

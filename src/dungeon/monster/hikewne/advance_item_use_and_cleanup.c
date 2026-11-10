@@ -1,3 +1,5 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "dungeon/actor.h"
 #include "shared/audio_commands.h"
 #include "dungeon/monster/hikewne.h"
 #include "shared/actor_status_flags.h"
@@ -20,8 +22,6 @@
 #include "dungeon/data.h"
 #include "dungeon/monster/hikewne_frames.h"
 
-extern void select_sprite_entry(void *, s32, s32);
-extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void create_directional_template_effect(void *, ObjectPosition *, void *, void *);
 
 extern u8 D_80174110[];

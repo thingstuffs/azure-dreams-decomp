@@ -16,7 +16,7 @@
 
 
 
-extern void update_monster_facing_and_contact(void);
+void update_monster_facing_and_contact(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern void func_80174ED8(void);
 extern void func_80174F00(void);

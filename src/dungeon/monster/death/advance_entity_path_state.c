@@ -40,7 +40,7 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
         hp = motion_state->unk_90.parts.high;
         energy = path_state->ground_height;
         motion_state->unk_90.parts.high = hp + 0x20;
-        step_index = ((u16)path_state->unk_8A);
+        step_index = path_state->unk_8A;
         path_state->ground_height = energy - 0x20;
         path_state->unk_8A = step_index + 1;
     } else {

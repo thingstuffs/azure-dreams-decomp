@@ -21,7 +21,7 @@ void clear_entity_flag_and_advance_action(ActorRecord *action_state, ObjectPosit
             action_state->action_id = 0x11;
             action_state->action_phase = 0;
             action_state->action_timer = 0;
-            entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
+            entity->pending_turn_updates = entity->pending_turn_updates - 1;
             prepare_directional_attack(entity, update_context, entity->facing, 1, 0);
             entity->unk_84 = 0x7C;
             entity->unk_85 = 0;

@@ -37,8 +37,8 @@ void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *mo
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        motion->velocity_x = (s32) (dir_step_x[((u16)actor->facing >> 9) & 7] << 0x14);
-        motion->velocity_y = (s32) (dir_step_y[((u16)actor->facing >> 9) & 7] << 0x14);
+        motion->velocity_x = (s32) (dir_step_x[(actor->facing >> 9) & 7] << 0x14);
+        motion->velocity_y = (s32) (dir_step_y[(actor->facing >> 9) & 7] << 0x14);
         action->action_phase++;
         return;
     case 1:

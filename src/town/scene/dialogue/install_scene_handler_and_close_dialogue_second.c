@@ -1,3 +1,4 @@
+#include "town/player/state.h"
 #include "common.h"
 #include "town/scene/motion.h"
 #include "town/scene/flags.h"
@@ -7,7 +8,6 @@ extern u8 D_80017A18[9];
 extern u8 D_80017B5C[9];
 extern u8 D_80018AE5[9];
 
-extern s32 get_script_flag_mask(s32 flag_index); /* placed copy of get_script_flag_mask */
 
 /* Selects a result for the context, applying an override when both checks pass. */
 void *select_checked_table_pointer(void *context, s32 unused, s32 mode)

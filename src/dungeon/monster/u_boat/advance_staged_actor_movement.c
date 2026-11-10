@@ -76,10 +76,10 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         direction_y = (s16 *)((s8 *)dir_step_y);
         motion->velocity_x =
             -*(s16 *)((u8 *)direction_x +
-              ((((u16)actor->facing) >> 8) & 0xE)) << 18;
+              ((actor->facing >> 8) & 0xE)) << 18;
         motion->velocity_y =
             -*(s16 *)((u8 *)direction_y +
-              ((((u16)actor->facing) >> 8) & 0xE)) << 18;
+              ((actor->facing >> 8) & 0xE)) << 18;
         return;
     }
 
@@ -110,10 +110,10 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
             direction_y = (s16 *)((s8 *)dir_step_y);
             motion->velocity_x =
                 *(s16 *)((u8 *)direction_x +
-                  ((((u16)actor->facing) >> 8) & 0xE)) << 19;
+                  ((actor->facing >> 8) & 0xE)) << 19;
             motion->velocity_y =
                 *(s16 *)((u8 *)direction_y +
-                  ((((u16)actor->facing) >> 8) & 0xE)) << 19;
+                  ((actor->facing >> 8) & 0xE)) << 19;
         }
 
         entity_kind = record->unk_04;

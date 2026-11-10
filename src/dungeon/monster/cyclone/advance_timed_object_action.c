@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "dungeon/monster/cyclone.h"
 #include "shared/sprite_frame_state.h"
@@ -48,7 +49,6 @@ typedef struct Obj3 {
 
 extern void spend_actor_mp(Obj3 *, s32);
 struct SpriteFrameState;
-extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern void *create_source_adjusted_motion_object(Obj0 *, void *, Obj2 *);
 extern void show_entity_message(s32, Obj3 *);
 

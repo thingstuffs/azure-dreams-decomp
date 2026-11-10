@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -29,7 +30,6 @@ typedef struct S_8017352C_5 {
    /* part28 in update_actor_animation_timers_and_transitions */
 
 
-extern void select_sprite_entry(void *, u8, s32);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"

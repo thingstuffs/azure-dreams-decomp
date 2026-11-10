@@ -43,7 +43,7 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
             u8 *x_offsets;
             s16 step_index;
 
-            step_index = ((u16)map->facing >> 8) & 0xE;
+            step_index = (map->facing >> 8) & 0xE;
             x_offsets = ((u8 *)dir_step_x);
             actor->tile_x = actor->tile_x + x_offsets[step_index];
             actor->tile_y = actor->tile_y + ((u8 *)dir_step_y)[step_index];

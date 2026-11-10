@@ -1177,9 +1177,7 @@ typedef struct Spawned Spawned;
 
 extern u8 held_item_record[];
 
-extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern Spawned *create_indexed_floor_object(void *, s32, s32, void *, void *, s32);
-extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 struct Spawned {
     u8 unk00[0x13];

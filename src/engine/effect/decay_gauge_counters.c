@@ -25,7 +25,7 @@ typedef struct S_800504B4 {
 } S_800504B4;
 
 /* Decays six counters, switches callbacks when the last reaches zero, and updates the object. */
-void decay_gauge_counters(S_800504B4 *object)
+void decay_gauge_counters(S_800504B4 *object, s32 unused_arg1, s32 unused_arg2)
 {
     s32 elem_index;
     for (elem_index = 1; elem_index < 7; elem_index++) {

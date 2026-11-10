@@ -102,13 +102,6 @@ typedef struct CB_80170A5C_S_80170A5C_4 {
 
 typedef void (*CB_80170C24_Callback)(void *, void *, void *, void *);
 
-typedef struct CB_80170C24_S_80170C24_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x68];
-    union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} CB_80170C24_S_80170C24_1;   /* actor in func_80170C24 */
-
 
 /* Runs entity callbacks, updates monster facing, and applies motion and floor collision. */
 
@@ -188,18 +181,6 @@ typedef struct CB_80171FBC_S_80171DA0_1 {
  /* extern */
                           /* extern */
  /* extern */
-
-typedef struct CB_80172180_S_80172180_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x12];
-    s8 unk_84;
-    s8 unk_85;
-} CB_80172180_S_80172180_0;   /* entity in func_80172180 */
 
 /* Finish the pending action, restore animation, and advance its entity countdown. */
 
@@ -940,7 +921,7 @@ extern s32 rand(void);
 void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords);
 void expand_then_shrink_effect(void *effect, void *unused, SpriteFrameState *visual);
 void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
-void set_boss_effect_flag(void *entity, ObjectPosition *motion, SpriteFrameState *monster);
+void set_boss_effect_flag(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster);
 void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param, SpriteFrameState *entity, ActorRecord *state);
 void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

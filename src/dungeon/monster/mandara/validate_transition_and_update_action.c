@@ -1,3 +1,4 @@
+#include "dungeon/player/object.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -10,7 +11,6 @@
 
 extern struct Ent *prepare_directional_attack();
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();
 #include "dungeon/monster/mandara.h"
 #include "engine/graphics.h"

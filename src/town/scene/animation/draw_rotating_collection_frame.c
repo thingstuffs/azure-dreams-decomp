@@ -1,12 +1,11 @@
 #include "common.h"
 #include "town/scene/animation.h"
 #include "town/scene/collection.h"
+#include "town/devkit/old_minigame_imports.h"
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 extern u8 D_80528910[];
 extern u16 D_80132AEA[];
 extern void create_object_pair_word(void *, void *, void *, void *);
-extern s32 func_8006A3A4(s32);
-extern s32 func_8006A470(s32);
 /* Draw three stacked rotating square outlines with complementary grayscale colors. */
 void draw_rotating_collection_frame(TownCollectionSequence *object)
 {

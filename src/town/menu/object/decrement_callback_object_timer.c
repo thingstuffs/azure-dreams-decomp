@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "town/menu/object.h"
+#include "engine/node.h"
 
 typedef struct S_func_800A9F90 S_func_800A9F90;
 
@@ -12,8 +13,6 @@ struct S_func_800A9F90 {
     u8 pad54[0x6C - 0x54];
     u16 counter;
 };
-
-extern void unlink_node_if_registered(S_func_800A9F90 *);
 
 /* Decrement the counter and handle expiry or invoke the callback. */
 void decrement_callback_object_timer(S_func_800A9F90 *self, ObjectPosition *expiry_arg)

@@ -19,7 +19,7 @@ extern void * free_node_list_head;
 extern void * active_node_list_head;
 
 /* Initialize the node pool free list and reset the pointer tables. */
-void runtime_reset_object_pool(void)
+void runtime_reset_object_pool(s32 unused_mode)
 {
     s32 index;
     S_801EAFE8 *free_node;

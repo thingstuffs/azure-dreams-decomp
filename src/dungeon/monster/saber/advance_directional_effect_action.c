@@ -47,7 +47,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             sprite->flags = flags | 0x0800;
             height = motion->z.w.i;
             tile_x = sprite->tile_x;
-            offset = &offsets.entries[(((u16)actor->facing) >> 9) & 7];
+            offset = &offsets.entries[(actor->facing >> 9) & 7];
             x_offset = offset->x;
             x_sum = tile_x + x_offset;
             y_offset = offset->y.s;
@@ -70,7 +70,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             s32 x_sum;
             s32 y_offset;
 
-            angle = ((u16)actor->facing);
+            angle = actor->facing;
             offset = offsets.entries + ((angle >> 9) & 7);
             height = motion->z.w.i;
             tile_x = sprite->tile_x;

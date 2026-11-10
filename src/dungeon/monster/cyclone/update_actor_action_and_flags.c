@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -11,7 +12,6 @@
 #include "dungeon/level.h"
 
 
-extern void select_sprite_entry(void *, s32, s32);
 #include "dungeon/player/object/action_state.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80174520(void *, void *, void *, void *);

@@ -35,7 +35,7 @@ void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(ActorRecor
             work->unk_AA = (s16) (actor->flags14 & 7);
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
-        actor->pending_turn_updates = (u8) (actor->pending_turn_updates - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         call_flags = actor->flags1C & 0x2000;
         call_a0 = part_b->tile_x;
         call_a1 = part_b->tile_y;

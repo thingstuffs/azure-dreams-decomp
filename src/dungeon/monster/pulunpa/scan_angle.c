@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 /* Pulunpa target scanning and nearby directional action selection. */
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -20,7 +21,6 @@ typedef struct S_80175E6C_6_pre {
     u8 pad_04[0x10];
 } S_80175E6C_6_pre;   /* the 0x14 bytes before ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in select_nearby_target_and_start_action, addressed as ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv[-1] */
 
-void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/pulunpa.h"

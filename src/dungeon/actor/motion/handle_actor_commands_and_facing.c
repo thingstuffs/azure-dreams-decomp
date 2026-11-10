@@ -129,7 +129,7 @@ void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
             if (command != 0) {
                 struct { signed int value : 24; } target_angle = {0};
                 direction = command->unk_01 & 7;
-                old_angle = ((u16)actor_data->facing);
+                old_angle = actor_data->facing;
                 if ((s8)direction < 0) {
                     direction = -direction;
                 }
@@ -164,7 +164,7 @@ void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
                         angle_distance = 0 - angle_distance;
                     }
                     if (angle_distance >= 0x801) {
-                        actor_data->facing = (u16)
+                        actor_data->facing =
                         ((turn_angle & ~0xFFF) | (angle & 0xFFF));
                     }
                     signed_angle = actor_data->facing;
@@ -245,7 +245,7 @@ void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
                         actor->unk_A0.parts.high = move_flags & 0xFFFE;
                         if (actor_data->flags1C & ACTOR_CONFUSED) {
                             actor_data->facing =
-                                ((u16)actor_data->facing) +
+                                actor_data->facing +
                                 (generate_random_value() & 0xE00);
                         }
                         update_actor_movement_and_map_flags(actor, motion, sprite, actor_data);

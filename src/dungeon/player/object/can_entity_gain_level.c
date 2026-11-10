@@ -1048,7 +1048,6 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-s32 distribute_experience_awards(struct S_800A2DB8_0 *source);                          /* extern */
 extern void *monster_species_table;
 
 extern u8 D_800E09CD[12];

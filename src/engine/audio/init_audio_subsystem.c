@@ -3,9 +3,9 @@
 #include "engine/audio/sequence.h"
 #include "engine/audio/slots.h"
 #include "slus/data.h"
+#include "slus.h"
 
 extern void set_audio_timer_state(s32 value);
-extern void noop_audio_init_hook(void *a0, s32 a1, s32 a2);
 extern void set_sound_flag_update_suppression(s16 value);
 extern s32 SpuClearReverbWorkArea(s32 voice);
 extern void enable_available_spu_reverb(void);

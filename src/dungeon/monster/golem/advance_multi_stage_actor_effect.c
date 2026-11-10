@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "dungeon/monster/golem.h"
 #include "shared/sprite_frame_state.h"
@@ -10,7 +11,6 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 extern void spend_actor_mp(void *, s32);
 extern void *create_randomized_offset_object(ActorRecord *, void *, SpriteFrameState *);
 

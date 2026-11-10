@@ -47,7 +47,7 @@ void advance_actor_walk_animation(ActorRecord *owner, ObjectPosition *unused, Sp
             part,
             table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         adjusted_value = append_entity_display_text(actor, current_value = get_unused_text_buffer());
         original_value = current_value;

@@ -36,7 +36,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
     u8 brightness;
 
     phase = state->action_phase;
-    direction_offset = ( ((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
+    direction_offset = (((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
     velocity_x = dir_step_x[direction_offset >> 1];
     velocity_y = dir_step_y[direction_offset >> 1];
     switch (phase) {

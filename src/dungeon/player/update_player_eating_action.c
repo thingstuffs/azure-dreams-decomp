@@ -1,3 +1,6 @@
+#include "dungeon/system.h"
+#include "dungeon/item/message/text.h"
+#include "dungeon/item/message.h"
 #include "engine/graphics.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/sprite_frame_state.h"
@@ -12,15 +15,13 @@
 #include "dungeon/actor/effect.h"
 
 
-void *get_unused_text_buffer(void);
-u8 *expand_text_control_codes(u8 *src, u8 *dst);
+
 u8 *clear_byte_and_advance(s8 *byte_ptr);
-u8 *write_text_byte_and_advance(s8 value, s8 *dest);
+
 u8 * append_typed_formatted_value(s32,u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 u8 * process_eligible_object_value(s32, u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 u8 *append_entity_display_text(void *record, u8 *out);
 s32 play_sound_if_enabled(s32 query_value);
-s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 held_item_record;
 extern s32 player_item_render_update_address;
 extern u8 D_800DD100[];
@@ -73,7 +74,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             break;
         }
         transform->facing =
-            (u16)transform->facing + 0x200;
+            transform->facing + 0x200;
         break;
     case 1:
         if (find_flagged_record_by_id(actor->source, 0) == 0) {

@@ -20,7 +20,7 @@ extern void submit_object_resource_data();
 void init_ground_input_fallback(s32 * *, void *, void *);
 struct TownObjectRecord; void initialize_randomized_object_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 struct TownObjectRecord; void init_periodic_effect_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-struct TownObjectRecord; void init_threshold_countdown_action(struct TownObjectRecord *, void *, void *);
+struct TownObjectRecord;
 struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);
 void initialize_action_object(s32 * *, void *, void *);
 struct TownObjectRecord;
@@ -31,6 +31,7 @@ extern void reduce_object_coordinates_toward_direction_dependent_limits_without_
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 #include "town/player.h"
+#include "town/player/position_handlers.h"
 
 extern s32 town_actor_control[];
 

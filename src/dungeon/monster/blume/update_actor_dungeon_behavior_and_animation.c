@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -15,9 +16,7 @@
 
 
 
-extern void select_sprite_entry(void *, u8, s32);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern void update_actor_status_and_mp(ActorRecord *entity);
 
 extern void func_80172384(void *, void *, void *, void *);
 extern void func_80174890(void *, void *, void *, void *);

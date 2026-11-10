@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -13,7 +14,6 @@
 #include "dungeon.h"
 #include "dungeon/player/object.h"
 
-extern void select_sprite_entry(void *, u8, s32);
 extern s32 find_active_rect_containing_point(u8, u8);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 

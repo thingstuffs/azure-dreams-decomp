@@ -233,9 +233,7 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
         entity_base->flags1C &= 0xF7FFFFFF;
     }
 
-    entity_base = (ActorRecord *)((u8 *)entity_base + 0x88);
-    motion->z.w.i =
-        *(u16 *)entity_base + entity->unk_90.parts.high;
+    motion->z.w.i = entity_base->ground_height + entity->unk_90.parts.high;
     sprite->flags |= 0x40;
 
     return;
@@ -544,7 +542,7 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
     tile_mask = 0x3000;
     entity->tile_y =
         state->path_y[state->unk_8A];
-    state->unk_8A = (u16)state->unk_8A + 1;
+    state->unk_8A = state->unk_8A + 1;
 
     new_x = entity->tile_x;
     new_y = entity->tile_y;
@@ -625,7 +623,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     (generate_random_value() & 7) << 9;
             }
         } else {
-            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing)) != 0) {
+            if (probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -675,7 +673,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
-        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,(s16)(actor_data->facing));
+        current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing);
         blocker = (ActorRecord *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
@@ -743,7 +741,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = ((u16)actor_data->facing >> 8) & 0xE;
+                step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
                 position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -874,7 +872,7 @@ void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_cont
             sprite->frameTable = griffon_direction_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + griffon_direction_frames), 0);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
@@ -1096,7 +1094,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
             return;
         }
 
-        direction_offset = (((((u16)actor->facing) >> 9) & 7) + 4) % 8;
+        direction_offset = (((actor->facing >> 9) & 7) + 4) % 8;
         motion->velocity_x =
             dir_step_x[direction_offset] * 3 << 16;
         motion->velocity_y =
@@ -1177,7 +1175,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
             s16 *x_step;
             s16 *y_step;
 
-            direction_offset = ((u16)actor->facing) >> 8;
+            direction_offset = actor->facing >> 8;
             x_steps = dir_step_x;
             x_step = (s16 *)((u8 *)x_steps + (direction_offset & 0xE));
             direction_step = *x_step;
@@ -1195,7 +1193,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
         if (((sprite->unk_04 == 3) &&
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,actor->facing,(s16)(1));
         }
 
         if (((sprite->unk_04 == 5) &&
@@ -2115,14 +2113,14 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
         run_cd_image_commands(D_80174CF4, D_80174D18, 0);
         effect_state->unk_B0.halves.low.s = 0;
         effect_state->action_phase++;
-        saved_angle = (u16)(actor->facing);
+        saved_angle = actor->facing;
         actor->unk_8A = saved_angle;
         /* fallthrough */
 
     case 2:
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
         mode = ((u8 *)((void * *)griffon_transition_sprite_source))[-4];
-        angle = (u16)(actor->facing);
+        angle = actor->facing;
         if ((mode == 0) || (direction != 2)) {
             if (direction == 2) {
                 return;
@@ -2248,7 +2246,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             }
             effect_state->action_timer = 0x10;
             effect_state->action_phase++;
-            ((R08_80174648_S_80174648_10 *)actor->target)->unk_2A = (u16)(actor->facing);
+            ((R08_80174648_S_80174648_10 *)actor->target)->unk_2A = actor->facing;
             child_or_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_60.i;
             child_sprite = ((R08_80174648_S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
             child_or_angle = ((R08_80174648_S_80174648_6 *)((void *)child_or_angle))->unk_2A;

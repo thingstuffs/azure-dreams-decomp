@@ -221,7 +221,7 @@ void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_w
                 (actor->flags1C & 0x2000) ? 0x300 : 0x3000);
 
             {
-                s32 move_offset = ((u16)actor->facing >> 8) & 0xE;
+                s32 move_offset = (actor->facing >> 8) & 0xE;
                 u8 * step = (u8 *)dir_step_x;
 
                 step += move_offset;

@@ -152,7 +152,7 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, Object
                 object->update_callback = update_segment;
                 register_node(object, &D_80024D58);
                 actor = (void *)((u8 *)(&reference_tile_object));
-                offset[0] = (((u16)primary_actor_record->facing) >> 9) & 7;
+                offset[0] = (primary_actor_record->facing >> 9) & 7;
                 work = NODE_BODY(object);
                 ((S_81988800_3 *)work)->unk_04 = (((u8 *)actor)[0x24] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;

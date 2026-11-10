@@ -1,3 +1,4 @@
+#include "engine/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -8,7 +9,6 @@
 
 
 
-extern s32 get_entity_effect_value(void *, s32);
 
 /*
  * For a positive signed kind ID, subtracts a status-adjusted reduction from the actor's 8.8 MP and

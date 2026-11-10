@@ -48,7 +48,7 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
     unsigned long history_addr;
     signed short history_x;
     s32 history_index;
-    angle = (u16)(object->facing);
+    angle = object->facing;
     state = motion->unk_B0.bytes[3];
     direction = (angle >> 9) & 7;
     if (state == 0) {
@@ -238,7 +238,7 @@ state1_call:
             case 1:
                 switch (motion->unk_B0.bytes[2]) {
                 case 0:
-                    next_angle = (u16)(object->facing) + 0x200;
+                    next_angle = object->facing + 0x200;
                     object->facing = next_angle;
                     if (((signed short)(next_angle)) >= 0x1000) {
                         object->facing = 0;
@@ -256,9 +256,9 @@ state1_call:
                     if ((timer << 16) > 0) {
                         break;
                     }
-                    if (((u16)(object->facing) & 0x3FF) != 0) {
+                    if ((object->facing & 0x3FF) != 0) {
                         motion->unk_B0.bytes[2] = 0;
-                        next_angle = (u16)(object->facing) + 0x200;
+                        next_angle = object->facing + 0x200;
                         object->facing = next_angle;
                         if (((signed short)(next_angle)) >= 0x1000) {
                             object->facing = 0;
@@ -345,7 +345,7 @@ state1_case2:
                 switch (motion->unk_B0.bytes[2]) {
                 case 0:
 state1_minus_angle:
-                    old_angle = (u16)(object->facing);
+                    old_angle = object->facing;
                     next_angle = old_angle - 0x200;
                     object->facing = next_angle;
                     if ((next_angle << 16) < 0) {
@@ -364,7 +364,7 @@ state1_minus_angle:
                     if ((timer << 16) > 0) {
                         break;
                     }
-                    if (((u16)(object->facing) & 0x3FF) != 0) {
+                    if ((object->facing & 0x3FF) != 0) {
                         motion->unk_B0.bytes[2] = 0;
                         goto state1_minus_angle;
                     }
@@ -385,7 +385,7 @@ state1_minus_angle:
         state = motion->unk_B0.bytes[3];
     }
     if (state == 2) {
-        object->facing = (u16)((u16)object->facing & (0xFC00));
+        object->facing = (object->facing & (0xFC00));
         motion->action_phase++;
         record->flags |= 0x80;
         motion->unk_90.parts.high = 0;
@@ -450,7 +450,7 @@ state3_test:
                 break;
             }
         }
-            object->facing = (u16)((u16)object->facing & (0xFC00));
+            object->facing = (object->facing & (0xFC00));
             motion->action_phase++;
             record->flags |= 0x80;
             motion->unk_90.parts.high = 0;

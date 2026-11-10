@@ -22,7 +22,6 @@ extern u8 town_scene_record_handlers[];
 
 extern IntVector3 D_800D0624;
 
-extern void call_the_handler_selects_nonzero_entry();
 
 /* Compute half the offset to the target, then snap to it and advance state when the timer expires. */
 void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *context)

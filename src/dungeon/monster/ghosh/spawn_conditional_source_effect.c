@@ -53,11 +53,11 @@ void spawn_conditional_source_effect(void) {
             effect_state->unk_4C = 0;
             effect_state->unk_54 = 0;
             effect_state->unk_60 = 0;
-            effect_state->unk_18 = (s16) (((u16) source_state->facing >> 9) & 7);
+            effect_state->unk_18 = (s16) ((source_state->facing >> 9) & 7);
             sprite = effect->header.sprite;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
-            sprite->depth_bias = (s16) (ghosh_effect_direction_offsets[((u16) source_state->facing >> 9) & 7].y * 6);
+            sprite->depth_bias = (s16) (ghosh_effect_direction_offsets[(source_state->facing >> 9) & 7].y * 6);
             source_state->unk_AA = 0x4D;
             rounded_x = source_pos->x.w.i;
             effect_state->unk_48 = (s8) (rounded_x / 64);

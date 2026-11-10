@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "dungeon/monster/garuda.h"
 #include "shared/game_work.h"
@@ -12,7 +13,6 @@ extern void *actor_update_node_cursor;
 
 extern u8 D_801748B8[];
 
-void select_sprite_entry(void *, u8, s32);
 void spend_actor_mp(void *, s32);
 
 /* Advances the actor animation sequence and resets its action state on completion. */

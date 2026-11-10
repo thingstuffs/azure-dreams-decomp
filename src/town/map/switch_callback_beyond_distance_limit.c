@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "sdk/libc.h"
+#include "town/map.h"
 
 typedef struct Position {
     s16 pad0;
@@ -9,7 +10,6 @@ typedef struct Position {
     s16 y;
 } Position;
 
-extern s32 town_sd_sq_callagain(s32 y_distance);
 extern s32 apply_nearby_object_effects(void);
 
 
@@ -33,7 +33,7 @@ s32 switch_callback_beyond_distance_limit(S_800C21F8_0 *object) {
     x_distance = (s32)((u32)x_distance << 16);
     if ((object->unk_0C < (x_distance >> 16)) ||
         ((s16)y_distance > object->unk_0E)) {
-        town_sd_sq_callagain(y_distance);
+        town_sd_sq_callagain();
         object->unk_00 = (void (*)(void))apply_nearby_object_effects;
 
         return 1;

@@ -1,3 +1,4 @@
+#include "dungeon/actor/state.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -6,8 +7,6 @@
 
 
 
-extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void update_actor_status_and_mp(ActorRecord *entity);
 #include "dungeon/player/object/action_state.h"
 
 /* Updates an entity's state and flags according to its action result. */

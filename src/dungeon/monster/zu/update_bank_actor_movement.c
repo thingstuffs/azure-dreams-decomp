@@ -1,3 +1,5 @@
+#include "dungeon/item.h"
+#include "dungeon/system.h"
 #include "dungeon/effect/particle.h"
 #include "slus.h"
 #include "dungeon/level/room_flags.h"
@@ -158,7 +160,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
         return;
     }
 
-    state_or_facing = (s8)(u8)entity->pending_turn_updates;
+    state_or_facing = entity->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(entity, motion_arg, sprite_arg, entity) != 0) {
         return;
     }
@@ -758,7 +760,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
-                    ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
+                    (actor_data->facing >> 9) & 0xFFFF,
                     position_data->tile_x, position_data->tile_y,
                     (s16)(actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
@@ -776,7 +778,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
                 if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
-                            ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
+                            (actor_data->facing >> 9) & 0xFFFF,
                             position_data->tile_x,
                                 position_data->tile_y,
                             (s16)(actor_data->ground_height - 0x20)) != 0) {
@@ -826,7 +828,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = (((u16)(actor_data->facing)) >> 8) & 0xE;
+                step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
                 position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -1141,7 +1143,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
     u8 *direction_x_table;
     u8 *direction_y_table;
 
-    index = ((u16)actor->facing) >> 8;
+    index = actor->facing >> 8;
     setup_value = index & 0xE;
     direction_x_table = (u8 *)((s8 *)dir_step_x);
     direction_x_table += setup_value;
@@ -2242,7 +2244,6 @@ typedef struct {
     u16 pad;
 } OutputVector;
 
-extern void transform_rotated_vertices(void *);
 
 /* Updates the effect's motion and fade, then marks it for removal. */
 void update_bank_effect_fade(void *effect_arg, ObjectPosition *position, SpriteFrameState *visual)
@@ -2317,10 +2318,8 @@ void update_bank_effect_fade(void *effect_arg, ObjectPosition *position, SpriteF
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes();
-extern u8 *clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 const u8 D_80170854[20] = {129,64,130,146,130,143,130,129,130,146,130,133,130,132,129,68,0,0,0,0};
 extern u8 D_80174B0C[];
@@ -2347,17 +2346,17 @@ void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, Sp
             if (!(flags & 0x80000000)) {
                 flags |= 0x80000000;
                 actor->flags14 = (s32)flags;
-                actor->facing = (u16)(((u16)actor->facing) + ((generate_random_value() & 7) << 9));
+                actor->facing = (actor->facing + ((generate_random_value() & 7) << 9));
             }
         }
         field_60 = probe_directional_neighbor(actor, part_b->tile_x, part_b->tile_y,
-            (s16)((u16)actor->facing));
+            actor->facing);
         table_base = D_80174B0C;
         actor->target = field_60;
         part_b->frameTable = table_base;
-        select_sprite_entry(part_b, table_base[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100)
+        select_sprite_entry(part_b, table_base[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0);
-        actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         raw_result = get_unused_text_buffer();
         call_arg = actor;

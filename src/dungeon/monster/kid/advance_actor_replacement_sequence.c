@@ -132,15 +132,15 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         run_cd_image_commands(&kid_image_commands, &kid_image_load_done, 0);
         state->unk_B0.halves.low.s = 0;
         state->action_phase = (u8) (state->action_phase + 1);
-        actor->unk_8A = (u16) ((u16)actor->facing);
+        actor->unk_8A = actor->facing;
         actor->flags1C = (s32) (actor->flags1C & 0xFFFBFFFF);
     case 2:
-        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((u16)actor->facing) + 0x100) >> 9) & 7;
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
         if (kid_image_load_done == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            actor->facing = (u16) (((u16)actor->facing) + 0x200);
+            actor->facing = (actor->facing + 0x200);
             return;
         }
         run_cd_image_commands(&kid_image_commands, &kid_image_load_done, 1);
@@ -245,7 +245,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         }
         state->action_timer = 0x10U;
         state->action_phase = (u8) (state->action_phase + 1);
-        ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((u16)actor->facing);
+        ((S_80174B20_16 *)actor->target)->unk_2A = actor->facing;
         replacement = actor->target;
         sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
         select_indirect_table_entry((sprite), sprite->unk_2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
@@ -258,7 +258,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
             return;
         }
         globals_base = (void *)0x80080000;
-        ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((u16)actor->unk_8A);
+        ((S_80174B20_16 *)actor->target)->unk_2A = actor->unk_8A;
         NODE_HEADER(state)->flags = (u16) (NODE_HEADER(state)->flags | 0x8000);
         global_flags = globals_base->unk_14A0;
         active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);

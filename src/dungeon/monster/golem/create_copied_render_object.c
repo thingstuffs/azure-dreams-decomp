@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -24,7 +25,6 @@ typedef struct S_80174EB4_6 {
     s32 unk_08;
 } S_80174EB4_6;   /* query_arg in create_copied_render_object */
 
-extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
 /* Create a render object, copy its source state, and apply queried position offsets. */

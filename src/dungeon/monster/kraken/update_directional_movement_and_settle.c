@@ -29,7 +29,7 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
     s32 ticks_left;
     s32 state;
 
-    dir_offset = ((u16)((u16)actor->facing) >> 8) & 0xE;
+    dir_offset = (actor->facing >> 8) & 0xE;
     dir_x = dir_step_x[dir_offset >> 1];
     dir_y = dir_step_y[dir_offset >> 1];
     state = action->action_phase;

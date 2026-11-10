@@ -9,6 +9,7 @@
 #include "town/player/coordinates.h"
 #include "town.h"
 #include "town/player.h"
+#include "town/player/position_handlers.h"
 #include "town/system.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "shared/sprite_frame_state.h"

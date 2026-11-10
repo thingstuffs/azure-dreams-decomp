@@ -6,7 +6,6 @@
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/state.h"
 
-void update_actor_status_and_mp(ActorRecord *entity);                      /* extern */
 
 
 /* Updates body state and flags according to the state handler result. */

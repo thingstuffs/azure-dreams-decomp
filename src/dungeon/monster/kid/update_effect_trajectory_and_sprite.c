@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct S_801743EC_0 {
     u8 pad_00[0x4];
@@ -36,8 +37,6 @@ typedef struct {
     u16 z;
     u16 pad;
 } OutputVector;
-
-extern void transform_rotated_vertices(void *);
 
 /* Update the effect trajectory and sprite, then flag completion when its animation ends. */
 void update_effect_trajectory_and_sprite(void *effect_arg, MovingPosition *position, void *sprite_arg)

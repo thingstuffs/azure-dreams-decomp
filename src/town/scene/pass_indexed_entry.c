@@ -1,3 +1,4 @@
+#include "town/player/state.h"
 #include "common.h"
 #include "town/scene/entry_requests.h"
 #include "town/scene.h"
@@ -5,7 +6,6 @@
 struct S_8046C8C4_1;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 set_script_flag_bit(s32, ...);
 
 typedef struct S_8046C8C4_0 {
     u8 pad_00[0x10];
@@ -18,10 +18,10 @@ typedef struct S_8046C8C4_1 {
     u8 pad_0E[2];
 } S_8046C8C4_1;
 
-/* Pass the indexed entry and its identifier to the handler. */
+/* Set the script flag named by the indexed entry's identifier. */
 void pass_indexed_entry(S_8046C8C4_0 *table, s32 entry_index) {
     S_8046C8C4_1 *entry;
 
     entry = (S_8046C8C4_1 *)(entry_index * 0x10 + (unsigned long)table->unk_10);
-    set_script_flag_bit(entry->unk_0C, entry);
+    set_script_flag_bit(entry->unk_0C);
 }

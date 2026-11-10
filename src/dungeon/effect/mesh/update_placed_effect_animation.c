@@ -182,9 +182,9 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                     ActorRecord *player;
 
                     player = primary_actor_record;
-                    tile_step = dir_step_x[(((u16)player->facing) >> 9) & 7];
+                    tile_step = dir_step_x[(player->facing >> 9) & 7];
                     target_pos->unk_02 += tile_step << 6;
-                    tile_step_2 = dir_step_y[(((u16)player->facing) >> 9) & 7];
+                    tile_step_2 = dir_step_y[(player->facing >> 9) & 7];
                     target_pos->unk_06 += tile_step_2 << 6;
                     target_pos->unk_0A.s = player->ground_height;
                 }
@@ -200,9 +200,9 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                     ActorRecord *player;
 
                     player = primary_actor_record;
-                    tile_step_3 = dir_step_x[(((u16)player->facing) >> 9) & 7];
+                    tile_step_3 = dir_step_x[(player->facing >> 9) & 7];
                     target_pos->unk_02 -= tile_step_3 << 6;
-                    tile_step_4 = dir_step_y[(((u16)player->facing) >> 9) & 7];
+                    tile_step_4 = dir_step_y[(player->facing >> 9) & 7];
                     target_pos->unk_06 -= tile_step_4 << 6;
                     target_pos->unk_0A.s = player->ground_height;
                     target_pos->unk_0A.s = get_surface_height_at_record(target_pos);

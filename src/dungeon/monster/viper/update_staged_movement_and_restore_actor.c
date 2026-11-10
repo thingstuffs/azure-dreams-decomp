@@ -93,14 +93,14 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         return;
     case 0:
         body->unk_A8 = motion->x.w.i;
-        body->unk_AA = (u16) ((u16)motion->y.w.i);
+        body->unk_AA = motion->y.w.i;
         if (sprite->flags & 0x8000) {
             body->action_phase = 5U;
             sprite->flags = (u16) (sprite->flags | 0x6000);
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        facing = ((u16) actor->facing >> 9) & 7;
+        facing = (actor->facing >> 9) & 7;
         reverse_facing = facing + 4;
         wrapped_facing = reverse_facing;
         if (reverse_facing < 0) {
@@ -181,7 +181,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
                     effect_coord = body->unk_B0.halves.low.u + ((u16)motion->z.w.i);
                     body->unk_B0.halves.low.u = effect_coord;
                     effect_data->unk_0C = effect_coord;
-                    effect_data->unk_2C = (u16) actor->facing;
+                    effect_data->unk_2C = actor->facing;
                     effect_data->unk_2E = 0x10;
                     effect_data->unk_30 = 0x10;
                     effect_data->unk_36 = 0x10;
@@ -232,7 +232,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         }
         if (axis_distance < 0x41) {
             axis_distance = (s16) ((u16)motion->y.w.i);
-            start_coord = (s16) body->unk_AA;
+            start_coord = body->unk_AA;
             axis_distance = axis_distance - start_coord;
             if (axis_distance < 0) {
                 axis_distance = 0 - axis_distance;
@@ -246,7 +246,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         if ((s16) ((u16)motion->x.w.i) != body->unk_A8) {
             return;
         }
-        if ((s16) ((u16)motion->y.w.i) != (s16) body->unk_AA) {
+        if ((s16) ((u16)motion->y.w.i) != body->unk_AA) {
             return;
         }
         motion->velocity_y = 0;

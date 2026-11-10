@@ -1,8 +1,7 @@
 #include "common.h"
 #include "engine/graphics.h"
 #include "slus/data.h"
-
-extern void *bzero(void *, s32);
+#include "sdk/memory.h"
 
 /* Builds a tinted rectangle with gradient top and bottom bands. */
 void *build_tinted_gradient_rect(u8 *cmd, u8 *rect, u8 *tint)

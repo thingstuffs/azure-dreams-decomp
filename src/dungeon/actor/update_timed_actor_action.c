@@ -7,28 +7,10 @@
 #include "dungeon/system.h"
 #include "dungeon/level.h"
 
-typedef struct {
-    u8 pad0[0x1c];
-    s32 flags;
-    u8 pad20[0x3c];
-    void *next_actor_header; /* +0x5C: next live actor list entry */
-} Resource;
-
-typedef struct {
-    u8 pad0[0x8c];
-    void (*callback)(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
-    u8 pad90[6];
-    u16 counter;
-    u8 pad98[3];
-    u8 state;
-    u8 pad9c[6];
-    u16 flags;
-} Object;
-
 extern s32 get_entity_effect_value(void *, s32);
 
 /* Waits for status slot 1 to clear, processes linked actors, and updates pending-action and dungeon flags. */
-void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resource *resource) {
+void update_timed_actor_action(ActorRecord *object, s32 unused1, s32 unused2, ActorRecord *resource) {
     s32 state;
         /* MATCH: Keep the guard result in v0 across argument setup. */
     s32 guard;
@@ -37,18 +19,18 @@ void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resourc
     DungeonGlobalStatus *status;
         /* MATCH: Keep the incoming resource in a3 for the pass-through call. */
         /* MATCH: Set a0 in both guard delay slots without a redundant call-slot move. */
-    Resource *callResource;
+    ActorRecord *callResource;
 
-    state = object->state;
+    state = object->action_phase;
     work = &g_game_work;
     switch (state) {
     case 0:
-        object->callback = apply_pending_actor_updates;
-        object->state += 1;
+        object->unk_8C.handler = apply_pending_actor_updates;
+        object->action_phase += 1;
         break;
     case 1:
                 /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
-        if ((g_dungeon_status.flags & 4) == 0 && (object->flags & 0x10) != 0) {
+        if ((g_dungeon_status.flags & 4) == 0 && (object->unk_A0.parts.high & 0x10) != 0) {
             guard = work->buttons & 0x20;
             callResource = resource;
             if (guard != 0) {
@@ -60,9 +42,9 @@ void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resourc
                 }
             }
             if ((get_entity_effect_value(callResource, STATUS_SLEEP) << 16) == 0) {
-                object->callback = 0;
+                object->unk_8C.handler = 0;
                 g_dungeon_status.activity_counts.parts.pending_action_count += 1;
-                object->state += 1;
+                object->action_phase += 1;
             } else {
                 process_unflagged_linked_entries_alt(resource->next_actor_header);
                 process_unflagged_linked_entries(resource->next_actor_header);
@@ -71,13 +53,13 @@ void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resourc
         }
         break;
     case 2:
-        resource->flags &= ~0x200;
+        resource->flags1C &= ~0x200;
         process_unflagged_linked_entries_alt(resource->next_actor_header);
         process_unflagged_linked_entries(resource->next_actor_header);
         g_dungeon_status.flags |= 0x812;
-        object->callback = handle_actor_commands_and_facing;
+        object->unk_8C.handler = handle_actor_commands_and_facing;
         g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
         break;
     }
-    object->counter += 1;
+    object->action_timer += 1;
 }

@@ -19,7 +19,9 @@ needs fewer value casts.  The trial answers that for one field:
 
 Recommendation: FLIP_CLEAN (all code identical with the opposite sign: every cast drops), FLIP_BETTER (fewer
 functions differ than casts are stripped: try the flip and re-add casts only where code differs), TIE,
-or KEEP (the flip needs at least as many casts as there are now).  A tie keeps the declaration as it is.
+or KEEP (the flip needs at least as many casts as there are now).  Each differing function needs at least one
+cast under the flip, so the differing count is a lower bound on the flip's casts.  A tie is decided by R17:
+the declaration whose remaining casts sit at pure reads (use --place for the flip's casts).
 
 --check-removal removes each existing value cast on the field (a cast to the type opposite the declaration;
 with --identity also each cast to the declared type itself, with --stores each cast on the whole stored
@@ -286,7 +288,7 @@ def base_before(text, pos):
                 w = k
                 while w > 0 and (text[w - 1].isalnum() or text[w - 1] == '_'):
                     w -= 1
-                if not ((w < k and text[w:k] not in C_KEYWORDS and not text[w].isdigit())
+                if not ((w < k and text[w:k] not in KEYWORDS and not text[w].isdigit())
                         or (k > 0 and text[k - 1] == ']')):
                     return start                    # a cast, an operator or a statement keyword precedes it
             continue
@@ -319,22 +321,23 @@ def field_accesses(text, field, resolver):
 
 KEYWORDS = frozenset('return else do case default goto sizeof typedef extern static const volatile register '
                      'unsigned signed struct union enum if while for switch'.split())
-C_KEYWORDS = KEYWORDS | frozenset('if while for switch return sizeof case'.split())
 STRUCT_END = re.compile(r'\}\s*([A-Za-z_]\w*)\s*;')
 STRUCT_TAG = re.compile(r'\b(?:struct|union)\s+([A-Za-z_]\w*)\s*\{')
 MEMBER = re.compile(r'^\s*(?:/\*.*?\*/\s*)*(?:(?:struct|union|const|volatile)\s+)*([A-Za-z_]\w*)\s*(\**)\s*'
                     r'([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*(?:/\*.*)?;', re.M)
+HEADER_GLOBAL = re.compile(r'(?m)^extern\s+(?:(?:struct|union|const|volatile)\s+)*([A-Za-z_]\w*)\s*\*+\s*([A-Za-z_]\w*)\s*;')
 FUNCTION_HEAD = re.compile(r'^(?:static\s+)?[A-Za-z_][^\n;{}=]*\([^;{}]*\)\s*\{', re.M)
 
 
 class TypeIndex:
     """Record names and member types read from the headers under root/include (lexical, not a compiler):
     enough to resolve a base expression written as a declared local, parameter, global, member chain,
-    array element or `(Type *)` cast.  Several names of one record (tag and typedef) share an id."""
+    array element or `(Type *)` cast.  A pointer global declared `extern` in a header (one type across the
+    headers) resolves when the TU does not declare the name itself.  Several names of one record (tag and typedef) share an id."""
 
     def __init__(self, root):
         self.root = Path(root)
-        self.ids, self.members = {}, {}
+        self.ids, self.members, self.globals = {}, {}, {}
         for path in sorted((self.root / 'include').rglob('*.h')):
             self.add(path.read_text(errors='replace'), path.as_posix())
 
@@ -380,6 +383,9 @@ class TypeIndex:
             self.members[ident] = members
             for name in names:
                 self.ids.setdefault(name, ident)
+        for m in HEADER_GLOBAL.finditer(text):                    # extern [struct] Type *name; at file scope
+            if m[1] not in KEYWORDS:
+                self.globals.setdefault(m[2], set()).add(m[1])
 
     def same(self, a, b):
         return a == b or (a in self.ids and self.ids.get(a) == self.ids.get(b))
@@ -395,6 +401,8 @@ class TypeIndex:
             found = [m[1] for m in re.finditer(r'(?m)^(?:(?:extern|static|const)\s+)*([A-Za-z_]\w*)\s*\**\s*\b'
                                                + re.escape(name) + r'\b\s*(?:\[[^\]]*\]\s*)*[;=]', text[:heads[-1]])
                      if m[1] not in KEYWORDS]
+        if not found and len(self.globals.get(name, ())) == 1:      # a global declared in a header, one type
+            found = list(self.globals[name])
         return found[-1] if found else None
 
     def type_of(self, text, offset, expr):
@@ -424,6 +432,11 @@ class TypeIndex:
                 return None
             current = self.declared_type(text, offset, first)
             parts = parts[1:]
+            if current is None and len(self.globals.get(first, ())) > 1:
+                return self._one_global(text, offset, expr, first, parts)
+        return self._walk(current, parts)
+
+    def _walk(self, current, parts):
         for member in parts:
             member = re.sub(r'\[[^\]]*\]', '', member).strip()
             ident = self.ids.get(current)
@@ -431,6 +444,19 @@ class TypeIndex:
             if current is None:
                 return None
         return current
+
+    def _one_global(self, text, offset, expr, name, parts):
+        """A header global declared with several types (in headers no TU includes together): the one type
+        whose record has the member chain and the member accessed next, or None when not exactly one has."""
+        at = text.find(expr, offset)
+        following = re.match(r'\s*(?:->|\.)\s*([A-Za-z_]\w*)', text[at + len(expr):]) if at >= 0 else None
+        found = {}
+        for candidate in sorted(self.globals[name]):
+            current = self._walk(candidate, parts)
+            if current is not None and (following is None
+                                        or following[1] in self.members.get(self.ids.get(current), {})):
+                found.setdefault(self.ids.get(current, current), current)
+        return next(iter(found.values())) if len(found) == 1 else None
 
     @staticmethod
     def _group_end(expr):
@@ -925,7 +951,8 @@ def main(argv=None):
     parser.add_argument('--tu', action='append', help='explicit TUs instead of the include-closure users of the field')
     parser.add_argument('--check-removal', action='store_true')
     parser.add_argument('--place', action='store_true',
-                        help='flip, strip both signs\' casts on the field and place the casts the flip needs')
+                        help='flip, strip both signs\' casts on the field and place the casts the flip needs '
+                             '(pruned greedily one cast at a time, so the count is an upper bound)')
     parser.add_argument('--apply', action='store_true', help='with --place: leave the flipped tree written when clean')
     parser.add_argument('--identity', action='store_true',
                         help='with --check-removal: also check casts to the declared type itself')

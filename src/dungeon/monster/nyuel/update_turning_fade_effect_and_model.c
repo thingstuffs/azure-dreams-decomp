@@ -111,15 +111,15 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         run_cd_image_commands(&nyuel_image_commands, &nyuel_image_load_done, 0);
         sequence->unk_A8 = 0;
         sequence->action_phase = (u8) (sequence->action_phase + 1);
-        target->unk_8A = (u16) (u16)(target->facing);
+        target->unk_8A = target->facing;
     case 2:
-        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (u16)(target->facing) + 0x100)
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + target->facing + 0x100)
             >> 9) & 7;
         if (nyuel_image_load_done[0] == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            turn_angle = (u16)(target->facing) + 0x200;
+            turn_angle = target->facing + 0x200;
             target->facing = turn_angle;
             return;
         }
@@ -210,7 +210,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         sequence->action_timer = 0x10U;
         sequence->action_phase = (u8) (sequence->action_phase + 1);
         ((S_801749A8_11 *)target->target)->unk_2A =
-            (u16) (u16)(target->facing);
+            target->facing;
         model = target->target;
         sprite = ((S_801749A8_6_pre *)model)[-1].unk_00;
         select_indirect_table_entry(sprite, *(*(u8 **)&sprite->frameTable + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle

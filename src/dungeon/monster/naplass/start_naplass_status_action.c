@@ -31,7 +31,7 @@ void start_naplass_status_action(ActorRecord *action_state, ObjectPosition *unus
         set_or_clear_actor_status_slot(actor, STATUS_SLEEP, 4);
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         advance_status_timers(actor);
-        actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     }
 }

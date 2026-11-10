@@ -121,7 +121,7 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
                 effect_in->unk_36 = 0xF;
                 effect_in->unk_32 = 1;
                 effect_in->unk_3A = source_data_2->ground_height;
-                effect_in->unk_40 = ((u16) ((u16)source_data_2->facing) >> 9) & 7;
+                effect_in->unk_40 = (source_data_2->facing >> 9) & 7;
                 resident_sprite = &reference_tile_object;
                 effect_in->unk_3C = resident_sprite->tile_position.parts.tile_x;
                 start_tile_y = resident_sprite->tile_position.parts.tile_y;

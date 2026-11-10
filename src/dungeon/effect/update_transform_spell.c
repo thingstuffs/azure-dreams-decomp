@@ -54,7 +54,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
     switch (spell->phase) {
     case 0:
         source_sprite = NODE_HEADER(source_actor)->sprite;
-        direction_byte_offset = ((u16)primary_actor_record->facing >> 8) & 0xE;
+        direction_byte_offset = (primary_actor_record->facing >> 8) & 0xE;
         source_actor->facing = get_rounded_facing_and_rounding_flag(source_sprite->tile_x, source_sprite->tile_y, D_80082E80.tile_x + D_8006CCD8[direction_byte_offset / 2], D_80082E80.tile_y + D_8006CCE8[direction_byte_offset / 2], &result_flags[0]);
         spell->ticks = 0;
         spell->phase++;
@@ -82,8 +82,8 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
             if (*spell->request_flags & 0x80) {
                 target = &travel.fields.target;
                 if ((source_node->flags | 0x2000) != 0) {
-                    spell->tile_x = D_80082E80.tile_x + D_8006CCD8[((u16)primary_actor_record->facing >> 9) & 7];
-                    spell->tile_y = D_80082E80.tile_y + D_8006CCE8[((u16)primary_actor_record->facing >> 9) & 7];
+                    spell->tile_x = D_80082E80.tile_x + D_8006CCD8[(primary_actor_record->facing >> 9) & 7];
+                    spell->tile_y = D_80082E80.tile_y + D_8006CCE8[(primary_actor_record->facing >> 9) & 7];
                 } else {
                     spell->tile_x = D_80082E80.tile_x + D_8006CCD8[spell->direction];
                     spell->tile_y = D_80082E80.tile_y + D_8006CCE8[spell->direction];

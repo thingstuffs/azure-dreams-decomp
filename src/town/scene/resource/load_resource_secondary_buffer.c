@@ -1,10 +1,10 @@
+#include "town/player/state.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene/resource.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 set_script_flag_bit(s32, ...);
 extern M2C_UNK D_800227C5;
 
 /* Calls func_8001E578 with 0x400 and returns the address of D_800227C5. */

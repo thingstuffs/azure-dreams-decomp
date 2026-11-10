@@ -45,7 +45,7 @@ void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *eve
                     0);
                 advance_status_timers(actor);
                 actor->pending_turn_updates =
-                    (u8)(((u8)actor->pending_turn_updates) - 1);
+                    (actor->pending_turn_updates - 1);
                 action_state->action_state_flags =
                     (u16)(action_state->action_state_flags | 8);
                 select_nearby_target_and_initialize_slot(actor_base, event_context, 8, 0x300);
@@ -75,7 +75,7 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
     }
 
     attempt = 0;
-    direction = ((u16)((u16)actor->facing) >> 9) & 7;
+    direction = (actor->facing >> 9) & 7;
     step_offset = direction << 1;
     tile_x = sprite->tile_x;
     tile_y = sprite->tile_y;
@@ -180,7 +180,7 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, frame_table[direction], 0);
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8)(*((u8 *)actor + 0x6D) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             action_state->action_state_flags = (u16)(action_state->action_state_flags | 8);
         }
     }
@@ -198,7 +198,7 @@ void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPositi
             animation->frameTable = cyclone_frame_set_2;
             select_sprite_entry(animation, cyclone_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
         }
     }
@@ -216,7 +216,7 @@ void attempt_actor_directional_action(ActorRecord *action_state, ObjectPosition 
             sprite->frameTable = cyclone_frame_set_2;
             select_sprite_entry(sprite, cyclone_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
         }
     }

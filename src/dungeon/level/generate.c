@@ -1319,7 +1319,7 @@ s32 load_dungeon_sound_effect_bank(s16 resource_index) {
     if (*loaded_id == resource_id) {
         return 0;
     }
-    SD_Call(0x72, resource_id);
+    SD_Call(0x72);
     drain_audio_commands_and_service_channels();
     *loaded_id = resource_index + 1;
     DrawSync(0);

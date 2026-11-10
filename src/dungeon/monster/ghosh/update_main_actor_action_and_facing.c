@@ -34,7 +34,7 @@ typedef struct S_8016B778_5 {
 
 extern u8 ghosh_action_resume_address[];
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-struct ActorRecord; void update_actor_status_and_mp(struct ActorRecord *);
+struct ActorRecord;
 extern u8 D_8017469C[];
 extern u8 D_801746BC[];
 

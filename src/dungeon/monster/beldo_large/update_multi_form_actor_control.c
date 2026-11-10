@@ -27,8 +27,7 @@
 
 struct ActorRecord; 
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-void update_actor_status_and_mp(struct ActorRecord *);
-struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2;
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 
 struct Rec_func_800A9E70_arg0;
@@ -308,7 +307,7 @@ block_37:
             s32 angle = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             ActorRecord *owner = primary_actor_record;
-            entity->facing = (s16)angle;
+            entity->facing = angle;
             if (owner->action_id != 0x11) {
                 update_actor_status_and_mp(entity);
                 return;

@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/entity.h"
 #include "engine/node/registration.h"
 #include "common.h"
@@ -19,7 +20,6 @@ typedef struct {
     s32 word3;
 } Block16;
 
-void select_sprite_entry();
 extern M2C_UNK D_80170D44;
 
 

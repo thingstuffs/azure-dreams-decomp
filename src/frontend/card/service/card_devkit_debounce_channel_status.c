@@ -3,7 +3,7 @@
 #include "main/data.h"
 
 extern s32 card_dev_has_selected_channel(void);
-extern void toggle_card_selection_state(s32 value, s32 index);
+void toggle_card_selection_state(void);
 
 /* Updates a slot's flag after four repeats of a nonzero state and returns the flag array. */
 s32 *card_devkit_debounce_channel_status(void)
@@ -29,7 +29,7 @@ s32 *card_devkit_debounce_channel_status(void)
         } else if (card_channel_state_repeat_count[slot_index] >= 4) {
             card_debounced_channel_flags[slot_index] = 0;
         }
-        toggle_card_selection_state(one, slot_index);
+        toggle_card_selection_state();
     }
     return card_debounced_channel_flags;
 }

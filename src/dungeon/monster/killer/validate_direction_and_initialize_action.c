@@ -1,3 +1,4 @@
+#include "dungeon/player/object.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -52,7 +53,6 @@ typedef struct {
 extern struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
 extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s16 try_claim_dungeon_action_slot(void *);
 extern s32 check_entity_interaction_compatibility(void *, s32);
 
 /* Validates the actor's direction and state, then initializes its action and animation. */

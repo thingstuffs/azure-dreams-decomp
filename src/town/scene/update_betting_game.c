@@ -105,8 +105,6 @@ typedef struct S_func_8080F4A4_8 {
  * not copy into work/overlay_wave/candidates/ (that directory is
  * globbed by tools/gen_noreturn_syms.py).
  */
-s32 func_8006A3A4(s32);                             /* extern */
-s32 func_8006A470(s32);                             /* extern */
 void func_802441A4();                   /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 extern u32 scene_value_total[3];
 extern u32 D_80012BC8[4];

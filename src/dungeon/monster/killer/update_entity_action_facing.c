@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -16,9 +17,7 @@
 #include "dungeon/monster/hikewne.h"
 
 #include "dungeon/monster/grineut/path_motion.h"
-extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80173A84(void *, void *, void *, void *);
 
 extern u8 killer_action_resume_address;

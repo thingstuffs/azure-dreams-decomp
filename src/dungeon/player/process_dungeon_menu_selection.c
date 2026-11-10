@@ -247,7 +247,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
             selected_item_action_alias = 0;
             break;
         }
-        direction = ((u16) actor->facing >> 9) & 7;
+        direction = (actor->facing >> 9) & 7;
         if ((find_valid_nearby_position(0, (s16) (sprite->tile_x + dir_step_x[direction]),
             (s16) (sprite->tile_y + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
             text_buffer = get_unused_text_buffer();

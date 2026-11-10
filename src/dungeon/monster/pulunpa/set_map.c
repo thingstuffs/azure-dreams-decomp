@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 /* Pulunpa map selection and actor action and animation updates. */
@@ -39,10 +40,8 @@ typedef struct S_80173B98_2 {
     void * unk_2C;
 } S_80173B98_2;   /* arg2 in update_creature_actions_and_animation */
 
-void select_sprite_entry(void *sprite, u8 frame, s32 mode);
 s8 find_active_rect_containing_point(u8 tile_x, u8 tile_y);
 s32 can_entity_gain_level(void *creature);
-void update_actor_status_and_mp(ActorRecord *entity);
 extern void update_object_or_select_directional_data(void *object_arg, ObjectPosition *context, void *source_arg, ActorRecord *target_arg);
 extern void choose_heading_and_advance_actor(ActorRecord *context, s32 action, S_8017405C_1 *actor, ActorRecord *movement);
 void func_80174924(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);

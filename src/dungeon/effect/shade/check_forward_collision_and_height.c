@@ -26,7 +26,7 @@ s16 check_forward_collision_and_height(EntityRec *position, ActorRecord *orienta
     height = position->z.w.i;
     probe_height = height - 0x20;
     offset_table = actor_direction_step_pairs;
-    offset = offset_table + ((((u16)orientation->facing) >> 7) & 0x1C);
+    offset = offset_table + ((orientation->facing >> 7) & 0x1C);
     probe_x = (position->x.w.i + (offset->unk_00 << 6)) & 0xFFFF;
     probe_y = (position->y.w.i + (offset->unk_02 << 6)) & 0xFFFF;
     if ((check_left_tile_and_center_height(probe_x, probe_y, probe_height) << 0x10) == 0) {

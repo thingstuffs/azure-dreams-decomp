@@ -42,8 +42,8 @@ void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosi
                           *(&D_80175414 + (((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                           0);
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
-            direction = ((u16)actor->facing >> 9) & 7;
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
+            direction = (actor->facing >> 9) & 7;
             actor->target =
                 find_eligible_actor_at_tile_and_height(actor,
                               (sprite->tile_x + ((u16 *)dir_step_x)[direction]) & 0xFFFF,

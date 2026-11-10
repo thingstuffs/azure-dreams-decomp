@@ -1,3 +1,5 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "dungeon/item.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_floor.h"
 #include "shared/entity.h"
@@ -21,12 +23,8 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
-extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
-extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173834(void *, void *, void *, void *);

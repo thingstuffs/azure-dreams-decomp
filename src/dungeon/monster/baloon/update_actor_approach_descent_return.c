@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/baloon_frames.h"
 #include "common.h"
 #include "dungeon/monster/baloon.h"
@@ -49,7 +50,6 @@ extern u8 D_80170994[];
 extern u8 D_801709B8[];
 
 extern s32 get_entity_class(void *);
-extern void select_sprite_entry(void *, u8, s32);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 /* Updates the actor's approach, descent, and return sequence. */

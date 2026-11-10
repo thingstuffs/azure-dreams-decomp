@@ -137,7 +137,7 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             body->unk_8C.run = &golem_action_continuation_address;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
@@ -200,7 +200,7 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 

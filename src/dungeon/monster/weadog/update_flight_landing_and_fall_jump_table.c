@@ -1,6 +1,7 @@
+#include "dungeon/monster/weadog.h"
 #include "common.h"
 
-extern void update_flight_landing_and_fall(void);
+
 
 /* jump_table; owner: dungeon/func_80EF1000. */
 const void *const D_8015E828[5] __attribute__((aligned(4))) = {

@@ -100,7 +100,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                 effect_data->unk_9E = 0x19;
                 effect->update_callback = &project_sprite_entries_to_quads;
                 effect_data->unk_A8 = motion;
-                effect_data->unk_94 = (u16) actor->facing;
+                effect_data->unk_94 = actor->facing;
                 effect_sprite = effect->sprite;
                 *(T_80172FFC_S_80172FFC_6 *)effect_sprite = *(T_80172FFC_S_80172FFC_6 *)sprite;
                 effect_sprite->scale_y = 0;

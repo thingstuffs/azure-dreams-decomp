@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -11,7 +12,6 @@
 #include "dungeon/monster/kid.h"
 #include "dungeon/monster/kid_frames.h"
 
-extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 kid_action_resume_address[];
 extern u8 D_80175158[];

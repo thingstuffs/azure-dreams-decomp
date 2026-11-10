@@ -33,7 +33,7 @@ typedef struct S_800506BC_Ctx {
 } S_800506BC_Ctx;
 
 /* Initialize entry data, enable context flags, and set subobject offsets. */
-void initialize_gauge_menu_display_rows(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
+void initialize_gauge_menu_display_rows(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx, void *unused_data)
 {
     s16 fixed_offset;
     s16 layout_offset;

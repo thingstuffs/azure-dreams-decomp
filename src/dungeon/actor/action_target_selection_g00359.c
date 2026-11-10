@@ -99,7 +99,7 @@ void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0
             actor->path_x[actor->movement_queue_state & 0x7F] = tile->unk_24.at00.v;
             actor->path_y[actor->movement_queue_state & 0x7F] = tile->unk_24.at01.v;
             actor->movement_queue_state++;
-            direction_index = (((u16) actor->facing) >> 9) & 7;
+            direction_index = (actor->facing >> 9) & 7;
             tile->unk_24.at00.v += dir_step_x[direction_index];
             tile->unk_24.at01.v += dir_step_y[direction_index];
             break;
@@ -119,7 +119,7 @@ void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0
     }
     actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
     body->unk_9C = (s8) (u8) tile->unk_26;
-    actor->pending_turn_updates = (u8) ((u8) actor->pending_turn_updates - 1);
+    actor->pending_turn_updates = actor->pending_turn_updates - 1;
     g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
     if (actor->pending_turn_updates == 0) {
         actor->movement_queue_state = actor->movement_queue_state & 0x7F;

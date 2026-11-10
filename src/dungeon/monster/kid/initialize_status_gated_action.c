@@ -25,7 +25,7 @@ void initialize_status_gated_action(ActorRecord *action_state, ObjectPosition *c
             action_state->action_phase = 0;
             select_sprite_entry(animation, *(*(u8 **)&animation->frameTable + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
                 + 0x100) >> 9) & 7)), 0);
-            entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
+            entity->pending_turn_updates = entity->pending_turn_updates - 1;
             prepare_directional_attack(entity, animation, entity->facing, 1, 0);
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
             entity->unk_84 = 0x7C;

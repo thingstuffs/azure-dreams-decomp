@@ -460,7 +460,7 @@ void advance_block_path_slot_f(void *motion, ObjectPosition *update_param, void 
         state->path_x[state->unk_8A];
     ((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_25 =
         state->path_y[state->unk_8A];
-    state->unk_8A = (u16) ((u16) state->unk_8A + 1);
+    state->unk_8A = state->unk_8A + 1;
 
     new_x = ((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_24;
     new_y = ((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_25;
@@ -620,7 +620,7 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
-                    ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
+                    (actor_data->facing >> 9) & 0xFFFF,
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     (s16)(actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
@@ -638,7 +638,7 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
                 if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
-                            ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
+                            (actor_data->facing >> 9) & 0xFFFF,
                             position_data->tile_position.parts.tile_x,
                                 position_data->tile_position.parts.tile_y,
                             (s16)(actor_data->ground_height - 0x20)) != 0) {
@@ -688,7 +688,7 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = (((u16)(actor_data->facing)) >> 8) & 0xE;
+                step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_position.parts.tile_x += *x_step;
                 position_data->tile_position.parts.tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -810,7 +810,7 @@ void begin_block_attack_slot_f(CL_CB9000_80172180_S_80172180_1 *state, s32 posit
             state->action_tick = 0;
             render_state->unk_2C = block_slot_f_direction_frames;
             select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + block_slot_f_direction_frames), 0);
-            entity->pending_turn_updates = (u8) ((u8)entity->pending_turn_updates - 1);
+            entity->pending_turn_updates = entity->pending_turn_updates - 1;
             prepare_directional_attack(entity, render_state, entity->facing, 1, 0);
             entity->unk_84 = 0x7C;
             entity->unk_85 = 0;

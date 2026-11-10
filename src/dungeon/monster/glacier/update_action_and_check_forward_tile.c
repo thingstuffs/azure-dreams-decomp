@@ -113,8 +113,8 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                 particle_transform->y.w.i = (u16)particle_transform->y.w.i + (y);
                 particle_work->velocity_x = x << 12;
                 particle_work->velocity_y = y << 12;
-                particle_work->velocity_x += glacier_direction_offsets[(((u16)entity->facing) >> 9) & 7].x << 16;
-                particle_work->velocity_y += glacier_direction_offsets[(((u16)entity->facing) >> 9) & 7].y << 16;
+                particle_work->velocity_x += glacier_direction_offsets[(entity->facing >> 9) & 7].x << 16;
+                particle_work->velocity_y += glacier_direction_offsets[(entity->facing >> 9) & 7].y << 16;
                 particle_work->velocity_z = -(rand() + 0x50000);
                 particle_work->acceleration_z = 0x6000;
 
@@ -171,7 +171,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             if (((s8)actor->unk_AC.bytes[1]) == 0) {
                 get_offset_map_cell_value_and_flags(animation->tile_x,
                               animation->tile_y,
-                              (((u16)entity->facing) >> 9) & 7,
+                              (entity->facing >> 9) & 7,
                               &collision_flags);
                 if (collision_flags & 0x8400) {
                     actor->unk_AC.bytes[1] = 1;

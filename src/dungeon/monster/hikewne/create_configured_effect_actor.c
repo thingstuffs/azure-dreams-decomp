@@ -1,3 +1,4 @@
+#include "dungeon/actor.h"
 #include "shared/entity.h"
 #include "dungeon/monster/hikewne.h"
 #include "shared/actor_status_flags.h"
@@ -16,7 +17,7 @@
 
 
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
+
 
 extern u8 hikewne_direction_frames[16];
 extern u8 hikewne_frame_set_2[16];

@@ -1,3 +1,5 @@
+#include "slus.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/entity_objects.h"
@@ -29,8 +31,6 @@ typedef struct {
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern s16 encounter_blink_update_flag[];
 
-extern void initialize_timed_motion_step(s32, s32, void *);
-extern void select_sprite_entry(void *, u8, s32);
 
 /* Advances a timed actor sequence, updating effects and directional animation before clearing completion flags. */
 void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *transform, SpriteFrameState *sprite_arg, ActorRecord *actor_arg) {
@@ -75,8 +75,8 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
         if (sequence->action_timer == 2) {
             effect_actor = primary_actor_record;
             ((PlayerRecord *)effect_actor)->unk_10C |= 1;
-            effect_actor->movement_facing = ((u16)effect_actor->facing) + 0x800;
-            initialize_timed_motion_step(6, 0xC, effect_actor);
+            effect_actor->movement_facing = effect_actor->facing + 0x800;
+            initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x601);
             create_player_centered_sequence_effect(sequence, transform, sprite);
         }

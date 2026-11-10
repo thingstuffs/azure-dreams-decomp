@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/entity.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
@@ -14,7 +15,6 @@
 #include "dungeon/monster/kid.h"
 #include "sdk/libgte.h"
 
-void select_sprite_entry(void *, u8, s32);             /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *); /* extern */
 void kid_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *entity);
 extern u8 kid_direction_frames[12];
@@ -73,7 +73,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
         actor_arg->movement_queue_state = actor_arg->movement_queue_state & 0x7F;
         return;
     }
-    state_or_facing = (s8) actor_arg->pending_turn_updates;
+    state_or_facing = actor_arg->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(actor_arg, ((motion_arg)), object_arg, actor_arg) == 0) {
         update_callback = actor_arg->unk_8C.handler;
         if (update_callback != NULL) {
@@ -81,7 +81,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
         }
         ((void (*)(void *, void *, void *, void *))D_80175198[actor_arg->action_id])(actor_arg,
             ((motion_arg)), object_arg, actor_arg);
-        if ((s16) state_or_facing != (s8) actor_arg->pending_turn_updates) {
+        if ((s16) state_or_facing != actor_arg->pending_turn_updates) {
             try_move_actor_to_valid_position(actor_arg, ((motion_arg)), object_arg, actor_arg);
         }
         motion_arg->x.v =

@@ -1140,7 +1140,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
         ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
         state_fields = NODE_BODY(object);
         play_sound_if_enabled(0x603);
-        inherited_value = ((u16)primary_actor_record->facing);
+        inherited_value = primary_actor_record->facing;
         state_fields->unk_0E = inherited_value;
     }
 }

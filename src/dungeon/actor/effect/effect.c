@@ -1,3 +1,6 @@
+#include "dungeon/item.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "engine/node/registration.h"
 #include "engine/scene.h"
@@ -538,10 +541,8 @@ extern s32 D_800E0B54;
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 find_first_empty_floor_item_slot(void);
 struct DungeonDescriptor;
 extern struct DungeonDescriptor * create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data);
@@ -952,7 +953,6 @@ void compact_item_entry_table(s32 entry_index) {
 
 s32 check_neighbor_tile_blocking();
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s32 x, s32 y_in, s16 value);
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 extern s32 held_item_record;
 extern u8 D_800DD7DC[];
 extern s32 saved_held_item_word;

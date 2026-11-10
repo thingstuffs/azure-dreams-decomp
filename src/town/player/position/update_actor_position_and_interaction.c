@@ -10,6 +10,7 @@
 #include "town/event.h"
 #include "town/event/motion.h"
 #include "town/player.h"
+#include "town/player/position_handlers.h"
 #include "town/player/position.h"
 #include "town/shop.h"
 

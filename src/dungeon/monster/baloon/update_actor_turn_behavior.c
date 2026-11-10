@@ -24,7 +24,6 @@
 
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
 void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *entity);
 extern void func_8017531C(void *, void *, void *, void *);
 

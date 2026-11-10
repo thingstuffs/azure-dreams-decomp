@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -7,7 +8,6 @@
 #include "sdk/libgte.h"
 #include "dungeon/data.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 
 
 /* Updates a timed animation offset and restores the actor's directional animation. */

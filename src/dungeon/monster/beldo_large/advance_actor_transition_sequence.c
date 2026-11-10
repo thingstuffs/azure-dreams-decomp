@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -27,7 +28,6 @@ typedef struct S_8016BE20_6 {
 
 typedef struct SystemFlagWord { u16 flags; } SystemFlagWord;
 
-extern void select_sprite_entry(void *, u8, s32);
 extern void func_80164BA4(void *);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);

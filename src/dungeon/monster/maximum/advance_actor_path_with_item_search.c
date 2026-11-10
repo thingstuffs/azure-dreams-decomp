@@ -277,7 +277,7 @@ loop_setup:
             update_map_cell_flags_with_item_limit(position_arg->tile_x, position_arg->tile_y,
                           (actor_arg->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
 
-            table_offset = (((u16)(actor_arg->facing)) >> 8) & 0xE;
+            table_offset = (actor_arg->facing >> 8) & 0xE;
             {
                 u8 *x_step;
 

@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -6,7 +7,6 @@
 
 extern s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor);
 
-extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_variant_action_address[];

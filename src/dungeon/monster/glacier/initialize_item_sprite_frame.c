@@ -1,9 +1,9 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "dungeon/monster/glacier.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 extern u8 D_801760B4;
 
 /* Initializes display state and selects a sprite frame from the combined facing angles. */

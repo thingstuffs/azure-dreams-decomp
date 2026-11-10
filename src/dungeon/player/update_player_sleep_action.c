@@ -1,3 +1,4 @@
+#include "engine/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
@@ -28,7 +29,6 @@ typedef struct {
 
 extern void *D_8008B870;
 
-extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 
 /* Advances actor animation states, periodic events, and handler transitions. */
 void update_player_sleep_action(ActorRecord *controller, void *unused, SpriteAnimationTableView *animation, ActorRecord *actor) {

@@ -8,6 +8,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/effect.h"
+#include "dungeon/item/position.h"
 #include "dungeon/system.h"
 
 void (*const dungeon_19cc800_entry)(struct EventState *event) = run_warp_effect_sequence;
@@ -812,7 +813,6 @@ void PushMatrix();
 void PopMatrix(void);
 void RotTrans(void *, void *, s32 *);
 void apply_attack_power_and_element_effects();
-s16 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 extern s8 D_8002758C[];

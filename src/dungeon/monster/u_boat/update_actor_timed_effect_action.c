@@ -115,7 +115,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
             action->action_timer = 2U;
             action->action_phase = (u8) (action->action_phase + 1);
             sprite->depth_bias = 6;
-            action->unk_A4.halves.high.u = (u16) actor->facing;
+            action->unk_A4.halves.high.u = actor->facing;
         }
         effect_timer = action->action_timer + 1;
         action->action_timer = effect_timer;
@@ -194,7 +194,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
                 position->y.w.i = (u16) ((S_8017558C_0 *)action)->unk_B8;
                 actor->ground_height = (u16) ((S_8017558C_0 *)action)->unk_BA;
                 saved_angle = action->unk_A4.halves.high.u;
-                actor->facing = (s16) saved_angle;
+                actor->facing = saved_angle;
                 view_dir = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
                 select_indirect_table_entry(sprite, (*(u8 * *)&sprite->frameTable)[view_dir], sprite->unk_04);
                 action->unk_94 = view_dir;

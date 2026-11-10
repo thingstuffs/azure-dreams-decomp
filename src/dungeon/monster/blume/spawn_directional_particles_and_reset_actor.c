@@ -159,10 +159,10 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         motion->velocity_x = velocity_x;
                         motion->velocity_y = velocity_y;
 
-                        direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
+                        direction_offset = (actor->facing >> 7) & 0x1C;
                         motion->velocity_x += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
                         << 19;
-                        direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
+                        direction_offset = (actor->facing >> 7) & 0x1C;
                         motion->velocity_y += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
                         << 19;
                         motion->velocity_z = -((rand() & 0x7FFF) * 2);
@@ -241,10 +241,10 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         motion->unk_60 = velocity_x;
                         motion->unk_64 = velocity_y;
 
-                        direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
+                        direction_offset = (actor->facing >> 7) & 0x1C;
                         motion->unk_60 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
                         << 19;
-                        direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
+                        direction_offset = (actor->facing >> 7) & 0x1C;
                         motion->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
                         << 19;
                         motion->unk_68 = -((rand() & 0x7FFF) * 2);

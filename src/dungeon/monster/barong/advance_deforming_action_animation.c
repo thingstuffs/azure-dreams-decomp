@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -9,7 +10,6 @@
 #include "dungeon/data.h"
 
 
-extern void select_sprite_entry(void *, s32, s32);
 extern void spend_actor_mp(void *, s32);
 extern void create_randomized_item_object(ActorRecord *, ObjectPosition *, SpriteFrameState *, void *);
 

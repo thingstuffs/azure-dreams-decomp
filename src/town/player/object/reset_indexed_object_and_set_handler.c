@@ -6,6 +6,7 @@
 #include "shared/town_handler.h"
 #include "town/player/object.h"
 #include "town/player.h"
+#include "town/player/target_motion_g00547.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 

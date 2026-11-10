@@ -1,3 +1,4 @@
+#include "dungeon/item/message/text.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -8,8 +9,8 @@
 
 
 extern void *get_unused_text_buffer(s32, u8 *, void *);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *write_text_byte_and_advance(s8 value, s8 *dest);
+
+
 
 extern u8 D_8016A808[];
 

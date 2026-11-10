@@ -32,7 +32,7 @@ void begin_actor_turn_toward_target(ActorRecord *body, ObjectPosition *unused, v
     set_sprite_animation_frame(actor_arg, actor_attack_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + motion->facing + 0x100)
         >> 9) & 7], 0, 1);
     target = ((SpriteLinkPrefixView *)(g_dungeon_status.active_actor))[-1].sprite;
-    ((Rec_func_8008ACDC_arg0 *)body)->unk_11A = (u16) motion->facing;
+    ((Rec_func_8008ACDC_arg0 *)body)->unk_11A = motion->facing;
     motion->facing = get_rounded_facing_and_rounding_flag(actor->unk_24,
         actor->unk_25, target->tile_x, target->tile_y,
         &distance);

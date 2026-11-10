@@ -26,8 +26,8 @@ void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectP
                 0);
             sprite->flags = (u16)(sprite->flags | 0x800);
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
-            direction = ((u16)actor->facing >> 9) & 7;
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
+            direction = (actor->facing >> 9) & 7;
             actor->target = find_eligible_actor_at_tile_and_height(
                 actor,
                 (sprite->tile_x + ((u16 *)dir_step_x)[direction]) & 0xFFFF,

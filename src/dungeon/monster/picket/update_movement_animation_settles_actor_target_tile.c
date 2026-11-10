@@ -30,7 +30,7 @@ void update_movement_animation_settles_actor_target_tile(ActorRecord *body, Obje
     s32 direction_y;
     u16 frames_left;
 
-    direction_offset = ((u16)actor->facing >> 8) & 0xE;
+    direction_offset = (actor->facing >> 8) & 0xE;
     direction_x = dir_step_x[direction_offset >> 1];
     direction_y = dir_step_y[direction_offset >> 1];
     state = body->action_phase;

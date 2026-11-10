@@ -258,14 +258,14 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
         actor->movement_queue_state = actor->movement_queue_state & 0x7F;
         return;
     }
-    prior_state = (s8) actor->pending_turn_updates;
+    prior_state = actor->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, actor) == 0) {
         update_callback = ((S_8016B0E8_0 *)entity)->unk_8C;
         if (update_callback != 0) {
             update_callback(entity, motion, sprite, actor);
         }
         ghosh_callbacks[entity->action_id](entity, motion, sprite, actor);
-        if ((s16) prior_state != (s8) actor->pending_turn_updates) {
+        if ((s16) prior_state != actor->pending_turn_updates) {
             try_move_actor_to_valid_position(entity, motion, sprite, actor);
         }
         sprite_flags = sprite->flags;

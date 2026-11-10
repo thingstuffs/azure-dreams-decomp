@@ -41,20 +41,20 @@ void spawn_owned_motion_object(void)
         spawn_pos->y.w.i = source_pos->y.unsigned_parts.integer;
         spawn_pos->z.w.i = source_pos->z.unsigned_parts.integer - 0x20;
         direction_table = (u8 *)&ghosh_effect_direction_offsets;
-        x = *(s16 *)(u8 *)((((u16)owner_state->facing >> 7) & 0x1C) +
+        x = *(s16 *)(u8 *)(((owner_state->facing >> 7) & 0x1C) +
                            (u32)direction_table);
         object_state->unk_4C = x << 18;
-        direction_y = *(s16 *)((u8 *)((((u16)owner_state->facing >> 7) & 0x1C) +
+        direction_y = *(s16 *)((u8 *)(((owner_state->facing >> 7) & 0x1C) +
                                       (u32)direction_table) + 2);
         object_state->unk_54 = 0xFFF80000;
         object_state->unk_60 = 0x14900;
         object_state->unk_50 = direction_y << 18;
 
-        object_state->unk_18 = ((u16)owner_state->facing >> 9) & 7;
+        object_state->unk_18 = (owner_state->facing >> 9) & 7;
         render_part = spawned_object->header.sprite;
         render_part->scale_y = 0x1000;
         render_part->scale_x = 0x1000;
-        direction_entry = (u8 *)((((u16)owner_state->facing >> 7) & 0x1C) + (u32)direction_table);
+        direction_entry = (u8 *)(((owner_state->facing >> 7) & 0x1C) + (u32)direction_table);
         render_part->depth_bias = *(s16 *)(direction_entry + 2) * 6;
         owner_state->unk_AA = 0x4D;
 

@@ -30,7 +30,7 @@ void finish_actor_tile_move_and_check_trap(ActorRecord *action_state, ObjectPosi
             (sprite->frameTable) = &D_80176480;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &D_80176480), 0);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;

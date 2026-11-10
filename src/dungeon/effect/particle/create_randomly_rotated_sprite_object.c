@@ -501,7 +501,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         origin = &reference_tile_object;
         {
             SpriteFrameState *node = NODE_HEADER(owner)->sprite;
-            u32 offset = ((u16)primary_actor_record->facing >> 8) & 0xE;
+            u32 offset = (primary_actor_record->facing >> 8) & 0xE;
 
             owner->facing = get_rounded_facing_and_rounding_flag(
                 node->tile_x, node->tile_y,
@@ -510,7 +510,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         }
         state->timer.s = 0;
         state->state.s++;
-        state->direction.s = ((u16)owner->facing >> 9) & 7;
+        state->direction.s = (owner->facing >> 9) & 7;
         state->status = 0;
         part->color = 0x00808080;
 

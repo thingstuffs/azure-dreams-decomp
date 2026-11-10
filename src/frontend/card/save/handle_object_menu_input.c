@@ -19,7 +19,6 @@ typedef struct S_80406368_0 {
 extern s32 boot_pad_state;
 extern s32 boot_pressed_buttons;
 
-extern void func_80063FF8(s32 sound_code);
 extern void submit_stored_and_queried_boot_values(void);
 extern void invoke_indexed_object_callback(void *menu);
 extern void func_80406358(void *menu);

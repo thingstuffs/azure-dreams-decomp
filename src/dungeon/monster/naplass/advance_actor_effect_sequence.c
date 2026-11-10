@@ -119,7 +119,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
                     advance_actor_pending_action(body, transform, sprite, actor_state);
                     return;
                 }
-                body->unk_AA = (u16)((actor_state->movement_facing
+                body->unk_AA = ((actor_state->movement_facing
                     + 0x800) & 0xFFF);
                 return;
             }
@@ -127,7 +127,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         actor_flags = actor_state->flags14;
         if (!(actor_flags & 0x8000)) {
             actor_state->flags14 = (s32)(actor_flags | 0x8000);
-            actor_state->hp_delta = (s16)((u16)actor_state->hp_delta + 1);
+            actor_state->hp_delta = actor_state->hp_delta + 1;
             apply_clamped_actor_value_delta(actor_state);
         }
         if ((has_pending_actor_or_turn_action(actor_state) << 0x10) != 0)
@@ -218,7 +218,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         *(Copy24 *)effect_transform = *(Copy24 *)transform;
         body->unk_BB = 0;
         effect_sprite = effect_node->sprite;
-        ((Rec_func_801732A4_arg0 *)body)->unk_4A = (u16)actor_state->facing;
+        ((Rec_func_801732A4_arg0 *)body)->unk_4A = actor_state->facing;
         sprite_data = sprite->animation_resource;
         effect_sprite->scale_y = 0x1000;
         effect_sprite->scale_x = 0x1000;
@@ -244,7 +244,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         if (effect_flags & 0x8000) {
             body->action_state_flags = (u16)(effect_flags & 0x7FFF);
             actor_state->facing = (s16)((Rec_func_801732A4_arg0 *)body)->unk_AA;
-            actor_state->pending_turn_updates = (s8)((u8)actor_state->pending_turn_updates + 1);
+            actor_state->pending_turn_updates = actor_state->pending_turn_updates + 1;
             body->action_phase = (u8)(body->action_phase + 1);
             return;
         }

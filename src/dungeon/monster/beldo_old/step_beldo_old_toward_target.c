@@ -223,7 +223,7 @@ void step_beldo_old_toward_target(Rec_func_800A9E70_arg0 *move_state_arg, void *
                 u8 *x_step;
 
                 x_step = (u8 *)&D_8006BDA8;
-                step_offset = ((u16)actor_arg->facing >> 8) & 0xE;
+                step_offset = (actor_arg->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_arg->tile_x += *x_step;
                 position_arg->tile_y += *((u8 *)&D_8006BDB8 + step_offset);

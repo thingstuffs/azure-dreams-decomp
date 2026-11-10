@@ -1,6 +1,7 @@
+#include "dungeon/monster/weadog.h"
 #include "common.h"
 
-extern void advance_motion_through_landing_and_fall(void);
+
 
 /* jump_table; owner: dungeon/func_80EF7000. */
 const void *const D_80158828[5] __attribute__((aligned(4))) = {

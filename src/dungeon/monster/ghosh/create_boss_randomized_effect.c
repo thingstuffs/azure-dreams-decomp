@@ -15,7 +15,7 @@ typedef struct S_80172F44_4 {
     s32 unk_08;
 } S_80172F44_4;   /* arg0 in create_boss_randomized_effect */
 
-extern void update_accelerating_growing_particle(void);
+void update_accelerating_growing_particle(void *effect_arg, ObjectPosition *position, SpriteFrameState *animation);
 
 /* Creates a visual effect at an offset position with randomized state. */
 /* Creates an offset dark-gray Ghosh particle with randomized velocity, scale 0x400, and the

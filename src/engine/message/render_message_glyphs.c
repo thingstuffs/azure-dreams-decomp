@@ -1,10 +1,10 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 #include "common.h"
 #include "engine/message.h"
 #include "engine/script.h"
 
-extern void move_glyph_to_grid_position(u8 *, s16, s16, u8, s32, s32, s32);
 extern void wait_message_countdown(void);
 
 typedef void (*Callback)(void);

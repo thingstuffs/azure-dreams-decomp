@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/actor_status_flags.h"
 #include "dungeon/actor/status.h"
 
@@ -52,7 +53,6 @@ typedef struct S_801717D0_5 {
     u8 unk_13;
 } S_801717D0_5;   /* entry in prepare_actor_directional_action */
 
-extern void select_sprite_entry(void *, u8, s32);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
 void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)

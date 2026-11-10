@@ -291,7 +291,6 @@ typedef struct ShortVec {
 extern void *actor_direction_sprites;
 
 extern void *resolve_record_orientation_or_fallback(void *, void *, ShortVec *, s16);
-extern void spawn_blinking_sprite_flash(s16, s16, s16);
 typedef struct FuncInput {
     u16 unk0;
     u16 unk2;
@@ -2778,7 +2777,6 @@ extern void SetDrawArea(void *, void *);
 extern void func_80067EF4(void *, s32, s32, ...);
 struct Position;
 struct Position;
-extern void draw_transformed_sprite_with_clip_rect(void *sprite, struct Position *clip_rect, struct Position *screen_pos, s32 clear_bg, s16 draw_flags);
 
 extern u8 upper_draw_context[16];
 

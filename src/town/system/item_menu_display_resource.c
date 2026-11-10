@@ -1,3 +1,4 @@
+#include "engine/node/allocation.h"
 /* Item menu display resource and its file-private helper. */
 #include "common.h"
 #include "shared/object_node.h"
@@ -17,7 +18,7 @@ typedef struct S_800AEFD8_1 {
 } S_800AEFD8_1;
 /* payload in create_item_menu_child_at_position */
 
-extern void *allocate_list_node(s32 value, void *parent);
+
 static s32 load_item_menu_display_resource(void *payload, s32 value);
 extern void *link_item_menu_display_entries(void *entries);
 extern void initialize_item_menu_list_display(void *payload, void *parent, s32 resource_id, s32 resource_data,

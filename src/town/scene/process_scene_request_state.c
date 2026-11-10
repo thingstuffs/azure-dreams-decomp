@@ -1,9 +1,9 @@
+#include "town/player/state.h"
 #include "script_symbols.h"
 #include "common.h"
 
 s32 apply_selected_entry_values(s32, s32);
 extern void set_script_flag_bit(s32); /* placed copy of set_script_flag_bit */
-s32 clear_script_flag_bit(s32);
 
 typedef struct S_800164E8_0 {
     u8 pad_00[0x18];

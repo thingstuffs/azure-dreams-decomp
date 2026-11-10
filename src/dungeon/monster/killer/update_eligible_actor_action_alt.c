@@ -42,7 +42,7 @@ void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition 
         (sprite->frameTable) = killer_direction_frames;
         select_sprite_entry(sprite, killer_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         if (!(action_state->action_state_flags & 0x8000)) {
             actor->flags1C = (s32) (actor->flags1C & 0xFEFFFFFF);

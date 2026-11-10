@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
@@ -28,7 +29,6 @@ typedef struct S_8016C190_5 {
     s32 unk_0C;
 } S_8016C190_5;   /* control in advance_selected_actor_action */
 
-extern void select_sprite_entry(void *, u8, s32);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 

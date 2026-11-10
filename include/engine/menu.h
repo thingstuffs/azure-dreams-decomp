@@ -164,7 +164,7 @@ s32 lookup_item_category_mapped_value(s32 category_index, s32 record_index);
 void reset_six_object_leaf_records(void *slots);
 
 /* reset_six_object_leaf_records_second.c */
-void initialize_gauge_menu_display_rows(struct S_800506BC_Obj *obj, struct S_800506BC_Ctx *ctx);
+void initialize_gauge_menu_display_rows(struct S_800506BC_Obj *obj, struct S_800506BC_Ctx *ctx, void *unused_data);
 
 /* run_state_callback_and_restore.c */
 s32 run_state_callback_and_restore(void *state);

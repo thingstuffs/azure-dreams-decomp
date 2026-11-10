@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/animation.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 typedef struct S_80810454_0 {
     s16 unk_00;
@@ -21,7 +22,6 @@ typedef struct S_80810454_2 {
 } S_80810454_2;   /* ((S_80810454_0 *)state_data)->unk_04 in animate_betting_game_sprite */
 
 
-extern s32 func_8006A3A4(s32);
 
 /* Moves the sprite into place, bobs it, and marks it for removal after it moves out. */
 void animate_betting_game_sprite(void *state_data_arg, S_80810454_1 *motion_data) {

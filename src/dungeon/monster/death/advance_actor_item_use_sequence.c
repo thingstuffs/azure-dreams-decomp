@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
@@ -27,7 +28,6 @@ typedef struct {
     u32 words[3];
 } __attribute__((packed)) Packet12;
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_80171080[];
 extern s32 death_action_resume_address;

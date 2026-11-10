@@ -192,7 +192,7 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                     s32 tableAddress;
                     color.x = ((u16)(base->x.w.i));
                     color.y = ((u16)(base->y.w.i));
-                    color.z = (u16)dungeon_actor_ring_anchor->ground_height - 0x50;
+                    color.z = dungeon_actor_ring_anchor->ground_height - 0x50;
                     tableAddress =
                         ((g_game_work.view.camera_rotation.parts.viewAngle + dungeon_actor_ring_anchor->facing + 0x100) >> 7) & 0x1C;
                     tableAddress += (s32)actor_direction_sprites;

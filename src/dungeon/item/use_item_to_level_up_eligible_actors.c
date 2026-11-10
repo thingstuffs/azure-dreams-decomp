@@ -1,3 +1,4 @@
+#include "engine/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/actor_property_flags.h"
@@ -16,7 +17,6 @@
 extern s32 entity_level_thresholds[];
 extern u8 D_800E131C[];
 
-extern s32 get_entity_effect_value(void *, s32);
 #include "dungeon/player/item.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"

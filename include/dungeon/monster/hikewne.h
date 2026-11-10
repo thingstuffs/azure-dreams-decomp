@@ -25,7 +25,7 @@ void update_entity_behavior_movement_and_ground(void *entity, ObjectPosition *mo
 void update_entity_behavior_movement_and_grounding(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_entity_ground_animation(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_entity_movement_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 
 void select_state_table_with_flagged_offset(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *source, ActorRecord *target);
 

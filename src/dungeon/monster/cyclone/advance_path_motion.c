@@ -47,7 +47,7 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
         check_movement_clearance_and_height(heading, sprite, state, 0x20);
         sprite->tile_x = (u8) state->path_x[state->unk_8A];
         sprite->tile_y = (u8) state->path_y[state->unk_8A];
-        state->unk_8A = (s16) ((u16) state->unk_8A + 1);
+        state->unk_8A = state->unk_8A + 1;
         move_flag = state->flags1C & 0x2000;
         next_x = sprite->tile_x;
         next_y = sprite->tile_y;

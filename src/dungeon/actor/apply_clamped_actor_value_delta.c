@@ -1,3 +1,4 @@
+#include "engine/entity.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/actor.h"
@@ -10,7 +11,6 @@ typedef struct {
     s16 delta;
 } FuncState;
 
-extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 
 /* Apply and clear the value delta, clamping the result to the byte range and state limit. */
 void apply_clamped_actor_value_delta(void *entity) {

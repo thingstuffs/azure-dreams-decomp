@@ -90,7 +90,7 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
     color = 0x00808080;
     state->timer = 0;
     state->state++;
-    state->direction = ((u16)owner->facing >> 9) & 7;
+    state->direction = (owner->facing >> 9) & 7;
     part->color.word = color;
 
     case 1:

@@ -96,7 +96,7 @@ void create_cd_cue_effect(void);
 void schedule_deferred_resource_transition(void *object);
 
 /* decay_gauge_counters.c */
-void decay_gauge_counters(struct S_800504B4 *object);
+void decay_gauge_counters(struct S_800504B4 *object, s32 unused_arg1, s32 unused_arg2);
 
 /* fade_effect_parts.c */
 void fade_effect_parts(void *effect, void *unused, void *parts);

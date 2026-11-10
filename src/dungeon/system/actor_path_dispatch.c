@@ -80,7 +80,7 @@ static void advance_actor_along_path_points(ActorRecord *motion_arg, s32 unused,
         ((ActorStatusBytesView *)((u8 *)path + path->unk_8A))->path_x;
     position->tile_y =
         ((ActorStatusBytesView *)((u8 *)path + path->unk_8A))->path_y;
-    path->unk_8A = (u16)((u16)path->unk_8A + 1);
+    path->unk_8A = path->unk_8A + 1;
 
     path->facing =
         get_rounded_facing_and_rounding_flag(old_x, old_y, position->tile_x,

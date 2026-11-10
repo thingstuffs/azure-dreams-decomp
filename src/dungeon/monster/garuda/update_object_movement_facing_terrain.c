@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
@@ -15,7 +16,6 @@ typedef void (*Callback)(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[9];
 extern Callback garuda_callbacks[];
 
-extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 /* Updates object callbacks, movement, facing, and terrain-relative height. */

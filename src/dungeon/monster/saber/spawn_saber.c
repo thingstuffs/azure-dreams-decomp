@@ -1,3 +1,4 @@
+#include "dungeon/actor.h"
 #include "shared/entity.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -12,7 +13,7 @@
 #include "engine/node.h"
 
 s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
-s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
+
 
 extern u8 D_80171320[];
 #include "dungeon/monster/saber.h"

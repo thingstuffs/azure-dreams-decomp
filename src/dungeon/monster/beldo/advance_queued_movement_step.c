@@ -1,5 +1,7 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/entity.h"
 #include "common.h"
+#include "dungeon/level.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -7,8 +9,6 @@
 #include "dungeon/monster/beldo.h"
 #include "dungeon/data.h"
 
-extern s32 select_sprite_entry();
-extern void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 /* Advances a queued movement step and updates position, direction, and timing. */

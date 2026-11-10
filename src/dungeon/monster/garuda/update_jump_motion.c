@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "dungeon/monster/garuda.h"
 #include "shared/actor_status_flags.h"
@@ -23,7 +24,6 @@
 
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 /* Starts the selected actor action, waits for completion, and resets its state. */
 void update_jump_motion_2(ActorRecord *action_state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)

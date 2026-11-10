@@ -24,7 +24,6 @@
 #include "dungeon/monster/grineut/path_motion.h"
 extern s32 find_active_rect_containing_point(s32, s32);
 
-extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_object_rendering_and_params(ObjectNodeHeader *, void *, ObjectPosition *);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
@@ -295,7 +294,7 @@ ordinary_cleanup:
                     object->update_callback = D_80170A0C;
                     object_data = NODE_BODY(object);
                     object_data->reference_position = context;
-                    object_data->facing = ((u16)((ActorRecord *)stats)->facing);
+                    object_data->facing = (((ActorRecord *)stats)->facing);
 
                     {
                         SpriteFrameState *owner = ((S_801714B8_0_pre *)actor)[-1].unk_00;

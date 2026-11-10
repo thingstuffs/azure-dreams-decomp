@@ -393,7 +393,7 @@ extern s32 func_80033BC0(s32 value);
 extern void wait_until_sound_idle(void);
 extern void func_80044698(void);
 extern void load_and_upload_sprite_resource(s16 entity_type);
-extern void SD_Call(s32 command, ...);
+short SD_Call(int flags);
 extern void drain_audio_commands_and_service_channels(void);
 extern s32 random_dungeon_range_16(s32 lower, u16 upper);
 extern void pack_tagged_resource_descriptor(s32, void *, s32 *, s32);

@@ -28,7 +28,7 @@ void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition
                             + (u8 *)&saber_frame_set_1),
                           0);
             advance_status_timers(actor);
-            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
         }
     }
 }

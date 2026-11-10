@@ -1,3 +1,4 @@
+#include "dungeon/player/object.h"
 #include "dungeon/monster/baloon_frames.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -17,7 +18,6 @@ typedef struct Ent Ent;
 
 Ent *prepare_directional_attack();
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 s32 check_entity_interaction_compatibility();
 
 /* Checks action readiness and initializes the actor state and directional animation. */

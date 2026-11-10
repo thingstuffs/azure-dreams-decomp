@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "dungeon/monster/glacier.h"
 #include "shared/sprite_frame_state.h"
@@ -19,7 +20,6 @@ typedef struct S_80172F04_4 {
     s32 unk_346C;
 } S_80172F04_4;   /* (u8 *)work in advance_item_animation_sequence */
 
-extern void select_sprite_entry(void *, u8, s32);
 extern void spend_actor_mp(void *, s32);
 
 extern u8 D_801760CC[];

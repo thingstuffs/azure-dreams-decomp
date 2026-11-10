@@ -21,7 +21,7 @@ void update_kewne_charge_counter(ActorRecord *actor_state, ObjectPosition *posit
     u8 *direction_frames;
 
     get_offset_map_cell_value_and_flags(sprite->tile_x - 1, sprite->tile_y,
-                  ((u16)actor->facing >> 9) & 7, &tile_flags);
+                  (actor->facing >> 9) & 7, &tile_flags);
     if (!(tile_flags & 0x8400)) {
         counter_value = actor_state->unk_B0.halves.high.u + 1;
         actor_state->unk_B0.halves.high.u = counter_value;
@@ -37,7 +37,7 @@ void update_kewne_charge_counter(ActorRecord *actor_state, ObjectPosition *posit
             select_sprite_entry(sprite,
                           direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);
-            actor_state->unk_B0.halves.low.u = (u16)actor->facing;
+            actor_state->unk_B0.halves.low.u = actor->facing;
             actor->flags1C = (s32)(actor->flags1C & 0xFFFBFFFF);
             counter_value = actor_state->unk_90.parts.high - actor_state->unk_A0.parts.high;
             actor_state->unk_A0.parts.high = 0;

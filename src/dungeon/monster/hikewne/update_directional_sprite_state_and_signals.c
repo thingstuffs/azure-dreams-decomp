@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
@@ -8,7 +9,6 @@
 #include "records/Rec_func_8017360C_arg0.h"
 #include "dungeon/monster/hikewne_frames.h"
 
-extern void select_sprite_entry(void *, u8, s32);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 
 #include "dungeon/monster/hikewne.h"

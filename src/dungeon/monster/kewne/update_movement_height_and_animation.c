@@ -48,9 +48,9 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
         }
 
         motion->velocity_x -=
-            dir_step_x[((u16)actor->facing >> 9) & 7] << 14;
+            dir_step_x[(actor->facing >> 9) & 7] << 14;
         motion->velocity_y -=
-            dir_step_y[((u16)actor->facing >> 9) & 7] << 14;
+            dir_step_y[(actor->facing >> 9) & 7] << 14;
         action->unk_A0.value += 0x60000;
         if (action->unk_A0.parts.high >= 0x31) {
             action->unk_A0.parts.high = 0x30;
@@ -66,7 +66,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
         }
         sprite->frameTable = D_80175E58;
         select_sprite_entry(sprite,
-            D_80175E58[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)actor->facing) + 0x100) >> 9) & 7],
+            D_80175E58[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         create_three_linked_palette_objects(NODE_HEADER(action), &actor->facing);
         state = action->action_phase;
@@ -80,7 +80,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
             s32 arc;
             s16 timer;
 
-            direction_offset = ((u16)actor->facing >> 8) & 0xE;
+            direction_offset = (actor->facing >> 8) & 0xE;
             step_x = dir_step_x[direction_offset >> 1] << 16;
             step_y = dir_step_y[direction_offset >> 1] << 16;
             motion->velocity_x += step_x;
@@ -95,7 +95,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
         }
         sprite->frameTable = D_80175E60;
         select_sprite_entry(sprite,
-            D_80175E60[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)actor->facing) + 0x100) >> 9) & 7],
+            D_80175E60[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x808);
         state = action->action_phase;
@@ -115,10 +115,10 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
             s32 velocity_y;
 
             if ((action->action_timer) == 10) {
-                resolve_attack_damage_and_effects(actor, sprite, ((s16)actor->facing), 1);
+                resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             }
             directions_x = (s16 *)((s8 *)dir_step_x);
-            direction_offset = ((u16)actor->facing >> 8) & 0xE;
+            direction_offset = (actor->facing >> 8) & 0xE;
             direction_x_ptr = (s16 *)(direction_offset + (u8 *)directions_x);
             directions_y = (s16 *)((s8 *)dir_step_y);
             direction_y_ptr = (s16 *)(direction_offset + (u8 *)directions_y);
@@ -137,16 +137,16 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
             }
             sprite->frameTable = D_80175E68;
             select_sprite_entry(sprite,
-                D_80175E68[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)actor->facing) + 0x100) >> 9) & 7],
+                D_80175E68[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
 
             velocity_x = -*(s16 *)((u8 *)directions_x +
-                (((u16)actor->facing >> 8) & 0xE)) << 18;
+                ((actor->facing >> 8) & 0xE)) << 18;
             velocity_x += velocity_x >> 2;
             motion->velocity_x = velocity_x;
 
             velocity_y = -*(s16 *)((u8 *)directions_y +
-                (((u16)actor->facing >> 8) & 0xE)) << 18;
+                ((actor->facing >> 8) & 0xE)) << 18;
             velocity_y += velocity_y >> 2;
             motion->velocity_y = velocity_y;
             (*(s32 *)&action->unk_A8) = motion->velocity_x / 24;

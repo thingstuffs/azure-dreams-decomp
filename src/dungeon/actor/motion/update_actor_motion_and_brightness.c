@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -9,7 +10,6 @@
 
 typedef void (*Func4)(void *, void *, void *, void *);
 extern Func4 actor_brightness_callbacks[];
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates entity callbacks, motion, ground contact, and sprite brightness. */
 void update_actor_motion_and_brightness(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite) {

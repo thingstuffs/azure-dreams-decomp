@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
@@ -18,9 +19,7 @@
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/beldo_frames.h"
 
-extern void select_sprite_entry(void *, u8, s32);
 extern s32 find_active_rect_containing_point(u8, u8);
-extern void update_actor_status_and_mp(void *);
 
 extern void func_80171BE0(void *, void *, void *, void *);
 extern void func_801736B8(void *, void *, void *, void *);

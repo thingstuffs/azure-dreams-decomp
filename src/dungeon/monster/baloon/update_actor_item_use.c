@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/baloon_frames.h"
 #include "shared/audio_commands.h"
 #include "dungeon/monster/baloon.h"
@@ -21,7 +22,6 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 extern void spawn_directional_random_velocity_effect(void *, s32);
 
 
@@ -141,7 +141,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
             g_dungeon_status.active_actor = 0;
             primary_actor_record->unk_A4.halves.high.u--;
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             body->unk_8C.address = update_actor_turn_behavior;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
@@ -300,7 +300,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 

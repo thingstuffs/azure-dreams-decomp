@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/entity.h"
@@ -12,7 +13,6 @@
 
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"

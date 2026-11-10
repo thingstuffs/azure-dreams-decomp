@@ -254,7 +254,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
                 s8 position_x;
                 u8 *table;
 
-                direction_offset = ((u16)actor->facing >> 8) & 0xE;
+                direction_offset = (actor->facing >> 8) & 0xE;
                 position_x = position->tile_x;
                 table = dir_step_x;
                 table += direction_offset;

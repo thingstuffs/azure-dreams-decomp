@@ -1,3 +1,4 @@
+#include "town/player/state.h"
 #include "script_symbols.h"
 #include "shared/town_root.h"
 #include "shared/town_state.h"
@@ -9,7 +10,6 @@
 
 extern void (*D_80017618)(void);
 
-extern void clear_script_flag_bit(); /* Unprototyped: one or two arguments; the second register argument is ignored. */
 extern void clear_thirty_six_table_fields(void);
 
 /* Installs the town callback, enforces a minimum town value of 40, and runs the setup sequence. */

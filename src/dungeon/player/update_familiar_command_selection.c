@@ -99,7 +99,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
             selection_data = (*(void **)((u8 *)state + 0x104));
             if (selection_data != NULL && ((dungeon_state->pressed_buttons) & 0x80)) {
                 if ((reject_forbidden_familiar_recall(0) == 0) && !(actor->flags1C & 0x100000)) {
-                    actor->unk_8A = (s16) ((s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value);
+                    actor->unk_8A = (s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value;
                     selected_item_record_alias[0] = 0;
                     if ((check_familiar_deployment_placement(state, context_a, sprite, &action_id, &action_arg, selected_item_record_alias[0]) << 0x10)
                         != 0) {

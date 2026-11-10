@@ -18,7 +18,8 @@ extern s32 D_800240B0;
 extern s32 D_80026F0C;
 
 /* Creates linked town objects at fixed positions and initializes their display data. */
-s32 initialize_gym_minigame(void)
+/* The dispatcher passes four explicit zero arguments. */
+s32 initialize_gym_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s32 unused_arg3)
 {
     s32 position[6];
     s32 object_or_slot;

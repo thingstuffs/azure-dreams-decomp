@@ -9,7 +9,7 @@
 /* arg0 in handle_item_menu_input */
 
 
-extern void SD_Call(); /* Unprototyped: one or two arguments; the retail audio queue reads only the command. */
+short SD_Call(int flags);
 
 /* Routes a menu request result of 1 to its secondary handler and 2 to its data pointer. */
 static void dispatch_item_menu_request_result(ItemMenuInput *request) {
@@ -90,7 +90,7 @@ void handle_item_menu_input(ItemMenuInput *menu)
     if (direction == 0) {
         return;
     }
-    SD_Call(AUDIO_CURSOR_MOVE, pad_state);
+    SD_Call(AUDIO_CURSOR_MOVE);
     change_item_menu_selection(menu->object, direction, move_mode);
 
     return;

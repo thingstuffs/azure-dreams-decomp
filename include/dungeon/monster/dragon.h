@@ -43,13 +43,6 @@ typedef s32 R03_80170854_M2C_UNK;
 
 typedef void (*R03_80170A28_EntityCallback)(void *, void *, void *, void *);
 
-typedef struct R03_80170A28_S_80170A28_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x68];
-    u16 unk_88;
-} R03_80170A28_S_80170A28_1;
-
 typedef struct R03_8017139C_S_8017139C_2 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -227,7 +220,7 @@ extern u8 dragon_frame_set_4[];
 extern u8 D_80173CC4[];
 extern u8 D_80173CE4[];
 void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
-void update_entity_facing_motion_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *part);
+void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
 void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
 void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

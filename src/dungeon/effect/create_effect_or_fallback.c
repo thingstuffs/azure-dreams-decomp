@@ -16,7 +16,7 @@ typedef struct {
     u32 value;
 } __attribute__((packed)) PackedWord;
 
-extern s32 get_item_category_value(void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
+s32 get_item_category_value(void *item_data);
 extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void create_tracked_effect(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
@@ -42,7 +42,7 @@ void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
         appearance->color.word = 0x808080;
         appearance->scale_y = 0xC90;
         appearance->scale_x = 0xC90;
-        appearance->source = get_item_category_value(effect_data, appearance->color.word);
+        appearance->source = get_item_category_value(effect_data);
         grid_position = NODE_BODY(effect);
         grid_position->grid_x = x >> 6;
         grid_position->grid_y = y >> 6;

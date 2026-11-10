@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "sdk/libc.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
@@ -410,7 +411,6 @@ void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unus
 }
 
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, s16 *, s32);
-extern void initialize_timed_motion_step(s32, s32, void *);
 extern void unlink_node(void *);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
@@ -595,7 +595,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                 target_graphics->unk_0C.bytes[0] = random_intensity;
                 target_graphics->unk_0C.bytes[1] = random_intensity;
                 target_graphics->unk_0C.bytes[2] = random_intensity;
-                initialize_timed_motion_step(color_mode, 8, target_graphics);
+                initialize_timed_motion_step(color_mode, 8);
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
 
                 impact = allocate_flagged_object_node(0x212);

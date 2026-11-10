@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -40,7 +41,6 @@ typedef struct S_80172840_10 {
 } S_80172840_10;   /* base in advance_move_action_particles */
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 secondary_sprite[0x20];
 extern u8 naplass_action_continuation_address[0x10];

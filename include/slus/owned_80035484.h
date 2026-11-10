@@ -1,5 +1,6 @@
 #ifndef SLUS_OWNED_80035484_H
 #define SLUS_OWNED_80035484_H
+struct S_800355EC_0;
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
@@ -45,7 +46,7 @@ extern s32 register_node(void *objectPtr, void (*callback)(void));
 extern s32 func_8004491C(void *objectPtr, void (*callback)(void));
 
 extern s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, struct SpriteFrameState *first_context);
-extern void invoke_window_object_callback(void *callbackData);
+void invoke_window_object_callback(struct S_800355EC_0 *object, void *context, void *output);
 extern void init_window_object(void *callbackData);
 extern void func_80035614(void *callbackData);
 

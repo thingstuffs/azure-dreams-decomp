@@ -1,3 +1,4 @@
+#include "town/menu.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "engine/node/registration.h"
@@ -12,7 +13,7 @@
 #include "town/scene/object.h"
 #include "town/person/object.h"
 s32 update_state_when_active();
-struct func_8009F880_S_8009CFE0_0; s32 classify_object_against_bounds(struct func_8009F880_S_8009CFE0_0 *, void *);
+struct func_8009F880_S_8009CFE0_0;
 
    /* the 0x2 bytes before arg0 in update_person_object, addressed as arg0[-1] */
 

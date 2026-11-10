@@ -87,7 +87,7 @@ void update_directional_actor_effect(void *object)
 
         brightening_effect_fade_tick = 0;
         map_data = dungeon_actor_ring_anchor;
-        direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
+        direction_offset = (map_data->facing >> 8) & 0xE;
         flag_nearby_seven_by_seven_tiles(
             (s16)(reference_tile_object.tile_position.parts.tile_x +
                   (dir_step_x[direction_offset >> 1] * 4)),

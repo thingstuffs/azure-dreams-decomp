@@ -35,7 +35,6 @@ typedef struct {
 } DungeonRecord;
 
 extern s8 find_active_rect_containing_point(s32, s32);
-extern void update_actor_status_and_mp(ActorRecord *entity);
 
 extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
 extern void choose_block_move_slot_a(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
@@ -139,7 +138,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
             case 0:
                 if (sprite->frameTable != mandara_frame_set) {
                     g_dungeon_status.activity_counts.parts.pending_action_count++;
-                    self_object->unk_AA = ((u16)entity->facing);
+                    self_object->unk_AA = entity->facing;
                     entity->facing =
                         (entity->movement_facing + 0x800) & 0xFFF;
                     sprite->flags &= 0x9FFF;
@@ -282,7 +281,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     set_record_integer_tile_center(aux_entity,
                         sprite->tile_x, sprite->tile_y);
                     entity->flags14 &= ~0x20000;
-                    entity->facing = ((u16)self_object->unk_AA);
+                    entity->facing = self_object->unk_AA;
                     sprite->frameTable = mandara_direction_frames;
                     select_sprite_entry(sprite,
                         mandara_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],

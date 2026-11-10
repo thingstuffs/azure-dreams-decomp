@@ -28,7 +28,7 @@ void apply_random_value_gain(ActorRecord *target, s32 amount_param, ActorRecord 
         target->hp_delta += adjusted_amount;
         cap_pending_actor_value_delta(target);
         base_amount = 0x8004;
-        create_actor_value_popup(base_amount, target, (s16)target->hp_delta, 1);
+        create_actor_value_popup(base_amount, target, target->hp_delta, 1);
         apply_clamped_actor_value_delta(target);
     }
 }

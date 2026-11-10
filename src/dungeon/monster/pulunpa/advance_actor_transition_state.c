@@ -74,7 +74,7 @@ void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, Sp
             ObjectPosition *primary_table;
             TileObject *secondary_table;
 
-            saved_index = ((u16)dungeon_actor_ring_anchor->unk_8A);
+            saved_index = dungeon_actor_ring_anchor->unk_8A;
             saved_actor = dungeon_actor_ring_anchor->target;
             actor_index = find_entity_slot_by_field_ac(actor);
             primary_table = &view_reference_entity;

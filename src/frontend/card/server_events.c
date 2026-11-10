@@ -10,10 +10,9 @@
 
 #include "common.h"
 #include "sdk/libapi.h"
+#include "sdk/memory.h"
 #include "modules/main_server_ship.h"
 #include "main.h"
-
-extern void bzero(void *dst, s32 size);
 
 /* Opens and enables memory card events, exiting if any setup step fails. */
 void card_boot_open_events(void) {

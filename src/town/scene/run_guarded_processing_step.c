@@ -1,11 +1,11 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/player.h"
 void func_80016A78(void);
-s32 get_linked_record_field_2_d_60(s32, s32);
 /* Run the optional pre-step when the guard passes, then the main step. */
 void run_guarded_processing_step(s32 target, s32 param)
 {
-    if (get_linked_record_field_2_d_60(target, param) != 0) {
+    if (get_linked_record_field_2_d_60() != 0) {
         func_80016A78();
     }
     process_checked_entry(target, param);

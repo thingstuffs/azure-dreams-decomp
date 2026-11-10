@@ -139,7 +139,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = (u16) (primary_actor_record->unk_A4.halves.high.u - 1);
             advance_status_timers(actor);
-            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             body->unk_8C.handler = &noise_ability_resume_address;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
@@ -207,7 +207,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;

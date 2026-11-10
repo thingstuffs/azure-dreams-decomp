@@ -39,7 +39,7 @@ void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state) {
         next_x = state->path_x[0];
         next_y = state->path_y[0];
         memmove(((void *)state) + 0x74, ((void *)state) + 0x75, 0xF);
-        ((ActorRecord *)((((void *)state) + state->movement_queue_state)))->target_tile_y = (u8) position->tile_x;
+        ((ActorRecord *)((((void *)state) + state->movement_queue_state)))->target_tile_y = position->tile_x;
         ((ActorRecord *)((((void *)state) + state->movement_queue_state)))->path_x[7] = (u8) position->tile_y;
         position->tile_x = next_x;
         position->tile_y = next_y;

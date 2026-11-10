@@ -14,7 +14,6 @@ typedef struct S_804027F8_0 {
     s32 * unk_20;
 } S_804027F8_0;   /* arg0 in card_boot_handle_menu_actions_and_repeat */
 
-extern void func_80063FF8(s32 code);
 extern void resolve_apply(void *menu);
 extern s32 process_global(s32 value);
 

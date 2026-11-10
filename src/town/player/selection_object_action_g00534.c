@@ -67,7 +67,7 @@ void handle_selection_and_create_object(void) {
         work.bytes.unk3 = source->unk3;
         state_index = state_code - 0x12;
         state_is_12_or_13 = (u32)state_index < 2;
-        is_available = is_unk_18_n_12_unk_1_a_between_n_37_n_41(state_index) == 1;
+        is_available = is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 1;
 
         switch (is_available) {
         case 0: {

@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/effect/screen.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
@@ -20,7 +21,6 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 nyuel_action_resume_address[];
 
@@ -146,7 +146,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         body->unk_8C.address = nyuel_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -205,7 +205,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
             advance_status_timers(actor);
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
-            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
+            actor->pending_turn_updates = actor->pending_turn_updates - 1;
             actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

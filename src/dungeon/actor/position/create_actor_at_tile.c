@@ -1,3 +1,4 @@
+#include "engine/node/allocation.h"
 #include "shared/actor_status_flags.h"
 #include "engine/node/registration.h"
 #include "slus.h"
@@ -31,7 +32,7 @@ typedef struct S_800D1C70_0 {
     s8 unk_9C;
 } S_800D1C70_0;
 
-void *allocate_list_node(s32, void *);
+
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 void process_actor_status_transitions(s32 actor, s32 action_context, s32 sprite, u8 *state);
 

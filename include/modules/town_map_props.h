@@ -33,7 +33,7 @@ s32 check_transform_identifier_and_hook(s32 requested_id);
 s32 func_800352FC(void);
 s32 rcos(s32 angle);
 s32 rand(void);
-s32 draw_linked_lit_meshes(void *group_data, void *position, void *render_data, s32 unused);
+int draw_linked_lit_meshes(void *object, void *value, void *record);
 void randomize_paired_object_motion(void *pair);
 void advance_motion_and_flag_zero_velocity(void *actor, void *motion, struct SpriteFrameState *actor_id);
 void *memcpy(void *dst, const void *src, u32 n);

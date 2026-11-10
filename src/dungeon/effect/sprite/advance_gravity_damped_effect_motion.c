@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "dungeon/effect/sprite.h"
@@ -9,7 +10,6 @@
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void advance_sprite_animation_and_textures(void *, void *, s32, s32);
 /* Advance position, damp horizontal motion, and propagate object status flags. */
 void advance_damped_animated_sprite(void *entry, ObjectPosition *motion, SpriteFrameState *object) {
     s32 velocity_y;
@@ -22,7 +22,7 @@ void advance_damped_animated_sprite(void *entry, ObjectPosition *motion, SpriteF
     velocity_y = motion->velocity_y;
     motion->velocity_x = (velocity_x * 4) / 5;
     motion->velocity_y = (velocity_y * 4) / 5;
-    advance_sprite_animation_and_textures(object, motion, (s32) (velocity_y * 4) >> 0x1F, (s32) (velocity_x * 4) >> 0x1F);
+    advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
         (*(u16 *)((u8 *)entry + -2)) = (u16) (NODE_HEADER(entry)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

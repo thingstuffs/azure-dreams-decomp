@@ -14,7 +14,7 @@ s32 begin_actor_attack(ActorRecord *body, s32 unused, void *action_param, ActorR
     body->action_state_flags |= 0x2000;
     prepare_directional_attack((Ent *)actor, action_param, actor->facing, 1, 0);
     if (actor->flags1C & 0x400) {
-        actor->facing = (u16)actor->facing + (generate_random_value() & 0xE00);
+        actor->facing = actor->facing + (generate_random_value() & 0xE00);
     }
     body->action_id = 0x37;
     body->action_phase = 0;

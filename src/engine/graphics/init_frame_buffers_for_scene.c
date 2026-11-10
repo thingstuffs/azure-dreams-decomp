@@ -21,7 +21,7 @@ extern s32 gpu_scratch_write_pointer;
 extern FrameData upper_draw_context;
 extern OrderingTable alternate_frame_ordering_table;
 
-extern void runtime_reset_object_pool(s32);
+void runtime_reset_object_pool(s32 unused_mode);
 extern void set_next_scene_phase(void);
 
 /* Initialize frame data and ordering tables and enable the display. */

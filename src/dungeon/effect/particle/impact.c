@@ -2091,7 +2091,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             effect_owner->unkA6 = effect_owner->unkA6 - 1;
             effect_owner->unkA8 = effect->unk_08;
             fade_state = effect->unk_0A;
-            direction = ((u16)primary_actor_record->facing);
+            direction = primary_actor_record->facing;
             effect->unk_0A = fade_state + 1;
             effect->unk_28 = 0;
             effect->unk_24 = (direction >> 9) & 7;
@@ -2104,10 +2104,10 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             func_80025CE8((s16)((u16)effect_position->x.w.i),
                           (s16)((u16)effect_position->y.w.i),
                           (s16)((u16)effect_position->z.w.i),
-                          (s16)((u16)primary_actor_record->facing));
+                          primary_actor_record->facing);
         }
 
-        effect->unk_24 = (((u16)primary_actor_record->facing) >> 9) & 7;
+        effect->unk_24 = (primary_actor_record->facing >> 9) & 7;
         position = &view_reference_entity;
         offset_base = offsets.entries;
         do {

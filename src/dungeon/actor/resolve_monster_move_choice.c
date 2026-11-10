@@ -3,7 +3,6 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/state.h"
 
-extern void update_actor_status_and_mp(ActorRecord *);
 /* func_80171854 keeps its address: bank_9bf000 places the Hikewne direction
  * selector there, but bank_10a3000 rebinds this address into a Grineut helper. */
 extern void func_80171854(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);

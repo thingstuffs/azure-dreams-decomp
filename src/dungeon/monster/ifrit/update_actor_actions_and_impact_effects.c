@@ -1,3 +1,5 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "dungeon/actor.h"
 #include "shared/audio_commands.h"
 #include "shared/slus_callbacks.h"
 #include "shared/actor_status_flags.h"
@@ -66,8 +68,6 @@ extern u8 ifrit_action_resume_address[];
 extern u8 D_80174850[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern void select_sprite_entry(void *, s32, s32);
-extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Updates actor action states, movement, and impact effects. */
 /* Starts a targeted spell with two rows of effects, emits impact particles at the sprite attachment, then

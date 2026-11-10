@@ -13,7 +13,7 @@ struct SpriteFrameState;
 #include "sdk/libgte.h"
 
 extern void * spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
-extern void update_entity_callbacks_and_floor_motion(void);
+void update_entity_callbacks_and_floor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
 extern void func_80171B54(void);
 extern void func_80171B80(void);
 extern void func_80171B00(void);

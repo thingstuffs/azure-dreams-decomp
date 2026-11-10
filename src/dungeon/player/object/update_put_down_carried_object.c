@@ -59,7 +59,7 @@ void update_put_down_carried_object(PlayerRecord *action, void *unused, S_8008F8
                 target_flags = action->unk_124;
                 target_flags->flags1C = (s32) (target_flags->flags1C & 0xFFF7FFFF);
                 actor->flags1C = (s32) (actor->flags1C & 0xFFEFFFFF);
-                get_offset_map_cell_value_and_flags(action_data->unk_24, action_data->unk_25, ((u16) actor->facing >> 9) & 7, &query_flags);
+                get_offset_map_cell_value_and_flags(action_data->unk_24, action_data->unk_25, (actor->facing >> 9) & 7, &query_flags);
                 event_id = 0x50C;
                 if (query_flags & 0x400) {
                     event_id = 0x517;

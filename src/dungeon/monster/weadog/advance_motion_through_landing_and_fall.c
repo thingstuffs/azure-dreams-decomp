@@ -88,7 +88,6 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern u8 weadog_slot_c_direction_steps[];
 extern FlagBlock D_800814A0;
 
-void advance_motion_through_landing_and_fall(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation);
 
 /* Advance motion through travel, landing interpolation, and falling. */
 /* Animates a moving item with directions from D_80158808; places it on the floor or shrinks its falling

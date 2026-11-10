@@ -143,13 +143,4 @@ void invoke_object_state_callback(struct S_80097D2C_0 *object, void *position, v
 #include "shared/sprite_frame_state.h"
 void initialize_record_and_select_active_data(void *record, ObjectPosition *position, SpriteFrameState *sprite);
 void initialize_shared_scene_data(s32 **out_ptr, void *unused_position, struct SpriteFrameState *unused_sprite);
-struct Func8009AA20Arg0;
-void handle_adjust_vector_toward_selected_angle_limit_magnitude(ObjectPosition *object);
-void move_player_toward_target(UnsignedCountdownView *state_arg_arg, ObjectPosition *object);
-s32 query_lower_bound_with_x_offset(ObjectPosition *input_pos);
-void set_global_800_cfced_initialize_call_callee_800954_dc(ObjectPosition *record, s32 initial_value);
-void tick_countdown_or_advance_cursor(struct Func8009AA20Arg0 *countdown_state, ObjectPosition *cursor_state, SpriteFrameState *context_value);
-void update_actor_and_select_ground_handler(s32 context, ObjectPosition *record, SpriteFrameState *action_data);
-void update_actor_movement_actions(TownObjectRecord *action, ObjectPosition *actor, s32 context);
-
 #endif

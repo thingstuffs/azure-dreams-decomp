@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "dungeon/monster/baloon.h"
@@ -24,7 +25,6 @@ typedef struct {
     u32 words[8];
 } __attribute__((packed)) LocalTable;
 
-extern void select_sprite_entry(void *, u8, s32);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern s16 sample_terrain_surface_height(u16, u16, s16);

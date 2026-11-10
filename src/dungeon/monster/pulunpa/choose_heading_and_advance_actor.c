@@ -171,7 +171,7 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
                     movement->facing);
                 if (target != 0 && (((ActorRecord *)target)->flags1C & 0x2000)
                     && get_actor_height_difference(target, movement) < 0x81) {
-                    if (check_diagonal_side_height((((s16)movement->facing >> 9) & 0xFFFF),
+                    if (check_diagonal_side_height(((movement->facing >> 9) & 0xFFFF),
                                       actor->unk_24.at00.v, actor->unk_24.at01.v,
                                       (s16)(movement->ground_height - 0x20)) != 0) {
                         movement->movement_queue_state &= 0x7F;

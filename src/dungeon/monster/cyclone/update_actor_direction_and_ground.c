@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "common.h"
 #include "dungeon/monster/cyclone.h"
 #include "shared/dir_step.h"
@@ -41,7 +42,6 @@ struct Actor {
 
 extern ActorCallback cyclone_callbacks[];
 
-extern void advance_sprite_animation_and_textures(SpriteFrameState *);
 extern s32 refresh_actor_facing_and_lifecycle(Actor *, ObjectPosition *, SpriteFrameState *, Actor *);
 
 /* Updates actor direction, callbacks, motion, and ground height. */

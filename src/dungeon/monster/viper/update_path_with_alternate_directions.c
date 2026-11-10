@@ -216,7 +216,7 @@ void update_path_with_alternate_directions(ActorRecord *move_ctx_in, ObjectPosit
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                direction_offset = ((u16)actor_in->facing >> 8) & 0xE;
+                direction_offset = (actor_in->facing >> 8) & 0xE;
                 x_step += direction_offset;
                 position_in->tile_x += *x_step;
                 position_in->tile_y += *((u8 *)((s8 *)dir_step_y) + direction_offset);

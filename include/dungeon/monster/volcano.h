@@ -61,15 +61,6 @@ typedef struct E_80170A58_S_80170A58_0 {
     u8 * unk_2C;
 } E_80170A58_S_80170A58_0;   /* monster in func_80170A58 */
 
-typedef struct E_80170A58_S_80170A58_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x4D];
-    s8 unk_6D;
-    u8 pad_6E[0x1A];
-    union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} E_80170A58_S_80170A58_1;   /* actor in func_80170A58 */
-
 /* Updates monster facing, runs actor callbacks, and applies motion and floor contact. */
 
 typedef struct E_80170E5C_S_80170E5C_0 {
@@ -266,22 +257,6 @@ typedef struct E_80172A58_S_80172A58_0 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } E_80172A58_S_80172A58_0;   /* arg0 in func_80172A58 */
-
-typedef struct E_80172A58_S_80172A58_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x4];
-    s8 unk_72;
-    s8 unk_73;
-} E_80172A58_S_80172A58_1;   /* arg3 in func_80172A58 */
 
 typedef struct E_80172A58_S_80172A58_2 {
     u8 pad_00[0x12];
@@ -612,7 +587,7 @@ extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern void *create_actor_with_tile_flags(s32, s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 
 void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height);
-void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *monster);
+void update_entity_facing_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster);
 void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *entry_context, SpriteFrameState *tile, ActorRecord *actor);
 void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);

@@ -570,7 +570,6 @@ extern u8 D_800E0B65[];
 extern u8 D_800E0B73[];
 extern u8 D_800E0BA1[];
 
-void initialize_timed_motion_step(u16 countdown, u32 amount);
 s32 get_entity_class();
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
@@ -1910,7 +1909,7 @@ s32 prepare_quarter_damage_return(Object *object, ActorRecord *source) {
         if (total_value <= 0) {
             return 0;
         }
-        adjustment = (s16)source->hp_delta >> 2;
+        adjustment = source->hp_delta >> 2;
         if (adjustment == 0) {
             adjustment = -1;
         }

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_80097AF8_1 {
@@ -20,9 +21,6 @@ typedef struct S_80097AF8_4 {
     u8 pad_20[0x3C];
     void * unk_5C;
 } S_80097AF8_4;   /* arg3 in advance_timed_motion_continuation */
-
-extern void process_unflagged_linked_entries(void *);
-extern void process_unflagged_linked_entries_alt(void *);
 
 /* Advance the timed motion sequence and select its continuation when status flags allow. */
 void advance_timed_motion_continuation(ActorRecord *actor, S_80097AF8_1 *motion, S_80097AF8_2 *status, S_80097AF8_4 *owner)

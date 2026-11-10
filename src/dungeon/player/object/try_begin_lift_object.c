@@ -47,7 +47,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
     s32 mode;
     register s32 target_kind;
 
-    direction_offset = ((u16)((u16)actor->facing) >> 8) & 0xE;
+    direction_offset = (actor->facing >> 8) & 0xE;
     target_result = spawn_object_at_target_position(
         actor,
         (s16)(position->tile_x + (u16)dir_step_x[direction_offset >> 1]),
@@ -92,7 +92,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
             set_sprite_animation_frame(
                 position,
                 player_lift_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle +
-                                  (s16)((u16)actor->facing) + 0x100) >> 9) & 7],
+                                  actor->facing + 0x100) >> 9) & 7],
                 0, 1);
             tail_result = 1;
             return tail_result;

@@ -1080,7 +1080,7 @@ void func_80055E6C(void) {
 }
 
 /* Return without performing any work. */
-void noop_voice_start_notification(void) {
+void noop_voice_start_notification(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s32 unused_arg3, s32 unused_arg4) {
 }
 
 /* Return without performing any work. */
@@ -1092,11 +1092,11 @@ void func_80056D3C(void) {
 }
 
 /* Return without performing any work. */
-void noop_midi_a0(void) {
+void noop_midi_a0(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2) {
 }
 
 /* Return without performing any work. */
-void noop_midi_d0(void) {
+void noop_midi_d0(s32 unused_arg0, s32 unused_arg1) {
 }
 
 extern int audio_sequence_active[4];
@@ -1176,7 +1176,7 @@ void clear_cd_audio_mix_mode(void) {
 }
 
 /* Return without performing any work. */
-void noop_audio_init_hook(void) {
+void noop_audio_init_hook(void *unused_data, s32 unused_arg1, s32 unused_arg2) {
 }
 
 extern void audio_reset_all_voices(void);

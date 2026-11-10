@@ -1,3 +1,5 @@
+#include "dungeon/actor.h"
+#include "dungeon/actor.h"
 #include "shared/actor_status_flags.h"
 #include "shared/slus_callbacks.h"
 #include "shared/actor_property_flags.h"
@@ -31,8 +33,7 @@ typedef struct {
 } Rect;
 
 extern s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
-extern s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
-extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
+
 
 extern void func_80170B40(void);
 extern void func_80175258(void);

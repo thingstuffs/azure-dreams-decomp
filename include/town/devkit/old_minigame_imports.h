@@ -77,6 +77,8 @@ s32 func_80252550(void *, void *);
 void func_8028E170(void);
 s32 func_80290318();
 void func_80529438(void *, ...);
+s32 func_8006A3A4(s32);
+s32 func_8006A470(s32);
 /* --- end of imports --- */
 
 #endif

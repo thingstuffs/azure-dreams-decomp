@@ -1,6 +1,7 @@
 /* Advance town actor countdowns and invoke their completion handlers. */
 
 #include "common.h"
+#include "town/person/state.h"
 #include "town/system/object_hooks.h"
 #include "shared/town_object.h"
 
@@ -28,7 +29,6 @@ void decrement_object_timer_and_update(TownObjectRecord *object, void *callback_
 /* extern */
 
 
-void install_object_handler_and_clear_slot_flag(void *);
 /* Decrements the timer and calls the handler when its signed value is nonpositive. */
 void decrement_object_timer_and_call_handler(TownObjectRecord *object) {
     u16 remaining_ticks;

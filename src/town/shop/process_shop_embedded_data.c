@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 #include "shared/item_menu.h"
 #include "town/shop.h"
 
@@ -14,7 +15,6 @@ typedef struct S_800B07D0_2 {
 
 
 void fade_color_to_gray(Struct800497F4 *object, s32 stop_at_gray);
-struct FrameState; s32 advance_timed_tagged_stream(struct FrameState *);                         /* extern */
 
    /* Process the embedded data and pass the record flag bits to its two linked handles. */
 void process_shop_embedded_data(ShopEmbeddedDataObject *record) {

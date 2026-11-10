@@ -7,7 +7,6 @@
 
 #include "common.h"
 
-extern s32 check_inputs_after_threshold_two(s32);
 extern void func_80018570(void);
 extern s32 scene_dispatch_mode_index;
 extern s32 D_8001970C[];

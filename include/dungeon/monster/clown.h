@@ -62,14 +62,6 @@ typedef struct R16_80170878_S_80170878_4 {
     s8 unk_9C;
 } R16_80170878_S_80170878_4;
 typedef void (*R16_80170A58_Callback)(void *, void *, void *, void *);
-typedef struct R16_80170A58_S_80170A58_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} R16_80170A58_S_80170A58_2;
 typedef struct R16_80171014_S_80171014_0 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -336,7 +328,7 @@ extern u8 D_801742D4[];
 extern u8 clown_image_load_done[];
 extern u8 clown_effect_load_done[];
 void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c);
-void update_entity_facing_and_ground(void *entity, struct ObjectPosition *motion, SpriteFrameState *sprite);
+void update_entity_facing_and_ground(ActorRecord *entity, struct ObjectPosition *motion, SpriteFrameState *sprite);
 void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *map_object, ActorRecord *creature);
 void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
 void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

@@ -1,3 +1,4 @@
+#include "dungeon/player/object.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -15,7 +16,6 @@
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 get_actor_height_difference();                     /* extern */
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 s32 check_entity_interaction_compatibility();                     /* extern */
 extern u8 nyuel_frame_set_8;
 
@@ -62,7 +62,7 @@ s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPositi
         direction_table = &nyuel_frame_set_8;
         (sprite->frameTable) = direction_table;
         select_sprite_entry(sprite, direction_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+        actor->pending_turn_updates = actor->pending_turn_updates - 1;
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         return 1;
     }

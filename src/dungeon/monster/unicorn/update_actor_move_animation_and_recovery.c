@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -27,7 +28,6 @@ typedef struct S_80172AB4_3 {
    /* arg2 in update_actor_move_animation_and_recovery */
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_80174D94[];
 extern u8 D_80174DA4[];

@@ -211,7 +211,7 @@ s32 choose_usable_ability_or_attack(ActorRecord *actor, Actor *target, u16 *out_
 
     selected_action = -1;
     best_score = -0x100;
-    *out_angle = (u16)actor->facing;
+    *out_angle = actor->facing;
     self = actor;
     target_entity = *(Entity **)((u8 *)target - 0x14);
     actor_entity = *(Entity **)((u8 *)self - 0x14);

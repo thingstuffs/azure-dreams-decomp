@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 #include "shared/object_node.h"
 #include "frontend/card/service.h"
 #include "frontend/card/save.h"
@@ -18,8 +19,6 @@ extern void card_dev_cache_slot_summary(void);
 extern void initialize_card_message_object_with_code_0x10(void *);
 extern void func_80404688(s32);
 extern void func_80405AB4(void *);
-extern void card_dev_no_op_save(s32);
-extern void card_dev_commit_pending_value(void);
 
 /* Runs two card checks and processes five object entries; installs menu and message callbacks on failure. */
 void process_object_entry_batch(void *ptr_arg) {

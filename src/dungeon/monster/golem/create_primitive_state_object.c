@@ -1,3 +1,4 @@
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -23,7 +24,6 @@ typedef struct S_80174A6C_5 {
     s32 unk_08;
 } S_80174A6C_5;   /* query_arg in create_primitive_state_object */
 
-extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
 extern u8 golem_object_callback[9];
