@@ -1,5 +1,5 @@
 /* Display fade. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800BEA7C, PD:town/engine:80111FB0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BEA7C, PD:town/engine:80111FB0. */
 #include "shared/object_node.h"
 #include "town/map/display_fade_g00643.h"
 #include "shared/object_flags.h"

@@ -1,7 +1,7 @@
 #ifndef FRONTEND_LIBCARD_DIALOG_PACKET_SETUP_G00380_H
 #define FRONTEND_LIBCARD_DIALOG_PACKET_SETUP_G00380_H
 /* Dialog packet setup; G00380; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - main/func_8000F90C, main/func_8000F934, main/func_8000FA30. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000F90C, CL:main/func_8000F934, CL:main/func_8000FA30. */
 
 #include "common.h"
 #include "m2c_compat.h"

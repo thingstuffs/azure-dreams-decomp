@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_FLAGGED_ENTRY_ACTIONS_G00711_H
 #define TOWN_SCENE_FLAGGED_ENTRY_ACTIONS_G00711_H
 /* Process flagged entries and clear scene history. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80471198. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80471198. */
 
 #include "common.h"
 #include "shared/record_ptrs.h"

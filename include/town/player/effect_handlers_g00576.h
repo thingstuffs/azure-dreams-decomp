@@ -3,7 +3,7 @@
 
 #include "town/player/record.h"
 /* Initialize player effect handlers from prior state. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A7DDC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A7DDC. */
 
 #include "common.h"
 #include "m2c_compat.h"

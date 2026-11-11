@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_STATE_ENTRY_PROCESSING_G00562_H
 #define TOWN_SHOP_STATE_ENTRY_PROCESSING_G00562_H
 /* State entry processing declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A2608, town/func_800A265C, town/func_800A2724. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A2608, CL:town/func_800A265C, CL:town/func_800A2724. */
 
 #include "common.h"
 #include "m2c_compat.h"

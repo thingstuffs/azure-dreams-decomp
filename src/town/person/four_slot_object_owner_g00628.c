@@ -1,5 +1,5 @@
 /* Four slot object owner. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/engine@3755C, town/func_800B7604, town/func_800B771C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/engine@3755C, CL:town/func_800B7604, CL:town/func_800B771C. */
 #include "town/person/four_slot_object_owner_g00628.h"
 #include "town/person.h"
 #include "town/shop.h"

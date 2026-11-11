@@ -1,3 +1,4 @@
+#include "shared/vector.h"
 #include "shared/audio_commands.h"
 #include "sdk/libc.h"
 #include "dungeon/actor/status.h"
@@ -715,10 +716,9 @@ typedef struct S_80024BF4_0 {
     s32 unk_34;
     s32 unk_38;
     s32 unk_3C;
-    u8 pad_40[0x48];
-    s32 unk_88;
-    s32 unk_8C;
-    s32 unk_90;
+    u8 pad_40[0x14];
+    GteMatrix composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
+    GteMatrix object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
     u8 pad_94[0x10];
     u16 unk_A4;
     u16 unk_A6;
@@ -739,7 +739,10 @@ typedef struct S_80024BF4_0 {
     u16 unk_C8;
     u16 unk_CA;
     u16 unk_CC;
-    u8 pad_CE[0x32];
+    u8 pad_CE[0x2];
+    s32 depth_cue; /* RotAverage4 depth-cue output */
+    s32 gte_flag; /* RotAverage4 GTE flag output */
+    u8 pad_D8[0x28];
     s32 unk_100;
 } S_80024BF4_0;   /* scratch in project_visible_textured_quad */
 
@@ -832,9 +835,9 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     MATRIX matrix;
 
     scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    scratch->unk_88 = position->x.w.i;
-    scratch->unk_8C = position->y.w.i;
-    scratch->unk_90 = position->z.w.i;
+    scratch->object_matrix.t[0] = position->x.w.i;
+    scratch->object_matrix.t[1] = position->y.w.i;
+    scratch->object_matrix.t[2] = position->z.w.i;
     render_state->flags |= 0x8000;
 
     PushMatrix();
@@ -845,12 +848,12 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     scratch->unk_A4 = render_state->angle_x;
     scratch->unk_A8 = render_state->angle_z;
     scratch->unk_A6 = render_state->angle_y;
-    RotMatrix((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
+    RotMatrix(&scratch->unk_A4, &scratch->object_matrix);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    ScaleMatrix((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
-    SetTransMatrix((u8 *)scratch + 0x54);
-    SetRotMatrix((u8 *)scratch + 0x54);
+    CompMatrix(&matrix, &scratch->object_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->unk_34);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
     texture = render_state->source;
     scratch->unk_28 = render_state->flags;
@@ -870,11 +873,11 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     scratch->unk_C4 = quad->unk_5A;
     scratch->unk_CC = quad->unk_60;
 
-    ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
-                             (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
+    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
+                             &scratch->unk_C0, &scratch->unk_C8,
                              &packet->unk_08, &packet->unk_14,
                              &packet->unk_20, &packet->unk_2C,
-                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+                             &scratch->depth_cue, &scratch->gte_flag) - depth_bias - 6;
     scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {

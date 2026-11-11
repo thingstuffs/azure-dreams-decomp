@@ -1,7 +1,7 @@
 #include "shared/audio_commands.h"
 #include "engine/sprite.h"
 /* Twin shop input. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B016C, town/func_800B02BC, town/func_800B03A4, town/func_800B03D0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B016C, CL:town/func_800B02BC, CL:town/func_800B03A4, CL:town/func_800B03D0. */
 #include "town/shop/twin_shop_input_g00597.h"
 
 /* Calls get_item_name_with_shared_text_table with record->unk_20 +(record->unk_04 * 4). */

@@ -68,11 +68,6 @@ typedef struct S_80175594_1 {
 
    /* state in project_depth_sorted_sprite_quads */
 
-typedef struct S_80175594_5 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_80175594_5;   /* matrix in project_depth_sorted_sprite_quads */
-
 typedef struct S_80175594_7 {
     u8 pad_00[0x4];
     union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */

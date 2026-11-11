@@ -2,7 +2,7 @@
 #define TOWN_SHOP_MONSTER_STATUS_OPENING_G00633_H
 struct ShopFirstCallbackObject;
 /* Advance monster status opening and display spacing: shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B8E20, town/func_800B8E78. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8E20, CL:town/func_800B8E78. */
 
 #include "common.h"
 #include "m2c_compat.h"

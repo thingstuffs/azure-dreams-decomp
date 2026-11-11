@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_SOUND_SEQUENCE_LOAD_G00649_H
 #define TOWN_MAP_SOUND_SEQUENCE_LOAD_G00649_H
 /* Sound sequence load. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C3E04, PD:town/engine:800D4244. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3E04, PD:town/engine:800D4244. */
 
 #include "common.h"
 #include "engine/audio.h"

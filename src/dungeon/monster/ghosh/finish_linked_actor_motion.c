@@ -7,7 +7,6 @@
 #include "dungeon/monster/ghosh.h"
 
 /* extern */
-            /* extern */
 extern void ghosh_action_resume_address();
 
 typedef struct S_8016CED4_0 {

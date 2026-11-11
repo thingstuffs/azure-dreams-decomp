@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_SHOP_WINDOW_LAYOUT_G00610_H
 #define TOWN_SHOP_SHOP_WINDOW_LAYOUT_G00610_H
 /* Shop window layout declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B3A28, town/func_800B3C30. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B3A28, CL:town/func_800B3C30. */
 
 #include "common.h"
 #include "m2c_compat.h"

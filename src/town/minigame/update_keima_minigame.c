@@ -34,7 +34,6 @@ s32 rsin();                             /* extern */
 s32 rcos();           /* extern */
 s32 rand();                      /* extern */
 #include "town/shop/display_objects.h"       /* extern */
-              /* extern */
 extern s32 town_money[0xB58];
 extern u8 D_80022514[0x100];
 extern ObjectNodeHeader *D_80024338;

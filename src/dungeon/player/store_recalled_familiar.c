@@ -28,7 +28,6 @@ typedef struct {
 } Copy140;
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
-     /* extern */
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 

@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_ACTIVE_OBJECT_RECORDS_G00710_H
 #define TOWN_SCENE_ACTIVE_OBJECT_RECORDS_G00710_H
 /* Build and submit active object records. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80470EB8, town/func_80470F3C, PD:town/image_3ef000:8001B318. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80470EB8, CL:town/func_80470F3C, PD:town/image_3ef000:8001B318. */
 
 #include "common.h"
 #include "shared/record_ptrs.h"

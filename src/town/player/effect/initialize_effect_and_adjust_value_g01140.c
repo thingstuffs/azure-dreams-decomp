@@ -1,7 +1,7 @@
 #include "town/player/initialize_scene_for_mode_api.h"
 #include "shared/sprite_frame_state.h"
 /* Initialize effect and adjust value.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800A7E6C, town/func_800A8134.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800A7E6C, CL:town/func_800A8134.
  */
 #include "town/player/effect/initialize_effect_and_adjust_value_g01140.h"
 #include "shared/game_work.h"

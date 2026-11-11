@@ -103,7 +103,10 @@ typedef struct ovl_188898c_818690C8_S_800248C8_0 {
     u16 unk_6C;
     u16 unk_6E;
     u16 unk_70;
-    u8 pad_72[0x42];
+    u8 pad_72[0x12];
+    s32 depth_cue; /* RotTransPers depth-cue output */
+    s32 gte_flag; /* RotTransPers GTE flag output */
+    u8 pad_8C[0x28];
     s32 unk_B4;
     u8 pad_B8[0x20];
     u16 unk_D8;

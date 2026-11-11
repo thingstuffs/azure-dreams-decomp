@@ -1,5 +1,5 @@
 /* Lay out three display elements and complementary values. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B79CC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B79CC. */
 #include "town/shop/display_element_layout_g00630.h"
 #include "town/shop.h"
 

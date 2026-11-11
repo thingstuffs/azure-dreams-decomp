@@ -1,5 +1,5 @@
 /* Apply pending values to flagged player records. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A8BC8, town/func_800A8C3C, town/func_800A8C68, PD:town/engine:80100E2C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A8BC8, CL:town/func_800A8C3C, CL:town/func_800A8C68, PD:town/engine:80100E2C. */
 #include "town/player/pending_record_values_g00577.h"
 #include "town/player.h"
 

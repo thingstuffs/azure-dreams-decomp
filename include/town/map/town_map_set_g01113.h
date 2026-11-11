@@ -4,7 +4,7 @@
 
 struct ObjectNodeHeader;
 /* Town map set. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8008E0B8. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008E0B8. */
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"

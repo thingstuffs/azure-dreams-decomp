@@ -27,7 +27,7 @@ from tools.link.graph import Graph, number
 from tools.link.combined import selected_images, object_metadata, slus_origins
 from tools.link.prepare import load_gate, linklist_snapshot
 from tools.build import content_cache, compile_tools, name_inputs, object_cache
-from tools.build.recipe_cache import RecipeCache, load as load_recipe_cache
+from tools.build.recipe_cache import RecipeCache, load as load_recipe_cache, is_structural, structural_digest
 
 STATE = ROOT / 'build/.state'
 GENERATION_WRITES = None
@@ -101,6 +101,44 @@ def run(argv, **kw):
 # checkpoints, so it is bound per checkpoint (like an undeclared probe) instead of content-guarding all of them: a
 # levels-only change regenerates just the checkpoints whose screens read it.
 RECORD_BOUND = {'ledger/levels.jsonl'}
+# Review ledgers that neither bootstrap (its producers and their subprocesses) nor configure (in process or in a
+# subprocess) reads; an strace and audit-hook trace of a forced bootstrap and of a cold `generate full` saw each opened
+# only to hash it for the guard. Batches rewrite them, so guarding them made every landing configure cold. They are
+# outside the input inventory, and generate fails if anything opens one (UnreadInputs), so a new reader must move it
+# back into the inventory instead of reading it unbound.
+UNREAD_LEDGERS = frozenset({'ledger/unions.jsonl', 'ledger/fields.jsonl', 'ledger/bridge_casts.jsonl',
+                            'ledger/prototype_floors.jsonl', 'ledger/records.json'})
+
+
+_UNREAD_ACTIVE = []
+
+
+def _unread_audit(event, args):
+    if not _UNREAD_ACTIVE or event != 'open' or not args or isinstance(args[0], int) or args[0] is None:
+        return
+    try:
+        path = os.fsdecode(args[0])
+    except TypeError:
+        return
+    if os.path.basename(path) in _UNREAD_ACTIVE[-1][0]:
+        physical = os.path.realpath(path)
+        if physical in _UNREAD_ACTIVE[-1][1]:
+            raise ValueError('configure read ' + rel(physical) + ', which UNREAD_LEDGERS leaves out of the configure '
+                             'and bootstrap inputs; move it back into the inventory before reading it')
+
+
+@contextmanager
+def unread_inputs_enforced():
+    """While active, opening an UNREAD_LEDGERS file in this process raises: nothing binds its content."""
+    if not _UNREAD_ACTIVE and not getattr(_unread_audit, 'installed', False):
+        sys.addaudithook(_unread_audit)
+        _unread_audit.installed = True
+    _UNREAD_ACTIVE.append((frozenset(os.path.basename(n) for n in UNREAD_LEDGERS),
+                           frozenset(os.path.realpath(ROOT/n) for n in UNREAD_LEDGERS)))
+    try:
+        yield
+    finally:
+        _UNREAD_ACTIVE.pop()
 
 
 def configure_inputs(extra=(), inventory_receipt=None):
@@ -115,7 +153,7 @@ def configure_inputs(extra=(), inventory_receipt=None):
                   'tools/overlay_module_evidence.py'])
     manifest = content_cache.load(ROOT/'config/overlays/modules.json')
     names.update(n for m in manifest.get('modules', ()) for n in m.get('review_inputs', ()))
-    ledgers = content_cache.inventory(ROOT, ('ledger',), RECORD_BOUND)
+    ledgers = content_cache.inventory(ROOT, ('ledger',), RECORD_BOUND | UNREAD_LEDGERS)
     names.update(ledgers)
     if inventory_receipt is not None:
         inventory_receipt.update(ledgers)
@@ -125,7 +163,7 @@ def configure_inputs(extra=(), inventory_receipt=None):
     names.update(['ledger/rows.jsonl', 'ledger/layout.jsonl', 'ledger/layout_inline.jsonl',
                   'ledger/tu_layout.jsonl', 'ledger/modules.jsonl', 'ledger/containers.jsonl',
                   'ledger/instance_load_regions.jsonl'])
-    names.update(n for n in extra if n not in irrelevant and n not in RECORD_BOUND
+    names.update(n for n in extra if n not in irrelevant and n not in RECORD_BOUND and n not in UNREAD_LEDGERS
                  and not n.startswith(('build/.state/', 'build_slus/build/partition_sources/')))
     return names
 
@@ -144,12 +182,14 @@ def configure_environment():
 
 
 def bootstrap_source_inputs():
-    """Conservative source read set for the registered bootstrap producers.
+    """Sources the module manifests name, recorded in bootstrap.json (None: a manifest is missing).
 
-    View projection/export depends on names and layout, not ordinary TU bytes.
-    Native validation may read reviewed storage sources; SLUS module/partition
-    producers may inspect their declared sources. Keep those edits on the full
-    bootstrap path. Unknown/missing manifests also keep the full path.
+    View projection/export depends on names and layout, not ordinary TU bytes. An strace of a forced bootstrap
+    (every producer and subprocess) shows that the only source bytes it reads are the overlay module loader's
+    storage-slot validation (overlay_native_allocations.slot_literal, whose value validate discards); the SLUS
+    module/partition producers and every view producer read none. Configure's 'modules' checkpoint repeats that
+    validation with each source it reads bound to its record, so a body edit of an existing source cannot change a
+    view output and any validation failure still fails configure. Unknown/missing manifests keep the full path.
     """
     overlay = ROOT/'config/overlays/modules.json'
     slus = ROOT/'config/slus_modules.json'
@@ -198,6 +238,11 @@ def export_layout():
 
 
 def bootstrap(snapshot=None):
+    with unread_inputs_enforced():
+        _bootstrap_cached(snapshot)
+
+
+def _bootstrap_cached(snapshot=None):
     # The generate CLI calls bootstrap immediately before generation. Reuse
     # hashes whose inode, size, mtime and ctime are still identical; Snapshot
     # re-reads any path changed by bootstrap or another process.
@@ -205,6 +250,7 @@ def bootstrap(snapshot=None):
         snapshot = content_cache.Snapshot(ROOT)
     marker = STATE/'bootstrap.json'
     before = snapshot.hashes(bootstrap_inputs())
+    structure = {n: structural_digest(ROOT, n, v) for n, v in before.items() if is_structural(n)}
     tool_layout = export_layout()
     input_links = configure_links(views=False)
     all_links = configure_links()
@@ -220,9 +266,15 @@ def bootstrap(snapshot=None):
     old = previous.get('inputs', {})
     changed = {n for n in set(old) | set(before) if old.get(n) != before.get(n)}
     sensitive = previous.get('source_sensitive')
+    old_structure = previous.get('structure', {})
+    def view_neutral(n):
+        if n.startswith(('src/', 'include/')):
+            return True  # body edit of an existing file (bootstrap_source_inputs); additions/removals run in full
+        # The bootstrap producers read layout_inline only for its member -> TU mapping and never open the link graph
+        # (strace of a forced bootstrap), so edits that keep their structure leave every view output as it is.
+        return is_structural(n) and old_structure.get(n) is not None and old_structure.get(n) == structure.get(n)
     if (valid and sensitive is not None and set(old) == set(before)
-            and all(old[n] is not None and before[n] is not None
-                    and n.startswith(('src/', 'include/')) and n not in sensitive for n in changed)):
+            and all(old[n] is not None and before[n] is not None and view_neutral(n) for n in changed)):
         # Every view output is current. The name/authority/link guards prove
         # that these particular body edits cannot change bootstrap's outputs.
         # Generate independently checks production recipe/module read sets.
@@ -233,7 +285,8 @@ def bootstrap(snapshot=None):
         outputs = dict(previous['outputs'])
         outputs['build/.state/setup.ok'] = sha((STATE/'setup.ok').read_bytes())
         content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=all_links,
-                                       inputs=before, outputs=outputs, source_sensitive=sensitive, export_layout=tool_layout))
+                                       inputs=before, outputs=outputs, source_sensitive=sensitive, export_layout=tool_layout,
+                                       structure=structure))
         print('Build views unchanged (source-only edit; content verified)', flush=True)
         return
     _bootstrap()
@@ -249,7 +302,8 @@ def bootstrap(snapshot=None):
     put(STATE/'setup.ok', dict(inputs_sha256=sha(json.dumps(after, sort_keys=True).encode())))
     content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=configure_links(),
                                     inputs=after, outputs=snapshot.hashes(outputs),
-                                    source_sensitive=bootstrap_source_inputs(), export_layout=tool_layout))
+                                    source_sensitive=bootstrap_source_inputs(), export_layout=tool_layout,
+                                    structure={n: structural_digest(ROOT, n, v) for n, v in after.items() if is_structural(n)}))
 
 
 def _bootstrap():
@@ -753,8 +807,14 @@ def include_closure(module, root, starts):
     return RECIPE_CACHE.closure(module, root, starts) if RECIPE_CACHE is not None else module.closure(root, starts)
 
 
-def checkpoint(key, produce, dependencies=None, copy_value=True):
-    return RECIPE_CACHE.memo(key, produce, dependencies, copy_value) if RECIPE_CACHE is not None else produce()
+# The configure guard leaves the name table to the records that read it (recipe_cache.PER_RECORD). The module
+# loaders' storage validators read it through a process memo (overlay_native_allocations._source_aliases), so only
+# the first reader observes it: every module checkpoint binds it explicitly.
+NAME_TABLE = ('config/names.tsv',)
+
+
+def checkpoint(key, produce, dependencies=None, copy_value=True, bind=()):
+    return RECIPE_CACHE.memo(key, produce, dependencies, copy_value, bind) if RECIPE_CACHE is not None else produce()
 
 
 @contextmanager
@@ -763,8 +823,8 @@ def cached_selection(gate):
     import overlay_module_gate as M
     import overlay_module_placements as P
     module_load, placement_load = M.load_modules, P.load
-    M.load_modules = lambda root=M.ROOT: checkpoint('modules', lambda: module_load(root)) if Path(root) == gate.ROOT else module_load(root)
-    P.load = lambda root, modules=None: checkpoint('placements', lambda: placement_load(root, modules)) if Path(root) == gate.ROOT else placement_load(root, modules)
+    M.load_modules = lambda root=M.ROOT: checkpoint('modules', lambda: module_load(root), bind=NAME_TABLE) if Path(root) == gate.ROOT else module_load(root)
+    P.load = lambda root, modules=None: checkpoint('placements', lambda: placement_load(root, modules), bind=NAME_TABLE) if Path(root) == gate.ROOT else placement_load(root, modules)
     try:
         with linklist_snapshot(gate):
             yield
@@ -773,6 +833,11 @@ def cached_selection(gate):
 
 
 def generate(full=False, snapshot=None):
+    with unread_inputs_enforced():
+        _generate_cached(full, snapshot)
+
+
+def _generate_cached(full=False, snapshot=None):
     global GENERATION_WRITES, RECIPE_CACHE
     # Lazy producer imports must not create bytecode directories inside the
     # observed read set. Source/configuration bytes remain the authority.
@@ -855,7 +920,10 @@ def _generate():
         return dict(manifest=g.manifest, files=g.files, tus=g.tus, entries=g.entries,
                     docs=g.documents(validate=True))
     from types import SimpleNamespace
-    model = checkpoint('graph', graph_model, copy_value=False)
+    # The guard binds only the link graph's structure (recipe_cache.is_structural). Its model carries the TU source
+    # witnesses too, so this checkpoint binds the files' bytes: every other reader gets the graph from here.
+    graph_files = sorted(n for n in RECIPE_CACHE.inputs if n.startswith('config/link_graph/')) if RECIPE_CACHE is not None else ()
+    model = checkpoint('graph', graph_model, copy_value=False, bind=graph_files)
     graph = SimpleNamespace(**{k:v for k,v in model.items() if k != 'docs'})
     registry = {r['id']: r for r in map(json.loads, (ROOT/'ledger/rows.jsonl').read_text().splitlines())}
     # Source bytes do not choose a graph recipe/placement. Reuse the validated
@@ -1007,7 +1075,7 @@ def _generate():
             recipes[job]['declaration_context_sha256'] = sha(text.encode())
             return dict(key=job, spec=recipes[job], artifacts={n:(ROOT/n).read_text() for n in recipes[job]['env'].values()})
         for key, m in modules.items():
-            cached = checkpoint('module:'+key, lambda: enumerate_module(key, m), copy_value=False)
+            cached = checkpoint('module:'+key, lambda: enumerate_module(key, m), copy_value=False, bind=NAME_TABLE)
             recipes[cached['key']] = dict(cached['spec'])
             for name, text in cached['artifacts'].items():
                 replay(name, text)

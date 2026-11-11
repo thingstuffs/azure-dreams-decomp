@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_FLAGS_CALL_RESET_DISPATCH_STATE_FLAGS_G01229_H
 #define TOWN_SCENE_FLAGS_CALL_RESET_DISPATCH_STATE_FLAGS_G01229_H
 /* Call reset dispatch state flags. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_804686A4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_804686A4. */
 
 #include "common.h"
 #include "shared/town_event_state.h"

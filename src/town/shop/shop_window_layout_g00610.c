@@ -1,5 +1,5 @@
 /* Shop window layout. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B3A28, town/func_800B3C30. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B3A28, CL:town/func_800B3C30. */
 #include "town/shop/shop_window_layout_g00610.h"
 #include "town/shop.h"
 #include "town/shop/item.h"

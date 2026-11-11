@@ -1,5 +1,5 @@
 /* Squared distance.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80330320.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80330320.
  */
 #include "town/player/squared_distance_g00705.h"
 #include "town/player.h"

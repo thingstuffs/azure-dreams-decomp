@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_SHOP_STATE_INITIALIZATION_G00599_H
 #define TOWN_SHOP_SHOP_STATE_INITIALIZATION_G00599_H
 /* Shop state initialization declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B0888, town/func_800B0994, town/func_800B09E8, town/func_800B0B44. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0888, CL:town/func_800B0994, CL:town/func_800B09E8, CL:town/func_800B0B44. */
 
 #include "common.h"
 #include "shared/object_node.h"

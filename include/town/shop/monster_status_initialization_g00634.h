@@ -2,7 +2,7 @@
 #define TOWN_SHOP_MONSTER_STATUS_INITIALIZATION_G00634_H
 struct ShopFirstCallbackObject;
 /* Initialize monster status state and entry objects: shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B9044, town/func_800B90DC, town/func_800B914C, town/func_800B9168. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B9044, CL:town/func_800B90DC, CL:town/func_800B914C, CL:town/func_800B9168. */
 
 #include "common.h"
 #include "m2c_compat.h"

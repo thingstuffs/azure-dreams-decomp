@@ -1,5 +1,5 @@
 /* Midpoint tracking.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A75EC, town/func_800A76BC.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A75EC, CL:town/func_800A76BC.
  */
 #include "town/map/midpoint_tracking_g00574.h"
 #include "town/map.h"

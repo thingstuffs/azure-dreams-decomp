@@ -4,7 +4,6 @@
 #include "m2c_compat.h"
 #include "main.h"
 
-                             /* extern */
 
 
 

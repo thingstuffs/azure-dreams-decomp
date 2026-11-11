@@ -1,5 +1,5 @@
 /* Transform state. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C520C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C520C. */
 #include "town/person/transform_state_g00657.h"
 #include "town/person.h"
 #include "town/scene.h"

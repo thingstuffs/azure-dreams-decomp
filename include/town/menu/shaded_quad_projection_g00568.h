@@ -1,7 +1,7 @@
 #ifndef TOWN_MENU_SHADED_QUAD_PROJECTION_G00568_H
 #define TOWN_MENU_SHADED_QUAD_PROJECTION_G00568_H
 /* inferred-strong shaded_quad_projection_g00568; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A56D0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A56D0. */
 
 #include "common.h"
 #include "shared/gpu_packets.h"

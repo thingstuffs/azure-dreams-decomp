@@ -1,5 +1,5 @@
 /* Dispatch state callbacks by mode. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009A688. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009A688. */
 #include "town/player/state_callback_g00544.h"
 #include "town/player.h"
 #include "engine/script.h"

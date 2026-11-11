@@ -1,5 +1,5 @@
 /* fallback handler position. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800991C4, town/func_800992D0, town/func_800992FC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800991C4, CL:town/func_800992D0, CL:town/func_800992FC. */
 #include "town/player/fallback_handler_position_g00541.h"
 #include "town/player.h"
 #include "engine/graphics.h"

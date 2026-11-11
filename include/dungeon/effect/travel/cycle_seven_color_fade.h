@@ -40,11 +40,6 @@ typedef struct B28_818B7F38_S_80025738_2 {
     u8 pad_00[0xC];
     s32 unk_0C;
 } B28_818B7F38_S_80025738_2;
-typedef struct B28_818B7F38_S_80025738_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    SpriteFrameState *unk_0C;
-} B28_818B7F38_S_80025738_3;
 typedef struct B28_818B7F38_S_80025738_4 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -69,14 +64,6 @@ typedef struct B28_818B7F38_S_80025738_5 {
     s32 unk_10;
     s32 unk_14;
 } B28_818B7F38_S_80025738_5;
-typedef struct B28_818B7F38_S_80025738_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} B28_818B7F38_S_80025738_6;
 typedef struct B28_818B7F38_S_80025738_7 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */

@@ -1,6 +1,6 @@
 #include "shared/entity.h"
 /* Randomized position effect.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AAD70.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AAD70.
  */
 #include "town/map/randomized_position_effect_g00585.h"
 #include "town/map/timed_primitive_body.h"

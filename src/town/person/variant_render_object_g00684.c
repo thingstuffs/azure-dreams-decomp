@@ -1,5 +1,5 @@
 /* variant render object. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800CE070, town/func_800CE380, town/func_800CE408, PD:town/engine:800D68B0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CE070, CL:town/func_800CE380, CL:town/func_800CE408, PD:town/engine:800D68B0. */
 #include "town/person/variant_render_object_g00684.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"

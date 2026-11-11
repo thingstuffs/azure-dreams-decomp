@@ -134,29 +134,29 @@ void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0
 }
 
 /* Attempt an action toward the target and decrement the actor counter on success. */
-s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, MovingTile *target_ptr, void *actor_ptr)
+s32 select_target_tile_for_actor_action(ActorRecord *object_ptr, void *action_context, MovingTile *target_ptr, ActorRecord *actor_ptr)
 {
     s32 target_direction;
     s32 clear_action_flag;
-    u8 *object;
-    u8 *actor;
+    ActorRecord *object;
+    ActorRecord *actor;
     void *context;
     MovingTile *target;
     u16 global_flags;
 
     object = object_ptr;
     actor = actor_ptr;
-    actor[0x71] &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
     context = action_context;
     if (!(g_dungeon_status.flags & 0x2000)) {
         target = target_ptr;
 
-        ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
-        ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
-        target_direction = find_eligible_entry_at_coordinates(actor, target->tile_x, target->tile_y);
+        actor->flags14 |= 0x2000;
+        actor->flags1C |= 0x2000;
+        target_direction = find_eligible_entry_at_coordinates((u8 *)actor, target->tile_x, target->tile_y);
         clear_action_flag = ~0x2000;
-        ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
-        ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;
+        actor->flags14 &= clear_action_flag;
+        actor->flags1C &= clear_action_flag;
         global_flags = g_dungeon_status.flags;
         if (!(global_flags & 0x2000)) {
             goto check_flag_8;
@@ -176,7 +176,7 @@ check_flag_8:
         goto fail;
     }
 
-    apply_camera_offset_and_select_target(actor - 0x20, context, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), context, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         goto fail;
     }
@@ -189,61 +189,61 @@ check_flag_8:
 
         action_actor = actor;
         action_target = target;
-        object[0x9B] = 0;
-        ((S_800CA788_3 *)object)->unk_8C = 0;
-        object[0x9A] = 0x11;
-        actor_param = ((S_800CA788_1 *)actor)->unk_2A;
-        actor[0x84] = 0x80;
+        object->action_phase = 0;
+        object->unk_8C.word = 0;
+        object->action_id = 0x11;
+        actor_param = actor->facing;
+        actor->unk_84 = 0x80;
         action_mode = 0;
-        actor[0x85] = 0;
-        ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
-        ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
+        actor->unk_85 = 0;
+        actor->flags14 |= 0x2000;
+        actor->flags1C |= 0x2000;
         prepare_directional_attack(action_actor, action_target, actor_param, action_mode, 0);
     }
-    ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
-    ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;
-    actor[0x6D]--;
+    actor->flags14 &= clear_action_flag;
+    actor->flags1C &= clear_action_flag;
+    actor->pending_turn_updates--;
     return 1;
 }
 
 /* Selects a target and updates the object's state before dispatching its action. */
-s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, MovingTile *origin) {
-    void *actor;
+s32 choose_best_eligible_entry_for_actor(ActorRecord *actor_arg, s32 action_arg, MovingTile *origin) {
+    ActorRecord *actor;
     s32 clear_flag_mask;
     MovingTile *target;
     s32 found_entry;
     SpriteLinkPrefixView *target_entry;
 
     actor = actor_arg;
-    ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
-    ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
-    ((S_800CA93C_0 *)actor)->unk_60 = choose_best_eligible_entry(origin, actor, 4);
+    actor->flags14 |= 0x2000;
+    actor->flags1C |= 0x2000;
+    actor->target = choose_best_eligible_entry(origin, actor, 4);
 
     clear_flag_mask = -0x2001;
-    ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
-    target_entry = ((S_800CA93C_0 *)actor)->unk_60;
-    ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
+    actor->flags14 &= clear_flag_mask;
+    target_entry = actor->target;
+    actor->flags1C &= clear_flag_mask;
     if (target_entry != 0) {
         target = target_entry[-1].sprite;
-        ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
-        ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
+        actor->flags14 |= 0x2000;
+        actor->flags1C |= 0x2000;
         found_entry = find_eligible_entry_at_coordinates(
-            actor,
+            (u8 *)actor,
             origin->tile_x,
             origin->tile_y);
-        ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
-        ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
-        if (found_entry == (s32)((S_800CA93C_0 *)actor)->unk_60) {
+        actor->flags14 &= clear_flag_mask;
+        actor->flags1C &= clear_flag_mask;
+        if (found_entry == (s32)actor->target) {
             select_target_tile_for_actor_action(actor, action_arg, origin, actor);
             return 0;
         }
-        ((S_800CA93C_0 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
+        actor->facing = get_rounded_facing_and_rounding_flag(
             origin->tile_x,
             origin->tile_y,
             target->tile_x,
             target->tile_y,
-            (u8 *)actor + 0x98);
-        ((S_800CA93C_0 *)actor)->unk_46 |= 0x8000;
+            &actor->action_state_flags);
+        actor->action_flags |= 0x8000;
     }
 
     update_actor_targeting_for_tile(actor_arg, action_arg, origin, actor);

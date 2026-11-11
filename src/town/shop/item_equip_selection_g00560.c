@@ -1,5 +1,5 @@
 /* Item equip selection. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A218C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A218C. */
 #include "town/shop/item_equip_selection_g00560.h"
 #include "town/shop/item_lookup.h"
 #include "shared/dungeon_item_entries.h"

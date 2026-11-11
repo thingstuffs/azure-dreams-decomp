@@ -26,7 +26,10 @@ typedef struct S_80024930_0 {
     s16 unk_7C;
     s16 unk_7E;
     s16 unk_80;
-    u8 pad_82[0x32];
+    u8 pad_82[0x2];
+    s32 depth_cue; /* RotAverage4 depth-cue output */
+    s32 gte_flag; /* RotAverage4 GTE flag output */
+    u8 pad_8C[0x28];
     u32 unk_B4;
     u8 pad_B8[0x20];
     u16 unk_D8;
@@ -181,8 +184,8 @@ s32 draw_shaded_textured_cylinder(B22_81893474_EffectState *unused_data, MovingP
 
         scratch->unk_B4 = RotAverage4(
             &scratch->unk_64, &scratch->unk_6C, &scratch->unk_74, &scratch->unk_7C,
-            (u8 *)scratch + 0xD8, (u8 *)scratch + 0xDC, (u8 *)scratch + 0xE0, (u8 *)scratch + 0xE4,
-            (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
+            &scratch->unk_D8, &scratch->unk_DC, &scratch->unk_E0, &scratch->unk_E4,
+            &scratch->depth_cue, &scratch->gte_flag);
 
         ((S_80024930_3 *)prim)->unk_08 = scratch->unk_D8;
         ((S_80024930_3 *)prim)->unk_0A = scratch->unk_DA;

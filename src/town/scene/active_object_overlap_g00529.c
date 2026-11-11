@@ -1,5 +1,5 @@
 /* Active object overlap.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009263C.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009263C.
  */
 #include "town/scene/active_object_overlap_g00529.h"
 #include "town/scene.h"

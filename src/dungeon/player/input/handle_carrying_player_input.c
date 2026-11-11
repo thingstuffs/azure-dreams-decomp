@@ -27,7 +27,6 @@ s32 request_familiar_deployment_change(void *, void *, void *, s32, u32); /* ext
 
 #include "dungeon/item/actor_target.h"
 #include "dungeon/player/object/action_state.h"
-              /* extern */
 extern M2C_UNK player_menu_action_data;
 extern u8 player_wait_frames[];
 extern u8 player_carry_frames[];

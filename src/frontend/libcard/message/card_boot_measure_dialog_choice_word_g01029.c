@@ -1,7 +1,7 @@
 #include "frontend/libcard/message_dialog.h"
 #include "frontend/libcard/display_node.h"
 /* Card boot measure dialog choice word g01029.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - main/func_8000F25C, main/func_8000F300, main/func_8000F33C, main/func_8000F3B4.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:main/func_8000F25C, CL:main/func_8000F300, CL:main/func_8000F33C, CL:main/func_8000F3B4.
  */
 #include "frontend/libcard/message/card_boot_measure_dialog_choice_word_g01029.h"
 #include "frontend/libcard/message.h"

@@ -5314,7 +5314,7 @@
 {"id":"dungeon/func_8188CFAC","path":"src/dungeon/effect/travel/follow_brighten.c"}
 {"id":"dungeon/func_8188D004","path":"src/dungeon/effect/shade/create_radial_effect_from_source.c"}
 {"id":"dungeon/func_8188D268","path":"src/dungeon/effect/shade/draw_adjacent_row_quads.c"}
-{"id":"dungeon/func_8188D4D4","path":"src/dungeon/effect/shade/move_linked_effect_along_path.c"}
+{"id":"dungeon/func_8188D4D4","path":"src/dungeon/effect/shade/emit_particle_then_wait_for_path_release.c"}
 {"id":"dungeon/func_8188DDE8","path":"src/dungeon/effect/shade/update_rotating_effect_fade.c"}
 {"id":"dungeon/func_8188E1DC","path":"src/dungeon/effect/shade/build_sorted_effect_quads.c"}
 {"id":"dungeon/func_8188E3A0","path":"src/dungeon/effect/shade/spawn_randomized_quad_effects.c"}

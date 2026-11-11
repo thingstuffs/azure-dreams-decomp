@@ -1,5 +1,5 @@
 /* Paged selection refresh. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B03D0, town/func_800B085C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B03D0, CL:town/func_800B085C. */
 #include "town/shop/paged_selection_refresh_g00598.h"
 #include "town/shop.h"
 

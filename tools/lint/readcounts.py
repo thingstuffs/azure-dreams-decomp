@@ -46,7 +46,9 @@ TOOL_TAGS = (
     ('cfail-repair/tf7-phase', re.compile(r'cfail-repair|tf7-phase')),
     ('evidence banner', re.compile(r'Original-file evidence|inferred-(?:strong|weak)\b|Evidence: inferred')),
     ('tool-written header note', re.compile(r'\btools/(?:headers|gen_records|gen_noreturn_syms)\b|Provenance:')),
-    ('cohort/group id', re.compile(r'\bCL:\w|\bG\d{5}\b')),
+    # CL:, PD:, PR:, J1: and XB: label evidence kinds in decision-72(b) evidence lists (tools/tu/tu_merge.py writes
+    # them); they are part of the evidence banner, not group ids.
+    ('cohort/group id', re.compile(r'\bG\d{5}\b')),
     ('lane receipt/ledger', re.compile(r'\blane receipt\b|\breceipt\b|\bledger/')),
     ('review pending', re.compile(r'Review pending')),
     ('MECHANISM note', re.compile(r'\bMECHANISM:')),

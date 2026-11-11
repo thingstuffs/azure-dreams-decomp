@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_STATE_COUNTDOWN_UPDATES_G00558_H
 #define TOWN_SHOP_STATE_COUNTDOWN_UPDATES_G00558_H
 /* State countdown updates declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A1510. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A1510. */
 
 #include "common.h"
 #include "town/scene/collision.h"

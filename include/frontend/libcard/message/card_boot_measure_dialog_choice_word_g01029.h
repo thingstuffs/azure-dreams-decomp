@@ -1,7 +1,7 @@
 #ifndef FRONTEND_LIBCARD_MESSAGE_CARD_BOOT_MEASURE_DIALOG_CHOICE_WORD_G01029_H
 #define FRONTEND_LIBCARD_MESSAGE_CARD_BOOT_MEASURE_DIALOG_CHOICE_WORD_G01029_H
 /* card boot measure dialog choice word g01029. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - main/func_8000F25C, main/func_8000F300, main/func_8000F33C, main/func_8000F3B4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:main/func_8000F25C, CL:main/func_8000F300, CL:main/func_8000F33C, CL:main/func_8000F3B4. */
 
 #include "common.h"
 #include "frontend/libcard/message.h"

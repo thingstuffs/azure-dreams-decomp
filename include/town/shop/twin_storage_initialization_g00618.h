@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_TWIN_STORAGE_INITIALIZATION_G00618_H
 #define TOWN_SHOP_TWIN_STORAGE_INITIALIZATION_G00618_H
 /* Twin storage initialization declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B5270, town/func_800B52D8, town/func_800B5400, town/func_800B550C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B5270, CL:town/func_800B52D8, CL:town/func_800B5400, CL:town/func_800B550C. */
 
 #include "common.h"
 #include "m2c_compat.h"

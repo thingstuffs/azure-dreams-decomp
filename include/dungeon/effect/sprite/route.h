@@ -301,7 +301,10 @@ typedef struct B32_818CE83C_S_8002403C_1 {
     u8 * unk_18;
     u8 pad_1C[0x4];
     union { u8 * p; u32 * p2; } unk_20;   /* accessed as both */
-    u8 pad_24[0x9C];
+    u8 pad_24[0x6C];
+    s32 depth_cue; /* RotTransPers depth-cue output */
+    s32 gte_flag; /* RotTransPers GTE flag output */
+    u8 pad_98[0x28];
     u32 unk_C0;
 } B32_818CE83C_S_8002403C_1;
 typedef struct B32_818CE83C_S_8002403C_2 {

@@ -19,7 +19,7 @@ s32 check_enabled_neighbor_height(s32 world_x, s32 world_y, s16 world_z, u32 dir
 s32 check_entity_eligibility(void *entity);
 s32 check_row_column_or_diagonal_alignment(MovingTile *source, MovingTile *target);
 s32 check_tile_path_clear(ActorRecord *source, void *target);
-s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, MovingTile *origin);
+s32 choose_best_eligible_entry_for_actor(ActorRecord *actor_arg, s32 action_arg, MovingTile *origin);
 void copy_indexed_entry_data(void *entity);
 void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner);
 void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state);

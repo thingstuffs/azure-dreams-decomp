@@ -53,12 +53,6 @@ extern Packed12 D_80025E70;
 extern s16 particle_update_flag;
 extern u8 current_spell_effect_variant;
 
-typedef struct S_818FF710_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_818FF710_0;
-
 
 typedef struct S_818FF710_2 {
     u8 pad_00[0x2A];
@@ -184,7 +178,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
     SpriteFrameState *parent_sprite;
     ObjectPosition *target_pos_or_step;
     void *sprite_resource;
-    S_818FF710_0 *parent_object;
+    ObjectNodeHeader *parent_object;
     SpriteFrameState *first_sprite;
     SpriteFrameState *second_sprite;
     ParticleCleanupEffectBody *child_effect;
@@ -207,8 +201,8 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
     texture_rect.packed = D_80024028;
     direction_steps.packed = D_80024038;
     state = effect->state;
-    parent_object = (void *)parent - 0x20;
-    parent_position = parent_object->unk_08;
+    parent_object = NODE_HEADER(parent);
+    parent_position = (MovingPosition *)parent_object->position;
     switch ((u32)(state)) {
     case 0:
         sprite->color.word = 0x808080;
@@ -219,16 +213,16 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         effect->direction = (s16) ((parent_flags >> 9) & 7);
         effect->state = (s16) ((u16) effect->state + 1);
     case 1:
-        parent_sprite = parent_object->unk_0C;
+        parent_sprite = parent_object->sprite;
         if (resolve_record_orientation_or_fallback(parent_sprite->source, parent_sprite, &offset, 0) == 0
-            && !(((SpriteFrameState *)(parent_object->unk_0C))->flags & 0x8000)) {
+            && !(parent_object->sprite->flags & 0x8000)) {
             return;
         }
         motion->x.unsigned_parts.integer = (u16) parent_position->x;
         motion->y.unsigned_parts.integer = (u16) parent_position->y;
         parent_height = parent_position->z;
         motion->z.unsigned_parts.integer = parent_height;
-        if (!(((SpriteFrameState *)(parent_object->unk_0C))->flags & 0x8000)) {
+        if (!(parent_object->sprite->flags & 0x8000)) {
             motion->x.unsigned_parts.integer = (u16) (motion->x.unsigned_parts.integer + ((u16)offset.vx));
             motion->y.unsigned_parts.integer = (u16) (motion->y.unsigned_parts.integer + ((u16)offset.vy));
             motion->z.unsigned_parts.integer = (u16) (motion->z.unsigned_parts.integer + ((u16)offset.vz));
@@ -236,7 +230,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             motion->z.unsigned_parts.integer = (u16) (parent_height - 0x40);
         }
         if (!(effect->flags & 4)) {
-            register_node((u8 *)effect - 0x20, project_sprite_chain);
+            register_node(NODE_HEADER(effect), project_sprite_chain);
             sprite->tpage_abr = 0x60;
             sprite->color.c.b = 0x14;
             sprite->color.c.g = 0x14;
@@ -299,7 +293,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
                 particle_color = 0x2020E0;
                 particle_size = (random_value & 0xFF) | 0x80;
                 particle_direction = effect->direction;
-                spawn_jittered_child_effect((u8 *)effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
+                spawn_jittered_child_effect(NODE_HEADER(effect), particle_direction, particle_color, particle_size, 0, 0, 0);
             }
         }
         old_flight_angle = sprite->angle_z;
@@ -571,7 +565,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
                 particle_color = 0x2020E0;
                 particle_size = (random_value & 0xFF) | 0x80;
                 particle_direction = effect->direction;
-                spawn_jittered_child_effect((u8 *)effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
+                spawn_jittered_child_effect(NODE_HEADER(effect), particle_direction, particle_color, particle_size, 0, 0, 0);
             }
         }
         old_impact_angle = sprite->angle_z;

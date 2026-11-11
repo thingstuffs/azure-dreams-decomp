@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_MOTHER_EVENT_MOTION_G00670_H
 #define TOWN_PERSON_MOTHER_EVENT_MOTION_G00670_H
 /* shared declarations for mother event motion. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/engine@4A4DC, town/func_800CA30C, town/func_800CA364, town/func_800CA490, PD:town/engine:80113220. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/engine@4A4DC, CL:town/func_800CA30C, CL:town/func_800CA364, CL:town/func_800CA490, PD:town/engine:80113220. */
 
 #include "common.h"
 #include "town/scene/collision.h"

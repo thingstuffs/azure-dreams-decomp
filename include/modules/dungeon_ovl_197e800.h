@@ -6,6 +6,7 @@ struct SpriteFrameState;
 #include "modules/dungeon_native_abi.h"
 #include "modules/dungeon_draw_chain.h"
 #include "shared/tile_object.h"
+#include "shared/vector.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -215,10 +216,8 @@ typedef struct S_81960CD4_0 {
     u32 unk_30;
     u32 unk_34;
     u32 unk_38;
-    u8 pad_3C[0x28];
-    u32 unk_64;
-    u32 unk_68;
-    u32 unk_6C;
+    u8 pad_3C[0x14];
+    GteMatrix tile_matrix; /* RotMatrix of the effect angles with a zero translation, installed in the GTE */
     u16 unk_70;
     u16 unk_72;
     u16 unk_74;
@@ -234,7 +233,8 @@ typedef struct S_81960CD4_0 {
     u16 unk_88;
     u16 unk_8A;
     u16 unk_8C;
-    u8 pad_8E[0xA];
+    u8 pad_8E[0x6];
+    s32 gte_flag; /* GTE flag output of the four vertex transforms */
     u16 unk_98;
     u16 unk_9A;
     u16 unk_9C;
@@ -463,7 +463,8 @@ typedef struct S_8195FD40_0 {
     u32 unk_30;
     u32 unk_34;
     u32 unk_38;
-    u8 pad_3C[0x34];
+    u8 pad_3C[0x14];
+    GteMatrix composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled and installed */
     u32 unk_70;
     u16 unk_74;
     u8 pad_76[0x2];
@@ -475,12 +476,13 @@ typedef struct S_8195FD40_0 {
     u8 pad_86[0x2];
     u32 unk_88;
     u16 unk_8C;
-    u8 pad_8E[0x32];
+    u8 pad_8E[0x2];
+    s32 depth_cue; /* RotAverage4 depth-cue output */
+    s32 gte_flag; /* RotAverage4 GTE flag output */
+    u8 pad_98[0x28];
     u32 unk_C0;
-    u8 pad_C4[0x20];
-    s32 unk_E4;
-    s32 unk_E8;
-    s32 unk_EC;
+    u8 pad_C4[0xC];
+    GteMatrix object_matrix; /* RotMatrix of the quad angles at +0x100; its translation is the quad position */
     u8 pad_F0[0x10];
     u16 unk_100;
     u16 unk_102;
@@ -578,9 +580,9 @@ typedef struct S_8195FB34_3 {
 typedef struct S_8195F43C_0 {
     u8 pad_00[0x20];
     u8 * unk_20;
-    u8 pad_24[0x10];
-    u32 unk_34;
-    u8 pad_38[0x18];
+    u8 pad_24[0xC];
+    GteTranslationVector scale; /* ScaleMatrix vector: twice the sprite scale_x and scale_y, then 0x2000 */
+    u8 pad_3C[0x14];
     s16 unk_50;
     u8 pad_52[0x6];
     s16 unk_58;
@@ -600,12 +602,17 @@ typedef struct S_8195F43C_0 {
     s16 unk_88;
     s16 unk_8A;
     s16 unk_8C;
-    u8 pad_8E[0x32];
+    u8 pad_8E[0x2];
+    s32 depth_cue; /* RotAverage4 depth-cue output */
+    s32 gte_flag; /* RotAverage4 GTE flag output */
+    u8 pad_98[0x28];
     u32 unk_C0;
-    u8 pad_C4[0x20];
-    s32 unk_E4;
-    s32 unk_E8;
-    s32 unk_EC;
+    u8 pad_C4[0xC];
+    GteMatrix object_matrix; /* RotMatrix of object_angles; its translation is the tile origin */
+    u8 pad_F0[0x10];
+    GteShortVector object_angles; /* rotation angles passed to RotMatrix */
+    u8 pad_108[0x14];
+    GteMatrix camera_matrix; /* current GTE rotation saved by ReadRotMatrix */
 } S_8195F43C_0;
 typedef struct S_8195F43C_1 {
     u8 pad_00[0x2];

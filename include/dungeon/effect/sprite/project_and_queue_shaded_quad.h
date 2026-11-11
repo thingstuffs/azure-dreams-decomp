@@ -220,7 +220,6 @@ typedef struct {
 } Row_819232EC_U12;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-                /* extern */
 
 typedef struct Row_819232EC_S_80024AEC_0 {
     u8 pad_00[0x5A];
@@ -277,14 +276,6 @@ typedef struct Row_81923534_S_80024D34_0 {
 } Row_81923534_S_80024D34_0;   /* sub in func_80024D34 */
 
 /* Creates and initializes an effect at a random offset from the given position. */
-/* extern */
-      /* extern */
-      /* extern */
-         /* extern */
-                      /* extern */
-           /* extern */
-                     /* extern */
-      /* extern */
 
 typedef struct Row_8192365C_S_80024E5C_0_pre {
     u16 unk_00;

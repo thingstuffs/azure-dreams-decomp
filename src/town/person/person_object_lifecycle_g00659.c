@@ -1,5 +1,5 @@
 /* Person object lifecycle. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C5ABC, town/func_800C6064, PD:town/engine:800D5028. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C5ABC, CL:town/func_800C6064, PD:town/engine:800D5028. */
 #include "town/person/person_object_lifecycle_g00659.h"
 #include "shared/object_node.h"
 #include "town/person.h"

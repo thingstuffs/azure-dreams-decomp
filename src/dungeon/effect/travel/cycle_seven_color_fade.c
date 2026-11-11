@@ -848,10 +848,10 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
     s16 grid_y;
     SpriteFrameState *source_data;
     B28_818B7F38_S_80025738_7 *destination;
-    B28_818B7F38_S_80025738_3 *source_header;
+    ObjectNodeHeader *source_header;
     ActorRecord *owner;
     B28_818B7F38_S_80025738_8 *target;
-    B28_818B7F38_S_80025738_6 *source_position;
+    ObjectPosition *source_position;
     SpriteFrameState *tile_data;
 
     phase = state->spell.phase;
@@ -864,23 +864,23 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
         state->unk_0E = (u16) (((u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_2A >> 9) & 7);
         render->color.word = 0x808080;
     case 1:
-        source_header = (void *)owner - 0x20;
-        source_data = source_header->unk_0C;
+        source_header = NODE_HEADER(owner);
+        source_data = source_header->sprite;
         if (resolve_record_orientation_or_fallback(source_data->source, source_data, &frame.offset.orientation, 0) != 0) {
-            source_position = source_header->unk_08;
-            motion_in->x.unsigned_parts.integer = (u16) source_position->unk_02;
-            motion_in->y.unsigned_parts.integer = (u16) source_position->unk_06;
+            source_position = source_header->position;
+            motion_in->x.unsigned_parts.integer = (u16) source_position->x.w.i;
+            motion_in->y.unsigned_parts.integer = (u16) source_position->y.w.i;
         } else {
-            if (!(source_header->unk_0C->flags & 0x8000)) {
+            if (!(source_header->sprite->flags & 0x8000)) {
                 break;
             }
-            source_position = source_header->unk_08;
-            motion_in->x.unsigned_parts.integer = (u16) source_position->unk_02;
-            motion_in->y.unsigned_parts.integer = (u16) source_position->unk_06;
+            source_position = source_header->position;
+            motion_in->x.unsigned_parts.integer = (u16) source_position->x.w.i;
+            motion_in->y.unsigned_parts.integer = (u16) source_position->y.w.i;
         }
-        source_z = source_position->unk_0A;
+        source_z = source_position->z.w.i;
         motion_in->z.unsigned_parts.integer = source_z;
-        if (!(source_header->unk_0C->flags & 0x8000)) {
+        if (!(source_header->sprite->flags & 0x8000)) {
             motion_in->x.unsigned_parts.integer = (u16) (motion_in->x.unsigned_parts.integer
                 + frame.offset.distance[0]);
             motion_in->y.unsigned_parts.integer = (u16) (motion_in->y.unsigned_parts.integer
@@ -944,7 +944,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
             next_phase = state->spell.phase + 1;
         } else {
             index = 0;
-            tile_data = source_header->unk_0C;
+            tile_data = source_header->sprite;
             tile_x = tile_data->tile_x;
             tile_y = tile_data->tile_y;
             last_tile_x = tile_x;
@@ -956,7 +956,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
                     (s16) (state->unk_0E << 9)) != 0) {
                     break;
                 }
-                source_position = (B28_818B7F38_S_80025738_6 *)&dir_step_x[(s16) state->unk_0E];
+                source_position = (ObjectPosition *)&dir_step_x[(s16) state->unk_0E]; /* BYTES: the direction-step entry reuses the position pointer; a separate s16 * local changes func_80025738 */
                 probe_z = (u16) owner->ground_height;
                 probe_z -= 0x20;
                 probe_z = (u32)probe_z << 16;

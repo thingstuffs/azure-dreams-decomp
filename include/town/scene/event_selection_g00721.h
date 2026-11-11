@@ -1,5 +1,5 @@
 /* Initialize and resolve event selection with a fallback entry.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8046AC60, town/func_8046AC98.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8046AC60, CL:town/func_8046AC98.
  * Only the two strong CL gaps are included; complete file edges remain unknown.
  */
 #ifndef TOWN_SCENE_EVENT_SELECTION_G00721_H

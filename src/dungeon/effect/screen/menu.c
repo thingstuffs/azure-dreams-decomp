@@ -977,8 +977,8 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
             s32 edge;
             s16 edge1;
             s16 edge2;
-            scratch->texture_u.value = part->data.texture.u;
-            scratch->texture_v.value = part->data.texture.v;
+            scratch->texture_u.value = part->data.texture.u0;
+            scratch->texture_v.value = part->data.texture.v0;
             scratch->texture_width.value = part->data.texture.width;
             scratch->texture_height.value = part->data.texture.height;
 

@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_APPROACH_PLAYER_ANGLE_TARGET_G01125_H
 #define TOWN_PLAYER_APPROACH_PLAYER_ANGLE_TARGET_G01125_H
 /* Approach player angle target. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8009D150. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8009D150. */
 
 #include "common.h"
 #include "m2c_compat.h"

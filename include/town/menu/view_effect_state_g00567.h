@@ -1,7 +1,7 @@
 #ifndef TOWN_MENU_VIEW_EFFECT_STATE_G00567_H
 #define TOWN_MENU_VIEW_EFFECT_STATE_G00567_H
 /* inferred-strong view_effect_state_g00567; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A4E6C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A4E6C. */
 
 #include "common.h"
 #include "shared/game_work.h"

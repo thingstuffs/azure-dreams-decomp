@@ -1,5 +1,5 @@
 /* Create randomized radial offset effects. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009A1CC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009A1CC. */
 #include "town/player/radial_offset_effects_g00543.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"

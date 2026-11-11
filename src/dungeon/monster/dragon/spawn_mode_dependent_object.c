@@ -881,7 +881,7 @@ void finish_actor_tile_move_and_check_trap(ActorRecord *body, ObjectPosition *mo
 }
 
 /* Jumps to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
+void complete_dragon_jump_to_destination(ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
     u16 facing_distance;
     s32 frames_left;
     s16 next_timer;

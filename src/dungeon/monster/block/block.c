@@ -20,7 +20,7 @@
 #include "dungeon/effect/screen.h"
 
 void *(*const cb3000_spawn_entry)(s16,s16,s16,s32) = create_linked_object_position;
-void (*const cb3000_update_entry)(ActorRecord *, ObjectPosition *, SpriteFrameState *) = set_boss_effect_flag;
+void (*const cb3000_update_entry)(ActorRecord *, ObjectPosition *, SpriteFrameState *) = update_block_motion_and_facing;
 
 /* Stores the owner value, copies the source position, and initializes a gray sprite for rendering. */
 void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords)
@@ -117,7 +117,7 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
     if (object != 0) {
         result = object;
         result += 0x20;
-        ((CB_80170A5C_S_80170A5C_0 *)object)->unk_10 = set_boss_effect_flag;
+        ((CB_80170A5C_S_80170A5C_0 *)object)->unk_10 = update_block_motion_and_facing;
         ((CB_80170A5C_S_80170A5C_1 *)result)->unk_13 = MONSTER_BLOCK;
         register_node(object, project_sprite_chain);
 
@@ -173,7 +173,7 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
  * the a1/a2 temps into them, so sched1 schedules the parameter copies and the entry order is
  * retail's.
  */
-void set_boss_effect_flag(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster)
+void update_block_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster)
 {
     ActorRecord *actor = entity;
     s32 direction;

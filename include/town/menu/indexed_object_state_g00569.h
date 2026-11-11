@@ -1,7 +1,7 @@
 #ifndef TOWN_MENU_INDEXED_OBJECT_STATE_G00569_H
 #define TOWN_MENU_INDEXED_OBJECT_STATE_G00569_H
 /* inferred-strong indexed_object_state_g00569; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A5CF0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A5CF0. */
 
 #include "common.h"
 #include "shared/object_node.h"

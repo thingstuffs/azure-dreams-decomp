@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_RADIAL_OFFSET_EFFECTS_G00543_H
 #define TOWN_PLAYER_RADIAL_OFFSET_EFFECTS_G00543_H
 /* Create randomized radial offset effects. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009A1CC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009A1CC. */
 
 #include "common.h"
 #include "shared/object_node.h"

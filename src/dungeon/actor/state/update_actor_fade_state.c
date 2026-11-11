@@ -34,7 +34,6 @@ typedef struct S_800D34CC_2 {
 
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
-             /* extern */
 
 /* Waits for pending actions, shrinks and darkens the actor sprite, then detaches the actor and clears
    its map occupancy. */
@@ -83,7 +82,7 @@ void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *dat
         state->action_timer = countdownNext;
         if (((countdownNext << 0x10) <= 0) || ((data->unk_14 & 0x8000) != 0)) {
             statusValue = ((s32)g_dungeon_status.pending_display_owner);
-            if (statusValue == ((u8 *)entity - 0x20)) {
+            if (statusValue == NODE_HEADER(entity)) {
                 g_dungeon_status.pending_display_owner = (s32) (statusValue & 0x7FFFFFFF);
             }
             detach_record_and_update_slot_state(entity);

@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_SLOT_RESOURCE_UPDATES_G00621_H
 #define TOWN_SHOP_SLOT_RESOURCE_UPDATES_G00621_H
 /* Update slot countdowns, choices, and resource colors: shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B6384, town/func_800B63B8, town/func_800B64A4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B6384, CL:town/func_800B63B8, CL:town/func_800B64A4. */
 
 #include "common.h"
 #include "shared/game_work.h"

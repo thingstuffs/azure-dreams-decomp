@@ -1,5 +1,5 @@
 /* Dispatch context callbacks and initialize entry tables. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8047E130. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8047E130. */
 #include "town/scene/context_callback_g00713.h"
 #include "town/scene.h"
 #include "modules/town_ovl_3fe0d0_p00.h"

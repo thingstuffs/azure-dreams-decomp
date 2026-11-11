@@ -60,7 +60,7 @@ s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, Sprit
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.handler = 0;
-        *(unsigned char *)&actor->unk_84 = 0x80;
+        actor->unk_84 = 0x80;
         actor->unk_85 = 32;
         actor->pending_turn_updates--;
 

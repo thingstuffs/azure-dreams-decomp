@@ -265,13 +265,13 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
         project_work_b = &scratch->gte_flag;
         {
             u16 *start_pos = &scratch->unk_64;
-            u8 *start_screen = (u8 *)scratch + 0xD8;
+            u16 *start_screen = &scratch->unk_D8;
             start_depth = RotTransPers(start_pos, start_screen, project_work_a, project_work_b);
         }
         scratch->unk_F4 = start_depth;
         {
             u16 *end_pos = &scratch->unk_6C;
-            u8 *end_screen = (u8 *)scratch + 0xDC;
+            u16 *end_screen = &scratch->unk_DC;
             end_depth = RotTransPers(end_pos, end_screen, project_work_a, project_work_b);
         }
         scratch->unk_F8 = end_depth;

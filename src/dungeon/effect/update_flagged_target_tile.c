@@ -20,7 +20,6 @@ typedef struct S_800B2FAC_0 {
 
 struct EntityLinkNode;
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
-             /* extern */
 s32 distribute_experience_awards();                      /* extern */
 
 /* Update a flagged target and its tile state, then mark it dirty. */

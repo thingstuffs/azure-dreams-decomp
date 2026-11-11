@@ -1,5 +1,5 @@
 /* actor output state. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800CAA34. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CAA34. */
 #include "town/person/actor_output_state_g00671.h"
 #include "town/person.h"
 

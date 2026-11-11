@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_VALUE_HANDLER_MODES_G00712_H
 #define TOWN_SCENE_VALUE_HANDLER_MODES_G00712_H
 /* Dispatch value handler modes. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8032EA2C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8032EA2C. */
 
 #include "common.h"
 

@@ -18,11 +18,11 @@ extern void forward_target_value_initcardmessageobject_parameters(void *first_pt
 /* Chooses the next menu callback and, when needed, initializes its message and active-state flags. */
 void card_boot_initialize_menu_pointer(CardChooserBody *ptr) {
     if (ptr->unk_3C != 0) {
-        ((ObjectNodeHeader *)ptr - 1)->update_callback = card_boot_handle_menu_selection_input;
+        NODE_HEADER(ptr)->update_callback = card_boot_handle_menu_selection_input;
         return;
     }
     ptr->unk_40 = 1;
-    forward_target_value_initcardmessageobject_parameters((u8 *)ptr - 0x20, (u8 *)ptr + 0x38);
+    forward_target_value_initcardmessageobject_parameters(NODE_HEADER(ptr), &ptr->wait_notice_state);
     ptr->wait_notice_state = 1;
-    ((ObjectNodeHeader *)ptr - 1)->update_callback = &D_80407F40;
+    NODE_HEADER(ptr)->update_callback = &D_80407F40;
 }

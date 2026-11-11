@@ -1,7 +1,7 @@
 #ifndef TOWN_EVENT_ENTRY_KIND_FILTERS_G00589_H
 #define TOWN_EVENT_ENTRY_KIND_FILTERS_G00589_H
 /* inferred-strong entry_kind_filters_g00589; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AC118, town/func_800AC278, town/func_800AC2D8, town/func_800AC37C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC118, CL:town/func_800AC278, CL:town/func_800AC2D8, CL:town/func_800AC37C. */
 
 #include "common.h"
 #include "script_symbols.h"

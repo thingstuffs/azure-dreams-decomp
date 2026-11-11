@@ -1,5 +1,5 @@
 /* Shop subrecord values. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B3FDC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B3FDC. */
 #include "town/shop/shop_subrecord_values_g00611.h"
 #include "town/shop/shop_window_layout_g00610.h"
 #include "town/shop.h"

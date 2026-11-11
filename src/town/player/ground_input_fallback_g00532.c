@@ -1,5 +1,5 @@
 /* ground input fallback. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800938A0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800938A0. */
 #include "town/player/ground_input_fallback_g00532.h"
 #include "town/player.h"
 

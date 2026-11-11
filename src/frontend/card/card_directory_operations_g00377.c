@@ -1,5 +1,5 @@
 /* Card directory operations; G00377; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - main/func_8000EA04, PD:main/image_25c800:80027F18, PD:main/image_25c800:80028570. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000EA04, PD:main/image_25c800:80027F18, PD:main/image_25c800:80028570. */
 #include "frontend/card/card_directory_operations_g00377.h"
 #include "frontend/card.h"
 

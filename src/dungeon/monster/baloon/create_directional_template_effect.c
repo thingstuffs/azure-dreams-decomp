@@ -15,7 +15,7 @@ extern u8 D_800D6FEC[];
 extern u8 D_800E23C8[];
 
 /* Copy a gray directional sprite effect and anchor it above the source. */
-void create_directional_template_effect(void *unused, BaloonTemplateAnchor *anchor,
+void create_gray_directional_sprite_copy_above_anchor(void *unused, BaloonTemplateAnchor *anchor,
     SpriteFrameState *object_template, ActorRecord *facing_source)
 {
     BaloonTemplateNode *object;

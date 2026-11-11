@@ -1,7 +1,7 @@
 #ifndef TOWN_MENU_PAIRED_OFFSET_EFFECTS_G00579_H
 #define TOWN_MENU_PAIRED_OFFSET_EFFECTS_G00579_H
 /* inferred-strong paired_offset_effects_g00579; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A97E8. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A97E8. */
 
 #include "common.h"
 #include "m2c_compat.h"

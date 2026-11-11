@@ -1,7 +1,7 @@
 #ifndef FRONTEND_LIBCARD_SLOT_DETAIL_REFRESH_G00388_H
 #define FRONTEND_LIBCARD_SLOT_DETAIL_REFRESH_G00388_H
 /* Slot detail refresh; G00388; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - main/func_800112D8, main/func_80011390, main/func_80011818, main/func_800119B4, PD:main/image_25c800:800283EC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_800112D8, CL:main/func_80011390, CL:main/func_80011818, CL:main/func_800119B4, PD:main/image_25c800:800283EC. */
 
 #include "common.h"
 #include "frontend/card.h"

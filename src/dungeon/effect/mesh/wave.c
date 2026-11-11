@@ -16,6 +16,7 @@
 #include "sdk/libgpu_packets.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "shared/gpu_packets.h"
+#include "shared/sprite_part_command.h"
 #include "shared/object_node.h"
 #include "dungeon/system.h"
 
@@ -28,23 +29,8 @@ const Copy24 wave_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-3
 
 extern void func_80067EF4(void *, s32, s32);
 
-/* Twelve-byte sprite part command read from SpriteFrameState.source. A negative flags byte ends the list; flag 0x20
- * replaces the texture bytes with a draw callback word (see draw_wave_distorted_sprite). */
-typedef struct SpritePart {
-    u8 flags;
-    u8 code;
-    s8 offset_x;
-    s8 offset_y;
-    u16 tpage;
-    u16 clut;
-    u8 texture_u;
-    u8 texture_v;
-    u8 width;
-    u8 height;
-} SpritePart;
-
 typedef POLY_FT4 *(*SpritePartDraw)(void *context, ObjectPosition *position, SpriteFrameState *sprite,
-                                     SpritePart *part, POLY_FT4 *packet);
+                                     SpritePartCommand *part, POLY_FT4 *packet);
 
 /* Draw sprite parts as textured strips displaced by a wave along either axis. */
 void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wave, void *context, s32 *ordering_table, s32 draw_control)
@@ -53,7 +39,7 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     POLY_FT4 strip_quad;
     u16 saved_draw_control;
     ObjectPosition *callback_arg;
-    SpritePart *part;
+    SpritePartCommand *part;
     s32 tag_mask;
     s16 flipped_x;
     s16 start_x;
@@ -144,10 +130,10 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     scratch->sprite_flags = sprite->flags;
     for (;;) {
         if (!(part->flags & 0x20)) {
-            scratch->uv_u_start = part->texture_u;
-            scratch->uv_v_start = part->texture_v;
-            scratch->uv_u_extent = part->width;
-            scratch->uv_v_extent = part->height;
+            scratch->uv_u_start = part->data.texture.u0;
+            scratch->uv_v_start = part->data.texture.v0;
+            scratch->uv_u_extent = part->data.texture.width;
+            scratch->uv_v_extent = part->data.texture.height;
             if ((part->flags ^ scratch->sprite_flags) & 1) {
                 flipped_x = (0 - part->offset_x) - scratch->extent_x;
                 scratch->vertices[2].x = flipped_x;
@@ -355,8 +341,7 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
             }
         }
         else {
-            /* BYTES: with flag 0x20 the four texture bytes at part+8 hold a draw callback, which retail loads with one lw */
-            draw_part = *(SpritePartDraw *) &part->texture_u;
+            draw_part = (SpritePartDraw)part->data.callback;
             if (draw_part != 0) {
                 packet = draw_part(context, callback_arg, sprite, part, packet);
             }

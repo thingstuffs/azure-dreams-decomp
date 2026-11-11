@@ -46,36 +46,6 @@ typedef struct {
     u8 pad_0E[6];
 } DungeonTableEntry;
 
-/* global_base in select_target_tile_for_actor_action */
-typedef struct S_800CA788_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} S_800CA788_1;
-
-/* actor in select_target_tile_for_actor_action */
-/* held_arg2 in select_target_tile_for_actor_action */
-typedef struct S_800CA788_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-} S_800CA788_3;
-
-typedef struct S_800CA93C_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-} S_800CA93C_0;
-
 /* object in get_adjacent_tile_for_action */
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
@@ -97,6 +67,6 @@ extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 /* Functions defined in this translation unit. */
 s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset);
 void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0 *tile, ActorRecord *actor);
-s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, MovingTile *target_ptr, void *actor_ptr);
+s32 select_target_tile_for_actor_action(ActorRecord *object_ptr, void *action_context, MovingTile *target_ptr, ActorRecord *actor_ptr);
 
 #endif

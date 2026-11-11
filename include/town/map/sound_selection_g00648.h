@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_SOUND_SELECTION_G00648_H
 #define TOWN_MAP_SOUND_SELECTION_G00648_H
 /* Sound selection. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C3884, town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3884, CL:town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. */
 
 #include "common.h"
 

@@ -10,7 +10,7 @@ typedef struct {
 extern PackedWord D_80016024;
 
 /* Copy the packed text into initialized entries and append a terminator. */
-TextEntry *copy_packed_text_to_entries_alt(TextEntry *entries)
+DialogueTextCell *copy_packed_text_to_entries_alt(DialogueTextCell *entries)
 {
     PackedWord packed_text;
     s32 char_index;

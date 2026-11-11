@@ -7,7 +7,7 @@ struct SpriteFrameState;
 
 struct ObjectPosition;
 /* Initialize effect and adjust value. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800A7E6C, town/func_800A8134. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800A7E6C, CL:town/func_800A8134. */
 
 #include "common.h"
 #include "town/scene/collision.h"

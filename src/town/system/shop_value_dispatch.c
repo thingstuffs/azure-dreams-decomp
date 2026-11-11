@@ -6,10 +6,8 @@
 #include "town/system.h"
 
 
-             /* extern */
 
 /* Calls process_lshop_entries with the supplied value and a zero second argument. */
-                /* extern */
 
 /* Calls process_lshop_entries with value, 0. */
 void process_lshop_value(void *value) {

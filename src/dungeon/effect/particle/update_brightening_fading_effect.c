@@ -524,9 +524,9 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
     (void)unused;
     render_ctx = *render_state;
     scratch->unk_20 = render_ctx + 0xB0;
-    scratch->unk_E4 = origin->unk_02 + ((tile_x - 3) << 6);
-    scratch->unk_E8 = origin->unk_06 + ((tile_y - 3) << 6);
-    scratch->unk_EC = origin->unk_0A;
+    scratch->object_matrix.t[0] = origin->unk_02 + ((tile_x - 3) << 6);
+    scratch->object_matrix.t[1] = origin->unk_06 + ((tile_y - 3) << 6);
+    scratch->object_matrix.t[2] = origin->unk_0A;
 
     height_row = (S_8195F43C_2 *)((u32)(tile_y * 2) +
         (unsigned long)(height_grid + tile_x * 0x10));
@@ -551,11 +551,11 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
     VFIELD(scratch, u16, 0x102) = 0;
     VFIELD(scratch, u16, 0x104) = 0;
     VFIELD(scratch, u16, 0x100) = 0;
-    scratch->unk_34 = scale_y * 2;
-    RotMatrix((u8 *)scratch + 0x100, (u8 *)scratch + 0xD0);
-    ReadRotMatrix((u8 *)scratch + 0x11C);
-    CompMatrix((u8 *)scratch + 0x11C, (u8 *)scratch + 0xD0, &scratch->unk_50);
-    ScaleMatrix(&scratch->unk_50, (u8 *)scratch + 0x30);
+    scratch->scale.vy = scale_y * 2;
+    RotMatrix(&scratch->object_angles, &scratch->object_matrix);
+    ReadRotMatrix(&scratch->camera_matrix);
+    CompMatrix(&scratch->camera_matrix, &scratch->object_matrix, &scratch->unk_50);
+    ScaleMatrix(&scratch->unk_50, &scratch->scale);
     SetTransMatrix(&scratch->unk_50);
     SetRotMatrix(&scratch->unk_50);
 
@@ -577,7 +577,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
                           &scratch->unk_80, &scratch->unk_88,
                           packet + 8, packet + 0x10,
                           packet + 0x18, packet + 0x20,
-                          (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+                          &scratch->depth_cue, &scratch->gte_flag);
     scratch->unk_C0 = depth;
 
     if (depth < 0x1E0U) {
@@ -872,9 +872,9 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
 
     (void)unused;
     scratch->unk_20 = *render_context + 0xB0;
-    scratch->unk_E4 = position->unk_02;
-    scratch->unk_E8 = position->unk_06;
-    scratch->unk_EC = position->unk_0A;
+    scratch->object_matrix.t[0] = position->unk_02;
+    scratch->object_matrix.t[1] = position->unk_06;
+    scratch->object_matrix.t[2] = position->unk_0A;
     packet = ((GpuContext *)(*render_context))->packetCursor;
     texture = (S_8195FD40_5 *)quad->unk_08;
     PushMatrix();
@@ -885,12 +885,12 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
     scratch->unk_100 = quad->unk_16;
     scratch->unk_104 = quad->unk_1A;
     scratch->unk_102 = quad->unk_18;
-    RotMatrix(&scratch->unk_100, (u8 *)scratch + 0xD0);
+    RotMatrix(&scratch->unk_100, &scratch->object_matrix);
     ReadRotMatrix(&view_matrix);
-    CompMatrix(&view_matrix, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
-    ScaleMatrix((u8 *)scratch + 0x50, &scratch->unk_30);
-    SetTransMatrix((u8 *)scratch + 0x50);
-    SetRotMatrix((u8 *)scratch + 0x50);
+    CompMatrix(&view_matrix, &scratch->object_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->unk_30);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
     scratch->unk_78 = 0x20;
     scratch->unk_88 = 0x200000;
@@ -904,7 +904,7 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
                           &scratch->unk_80, &scratch->unk_88,
                           packet + 8, packet + 0x10,
                           packet + 0x18, packet + 0x20,
-                          (u8 *)scratch + 0x90, (u8 *)scratch + 0x94) - depth_bias;
+                          &scratch->depth_cue, &scratch->gte_flag) - depth_bias;
     scratch->unk_C0 = depth;
 
     if (depth < 0x1E0U) {
@@ -1506,16 +1506,16 @@ void update_rotating_fading_tile_quad(void *quad, S_81960CD4_2 *motion, S_81960C
     scratch->unk_30 = effect->unk_1C;
     scratch->unk_34 = effect->unk_1E;
     scratch->unk_38 = 0x1000;
-    scratch->unk_6C = 0;
-    scratch->unk_68 = 0;
-    scratch->unk_64 = 0;
-    RotMatrix(rotation, (u8 *)scratch + 0x50);
-    SetTransMatrix((u8 *)scratch + 0x50);
-    SetRotMatrix((u8 *)scratch + 0x50);
-    func_80065320((u8 *)scratch + 0x70, (u8 *)scratch + 0x98, (u8 *)scratch + 0x94);
-    func_80065320((u8 *)scratch + 0x78, (u8 *)scratch + 0xA0, (u8 *)scratch + 0x94);
-    func_80065320((u8 *)scratch + 0x80, (u8 *)scratch + 0xA8, (u8 *)scratch + 0x94);
-    func_80065320((u8 *)scratch + 0x88, (u8 *)scratch + 0xB0, (u8 *)scratch + 0x94);
+    scratch->tile_matrix.t[2] = 0;
+    scratch->tile_matrix.t[1] = 0;
+    scratch->tile_matrix.t[0] = 0;
+    RotMatrix(rotation, &scratch->tile_matrix);
+    SetTransMatrix(&scratch->tile_matrix);
+    SetRotMatrix(&scratch->tile_matrix);
+    func_80065320(&scratch->unk_70, &scratch->unk_98, &scratch->gte_flag);
+    func_80065320(&scratch->unk_78, &scratch->unk_A0, &scratch->gte_flag);
+    func_80065320(&scratch->unk_80, &scratch->unk_A8, &scratch->gte_flag);
+    func_80065320(&scratch->unk_88, &scratch->unk_B0, &scratch->gte_flag);
     PopMatrix();
     motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v + motion->unk_0C);
     motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + motion->unk_10);

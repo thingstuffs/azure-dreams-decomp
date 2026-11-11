@@ -1,5 +1,5 @@
 /* Run the operation selected by the global mode.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_805D29B4, town/func_805D2A4C.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_805D29B4, CL:town/func_805D2A4C.
  * Exclude the weaker left town/func_805D29B4 join; complete file edges remain unknown.
  */
 #include "town/scene/global_mode_dispatch_g00734.h"

@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_MONSTER_STATUS_RESOURCE_CACHE_G00636_H
 #define TOWN_SHOP_MONSTER_STATUS_RESOURCE_CACHE_G00636_H
 /* Initialize and refresh monster status resource cache: shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B956C, town/func_800B958C, town/func_800B95F4, town/func_800B9634, town/func_800B97F4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B956C, CL:town/func_800B958C, CL:town/func_800B95F4, CL:town/func_800B9634, CL:town/func_800B97F4. */
 
 #include "common.h"
 #include "m2c_compat.h"

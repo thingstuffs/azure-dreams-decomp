@@ -1,6 +1,6 @@
 /* Transforms vectors and mesh quads and queues quads with randomized vertex colors. */
-/* inferred-strong mesh_quad_transform_g00591; joins town/func_800AC7B4,town/func_800AC8E4,town/func_800AC908,town/func_800AC9AC,PD:town/engine:80100D18,PD:town/engine:80100D1C,PD:town/engine:80100D40; no crossing cuts. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AC7B4, town/func_800AC8E4, town/func_800AC908, town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. */
+/* inferred-strong mesh_quad_transform_g00591; joins CL:town/func_800AC7B4,CL:town/func_800AC8E4,CL:town/func_800AC908,CL:town/func_800AC9AC,PD:town/engine:80100D18,PD:town/engine:80100D1C,PD:town/engine:80100D40; no crossing cuts. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC7B4, CL:town/func_800AC8E4, CL:town/func_800AC908, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. */
 #include "town/event/mesh_quad_transform_g00591.h"
 #include "shared/gpu_packets.h"
 #include "town/event.h"

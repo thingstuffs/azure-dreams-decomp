@@ -27,7 +27,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource06_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = spawn_animated_monster;
-void (*const resource06_slot0_entry1)(u8 *actor, ObjectPosition *motion, SpriteFrameState *entity) = update_flame_motion_and_facing;
+void (*const resource06_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *entity) = update_flame_motion_and_facing;
 
 /* Creates a Flame actor with three child display objects and initializes its status and tile placement. */
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
@@ -165,9 +165,9 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
 }
 
 /* Runs actor callbacks and updates child sprite colors, facing, animation, motion, and ground contact. */
-void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFrameState *entity)
+void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *entity)
 {
-    R06_80170BB8_S_80170BB8_1 *subject = (R06_80170BB8_S_80170BB8_1 *)actor;
+    ActorRecord *subject = actor;   /* the second copy of the body pointer is load-bearing: it changes the callee-save order */
     s16 state_index;
     s32 sprite_index;
     u32 global_flags;
@@ -189,52 +189,52 @@ void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFra
     s32 view_dir;
     u32 new_height;
 
-    part_base = (*(u8 **)(actor + 0xA4));
+    part_base = actor->unk_A4.byte_address;
     global_flags = global_flags_ptr[0x1A31];
     model_state = ((R06_80170BB8_S_80170BB8_3 *)(part_base + 0x20));
 
     sprite_data = (part_base + 0x28);
     if (global_flags & 0x2000) {
-        callback = (*(R06_80170BB8_Callback *)(actor + 0x8C));
+        callback = actor->unk_8C.run;
         if (callback == (R06_80170BB8_Callback)((u8 *)initialize_destination_state)) {
             callback(actor, motion, entity, actor);
         } else {
-            (*(actor + 0x71)) &= 0x7F;
+            actor->movement_queue_state &= 0x7F;
         }
     } else {
         u32 raw_state;
 
-        raw_state = (*(actor + 0x6D));
+        raw_state = (u8)actor->pending_turn_updates;
         state_index = (s8)raw_state;
         if (refresh_actor_facing_and_lifecycle(actor, motion, entity, actor) == 0) {
             {
                 R06_80170BB8_Callback actor_callback;
 
-                actor_callback = (*(R06_80170BB8_Callback *)(actor + 0x8C));
+                actor_callback = actor->unk_8C.run;
                 if (actor_callback != 0) {
                     actor_callback(actor, motion, entity, actor);
                 }
             }
-            ((R06_80170BB8_Callback *)D_8017589C)[(*(actor + 0x9A))](actor, motion, entity, actor);
+            ((R06_80170BB8_Callback *)D_8017589C)[actor->action_id](actor, motion, entity, actor);
 
-            if ((s16)state_index != (*(s8 *)(actor + 0x6D))) {
+            if ((s16)state_index != actor->pending_turn_updates) {
                 try_move_actor_to_valid_position(actor, motion, entity, actor);
             }
 
             motion->x.v += motion->velocity_x;
             motion->y.v += motion->velocity_y;
 
-            if (!((*(u32 *)(actor + 0x1C)) & 0x00040000) &&
-                !((*(u16 *)(actor + 0x98)) & 8)) {
-                motion->velocity_z += (*(s8 *)(actor + 0x9D)) * 0x14000;
-                (*(actor + 0x9D))++;
+            if (!(actor->flags1C & 0x00040000) &&
+                !(actor->action_state_flags & 8)) {
+                motion->velocity_z += actor->unk_9D * 0x14000;
+                actor->unk_9D++;
             } else {
-                (*(actor + 0x9D)) = 0;
+                actor->unk_9D = 0;
             }
-            (*(s32 *)(actor + 0x90)) += motion->velocity_z;
+            actor->unk_90.value += motion->velocity_z;
 
-            if (subject->unk_1C.u & 0x200) {
-                if ((*(u16 *)(actor + 0x98)) & 0x4000) {
+            if (subject->flags1C & 0x200) {
+                if (actor->action_state_flags & 0x4000) {
                     ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C = 0x00808080;
                     ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = 0x00808080;
                 } else if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u8 >= 8) {
@@ -244,21 +244,21 @@ void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFra
 
                 if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_14 & 0x6000) {
                     if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u8 < 8 ||
-                        ((*(u16 *)(actor + 0x98)) & 0x4000)) {
-                        u16 actor_flags = (*(u16 *)(actor + 0x98));
+                        (actor->action_state_flags & 0x4000)) {
+                        u16 actor_flags = actor->action_state_flags;
 
                         if (!(actor_flags & 0x8000)) {
-                            (*(u16 *)(actor + 0x98)) = actor_flags | 0xC000;
+                            actor->action_state_flags = actor_flags | 0xC000;
                             model_state->unk_04 |= 0x8000;
-                            (*(u16 *)(actor + 0xA0)) =
+                            actor->unk_A0.parts.low =
                                 (rand() & 7) + 0x10;
                         }
                     }
                 }
 
                 sprite_index = 0;
-                if (--(*(s16 *)(actor + 0xA0)) == 0) {
-                    (*(u16 *)(actor + 0x98)) &= 0x7FFF;
+                if (--actor->unk_A0.parts.low == 0) {
+                    actor->action_state_flags &= 0x7FFF;
                     model_state->unk_04 &= 0x7FFF;
                     if (model_state->unk_02 > 0) {
                         do {
@@ -276,19 +276,19 @@ void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFra
                     ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C;
                 }
 
-                if ((*(u16 *)(actor + 0x98)) & 0x4000) {
-                    (*(u16 *)(actor + 0x98)) &= 0x3FFF;
+                if (actor->action_state_flags & 0x4000) {
+                    actor->action_state_flags &= 0x3FFF;
                     model_state->unk_04 &= 0x7FFF;
                 }
 
-                if ((*(u16 *)(actor + 0x98)) & 0x1000) {
+                if (actor->action_state_flags & 0x1000) {
                     select_sprite_entry(sprite_data, 0x1D, 0);
                     select_sprite_entry(sprite_data + 0x30, 0x1D, 0);
-                    (*(u16 *)(actor + 0x98)) &= 0xEFFF;
-                } else if (((*(u16 *)(actor + 0x98)) & 0x2000) &&
+                    actor->action_state_flags &= 0xEFFF;
+                } else if ((actor->action_state_flags & 0x2000) &&
                            (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_14 & 0x6000)) {
 
-                    if ((*(actor + 0x9A)) == 7) {
+                    if (actor->action_id == 7) {
                         select_sprite_entry(sprite_data, 0x19, 0);
                         select_sprite_entry(sprite_data + 0x30, 0x24, 0);
                     } else {
@@ -311,16 +311,16 @@ void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFra
                     s32 view_angle;
 
                     view_angle =
-                        g_game_work.view.camera_rotation.parts.viewAngle + subject->unk_2A + 0x100;
+                        g_game_work.view.camera_rotation.parts.viewAngle + subject->facing + 0x100;
                     state_index = (view_angle >> 9) & 7;
                 }
                 {
 
-                    if ((*(s16 *)(actor + 0x94)) != (view_dir = (s16)state_index)) {
+                    if (actor->unk_94 != (view_dir = (s16)state_index)) {
                         select_indirect_table_entry(entity,
                                       (*((((u8 *)entity->frameTable)) + view_dir)),
                                       entity->unk_04);
-                        (*(s16 *)(actor + 0x94)) = state_index;
+                        actor->unk_94 = state_index;
                     }
 
                     if (D_8006CCF8[view_dir] != 0) {
@@ -330,57 +330,59 @@ void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFra
                     }
                 }
 
-                if ((*(actor + 0x9A)) != 8) {
-                    apply_monster_koyaw_data(subject->unk_1C.s, (u8 *)entity + 0xC);
+                if (actor->action_id != 8) {
+                    apply_monster_koyaw_data(subject->flags1C, (u8 *)entity + 0xC);
                 }
 
-                if (!(subject->unk_1C.s & 0x20)) {
+                if (!(subject->flags1C & 0x20)) {
                     if (!(entity->flags & 0x40)) {
                         advance_sprite_animation_and_textures(entity);
                     }
                 } else {
                     entity->flags |= 0x7000;
-                    subject->unk_1C.u &= 0xFFFBFFFF;
+                    subject->flags1C &= 0xFFFBFFFF;
                 }
 
-                subject->unk_1C.u &= 0xF7FFFFFF;
-                subject_flags = subject->unk_1C.u;
+                subject->flags1C &= 0xF7FFFFFF;
+                subject_flags = subject->flags1C;
 
                 if (subject_flags & 0x00040000) {
                     if (!(entity->flags & 0x40) &&
                         ((u8 *)entity->frameTable) == flame_direction_frames) {
-                        u16 bob_frame = (*(u16 *)(actor + 0xB8));
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        u16 bob_frame = *(u16 *)&actor->unk_B8;
 
-                        (*(u16 *)(actor + 0xB8)) = bob_frame + 1;
-                        (*(s32 *)(actor + 0xB4)) +=
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        *(u16 *)&actor->unk_B8 = bob_frame + 1;
+                        actor->unk_B4.value +=
                             rsin((s16)bob_frame * 0xAA) << 5;
                     }
 
-                    if (!((*(u16 *)(actor + 0x98)) & 8)) {
+                    if (!(actor->action_state_flags & 8)) {
                         ground_offset = (s16)(sample_terrain_surface_height(
                             (u16)motion->x.w.i, (u16)motion->y.w.i,
-                            (s16)(subject->unk_88 - 0x20)) -
-                                              subject->unk_88);
-                        height_offset = (*(s16 *)(actor + 0x92));
-                        height_raw = (*(u16 *)(actor + 0x92));
+                            (s16)(subject->ground_height - 0x20)) -
+                                              subject->ground_height);
+                        height_offset = actor->unk_90.parts.high;
+                        height_raw = actor->unk_90.parts.high;
                         height_limit = ground_offset - 0x18;
                         if (height_limit < height_offset) {
 
                             new_height = height_raw - 8;
-                            (*(u16 *)(actor + 0x92)) = new_height;
-                            subject_flags = subject->unk_1C.u;
+                            actor->unk_90.parts.high = new_height;
+                            subject_flags = subject->flags1C;
                         } else {
                             height_limit = ground_offset;
                             height_limit -= 0x20;
                             height_limit = height_offset < height_limit;
                             if (height_limit) {
                                 new_height = height_raw + 8;
-                                (*(u16 *)(actor + 0x92)) = new_height;
+                                actor->unk_90.parts.high = new_height;
                             }
-                            subject_flags = subject->unk_1C.u;
+                            subject_flags = subject->flags1C;
                         }
                     } else {
-                        subject_flags = subject->unk_1C.u;
+                        subject_flags = subject->flags1C;
                     }
                 } else {
                     {
@@ -388,23 +390,24 @@ void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFra
                         s16 reset_ground_height;
                         s16 reset_floor_offset;
 
-                        reset_bob_offset = (*(s32 *)(actor + 0xB4));
-                        (*(u16 *)(actor + 0xB8)) = 0;
-                        (*(s32 *)(actor + 0xB4)) = 0;
-                        (*(s32 *)(actor + 0x90)) -= reset_bob_offset;
-                        if (!((*(u16 *)(actor + 0x98)) & 8)) {
+                        reset_bob_offset = actor->unk_B4.value;
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        *(u16 *)&actor->unk_B8 = 0;
+                        actor->unk_B4.value = 0;
+                        actor->unk_90.value -= reset_bob_offset;
+                        if (!(actor->action_state_flags & 8)) {
                             reset_ground_height = sample_terrain_surface_height(
                                 (u16)motion->x.w.i, (u16)motion->y.w.i,
-                                (s16)(subject->unk_88 - 0x20));
-                            reset_floor_offset = (s16)(reset_ground_height - subject->unk_88);
-                            if (reset_floor_offset < (*(s16 *)(actor + 0x92))) {
-                                (*(s16 *)(actor + 0x92)) = reset_floor_offset;
-                                (*(actor + 0x9D)) = 0;
+                                (s16)(subject->ground_height - 0x20));
+                            reset_floor_offset = (s16)(reset_ground_height - subject->ground_height);
+                            if (reset_floor_offset < actor->unk_90.parts.high) {
+                                actor->unk_90.parts.high = reset_floor_offset;
+                                actor->unk_9D = 0;
                                 motion->velocity_z = 0;
-                                subject->unk_1C.u |= 0x08000000;
+                                subject->flags1C |= 0x08000000;
                             }
                         }
-                        subject_flags = subject->unk_1C.u;
+                        subject_flags = subject->flags1C;
 
                     }
                 }
@@ -415,77 +418,80 @@ void update_flame_motion_and_facing(u8 *actor, ObjectPosition *motion, SpriteFra
                     entity->flags = entity_flags | 0x7000;
                 }
 
-                subject->unk_1C.u &= 0xF7FFFFFF;
-                subject_flags = subject->unk_1C.u;
+                subject->flags1C &= 0xF7FFFFFF;
+                subject_flags = subject->flags1C;
 
                 if (!(subject_flags & 0x00040000)) {
 
-                    bob_offset = (*(s32 *)(actor + 0xB4));
-                    (*(u16 *)(actor + 0xB8)) = 0;
-                    (*(s32 *)(actor + 0xB4)) = 0;
-                    (*(s32 *)(actor + 0x90)) -= bob_offset;
-                    if (!((*(u16 *)(actor + 0x98)) & 8)) {
+                    bob_offset = actor->unk_B4.value;
+                    /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                    *(u16 *)&actor->unk_B8 = 0;
+                    actor->unk_B4.value = 0;
+                    actor->unk_90.value -= bob_offset;
+                    if (!(actor->action_state_flags & 8)) {
                         ground_height = sample_terrain_surface_height(
                             (u16)motion->x.w.i, (u16)motion->y.w.i,
-                            (s16)(subject->unk_88 - 0x20));
-                        floor_offset = (s16)(ground_height - subject->unk_88);
-                        if (floor_offset < (*(s16 *)(actor + 0x92))) {
-                            (*(s16 *)(actor + 0x92)) = floor_offset;
-                            (*(actor + 0x9D)) = 0;
+                            (s16)(subject->ground_height - 0x20));
+                        floor_offset = (s16)(ground_height - subject->ground_height);
+                        if (floor_offset < actor->unk_90.parts.high) {
+                            actor->unk_90.parts.high = floor_offset;
+                            actor->unk_9D = 0;
                             motion->velocity_z = 0;
-                            subject->unk_1C.u |= 0x08000000;
+                            subject->flags1C |= 0x08000000;
                         }
                     }
-                    subject_flags = subject->unk_1C.u;
+                    subject_flags = subject->flags1C;
                 } else {
                     if (!(entity->flags & 0x40) &&
                         ((u8 *)entity->frameTable) == flame_direction_frames) {
-                        u16 bob_frame = (*(u16 *)(actor + 0xB8));
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        u16 bob_frame = *(u16 *)&actor->unk_B8;
 
-                        (*(u16 *)(actor + 0xB8)) = bob_frame + 1;
-                        (*(s32 *)(actor + 0xB4)) +=
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        *(u16 *)&actor->unk_B8 = bob_frame + 1;
+                        actor->unk_B4.value +=
                             rsin((s16)bob_frame * 0xAA) << 5;
                     }
 
-                    if (!((*(u16 *)(actor + 0x98)) & 8)) {
+                    if (!(actor->action_state_flags & 8)) {
                         ground_offset = (s16)(sample_terrain_surface_height(
                             (u16)motion->x.w.i, (u16)motion->y.w.i,
-                            (s16)(subject->unk_88 - 0x20)) -
-                                              subject->unk_88);
-                        height_offset = (*(s16 *)(actor + 0x92));
-                        height_raw2 = (*(u16 *)(actor + 0x92));
+                            (s16)(subject->ground_height - 0x20)) -
+                                              subject->ground_height);
+                        height_offset = actor->unk_90.parts.high;
+                        height_raw2 = actor->unk_90.parts.high;
                         height_limit = ground_offset - 0x18;
                         if (height_limit < height_offset) {
                             new_height = height_raw2 - 8;
-                            (*(u16 *)(actor + 0x92)) = new_height;
+                            actor->unk_90.parts.high = new_height;
                         } else {
                             height_limit = ground_offset;
                             height_limit -= 0x20;
                             height_limit = height_offset < height_limit;
                             if (height_limit) {
                                 new_height = height_raw2 + 8;
-                                (*(u16 *)(actor + 0x92)) = new_height;
+                                actor->unk_90.parts.high = new_height;
                             }
                         }
                     }
-                    subject_flags = subject->unk_1C.u;
+                    subject_flags = subject->flags1C;
                 }
             }
             if (subject_flags & 0x40000000) {
-                subject->unk_1C.u = subject_flags & 0xBFFFFFFF;
+                subject->flags1C = subject_flags & 0xBFFFFFFF;
                 ground_height = sample_terrain_surface_height(((u8)entity->tile_x << 6) | 0x20,
                                        (entity->tile_y << 6) | 0x20,
-                                       (s16)(subject->unk_88 - 0x20));
+                                       (s16)(subject->ground_height - 0x20));
                 if ((s16)ground_height < 0x200) {
-                    (*(u16 *)(actor + 0x92)) +=
-                        subject->unk_88 - ground_height;
-                    subject->unk_88 = ground_height;
+                    actor->unk_90.parts.high +=
+                        subject->ground_height - ground_height;
+                    subject->ground_height = ground_height;
                 }
             }
 
-            motion->z.w.i = subject->unk_88 +
-                                      (*(u16 *)(actor + 0x92)) -
-                                      (*(u16 *)(actor + 0xB6));
+            motion->z.w.i = subject->ground_height +
+                                      actor->unk_90.parts.high -
+                                      actor->unk_B4.halves.high.u;
             entity->flags |= 0x40;
         }
     }

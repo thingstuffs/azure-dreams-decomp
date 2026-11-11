@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_EVENT_START_DISPATCH_EVENT_G01230_H
 #define TOWN_SCENE_EVENT_START_DISPATCH_EVENT_G01230_H
 /* Start dispatch event. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_804688AC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_804688AC. */
 
 #include "common.h"
 #include "shared/town_event_state.h"

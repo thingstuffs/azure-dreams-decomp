@@ -1,12 +1,12 @@
 #ifndef TOWN_EVENT_ITEM_QUERY_CHECKS_G01145_H
 #define TOWN_EVENT_ITEM_QUERY_CHECKS_G01145_H
 /* item query checks g01145. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800AC118, town/func_800AC164, town/func_800AC198, town/func_800AC210, town/func_800AC278, town/func_800AC2D8, town/func_800AC37C, town/func_800AC3CC (+1 more). */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, CL:town/func_800AC278, CL:town/func_800AC2D8, CL:town/func_800AC37C, CL:town/func_800AC3CC (+1 more). */
 
-/* inferred-strong item_query_checks_g00588; joins town/func_800AC118,town/func_800AC164,town/func_800AC198,town/func_800AC210,PD:town/engine:800D1054; no crossing cuts. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AC118, town/func_800AC164, town/func_800AC198, town/func_800AC210, PD:town/engine:800D1054. */
+/* inferred-strong item_query_checks_g00588; joins CL:town/func_800AC118,CL:town/func_800AC164,CL:town/func_800AC198,CL:town/func_800AC210,PD:town/engine:800D1054; no crossing cuts. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, PD:town/engine:800D1054. */
 /* inferred-strong item_query_checks_g00588; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AC118, town/func_800AC164, town/func_800AC198, town/func_800AC210, PD:town/engine:800D1054. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, PD:town/engine:800D1054. */
 #include "common.h"
 #include "town/player/carry_item.h"
 #include "m2c_compat.h"

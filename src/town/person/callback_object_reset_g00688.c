@@ -1,5 +1,5 @@
 /* callback object reset. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800CEC24. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CEC24. */
 #include "town/person/callback_object_reset_g00688.h"
 #include "town/person.h"
 #include "town/person/object.h"

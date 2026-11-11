@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_RESOURCE_RESOURCE_INSTALL_G00520_H
 #define TOWN_SCENE_RESOURCE_RESOURCE_INSTALL_G00520_H
 /* Resource install shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8008D588, town/func_8008D5BC, town/func_8008D630, town/func_8008D6EC, town/func_8008D7CC, town/func_8008D850, town/func_8008D988, PD:town/engine:800CF720. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8008D588, CL:town/func_8008D5BC, CL:town/func_8008D630, CL:town/func_8008D6EC, CL:town/func_8008D7CC, CL:town/func_8008D850, CL:town/func_8008D988, PD:town/engine:800CF720. */
 
 #include "common.h"
 #include "town/scene/resource.h"

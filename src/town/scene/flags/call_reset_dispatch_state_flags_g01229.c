@@ -1,5 +1,5 @@
 /* Call reset dispatch state flags.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_804686A4.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_804686A4.
  */
 #include "town/scene/flags/call_reset_dispatch_state_flags_g01229.h"
 #include "town/scene/flags.h"

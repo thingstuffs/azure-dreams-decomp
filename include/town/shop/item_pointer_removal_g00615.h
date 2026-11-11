@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_ITEM_POINTER_REMOVAL_G00615_H
 #define TOWN_SHOP_ITEM_POINTER_REMOVAL_G00615_H
 /* Item pointer removal declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B4A30, town/func_800B4AB4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B4A30, CL:town/func_800B4AB4. */
 
 #include "common.h"
 

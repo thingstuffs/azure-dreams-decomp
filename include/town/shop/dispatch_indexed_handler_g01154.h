@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_DISPATCH_INDEXED_HANDLER_G01154_H
 #define TOWN_SHOP_DISPATCH_INDEXED_HANDLER_G01154_H
 /* dispatch indexed handler g01154. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800B47B0, town/func_800B47E8. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800B47B0, CL:town/func_800B47E8. */
 
 #include "common.h"
 #include "m2c_compat.h"

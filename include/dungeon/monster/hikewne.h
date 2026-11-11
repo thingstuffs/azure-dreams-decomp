@@ -11,6 +11,10 @@ extern u8 hikewne_alt_direction_frames[];
 
 void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 
+struct Rec_D_80082E80;
+/* Slows directional motion, then recenters the entity on its tile. */
+void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, struct Rec_D_80082E80 *tile_state, ActorRecord *entity);
+
 
 void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor);
 

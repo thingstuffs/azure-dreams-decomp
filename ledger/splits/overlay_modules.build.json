@@ -131345,7 +131345,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/shade/move_linked_effect_along_path.c",
+      "source": "src/dungeon/effect/shade/emit_particle_then_wait_for_path_release.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""

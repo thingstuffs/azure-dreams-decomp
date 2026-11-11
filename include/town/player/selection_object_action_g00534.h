@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_SELECTION_OBJECT_ACTION_G00534_H
 #define TOWN_PLAYER_SELECTION_OBJECT_ACTION_G00534_H
 /* shared declarations for selection object action. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80096098. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80096098. */
 
 #include "common.h"
 #include "shared/town_object.h"

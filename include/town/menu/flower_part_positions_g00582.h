@@ -1,7 +1,7 @@
 #ifndef TOWN_MENU_FLOWER_PART_POSITIONS_G00582_H
 #define TOWN_MENU_FLOWER_PART_POSITIONS_G00582_H
 /* inferred-strong flower_part_positions_g00582; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AA910. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AA910. */
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"

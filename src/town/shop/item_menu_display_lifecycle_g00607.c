@@ -1,5 +1,5 @@
 /* Item menu display lifecycle. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B2F64. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B2F64. */
 #include "town/shop/item_menu_display_lifecycle_g00607.h"
 #include "shared/object_node.h"
 #include "town/shop.h"

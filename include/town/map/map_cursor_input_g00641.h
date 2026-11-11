@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_MAP_CURSOR_INPUT_G00641_H
 #define TOWN_MAP_MAP_CURSOR_INPUT_G00641_H
 /* Map cursor input. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800BBAA4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BBAA4. */
 
 #include "common.h"
 #include "shared/runtime_dispatch.h"

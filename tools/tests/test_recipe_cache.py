@@ -385,7 +385,7 @@ class ScopedBootstrapTests(unittest.TestCase):
             self.assertIn('src/alias.c', names)
             self.assertIn('src/review.c', names)
 
-    def test_source_only_reuses_views_but_sensitive_and_authority_edits_do_not(self):
+    def test_source_body_edits_reuse_views_but_authority_and_file_set_edits_do_not(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td); state = root/'build/.state'
             for d in ('src', 'config', 'build_slus/build', 'build/.state'):
@@ -405,16 +405,130 @@ class ScopedBootstrapTests(unittest.TestCase):
                 B.bootstrap()
                 ordinary.write_text('int changed;')
                 B.bootstrap(); self.assertEqual(len(calls), 1)
+                # A manifest-named source is read only by the module loader's validation, which configure
+                # repeats with the source bound: its body edits leave the views as they are too.
                 st = sensitive.stat(); sensitive.write_text('int changed_review;')
                 os.utime(sensitive, ns=(st.st_atime_ns, st.st_mtime_ns))
-                B.bootstrap(); self.assertEqual(len(calls), 2)
+                B.bootstrap(); self.assertEqual(len(calls), 1)
                 (root/'config/authority.json').write_text('{"changed":true}')
-                B.bootstrap(); self.assertEqual(len(calls), 3)
+                B.bootstrap(); self.assertEqual(len(calls), 2)
                 (root/'src/new.h').write_text('int new;')
-                B.bootstrap(); self.assertEqual(len(calls), 4)
+                B.bootstrap(); self.assertEqual(len(calls), 3)
                 ordinary.write_text('int again;')
                 (root/'build_slus/build.ninja').write_text('corrupt output')
-                B.bootstrap(); self.assertEqual(len(calls), 5)
+                B.bootstrap(); self.assertEqual(len(calls), 4)
+
+
+class StructuralGuardTests(unittest.TestCase):
+    """Source-derived fields of the link graph and layout_inline do not invalidate unrelated checkpoints."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        for d in ('src', 'config/link_graph', 'ledger'):
+            (self.root/d).mkdir(parents=True, exist_ok=True)
+        (self.root/'src/a.c').write_text('int a;\n')
+        (self.root/'src/b.c').write_text('int b;\n')
+        self.tus = dict(id='town/a', source='src/a.c', source_sha256='0'*64, recipe_witness=dict(cfg='x'))
+        self.inline = dict(tu_old='src/old.c', tu_new='src/a.c', member='src/m.c', member_id='town/m',
+                           manifest_key='k', order=0, offset=0, source_sha256='1'*64, bytes=3, inlined_bytes=3,
+                           original_includes=[])
+        self.write_tables()
+        self.context = dict(schema=1, root=str(self.root))
+
+    def write_tables(self):
+        (self.root/'config/link_graph/tus.000.jsonl').write_text(json.dumps(self.tus) + '\n')
+        (self.root/'ledger/layout_inline.jsonl').write_text(json.dumps(self.inline) + '\n')
+        (self.root/'config/link_graph/graph.json').write_text(json.dumps(dict(
+            tables=dict(tus=[dict(path='tus.000.jsonl', records=1, sha256=B.sha(
+                (self.root/'config/link_graph/tus.000.jsonl').read_bytes()))]),
+            inputs={'ledger/layout_inline.jsonl': B.sha((self.root/'ledger/layout_inline.jsonl').read_bytes())})))
+
+    def run_cache(self, saved=None):
+        names = ['src/a.c', 'src/b.c', 'config/link_graph/tus.000.jsonl', 'config/link_graph/graph.json',
+                 'ledger/layout_inline.jsonl']
+        cache = RecipeCache(self.root, content_cache.hashes(self.root, names), self.context, saved)
+        graph = sorted(n for n in names if n.startswith('config/link_graph/'))
+        values = dict(graph=cache.memo('graph', lambda: (self.root/'config/link_graph/tus.000.jsonl').read_text(),
+                                       bind=graph),
+                      a=cache.memo('a', lambda: (self.root/'src/a.c').read_text()),
+                      b=cache.memo('b', lambda: (self.root/'src/b.c').read_text()))
+        return cache, values, dict(guard=cache.guard, records=cache.records)
+
+    def test_source_witness_edit_keeps_records_and_rebinds_graph(self):
+        _, _, saved = self.run_cache()
+        self.tus['source_sha256'] = '2'*64
+        self.write_tables()
+        cache, values, saved = self.run_cache(saved)
+        self.assertEqual((cache.hits, cache.misses), (2, 1))
+        self.assertIn('2'*64, values['graph'])
+        self.tus['recipe_witness'] = dict(cfg='y')
+        self.write_tables()
+        cache, _, _ = self.run_cache(saved)
+        self.assertEqual((cache.hits, cache.misses), (0, 3))
+
+    def test_inline_extent_edit_rebinds_only_readers_of_its_tu(self):
+        _, _, saved = self.run_cache()
+        self.inline['offset'] = 1
+        self.inline['original_includes'] = ['common.h']
+        self.write_tables()
+        cache, _, saved = self.run_cache(saved)
+        # graph (its manifest's layout_inline digest changed) and the reader of src/a.c regenerate; the reader of
+        # src/b.c is reused.
+        self.assertEqual((cache.hits, cache.misses), (1, 2))
+        self.assertIs(cache.records['b'], saved['records']['b'])
+        self.inline['order'] = 1
+        self.write_tables()
+        cache, _, _ = self.run_cache(saved)
+        self.assertEqual((cache.hits, cache.misses), (0, 3))
+
+    def test_name_table_edit_rebinds_only_checkpoints_that_read_it(self):
+        names = self.root/'config/names.tsv'; names.write_text('town\tfunc_1\tone\n')
+        inputs = lambda: content_cache.hashes(self.root, ['src/a.c', 'config/names.tsv'])
+        def run(saved=None):
+            cache = RecipeCache(self.root, inputs(), self.context, saved)
+            values = (cache.memo('reader', lambda: names.read_text()), cache.memo('a', lambda: (self.root/'src/a.c').read_text()))
+            return cache, values, dict(guard=cache.guard, records=cache.records)
+        _, _, saved = run()
+        names.write_text('town\tfunc_1\tone\ntown\tfunc_2\ttwo\n')
+        cache, values, _ = run(saved)
+        self.assertEqual((cache.hits, cache.misses), (1, 1))
+        self.assertIn('two', values[0])
+
+    def test_unread_ledgers_are_not_inputs_and_may_not_be_opened(self):
+        (self.root/'ledger/unions.jsonl').write_text('{}\n')
+        (self.root/'ledger/rows.jsonl').write_text('')
+        with patch.object(B, 'ROOT', self.root):
+            names = B.configure_inputs()
+            self.assertNotIn('ledger/unions.jsonl', names)
+            self.assertIn('ledger/layout_inline.jsonl', names)
+            with B.unread_inputs_enforced():
+                with self.assertRaises(ValueError):
+                    (self.root/'ledger/unions.jsonl').read_text()
+                (self.root/'ledger/rows.jsonl').read_text()
+            (self.root/'ledger/unions.jsonl').read_text()
+
+    def test_bootstrap_views_survive_source_derived_and_unread_edits(self):
+        state = self.root/'build/.state'
+        (self.root/'build_slus/build').mkdir(parents=True)
+        (self.root/'ledger/unions.jsonl').write_text('{}\n')
+        calls = []
+        def views():
+            calls.append(1)
+            (self.root/'build_slus/build.ninja').write_text('constant recipes')
+            (self.root/'build_slus/build/slus_006.14.ld').write_text('constant layout')
+        with patch.object(B, 'ROOT', self.root), patch.object(B, 'STATE', state), \
+             patch.object(B, '_bootstrap', side_effect=views), \
+             patch.object(B, 'bootstrap_source_inputs', return_value=[]), \
+             contextlib.redirect_stdout(io.StringIO()):
+            B.bootstrap(); self.assertEqual(len(calls), 1)
+            self.tus['source_sha256'] = '3'*64; self.inline['offset'] = 7; self.write_tables()
+            (self.root/'ledger/unions.jsonl').write_text('{"changed": true}\n')
+            B.bootstrap(); self.assertEqual(len(calls), 1)
+            self.inline['tu_new'] = 'src/b.c'; self.write_tables()
+            B.bootstrap(); self.assertEqual(len(calls), 2)
+            self.tus['source'] = 'src/b.c'; self.write_tables()
+            B.bootstrap(); self.assertEqual(len(calls), 3)
 
 
 @unittest.skipUnless(os.environ.get('AZURE_MAKE_SCOPED_EQUIVALENCE') == '1',

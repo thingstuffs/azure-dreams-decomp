@@ -1,5 +1,5 @@
 /* Sound selection. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C3884, town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3884, CL:town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. */
 #include "town/map/sound_selection_g00648.h"
 #include "town/map.h"
 #include "town/shop.h"

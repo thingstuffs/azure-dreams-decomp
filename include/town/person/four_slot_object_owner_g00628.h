@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_FOUR_SLOT_OBJECT_OWNER_G00628_H
 #define TOWN_PERSON_FOUR_SLOT_OBJECT_OWNER_G00628_H
 /* Four slot object owner. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/engine@3755C, town/func_800B7604, town/func_800B771C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/engine@3755C, CL:town/func_800B7604, CL:town/func_800B771C. */
 
 #include "common.h"
 #include "m2c_compat.h"

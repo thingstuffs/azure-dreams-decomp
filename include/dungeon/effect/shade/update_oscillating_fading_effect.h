@@ -12,8 +12,6 @@ typedef struct Row_818F34E4_Block24 {
 } Row_818F34E4_Block24;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-           /* extern */
- /* extern */
 
 typedef struct Row_818F34E4_S_80024CE4_0 {
     u8 pad_00[0x20];

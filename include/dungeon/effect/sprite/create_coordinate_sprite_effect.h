@@ -62,11 +62,6 @@ typedef struct Row_818A4A64_S_818A4A64_2 {
 } Row_818A4A64_S_818A4A64_2;   /* arg1 in func_80024264 */
 
 /* Creates an object, initializes its rendering state, and copies its position. */
-/* extern */
-                      /* extern */
-                             /* extern */
-                             /* extern */
-                                /* extern */
 
 typedef struct Row_818A4B40_S_818A4B40_0 {
     void * unk_00;
@@ -92,11 +87,6 @@ typedef struct Row_818A4B40_S_818A4B40_2 {
 } Row_818A4B40_S_818A4B40_2;   /* arg1 in func_80024340 */
 
 /* Advance the height offset, randomize position on wrap, and update the object. */
-/* extern */
-           /* extern */
-                             /* extern */
-                             /* extern */
-                                /* extern */
 
 typedef struct Row_818A4CA0_S_818A4CA0_0 {
     u8 pad_00[0x8];
@@ -137,8 +127,6 @@ typedef struct Row_818A4E74_S_func_818A4E74_1 {
 } Row_818A4E74_S_func_818A4E74_1;
 
 /* Increment the object counter and store a random remainder modulo 4096 in the target. */
-/* extern */
-                                /* extern */
 
 typedef struct Row_818A4ED0_S_818A4ED0_0 {
     u8 pad_00[0x8];

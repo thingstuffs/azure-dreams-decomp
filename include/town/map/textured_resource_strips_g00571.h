@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_TEXTURED_RESOURCE_STRIPS_G00571_H
 #define TOWN_MAP_TEXTURED_RESOURCE_STRIPS_G00571_H
 /* Textured resource strips shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A6420, town/func_800A6A78, PD:town/engine:80100D88, PD:town/engine:80100D8A. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A6420, CL:town/func_800A6A78, PD:town/engine:80100D88, PD:town/engine:80100D8A. */
 
 #include "common.h"
 #include "shared/game_work.h"

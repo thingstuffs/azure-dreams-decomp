@@ -1,6 +1,6 @@
 /* Creates flower gift objects and updates their linked part positions. */
-/* inferred-strong flower_part_positions_g00582; joins town/func_800AA910; no crossing cuts. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AA910. */
+/* inferred-strong flower_part_positions_g00582; joins CL:town/func_800AA910; no crossing cuts. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AA910. */
 #include "town/menu/flower_part_positions_g00582.h"
 #include "shared/object_flags.h"
 #include "town/event/state.h"

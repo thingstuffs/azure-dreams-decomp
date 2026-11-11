@@ -14,12 +14,6 @@
 #include "engine/graphics.h"
 #include "dungeon/effect/particle/entry_play_sound_if_enabled.h"
 
-typedef struct S_818154FC_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_818154FC_1;
-
 typedef struct S_818154FC_3_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
@@ -85,7 +79,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
     ObjectNodeHeader *node;
     S_818154FC_4 *parent_sprite;
     ActorRecord *parent;
-    S_818154FC_1 *parent_node;
+    ObjectNodeHeader *parent_node;
     MovingPosition *parent_position;
     SpriteFrameState *spawn_sprite;
 
@@ -94,8 +88,8 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
     points = *point_table;
     point_base = (LocalPoint *)&points;
     state = effect->spell.phase;
-    parent_node = (void *)parent - 0x20;
-    parent_position = parent_node->unk_08;
+    parent_node = NODE_HEADER(parent);
+    parent_position = (MovingPosition *)parent_node->position;
     effect->unk_82 = (u16) (effect->unk_82 + 1);
     switch (state) {
     case 0:
@@ -114,14 +108,14 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
             u16 final_z;
             s32 delta_z;
 
-            parent_sprite = parent_node->unk_0C;
+            parent_sprite = (S_818154FC_4 *)parent_node->sprite;
             if ((get_sprite_attachment_vector(parent_sprite->unk_08, parent_sprite, &offset, 0) != 0)
-                || (((SpriteFrameState *)(parent_node->unk_0C))->flags & 0x8000)) {
+                || (parent_node->sprite->flags & 0x8000)) {
                 position->x.unsigned_parts.integer = (u16) parent_position->x;
                 position->y.unsigned_parts.integer = (u16) parent_position->y;
                 position_z = parent_position->z;
                 position->z.unsigned_parts.integer = position_z;
-                if (!(((SpriteFrameState *)(parent_node->unk_0C))->flags & 0x8000)) {
+                if (!(parent_node->sprite->flags & 0x8000)) {
                     position->x.unsigned_parts.integer = (u16) (position->x.unsigned_parts.integer + offset.x);
                     position->y.unsigned_parts.integer = (u16) (position->y.unsigned_parts.integer + offset.y);
                     final_z = position->z.unsigned_parts.integer;

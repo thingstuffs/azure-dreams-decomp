@@ -2,7 +2,7 @@
 #define TOWN_PERSON_OBJECT_INITIALIZE_OBJECT_RESOURCES_G01178_H
 struct TownObjectRecord;
 /* Initialize object resources. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800C7AB4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800C7AB4. */
 
 #include "common.h"
 #include "shared/entity_objects.h"

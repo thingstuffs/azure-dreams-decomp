@@ -814,7 +814,10 @@ typedef struct S_800252E0_1 {
     void * unk_18;
     u8 pad_1C[0x4];
     void * unk_20;
-    u8 pad_24[0x9C];
+    u8 pad_24[0x6C];
+    s32 depth_cue; /* RotTransPers depth-cue output */
+    s32 gte_flag; /* RotTransPers GTE flag output */
+    u8 pad_98[0x28];
     u32 unk_C0;
 } S_800252E0_1;   /* scratch in queue_projected_point_primitives */
 
@@ -878,7 +881,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
         packet = scratch->unk_18;
         scratch->unk_18 = (u8 *)packet + 0xC;
         scratch->unk_C0 = RotTransPers(
-            scratch, (u8 *)packet + 8, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+            scratch, (u8 *)packet + 8, &scratch->depth_cue, &scratch->gte_flag);
         if (scratch->unk_C0 < 0x1E0) {
             s32 color = appearance->unk_0C;
             packet->unk_00.at03.v = 2;

@@ -6,7 +6,7 @@
 
 struct SpriteFrameState;
 /* Update position displacement dispatch active entity handler. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800A1A60, town/func_800A1D2C, town/func_800A1D60. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800A1A60, CL:town/func_800A1D2C, CL:town/func_800A1D60. */
 
 #include "common.h"
 #include "m2c_compat.h"

@@ -8,17 +8,17 @@
 #include "shared/town_object.h"
 #include "shared/sprite_frame_state.h"
 
-struct Core;
+struct MapParticleEffect;
 struct SpriteFrameState;
 
 /* initialize_effect_with_child_sprites.c */
 void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPosition *position, struct SpriteFrameState *sprite_unused);
 
 /* initialize_effect_with_random_angle.c */
-void initialize_effect_with_random_angle(struct Core *effect, ObjectPosition *origin, struct SpriteFrameState *sprite_unused);
+void initialize_effect_with_random_angle(struct MapParticleEffect *effect, ObjectPosition *origin, struct SpriteFrameState *sprite_unused);
 
 /* initialize_random_particle_effect.c */
-void initialize_random_particle_effect(struct Core *parent_core, ObjectPosition *origin, struct SpriteFrameState *sprite_unused);
+void initialize_random_particle_effect(struct MapParticleEffect *parent_core, ObjectPosition *origin, struct SpriteFrameState *sprite_unused);
 
 /* no_op_effect_callback.c */
 void no_op_effect_callback(void);
@@ -30,13 +30,13 @@ void no_op_secondary_effect_callback(TownObjectRecord *unused_object, ObjectPosi
 void update_projected_effect_points(void *object, s32 phase, void *source_data, SpriteFrameState *extent);
 
 
-typedef struct Core {
+typedef struct MapParticleEffect {
     u8 pad0[0x66];
     u16 angle;
     u8 pad68[0x2F];
     s8 index;
     s32 value;
-    struct Core *parent;
-} Core;
+    struct MapParticleEffect *parent;
+} MapParticleEffect;
 
 #endif

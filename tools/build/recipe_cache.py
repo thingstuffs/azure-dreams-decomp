@@ -32,11 +32,89 @@ def portable(value, root_text):
     return repr(value).replace(root_text, '<root>')
 
 
+# Configure inputs whose checkpoint guard binds their structure only. Every landing rewrites fields of these that are
+# derived from source bytes: the link graph's TU source_sha256 witnesses (and the shard and layout_inline digests in
+# its manifest), and layout_inline's member extents, hashes and original include spellings (an #include edit inside
+# an inlined fragment rewrites them). Their readers are bound per checkpoint instead:
+# - mkbuild binds the raw link-graph files on the 'graph' checkpoint (bind=), the only checkpoint that reads them, and
+#   its consumers use only the structure (attestation refreshes every source witness from the live snapshot);
+# - each checkpoint that reads a TU named by layout_inline binds that TU's records with its bytes (see bound()): the
+#   extents, hashes and include spellings only select, restore or check bytes of their own TU, so any reader must
+#   read that TU.
+LAYOUT_INLINE = 'ledger/layout_inline.jsonl'
+INLINE_DERIVED = frozenset(('offset', 'source_sha256', 'bytes', 'inlined_bytes', 'original_includes'))
+GRAPH_MANIFEST = 'config/link_graph/graph.json'
+_STRUCTURE = {}
+# Configure inputs bound per checkpoint, by observed reads, instead of by the guard: the name table changes in most
+# batches (per-overlay behaviour names) and no checkpoint reads it today (an audit-hook trace of a cold `generate full`
+# saw only top-level readers, which run every configure); a checkpoint that does read it binds its bytes on its own
+# record. It stays a configure input, so the unchanged-projection fast path still binds it.
+PER_RECORD = frozenset({'config/names.tsv'})
+
+
+def is_structural(name):
+    return name in (LAYOUT_INLINE, GRAPH_MANIFEST) or (name.startswith('config/link_graph/tus.')
+                                                        and name.endswith('.jsonl'))
+
+
+def _records(blob):
+    return [json.loads(line) for line in blob.decode().splitlines() if line.strip()]
+
+
+def structure_of(name, blob):
+    """The part of a structural input that its source-derived fields leave out."""
+    if name == LAYOUT_INLINE:
+        return [{k: v for k, v in r.items() if k not in INLINE_DERIVED} for r in _records(blob)]
+    if name == GRAPH_MANIFEST:
+        manifest = json.loads(blob)
+        for part in manifest.get('tables', {}).get('tus', ()):
+            part.pop('sha256', None)
+        if LAYOUT_INLINE in manifest.get('inputs', {}):
+            manifest['inputs'][LAYOUT_INLINE] = None
+        return manifest
+    return [{k: v for k, v in r.items() if k != 'source_sha256'} for r in _records(blob)]
+
+
+def structural_digest(root, name, digest):
+    """Guard value of one input: its content digest, or the digest of its structure for is_structural names.
+
+    Falls back to the content digest when the file no longer has that digest or does not parse."""
+    if digest is None or root is None or not is_structural(name):
+        return digest
+    key = (os.path.join(os.fspath(root), name), digest)
+    if key not in _STRUCTURE:
+        try:
+            blob = (Path(root)/name).read_bytes()
+            if hashlib.sha256(blob).hexdigest() != digest:
+                return digest
+            value = 'structure:' + hashlib.sha256(json.dumps(structure_of(name, blob), sort_keys=True).encode()).hexdigest()
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
+            return digest
+        _STRUCTURE[key] = value
+    return _STRUCTURE[key]
+
+
+def inline_slices(root, digest):
+    """{TU: digest of its layout_inline records, in ledger order}, from the ledger bytes with that digest."""
+    if digest is None:
+        return {}
+    blob = (Path(root)/LAYOUT_INLINE).read_bytes()
+    if hashlib.sha256(blob).hexdigest() != digest:
+        raise ValueError('configure inputs changed during generation: ' + LAYOUT_INLINE)
+    groups = {}
+    for record in _records(blob):
+        groups.setdefault(record.get('tu_new'), []).append(record)
+    return {tu: hashlib.sha256(json.dumps(records, sort_keys=True).encode()).hexdigest()
+            for tu, records in groups.items() if isinstance(tu, str)}
+
+
 class RecipeCache:
     @staticmethod
     def guard_for(inputs, context):
         # Names/presence bind negative include resolution probes as well.
-        authority = {n: (v is not None if n.startswith(('src/', 'include/')) else v)
+        root = context.get('root')
+        authority = {n: (v is not None if n.startswith(('src/', 'include/')) or n in PER_RECORD
+                         else structural_digest(root, n, v))
                      for n, v in inputs.items()}
         return hashlib.sha256(json.dumps([authority, context], sort_keys=True).encode()).hexdigest()
 
@@ -69,6 +147,7 @@ class RecipeCache:
         self.records = {}
         self.hits = self.misses = 0
         self.walkers = {}
+        self.inline = inline_slices(self.root, inputs.get(LAYOUT_INLINE))
 
     def name(self, path):
         logical = os.path.abspath(path)
@@ -101,9 +180,16 @@ class RecipeCache:
             self.digests[name] = self.current_digest(name)
         return self.digests[name]
 
-    def memo(self, key, produce, dependencies=None, copy_value=True):
+    def bound(self, name):
+        """A record's binding of one input: its digest, plus its layout_inline records when it is a TU named there."""
+        digest = self.digest(name)
+        inline = self.inline.get(name)
+        return digest if digest is None or inline is None else digest + '+inline:' + inline
+
+    def memo(self, key, produce, dependencies=None, copy_value=True, bind=()):
+        """bind names inputs bound to this record by content even though the guard covers them."""
         old = self.old.get(key)
-        if old and all(self.digest(n) == d for n, d in old['inputs'].items()):
+        if old and all(self.bound(n) == d for n, d in old['inputs'].items()):
             self.records[key] = old
             self.hits += 1
             return copy.deepcopy(old['value']) if copy_value else old['value']
@@ -119,7 +205,7 @@ class RecipeCache:
                 if (not name or name.startswith(('build/.state/', 'build_slus/build/'))
                         or '__pycache__' in name.split('/') or name.endswith(('.pyc', '.tmp'))):
                     continue
-                if name.startswith(('src/', 'include/')) or name not in self.inputs:
+                if name.startswith(('src/', 'include/')) or name not in self.inputs or name in PER_RECORD:
                     probes[name] = (path, stamp)
             # Bind undeclared review files and absent optional inputs too. Their
             # parent directory name sets catch new siblings outside inventories.
@@ -133,8 +219,9 @@ class RecipeCache:
             value = produce()
             names = {self.name(p) for p in dependencies(value)} - {None}
             cacheable = True
+        names = set(names) | set(bind)
         if cacheable:
-            self.records[key] = dict(inputs={n: self.digest(n) for n in sorted(names)},
+            self.records[key] = dict(inputs={n: self.bound(n) for n in sorted(names)},
                                      value=copy.deepcopy(value))
         self.misses += 1
         return value

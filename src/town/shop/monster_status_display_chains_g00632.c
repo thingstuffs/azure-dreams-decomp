@@ -1,5 +1,5 @@
 /* Build and join monster status display chains. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B8D04, town/func_800B8D2C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8D04, CL:town/func_800B8D2C. */
 #include "town/shop/monster_status_display_chains_g00632.h"
 #include "town/shop.h"
 #include "town/shop/state.h"

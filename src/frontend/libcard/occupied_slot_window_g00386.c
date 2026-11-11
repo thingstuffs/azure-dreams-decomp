@@ -1,5 +1,5 @@
 /* Occupied slot window; G00386; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - main/func_800105A0, main/func_80010B18, main/func_80010C44, main/func_80010D64. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_800105A0, CL:main/func_80010B18, CL:main/func_80010C44, CL:main/func_80010D64. */
 #include "frontend/libcard/occupied_slot_window_g00386.h"
 #include "frontend/libcard.h"
 #include "frontend/libcard/message.h"

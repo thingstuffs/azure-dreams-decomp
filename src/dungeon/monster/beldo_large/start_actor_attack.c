@@ -18,8 +18,7 @@ void start_actor_attack(ActorRecord *action_state, ObjectPosition *check_arg, vo
             action_state->action_phase = 0;
             entity->pending_turn_updates--;
             prepare_directional_attack(entity, action_arg, entity->facing, 1, 0);
-            /* BYTES: unk_84 is declared signed char but retail builds this byte store with li 128; every value-cast spelling ((u8)0x80, -0x80, (signed char)0x80 or plain 0x80) emits li -128, so the store keeps its unsigned view until the field sign is settled. */
-            *(u8 *)&entity->unk_84 = 0x80;
+            entity->unk_84 = 0x80;
             entity->unk_85 = 0x20;
         }
     }

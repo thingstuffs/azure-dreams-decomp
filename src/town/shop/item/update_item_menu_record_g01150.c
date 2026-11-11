@@ -1,5 +1,5 @@
 /* Update item menu record g01150.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800B2100, town/func_800B2150, town/func_800B2264.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800B2100, CL:town/func_800B2150, CL:town/func_800B2264.
  */
 #include "shared/audio_commands.h"
 #include "town/shop/item/update_item_menu_record_g01150.h"

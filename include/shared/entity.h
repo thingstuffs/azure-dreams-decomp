@@ -226,7 +226,7 @@ typedef struct ActorRecord {
     /* 0x073 */ signed char target_tile_y; /* target map row, in tiles */
     /* 0x074 */ unsigned char path_x[8]; /* queued path map columns; indexed by the path cursor the movement handlers keep at +0x8A */
     /* 0x07C */ unsigned char path_y[8]; /* queued path map rows, parallel to path_x */
-    /* 0x084 */ signed char unk_84; /* unsigned hit-roll baseline despite the signed leaf; attack preparation adds random multiples of 4 and compares with 0x80 */
+    /* 0x084 */ unsigned char unk_84; /* hit-roll baseline: attack preparation stores 0x80, adds random multiples of 4 and compares with 0x80; unsigned by opposite-sign compile trial (no function changes, and the 0x80 stores compile plain) */
     /* 0x085 */ signed char unk_85;
     /* 0x086 */ unsigned char unk_86;
     /* 0x087 */ unsigned char unk_87;
@@ -265,7 +265,10 @@ typedef struct ActorRecord {
         void *address; /* kraken links its child ObjectNodeHeader through this scratch slot */
         unsigned char *byte_address; /* byte-addressed callback scratch pointer */
     } unk_A4; /* callback scratch with word/halfword/byte views */
-    /* 0x0A8 */ short unk_A8; /* saved species or callback scratch */
+    /* 0x0A8 */ short unk_A8; /* action scratch: a halfword (saved species, tile coordinate, move or fade ticks) in the 65 units
+                               * that use it, kept short by opposite-sign compile trial; some action handlers use +0xA8..+0xAB as
+                               * one word instead (ashra's jump keeps a vertical accumulator there, the snowman transition its
+                               * tint-restore effect node) through a word view of the slot */
     /* 0x0AA */ short unk_AA;
     /* 0x0AC */ union { void *address; int value; unsigned char byte; signed char signed_byte; ActorScratchHalves halves; unsigned char bytes[4]; } unk_AC; /* familiar slot 0 or callback scratch */
     /* 0x0B0 */ union { void *address; int value; unsigned char bytes[4]; signed char signed_bytes[4]; ActorScratchHalves halves; } unk_B0; /* familiar slot 1 or callback scratch, including byte +0xB3 */

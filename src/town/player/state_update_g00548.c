@@ -1,5 +1,5 @@
 /* Advance and update the player state. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009D728, PD:town/engine:800D0620. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009D728, PD:town/engine:800D0620. */
 #include "town/player/state_update_g00548.h"
 #include "town/player.h"
 #include "shared/sprite_frame_state.h"

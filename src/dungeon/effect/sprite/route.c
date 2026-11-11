@@ -60,8 +60,8 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
         scratch->unk_04 = coords->unk_0A;
         scratch->unk_18 = packet + 0xC;
 
-        depth_index = RotTransPers(scratch, packet + 8, (u8 *)scratch + 0x90,
-                             (u8 *)scratch + 0x94);
+        depth_index = RotTransPers(scratch, packet + 8, &scratch->depth_cue,
+                             &scratch->gte_flag);
         scratch->unk_C0 = depth_index;
 
         if (depth_index < 0x1E0) {

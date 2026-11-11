@@ -112,12 +112,6 @@ typedef struct S_800BC4D4_2 {
     u16 unk_1E;
 } S_800BC4D4_2;
 
-/* arg0 in render_projected_sprite_with_depth_bias */
-typedef struct S_800BC4D4_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800BC4D4_4;
-
 /* matrix in render_projected_sprite_with_depth_bias */
 typedef struct S_800BC4D4_5_pre {
     s8 unk_00;

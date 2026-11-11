@@ -1,7 +1,7 @@
 #include "shared/entity.h"
 #include "sdk/libc.h"
 /* Spawn and flag object parts.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8009ED0C, town/func_8009EEE8.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8009ED0C, CL:town/func_8009EEE8.
  */
 #include "shared/object_node.h"
 #include "town/event/state/spawn_and_flag_object_parts_g01128.h"

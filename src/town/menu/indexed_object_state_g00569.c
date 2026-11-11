@@ -1,7 +1,7 @@
 #include "shared/entity.h"
 /* Creates a sequence of indexed objects from copied position data and preset state references. */
-/* inferred-strong indexed_object_state_g00569; joins town/func_800A5CF0; no crossing cuts. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A5CF0. */
+/* inferred-strong indexed_object_state_g00569; joins CL:town/func_800A5CF0; no crossing cuts. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A5CF0. */
 #include "town/menu/indexed_object_state_g00569.h"
 #include "shared/object_node.h"
 #include "town/menu.h"

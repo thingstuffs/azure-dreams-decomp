@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_SQUARED_DISTANCE_G00705_H
 #define TOWN_PLAYER_SQUARED_DISTANCE_G00705_H
 /* Squared distance. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80330320. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80330320. */
 
 #include "common.h"
 #include "shared/vector.h"

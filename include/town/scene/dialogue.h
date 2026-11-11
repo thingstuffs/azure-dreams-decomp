@@ -53,6 +53,6 @@ typedef struct {
     u8 field1;
     u8 field2;
     u8 field3;
-} TextEntry;
+} DialogueTextCell;
 
 #endif

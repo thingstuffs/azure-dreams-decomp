@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_DISPLAY_ELEMENT_LAYOUT_G00630_H
 #define TOWN_SHOP_DISPLAY_ELEMENT_LAYOUT_G00630_H
 /* Lay out three display elements and complementary values: shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B79CC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B79CC. */
 
 #include "common.h"
 #include "m2c_compat.h"

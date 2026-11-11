@@ -3,6 +3,7 @@
 #define DUNGEON_ENGINE_MENU_EFFECTS_H
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/sprite_part_command.h"
 #include "m2c_compat.h"
 #include "shared/def_table.h"
 #include "shared/dir_step.h"
@@ -41,17 +42,6 @@ typedef struct FamiliarMarkerWork {
     MarkerHalf frames_left;
 } FamiliarMarkerWork;
 
-/* Twelve-byte sprite command. Flag 0x20 changes the last word from texture
- * bytes to an attachment callback; draw_transformed_sprite_parts advances 12. */
-typedef struct SpritePartCommand {
-    u8 flags, code;
-    u8 offset_x, offset_y;
-    u16 tpage, clut;
-    union {
-        struct { u8 u, v, width, height; } texture;
-        s32 (*callback)(void *, s32, void *, void *, void *);
-    } data;
-} SpritePartCommand;
 
 /* POLY_FT4 packet view preserving word, halfword and seam-byte operations. */
 typedef struct SpritePartQuad {

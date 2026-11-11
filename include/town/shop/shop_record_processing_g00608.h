@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_SHOP_RECORD_PROCESSING_G00608_H
 #define TOWN_SHOP_SHOP_RECORD_PROCESSING_G00608_H
 /* Shop record processing declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B3110. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B3110. */
 
 #include "common.h"
 #include "m2c_compat.h"

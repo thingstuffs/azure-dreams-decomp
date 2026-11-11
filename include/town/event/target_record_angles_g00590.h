@@ -2,7 +2,7 @@
 #define TOWN_EVENT_TARGET_RECORD_ANGLES_G00590_H
 struct ObjectPosition;
 /* inferred-strong target_record_angles_g00590; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AC708, town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D40, PD:town/engine:80100D42. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC708, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D40, PD:town/engine:80100D42. */
 
 #include "common.h"
 #include "town/event/mesh_motion.h"

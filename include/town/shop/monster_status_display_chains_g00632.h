@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_MONSTER_STATUS_DISPLAY_CHAINS_G00632_H
 #define TOWN_SHOP_MONSTER_STATUS_DISPLAY_CHAINS_G00632_H
 /* Build and join monster status display chains: shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B8D04, town/func_800B8D2C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8D04, CL:town/func_800B8D2C. */
 
 #include "common.h"
 #include "records/Rec_func_800B683C_arg0.h"

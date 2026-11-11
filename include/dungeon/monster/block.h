@@ -908,7 +908,7 @@ extern s32 rand(void);
 void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords);
 void expand_then_shrink_effect(void *effect, void *unused, SpriteFrameState *visual);
 void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
-void set_boss_effect_flag(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster);
+void update_block_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster);
 void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param, SpriteFrameState *entity, ActorRecord *state);
 void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

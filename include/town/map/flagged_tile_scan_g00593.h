@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_FLAGGED_TILE_SCAN_G00593_H
 #define TOWN_MAP_FLAGGED_TILE_SCAN_G00593_H
 /* Flagged tile scan shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AE700, town/func_800AE78C, town/func_800AEA50, town/func_800AEC1C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AE700, CL:town/func_800AE78C, CL:town/func_800AEA50, CL:town/func_800AEC1C. */
 
 #include "common.h"
 #include "shared/dir_step.h"

@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_ITEM_UPDATE_ITEM_MENU_RECORD_G01150_H
 #define TOWN_SHOP_ITEM_UPDATE_ITEM_MENU_RECORD_G01150_H
 /* update item menu record g01150. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800B2100, town/func_800B2150, town/func_800B2264. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800B2100, CL:town/func_800B2150, CL:town/func_800B2264. */
 
 #include "common.h"
 #include "m2c_compat.h"

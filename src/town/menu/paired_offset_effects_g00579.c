@@ -1,6 +1,6 @@
 /* Accumulates an effect value and creates a pair of objects with offset positions. */
-/* inferred-strong paired_offset_effects_g00579; joins town/func_800A97E8; no crossing cuts. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A97E8. */
+/* inferred-strong paired_offset_effects_g00579; joins CL:town/func_800A97E8; no crossing cuts. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A97E8. */
 #include "town/menu/paired_offset_effects_g00579.h"
 #include "town/person/effects.h"
 #include "town/menu.h"

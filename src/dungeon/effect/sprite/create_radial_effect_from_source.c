@@ -1253,7 +1253,6 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-                  /* extern */
 
 s32 rsin(s32);                             /* extern */
 s32 rcos(s32);                             /* extern */

@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_STATE_SET_LSHOP_SPECIAL_FLAG_G00699_H
 #define TOWN_SHOP_STATE_SET_LSHOP_SPECIAL_FLAG_G00699_H
 /* Set lshop special flag. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8032E634, town/func_8032E6A8, town/func_8032E9EC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8032E634, CL:town/func_8032E6A8, CL:town/func_8032E9EC. */
 
 #include "common.h"
 #include "script_symbols.h"

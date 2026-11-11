@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_PERSON_OBJECT_LIFECYCLE_G00659_H
 #define TOWN_PERSON_PERSON_OBJECT_LIFECYCLE_G00659_H
 /* Person object lifecycle. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C5ABC, town/func_800C6064, PD:town/engine:800D5028. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C5ABC, CL:town/func_800C6064, PD:town/engine:800D5028. */
 
 #include "common.h"
 #include "town/scene/list_setup.h"

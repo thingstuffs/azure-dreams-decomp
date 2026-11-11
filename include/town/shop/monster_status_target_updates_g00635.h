@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_MONSTER_STATUS_TARGET_UPDATES_G00635_H
 #define TOWN_SHOP_MONSTER_STATUS_TARGET_UPDATES_G00635_H
 /* Release handled entries and change the monster status target: shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B93B0, town/func_800B97F4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B93B0, CL:town/func_800B97F4. */
 
 #include "common.h"
 #include "m2c_compat.h"

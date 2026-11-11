@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_PROGRESS_INTERACTION_G00708_H
 #define TOWN_SCENE_PROGRESS_INTERACTION_G00708_H
 /* Prepare progress interactions. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80470808, PD:town/image_3ef000:8001B718. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80470808, PD:town/image_3ef000:8001B718. */
 
 #include "modules/town_ovl_3ef1c8.h"
 #include "script_symbols.h"

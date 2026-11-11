@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_POSITION_READ_MAP_CELL_AT_TILE_G01115_H
 #define TOWN_MAP_POSITION_READ_MAP_CELL_AT_TILE_G01115_H
 /* read map cell at tile g01115. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8008E9D4, town/func_8008EA64, town/func_8008EAB4, town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008E9D4, CL:town/func_8008EA64, CL:town/func_8008EAB4, CL:town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428. */
 
 #include "common.h"
 #include "shared/game_work.h"

@@ -369,8 +369,8 @@ s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_co
         break;
     }
 
-    projection_out_a = (u8 *)scratch + 0x84;
-    projection_out_b = (u8 *)scratch + 0x88;
+    projection_out_a = &scratch->depth_cue;
+    projection_out_b = &scratch->gte_flag;
     first_z = RotTransPers((void *)((u32)scratch | 0x64),
                             (void *)((u32)scratch | 0xD8), projection_out_a, projection_out_b);
     scratch->unk_F4 = first_z;

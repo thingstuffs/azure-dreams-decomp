@@ -1,5 +1,5 @@
 /* Entity display owner. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B678C, town/func_800B6858, town/func_800B6980, town/func_800B6A28, town/func_800B6BF0, town/func_800B6C88, town/func_800B6D34. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B678C, CL:town/func_800B6858, CL:town/func_800B6980, CL:town/func_800B6A28, CL:town/func_800B6BF0, CL:town/func_800B6C88, CL:town/func_800B6D34. */
 #include "town/person/entity_display_owner_g00624.h"
 #include "town/person.h"
 #include "shared/object_node.h"

@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_TWIN_SHOP_INPUT_G00597_H
 #define TOWN_SHOP_TWIN_SHOP_INPUT_G00597_H
 /* Twin shop input declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B016C, town/func_800B02BC, town/func_800B03A4, town/func_800B03D0. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B016C, CL:town/func_800B02BC, CL:town/func_800B03A4, CL:town/func_800B03D0. */
 
 #include "common.h"
 #include "records/Rec_func_800AD7F8_arg0.h"

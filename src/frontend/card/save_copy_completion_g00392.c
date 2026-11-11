@@ -1,5 +1,5 @@
 /* Save copy completion; G00392; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - main/func_80012358. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_80012358. */
 #include "frontend/card/save_copy_completion_g00392.h"
 #include "frontend/libcard_callbacks_api.h"
 

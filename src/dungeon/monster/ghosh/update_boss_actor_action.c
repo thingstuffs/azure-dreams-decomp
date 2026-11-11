@@ -16,7 +16,6 @@
 struct ActorRecord;                      /* extern */
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 #include "dungeon/actor/state.h"
-                      /* extern */
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2;  /* extern */
 void func_8016FA84(void *actor, void *action, SpriteFrameState *entity, void *path_arg);                            /* extern */
 void advance_boss_actor_movement_state(ActorRecord *, void *, SpriteFrameState *, void *); /* extern */

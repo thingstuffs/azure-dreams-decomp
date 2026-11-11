@@ -10,7 +10,6 @@
 
 
 #include "dungeon/actor/spend_actor_mp_api.h"
-                /* extern */
 
 /* Process an interaction and reset the object's state when the checks allow it. */
 void process_interaction_and_reset_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

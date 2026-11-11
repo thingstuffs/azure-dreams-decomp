@@ -18,7 +18,6 @@ typedef struct S_80095854_1 {
 
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
-           /* extern */
 
 /* Starts the summoning animation and finds a nearby tile, reserving space for an existing linked familiar. */
 s32 begin_familiar_summoning(ActorRecord *record, s32 input1, void *pointer_input, s32 value_input) {

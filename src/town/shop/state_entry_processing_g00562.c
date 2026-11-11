@@ -1,5 +1,5 @@
 /* State entry processing. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A2608, town/func_800A265C, town/func_800A2724. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A2608, CL:town/func_800A265C, CL:town/func_800A2724. */
 #include "town/shop/state_entry_processing_g00562.h"
 #include "town/shop.h"
 #include "engine/object.h"

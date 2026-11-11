@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_RANDOMIZED_POSITION_EFFECT_G00585_H
 #define TOWN_MAP_RANDOMIZED_POSITION_EFFECT_G00585_H
 /* Randomized position effect shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AAD70. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AAD70. */
 
 #include "common.h"
 #include "shared/object_node.h"

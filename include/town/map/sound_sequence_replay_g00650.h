@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_SOUND_SEQUENCE_REPLAY_G00650_H
 #define TOWN_MAP_SOUND_SEQUENCE_REPLAY_G00650_H
 /* Sound sequence replay. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800C3E80. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3E80. */
 
 #include "common.h"
 

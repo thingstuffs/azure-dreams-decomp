@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_BUILDING_GRID_G00638_H
 #define TOWN_MAP_BUILDING_GRID_G00638_H
 /* Building grid. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B9C24, town/func_800B9C70, town/func_800B9C90. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B9C24, CL:town/func_800B9C70, CL:town/func_800B9C90. */
 
 #include "common.h"
 #include "m2c_compat.h"

@@ -1,5 +1,5 @@
 /* Allocate and initialize display object.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800A48A0.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800A48A0.
  */
 #include "town/menu/object/allocate_and_initialize_display_object_g01137.h"
 #include "shared/object_flags.h"

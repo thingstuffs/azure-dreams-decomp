@@ -1,5 +1,5 @@
 /* Move flag object until timer expiry.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800CF814.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800CF814.
  */
 #include "town/person/motion/move_flag_object_until_timer_expiry_g01192.h"
 

@@ -1,5 +1,5 @@
 /* Resource entry initialization g01156.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800B5204, town/func_800B5270, town/func_800B52D8, town/func_800B5400, town/func_800B550C.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800B5204, CL:town/func_800B5270, CL:town/func_800B52D8, CL:town/func_800B5400, CL:town/func_800B550C.
  */
 #include "shared/object_node.h"
 #include "town/shop/resource_entry_initialization_g01156.h"

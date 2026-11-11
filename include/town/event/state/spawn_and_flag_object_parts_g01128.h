@@ -1,7 +1,7 @@
 #ifndef TOWN_EVENT_STATE_SPAWN_AND_FLAG_OBJECT_PARTS_G01128_H
 #define TOWN_EVENT_STATE_SPAWN_AND_FLAG_OBJECT_PARTS_G01128_H
 /* Spawn and flag object parts. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8009ED0C, town/func_8009EEE8. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8009ED0C, CL:town/func_8009EEE8. */
 
 #include "common.h"
 #include "engine/node/registration.h"

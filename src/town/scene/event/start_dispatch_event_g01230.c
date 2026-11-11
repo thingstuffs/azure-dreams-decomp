@@ -1,5 +1,5 @@
 /* Start dispatch event.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_804688AC.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_804688AC.
  */
 #include "town/scene/event/start_dispatch_event_g01230.h"
 #include "town/scene/event.h"

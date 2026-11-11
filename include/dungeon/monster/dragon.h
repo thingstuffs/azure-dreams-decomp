@@ -225,7 +225,7 @@ void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition 
 #include "dungeon/monster/dragon/transition_effect.h"
 s32 dispatch_actor_path_state_and_relink_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void finish_actor_tile_move_and_check_trap(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void complete_actor_jump_to_destination(struct ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor);
+void complete_dragon_jump_to_destination(struct ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor);
 void update_dragon_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);

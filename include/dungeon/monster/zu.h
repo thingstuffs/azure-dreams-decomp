@@ -36,13 +36,13 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
 void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *motion_param, struct SpriteFrameState *sprite, ActorRecord *actor);
 void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity);
-s32 complete_actor_jump_to_destination(struct ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move);
+s32 relink_bank_actor_and_check_action_ready(struct ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move);
 void select_bank_resident_callback(ActorRecord *state, ObjectPosition *motion, struct SpriteFrameState *source, ActorRecord *target);
 void select_bank_actor_callback(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *actor);
 void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition *motion_input, SpriteFrameState *actor_input, ActorRecord *object);
 void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
-void slow_directional_motion(ActorRecord *effect_data, void *motion_data, SpriteFrameState *sprite_data, void *object_data);
+void advance_defeated_actor_launch_fade_and_removal(ActorRecord *effect_data, void *motion_data, SpriteFrameState *sprite_data, void *object_data);
 void forward_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void restore_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);

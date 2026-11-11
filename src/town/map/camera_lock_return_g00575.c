@@ -1,6 +1,6 @@
 /* Saves camera lock values and restores them through the town script state. */
-/* inferred-strong camera_lock_return_g00575; joins town/func_800A79AC,PD:town/engine:800D0C48; no crossing cuts. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800A79AC, PD:town/engine:800D0C48. */
+/* inferred-strong camera_lock_return_g00575; joins CL:town/func_800A79AC,PD:town/engine:800D0C48; no crossing cuts. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A79AC, PD:town/engine:800D0C48. */
 #include "town/map/camera_lock_return_g00575.h"
 #include "town/map.h"
 

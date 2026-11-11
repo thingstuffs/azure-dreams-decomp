@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_SOURCE_BYTE_FORWARDING_G00536_H
 #define TOWN_PLAYER_SOURCE_BYTE_FORWARDING_G00536_H
 /* shared declarations for source byte forwarding. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_80097264, town/func_80097300. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80097264, CL:town/func_80097300. */
 
 #include "common.h"
 #include "shared/town_handler.h"

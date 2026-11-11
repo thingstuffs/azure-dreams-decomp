@@ -13,7 +13,6 @@
 #include "dungeon/player/object.h"
 
 #include "dungeon/actor/spend_actor_mp_api.h"
-                  /* extern */
 extern void *actor_action_frames[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */

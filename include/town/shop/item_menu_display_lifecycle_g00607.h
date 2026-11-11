@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_ITEM_MENU_DISPLAY_LIFECYCLE_G00607_H
 #define TOWN_SHOP_ITEM_MENU_DISPLAY_LIFECYCLE_G00607_H
 /* Item menu display lifecycle declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B2F64. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B2F64. */
 
 #include "common.h"
 #include "shared/object_node.h"

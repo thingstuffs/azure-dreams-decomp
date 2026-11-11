@@ -24,9 +24,9 @@ void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *po
     Row_819A088C_MATRIX base_matrix;
 
     scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    scratch->unk_88 = position->unk_02;
-    scratch->unk_8C = position->unk_06;
-    scratch->unk_90 = position->unk_0A;
+    scratch->object_matrix.t[0] = position->unk_02;
+    scratch->object_matrix.t[1] = position->unk_06;
+    scratch->object_matrix.t[2] = position->unk_0A;
     render_state->unk_14 |= 0x8000;
 
     PushMatrix();
@@ -37,12 +37,12 @@ void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *po
     scratch->unk_A4 = render_state->unk_16;
     scratch->unk_A8 = render_state->unk_1A;
     scratch->unk_A6 = render_state->unk_18;
-    RotMatrix((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
+    RotMatrix(&scratch->unk_A4, &scratch->object_matrix);
     ReadRotMatrix(&base_matrix);
-    CompMatrix(&base_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    ScaleMatrix((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
-    SetTransMatrix((u8 *)scratch + 0x54);
-    SetRotMatrix((u8 *)scratch + 0x54);
+    CompMatrix(&base_matrix, &scratch->object_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->unk_34);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
     texture = (*(u8 **)((u8 *)render_state + 8));
     scratch->unk_28 = render_state->unk_14;
@@ -77,11 +77,11 @@ void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *po
     scratch->unk_C4 = quad->unk_64;
     scratch->unk_CC = quad->unk_6A;
 
-    ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
-                             (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
+    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
+                             &scratch->unk_C0, &scratch->unk_C8,
                              &packet->unk_08, &packet->unk_10,
                              &packet->unk_18, &packet->unk_20,
-                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+                             &scratch->depth_cue, &scratch->gte_flag) - depth_bias - 6;
     scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {

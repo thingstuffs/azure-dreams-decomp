@@ -459,7 +459,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
                         return;
                     }
                 }
-                if ((complete_actor_jump_to_destination(actor, context, sprite, 0) << 16) == 0) {
+                if ((relink_bank_actor_and_check_action_ready(actor, context, sprite, 0) << 16) == 0) {
                     return;
                 }
                 action_state = stats->action_flags | 0x4000;
@@ -979,7 +979,7 @@ void update_actor_status_and_mp(ActorRecord *entity);
 /* Update entity state and flags according to the state query result. */
 /* Relinks Zu's state, updates movement or status as needed, and returns 1 only when dungeon activity
  * allows a new action. */
-s32 complete_actor_jump_to_destination(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
+s32 relink_bank_actor_and_check_action_ready(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
@@ -1689,7 +1689,7 @@ typedef struct S_80173294_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80173294_1;   /* p1 in slow_directional_motion */
+} S_80173294_1;   /* p1 in advance_defeated_actor_launch_fade_and_removal */
 
 
 
@@ -1698,7 +1698,7 @@ extern void distribute_experience_and_report_gains(EntityRec *entity);
 extern void * detach_record_and_update_slot_state(void *record);
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
-void slow_directional_motion(ActorRecord *effect_data, void *motion_data_arg, SpriteFrameState *sprite_data, void *object_data) {
+void advance_defeated_actor_launch_fade_and_removal(ActorRecord *effect_data, void *motion_data_arg, SpriteFrameState *sprite_data, void *object_data) {
     S_80173294_1 *motion_data = motion_data_arg;
     s32 direction_offset;
     s32 direction_x;

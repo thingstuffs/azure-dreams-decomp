@@ -31,8 +31,6 @@ typedef struct Row_8191C848_S_8191C848_3 {
 } Row_8191C848_S_8191C848_3;   /* arg1 in func_80024048 */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-                             /* extern */
-                             /* extern */
 
 /* Advance the motion counter, update status flags, and move the position. */
 #define M2C_FIELD(expr, type_ptr, offset) \
@@ -116,8 +114,6 @@ typedef struct Row_8191CBCC_S_8191CBCC_4 {
     s32 unk_14;
 } Row_8191CBCC_S_8191CBCC_4;   /* copy_dst in func_800243CC */
 
-           /* extern */
-                             /* extern */
 typedef struct { s32 w0, w1, w2, w3, w4, w5; } Blk24;
 
 /* Creates an effect with randomized appearance and a depth-adjusted copy of the source transform. */

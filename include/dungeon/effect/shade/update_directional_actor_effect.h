@@ -106,12 +106,6 @@ typedef struct Row_8194CD5C_S_8002455C_2 {
     s32 unk_14;
 } Row_8194CD5C_S_8002455C_2;   /* arg1 in func_8002455C */
 
-                      /* extern */
-                             /* extern */
-                             /* extern */
-                            /* extern */
-                            /* extern */
-        /* extern */
 
 typedef struct {
     s16 x;

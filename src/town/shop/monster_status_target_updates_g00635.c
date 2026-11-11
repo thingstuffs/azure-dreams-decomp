@@ -1,5 +1,5 @@
 /* Release handled entries and change the monster status target. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B93B0, town/func_800B97F4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B93B0, CL:town/func_800B97F4. */
 #include "town/shop/monster_status_target_updates_g00635.h"
 #include "records/Rec_func_800B683C_arg0.h"
 #include "shared/object_flags.h"

@@ -1,5 +1,5 @@
 /* State lookup with entry predicate overrides
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8046F1C8, town/func_8046F224, town/image_3ef000@3EF164.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8046F1C8, CL:town/func_8046F224, CL:town/image_3ef000@3EF164.
  * town/func_8046F1C8
  * town/func_8046F224
  * town/image_3ef000@3EF164
@@ -8,7 +8,7 @@
 
 /* Private declarations retained from the member sources. */
 /* State lookup with entry predicate overrides */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8046F1C8, town/func_8046F224, town/image_3ef000@3EF164. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8046F1C8, CL:town/func_8046F224, CL:town/image_3ef000@3EF164. */
 
 #include "modules/town_ovl_3ef1c8.h"
 #include "script_symbols.h"

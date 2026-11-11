@@ -1,7 +1,7 @@
 #ifndef TOWN_MAP_OBJECT_CLEAR_OBJECT_LINK_AND_MARK_COMPLETE_G01169_H
 #define TOWN_MAP_OBJECT_CLEAR_OBJECT_LINK_AND_MARK_COMPLETE_G01169_H
 /* Clear object link and mark complete. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800BDDA8, town/func_800BDE1C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800BDDA8, CL:town/func_800BDE1C. */
 
 #include "common.h"
 #include "town/scene/list_setup.h"

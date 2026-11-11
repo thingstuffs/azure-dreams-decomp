@@ -2,7 +2,7 @@
 
 struct ObjectNodeHeader;
 /* Town map set.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8008E0B8.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008E0B8.
  */
 #include "town/map/town_map_set_g01113.h"
 #include "town/map.h"

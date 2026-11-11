@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_19C088C_H
 #define DUNGEON_OVL_19C088C_H
+#include "shared/vector.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -22,10 +23,9 @@ typedef struct Row_819A088C_S_819A088C_0 {
     s32 unk_34;
     s32 unk_38;
     s32 unk_3C;
-    u8 pad_40[0x48];
-    s32 unk_88;
-    s32 unk_8C;
-    s32 unk_90;
+    u8 pad_40[0x14];
+    GteMatrix composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
+    GteMatrix object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
     u8 pad_94[0x10];
     u16 unk_A4;
     u16 unk_A6;
@@ -46,7 +46,10 @@ typedef struct Row_819A088C_S_819A088C_0 {
     u16 unk_C8;
     u16 unk_CA;
     u16 unk_CC;
-    u8 pad_CE[0x32];
+    u8 pad_CE[0x2];
+    s32 depth_cue; /* RotAverage4 depth-cue output */
+    s32 gte_flag; /* RotAverage4 GTE flag output */
+    u8 pad_D8[0x28];
     s32 unk_100;
 } Row_819A088C_S_819A088C_0;   /* scratch in func_8002408C */
 

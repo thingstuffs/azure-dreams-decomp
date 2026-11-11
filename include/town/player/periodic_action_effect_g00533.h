@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_PERIODIC_ACTION_EFFECT_G00533_H
 #define TOWN_PLAYER_PERIODIC_ACTION_EFFECT_G00533_H
 /* shared declarations for periodic action effect. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009408C. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009408C. */
 
 #include "common.h"
 #include "shared/position_query.h"

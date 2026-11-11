@@ -1,7 +1,7 @@
 #ifndef TOWN_PERSON_ACTOR_OUTPUT_STATE_G00671_H
 #define TOWN_PERSON_ACTOR_OUTPUT_STATE_G00671_H
 /* shared declarations for actor output state. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800CAA34. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CAA34. */
 
 #include "common.h"
 #include "m2c_compat.h"

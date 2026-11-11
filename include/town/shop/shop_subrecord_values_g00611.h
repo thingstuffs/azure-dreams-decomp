@@ -1,7 +1,7 @@
 #ifndef TOWN_SHOP_SHOP_SUBRECORD_VALUES_G00611_H
 #define TOWN_SHOP_SHOP_SUBRECORD_VALUES_G00611_H
 /* Shop subrecord values declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B3FDC. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B3FDC. */
 
 #include "common.h"
 #include "m2c_compat.h"

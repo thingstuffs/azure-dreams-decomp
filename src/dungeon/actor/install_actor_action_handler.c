@@ -3,7 +3,6 @@
 #include "dungeon/actor/motion.h"
 
 /* extern */
-                /* extern */
 extern u8 actor_default_action_address;
 
 /* Select D_800D4494 after the countdown completes and the actor check succeeds. */

@@ -1,5 +1,5 @@
 /* Item pointer removal. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800B4A30, town/func_800B4AB4. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B4A30, CL:town/func_800B4AB4. */
 #include "town/shop/item_pointer_removal_g00615.h"
 #include "town/shop.h"
 

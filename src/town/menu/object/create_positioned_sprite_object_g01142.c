@@ -1,5 +1,5 @@
 /* Create positioned sprite object.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_800A9BA8.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800A9BA8.
  */
 #include "town/menu/object/create_positioned_sprite_object_g01142.h"
 #include "shared/entity.h"

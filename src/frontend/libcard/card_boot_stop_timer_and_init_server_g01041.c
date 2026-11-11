@@ -1,7 +1,7 @@
 
 struct ObjectNodeHeader;
 /* Card boot stop timer and init server.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - main/func_80014C60.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:main/func_80014C60.
  */
 #include "frontend/libcard/card_boot_stop_timer_and_init_server_g01041.h"
 #include "shared/object_flags.h"

@@ -160,8 +160,6 @@ typedef struct TargetCompletionEffectBody {
 void update_the_target_records_counts_flags_status(TargetCompletionEffectBody *object_slot, void *unused, SpriteFrameState *target);
 
 /* Creates an object with default rendering settings and copies its initial data. */
-/* extern */
-                             /* extern */
 
 typedef struct Row_81916F10_S_80024710_0 {
     void * unk_00;
@@ -279,10 +277,6 @@ typedef struct Row_81917680_SixWords {
 } Row_81917680_SixWords;
 
 /* Creates an oriented effect between the supplied position and its owner. */
-/* extern */
-                      /* extern */
-                             /* extern */
-                             /* extern */
 
 typedef struct Row_81917894_S_80025094_0_pre {
     u16 unk_00;

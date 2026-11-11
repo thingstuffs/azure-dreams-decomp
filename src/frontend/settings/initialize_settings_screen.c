@@ -22,7 +22,6 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
     (void)ignored_size;
 }
 
-                      /* extern */
 extern M2C_UNK card_selection_display_data;
 extern s8 animation_tick_scale;
 extern s32 saved_cd_playback_volume_scale;

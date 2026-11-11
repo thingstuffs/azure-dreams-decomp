@@ -15,7 +15,6 @@
 #define NULL 0
 #endif
 
-   /* the 0x2 bytes before arg0 in spawn_fixed_effect_object, addressed as arg0[-1] */
 
 
 extern u8 D_800D232C[];
@@ -24,8 +23,8 @@ extern s32 D_800D2344[3];
 /* Creates and initializes an object, then sets the caller and global flags. */
 void spawn_fixed_effect_object(TownObjectRecord *caller_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
     FixedInteractionEffectBody *transform;
-    IntVector3 *position;
-    void *object;
+    ObjectPosition *position;
+    ObjectNodeHeader *object;
     SpriteFrameState *render_state;
     s32 transform_value;
     u32 color;
@@ -35,8 +34,8 @@ void spawn_fixed_effect_object(TownObjectRecord *caller_data, ObjectPosition *un
         register_node(object, draw_linked_lit_meshes);
         color = 0x00808080U;
 
-        ((ProjectileObject *)object)->update_callback = advance_interaction_state_animating_cursor;
-        render_state = ((ProjectileObject *)object)->sprite;
+        object->update_callback = advance_interaction_state_animating_cursor;
+        render_state = object->sprite;
         render_state->scale_x = 0x1000;
         render_state->scale_y = 0x1000;
         render_state->offset_x = 0x1000;
@@ -44,14 +43,14 @@ void spawn_fixed_effect_object(TownObjectRecord *caller_data, ObjectPosition *un
         transform = NODE_BODY(object);
         render_state->angle_z = 0;
         render_state->source = 0x4A;
-        position = ((ProjectileObject *)object)->position;
-        position->x = 0x02C00000;
-        position->y = 0x02300000;
+        position = object->position;
+        position->x.v = 0x02C00000;
+        position->y.v = 0x02300000;
         transform_value = D_800D2344[0];
-        position->z = 0xFFC00000;
+        position->z.v = 0xFFC00000;
         transform->setup_value = transform_value;
         configure_the_set_mode_n_1(transform, position, D_800D232C);
     }
-    ((ObjectStatusPrefix16 *)caller_data)[-1].flags |= 0x8000;
+    NODE_HEADER(caller_data)->flags |= 0x8000;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

@@ -1,5 +1,5 @@
 /* prepend scene list node g01118
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_80091840.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_80091840.
  */
 #include "town/scene/object/prepend_scene_list_node_g01118.h"
 #include "town/scene/object.h"

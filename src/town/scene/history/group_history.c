@@ -1,5 +1,5 @@
 /* Group history
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - town/func_8046C280, town/func_8046C414, town/func_80477674, town/func_8047BE74, PD:town/image_3ef000:8001B0D0, PD:town/ll34_400000_80016000:80018E44.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8046C280, CL:town/func_8046C414, CL:town/func_80477674, CL:town/func_8047BE74, PD:town/image_3ef000:8001B0D0, PD:town/ll34_400000_80016000:80018E44.
  */
 #include "town/scene/history.h"
 

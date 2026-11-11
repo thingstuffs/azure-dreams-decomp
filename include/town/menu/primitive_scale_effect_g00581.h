@@ -1,7 +1,7 @@
 #ifndef TOWN_MENU_PRIMITIVE_SCALE_EFFECT_G00581_H
 #define TOWN_MENU_PRIMITIVE_SCALE_EFFECT_G00581_H
 /* inferred-strong primitive_scale_effect_g00581; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AA1AC, town/func_800AA268. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AA1AC, CL:town/func_800AA268. */
 
 #include "common.h"
 #include "m2c_compat.h"

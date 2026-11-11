@@ -9,7 +9,6 @@
 
 
 #include "dungeon/actor/spend_actor_mp_api.h"
-                /* extern */
 
 /*
  * On completed tile movement, spends MP and advances status timers, resuming behavior and clearing

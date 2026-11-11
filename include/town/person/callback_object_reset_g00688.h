@@ -2,7 +2,7 @@
 #define TOWN_PERSON_CALLBACK_OBJECT_RESET_G00688_H
 struct TownObjectRecord;
 /* shared declarations for callback object reset. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800CEC24. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CEC24. */
 
 #include "common.h"
 #include "town/person/object/initialize_object_entries_api.h"

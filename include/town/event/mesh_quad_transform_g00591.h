@@ -1,7 +1,7 @@
 #ifndef TOWN_EVENT_MESH_QUAD_TRANSFORM_G00591_H
 #define TOWN_EVENT_MESH_QUAD_TRANSFORM_G00591_H
 /* inferred-strong mesh_quad_transform_g00591; shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_800AC7B4, town/func_800AC8E4, town/func_800AC908, town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC7B4, CL:town/func_800AC8E4, CL:town/func_800AC908, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. */
 
 #include "common.h"
 #include "m2c_compat.h"

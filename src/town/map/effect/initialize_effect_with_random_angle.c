@@ -56,7 +56,7 @@ extern u8 map_particle_child_update_address[];
 
 
 /* Initialize an effect with a random angle and spawn its particle and textured children. */
-void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, struct SpriteFrameState *sprite_unused) {
+void initialize_effect_with_random_angle(MapParticleEffect *effect, ObjectPosition *origin, struct SpriteFrameState *sprite_unused) {
     s32 random_angle;
     s32 biased_angle;
     s32 child_index;
@@ -67,7 +67,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
     s32 center_y;
     u8 particle_blue;
     ObjectNodeHeader *child_obj;
-    Core *child_core;
+    MapParticleEffect *child_core;
     void *parent_obj;
     SpriteFrameState *particle_prim;
     SpriteFrameState *texture_prim;
@@ -89,7 +89,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
             child_obj->update_callback = process_zero_status_record;
             register_node(child_obj, draw_linked_lit_meshes);
             child_value = effect->value;
-            child_core = (Core *)((u8 *)child_obj + 0x20);
+            child_core = NODE_BODY(child_obj);
             child_core->parent = effect;
             child_core->angle = 0;
             child_core->index = child_index;
@@ -120,7 +120,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
             child_obj->update_callback = update_inactive_object_state;
             register_node(child_obj, draw_linked_sprites_clipped);
             child_value = effect->value;
-            child_core = (Core *)((u8 *)child_obj + 0x20);
+            child_core = NODE_BODY(child_obj);
             child_core->parent = effect;
             child_core->index = child_index;
             child_core->value = child_value;
@@ -150,7 +150,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
         child_obj->update_callback = update_inactive_object_state;
         register_node(child_obj, draw_linked_sprites_clipped);
         child_value = effect->value;
-        child_core = (Core *)((u8 *)child_obj + 0x20);
+        child_core = NODE_BODY(child_obj);
         child_core->parent = effect;
         child_core->value = child_value;
         texture_prim = child_obj->sprite;
@@ -176,7 +176,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
         child_obj->update_callback = map_particle_child_update_address;
         register_node(child_obj, draw_linked_lit_meshes);
         child_value = effect->value;
-        child_core = (Core *)((u8 *)child_obj + 0x20);
+        child_core = NODE_BODY(child_obj);
         child_core->parent = effect;
         child_core->value = child_value;
         particle_prim = child_obj->sprite;

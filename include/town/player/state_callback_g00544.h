@@ -1,7 +1,7 @@
 #ifndef TOWN_PLAYER_STATE_CALLBACK_G00544_H
 #define TOWN_PLAYER_STATE_CALLBACK_G00544_H
 /* Dispatch state callbacks by mode. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - town/func_8009A688. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009A688. */
 
 #include "common.h"
 #include "shared/object_index_slots.h"
