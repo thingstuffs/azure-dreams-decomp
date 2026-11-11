@@ -25,7 +25,7 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner);
 void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state);
 void run_saved_actor_action(void *object, void *unused, SpriteFrameState *animation, ActorRecord *actor);
 void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
-void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, void *sprite, ActorRecord *status);
+void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *status);
 extern void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_mode,struct SpriteFrameState *actor, ActorRecord *map);
 
 s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, SpriteFrameState *visual, void *actor);

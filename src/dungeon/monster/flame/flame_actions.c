@@ -349,10 +349,10 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                 if (subject_flags & 0x00040000) {
                     if (!(entity->flags & 0x40) &&
                         ((u8 *)entity->frameTable) == flame_direction_frames) {
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
                         u16 bob_frame = *(u16 *)&actor->unk_B8;
 
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
                         *(u16 *)&actor->unk_B8 = bob_frame + 1;
                         actor->unk_B4.value +=
                             rsin((s16)bob_frame * 0xAA) << 5;
@@ -391,7 +391,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                         s16 reset_floor_offset;
 
                         reset_bob_offset = actor->unk_B4.value;
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
                         *(u16 *)&actor->unk_B8 = 0;
                         actor->unk_B4.value = 0;
                         actor->unk_90.value -= reset_bob_offset;
@@ -424,7 +424,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                 if (!(subject_flags & 0x00040000)) {
 
                     bob_offset = actor->unk_B4.value;
-                    /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                    /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
                     *(u16 *)&actor->unk_B8 = 0;
                     actor->unk_B4.value = 0;
                     actor->unk_90.value -= bob_offset;
@@ -444,10 +444,10 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                 } else {
                     if (!(entity->flags & 0x40) &&
                         ((u8 *)entity->frameTable) == flame_direction_frames) {
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
                         u16 bob_frame = *(u16 *)&actor->unk_B8;
 
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there */
+                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
                         *(u16 *)&actor->unk_B8 = bob_frame + 1;
                         actor->unk_B4.value +=
                             rsin((s16)bob_frame * 0xAA) << 5;
@@ -560,7 +560,8 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
                 0);
             sprite->frame_ticks = 1;
             actor->unk_B4.halves.high.s = 0;
-            ((R06_8017140C_S_8017140C_0 *)actor)->unk_B8 = 0;
+            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            *(u16 *)&actor->unk_B8 = 0;
         }
 
         creature->flags1C = (u32)((u32)creature->flags1C | (0x40000));
@@ -578,7 +579,8 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
             begin_actor_move_to_target_facing(actor, actor_context, sprite, creature);
             adjusted_offset = actor->unk_90.parts.high - actor->unk_B4.halves.high.u;
             actor->unk_B4.halves.high.s = 0;
-            ((R06_8017140C_S_8017140C_0 *)actor)->unk_B8 = 0;
+            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            *(u16 *)&actor->unk_B8 = 0;
             actor->unk_90.parts.high = adjusted_offset;
             update_flame_parent_motion(actor, actor_context, sprite, creature);
             return;
@@ -1682,7 +1684,8 @@ void update_actor_state_by_flags(ActorRecord *in_actor, ObjectPosition *in_conte
                 stat_value = in_actor->unk_90.parts.high;
                 stat_delta = in_actor->unk_B4.halves.high.u;
                 in_actor->unk_B4.halves.high.u = 0;
-                ((R06_801734B0_S_801734B0_5 *)in_actor)->unk_B8 = 0;
+                /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                *(u16 *)&in_actor->unk_B8 = 0;
                 in_actor->unk_90.parts.high = stat_value - stat_delta;
                 update_flame_parent_motion(in_actor, context, in_sprite, in_entity);
                 return;
@@ -1831,7 +1834,8 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
             entity_value = entity->unk_90.parts.high;
             pending_delta = entity->unk_B4.halves.high.u;
             entity->unk_B4.halves.high.u = 0;
-            ((R06_801738E0_S_801738E0_0 *)entity)->unk_B8 = 0;
+            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            *(u16 *)&entity->unk_B8 = 0;
             entity->unk_90.parts.high = entity_value - pending_delta;
             update_flame_parent_motion(entity, context, anim, actor);
             return;
@@ -2214,19 +2218,22 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
     packet = packet_data;
     ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet_data + 0x34;
 
-    scratch->unk_B0 = ((R06_80174334_S_80174334_4 *)quad)->unk_64;
-    scratch->unk_B8 = quad->movement_facing;
-    scratch->unk_C0 = ((R06_80174334_S_80174334_4 *)quad)->unk_70;
-    scratch->unk_C8 = ((R06_80174334_S_80174334_4 *)quad)->unk_76;
-    scratch->unk_B2 = ((R06_80174334_S_80174334_4 *)quad)->unk_66;
-    scratch->unk_BA = ((R06_80174334_S_80174334_4 *)quad)->unk_6C;
-    scratch->unk_C2 = ((R06_80174334_S_80174334_4 *)quad)->unk_72;
-    scratch->unk_CA = ((R06_80174334_S_80174334_4 *)quad)->unk_78;
-    scratch->unk_B4 = ((R06_80174334_S_80174334_4 *)quad)->unk_68;
-    scratch->unk_BC = ((R06_80174334_S_80174334_4 *)quad)->unk_6E;
-    scratch->unk_C4 = ((R06_80174334_S_80174334_4 *)quad)->unk_74;
-    scratch->unk_CC = ((R06_80174334_S_80174334_4 *)quad)->unk_7A;
+    {
+        R06_80174334_S_80174334_4 *quad_view = (R06_80174334_S_80174334_4 *)quad;
+        scratch->unk_B0 = quad_view->unk_64;
+        scratch->unk_B8 = quad->movement_facing;
+        scratch->unk_C0 = quad_view->unk_70;
+        scratch->unk_C8 = quad_view->unk_76;
+        scratch->unk_B2 = quad_view->unk_66;
+        scratch->unk_BA = quad_view->unk_6C;
+        scratch->unk_C2 = quad_view->unk_72;
+        scratch->unk_CA = quad_view->unk_78;
+        scratch->unk_B4 = quad_view->unk_68;
+        scratch->unk_BC = quad_view->unk_6E;
+        scratch->unk_C4 = quad_view->unk_74;
+        scratch->unk_CC = quad_view->unk_7A;
 
+    }
     ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
                              &scratch->unk_C0, &scratch->unk_C8,
                              &packet->xy0.word, &packet->xy1.word,
@@ -2293,11 +2300,14 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
                 packet->unk_30.at01.v--;
             }
 
-            packet->unk_04.at00.v = ((R06_80174334_S_80174334_4 *)quad)->unk_04;
-            packet->unk_10 = ((R06_80174334_S_80174334_4 *)quad)->unk_08;
-            packet->unk_1C = ((R06_80174334_S_80174334_4 *)quad)->unk_0C;
-            packet->unk_28 = ((R06_80174334_S_80174334_4 *)quad)->unk_10;
+            {
+                R06_80174334_S_80174334_4 *quad_view = (R06_80174334_S_80174334_4 *)quad;
+                packet->unk_04.at00.v = quad_view->unk_04;
+                packet->unk_10 = quad_view->unk_08;
+                packet->unk_1C = quad_view->unk_0C;
+                packet->unk_28 = quad_view->unk_10;
 
+            }
             SetPolyGT4(packet);
 
             tex_flags = texture[1];
@@ -2385,24 +2395,30 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
     void *callback;
     u32 *vertex_color;
 
-    phase_bits = ((R06_80174934_S_80174934_0 *)effect)->unk_16.u;
-    phase = ((R06_80174934_S_80174934_0 *)effect)->unk_16.s;
+    {
+        R06_80174934_S_80174934_0 *phase_view = (R06_80174934_S_80174934_0 *)effect;
+        phase_bits = phase_view->unk_16.u;
+        phase = phase_view->unk_16.s;
+    }
     switch (phase) {
-    case 0:
+    case 0: {
+        R06_80174934_S_80174934_0 *fade_view = (R06_80174934_S_80174934_0 *)effect;
         render_data->color.c.r = (u8)((effect[4] *
-            (0x32 - ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s)) / 10);
+            (0x32 - fade_view->unk_1A.s)) / 10);
         render_data->color.c.g = (u8)((effect[5] *
-            (0x32 - ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s)) / 10);
-        fade_level = 0x32 - ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s;
+            (0x32 - fade_view->unk_1A.s)) / 10);
+        fade_level = 0x32 - fade_view->unk_1A.s;
         render_data->color.c.b = (u8)((effect[6] * fade_level) / 10);
-        if (((R06_80174934_S_80174934_0 *)effect)->unk_1A.s < 0x29) {
-            ((R06_80174934_S_80174934_0 *)effect)->unk_16.p =
-                ((R06_80174934_S_80174934_0 *)effect)->unk_16.u + 1;
+        if (fade_view->unk_1A.s < 0x29) {
+            fade_view->unk_16.p =
+                fade_view->unk_16.u + 1;
         }
         break;
-    case 1:
-        if (((R06_80174934_S_80174934_0 *)effect)->unk_1A.s < 0xC) {
-            ((R06_80174934_S_80174934_0 *)effect)->unk_16.s = phase_bits + 1;
+    }
+    case 1: {
+        R06_80174934_S_80174934_0 *particle_view = (R06_80174934_S_80174934_0 *)effect;
+        if (particle_view->unk_1A.s < 0xC) {
+            particle_view->unk_16.s = phase_bits + 1;
         }
 
         if (rand() & 1) {
@@ -2411,7 +2427,7 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
             particle_strength = particle_strength | 0x80;
             random_offset = rand();
             advance_actor_action_and_update_status(effect - 0x20, particle_variant, 0xF0, particle_strength,
-                ((R06_80174934_S_80174934_0 *)effect)->unk_64, ((R06_80174934_S_80174934_0 *)effect)->unk_66,
+                particle_view->unk_64, particle_view->unk_66,
                 (s16)(-0x70 - (random_offset & 0x1F)));
         } else {
             particle_variant = rand() & 7;
@@ -2419,18 +2435,24 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
             particle_strength = particle_strength | 0x80;
             random_offset = rand();
             advance_actor_action_and_update_status(effect - 0x20, particle_variant, 0xF0, particle_strength,
-                ((R06_80174934_S_80174934_0 *)effect)->unk_64, ((R06_80174934_S_80174934_0 *)effect)->unk_66,
+                particle_view->unk_64, particle_view->unk_66,
                 (s16)(-0x40 - (random_offset & 0x1F)));
         }
         break;
-    case 2:
-        render_data->color.c.r = (u8)((effect[4] * ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s) / 10);
-        render_data->color.c.g = (u8)((effect[5] * ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s) / 10);
-        render_data->color.c.b = (u8)((effect[6] * ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s) / 10);
+    }
+    case 2: {
+        R06_80174934_S_80174934_0 *restore_view = (R06_80174934_S_80174934_0 *)effect;
+        render_data->color.c.r = (u8)((effect[4] * restore_view->unk_1A.s) / 10);
+        render_data->color.c.g = (u8)((effect[5] * restore_view->unk_1A.s) / 10);
+        render_data->color.c.b = (u8)((effect[6] * restore_view->unk_1A.s) / 10);
         break;
     }
+    }
 
-    ((R06_80174934_S_80174934_0 *)effect)->unk_20 = ((R06_80174934_S_80174934_0 *)effect)->unk_20 + 1;
+    {
+        R06_80174934_S_80174934_0 *tick_view = (R06_80174934_S_80174934_0 *)effect;
+        tick_view->unk_20 = tick_view->unk_20 + 1;
+    }
     for (strip_index = 0; strip_index < 4; strip_index++) {
         strip_obj = allocate_flagged_object_node(0x12);
         if (strip_obj != 0) {
@@ -2481,9 +2503,12 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
             memcpy(strip_data + 0x28, D_80175910, 12);
             frame_data = strip_data + 0x28;
             ((R06_80174934_S_80174934_3 *)render_ctl)->unk_08 = frame_data;
-            frame_data[8] = (u8)(frame_data[8] + ((R06_80174934_S_80174934_0 *)effect)->unk_1E * 4);
-            frame_data = ((R06_80174934_S_80174934_3 *)render_ctl)->unk_08;
-            frame_data[9] = (u8)(frame_data[9] + ((((R06_80174934_S_80174934_0 *)effect)->unk_20 & 3) * 8));
+            {
+                R06_80174934_S_80174934_0 *texture_view = (R06_80174934_S_80174934_0 *)effect;
+                frame_data[8] = (u8)(frame_data[8] + texture_view->unk_1E * 4);
+                frame_data = ((R06_80174934_S_80174934_3 *)render_ctl)->unk_08;
+                frame_data[9] = (u8)(frame_data[9] + ((texture_view->unk_20 & 3) * 8));
+            }
 
             row_index = 0;
             do {
@@ -2507,8 +2532,11 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
         }
     }
 
-    frames_left = ((R06_80174934_S_80174934_0 *)effect)->unk_1A.u - 1;
-    ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s = frames_left;
+    {
+        R06_80174934_S_80174934_0 *tail_view = (R06_80174934_S_80174934_0 *)effect;
+        frames_left = tail_view->unk_1A.u - 1;
+        tail_view->unk_1A.s = frames_left;
+    }
     if (frames_left <= 0) {
         (*(u16 *)(effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

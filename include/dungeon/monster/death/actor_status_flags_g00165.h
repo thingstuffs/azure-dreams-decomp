@@ -13,37 +13,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 
-typedef struct S_80173CD4_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x7];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    union { struct { u32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_A4;   /* overlapping accesses */
-    u32 unk_A8;
-    u32 unk_AC;
-    u32 unk_B0;
-    u8 pad_B4[0x4];
-    u16 unk_B8;
-} S_80173CD4_0;
 
-typedef struct S_8017409C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x7];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    union { struct { u32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_A4;   /* overlapping accesses */
-    u32 unk_A8;
-    u32 unk_AC;
-    u32 unk_B0;
-    u8 pad_B4[0x4];
-    u16 unk_B8;
-} S_8017409C_0;
 
 /* arg0 in advance_actor_states_and_entity_flags */
 typedef struct S_8017409C_2 {

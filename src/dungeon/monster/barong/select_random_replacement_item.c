@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system/random_range.h"
 #include "shared/entity.h"
 #include "dungeon/monster/barong.h"
 
@@ -15,7 +16,6 @@ typedef struct {
     u8 pad10[4];
 } DungeonGroup;
 
-extern s32 random_dungeon_range_16(s32, s32);
 extern DungeonGroup item_category_groups[];
 
 /* Select a random eligible dungeon item and initialize its parameters. */

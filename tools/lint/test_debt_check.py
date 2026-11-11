@@ -177,6 +177,24 @@ void shadow(void *body) { NODE_HEADER(body); }
             self.assertIn('NODE_HEADER=2', rows[1])
 
 
+class BytesMarkerScope(unittest.TestCase):
+    def test_control_statement_marker_exempts_only_its_condition(self):
+        text = ('int f(int *p, int **q) {\n'
+                '    /* BYTES: retail compares the pair as one halfword */\n'
+                '    if (*(unsigned short *)p == 1) {\n'
+                '        *(char **)q = 0;\n'
+                '        goto done;\n'
+                '    }\n'
+                'done:\n'
+                '    return 0;\n'
+                '}\n')
+        result = D.analyze('src/test/example.c', text)
+        counts = result['scopes']['f#1']['counts']
+        self.assertEqual(counts.get('pointer_casts', 0), 1)  # the body cast still counts; the condition cast is exempt
+        self.assertEqual(counts.get('goto', 0), 1)
+        self.assertEqual(result['markers'], 1)
+
+
 class SignViewRatchet(unittest.TestCase):
     def test_generic_index_views_are_code_only_and_ratchet(self):
         source = '''

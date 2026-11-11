@@ -34,22 +34,6 @@ extern s32 death_action_resume_address;
 extern Packet12 D_80174694;
 
 
-typedef struct S_801732C4_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_A4;   /* overlapping accesses */
-    s32 unk_A8;
-    s32 unk_AC;
-    s32 unk_B0;
-    u8 pad_B4[0x4];
-    u16 unk_B8;
-} S_801732C4_0;   /* arg0 in advance_actor_item_use_sequence_2 */
 
 typedef struct S_801732C4_1_pre {
     void * unk_00;
@@ -355,10 +339,12 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
             sprite->frame_ticks = 1;
             saved_a4 = body->unk_A4.value;
             body->unk_A4.halves.high.u = 0;
-            ((S_801732C4_0 *)body)->unk_B8 = 0;
+            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            *(u16 *)&body->unk_B8 = 0;
             body->unk_AC.value = 0;
             body->unk_B0.value = 0;
-            ((S_801732C4_0 *)body)->unk_A8 = saved_a4;
+            /* BYTES: this action handler saves the +0xA4 scratch word in the +0xA8..+0xAB action scratch as one word (sw) over the halfword ActorRecord declares there */
+            *(s32 *)&body->unk_A8 = saved_a4;
         }
         {
 

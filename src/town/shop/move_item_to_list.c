@@ -80,8 +80,11 @@ s32 move_item_to_list(void *state) {
     S_800B2400_7 *dest_count;
     S_800B2400_5 *source_selection;
 
-    dest_capacity = get_mode_value_or_default(((Rec_func_800B1DCC_arg0 *)state)->unk_18);
-    dest_list = state + (((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10);
+    {
+        Rec_func_800B1DCC_arg0 *initial_view = (Rec_func_800B1DCC_arg0 *)state;
+        dest_capacity = get_mode_value_or_default(initial_view->unk_18);
+        dest_list = state + (initial_view->unk_18 * 0x10);
+    }
     if (dest_list->unk_28 >= dest_capacity) {
         result = 1;
         if (((Rec_func_800B1DCC_arg0 *)state)->unk_0C == 0) {
@@ -98,23 +101,24 @@ s32 move_item_to_list(void *state) {
             if (((Rec_func_800B1DCC_arg0 *)state)->unk_0C == 0 && selected_item->unk_01 == ITEM_KIND_FAMILIAR) {
                 result = 3;
             } else {
-                dest_slot = ((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C
-                    + (count_nonzero_entries((s32 *)(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
+                Rec_func_800B1DCC_arg0 *list_view = (Rec_func_800B1DCC_arg0 *)state;
+                dest_slot = ((S_800B2400_9 *)(((list_view->unk_18 * 4) + state)))->unk_3C
+                    + (count_nonzero_entries((s32 *)(((S_800B2400_9 *)(((list_view->unk_18 * 4)
                     + state)))->unk_3C)) * 4);
-                new_item = find_unused_pool_slot((s32 *)(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
-                    + state)))->unk_3C), ((Rec_func_800B1DCC_arg0 *)state)->unk_18, dest_capacity);
+                new_item = find_unused_pool_slot((s32 *)(((S_800B2400_9 *)(((list_view->unk_18 * 4)
+                    + state)))->unk_3C), list_view->unk_18, dest_capacity);
                 *(PackedItemWord *)new_item = *(PackedItemWord *)selected_item;
                 dest_slot->unk_00 = new_item;
                 dest_slot->unk_04 = 0;
-                remove_index = ((Rec_func_800B1DCC_arg0 *)state)->unk_14;
+                remove_index = list_view->unk_14;
                 remove_selected_entry_from_list(((S_800B2400_10 *)(((remove_index * 4) + state)))->unk_3C,
                     (source_selection = state + (remove_index * 0x10), source_selection->unk_24));
-                source_count = (((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + state;
+                source_count = (list_view->unk_14 * 0x10) + state;
                 source_count->unk_28 = (s32) (source_count->unk_28 - 1);
-                get_zero_based_group_index(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + 0x1C));
-                dest_count = state + (((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10);
+                get_zero_based_group_index(state + ((list_view->unk_14 * 0x10) + 0x1C));
+                dest_count = state + (list_view->unk_18 * 0x10);
                 dest_count->unk_28 = (s32) (dest_count->unk_28 + 1);
-                get_zero_based_group_index(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10) + 0x1C));
+                get_zero_based_group_index(state + ((list_view->unk_18 * 0x10) + 0x1C));
                 result = 0;
             }
         }

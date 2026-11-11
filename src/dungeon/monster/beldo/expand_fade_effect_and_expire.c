@@ -5,7 +5,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
-#include "shared/dungeon_moving_views.h"
+#include "shared/entity.h"
 
 
 
@@ -15,18 +15,18 @@
 
 
 /* Copy the effect position, expand and fade its primitive, and flag expiration. */
-void expand_fade_effect_and_expire(void *effect_arg, MovingPosition *position, SpriteFrameState *primitive)
+void expand_fade_effect_and_expire(void *effect_arg, ObjectPosition *position, SpriteFrameState *primitive)
 {
     BeldoExpandingFadeBody *effect = effect_arg;
     s16 ticks_left;
     s32 shade;
     u16 extent;
-    MovingPosition *source_position;
+    ObjectPosition *source_position;
 
     source_position = effect->source_position;
-    position->x = source_position->x;
-    position->y = source_position->y;
-    position->z = source_position->z;
+    position->x.w.i = source_position->x.w.i;
+    position->y.w.i = source_position->y.w.i;
+    position->z.w.i = source_position->z.w.i;
 
     extent = primitive->scale_y + 0x320;
     primitive->scale_y = extent;

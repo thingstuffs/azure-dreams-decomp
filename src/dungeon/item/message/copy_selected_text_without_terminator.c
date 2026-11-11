@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "dungeon/item/message.h"
 #include "engine/item.h"
+#include "sdk/memory.h"
 
 typedef struct DungeonState {
     u8 pad[0x1C];
@@ -13,7 +14,6 @@ typedef struct DungeonState {
 extern void * D_800DD724[];
 
 extern s32 strlen(const u8 *);
-extern void memcpy(void *, const void *, s32);
 
 /* Copies the selected text without its terminator and returns the destination end. */
 u8 *copy_selected_text_without_terminator(void *text_id, u8 *dest) {

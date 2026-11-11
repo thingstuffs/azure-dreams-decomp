@@ -1,4 +1,5 @@
 #include "dungeon/system.h"
+#include "dungeon/system/random_range.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/item_ids.h"
 #include "shared/entity_action_selectors.h"
@@ -24,9 +25,6 @@ typedef struct S_800C4030_1 {
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
-extern s32 play_sound_if_enabled(s32 query_value);
-extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 
 extern u8 D_800893DC[];
 extern u8 D_800E187C[];

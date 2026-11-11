@@ -62,7 +62,7 @@ void confirm_menu_choice(struct S_80036434_0 *object, s32 unused_arg1, s32 unuse
 void confirm_timed_menu_choice(struct S_8003661C_0 *object);
 
 /* copy_window_params.c */
-void copy_window_params(struct Container *container, struct Source *source);
+#include "engine/window/params.h"
 void func_800375C0(struct Container *container, struct Source *source);
 
 /* create_blinking_cursor_object.c */

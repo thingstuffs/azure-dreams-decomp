@@ -387,7 +387,7 @@ enum HudFadeState {
 extern void func_8004E994(void *object);
 
 /* Updates effect scale and brightness, then releases its objects when fading out ends. */
-void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *render_arg)
+void update_fading_effect_scale(S_800B14FC_0 *effect, ObjectPosition *unused, void *render_arg)
 {
     struct { void *p; } render = {render_arg};
     hud_fade_predicate_fn *dispatch_table;
@@ -395,32 +395,32 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
     s16 state;
 
     dispatch_table = D_800DF030;
-    dispatch_entry = ((S_800B14FC_0 *)effect)->unk_24;
+    dispatch_entry = effect->unk_24;
     dispatch_entry = (u32)&dispatch_table[dispatch_entry];
 
     if ((*(hud_fade_predicate_fn *)dispatch_entry)() != 0 &&
-        ((S_800B14FC_0 *)effect)->unk_20 < HUD_FADE_OUT) {
-        ((S_800B14FC_0 *)effect)->unk_22 = 4;
-        ((S_800B14FC_0 *)effect)->unk_20 = HUD_FADE_OUT;
+        effect->unk_20 < HUD_FADE_OUT) {
+        effect->unk_22 = 4;
+        effect->unk_20 = HUD_FADE_OUT;
     }
 
-    state = ((S_800B14FC_0 *)effect)->unk_20;
+    state = effect->unk_20;
     switch (state) {
     case HUD_FADE_HOLD:
         return;
     case HUD_FADE_IN:
         {
             s16 steps;
-            s16 countdown = ((s16)((S_800B14FC_0 *)effect)->unk_26);
-            u16 countdown_value = ((S_800B14FC_0 *)effect)->unk_26;
+            s16 countdown = effect->unk_26;
+            u16 countdown_value = effect->unk_26;
 
             if (countdown != 0) {
                 countdown_value -= 1;
-                ((S_800B14FC_0 *)effect)->unk_26 = countdown_value;
+                effect->unk_26 = countdown_value;
                 return;
             }
 
-            steps = ((S_800B14FC_0 *)effect)->unk_22;
+            steps = effect->unk_22;
             if (steps == 0) {
                 return;
             }
@@ -432,7 +432,7 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
 
             {
                 u8 brightness = ((S_800B14FC_1 *)render.p)->unk_0C.at02.v;
-                steps = ((S_800B14FC_0 *)effect)->unk_22;
+                steps = effect->unk_22;
                 brightness += (0x80 - brightness) / steps;
                 ((S_800B14FC_1 *)render.p)->unk_0C.at02.v = brightness;
                 ((S_800B14FC_1 *)render.p)->unk_0C.at01.v = brightness;
@@ -440,8 +440,8 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
             }
 
             {
-                s16 remaining_steps = ((S_800B14FC_0 *)effect)->unk_22 - 1;
-                ((S_800B14FC_0 *)effect)->unk_22 = remaining_steps;
+                s16 remaining_steps = effect->unk_22 - 1;
+                effect->unk_22 = remaining_steps;
                 if ((s16)remaining_steps != 0) {
                     return;
                 }
@@ -449,21 +449,21 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
 
             ((S_800B14FC_1 *)render.p)->unk_1E = 0x1000;
             ((S_800B14FC_1 *)render.p)->unk_0C.at00u.v = 0x00808080;
-            (*(u16 *)&((S_800B14FC_0 *)effect)->unk_20) = ((u16)((S_800B14FC_0 *)effect)->unk_20) + 1;
+            (*(u16 *)&effect->unk_20) = effect->unk_20 + 1;
             return;
         }
 
     case HUD_FADE_OUT:
         {
             s16 steps;
-            steps = ((S_800B14FC_0 *)effect)->unk_22;
+            steps = effect->unk_22;
             if (steps != 0) {
                 u16 scale = ((S_800B14FC_1 *)render.p)->unk_1E;
                 ((S_800B14FC_1 *)render.p)->unk_1E = scale + (-(s32)scale / steps);
 
                 {
                     u8 brightness = ((S_800B14FC_1 *)render.p)->unk_0C.at02.v;
-                    steps = ((S_800B14FC_0 *)effect)->unk_22;
+                    steps = effect->unk_22;
                     brightness += (-(s32)brightness / steps);
                     ((S_800B14FC_1 *)render.p)->unk_0C.at02.v = brightness;
                     ((S_800B14FC_1 *)render.p)->unk_0C.at01.v = brightness;
@@ -472,8 +472,8 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
             }
 
             {
-                u16 remaining_steps = ((S_800B14FC_0 *)effect)->unk_22 - 1;
-                ((S_800B14FC_0 *)effect)->unk_22 = remaining_steps;
+                u16 remaining_steps = effect->unk_22 - 1;
+                effect->unk_22 = remaining_steps;
                 if ((s16)remaining_steps > 0) {
                     return;
                 }
@@ -567,7 +567,7 @@ typedef struct AcObject {
 } AcObject;
 
 extern void *D_80073618[];
-extern void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *render_arg);
+extern void update_fading_effect_scale(S_800B14FC_0 *effect, ObjectPosition *unused, void *render_arg);
 extern s32 D_800DF03C[];
 
 extern s32 allocate_panel_offset_or_zero(void);
@@ -744,7 +744,7 @@ typedef struct S_800B1B10_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    void (*unk_10)(void *, ObjectPosition *,  void *);
+    void (*unk_10)(S_800B14FC_0 *, ObjectPosition *, void *);
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x34];
@@ -805,7 +805,7 @@ typedef struct S_800B1B10_6 {
 } S_800B1B10_6;   /* ((style_held++ * 4) + sub) in build_owned_floating_number_widget */
 
 extern s32 allocate_panel_offset_or_zero(void);
-extern void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *render_arg);
+extern void update_fading_effect_scale(S_800B14FC_0 *effect, ObjectPosition *unused, void *render_arg);
 
 /* Build the floating number/icon widget for the owner: allocate it and lay out its digit sprites. */
 void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags) {

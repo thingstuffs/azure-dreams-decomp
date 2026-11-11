@@ -1,9 +1,7 @@
 #include "common.h"
 #include "frontend/card/save.h"
 #include "frontend/card.h"
-
-extern s32 process_slot_record_on_lookup_success(s32 slot_index);
-extern void initialize_card_message_object_with_code_0xb(void *ptr);
+#include "frontend/card/server_aliases.h"
 
 /* Builds one of five save-slot windows per call, switching callbacks on a failed lookup or completion. */
 void card_devkit_build_save_slot_windows(void *ptr) {

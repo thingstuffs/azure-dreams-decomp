@@ -5,7 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
-extern int abs(int);
+#include "sdk/abs.h"
 
 /* Updates phased motion and marks completion when stopped or out of bounds. */
 void update_settings_phase_motion(SettingsEffectObjectBody *state, ObjectPosition *motion, SpriteFrameState *update_data)

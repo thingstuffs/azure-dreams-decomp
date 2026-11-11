@@ -3,6 +3,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -20,7 +21,6 @@
 #include "dungeon/monster/grineut/path_motion.h"
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8017430C(void *, void *, void *, void *);
 
 extern u8 barong_action_resume_address[];

@@ -275,27 +275,27 @@ void decrease_substructure_value_and_reset(town_map_7FFEE474_MainStruct *object)
 
 /* Handles map confirm and cancel actions, zoom changes, player marker updates, and wrapped building
    selection. */
-void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void *update_context)
+void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void *update_context)
 {
     GameWork *input = &g_game_work;
-    u8 *selection_ids = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_7C;
+    u8 *selection_ids = object->unk_7C;
     u8 *display_record;
     s16 state;
 
     if (town_map_status != 0) {
-        ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_68 = (void *)restore_town_map_input_state;
+        object->unk_68 = (void *)restore_town_map_input_state;
         return;
     }
 
-    state = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_66;
+    state = object->unk_66;
     if (state == 0) {
         u16 input_delay;
         s32 buttons;
 
-        input_delay = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_64 - 1;
-        ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_64 = input_delay;
+        input_delay = object->unk_64 - 1;
+        object->unk_64 = input_delay;
         if ((input_delay << 16) <= 0) {
-            ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_64 = 0;
+            object->unk_64 = 0;
             if ((input->pressed_buttons) & 0x10000000) {
                 view_params->unk_0A += 0x10;
             }
@@ -342,33 +342,33 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
         advance_sprite_animation_and_textures(update_context);
         buttons = (input->pressed_buttons);
         if (buttons & 0x6000) {
-            selection_index = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 + 1;
-            ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 = selection_index;
-            if (selection_index >= ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_78) {
-                ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 = 0;
+            selection_index = object->unk_74 + 1;
+            object->unk_74 = selection_index;
+            if (selection_index >= object->unk_78) {
+                object->unk_74 = 0;
             }
-            send_resource_command_23(selection_ids[((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74]);
+            send_resource_command_23(selection_ids[object->unk_74]);
         } else if (buttons & 0x9000) {
-            selection_index_2 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 - 1;
-            ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 = selection_index_2;
+            selection_index_2 = object->unk_74 - 1;
+            object->unk_74 = selection_index_2;
             if (selection_index_2 < 0) {
-                selection_index_3 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_78 - 1;
-                ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 = selection_index_3;
+                selection_index_3 = object->unk_78 - 1;
+                object->unk_74 = selection_index_3;
             }
-            send_resource_command_23(selection_ids[((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74]);
+            send_resource_command_23(selection_ids[object->unk_74]);
         }
 
-        selection_index_4 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74;
+        selection_index_4 = object->unk_74;
         selection_positions = town_building_slot_rectangles;
         selection_id = selection_ids[selection_index_4];
         ((town_map_7FFEE4F8_S_8008BC58_3 *)(*(u8 **)object))->unk_30 = selection_positions[selection_id * 8] - 0x18;
 
-        selection_index_5 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74;
+        selection_index_5 = object->unk_74;
         selection_id = selection_ids[selection_index_5];
         display_record = *(u8 **)object;
         ((town_map_7FFEE4F8_S_8008BC58_3 *)display_record)->unk_34 = selection_positions[selection_id * 8 + 1] - 0x40;
 
-        selection_index_6 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74;
+        selection_index_6 = object->unk_74;
         selection_id = selection_ids[selection_index_6];
         town_map_selection = selection_id;
     }

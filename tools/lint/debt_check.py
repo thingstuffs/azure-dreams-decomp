@@ -226,8 +226,13 @@ def typedef_view_sites(tokens, pairs):
 
 
 def end_of_site(tokens, pairs, start):
-    """Exclusive end of the following statement, declaration, or control arm."""
+    """Exclusive end of the following statement, declaration, or control arm.
+
+    A marker above an if/while/for/switch names a site in its condition: the span ends with the condition, so the
+    body's own debt (casts, gotos, externs) is still counted."""
     i = start
+    if tokens[start].value in {'if', 'while', 'for', 'switch'} and start + 1 in pairs and tokens[start + 1].value == '(':
+        return pairs[start + 1] + 1
     while i < len(tokens):
         v = tokens[i].value
         if v == '{' and i in pairs:

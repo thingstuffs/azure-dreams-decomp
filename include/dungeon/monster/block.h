@@ -167,14 +167,6 @@ typedef struct CB_80171590_S_80171590_2 {
 
 /* Select the overlay animation for the camera-relative facing and enter action 16. */
 
-typedef struct CB_80171FBC_S_80171DA0_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} CB_80171FBC_S_80171DA0_1;   /* held_arg2 in func_80171FBC */
-
 /* Checks whether the actor can transition and starts its directional effect. */
 
 /* extern */
@@ -913,7 +905,7 @@ void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, 
 void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param, SpriteFrameState *entity, ActorRecord *state);
 void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void begin_directional_actor_animation(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *render_state, ActorRecord *entity);
-s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor);
+s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 void begin_unchecked_directional_attack(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 s32 resolve_actor_action_readiness(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_step_and_status(ActorRecord *state_arg, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);

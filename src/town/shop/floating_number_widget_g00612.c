@@ -15,21 +15,22 @@
  */
 void initialize_panel_content_and_positions(S_800B19F8_0 *panel)
 {
-    ((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_00 = (s32) D_80078D6C;
-    ((S_800B19F8_6 *)(((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_04))->unk_08 = 0;
-    ((S_800B19F8_6 *)(((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_04))->unk_0A = 0;
+    S_800B19F8_1 *content = (S_800B19F8_1 *)panel;
+    ((S_800B19F8_2 *)(content->unk_48))->unk_00 = (s32) D_80078D6C;
+    ((S_800B19F8_6 *)(((S_800B19F8_2 *)(content->unk_48))->unk_04))->unk_08 = 0;
+    ((S_800B19F8_6 *)(((S_800B19F8_2 *)(content->unk_48))->unk_04))->unk_0A = 0;
 
-    ((S_800B19F8_3 *)(((S_800B19F8_1 *)panel)->unk_4C))->unk_00 = panel->unk_08;
-    ((S_800B19F8_7 *)(((S_800B19F8_3 *)(((S_800B19F8_1 *)panel)->unk_4C))->unk_04))->unk_08 = 0;
-    ((S_800B19F8_7 *)(((S_800B19F8_3 *)(((S_800B19F8_1 *)panel)->unk_4C))->unk_04))->unk_0A = 0xF;
+    ((S_800B19F8_3 *)(content->unk_4C))->unk_00 = panel->unk_08;
+    ((S_800B19F8_7 *)(((S_800B19F8_3 *)(content->unk_4C))->unk_04))->unk_08 = 0;
+    ((S_800B19F8_7 *)(((S_800B19F8_3 *)(content->unk_4C))->unk_04))->unk_0A = 0xF;
 
-    ((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_00 =
+    ((S_800B19F8_4 *)(content->unk_54))->unk_00 =
         (s32) decode_fullwidth_text(panel->unk_0C, money_label_text, 0);
-    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_04))->unk_08 = 0x43;
-    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_04))->unk_0A = 0x88;
+    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(content->unk_54))->unk_04))->unk_08 = 0x43;
+    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(content->unk_54))->unk_04))->unk_0A = 0x88;
 
-    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(((S_800B19F8_1 *)panel)->unk_50))->unk_04))->unk_08 = 0x67;
-    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(((S_800B19F8_1 *)panel)->unk_50))->unk_04))->unk_0A = 0x88;
+    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(content->unk_50))->unk_04))->unk_08 = 0x67;
+    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(content->unk_50))->unk_04))->unk_0A = 0x88;
 
     refresh_formatted_global_display(panel);
     func_800B18F8(panel->unk_08);

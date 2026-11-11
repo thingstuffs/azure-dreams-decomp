@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_floor.h"
@@ -40,7 +41,6 @@ extern void advance_stored_entity_path(void *controller, ObjectPosition *context
 extern void choose_block_move_slot_a(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor);
 void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174250(void *, void *, void *, void *);
 
 #include "shared/record_ptrs.h"

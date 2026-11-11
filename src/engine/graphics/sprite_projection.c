@@ -142,6 +142,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
 {
     SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
     GameWork *render_state = &g_game_work;
+    GpuContext *draw_context;
     Packet *packet;
     Command *command;
     u32 projected_depth;
@@ -166,12 +167,13 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
     scratch->vertices[2].z = 0;
     scratch->vertices[1].z = 0;
     scratch->vertices[0].z = 0;
-    scratch->ordering_table = (u32)render_state->draw_buffer + 0xB0;
+    draw_context = render_state->draw_buffer;
+    scratch->ordering_table = (u32 *)&draw_context->orderTag;
 
     scratch->position_x = *(u16 *)((u8 *)position + 2);
     scratch->position_y = *(u16 *)((u8 *)position + 6);
     scratch->position_z = *(u16 *)((u8 *)position + 0xA);
-    packet = *(Packet **)((u8 *)render_state->draw_buffer + 0x8D0);
+    packet = draw_context->packetCursor;
 
     scratch->sort_depth = RotTransPers(scratch, &scratch->screen_origin, &scratch->depth_cue, &scratch->gte_flag);
     entry->flags |= 0x8000;
@@ -409,5 +411,5 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         PopMatrix();
     }
 
-    *(Packet **)((u8 *)render_state->draw_buffer + 0x8D0) = packet;
+    ((GpuContext *)render_state->draw_buffer)->packetCursor = packet;
 }

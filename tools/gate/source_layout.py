@@ -267,6 +267,16 @@ def tu_moves(root=ROOT):
     return result
 
 
+def _uses_inline(tu_path):
+    """The caller uses layout_inline's source-derived fields (extents, hashes, include spellings) of this TU: a
+    configure checkpoint that does must bind the TU (recipe_cache binds its inline slice with it)."""
+    try:
+        from gate_read_cache import uses
+    except ImportError:
+        return
+    uses('ledger/layout_inline.jsonl', tu_path)
+
+
 def inline_records(root=ROOT):
     """Validate inlined member identity against the actual embedded source bytes.
 
@@ -308,6 +318,7 @@ def inline_records(root=ROOT):
         if end > len(data) or any(start < b and a < end for a, b in extents.get(target, [])):
             raise ValueError('invalid/overlapping inline extent')
         extents.setdefault(target, []).append((start, end))
+        _uses_inline(root / target)
         piece = data[start:end].decode('utf-8', 'surrogateescape')
         tokens = r['original_includes']
         hits = list(include.finditer(piece))
@@ -365,6 +376,7 @@ def member_projection(row_id, root=ROOT):
     if row is None or row.get('source_row') or row_relative(row, root) != rec['tu_new']:
         raise ValueError('inline member does not own its physical TU: ' + row_id)
     owner = _safe_path(rec['tu_new'], row['container'])
+    _uses_inline(root / owner)
     data = row_path(row, root).read_bytes()
     start, end = rec['offset'], rec['offset'] + rec['inlined_bytes']
     if not 0 <= start < end <= len(data) or (start and data[start - 1:start] != b'\n'):

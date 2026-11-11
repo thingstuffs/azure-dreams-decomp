@@ -94,7 +94,7 @@ typedef struct EntityRec {
     /* 0x072 */ signed char unk_72;               
     /* 0x073 */ signed char unk_73;               
     /* 0x074 */ unsigned char pad_74[16];         
-    /* 0x084 */ signed char unk_84;               
+    /* 0x084 */ unsigned char unk_84; /* the ActorRecord.unk_84 byte (unsigned by its sign trial); no EntityRec user reads it */
     /* 0x085 */ signed char unk_85;               
     /* 0x086 */ unsigned char pad_86[2];          
     /* 0x088 */ short unk_88;                     
@@ -268,12 +268,12 @@ typedef struct ActorRecord {
     /* 0x0A8 */ short unk_A8; /* action scratch: a halfword (saved species, tile coordinate, move or fade ticks) in the 65 units
                                * that use it, kept short by opposite-sign compile trial; some action handlers use +0xA8..+0xAB as
                                * one word instead (ashra's jump keeps a vertical accumulator there, the snowman transition its
-                               * tint-restore effect node) through a word view of the slot */
+                               * tint-restore effect node, death's handlers a saved +0xA4 scratch word) through a word view */
     /* 0x0AA */ short unk_AA;
     /* 0x0AC */ union { void *address; int value; unsigned char byte; signed char signed_byte; ActorScratchHalves halves; unsigned char bytes[4]; } unk_AC; /* familiar slot 0 or callback scratch */
     /* 0x0B0 */ union { void *address; int value; unsigned char bytes[4]; signed char signed_bytes[4]; ActorScratchHalves halves; } unk_B0; /* familiar slot 1 or callback scratch, including byte +0xB3 */
     /* 0x0B4 */ union { int value; ActorScratchHalves halves; unsigned char bytes[4]; signed char signed_bytes[4]; } unk_B4; /* callback scratch */
-    /* 0x0B8 */ unsigned char unk_B8;
+    /* 0x0B8 */ unsigned char unk_B8; /* action scratch: kewne's update keeps a 0..3 state byte here (lbu/sb) and a flag byte at +0xB9; the flame, death and u_boat action handlers use +0xB8 (u_boat also +0xBA) as one halfword through a recorded width view */
     /* 0x0B9 */ unsigned char unk_B9;
     /* 0x0BA */ unsigned char unk_BA;
     /* 0x0BB */ unsigned char unk_BB;

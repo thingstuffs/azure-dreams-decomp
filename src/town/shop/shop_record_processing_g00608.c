@@ -8,19 +8,25 @@ void initialize_shop_display_records(void *destination, S_800B0870_1 *source) {
     u8 sourceByte4;
     u8 sourceByte6;
 
-    ((S_800B0870_0 *)destination)->unk_01.s = 0x2A;
-    sourceByte4 = source->unk_04;
-    ((S_800B0870_0 *)destination)->unk_0A = sourceByte4;
-    sourceByte6 = source->unk_06;
-    ((S_800B0870_0 *)destination)->unk_04.at00.v = 0x401010;
-    ((S_800B0870_0 *)destination)->unk_0B = sourceByte6;
-    ((S_800B0870_0 *)destination)->unk_02 = (u8) source->unk_00;
-    ((S_800B0870_0 *)destination)->unk_03 = (u8) source->unk_02;
+    {
+        S_800B0870_0 *record = (S_800B0870_0 *)destination;
+        record->unk_01.s = 0x2A;
+        sourceByte4 = source->unk_04;
+        record->unk_0A = sourceByte4;
+        sourceByte6 = source->unk_06;
+        record->unk_04.at00.v = 0x401010;
+        record->unk_0B = sourceByte6;
+        record->unk_02 = (u8) source->unk_00;
+        record->unk_03 = (u8) source->unk_02;
+    }
     destination += 0xC;
-    ((S_800B0870_0 *)destination)->unk_01.u = 0x81;
-    ((S_800B0870_0 *)destination)->unk_04.at00u.v = 0;
-    ((S_800B0870_0 *)destination)->unk_04.at02.v = 1;
-    ((S_800B0870_0 *)destination)->unk_00 = (u8) (((S_800B0870_0 *)destination)->unk_00 | 0x80);
+    {
+        S_800B0870_0 *record = (S_800B0870_0 *)destination;
+        record->unk_01.u = 0x81;
+        record->unk_04.at00u.v = 0;
+        record->unk_04.at02.v = 1;
+        record->unk_00 = (u8) (record->unk_00 | 0x80);
+    }
 }
 
 /* Process the record and its subrecord at offset 0x48 using the shared data. */

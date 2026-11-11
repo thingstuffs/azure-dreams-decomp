@@ -2,6 +2,7 @@
 #include "common.h"
 #include "frontend/card/service/decimal_format_bytes.h"
 #include "frontend/card/service.h"
+#include "frontend/card/server_aliases.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 #include "frontend/card.h"
@@ -9,7 +10,6 @@
 extern s32 func_8040153C(void);
 extern void configure_target_for_active_state_and_entry(void *target, s32 entry_index);
 
-extern s32 card_selected_channel[];
 extern CardSaveSlot card_slot_header_cache[];
 
 /* Run the slot operation to completion and update its counters. */

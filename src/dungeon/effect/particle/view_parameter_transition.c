@@ -20,6 +20,9 @@
 #include "dungeon/actor.h"
 #include "dungeon/item/message.h"
 #include "dungeon/system.h"
+#include "sdk/memory.h"
+#include "sdk/abs.h"
+#include "sdk/rand.h"
 
 void (*const dungeon_188e800_entry)(MovingColorWork *, u8 *, u8 *) = update_moving_effect_particles_and_cleanup;
 const u8 no_effect_target_prefix[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
@@ -40,18 +43,13 @@ extern s32 D_800E1C64;
 extern s32 RotTransPers(void *, void *, void *, void *);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
-extern s32 rand(void);
 extern s16 D_80025308;
-extern s32 rand(void);
 extern s32 begin_view_parameter_transition(PointRecord *, ObjectPosition *);
 extern void create_randomized_transform_effect();
 extern s16 D_80025308;
 s32 rsin(s16);                          /* extern */
 s32 rcos(s16);                          /* extern */
-extern int abs(int);
-extern void *memcpy(void *, const void *, u32);
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector();
-extern s32 rand(void);
 extern const s16 D_80024038[8][2];
 extern u8 D_800252FC[12];
 extern s16 D_80025308;

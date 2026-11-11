@@ -8,7 +8,7 @@
 #include "dungeon/system.h"
 
 
-extern void *get_unused_text_buffer(s32, u8 *, void *);
+void *get_unused_text_buffer(); /* K&R: this retail call passes three ignored arguments. */
 
 
 

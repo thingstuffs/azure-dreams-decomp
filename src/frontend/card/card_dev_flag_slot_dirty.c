@@ -1,13 +1,12 @@
 #include "common.h"
 #include "frontend/card/slot_assert_words.h"
 #include "frontend/card.h"
+#include "frontend/card/server_aliases.h"
 #include "frontend/card/server_imports.h"
 
 
 
 
-
-extern s32 card_ui_dirty_flags;
 
 /* Asserts a valid card slot and sets its local and global status flags. */
 void card_dev_flag_slot_dirty(s32 card_slot) {

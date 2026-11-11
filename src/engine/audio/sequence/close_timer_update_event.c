@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
+#include "sdk/libapi.h"
 #include "slus/data.h"
 
 /* S_800737C0: single s32 "critical-section active" flag, forced hi/lo
@@ -12,11 +13,7 @@ extern s32 audio_timer_setup_guard[4];
  * sibling functions in this family, e.g. sound_tick_guarded_periodic_update/sound_run_guarded_sequence_update). */
 extern s32 audio_update_guard[4];
 
-extern s32 EnterCriticalSection(void);
-extern void ExitCriticalSection(void);
-extern void StopRCnt(s32 arg);
 extern s32 DisableEvent(s32 event);
-extern s32 CloseEvent(s32 event);
 
 /* Stops the periodic-update counter, closes its event, and clears the mode and critical-section flags. */
 void close_timer_2_update_event(void)

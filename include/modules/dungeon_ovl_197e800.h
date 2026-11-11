@@ -581,7 +581,7 @@ typedef struct S_8195F43C_0 {
     u8 pad_00[0x20];
     u8 * unk_20;
     u8 pad_24[0xC];
-    GteTranslationVector scale; /* ScaleMatrix vector: twice the sprite scale_x and scale_y, then 0x2000 */
+    IntVector3 scale; /* ScaleMatrix vector: twice the sprite scale_x and scale_y, then 0x2000 */
     u8 pad_3C[0x14];
     s16 unk_50;
     u8 pad_52[0x6];

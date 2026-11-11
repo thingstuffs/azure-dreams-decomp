@@ -61,7 +61,7 @@ struct Position;
 struct ProjectileSelf;
 struct SpriteFrameState;
 
-void draw_wave_distorted_sprite(struct WaveScreenOrigin *screen_pos, struct ParticleState *wave, void *context, s32 *ordering_table, s32 draw_control);
+void draw_wave_distorted_sprite(struct WaveScreenOrigin *screen_pos, struct ParticleState *wave, void *context, u32 *ordering_table, s32 draw_control);
 void draw_wave_sprite_in_draw_area(struct ParticleState *wave, void *context, struct Position *restore_area, struct Position *draw_pos, u32 clear_area, s32 draw_option);
 s32 draw_linked_brightness_points(struct PointRecord *start_node, ObjectPosition *start_coords);
 s32 advance_effect_sequence(void);

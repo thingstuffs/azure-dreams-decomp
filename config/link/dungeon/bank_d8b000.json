@@ -11,7 +11,7 @@
     {
       "row": "dungeon/func_80D6B244",
       "home": "dungeon/func_80D65244",
-      "tu": "src/dungeon/monster/baloon/create_directional_template_effect.c",
+      "tu": "src/dungeon/monster/baloon/create_translucent_directional_sprite_copy_above_anchor.c",
       "foff": "0xD8B244",
       "vma": "0x8016AA44",
       "size": 372,

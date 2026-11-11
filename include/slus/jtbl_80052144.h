@@ -34,8 +34,6 @@ extern Shared83160 D_80083160;
 extern s32 D_800814A0;
 
 
-extern void reset_group_and_flag_children(struct Main *main);
-extern void func_800530C4(void *);
 extern void mark_staged_motion_effect_complete(void *);
 extern void mark_sine_motion_effect_complete(void *);
 extern void mark_timed_animation_sequence_complete(void *);

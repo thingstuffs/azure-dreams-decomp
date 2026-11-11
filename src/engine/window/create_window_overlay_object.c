@@ -2,6 +2,7 @@
 
 #include "engine/node.h"
 #include "engine/window/message.h"
+#include "engine/window/params.h"
 #include "sdk/libgpu.h"
 #include "slus/data.h"
 #include "engine/object.h"
@@ -45,8 +46,6 @@ typedef struct S_func_80035E58_5 {
     u8 pad_00[0x34];
     s32 unk_34;
 } S_func_80035E58_5;
-
-extern void copy_window_params(struct Container *container, struct Source *source);
 
 extern void update_window_state(struct RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s32 state);
 extern void scroll_window_y(void *);

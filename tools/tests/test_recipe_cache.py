@@ -17,6 +17,12 @@ from tools.build import mkbuild as B, content_cache
 from tools.build.recipe_cache import RecipeCache, load
 
 
+def load_blob(blob):
+    with tempfile.NamedTemporaryFile(suffix='.gz') as f:
+        f.write(blob); f.flush()
+        return load(Path(f.name))
+
+
 class ScopedConfigureTests(unittest.TestCase):
     def setUp(self):
         global M
@@ -69,6 +75,10 @@ class ScopedConfigureTests(unittest.TestCase):
         return {n: (self.root/n).read_bytes() for n in marker['outputs']
                 if n != 'build/.state/configure-cache.json.gz'}
 
+    def current_dependencies(self):
+        keys = [json.loads((self.state/'images'/(n+'.json')).read_text())['recipe'] for n in ('a', 'b')]
+        return {d for k in keys for d in json.loads((self.state/'recipes'/(k+'.json')).read_text())['dependencies']}
+
     def assert_full_equal(self):
         scoped = self.outputs()
         self.generate(full=True)
@@ -103,6 +113,55 @@ class ScopedConfigureTests(unittest.TestCase):
                 break
         else:
             self.fail('local include shadow was not discovered')
+        self.assert_full_equal()
+
+    def test_file_set_edits_elsewhere_keep_records_and_match_full(self):
+        # The guard binds source/include presence per record, not globally: adding, removing or renaming a file
+        # that no record read (or listed the directory of) regenerates nothing.
+        (self.root/'src/other').mkdir()
+        self.write('src/other/x.c', 'int x;\n')
+        self.generate(); self.calls.clear()
+        for edit in (lambda: self.write('src/other/new.c', 'int n;\n'),
+                     lambda: (self.root/'src/other/new.c').rename(self.root/'src/other/renamed.c'),
+                     lambda: (self.root/'src/other/renamed.c').unlink()):
+            edit()
+            self.generate()
+            self.assertEqual(self.calls, [])
+            self.assert_full_equal()
+            self.generate(); self.calls.clear()  # the full run left a cold cache: warm it again
+
+    def test_new_sibling_regenerates_only_records_that_read_its_directory(self):
+        self.generate(); self.calls.clear()
+        self.write('src/c.c', 'int c;\n')  # the recipes read src/a.c and src/b.c: src/ is their directory
+        self.generate()
+        self.assertEqual(self.calls, ['a', 'b'])
+        self.assert_full_equal()
+
+    def test_removed_and_renamed_header_rebind_the_closure(self):
+        self.generate(); self.calls.clear()
+        (self.root/'include/leaf.h').rename(self.root/'include/leaf2.h')
+        self.write('include/shared.h', '#include "leaf2.h"\n')
+        self.generate()
+        self.assertEqual(self.calls, [])
+        deps = self.current_dependencies()
+        self.assertIn('include/leaf2.h', deps)
+        self.assertNotIn('include/leaf.h', deps)
+        self.assert_full_equal()
+
+    def test_header_created_in_an_existing_subdirectory_shadows_and_matches_full(self):
+        # a.c includes "sub/leaf.h", found at include/sub/leaf.h; src/sub/ already exists, so only the closure's
+        # recorded resolution miss (src/sub/leaf.h) can see the new header
+        (self.root/'include/sub').mkdir()
+        self.write('include/sub/leaf.h', 'int leaf;\n')
+        (self.root/'src/sub').mkdir()
+        self.write('src/sub/other.h', 'int other;\n')
+        self.write('src/a.c', '#include "sub/leaf.h"\nint a;\n')
+        self.generate(); self.calls.clear()
+        self.write('src/sub/leaf.h', 'int local;\n')
+        self.generate()
+        deps = self.current_dependencies()
+        self.assertIn('src/sub/leaf.h', deps)
+        self.assertNotIn('include/sub/leaf.h', deps)
         self.assert_full_equal()
 
     def test_authority_edit_invalidates_all_records(self):
@@ -168,7 +227,7 @@ class ScopedConfigureTests(unittest.TestCase):
         def walk(root, starts):
             calls.append(tuple(starts))
             return ['src/a.c', 'include/shared.h', 'include/leaf.h']
-        module = types.SimpleNamespace(closure=walk)
+        module = types.SimpleNamespace(closure=walk, closure_probes=lambda root, starts: [])
         def cache(entry='same entry'):
             return RecipeCache(self.root, content_cache.hashes(self.root, names), {},
                                load(self.state/'cache.gz'), closure_entry=entry)
@@ -204,12 +263,39 @@ class ScopedConfigureTests(unittest.TestCase):
         changed_header.closure(module, self.root, ['src/a.c'])
         self.assertEqual(len(calls), 5)
 
+    def test_closure_record_binds_its_resolution_misses(self):
+        calls = []
+        def walk(root, starts):
+            calls.append(1)
+            return ['src/a.c', 'include/shared.h']
+        miss = self.root/'src/shared.h'  # tried before include/shared.h resolved
+        module = types.SimpleNamespace(closure=walk, closure_probes=lambda root, starts: [miss])
+        names = ['src/a.c', 'include/shared.h']
+        first = RecipeCache(self.root, content_cache.hashes(self.root, names), {})
+        self.assertEqual(first.closure(module, self.root, ['src/a.c']), ['include/shared.h', 'src/a.c'])
+        self.assertEqual(first.closure_probe_names(), ['src/shared.h'])
+        saved = load_blob(first.blob())
+        self.write('src/unrelated.h', 'int u;\n')  # a new file the walk never tried: the record still holds
+        second = RecipeCache(self.root, content_cache.hashes(self.root, names + ['src/unrelated.h']), {}, saved)
+        self.assertEqual(second.guard, first.guard)
+        second.closure(module, self.root, ['src/a.c'])
+        self.assertEqual((len(calls), second.hits), (1, 1))
+        self.assertEqual(second.closure_probe_names(), ['src/shared.h'])
+        self.write('src/shared.h', 'int local;\n')  # the miss now exists: the record is stale
+        third = RecipeCache(self.root, content_cache.hashes(self.root, names + ['src/shared.h']), {}, saved)
+        third.closure(module, self.root, ['src/a.c'])
+        self.assertEqual((len(calls), third.misses), (2, 1))
+        module.closure_probes = None  # a walker that cannot report its misses is never cached
+        fourth = RecipeCache(self.root, {}, {}, saved)
+        fourth.closure(module, self.root, ['src/a.c'])
+        self.assertEqual((len(calls), fourth.closure_probe_names(), fourth.records), (3, None, {}))
+
     def test_walker_module_identity_changes_within_one_configure(self):
         calls = []
         def walk(root, starts):
             calls.append(1)
             return starts
-        module = types.SimpleNamespace(__name__='first', closure=walk)
+        module = types.SimpleNamespace(__name__='first', closure=walk, closure_probes=lambda root, starts: [])
         cache = RecipeCache(self.root, {}, {})
         cache.closure(module, self.root, ['src/a.c'])
         module.__name__ = 'second'
@@ -508,6 +594,21 @@ class StructuralGuardTests(unittest.TestCase):
                 (self.root/'ledger/rows.jsonl').read_text()
             (self.root/'ledger/unions.jsonl').read_text()
 
+    def test_unread_ledgers_may_not_be_opened_by_python_subprocesses(self):
+        (self.root/'ledger/unions.jsonl').write_text('{}\n')
+        (self.root/'ledger/rows.jsonl').write_text('')
+        child = [sys.executable, '-c', 'import sys; open(sys.argv[1]).read()']
+        with patch.object(B, 'ROOT', self.root):
+            with B.unread_inputs_enforced():
+                failed = subprocess.run(child + [str(self.root/'ledger/unions.jsonl')], capture_output=True, text=True)
+                self.assertNotEqual(failed.returncode, 0)
+                self.assertIn('UNREAD_LEDGERS', failed.stderr)
+                fine = subprocess.run(child + [str(self.root/'ledger/rows.jsonl')], capture_output=True, text=True)
+                self.assertEqual(fine.returncode, 0, fine.stderr)
+            self.assertNotIn('MKBUILD_UNREAD_INPUTS', os.environ)
+            after = subprocess.run(child + [str(self.root/'ledger/unions.jsonl')], capture_output=True, text=True)
+            self.assertEqual(after.returncode, 0, after.stderr)
+
     def test_bootstrap_views_survive_source_derived_and_unread_edits(self):
         state = self.root/'build/.state'
         (self.root/'build_slus/build').mkdir(parents=True)
@@ -533,6 +634,47 @@ class StructuralGuardTests(unittest.TestCase):
 
 @unittest.skipUnless(os.environ.get('AZURE_MAKE_SCOPED_EQUIVALENCE') == '1',
                      'opt-in production full-enumeration comparison')
+class UnboundReadRefusalTests(unittest.TestCase):
+    """A checkpoint that consumes a guard-excluded part of a structural input without its binding fails loudly."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        for d in ('src', 'config/link_graph', 'ledger'):
+            (self.root/d).mkdir(parents=True, exist_ok=True)
+        (self.root/'src/a.c').write_text('int a;\n')
+        (self.root/'config/link_graph/graph.json').write_text('{}')
+        (self.root/'config/names.tsv').write_text('dungeon\tfunc_1\tone\n')
+        (self.root/'ledger/layout_inline.jsonl').write_text('')
+        names = ['src/a.c', 'config/link_graph/graph.json', 'config/names.tsv', 'ledger/layout_inline.jsonl']
+        self.cache = RecipeCache(self.root, content_cache.hashes(self.root, names), {})
+
+    def test_link_graph_read_outside_its_bound_checkpoint_fails(self):
+        graph = self.root/'config/link_graph/graph.json'
+        self.assertEqual(self.cache.memo('graph', graph.read_text, bind=['config/link_graph/graph.json']), '{}')
+        with self.assertRaisesRegex(ValueError, 'without binding it'):
+            self.cache.memo('row:x', graph.read_text)
+
+    def test_inline_fields_used_without_the_tu_fail(self):
+        import gate_read_cache as R
+        def reads_tu():
+            R.uses('ledger/layout_inline.jsonl', self.root/'src/a.c')
+            return (self.root/'src/a.c').read_text()
+        self.assertEqual(self.cache.memo('row:a', reads_tu), 'int a;\n')
+        self.assertIn('src/a.c', self.cache.records['row:a']['inputs'])
+        with self.assertRaisesRegex(ValueError, 'without reading that TU'):
+            self.cache.memo('row:b', lambda: R.uses('ledger/layout_inline.jsonl', self.root/'src/a.c'))
+
+    def test_process_memo_consumers_bind_the_name_table(self):
+        import overlay_native_allocations as Z
+        Z._source_aliases.cache_clear()
+        first = self.cache.memo('module:a', lambda: Z.source_symbol_pattern('func_1', self.root))
+        second = self.cache.memo('module:b', lambda: Z.source_symbol_pattern('func_1', self.root))
+        self.assertEqual(first, second)
+        for key in ('module:a', 'module:b'):  # the second reader hit the process memo and still binds the table
+            self.assertIn('config/names.tsv', self.cache.records[key]['inputs'])
+
+
 class ProductionEqualityTests(unittest.TestCase):
     def test_current_projection_is_byte_identical_to_full_regeneration(self):
         root = Path(__file__).resolve().parents[2]

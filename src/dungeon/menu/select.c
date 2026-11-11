@@ -769,7 +769,7 @@ void switch_active_object_index(void *object, s16 new_index) {
 
 /* Creates familiar direction-preview objects, or closes the menu and waits for its children to stop
    updating. */
-void initialize_children_or_shutdown(void *owner)
+void initialize_children_or_shutdown(S_80026190_0 *owner)
 {
     u32 state;
     s32 stop_state;
@@ -809,7 +809,7 @@ void initialize_children_or_shutdown(void *owner)
     S_80026190_17 *entity;
 
     status_page = &g_game_work;
-    state = ((S_80026190_0 *)owner)->unk_1C.s;
+    state = owner->unk_1C.s;
     stop_state = 2;
     if (state == stop_state) {
         if ((*selection_animation_counters) == 0) {
@@ -822,16 +822,16 @@ void initialize_children_or_shutdown(void *owner)
 
     status = status_page;
     if (status->buttons & 0x20) {
-        main_child = ((S_80026190_0 *)owner)->unk_00;
+        main_child = owner->unk_00;
         if (main_child != NULL) {
             main_child->unk_1C = SELECTION_MENU_WAIT_CHILDREN;
         }
-        aux_child = ((S_80026190_0 *)owner)->unk_04;
+        aux_child = owner->unk_04;
         if (aux_child != NULL) {
             aux_child->unk_0E = SELECTION_SHADE_OUT_INIT;
         }
         selection_menu_closing = 1;
-        ((S_80026190_0 *)owner)->unk_1C.s = stop_state;
+        owner->unk_1C.s = stop_state;
         (*selection_animation_counters) = 0;
         enqueue_script_message_command();
         return;
@@ -847,17 +847,17 @@ void initialize_children_or_shutdown(void *owner)
     }
     ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_selection_menu_animation;
     child = (S_80026190_5 *)((u8 *)object_or_kind + 0x20);
-    ((S_80026190_0 *)owner)->unk_00 = child;
-    child->unk_26 = ((S_80026190_0 *)owner)->unk_26;
+    owner->unk_00 = child;
+    child->unk_26 = owner->unk_26;
 
     child_object = allocate_flagged_object_node(0x112);
     child->unk_08 = child_object;
     if (child_object == NULL) {
-        alloc_container = ((S_80026190_0 *)owner)->unk_00;
+        alloc_container = owner->unk_00;
         alloc_bits = NODE_HEADER(alloc_container)->flags;
         (NODE_HEADER(alloc_container)->flags) = alloc_bits | 0x8000;
         alloc_flags = object_flag_block.flags;
-        ((S_80026190_0 *)owner)->unk_00 = NULL;
+        owner->unk_00 = NULL;
         alloc_flags |= 0x8000;
         object_flag_block.flags = alloc_flags;
         return;
@@ -865,13 +865,13 @@ void initialize_children_or_shutdown(void *owner)
 
     object_or_kind = (s32)child_object;
     ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_directional_object_fade;
-    ((S_80026190_4 *)((void *)object_or_kind))->unk_78 = ((S_80026190_0 *)owner)->unk_00;
+    ((S_80026190_4 *)((void *)object_or_kind))->unk_78 = owner->unk_00;
     if ((child->unk_14 = allocate_sprite_data_object((s32)child)) == NULL) {
-        setup_container = ((S_80026190_0 *)owner)->unk_00;
+        setup_container = owner->unk_00;
         owner_bits = NODE_HEADER(setup_container)->flags;
         cleanup_page = (S_80026190_8 *)0x80080000;
         NODE_HEADER(setup_container)->flags = owner_bits | 0x8000;
-        ((S_80026190_0 *)owner)->unk_00 = NULL;
+        owner->unk_00 = NULL;
         mask_work = (s32)(child->unk_08);
         cleanup_flags = cleanup_page->unk_14A0;
         child_bits = ((S_80026190_9 *)((void *)mask_work))->unk_1E;
@@ -918,9 +918,9 @@ void initialize_children_or_shutdown(void *owner)
         }
 
         if (entity == NULL) {
-            spawn_container = ((S_80026190_0 *)owner)->unk_00;
+            spawn_container = owner->unk_00;
             NODE_HEADER(spawn_container)->flags |= NODE_REMOVE;
-            ((S_80026190_0 *)owner)->unk_00 = NULL;
+            owner->unk_00 = NULL;
 
             spawn_child = child->unk_08;
             spawn_child->unk_1E |= 0x8000;
@@ -978,7 +978,7 @@ void initialize_children_or_shutdown(void *owner)
         object_or_kind = (s32)entity - 0x20;
         *(s32 *)((u8 *)child + (source_slot * 4) + 0xC) = object_or_kind;
         entity->unk_5C = ((S_80026190_4 *)((void *)object_or_kind))->unk_10.u | 0x80000000;
-        entity->unk_58 = ((S_80026190_0 *)owner)->unk_00;
+        entity->unk_58 = owner->unk_00;
         entity->unk_6A = source_slot;
         unlink_node((void *)object_or_kind);
         retire_tracked_effect_by_id((void *)object_or_kind);
@@ -991,9 +991,9 @@ void initialize_children_or_shutdown(void *owner)
     object_or_kind = (s32)allocate_flagged_object_node(0x212);
     if (object_or_kind != 0) {
         ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)initialize_fading_effect;
-        ((S_80026190_0 *)owner)->unk_04 = (u8 *)object_or_kind + 0x20;
+        owner->unk_04 = (u8 *)object_or_kind + 0x20;
     }
-    ((S_80026190_0 *)owner)->unk_1C.u++;
+    owner->unk_1C.u++;
 
     return;
 }

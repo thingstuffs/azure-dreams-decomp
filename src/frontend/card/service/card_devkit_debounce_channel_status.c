@@ -1,9 +1,7 @@
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
-
-extern s32 card_dev_has_selected_channel(void);
-void toggle_card_selection_state(void);
 
 /* Updates a slot's flag after four repeats of a nonzero state and returns the flag array. */
 s32 *card_devkit_debounce_channel_status(void)

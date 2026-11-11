@@ -1,9 +1,9 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_aliases.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 
-extern s32 card_selected_channel[];
 extern s32 dev_card_paths[2];
 
 

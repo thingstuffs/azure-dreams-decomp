@@ -1,11 +1,11 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_aliases.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
 
 extern void configure_target_for_active_state_and_entry(void *target, s32 entry_index);
 extern s32 read_file(void *file_path, void *buffer, s32 block_count, s32 block_offset);
-extern s32 card_selected_channel[];
 extern u8 card_slot_header_cache[];
 
 /* Looks up a slot's data and processes its record when the lookup succeeds. */

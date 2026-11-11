@@ -21,7 +21,4 @@ extern u8 runtime_single_resource_data[];
 
 void bind_and_load_indexed_resource_record(void *data, s32 entry_index);
 
-s32 find_runtime_table_key_index(void *key);
-void initialize_runtime_resource_directory(void);
-
 #endif

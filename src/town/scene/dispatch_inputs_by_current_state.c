@@ -2,7 +2,6 @@
 #include "town/scene.h"
 
 extern s32 scene_cell_dispatch_code;
-extern s32 *select_state_result_with_lookup_overrides(s32, s32, s32);
 extern s32 select_data_by_kind_and_index(s32, s32, s32);
 
 /*

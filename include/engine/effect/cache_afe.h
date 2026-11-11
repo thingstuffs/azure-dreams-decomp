@@ -4,7 +4,6 @@
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
 
-extern s32 VSync(s32 mode);
 extern s32 drain_audio_commands_and_service_channels(void);
 
 /* Cached upper bits of VSync(1), separate from the slot selector at AFC. */

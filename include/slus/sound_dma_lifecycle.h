@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "sdk/libc.h"
+#include "slus.h"
 
 typedef volatile u16 SoundTransferRegister16;
 typedef union SoundHalfwordCell {
@@ -76,13 +77,6 @@ extern char spu_fifo_busy_timeout_label[];
 extern char spu_fifo_status_timeout_label[];
 
 void DeliverEvent(u32 event_class, u32 event_spec);
-void _spu_FsetDelayW(void);
-void _spu_FsetDelayR(void);
-s32 _spu_init(s32 warm);
-void _spu_FwriteByIO(u16 *src, u32 bytes_left);
-void _spu_FiDMA(void);
-void _spu_Fr_(s32 ram_address, s16 spu_address, s32 block_count);
 s32 _spu_t(s32 command, ...);
-void _spu_Fw1ts(void);
 
 #endif

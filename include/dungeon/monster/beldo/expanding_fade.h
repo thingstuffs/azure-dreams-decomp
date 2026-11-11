@@ -12,7 +12,7 @@ typedef struct BeldoExpandingFadeBody {
     u8 pad_98[0x10];
     s16 duration;
     u8 pad_AA[2];
-    MovingPosition *source_position;
+    struct ObjectPosition *source_position;
 } BeldoExpandingFadeBody;
 
 #endif

@@ -8,6 +8,7 @@
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
 #include "engine/effect.h"
+#include "engine/graphics.h"
 
 /* Moves a sprite with a shaded line, copies sixteen VRAM rows, then returns and hides the sprite. */
 void update_shaded_line_effect(S_52CE0 *anim, ObjectPosition *position, SpriteFrameState *entity)

@@ -3,8 +3,8 @@
 #include "common.h"
 #include "frontend/card/service.h"
 #include "frontend/card/save.h"
+#include "frontend/card/server_aliases.h"
 
-extern void initialize_card_message_object_with_code_0xb(void *object_base);
 extern void card_dev_no_op_save(s32 value);
 extern void reset_card_selection_state(void);
 extern void card_dev_commit_pending_value(void);

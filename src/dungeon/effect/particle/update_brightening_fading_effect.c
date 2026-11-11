@@ -551,7 +551,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
     VFIELD(scratch, u16, 0x102) = 0;
     VFIELD(scratch, u16, 0x104) = 0;
     VFIELD(scratch, u16, 0x100) = 0;
-    scratch->scale.vy = scale_y * 2;
+    scratch->scale.y = scale_y * 2;
     RotMatrix(&scratch->object_angles, &scratch->object_matrix);
     ReadRotMatrix(&scratch->camera_matrix);
     CompMatrix(&scratch->camera_matrix, &scratch->object_matrix, &scratch->unk_50);

@@ -13,7 +13,7 @@ void setup_run_and_load_track(void);
 s32 traverse_nodes_and_render_unflagged(void *start_node);
 
 
-void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *sprite, s16 world_z, s32 depth_bias);
+void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFrameState *sprite, s16 world_z, s32 depth_bias);
 
 void install_trap_handler_after_floor_trap_check(void *owner, s32 context, void *source, void *target);
 

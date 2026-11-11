@@ -1,8 +1,4 @@
-typedef signed short s16;
-typedef signed int s32;
-
-extern s32 ratan2(s32, s32);
-extern s32 SquareRoot0(s32);
+#include "sdk/libgte.h"
 
 struct Delta {
     s32 x;

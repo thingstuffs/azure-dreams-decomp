@@ -158,10 +158,21 @@ example a retype removed the cast), the line number is dropped and the entry end
 passes only through a proven rename, `history+field`, `field`, `gone`) for review;
 `--write` applies them. Only `retired_to_cast` changes.
 
+- **public ledgers** (audit rule R12, `ledger_public.py`): a public file that differs
+  from BASE (`ledger/*.jsonl|json`, `tools/**/*baseline*.json`, `config/*.tsv`) must not
+  gain a lane-local string: a `work/` or `out/` path, a home or session scratch path, or
+  a lane name (`r1NNw_x`, `rNN_x`, `cNNN_x`, `opus_x` and the other model prefixes,
+  `batchACN`). `--fail-new` and `--fail-all` fail on a new one. Cite evidence by
+  repo-relative path, function name or landing (`r121 B21`, `ACCURACY 145`) instead.
+  `ledger_public.py census` counts the strings already there (the pin-campaign
+  journals keep theirs); `ledger_public.py scrub --write` rewrites them in the review
+  ledgers it lists, in place and idempotently, so it can be re-run after a merge.
+
 ```sh
 python3 tools/lint/ledger_integrity.py BASE --fail-new
 python3 tools/lint/ledger_integrity.py BASE --rederive          # review, then --write
-python3 -m unittest tools.lint.test_lint_closure tools.lint.test_ledger_integrity
+python3 tools/lint/ledger_public.py census                       # lane-local strings per public file
+python3 -m unittest tools.lint.test_lint_closure tools.lint.test_ledger_integrity tools.lint.test_ledger_public
 ```
 
 ### Recommended landing order

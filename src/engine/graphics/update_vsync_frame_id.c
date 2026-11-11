@@ -1,6 +1,7 @@
 #include "engine/effect/cache_afe.h"
 
 #include "engine/graphics.h"
+#include "sdk/libetc.h"
 
 /* Services queued sound on a changed 8- or 9-bit VSync frame ID; returns 2 if the ID is unchanged. */
 s32 update_vsync_frame_id(s32 id_mode) {

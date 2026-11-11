@@ -1,8 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
-
-void invoke_callback_for_four_global_values(void);                            /* extern */
+#include "frontend/card/server_aliases.h"
 
 /* Clears the value at 0x804094E8 and calls invoke_callback_for_four_global_values. */
 void clear_card_selection_flag(void) {

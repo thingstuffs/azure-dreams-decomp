@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/resource.h"
+#include "sdk/memory.h"
 
 typedef struct TownEntry {
     s8 field0;
@@ -16,7 +17,6 @@ typedef struct TownState {
 extern TownEntry resource_cache_records[];
 extern TownState town_resource_context;
 
-extern void memcpy(void *, void *, s32);
 extern s32 sum_resource_bytes(s32);
 extern void shift_resource_entries_and_data(s32, s32);
 

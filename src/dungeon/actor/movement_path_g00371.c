@@ -170,7 +170,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, ObjectPosition
 }
 
 /* Updates actor state, facing, and directional animation. */
-void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, void *sprite, ActorRecord *status)
+void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *status)
 {
     void **anim_table;
     s32 cell_record;
@@ -186,7 +186,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, v
         void *current_anim;
 
         advance_actor_pending_action(actor, motion, sprite, status);
-        current_anim = ((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv;
+        current_anim = sprite->frameTable;
         anim_table = actor_action_frames;
         if (current_anim == anim_table) {
             return;
@@ -194,7 +194,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, v
     } else {
 
         if (((u32)status->flags1C) & ACTOR_ASLEEP) {
-            if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv == actor_action_frames) {
+            if (sprite->frameTable == actor_action_frames) {
                 actor->action_id = 0xD;
                 actor->action_phase = 1;
                 actor->unk_8C.handler = NULL;
@@ -216,7 +216,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, v
                 u8 next_state = 0xE;
 
                 anim_table = actor_action_frames;
-                if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv != anim_table) {
+                if (sprite->frameTable != anim_table) {
                     (*(void **)((u8 *)sprite + (0x2C))) = anim_table;
                     select_record_entry_and_value(sprite,
                         *(void **)((u8 *)anim_table +
@@ -253,9 +253,9 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, v
             }
         }
 
-        cell_record = find_active_rect_containing_point(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
-            ((Rec_func_800AA258_arg2 *)sprite)->unk_25);
-        ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_u8 = cell_record;
+        cell_record = find_active_rect_containing_point(sprite->tile_x,
+            sprite->tile_y);
+        sprite->room_index = cell_record;
 
         if (status->pending_turn_updates > 0) {
             if (((u32)status->flags1C) & ACTOR_PARALYZED) {
@@ -273,11 +273,11 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, v
                 !(dungeon_rooms[record_index].flags & ROOM_HOLY_BEAM)) {
                 if (!(((u32)status->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
-                    if ((s16)test_neighbor_position_relation(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
-                            ((Rec_func_800AA258_arg2 *)sprite)->unk_25, reference_tile_object.tile_position.parts.tile_x,
+                    if ((s16)test_neighbor_position_relation(sprite->tile_x,
+                            sprite->tile_y, reference_tile_object.tile_position.parts.tile_x,
                             reference_tile_object.tile_position.parts.tile_y) != 0) {
                         status->facing = get_rounded_facing_and_rounding_flag(
-                            ((Rec_func_800AA258_arg2 *)sprite)->unk_24, ((Rec_func_800AA258_arg2 *)sprite)->unk_25,
+                            sprite->tile_x, sprite->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                             &direction_aux);
                     }
@@ -288,11 +288,11 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, v
         if (g_dungeon_status.flags & 0x2000) {
             return;
         }
-        if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x40) {
+        if (sprite->flags & 0x40) {
             return;
         }
         anim_table = actor_action_frames;
-        if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv == anim_table) {
+        if (sprite->frameTable == anim_table) {
             return;
         }
         if (actor->action_state_flags & 1) {
@@ -387,7 +387,7 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
 }
 
 /* Advances an actor along a traversable heading and updates its movement state. */
-void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *context, S_800D92C0_2 *position, ActorRecord *actor) {
+void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *context, SpriteFrameState *position, ActorRecord *actor) {
     s32 tile_mask;
     s32 target_y;
     s32 target_x;
@@ -442,19 +442,19 @@ void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *contex
                         target_x = D_80082E80_initial.tile_position.parts.tile_x + ((u16 *)dir_step_x)[target_direction];
                         target_y = D_80082E80_initial.tile_position.parts.tile_y + ((u16 *)dir_step_y)[target_direction];
                     }
-                    if ((position->unk_24.at00.v != (target_x & 0xFFFF))
-                        || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
-                        turn_flags = ((void *)body) + 0x98;
-                        target_heading = get_rounded_facing_and_rounding_flag(position->unk_24.at00u.v & 0xFF, position->unk_24.at01.v, (s16)target_x,
+                    if ((position->tile_x != (target_x & 0xFFFF))
+                        || (position->tile_y != (target_y & 0xFFFF))) {
+                        turn_flags = &body->action_state_flags;
+                        target_heading = get_rounded_facing_and_rounding_flag(position->tile_x, position->tile_y, (s16)target_x,
                             (s16)target_y, turn_flags);
                         actor->facing = target_heading;
                         if ((check_movement_clearance_and_height(target_heading, position, actor, 0x20) << 0x10) <= 0) {
-                                                        actor->facing = get_rounded_facing_and_rounding_flag(position->unk_24.at00.v,
-                                position->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, turn_flags);
+                                                        actor->facing = get_rounded_facing_and_rounding_flag(position->tile_x,
+                                position->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, turn_flags);
                         }
                         {
                                                         s32 distance_result;
-                            distance_result = test_neighbor_position_relation(position->unk_24.at00.v, position->unk_24.at01.v,
+                            distance_result = test_neighbor_position_relation(position->tile_x, position->tile_y,
                                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y);
                             if ((distance_result << 0x10) != 0) {
                                 limit_turn = 1;
@@ -467,7 +467,7 @@ void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *contex
                     return;
                 }
             } else {
-                room_id = position->unk_26;
+                room_id = (s8)position->room_index;
                 if ((room_id < 0) || !(dungeon_rooms[room_id].flags & ROOM_HOLY_BEAM)) {
                     if (actor->action_flags & 0x8000) {
                         goto init_loop;
@@ -498,22 +498,22 @@ try_heading:
                 {
                     actor->facing = candidate_heading;
                     actor->path_x[(actor->movement_queue_state & 0x7F)] =
-                        (u8) position->unk_24.at00.v;
+                        (u8) position->tile_x;
                     actor->path_y[(actor->movement_queue_state & 0x7F)] =
-                        (u8) position->unk_24.at01.v;
+                        (u8) position->tile_y;
                     actor->movement_queue_state = actor->movement_queue_state + 1;
-                    update_map_cell_flags_with_item_limit(position->unk_24.at00.v, position->unk_24.at01.v,
+                    update_map_cell_flags_with_item_limit(position->tile_x, position->tile_y,
                                   (actor->flags1C & 0x2000) ? 0x300 : 0x3000);
                     direction_or_x = (actor->facing >> 8) & 0xE;
                     {
                         u8 *x_table_base = (u8 *)dir_step_x;
-                        u8 next_x = position->unk_24.at00.v;
+                        u8 next_x = position->tile_x;
                         next_x += x_table_base[direction_or_x];
-                        position->unk_24.at00.v = (u8) next_x;
+                        position->tile_x = (u8) next_x;
                     }
-                    position->unk_24.at01.v = (u8) (position->unk_24.at01.v + ((u8 *)dir_step_y)[direction_or_x]);
-                    direction_or_x = position->unk_24.at00.v;
-                    next_y = position->unk_24.at01.v;
+                    position->tile_y = (u8) (position->tile_y + ((u8 *)dir_step_y)[direction_or_x]);
+                    direction_or_x = position->tile_x;
+                    next_y = position->tile_y;
                     tile_mask = 0x3000;
                     if (actor->flags1C & 0x2000) {
                         tile_mask = 0x300;
@@ -523,7 +523,8 @@ try_heading:
                 }
             }
             if (turn_index == 0) {
-                if (reference_tile_object.tile_position.word == position->unk_24.at00u.v) {
+                /* BYTES: retail compares the packed tile column/row pair as one halfword (lhu) against the reference tile word */
+                if (reference_tile_object.tile_position.word == (*(u16 *)&position->tile_x)) {
                     if (++turn_index < 8) {
                         goto try_heading;
                     }
@@ -550,7 +551,7 @@ post_loop:
                     return;
                 }
             }
-            body->unk_9C = (s8) (u8) position->unk_26;
+            body->unk_9C = (s8) (u8) position->room_index;
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             {
                 g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
@@ -561,7 +562,7 @@ mask_and_return:
                 return;
             }
 
-            turn_index = sample_terrain_surface_height((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20,
+            turn_index = sample_terrain_surface_height((position->tile_x << 6) | 0x20, (position->tile_y << 6) | 0x20,
                 (s16) (actor->ground_height - 0x20));
             if (turn_index < 0x200) {
                 actor->ground_height = turn_index;

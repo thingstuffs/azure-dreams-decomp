@@ -56,13 +56,14 @@ void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void
     S_81257000_1 *owner;
     S_81257000_5 *part_data;
     S_81257000_6 *motion_part;
+    S_81257000_2 *owner_sprite;
     s8 phase;
 
     owner = root->unk_AC.pointer;
-    out_pos_arg = owner->unk_0C;
+    owner_sprite = owner->unk_0C;
     part_data = owner->unk_08;
 
-    if (!(((S_81257000_2 *)out_pos_arg)->unk_14 & 0x80)) {
+    if (!(owner_sprite->unk_14 & 0x80)) {
         dst_part->flags &= 0xFF7F;
     }
 
@@ -85,13 +86,13 @@ void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void
     }
 
     part_data = dst_part->source;
-    dst_part->scale_x = ((S_81257000_2 *)out_pos_arg)->unk_1C;
-    dst_part->scale_y = ((S_81257000_2 *)out_pos_arg)->unk_1E;
-    dst_part->flags = ((S_81257000_2 *)out_pos_arg)->unk_14;
+    dst_part->scale_x = owner_sprite->unk_1C;
+    dst_part->scale_y = owner_sprite->unk_1E;
+    dst_part->flags = owner_sprite->unk_14;
     part_data->unk_01 &= 0xFE;
 
     if (root->unk_B6 == 1) {
-        phase = ((S_81257000_2 *)out_pos_arg)->unk_04.s8;
+        phase = owner_sprite->unk_04.s8;
         if (phase < 8) {
             s32 brightness = (phase * 14) + 0x20;
 
@@ -105,14 +106,14 @@ void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void
             dst_part->color.c.g = brightness;
             dst_part->color.c.r = brightness;
         }
-        if (!(((S_81257000_2 *)out_pos_arg)->unk_14 & 0x8000) &&
-            ((S_81257000_2 *)out_pos_arg)->unk_04.u16 == 0x10C) {
+        if (!(owner_sprite->unk_14 & 0x8000) &&
+            owner_sprite->unk_04.u16 == 0x10C) {
             play_sound_if_enabled(0x709);
         }
     }
 
     if (root->unk_B6 == 2) {
-        phase = ((S_81257000_2 *)out_pos_arg)->unk_04.s8;
+        phase = owner_sprite->unk_04.s8;
         if (phase < 8) {
             s32 brightness = ((7 - phase) * 14) + 0x20;
 
@@ -126,8 +127,8 @@ void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void
             dst_part->color.c.g = brightness;
             dst_part->color.c.r = brightness;
         }
-        if (!(((S_81257000_2 *)out_pos_arg)->unk_14 & 0x8000) &&
-            ((S_81257000_2 *)out_pos_arg)->unk_04.u16 == 0x104) {
+        if (!(owner_sprite->unk_14 & 0x8000) &&
+            owner_sprite->unk_04.u16 == 0x104) {
             play_sound_if_enabled(0x709);
         }
     }

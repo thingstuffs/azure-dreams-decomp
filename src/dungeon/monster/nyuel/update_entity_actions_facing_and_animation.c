@@ -1,5 +1,6 @@
 #include "dungeon/monster/grineut/path_motion.h"
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -36,7 +37,6 @@ typedef struct {
 
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
-s32 update_entity_state_from_query(ActorRecord *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
 
 /* Updates entity actions, facing, and animation from state and terrain. */
 /* Selects Nyuel's movement, attacks, spells, and turn processing, dimming its status sprite when its

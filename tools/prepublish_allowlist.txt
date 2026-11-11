@@ -118,8 +118,6 @@ tools/tests/test_land_packages.py email ~ test@example\.invalid
 # The scrub-hook pattern list (split strings on purpose); the tool needs the literal words.
 tools/lanes/land_packages.py name
 # PENDING ledger sanitising (ledger_plan.md): session scratch paths inside journals.
-ledger/slus_rebaseline_landings.jsonl abs-path
-ledger/slus_rebaseline_landings.jsonl name
 ledger/sweeps/t45_orzero_aspsx.jsonl abs-path
 ledger/sweeps/t45_orzero_aspsx.jsonl name
 

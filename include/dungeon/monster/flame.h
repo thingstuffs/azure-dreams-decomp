@@ -104,19 +104,6 @@ typedef struct R06_80170BB8_S_80170BB8_3 {
     s16 unk_02;
     u16 unk_04;
 } R06_80170BB8_S_80170BB8_3;
-typedef struct R06_8017140C_S_8017140C_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x2];
-    union { u16 u; s16 s; } unk_92;   
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x1A];
-    u16 pad_B6;
-    s16 unk_B8;
-} R06_8017140C_S_8017140C_0;
 typedef struct R06_8017140C_S_8017140C_1 {
     u8 pad_00[0x1C];
     u32 unk_1C;
@@ -217,24 +204,6 @@ typedef struct R06_801734B0_S_801734B0_2 {
     u8 pad_66[0x7];
     s8 unk_6D;
 } R06_801734B0_S_801734B0_2;
-typedef struct R06_801734B0_S_801734B0_5 {
-    u8 pad_00[0x92];
-    u16 unk_92;
-    u8 pad_94[0x22];
-    u16 unk_B6;
-    u16 unk_B8;
-} R06_801734B0_S_801734B0_5;
-typedef struct R06_801738E0_S_801738E0_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x7];
-    u8 unk_9B;
-    u8 pad_9C[0x1A];
-    u16 unk_B6;
-    u16 unk_B8;
-} R06_801738E0_S_801738E0_0;
 
 typedef struct R06_801738E0_S_801738E0_2 {
     u8 pad_00[0xA];

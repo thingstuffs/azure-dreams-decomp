@@ -643,7 +643,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
 void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg);
 void draw_and_restore_fading_object(void *object_arg, void *position_arg, SpriteFrameState *sprite_arg);
 void switch_active_object_index(void *object, s16 new_index);
-void initialize_children_or_shutdown(void *owner);
+void initialize_children_or_shutdown(S_80026190_0 *owner);
 /* Work shared by the fade controller and its four-quadrant draw callback. */
 typedef struct MenuFadeRect {
     union { s16 s; u16 u; } x;

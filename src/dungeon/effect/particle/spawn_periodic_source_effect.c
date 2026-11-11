@@ -3,6 +3,7 @@
 #include "dungeon/effect/particle.h"
 #include "dungeon/effect/head_bank_imports.h"
 #include "dungeon/data.h"
+#include "sdk/memory.h"
 
 #ifndef NULL
 #define NULL 0
@@ -53,7 +54,6 @@ typedef struct S_7FFEA1CC_4 {
 
 
 
-void *memcpy(void *, const void *, unsigned int);
 extern u8 emitter_height_offsets[0x100];
 extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010C460;

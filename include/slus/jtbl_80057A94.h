@@ -34,7 +34,6 @@ typedef struct {
     s32 f14;
 } S_80057A94_msg;
 
-extern s32 is_tone_parameter_flag_set(void);
 extern s32 SpuSetReverbModeParam(void *settings);
 
 extern u8 sound_ram_reserve_mode[0x10];

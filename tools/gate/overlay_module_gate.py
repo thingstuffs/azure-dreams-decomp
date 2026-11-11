@@ -325,6 +325,12 @@ def _closure_observe(path):
   if name not in cache['files']:cache['files'][name]=_closure_stamp(name)
 
 def _closure_edges(root,n):
+ return _closure_edges_probed(root,n)[:2]
+
+def _closure_edges_probed(root,n):
+ """(quoted includes to walk, preprocessor-resolved terminal files, resolution misses). The misses are the
+ candidate paths tried before each quoted include resolved; a -M scan's own search is summarised by the
+ include/ directory (any new header there can change what it resolves)."""
  cache=_CLOSURE_READS.get();key=(os.fspath(root),n)
  if cache is not None and key in cache['edges']:return cache['edges'][key]
  lp=local(root,n)
@@ -332,11 +338,12 @@ def _closure_edges(root,n):
  if n.startswith('asm/'):_closure_observe(root/'build_slus'/n)
  p=asm_paths.resolve(root,n) if n.startswith('asm/') else lp
  _closure_observe(p)
- t=read_text(p);pending=set();terminal=set()
+ t=read_text(p);pending=set();terminal=set();misses=set()
  for line in t.splitlines():
   if not _INCLUDE_LINE.match(line):continue
   hit=_QUOTED_INCLUDE.match(line)
   if not hit:
+   misses.add(os.fspath(root/'include'))
    gcc=root/'toolchain/compilers/gcc-2.7.2-cdk'
    viaslus=p!=lp
    pdep=subprocess.run([str(gcc/'gcc'),'-B'+str(gcc)+'/', '-M','-G0','-I'+str(root/'include'),str(p)],capture_output=True,text=True,check=True)
@@ -355,11 +362,26 @@ def _closure_edges(root,n):
    if relative.startswith('asm/'):_closure_observe(root/'build_slus'/relative)
    if asm_paths.is_file(root,o):
     dest=o;break
+   misses.add(os.fspath(o))
+   if relative.startswith('asm/'):misses.add(os.fspath(root/'build_slus'/relative))
   if dest is None or not dest.is_relative_to(root):raise ValueError('include escapes build root: '+line)
   pending.add(str(dest.relative_to(root)))
- answer=pending,terminal
+ answer=pending,terminal,frozenset(misses)
  if cache is not None:cache['edges'][key]=answer
  return answer
+
+def closure_probes(root,starts):
+ """Absolute paths whose absence the include closure of starts depends on: every resolution candidate tried
+ before a quoted include resolved (a header created there would be included instead). With the closure's files,
+ these bind the walk completely, so a cached closure need not bind every source/include file's presence."""
+ root=Path(root);pending=list(starts);walked=set();misses=set()
+ while pending:
+  n=pending.pop()
+  if n in walked:continue
+  walked.add(n)
+  deps,_,missed=_closure_edges_probed(root,n)
+  misses.update(missed);pending.extend(deps)
+ return misses
 
 def closure(root,starts):
  root=Path(root);cache=_CLOSURE_READS.get()

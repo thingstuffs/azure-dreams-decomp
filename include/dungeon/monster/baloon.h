@@ -30,7 +30,7 @@ typedef struct {
 } BaloonTemplateAnchor;
 
 /* Directional template constructor used by the Baloon rise effect. */
-void create_gray_directional_sprite_copy_above_anchor(void *unused, BaloonTemplateAnchor *anchor,
+void create_translucent_directional_sprite_copy_above_anchor(void *unused, BaloonTemplateAnchor *anchor,
     SpriteFrameState *object_template, ActorRecord *facing_source);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

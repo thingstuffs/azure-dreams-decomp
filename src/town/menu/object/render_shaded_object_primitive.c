@@ -48,7 +48,7 @@ typedef struct S_800A1D1C_4 {
    /* arg1 in render_shaded_object_primitive */
 
 /* Update primitive shading and transform object coordinates, or mark it inactive. */
-void render_shaded_object_primitive(void *object, ObjectPosition *coords, SpriteFrameState *primitive) {
+void render_shaded_object_primitive(S_800A1D1C_0 *object, ObjectPosition *coords, SpriteFrameState *primitive) {
     s32 matrix_index;
     s32 red_scaled;
     s32 green_scaled;
@@ -59,37 +59,37 @@ void render_shaded_object_primitive(void *object, ObjectPosition *coords, Sprite
     void *matrix;
     S_800A1D1C_1 *render_state;
 
-    render_state = ((S_800A1D1C_0 *)object)->unk_10;
+    render_state = object->unk_10;
     scratch = (S_800A1D1C_4 *)0x1F800000;
     if (render_state->unk_0A != 0) {
-        ((ObjectRetirementFlags *)object)[-1].flags = (u16) (((ObjectRetirementFlags *)object)[-1].flags | 0x8000);
+        NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
         global_page = (S_800A1D1C_2 *)0x80080000;
         global_page->unk_14A0 |= 0x8000;
         return;
     }
-    ((S_800A1D1C_0 *)object)->unk_00(object, coords, primitive);
-    if (((S_800A1D1C_0 *)object)->unk_3C != 0) {
+    object->unk_00(object, coords, primitive);
+    if (object->unk_3C != 0) {
         primitive->color.c.r = render_state->unk_10.u8;
     } else {
         red_scaled = render_state->unk_10.s16 * 3;
         primitive->color.c.r = (s8) (red_scaled / 4);
     }
-    if (((S_800A1D1C_0 *)object)->unk_3D != 0) {
+    if (object->unk_3D != 0) {
         primitive->color.c.g = render_state->unk_10.u8;
     } else {
         green_scaled = render_state->unk_10.s16 * 3;
         primitive->color.c.g = (s8) (green_scaled / 4);
     }
-    if (((S_800A1D1C_0 *)object)->unk_3E != 0) {
+    if (object->unk_3E != 0) {
         primitive->color.c.b = render_state->unk_10.u8;
     } else {
         blue_scaled = render_state->unk_10.s16 * 3;
         primitive->color.c.b = (s8) (blue_scaled / 4);
     }
-    scratch->unk_2C = ((S_800A1D1C_0 *)object)->unk_24;
-    scratch->unk_2E = ((S_800A1D1C_0 *)object)->unk_28;
-    scratch->unk_30 = ((S_800A1D1C_0 *)object)->unk_2C;
-    matrix_index = ((S_800A1D1C_0 *)object)->unk_22 != 0;
+    scratch->unk_2C = object->unk_24;
+    scratch->unk_2E = object->unk_28;
+    scratch->unk_30 = object->unk_2C;
+    matrix_index = object->unk_22 != 0;
     PushMatrix();
     matrix = (u8 *)render_state + ((matrix_index << 5) + 0x14);
     SetRotMatrix(matrix);

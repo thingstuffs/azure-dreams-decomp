@@ -27,21 +27,14 @@ typedef struct {
     u16 field_A6;
 } D800814A8FieldView_81252D6C;
 
-extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, ActorRecord *facing_source);
+extern void create_effect_from_sprite_and_facing(void *unused, ObjectPosition *source_transform, void *sprite_template, ActorRecord *facing_source);
 
 extern u8 D_80173EDC[8];
-
-typedef struct S_8017256C_5 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8017256C_5;   /* arg1 in advance_actor_action_and_target */
 
 /* Advances an actor's action state, updating its target, animation, and completion. */
 /* Starts a targeted Beldo spell, emits a sprite effect during its casting sequence, then recenters and
  * updates status. */
-void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
+void advance_actor_action_and_target(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     register s32 is_special = 0;
     u8 *action_entry;
@@ -141,14 +134,14 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
             }
             action->action_timer = 0;
             action->action_phase++;
-            ((S_8017256C_5 *)motion)->unk_14 = 0;
-            ((S_8017256C_5 *)motion)->unk_10 = 0;
-            ((S_8017256C_5 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             return;
         }
-        ((S_8017256C_5 *)motion)->unk_14 = 0;
-        ((S_8017256C_5 *)motion)->unk_10 = 0;
-        ((S_8017256C_5 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
@@ -237,9 +230,9 @@ void advance_actor_action_and_target(ActorRecord *action, void *motion, SpriteFr
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        ((S_8017256C_5 *)motion)->unk_14 = 0;
-        ((S_8017256C_5 *)motion)->unk_10 = 0;
-        ((S_8017256C_5 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         action->action_phase++;
         if (*(u8 **)&sprite->frameTable == beldo_frame_set_1) {

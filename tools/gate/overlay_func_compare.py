@@ -43,9 +43,18 @@ _SYM_ASSIGN = re.compile(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=")
 _NAME_ENCODED = re.compile(r"(func|D)_([0-9A-Fa-f]{8})$")
 _RENAMED: dict[str, str] | None = None
 
+def _memo_read(path):
+    try:
+        from gate_read_cache import memo_read
+    except ImportError:
+        return
+    memo_read(path)
+
+
 def _renamed_symbols() -> dict[str, str]:
     """readable name -> original func_<addr> from config/names.tsv (tools/ccproc.py's alias table)."""
     global _RENAMED
+    _memo_read(ROOT / "config" / "names.tsv")
     if _RENAMED is None:
         _RENAMED = {}
         p = ROOT / "config" / "names.tsv"

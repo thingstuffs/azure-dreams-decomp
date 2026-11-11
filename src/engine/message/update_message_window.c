@@ -1,5 +1,6 @@
 #include "slus/owned_80038A10.h"
 
+#include "slus.h"
 #include "engine/message.h"
 
 /* Latches the message button and runs script actions until the window handler changes or execution stops. */

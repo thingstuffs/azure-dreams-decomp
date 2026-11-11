@@ -3,6 +3,7 @@
 #include "engine/graphics/sprite_scratch.h"
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
+#include "shared/gpu_packets.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -24,7 +25,7 @@ void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth)
     u8 **contexts;
     SpriteQuadScratch *scratch;
     void *prim;
-    u8 *context;
+    GpuContext *context;
     u8 *parts;
     void *part;
     void *packet;
@@ -43,8 +44,8 @@ void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth)
     scratch = (SpriteQuadScratch *)0x1F800000;
     depth = ot_depth;
     contexts = (u8 **)((void * *)(&g_game_work));
-    prim = *(void **)(context + 0x8D0);
-    scratch->ordering_table = (u32)(context + 0x70);
+    prim = context->packetCursor;
+    scratch->ordering_table = &context->orderTag070;
     scratch->input_z = 0x1000;
     scratch->translation_z = 0;
     scratch->vertices[3].z = 0;
@@ -232,7 +233,7 @@ next_part:
                 U32_AT(packet, 0) = color_code;
             }
             {
-                u32 ot_base;
+                u32 *ot_base;
                 ot_base = scratch->ordering_table;
                 packet = (u8 *)packet + 0x28;
                 AddPrim((u8 *)ot_base + ot_offset, draw_prim);

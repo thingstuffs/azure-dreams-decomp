@@ -21,12 +21,6 @@ typedef struct S_800BC3E4_1 {
     void * unk_0C;
 } S_800BC3E4_1;
 
-/* object in traverse_nodes_and_render_unflagged */
-typedef struct S_800BC3E4_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800BC3E4_2;
-
 /* primitive in traverse_nodes_and_render_unflagged */
 typedef struct S_800BC3E4_3 {
     u8 pad_00[0x2];

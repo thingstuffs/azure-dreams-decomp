@@ -33,7 +33,7 @@ const Rect D_80024038 = {832,256,96,88};
 const Rect rising_effect_texture_rect = {832,256,2,2};
 
 #include "dungeon/effect/screen.h"
-extern s32 random_dungeon_range_16(s32 bound_a, s32 bound_b);
+#include "dungeon/system/random_range.h"
 extern const u8 level_not_decreased_suffix[];
 
 /* Runs action 0x53 on the target after state and threshold checks. */

@@ -43,7 +43,7 @@ typedef struct S_80092E90_7 {
 
 
 /* Move toward the target tile, process matching list entries, and advance the effect state. */
-void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion, void *actor, ActorRecord *entry)
+void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entry)
 {
     s32 found_match;
     s32 tile_origin;
@@ -58,13 +58,13 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
 
     move_frames = g_dungeon_status.movement_frames_left;
     if (move_frames != 0) {
-        target_pos = ((SpriteFrameState *)actor)->tile_x << 6;
+        target_pos = sprite->tile_x << 6;
         tile_origin = motion->x.w.i - 0x20;
         motion->velocity_x =
             ((target_pos - tile_origin) << 16) / move_frames;
         tile_origin = motion->y.w.i;
         tile_origin -= 0x20;
-        target_pos = ((SpriteFrameState *)actor)->tile_y << 6;
+        target_pos = sprite->tile_y << 6;
         motion->velocity_y =
             ((target_pos - tile_origin) << 16) / g_dungeon_status.movement_frames_left;
     } else {
@@ -81,13 +81,13 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
     state = controller->action_phase;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)actor)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         initialize_timed_motion_step(0x10, 8);
-        (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
+        sprite->frameTable = D_800DCFF8;
         set_sprite_animation_frame(
-            actor,
+            sprite,
             D_800DCFF8[((g_game_work.view.camera_rotation.parts.viewAngle + entry->facing + 0x100) >> 9) & 7],
             0,
             1);
@@ -95,7 +95,7 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
         return;
 
     case 1:
-        if (!(((SpriteFrameState *)actor)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
 
@@ -127,7 +127,7 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->tile_x, ((SpriteFrameState *)actor)->tile_y);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         controller->unk_8C.address = handle_player_input;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
     default:

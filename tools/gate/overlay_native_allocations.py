@@ -6,6 +6,7 @@ accounted for. Only zero GNU section-end alignment padding may be removed.
 import ast,hashlib,json,re,struct,sys,shutil,tempfile,os,dataclasses
 from pathlib import Path
 from functools import lru_cache
+from gate_read_cache import memo_read
 import overlay_switch_allocations as X
 import overlay_symbolic_allocations as P
 MODEL='separated-literal-allocations-v1'
@@ -39,6 +40,7 @@ def _source_aliases(path,stamp):
  return aliases
 def source_symbol_pattern(symbol,root):
  names={symbol};table=Path(root)/'config/names.tsv'
+ memo_read(table)  # _source_aliases is a process memo: bind the table in every reader, not only the first
  if table.is_file():
   stat=table.stat();aliases=_source_aliases(str(table),(stat.st_dev,stat.st_ino,stat.st_mtime_ns,stat.st_ctime_ns,stat.st_size)).get(symbol,set())
   if len(aliases)>1 or any(not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*',n) for n in aliases):raise ValueError('ambiguous or invalid source ownership alias')

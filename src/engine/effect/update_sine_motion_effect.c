@@ -8,6 +8,9 @@
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
 #include "engine/effect.h"
+#include "slus.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 
 /* Advances a triggered sprite through curved and oscillating motion, then detaches it from its parent. */
 void update_sine_motion_effect(

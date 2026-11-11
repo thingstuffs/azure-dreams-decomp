@@ -220,23 +220,26 @@ void *submit_textured_quad(s32 draw_context, SpriteFrameState *draw_settings, vo
     } else {
         texture_page = ((S_800B0BE0_2 *)(*texture_cursor))->unk_04;
     }
-    ((S_800B0BE0_0 *)primitive)->unk_16 = (u16) texture_page;
-    u_start = ((S_800B0BE0_2 *)(*texture_cursor))->unk_08;
-    ((S_800B0BE0_0 *)primitive)->unk_1C = u_start;
-    ((S_800B0BE0_0 *)primitive)->unk_0C = u_start;
-    u_bounds = *texture_cursor;
-    u_end = (u_bounds->unk_08 + u_bounds->unk_0A) - 1;
-    ((S_800B0BE0_0 *)primitive)->unk_24 = u_end;
-    ((S_800B0BE0_0 *)primitive)->unk_14 = u_end;
-    v_start = ((S_800B0BE0_2 *)(*texture_cursor))->unk_09;
-    ((S_800B0BE0_0 *)primitive)->unk_15 = v_start;
-    ((S_800B0BE0_0 *)primitive)->unk_0D = v_start;
-    v_bounds = *texture_cursor;
-    submit_context = draw_context;
+    {
+        S_800B0BE0_0 *packet = (S_800B0BE0_0 *)primitive;
+        packet->unk_16 = (u16) texture_page;
+        u_start = ((S_800B0BE0_2 *)(*texture_cursor))->unk_08;
+        packet->unk_1C = u_start;
+        packet->unk_0C = u_start;
+        u_bounds = *texture_cursor;
+        u_end = (u_bounds->unk_08 + u_bounds->unk_0A) - 1;
+        packet->unk_24 = u_end;
+        packet->unk_14 = u_end;
+        v_start = ((S_800B0BE0_2 *)(*texture_cursor))->unk_09;
+        packet->unk_15 = v_start;
+        packet->unk_0D = v_start;
+        v_bounds = *texture_cursor;
+        submit_context = draw_context;
 
-    v_end = (v_bounds->unk_09 + v_bounds->unk_0B) - 1;
-    ((S_800B0BE0_0 *)primitive)->unk_25 = v_end;
-    ((S_800B0BE0_0 *)primitive)->unk_1D = v_end;
+        v_end = (v_bounds->unk_09 + v_bounds->unk_0B) - 1;
+        packet->unk_25 = v_end;
+        packet->unk_1D = v_end;
+    }
     AddPrim(submit_context, primitive);
     texture_entry = *texture_cursor;
     primitive += 0x28;

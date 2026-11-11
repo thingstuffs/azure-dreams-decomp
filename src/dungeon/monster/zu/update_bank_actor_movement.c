@@ -1,4 +1,6 @@
 #include "dungeon/item.h"
+#include "dungeon/item/message.h"
+#include "dungeon/player/object.h"
 #include "dungeon/system.h"
 #include "dungeon/effect/particle.h"
 #include "slus.h"
@@ -126,7 +128,6 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 
 typedef ActorActionHandler Callback;
 
-extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern Callback zu_callbacks[];
 
@@ -352,7 +353,6 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
    /* arg3 in update_bank_actor_state */
 
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
@@ -641,9 +641,7 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
-extern void *find_adjacent_actor(void *entity, u16 x, u16 y);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
 extern s16 actor_turn_angle_offsets[];
 
@@ -1107,7 +1105,6 @@ typedef struct S_80172494_8 {
     void * unk_3DE8;
 } S_80172494_8;
 
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern u8 directional_effect_entries[];
 extern void *actor_update_node_cursor;
 
@@ -1335,8 +1332,6 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 
-extern void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
-extern void set_record_integer_tile_center(void *, u8, u8);
 
 
    /* the 0x14 bytes before target in update_bank_actor_targeted_action, addressed as target[-1] */
@@ -1695,7 +1690,6 @@ typedef struct S_80173294_1 {
 
 #include "dungeon/level/unlink_entity_node_api.h"
 extern void distribute_experience_and_report_gains(EntityRec *entity);
-extern void * detach_record_and_update_slot_state(void *record);
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
 void advance_defeated_actor_launch_fade_and_removal(ActorRecord *effect_data, void *motion_data_arg, SpriteFrameState *sprite_data, void *object_data) {
@@ -2316,9 +2310,6 @@ void update_bank_effect_fade(void *effect_arg, ObjectPosition *position, SpriteF
 #include "records/Rec_D_80082E80.h"
 
 
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes();
-extern u8 *append_entity_display_text(void *record, u8 *out);
 
 
 const u8 D_80170854[20] = {129,64,130,146,130,143,130,129,130,146,130,133,130,132,129,68,0,0,0,0};
@@ -2363,7 +2354,7 @@ void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, Sp
         pass_result = raw_result;
         result = pass_result;
         raw_result = append_entity_display_text(call_arg, pass_result);
-        clear_byte_and_advance(expand_text_control_codes(&D_80170854, raw_result));
+        clear_byte_and_advance(expand_text_control_codes(D_80170854, raw_result));
         display_text_with_fullwidth_adjustment(result);
     }
 }

@@ -1,9 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_aliases.h"
 #include "frontend/card/server_imports.h"
 
-
-extern s32 card_ui_dirty_flags;
 
 /* Updates the object's indirect value and sets the object and global 0x8000 flags. */
 void refresh_object_value(void *object) {

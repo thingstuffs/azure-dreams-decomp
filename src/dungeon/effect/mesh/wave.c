@@ -29,11 +29,8 @@ const Copy24 wave_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-3
 
 extern void func_80067EF4(void *, s32, s32);
 
-typedef POLY_FT4 *(*SpritePartDraw)(void *context, ObjectPosition *position, SpriteFrameState *sprite,
-                                     SpritePartCommand *part, POLY_FT4 *packet);
-
 /* Draw sprite parts as textured strips displaced by a wave along either axis. */
-void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wave, void *context, s32 *ordering_table, s32 draw_control)
+void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wave, void *context, u32 *ordering_table, s32 draw_control)
 {
     POLY_FT4 base_quad;
     POLY_FT4 strip_quad;
@@ -50,7 +47,7 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     s32 phase;
     s32 row_phase;
     s32 column_phase;
-    SpritePartDraw draw_part;
+    SpritePartCallback draw_part;
     u32 *row_link;
     u32 *column_link;
     u32 *start_link;
@@ -89,7 +86,7 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     scratch->vertices[1].z = 0;
     scratch->vertices[0].z = 0;
     packet = ((GpuContext *) g_game_work.draw_buffer)->packetCursor;
-    scratch->ordering_table = (u32) ordering_table;
+    scratch->ordering_table = ordering_table;
     scratch->sort_depth = 0;
     scratch->screen_origin.x = screen_pos->x - 0xA0;
     scratch->screen_origin.y = screen_pos->y - 0x78;
@@ -98,8 +95,8 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     if ((draw_control << 0x10) != 0) {
         func_80067EF4(packet, 0, 0);
         tag_mask = 0xFF000000;
-        packet->tag = (packet->tag & 0xFF000000) | (*(u32 *) scratch->ordering_table & 0xFFFFFF);
-        start_link = (u32 *) scratch->ordering_table;
+        packet->tag = (packet->tag & 0xFF000000) | (*scratch->ordering_table & 0xFFFFFF);
+        start_link = scratch->ordering_table;
         screen_link = (u32) packet & 0xFFFFFF;
         packet = (POLY_FT4 *) ((u32 *) packet + 3);
         *start_link = (*start_link & 0xFF000000) | screen_link;
@@ -273,8 +270,8 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
                     packet->v1 = strip_quad.v0;
                     packet->v2 = strip_quad.v0 + 1;
                     packet->v3 = strip_quad.v0 + 1;
-                    packet->tag = (packet->tag & 0xFF000000) | (*(u32 *) scratch->ordering_table & 0xFFFFFF);
-                    row_link = (u32 *) scratch->ordering_table;
+                    packet->tag = (packet->tag & 0xFF000000) | (*scratch->ordering_table & 0xFFFFFF);
+                    row_link = scratch->ordering_table;
                     *row_link = (*row_link & 0xFF000000) | ((u32) packet & 0xFFFFFF);
                     strip_quad = *packet;
                     next_y = strip_quad.y0 + 1;
@@ -321,8 +318,8 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
                                 packet->u1 = strip_quad.u0 + 1;
                                 packet->u3 = strip_quad.u0 + 1;
                                 packet->tag = (packet->tag & 0xFF000000)
-                                | (*(u32 *) scratch->ordering_table & 0xFFFFFF);
-                                column_link = (u32 *) scratch->ordering_table;
+                                | (*scratch->ordering_table & 0xFFFFFF);
+                                column_link = scratch->ordering_table;
                                 *column_link = (*column_link & 0xFF000000) | ((u32) packet & 0xFFFFFF);
                                 strip_quad = *packet;
                                 next_x = strip_quad.x0 + 1;
@@ -341,7 +338,7 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
             }
         }
         else {
-            draw_part = (SpritePartDraw)part->data.callback;
+            draw_part = part->data.callback;
             if (draw_part != 0) {
                 packet = draw_part(context, callback_arg, sprite, part, packet);
             }
@@ -354,8 +351,8 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     end_packet = packet;
     if ((saved_draw_control << 0x10) != 0) {
         func_80067EF4(end_packet, 0, 1);
-        packet->tag = (packet->tag & 0xFF000000) | (*(u32 *) scratch->ordering_table & 0xFFFFFF);
-        end_link = (u32 *) scratch->ordering_table;
+        packet->tag = (packet->tag & 0xFF000000) | (*scratch->ordering_table & 0xFFFFFF);
+        end_link = scratch->ordering_table;
         end_packet = (POLY_FT4 *) ((u32) packet & 0xFFFFFF);
         packet = (POLY_FT4 *) ((u32 *) packet + 3);
         *end_link = (*end_link & 0xFF000000) | (u32) end_packet;

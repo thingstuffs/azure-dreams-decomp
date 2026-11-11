@@ -1,6 +1,8 @@
 #include "dungeon/item.h"
+#include "dungeon/item/message/buffer.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/system/random_range.h"
 #include "common.h"
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "engine/node/registration.h"
@@ -514,9 +516,7 @@ typedef struct {
 
 extern s32 D_800E0B54;
 
-extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 
 extern s32 find_first_empty_floor_item_slot(void);
 struct DungeonDescriptor;
@@ -1336,7 +1336,6 @@ typedef struct {
 extern u8 D_800A871C[];
 
 extern void * allocate_list_node(s32 flags, void **list_head);
-extern void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */
@@ -1512,9 +1511,7 @@ void pack_item_flag_400_bitmap(u16 unused_saved_setting)
 struct EntityLinkNode;
 struct Node;
 
-extern s16 has_recorded_value_pair(s32 highByte, s32 lowByte);
 extern s32 generate_random_value(void);
-extern s32 random_dungeon_range_16(s32, s32);
 
 extern s16 current_dungeon_floor;
 

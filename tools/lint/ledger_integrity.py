@@ -48,6 +48,11 @@
 (d) weak evidence (report only): retired rows that carry load counts, by how many
     mapped loads (lb, lbu, lh, lhu, lw; stores never vote) the decision rests on.
 
+(f) public ledgers (audit rule R12, tools/lint/ledger_public.py): the public files that differ from BASE
+    (ledger/*.jsonl|json, tools/**/*baseline*.json, config/*.tsv) must not gain lane-local strings: work/ or
+    out/ paths, home or session scratch paths, lane names.  --fail-new and --fail-all both fail on a NEW one
+    (strings already on BASE are the historical journals' and are only counted by `ledger_public.py census`).
+
 --rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
 the same cast spelling that passes the field rule, following the file's history from the
 newest committed version where the entry held (cast and field), unique per row; a line that
@@ -67,6 +72,9 @@ import re
 import shutil
 import subprocess
 import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import ledger_public  # noqa: E402
 
 LEDGER = 'ledger/unions.jsonl'
 LOAD_OPS = ('lb', 'lbu', 'lh', 'lhu', 'lw')
@@ -838,7 +846,9 @@ def main(argv=None):
             print(f'  EVIDENCE-LOADS {rid}: {op} stated {numbers}, loads field has {actual}')
     for problem in loads['problems']:
         print('LOADS ' + problem)
-    failed = bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
+    lane_local = ledger_public.check(root, args.base)
+    failed = (bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
+              or ((args.fail_new or args.fail_all) and lane_local > 0))
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))
     return 1 if failed else 0
 

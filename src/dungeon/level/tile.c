@@ -1069,32 +1069,26 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
 }
 #include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
 
-typedef struct Rec
-{
-    u8 pad[0x5c];
-    u8 *next;
-}
-Rec;
 /* Finds an eligible entry at the requested coordinates after checking the tile to the left. */
-void *find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y)
+void *find_eligible_entry_at_coordinates(ActorRecord *entry, s16 x, s16 y)
 {
     u16 tile_flags;
-    u8 *list_head;
+    ActorRecord *list_head;
     u16 tile_x;
     u16 tile_y;
     tile_x = x;
     tile_y = y;
     list_head = entry;
     if (((get_offset_map_cell_value_and_flags((s16) (tile_x - 1), y, 0, &tile_flags) << 0x10) == 0) || ((tile_flags & 0x3300) != 0)) {
-        entry = ((Rec *) entry)->next + 0x20;
+        entry = NODE_BODY(entry->next_actor_header);
         if (entry != list_head) {
             do {
-                u8 *entry_data = *((u8 **) (entry - 0x14));
-                if ((((*((entry_data + 0x24))) == tile_x) && ((*((entry_data + 0x25))) == tile_y))
+                SpriteFrameState *entry_data = NODE_HEADER(entry)->sprite;
+                if (((entry_data->tile_x) == tile_x) && ((entry_data->tile_y) == tile_y)
                     && ((check_entity_eligibility(entry) << 0x10) != 0)) {
                     return entry;
                 }
-                entry = ((Rec *) entry)->next + 0x20;
+                entry = NODE_BODY(entry->next_actor_header);
             }
             while (entry != list_head);
         }

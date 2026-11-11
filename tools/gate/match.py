@@ -386,10 +386,19 @@ def local_table_diffs(obj, elf, placements, vram, container, foff):
     return out
 
 
+def _memo_read(path):
+    try:
+        from gate_read_cache import memo_read
+    except ImportError:
+        return
+    memo_read(path)
+
+
 _NAMES_ALIAS = None
 def _names_alias():
     """readable name -> original func_<addr> from config/names.tsv (tools/ccproc.py's table)."""
     global _NAMES_ALIAS
+    _memo_read(os.path.join(ROOT, "config", "names.tsv"))
     if _NAMES_ALIAS is None:
         _NAMES_ALIAS = {}
         p = os.path.join(ROOT, "config", "names.tsv")

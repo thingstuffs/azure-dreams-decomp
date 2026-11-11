@@ -2489,7 +2489,7 @@ void restore_snowman_scene_tint(u8 *task, void *context, SpriteFrameState *input
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void advance_actor_transition_and_restore_facing(ActorRecord *transition, ObjectPosition *position, SpriteFrameState *record, void *actor) {
+void advance_actor_transition_and_restore_facing(ActorRecord *transition, ObjectPosition *position, SpriteFrameState *record, ActorRecord *actor) {
     void *object_data = ((&g_game_work));
     u8 state;
     u32 next_state;
@@ -2506,20 +2506,20 @@ void advance_actor_transition_and_restore_facing(ActorRecord *transition, Object
         run_cd_image_commands(snowman_image_commands, snowman_image_load_done, 0);
         transition->unk_AC.halves.low.s = 0;
         transition->action_phase++;
-        ((R10_80175398_S_80175398_1 *)actor)->unk_8A = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
+        actor->unk_8A = actor->facing;
 
     case 2:
     {
         s32 direction;
         u16 angle;
 
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80175398_S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
-        angle = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
+        angle = actor->facing;
         if (snowman_image_load_done[0] == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u = angle + 0x200;
+            actor->facing = angle + 0x200;
             return;
         }
         run_cd_image_commands(snowman_image_commands, snowman_image_load_done, 1);
@@ -2527,7 +2527,7 @@ void advance_actor_transition_and_restore_facing(ActorRecord *transition, Object
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
         (*snowman_effect_load_done) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), snowman_effect_load_done);
-        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
         transition->action_timer = 0x10;
         transition->action_phase++;
     }
@@ -2628,25 +2628,25 @@ void advance_actor_transition_and_restore_facing(ActorRecord *transition, Object
         }
         transition->action_timer = 0x10;
         transition->action_phase++;
-        decrement_monster_entry_count(((R10_80175398_S_80175398_1 *)actor)->unk_13, 3);
+        decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(record->tile_x, record->tile_y, 0x300);
-        unlink_entity_node(actor);
-        object_data = (u8 *)actor - 0x20;
+        unlink_entity_node((struct EntityLinkNode *)actor);
+        object_data = NODE_HEADER(actor);
         ((R10_80175398_S_80175398_2 *)object_data)->unk_10 |= 0x80000000;
         return;
 
     case 7:
     {
         u8 *linked_actor = advance_staged_entity_load(record, actor);
-        ((R10_80175398_S_80175398_1 *)actor)->unk_60 = linked_actor;
+        actor->target = linked_actor;
         if (linked_actor == NULL) {
             return;
         }
         transition->action_timer = 0x10;
         transition->action_phase++;
-        ((R10_80175398_S_80175398_7 *)(((R10_80175398_S_80175398_1 *)actor)->unk_60))->unk_2A = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
+        ((R10_80175398_S_80175398_7 *)(actor->target))->unk_2A = actor->facing;
         {
-            u8 *linked_state = ((R10_80175398_S_80175398_1 *)actor)->unk_60;
+            u8 *linked_state = actor->target;
             s32 direction;
             u8 *direction_frames;
 
@@ -2667,13 +2667,13 @@ void advance_actor_transition_and_restore_facing(ActorRecord *transition, Object
         }
         {
 
-            ((R10_80175398_S_80175398_7 *)(((R10_80175398_S_80175398_1 *)actor)->unk_60))->unk_2A = ((R10_80175398_S_80175398_1 *)actor)->unk_8A;
+            ((R10_80175398_S_80175398_7 *)(actor->target))->unk_2A = actor->unk_8A;
             NODE_HEADER(transition)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
     }
-        ((R10_80175398_S_80175398_1 *)actor)->unk_6D = 0;
+        actor->pending_turn_updates = 0;
 
         return;
     default:

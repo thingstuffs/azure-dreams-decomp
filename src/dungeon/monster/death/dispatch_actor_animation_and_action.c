@@ -24,23 +24,6 @@ extern void func_801743F0(void *, void *, void *, void *);
 
 extern s32 death_action_resume_address;
 
-typedef struct S_801719DC_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    u32 pad_A4;
-    s32 unk_A8;
-    s32 unk_AC;
-    s32 unk_B0;
-    u8 pad_B4[0x4];
-    s16 unk_B8;
-} S_801719DC_0;   /* arg0 in dispatch_actor_animation_and_action */
 
 
 /* Update actor animation, facing, and action dispatch from dungeon state. */
@@ -112,10 +95,12 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                     entity_in->frame_ticks = 1;
                     motion_value = motion_in->unk_A4.value;
                     motion_in->unk_A4.halves.high.s = 0;
-                    ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
+                    /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                    *(u16 *)&motion_in->unk_B8 = 0;
                     motion_in->unk_AC.value = 0;
                     motion_in->unk_B0.value = 0;
-                    ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
+                    /* BYTES: this action handler saves the +0xA4 scratch word in the +0xA8..+0xAB action scratch as one word (sw) over the halfword ActorRecord declares there */
+                    *(s32 *)&motion_in->unk_A8 = motion_value;
                 }
                 motion_in->action_id = next_state;
             }
@@ -140,11 +125,13 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
             offset_delta = motion_in->unk_A4.halves.high.u;
             motion_value = motion_in->unk_A4.value;
             motion_in->unk_A4.halves.high.s = 0;
-            ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
+            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            *(u16 *)&motion_in->unk_B8 = 0;
             motion_in->unk_AC.value = 0;
             motion_in->unk_B0.value = 0;
             motion_in->unk_90.parts.high = base_offset - offset_delta;
-            ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
+            /* BYTES: this action handler saves the +0xA4 scratch word in the +0xA8..+0xAB action scratch as one word (sw) over the halfword ActorRecord declares there */
+            *(s32 *)&motion_in->unk_A8 = motion_value;
             func_801743F0(motion_in, context_in, entity_in, actor_in);
             return;
         }
@@ -279,10 +266,12 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
             entity_in->frame_ticks = 1;
             motion_value = motion_in->unk_A4.value;
             motion_in->unk_A4.halves.high.s = 0;
-            ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
+            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            *(u16 *)&motion_in->unk_B8 = 0;
             motion_in->unk_AC.value = 0;
             motion_in->unk_B0.value = 0;
-            ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
+            /* BYTES: this action handler saves the +0xA4 scratch word in the +0xA8..+0xAB action scratch as one word (sw) over the halfword ActorRecord declares there */
+            *(s32 *)&motion_in->unk_A8 = motion_value;
         }
     }
 }

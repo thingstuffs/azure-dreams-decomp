@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/glacier/projected_depth.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -26,7 +27,6 @@ extern s32 find_active_rect_containing_point(s32, s32);
 
 extern void initialize_object_rendering_and_params(ObjectNodeHeader *, void *, ObjectPosition *);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8017412C(void *, void *, void *, void *);
 extern void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 

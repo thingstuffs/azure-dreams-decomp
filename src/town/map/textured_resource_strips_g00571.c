@@ -382,26 +382,29 @@ void *project_visible_textured_strips(void *origin_arg, void *render_flags, Town
             }
             if ((first_three_visible | corner_visible) != 0) {
                 right_quad = prim_buffer + 0x28;
-                ((S_800A41D8_2 *)prim_buffer)->unk_08 = draw_state->unk_F0.at00u.v;
-                ((S_800A41D8_2 *)prim_buffer)->unk_18 = draw_state->unk_F8.at00u.v;
-                ((S_800A41D8_2 *)prim_buffer)->unk_38 = draw_state->unk_F4.at00u.v;
-                ((S_800A41D8_2 *)prim_buffer)->unk_48 = draw_state->unk_FC.at00u.v;
-                coord_value = (s32) ((s16) draw_state->unk_F0.at00.v
-                    + (s16) draw_state->unk_F4.at00.v) >> 1;
-                right_quad->unk_08 = (s16) coord_value;
-                ((S_800A41D8_2 *)prim_buffer)->unk_10 = (s16) coord_value;
-                bottom_x = (s32) ((s16) draw_state->unk_F8.at00.v
-                    + (s16) draw_state->unk_FC.at00.v) >> 1;
-                right_quad->unk_18 = (s16) bottom_x;
-                ((S_800A41D8_2 *)prim_buffer)->unk_20 = (s16) bottom_x;
-                top_y = (s32) ((s16) draw_state->unk_F0.at02.v
-                    + (s16) draw_state->unk_F4.at02.v) >> 1;
-                right_quad->unk_0A = (s16) top_y;
-                ((S_800A41D8_2 *)prim_buffer)->unk_12 = (s16) top_y;
-                bottom_y = (s32) ((s16) draw_state->unk_F8.at02.v
-                    + (s16) draw_state->unk_FC.at02.v) >> 1;
-                right_quad->unk_1A = (s16) bottom_y;
-                ((S_800A41D8_2 *)prim_buffer)->unk_22 = (s16) bottom_y;
+                {
+                    S_800A41D8_2 *left_view = (S_800A41D8_2 *)prim_buffer;
+                    left_view->unk_08 = draw_state->unk_F0.at00u.v;
+                    left_view->unk_18 = draw_state->unk_F8.at00u.v;
+                    left_view->unk_38 = draw_state->unk_F4.at00u.v;
+                    left_view->unk_48 = draw_state->unk_FC.at00u.v;
+                    coord_value = (s32) ((s16) draw_state->unk_F0.at00.v
+                        + (s16) draw_state->unk_F4.at00.v) >> 1;
+                    right_quad->unk_08 = (s16) coord_value;
+                    left_view->unk_10 = (s16) coord_value;
+                    bottom_x = (s32) ((s16) draw_state->unk_F8.at00.v
+                        + (s16) draw_state->unk_FC.at00.v) >> 1;
+                    right_quad->unk_18 = (s16) bottom_x;
+                    left_view->unk_20 = (s16) bottom_x;
+                    top_y = (s32) ((s16) draw_state->unk_F0.at02.v
+                        + (s16) draw_state->unk_F4.at02.v) >> 1;
+                    right_quad->unk_0A = (s16) top_y;
+                    left_view->unk_12 = (s16) top_y;
+                    bottom_y = (s32) ((s16) draw_state->unk_F8.at02.v
+                        + (s16) draw_state->unk_FC.at02.v) >> 1;
+                    right_quad->unk_1A = (s16) bottom_y;
+                    left_view->unk_22 = (s16) bottom_y;
+                }
                 strip_offset = (s16) draw_state->unk_74 % 3584;
                 draw_state->unk_90 = (s32) strip_offset;
                 coord_value = (strip_offset / 256);
@@ -416,18 +419,23 @@ void *project_visible_textured_strips(void *origin_arg, void *render_flags, Town
                 }
                 half_index = 0;
                 right_colors = prim_buffer + 0x28;
-                ((S_800A41D8_2 *)prim_buffer)->unk_06 = (s8) shade;
-                right_colors->unk_06 = (s8) shade;
-                ((S_800A41D8_2 *)prim_buffer)->unk_05 = (s8) shade;
-                right_colors->unk_05 = (s8) shade;
-                ((S_800A41D8_2 *)prim_buffer)->unk_04 = (s8) shade;
-                ((S_800A41D8_2 *)prim_buffer)->unk_2C = (s8) shade;
+                {
+                    S_800A41D8_2 *shade_view = (S_800A41D8_2 *)prim_buffer;
+                    shade_view->unk_06 = (s8) shade;
+                    right_colors->unk_06 = (s8) shade;
+                    shade_view->unk_05 = (s8) shade;
+                    right_colors->unk_05 = (s8) shade;
+                    shade_view->unk_04 = (s8) shade;
+                    shade_view->unk_2C = (s8) shade;
+                }
                 texture_entry = draw_state->unk_118.n + ((((strip_index & 1) * 2) + ((s32) (texture_id
                     << 0x10) >> 0xE)) * 0xC);
                 do {
+                    S_800A41D8_5 *quad_view = (S_800A41D8_5 *)prim_buffer;
+                    S_800A41D8_2 *uv_view = (S_800A41D8_2 *)prim_buffer;
                     SetPolyFT4(prim_buffer);
-                    ((S_800A41D8_5 *)prim_buffer)->unk_07 =
-                        (u8) (((S_800A41D8_5 *)prim_buffer)->unk_07
+                    quad_view->unk_07 =
+                        (u8) (quad_view->unk_07
                         | (((S_800A41D8_6 *)render_flags)->unk_0F & 2));
                     draw_state->unk_08.n = (s32) ((S_800A41D8_7 *)texture_entry)->unk_08;
                     draw_state->unk_0C.n = (s32) ((S_800A41D8_7 *)texture_entry)->unk_09;
@@ -444,25 +452,25 @@ void *project_visible_textured_strips(void *origin_arg, void *render_flags, Town
                     draw_state->unk_14.n = uv_value;
                     draw_state->unk_10 = (s32) (draw_state->unk_10 + uv_left);
                     uv_value_2 = draw_state->unk_08.v;
-                    ((S_800A41D8_2 *)prim_buffer)->uv_0 = (s32) ((uv_top + uv_value_2)
+                    uv_view->uv_0 = (s32) ((uv_top + uv_value_2)
                         | (((S_800A41D8_7 *)texture_entry)->unk_06 << 0x10));
-                    ((S_800A41D8_2 *)prim_buffer)->uv_1 = (s32) ((draw_state->unk_0C.n
+                    uv_view->uv_1 = (s32) ((draw_state->unk_0C.n
                         + draw_state->unk_10) | (((S_800A41D8_7 *)texture_entry)->unk_04 << 0x10));
-                    ((S_800A41D8_2 *)prim_buffer)->uv_2 = (s16) ((u16) draw_state->unk_14.n
+                    uv_view->uv_2 = (s16) ((u16) draw_state->unk_14.n
                         + (u16) draw_state->unk_08.n);
-                    right_u = (u8)(((S_800A41D8_5 *)prim_buffer)->unk_14 - 1);
+                    right_u = (u8)(quad_view->unk_14 - 1);
                     uv_bottom = (u16) draw_state->unk_14.n;
                     uv_right = (u16) draw_state->unk_10;
                     bottom_right_uv = uv_bottom + uv_right;
-                    ((S_800A41D8_2 *)prim_buffer)->uv_3 = (s16) bottom_right_uv;
+                    uv_view->uv_3 = (s16) bottom_right_uv;
                     do {
-                        ((S_800A41D8_5 *)prim_buffer)->unk_14 = (u8) right_u;
+                        quad_view->unk_14 = (u8) right_u;
                     } while (0);
-                    ((S_800A41D8_5 *)prim_buffer)->unk_24 =
-                        (u8) (((S_800A41D8_5 *)prim_buffer)->unk_24 - 1);
-                    ((S_800A41D8_5 *)prim_buffer)->unk_1D =
-                        (u8) (((S_800A41D8_5 *)prim_buffer)->unk_1D - 1);
-                    ((S_800A41D8_5 *)prim_buffer)->unk_25 = (u8) (((S_800A41D8_5 *)prim_buffer)->unk_25 - 1);
+                    quad_view->unk_24 =
+                        (u8) (quad_view->unk_24 - 1);
+                    quad_view->unk_1D =
+                        (u8) (quad_view->unk_1D - 1);
+                    quad_view->unk_25 = (u8) (quad_view->unk_25 - 1);
                     AddPrim(draw_state->unk_20.n
                         + (((u32) ((s32) (0 - ((texture_entry - draw_state->unk_118.n) * 0x55555555))
                         >> 2) / 12U) * 4), prim_buffer);

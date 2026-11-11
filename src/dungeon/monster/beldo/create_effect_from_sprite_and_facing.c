@@ -24,7 +24,7 @@ extern M2C_UNK D_80170D44;
 
 
 /* Creates an effect using the supplied sprite data, transform, and facing. */
-void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, ActorRecord *facing_source) {
+void create_effect_from_sprite_and_facing(void *unused, ObjectPosition *source_transform, void *sprite_template, ActorRecord *facing_source) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
     BeldoExpandingFadeBody *effect_state;
@@ -65,8 +65,8 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->facing + 0x100) >> 9) & 7)
             + beldo_frame_set_3), 0);
         transform = effect->position;
-        transform->x.w.i = (u16) source_transform->x;
-        transform->y.w.i = (u16) source_transform->y;
-        transform->z.w.i = (u16) source_transform->z;
+        transform->x.w.i = source_transform->x.w.i;
+        transform->y.w.i = source_transform->y.w.i;
+        transform->z.w.i = source_transform->z.w.i;
     }
 }

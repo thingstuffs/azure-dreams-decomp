@@ -9,6 +9,7 @@
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
 #include "dungeon/level.h"
+#include "dungeon/system/random_range.h"
 #include "engine/node.h"
 struct ObjectNodeHeader;
 typedef struct {
@@ -104,7 +105,6 @@ extern s32 floor_loaded_content_flags[];
 extern s32 test_resident_bit(s16 value);
 extern s32 func_80033BC0(s32);
 extern s16 spawn_category_weight_totals[];
-extern s32 random_dungeon_range_16(s32, s32);
 extern u8 D_80010000[];
 /* One leading experience word followed by the 100 threshold words built by
  * build_cubic_cumulative_table. These are overlapping word views, not pairs

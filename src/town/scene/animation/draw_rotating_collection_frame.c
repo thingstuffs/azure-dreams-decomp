@@ -5,7 +5,6 @@
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 extern u8 D_80528910[];
 extern u16 D_80132AEA[];
-extern void create_object_pair_word(void *, void *, void *, void *);
 /* Draw three stacked rotating square outlines with complementary grayscale colors. */
 void draw_rotating_collection_frame(TownCollectionSequence *object)
 {

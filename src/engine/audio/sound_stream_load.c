@@ -2,6 +2,7 @@
 #include "slus/gp_af3_pair.h"
 #include "common.h"
 #include "engine/cd.h"
+#include "sdk/libgpu.h"
 #include "slus.h"
 
 

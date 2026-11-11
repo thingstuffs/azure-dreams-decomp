@@ -257,26 +257,29 @@ s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB
                 visible_right = screen_y < 0x121U;
             }
             if ((visible_left | visible_right) != 0) {
-                ((StripPacket *)packet_buffer)->near_quad.unk_04 = render_data_in->unk_F0.at00u.v;
-                ((StripPacket *)packet_buffer)->near_quad.unk_1C = render_data_in->unk_F8.at00u.v;
-                ((StripPacket *)packet_buffer)->near_quad.unk_44 = render_data_in->unk_F4.at00u.v;
-                ((StripPacket *)packet_buffer)->far_quad.unk_10 = render_data_in->unk_FC.at00u.v;
-                near_mid_x = (render_data_in->unk_F0.at00p.v
-                    + render_data_in->unk_F4.at00p.v) >> 1;
-                ((StripPacket *)packet_buffer)->near_quad.unk_38 = near_mid_x;
-                ((StripPacket *)packet_buffer)->near_quad.unk_10 = near_mid_x;
-                far_mid_x = (render_data_in->unk_F8.at00p.v
-                    + render_data_in->unk_FC.at00p.v) >> 1;
-                ((StripPacket *)packet_buffer)->far_quad.unk_04 = far_mid_x;
-                ((StripPacket *)packet_buffer)->near_quad.unk_28 = far_mid_x;
-                near_mid_y = (render_data_in->unk_F0.at02u.v
-                    + render_data_in->unk_F4.at02u.v) >> 1;
-                ((StripPacket *)packet_buffer)->near_quad.unk_3A = near_mid_y;
-                ((StripPacket *)packet_buffer)->near_quad.unk_12 = near_mid_y;
-                far_mid_y = (render_data_in->unk_F8.at02u.v
-                    + render_data_in->unk_FC.at02u.v) >> 1;
-                ((StripPacket *)packet_buffer)->far_quad.unk_06 = far_mid_y;
-                ((StripPacket *)packet_buffer)->near_quad.unk_2A = far_mid_y;
+                {
+                    StripPacket *geometry_view = (StripPacket *)packet_buffer;
+                    geometry_view->near_quad.unk_04 = render_data_in->unk_F0.at00u.v;
+                    geometry_view->near_quad.unk_1C = render_data_in->unk_F8.at00u.v;
+                    geometry_view->near_quad.unk_44 = render_data_in->unk_F4.at00u.v;
+                    geometry_view->far_quad.unk_10 = render_data_in->unk_FC.at00u.v;
+                    near_mid_x = (render_data_in->unk_F0.at00p.v
+                        + render_data_in->unk_F4.at00p.v) >> 1;
+                    geometry_view->near_quad.unk_38 = near_mid_x;
+                    geometry_view->near_quad.unk_10 = near_mid_x;
+                    far_mid_x = (render_data_in->unk_F8.at00p.v
+                        + render_data_in->unk_FC.at00p.v) >> 1;
+                    geometry_view->far_quad.unk_04 = far_mid_x;
+                    geometry_view->near_quad.unk_28 = far_mid_x;
+                    near_mid_y = (render_data_in->unk_F0.at02u.v
+                        + render_data_in->unk_F4.at02u.v) >> 1;
+                    geometry_view->near_quad.unk_3A = near_mid_y;
+                    geometry_view->near_quad.unk_12 = near_mid_y;
+                    far_mid_y = (render_data_in->unk_F8.at02u.v
+                        + render_data_in->unk_FC.at02u.v) >> 1;
+                    geometry_view->far_quad.unk_06 = far_mid_y;
+                    geometry_view->near_quad.unk_2A = far_mid_y;
+                }
                 depth_step = (s16)render_data_in->unk_74 % 3584;
                 render_data_in->unk_90.s32 = depth_step;
                 if (depth_step < 0) {
@@ -304,18 +307,21 @@ s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB
                 coord_bits = clamp_vertex - 0x10;
                 clamp_vertex = coord_bits;
                 coord_bits <<= 0x10;
-                ((StripPacket *)packet_buffer)->near_quad.unk_02 = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_0E = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_42 = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_36 = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_01 = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_0D = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_41 = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_35 = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_00 = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_0C = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_40 = shade_uv;
-                ((StripPacket *)packet_buffer)->near_quad.unk_34 = shade_uv;
+                {
+                    StripPacket *shade_view = (StripPacket *)packet_buffer;
+                    shade_view->near_quad.unk_02 = shade_uv;
+                    shade_view->near_quad.unk_0E = shade_uv;
+                    shade_view->near_quad.unk_42 = shade_uv;
+                    shade_view->near_quad.unk_36 = shade_uv;
+                    shade_view->near_quad.unk_01 = shade_uv;
+                    shade_view->near_quad.unk_0D = shade_uv;
+                    shade_view->near_quad.unk_41 = shade_uv;
+                    shade_view->near_quad.unk_35 = shade_uv;
+                    shade_view->near_quad.unk_00 = shade_uv;
+                    shade_view->near_quad.unk_0C = shade_uv;
+                    shade_view->near_quad.unk_40 = shade_uv;
+                    shade_view->near_quad.unk_34 = shade_uv;
+                }
                 shade_uv = coord_bits >> 0x10;
                 if (shade_uv >= 0x81) {
                     clamp_vertex = 0x80;
@@ -325,20 +331,24 @@ s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB
                     }
                 }
                 quad_index = 0;
-                ((StripPacket *)packet_buffer)->near_quad.unk_1A = clamp_vertex;
-                ((StripPacket *)packet_buffer)->near_quad.unk_26 = clamp_vertex;
-                ((StripPacket *)packet_buffer)->far_quad.unk_0E = clamp_vertex;
-                ((StripPacket *)packet_buffer)->far_quad.unk_02 = clamp_vertex;
-                ((StripPacket *)packet_buffer)->near_quad.unk_19 = clamp_vertex;
-                ((StripPacket *)packet_buffer)->near_quad.unk_25 = clamp_vertex;
-                ((StripPacket *)packet_buffer)->far_quad.unk_0D = clamp_vertex;
-                ((StripPacket *)packet_buffer)->far_quad.unk_01 = clamp_vertex;
-                ((StripPacket *)packet_buffer)->near_quad.unk_18 = clamp_vertex;
-                ((StripPacket *)packet_buffer)->near_quad.unk_24 = clamp_vertex;
-                ((StripPacket *)packet_buffer)->far_quad.unk_0C = clamp_vertex;
-                ((StripPacket *)packet_buffer)->far_quad.unk_00 = clamp_vertex;
+                {
+                    StripPacket *clamp_view = (StripPacket *)packet_buffer;
+                    clamp_view->near_quad.unk_1A = clamp_vertex;
+                    clamp_view->near_quad.unk_26 = clamp_vertex;
+                    clamp_view->far_quad.unk_0E = clamp_vertex;
+                    clamp_view->far_quad.unk_02 = clamp_vertex;
+                    clamp_view->near_quad.unk_19 = clamp_vertex;
+                    clamp_view->near_quad.unk_25 = clamp_vertex;
+                    clamp_view->far_quad.unk_0D = clamp_vertex;
+                    clamp_view->far_quad.unk_01 = clamp_vertex;
+                    clamp_view->near_quad.unk_18 = clamp_vertex;
+                    clamp_view->near_quad.unk_24 = clamp_vertex;
+                    clamp_view->far_quad.unk_0C = clamp_vertex;
+                    clamp_view->far_quad.unk_00 = clamp_vertex;
+                }
                 texture_entry = (TwelveByteEntry *)render_data_in->unk_118 + (((strip_index & 1) << 1) + ((s16)texture_index << 2));
                 do {
+                    StripQuad *quad_view = (StripQuad *)packet_buffer;
                     SetPolyGT4(packet_buffer);
                     info_byte = texture_entry->bytes[8];
                     render_data_in->unk_08.s32 = info_byte;
@@ -366,34 +376,34 @@ s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB
                     shade_uv += vertex_value;
                     coord_bits <<= 0x10;
                     shade_uv |= coord_bits;
-                    ((StripQuad *)packet_buffer)->uv0 = shade_uv;
+                    quad_view->uv0 = shade_uv;
                     coord_bits = render_data_in->unk_0C;
                     shade_uv = render_data_in->unk_10.s32;
                     vertex_value = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_00;
                     coord_bits += shade_uv;
                     vertex_value <<= 0x10;
                     coord_bits |= vertex_value;
-                    ((StripQuad *)packet_buffer)->uv1.word = coord_bits;
+                    quad_view->uv1.word = coord_bits;
                     coord_bits = render_data_in->unk_14.u16;
                     vertex_value = render_data_in->unk_08.u16;
                     coord_bits += vertex_value;
-                    ((StripQuad *)packet_buffer)->uv2.half = coord_bits;
+                    quad_view->uv2.half = coord_bits;
                     vertex_value = render_data_in->unk_14.u16;
-                    coord_bits = ((StripQuad *)packet_buffer)->uv1.u;
+                    coord_bits = quad_view->uv1.u;
                     shade_uv = render_data_in->unk_10.u16;
                     coord_bits -= 1;
                     vertex_value += shade_uv;
-                    ((StripQuad *)packet_buffer)->uv1.u = coord_bits;
-                    ((StripQuad *)packet_buffer)->uv3.half = vertex_value;
-                    coord_bits = ((StripQuad *)packet_buffer)->uv3.b.u;
-                    vertex_value = ((StripQuad *)packet_buffer)->uv2.b.v;
+                    quad_view->uv1.u = coord_bits;
+                    quad_view->uv3.half = vertex_value;
+                    coord_bits = quad_view->uv3.b.u;
+                    vertex_value = quad_view->uv2.b.v;
                     coord_bits -= 1;
                     vertex_value -= 1;
-                    ((StripQuad *)packet_buffer)->uv3.b.u = coord_bits;
-                    ((StripQuad *)packet_buffer)->uv2.b.v = vertex_value;
-                    coord_bits = ((StripQuad *)packet_buffer)->uv3.b.v;
+                    quad_view->uv3.b.u = coord_bits;
+                    quad_view->uv2.b.v = vertex_value;
+                    coord_bits = quad_view->uv3.b.v;
                     coord_bits -= 1;
-                    ((StripQuad *)packet_buffer)->uv3.b.v = coord_bits;
+                    quad_view->uv3.b.v = coord_bits;
                     shade_uv = (u32)(texture_entry - (TwelveByteEntry *)render_data_in->unk_118) / 12;
                     texture_entry += 1;
                     AddPrim(render_data_in->unk_20 + ((u32)shade_uv * 4),

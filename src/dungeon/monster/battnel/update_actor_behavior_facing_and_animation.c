@@ -1,6 +1,7 @@
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -17,7 +18,6 @@
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void advance_stored_entity_path(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, void *path_state);
 extern void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173AC0(void *, void *, void *, void *);
 
 #include "dungeon/monster/battnel.h"

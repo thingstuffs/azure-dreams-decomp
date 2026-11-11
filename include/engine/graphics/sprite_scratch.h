@@ -29,7 +29,7 @@ typedef struct SpriteQuadScratch {
     u32 uv_u_extent;
     u32 uv_v_extent;
     u8 pad_18[8];
-    u32 ordering_table;
+    u32 *ordering_table; /* ordering-table slot the sprite packets are linked into */
     u16 sprite_flags;
     u16 pad_26;
     s16 rotation_x;

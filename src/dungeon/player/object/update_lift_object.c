@@ -13,7 +13,7 @@
 #include "dungeon/system.h"
 #include "dungeon/globals.h"
 
-extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
+#include "dungeon/system/random_range.h"
 
 extern u8 player_action_tag[];
 extern u8 player_wait_frames[8];

@@ -108,14 +108,44 @@ def inline_slices(root, digest):
             for tu, records in groups.items() if isinstance(tu, str)}
 
 
+USES = '\0uses:'  # gate_read_cache.uses markers
+
+
+def refuse_unbound(key, read, used, bind):
+    """Fail (do not store a record that could go stale) when a checkpoint consumed a guard-excluded part of a
+    structural input without the binding the guard narrowing relies on:
+    - the link graph's source-derived fields: only a checkpoint that binds the graph files (bind=, the 'graph'
+      checkpoint) may read them; everyone else gets the graph model from it;
+    - layout_inline's extents, hashes and include spellings of a TU (gate_read_cache.uses): the checkpoint must
+      have read that TU, so bound() binds its inline slice with it.
+    Raising makes a future reader fail loudly in its first cold configure instead of reusing a stale record."""
+    graph = sorted(n for n in read if n and n.startswith('config/link_graph/') and n not in bind)
+    if graph:
+        raise ValueError(f'configure checkpoint {key} read {graph[0]} without binding it; the guard binds only the '
+                         "link graph's structure: take the model from the 'graph' checkpoint or bind the files")
+    missing = sorted(t for t in used.get(LAYOUT_INLINE, ()) if t and t not in read)
+    if missing:
+        raise ValueError(f'configure checkpoint {key} used the {LAYOUT_INLINE} extents of {missing[0]} without '
+                         'reading that TU; the guard binds only the ledger structure, so the TU must be read (or bound)')
+
+
+def per_record(name):
+    """Inputs the guard leaves to the records that read them (content and presence)."""
+    return name.startswith(('src/', 'include/')) or name in PER_RECORD
+
+
 class RecipeCache:
     @staticmethod
     def guard_for(inputs, context):
-        # Names/presence bind negative include resolution probes as well.
+        # src/ and include/ are not authorities: a record binds each file it read (absent ones as None) and, through
+        # gate_read_cache's observer, the directory listing of each such file's parent, and an include closure binds
+        # every resolution candidate its walk tried (closure_probes). The context's view links (configure_links:
+        # build_*/layout_flat holds one link per row TU and per file directly in src/<container>/) still bind those
+        # files' set, so adding, removing or renaming one of them still makes configure cold; other files (headers
+        # under include/ and feature folders, non-row sources) regenerate only the records that read them.
         root = context.get('root')
-        authority = {n: (v is not None if n.startswith(('src/', 'include/')) or n in PER_RECORD
-                         else structural_digest(root, n, v))
-                     for n, v in inputs.items()}
+        authority = {n: (True if n in PER_RECORD else structural_digest(root, n, v))
+                     for n, v in inputs.items() if not n.startswith(('src/', 'include/'))}
         return hashlib.sha256(json.dumps([authority, context], sort_keys=True).encode()).hexdigest()
 
     @staticmethod
@@ -147,6 +177,7 @@ class RecipeCache:
         self.records = {}
         self.hits = self.misses = 0
         self.walkers = {}
+        self.probes = None
         self.inline = inline_slices(self.root, inputs.get(LAYOUT_INLINE))
 
     def name(self, path):
@@ -197,16 +228,22 @@ class RecipeCache:
             from gate_read_cache import observing, stamp_of
             with observing() as observed:
                 value = produce()
-            probes = {}
+            probes, used = {}, {}
             for path, stamp in observed.items():
                 if path == '\0volatile':
+                    continue
+                if path.startswith(USES):
+                    source, _, target = path[len(USES):].partition(':')
+                    used.setdefault(source, set()).add(self.name(target))
                     continue
                 name = self.name(path)
                 if (not name or name.startswith(('build/.state/', 'build_slus/build/'))
                         or '__pycache__' in name.split('/') or name.endswith(('.pyc', '.tmp'))):
                     continue
-                if name.startswith(('src/', 'include/')) or name not in self.inputs or name in PER_RECORD:
+                if per_record(name) or name not in self.inputs:
                     probes[name] = (path, stamp)
+            refuse_unbound(key, set(probes) | {self.name(p) for p in observed if not p.startswith('\0')},
+                           used, set(bind))
             # Bind undeclared review files and absent optional inputs too. Their
             # parent directory name sets catch new siblings outside inventories.
             names = set(probes)
@@ -237,7 +274,9 @@ class RecipeCache:
                      if isinstance(v, types.FunctionType)
                      and (n == 'closure' or v.__module__ == getattr(module, '__name__', None))}
         walker = getattr(module, 'closure')
-        if not isinstance(walker, types.FunctionType):
+        self.probes = None
+        if not isinstance(walker, types.FunctionType) or not callable(getattr(module, 'closure_probes', None)):
+            # without the walker's resolution misses a record cannot bind a header created on its search path
             return sorted(walker(root, starts))
         functions['closure'] = walker
         signature = (getattr(module, '__name__', None), getattr(module, '__file__', None),
@@ -249,6 +288,7 @@ class RecipeCache:
             if source is not None:
                 source_path = Path(source).resolve()
                 if not source_path.is_relative_to(self.root.resolve()):
+                    self.probes = None
                     return sorted(walker(root, starts))
                 source_name = source_path.relative_to(self.root.resolve()).as_posix()
             root_text = os.fspath(self.root.resolve())
@@ -262,8 +302,17 @@ class RecipeCache:
         else:
             fingerprint = cached[2]
         key = 'closure:' + fingerprint + ':' + os.fspath(root.relative_to(self.root)) + ':' + json.dumps(starts)
-        return self.memo(key, lambda: sorted(module.closure(root, starts)),
-                         lambda found: [root/n for n in found])
+        def produce():
+            found, probes = walk(module, root, starts)
+            return dict(found=found, probes=sorted({self.name(p) for p in probes} - {None}))
+        value = self.memo(key, produce, lambda value: [root/n for n in value['found']] +
+                                                      [self.root/n for n in value['probes']])
+        self.probes = value['probes']
+        return value['found']
+
+    def closure_probe_names(self):
+        """Names (relative to this cache's root) of the last closure()'s resolution misses; None: not cached."""
+        return None if self.probes is None else list(self.probes)
 
     def blob(self):
         # Bank name sets and frozen evidence repeat across thousands of rows.
@@ -294,6 +343,11 @@ class RecipeCache:
                                              records=records,
                                              bases=bases, artifacts=artifacts),
                                         sort_keys=True, separators=(',', ':')).encode(), compresslevel=1, mtime=0)
+
+
+def walk(module, root, starts):
+    """An include closure's files (relative to root) and absolute resolution-miss paths (module.closure_probes)."""
+    return sorted(module.closure(root, starts)), [os.fspath(p) for p in module.closure_probes(root, starts)]
 
 
 def load(path):

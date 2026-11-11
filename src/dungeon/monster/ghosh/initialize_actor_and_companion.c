@@ -4,6 +4,7 @@
 #include "dungeon/monster/ghosh.h"
 #include "shared/actor_property_flags.h"
 #include "common.h"
+#include "dungeon/system/random_range.h"
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -32,7 +33,6 @@ typedef struct S_8016AEDC_4 {
 
 
 struct ObjectNodeHeader;
-extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 
 extern s32 ghosh_action_resume_address;
 

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/audio/spu.h"
+#include "sdk/libapi.h"
 #include "slus.h"
 
 extern s32 spu_event_service_active[3];
@@ -9,9 +10,6 @@ extern s32 D_80079994[4];
 extern s32 spu_transfer_event_handle[3];
 extern s32 spu_active_voice_mask[3];
 
-extern void EnterCriticalSection(void);
-extern void ExitCriticalSection(void);
-extern s32 CloseEvent(s32 event);
 extern s32 DisableEvent(s32 event);
 
 /* Shuts down SPU event/callback state when the SPU service flag is active. */

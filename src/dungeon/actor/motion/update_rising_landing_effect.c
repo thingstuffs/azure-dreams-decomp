@@ -20,10 +20,6 @@
 #include "slus.h"
 #include "dungeon/system.h"
 
-typedef struct S_FUNC_8197C800_BODY_0_pre {
-    u16 unk_00;
-} S_FUNC_8197C800_BODY_0_pre;   /* the 0x2 bytes before arg0 in update_directional_actor_effect, addressed as arg0[-1] */
-
 typedef struct S_FUNC_8197C800_BODY_0 {
     void * unk_00;
     void * unk_04;
@@ -106,7 +102,7 @@ extern u8 directional_sprite_entries[];
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
 
-void update_directional_actor_effect(void *input, void *output);
+void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C800_BODY_2 *output);
 extern s32 secondary_sprite[];
 extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
 extern u8 homing_particle_sprite_entries[];
@@ -133,10 +129,10 @@ static __inline__ s32 jitter_coordinate_32(s32 grid, s32 random)
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_199c800_entry)(void *, void *) = update_directional_actor_effect;
+void (*const dungeon_199c800_entry)(S_FUNC_8197C800_BODY_0 *, S_FUNC_8197C800_BODY_2 *) = update_directional_actor_effect;
 
 /* Updates a timed effect, spawns particles, and completes its owner's action. */
-void update_directional_actor_effect(void *input, void *output)
+void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C800_BODY_2 *output)
 {
     s16 offsets[3];
     s32 state;
@@ -166,33 +162,33 @@ void update_directional_actor_effect(void *input, void *output)
 
     s32 step;
 
-    timer = ((S_FUNC_8197C800_BODY_0 *)input)->unk_50;
-    owner_data = ((S_FUNC_8197C800_BODY_0 *)input)->unk_00;
-    state = ((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_0A);
+    timer = input->unk_50;
+    owner_data = input->unk_00;
+    state = ((s16)input->unk_0A);
     timer -= 1;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 = timer;
+    input->unk_50 = timer;
     owner = (S_FUNC_8197C800_BODY_3 *)((u8 *)owner_data - 0x20);
 
     switch (state) {
     case 0:
     ((PlayerRecord *)(primary_actor_record))->unk_F4 = 0;
-    ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 =
+    output->unk_00 =
         ((S_FUNC_8197C800_BODY_20 *)(owner->unk_08))->unk_00;
-    ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 =
+    output->unk_04 =
         ((S_FUNC_8197C800_BODY_20 *)(owner->unk_08))->unk_04;
-    ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 =
+    output->unk_08 =
         ((S_FUNC_8197C800_BODY_20 *)(owner->unk_08))->unk_08;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A += 1;
+    input->unk_0A += 1;
 
     case 1:
-    if (!(((S_FUNC_8197C800_BODY_21 *)(((S_FUNC_8197C800_BODY_0 *)input)->unk_04))->unk_00 & 0x80)) {
+    if (!(((S_FUNC_8197C800_BODY_21 *)(input->unk_04))->unk_00 & 0x80)) {
         return;
     }
 
     scene = primary_actor_record;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 = 10;
+    input->unk_50 = 10;
     ((u16 *)&scene->unk_A4.value)[1] -= 1;
-    (*(u8 *)&scene->unk_A8) = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
+    (*(u8 *)&scene->unk_A8) = input->unk_08;
     particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (particle != 0) {
         if (resolve_record_orientation_or_fallback(((S_FUNC_8197C800_BODY_22 *)(owner->unk_0C))->unk_08,
@@ -210,19 +206,19 @@ void update_directional_actor_effect(void *input, void *output)
         src_position = owner->unk_08;
         dst_position_2 = particle->position;
         result = src_position->unk_00 + (offset_index << 16);
-        ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 = result;
+        output->unk_00 = result;
         dst_position_2->x.v = result;
         offset_index = offsets[1];
         src_position = owner->unk_08;
         dst_position = particle->position;
         result = src_position->unk_04 + (offset_index << 16);
-        ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 = result;
+        output->unk_04 = result;
         dst_position->y.v = result;
         offset_index = offsets[2];
         src_position = owner->unk_08;
         dst_position_3 = particle->position;
         result = src_position->unk_08 + (offset_index << 16);
-        ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 = result;
+        output->unk_08 = result;
         dst_position_3->z.v = result;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
@@ -237,13 +233,13 @@ void update_directional_actor_effect(void *input, void *output)
         ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
         particle_data->unk_4C = 0;
     }
-    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A + 1;
+    tail_state = input->unk_0A + 1;
 
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A = tail_state;
+    input->unk_0A = tail_state;
     return;
 
     case 2:
-    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50 > 0) {
+    if (input->unk_50 > 0) {
         return;
     }
     result = read_sound_mode_blocking_status(4);
@@ -252,16 +248,16 @@ void update_directional_actor_effect(void *input, void *output)
     } else {
         play_sound_if_enabled(AUDIO_RESUME_CD);
     }
-    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A;
+    tail_state = input->unk_0A;
 
     tail_timer = 16;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 = tail_timer;
+    input->unk_50 = tail_timer;
     tail_state += 1;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A = tail_state;
+    input->unk_0A = tail_state;
     return;
 
     case 3:
-    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50 < 3) {
+    if (input->unk_50 < 3) {
         remaining = 1;
         height = (s16)sample_terrain_surface_height((u16)view_reference_entity.x.w.i, (u16)view_reference_entity.y.w.i, (s16)(view_reference_entity.z.w.i - 0x80));
         particle_script = (void *)move_sprite_until_animation_ends;
@@ -416,32 +412,32 @@ void update_directional_actor_effect(void *input, void *output)
             remaining -= 1;
         } while (remaining >= 0);
     }
-    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50 > 0) {
+    if (input->unk_50 > 0) {
         return;
     }
     tail_timer = 32;
-    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A;
+    tail_state = input->unk_0A;
 store_timer:
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 = tail_timer;
+    input->unk_50 = tail_timer;
     tail_state += 1;
 store_state:
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A = tail_state;
+    input->unk_0A = tail_state;
     return;
 
     case 4:
-    if (!(reference_tile_object.sprite_flags & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 >= 0) {
+    if (!(reference_tile_object.sprite_flags & 0x8000) && input->unk_50 >= 0) {
         return;
     }
-    if (((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_52) & 0x8000) {
-        ((S_FUNC_8197C800_BODY_0 *)input)->unk_52 &= 0x7FFF;
+    if (((s16)input->unk_52) & 0x8000) {
+        input->unk_52 &= 0x7FFF;
         return;
     }
     apply_attack_power_and_element_effects((primary_actor_record)->target, 8,
-                  ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
+                  input->unk_09, 10,
                   owner_data->facing, owner_data, 2);
     g_dungeon_status.active_actor = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
-    ((S_FUNC_8197C800_BODY_0_pre *)input)[-1].unk_00 |= 0x8000;
+    NODE_HEADER(input)->flags |= 0x8000;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -136,7 +136,6 @@ void create_type_212_object(s32 flag, s8 value) {
 #define NULL ((void *)0)
 
 s32 generate_random_value(void);
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_80088CAC[];
 extern u8 D_800E0D51[];
@@ -190,7 +189,6 @@ void add_random_quarter_value(ActorRecord *body, ActorRecord *target) {
 typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param);
 extern u8 D_800E0D7B[23];
 extern u8 D_800E0D92[12];

@@ -9,7 +9,5 @@ extern u16 sound_idle_vsync_frame_alias;
 
 /* Pumps frames until polling returns zero, handling the first poll and caching the VSync field. */
 
-void wait_until_sound_idle(void);
-void func_80044698(void);
 
 #endif

@@ -762,7 +762,6 @@ s32 is_dungeon_action_blocked(void) {
     return 0;
 }
 
-extern s32 is_dungeon_action_blocked(void);
 
 /* Sets or reuses the requested value and calls is_dungeon_action_enabled when state permits. */
 s16 try_claim_dungeon_action_slot(ActorRecord *actor) {
@@ -1200,7 +1199,6 @@ typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 familiar_record_storage[];
 extern s32 familiar_record_slots[];
 extern void clear_slots_of_type(void *, s32);
-extern void mark_owned_linked_actor_actions(struct Entity *owner_entity);
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */
 void * detach_record_and_update_slot_state(void *record) {

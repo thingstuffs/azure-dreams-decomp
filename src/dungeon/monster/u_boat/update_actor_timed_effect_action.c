@@ -21,31 +21,6 @@
 #include "dungeon/data.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 
-typedef struct S_8017558C_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x2];
-    union { s16 s; u16 u; } unk_92;   /* accessed as both */
-    s16 unk_94;
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0xA];
-    u16 unk_A6;
-    s16 unk_A8;
-    u8 pad_AA[0x2];
-    void * unk_AC;
-    u8 unk_B0;
-    u8 unk_B1;
-    s8 unk_B2;
-    s8 unk_B3;
-    s8 unk_B4;
-    u8 pad_B5[0x1];
-    u16 unk_B6;
-    u16 unk_B8;
-    u16 unk_BA;
-} S_8017558C_0;   /* arg0 in update_actor_timed_effect_action */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 u_boat_timed_effect_update_address[];
@@ -161,8 +136,10 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         action->action_timer = 3U;
         action->action_phase = (u8) (action->action_phase + 1);
         action->unk_B4.halves.high.u = (u16) ((u16)position->x.w.i);
-        ((S_8017558C_0 *)action)->unk_B8 = (u16) ((u16)position->y.w.i);
-        ((S_8017558C_0 *)action)->unk_BA = actor->ground_height;
+        /* BYTES: this action handler saves the position y halfword in its +0xB8 action scratch (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+        *(u16 *)&action->unk_B8 = (u16) ((u16)position->y.w.i);
+        /* BYTES: this action handler keeps its +0xBA action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there */
+        *(u16 *)&action->unk_BA = actor->ground_height;
         return;
     case 2:
         windup_timer = action->action_timer - 1;
@@ -191,8 +168,10 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
             action->action_timer = restore_timer;
             if ((s16) restore_timer == 1) {
                 position->x.w.i = (u16) action->unk_B4.halves.high.u;
-                position->y.w.i = (u16) ((S_8017558C_0 *)action)->unk_B8;
-                actor->ground_height = (u16) ((S_8017558C_0 *)action)->unk_BA;
+                /* BYTES: this action handler saves the position y halfword in its +0xB8 action scratch (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                position->y.w.i = *(u16 *)&action->unk_B8;
+                /* BYTES: this action handler keeps its +0xBA action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there */
+                actor->ground_height = *(u16 *)&action->unk_BA;
                 saved_angle = action->unk_A4.halves.high.u;
                 actor->facing = saved_angle;
                 view_dir = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;

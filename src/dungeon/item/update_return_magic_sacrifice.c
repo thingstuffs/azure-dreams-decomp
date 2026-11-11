@@ -107,7 +107,7 @@ enum ReturnSacrificeState {
 };
 
 /* Advance the object effect through fading, tile cleanup, and completion. */
-void update_return_magic_sacrifice(S_800C2824_0 *effect, void *vertices, SpriteFrameState *sprite) {
+void update_return_magic_sacrifice(S_800C2824_0 *effect, S_800C2824_3 *vertices, SpriteFrameState *sprite) {
     StackArgs effect_args;
     s32 object_slot;
     s32 release_flags;
@@ -161,14 +161,14 @@ void update_return_magic_sacrifice(S_800C2824_0 *effect, void *vertices, SpriteF
         retire_tracked_effect_by_id(object_base);
         object_vertices = object_base->position;
         vertex_x = (u16)object_vertices->x.w.i;
-        ((S_800C2824_3 *)vertices)->unk_02 = vertex_x;
-        ((S_800C2824_3 *)vertices)->unk_0E = vertex_x;
+        vertices->unk_02 = vertex_x;
+        vertices->unk_0E = vertex_x;
         vertex_y = (u16)object_vertices->y.w.i;
-        ((S_800C2824_3 *)vertices)->unk_06 = vertex_y;
-        ((S_800C2824_3 *)vertices)->unk_12 = vertex_y;
+        vertices->unk_06 = vertex_y;
+        vertices->unk_12 = vertex_y;
         vertex_z = (u16)object_vertices->z.w.i;
-        ((S_800C2824_3 *)vertices)->unk_0A = vertex_z;
-        ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
+        vertices->unk_0A = vertex_z;
+        vertices->unk_16 = vertex_z;
         register_node(NODE_HEADER(effect), process_linked_mesh_states_mode_1);
         sprite->tpage_abr = 0x20;
         sprite->source = &return_magic_sprite_data;

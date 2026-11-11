@@ -85,11 +85,13 @@ void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition 
                 pending_amount = body->unk_A4.halves.high.u;
                 packed_adjustment = body->unk_A4.value;
                 body->unk_A4.halves.high.u = 0;
-                ((S_80173CD4_0 *)body)->unk_B8 = 0;
+                /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                *(u16 *)&body->unk_B8 = 0;
                 body->unk_AC.value = 0;
                 body->unk_B0.value = 0;
                 body->unk_90.parts.high = current_amount - pending_amount;
-                ((S_80173CD4_0 *)body)->unk_A8 = packed_adjustment;
+                /* BYTES: this action handler saves the +0xA4 scratch word in the +0xA8..+0xAB action scratch as one word (sw) over the halfword ActorRecord declares there */
+                *(u32 *)&body->unk_A8 = packed_adjustment;
                 func_801743F0(body, position, sprite, actor);
                 return;
             }
@@ -265,13 +267,15 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
             begin_actor_move_to_target_facing(actor, context, animation, entity);
             actor_value = actor->unk_90.parts.high;
             value_delta = actor->unk_A4.halves.high.u;
-            packed_delta = ((S_8017409C_0 *)actor)->unk_A4.at00.v;
+            packed_delta = actor->unk_A4.value;
             actor->unk_A4.halves.high.u = 0;
-            ((S_8017409C_0 *)actor)->unk_B8 = 0;
+            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            *(u16 *)&actor->unk_B8 = 0;
             actor->unk_AC.value = 0;
             actor->unk_B0.value = 0;
             actor->unk_90.parts.high = actor_value - value_delta;
-            ((S_8017409C_0 *)actor)->unk_A8 = packed_delta;
+            /* BYTES: this action handler saves the +0xA4 scratch word in the +0xA8..+0xAB action scratch as one word (sw) over the halfword ActorRecord declares there */
+            *(u32 *)&actor->unk_A8 = packed_delta;
             func_801743F0(actor, context, animation, entity);
             return;
         }

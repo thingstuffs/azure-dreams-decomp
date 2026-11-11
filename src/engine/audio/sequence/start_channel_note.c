@@ -140,9 +140,6 @@ extern Req audio_voice_request;
 
 extern void audio_compute_voice_stereo_volumes(Voice *a0, AudioChannelControl *a1);
 extern s32 audio_compute_pitch_bend_offset(Voice *a0, s32 a1);
-extern s32 update_spu_register_pair_cc_cd(s32 first, s32 second);
-extern s32 read_spu_register_pair_cc_cd(void);
-extern void apply_voice_attributes_and_key_on(void *object);
 
 /* Allocates or reuses voices for matching tones and applies channel note settings. */
 void start_channel_note(u8 channel_id, s16 note, u8 velocity)

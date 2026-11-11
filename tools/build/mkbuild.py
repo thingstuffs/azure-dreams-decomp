@@ -127,18 +127,32 @@ def _unread_audit(event, args):
                              'and bootstrap inputs; move it back into the inventory before reading it')
 
 
+UNREAD_HOOK = Path(__file__).resolve().parent/'unread_hook'
+
+
 @contextmanager
 def unread_inputs_enforced():
-    """While active, opening an UNREAD_LEDGERS file in this process raises: nothing binds its content."""
+    """While active, opening an UNREAD_LEDGERS file raises, in this process and in its python subprocesses (the
+    environment carries the paths and puts tools/build/unread_hook/sitecustomize.py on PYTHONPATH): nothing binds
+    their content. The variables are not AZURE_*, so they are not part of the configure environment."""
     if not _UNREAD_ACTIVE and not getattr(_unread_audit, 'installed', False):
         sys.addaudithook(_unread_audit)
         _unread_audit.installed = True
-    _UNREAD_ACTIVE.append((frozenset(os.path.basename(n) for n in UNREAD_LEDGERS),
-                           frozenset(os.path.realpath(ROOT/n) for n in UNREAD_LEDGERS)))
+    physical = frozenset(os.path.realpath(ROOT/n) for n in UNREAD_LEDGERS)
+    _UNREAD_ACTIVE.append((frozenset(os.path.basename(n) for n in UNREAD_LEDGERS), physical))
+    saved = {k: os.environ.get(k) for k in ('MKBUILD_UNREAD_INPUTS', 'PYTHONPATH')}
+    os.environ['MKBUILD_UNREAD_INPUTS'] = os.pathsep.join(sorted(physical))
+    if UNREAD_HOOK.is_dir():
+        os.environ['PYTHONPATH'] = os.pathsep.join([str(UNREAD_HOOK)] + ([saved['PYTHONPATH']] if saved['PYTHONPATH'] else []))
     try:
         yield
     finally:
         _UNREAD_ACTIVE.pop()
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
 
 
 def configure_inputs(extra=(), inventory_receipt=None):
@@ -807,6 +821,17 @@ def include_closure(module, root, starts):
     return RECIPE_CACHE.closure(module, root, starts) if RECIPE_CACHE is not None else module.closure(root, starts)
 
 
+def include_closure_probed(module, root, starts):
+    """(closure files, ROOT-relative resolution misses). A checkpoint that records an include closure in its value
+    binds the misses too: the configure guard no longer binds source/include presence (recipe_cache.guard_for)."""
+    found = include_closure(module, root, starts)
+    probes = RECIPE_CACHE.closure_probe_names() if RECIPE_CACHE is not None else None
+    if probes is None:
+        probes = sorted({rel(Path(os.path.realpath(p))) for p in module.closure_probes(root, starts)
+                         if Path(os.path.realpath(p)).is_relative_to(ROOT)})
+    return found, probes
+
+
 # The configure guard leaves the name table to the records that read it (recipe_cache.PER_RECORD). The module
 # loaders' storage validators read it through a process memo (overlay_native_allocations._source_aliases), so only
 # the first reader observes it: every module checkpoint binds it explicitly.
@@ -976,6 +1001,7 @@ def _generate():
         if source.parent.name.endswith('.member') and source.is_relative_to(STATE):
             # T1 member projection: the gate wrote this unit from its home's span in the owner TU.
             # Bind the owner TU and inline ledger, and re-project at compile time (compile_one).
+            sys.path.insert(0, str(ROOT/'tools'))
             from gate.source_layout import row_relative
             home = capture.get('home') or family + '/' + source.stem
             spec['projection'] = dict(home=home, owner=str(row_relative(registry[home], ROOT)))
@@ -1184,12 +1210,14 @@ def _generate():
         if spec.get('name_input'):
             deps.append(spec['name_input'])
         starts = [spec['source']] + ([a['source'] for a in spec['module']['members']] if 'module' in spec else [])
-        deps += [n for n in include_closure(M, ROOT, starts) if (ROOT/n).is_file() and n not in unit_exclude]
+        found, probes = include_closure_probed(M, ROOT, starts)
+        deps += [n for n in found if (ROOT/n).is_file() and n not in unit_exclude]
         if spec['args']:
             deps += ['toolchain/compilers/gcc-' + spec['args'][0] + '/' + tool for tool in ('gcc','cc1','cpp')]
         spec['dependencies'] = sorted(set(deps))
         put(path, spec)
-        return dict(dependencies=spec['dependencies'], rule=rule([spec['output']], deps, f'python3 tools/build/mkbuild.py compile {rel(path)}'))
+        return dict(dependencies=spec['dependencies'], probes=probes,
+                    rule=rule([spec['output']], deps, f'python3 tools/build/mkbuild.py compile {rel(path)}'))
     names = name_inputs.table(ROOT/'config/names.tsv')
     inline_records = None
     for key, spec in recipes.items():
@@ -1204,7 +1232,8 @@ def _generate():
         path = STATE/'recipes'/(key+'.json')
         emitted = checkpoint('emit-recipe:'+key+':'+spec['declaration_context_sha256'],
                              lambda: emit_recipe(key, spec, path),
-                             lambda value: [ROOT/n for n in value['dependencies'] if n != rel(path) and not n.startswith('build/.state/')],
+                             lambda value: [ROOT/n for n in value['dependencies'] + value['probes']
+                                            if n != rel(path) and not n.startswith('build/.state/')],
                              copy_value=False)
         spec['dependencies'] = emitted['dependencies']
         GENERATION_WRITES.add(rel(path))

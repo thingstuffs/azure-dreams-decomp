@@ -7,8 +7,8 @@
 
 #include "sdk/abs.h"
 #include "sdk/memory.h"
+#include "sdk/strcpy.h"
 char * strcat(char *, const char *);
-char * strcpy(char *, const char *);
 char * func_80069E88(char *, const char *, s32);
 s32 strlen(const char *);
 s32 func_80069EF8(void);

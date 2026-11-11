@@ -18,9 +18,9 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
 
     for (;;) {
         S_800BC3E4_1 *object = node->unk_00;
-        S_800BC3E4_2 *primitive = object->unk_0C;
+        SpriteFrameState *primitive = object->unk_0C;
 
-        if (!(primitive->unk_14 & 0x8000)) {
+        if (!(primitive->flags & 0x8000)) {
             S_800BC3E4_3 *coord = object->unk_08;
             s16 depth = sample_terrain_surface_height(coord->unk_02, coord->unk_06, coord->unk_0A);
             render_projected_sprite_with_depth_bias(coord, primitive, depth, 0);
@@ -38,7 +38,7 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
 }
 
 /* Project sprite tiles and append textured quads to the ordering table. */
-void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *sprite, s16 world_z, s32 depth_bias)
+void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFrameState *sprite, s16 world_z, s32 depth_bias)
 {
     u8 *scratch_base = (u8 *)0x1F800000;
     u8 *screen_pos = scratch_base;
@@ -82,8 +82,8 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
     scratch_view->unk_7C = 0;
     scratch_view->unk_74 = 0;
 
-    texture = ((S_800BC4D4_2 *)sprite)->unk_08;
-    sprite_flags = ((S_800BC4D4_2 *)sprite)->unk_14;
+    texture = sprite->source;
+    sprite_flags = sprite->flags;
     clip_flags = scratch_base;
     scratch_view->unk_24 = sprite_flags;
     world_x = ((u16) position->x.w.i);
@@ -124,8 +124,8 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
         CompMatrix(matrix, (void *)0x1F8000D0, (void *)0x1F800050);
         ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
 
-        scratch_view->unk_30.u = ((S_800BC4D4_2 *)sprite)->unk_1C;
-        scratch_view->unk_34.u = ((S_800BC4D4_2 *)sprite)->unk_1E;
+        scratch_view->unk_30.u = sprite->scale_x;
+        scratch_view->unk_34.u = sprite->scale_y;
         scratch_view->unk_38 = 0x1000;
         ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
         SetTransMatrix((void *)0x1F800050);
@@ -261,7 +261,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
                     ((S_800BC4D4_5 *)(packet + 7))->unk_1E--;
                 }
 
-                (*(s32 *)(packet + 4)) = ((S_800BC4D4_2 *)sprite)->unk_0C;
+                (*(s32 *)(packet + 4)) = sprite->color.word;
                 ((S_800BC4D4_5 *)(packet + 7))->unk_00 = 0x2E;
                                 AddPrim(((S_800BC4D4_1 *)scratch)->unk_20 +
                               ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,

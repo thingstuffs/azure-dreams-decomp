@@ -3,10 +3,7 @@
 #include "dungeon/stale_bank_imports.h"
 #include "dungeon/data.h"
 #include "dungeon/monster/beldo_old.h"
-
-typedef struct S_8127B000_0_pre {
-    u16 unk_00;
-} S_8127B000_0_pre;   /* the 0x2 bytes before root in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading, addressed as root[-1] */
+#include "shared/object_node.h"
 
 typedef struct S_8127B000_0 {
     u8 pad_00[0xAC];
@@ -66,10 +63,9 @@ typedef struct S_8127B000_6 {
 } S_8127B000_6;   /* callee_part in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
 /* Copies part state and applies smoothed position offsets and phase-dependent shading. */
-void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(void *root_arg, void *output_transform, void *target_part)
+void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(S_8127B000_0 *root, void *output_transform, void *target_part)
 {
     s16 offset[3];
-    void *root = root_arg;
     MovingPosition *transform = output_transform;
     S_8127B000_3 *render_part = target_part;
     S_8127B000_1 *owner;
@@ -77,7 +73,7 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(v
     S_8127B000_6 *motion_part;
     s8 phase;
 
-    owner = ((S_8127B000_0 *)root)->unk_AC;
+    owner = root->unk_AC;
     output_transform = owner->unk_0C;
     part_transform = owner->unk_08;
 
@@ -91,16 +87,16 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(v
 
     motion_part = owner->unk_0C;
     if (func_8003DA40(motion_part->unk_08, motion_part, offset,
-                      ((S_8127B000_0 *)root)->unk_B6) != 0) {
+                      root->unk_B6) != 0) {
         transform->x +=
-            (offset[0] + ((S_8127B000_0 *)root)->unk_B0) / 2;
+            (offset[0] + root->unk_B0) / 2;
         transform->y +=
-            (offset[1] + ((S_8127B000_0 *)root)->unk_B2) / 2;
+            (offset[1] + root->unk_B2) / 2;
         transform->z +=
-            (offset[2] + ((S_8127B000_0 *)root)->unk_B4) / 2;
-        ((S_8127B000_0 *)root)->unk_B0 = offset[0];
-        ((S_8127B000_0 *)root)->unk_B2 = offset[1];
-        ((S_8127B000_0 *)root)->unk_B4 = offset[2];
+            (offset[2] + root->unk_B4) / 2;
+        root->unk_B0 = offset[0];
+        root->unk_B2 = offset[1];
+        root->unk_B4 = offset[2];
     }
 
     part_transform = render_part->unk_08;
@@ -109,7 +105,7 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(v
     render_part->unk_14 = ((S_8127B000_2 *)output_transform)->unk_14;
     part_transform->unk_01 &= 0xFE;
 
-    if (((S_8127B000_0 *)root)->unk_B6 == 1) {
+    if (root->unk_B6 == 1) {
         phase = ((S_8127B000_2 *)output_transform)->unk_04.s8;
         if (phase < 8) {
             s32 brightness =
@@ -132,7 +128,7 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(v
         }
     }
 
-    if (((S_8127B000_0 *)root)->unk_B6 == 2) {
+    if (root->unk_B6 == 2) {
         phase = ((S_8127B000_2 *)output_transform)->unk_04.s8;
         if (phase < 8) {
             s32 brightness =
@@ -157,7 +153,7 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(v
 
     func_80047454(render_part);
     if (owner->unk_1E & 0x8000) {
-        ((S_8127B000_0_pre *)root)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(root)->flags |= 0x8000;
         beldo_old_transition_flags[0] |= 0x8000;
     }
 }

@@ -897,10 +897,10 @@ extern void func_80067EF4(void *, s32, s32, ...);
 /* Build transformed textured quads from sprite parts and append them to the draw list. */
 void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16 draw_mode)
 {
-    s32 (*callback)(void *, s32, void *, void *, void *);
+    SpritePartCallback callback;
     SpritePartWork *scratch = (SpritePartWork *)0x1F800000;
     SpriteFrameState *sprite = NODE_HEADER(context)->sprite;
-    s32 callback_arg = (s32)(unsigned long)NODE_HEADER(context)->position;
+    ObjectPosition *callback_arg = NODE_HEADER(context)->position;
     s16 saved_mode = draw_mode;
     GpuContext *root = g_game_work.draw_buffer;
     SpritePartCommand *part = sprite->source;
@@ -1189,7 +1189,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
             callback = part->data.callback;
             if (callback != 0) {
                 register s32 callback_result;
-                callback_result = callback(context, callback_arg, sprite, part, packet);
+                callback_result = (s32)(unsigned long)callback(context, callback_arg, sprite, part, packet);
                 if (callback_result > 0) {
                     u32 cached_base = 0x80000000;
                     part = (SpritePartCommand *)(unsigned long)(callback_result | cached_base);
@@ -2562,7 +2562,6 @@ typedef struct {
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern void clear_slot_and_detach_entity(s32 slot_index);
 
 /* Updates the object's countdown and triggers an effect when it expires. */
 void update_timed_tile_effect(Func800B5948Object *object, ObjectPosition *unused, Func800B5948Object *related_object) {

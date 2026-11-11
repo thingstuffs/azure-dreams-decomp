@@ -70335,7 +70335,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/baloon/create_directional_template_effect.c",
+      "source": "src/dungeon/monster/baloon/create_translucent_directional_sprite_copy_above_anchor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -70735,7 +70735,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/baloon/create_directional_template_effect.c",
+      "source": "src/dungeon/monster/baloon/create_translucent_directional_sprite_copy_above_anchor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""

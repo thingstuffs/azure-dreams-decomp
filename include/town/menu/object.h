@@ -15,6 +15,7 @@ struct Func800A4A20Object;
 struct Func800A4B70Object;
 struct Func800A4B70Output;
 struct S_800A21EC_0;
+struct S_800A1D1C_0;
 struct EmoteCallbackObject;
 struct S_800A7360_1;
 struct S_800A7B98_2;
@@ -70,7 +71,7 @@ s32 initialize_object_items_in_reverse(struct TownObject *object, void *item_dat
 void initialize_timed_scale_object(void *object, ObjectPosition *state, struct SpriteFrameState *context);
 
 /* render_shaded_object_primitive.c */
-void render_shaded_object_primitive(void *object, ObjectPosition *coords, struct SpriteFrameState *primitive);
+void render_shaded_object_primitive(struct S_800A1D1C_0 *object, ObjectPosition *coords, struct SpriteFrameState *primitive);
 
 /* swap_paired_entry_values_and_node_halfwords.c */
 

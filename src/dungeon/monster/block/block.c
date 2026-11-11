@@ -768,7 +768,7 @@ void begin_directional_actor_animation(ActorRecord *state, ObjectPosition *unuse
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor) {
+s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor) {
     ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
@@ -781,8 +781,8 @@ s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *m
         return -1;
     }
 
-    neighbor = probe_directional_neighbor(actor, ((CB_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_24,
-                           ((CB_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_25, actor->facing);
+    neighbor = probe_directional_neighbor(actor, sprite_arg->tile_x,
+                           sprite_arg->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
@@ -808,7 +808,7 @@ s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *m
         action_state->unk_8C.run = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        ((CB_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_2C = block_slot_g_direction_frames;
+        sprite_arg->frameTable = block_slot_g_direction_frames;
         select_sprite_entry(sprite_arg, block_slot_g_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
         prepare_directional_attack(actor, sprite_arg, actor->facing, 1, 0);
@@ -1832,18 +1832,21 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
         render_state->unk_8D0 = packet + 0x24;
     }
 
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B0 = body->unk_44.whole;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B8 = ((CB_80173E40_S_80173E40_6 *)body)->unk_4A;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C0 = body->unk_50.halves.low;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C8 = ((CB_80173E40_S_80173E40_6 *)body)->unk_56;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B2 = body->action_flags;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BA = ((CB_80173E40_S_80173E40_6 *)body)->unk_4C;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C2 = body->unk_50.halves.high;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CA = ((CB_80173E40_S_80173E40_6 *)body)->unk_58;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B4 = ((CB_80173E40_S_80173E40_6 *)body)->unk_48;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BC = ((CB_80173E40_S_80173E40_6 *)body)->unk_4E;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C4 = ((CB_80173E40_S_80173E40_6 *)body)->unk_54;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CC = ((CB_80173E40_S_80173E40_6 *)body)->unk_5A;
+    {
+        CB_80173E40_S_80173E40_6 *draw_body = (CB_80173E40_S_80173E40_6 *)body;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B0 = body->unk_44.whole;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B8 = draw_body->unk_4A;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C0 = body->unk_50.halves.low;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C8 = draw_body->unk_56;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B2 = body->action_flags;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BA = draw_body->unk_4C;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C2 = body->unk_50.halves.high;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CA = draw_body->unk_58;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B4 = draw_body->unk_48;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BC = draw_body->unk_4E;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C4 = draw_body->unk_54;
+        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CC = draw_body->unk_5A;
+    }
 
     ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                              scratch + 0xC0, scratch + 0xC8,
@@ -1870,10 +1873,13 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at00.v = ((CB_80173E40_S_80173E40_6 *)body)->unk_04;
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_0C = ((CB_80173E40_S_80173E40_6 *)body)->unk_08;
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_14 = (u32)(body->unk_0C.value);
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_1C = ((CB_80173E40_S_80173E40_6 *)body)->unk_10;
+            {
+                CB_80173E40_S_80173E40_6 *draw_body = (CB_80173E40_S_80173E40_6 *)body;
+                ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at00.v = draw_body->unk_04;
+                ((CB_80173E40_S_80173E40_4 *)packet)->unk_0C = draw_body->unk_08;
+                ((CB_80173E40_S_80173E40_4 *)packet)->unk_14 = (u32)(body->unk_0C.value);
+                ((CB_80173E40_S_80173E40_4 *)packet)->unk_1C = draw_body->unk_10;
+            }
             SetPolyG4(packet);
             ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at03.v |= 2;
 

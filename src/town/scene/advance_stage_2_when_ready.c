@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 #include "town/devkit/flag_test_imports.h"
 
 typedef struct {
@@ -16,7 +17,6 @@ extern State *devkit_state_slots[3];
 
 extern void shift_index_and_add_offset(s32 entry);
 extern void pass_indexed_table(s32 entry);
-extern s32 call_indexed_callback_failed_test(void);
 
 /* When gate 2 and the counter both pass, set stage flag 8 and return the stage handler's result. */
 s32 advance_stage_2_when_ready(s32 entry) {

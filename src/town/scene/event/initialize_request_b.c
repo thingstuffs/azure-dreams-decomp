@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
+#include "town/scene/hooks.h"
 
-extern void set_global_entry_pair(s32 value_18e44, s32 value_18e48); /* placed copy of set_global_entry_pair */
 extern s32 apply_selected_entry_values(s32, s32);
 
 /* Initializes the request and processes it when flag 0x50F is set. */

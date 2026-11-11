@@ -14,19 +14,6 @@
 #include "dungeon/item.h"
 #include "dungeon/data.h"
 
-typedef struct S_80172258_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0xC];
-    s32 unk_A8;
-} S_80172258_0;   /* arg0 in complete_actor_jump_to_destination */
-
 #include "dungeon/actor/spend_actor_mp_api.h"
 
 
@@ -54,12 +41,14 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
         jump->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_80172258_0 *)jump)->unk_A8 = 0;
+        /* BYTES: ashra's jump keeps a 16.16 vertical accumulator in the +0xA8..+0xAB action scratch as one word (lw/sw) over the halfword ActorRecord declares there */
+        *(s32 *)&jump->unk_A8 = 0;
         jump->action_phase++;
 
     case 1:
         frames_left = jump->action_timer;
-        jump->unk_90.value -= ((S_80172258_0 *)jump)->unk_A8;
+        /* BYTES: ashra's jump keeps a 16.16 vertical accumulator in the +0xA8..+0xAB action scratch as one word (lw/sw) over the halfword ActorRecord declares there */
+        jump->unk_90.value -= *(s32 *)&jump->unk_A8;
         if (frames_left != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -74,10 +63,12 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
                 motion->velocity_y = ((target_y - current_y) << 16) /
                     jump->action_timer;
             }
-            ((S_80172258_0 *)jump)->unk_A8 += motion->velocity_z;
+            /* BYTES: ashra's jump keeps a 16.16 vertical accumulator in the +0xA8..+0xAB action scratch as one word (lw/sw) over the halfword ActorRecord declares there */
+            *(s32 *)&jump->unk_A8 += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
-        jump->unk_90.value += ((S_80172258_0 *)jump)->unk_A8;
+        /* BYTES: ashra's jump keeps a 16.16 vertical accumulator in the +0xA8..+0xAB action scratch as one word (lw/sw) over the halfword ActorRecord declares there */
+        jump->unk_90.value += *(s32 *)&jump->unk_A8;
         if (jump->action_timer < 2) {
             jump->unk_90.value = 0;
             jump->action_state_flags &= 0xFFF7;

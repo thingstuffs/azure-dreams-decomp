@@ -2,7 +2,7 @@
 #include "dungeon/menu.h"
 #include "engine/resource.h"
 #include "engine/texture.h"
-extern char *strcpy(char *destination, const char *source);
+#include "sdk/strcpy.h"
 
 char *copy_indexed_menu_string(char *resource, s32 index, s32 unused_data, s32 unused_size) {
     strcpy(resource, D_8002946C[index]);

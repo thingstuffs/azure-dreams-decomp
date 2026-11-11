@@ -31,9 +31,7 @@ extern s32 sound_stream_primary_marker_address[4];
 
 extern void drain_audio_commands_and_service_channels(void);
 extern void wait_until_sound_idle(void);
-extern void func_80044698(void);
 extern s32 load_sound_set(s16 state_index);
-extern s32 func_8004450C(s16 mode);
 
 /* Selects a buffered entry, registering it with the slot marker and applying the requested mode. */
 
@@ -49,7 +47,6 @@ extern S_8006E6F4 sound_set_resources[];
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
 
-extern void DrawSync(s32 a0);
 extern s16 test_sound_channel_availability(s16 n);
 
 /* Register callbacks and complete a state transition, returning 1 if already current. */

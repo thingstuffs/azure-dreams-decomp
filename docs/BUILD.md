@@ -265,13 +265,29 @@ content-bound, including the normal tool-input hash in `build/build.mk`.
 
 Configure stores include-closure checkpoints under a second guard. This guard
 binds the exact `include_closure` entry point, the walker module and its callable
-code, all other configure authorities, include-path environment variables,
-and source/header path presence; each cached closure also binds the content of
-its discovered files. A change elsewhere in `mkbuild.py` can therefore reuse
-those closure walks while the general row and recipe checkpoints regenerate.
-Changing the walker, its entry point, a discovered file, or a path's presence
-recomputes the affected closures. Generated rule bytes are still checked by
-the ordinary configure output receipt.
+code, all other configure authorities and include-path environment variables;
+each cached closure also binds the content of its discovered files and the
+absence of every resolution candidate the walk tried before an include resolved
+(`overlay_module_gate.closure_probes`). A change elsewhere in `mkbuild.py` can
+therefore reuse those closure walks while the general row and recipe checkpoints
+regenerate. Changing the walker, its entry point, a discovered file, or creating
+a header on a closure's search path recomputes the affected closures. Generated
+rule bytes are still checked by the ordinary configure output receipt.
+
+Source/include presence is not part of either guard's authority set: each
+record binds the files it read (an absent one as absent), the listing of their
+parent directories, and a closure's resolution misses. The guard context still
+holds the build views' links (`build_*/layout_flat` has one per row TU and per
+file directly in `src/<container>/`), so adding, removing or renaming such a
+file still makes configure cold; other file-set edits (headers under `include/`
+or a feature folder, non-row sources) regenerate only the records that read them
+or their directories. A checkpoint that reads the link graph without binding it, or uses
+a TU's `layout_inline` extents without reading that TU, fails generation rather
+than storing a record the structural guard could leave stale; process memos of
+`config/names.tsv` record the table in every reader (`gate_read_cache.memo_read`);
+and a python subprocess of configure or bootstrap that opens one of
+`mkbuild.UNREAD_LEDGERS` fails like an in-process open
+(`tools/build/unread_hook/sitecustomize.py`).
 
 ### Post-build accounting reuse
 

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/graphics.h"
 #include "engine/text.h"
+#include "sdk/libgpu.h"
 
 /* PSY-Q GPU primitive rect */
 typedef struct S_80052C10_RECT {
@@ -17,8 +18,6 @@ typedef struct S_80052C10_Arg1 {
     u8 *text8;
     u8 *textC;
 } S_80052C10_Arg1;
-
-extern s32 ClearImage(S_80052C10_RECT *rect, u8 r, u8 g, u8 b); /* extern PSY-Q libgpu */
 
 /* Clears two 64x16 VRAM text regions and draws the two strings at the given row. */
 void clear_and_draw_paired_text_rows(s16 row, S_80052C10_Arg1 *texts) {

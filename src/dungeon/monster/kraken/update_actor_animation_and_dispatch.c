@@ -1,6 +1,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -55,7 +56,6 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 update_entity_state_from_query(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 extern u8 D_801741AC[];
 

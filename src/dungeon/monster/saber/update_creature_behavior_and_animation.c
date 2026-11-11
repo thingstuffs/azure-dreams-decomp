@@ -3,6 +3,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -18,7 +19,6 @@
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 extern void choose_griffon_move(void *, void *, void *, void *);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 /* Bank copy of update_actor_state_after_map_check. */
 extern void func_801743E8(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);

@@ -1,10 +1,9 @@
 #include "common.h"
 
 #include "engine/graphics.h"
+#include "sdk/memory.h"
 
 extern u32 shared_primitive_color;
-
-extern void *memcpy(void *dst, const void *src, u32 n);
 
 /* Emit GPU packets, link them into the ordering table, and optionally clear the anchor. */
 void *emit_gpu_packets(u32 *ot, u8 *source, u8 **anchor, u8 *entry) {

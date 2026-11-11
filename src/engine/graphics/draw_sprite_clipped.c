@@ -62,7 +62,7 @@ void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, 
     global_slots = ((void * *)(&g_game_work));
     global_base = global_slots[0];
     scratchpad = (SpriteQuadScratch *)0x1F800000;
-    scratchpad->ordering_table = (s32)((u8 *)global_base + 0xB0);
+    scratchpad->ordering_table = (u32 *)(global_base + 0xB0); /* the draw context's +0xB0 ordering-table slot */
     {
         s32 translation;
         translation = position_data->x.w.i;
@@ -275,8 +275,9 @@ void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, 
                     s32 *ot_bucket;
 
                     *packet = (*packet & (u32)visible_0) |
-                        (*(s32 *)(scratchpad->sort_depth * 4 + scratchpad->ordering_table) & addr_mask);
-                    ot_bucket = (s32 *)(scratchpad->sort_depth * 4 + scratchpad->ordering_table);
+                        (*(s32 *)(scratchpad->ordering_table + scratchpad->sort_depth) & addr_mask);
+                    /* the same slot as above, spelled as integer arithmetic: the pointer spelling allocates registers differently */
+                    ot_bucket = (s32 *)(scratchpad->sort_depth * 4 + (unsigned long)scratchpad->ordering_table);
                     packet += 10;
                     *ot_bucket = (*ot_bucket & (u32)visible_0) | packet_addr;
                 }

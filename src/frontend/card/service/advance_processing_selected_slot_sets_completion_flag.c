@@ -1,6 +1,7 @@
 #include "common.h"
 #include "frontend/card/event_callbacks.h"
 #include "frontend/card/service.h"
+#include "frontend/card/server_imports.h"
 extern u8 D_800A0000[];
 
 extern s32 card_ui_operation_state;
@@ -9,8 +10,6 @@ extern s32 card_ui_event_mode;
 extern s32 D_8009E390[];
 
 extern void invoke_callback_for_four_global_values(void);
-extern s32 _card_status_80408644(s32 slot_index);
-extern s32 _card_load_80408674(s32 selected_slot);
 
 /*
  * Polls the selected card slot, starts and waits for a detected card event, and sets the channel

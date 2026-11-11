@@ -74,7 +74,6 @@ typedef struct S_80174B20_11 {
 } S_80174B20_11;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-#include "slus/sound_set_cd_cue_parameters_api.h" /* extern */
 #include "engine/graphics/run_cd_image_commands_api.h" /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 s32 lookup_masked_byte_table();  /* extern */

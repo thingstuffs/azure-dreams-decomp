@@ -3,6 +3,7 @@
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/card/server_aliases.h"
 
 typedef struct S_80404364_0 {
     u8 pad_00[0xC];
@@ -19,8 +20,6 @@ typedef struct S_80404364_1 {
 
 extern void func_80404254(void *body, s32 value);
 extern void func_80404314(void *body, void *init_value, s32 slot_index);
-extern void func_80404570(void *record);
-
 /* Create or reset a slot record, initialize its body, install its callback and return it. */
 u8 *init_card_window_slot_object(u8 *init_value, s32 slot_index)
 {

@@ -150,7 +150,7 @@ void decrease_town_map_object_field_0a_and_transition(town_map_7FFEE2E4_S_8008BA
 void decrease_inner_value_and_load_indexed_state(town_map_7FFEE36C_MainStruct *state);
 void advance_inner_value_and_load_indexed_state(town_map_7FFEE3F0_Actor *actor);
 void decrease_substructure_value_and_reset(town_map_7FFEE474_MainStruct *object);
-void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void *update_context);
+void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void *update_context);
 void restore_town_map_input_state(town_map_7FFEE778_S_8008BED8_0 *state);
 void release_town_map_record(void *record);
 #endif

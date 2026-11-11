@@ -25,10 +25,11 @@ void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {
     s32 dark_color;
     s32 half_x;
     u8 *packet_tags;
+    S_800242D8_0 *initial_view = (S_800242D8_0 *)packet;
 
-    ((S_800242D8_0 *)packet)->unk_01 = 0x81;
-    ((S_800242D8_0 *)packet)->unk_04 = 0x20;
-    ((S_800242D8_0 *)packet)->unk_06 = 0;
+    initial_view->unk_01 = 0x81;
+    initial_view->unk_04 = 0x20;
+    initial_view->unk_06 = 0;
     packet = packet + 0xC;
     packet_index = 0;
     opcode = 0x38;
@@ -51,9 +52,12 @@ void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {
         *packet = *table_entry;
         packet += 0x18;
     } while (packet_index < 4);
-    ((S_800242D8_0 *)packet)->unk_01 = 0x81;
-    ((S_800242D8_0 *)packet)->unk_04 = 0x20;
-    ((S_800242D8_0 *)packet)->unk_06 = 1;
-    ((S_800242D8_0 *)packet)->unk_00 = 0x80;
+    {
+        S_800242D8_0 *final_view = (S_800242D8_0 *)packet;
+        final_view->unk_01 = 0x81;
+        final_view->unk_04 = 0x20;
+        final_view->unk_06 = 1;
+        final_view->unk_00 = 0x80;
+    }
     return packet + 0xC;
 }

@@ -1,10 +1,9 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_aliases.h"
 #include "main/data.h"
 
 s32 count_entries_for_selected_card_path(void);                                /* extern */
-
-extern s32 card_selected_channel[];
 
 /* Store the entry ID and its associated value in the selected slot. */
 void card_dev_cache_slot_summary(void) {

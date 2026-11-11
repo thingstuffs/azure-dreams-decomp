@@ -7,7 +7,4 @@
 extern s32 runtime_callback_entries[];
 extern s32 *runtime_callback_write_cursor;
 
-void reset_scene_frame_callback_list(void);
-void remove_runtime_callback(s32 value);
-
 #endif

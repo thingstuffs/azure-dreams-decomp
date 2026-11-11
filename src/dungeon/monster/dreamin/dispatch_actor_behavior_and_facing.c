@@ -3,6 +3,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -21,7 +22,6 @@ extern void advance_stored_path_motion(void *, void *, void *, void *);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
 
 void update_action_and_directional_frame(ActorRecord *action_state, ObjectPosition *update_arg, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173478(void *, void *, void *, void *);
 
 extern u8 dreamin_action_continuation_address[];

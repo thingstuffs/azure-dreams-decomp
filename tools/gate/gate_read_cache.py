@@ -55,6 +55,21 @@ def observe(path, stamp=False):
             seen.setdefault(parent, value)
 
 VOLATILE = "\0volatile"
+# "\0uses:<input>:<path>": the computation used fields of <input> that belong to <path> (a source-derived slice, such
+# as a TU's layout_inline extents). The memo that stores it must bind <path>; see recipe_cache.RecipeCache.memo.
+USES = "\0uses:"
+
+def uses(input_name, path):
+    """Record that the running computation consumed <input_name>'s fields for <path> (no file read implied)."""
+    marker = USES + input_name + ":" + os.path.abspath(os.fsdecode(path))
+    for seen in getattr(_OBS, "stack", None) or ():
+        seen.setdefault(marker, None)
+
+def memo_read(path):
+    """Call on EVERY access to a process memo built from path, hit or miss: a computation that consumes the memo
+    after another one filled it still records the file it depends on."""
+    if getattr(_OBS, "stack", None):
+        observe(path)
 
 def volatile():
     """The running computation read something identities cannot describe (e.g. a -M scan over a

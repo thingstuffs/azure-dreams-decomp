@@ -1,6 +1,7 @@
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/kid.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
@@ -22,7 +23,6 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 extern s8 find_active_rect_containing_point(s32, s32);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void select_bank_actor_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern void func_80174218(void *, void *, void *, void *);
 

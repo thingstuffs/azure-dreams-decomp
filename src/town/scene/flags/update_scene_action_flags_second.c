@@ -4,13 +4,13 @@
 #include "shared/town_root.h"
 #include "town/player/script_flags.h"
 #include "town/scene/flags.h"
+#include "town/scene/hooks.h"
 
 typedef struct S_func_804B80D0_1 {
     u8 pad_00[2];
     u8 unk_02;
 } S_func_804B80D0_1;
 
-extern void set_global_entry_pair(s32 value_18e44, s32 value_18e48); /* placed copy of set_global_entry_pair */
 extern s16 scene_request_flag_id;
 
 /* Update action flags from the active entry and check whether the action is allowed. */

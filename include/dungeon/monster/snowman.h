@@ -417,18 +417,6 @@ typedef struct R10_80175398_DungeonEffect {
     R10_80175398_DungeonTail *tail;
     void *resource;
 } R10_80175398_DungeonEffect;
-typedef struct R10_80175398_S_80175398_1 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x16];
-    union { u16 u; s16 s; } unk_2A;   
-    u8 pad_2C[0x34];
-    u8 * unk_60;
-    u8 pad_64[0x9];
-    s8 unk_6D;
-    u8 pad_6E[0x1C];
-    u16 unk_8A;
-} R10_80175398_S_80175398_1;
 typedef struct R10_80175398_S_80175398_2 {
     u8 pad_00[0x4];
     s8 unk_04;
@@ -586,7 +574,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
 void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *origin, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data);
 void restore_snowman_scene_tint(u8 *task, void *context, struct SpriteFrameState *input);
-void advance_actor_transition_and_restore_facing(struct ActorRecord *transition, struct ObjectPosition *position, struct SpriteFrameState *record, void *actor);
+void advance_actor_transition_and_restore_facing(struct ActorRecord *transition, struct ObjectPosition *position, struct SpriteFrameState *record, struct ActorRecord *actor);
 void resolve_snowman_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void propagate_snowman_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

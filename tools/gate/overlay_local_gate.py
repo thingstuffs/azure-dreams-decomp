@@ -1297,6 +1297,14 @@ def assert_unique_globals(
     raise SystemExit("\n".join(lines))
 
 
+def _memo_read(path):
+    try:
+        from gate_read_cache import memo_read
+    except ImportError:
+        return
+    memo_read(path)
+
+
 _RENAMED: dict[str, str] | None = None
 
 def renamed_symbols() -> dict[str, str]:
@@ -1304,6 +1312,7 @@ def renamed_symbols() -> dict[str, str]:
     tools/ccproc.py applies inside the defining TU).  A caller in another window references the
     readable name, which no symbol file lists; it resolves through the original's address."""
     global _RENAMED
+    _memo_read(ROOT / "config" / "names.tsv")
     if _RENAMED is None:
         _RENAMED = {}
         path = ROOT / "config" / "names.tsv"

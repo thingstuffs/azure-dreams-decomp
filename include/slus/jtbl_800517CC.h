@@ -37,11 +37,6 @@ typedef struct ParentState800517CC {
     void *child10;
 } ParentState800517CC;
 
-extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern s32 rand(void);
-
 /* Update the effect motion state and detach it from its parent when finished. */
 
 void func_800517CC( EffectState800517CC *effect, VecState800517CC *motion, SpriteFrameState *color);

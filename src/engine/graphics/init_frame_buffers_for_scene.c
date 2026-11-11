@@ -2,14 +2,11 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/graphics.h"
+#include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
 
 typedef u32 OT_TYPE;
-
-typedef struct FrameData {
-    u8 raw[0x8D8];
-} FrameData;
 
 typedef struct OrderingTable {
     OT_TYPE ot[0x218];
@@ -18,11 +15,7 @@ typedef struct OrderingTable {
 
 extern s32 gpu_scratch_buffer_base;
 extern s32 gpu_scratch_write_pointer;
-extern FrameData upper_draw_context;
 extern OrderingTable alternate_frame_ordering_table;
-
-void runtime_reset_object_pool(s32 unused_mode);
-extern void set_next_scene_phase(void);
 
 /* Initialize frame data and ordering tables and enable the display. */
 void init_frame_buffers_for_scene(void)
@@ -37,8 +30,8 @@ void init_frame_buffers_for_scene(void)
     gpu_scratch_write_pointer = state_value;
     runtime_reset_object_pool(state_value);
     reset_scene_frame_callback_list();
-    g_game_work.draw_buffer = &upper_draw_context;
-    ClearOTagR((OT_TYPE *)(upper_draw_context.raw + 0x70), 0x218);
+    g_game_work.draw_buffer = upper_draw_context;
+    ClearOTagR((OT_TYPE *)(upper_draw_context + 0x70), 0x218);
     ClearOTagR(alternate_frame_ordering_table.ot, 0x218);
     {
         u8 *frame_data = g_game_work.draw_buffer;

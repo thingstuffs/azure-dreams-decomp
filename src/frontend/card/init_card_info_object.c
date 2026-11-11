@@ -4,8 +4,8 @@
 #include "main/data.h"
 #include "town/menu.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/card/server_aliases.h"
 
-extern void func_804059A8(void *object);
 extern void initialize_menu_primitive_entries(void *object, s32 value);
 extern s32 register_owner_handler_table(void *value);
 

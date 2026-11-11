@@ -20,7 +20,6 @@ extern u32 *dungeon_category_action_handlers[];
 extern u8 floor_objects[];
 
 extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
-extern s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 
 /* Dispatches an action handler after processing special cases and updating dungeon state. */
 s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mode, s32 handler_param) {
