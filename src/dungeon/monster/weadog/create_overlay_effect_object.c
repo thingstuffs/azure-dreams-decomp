@@ -36,8 +36,8 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
     s32 flags0;
     s32 flags1;
     ActorRecord *result;
-    void *object;
-    SignedHeightView *part0;
+    ObjectNodeHeader *object;
+    ObjectPosition *part0;
     SpriteFrameState *part1;
     ActorRecord *result_copy;
 
@@ -45,17 +45,17 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         result = NODE_BODY(object);
-        ((ProjectileObject *)object)->update_callback = D_801718E0;
+        object->update_callback = D_801718E0;
         result->species = MONSTER_WEADOG;
         register_node(object, project_sprite_chain);
 
         {
             void *handler;
 
-            part0 = ((ProjectileObject *)object)->position;
+            part0 = object->position;
             handler = weadog_frame_set_3;
-            part0->z = attr_c;
-            part1 = ((ProjectileObject *)object)->sprite;
+            part0->z.w.i = attr_c;
+            part1 = object->sprite;
             kind = spawn_flags & 3;
             part1->tile_y = attr_b;
             result_copy = result;

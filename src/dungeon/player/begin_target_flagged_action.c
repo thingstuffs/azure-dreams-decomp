@@ -1,3 +1,4 @@
+#include "dungeon/player/held_item_kind_data.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -8,7 +9,6 @@ struct ObjectPosition;
 #include "dungeon/item/message.h"
 
 extern u8 D_80081471;
-extern u8 held_item_kind_alias;
 extern u8 D_800E04BA[];
 extern u8 D_800E04E6[];
 

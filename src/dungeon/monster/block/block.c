@@ -110,8 +110,8 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
     s32 flags0;
     s32 flags1;
     ActorRecord *result;
-    void *object;
-    CB_80170A5C_S_80170A5C_2 *part0;
+    ObjectNodeHeader *object;
+    ObjectPosition *part0;
     SpriteFrameState *part1;
     CB_80170A5C_S_80170A5C_4 *result_copy;
 
@@ -119,17 +119,17 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         result = NODE_BODY(object);
-        ((CB_80170A5C_S_80170A5C_0 *)object)->unk_10 = update_block_motion_and_facing;
+        object->update_callback = update_block_motion_and_facing;
         result->species = MONSTER_BLOCK;
         register_node(object, project_sprite_chain);
 
         {
             void *handler;
 
-            part0 = ((CB_80170A5C_S_80170A5C_0 *)object)->unk_08;
+            part0 = object->position;
             handler = block_slot_g_direction_frames;
-            part0->unk_0A = attr_c;
-            part1 = ((CB_80170A5C_S_80170A5C_0 *)object)->unk_0C;
+            part0->z.w.i = attr_c;
+            part1 = object->sprite;
             kind = spawn_flags & 3;
             part1->tile_y = attr_b;
             result_copy = (CB_80170A5C_S_80170A5C_4 *)result;
@@ -2082,6 +2082,7 @@ void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition 
             if (effect != 0) {
                 CB_80174724_S_80C96F24_4 *render_state;
                 void *effect_data;
+                CB_80174724_S_80C96F24_1 *body;
                 CB_80174724_S_80C96F24_5 *position;
                 s16 init_value;
                 s16 angle_index;
@@ -2089,13 +2090,14 @@ void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition 
                 s32 end_angle;
 
                 effect_data = (u8 *)effect + 0x20;
+                body = (CB_80174724_S_80C96F24_1 *)effect_data;
 
-                ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_24 = 0x42;
+                body->unk_24 = 0x42;
                 init_value = 0x17;
-                ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_26 = 0;
-                ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_2A = segment;
+                body->unk_26 = 0;
+                body->unk_2A = segment;
 
-                ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_2C =
+                body->unk_2C =
                     init_value - owner->unk_A4;
                 effect->unk_10 = update_radial_effect_band;
                 register_node((struct ObjectNodeHeader *)effect, project_linked_effect_quads);
@@ -2124,9 +2126,9 @@ void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition 
 
                 effect->unk_20 =
                     (rand() & 0x1F) + 0x10 + shade_offset;
-                ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_01 =
+                body->unk_01 =
                     (rand() & 0x1F) + 0x10 + shade_offset;
-                ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_02 =
+                body->unk_02 =
                     (rand() & 0x1F) + 0x10 + shade_offset;
 
                 {
@@ -2134,8 +2136,8 @@ void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition 
 
                     if ((segment_index == 1) || (segment_index == 6)) {
                         effect->unk_20 += 0x0A;
-                        ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_01 += 0x0A;
-                        ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_02 += 0x0A;
+                        body->unk_01 += 0x0A;
+                        body->unk_02 += 0x0A;
                     }
                 }
                 if (((s16)segment == 2) || ((s16)segment == 5)) {

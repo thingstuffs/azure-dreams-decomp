@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3E80. */
 
 #include "common.h"
+#include "town/map/saved_sound_data.h"
 
 typedef struct {
     u8 pad0[0x18];
@@ -14,7 +15,6 @@ typedef struct {
 extern TownState map_runtime_state;
 extern u8 map_sound_settings[];
 extern u16 fallback_sound_pairs[];
-extern u16 town_saved_sound[];
 extern s32 find_sound_entry_or_terminator_index(s32 target_value);
 extern s16 SD_Call(s32);
 

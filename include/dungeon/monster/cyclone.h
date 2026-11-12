@@ -57,4 +57,6 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
 struct Actor;
 void update_actor_direction_and_ground(struct Actor *input_actor, ObjectPosition *input_motion, SpriteFrameState *input_entity);
 
+void show_entity_message_with_prefix(s32 dispatch_mode, ActorRecord *input);
+
 #endif

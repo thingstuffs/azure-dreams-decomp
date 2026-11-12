@@ -1,6 +1,6 @@
 #include "frontend/card/save_slot.h"
 #include "common.h"
-#include "frontend/card/decimal_format_word.h"
+#include "frontend/card/decimal_format.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
 #include "frontend/libcard.h"
@@ -14,7 +14,7 @@ extern s32 D_8009E390;
 
 /* Initializes memory card support when card_first_flg is clear and resets card server state. */
 void card_dev_init(void) {
-    func_8007C040(&card_decimal_format, &card_first_flg_label, card_first_flg);
+    func_8007C040(card_decimal_format, &card_first_flg_label, card_first_flg);
     if (card_first_flg == 0) {
         card_first_flg = 1;
         libcard_init(1);

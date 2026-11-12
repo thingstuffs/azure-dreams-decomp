@@ -5,39 +5,21 @@
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
 
 typedef struct S_80166968_0 {
     u8 pad_00[0x24];
     u8 *unk_24;
     u16 unk_28;
     u8 pad_2A[0xA];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    u8 pad_40[0x14];
+    VECTOR scale; /* ScaleMatrix scale of the composed matrix */
+    u8 pad_44[0x10];
     MATRIX composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
     MATRIX object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
     u8 pad_94[0x10];
-    u16 unk_A4;
-    u16 unk_A6;
-    u16 unk_A8;
-    u8 pad_AA[0x6];
-    s16 unk_B0;
-    s16 unk_B2;
-    s16 unk_B4;
-    u8 pad_B6[0x2];
-    s16 unk_B8;
-    s16 unk_BA;
-    s16 unk_BC;
-    u8 pad_BE[0x2];
-    s16 unk_C0;
-    s16 unk_C2;
-    s16 unk_C4;
-    u8 pad_C6[0x2];
-    s16 unk_C8;
-    s16 unk_CA;
-    s16 unk_CC;
-    u8 pad_CE[0x2];
+    SVECTOR angles; /* RotMatrix angles of object_matrix */
+    u8 pad_AC[0x4];
+    SVECTOR points[4]; /* RotAverage4 inputs: the two edge midpoints, each given twice */
     s32 depth_cue; /* RotAverage4 depth-cue output */
     s32 gte_flag; /* RotAverage4 GTE flag output */
     u8 pad_D8[0x28];
@@ -66,7 +48,6 @@ typedef struct S_80166968_5 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
 } S_80166968_5;   /* packet in draw_ribbon_center_lines */
 
-#include "sdk/libgte_matrix.h"
 
 /* Project edge midpoints and queue line and draw-mode packets in the ordering table. */
 void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias)
@@ -86,10 +67,10 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
     s32 mid_b_y;
     s32 mid_a_z;
     s32 mid_b_z;
-    u8 *point_a;
-    u8 *point_b;
-    u8 *point_a_copy;
-    u8 *point_b_copy;
+    SVECTOR *point_a;
+    SVECTOR *point_b;
+    SVECTOR *point_a_copy;
+    SVECTOR *point_b_copy;
     u32 address_mask;
     u32 length_mask;
     u16 render_flags;
@@ -106,16 +87,16 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
     render_state_ref = &g_game_work.draw_buffer;
     PushMatrix();
 
-    scratch->unk_3C = 0x2000;
-    scratch->unk_38 = 0x2000;
-    scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = render_data->angle_x;
-    scratch->unk_A8 = render_data->angle_z;
-    scratch->unk_A6 = render_data->angle_y;
-    RotMatrix(&scratch->unk_A4, &scratch->object_matrix);
+    scratch->scale.vz = 0x2000;
+    scratch->scale.vy = 0x2000;
+    scratch->scale.vx = 0x2000;
+    scratch->angles.vx = render_data->angle_x;
+    scratch->angles.vz = render_data->angle_z;
+    scratch->angles.vy = render_data->angle_y;
+    RotMatrix(&scratch->angles, &scratch->object_matrix);
     ReadRotMatrix(&matrix);
     CompMatrix(&matrix, &scratch->object_matrix, &scratch->composed_matrix);
-    ScaleMatrix(&scratch->composed_matrix, &scratch->unk_34);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
     SetTransMatrix(&scratch->composed_matrix);
     SetRotMatrix(&scratch->composed_matrix);
 
@@ -127,28 +108,28 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         packet = ((GpuContext *)(*render_state_ref))->packetCursor;
         ((GpuContext *)(*render_state_ref))->packetCursor = (u8 *)packet + 0x10;
 
-        point_a = (u8 *)scratch + 0xB0;
+        point_a = &scratch->points[0];
         mid_a_x = (geometry->unk_74 + geometry->unk_7A) / 2;
-        scratch->unk_C0 = mid_a_x;
-        scratch->unk_B0 = mid_a_x;
-        point_b = (u8 *)scratch + 0xB8;
+        scratch->points[2].vx = mid_a_x;
+        scratch->points[0].vx = mid_a_x;
+        point_b = &scratch->points[1];
         mid_b_x = (geometry->unk_80 + geometry->unk_86) / 2;
-        scratch->unk_C8 = mid_b_x;
-        scratch->unk_B8 = mid_b_x;
-        point_a_copy = (u8 *)scratch + 0xC0;
+        scratch->points[3].vx = mid_b_x;
+        scratch->points[1].vx = mid_b_x;
+        point_a_copy = &scratch->points[2];
         mid_a_y = (geometry->unk_76 + geometry->unk_7C) / 2;
-        scratch->unk_C2 = mid_a_y;
-        scratch->unk_B2 = mid_a_y;
-        point_b_copy = (u8 *)scratch + 0xC8;
+        scratch->points[2].vy = mid_a_y;
+        scratch->points[0].vy = mid_a_y;
+        point_b_copy = &scratch->points[3];
         mid_b_y = (geometry->unk_82 + geometry->unk_88) / 2;
-        scratch->unk_CA = mid_b_y;
-        scratch->unk_BA = mid_b_y;
+        scratch->points[3].vy = mid_b_y;
+        scratch->points[1].vy = mid_b_y;
         mid_a_z = (geometry->unk_78 + geometry->unk_7E) / 2;
-        scratch->unk_C4 = mid_a_z;
-        scratch->unk_B4 = mid_a_z;
+        scratch->points[2].vz = mid_a_z;
+        scratch->points[0].vz = mid_a_z;
         mid_b_z = (geometry->unk_84 + geometry->unk_8A) / 2;
-        scratch->unk_CC = mid_b_z;
-        scratch->unk_BC = mid_b_z;
+        scratch->points[3].vz = mid_b_z;
+        scratch->points[1].vz = mid_b_z;
 
         ot_index = RotAverage4(point_a, point_b, point_a_copy, point_b_copy,
                                  (u8 *)packet + 8, (u8 *)packet + 0xC,

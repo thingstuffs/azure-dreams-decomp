@@ -130,4 +130,6 @@ s32 move_item_to_list(void *state);
 void process_valid_entry_lookup(s32 entry_id);
 void update_active_entry_and_notify_handlers(s8 *state_arg, s32 input);
 
+void *format_compared_stat_pairs(void *text, ActorRecord *stats);
+
 #endif

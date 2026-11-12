@@ -3,6 +3,7 @@
 #include "common.h"
 #include "slus.h"
 #include "engine/audio/spu.h"
+#include "engine/audio/spu/reverb_start_address.h"
 #include "engine/audio/spu/sound_reverb.h"
 
 typedef struct
@@ -25,7 +26,6 @@ typedef struct
 }
 S_80079958;
 
-extern s32 spu_reverb_start_address[];
 extern s32 spu_reverb_mode[];
 extern u16 spu_reverb_depth_left[];
 extern u16 spu_reverb_depth_right[];
@@ -87,7 +87,7 @@ s32 SpuSetReverbModeParam(S_8005DA88 *settings)
         }
         mode_changed = 1;
         spu_reverb_mode[0] = mode;
-        spu_reverb_start_address[0] = spu_reverb_start_addresses[spu_reverb_mode[0]];
+        spu_reverb_start_address = spu_reverb_start_addresses[spu_reverb_mode[0]];
         mode_src = inline_fn_8005DA88(&spu_reverb_parameter_tables[spu_reverb_mode[0]]);
         mode_dst = inline_fn_8005DA88(&reverb_params);
         mode_bytes = 0x43;
@@ -198,7 +198,7 @@ s32 SpuSetReverbModeParam(S_8005DA88 *settings)
         SpuClearReverbWorkArea(spu_reverb_mode[0]);
     }
     if (mode_changed) {
-        func_8005D550(0xD1, spu_reverb_start_address[0], 0);
+        func_8005D550(0xD1, spu_reverb_start_address, 0);
         if (reverb_enabled) {
             spu_control = spu_registers->field_1AA;
             spu_control |= 0x80;

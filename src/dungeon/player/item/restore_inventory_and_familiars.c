@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "dungeon/level.h"
 #include "dungeon/system.h"
+#include "dungeon/system/restore_actor_script_data.h"
 #include "engine/entity.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"
@@ -35,7 +36,6 @@ typedef struct {
 extern s32 familiar_record_slots[];
 extern S_800E3E48 familiar_record_storage[];
 extern s32 familiar_turn_counters_alias;
-extern u8 restore_actor_script[];
 
 extern s32 get_entity_class();
 

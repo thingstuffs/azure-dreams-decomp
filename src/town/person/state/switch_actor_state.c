@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "town/person/state.h"
+#include "town/person.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-extern void apply_setup_on_timeout_variant_2();
 extern s32 D_800D5944[];
 
 

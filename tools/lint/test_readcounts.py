@@ -90,6 +90,25 @@ class ReadCounts(unittest.TestCase):
         self.assertEqual((t['duplicate_copies'], t['duplicate_bodies']), (3, 1))   # Pair x2 and Twin share one body
         self.assertEqual(t['names_with_several_bodies'], 1)                          # Odd
 
+    def test_small_views(self):
+        t = self.report()['structs']
+        # Pair x2, Twin, Odd { q } and Odd { q; r }: every view has at most two non-pad fields
+        self.assertEqual(t['small_views'], 5)
+        self.assertEqual(t['small_by_fields'], {'1': 1, '2': 4})
+        self.assertEqual((t['small_duplicate_copies'], t['small_duplicate_bodies']), (3, 1))
+
+    def test_member_names_and_pads(self):
+        self.assertEqual(R.member_names('u8 pad_00[0x2A]; u16 unk_2A;'), ['pad_00', 'unk_2A'])
+        self.assertEqual(R.non_pad_members('u8 pad_00[0x2A]; u16 unk_2A;'), 1)
+        self.assertEqual(R.member_names('union { s16 s; u16 u; }; u8 pad[2];'), ['', 'pad'])
+        self.assertEqual(R.member_names('union { s16 s; u16 u; } v; struct Bar { s32 x; }; s32 y;'),
+                         ['v', None, 'y'])
+        self.assertEqual(R.member_names('struct Foo *next; void (*cb)(void); s32 : 3; u8 reserved_1;'),
+                         ['next', 'cb', None, 'reserved_1'])
+        self.assertEqual(R.non_pad_members('struct Foo *next; void (*cb)(void); s32 : 3; u8 reserved_1;'), 2)
+        self.assertEqual(R.member_names('struct { s16 a; } pos[4], *q; s32 x[2], pad_10;'),
+                         ['pos', 'q', 'x', 'pad_10'])
+
     def test_hygiene(self):
         h = self.report()['hygiene']
         self.assertEqual(h['include_dups'], 1)
@@ -110,7 +129,8 @@ class ReadCounts(unittest.TestCase):
         rep = self.report()
         lines = R.summary_lines(rep)
         self.assertTrue(all('(report only)' in line for line in lines))
-        self.assertEqual(len(lines), 9)
+        self.assertEqual(len(lines), 10)
+        self.assertTrue(any(line.startswith('local views with <=2 non-pad fields') for line in lines))
         R.write_lists(self.root / 'lists', rep)
         self.assertTrue((self.root / 'lists/signature_conflicts.tsv').read_text().startswith('name\t'))
         self.assertIn('shared', (self.root / 'lists/signature_conflicts.tsv').read_text())

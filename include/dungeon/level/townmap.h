@@ -11,6 +11,8 @@ struct ObjectNodeHeader;
 #include "sdk/libgpu.h"
 #include "slus/town_map_selection_data.h"
 #include "town/map/state_ids_data.h"
+#include "town/map/link_slots_data.h"
+#include "town/scene/resource_request_data.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 typedef void (*Callback)(void *);
 typedef struct town_map_7FFEE278_S_8008B9D8_0 {
@@ -105,7 +107,6 @@ typedef struct town_map_7FFEE778_S_8008BED8_0 {
 } town_map_7FFEE778_S_8008BED8_0;
 extern u32 loaded_town_resource_attributes[];
 extern s32 town_resource_descriptors[218];
-extern s32 town_resource_request[203];
 extern s32 load_cd_resource(s32 entry_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 func_80047E78(s32 entry_value);
 extern void func_80035208(s32 value);
@@ -116,7 +117,6 @@ extern void runtime_initialize_state_value(void *, s32);
 extern void runtime_clear_value(s32 *value);
 extern void unlink_active_node(ObjectNodeHeader *node);
 extern void push_node_onto_free_list(struct ObjectNodeHeader *);
-extern s8 town_map_link_slots;
 extern u8 town_map_status;
 extern void *register_node(void *, void *);
 extern void copy_window_params(void *, u32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */

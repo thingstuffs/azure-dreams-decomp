@@ -1,9 +1,9 @@
 #include "common.h"
 #include "town/menu/window.h"
 #include "town/scene.h"
+#include "town/map/variant_data.h"
 
 extern s32 runtime_script_state[];
-extern u8 town_map_variant[];
 extern u8 D_800D3C00[];
 
 
@@ -40,7 +40,7 @@ void flgtst(s32 handler_arg0, s32 handler_arg1, s32 handler_arg2, s32 handler_ar
     packet.handler_arg1 = handler_arg1;
     packet.handler_arg2 = handler_arg2;
     packet.handler_arg3 = handler_arg3;
-    packet.mode = town_map_variant[0];
+    packet.mode = town_map_variant;
     packet.data1 = (s32)town_object_callbacks;
     packet.value0 = state[16];
     packet.value1 = state[17];

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_FLOOR_SPAWNS_H
 #define DUNGEON_FLOOR_SPAWNS_H
 #include "common.h"
+#include "dungeon/level/experience_data.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "modules/dungeon_floor_switch_owners.h"
 #include "m2c_compat.h"
@@ -106,10 +107,6 @@ extern s32 test_resident_bit(s16 value);
 extern s32 func_80033BC0(s32);
 extern s16 spawn_category_weight_totals[];
 extern u8 D_80010000[];
-/* One leading experience word followed by the 100 threshold words built by
- * build_cubic_cumulative_table. These are overlapping word views, not pairs
- * of initial/limit arrays repeated at an eight-byte stride. */
-extern u32 level_experience_table[101];
 extern s32 entity_level_thresholds[];
 extern floor_spawns_isolated_8028BF0C_SpawnPosition dungeon_floor_object_positions[];
 extern u8 *D_800735C4[];

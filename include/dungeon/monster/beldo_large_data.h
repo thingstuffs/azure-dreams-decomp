@@ -5,4 +5,7 @@
 
 extern u8 encounter_recovery_flag;
 
+/* The encounter callbacks read and write the first halfword at 0x801760D8. */
+extern s16 encounter_blink_update_flag;
+
 #endif

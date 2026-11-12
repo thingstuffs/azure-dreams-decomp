@@ -3,6 +3,7 @@
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
+#include "engine/audio/spu/reverb_start_address.h"
 
 /* PsyQ 4.0 LIBSPU: SpuSetCommonAttr */
 typedef struct {
@@ -46,6 +47,5 @@ void SpuSetCommonAttr(SpuCommonAttr *attr);
 
 extern s32 spu_reverb_enabled;
 extern s32 spu_reverb_range_override;
-extern u32 spu_reverb_start_address;
 
 #endif

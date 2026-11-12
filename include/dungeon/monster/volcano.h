@@ -468,17 +468,8 @@ typedef struct {
     s32 words[6];
 } E_801742AC_Copy24;
 
-typedef struct E_801742AC_S_80DE6AAC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void (*unk_10)(u16 *counter, ObjectPosition *position, SpriteFrameState *sprite);
-    u8 pad_14[0xC];
-    s16 unk_20;
-} E_801742AC_S_80DE6AAC_0;   /* temp_v0 in func_801742AC */
-
 typedef struct E_801742AC_S_80DE6AAC_1 {
-    u8 pad_00[0x2];
+    u16 counter;
     s16 unk_02;
 } E_801742AC_S_80DE6AAC_1;   /* temp_s1 in func_801742AC */
 
@@ -494,14 +485,6 @@ typedef struct E_801742AC_S_80DE6AAC_4 {
     u8 unk_24;
     u8 unk_25;
 } E_801742AC_S_80DE6AAC_4;   /* arg2 in func_801742AC */
-
-typedef struct E_801742AC_S_80DE6AAC_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    s32 unk_08;
-} E_801742AC_S_80DE6AAC_5;   /* temp_s0_2 in func_801742AC */
 
 /* Creates an effect at a directional tile offset and clamps its height. */
 

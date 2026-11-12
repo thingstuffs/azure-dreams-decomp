@@ -37,4 +37,6 @@ void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_c
 #include "shared/dungeon_moving_views.h"
 void update_effect_fade_and_history(void *effect, MovingPosition *position, SpriteFrameState *primitive);
 
+void update_kewne_charge_counter(ActorRecord *actor_state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

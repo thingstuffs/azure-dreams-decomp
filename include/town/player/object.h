@@ -102,4 +102,6 @@ void update_entity_countdown_transition(void *record_arg, void *context, SpriteF
 /* Retail motion-handler callback address used by the object binder. */
 void adjust_object_motion_at_threshold(s32 context, ObjectPosition *record, s32 action_data);
 
+void reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting(ObjectPosition *object);
+
 #endif

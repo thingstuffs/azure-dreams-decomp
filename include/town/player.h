@@ -70,7 +70,8 @@ s32 select_an_available_entry_matching_direction_returns_status(void *record);
 s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *destination, void *source);
 void store_the_valid_shared_angle_in_offset_hex_10(void *record_arg);
 void tick_countdown_and_initialize_target(UnsignedCountdownView *state, ObjectPosition *value);
-void update_threshold_and_interaction(TownObjectRecord *state, ObjectPosition *entity, struct SpriteFrameState *context);
+#include "shared/sprite_frame_state.h"
+void update_threshold_and_interaction(TownObjectRecord *state, ObjectPosition *entity, SpriteFrameState *context);
 void update_threshold_timed_action(TownObjectRecord *state, ObjectPosition *entity, struct SpriteFrameState *context);
 
 #include "shared/dungeon_moving_views.h"
@@ -128,7 +129,7 @@ void initialize_record_with_update_parameters(TownObjectRecord *record, ObjectPo
 void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, ObjectPosition *record, struct SpriteFrameState *sprite);
 
 
-void update_actor_interaction_actions(void *self_arg, ObjectPosition *target_arg, struct SpriteFrameState *sprite);
+void update_actor_interaction_actions(void *self_arg, ObjectPosition *target_arg, SpriteFrameState *sprite);
 
 void run_action_then_fallback_on_no_change(s32 *value, ObjectPosition *state, struct SpriteFrameState *sprite);
 
@@ -140,7 +141,10 @@ struct S_80097D2C_0;
 void dispatch_fallback_request(TownObjectRecord *request, void *request_data, void *request_param, s32 check_param);
 void invoke_object_state_callback(struct S_80097D2C_0 *object, void *position, void *sprite);
 
-#include "shared/sprite_frame_state.h"
 void initialize_record_and_select_active_data(void *record, ObjectPosition *position, SpriteFrameState *sprite);
 void initialize_shared_scene_data(s32 **out_ptr, void *unused_position, struct SpriteFrameState *unused_sprite);
+void add_a_directional_step_vector_scale_down_exceeds_length_limit(s16 angle, s32 max_length, ObjectPosition *vector);
+void update_actor_movement_and_interaction(void *actor, ObjectPosition *position, s32 context);
+void update_threshold_countdown_with_busy_check(void *state, ObjectPosition *object, s32 context);
+
 #endif

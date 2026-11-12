@@ -1,6 +1,7 @@
 /* Ghosh level clamping and actor animation, movement, and terrain updates. */
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/level/experience_data.h"
 #include "slus/imports.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/dir_step.h"
@@ -22,7 +23,6 @@ extern u8 resident_globals_page[];
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);  /* extern */
 s16 sample_terrain_surface_height(u16, u16, s16);                   /* extern */
 void clear_actor_action_markers(u8 *state);                         /* extern */
-extern u32 level_experience_table[64];
 extern u8 D_800F927E[16];
 extern void ghosh_action_resume_address(void);
 extern void (*ghosh_callbacks[256])(void *, void *, void *, void *);

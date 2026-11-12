@@ -13,7 +13,6 @@ typedef struct {
     s32 words[3];
 } __attribute__((packed)) Packed12;
 
-extern u8 emitter_height_offsets[16];
 extern M2C_UNK D_8010CEE0;
 extern Packed12 D_8010D40C;
 

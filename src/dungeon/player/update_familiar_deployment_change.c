@@ -19,6 +19,7 @@
 #include "engine/entity.h"
 #include "engine/texture.h"
 #include "dungeon/data.h"
+#include "dungeon/actor/entity_resource_read_complete.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void runtime_map_type_16_entry_code();                      /* extern */
@@ -42,7 +43,6 @@ extern u8 D_800E06FA[26];
 extern u8 D_800E0714[18];
 extern s32 familiar_turn_counters_alias[];
 extern void *familiar_record_slots[];
-extern s8 entity_resource_read_complete;
 
 typedef union ScratchS1 {
     void *text;
@@ -64,10 +64,6 @@ typedef struct S_8009345C_7 {
     u8 pad_01[0x2];
     u8 unk_03;
 } S_8009345C_7;   /* *scratch_s1.base in update_familiar_deployment_change */
-
-typedef struct S_8009345C_8 {
-    u8 unk_00;
-} S_8009345C_8;   /* &D_800E3E40 in update_familiar_deployment_change */
 
 typedef struct S_8009345C_9 {
     u8 unk_00;
@@ -195,13 +191,13 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
         if (load_id != 0) {
             loaded_entity_sprite_resource = begin_sprite_resource_load_with_completion_flag(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &sprite_resource_completion_flag);
             load_monster_code_module(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
-            (*&entity_resource_read_complete) = 0;
+            entity_resource_read_complete = 0;
             Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         }
         actor->action_phase++;
         return;
     case 4:
-        if (((S_8009345C_8 *)(&entity_resource_read_complete))->unk_00 == 0) {
+        if (entity_resource_read_complete == 0) {
             return;
         }
         if (loaded_entity_sprite_resource != 0) {

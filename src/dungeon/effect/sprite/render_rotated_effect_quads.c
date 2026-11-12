@@ -1,5 +1,6 @@
 /* Rotated sprite scanline rendering and clipping rectangle setup. */
 #include "shared/sprite_frame_state.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/sprite.h"
@@ -57,7 +58,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     u8 right_u;
     u16 draw_flags;
     s32 left_x;
-    ScratchPad *scratch;
+    SpriteQuadScratch *scratch;
     void *frame;
     void *row_effect;
     u8 *frame_data;
@@ -71,17 +72,17 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     render_context = g_game_work.draw_buffer;
     render_state = (u8 *)&g_game_work;
     frame = sprite->source;
-    scratch = (ScratchPad *)0x1F800000;
-    scratch->sw[59] = 0;
-    scratch->h[70] = 0;
-    scratch->h[66] = 0;
-    scratch->h[62] = 0;
-    scratch->h[58] = 0;
+    scratch = (SpriteQuadScratch *)0x1F800000;
+    scratch->local_matrix.t[2] = 0;
+    scratch->vertices[3].vz = 0;
+    scratch->vertices[2].vz = 0;
+    scratch->vertices[1].vz = 0;
+    scratch->vertices[0].vz = 0;
     packet = *((u8 **) (((s8 *) render_context) + 0x8D0));
-    scratch->sw[8] = (s32) ordering_tag;
-    scratch->sw[48] = 0;
-    scratch->h[92] = (u16) ((*((u16 *) (((s8 *) setup_arg) + 0))) - 0xA0);
-    scratch->h[93] = (u16) ((*((u16 *) (((s8 *) setup_arg) + 2))) - 0x78);
+    scratch->ordering_table = (u32 *)ordering_tag;
+    scratch->sort_depth = 0;
+    scratch->screen_origin.x = (u16) ((*((u16 *) (((s8 *) setup_arg) + 0))) - 0xA0);
+    scratch->screen_origin.y = (u16) ((*((u16 *) (((s8 *) setup_arg) + 2))) - 0x78);
     saved_draw_mode = (u16) draw_mode;
     shifted_mode = draw_mode << 0x10;
     draw_arg = 0;
@@ -89,8 +90,8 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         func_80067EF4(packet, draw_arg, draw_arg, shifted_mode);
         packet_mask = 0xFFFFFF;
         draw_arg = 0xFF000000;
-        *((s32 *) packet) = ((*((s32 *) packet)) & 0xFF000000) | ((*((s32 *) (scratch->sw[8]))) & packet_mask);
-        start_tag = (s32 *) (scratch->sw[8]);
+        *((s32 *) packet) = ((*((s32 *) packet)) & 0xFF000000) | ((*scratch->ordering_table) & packet_mask);
+        start_tag = (s32 *)scratch->ordering_table;
         setup_arg = (void *) (((s32) packet) & packet_mask);
         packet += 0xC;
         *start_tag = ((*start_tag) & 0xFF000000) | ((s32) setup_arg);
@@ -103,108 +104,109 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     view_axis_x = *((s16 *) (((s8 *) render_state) + 0xC4));
     view_axis_y = *((s16 *) (((s8 *) render_state) + 0xC6));
     view_axis_z = *((s16 *) (((s8 *) render_state) + 0xC8));
-    scratch->sw[12] = view_axis_x;
-    scratch->sw[13] = view_axis_y;
-    scratch->sw[14] = view_axis_z;
-    scratch->h[128] = (u16) (sprite->angle_x);
-    scratch->h[130] = (s16) ((sprite->angle_z) - (scratch->h[26]));
+    scratch->input.vx = view_axis_x;
+    scratch->input.vy = view_axis_y;
+    scratch->input.vz = view_axis_z;
+    scratch->angles.vx = (u16) (sprite->angle_x);
+    scratch->angles.vz = (s16) ((sprite->angle_z) - ((u16)scratch->input.vy));
     base_rotation = sprite->angle_y;
-    scratch->h[129] = (s16) (((((scratch->h[28]) + 0x100) & 0x1FF) - 0x100)
+    scratch->angles.vy = (s16) ((((((u16)scratch->input.vz) + 0x100) & 0x1FF) - 0x100)
         + base_rotation);
     pivot_x = sprite->offset_x;
-    scratch->sw[57] = pivot_x;
-    scratch->h[132] = pivot_x;
+    scratch->local_matrix.t[0] = pivot_x;
+    scratch->extent_x = pivot_x;
     pivot_y = sprite->offset_y;
-    scratch->sw[58] = pivot_y;
-    scratch->h[133] = pivot_y;
-    RotMatrix(&scratch->b[0x100], &scratch->b[0xD0]);
-    scratch->sw[12] = (s32) (sprite->scale_x);
-    scratch->sw[13] = (s32) (sprite->scale_y);
-    scratch->sw[14] = 0x1000;
-    ScaleMatrix(&scratch->b[0xD0], &scratch->b[0x30]);
-    CompMatrix(view_matrix, &scratch->b[0xD0], &scratch->b[0x50]);
-    SetTransMatrix(&scratch->b[0x50]);
-    SetRotMatrix(&scratch->b[0x50]);
-    scratch->h[18] = (u16) (sprite->flags);
+    scratch->local_matrix.t[1] = pivot_y;
+    scratch->extent_y = pivot_y;
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
+    scratch->input.vx = (s32) (sprite->scale_x);
+    scratch->input.vy = (s32) (sprite->scale_y);
+    scratch->input.vz = 0x1000;
+    ScaleMatrix(&scratch->local_matrix, &scratch->input);
+    CompMatrix(view_matrix, &scratch->local_matrix, &scratch->matrix);
+    SetTransMatrix(&scratch->matrix);
+    SetRotMatrix(&scratch->matrix);
+    scratch->sprite_flags = (u16) (sprite->flags);
     do {
     frame_data = frame + 8;
     if (!((*((u8 *) (((s8 *) frame) + 0))) & 0x20)) {
-        scratch->sw[2] = (s32) (*((u8 *) (((s8 *) frame_data) + 0)));
-        scratch->sw[3] = (s32) (*((u8 *) (((s8 *) frame_data) + 1)));
-        scratch->sw[4] = (s32) (*((u8 *) (((s8 *) frame_data) + 2)));
-        scratch->sw[5] = (s32) (*((u8 *) (((s8 *) frame_data) + 3)));
-        if (((*((u8 *) (((s8 *) frame) + 0))) ^ (scratch->h[18])) & 1) {
+        scratch->uv_u_start = (s32) (*((u8 *) (((s8 *) frame_data) + 0)));
+        scratch->uv_v_start = (s32) (*((u8 *) (((s8 *) frame_data) + 1)));
+        scratch->uv_u_extent = (s32) (*((u8 *) (((s8 *) frame_data) + 2)));
+        scratch->uv_v_extent = (s32) (*((u8 *) (((s8 *) frame_data) + 3)));
+        if (((*((u8 *) (((s8 *) frame) + 0))) ^ (scratch->sprite_flags)) & 1) {
             flipped_x = *((u8 *) (((s8 *) frame_data) + (-6)));
-            mirrored_x = (0 - ((s8) flipped_x)) - (scratch->h[132]);
-            scratch->h[64] = mirrored_x;
-            scratch->h[56] = mirrored_x;
-            mirrored_x = mirrored_x - (scratch->h[8]);
-            scratch->h[68] = mirrored_x;
-            scratch->h[60] = mirrored_x;
+            mirrored_x = (0 - ((s8) flipped_x)) - (scratch->extent_x);
+            scratch->vertices[2].vx = mirrored_x;
+            scratch->vertices[0].vx = mirrored_x;
+            mirrored_x = mirrored_x - ((u16)scratch->uv_u_extent);
+            scratch->vertices[3].vx = mirrored_x;
+            scratch->vertices[1].vx = mirrored_x;
         }
         else {
             origin_x = *((u8 *) (((s8 *) frame_data) + (-6)));
-            quad_x = ((s8) origin_x) - (scratch->h[132]);
-            scratch->h[64] = quad_x;
-            scratch->h[56] = quad_x;
-            quad_x = quad_x + (scratch->h[8]);
-            scratch->h[68] = quad_x;
-            scratch->h[60] = quad_x;
+            quad_x = ((s8) origin_x) - (scratch->extent_x);
+            scratch->vertices[2].vx = quad_x;
+            scratch->vertices[0].vx = quad_x;
+            quad_x = quad_x + ((u16)scratch->uv_u_extent);
+            scratch->vertices[3].vx = quad_x;
+            scratch->vertices[1].vx = quad_x;
         }
-        if (((*((u8 *) (((s8 *) frame) + 0))) ^ (scratch->h[18])) & 2) {
+        if (((*((u8 *) (((s8 *) frame) + 0))) ^ (scratch->sprite_flags)) & 2) {
             flipped_y = *((u8 *) (((s8 *) frame_data) + (-5)));
-            mirrored_y = (0 - ((s8) flipped_y)) - (scratch->h[133]);
-            scratch->h[61] = mirrored_y;
-            scratch->h[57] = mirrored_y;
-            mirrored_y = mirrored_y - (scratch->h[10]);
-            scratch->h[69] = mirrored_y;
-            scratch->h[65] = mirrored_y;
+            mirrored_y = (0 - ((s8) flipped_y)) - (scratch->extent_y);
+            scratch->vertices[1].vy = mirrored_y;
+            scratch->vertices[0].vy = mirrored_y;
+            mirrored_y = mirrored_y - ((u16)scratch->uv_v_extent);
+            scratch->vertices[3].vy = mirrored_y;
+            scratch->vertices[2].vy = mirrored_y;
         }
         else {
             origin_y = *((u8 *) (((s8 *) frame_data) + (-5)));
-            quad_y = ((s8) origin_y) - (scratch->h[133]);
-            scratch->h[61] = quad_y;
-            scratch->h[57] = quad_y;
-            quad_y = quad_y + (scratch->h[10]);
-            scratch->h[69] = quad_y;
-            scratch->h[65] = quad_y;
+            quad_y = ((s8) origin_y) - (scratch->extent_y);
+            scratch->vertices[1].vy = quad_y;
+            scratch->vertices[0].vy = quad_y;
+            quad_y = quad_y + ((u16)scratch->uv_v_extent);
+            scratch->vertices[3].vy = quad_y;
+            scratch->vertices[2].vy = quad_y;
         }
-        RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, &scratch->sw[60], &scratch->sw[61],
-            &scratch->sw[62], &scratch->sw[63], &scratch->sw[36], &scratch->sw[37]);
-        *((s16 *) (((s8 *) packet) + 8)) = (s16) ((scratch->h[120]) + (scratch->h[92]));
-        *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((scratch->h[121])
-            + (scratch->h[93]));
-        *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((scratch->h[122])
-            + (scratch->h[92]));
-        *((s16 *) (((s8 *) packet) + 0x12)) = (s16) ((scratch->h[123])
-            + (scratch->h[93]));
-        *((s16 *) (((s8 *) packet) + 0x18)) = (s16) ((scratch->h[124])
-            + (scratch->h[92]));
-        *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((scratch->h[125])
-            + (scratch->h[93]));
-        *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((scratch->h[126])
-            + (scratch->h[92]));
-        projected_y = scratch->h[127];
-        screen_y = scratch->h[93];
+        RotTransPers4(&scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2], &scratch->vertices[3],
+            (s32 *)&scratch->projected_vertices[0], (s32 *)&scratch->projected_vertices[1],
+            (s32 *)&scratch->projected_vertices[2], (s32 *)&scratch->projected_vertices[3], &scratch->depth_cue, &scratch->gte_flag);
+        *((s16 *) (((s8 *) packet) + 8)) = (s16) ((scratch->projected_vertices[0].x) + (scratch->screen_origin.x));
+        *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((scratch->projected_vertices[0].y)
+            + (scratch->screen_origin.y));
+        *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((scratch->projected_vertices[1].x)
+            + (scratch->screen_origin.x));
+        *((s16 *) (((s8 *) packet) + 0x12)) = (s16) ((scratch->projected_vertices[1].y)
+            + (scratch->screen_origin.y));
+        *((s16 *) (((s8 *) packet) + 0x18)) = (s16) ((scratch->projected_vertices[2].x)
+            + (scratch->screen_origin.x));
+        *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((scratch->projected_vertices[2].y)
+            + (scratch->screen_origin.y));
+        *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((scratch->projected_vertices[3].x)
+            + (scratch->screen_origin.x));
+        projected_y = scratch->projected_vertices[3].y;
+        screen_y = scratch->screen_origin.y;
         *((((s8 *) packet) + 3)) = 9;
         *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (projected_y + screen_y);
-        width_minus_one = (scratch->sw[4]) - 1;
-        edge_value = width_minus_one + (scratch->sw[2]);
-        scratch->sw[4] = edge_value;
+        width_minus_one = (scratch->uv_u_extent) - 1;
+        edge_value = width_minus_one + (scratch->uv_u_start);
+        scratch->uv_u_extent = edge_value;
         if (edge_value & 0x100) {
-            scratch->sw[4] = edge_value - 1;
+            scratch->uv_u_extent = edge_value - 1;
         }
-        height_minus_one = (scratch->sw[5]) - 1;
-        bottom_v = height_minus_one + (scratch->sw[3]);
-        scratch->sw[5] = bottom_v;
+        height_minus_one = (scratch->uv_v_extent) - 1;
+        bottom_v = height_minus_one + (scratch->uv_v_start);
+        scratch->uv_v_extent = bottom_v;
         if (bottom_v & 0x100) {
-            scratch->sw[5] = bottom_v - 1;
+            scratch->uv_v_extent = bottom_v - 1;
         }
-        scratch->sw[5] <<= 8;
-        scratch->sw[3] <<= 8;
+        scratch->uv_v_extent <<= 8;
+        scratch->uv_v_start <<= 8;
         clut_offset = sprite->clut;
         if (clut_offset != 0) {
-            if ((scratch->h[18]) & 0x100) {
+            if ((scratch->sprite_flags) & 0x100) {
                 *((u16 *) (((s8 *) packet) + 0xE)) = (u16) clut_offset;
             } else {
             texture_word = clut_offset + (*((u16 *) (((s8 *) frame_data) + (-2))));
@@ -214,10 +216,10 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         else {
             *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-2))));
         }
-        *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (scratch->h[6]))
-            + ((u16) (scratch->h[4])));
-        *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (scratch->h[6]))
-            + ((u16) (scratch->h[8])));
+        *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) ((u16)scratch->uv_v_start))
+            + ((u16) ((u16)scratch->uv_u_start)));
+        *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) ((u16)scratch->uv_v_start))
+            + ((u16) ((u16)scratch->uv_u_extent)));
         ;
         ;
         tpage_offset = sprite->tpage_abr;
@@ -228,10 +230,10 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         else {
             *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-4))));
         }
-        *((s16 *) (((s8 *) packet) + 0x1C)) = (s16) (((u16) (scratch->h[10]))
-            | ((u16) (scratch->h[4])));
-        *((s16 *) (((s8 *) packet) + 0x24)) = (s16) (((u16) (scratch->h[10]))
-            | ((u16) (scratch->h[8])));
+        *((s16 *) (((s8 *) packet) + 0x1C)) = (s16) (((u16) ((u16)scratch->uv_v_extent))
+            | ((u16) ((u16)scratch->uv_u_start)));
+        *((s16 *) (((s8 *) packet) + 0x24)) = (s16) (((u16) ((u16)scratch->uv_v_extent))
+            | ((u16) ((u16)scratch->uv_u_extent)));
         left_x = *((s16 *) (((s8 *) packet) + 8));
         if ((*((s16 *) (((s8 *) packet) + 0x20))) < left_x) {
             right_u = *((u8 *) (((s8 *) packet) + 0x24));
@@ -246,7 +248,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         }
         prim_code = *((u8 *) (((s8 *) frame_data) + (-7)));
         sprite->color.c.code = prim_code;
-        draw_flags = scratch->h[18];
+        draw_flags = scratch->sprite_flags;
         if (draw_flags & 8) {
             if (draw_flags & 4) {
                 sprite->color.c.code = prim_code | 2;
@@ -307,10 +309,10 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
                 s32 link_lower;
                 s32 tag_high;
                 tag_high = (*((s32 *)packet) & 0xFF000000);
-                link_lower = (*((s32 *)(scratch->sw[8]))) & addr_mask;
+                link_lower = (*scratch->ordering_table) & addr_mask;
                 *((s32 *)packet) = tag_high | link_lower;
             }
-            row_tag = (s32 *) (scratch->sw[8]);
+            row_tag = (s32 *)scratch->ordering_table;
             {
                 s32 link_lower;
                 s32 tag_high;
@@ -343,8 +345,8 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     restore_arg = packet;
     if ((saved_draw_mode << 0x10) != 0) {
         func_80067EF4(restore_arg, 0, 1);
-        *((s32 *) packet) = ((*((s32 *) packet)) & 0xFF000000) | ((*((s32 *) (scratch->sw[8]))) & 0xFFFFFF);
-        end_tag = (s32 *) (scratch->sw[8]);
+        *((s32 *) packet) = ((*((s32 *) packet)) & 0xFF000000) | ((*scratch->ordering_table) & 0xFFFFFF);
+        end_tag = (s32 *)scratch->ordering_table;
         restore_arg = (u8 *) (((s32) packet) & 0xFFFFFF);
         packet += 0xC;
         *end_tag = ((*end_tag) & 0xFF000000) | ((s32) restore_arg);

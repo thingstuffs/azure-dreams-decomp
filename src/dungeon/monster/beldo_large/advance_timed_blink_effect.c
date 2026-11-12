@@ -1,3 +1,4 @@
+#include "dungeon/monster/beldo_large_data.h"
 #include "slus.h"
 /* cfail-repair: recovered external dispatch table */
 #include "common.h"
@@ -7,7 +8,6 @@
 #include "shared/object_node.h"
 
 
-extern s16 encounter_blink_update_flag[5];
 
 
    /* the 0x2 bytes before state in advance_timed_blink_effect, addressed as state[-1] */

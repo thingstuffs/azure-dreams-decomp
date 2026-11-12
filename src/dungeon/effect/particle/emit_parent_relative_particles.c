@@ -60,7 +60,6 @@ typedef struct S_7FFE89B0_6 {
     u8 unk_13;
 } S_7FFE89B0_6;   /* ((S_7FFE89B0_0 *)arg0)->unk_00 in emit_parent_relative_particles */
 
-extern u8 emitter_height_offsets[];
 extern M2C_UNK D_8010B4EC;
 
 /* Emit particles at the parent-relative position and retire the emitter when its lifetime expires. */

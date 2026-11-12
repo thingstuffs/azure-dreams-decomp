@@ -1,32 +1,15 @@
 #include "common.h"
 #include "shared/position_views.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
 #include "town/menu.h"
 #include "town/menu/animation.h"
 
-typedef struct TownMatrix {
-    u8 bytes[0x20];
-} TownMatrix;
-
-typedef struct TownVec16 {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} TownVec16;
-
-typedef struct TownVec32 {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 pad;
-} TownVec32;
-
 typedef struct TownScratch {
     u8 pad_00[0x2C];
-    TownVec16 rotation;
-    TownVec32 scale;
-    TownVec32 translation;
+    SVECTOR rotation; /* RotMatrix angles: the object angles, then their negation */
+    VECTOR scale; /* ScaleMatrix scale: the object extent on every axis */
+    VECTOR translation; /* TransMatrix translation: the anchor point */
 } TownScratch;
 
 typedef s16 TownExtent;
@@ -46,8 +29,8 @@ typedef struct TownObject {
     s32 timer;
     TownReciprocal reciprocal;
     u8 pad_12[2];
-    TownMatrix first_matrix;
-    TownMatrix second_matrix;
+    MATRIX first_matrix;
+    MATRIX second_matrix;
     u8 pad_54[0x26];
     s16 half_height;
 } TownObject;
@@ -56,11 +39,11 @@ typedef struct TownObject {
 s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionView *point, s32 unused_arg2)
 {
     TownScratch *scratch = (TownScratch *)0x1F800000;
-    TownVec32 *translation;
-    TownVec16 *rotation;
-    TownVec32 *scale;
-    TownMatrix *first_matrix;
-    TownMatrix *second_matrix;
+    VECTOR *translation;
+    SVECTOR *rotation;
+    VECTOR *scale;
+    MATRIX *first_matrix;
+    MATRIX *second_matrix;
     s32 animation_time;
     s32 wave_value;
     u16 spin_angle;
@@ -102,16 +85,16 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
 
     translation = &scratch->translation;
     PushMatrix();
-    scratch->translation.x = point->x;
-    scratch->translation.y = point->y;
-    scratch->translation.z = point->z - (object->half_height / 2);
-    scratch->scale.x = object->extent;
-    scratch->scale.y = object->extent;
-    scratch->scale.z = object->extent;
+    scratch->translation.vx = point->x;
+    scratch->translation.vy = point->y;
+    scratch->translation.vz = point->z - (object->half_height / 2);
+    scratch->scale.vx = object->extent;
+    scratch->scale.vy = object->extent;
+    scratch->scale.vz = object->extent;
 
-    scratch->rotation.x = object->angle_x;
-    scratch->rotation.y = object->angle_y;
-    scratch->rotation.z = object->angle_z;
+    scratch->rotation.vx = object->angle_x;
+    scratch->rotation.vy = object->angle_y;
+    scratch->rotation.vz = object->angle_z;
     first_matrix = &object->first_matrix;
     TransMatrix(first_matrix, translation);
 
@@ -120,9 +103,9 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
     scale = &scratch->scale;
     ScaleMatrix(first_matrix, scale);
 
-    scratch->rotation.x = -object->angle_x;
-    scratch->rotation.y = -object->angle_y;
-    scratch->rotation.z = -object->angle_z;
+    scratch->rotation.vx = -object->angle_x;
+    scratch->rotation.vy = -object->angle_y;
+    scratch->rotation.vz = -object->angle_z;
     second_matrix = &object->second_matrix;
     TransMatrix(second_matrix, translation);
     RotMatrix(rotation, second_matrix);

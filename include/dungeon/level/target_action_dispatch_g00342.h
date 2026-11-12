@@ -8,6 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/level/floor_object_positions.h"
 #include "dungeon/level.h"
+#include "dungeon/level/trap_request_blocked.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct {
@@ -40,7 +41,6 @@ extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern void clear_slots_of_type(void *object, s32 value);
 extern s8 D_800E0DF5[];
 extern D_800DF2A8_fn D_800DF2A8[];
-extern u8 trap_request_blocked[16];
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern u8 floor_objects[16];

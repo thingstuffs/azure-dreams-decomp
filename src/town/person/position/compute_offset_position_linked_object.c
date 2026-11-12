@@ -6,8 +6,7 @@
 #include "town/person/position.h"
 #include "shared/object_node.h"
 #include "sdk/libgte.h"
-
-extern s32 check_actor_data_references_match(void *actor);
+#include "town/person.h"
 
 /* Computes an offset position from the linked object, flagging failed validation. */
 void compute_offset_position_linked_object(OwnerFollowingSpriteBody *object, ObjectPosition *out_pos)

@@ -166,7 +166,7 @@ extern u8 *sprite_resource_base;
 extern s32 loaded_entity_sprite_resource;
 extern u8 sprite_resource_completion_flag[];
 extern u8 familiar_record_slots[];
-extern u8 entity_resource_read_complete[];
+#include "dungeon/actor/entity_resource_read_complete.h"
 #include "shared/dungeon_image_buffer.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"

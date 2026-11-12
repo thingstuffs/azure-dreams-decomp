@@ -1,6 +1,6 @@
 #include "frontend/card/save_slot.h"
 #include "common.h"
-#include "frontend/card/service/decimal_format_bytes.h"
+#include "frontend/card/decimal_format.h"
 #include "frontend/card/service.h"
 #include "frontend/card/server_aliases.h"
 #include "main/data.h"

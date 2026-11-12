@@ -30,6 +30,10 @@ GENERIC_INDEX = re.compile(r'(?:(?:->|\.)\s*(?:b|sb|h|sh|w|sw|bytes|signed_bytes
 # Named signedness member views (unsigned_parts, signed_halves, ...) that pointer puns turn into.
 NAMED_SIGN_VIEW = re.compile(r'(?:un)?signed_\w+')
 ADDRESS_NAME = re.compile(r'[0-9A-Fa-f]{8}')
+# Report-only split of local_externs (--summary): what waits on naming (address-named D_/func_ symbols) and
+# what waits on headers (named data and functions).
+ADDRESS_SYMBOL = re.compile(r'^(?:D|func)_[0-9A-Fa-f]{8}')
+EXTERN_SPLIT = ('named_data', 'named_functions', 'D_data', 'func_functions', 'mixed')
 INTEGER_TYPES = {
     's8': ('signed', 8), 'u8': ('unsigned', 8),
     's16': ('signed', 16), 'u16': ('unsigned', 16),
@@ -349,6 +353,59 @@ def declaration_sites(tokens, pairs, definitions):
             start = i + 1
         i += 1
     return sorted(sites)
+
+
+def site_declarators(tokens, pairs, start):
+    """[(name, is_function, initialised)] of the declaration statement starting at token `start`: a
+    declarator whose identifier is followed by a parameter list is a function; `(*name)(...)`, arrays and
+    plain objects are data."""
+    out, j = [], start
+    while j < len(tokens):
+        last_id, name, function, initialised = None, None, False, False
+        while j < len(tokens) and tokens[j].value not in {',', ';'}:
+            value = tokens[j].value
+            if value == '(' and j in pairs and last_id in {'__attribute__', '__asm__', 'asm'}:
+                j = pairs[j] + 1
+                continue
+            if name is None and value == '(' and j in pairs:
+                inner = tokens[j + 1:pairs[j]]
+                if inner and inner[0].value == '*':
+                    ids = [t.value for t in inner if t.kind == 'id']
+                    name = ids[-1] if ids else None
+                else:
+                    name, function = last_id, last_id is not None
+                j = pairs[j] + 1
+                continue
+            if name is None and value in {'[', '='}:
+                name = last_id
+            if value == '=':
+                initialised = True
+            if value in {'(', '[', '{'} and j in pairs:
+                j = pairs[j] + 1
+                continue
+            if tokens[j].kind == 'id' and value != 'extern':
+                last_id = value
+            j += 1
+        if name is None:
+            name = last_id
+        if name:
+            out.append((name, function, initialised))
+        if j >= len(tokens) or tokens[j].value == ';':
+            break
+        j += 1
+    return out
+
+
+def extern_split_kind(tokens, pairs, start):
+    """EXTERN_SPLIT class of one local_externs site (its uninitialised declarators; several kinds: mixed)."""
+    kinds = set()
+    for name, function, initialised in site_declarators(tokens, pairs, start):
+        if initialised:
+            continue
+        address = bool(ADDRESS_SYMBOL.match(name))
+        kinds.add(('func_functions' if address else 'named_functions') if function else
+                  ('D_data' if address else 'named_data'))
+    return kinds.pop() if len(kinds) == 1 else 'mixed'
 
 
 # ------------------------------------------------------------------ opt-in: casts hidden in file-local macros
@@ -688,9 +745,11 @@ def analyze(path, text, macro_casts=False, header_events=()):
             counts[owner]['m2c_macros'] += 1
         if GENERATED.fullmatch(value):
             layouts[owner].add(value)
+    extern_split = Counter()
     for i in declaration_sites(tokens, pairs, definitions):
         if i not in excluded:
             counts[owners[i]]['local_externs'] += 1
+            extern_split[extern_split_kind(tokens, pairs, i)] += 1
     for a, b in c.cast_sites(tokens, pairs):
         if not any(i in excluded for i in range(a, b + 1)):
             counts[owners[a]]['pointer_casts'] += 1
@@ -721,7 +780,7 @@ def analyze(path, text, macro_casts=False, header_events=()):
     signedness_unions, bad_label_unions = union_sites(path, text, tokens, pairs)
     return dict(file=path, scopes=rows, markers=len(spans), errors=errors,
                 view_counts=dict(views), signedness_unions=signedness_unions,
-                bad_label_unions=bad_label_unions, typedef_views=typedefs,
+                bad_label_unions=bad_label_unions, typedef_views=typedefs, extern_split=dict(extern_split),
                 union_definitions=union_definition_count(tokens, pairs),
                 generic_index_views=generic_index_views(text))
 
@@ -774,6 +833,7 @@ def census(root, only=None, macro_casts=False, cache_dir=None, readcounts=False)
     view_counts, signedness_unions, bad_label_unions = Counter(), [], []
     union_definitions = generic_views = 0
     typedef_views, address_names = [], set()
+    extern_split = Counter()
     header_cache = {}
     tool_hash, headers_hash = report_cache_keys(root) if cache_dir is not None else ('', '')
     for rel in selected:
@@ -804,6 +864,7 @@ def census(root, only=None, macro_casts=False, cache_dir=None, readcounts=False)
         union_definitions += source['union_definitions']
         generic_views += source['generic_index_views']
         typedef_views.extend(source['typedef_views'])
+        extern_split.update(source.get('extern_split', {}))
         address_names.update(row['name'] for row in source['typedef_views']
                              if ADDRESS_NAME.search(row['name']) and not row['name'].startswith('S_'))
     if not only:
@@ -862,6 +923,9 @@ def census(root, only=None, macro_casts=False, cache_dir=None, readcounts=False)
                                               note='all braced union definitions in src/ and include/'),
                 generic_index_views_report=dict(count=generic_views,
                                                 note='indexed ScratchPad members and record bytes candidates in src/ and include/'),
+                local_externs_split_report=dict({k: extern_split.get(k, 0) for k in EXTERN_SPLIT},
+                                                note='local_externs sites by declared symbol: named or address-named '
+                                                     '(D_/func_<addr>) data and functions; mixed = several kinds'),
                 signedness_union_sites=signedness_unions,
                 bad_label_unions=bad_label_unions,
                 view_inventory_report=dict(address_named_types=len(address_names),
@@ -1247,6 +1311,8 @@ def main(argv=None):
     if args.summary:
         for key, count in summary['by_class'].items():
             print(f'{key}\t{count}')
+        split = summary['local_externs_split_report']
+        print('local_externs split (report only)\t' + '\t'.join(f'{k} {split[k]}' for k in EXTERN_SPLIT))
         print('sign_views by form\t' + json.dumps(summary['sign_views_report'], sort_keys=True))
         print(f'signedness_unions (ratchet)\t{summary["signedness_unions_report"]["count"]}')
         print(f'unions_total (ratchet)\t{summary["union_definitions_report"]["count"]}')

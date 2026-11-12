@@ -3,6 +3,7 @@
 #include "sdk/libspu.h"
 
 #include "engine/audio/spu/sound_range_records.h"
+#include "engine/audio/spu/reverb_start_address.h"
 #include "engine/audio/spu/voice_sample_notes.h"
 
 extern s32 spu_reverb_start_addresses[10];
@@ -13,7 +14,6 @@ extern u16 spu_reverb_depth_left;
 extern u16 spu_reverb_depth_right;
 extern s32 spu_reverb_delay;
 extern s32 spu_reverb_feedback;
-extern u32 spu_reverb_start_address;
 extern s32 spu_transfer_completion_override;
 extern s32 spu_transfer_uses_fifo;
 extern s32 spu_active_voice_mask;

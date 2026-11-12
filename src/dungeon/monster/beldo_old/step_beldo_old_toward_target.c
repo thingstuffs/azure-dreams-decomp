@@ -11,6 +11,7 @@
 #include "dungeon/stale_bank_imports.h"
 #include "dungeon/globals.h"
 #include "dungeon/monster/beldo_old.h"
+#include "engine/scene/cd_state.h"
 
 typedef struct S_8127C3E0_0 {
     u8 pad_00[0x2];
@@ -32,7 +33,6 @@ extern s8 D_8006BDA8;
 extern s8 D_8006BDB8;
 extern ActorRecord *beldo_old_target_actor;   /* the primary actor pointer in this build */
 extern u8 free_node_list_head[];
-extern s8 cd_queue_buffered_argument_word_1;
 extern s32 D_80085990;
 extern DungeonRoom D_800E1D50[];   /* this build's room table */
 

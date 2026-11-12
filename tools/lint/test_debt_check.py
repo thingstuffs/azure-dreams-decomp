@@ -241,6 +241,26 @@ void use(Pos *p) {
             self.assertEqual(report['by_class']['sign_views'], 3)
             self.assertEqual(report['sign_views_report']['named_sign_views'], 3)
 
+    def test_local_externs_split(self):
+        text = ('extern s32 named_value;\nextern s32 D_80012345;\nextern void named_call(s32 x);\n'
+                'extern void func_80012345();\nvoid unqualified_proto(void);\nextern void (*callback)(void);\n'
+                'extern s32 mixed_value, mixed_call(void);\nextern s32 defined_here = 1;\n'
+                'extern u8 aligned_table[4] __attribute__((aligned(4)));\n'
+                'void body(void)\n{\n    extern s32 D_80099999;\n    named_call(0);\n}\n')
+        res = D.analyze('src/a.c', text)
+        self.assertEqual(sum(r['counts']['local_externs'] for r in res['scopes'].values()), 9)
+        self.assertEqual(res['extern_split'], dict(named_data=3, D_data=2, named_functions=2, func_functions=1,
+                                                   mixed=1))
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'src').mkdir()
+            (root / 'src/a.c').write_text(text)
+            summary = D.census(root)
+            self.assertEqual(summary['local_externs_split_report']['named_data'], 3)
+            self.assertEqual(sum(v for k, v in summary['local_externs_split_report'].items() if k != 'note'),
+                             summary['by_class']['local_externs'])
+            self.assertNotIn('local_externs_split_report', D.baseline_record(summary))
+
     def test_report_cache_dir_is_outside_tracked_out(self):
         root = Path('/r')
         with patch.dict(os.environ, {}, clear=False):

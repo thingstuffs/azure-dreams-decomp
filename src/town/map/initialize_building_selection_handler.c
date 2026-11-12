@@ -2,6 +2,7 @@
 #include "town/map/animation.h"
 #include "common.h"
 #include "town/map.h"
+#include "town/map/variant_data.h"
 
 typedef struct Obj {
     u8 pad0[0x10];
@@ -12,7 +13,6 @@ typedef struct Obj {
 } Obj;
 
 extern u8 town_map_variants[];
-extern u8 town_map_variant[];
 
 
 /* Initialize the object's selection and assign a handler based on the selected entry's kind. */
@@ -27,7 +27,7 @@ void initialize_building_selection_handler(void) {
     obj = allocate_flagged_object_node(0);
     if (obj != 0) {
         entry_table = town_map_variants;
-        entry_indices = town_map_variant;
+        entry_indices = &town_map_variant;
         obj->field20 = 0;
         entry_index = entry_indices[obj->field20];
         entry = entry_table + (entry_index << 5);

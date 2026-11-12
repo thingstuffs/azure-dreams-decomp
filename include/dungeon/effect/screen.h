@@ -76,10 +76,10 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z);
 
-struct S_Arg1;
+struct SpriteQuadScratch;
 struct S_Rect;
 void create_type_212_object(s32 flag, s8 value);
-void queue_visible_rectangle_copy(struct S_Rect *copy_rect, struct S_Arg1 *source);
+void queue_visible_rectangle_copy(struct S_Rect *copy_rect, struct SpriteQuadScratch *source);
 void retire_tracked_effect_by_id(s32 targetId);
 
 void *create_item_target_selector(u8 *selection_data);

@@ -4,6 +4,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "shared/entity.h"
+#include "town/player/object.h"
 
 typedef struct {
     s32 unk0[3];

@@ -170,4 +170,8 @@ void initialize_reaction_data_and_timer_10(TownObjectRecord *object);
 void initialize_reaction_data_and_timer_13(TownObjectRecord *object);
 void initialize_reaction_data_and_timer_10_b(TownObjectRecord *object, void *unused_position, void *unused_context, void *unused_game);
 
+void apply_setup_on_timeout_variant_2(TownObjectRecord *object, ObjectPosition *callback_arg_1, void *callback_arg_2);
+s32 check_actor_data_references_match(TownObjectRecord *actor);
+void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *movement, void *context);
+
 #endif

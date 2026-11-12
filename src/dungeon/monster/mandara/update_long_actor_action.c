@@ -37,7 +37,7 @@ typedef struct {
 
 extern s8 find_active_rect_containing_point(s32, s32);
 
-extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
+extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void choose_block_move_slot_a(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor);
 void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);

@@ -5,10 +5,10 @@ struct ObjectNodeHeader;
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
 #include "engine/script.h"
+#include "dungeon/system/restore_actor_script_data.h"
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/level.h"
 
-extern u8 restore_actor_script[];
 extern u8 *beldo_actor_nodes[3];
 
 /* Reset state flags, relink the two attached objects, and submit the global buffer. */

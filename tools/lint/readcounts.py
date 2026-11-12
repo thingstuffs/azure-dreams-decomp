@@ -8,7 +8,8 @@ canonical signature per function and from code a reader can follow:
      (decl_agreement's normalisation), and declaration sites per declared name;
   2. function names defined more than once, split into identical and differing bodies;
   3. address-named tokens (func_8xxxxxxx, D_8xxxxxxx) and unk_/pad_ member tokens;
-  4. struct typedefs in .c files: exact-duplicate bodies, names with several bodies;
+  4. struct typedefs in .c files: exact-duplicate bodies, names with several bodies, and the local views
+     with at most two non-pad members (casts spelled as structs: `{ u8 pad_00[0x2A]; u16 unk_2A; }`);
   5. duplicate #include lines, stale tool comments, placeholder identifiers (argN, var_, temp_).
 
 Everything is lexical (comments and string contents never count) and cached per file by
@@ -54,6 +55,8 @@ TOOL_TAGS = (
     ('MECHANISM note', re.compile(r'\bMECHANISM:')),
 )
 PLACEHOLDERS = ('arg', 'var_', 'temp_')
+PAD_MEMBER = re.compile(r'_?(?:pad|reserved)', re.I)
+SMALL_VIEW = 2          # non-pad members at most
 CACHE_SUBDIR = 'readcounts'
 
 
@@ -147,16 +150,70 @@ def scan_declarations(clean):
     return found
 
 
+def _top_split(text, sep):
+    """text split at `sep` outside (), [] and {}."""
+    parts, depth, last = [], 0, 0
+    for i, ch in enumerate(text):
+        if ch in '([{':
+            depth += 1
+        elif ch in ')]}':
+            depth -= 1
+        elif ch == sep and depth == 0:
+            parts.append(text[last:i])
+            last = i + 1
+    parts.append(text[last:])
+    return parts
+
+
+def member_names(body):
+    """Top-level member names of a struct body (comments removed); an anonymous struct/union member is ''
+    (it names fields), an unnamed bit-field None (padding)."""
+    names = []
+    for statement in _top_split(body, ';'):
+        statement = statement.strip()
+        if not statement or statement.startswith('#'):
+            continue
+        aggregate = '{' in statement
+        for k, decl in enumerate(_top_split(statement, ',')):
+            pointer = re.search(r'\(\s*\*+\s*([A-Za-z_]\w*)', decl)
+            if pointer:
+                names.append(pointer[1])
+                continue
+            if k == 0 and aggregate:
+                head, _, after = decl.rpartition('}')
+                ids = re.findall(r'[A-Za-z_]\w*', re.sub(r'\[[^\]]*\]', ' ', after).split(':')[0])
+                if ids:
+                    names.append(ids[-1])
+                else:
+                    # `union { ... };` is an anonymous member (its fields are named inside);
+                    # `struct Tag { ... };` only declares a nested type
+                    tag = re.findall(r'[A-Za-z_]\w*', head.split('{', 1)[0])
+                    names.append('' if tag in (['struct'], ['union']) else None)
+                continue
+            flat = re.sub(r'\[[^\]]*\]', ' ', decl).split(':')[0]
+            ids = re.findall(r'[A-Za-z_]\w*', flat)
+            if k == 0 and len(ids) <= 1:
+                names.append(None)          # unnamed bit-field
+            else:
+                names.append(ids[-1] if ids else None)
+    return names
+
+
+def non_pad_members(body):
+    return sum(1 for n in member_names(body) if n is not None and not PAD_MEMBER.match(n))
+
+
 def struct_typedefs(clean):
-    """[alias, body hash, line] for `typedef struct [tag] { ... } alias;`."""
+    """[alias, body hash, line, non-pad members] for `typedef struct [tag] { ... } alias;`."""
     out = []
     for m in TYPEDEF_STRUCT.finditer(clean):
         opening = m.end() - 1
         end = _brace_end(clean, opening)
         alias = ALIAS_AFTER.match(clean, end)
         if alias:
-            out.append([alias[1], hashlib.sha1(_squash(clean[opening + 1:end - 1]).encode()).hexdigest()[:16],
-                        clean.count('\n', 0, m.start()) + 1])
+            body = clean[opening + 1:end - 1]
+            out.append([alias[1], hashlib.sha1(_squash(body).encode()).hexdigest()[:16],
+                        clean.count('\n', 0, m.start()) + 1, non_pad_members(body)])
     return out
 
 
@@ -291,7 +348,7 @@ def aggregate(per_file, aliases):
         for kind, n in f['placeholders'].items():
             placeholders[kind] += n
             placeholder_files[rel][kind] += n
-        structs += [(alias, body, rel, line) for alias, body, line in f['structs']]
+        structs += [(alias, body, rel, line, fields) for alias, body, line, fields in f['structs']]
         include_dups += [(rel, name, n) for name, n in f['include_dups']]
         for line, hit in f['tags']:
             tag_comments += 1
@@ -331,11 +388,15 @@ def aggregate(per_file, aliases):
     # 4. struct typedefs
     by_body = collections.defaultdict(list)
     by_name = collections.defaultdict(set)
-    for alias, body, rel, line in structs:
+    fields_of = {}
+    for alias, body, rel, line, fields in structs:
         by_body[body].append((alias, rel, line))
         by_name[alias].add(body)
+        fields_of[body] = fields
     dup_bodies = {b: v for b, v in by_body.items() if len(v) > 1}
     several = {n: bs for n, bs in by_name.items() if len(bs) > 1}
+    small = collections.Counter(fields for *_, fields in structs if fields <= SMALL_VIEW)
+    small_dups = {b: v for b, v in dup_bodies.items() if fields_of[b] <= SMALL_VIEW}
 
     return dict(
         signatures=dict(
@@ -353,7 +414,10 @@ def aggregate(per_file, aliases):
                        data_in_comments=comment_tokens['data']),
         structs=dict(total=len(structs), duplicate_copies=sum(len(v) for v in dup_bodies.values()),
                      duplicate_bodies=len(dup_bodies), names_with_several_bodies=len(several),
-                     bodies_of_those=sum(len(v) for v in several.values())),
+                     bodies_of_those=sum(len(v) for v in several.values()),
+                     small_views=sum(small.values()), small_by_fields={str(k): small[k] for k in sorted(small)},
+                     small_duplicate_copies=sum(len(v) for v in small_dups.values()),
+                     small_duplicate_bodies=len(small_dups)),
         hygiene=dict(include_dups=sum(n for _, _, n in include_dups),
                      include_dup_files=len({r for r, _, _ in include_dups}),
                      tag_comments=tag_comments, tags=dict(tags),
@@ -403,6 +467,9 @@ def summary_lines(rep):
         f'unk_/pad_ member tokens (report only)\tunk_ {a["unk"]}\tpad_ {a["pad"]}',
         f'struct typedefs in .c files (report only)\t{t["total"]}\t{t["duplicate_copies"]} copies of '
         f'{t["duplicate_bodies"]} exact-duplicate bodies\t{t["names_with_several_bodies"]} names with several bodies',
+        f'local views with <={SMALL_VIEW} non-pad fields (report only)\t{t["small_views"]}\t'
+        + ', '.join(f'{k} fields {v}' for k, v in sorted(t['small_by_fields'].items()))
+        + f'\t{t["small_duplicate_copies"]} copies of {t["small_duplicate_bodies"]} exact-duplicate bodies',
         f'duplicate #include lines (report only)\t{h["include_dups"]}\t{h["include_dup_files"]} files',
         f'stale tool comments (report only)\t{h["tag_comments"]}\t{tags}',
         f'placeholder identifiers (report only)\t{ph["total"]}\targN {ph.get("arg", 0)}'

@@ -2,16 +2,16 @@
 #include "m2c_compat.h"
 #include "town/devkit.h"
 #include "town/devkit/state.h"
+#include "town/devkit/shop_selection_data.h"
 
 extern s32 devkit_globals_page[];
 extern s32 D_807014C8[];
 extern s32 devkit_selected_shop_row[];
-extern s32 devkit_shop_selection[];
 
 /* Returns the current entry value or fallback address after calling shop_set_entry_step_flag. */
 s32 read_flag_row_fallback(void) {
     s32 selected_value;
-    if (devkit_shop_selection[0] == 0) {
+    if (devkit_shop_selection == 0) {
         selected_value = *(s32 *)((u8 *)devkit_globals_page + (devkit_selected_shop_row[0] << 5) + 0x1E30);
     } else {
         selected_value = (s32)D_807014C8;

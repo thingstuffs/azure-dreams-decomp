@@ -25,7 +25,6 @@
 
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void update_kewne_charge_counter(void *, void *, void *, void *);
 extern void func_8015C574(void *, void *, void *, void *);
 
 extern u8 D_8015DE40[];

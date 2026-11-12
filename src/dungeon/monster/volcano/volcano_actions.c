@@ -2000,17 +2000,17 @@ void advance_effect_record_counters(u16 *counter, ObjectPosition *unused_positio
 /* Creates a growing gray sprite on the tile ahead and limits its height to the terrain surface. */
 void * create_directional_effect_object(ActorRecord *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin) {
     SpriteFrameState *sprite;
-    E_801742AC_S_80DE6AAC_5 *position;
+    ObjectPosition *position;
     E_801742AC_S_80DE6AAC_1 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        effect_state = effect + 0x20;
-        ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_10 = advance_effect_record_counters;
-        ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_20 = 0;
+        effect_state = NODE_BODY(effect);
+        effect->update_callback = advance_effect_record_counters;
+        effect_state->counter = 0;
         effect_state->unk_02 = (s16)((source->facing >> 9) & 7);
-        sprite = ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -2021,7 +2021,7 @@ void * create_directional_effect_object(ActorRecord *source, ObjectPosition *ini
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
         register_node(effect, project_sprite_chain);
-        position = ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_08;
+        position = effect->position;
         *(E_801742AC_Copy24 *)position = *(E_801742AC_Copy24 *)initial_position;
         {
             s32 world_y;
@@ -2032,11 +2032,11 @@ void * create_directional_effect_object(ActorRecord *source, ObjectPosition *ini
             direction_offset = effect_state->unk_02 * 2;
             world_x = (s32)((tile_origin->tile_x + *(u16 *)((u8 *)dir_step_x + direction_offset)) << 0x10) >> 0xA;
             world_y = (s32)((tile_origin->tile_y + *(u16 *)((u8 *)dir_step_y + direction_offset)) << 0x10) >> 0xA;
-            position->unk_02 = (s16)(world_x + 0x20);
-            position->unk_06 = (s16)(world_y + 0x20);
+            position->x.w.i = (s16)(world_x + 0x20);
+            position->y.w.i = (s16)(world_y + 0x20);
             height_limit = sample_terrain_surface_height(world_x & 0xFFC0, world_y & 0xFFC0, (s16)(source->ground_height - 0x20)) << 0x10;
-            if (height_limit < position->unk_08) {
-                position->unk_08 = height_limit;
+            if (height_limit < position->z.v) {
+                position->z.v = height_limit;
             }
         }
         return effect;

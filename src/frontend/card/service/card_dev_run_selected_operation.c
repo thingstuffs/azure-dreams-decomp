@@ -1,5 +1,5 @@
 #include "common.h"
-#include "frontend/card/service/decimal_format_bytes.h"
+#include "frontend/card/decimal_format.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"

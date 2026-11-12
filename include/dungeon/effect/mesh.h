@@ -149,4 +149,6 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
 void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value);
 s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y);
 
+void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ObjectPosition *source_data, s16 initial_setting);
+
 #endif

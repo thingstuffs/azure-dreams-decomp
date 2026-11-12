@@ -1,3 +1,4 @@
+#include "dungeon/player/held_item_kind_data.h"
 #include "shared/monster_ids.h"
 #include "dungeon/level/tile_flags.h"
 #include "shared/dungeon_item_entries.h"
@@ -35,7 +36,6 @@ typedef struct Unit {
     s16 id;
 } Unit;
 
-extern u8 held_item_kind_alias[16];
 extern Ent dungeon_ground_item_positions[];
 extern char D_80088A80[];
 extern char D_80088A84[];
@@ -95,7 +95,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
     }
     message_handle = get_unused_text_buffer();
     message = write_text_byte_and_advance(8, message_handle);
-    if (held_item_kind_alias[0] != 0) {
+    if (held_item_kind_alias != 0) {
         clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A76,
             message))));
         display_text_with_fullwidth_adjustment(message_handle);

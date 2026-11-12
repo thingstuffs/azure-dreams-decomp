@@ -22,7 +22,7 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 extern s32 find_active_rect_containing_point(s32, s32);
-extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
+extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_work, ObjectPosition *entry_context, SpriteFrameState *position, ActorRecord *actor);
 s32 check_action_eligibility_updates_actor_state_directional_animation_success(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173900(void *, void *, void *, void *);

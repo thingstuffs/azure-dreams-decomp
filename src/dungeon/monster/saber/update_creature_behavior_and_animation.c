@@ -18,7 +18,7 @@
 #include "dungeon/monster/dragon/transition_effect.h"
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-extern void choose_griffon_move(void *, void *, void *, void *);
+extern void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 /* Bank copy of update_actor_state_after_map_check. */
 extern void func_801743E8(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);

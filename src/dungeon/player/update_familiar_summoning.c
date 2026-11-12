@@ -21,6 +21,7 @@
 #include "engine/texture.h"
 #include "dungeon/system.h"
 #include "dungeon/data.h"
+#include "dungeon/actor/entity_resource_read_complete.h"
 
    /* arg3 in update_familiar_summoning */
 
@@ -30,10 +31,6 @@ typedef struct S_80095A10_3 {
     u8 unk_03;
 } S_80095A10_3;
 
-typedef struct S_80095A10_4 {
-    u8 unk_00;
-} S_80095A10_4;   /* &D_800E3E40 in update_familiar_summoning */
-
 
    /* ((S_80095A10_2 *)arg3)->unk_60 in update_familiar_summoning */
 
@@ -42,7 +39,6 @@ s32 queue_cd_resource(); /* Unprototyped: uses the value as a pointer where the 
 extern s32 loaded_entity_sprite_resource;
 extern u8 player_wait_frames[];
 extern void *familiar_record_slots[];
-extern s8 entity_resource_read_complete;
 
 /* Advances the resource loading, object creation, and animation sequence. */
 void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *animation, ActorRecord *context) {
@@ -85,13 +81,13 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
         }
         loaded_entity_sprite_resource = queue_cd_resource(resource_info->unk_00);
         load_monster_code_module(resource_info->unk_00, load_resource, 0);
-        (*&entity_resource_read_complete) = 0;
+        entity_resource_read_complete = 0;
         Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         previous_state = actor->action_phase;
         actor->action_phase = (u8) (previous_state + 1);
         return;
     case 2:
-        if (((S_80095A10_4 *)(&entity_resource_read_complete))->unk_00 == 0) {
+        if (entity_resource_read_complete == 0) {
             return;
         }
         runtime_no_op_callback(state);

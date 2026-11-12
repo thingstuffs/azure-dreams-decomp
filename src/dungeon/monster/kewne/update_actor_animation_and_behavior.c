@@ -28,7 +28,6 @@ extern s8 find_active_rect_containing_point(s32, s32);
 
 s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-extern void update_kewne_charge_counter(void *, void *, void *, void *);
 extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, ActorRecord *);
 
 extern u8 D_80175E48[];

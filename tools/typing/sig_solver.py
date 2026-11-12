@@ -310,9 +310,20 @@ def record_floors(root, decisions_path, txn_path=None):
     return 0
 
 
-def tree_sha(root):
+def tree_sha(root, public_base=None):
+    """The root's HEAD when it is in public history (an ancestor of `public_base`, e.g. master), else None.
+
+    Lane and batch roots solve on private commits that never reach the public history, so recording their
+    HEAD would cite a hash nobody can resolve (audit rule R12); without a public base nothing is recorded."""
+    if not public_base:
+        return None
     res = subprocess.run(['git', '-C', str(root), 'rev-parse', 'HEAD'], capture_output=True, text=True)
-    return res.stdout.strip() or None
+    head = res.stdout.strip()
+    if res.returncode or not head:
+        return None
+    reach = subprocess.run(['git', '-C', str(root), 'merge-base', '--is-ancestor', head, public_base],
+                           capture_output=True, text=True)
+    return head if reach.returncode == 0 else None
 
 
 def slug(header):
@@ -350,6 +361,9 @@ def main(argv=None):
     sp.add_argument('--abi-cache', type=Path)
     sp.add_argument('--sdk-evidence', type=Path,
                     help='Ghidra PsyQ-signature JSON lines: evidence rows for include/sdk names only')
+    sp.add_argument('--public-base', metavar='REV',
+                    help='record the root HEAD as the floors\' evidence tree only when it is an ancestor of REV '
+                         '(public history); otherwise the tree is null')
     hp = sub.add_parser('headers', help='owning headers with conflicting names under a prefix (batch planning)')
     hp.add_argument('--root', type=Path, default=HERE.parents[2])
     hp.add_argument('--prefix', default='include/')
@@ -386,7 +400,7 @@ def main(argv=None):
     solver = Solver(root, args.workers, log, abi_cache=args.abi_cache)
     solver.sdk = C.sdk_evidence(args.sdk_evidence)
     floors = K.load_floors(root / FLOORS)
-    sha = tree_sha(root)
+    sha = tree_sha(root, args.public_base)
     if args.only_floors:
         args.retry_floors = True
         if args.header == ['ALL']:

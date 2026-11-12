@@ -3,7 +3,6 @@
 #include "frontend/card/server_imports.h"
 
 void *initialize_consecutive();                         /* extern */
-void *card_background_init_overlay_prims();                         /* extern */
 typedef struct MainPacket12 MainPacket12;
 MainPacket12 *initialize_drawing();                         /* extern */
 

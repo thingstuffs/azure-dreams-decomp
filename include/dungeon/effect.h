@@ -37,7 +37,6 @@ void advance_effect_fade_and_remove(VariantEffectWithRandomMotionBody *effect, O
 
 struct PointRecord;
 struct ObjectPosition;
-s32 draw_ball_effect_points(struct PointRecord *, struct ObjectPosition *);
 
 /* Callback entry points. */
 s32 process_linked_states_mode_zero(ActorRecord *initial_state, ObjectPosition *context, SpriteFrameState *data);

@@ -23,6 +23,8 @@
 #include "dungeon/monster/kraken_frames.h"
 
 #include "dungeon/monster/dragon/transition_effect.h"
+#include "dungeon/monster/kewne.h"
+
 typedef struct {
     s8 pad_00[0x8C];
     void *unk_8C;
@@ -53,7 +55,6 @@ typedef struct S_801711A4_2 {
 } S_801711A4_2;   /* arg2 in update_actor_animation_and_dispatch */
 
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-extern void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);

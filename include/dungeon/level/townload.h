@@ -2,10 +2,10 @@
 #define DUNGEON_TOWN_LOAD_H
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/resource_queue_data.h"
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 extern void *town_resource_ids[];
-extern u8 town_resource_queue[16];
 extern void *town_resource_descriptors[16];
 extern u8 D_80080EA8[];
 s32 resource_value_table_contains(void *value);

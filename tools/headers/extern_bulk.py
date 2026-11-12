@@ -89,19 +89,23 @@ def sha(text):
 
 class Bulk:
     def __init__(self, root, files, data, writable, log=print, new_headers=False, data_named_only=False,
-                 names=None, requests=None):
+                 names=None, requests=None, plan=None):
         self.root = Path(root).resolve()
         self.new_headers = new_headers
         self._base = {}
         self.log = log
         self.files = files
         t0 = time.monotonic()
-        import model as M
-        corpus = M.Corpus(self.root)
-        # probe variants (.sigprobe_<pid>_*.c of a concurrent solver) and other dot files are never the tree
-        corpus.c_files = [f for f in corpus.c_files if not Path(f).name.startswith('.')]
-        self.plan = P.build(self.root, corpus=corpus, scope_files=files, include_data=data, requests=requests)
-        self.log('plan: %d TUs in %.0f s' % (len(self.plan.tus), time.monotonic() - t0))
+        if plan is not None:
+            # a caller's plan (tools/typing/extern_trial.py plans the tree once and its TUs per batch)
+            self.plan = plan
+        else:
+            import model as M
+            corpus = M.Corpus(self.root)
+            # probe variants (.sigprobe_<pid>_*.c of a concurrent solver) and other dot files are never the tree
+            corpus.c_files = [f for f in corpus.c_files if not Path(f).name.startswith('.')]
+            self.plan = P.build(self.root, corpus=corpus, scope_files=files, include_data=data, requests=requests)
+            self.log('plan: %d TUs in %.0f s' % (len(self.plan.tus), time.monotonic() - t0))
         self.writable = writable
         hof = lambda r: self.plan.fn_for_def(r.definition).header      # noqa: E731
         self.hof = hof
@@ -535,6 +539,120 @@ def blame(bulk, prover, report, texts):
     return len(bulk.holds) - before
 
 
+class DiskState:
+    """Writes proof states over the baseline texts (`originals`, filled lazily for files first written here)
+    and refreshes the layout-inline ledger after each write; restore() puts every baseline text back."""
+
+    def __init__(self, root, originals, log=print):
+        self.root = Path(root)
+        self.originals = originals
+        self.log = log
+        self.written = set()
+        if LAYOUT_INLINE not in originals:
+            originals[LAYOUT_INLINE] = EW.read(self.root, LAYOUT_INLINE)
+
+    def write(self, texts):
+        import sig_txn as T
+        root, originals = self.root, self.originals
+        for f in texts:
+            if f not in originals:
+                originals[f] = EW.read(root, f)
+        for f in list(self.written):
+            if f not in texts and f != LAYOUT_INLINE:
+                EW.write(root, f, originals[f])
+                self.written.discard(f)
+        for f, t in texts.items():
+            if EW.read(root, f) != t:
+                EW.write(root, f, t)
+            self.written.add(f)
+        EW.write(root, LAYOUT_INLINE, originals[LAYOUT_INLINE])
+        T.refresh_layout(root, lambda m: self.log('  ' + m))
+        now = EW.read(root, LAYOUT_INLINE)
+        out = dict(texts)
+        if now != originals[LAYOUT_INLINE]:
+            out[LAYOUT_INLINE] = now
+            self.written.add(LAYOUT_INLINE)
+        return out
+
+    def restore(self):
+        for f in set(self.originals):
+            if EW.read(self.root, f) != self.originals[f]:
+                EW.write(self.root, f, self.originals[f])
+
+
+def settle(bulk, prover, disk, max_rounds=10, screen=True, log=print, out=None, debug_keys=False, extra=None,
+           after_pass=None, tag=''):
+    """Prove bulk's state (plus `extra`: {path: text} of an already proven state it builds on) until a full
+    PASS: screen rounds, then one full proof; failures are blamed (blame()) and proved again, then the
+    per-function debt ratchet restores rising TUs.  after_pass(state, texts), when given, runs on a full
+    PASS and returns the number of holds it added (a further gate such as lint); any hold proves again.
+    Returns (accepted state {path: text}, proof rows).  The files on disk are that state."""
+    proofs = []
+    rounds = 0
+    first_screen = screen
+    while rounds < max_rounds:
+        rounds += 1
+        texts = dict(extra or {})
+        texts.update(bulk.texts())
+        if not texts:
+            log('nothing left to prove')
+            disk.write({})
+            return {}, proofs
+        state = disk.write(texts)
+        t0 = time.monotonic()
+        rep = prover(state, screen)
+        row = dict(round=rounds, screen=screen, verdict=rep['verdict'], counts=rep.get('counts'),
+                   recipes=len(rep.get('recipes', {})), reused=rep.get('reused', 0),
+                   scope=len(rep['scope']['recipes']) + len(rep['scope']['slus_recipes']),
+                   files=len(texts), seconds=round(time.monotonic() - t0, 1))
+        if tag:
+            row['tag'] = tag
+        proofs.append(row)
+        if debug_keys and out:
+            (out / ('keys%s%d.json' % (tag, rounds))).write_text(json.dumps(prover.last_keys, sort_keys=True))
+        log('proof %s%d (%s): %d files -> %s %s (%d of %d recipes, %d reused, %.0f s)' % (
+            tag, rounds, 'screen' if screen else 'full', len(texts), rep['verdict'], rep.get('counts'),
+            row['recipes'], row['scope'], row['reused'], row['seconds']))
+        stale = [r for r, rec in rep.get('recipes', {}).items() if rec['verdict'] == 'STALE_BASE']
+        if stale or rep['verdict'] == 'STALE_BASE' or (rep['verdict'] == 'ERROR' and not rep.get('recipes')):
+            raise RuntimeError('proof %s: %s %s' % (rep['verdict'], rep.get('error', '')[:400], stale[:5]))
+        if rep['verdict'] != 'PASS':
+            bad = [(rid, rec.get('cause', '')) for rid, rec in rep['recipes'].items() if rec['verdict'] != 'PASS']
+            for rid, cause in bad[:6]:
+                log('  failing %s: %s' % (rid, cause[:160]))
+            if out:
+                (out / ('round%s%d.json' % (tag, rounds))).write_text(json.dumps(dict(
+                    row, failing={rid: dict(verdict=rec['verdict'], source=rec.get('source'),
+                                            cause=rec.get('cause'), difference=rec.get('difference'))
+                                  for rid, rec in rep['recipes'].items() if rec['verdict'] != 'PASS'}),
+                    indent=1, default=str))
+            n = blame(bulk, prover, rep, texts)
+            if out:
+                EW._tsv(out / 'holds.tsv', ('tu', 'header', 'reason'), bulk.holds)
+            why = Counter(w.split(':')[0] for _, _, w in bulk.holds[len(bulk.holds) - n:])
+            log('  blame: %d new holds %s, %d TUs restored' % (n, dict(why), len(bulk.restored)))
+            if not n:
+                raise RuntimeError('a failing proof produced no new hold')
+            continue
+        if screen:
+            screen = False
+            continue
+        # full PASS: debt ratchet (files of `extra` were ratcheted when they were proved)
+        rises = [f for f in texts if f.endswith('.c') and f in bulk.jobs and
+                 EW.debt_rises(f, disk.originals[f], texts[f])]
+        if rises:
+            for f in rises:
+                bulk.restore_tu(f, 'debt_rise')
+            log('  debt rise: restored %d TUs' % len(rises))
+            screen = first_screen
+            continue
+        if after_pass is not None and after_pass(state, texts):
+            screen = first_screen
+            continue
+        return state, proofs
+    raise RuntimeError('no full PASS within %d rounds' % max_rounds)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', type=Path, default=HERE.parents[1])
@@ -642,92 +760,10 @@ def main(argv=None):
     originals = {f: EW.read(root, f) for f in set(texts0) | set(bulk.jobs)}
     originals[LAYOUT_INLINE] = EW.read(root, LAYOUT_INLINE)
     prover = Prover(root, bulk.plan, originals, a.workers, a.out / 'reuse.json', log, a.affected)
-    import sig_txn as T
-    written = set()
-
-    def write_state(texts):
-        for f in list(written):
-            if f not in texts and f != LAYOUT_INLINE:
-                EW.write(root, f, originals[f])
-                written.discard(f)
-        for f, t in texts.items():
-            if EW.read(root, f) != t:
-                EW.write(root, f, t)
-            written.add(f)
-        EW.write(root, LAYOUT_INLINE, originals[LAYOUT_INLINE])
-        T.refresh_layout(root, lambda m: log('  ' + m))
-        now = EW.read(root, LAYOUT_INLINE)
-        out = dict(texts)
-        if now != originals[LAYOUT_INLINE]:
-            out[LAYOUT_INLINE] = now
-            written.add(LAYOUT_INLINE)
-        return out
-
-    def restore_all():
-        for f in set(originals):
-            if EW.read(root, f) != originals[f]:
-                EW.write(root, f, originals[f])
-
-    proofs = []
-    accepted_state = None
+    disk = DiskState(root, originals, log)
     try:
-        rounds = 0
-        screen = not a.no_screen
-        while rounds < a.max_rounds:
-            rounds += 1
-            texts = bulk.texts()
-            if not texts:
-                log('nothing left to prove')
-                write_state({})
-                accepted_state = {}
-                break
-            state = write_state(texts)
-            t0 = time.monotonic()
-            rep = prover(state, screen)
-            row = dict(round=rounds, screen=screen, verdict=rep['verdict'], counts=rep.get('counts'),
-                       recipes=len(rep.get('recipes', {})), reused=rep.get('reused', 0),
-                       scope=len(rep['scope']['recipes']) + len(rep['scope']['slus_recipes']),
-                       files=len(texts), seconds=round(time.monotonic() - t0, 1))
-            proofs.append(row)
-            if a.debug_keys:
-                (a.out / ('keys%d.json' % rounds)).write_text(json.dumps(prover.last_keys, sort_keys=True))
-            log('proof %d (%s): %d files -> %s %s (%d of %d recipes, %d reused, %.0f s)' % (
-                rounds, 'screen' if screen else 'full', len(texts), rep['verdict'], rep.get('counts'),
-                row['recipes'], row['scope'], row['reused'], row['seconds']))
-            stale = [r for r, rec in rep.get('recipes', {}).items() if rec['verdict'] == 'STALE_BASE']
-            if stale or rep['verdict'] == 'STALE_BASE' or (rep['verdict'] == 'ERROR' and not rep.get('recipes')):
-                raise RuntimeError('proof %s: %s %s' % (rep['verdict'], rep.get('error', '')[:400], stale[:5]))
-            if rep['verdict'] != 'PASS':
-                bad = [(rid, rec.get('cause', '')) for rid, rec in rep['recipes'].items() if rec['verdict'] != 'PASS']
-                for rid, cause in bad[:6]:
-                    log('  failing %s: %s' % (rid, cause[:160]))
-                (a.out / ('round%d.json' % rounds)).write_text(json.dumps(dict(
-                    row, failing={rid: dict(verdict=rec['verdict'], source=rec.get('source'),
-                                            cause=rec.get('cause'), difference=rec.get('difference'))
-                                  for rid, rec in rep['recipes'].items() if rec['verdict'] != 'PASS'}),
-                    indent=1, default=str))
-                n = blame(bulk, prover, rep, texts)
-                EW._tsv(a.out / 'holds.tsv', ('tu', 'header', 'reason'), bulk.holds)
-                why = Counter(w.split(':')[0] for _, _, w in bulk.holds[len(bulk.holds) - n:])
-                log('  blame: %d new holds %s, %d TUs restored' % (n, dict(why), len(bulk.restored)))
-                if not n:
-                    raise RuntimeError('a failing proof produced no new hold')
-                continue
-            if screen:
-                screen = False
-                continue
-            # full PASS: debt ratchet
-            rises = [f for f in texts if f.endswith('.c') and EW.debt_rises(f, originals[f], texts[f])]
-            if rises:
-                for f in rises:
-                    bulk.restore_tu(f, 'debt_rise')
-                log('  debt rise: restored %d TUs' % len(rises))
-                screen = not a.no_screen
-                continue
-            accepted_state = state
-            break
-        if accepted_state is None:
-            raise RuntimeError('no full PASS within %d rounds' % a.max_rounds)
+        accepted_state, proofs = settle(bulk, prover, disk, max_rounds=a.max_rounds, screen=not a.no_screen,
+                                        log=log, out=a.out, debug_keys=a.debug_keys)
         final = {f: EW.read(root, f) for f in originals}
         changed = sorted(f for f in originals if final[f] != originals[f])
         per_folder = defaultdict(lambda: [0, 0])
@@ -760,11 +796,11 @@ def main(argv=None):
             receipt['local_externs_before'], receipt['local_externs_after'], receipt['files_changed'],
             len(receipt['headers_changed']), receipt['holds_by_reason'], receipt['seconds']))
         if a.dry_run:
-            restore_all()
+            disk.restore()
             log('dry run: every file restored')
         return 0
     except BaseException:
-        restore_all()
+        disk.restore()
         log('failed/interrupted: every file restored')
         raise
 

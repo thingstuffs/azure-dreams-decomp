@@ -25,4 +25,6 @@ void * move_eligible_item(void *origin, ActorRecord *actor);
 void * pick_up_adjacent_item(void *origin, struct ActorRecord *actor);
 void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
+void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *entity, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

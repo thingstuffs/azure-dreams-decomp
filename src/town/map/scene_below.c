@@ -7,10 +7,10 @@
 #include "town/map.h"
 #include "town/map/palette_frame_zero_data.h"
 #include "town/data.h"
+#include "town/map/variant_data.h"
 
 
 extern u8 town_map_variants[];
-extern u8 town_map_variant[];
 extern u8 D_8012F004[];
 extern u8 D_8014F004[];
 
@@ -62,7 +62,7 @@ void initialize_building_scene_assets(void) {
 
     single_row = 1;
     kind_table = town_map_variants;
-    kind = kind_table[town_map_variant[0] << 5];
+    kind = kind_table[town_map_variant << 5];
     special_scene = 0x21;
     if (kind != special_scene) {
         if (!scene_below(kind, 0x21) && (s32)kind < 0x29) {
@@ -93,7 +93,7 @@ void initialize_building_scene_assets(void) {
     clear_and_initialize_building_grid(asset_data);
     scene_table = town_map_variants;
     {
-        u8 *entry = &scene_table[town_map_variant[0] << 5];
+        u8 *entry = &scene_table[town_map_variant << 5];
         if (*entry != 0x29) {
             runtime_load_packed_resource_chunks(*entry, D_8012F004);
         }

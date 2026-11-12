@@ -277,6 +277,13 @@ whole-file audit. For two-way `s`/`u` swaps, it checks unchanged access lines;
 an inline union declaration swap without a corresponding use-site edit is
 also reported.
 
+The `local_externs split` line divides the `local_externs` sites by the symbol
+each declares: `named_data` and `named_functions` wait on owner headers,
+`D_data` and `func_functions` (address-named `D_`/`func_<addr>` symbols) wait
+on naming, and `mixed` is a statement declaring several kinds. The split sums
+to `local_externs`; it is report-only and not in the baseline.
+`tools/typing/extern_trial.py` moves the named part one name at a time.
+
 The summary inventories braced struct/union typedef aliases as well. It counts
 unique non-`S_` aliases containing an eight-digit hexadecimal address across
 `src/` and `include/`, and named non-address typedef declarations in `.c`
@@ -286,7 +293,7 @@ do not judge whether a named local view is appropriate.
 
 ### Readability and prototype-gap counts (report only)
 
-`debt_check.py --summary` also prints nine report-only lines computed by
+`debt_check.py --summary` also prints ten report-only lines computed by
 `tools/lint/readcounts.py`. They have no baseline and `--check` never fails on
 them; they say how far the tree is from one canonical signature per function
 and from code a reader can follow. Comments and string contents never count.
@@ -304,6 +311,7 @@ read-and-hash pass. The item lists land in `build/readcounts/` (or
 | `address-named tokens` | `func_8xxxxxxx` and `D_8xxxxxxx` identifier tokens in code (and distinct names), plus how many more sit in comments. | `address_func_tokens.tsv`, `address_data_tokens.tsv` |
 | `unk_/pad_ member tokens` | Identifier tokens starting `unk_` and `pad_`. | `unk_tokens_by_file.tsv`, `pad_tokens_by_file.tsv` |
 | `struct typedefs in .c files` | `typedef struct [tag] { ... } Name;` in `.c` files, copies sharing an exactly equal body, and type names carrying several different bodies. | `struct_duplicate_bodies.tsv`, `struct_names_with_several_bodies.tsv` |
+| `local views with <=2 non-pad fields` | Those `.c` struct typedefs whose top-level members, other than `pad*`/`reserved*` names and unnamed bit-fields, number at most two (an anonymous union member counts once): casts spelled as structs, which go away when their base is typed. Split by field count, and the copies among exact-duplicate bodies. | `struct_duplicate_bodies.tsv` |
 | `duplicate #include lines` | Extra copies of the same `#include` within one file. | `duplicate_includes.tsv` |
 | `stale tool comments` | Comments carrying lane or tool stamps (`cfail-repair`/`tf7-phase`, evidence banners, tool-written header notes, cohort/group ids, lane receipts, review pending, `MECHANISM:`); a comment counts once per tag. | `stale_tool_comments.tsv` |
 | `placeholder identifiers` | `argN`, `var_*` and `temp_*` identifier tokens in code, and how many are named only in comments. | `placeholder_identifiers_by_file.tsv` |

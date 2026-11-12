@@ -1,3 +1,4 @@
+#include "dungeon/player/held_item_kind_data.h"
 #include "engine/audio/sequence.h"
 #include "dungeon/item/message.h"
 #include "shared/dungeon_item_entries.h"
@@ -332,7 +333,6 @@ s32 check_global_record_field_zero(void) {
     return ((PlayerRecord *)dungeon_actor_ring_anchor)->unk_104 == 0;
 }
 
-extern u8 held_item_kind_alias;
 
 /* Returns whether held_item_kind_alias is zero. */
 s32 check_global_data_byte_zero(void) {
@@ -756,7 +756,7 @@ typedef struct S_800B1B10_0 {
 
 
 typedef struct S_800B1B10_2 {
-    u8 pad_00[0x4];
+    void *unk_00;
     void * unk_04;
     s16 unk_08;
     s16 unk_0A;
@@ -820,6 +820,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     register s16 compact_s16;
     s32 offset;
     void *obj;
+    ObjectNodeHeader *obj_header;
     s32 obj_2;
     s32 style_byte;
     s32 geom;
@@ -842,8 +843,9 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     obj = allocate_list_node(call_kind, alloc_data);
     compact_s16 = compact_held;
     if (obj != 0) {
-        meta = ((S_800B1B10_0 *)obj)->unk_0C;
-        header = ((S_800B1B10_0 *)obj)->unk_08;
+        obj_header = obj;
+        meta = obj_header->sprite;
+        header = obj_header->position;
         sub = NODE_BODY(obj);
         header->x.w.i = a_held;
         header->y.w.i = b_held;
@@ -857,7 +859,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
         sub->unk_24 = (s16) style_byte;
         sub->unk_0A = a_held;
         sub->unk_0C = b_held;
-        ((S_800B1B10_0 *)obj)->unk_20 = (obj + 0x70);
+        sub->unk_00 = (obj + 0x70);
         sub->unk_04 = (obj + 0x58);
         if (has_enough_available_runtime_nodes(call_kind) != 0) {
             a_held = (s32) allocate_panel_offset_or_zero();

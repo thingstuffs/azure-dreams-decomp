@@ -55,7 +55,6 @@ typedef struct S_800B59A4_1 {
     u8 unk_01;
 } S_800B59A4_1;
 
-extern s32 calc_gauge_fill(void *);
 extern Text5 D_800892DC;
 extern u8 D_800892E8[];
 extern u8 D_800892EC[];

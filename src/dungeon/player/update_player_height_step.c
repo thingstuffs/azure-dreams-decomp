@@ -15,7 +15,7 @@
 #include "dungeon/data.h"
 
 /* Updates movement toward a target tile and advances the actor's animation state. */
-void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *model) {
+void update_player_height_step(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *model) {
     s16 ticks_left;
     s32 coord_or_ticks;
     s32 motion_value;
@@ -23,14 +23,14 @@ void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameS
     u8 state;
     s32 launch_state;
 
-    state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8;
+    state = actor->action_phase;
     state_index = state;
     switch (state_index) {
     case 0:
     case 8:
     case 10:
         if (sprite->flags & 0x6000) {
-            launch_state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8;
+            launch_state = actor->action_phase;
             if (launch_state == 0) {
                 motion->velocity_z = 0xFFF00000;
             } else {
@@ -45,10 +45,10 @@ void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameS
             process_unflagged_linked_entries_alt(model->unk_5C);
             process_unflagged_linked_entries(model->unk_5C);
             g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_98 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_98 & 0xFFF3);
+            actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
             sprite->frameTable = player_height_step_frames;
             set_sprite_animation_frame(sprite, player_height_step_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7], 0, 1);
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8
+            actor->action_phase = (u8) (actor->action_phase
                 + 1);
             play_sound_if_enabled(0x50A);
             return;
@@ -86,17 +86,17 @@ void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameS
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-            if ((u8) ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 >= 0xAU) {
+            if ((u8) actor->action_phase >= 0xAU) {
                 sprite->frameTable = player_landing_frame_set;
                 set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7],
                     0, 1);
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 =
-                    (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 + 1);
+                actor->action_phase =
+                    (u8) (actor->action_phase + 1);
                 g_dungeon_status.movement_frames_left = 1;
                 return;
             }
             if ((collect_ground_item(actor, motion, sprite, model) << 0x10) > 0) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = handle_player_input;
+                actor->unk_8C.run = handle_player_input;
             }
             return;
         }
@@ -105,7 +105,7 @@ void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameS
         if (sprite->flags & 0x6000) {
             g_dungeon_status.movement_frames_left = 0;
             if ((collect_ground_item(actor, motion, sprite, model) << 0x10) > 0) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = handle_player_input;
+                actor->unk_8C.run = handle_player_input;
             }
             return;
         }

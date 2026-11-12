@@ -1,7 +1,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-typedef int s32;
-typedef short s16;
+#include "common.h"
+#include "town/scene.h"
 
 typedef struct Entry {
     s16 key;

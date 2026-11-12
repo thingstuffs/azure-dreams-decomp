@@ -236,15 +236,16 @@ void initialize_object_destination_fields(ovl_1831370_81811878_Source *src, ovl_
 
 /* Stores the selected type and values, initializes both descriptors, and starts the opening animation. */
 void initialize_object_phase_data(void *recordFields, ObjectNodeHeader *recordValue2C, s32 typeCode, s32 recordValue24) {
+    ovl_1831370_818119A0_S_800269A0_0 *record = recordFields;
     s32 isType13;
 
-    ((ovl_1831370_818119A0_S_800269A0_0 *)recordFields)->unk_0C = typeCode;
+    record->unk_0C = typeCode;
     isType13 = typeCode == 0x13;
-    ((ovl_1831370_818119A0_S_800269A0_0 *)recordFields)->unk_10 = isType13;
+    record->unk_10 = isType13;
     initialize_variant_packet(recordFields + 0x20, isType13);
     set_descriptor_fields_and_flag(recordFields + 0x2C);
-    ((ovl_1831370_818119A0_S_800269A0_0 *)recordFields)->unk_14 = recordValue24;
-    ((ovl_1831370_818119A0_S_800269A0_0 *)recordFields)->unk_1C = recordValue2C;
+    record->unk_14 = recordValue24;
+    record->unk_1C = recordValue2C;
     ((ObjectNodeHeader *)recordFields - 1)->update_callback = (void *)apply_step_and_reset_after_five;
 }
 

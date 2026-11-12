@@ -7,8 +7,6 @@
  * a u32 field at offset 8 and a s16 field at offset 0xC8 (declared >8 bytes
  * to force %hi/%lo addressing). */
 
-extern void add_a_directional_step_vector_scale_down_exceeds_length_limit(s16 angle, s32 max_length, ObjectPosition *vector);
-
 /* Passes the valid shared angle, fixed value 0x120000, and context to add_a_directional_step_vector_scale_down_exceeds_length_limit. */
 void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(ObjectPosition *context)
 {

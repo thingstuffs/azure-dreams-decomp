@@ -8,6 +8,7 @@ struct ObjectNodeHeader;
 
 #include "common.h"
 #include "slus/town_map_selection_data.h"
+#include "town/map/link_slots_data.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 struct ObjectNodeHeader;
@@ -23,7 +24,6 @@ extern void runtime_clear_value(s32 *value);
 extern void *allocate_flagged_object_node(s32);
 extern void unlink_active_node(s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void push_node_onto_free_list(struct ObjectNodeHeader *);
-extern s8 town_map_link_slots[11];
 void unlink_node_if_registered(void *block_data);
 void select_record_entry_and_value(void *, void *, s16);
 extern u8 town_map_tag;

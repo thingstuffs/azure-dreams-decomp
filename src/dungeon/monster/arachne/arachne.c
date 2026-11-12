@@ -2327,15 +2327,15 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
     void *opening_vertex;
     void *closing_vertex;
     R12_801749EC_S_801749EC_20 *sector_or_ring_start;
-    void *meridian_object;
+    ObjectNodeHeader *meridian_object;
     R12_801749EC_S_801749EC_12 *segment_end;
-    void *ring_object;
+    ObjectNodeHeader *ring_object;
     R12_801749EC_S_801749EC_19 *next_vertex;
     R12_801749EC_S_801749EC_21 *current_vertex;
     void *opening_angle_slot;
     R12_801749EC_S_801749EC_4 *closing_angle_slot;
-    R12_801749EC_S_801749EC_9 *meridian_origin;
-    R12_801749EC_S_801749EC_17 *ring_origin;
+    ObjectPosition *meridian_origin;
+    ObjectPosition *ring_origin;
     register void *ring_data;
 
     object_origin = origin;
@@ -2432,19 +2432,19 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
         for (sector = 0; sector < 9; sector++) {
         meridian_object = allocate_flagged_object_node(0x212);
         if (meridian_object != NULL) {
-            meridian_line = meridian_object + 0x20;
+            meridian_line = NODE_BODY(meridian_object);
             meridian_line->unk_1A = 1;
             meridian_line->unk_1C = 1;
-            ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
+            meridian_object->update_callback = ((u8 *)update_turning_fade_effect_and_model);
             register_node(meridian_object, &queue_line_packets_for_node_chain);
-            meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
+            meridian_render = meridian_object->sprite;
             meridian_render->tpage_abr = 0x20;
             meridian_render->flags = (u16) (meridian_render->flags | 0xC);
-            meridian_origin = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_08;
-            meridian_origin->unk_00 = (s32) object_origin->x.v;
-            meridian_origin->unk_04 = (s32) object_origin->y.v;
-            meridian_origin->unk_08 = (s32) object_origin->z.v;
-            meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
+            meridian_origin = meridian_object->position;
+            meridian_origin->x.v = (s32) object_origin->x.v;
+            meridian_origin->y.v = (s32) object_origin->y.v;
+            meridian_origin->z.v = (s32) object_origin->z.v;
+            meridian_render = meridian_object->sprite;
             meridian_render->scale_y = ONE;
             meridian_render->scale_x = ONE;
             meridian_render->color.c.r = (u8) tint->color.c.r;
@@ -2476,12 +2476,12 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
         for (; meridian < 6; meridian++) {
             ring_object = allocate_flagged_object_node(0x212);
             if (ring_object != NULL) {
-                meridian_line = ring_object + 0x20;
+                meridian_line = NODE_BODY(ring_object);
                 meridian_line->unk_1A = 1;
                 meridian_line->unk_1C = 1;
-                ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
+                ring_object->update_callback = ((u8 *)update_turning_fade_effect_and_model);
                 register_node(ring_object, &queue_line_packets_for_node_chain);
-                ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
+                ring_render = ring_object->sprite;
                 {
                     u16 object_flags;
                     s32 object_width;
@@ -2491,11 +2491,11 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
                     object_flags |= 0xC;
                     ring_render->flags = object_flags;
                 }
-                ring_origin = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_08;
-                ring_origin->unk_00 = (s32) object_origin->x.v;
-                ring_origin->unk_04 = (s32) object_origin->y.v;
-                ring_origin->unk_08 = (s32) object_origin->z.v;
-                ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
+                ring_origin = ring_object->position;
+                ring_origin->x.v = (s32) object_origin->x.v;
+                ring_origin->y.v = (s32) object_origin->y.v;
+                ring_origin->z.v = (s32) object_origin->z.v;
+                ring_render = ring_object->sprite;
                 ring_render->scale_y = ONE;
                 ring_render->scale_x = ONE;
                 ring_render->color.c.r = (u8) tint->color.c.r;

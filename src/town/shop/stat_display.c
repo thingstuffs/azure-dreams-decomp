@@ -7,6 +7,7 @@
 #include "town/shop/stat_display.h"
 #include "engine/menu.h"
 #include "engine/text.h"
+#include "engine/effect.h"
 
 /* Builds a formatted marker string for the object's value, including an odd remainder. */
 void *format_object_value_marker(void *output, void *object)

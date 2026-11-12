@@ -1039,7 +1039,7 @@ extern void select_object_state_by_mode_2(TownObjectRecord *, ObjectPosition *, 
 extern void initialize_optional_scene_state_a(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_optional_scene_state_b(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_optional_scene_state_c(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-extern void initialize_timed_object_action(TownObjectRecord *context, ObjectPosition *source, void *record);
+extern void initialize_timed_object_action(TownObjectRecord *context, ObjectPosition *source, SpriteFrameState *record);
 extern void initialize_flagged_actor_action_a(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_flagged_actor_action_b(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_flagged_actor_action_c(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);

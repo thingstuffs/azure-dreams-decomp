@@ -137,6 +137,27 @@ texts are always built from the committed header (append-only block).  `--plan-o
 local_externs site from build/codemap.db (function vs data, visible/elsewhere/no header, identical vs
 disagreeing, no C definition, `D_` vs named) in seconds and fuses it with the planner census.
 
+## Per-name extern trial
+
+`tools/typing/extern_trial.py` drives the bulk machinery one name at a time: every local `.c` declaration of
+each selected name is replaced by an include of its owner header (the definition's folder header, or the
+`include/sdk` stand-in), each name planned alone per TU, so one name's hold never blocks another.  A TU
+whose other local declarations disagree with what the owner header declares is held
+(`existing_header_other*`), because only the trial's name moves.  The proof is `settle()` here (screen and
+full build-graph proofs, blame restores the TU), then `tools/lint/lint_closure.py` against HEAD; a TU with a
+new warning site is restored and the state proved again.  TUs restored together with another selected name
+are retried per name.  Without `--append` an owner header that lacks the declaration is a `missing_owner`
+hold.  `D_` names and prototype floors are never tried.
+
+```sh
+python3 tools/typing/extern_trial.py --top 50 --lint-port <native port> --port-adapt <native port>/tools/adapt.py \
+    --out <dir> [--exclude-names-file F] [--recent-repo R --recent 40] [--plan-only | --dry-run]
+```
+
+`receipt.json`, `names.tsv` and `sites.tsv` give per name the files declaring it, kept and held, with a
+reason class (type_disagreement, new_warning, byte_change, missing_owner, foreign_import, prototype_floor,
+site_form, port_anchor, debt_rise, other) and the raw reason.
+
 ## Callback installs hidden by data aliases
 
 `installer_names.py plan --edges <reviewed-hidden-edges.tsv> --scope src/town --out <dir>`

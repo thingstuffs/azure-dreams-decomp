@@ -4,7 +4,9 @@
 """
 from pathlib import Path
 import struct
+import subprocess
 import sys
+import tempfile
 import unittest
 
 HERE = Path(__file__).resolve().parent
@@ -12,6 +14,7 @@ sys.path[:0] = [str(HERE), str(HERE.parent), str(HERE.parent / 'headers')]
 import abi_facts as A  # noqa: E402
 import sig_consensus as K  # noqa: E402
 import sig_probe as S  # noqa: E402
+import sig_solver as V  # noqa: E402
 import sig_txn as T  # noqa: E402
 
 REG = {n: i for i, n in enumerate(A.GPR_NAMES)}
@@ -340,6 +343,39 @@ class WriterTests(unittest.TestCase):
         out = T.mark_floor(text, 0, len('extern s32 register_node();'), 'callers pass 2-4 arguments')
         self.assertIn('extern s32 register_node(); /* Unprototyped: callers pass 2-4 arguments */\n', out)
         self.assertEqual(T.mark_floor(out, 0, len('extern s32 register_node();'), 'x', True), out)
+
+
+class TreeShaTests(unittest.TestCase):
+    """Floor evidence never records a commit that is not in the public history (audit rule R12)."""
+
+    def git(self, root, *args):
+        return subprocess.run(['git', '-C', str(root), '-c', 'user.name=t', '-c', 'user.email=t@invalid',
+                               *args], capture_output=True, text=True, check=True).stdout.strip()
+
+    def commit(self, root, name):
+        (Path(root) / name).write_text(name + '\n')
+        self.git(root, 'add', name)
+        self.git(root, 'commit', '-q', '-m', name)
+        return self.git(root, 'rev-parse', 'HEAD')
+
+    def test_head_recorded_only_when_in_public_history(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.git(root, 'init', '-q', '-b', 'public')
+            first = self.commit(root, 'a')
+            self.commit(root, 'b')
+            # no public base: nothing is recorded
+            self.assertIsNone(V.tree_sha(root))
+            # HEAD on the public branch
+            self.assertEqual(V.tree_sha(root, 'public'), self.git(root, 'rev-parse', 'HEAD'))
+            # HEAD behind the public tip is still public history
+            self.git(root, 'checkout', '-q', first)
+            self.assertEqual(V.tree_sha(root, 'public'), first)
+            # a private lane commit stacked on public history is not
+            self.git(root, 'checkout', '-q', '-b', 'lane')
+            self.commit(root, 'c')
+            self.assertIsNone(V.tree_sha(root, 'public'))
+            # an unknown base records nothing
+            self.assertIsNone(V.tree_sha(root, 'no-such-rev'))
 
 
 if __name__ == '__main__':

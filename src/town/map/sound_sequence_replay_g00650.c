@@ -22,7 +22,7 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
 
     entry_index = find_sound_entry_or_terminator_index(map_runtime_state.index);
     if (map_runtime_state.state == 12) {
-        u16 *current_sound;
+        s16 *current_sound;
 
         current_sound = town_saved_sound;
         town_entries = map_sound_settings;

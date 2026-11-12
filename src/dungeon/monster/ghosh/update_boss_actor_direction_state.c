@@ -2,20 +2,13 @@
 #include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/ghosh.h"
 #include "engine/graphics.h"
 #include "slus.h"
 #include "dungeon/monster/ghosh_frames.h"
-
-typedef struct S_80172610_1 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 * unk_0C;
-    u8 pad_10[0xE];
-    u16 unk_1E;
-} S_80172610_1;   /* owner in update_boss_actor_direction_state */
 
 typedef struct S_80172610_2 {
     u8 pad_00[0x1C];
@@ -66,7 +59,7 @@ void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_dat
     ActorRecord *actor;
     MovingPosition *output;
     SpriteFrameState *context;
-    u8 *owner;
+    ObjectNodeHeader *owner;
     S_80172610_2 *base;
     register u8 *saved_base;
     S_80172610_3 *linked;
@@ -84,10 +77,10 @@ void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_dat
     actor = actor_data;
     output = output_data;
     context = context_data;
-    owner = (u8 *)actor->unk_AC.address;
-    linked = (S_80172610_3 *)((S_80172610_1 *)owner)->unk_0C;
-    source = ((S_80172610_1 *)owner)->unk_08;
-    base = (S_80172610_2 *)(owner + 0x20);
+    owner = actor->unk_AC.address;
+    linked = (S_80172610_3 *)owner->sprite;
+    source = (MovingPosition *)owner->position;
+    base = (S_80172610_2 *)NODE_BODY(owner);
     saved_base = (u8 *)base;
 
     if (actor->action_id != 0) {
@@ -132,14 +125,14 @@ void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_dat
     context->scale_y = linked->unk_1E;
     context->clut = linked->unk_12;
 
-    if (((S_80172610_1 *)owner)->unk_1E & 0x8000) {
-        (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
+    if (owner->flags & 0x8000) {
+        NODE_HEADER(actor)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (((S_80172610_8 *)saved_base)->unk_9A == 0x13) {
         actor->action_id++;
-        (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
+        NODE_HEADER(actor)->flags |= 0x8000;
         global_flags = object_flag_block.flags;
         actor->action_timer = 0;
         object_flag_block.flags = global_flags | 0x8000;

@@ -44,6 +44,7 @@ typedef struct {
 } RegionPos;
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
+#include "engine/node.h"
 
 /* Finds the nearest matching entry in the entity's region and writes its coordinates. */
 u32 find_nearest_floor_item_in_room(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
@@ -863,7 +864,6 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
 #ifndef NULL
 #define NULL 0
 #endif
-extern void * allocate_list_node(s32 flags, void **list_head);
 extern void create_tracked_effect(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Create a sprite object with the supplied position and default color and scale. */
@@ -1334,7 +1334,6 @@ typedef struct {
 
 extern u8 D_800A871C[];
 
-extern void * allocate_list_node(s32 flags, void **list_head);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */

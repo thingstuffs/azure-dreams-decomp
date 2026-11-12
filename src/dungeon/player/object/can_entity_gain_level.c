@@ -17,6 +17,7 @@
 #include "dungeon/system.h"
 #include "dungeon/item.h"
 #include "dungeon/data.h"
+#include "dungeon/actor/pending_marked_actor_count_data.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern s32 entity_level_thresholds[];
@@ -1119,8 +1120,6 @@ struct Entity {
     s16 fieldAA;
 };
 
-extern u16 pending_marked_actor_count[];
-
 /* Mark owned entities of kind 0x1E and increment the dungeon counters. */
 void mark_owned_linked_actor_actions(Entity *owner_entity) {
     Entity *node;
@@ -1140,12 +1139,12 @@ void mark_owned_linked_actor_actions(Entity *owner_entity) {
                             (node->owner == (void *)((u8 *)owner_entity - 0x20))) {
                             incremented_count = (u16)g_dungeon_status.activity_counts.parts.pending_action_count + 1;
                             g_dungeon_status.activity_counts.parts.pending_action_count = incremented_count;
-                            marked_count = pending_marked_actor_count[0];
+                            marked_count = pending_marked_actor_count;
                             node_status = node->status;
                             node->field6E = 0;
                             incremented_count = marked_count + 1;
                             node_status |= 0x400000;
-                            pending_marked_actor_count[0] = incremented_count;
+                            pending_marked_actor_count = incremented_count;
                             node->field6D = 0;
                             node->status = node_status;
                         }

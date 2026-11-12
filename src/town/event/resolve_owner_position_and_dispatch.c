@@ -18,6 +18,7 @@
 #include "town/player/position_handlers.h"
 #include "town/player/state.h"
 #include "town/event/state.h"
+#include "town/player/input.h"
 
 
 typedef struct {

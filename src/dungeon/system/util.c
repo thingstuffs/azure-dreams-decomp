@@ -11,6 +11,7 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "shared/actor_status_flags.h"
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/system/util.h"
+#include "dungeon/system/restore_actor_script_data.h"
 #include "dungeon/menu.h"
 #include "dungeon/system.h"
 #include "engine/node/allocation.h"
@@ -864,7 +865,6 @@ s32 check_action_boundary_and_set_flag(void) {
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 
 extern s8 dungeon_event_pending_flag[];
-extern s8 restore_actor_script[];
 
 extern s32 call_script(void *arg); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 

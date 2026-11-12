@@ -13,7 +13,7 @@ typedef struct TownStateEntryTable {
     TownStateEntry *entries;
 } TownStateEntryTable;
 
-extern s32 prepare_selected_entry_buffer(); /* Slot contract: loading images do not establish one callee contract. */
+extern s32 prepare_selected_entry_buffer(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */ /* Slot contract: loading images do not establish one callee contract. */
 
 /* In event state 3, store func_8001A664(D_8001E950->unk_03) in the indexed entry and return 0; otherwise return 1. */
 s32 in_event_state_3_store(TownStateEntryTable *table, s32 index) {

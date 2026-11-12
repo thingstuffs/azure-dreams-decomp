@@ -493,6 +493,10 @@ class Runner:
         self.log('proof %d%s: %d names, %d files -> %s %s (%d recipes, %d reused, %.0f s)' % (
             row['n'], ' (screen)' if screen else '', len(names), len(files), row['verdict'], row['counts'],
             row['recipes'], row['reused'], row['seconds']))
+        if proof.get('error') and not proof.get('recipes'):
+            # a refusal before any compile (graph authority, foreign layout records, views): say which
+            row['error'] = str(proof['error'])[:600]
+            self.log('  refused before compiling: %s' % row['error'][:300])
         for f in bad[:4]:
             self.log('  failing %s %s: %s' % (f['verdict'], T.failing_source(f, self.root), str(f['why'])[-200:]))
         return proof

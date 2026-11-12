@@ -16,7 +16,7 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 extern s32 find_active_rect_containing_point(s32, s32);
-extern void advance_stored_entity_path(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, void *path_state);
+extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 extern void func_80173AC0(void *, void *, void *, void *);
 

@@ -1,9 +1,9 @@
+#include "dungeon/monster/beldo_large_data.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/particle.h"
 
 
-extern s16 encounter_blink_update_flag;
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 

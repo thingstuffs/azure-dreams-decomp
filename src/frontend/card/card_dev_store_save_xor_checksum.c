@@ -1,10 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "frontend/card/server_imports.h"
-
-
-extern s32 checksum_trace_format[];
-extern s32 saved_checksum_label[];
+#include "frontend/card/checksum_trace_data.h"
 
 /* Compute, store, and print the XOR checksum of the game-save work data. */
 void card_dev_store_save_xor_checksum(void *gsw) {

@@ -44,7 +44,6 @@ typedef struct S_7FFEA9D4_3 {
     u8 unk_13;
 } S_7FFEA9D4_3;
 
-extern u8 emitter_height_offsets[0x100];
 extern M2C_UNK D_8010C994;
 
 /* Spawns randomized particles while the emitter is young and marks it inactive when its timer expires. */

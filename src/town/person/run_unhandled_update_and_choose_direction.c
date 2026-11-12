@@ -3,8 +3,7 @@
 
 #include "town/person/object_setup.h"
 #include "town/person/state_updates.h"
-void choose_random_movement_direction(); /* Slot contract: loading images do not establish one callee contract. */    /* extern */
-
+#include "town/person.h"
 
 /* Count down after an unhandled entity update and choose a direction when the timer expires. */
 void run_unhandled_update_and_choose_direction(TownObjectRecord *entity, void *motion, SpriteFrameState *context, s32 update_arg) {

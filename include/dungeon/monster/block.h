@@ -73,13 +73,6 @@ typedef struct CB_80170920_S_80170920_0 {
 
 /* Expands and brightens the effect, then shrinks and fades it until expiration. */
 
-typedef struct CB_80170A5C_S_80170A5C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} CB_80170A5C_S_80170A5C_0;   /* object in func_80170A5C */
-
 typedef struct CB_80170A5C_S_80170A5C_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -87,11 +80,6 @@ typedef struct CB_80170A5C_S_80170A5C_1 {
     u8 pad_18[0x4];
     s32 unk_1C;
 } CB_80170A5C_S_80170A5C_1;   /* result in func_80170A5C */
-
-typedef struct CB_80170A5C_S_80170A5C_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} CB_80170A5C_S_80170A5C_2;   /* part0 in func_80170A5C */
 
 typedef struct CB_80170A5C_S_80170A5C_4 {
     u8 pad_00[0x8C];

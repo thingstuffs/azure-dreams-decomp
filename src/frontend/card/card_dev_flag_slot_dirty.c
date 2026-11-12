@@ -1,5 +1,5 @@
 #include "common.h"
-#include "frontend/card/slot_assert_words.h"
+#include "frontend/card/slot_assert_bytes.h"
 #include "frontend/card.h"
 #include "frontend/card/server_aliases.h"
 #include "frontend/card/server_imports.h"

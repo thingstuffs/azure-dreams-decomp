@@ -7,114 +7,9 @@
 #include "dungeon/monster/manoeva.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "sdk/libgpu_packets.h"
+#include "engine/graphics/sprite_scratch.h"
 
-
-typedef struct S_80175594_1 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u8 pad_06[0x2];
-    union { s32 s32; u16 u16; } unk_08;   /* accessed as both */
-    union { s32 s32; u16 u16; } unk_0C;   /* accessed as both */
-    union { s32 s32; u16 u16; } unk_10;   /* accessed as both */
-    union { s32 s32; u16 u16; } unk_14;   /* accessed as both */
-    u8 pad_18[0x8];
-    u8 * unk_20;
-    u16 unk_24;
-    u8 pad_26[0xA];
-    s32 unk_30;
-    s32 unk_34;
-    s32 unk_38;
-    u8 pad_3C[0x34];
-    u16 unk_70;
-    u16 unk_72;
-    s16 unk_74;
-    u8 pad_76[0x2];
-    s16 unk_78;
-    s16 unk_7A;
-    s16 unk_7C;
-    u8 pad_7E[0x2];
-    s16 unk_80;
-    s16 unk_82;
-    s16 unk_84;
-    u8 pad_86[0x2];
-    s16 unk_88;
-    s16 unk_8A;
-    s16 unk_8C;
-    u8 pad_8E[0x2A];
-    u16 unk_B8;
-    u16 unk_BA;
-    u8 pad_BC[0x4];
-    s32 unk_C0;
-    u8 pad_C4[0x20];
-    s32 unk_E4;
-    s32 unk_E8;
-    s32 unk_EC;
-    u16 unk_F0;
-    u16 unk_F2;
-    u16 unk_F4;
-    u16 unk_F6;
-    u16 unk_F8;
-    u16 unk_FA;
-    u16 unk_FC;
-    u16 unk_FE;
-    u16 unk_100;
-    u16 unk_102;
-    u16 unk_104;
-    u8 pad_106[0x2];
-    u16 unk_108;
-    u16 unk_10A;
-} S_80175594_1;   /* scratch in project_depth_sorted_sprite_quads */
-
-   /* state in project_depth_sorted_sprite_quads */
-
-typedef struct S_80175594_7 {
-    u8 pad_00[0x4];
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    u16 unk_08;
-    u16 unk_0A;
-    u16 unk_0C;
-    u16 unk_0E;
-    u16 unk_10;
-    u16 unk_12;
-    union { u16 u16; u8 u8; } unk_14;   /* accessed as both */
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_1C;   /* overlapping accesses */
-    u8 pad_1E[0x2];
-    u16 unk_20;
-    u16 unk_22;
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_80175594_7;   /* packet in project_depth_sorted_sprite_quads */
-
-   /* *global in project_depth_sorted_sprite_quads */
-
-
-typedef struct {
-    s32 tag;
-    s32 color;
-    s16 x0;
-    s16 y0;
-    u16 uv0;
-    u16 clut;
-    s16 x1;
-    s16 y1;
-    u16 uv1;
-    u16 tpage;
-    s16 x2;
-    s16 y2;
-    u16 uv2;
-    u16 pad2;
-    s16 x3;
-    s16 y3;
-    u16 uv3;
-    u16 pad3;
-} Packet;
 
 typedef struct {
     s8 flag;
@@ -134,11 +29,10 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     s16 depth_bias)
 {
     GameWork *render_globals = &g_game_work;
-    S_80175594_1 *scratch = (S_80175594_1 *)0x1F800000;
-    u8 *state;
+    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    GpuContext *state;
     MATRIX *matrix;
-    Packet *packet;
-    S_80175594_7 *packet_view;
+    POLY_FT4 *packet;
     Texture *texture;
     s32 scaled_coord;
     s32 view_angle;
@@ -155,171 +49,170 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     }
 
     state = render_globals->draw_buffer;
-    scratch->unk_EC = 0;
-    scratch->unk_8C = 0;
-    scratch->unk_84 = 0;
-    scratch->unk_7C = 0;
-    scratch->unk_74 = 0;
-    scratch->unk_20 = state + 0xB0;
-    scratch->unk_00 = position->x.unsigned_parts.integer;
-    scratch->unk_02 = position->y.unsigned_parts.integer;
-    scratch->unk_04 = position->z.unsigned_parts.integer;
-    packet = ((GpuContext *)state)->packetCursor;
-    scratch->unk_C0 = RotTransPers(
-        scratch, (u8 *)scratch + 0xB8, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+    scratch->local_matrix.t[2] = 0;
+    scratch->vertices[3].vz = 0;
+    scratch->vertices[2].vz = 0;
+    scratch->vertices[1].vz = 0;
+    scratch->vertices[0].vz = 0;
+    scratch->ordering_table = (u32 *)&state->orderTag;
+    scratch->position.vx = position->x.unsigned_parts.integer;
+    scratch->position.vy = position->y.unsigned_parts.integer;
+    scratch->position.vz = position->z.unsigned_parts.integer;
+    packet = state->packetCursor;
+    scratch->sort_depth = RotTransPers(
+        &scratch->position, (s32 *)&scratch->screen_origin, &scratch->depth_cue, &scratch->gte_flag);
 
     render->unk_14 |= 0x8000;
     {
-        u32 depth = *(u32 *)((u8 *)scratch + 0xC0);
+        u32 depth = scratch->sort_depth;
         u32 sort_depth;
         u32 biased_depth;
         sort_depth = (biased_depth = depth - 6, biased_depth - (s16)depth_bias);
         matrix = &sprite_projection_matrix;
         matrix->t[2] = depth * 4;
-        scratch->unk_C0 = sort_depth;
+        scratch->sort_depth = sort_depth;
     }
 
-    if ((u32)scratch->unk_C0 < 0x1E0U) {
+    if (scratch->sort_depth < 0x1E0U) {
         PushMatrix();
-        scratch->unk_B8 -= 0xA0;
-        scratch->unk_BA -= 0x78;
-        scratch->unk_30 = render_globals->view.camera_rotation.parts.camera_rotation_x;
-        scratch->unk_34 = render_globals->view.camera_rotation.parts.camera_rotation_y;
-        scratch->unk_38 = render_globals->view.camera_rotation.parts.viewAngle;
+        scratch->screen_origin.x -= 0xA0;
+        scratch->screen_origin.y -= 0x78;
+        scratch->input.vx = render_globals->view.camera_rotation.parts.camera_rotation_x;
+        scratch->input.vy = render_globals->view.camera_rotation.parts.camera_rotation_y;
+        scratch->input.vz = render_globals->view.camera_rotation.parts.viewAngle;
 
-        scratch->unk_100 = render->unk_16;
-        scratch->unk_104 =
+        scratch->angles.vx = render->unk_16;
+        scratch->angles.vz =
             ((u16)(render_globals->view.view_rotation_offset.parts.view_rotation_offset_z)) +
-            (render->unk_1A - (u16)scratch->unk_34);
-        view_angle = ((u16)scratch->unk_38 + 0x100) & 0x1FF;
+            (render->unk_1A - scratch->input.vy);
+        view_angle = ((u16)scratch->input.vz + 0x100) & 0x1FF;
         angle_offset = render->unk_18 - 0x100;
-        scratch->unk_102 = view_angle + angle_offset;
+        scratch->angles.vy = view_angle + angle_offset;
 
-        scratch->unk_108 = scratch->unk_E4 =
+        scratch->extent_x = scratch->local_matrix.t[0] =
             render->unk_20;
-        scratch->unk_10A = scratch->unk_E8 =
+        scratch->extent_y = scratch->local_matrix.t[1] =
             render->unk_22;
-        RotMatrix(&scratch->unk_100, (u8 *)scratch + 0xD0);
+        RotMatrix(&scratch->angles, &scratch->local_matrix);
 
-        scratch->unk_30 = render->unk_1C;
-        scratch->unk_34 = render->unk_1E;
-        scratch->unk_38 = 0x1000;
-        ScaleMatrix((u8 *)scratch + 0xD0, &scratch->unk_30);
-        CompMatrix(matrix, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
-        SetTransMatrix((u8 *)scratch + 0x50);
-        SetRotMatrix((u8 *)scratch + 0x50);
+        scratch->input.vx = render->unk_1C;
+        scratch->input.vy = render->unk_1E;
+        scratch->input.vz = 0x1000;
+        ScaleMatrix(&scratch->local_matrix, &scratch->input);
+        CompMatrix(matrix, &scratch->local_matrix, &scratch->matrix);
+        SetTransMatrix(&scratch->matrix);
+        SetRotMatrix(&scratch->matrix);
 
         texture = (Texture *)render->unk_08;
-        scratch->unk_24 = render->unk_14;
+        scratch->sprite_flags = render->unk_14;
 
         for (;;) {
-            scratch->unk_08.s32 = texture->f8;
-            scratch->unk_0C.s32 = texture->f9;
-            scratch->unk_10.s32 = texture->fA;
-            scratch->unk_14.s32 = texture->fB;
+            scratch->uv_u_start = texture->f8;
+            scratch->uv_v_start = texture->f9;
+            scratch->uv_u_extent = texture->fA;
+            scratch->uv_v_extent = texture->fB;
 
             scaled_coord = (texture->x -
-                     (s16)scratch->unk_108) *
+                     (s16)scratch->extent_x) *
                     sprite->unk_22;
-            scratch->unk_70 = scaled_coord >> 12;
+            scratch->vertices[0].vx = scaled_coord >> 12;
             scaled_coord = (texture->x -
-                     (s16)scratch->unk_108) *
+                     (s16)scratch->extent_x) *
                     sprite->unk_2A;
-            scratch->unk_80 = scaled_coord >> 12;
-            scaled_coord = ((s16)scratch->unk_70 +
-                     scratch->unk_10.s32) *
+            scratch->vertices[2].vx = scaled_coord >> 12;
+            scaled_coord = (scratch->vertices[0].vx +
+                     scratch->uv_u_extent) *
                     sprite->unk_28;
-            scratch->unk_78 = scaled_coord >> 12;
-            scaled_coord = ((s16)scratch->unk_70 +
-                     scratch->unk_10.s32) *
+            scratch->vertices[1].vx = scaled_coord >> 12;
+            scaled_coord = (scratch->vertices[0].vx +
+                     scratch->uv_u_extent) *
                     sprite->unk_30;
-            scratch->unk_88 = scaled_coord >> 12;
+            scratch->vertices[3].vx = scaled_coord >> 12;
 
             scaled_coord = (texture->y -
-                     (s16)scratch->unk_10A) *
+                     (s16)scratch->extent_y) *
                     sprite->unk_24;
-            scratch->unk_72 = scaled_coord >> 12;
+            scratch->vertices[0].vy = scaled_coord >> 12;
             scaled_coord = (texture->y -
-                     (s16)scratch->unk_10A) *
+                     (s16)scratch->extent_y) *
                     sprite->unk_28;
-            scratch->unk_7A = scaled_coord >> 12;
-            scaled_coord = ((s16)scratch->unk_72 +
-                     scratch->unk_14.s32) *
+            scratch->vertices[1].vy = scaled_coord >> 12;
+            scaled_coord = (scratch->vertices[0].vy +
+                     scratch->uv_v_extent) *
                     sprite->unk_2C;
-            scratch->unk_82 = scaled_coord >> 12;
+            scratch->vertices[2].vy = scaled_coord >> 12;
             {
-                void *vertex_1 = &scratch->unk_78;
-                void *vertex_2 = &scratch->unk_80;
-                void *vertex_3 = &scratch->unk_88;
-                void *screen_0;
+                SVECTOR *vertex_1 = &scratch->vertices[1];
+                SVECTOR *vertex_2 = &scratch->vertices[2];
+                SVECTOR *vertex_3 = &scratch->vertices[3];
+                s32 *screen_0;
                 s32 bottom_y;
 
-                bottom_y = (s16)scratch->unk_72 +
-                                scratch->unk_14.s32;
-                screen_0 = &scratch->unk_F0;
-                scratch->unk_8A = (bottom_y * sprite->unk_30) >> 12;
+                bottom_y = scratch->vertices[0].vy +
+                                scratch->uv_v_extent;
+                screen_0 = (s32 *)&scratch->projected_vertices[0];
+                scratch->vertices[3].vy = (bottom_y * sprite->unk_30) >> 12;
 
-                RotTransPers4(&scratch->unk_70, vertex_1,
+                RotTransPers4(&scratch->vertices[0], vertex_1,
                               vertex_2, vertex_3,
-                              screen_0, (u8 *)scratch + 0xF4,
-                              (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
-                              (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+                              screen_0, (s32 *)&scratch->projected_vertices[1],
+                              (s32 *)&scratch->projected_vertices[2], (s32 *)&scratch->projected_vertices[3],
+                              &scratch->depth_cue, &scratch->gte_flag);
             }
 
             packet->x0 =
-                scratch->unk_F0 + scratch->unk_B8;
+                scratch->projected_vertices[0].x + scratch->screen_origin.x;
             packet->y0 =
-                scratch->unk_F2 + scratch->unk_BA;
+                scratch->projected_vertices[0].y + scratch->screen_origin.y;
             packet->x1 =
-                scratch->unk_F4 + scratch->unk_B8;
+                scratch->projected_vertices[1].x + scratch->screen_origin.x;
             packet->y1 =
-                scratch->unk_F6 + scratch->unk_BA;
+                scratch->projected_vertices[1].y + scratch->screen_origin.y;
             packet->x2 =
-                scratch->unk_F8 + scratch->unk_B8;
+                scratch->projected_vertices[2].x + scratch->screen_origin.x;
             packet->y2 =
-                scratch->unk_FA + scratch->unk_BA;
+                scratch->projected_vertices[2].y + scratch->screen_origin.y;
             packet->x3 =
-                scratch->unk_FC + scratch->unk_B8;
+                scratch->projected_vertices[3].x + scratch->screen_origin.x;
             packet->y3 =
-                scratch->unk_FE + scratch->unk_BA;
+                scratch->projected_vertices[3].y + scratch->screen_origin.y;
 
-            packet_view = (S_80175594_7 *)packet;
             visible_0 = 0;
-            if ((u16)(packet_view->unk_08 + 0x20) < 0x181U) {
+            if ((u16)(packet->x0 + 0x20) < 0x181U) {
                 visible_0 =
-                    (u16)(packet_view->unk_0A + 0x20) < 0x121U;
+                    (u16)(packet->y0 + 0x20) < 0x121U;
             }
             visible_1 = 0;
-            if ((u16)(packet_view->unk_10 + 0x20) < 0x181U) {
+            if ((u16)(packet->x1 + 0x20) < 0x181U) {
                 visible_1 =
-                    (u16)(packet_view->unk_12 + 0x20) < 0x121U;
+                    (u16)(packet->y1 + 0x20) < 0x121U;
             }
             visible_01 = visible_0 | visible_1;
             visible_2 = 0;
-            if ((u16)(packet_view->unk_18 + 0x20) < 0x181U) {
+            if ((u16)(packet->x2 + 0x20) < 0x181U) {
                 visible_2 =
-                    (u16)(packet_view->unk_1A + 0x20) < 0x121U;
+                    (u16)(packet->y2 + 0x20) < 0x121U;
             }
             visible_012 = visible_01 | visible_2;
             visible_3 = 0;
-            if ((u16)(packet_view->unk_20 + 0x20) < 0x181U) {
+            if ((u16)(packet->x3 + 0x20) < 0x181U) {
                 visible_3 =
-                    (u16)(packet_view->unk_22 + 0x20) < 0x121U;
+                    (u16)(packet->y3 + 0x20) < 0x121U;
             }
 
             if ((visible_012 | visible_3) != 0) {
-                scratch->unk_10.s32 += scratch->unk_08.s32;
-                scratch->unk_14.s32 =
-                    (scratch->unk_0C.s32 +
-                     scratch->unk_14.s32) << 8;
-                scratch->unk_0C.s32 <<= 8;
+                scratch->uv_u_extent += scratch->uv_u_start;
+                scratch->uv_v_extent =
+                    (scratch->uv_v_start +
+                     scratch->uv_v_extent) << 8;
+                scratch->uv_v_start <<= 8;
 
                 packet->clut =
                     render->unk_12 + texture->f6;
-                packet->uv0 =
-                    scratch->unk_0C.u16 + scratch->unk_08.u16;
-                packet->uv1 =
-                    scratch->unk_0C.u16 + scratch->unk_10.u16;
+                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                *(u16 *)&packet->u0 = scratch->uv_v_start + scratch->uv_u_start;
+                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                *(u16 *)&packet->u1 = scratch->uv_v_start + scratch->uv_u_extent;
                 if (render->unk_10 != 0) {
                     packet->tpage =
                         render->unk_10 +
@@ -327,28 +220,28 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
                 } else {
                     packet->tpage = texture->f4;
                 }
-                packet->uv2 =
-                    scratch->unk_14.u16 + scratch->unk_08.u16;
-                packet->uv3 =
-                    scratch->unk_14.u16 + scratch->unk_10.u16;
+                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                *(u16 *)&packet->u2 = scratch->uv_v_extent + scratch->uv_u_start;
+                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                *(u16 *)&packet->u3 = scratch->uv_v_extent + scratch->uv_u_extent;
 
-                if (packet_view->unk_14.u8 == 0) {
-                    packet_view->unk_14.u8--;
-                    packet_view->unk_24.at00u.v--;
+                if (packet->u1 == 0) {
+                    packet->u1--;
+                    packet->u3--;
                 }
-                if (packet_view->unk_1C.at01.v == 0) {
-                    packet_view->unk_1C.at01.v--;
-                    packet_view->unk_24.at01.v--;
+                if (packet->v2 == 0) {
+                    packet->v2--;
+                    packet->v3--;
                 }
 
-                packet->color = render->unk_0C;
+                /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+                *(u32 *)&packet->r0 = render->unk_0C;
                 SetPolyFT4(packet);
-                if (scratch->unk_24 & 8) {
-                    packet_view->unk_04.at03.v |= 2;
+                if (scratch->sprite_flags & 8) {
+                    packet->code |= 2;
                 }
 
-                AddPrim(scratch->unk_20 +
-                              scratch->unk_C0 * 4,
+                AddPrim(scratch->ordering_table + scratch->sort_depth,
                               packet);
                 packet++;
             }
@@ -362,5 +255,5 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
         PopMatrix();
     }
 
-    ((GpuContext *)(*(u8 **)&render_globals->draw_buffer))->packetCursor = packet;
+    ((GpuContext *)render_globals->draw_buffer)->packetCursor = packet;
 }

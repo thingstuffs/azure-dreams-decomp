@@ -15,12 +15,9 @@ struct TownObjectRecord;
 
 void update_actor_and_select_ground_handler(int context, struct ObjectPosition *record, struct SpriteFrameState *action_data);
 void update_actor_movement_actions(struct TownObjectRecord *action, struct ObjectPosition *actor, int context);
-void update_actor_movement_and_interaction(void *actor, struct ObjectPosition *position, int context);
 void update_threshold_countdown_action(void *state, struct ObjectPosition *object, struct SpriteFrameState *context);
-void update_threshold_countdown_with_busy_check(void *state, struct ObjectPosition *object, int context);
 void invoke_handler_when_countdown_expires(struct TownObjectRecord *state, struct ObjectPosition *update_ctx, struct SpriteFrameState *handler_ctx);
 void handle_adjust_vector_toward_selected_angle_limit_magnitude(struct ObjectPosition *object);
-void reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting(struct ObjectPosition *object);
 void set_global_800_cfced_initialize_call_callee_800954_dc(struct ObjectPosition *record, int initial_value);
 void set_global_800_cfceb_initialize_call_callee_800954_c_4(struct ObjectPosition *record, int initial_value);
 void initialize_object_handler_and_countdown(struct TownObjectRecord *object, struct ObjectPosition *context, void *ptr2);
@@ -35,8 +32,6 @@ int get_lower_probe_result_sampling_x_offset_displacement_exceeds_limit(struct O
 short handle_queries_large_offset_returns_larger_original_shifted_result(struct ObjectPosition *input);
 void initialize_indexed_object_state(struct Struct_func_8009BDDC_arg0 *object, struct ObjectPosition *context, void *ptr2);
 void interpolate_actor_height_until_timeout(struct TownObjectRecord *state, struct ObjectPosition *motion, void *context);
-void update_actor_movement_with_radial_effects(int object_id, struct ObjectPosition *object, int update_context);
 void update_threshold_object(void *context, struct ObjectPosition *object, void *update_data);
-void update_town_object_from_input(void *context, struct ObjectPosition *object, void *action_data);
 
 #endif

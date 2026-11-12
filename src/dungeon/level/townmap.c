@@ -13,16 +13,16 @@ void process_pending_resource_load(void)
     s32 entry_result;
     s32 *entry_table;
 
-    if (town_resource_request[0] != 0) {
+    if (town_resource_request != 0) {
         DrawSync(0);
         entry_table = &town_resource_descriptors[15];
-        entry_result = load_cd_resource(entry_table[town_resource_request[0]]);
+        entry_result = load_cd_resource(entry_table[town_resource_request]);
         loaded_town_resource_attributes[0] = entry_result;
-        if (town_resource_request[0] == 1) {
-            town_resource_request[0] = 0;
+        if (town_resource_request == 1) {
+            town_resource_request = 0;
             return;
         }
-        town_resource_request[0] = 1;
+        town_resource_request = 1;
     }
 }
 
@@ -96,7 +96,7 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
     resource_cursor = resources;
     count = 0;
     {
-        s8 *link_slots = &town_map_link_slots;
+        s8 *link_slots = town_map_link_slots;
         while (1) {
             s8 linked_slot = *(s8 *)(count + (long)link_slots);
             void *linked_data;

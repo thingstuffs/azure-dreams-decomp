@@ -7,11 +7,16 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/libgte_matrix.h"
+#include "sdk/libgpu_packets.h"
+#include "engine/graphics/sprite_scratch.h"
+
+typedef struct S_800C9088_4 S_800C9088_4;
 
 typedef struct S_800C9088_0 {
     u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 pad_0C[0x4];
+    S_800C9088_4 *unk_08;
+    CVECTOR base_color; /* the colour func_80065034 shades each vertex normal with */
     u16 unk_10;
     u16 unk_12;
     u16 unk_14;
@@ -23,110 +28,32 @@ typedef struct S_800C9088_0 {
     u16 unk_20;
 } S_800C9088_0;   /* object in transform_shade_and_queue_model_quads */
 
-#include "sdk/libgte_matrix.h"
-
-typedef struct S_800C9088_1 {
-    u8 pad_00[0x20];
-    union { u8 * s; void * u; } unk_20;   /* accessed as both */
-    u8 pad_24[0xC];
-    s32 unk_30;
-    s32 unk_34;
-    s32 unk_38;
-    u8 pad_3C[0x4];
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    u8 pad_4C[0x4];
-    s16 unk_50;
-    s16 unk_52;
-    s16 unk_54;
-    s16 unk_56;
-    s16 unk_58;
-    s16 unk_5A;
-    s16 unk_5C;
-    s16 unk_5E;
-    s16 unk_60;
-    u8 pad_62[0xE];
-    s32 unk_70;
-    u16 unk_74;
-    u8 pad_76[0x2];
-    s32 unk_78;
-    u16 unk_7C;
-    u8 pad_7E[0x2];
-    s32 unk_80;
-    u16 unk_84;
-    u8 pad_86[0x2];
-    s32 unk_88;
-    u16 unk_8C;
-    u8 pad_8E[0x2];
-    s32 depth_cue; /* RotAverage4 depth-cue output */
-    s32 gte_flag; /* RotAverage4 GTE flag output */
-    u8 pad_98[0x28];
-    s32 unk_C0;
-    u8 pad_C4[0xC];
-    MATRIX composed_matrix; /* CompMatrix of the model matrix and the parent matrix, then composed with the saved GTE matrix */
-    u8 pad_F0[0x24];
-    volatile s32 unk_114;
-} S_800C9088_1;   /* scratch in transform_shade_and_queue_model_quads */
 
 
-   /* state in transform_shade_and_queue_model_quads */
-
-typedef struct S_800C9088_4 {
+struct S_800C9088_4 {
     u8 * unk_00;
-    u8 * unk_04;
-    u8 * unk_08;
-} S_800C9088_4;   /* descriptor in transform_shade_and_queue_model_quads */
-
-
-
-typedef struct S_800C9088_6 {
-    s32 unk_00;
-} S_800C9088_6;   /* table + next_index * 8 in transform_shade_and_queue_model_quads */
-
-typedef struct S_800C9088_7 {
-    s32 unk_00;
-} S_800C9088_7;   /* word2_ptr in transform_shade_and_queue_model_quads */
-
-typedef struct S_800C9088_8 {
-    s32 unk_00;
-} S_800C9088_8;   /* word3_ptr in transform_shade_and_queue_model_quads */
-
-typedef struct S_800C9088_9 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-} S_800C9088_9;   /* table + half_index * 8 in transform_shade_and_queue_model_quads */
-
-   /* *(u8 **)state_base in transform_shade_and_queue_model_quads */
-
-typedef struct S_800C9088_12 {
-    s32 unk_00;
-} S_800C9088_12;   /* table + ((S_800C9088_5 *)indices)->unk_00 * 8 in transform_shade_and_queue_model_quads */
-
-typedef struct S_800C9088_13 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-} S_800C9088_13;   /* table + (*(u16 *)((u8 *)ptr_s1 + -0x1D)) * 8 in transform_shade_and_queue_model_quads */
-
+    SVECTOR *unk_04;
+    SVECTOR *unk_08;
+};   /* descriptor in transform_shade_and_queue_model_quads */
 
 /* Transform, shade, and enqueue visible textured quads for the model. */
 void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation_arg, void *model_arg, s16 depth_bias)
 {
     S_800C9088_0 *model = model_arg;
     ObjectPosition *translation = translation_arg;
-    S_800C9088_1 *scratch;
+    SpriteQuadScratch *scratch;
     u8 *indices;
-    u8 *positions;
-    u8 *normals;
-    u8 *packet;
-    u8 *base_color;
-    u8 *state;
-    u8 **state_table = (u8 **)((u8 *)(&g_game_work));
+    SVECTOR *positions;
+    SVECTOR *normals;
+    POLY_GT4 *packet;
+    CVECTOR *base_color;
+    GpuContext *state;
+    GpuContext **state_table = (GpuContext **)&g_game_work;
     S_800C9088_4 *descriptor;
-    s32 *vertex0;
-    s32 *vertex1;
-    s32 *vertex2;
-    s32 *vertex3;
+    SVECTOR *vertex0;
+    SVECTOR *vertex1;
+    SVECTOR *vertex2;
+    SVECTOR *vertex3;
     s32 vertex_xy;
     u32 vertex_index;
     u32 last_index;
@@ -135,10 +62,11 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     u32 z_index;
     u16 vertex_z;
     u16 vertex3_z;
-    S_800C9088_7 *vertex2_pos;
-    S_800C9088_8 *vertex3_pos;
+    SVECTOR *vertex2_pos;
+    SVECTOR *vertex3_pos;
     s32 depth;
     s32 winding;
+    volatile s32 *winding_slot;
     s32 flags;
     u16 scale_x;
     MATRIX saved_transform;
@@ -148,154 +76,173 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     PushMatrix();
 
     scale_x = model->unk_1C;
-    scratch = (S_800C9088_1 *)0x1F800000;
-    scratch->unk_30 = scale_x;
-    scratch->unk_34 = model->unk_1E;
-    scratch->unk_38 = model->unk_20;
-    scratch->unk_40 = translation->x.w.i;
-    scratch->unk_44 = translation->y.w.i;
-    scratch->unk_48 = translation->z.w.i;
+    scratch = (SpriteQuadScratch *)0x1F800000;
+    scratch->input.vx = scale_x;
+    scratch->input.vy = model->unk_1E;
+    scratch->input.vz = model->unk_20;
+    scratch->translation.vx = translation->x.w.i;
+    scratch->translation.vy = translation->y.w.i;
+    scratch->translation.vz = translation->z.w.i;
 
     ReadRotMatrix(&saved_transform);
 
-    scratch->unk_60 = 0x1000;
-    scratch->unk_58 = 0x1000;
-    scratch->unk_50 = 0x1000;
-    scratch->unk_5E = 0;
-    scratch->unk_5C = 0;
-    scratch->unk_5A = 0;
-    scratch->unk_56 = 0;
-    scratch->unk_54 = 0;
-    scratch->unk_52 = 0;
+    scratch->matrix.m[2][2] = 0x1000;
+    scratch->matrix.m[1][1] = 0x1000;
+    scratch->matrix.m[0][0] = 0x1000;
+    scratch->matrix.m[2][1] = 0;
+    scratch->matrix.m[2][0] = 0;
+    scratch->matrix.m[1][2] = 0;
+    scratch->matrix.m[1][0] = 0;
+    scratch->matrix.m[0][2] = 0;
+    scratch->matrix.m[0][1] = 0;
 
-    RotMatrixX(model->unk_16, &scratch->unk_50);
-    RotMatrixZ(model->unk_1A, &scratch->unk_50);
-    RotMatrixY(model->unk_18, &scratch->unk_50);
+    RotMatrixX(model->unk_16, &scratch->matrix);
+    RotMatrixZ(model->unk_1A, &scratch->matrix);
+    RotMatrixY(model->unk_18, &scratch->matrix);
 
     if (model->unk_14 & 1) {
-        scratch->unk_30 = -scratch->unk_30;
+        scratch->input.vx = -scratch->input.vx;
     }
     if (model->unk_14 & 2) {
-        scratch->unk_34 = -scratch->unk_34;
+        scratch->input.vy = -scratch->input.vy;
     }
 
-    ScaleMatrix(&scratch->unk_50, &scratch->unk_30);
-    TransMatrix(&scratch->unk_50, &scratch->unk_40);
-    CompMatrix(&scratch->unk_50, parent_matrix, &scratch->composed_matrix);
-    CompMatrix(&saved_transform, &scratch->composed_matrix, &scratch->unk_50);
-    SetTransMatrix(&scratch->unk_50);
-    SetRotMatrix(&scratch->unk_50);
+    ScaleMatrix(&scratch->matrix, &scratch->input);
+    TransMatrix(&scratch->matrix, &scratch->translation);
+    CompMatrix(&scratch->matrix, parent_matrix, &scratch->local_matrix);
+    CompMatrix(&saved_transform, &scratch->local_matrix, &scratch->matrix);
+    SetTransMatrix(&scratch->matrix);
+    SetRotMatrix(&scratch->matrix);
 
     state = state_table[0];
-    base_color = (u8 *)model + 0xC;
-    scratch->unk_20.s = state + 0xB0;
-    packet = ((GpuContext *)state)->packetCursor;
+    base_color = &model->base_color;
+    scratch->ordering_table = (u32 *)&state->orderTag;
+    packet = state->packetCursor;
     model->unk_14 |= 0x8000;
 
-    descriptor = (S_800C9088_4 *)model->unk_08;
+    descriptor = model->unk_08;
     indices = descriptor->unk_00;
     positions = descriptor->unk_04;
     normals = descriptor->unk_08;
 
     for (;;) {
-    vertex_xy = ((S_800C9088_12 *)(positions + ((u16 *)indices)[0] * 8))->unk_00;
+    /* BYTES: retail copies the packed vertex XY word with one lw/sw */
+    vertex_xy = *(s32 *)&positions[((u16 *)indices)[0]].vx;
     vertex_index = (*(u16 *)(indices + 2));
-    scratch->unk_70 = vertex_xy;
-    vertex_xy = ((S_800C9088_6 *)(positions + vertex_index * 8))->unk_00;
-    vertex2_pos = (S_800C9088_7 *)((*(u16 *)(indices + 4)) * 8 + (u32)positions);
-    scratch->unk_78 = vertex_xy;
+    *(s32 *)&scratch->vertices[0].vx = vertex_xy;
+    /* BYTES: retail copies the packed vertex XY word with one lw/sw */
+    vertex_xy = *(s32 *)&positions[vertex_index].vx;
+    vertex2_pos = (SVECTOR *)(*(u16 *)(indices + 4) * 8 + (unsigned long)positions);
+    *(s32 *)&scratch->vertices[1].vx = vertex_xy;
     last_index = (*(u16 *)(indices + 6));
-    vertex2_xy = vertex2_pos->unk_00;
-    vertex3_pos = (S_800C9088_8 *)(last_index * 8 + (unsigned long)positions);
-    scratch->unk_80 = vertex2_xy;
+    /* BYTES: retail copies the packed vertex XY word with one lw/sw */
+    vertex2_xy = *(s32 *)&vertex2_pos->vx;
+    vertex3_pos = (SVECTOR *)(last_index * 8 + (unsigned long)positions);
+    *(s32 *)&scratch->vertices[2].vx = vertex2_xy;
     z_index = ((u16 *)indices)[0];
-    vertex3_xy = vertex3_pos->unk_00;
+    /* BYTES: retail copies the packed vertex XY word with one lw/sw */
+    vertex3_xy = *(s32 *)&vertex3_pos->vx;
 
-    vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
-    scratch->unk_74 = vertex_z;
+    vertex_z = positions[z_index].vz;
+    scratch->vertices[0].vz = vertex_z;
 
-    vertex_z = ((S_800C9088_13 *)(positions + (*(u16 *)(indices + 2)) * 8))->unk_04;
-    vertex0 = &scratch->unk_70;
-    scratch->unk_7C = vertex_z;
+    vertex_z = positions[*(u16 *)(indices + 2)].vz;
+    vertex0 = &scratch->vertices[0];
+    scratch->vertices[1].vz = vertex_z;
 
     z_index = (*(u16 *)(indices + 4));
-    vertex1 = &scratch->unk_78;
-    vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
-    vertex2 = &scratch->unk_80;
-    scratch->unk_84 = vertex_z;
+    vertex1 = &scratch->vertices[1];
+    vertex_z = positions[z_index].vz;
+    vertex2 = &scratch->vertices[2];
+    scratch->vertices[2].vz = vertex_z;
 
     z_index = (*(u16 *)(indices + 6));
-    vertex3 = &scratch->unk_88;
-    scratch->unk_88 = vertex3_xy;
-    vertex3_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
+    vertex3 = &scratch->vertices[3];
+    *(s32 *)&scratch->vertices[3].vx = vertex3_xy;
+    vertex3_z = positions[z_index].vz;
 
-    scratch->unk_8C = vertex3_z;
+    scratch->vertices[3].vz = vertex3_z;
     depth = RotAverage4(vertex0, vertex1,
                           vertex2, vertex3,
-                          packet + 8, packet + 0x14,
-                          packet + 0x20, packet + 0x2C,
+                          (s32 *)&packet->x0, (s32 *)&packet->x1,
+                          (s32 *)&packet->x2, (s32 *)&packet->x3,
                           &scratch->depth_cue, &scratch->gte_flag);
-    scratch->unk_C0 = depth;
+    scratch->sort_depth = depth;
 
     flags = model->unk_14 & 3;
     switch (flags) {
     case 0:
-        screen_xy0 = (*(s32 *)(packet + 8));
-        screen_xy1 = (*(s32 *)(packet + 0x14));
-        screen_xy2 = (*(s32 *)(packet + 0x20));
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy0 = *(s32 *)&packet->x0;
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy1 = *(s32 *)&packet->x1;
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy2 = *(s32 *)&packet->x2;
         break;
     case 1:
-        screen_xy0 = (*(s32 *)(packet + 0x14));
-        screen_xy1 = (*(s32 *)(packet + 8));
-        screen_xy2 = (*(s32 *)(packet + 0x20));
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy0 = *(s32 *)&packet->x1;
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy1 = *(s32 *)&packet->x0;
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy2 = *(s32 *)&packet->x2;
         break;
     case 2:
-        screen_xy0 = (*(s32 *)(packet + 0x20));
-        screen_xy1 = (*(s32 *)(packet + 0x14));
-        screen_xy2 = (*(s32 *)(packet + 8));
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy0 = *(s32 *)&packet->x2;
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy1 = *(s32 *)&packet->x1;
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy2 = *(s32 *)&packet->x0;
         break;
     default:
-        screen_xy0 = (*(s32 *)(packet + 0x20));
-        screen_xy1 = (*(s32 *)(packet + 8));
-        screen_xy2 = (*(s32 *)(packet + 0x14));
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy0 = *(s32 *)&packet->x2;
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy1 = *(s32 *)&packet->x0;
+        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        screen_xy2 = *(s32 *)&packet->x1;
         break;
     }
     winding = NormalClip(screen_xy0, screen_xy1, screen_xy2);
-    scratch->unk_114 = winding;
-    if (scratch->unk_114 > 0) {
-        scratch->unk_C0 -= depth_bias;
-        if ((u32)scratch->unk_C0 < 0x1E0) {
-            func_80065034(normals + (*(u16 *)(indices + 0x10)) * 8,
-                          base_color, packet + 4);
-            func_80065034(normals + (*(u16 *)(indices + 0x12)) * 8,
-                          base_color, packet + 0x10);
-            func_80065034(normals + (*(u16 *)(indices + 0x14)) * 8,
-                          base_color, packet + 0x1C);
-            func_80065034(normals + (*(u16 *)(indices + 0x16)) * 8,
-                          base_color, packet + 0x28);
+    /* retail stores the NormalClip result in its scratch slot and reads the slot back for the test */
+    winding_slot = &scratch->winding;
+    *winding_slot = winding;
+    if (*winding_slot > 0) {
+        scratch->sort_depth -= depth_bias;
+        if (scratch->sort_depth < 0x1E0) {
+            func_80065034(&normals[*(u16 *)(indices + 0x10)],
+                          base_color, &packet->r0);
+            func_80065034(&normals[*(u16 *)(indices + 0x12)],
+                          base_color, &packet->r1);
+            func_80065034(&normals[*(u16 *)(indices + 0x14)],
+                          base_color, &packet->r2);
+            func_80065034(&normals[*(u16 *)(indices + 0x16)],
+                          base_color, &packet->r3);
 
-            (*(s32 *)(packet + 0xC)) = (*(s32 *)(indices + 8));
-            (*(u16 *)(packet + 0xE)) += model->unk_12;
-            (*(s32 *)(packet + 0x18)) = (*(s32 *)(indices + 0xC));
+            /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
+            *(s32 *)&packet->u0 = (*(s32 *)(indices + 8));
+            packet->clut += model->unk_12;
+            /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
+            *(s32 *)&packet->u1 = (*(s32 *)(indices + 0xC));
             if (model->unk_10 != 0) {
-                (*(u16 *)(packet + 0x1A)) =
-                    ((*(u16 *)(packet + 0x1A)) & 0xFF9F) +
-                    model->unk_10;
+                packet->tpage = (packet->tpage & 0xFF9F) + model->unk_10;
             }
-            (*(u16 *)(packet + 0x24)) = (*(u16 *)(indices + 0x1A));
-            (*(u16 *)(packet + 0x30)) = (*(u16 *)(indices + 0x1C));
+            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            *(u16 *)&packet->u2 = (*(u16 *)(indices + 0x1A));
+            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            *(u16 *)&packet->u3 = (*(u16 *)(indices + 0x1C));
 
             SetPolyGT4(packet);
             flags = model->unk_14;
             if (flags & 8) {
                 if (flags & 4) {
-                    packet[7] |= 2;
+                    packet->code |= 2;
                 }
             }
-            AddPrim((u8 *)scratch->unk_20.u +
-                          scratch->unk_C0 * 4,
+            AddPrim(scratch->ordering_table + scratch->sort_depth,
                           packet);
-            packet += 0x34;
+            packet++;
             model->unk_14 &= 0x7FFF;
         }
     }
@@ -307,7 +254,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     }
 
     PopMatrix();
-    ((GpuContext *)state_table[0])->packetCursor = packet;
+    state_table[0]->packetCursor = packet;
 }
 #include "m2c_compat.h"
 
@@ -322,22 +269,21 @@ typedef struct S_800C95C0_1_pre {
 } S_800C95C0_1_pre;   /* the 0x8 bytes before state in queue_linked_visible_rectangle_copies, addressed as state[-1] */
 
 struct S_Rect;
-struct S_Arg1;
 
 /* Updates each linked state from its input values and delta using scratchpad memory. */
 s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, SpriteFrameState *initial_delta) {
     void *state = initial_state;
     SpriteFrameState *delta = initial_delta;
-    u8 *scratch = (u8 *)0x1F800000;
+    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
     u8 *next_node;
 
     for (;;) {
-        *(u16 *)(scratch + 0) = ((S_800C95C0_0 *)input_values)->unk_02;
-        *(u16 *)(scratch + 2) = (*(u16 *)((u8 *)input_values + 6));
-        *(u16 *)(scratch + 4) = (*(u16 *)((u8 *)input_values + 0xA));
-        *(s32 *)(scratch + 0xC0) =
-            RotTransPers(scratch, (void *)(scratch + 0xB8),
-                          (void *)(scratch + 0x90), (void *)(scratch + 0x94)) -
+        scratch->position.vx = ((S_800C95C0_0 *)input_values)->unk_02;
+        scratch->position.vy = (*(u16 *)((u8 *)input_values + 6));
+        scratch->position.vz = (*(u16 *)((u8 *)input_values + 0xA));
+        scratch->sort_depth =
+            RotTransPers(&scratch->position, (s32 *)&scratch->screen_origin,
+                          &scratch->depth_cue, &scratch->gte_flag) -
             delta->depth_bias;
         queue_visible_rectangle_copy(state, scratch);
         next_node = ((S_800C95C0_1_pre *)state)[-1].unk_00;
@@ -351,20 +297,19 @@ s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_value
 }
 
 struct S_Rect;
-struct S_Arg1;
 
 /* Processes linked entries with position values staged in scratchpad memory. */
 s32 process_linked_entries_at_position(void *entry_data, void *position) {
     register u8 *data = entry_data;
-    register u8 *scratch = (u8 *)0x1F800000;
+    register SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
     register u8 *next_node;
     s32 offset;
 
     for (;;) {
         offset = (s32)((u32)*(u16 *)data << 16) >> 17;
-        *(u16 *)(scratch + 0xB8) = *(u16 *)((u8 *)position + 2) - offset;
-        *(u16 *)(scratch + 0xBA) = *(u16 *)((u8 *)position + 6);
-        *(s32 *)(scratch + 0xC0) = *(s16 *)((u8 *)position + 10);
+        scratch->screen_origin.x = *(u16 *)((u8 *)position + 2) - offset;
+        scratch->screen_origin.y = *(u16 *)((u8 *)position + 6);
+        scratch->sort_depth = *(s16 *)((u8 *)position + 10);
         queue_visible_rectangle_copy(data, scratch);
         next_node = *(u8 **)(data - 8);
         if (next_node == 0) {
@@ -388,13 +333,6 @@ typedef struct S_Rect {
     s16 h;
 } S_Rect;
 
-typedef struct S_Arg1 {
-    char pad0[0xB8];
-    s16 x;
-    s16 y;
-    char pad_BC[4];
-    u32 index;
-} S_Arg1;
 
 typedef struct {
     u16 x;
@@ -408,7 +346,7 @@ extern u8 upper_draw_context[16];
 extern void func_80066890(u8 *dst, S_Stack *rect, s32 x, s32 y);
 
 /* Queue a rectangle copy when both source and destination fit on screen. */
-void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {
+void queue_visible_rectangle_copy(S_Rect *copy_rect, SpriteQuadScratch *source) {
     S_Stack source_rect;
     s16 source_y, width, source_x, height;
     s32 dest_y, second_buffer, dest_x, buffer_y;
@@ -419,9 +357,9 @@ void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {
     active_ctx = (Ctx **)((u8 *)&resident_globals_page + 0x3160);
     cursor = (*(Ctx **)((u8 *)&resident_globals_page + 0x3160))->field_8D0;
     second_buffer = *(Ctx **)((u8 *)&resident_globals_page + 0x3160) != (Ctx *)upper_draw_context;
-    if (source->index < 480) {
-        source_x = source->x;
-        source_y = source->y;
+    if (source->sort_depth < 480) {
+        source_x = source->screen_origin.x;
+        source_y = source->screen_origin.y;
         dest_x = source_x + copy_rect->w;
         dest_y = source_y + copy_rect->h;
         if (dest_x >= 0) {
@@ -430,8 +368,8 @@ void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {
                 height = copy_rect->y;
                 if (((dest_y + height) < 224) && (source_x >= 0) && ((source_x + width) < 320) && (source_y >= 0)
                     && ((source_y + height) < 224)) {
-                    source_rect.x = source->x;
-                    buffer_y = source->y;
+                    source_rect.x = source->screen_origin.x;
+                    buffer_y = (s16)source->screen_origin.y;
                     if ((s16)second_buffer) {
                         buffer_y += 224;
                     }
@@ -441,7 +379,7 @@ void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {
                     func_80066890(cursor, &source_rect, source_x + copy_rect->w, (s16)buffer_y + copy_rect->h);
                     packet = cursor;
                     cursor += 24;
-                    AddPrim((u8 *)(*(Ctx **)((u8 *)&resident_globals_page + 0x3160)) + ((source->index * 4) + 0xB0), packet);
+                    AddPrim((u8 *)(*(Ctx **)((u8 *)&resident_globals_page + 0x3160)) + ((source->sort_depth * 4) + 0xB0), packet);
                 }
             }
         }

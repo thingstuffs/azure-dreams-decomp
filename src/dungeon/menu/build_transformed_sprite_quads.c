@@ -98,9 +98,12 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
     u8 *state = *state_ptr;
     SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
     u8 *packet = ((GpuContext *)state)->packetCursor;
+    S_8009E798_6 *packet_view;
     S_8009E798_5 *frame;
     u8 *copy;
     u8 *prim;
+    S_8009E798_5 *quad;
+    S_8009E798_5_pre *quad_source;
     PolyFT4 *copied_quad;
     s16 lower_buffer = state != upper_draw_context;
     s16 vertex_y;
@@ -141,6 +144,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
     RotTransSV(&scratch->center_offset, &scratch->center_x, &scratch->gte_flags);
 
     packet += 0xC;
+    packet_view = (S_8009E798_6 *)packet;
     scratch->center_x -= scratch->origin_x;
     scratch->center_y -= scratch->origin_y;
 
@@ -179,27 +183,27 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
     (*(u16 *)(packet + 0xA)) += scratch->center_y;
     (*(u16 *)(packet + 0x12)) += scratch->center_y;
     (*(u16 *)(packet + 0x1A)) += scratch->center_y;
-    ((S_8009E798_6 *)packet)->unk_22 += scratch->center_y;
+    packet_view->unk_22 += scratch->center_y;
 
     scratch->tex_width += scratch->tex_u;
     scratch->tex_height =
         (scratch->tex_height + scratch->tex_v) << 8;
     scratch->tex_v <<= 8;
 
-    ((S_8009E798_6 *)packet)->unk_0E = sprite->clut
+    packet_view->unk_0E = sprite->clut
         + frame->unk_04.at02.v;
-    ((S_8009E798_6 *)packet)->unk_0C = scratch->tex_v + scratch->tex_u;
+    packet_view->unk_0C = scratch->tex_v + scratch->tex_u;
     (*(s32 *)(packet + 0x14)) = scratch->tex_v +
         scratch->tex_width +
         ((sprite->tpage_abr | frame->unk_04.at00.v) << 16);
     (*(u16 *)(packet + 0x1C)) = scratch->tex_height + scratch->tex_u;
-    ((S_8009E798_6 *)packet)->unk_24 = scratch->tex_height + scratch->tex_width;
-    ((S_8009E798_6 *)packet)->unk_04.at00.v = sprite->color.word;
+    packet_view->unk_24 = scratch->tex_height + scratch->tex_width;
+    packet_view->unk_04.at00.v = sprite->color.word;
     SetPolyFT4(packet);
 
     copy = packet + 0x28;
     copy_words_forward(copy, packet, 0xA);
-    ((S_8009E798_6 *)packet)->unk_04.at03.v |= 2;
+    packet_view->unk_04.at03.v |= 2;
     packet = copy;
     prim = packet + 0x28;
     copied_quad = (PolyFT4 *)packet;
@@ -212,16 +216,18 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
     AddPrim(scratch->order_table + placement->z.w.i * 4,
                   packet - 0x28);
 
-    ((S_8009E798_5 *)prim)->unk_04.at00u.v = 0x00606060;
-    ((S_8009E798_5 *)prim)->unk_08.at00u.v = ((S_8009E798_5_pre *)prim)[-1].unk_00;
-    ((S_8009E798_5 *)prim)->unk_0C = ((S_8009E798_5_pre *)prim)[-1].unk_08;
-    ((S_8009E798_5 *)prim)->unk_10 = ((S_8009E798_5_pre *)prim)[-1].unk_10;
-    ((S_8009E798_5 *)prim)->unk_14 = ((S_8009E798_5_pre *)prim)[-1].unk_18;
-    ((S_8009E798_5 *)prim)->unk_04.at00p.v >>= 1;
-    ((S_8009E798_5 *)prim)->unk_04.at01.v >>= 1;
-    ((S_8009E798_5 *)prim)->unk_04.at02u.v >>= 1;
+    quad = (S_8009E798_5 *)prim;
+    quad_source = (S_8009E798_5_pre *)prim;
+    quad->unk_04.at00u.v = 0x00606060;
+    quad->unk_08.at00u.v = quad_source[-1].unk_00;
+    quad->unk_0C = quad_source[-1].unk_08;
+    quad->unk_10 = quad_source[-1].unk_10;
+    quad->unk_14 = quad_source[-1].unk_18;
+    quad->unk_04.at00p.v >>= 1;
+    quad->unk_04.at01.v >>= 1;
+    quad->unk_04.at02u.v >>= 1;
     SetPolyF4(prim);
-    ((S_8009E798_5 *)prim)->unk_04.at03.v |= 2;
+    quad->unk_04.at03.v |= 2;
 
     AddPrim(scratch->order_table + placement->z.w.i * 4,
                   prim);

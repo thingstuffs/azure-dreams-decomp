@@ -23,19 +23,6 @@
 
    /* part_a in update_actor_action_controller */
 
-typedef struct S_8017086C_3 {
-    u8 pad_00[0x12];
-    s16 unk_12;
-    u8 pad_14[0x10];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x2];
-    s32 unk_28;
-    void * unk_2C;
-} S_8017086C_3;   /* part_b in update_actor_action_controller */
-
-
-
 typedef struct S_8017086C_6 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -58,9 +45,9 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     ActorRecord *work;
     s8 saved_value_24;
     s8 saved_value_25;
-    void *obj;
-    SignedHeightView *part_a;
-    S_8017086C_3 *part_b;
+    ObjectNodeHeader *obj;
+    ObjectPosition *part_a;
+    SpriteFrameState *part_b;
     ActorRecord *actor;
     s32 left;
     s32 right;
@@ -83,18 +70,18 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     obj = allocate_list_node(0x112, (saved_value_24 = value_24, &scene_object_list_anchor.next));
     if (obj != 0) {
         work = NODE_BODY(obj);
-        ((ProjectileObject *)obj)->update_callback = update_actor_callbacks_movement_and_terrain;
+        obj->update_callback = update_actor_callbacks_movement_and_terrain;
         work->species = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 
-        part_a = ((ProjectileObject *)obj)->position;
-        part_a->z = value_0A;
-        part_b = ((ProjectileObject *)obj)->sprite;
+        part_a = obj->position;
+        part_a->z.w.i = value_0A;
+        part_b = obj->sprite;
         kind = mode & 3;
-        part_b->unk_2C = kraken_frame_set_1;
-        part_b->unk_24 = saved_value_24;
-        part_b->unk_25 = saved_value_25;
+        part_b->frameTable = kraken_frame_set_1;
+        part_b->tile_x = saved_value_24;
+        part_b->tile_y = saved_value_25;
 
         if (kind == 1) {
             left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
@@ -114,7 +101,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
                         work->flags1C |= ACTOR_ASLEEP;
                         right = generate_random_value();
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP, (right & 0x3F) | 0x20);
-                        part_b->unk_2C = kraken_frame_set_2;
+                        part_b->frameTable = kraken_frame_set_2;
                     }
                 }
             }
@@ -150,13 +137,13 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
                     elem = (u8 *)child + elem_offset;
                     child_flags = child->unk_04;
                     child->unk_04 = child_flags | 0x8000;
-                    child_arg = part_b->unk_28;
+                    child_arg = part_b->animation_resource;
                     elem_flags = elem->flags;
                     elem->tpage_abr = 96;
                     elem->animation_resource = child_arg;
                     elem->flags = elem_flags | 0xC;
 
-                    elem->clut = part_b->unk_12 - 128;
+                    elem->clut = part_b->clut - 128;
                     elem->color.word = ((u32)(0x00C0C0C0));
                     ((ObjectNodeHeader *)base->unk_A4.address)->update_callback = child_object_update_address;
 

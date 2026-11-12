@@ -3,7 +3,6 @@
 warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/actor/effect/effect.c	render_floor_items	3	CompMatrix,RotTransPers
 -Wincompatible-pointer-types	src/dungeon/actor/effect/render_actor_sprite_parts.c	render_actor_sprite_parts	5	CompMatrix,RotTransPers4
--Wincompatible-pointer-types	src/dungeon/effect/dispatch.c	draw_sprite_parts_as_quad_grid	15	CompMatrix,RotTransPers,RotTransPers4,ScaleMatrix,SetRotMatrix,SetTransMatrix
 -Wincompatible-pointer-types	src/dungeon/effect/dispatch.c	transform_mesh_and_append_draw_packets	15	CompMatrix,ReadRotMatrix,RotMatrix,RotTransPers,ScaleMatrix,SetDrawMode,SetPolyG3
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	build_inverted	5	LoadImage,StoreImage,decrement_effect_counter_by_twelve
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	decrement_effect_counter_by_twelve	1	SetDrawArea
@@ -27,7 +26,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/particle/create_two_row_object_group.c	draw_linked_textured_quads	1	SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/particle/draw_linked_sprite_effect_quads.c	draw_fading_radial_effect_grid	3	RotTransPers,SetDrawMode,SetPolyG4
 -Wincompatible-pointer-types	src/dungeon/effect/particle/draw_linked_sprite_effect_quads.c	draw_linked_sprite_effect_quads	1	SetPolyFT4
--Wincompatible-pointer-types	src/dungeon/effect/particle/draw_ribbon_center_lines.c	draw_ribbon_center_lines	11	RotAverage4,RotMatrix,ScaleMatrix,SetDrawMode
+-Wincompatible-pointer-types	src/dungeon/effect/particle/draw_ribbon_center_lines.c	draw_ribbon_center_lines	5	RotAverage4,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/particle/impact.c	copy_and_expand_effect_record	2	ScaleMatrix
 -Wincompatible-pointer-types	src/dungeon/effect/particle/impact.c	project_visible_textured_quad	6	RotAverage4,RotMatrix,ScaleMatrix
 -Wincompatible-pointer-types	src/dungeon/effect/particle/propagate_target_flags_effect.c	draw_flagged_particle_points	2	RotTransPers,SetDrawMode
@@ -35,8 +34,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/particle/update_actor_effect_particles_and_cleanup.c	draw_actor_effect_points	3	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/particle/update_effect_base_state.c	draw_layered_vertical_sprite_chain	5	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/particle/view_parameter_transition.c	begin_view_parameter_transition	2	RotTransPers,SetDrawMode
--Wincompatible-pointer-types	src/dungeon/effect/screen/transform_shade_and_queue_model_quads.c	queue_linked_visible_rectangle_copies	3	RotTransPers,queue_visible_rectangle_copy
--Wincompatible-pointer-types	src/dungeon/effect/screen/transform_shade_and_queue_model_quads.c	transform_shade_and_queue_model_quads	19	CompMatrix,RotAverage4,RotMatrixX,RotMatrixY,RotMatrixZ,ScaleMatrix,SetRotMatrix,SetTransMatrix,TransMatrix
+-Wincompatible-pointer-types	src/dungeon/effect/screen/transform_shade_and_queue_model_quads.c	queue_linked_visible_rectangle_copies	1	
 -Wincompatible-pointer-types	src/dungeon/effect/shade/update_directional_actor_effect.c	create_textured_offset_object	3	ApplyMatrixSV
 -Wincompatible-pointer-types	src/dungeon/effect/shade/update_directional_actor_effect.c	update_rotating_effect_and_fade	3	ApplyMatrixSV
 -Wincompatible-pointer-types	src/dungeon/effect/shade/update_directional_actor_effect.c	update_three_way_target_effect	6	RotMatrix,update_directional_actor_effect
@@ -47,16 +45,14 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/initialize_destination_from_vector.c	initialize_destination_from_vector	1	ScaleMatrix
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/offset_parent.c	project_linked_vertical_point_quads	3	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_effect_quads.c	draw_effect_and_restore_clip	1	SetDrawArea
--Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_effect_quads.c	render_rotated_effect_quads	13	CompMatrix,RotMatrix,RotTransPers4,ScaleMatrix,SetRotMatrix,SetTransMatrix
+-Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_effect_quads.c	render_rotated_effect_quads	1	
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_grid_surface.c	render_rotated_grid_surface	5	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/route.c	project_linked_shaded_points	3	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/update_directional_actor_effect.c	create_counted_sprite_effect	2	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/update_flickering_effect_vertices.c	draw_jittered_triangle_trails	5	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/travel/tint_and_advance_effect.c	queue_projected_point_primitives	3	RotTransPers,SetDrawMode
--Wincompatible-pointer-types	src/dungeon/item/apply_scratch_parameters_to_chain.c	apply_scratch_parameters_to_chain	5	RotTransPers,queue_visible_rectangle_copy
 -Wincompatible-pointer-types	src/dungeon/item/create_positioned_view_marker.c	draw_linked_particle_effect_primitives	6	RotTransPers
 -Wincompatible-pointer-types	src/dungeon/item/create_positioned_view_marker.c	render_particle_effect_object	5	RotTransPers,SetPolyG4
--Wincompatible-pointer-types	src/dungeon/level/depth_biased_sprite_rendering_g00350.c	render_projected_sprite_with_depth_bias	14	RotTransPers,RotTransPers4
 -Wincompatible-pointer-types	src/dungeon/level/init_dungeon_view.c	init_dungeon_view	1	SetColorMatrix
 -Wincompatible-pointer-types	src/dungeon/level/setup.c	init_dungeon_view	1	SetColorMatrix
 -Wincompatible-pointer-types	src/dungeon/menu/build_transformed_sprite_quads.c	build_transformed_sprite_quads	13	RotTransSV,ScaleMatrix,SetDrawArea,SetDrawMode,SetPolyF4,SetPolyFT4,copy_words_forward
@@ -77,7 +73,6 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/monster/kewne/update_actor_render_effect_and_position.c	update_actor_render_effect_and_position	4	SetDrawArea,emit_concentric_ellipse_quads,spawn_randomized_directional_motion_object
 -Wincompatible-pointer-types	src/dungeon/monster/mandara/advance_phase.c	draw_layered_wavy_object_strips	2	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/monster/mandara/blend_animation_palette_and_complete.c	blend_animation_palette_and_complete	4	LoadImage,StoreImage
--Wincompatible-pointer-types	src/dungeon/monster/manoeva/relocate_entity_after_animation.c	project_depth_sorted_sprite_quads	19	CompMatrix,RotMatrix,RotTransPers,RotTransPers4,ScaleMatrix,SetPolyFT4,SetRotMatrix,SetTransMatrix
 -Wincompatible-pointer-types	src/dungeon/monster/noise/advance_action_and_spawn_random_effects.c	advance_action_and_spawn_random_effects	3	RotTransPers
 -Wincompatible-pointer-types	src/dungeon/monster/noise/start_directional_action_and_record_tile.c	advance_timed_actor_visual_effect	2	RotTransPers
 -Wincompatible-pointer-types	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c	draw_snowman_point_chain	2	RotTransPers,SetDrawMode
@@ -92,7 +87,6 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/engine/graphics/clear_alternate_texture_regions.c	clear_alternate_texture_regions	2	LoadImage
 -Wincompatible-pointer-types	src/engine/graphics/decode_compressed_image_to_vram.c	decode_compressed_image_to_vram	1	LoadImage
 -Wincompatible-pointer-types	src/engine/graphics/draw_lit_mesh.c	draw_lit_mesh	10	NormalColorCol,RotAverage4,SetPolyFT4
--Wincompatible-pointer-types	src/engine/graphics/draw_sprite_list.c	draw_sprite_list	4	RotTransSV
 -Wincompatible-pointer-types	src/engine/graphics/draw_tinted_node_sprites.c	draw_tinted_node_sprites	18	CompMatrix,RotMatrix,ScaleMatrix,SetRotMatrix,SetTransMatrix,TransMatrix,multiply_rgb_tint_saturated
 -Wincompatible-pointer-types	src/engine/graphics/is_frame_packet_arena_overflowed.c	project_and_draw_sprite_node_chain	1	RotTransPers
 -Wincompatible-pointer-types	src/engine/graphics/reset_callbacks_and_clear_vram.c	reset_callbacks_and_clear_vram	1	ClearImage
@@ -107,7 +101,6 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/engine/resource/move_entry_to_front.c	activate_indexed_resource_and_upload_images	2	LoadImage
 -Wincompatible-pointer-types	src/engine/scene/clear_image_rect_with_scratch_buffer.c	clear_image_rect_with_scratch_buffer	1	LoadImage
 -Wincompatible-pointer-types	src/engine/scene/decode_and_upload_image_array.c	decode_and_upload_image_array	1	LoadImage
--Wincompatible-pointer-types	src/engine/scene/shared_slot_state.c	draw_cd_wait_sprite_trail	18	RotMatrix,RotTransSV,SetRotMatrix,SetTransMatrix,TransMatrix
 -Wincompatible-pointer-types	src/engine/scene/transform_vector_with_saved_matrix.c	transform_vector_with_saved_matrix	1	RotTrans
 -Wincompatible-pointer-types	src/engine/script/vm/vm_op_clear_image.c	script_clear_text_window	1	ClearImage
 -Wincompatible-pointer-types	src/engine/window/create_window_overlay_object.c	create_window_overlay_object	4	ClearImage,copy_window_offset_rectangle,copy_window_params
@@ -122,7 +115,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/town/map/draw_randomized_white_points.c	draw_randomized_white_points	4	RotTransPers
 -Wincompatible-pointer-types	src/town/map/shaded_tile_rendering_g00594.c	draw_empty_map_cell_quads	6	SetDrawMode
 -Wincompatible-pointer-types	src/town/map/shaded_tile_rendering_g00594.c	render_shaded_map_tiles	14	SetColorMatrix,SetLightMatrix,build_screen_outline
--Wincompatible-pointer-types	src/town/menu/animation/animate_spinning_shrinking_object.c	animate_spinning_shrinking_object	13	RotMatrix,ScaleMatrix,TransMatrix,draw_random_tinted_quad_pair
+-Wincompatible-pointer-types	src/town/menu/animation/animate_spinning_shrinking_object.c	animate_spinning_shrinking_object	1	draw_random_tinted_quad_pair
 -Wincompatible-pointer-types	src/town/menu/draw_random_colored_line.c	draw_random_colored_line	4	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/town/menu/draw_random_tinted_quad_pair.c	draw_random_tinted_quad_pair	5	RotTransPers4
 -Wincompatible-pointer-types	src/town/menu/shaded_quad_projection_g00568.c	project_and_enqueue_shaded_quad	6	RotTransPers4,SetDrawMode,SetPolyG4

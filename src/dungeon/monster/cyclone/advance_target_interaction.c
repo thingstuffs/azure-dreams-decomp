@@ -20,7 +20,6 @@
 extern void *create_source_to_owner_sprite(void *, void *, void *);
 extern s32 consume_object_code_19(void *);
 extern void show_entity_message(s32, void *);
-extern void show_entity_message_with_prefix(s32, void *);
 extern void func_801763CC(s32, void *);
 
 /* Advances the timed target interaction and updates the directional animation. */

@@ -267,4 +267,7 @@ s32 select_first_unmet_table_entry(void);
 
 void remove_scene_runtime_callback(void);
 
+u8 *copy_records_with_control_bits(u8 *dst, u8 *src, s32 control_bits, u8 byte_value);
+s32 *prepare_selected_entry_buffer(s32 entryIndex);
+
 #endif

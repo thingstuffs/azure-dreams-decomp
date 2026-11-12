@@ -40,7 +40,9 @@ typedef struct SpriteQuadScratch {
     SVECTOR angles; /* RotMatrix input */
     u16 extent_x;
     u16 extent_y;
-    u8 pad_10C[0x30];
+    u8 pad_10C[0x8];
+    s32 winding; /* NormalClip result of the projected quad */
+    u8 pad_118[0x24];
     u32 vertex_y_offset;
 } SpriteQuadScratch;
 

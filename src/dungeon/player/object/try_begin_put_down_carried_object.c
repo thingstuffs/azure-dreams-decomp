@@ -1,3 +1,4 @@
+#include "dungeon/player/held_item_kind_data.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -14,7 +15,6 @@
 
 s32 check_movement_clearance_and_height();
 s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
-extern u8 held_item_kind_alias;
 
 /* Updates actor state and animation when the position checks succeed. */
 void try_begin_put_down_carried_object(ActorRecord *state, EntityRec *target, SpriteFrameState *sprite, u32 actor_or_can) {

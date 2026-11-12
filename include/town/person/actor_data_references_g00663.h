@@ -47,6 +47,5 @@ void set_object_referenced_data_pointers(TownObjectRecord *object, void *unused_
 void set_linked_data_pointers_variant_1(TownObjectRecord *record, ObjectPosition *unused_context, struct SpriteFrameState *unused_sprite);
 void set_linked_data_pointers_variant_2(TownObjectRecord *object);
 void set_linked_data_pointer_variant_3(S_800C6478_0 *object);
-s32 check_actor_data_references_match(TownObjectRecord *actor);
 
 #endif

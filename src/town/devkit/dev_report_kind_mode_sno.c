@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/shop_selection_data.h"
 
 typedef void (*PrintValue)(char *format, char *name, s32 value);
 
@@ -14,7 +15,6 @@ extern char D_80701FD8[];
 extern char D_80701FE0[];
 extern char D_80701FE8[];
 extern s32 devkit_selected_shop_row;
-extern s32 devkit_shop_selection;
 
 /* Print kind, mode, and scene/sequence number (sno) with their labels. */
 void dev_report_kind_mode_sno(s32 kind)

@@ -258,7 +258,7 @@ extern DungeonItemPosition dungeon_ground_item_positions[64];
 extern s16 pickup_event_latch;
 extern s16 bounded_runtime_counter;
 extern s32 player_turn_fraction;
-extern s8 entity_resource_read_complete;
+#include "dungeon/actor/entity_resource_read_complete.h"
 extern u8 dungeon_resource_buffer[];
 extern void clear_floor_resource_state_table(void);
 extern void mark_category_items_flag_400(s32);

@@ -20,7 +20,7 @@ typedef struct S_8001670C_1 {
    /* pair in process_flag_test_record */
 
 
-extern s32 find_entry_8_index_or_assert_rev_b(u32, s32);
+extern s32 find_entry_8_index_or_assert_rev_b(u32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Processes the selected record's pair and optional context action, then returns the record's value. */
 s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 record_selector)

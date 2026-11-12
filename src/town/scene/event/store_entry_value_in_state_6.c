@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/town_event_state.h"
 #include "town/scene/event.h"
+#include "town/scene.h"
 
 typedef struct TownStateEntry {
     u8 pad_00[0x8];
@@ -12,8 +13,6 @@ typedef struct TownStateEntryTable {
     u8 pad_00[0x10];
     TownStateEntry *entries;
 } TownStateEntryTable;
-
-extern s32 prepare_stored_value_pair(); /* Slot contract: loading images do not establish one callee contract. */
 
 /* In event state 6, store func_8001A79C() in the indexed entry and return 0; otherwise return 1. */
 s32 store_entry_value_in_state_6(TownStateEntryTable *table, s32 index) {

@@ -68,4 +68,6 @@ void *initialize_packed_record_defaults(void *record);
 
 s32 town_table_contains_first_byte_b(s32 target_value);
 
+void update_actor_movement_with_radial_effects(s32 object_id, ObjectPosition *object, s32 update_context);
+
 #endif

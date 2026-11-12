@@ -110,10 +110,10 @@ void draw_sprite_list(void)
             scratch->vertices[2].vy = y_end;
         }
 
-        RotTransSV(&scratch->vertices[0], &prim->x0, transform_flag);
-        RotTransSV(&scratch->vertices[1], &prim->x1, transform_flag);
-        RotTransSV(&scratch->vertices[2], &prim->x2, transform_flag);
-        RotTransSV(&scratch->vertices[3], &prim->x3, transform_flag);
+        RotTransSV(&scratch->vertices[0], (SVECTOR *)&prim->x0, transform_flag);
+        RotTransSV(&scratch->vertices[1], (SVECTOR *)&prim->x1, transform_flag);
+        RotTransSV(&scratch->vertices[2], (SVECTOR *)&prim->x2, transform_flag);
+        RotTransSV(&scratch->vertices[3], (SVECTOR *)&prim->x3, transform_flag);
 
         scratch->uv_u_extent += scratch->uv_u_start;
         scratch->uv_v_extent =

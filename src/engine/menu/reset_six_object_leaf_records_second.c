@@ -1,3 +1,4 @@
+#include "dungeon/player/held_item_kind_data.h"
 #include "common.h"
 
 #include "engine/menu.h"
@@ -5,7 +6,6 @@
 #include "slus/data.h"
 
 extern u8 menu_leaf_template_6[12];
-extern u8 held_item_kind_alias[12];
 
 typedef struct S_800506BC_Mid {
     void *val;
@@ -52,7 +52,7 @@ void initialize_gauge_menu_display_rows(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx
     obj->arr5[3]->val = menu_leaf_template_3;
     obj->arr5[4]->val = menu_leaf_template_4;
     variant_entry = obj->slot18;
-    if (held_item_kind_alias[0] == 0) {
+    if (held_item_kind_alias == 0) {
         variant_data = menu_leaf_variant_template_0;
     } else {
         variant_data = menu_leaf_variant_template_1;

@@ -5,6 +5,7 @@
 #include "dungeon/effect/state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
+#include "dungeon/level/experience_data.h"
 #include "dungeon/entity_spawn_variant_data.h"
 #include "dungeon/system/random.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
@@ -175,7 +176,6 @@ struct EntityLinkNode;
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 monster_species_table;
 
-extern u32 level_experience_table[];
 
 extern s8 dungeon_event_pending_flag;
 extern u8 D_800DD108[];

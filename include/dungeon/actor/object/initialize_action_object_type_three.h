@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+
 #ifndef DUNGEON_OVL_16B08_LOCAL_H
 #define DUNGEON_OVL_16B08_LOCAL_H
 #include "common.h"
@@ -13,13 +15,13 @@ typedef struct { void *callback; u8 pad4[6]; s16 count; } ovl_16b08_local_7FFF6F
 void call_the_handler_selects_nonzero_entry();
 extern void update_movement_and_expire_state(void);
 extern s32 type_three_action_handler_table[];
-void dispatch_sound_by_global_flag();
+void dispatch_sound_by_global_flag(void);
 extern void update_actor_and_dispatch_state(void);
 extern s32 D_800D00B0[];
-extern void update_threshold_and_interaction(void);
+extern void update_threshold_and_interaction(TownObjectRecord *state, ObjectPosition *entity, SpriteFrameState *context);
 extern void update_countdown_and_fallback(void);
 extern s32 D_800D00C0[];
-extern void update_threshold_bound_object(void);
+extern void update_threshold_bound_object(void *context, ObjectPosition *object, void *update_arg);
 extern u8 action_object_handler_table[16];
 void store_the_valid_shared_angle_in_offset_hex_10(void *record_arg);
 extern void update_actor_movement_actions(void);
@@ -32,17 +34,17 @@ extern void dispatch_actor_interaction_with_fallback(void);
 extern void update_actor_with_interaction_state(void);
 extern s32 counted_action_handler_table[];
 extern u8 movement_action_handler_table[];
-extern void update_actor_movement_and_interaction(void);
-extern void update_actor_position_and_interaction(void);
+extern void update_actor_movement_and_interaction(void *actor, ObjectPosition *position, s32 context);
+extern void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPosition *body, s32 context);
 extern s32 D_800D0130[];
-extern void update_town_object_from_input(void);
+extern void update_town_object_from_input(void *context, ObjectPosition *object, void *action_data);
 extern s32 D_800D0140[];
 extern u8 D_800D0148[];
 extern void update_threshold_object_with_interaction(void);
-extern void update_actor_movement_with_radial_effects(void);
+extern void update_actor_movement_with_radial_effects(s32 object_id, ObjectPosition *object, s32 update_context);
 extern u8 countdown_action_handler_table[];
-extern void update_threshold_countdown_with_busy_check(void);
-extern void update_actor_interaction_actions(void);
+extern void update_threshold_countdown_with_busy_check(void *state, ObjectPosition *object, s32 context);
+extern void update_actor_interaction_actions(void *self_arg, ObjectPosition *target_arg, SpriteFrameState *sprite);
 void initialize_action_object_type_three(TownObjectRecord *object);
 void initialize_actor_action_state(TownObjectRecord *object, EntityRec *state, s32 setupArg);
 void initialize_threshold_interaction_action(Rec_func_8009431C_arg0 *record);

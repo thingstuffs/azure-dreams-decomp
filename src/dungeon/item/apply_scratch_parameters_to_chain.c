@@ -3,16 +3,7 @@
 #include "dungeon/effect/screen.h"
 #include "sdk/libgte.h"
 #include "dungeon/item.h"
-
-typedef struct S_80099A1C_0 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u8 pad_06[0xB2];
-    u16 unk_B8;
-    u8 pad_BA[0x6];
-    s32 unk_C0;
-} S_80099A1C_0;   /* scratch in apply_scratch_parameters_to_chain */
+#include "engine/graphics/sprite_scratch.h"
 
    /* arg1 in apply_scratch_parameters_to_chain */
 
@@ -42,35 +33,35 @@ typedef struct S_80099A1C_4 {
 /* Build scratch parameters and apply them to each object in a linked chain. */
 s32 apply_scratch_parameters_to_chain(void *object, MovingPosition *position, S_80099A1C_2 *offset_data)
 {
-    u8 *scratch;
+    SpriteQuadScratch *scratch;
     S_80099A1C_4 *next_node;
     s32 transform_result;
 
-    scratch = (u8 *)0x1F800000;
+    scratch = (SpriteQuadScratch *)0x1F800000;
 
     do {
-        ((S_80099A1C_0 *)scratch)->unk_00 = position->x;
-        ((S_80099A1C_0 *)scratch)->unk_02 = position->y;
-        ((S_80099A1C_0 *)scratch)->unk_04 = position->z;
+        scratch->position.vx = position->x;
+        scratch->position.vy = position->y;
+        scratch->position.vz = position->z;
 
         transform_result = RotTransPers(
-            scratch,
-            scratch + 0xB8,
-            scratch + 0x90,
-            scratch + 0x94);
-        ((S_80099A1C_0 *)scratch)->unk_C0 = transform_result - offset_data->unk_06;
+            &scratch->position,
+            (s32 *)&scratch->screen_origin,
+            &scratch->depth_cue,
+            &scratch->gte_flag);
+        scratch->sort_depth = transform_result - offset_data->unk_06;
 
         {
             s32 half_offset;
             u32 adjusted_coord;
 
             half_offset = ((S_80099A1C_3 *)object)->unk_00;
-            adjusted_coord = ((S_80099A1C_0 *)scratch)->unk_B8;
+            adjusted_coord = scratch->screen_origin.x;
             half_offset = (half_offset << 16) >> 17;
             adjusted_coord -= half_offset;
-            ((S_80099A1C_0 *)scratch)->unk_B8 = adjusted_coord;
+            scratch->screen_origin.x = adjusted_coord;
         }
-        ((S_80099A1C_0 *)scratch)->unk_B8 +=
+        scratch->screen_origin.x +=
             (rsin(
                 (((S_80099A1C_3 *)object)->unk_0C << 8) +
                 (((S_80099A1C_3 *)object)->unk_08 << 7)) *

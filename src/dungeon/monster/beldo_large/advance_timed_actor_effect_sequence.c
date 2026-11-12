@@ -1,3 +1,4 @@
+#include "dungeon/monster/beldo_large_data.h"
 #include "slus.h"
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
@@ -29,7 +30,6 @@ typedef struct {
 
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-extern s16 encounter_blink_update_flag[];
 
 
 /* Advances a timed actor sequence, updating effects and directional animation before clearing completion flags. */
@@ -52,7 +52,7 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
         sequence->action_timer = 5;
         sequence->action_phase = sequence->action_phase + 1;
         play_sound_if_enabled(0x703);
-        encounter_blink_update_flag[0] = 0;
+        encounter_blink_update_flag = 0;
         return;
 
     case 1:

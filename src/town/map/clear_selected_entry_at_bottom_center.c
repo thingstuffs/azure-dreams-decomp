@@ -1,5 +1,6 @@
 #include "shared/runtime_dispatch.h"
 #include "shared/game_work.h"
+#include "town/map/variant_data.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -10,7 +11,6 @@ typedef int s32;
 extern u8 town_map_selection_state[12];
 extern u8 town_building_slot_rectangles[];
 
-extern s8 town_map_variant;
 extern void request_scene_state_with_parameters(s32 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16);
 /*
  * Requests scene state 0xB at the selected building rectangle bottom center and clears the

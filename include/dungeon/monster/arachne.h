@@ -430,18 +430,6 @@ typedef struct R12_801749EC_S_801749EC_6 {
     u16 unk_6C;
     u16 unk_6E;
 } R12_801749EC_S_801749EC_6;
-typedef struct R12_801749EC_S_801749EC_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    u8 * unk_10;
-} R12_801749EC_S_801749EC_7;
-
-typedef struct R12_801749EC_S_801749EC_9 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} R12_801749EC_S_801749EC_9;
 typedef struct R12_801749EC_S_801749EC_11 {
     u8 pad_00[0xC];
     u8 unk_0C;
@@ -470,19 +458,6 @@ typedef struct R12_801749EC_S_801749EC_14 {
     u16 unk_6C;
     u16 unk_6E;
 } R12_801749EC_S_801749EC_14;
-typedef struct R12_801749EC_S_801749EC_15 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    u8 * unk_10;
-} R12_801749EC_S_801749EC_15;
-
-typedef struct R12_801749EC_S_801749EC_17 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} R12_801749EC_S_801749EC_17;
-
 typedef struct R12_801749EC_S_801749EC_19 {
     u16 unk_00;
     u16 unk_02;

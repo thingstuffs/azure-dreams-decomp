@@ -25,7 +25,7 @@
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
-extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
+extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173834(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[];

@@ -22,4 +22,7 @@ void dispatch_actor_input_actions(struct S_80091260_2 *actor, ObjectPosition *po
 
 void update_actor_input_and_interaction(void *action_state, ObjectPosition *actor, struct SpriteFrameState *sprite);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void update_town_object_from_input(void *context, ObjectPosition *object, void *action_data);
+
 #endif

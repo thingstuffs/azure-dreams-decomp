@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/map/resource.h"
+#include "town/map/saved_sound_data.h"
 
-extern s16 town_saved_sound[];
 extern s16 town_pending_sound[];
 extern s8 scene_music_hold[];
 

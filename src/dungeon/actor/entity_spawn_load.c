@@ -131,13 +131,13 @@ s32 advance_staged_entity_load(s32 unused, ActorRecord *entity)
         load_spawned = (u8 *)spawned;
         loaded_entity_sprite_resource = load_result;
         load_monster_code_module(entity->species, load_spawned, 0);
-        entity_resource_read_complete[0] = 0;
-        Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
+        entity_resource_read_complete = 0;
+        Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
         break;
 
 case 1:
-        if (entity_resource_read_complete[0] != 0) {
+        if (entity_resource_read_complete != 0) {
             func_80047E30();
             mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
             break;
@@ -237,14 +237,14 @@ case 2:
 
             loaded_entity_sprite_resource = load_result;
             load_monster_code_module(entity->species, load_spawned, 0);
-            entity_resource_read_complete[0] = 0;
-            Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
+            entity_resource_read_complete = 0;
+            Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         }
         mode_page[-1].unk_00 = (s16)((u16)mode_page[-1].unk_00 + 1);
         break;
 
 case 1:
-        if (entity_resource_read_complete[0] == 0) {
+        if (entity_resource_read_complete == 0) {
             return 0;
         }
         if (loaded_entity_sprite_resource != 0) {

@@ -3,6 +3,7 @@
 #include "engine/object.h"
 #include "slus/data.h"
 #include "slus.h"
+#include "town/map/variant_data.h"
 
 typedef struct InputRecord {
     s16 field_00;
@@ -58,7 +59,6 @@ extern u8 scene_music_hold;
 extern u8 runtime_script_state[9];
 extern TableEntry D_800D2650[];
 extern TableEntry D_800D2FC0[];
-extern u8 town_map_variant;
 extern u16 system_update_flags[5];
 
 

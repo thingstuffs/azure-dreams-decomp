@@ -2,10 +2,7 @@
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
-
-
-extern u8 checksum_trace_format[];
-extern u8 saved_checksum_label[];
+#include "frontend/card/checksum_trace_data.h"
 
 /* Computes the game-save XOR checksum and compares it with the stored checksum. */
 s32 card_dev_verify_save_xor_checksum(void *gsw)

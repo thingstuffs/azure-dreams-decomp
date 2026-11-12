@@ -112,7 +112,6 @@ extern u8 D_800D0000[];
 extern u8 D_800A5DF8;
 s32 runtime_estimate_vector_length(s32, s32);
 extern short SD_Call(int flags);
-extern void add_a_directional_step_vector_scale_down_exceeds_length_limit();
 void spawn_directional_effects(ObjectPosition *, s32);
 /* extern */
 extern u8 D_800A5FDC[];

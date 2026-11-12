@@ -4,10 +4,10 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008DB84, CL:town/func_8008DBC8, CL:town/func_8008DC4C, PD:town/engine:800CF828, PD:town/engine:800CF838. */
 
 #include "common.h"
+#include "town/scene/resource_queue_data.h"
 
 extern void *town_resource_ids[];
 extern u8 D_80080EA8[];
-extern u8 town_resource_queue[15];
 extern void *town_resource_descriptors[16];
 
 /* Functions defined in this translation unit. */

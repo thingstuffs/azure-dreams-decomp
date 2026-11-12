@@ -5,28 +5,14 @@
 #include "dungeon/effect/sprite.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
 #include "shared/dungeon_effect_state.h"
 
 typedef struct S_80024930_0 {
     u8 pad_00[0x18];
     union { void * p; u8 * p2; } unk_18;   /* accessed as both */
     u8 pad_1C[0x48];
-    s16 unk_64;
-    s16 unk_66;
-    s16 unk_68;
-    u8 pad_6A[0x2];
-    s16 unk_6C;
-    s16 unk_6E;
-    s16 unk_70;
-    u8 pad_72[0x2];
-    s16 unk_74;
-    s16 unk_76;
-    s16 unk_78;
-    u8 pad_7A[0x2];
-    s16 unk_7C;
-    s16 unk_7E;
-    s16 unk_80;
-    u8 pad_82[0x2];
+    SVECTOR vertices[4]; /* RotAverage4 inputs: the quad corners */
     s32 depth_cue; /* RotAverage4 depth-cue output */
     s32 gte_flag; /* RotAverage4 GTE flag output */
     u8 pad_8C[0x28];
@@ -103,11 +89,11 @@ s32 draw_shaded_textured_cylinder(B22_81893474_EffectState *unused_data, MovingP
 
     scratch->unk_18.p = (u8 *)(*global_page) + 0xB0;
     edge_z = center->z - height + 1;
-    scratch->unk_70 = edge_z;
-    scratch->unk_68 = edge_z;
+    scratch->vertices[1].vz = edge_z;
+    scratch->vertices[0].vz = edge_z;
     edge_z = center->z;
-    scratch->unk_78 = edge_z;
-    scratch->unk_80 = edge_z;
+    scratch->vertices[2].vz = edge_z;
+    scratch->vertices[3].vz = edge_z;
 
     for (segment = 0; segment < 16; segment++) {
         register u8 *prim;
@@ -166,24 +152,24 @@ s32 draw_shaded_textured_cylinder(B22_81893474_EffectState *unused_data, MovingP
         angle_offset = (biased_angle >> 12) << 12;
         angle = raw_angle - angle_offset;
 
-        scratch->unk_74 = center->x +
+        scratch->vertices[2].vx = center->x +
             ((rsin(angle) >> 4) * radius >> 8);
-        scratch->unk_64 = scratch->unk_74;
+        scratch->vertices[0].vx = scratch->vertices[2].vx;
 
-        scratch->unk_7C = center->x +
+        scratch->vertices[3].vx = center->x +
             ((rsin((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
-        scratch->unk_6C = scratch->unk_7C;
+        scratch->vertices[1].vx = scratch->vertices[3].vx;
 
-        scratch->unk_76 = center->y +
+        scratch->vertices[2].vy = center->y +
             ((rcos(angle) >> 4) * radius >> 8);
-        scratch->unk_66 = scratch->unk_76;
+        scratch->vertices[0].vy = scratch->vertices[2].vy;
 
-        scratch->unk_7E = center->y +
+        scratch->vertices[3].vy = center->y +
             ((rcos((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
-        scratch->unk_6E = scratch->unk_7E;
+        scratch->vertices[1].vy = scratch->vertices[3].vy;
 
         scratch->unk_B4 = RotAverage4(
-            &scratch->unk_64, &scratch->unk_6C, &scratch->unk_74, &scratch->unk_7C,
+            &scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2], &scratch->vertices[3],
             (s32 *)&scratch->unk_D8, (s32 *)&scratch->unk_DC, (s32 *)&scratch->unk_E0, (s32 *)&scratch->unk_E4,
             &scratch->depth_cue, &scratch->gte_flag);
 
