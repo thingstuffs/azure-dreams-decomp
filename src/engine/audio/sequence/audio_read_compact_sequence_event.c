@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/entity.h"
 #include "engine/audio/sequence.h"
+#include "slus/audio_sequence_state_data.h"
 
 
 /* Rodata owner: the row's switch emits its jump table into this object's .rodata,
@@ -28,7 +29,6 @@ typedef struct {
 } Slot;
 
 extern Slot audio_sequence_tracks[];
-extern s32 audio_sequence_track_count[3];
 
 extern s32 read_next_byte_and_finish(Entity *);
 extern void audio_dispatch_midi_event(Entity *, s32, s32, s32);

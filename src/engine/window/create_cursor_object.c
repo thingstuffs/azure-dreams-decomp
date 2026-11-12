@@ -8,6 +8,7 @@
 #include "engine/node.h"
 #include "slus.h"
 #include "slus/data.h"
+#include "slus/window_node_list_data.h"
 #include "engine/window.h"
 #include "engine/object.h"
 
@@ -24,7 +25,6 @@ typedef struct S_80036B10_8 {
     u8 unk_02;
 } S_80036B10_8;   /* ((S_80036B10_7 *)(((Rec_func_80036210_arg0 *)arg2)->unk_74.as_pm))->unk_80 in create_cursor_object */
 
-extern u8 window_node_list_storage[];
 
 /* Initializes and links a task, then sets up its source record, state, and rendering data. */
 void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, void *setup_arg) {

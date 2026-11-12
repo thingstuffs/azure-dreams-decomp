@@ -42,7 +42,7 @@ s32 card_dev_run_slot_operation(s32 slot_index)
 
         counters = D_8009EB58;
         counter_dst = counters;
-        counter_selector = card_selected_channel[0];
+        counter_selector = card_selected_channel;
         card_slot_header_cache[slot_index].words[0] = 0;
         if (counter_selector != 0) {
             counter_dst++;

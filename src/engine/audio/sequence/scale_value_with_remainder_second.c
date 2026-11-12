@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 #include "slus/data.h"
+#include "slus/audio_sequence_state_data.h"
 
 typedef struct {
     /* 0x00 */ s32 f00;
@@ -26,7 +27,6 @@ typedef struct {
 } Entity; /* 0x50 */
 
 extern Entity audio_sequence_tracks[];
-extern s32 audio_sequence_track_count[3];
 extern s32 audio_sequence_format[4];
 
 extern void scale_value_with_remainder(Entity *);

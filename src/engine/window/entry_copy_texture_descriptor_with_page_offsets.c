@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 
 #include "engine/window.h"
+#include "slus/blinking_cursor_data.h"
 
 typedef struct {
     u8 unk00[0x44];
@@ -21,13 +22,7 @@ typedef struct {
 
 extern void copy_texture_descriptor_with_page_offsets(u8 *, u8 *, u8 *);
 
-extern u32 blinking_cursor_texture_template_0[3];
-extern u32 blinking_cursor_texture_template_1[3];
-extern u32 blinking_cursor_texture_template_2[3];
 extern u32 texture_descriptor_variant_values[32];
-extern u8 blinking_cursor_texture_descriptor_0[16];
-extern u8 blinking_cursor_texture_descriptor_1[16];
-extern u8 blinking_cursor_texture_descriptor_2[16];
 
 /* Updates lookup data and selects the current entry's table value and blinking color. */
 void update_blinking_cursor_with_dark_idle(Func37090Input *state, ObjectPosition *context, Func37090Output *output) {

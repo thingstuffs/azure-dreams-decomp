@@ -204,7 +204,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
             effect_object = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (effect_object != 0) {
                 SelectedItemActionEffectBody *effect_state;
-                u8 *effect_data;
+                S_801730E4_7 *effect_data;
                 void *owner_sprite;
                 u8 animation_id;
 
@@ -213,30 +213,30 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
                 effect_object->update_callback = &D_801708D4;
                 effect_state->reference_position = position;
                 effect_state->facing.u = (actor->facing);
-                effect_data = *(u8 * *)&effect_object->sprite;
+                effect_data = (S_801730E4_7 *)*(u8 * *)&effect_object->sprite;
                 *(Copy48 *)effect_data = *(Copy48 *)sprite;
-                ((S_801730E4_7 *)effect_data)->unk_1E = 0x1000;
-                ((S_801730E4_7 *)effect_data)->unk_1C = 0x1000;
-                ((S_801730E4_7 *)effect_data)->unk_0E = 0x80;
-                ((S_801730E4_7 *)effect_data)->unk_0D = 0x80;
-                ((S_801730E4_7 *)effect_data)->unk_0C = 0x80;
+                effect_data->unk_1E = 0x1000;
+                effect_data->unk_1C = 0x1000;
+                effect_data->unk_0E = 0x80;
+                effect_data->unk_0D = 0x80;
+                effect_data->unk_0C = 0x80;
                 register_node(effect_object, project_sprite_chain);
                 animation_id = D_801760FC[0];
-                ((S_801730E4_7 *)effect_data)->unk_2C = D_801760FC;
+                effect_data->unk_2C = D_801760FC;
                 select_sprite_entry(effect_data, animation_id, 0);
-                ((S_801730E4_7 *)effect_data)->unk_10 = 0x20;
-                ((S_801730E4_7 *)effect_data)->unk_12 = 0xFF80;
-                ((S_801730E4_7 *)effect_data)->unk_14 |= 0xC;
+                effect_data->unk_10 = 0x20;
+                effect_data->unk_12 = 0xFF80;
+                effect_data->unk_14 |= 0xC;
 
                 owner_sprite = owner_object->sprite;
-                effect_data = *(u8 * *)&effect_object->position;
+                effect_data = (S_801730E4_7 *)*(u8 * *)&effect_object->position;
                 if (resolve_record_orientation_or_fallback(((SpriteFrameState *)owner_sprite)->source, owner_sprite, position_delta, 0) != 0) {
-                    ((S_801730E4_7 *)effect_data)->unk_02 = ((u16)position->x.w.i);
-                    ((S_801730E4_7 *)effect_data)->unk_06 = ((u16)position->y.w.i);
-                    ((S_801730E4_7 *)effect_data)->unk_0A = ((u16)position->z.w.i);
-                    ((S_801730E4_7 *)effect_data)->unk_02 += position_delta[0];
-                    ((S_801730E4_7 *)effect_data)->unk_06 += position_delta[1];
-                    ((S_801730E4_7 *)effect_data)->unk_0A += position_delta[2];
+                    effect_data->unk_02 = ((u16)position->x.w.i);
+                    effect_data->unk_06 = ((u16)position->y.w.i);
+                    effect_data->unk_0A = ((u16)position->z.w.i);
+                    effect_data->unk_02 += position_delta[0];
+                    effect_data->unk_06 += position_delta[1];
+                    effect_data->unk_0A += position_delta[2];
                 }
             }
         }

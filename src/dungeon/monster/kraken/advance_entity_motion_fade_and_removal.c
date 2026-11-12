@@ -43,6 +43,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
     switch (phase) {
     case 0:
     {
+        ActorRecord *entity_view = entity;
         u32 clear_bit_27 = 0xF7FFFFFF;
         u32 clear_bit_18;
         u32 entity_flags;
@@ -52,10 +53,10 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         clear_bit_18 = 0xFFFBFFFF;
         state_flags |= 8;
         state->action_state_flags = state_flags;
-        entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
+        entity_flags = ((u32)entity_view->flags1C);
         entity_flags &= clear_bit_27;
         entity_flags &= clear_bit_18;
-        ((ActorRecord *)entity)->flags1C = entity_flags;
+        entity_view->flags1C = entity_flags;
         motion->velocity_x = velocity_x << 0x10;
         motion->velocity_y = velocity_y << 0x10;
         motion->velocity_z = 0xFFF40000;
@@ -93,7 +94,9 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         state->action_phase = state->action_phase + 1;
         return;
     case 4:
-        ((ActorRecord *)entity)->flags1C |= 0x10000000;
+    {
+        ActorRecord *entity_view = entity;
+        entity_view->flags1C |= 0x10000000;
         brightness = state->action_timer;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;
@@ -111,7 +114,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         sound_x = sprite->tile_x;
         sound_y = sprite->tile_y;
         sound_flags = 0x3000;
-        if (((ActorRecord *)entity)->flags1C & 0x2000) {
+        if (entity_view->flags1C & 0x2000) {
             sound_flags = 0x300;
         }
         update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_flags);
@@ -119,5 +122,6 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         ((ObjectRetirementFlags *)entity)[-1].flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
+    }
     }
 }

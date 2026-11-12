@@ -43,7 +43,7 @@ void create_randomly_rotated_offset_effect(ActorRecord *node, s32 tile_x, s32 ti
             (tile->tile_y == (match_y & 0xFFFF)) &&
             (height = height_data->z.w.i, height <= target_height + 0x38) &&
             (height > target_height - 0x38) &&
-            ((u32)(((Rec_func_80174800_arg0 *)node)->unk_13 - 0x33) >= 4U)) {
+            ((u32)(node->species - 0x33) >= 4U)) {
             actor->unk_84 = 0x7C;
             actor->unk_85 =
                 (s8)((s32)(actor->current_attack * 3) >> 1);

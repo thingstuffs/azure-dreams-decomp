@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
+#include "slus/audio_sequence_state_data.h"
 
 typedef struct {
     s32 f00;
@@ -33,7 +34,6 @@ extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
 extern s32 audio_sequence_format[];
 extern S_80085FA8 audio_sequence_tracks[];
 extern u32 audio_sequence_timing_division[];
-extern u32 audio_sequence_track_count[];
 
 /* Handles sequence metadata events, updating tempo and marking track endings. */
 void handle_sequence_meta_event(S_80085FA8 *track, s32 event_type)

@@ -20,7 +20,7 @@ void create_boss_effect_node(void)
 {
     ObjectNodeHeader *node;
     s16 *node_params;
-    s16 *effect;
+    SpriteFrameState *effect;
     u32 *part_words;
 
     node = allocate_flagged_object_node(0x212);
@@ -32,19 +32,19 @@ void create_boss_effect_node(void)
         register_node(node, project_sprite_chain);
 
         effect = node->sprite;
-        ((SpriteFrameState *)effect)->depth_bias = 0;
+        effect->depth_bias = 0;
         part_words = (u32 *)node->position;
         part_words[0] = ((u32)view_reference_entity.x.v);
         part_words[1] = ((u32)view_reference_entity.y.v);
         part_words[2] = ((u32)view_reference_entity.z.v);
 
-        effect = (s16 *)node->sprite;
-        effect[15] = 0x1000;
-        effect[14] = 0x1000;
-        ((SpriteFrameState *)effect)->color.c.b = 0;
-        ((SpriteFrameState *)effect)->color.c.g = 0;
-        ((SpriteFrameState *)effect)->color.c.r = 0;
-        effect[10] |= 0x80;
+        effect = node->sprite;
+        effect->scale_y = 0x1000;
+        effect->scale_x = 0x1000;
+        effect->color.c.b = 0;
+        effect->color.c.g = 0;
+        effect->color.c.r = 0;
+        ((s16 *)effect)[10] |= 0x80;
         select_record_entry_and_value(effect, effect_sprite_sources, 0);
     }
 }

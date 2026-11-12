@@ -1,4 +1,5 @@
 #include "engine/scene/cd_cohort_types.h"
+#include "engine/cd_command_index.h"
 #include "engine/runtime.h"
 #include "sdk/libcd.h"
 #include "slus.h"
@@ -13,7 +14,6 @@
  * Dispatching through it means this TU emits NO compiler-generated jump table
  * into .text-referenced .rodata, which is what makes the object LINK. */
 
-extern u8  cd_command_write_index[1];    /* Observed tail-index byte view; no storage ownership. */
 extern u8  cd_read_status_bytes[8];     /* CdReadSync buffer (retail extent 8: small data at -G8) */
 extern u32 gpu_scratch_write_pointer[1];     /* retail extent 5: small data at -G8 */
 extern u16 D_80083164[];
@@ -40,7 +40,7 @@ process_queue:
     driver = &cd_driver_prefix[0];
     driver->flags &= 0xFFFE;
 
-    if (cd_command_read_index != cd_command_write_index[0]) {
+    if (cd_command_read_index != cd_command_write_index) {
 
         driver->flags |= 1;
         state = cd_command_phase[0];

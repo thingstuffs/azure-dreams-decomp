@@ -125,7 +125,7 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
             s32 velocity_x;
             s32 velocity_y;
 
-            if ((*(s16 *)((u8 *)jump + 0x96)) == 10) {
+            if (jump->action_timer == 10) {
                 resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             }
             x_table = (s16 *)((s8 *)dir_step_x);

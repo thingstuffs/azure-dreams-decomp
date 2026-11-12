@@ -494,7 +494,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
 void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state) {
-    void *state = move_state;
+    ActorRecord *state = move_state;
     s32 tile_mask;
     s16 move_result;
     s16 direction;
@@ -507,42 +507,42 @@ void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, 
     if (((R07_80171570_S_80171570_0 *)state)->unk_71.s <= 0) {
         return;
     }
-    if (((R07_80171570_S_80171570_0 *)state)->unk_71.u <= ((R07_80171570_S_80171570_0 *)state)->unk_8A) {
+    if (state->movement_queue_state <= state->unk_8A) {
         return;
     }
 
     if (*(u8 * *)&entity->frameTable != grineut_move_direction_frames) {
         entity->frameTable = grineut_move_direction_frames;
         select_sprite_entry(
-            entity,(s16)(grineut_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((R07_80171570_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+            entity,(s16)(grineut_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 
     x = entity->tile_x;
     y = entity->tile_y;
     tile_mask = 0x3000;
-    if (((R07_80171570_S_80171570_0 *)state)->unk_1C & 0x2000) {
+    if (state->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(x, y, tile_mask);
 
-    direction = ((s16)get_rounded_facing_and_rounding_flag((s16)(x),(s16)(y),(s16)(((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_74),(s16)(((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_7C),
+    direction = ((s16)get_rounded_facing_and_rounding_flag((s16)(x),(s16)(y),(s16)(((R07_80171570_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_74),(s16)(((R07_80171570_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_7C),
         &action->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height((s16)(direction), entity, state, 0x20));
 
     entity->tile_x =
-        ((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_74;
+        ((R07_80171570_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_74;
     tile_mask = 0x3000;
     entity->tile_y =
-        ((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_7C;
-    ((R07_80171570_S_80171570_0 *)state)->unk_8A = (u16)((R07_80171570_S_80171570_0 *)state)->unk_8A + 1;
+        ((R07_80171570_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_7C;
+    state->unk_8A = (u16)state->unk_8A + 1;
 
     new_x = entity->tile_x;
     new_y = entity->tile_y;
-    if (((R07_80171570_S_80171570_0 *)state)->unk_1C & 0x2000) {
+    if (state->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     cycle_map_cell_flags((s16)(new_x),(s16)(new_y),(u16)(tile_mask));
-    ((R07_80171570_S_80171570_0 *)state)->unk_2A = direction;
+    state->facing = direction;
 
     if (move_result == 3 && !(g_dungeon_status.flags & 0x80)
         && !(entity->flags & 0x8000)) {
@@ -552,14 +552,14 @@ void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, 
         action->action_id = 0x0F;
         action->unk_8C.word = 0;
     }
-    (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
+    state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
         action->action_timer = 0;
         return;
     }
 
     action->action_timer = 8;
-    step_count = ((R07_80171570_S_80171570_0 *)state)->unk_71.u;
+    step_count = state->movement_queue_state;
     if (step_count > 0) {
         action->action_timer = 8 / step_count;
     }

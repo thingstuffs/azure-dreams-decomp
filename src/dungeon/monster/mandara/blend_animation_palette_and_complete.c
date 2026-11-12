@@ -27,7 +27,7 @@ void blend_animation_palette_and_complete(MandaraEntryEffectBody *effect)
 {
     s16 buffer[270];
     s16 *buffer_base;
-    register s16 *color_ptr;
+    register ColorPtrFieldView_80FB4C24 *color_ptr;
     register s32 channel_pair;
     register s32 blend_frame;
     register s32 blend_scale;
@@ -110,12 +110,12 @@ unpack_pair:
                 pixel_offset = palette_index << 1;
                 palette_index--;
                 buffer[0x10C] = (u16)buffer[0x10C] + blue_step;
-                color_ptr = (s16 *)(u32)(pixel_offset + (u32)(s8 *)buffer_base);
-                sample_index = ((ColorPtrFieldView_80FB4C24 *)color_ptr)->field_08;
+                color_ptr = (ColorPtrFieldView_80FB4C24 *)(u32)(pixel_offset + (u32)(s8 *)buffer_base);
+                sample_index = color_ptr->field_08;
                 result_color = (u16)sample_index;
                 column--;
                 result_color &= 0x8000;
-                ((ColorPtrFieldView_80FB4C24 *)color_ptr)->field_08 = result_color;
+                color_ptr->field_08 = result_color;
                 {
                     s16 red;
                     s32 green;
@@ -129,7 +129,7 @@ unpack_pair:
                     blue += green;
                     red += blue;
                     result_color += red;
-                    ((ColorPtrFieldView_80FB4C24 *)color_ptr)->field_08 = result_color;
+                    color_ptr->field_08 = result_color;
                 }
             }
         } while (column >= 0);

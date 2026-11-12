@@ -52,7 +52,6 @@ extern s16 window_variant_model_values[];
 extern void *window_variant_render_data[];
 extern u8 window_default_render_data[];
 extern void *current_window_object;
-extern void *window_node_list_storage[3];
 
 /* Creates a runtime object and initializes its model, transform, and appearance. */
 

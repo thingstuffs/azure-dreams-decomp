@@ -85,7 +85,7 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
     u8 *slot_or_effect;
     s32 state;
     SpriteFrameState *effect_sprite;
-    void *new_effect;
+    S_801728B4_6 *new_effect;
     void *target;
 
     state = actor->action_phase;
@@ -165,14 +165,14 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
             if (new_effect == NULL) {
                 return;
             }
-            register_node(new_effect, project_sprite_chain);
-            ((S_801728B4_6 *)new_effect)->unk_10 = &effect_update_tag;
-            ((ObjectPosition *)(((S_801728B4_6 *)new_effect)->unk_08))->x.v = (s32) motion->x.v;
-            ((ObjectPosition *)(((S_801728B4_6 *)new_effect)->unk_08))->y.v = (s32) motion->y.v;
-            ((ObjectPosition *)(((S_801728B4_6 *)new_effect)->unk_08))->z.v = (s32) (motion->z.v + 0xFF800000);
-            ((S_801728B4_6 *)new_effect)->unk_BB = 0;
-            effect_sprite = ((S_801728B4_6 *)new_effect)->unk_0C;
-            ((S_801728B4_6 *)new_effect)->unk_4A = action->facing;
+            register_node((struct ObjectNodeHeader *)new_effect, project_sprite_chain);
+            new_effect->unk_10 = &effect_update_tag;
+            ((ObjectPosition *)(new_effect->unk_08))->x.v = (s32) motion->x.v;
+            ((ObjectPosition *)(new_effect->unk_08))->y.v = (s32) motion->y.v;
+            ((ObjectPosition *)(new_effect->unk_08))->z.v = (s32) (motion->z.v + 0xFF800000);
+            new_effect->unk_BB = 0;
+            effect_sprite = new_effect->unk_0C;
+            new_effect->unk_4A = action->facing;
             action_value = sprite->animation_resource;
             effect_sprite->scale_y = 0x1000;
             effect_sprite->scale_x = 0x1000;

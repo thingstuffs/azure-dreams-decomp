@@ -13,5 +13,5 @@ void apply_linked_record_defaults(void *record_arg) {
     ShopRecordResetObject *record = record_arg;
 
     initialize_scaled_entry_cursor(&record->stream_state, &shop_cursor_template, (s32 *)record->record_resources[4]);
-    *(void **)record->record_resources[5] = &D_80071244;
+    record->record_resources[5]->handler = &D_80071244;
 }

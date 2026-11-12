@@ -190,9 +190,12 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
                 manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + act->facing + 0x100) >> 9) & 7],
                 0);
         }
-        ((EntityRec *)item)->flags14 = 0;
-        ((EntityRec *)item)->unk_10 = 0;
-        ((EntityRec *)item)->unk_0C = 0;
+        {
+            EntityRec *item_view = item;
+            item_view->flags14 = 0;
+            item_view->unk_10 = 0;
+            item_view->unk_0C = 0;
+        }
         set_record_integer_tile_center(item, sprite->tile_x, sprite->tile_y);
         source_sprite = ((u8 *)(&g_dungeon_status));
         if (source_sprite->sprite != 0) {

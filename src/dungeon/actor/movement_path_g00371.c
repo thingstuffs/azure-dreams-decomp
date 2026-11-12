@@ -217,7 +217,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
 
                 anim_table = actor_action_frames;
                 if (sprite->frameTable != anim_table) {
-                    (*(void **)((u8 *)sprite + (0x2C))) = anim_table;
+                    sprite->frameTable = anim_table;
                     select_record_entry_and_value(sprite,
                         *(void **)((u8 *)anim_table +
                             (((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C)),
@@ -299,7 +299,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
             return;
         }
     }
-    (*(void **)((u8 *)sprite + (0x2C))) = anim_table;
+    sprite->frameTable = anim_table;
     select_record_entry_and_value(sprite,
         *(void **)((((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C) +
             (u32)anim_table),

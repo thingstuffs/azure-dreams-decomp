@@ -4,9 +4,9 @@
 
 #include "common.h"
 #include "shared/spu_voice.h"
+#include "engine/audio/spu/voice_sample_notes.h"
 
 extern volatile u16 *spu_registers;
-extern u16 spu_voice_sample_notes[24];
 extern s32 spu_active_voice_mask;
 extern s32 spu_address_unit_shift;
 

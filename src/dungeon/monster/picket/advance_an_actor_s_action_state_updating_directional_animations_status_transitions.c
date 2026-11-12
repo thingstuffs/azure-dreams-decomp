@@ -37,7 +37,7 @@ extern u8 D_80174F50[];
 /* Advances an actor's action state, updating directional animations and status transitions. */
 void advance_an_actor_s_action_state_updating_directional_animations_status_transitions(ActorRecord *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor) {
     void *context = in_context;
-    void *actor = in_actor;
+    ActorRecord *actor = in_actor;
     DungeonGlobalStatus *input_state;
     s32 state;
 
@@ -51,7 +51,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = D_80174F50;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             system_state = &g_dungeon_status;
             (*(u16 *)&system_state->activity_counts.parts.pending_action_count)--;
@@ -66,7 +66,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = picket_frame_set_6;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -77,7 +77,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 anim_table = D_80174F50;
                 (in_sprite->frameTable) = anim_table;
                 select_sprite_entry(in_sprite,
-                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
 
@@ -102,13 +102,13 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 return;
             }
 
-            if (((ActorRecord *)actor)->hp_delta != 0) {
+            if (actor->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(in_action, context, in_sprite, 0) != 0) {
                     return;
                 }
             }
 
-            if (((ActorRecord *)actor)->mp_value.parts.whole == 0) {
+            if (actor->mp_value.parts.whole == 0) {
                 if (input_state->flags & 0x2008) {
                     return;
                 }
@@ -120,7 +120,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 return;
             }
 
-            actor_flags = ((ActorRecord *)actor)->flags1C;
+            actor_flags = actor->flags1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(in_action, context, in_sprite, actor);
                 return;
@@ -132,7 +132,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 return;
             }
 
-            if (((ActorRecord *)actor)->pending_turn_updates == 0) {
+            if (actor->pending_turn_updates == 0) {
                 return;
             }
 
@@ -180,7 +180,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = D_80174F50;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -205,7 +205,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = picket_frame_set_3;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             in_action->action_phase++;
             return;
@@ -226,6 +226,6 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
         return;
     }
 
-    ((ActorRecord *)actor)->flags1C &= ~0x200;
+    actor->flags1C &= ~0x200;
     in_action->unk_8C.address = picket_action_resume_address;
 }

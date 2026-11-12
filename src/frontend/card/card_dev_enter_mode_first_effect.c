@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
 
-extern u8 card_dev_effect_mode;
+#include "frontend/card/effect_mode_data.h"
 typedef struct { u8 pad[0x10]; void *callback; } Effect;
 extern Effect *allocate_or_reuse_effect_and_install_callback(void *, void *);
 /*

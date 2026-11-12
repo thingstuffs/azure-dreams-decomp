@@ -5,6 +5,7 @@
 #include "engine/window/params.h"
 #include "sdk/libgpu.h"
 #include "slus/data.h"
+#include "slus/window_node_list_data.h"
 #include "engine/object.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -51,7 +52,6 @@ extern void update_window_state(struct RuntimeObject *object, s32 handler_arg1, 
 extern void scroll_window_y(void *);
 extern void draw_window_rects(void *);
 
-extern u8 window_node_list_storage[];
 
 /* Initializes an actor-linked display node, clears its image region, and sets callbacks and rendering data. */
 void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32 *state_ref,
@@ -61,7 +61,7 @@ void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32
     SpriteFrameState *render_data;
     S_func_80035E58_3 *actor;
 
-    node = initialize_runtime_node_storage(0x11, node_addr, 0x49, window_node_list_storage);
+    node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &window_node_list_storage);
     node->update_callback = update_window_state;
     register_node(node, draw_linked_sprite_nodes);
 

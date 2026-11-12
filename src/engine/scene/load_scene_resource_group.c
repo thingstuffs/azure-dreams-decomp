@@ -5,6 +5,7 @@
 #include "engine/scene.h"
 #include "slus.h"
 #include "slus/data.h"
+#include "slus/node_update_data.h"
 
 struct S_8006CE80_ptr
 {
@@ -27,7 +28,6 @@ extern struct S_8006CE44 scene_resource_group_records[];
 
 extern ResourceReadState scene_geometry[];
 extern u8 *gpu_scratch_buffer_base;
-extern s8 node_update_mode;
 extern u8 shared_decode_staging_buffer[];
 /* Loads the entry's resource data and selects its working buffer. */
 void load_scene_resource_group(s16 entry_index)

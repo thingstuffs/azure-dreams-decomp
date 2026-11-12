@@ -13,9 +13,9 @@ void set_card_selection_state(s32 select_second)
     _card_wait_80408654(0);
     _card_wait_80408654(1);
     if (select_second) {
-        card_selected_channel[0] = 16;
+        card_selected_channel = 16;
     } else {
-        card_selected_channel[0] = 0;
+        card_selected_channel = 0;
     }
-    wait_selected(card_selected_channel[0]);
+    wait_selected(card_selected_channel);
 }

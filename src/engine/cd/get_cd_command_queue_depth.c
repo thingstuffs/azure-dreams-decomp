@@ -1,7 +1,7 @@
 #include "common.h"
 #include "engine/cd.h"
+#include "engine/cd_command_index.h"
 
-extern u8 cd_command_write_index;
 
 /* Returns the difference between adjacent byte indices with wraparound at 32. */
 s32 get_cd_command_queue_depth(void)

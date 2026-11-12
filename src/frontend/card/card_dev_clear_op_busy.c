@@ -1,6 +1,7 @@
 #include "common.h"
 #include "frontend/card/event_callbacks.h"
 #include "frontend/card.h"
+#include "frontend/card/service/operation_state_data.h"
 #include "main/data.h"
 
 /* D_804094E8 is a dynamic/overlay-local flag word far outside this overlay's own
@@ -16,14 +17,13 @@
  * store gives gcc two textually distinct expressions, so it emits the two
  * separate lui/lw + lui/sw pairs the target uses. Both names resolve to the
  * identical linked address 0x804094E8; nothing is locally defined/faked. */
-extern s32 card_ui_operation_state[4];
 
 /* Clears the pending flag and returns 4 if it was set, or 0 otherwise. */
 s32 card_dev_clear_op_busy(void) {
     s32 status;
 
     status = 0;
-    if (card_ui_operation_state[0] != 0) {
+    if (card_ui_operation_state != 0) {
         status = 4;
         D_804094E8_2[0] = 0;
     }

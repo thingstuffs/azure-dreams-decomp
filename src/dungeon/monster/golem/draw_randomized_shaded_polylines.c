@@ -74,109 +74,109 @@ extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *,
 void draw_randomized_shaded_polylines(S_80175A90_3 *start_pos, EntityRec *end_pos)
 {
     void **context_ptr = (void **)((u8 *)(&g_game_work));
-    u8 *scratch = (u8 *)0x1F800000;
-    u8 *prim;
+    S_80175A90_0 *scratch = (S_80175A90_0 *)0x1F800000;
+    S_80175A90_2 *prim;
     s32 line_index = 0;
     s32 endpoint_red = 0xC0;
     u32 addr_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
 
-    ((S_80175A90_0 *)scratch)->unk_18.p = (u8 *)*context_ptr + 0xB0;
+    scratch->unk_18.p = (u8 *)*context_ptr + 0xB0;
 
     do {
         GpuContext *context = *context_ptr;
         s32 offset;
 
         prim = context->packetCursor;
-        context->packetCursor = prim + 0x20;
+        context->packetCursor = (u8 *)prim + 0x20;
 
-        ((S_80175A90_2 *)prim)->unk_07 = 0x58;
-        ((S_80175A90_2 *)prim)->unk_00.at03.v = 7;
-        ((S_80175A90_2 *)prim)->unk_1C = 0x55555555;
-        ((S_80175A90_2 *)prim)->unk_07 |= 2;
+        prim->unk_07 = 0x58;
+        prim->unk_00.at03.v = 7;
+        prim->unk_1C = 0x55555555;
+        prim->unk_07 |= 2;
 
-        ((S_80175A90_0 *)scratch)->unk_64 = start_pos->unk_02;
-        ((S_80175A90_0 *)scratch)->unk_66 = start_pos->unk_06;
-        ((S_80175A90_0 *)scratch)->unk_68 = start_pos->unk_0A;
+        scratch->unk_64 = start_pos->unk_02;
+        scratch->unk_66 = start_pos->unk_06;
+        scratch->unk_68 = start_pos->unk_0A;
 
-        ((S_80175A90_0 *)scratch)->unk_6C.s =
+        scratch->unk_6C.s =
             (((s16)start_pos->unk_02) + end_pos->x.w.i) / 2;
-        ((S_80175A90_0 *)scratch)->unk_6E.s =
+        scratch->unk_6E.s =
             (((s16)start_pos->unk_06) + end_pos->y.w.i) / 2;
-        ((S_80175A90_0 *)scratch)->unk_70.s =
+        scratch->unk_70.s =
             (((s16)start_pos->unk_0A) + end_pos->z.w.i) / 2;
 
-        ((S_80175A90_0 *)scratch)->unk_74 = ((u16)end_pos->x.w.i);
-        ((S_80175A90_0 *)scratch)->unk_76 = ((u16)end_pos->y.w.i);
-        ((S_80175A90_0 *)scratch)->unk_78 = ((u16)end_pos->z.w.i);
+        scratch->unk_74 = ((u16)end_pos->x.w.i);
+        scratch->unk_76 = ((u16)end_pos->y.w.i);
+        scratch->unk_78 = ((u16)end_pos->z.w.i);
 
         offset = (rand() % 9) + 4;
         switch (line_index) {
         case 0:
-            ((S_80175A90_0 *)scratch)->unk_64 -= 2;
-            ((S_80175A90_0 *)scratch)->unk_6C.u += offset;
-            ((S_80175A90_0 *)scratch)->unk_74 -= offset;
+            scratch->unk_64 -= 2;
+            scratch->unk_6C.u += offset;
+            scratch->unk_74 -= offset;
             break;
         case 1:
-            ((S_80175A90_0 *)scratch)->unk_66 -= 2;
-            ((S_80175A90_0 *)scratch)->unk_6E.u += offset;
-            ((S_80175A90_0 *)scratch)->unk_76 -= offset;
+            scratch->unk_66 -= 2;
+            scratch->unk_6E.u += offset;
+            scratch->unk_76 -= offset;
             break;
         case 2:
-            ((S_80175A90_0 *)scratch)->unk_68 -= 2;
-            ((S_80175A90_0 *)scratch)->unk_70.u += offset;
-            ((S_80175A90_0 *)scratch)->unk_78 -= offset;
+            scratch->unk_68 -= 2;
+            scratch->unk_70.u += offset;
+            scratch->unk_78 -= offset;
             break;
         case 3:
-            ((S_80175A90_0 *)scratch)->unk_64 += 2;
-            ((S_80175A90_0 *)scratch)->unk_6C.u -= offset;
-            ((S_80175A90_0 *)scratch)->unk_74 += offset;
+            scratch->unk_64 += 2;
+            scratch->unk_6C.u -= offset;
+            scratch->unk_74 += offset;
             break;
         case 4:
-            ((S_80175A90_0 *)scratch)->unk_66 += 2;
-            ((S_80175A90_0 *)scratch)->unk_6E.u -= offset;
-            ((S_80175A90_0 *)scratch)->unk_76 += offset;
+            scratch->unk_66 += 2;
+            scratch->unk_6E.u -= offset;
+            scratch->unk_76 += offset;
             break;
         case 5:
-            ((S_80175A90_0 *)scratch)->unk_68 += 2;
-            ((S_80175A90_0 *)scratch)->unk_70.u -= offset;
-            ((S_80175A90_0 *)scratch)->unk_78 += offset;
+            scratch->unk_68 += 2;
+            scratch->unk_70.u -= offset;
+            scratch->unk_78 += offset;
             break;
         case 6:
             break;
         }
 
-        ((S_80175A90_2 *)prim)->unk_05 = 0x40;
-        ((S_80175A90_2 *)prim)->unk_06 = 0x40;
-        ((S_80175A90_2 *)prim)->unk_0C = 0x40;
-        ((S_80175A90_2 *)prim)->unk_15 = 0x40;
-        ((S_80175A90_2 *)prim)->unk_16 = 0x40;
-        ((S_80175A90_2 *)prim)->unk_04 = endpoint_red;
-        ((S_80175A90_2 *)prim)->unk_0D = 0;
-        ((S_80175A90_2 *)prim)->unk_0E = 0;
-        ((S_80175A90_2 *)prim)->unk_14 = endpoint_red;
+        prim->unk_05 = 0x40;
+        prim->unk_06 = 0x40;
+        prim->unk_0C = 0x40;
+        prim->unk_15 = 0x40;
+        prim->unk_16 = 0x40;
+        prim->unk_04 = endpoint_red;
+        prim->unk_0D = 0;
+        prim->unk_0E = 0;
+        prim->unk_14 = endpoint_red;
 
-        ((S_80175A90_0 *)scratch)->unk_B4.s = func_80065530(
-            scratch + 0x64, scratch + 0x6C, scratch + 0x74,
-            scratch + 0xD8, scratch + 0xDC, scratch + 0xE0,
-            scratch + 0x84, scratch + 0x88);
+        scratch->unk_B4.s = func_80065530(
+            &scratch->unk_64, &scratch->unk_6C, &scratch->unk_74,
+            &scratch->unk_D8, &scratch->unk_DC, &scratch->unk_E0,
+            (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
 
-        ((S_80175A90_2 *)prim)->unk_08 = ((S_80175A90_0 *)scratch)->unk_D8;
-        ((S_80175A90_2 *)prim)->unk_0A = ((S_80175A90_0 *)scratch)->unk_DA;
-        ((S_80175A90_2 *)prim)->unk_10 = ((S_80175A90_0 *)scratch)->unk_DC;
-        ((S_80175A90_2 *)prim)->unk_12 = ((S_80175A90_0 *)scratch)->unk_DE;
-        ((S_80175A90_2 *)prim)->unk_18 = ((S_80175A90_0 *)scratch)->unk_E0;
-        ((S_80175A90_2 *)prim)->unk_1A = ((S_80175A90_0 *)scratch)->unk_E2;
+        prim->unk_08 = scratch->unk_D8;
+        prim->unk_0A = scratch->unk_DA;
+        prim->unk_10 = scratch->unk_DC;
+        prim->unk_12 = scratch->unk_DE;
+        prim->unk_18 = scratch->unk_E0;
+        prim->unk_1A = scratch->unk_E2;
 
         {
-            u32 depth = ((S_80175A90_0 *)scratch)->unk_B4.u;
+            u32 depth = scratch->unk_B4.u;
             if (depth < 0x1E0) {
-                ((S_80175A90_2 *)prim)->unk_00.at00.v =
-                    (((S_80175A90_2 *)prim)->unk_00.at00.v & length_mask) |
-                    ((*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + depth * 4)) & addr_mask);
-                (*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + ((S_80175A90_0 *)scratch)->unk_B4.u * 4)) =
-                    ((*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2)
-                        + ((S_80175A90_0 *)scratch)->unk_B4.u * 4)) & length_mask) |
+                prim->unk_00.at00.v =
+                    (prim->unk_00.at00.v & length_mask) |
+                    ((*(u32 *)((u8 *)(scratch->unk_18.p2) + depth * 4)) & addr_mask);
+                (*(u32 *)((u8 *)(scratch->unk_18.p2) + scratch->unk_B4.u * 4)) =
+                    ((*(u32 *)((u8 *)(scratch->unk_18.p2)
+                        + scratch->unk_B4.u * 4)) & length_mask) |
                     ((u32)prim & addr_mask);
             }
         }

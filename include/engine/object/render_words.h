@@ -36,7 +36,6 @@ extern s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, struct 
 extern void draw_window_rects(void);
 extern void func_80037714(void);
 
-extern u8 window_node_list_storage[12];
 extern u8 attached_node_default_parameters[12];
 extern s16 attached_node_variant_data[];
 extern u8 attached_node_default_render_data[12];

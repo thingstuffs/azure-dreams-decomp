@@ -1,8 +1,8 @@
 #include "common.h"
 #include "engine/entity.h"
 #include "slus/data.h"
+#include "slus/runtime_saved_state_data.h"
 
-extern u32 runtime_saved_state_word;
 extern u8 runtime_saved_state_byte_04_alias;
 
 /* Restores saved state when requested; otherwise saves the current state. */

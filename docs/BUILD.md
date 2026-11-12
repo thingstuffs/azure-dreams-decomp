@@ -276,18 +276,38 @@ rule bytes are still checked by the ordinary configure output receipt.
 
 Source/include presence is not part of either guard's authority set: each
 record binds the files it read (an absent one as absent), the listing of their
-parent directories, and a closure's resolution misses. The guard context still
-holds the build views' links (`build_*/layout_flat` has one per row TU and per
-file directly in `src/<container>/`), so adding, removing or renaming such a
-file still makes configure cold; other file-set edits (headers under `include/`
-or a feature folder, non-row sources) regenerate only the records that read them
-or their directories. A checkpoint that reads the link graph without binding it, or uses
+parent directories, and a closure's resolution misses. Nor are the build views'
+derived per-entry links (`build_*/layout_flat/<container>/<entry>`, one per row
+TU and per entry directly in `src/<container>/`, and `build_slus/src/<entry>`):
+a record that reads a file through one binds that link by its target, plus the
+listing of the directory the file is really in, and keeps a flat directory's
+own listing only if it listed that directory (the `matches:` selectors bind it
+explicitly, since they test each source with an unobserved `exists()`). The row
+layout (`ledger/layout.jsonl`) and the module graph bootstrap writes from it
+(`ledger/splits/overlay_modules.build.json`) are bound by the records that read
+them (the layout's process memos record it in every reader, and the graph
+attestation binds it), and the link graph's structural digest leaves out each
+TU's `source` path (the `graph` checkpoint binds the files and the image layout
+checkpoint keys on every TU's source). So adding, removing or renaming a file
+directly in `src/<container>/`, or renaming or moving a row TU, regenerates only
+the records that read it, its directory or the layout (about 3,400 placement rows
+whose recipe projects their home's TU read the layout), not the whole configure.
+A checkpoint that reads the link graph without binding it, or uses
 a TU's `layout_inline` extents without reading that TU, fails generation rather
 than storing a record the structural guard could leave stale; process memos of
 `config/names.tsv` record the table in every reader (`gate_read_cache.memo_read`);
 and a python subprocess of configure or bootstrap that opens one of
 `mkbuild.UNREAD_LEDGERS` fails like an in-process open
 (`tools/build/unread_hook/sitecustomize.py`).
+
+Bootstrap keeps the build views without rebuilding them when every changed
+input is a body edit of a source or header, a structure-preserving edit of the
+link graph or `layout_inline`, or a source or header added or removed where no
+view producer looks: anywhere under `include/` (the views link it as one
+directory), or below an entry `layout_flat` projects (`src/<dir>/<entry>/...`,
+the entry existing before and after). Adding, removing or renaming an entry
+directly in `src/<dir>/`, creating a new feature directory, or touching a module
+manifest's source or a `ledger/tu_layout.jsonl` move target rebuilds them.
 
 ### Post-build accounting reuse
 
@@ -298,6 +318,14 @@ levels rows and 8,131 status rows; the next run hit all of those cache entries
 and reproduced `ledger/levels.jsonl` byte for byte. `STATUS.md` changed only
 its generated UTC timestamp. Set `AZURE_ROW_CACHE_STATS` to a path to record
 hits, misses and phase times for a particular run.
+
+The name tables (row true names, the SLUS symbol table and `config/names.tsv`)
+are not part of the keys as a whole: each cached row records the table entries
+its evaluation looked up (its own and its callees' spellings and addresses;
+`row_cache.NameSlice`), and a hit needs each of them unchanged. A names-only
+edit therefore re-evaluates only the rows that consult an edited entry, not all
+of them. Values computed from the whole tables outside any row (audit sites,
+void call targets, callee parameter counts) still enter the keys as values.
 
 Every run still validates the current image receipt and rebuilds dependency
 keys, source context and source indexes. These checks account for much of a

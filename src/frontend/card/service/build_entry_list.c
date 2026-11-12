@@ -18,7 +18,7 @@ s32 build_entry_list(void) {
     entry_count = 0;
     entry = dev_card_directory;
     path_prefix = &dev_card_paths[0];
-    if (card_selected_channel[0] != 0) {
+    if (card_selected_channel != 0) {
         path_prefix = &dev_card_paths[0] + 1;
     }
     func_8007BF80(&search_path, *path_prefix);

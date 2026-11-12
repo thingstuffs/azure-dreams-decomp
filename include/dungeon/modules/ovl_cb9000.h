@@ -39,13 +39,13 @@ void finish_block_spinning_fall_slot_f(S_80173B9C_0 *state,void *position,void *
 void finish_block_fade_in_slot_f(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void spin_and_fade_gray_sprite_slot_f(struct GrayFadeSpriteBody *effect, struct ObjectPosition *unused, SpriteFrameState *sprite);
 void create_gray_fading_sprite_slot_f(void *unused_context, struct ObjectPosition *source_pos, struct SpriteFrameState *unused_value, s16 scale);
-void draw_shaded_effect_quad_slot_f(void *quad, struct ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
+void draw_shaded_effect_quad_slot_f(CL_CB9000_80173E40_S_80173E40_6 *quad, struct ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
 s32 draw_linked_effect_quads_slot_f(void *point, struct ObjectPosition *position, SpriteFrameState *color);
 void update_flashing_effect_segment_slot_f(u8 *effect, ObjectPosition *position, struct SpriteFrameState *effect_param);
 void create_segmented_effect_rings_slot_f(CL_CB9000_80174724_S_80C96F24_0 *owner, struct ObjectPosition *origin, SpriteFrameState *entity);
 void begin_block_action_23_slot_f(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, struct ActorRecord *entity);
 void restore_scene_tint_slot_f(u8 *task, void *context, u8 *input);
-void update_block_replacement_slot_f(void *state, struct ObjectPosition *position, SpriteFrameState *entity, void *actor);
+void update_block_replacement_slot_f(CL_CB9000_80174D14_S_80C97514_0 *state, struct ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);
 void finish_block_floor_trap_slot_f(CL_CB9000_8017523C_CallbackState *state,void *position,void *sprite,void *entity);
 void finish_block_action_flag_slot_f(CL_CB9000_80175274_CallbackState *state,ObjectPosition *position,SpriteFrameState *sprite,ActorRecord *entity);
 

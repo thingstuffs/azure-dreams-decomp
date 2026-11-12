@@ -35,7 +35,7 @@ extern u8 D_8017540C[];
 
 /* Advance the actor action state and update its directional animation. */
 void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor_in) {
-    void *actor;
+    ActorRecord *actor;
     u8 state;
     DungeonGlobalStatus *global_state;
     void *check_target;
@@ -51,7 +51,7 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
 
             (sprite->frameTable) = blume_direction_frames_2;
             select_sprite_entry(sprite,
-                blume_direction_frames_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                blume_direction_frames_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             counter = &g_dungeon_status;
             (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
@@ -67,13 +67,13 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
             break;
         }
 
-        if (((ActorRecord *)actor)->hp_delta != 0) {
+        if (actor->hp_delta != 0) {
             if (begin_ready_actor_directional_action(controller, context, sprite, 0) != 0) {
                 break;
             }
         }
 
-        if (((ActorRecord *)actor)->mp_value.parts.whole == 0) {
+        if (actor->mp_value.parts.whole == 0) {
             if (global_state->flags & 0x2008) {
                 break;
             }
@@ -85,7 +85,7 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
             break;
         }
 
-        if (((ActorRecord *)actor)->flags1C & ACTOR_PUSH_PENDING) {
+        if (actor->flags1C & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(controller, context, sprite, actor);
             break;
         }
@@ -94,13 +94,13 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
             break;
         }
 
-        if (((ActorRecord *)actor)->flags1C & ACTOR_LIFTED) {
+        if (actor->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(controller, context, sprite, actor);
             func_80174890(controller, context, sprite, actor);
             break;
         }
 
-        if (((ActorRecord *)actor)->pending_turn_updates == 0) {
+        if (actor->pending_turn_updates == 0) {
             break;
         }
 
@@ -151,7 +151,7 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
 
         (sprite->frameTable) = D_8017540C;
         select_sprite_entry(sprite,
-            D_8017540C[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            D_8017540C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         if (sprite->flags & 0x8000) {
             controller->unk_8C.address = blume_action_resume_address;

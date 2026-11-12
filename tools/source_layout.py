@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Public CLI/import facade for the gate-compatible source layout resolver."""
 from gate.source_layout import *  # noqa: F401,F403
-from gate.source_layout import _registry, _stamp
+from gate.source_layout import _registry, _stamp, _memo_read
 import json, re
 from functools import lru_cache
 from pathlib import Path
@@ -48,6 +48,7 @@ def _inline_index(rows_path, rows_stamp, layout_path, layout_stamp, inline_path,
 def inline_index(root=ROOT):
     root = Path(root).absolute()
     paths = [root / "ledger/rows.jsonl", root / "ledger/layout.jsonl", root / "ledger/layout_inline.jsonl"]
+    _memo_read(paths[1])  # its owner map resolves row paths through the layout (gate.source_layout.mapping)
     return _inline_index(*(v for p in paths for v in (str(p), _stamp(p))))
 
 

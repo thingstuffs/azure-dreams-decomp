@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 #include "slus/data.h"
+#include "slus/audio_sequence_state_data.h"
 
 
 
@@ -16,7 +17,6 @@ typedef struct {
     s8 pad40[0x10];
 } Entity;
 
-extern s32 audio_sequence_track_count[3];
 extern Entity audio_sequence_tracks[];
 extern s32 audio_sequence_format[4];
 extern s32 dispatch_sequence_event(Entity *);

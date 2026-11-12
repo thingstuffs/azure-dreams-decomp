@@ -49,7 +49,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     ObjectNodeHeader *object;
     ActorRecord *work;
     ObjectPosition *part_a;
-    void *part_b;
+    SpriteFrameState *part_b;
     u8 *callback;
     ActorRecord *spawned;
     s32 mode_kind;
@@ -73,10 +73,10 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
         part_a->z.w.i = config_0a;
         part_b = object->sprite;
         mode_kind = mode_flags & 3;
-        ((SpriteFrameState *)part_b)->frameTable = callback;
-        ((SpriteFrameState *)part_b)->tile_x = saved_config_24;
+        part_b->frameTable = callback;
+        part_b->tile_x = saved_config_24;
 
-        ((SpriteFrameState *)part_b)->tile_y = saved_config_25;
+        part_b->tile_y = saved_config_25;
         if (mode_kind == 1) {
             work->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             work->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
@@ -94,7 +94,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
             work_copy->unk_AE = 0;
             work_copy->unk_B4 = 0;
             work_copy->unk_B0 = 0;
-            ((SpriteFrameState *)part_b)->flags |= 0x80;
+            part_b->flags |= 0x80;
             try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
         }
         work->unk_49 = 0xE;

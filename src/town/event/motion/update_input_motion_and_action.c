@@ -1,6 +1,7 @@
 #include "shared/position_query.h"
 #include "town/event/mesh_motion.h"
 #include "common.h"
+#include "town/event/motion_step_data.h"
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "town/player/coordinates.h"
@@ -19,8 +20,6 @@ extern s32 town_saved_motion_pointer;
 
 
 extern u8 town_event_motion_pair[];
-extern s16 town_motion_x_step;
-extern s16 town_motion_y_step;
 
 /* Updates input-driven motion and handles object action transitions. */
 void update_input_motion_and_action(void *controller, ObjectPosition *object, s32 update_arg) {

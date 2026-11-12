@@ -1,5 +1,6 @@
 """Accounting memoization: content invalidation, cross-row reads and byte order."""
 import collections
+import copy
 import json
 import os
 from pathlib import Path
@@ -83,6 +84,51 @@ class RowCacheTests(unittest.TestCase):
                 with patch.object(call_arity,'default_def_index',return_value=index):
                     keys.append(content_key(facts.for_row(row)))
         self.assertEqual(keys[0],keys[1]);self.assertNotEqual(keys[0],keys[2])
+
+    def test_name_slice_records_consulted_entries_and_survives_json(self):
+        from row_cache import NameSlice
+        tables = ({'true_one': 'func_80000000'}, collections.defaultdict(set, {'func_80000000': {'true_one'}}),
+                  collections.defaultdict(set, {'80000000': {'alias'}}), {'alias': '80000000'})
+        arity = type('Arity', (), {})(); arity._NAMES = tables; arity._name_tables = lambda: arity._NAMES
+        names = NameSlice(arity)
+        def compute():
+            canon, rev, hexnames, name2hex = arity._name_tables()
+            return [sorted(rev.get('func_80000000', set())), sorted(hexnames['80000004']), 'alias' in name2hex]
+        with names.recording() as log:
+            value = compute()
+        self.assertIs(arity._NAMES, tables)
+        self.assertEqual(value, [['true_one'], [], True])
+        self.assertNotIn('80000004', tables[2])  # a defaultdict miss is not inserted
+        recorded = json.loads(json.dumps(names.slice(log)))
+        self.assertEqual([(i, k) for i, k, _ in recorded], [(1, 'func_80000000'), (2, '80000004'), (3, 'alias')])
+        self.assertTrue(NameSlice(arity).unchanged(recorded))
+        for edit in (lambda t: t[2]['80000004'].add('new_name'), lambda t: t[1].pop('func_80000000'),
+                     lambda t: t[3].pop('alias')):
+            edited = copy.deepcopy(tables)
+            edit(edited)
+            arity._NAMES = edited
+            self.assertFalse(NameSlice(arity).unchanged(recorded))
+        edited = copy.deepcopy(tables)
+        edited[0]['other_name'] = 'func_80000008'  # an entry no lookup consulted
+        arity._NAMES = edited
+        self.assertTrue(NameSlice(arity).unchanged(recorded))
+        arity._NAMES = tables
+        with names.recording() as log:
+            len(arity._name_tables()[0])
+        self.assertEqual(names.slice(log)[0][:2], [0, '*'])
+        self.assertFalse(NameSlice(arity).unchanged([[0, 'x', ['=', 1]]]))
+        self.assertFalse(NameSlice(arity).unchanged(None))
+
+    def test_entry_without_a_name_record_misses_when_names_are_sliced(self):
+        from row_cache import NameSlice
+        arity = type('Arity', (), {})(); arity._NAMES = ({}, {}, {}, {}); arity._name_tables = lambda: arity._NAMES
+        cache = RowCache(self.root, 'test'); cache.get('a', ['k'], lambda: 1); cache.save()
+        cache = RowCache(self.root, 'test')
+        self.assertEqual(cache.get('a', ['k'], lambda: 2, names=NameSlice(arity)), 2)
+        cache.save()
+        cache = RowCache(self.root, 'test')
+        self.assertEqual(cache.get('a', ['k'], lambda: 3, names=NameSlice(arity)), 2)
+        self.assertEqual(cache.stats['hits'], 1)
 
     def test_mapping_order_corruption_is_detected(self):
         cache=RowCache(self.root,'test');cache.get('a',[],lambda:{'z':1,'a':2});cache.save()

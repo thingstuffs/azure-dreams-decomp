@@ -185,7 +185,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
     s32 height_offset;
     s32 ground_offset;
     R06_80170BB8_S_80170BB8_3 *model_state;
-    u8 * sprite_data;
+    R06_80170BB8_S_80170BB8_2 *sprite_data;
     s32 view_dir;
     u32 new_height;
 
@@ -193,7 +193,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
     global_flags = global_flags_ptr[0x1A31];
     model_state = ((R06_80170BB8_S_80170BB8_3 *)(part_base + 0x20));
 
-    sprite_data = (part_base + 0x28);
+    sprite_data = ((R06_80170BB8_S_80170BB8_2 *)(part_base + 0x28));
     if (global_flags & 0x2000) {
         callback = actor->unk_8C.run;
         if (callback == (R06_80170BB8_Callback)((u8 *)initialize_destination_state)) {
@@ -235,15 +235,15 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
 
             if (subject->flags1C & 0x200) {
                 if (actor->action_state_flags & 0x4000) {
-                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C = 0x00808080;
-                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = 0x00808080;
-                } else if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u8 >= 8) {
-                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C += 0xFFF7F7F8;
-                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C;
+                    sprite_data->unk_3C = 0x00808080;
+                    sprite_data->unk_0C.u32 = 0x00808080;
+                } else if (sprite_data->unk_0C.u8 >= 8) {
+                    sprite_data->unk_3C += 0xFFF7F7F8;
+                    sprite_data->unk_0C.u32 = sprite_data->unk_3C;
                 }
 
-                if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_14 & 0x6000) {
-                    if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u8 < 8 ||
+                if (sprite_data->unk_14 & 0x6000) {
+                    if (sprite_data->unk_0C.u8 < 8 ||
                         (actor->action_state_flags & 0x4000)) {
                         u16 actor_flags = actor->action_state_flags;
 
@@ -262,18 +262,18 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                     model_state->unk_04 &= 0x7FFF;
                     if (model_state->unk_02 > 0) {
                         do {
-                            select_sprite_entry(sprite_data + sprite_index * 0x30, 0x1C, 0);
+                            select_sprite_entry((u8 *)sprite_data + sprite_index * 0x30, 0x1C, 0);
                             sprite_index++;
                         } while (sprite_index < model_state->unk_02);
                     }
                 }
             } else {
-                if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u8 >= 0x80) {
-                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C = 0x00808080;
-                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = 0x00808080;
+                if (sprite_data->unk_0C.u8 >= 0x80) {
+                    sprite_data->unk_3C = 0x00808080;
+                    sprite_data->unk_0C.u32 = 0x00808080;
                 } else {
-                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C += 0x00080808;
-                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C;
+                    sprite_data->unk_3C += 0x00080808;
+                    sprite_data->unk_0C.u32 = sprite_data->unk_3C;
                 }
 
                 if (actor->action_state_flags & 0x4000) {
@@ -283,14 +283,14 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
 
                 if (actor->action_state_flags & 0x1000) {
                     select_sprite_entry(sprite_data, 0x1D, 0);
-                    select_sprite_entry(sprite_data + 0x30, 0x1D, 0);
+                    select_sprite_entry((u8 *)sprite_data + 0x30, 0x1D, 0);
                     actor->action_state_flags &= 0xEFFF;
                 } else if ((actor->action_state_flags & 0x2000) &&
-                           (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_14 & 0x6000)) {
+                           (sprite_data->unk_14 & 0x6000)) {
 
                     if (actor->action_id == 7) {
                         select_sprite_entry(sprite_data, 0x19, 0);
-                        select_sprite_entry(sprite_data + 0x30, 0x24, 0);
+                        select_sprite_entry((u8 *)sprite_data + 0x30, 0x24, 0);
                     } else {
                         s32 random_value;
 
@@ -300,7 +300,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                         if (random_value & 3) {
                             ground_offset = 0x19;
                         }
-                        select_sprite_entry(sprite_data + 0x30, ground_offset, 0);
+                        select_sprite_entry((u8 *)sprite_data + 0x30, ground_offset, 0);
                     }
                 }
             }
@@ -2001,26 +2001,27 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
         scratch->unk_C0 = depth_index;
 
         if (depth_index < 0x1E0) {
+            R06_80173E94_S_80173E94_4 *node_view = (R06_80173E94_S_80173E94_4 *)node;
             s32 shade_or_page;
             s32 pixel_mode;
             s32 blend_mode;
             s32 page_x;
             s32 tile_code;
 
-            packet->unk_04.at00.v = ((R06_80173E94_S_80173E94_4 *)node)->unk_08;
-            shade_or_page = packet->unk_04.at00u.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
+            packet->unk_04.at00.v = node_view->unk_08;
+            shade_or_page = packet->unk_04.at00u.v * node_view->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
             }
             packet->unk_04.at00u.v = shade_or_page >> 8;
 
-            shade_or_page = packet->unk_04.at01.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
+            shade_or_page = packet->unk_04.at01.v * node_view->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
             }
             packet->unk_04.at01.v = shade_or_page >> 8;
 
-            shade_or_page = packet->unk_04.at02.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
+            shade_or_page = packet->unk_04.at02.v * node_view->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
                 pixel_mode = 0;
@@ -2389,7 +2390,7 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
     ObjectNodeHeader *strip_obj;
     ObjectNodeHeader *init_obj;
     u8 *strip_data;
-    u8 *render_ctl;
+    R06_80174934_S_80174934_3 *render_ctl;
     ObjectPosition *position;
     u8 *frame_data;
     void *callback;
@@ -2464,21 +2465,21 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
             strip_obj->update_callback = ((u8 *)advance_record_countdown);
             register_node(init_obj, callback);
 
-            render_ctl = *(u8 * *)&strip_obj->sprite;
-            ((R06_80174934_S_80174934_3 *)render_ctl)->unk_10 = 0x20;
-            ((R06_80174934_S_80174934_3 *)render_ctl)->unk_14 |= 0xC;
+            render_ctl = (R06_80174934_S_80174934_3 *)*(u8 * *)&strip_obj->sprite;
+            render_ctl->unk_10 = 0x20;
+            render_ctl->unk_14 |= 0xC;
 
             position = strip_obj->position;
             position->x.v = origin->x.v;
             position->y.v = origin->y.v;
             position->z.v = origin->z.v;
 
-            render_ctl = *(u8 * *)&strip_obj->sprite;
-            ((R06_80174934_S_80174934_3 *)render_ctl)->unk_1E = 0x1000;
-            ((R06_80174934_S_80174934_3 *)render_ctl)->unk_1C = 0x1000;
-            render_ctl[0xE] = 0x80;
-            render_ctl[0xD] = 0x80;
-            render_ctl[0xC] = 0x80;
+            render_ctl = (R06_80174934_S_80174934_3 *)*(u8 * *)&strip_obj->sprite;
+            render_ctl->unk_1E = 0x1000;
+            render_ctl->unk_1C = 0x1000;
+            ((u8 *)render_ctl)[0xE] = 0x80;
+            ((u8 *)render_ctl)[0xD] = 0x80;
+            ((u8 *)render_ctl)[0xC] = 0x80;
 
             vertex_index = 0;
             do {
@@ -2499,14 +2500,14 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
                 strip_data[4] = 0;
             }
 
-            ((R06_80174934_S_80174934_3 *)render_ctl)->unk_06 = 0;
+            render_ctl->unk_06 = 0;
             memcpy(strip_data + 0x28, D_80175910, 12);
             frame_data = strip_data + 0x28;
-            ((R06_80174934_S_80174934_3 *)render_ctl)->unk_08 = frame_data;
+            render_ctl->unk_08 = frame_data;
             {
                 R06_80174934_S_80174934_0 *texture_view = (R06_80174934_S_80174934_0 *)effect;
                 frame_data[8] = (u8)(frame_data[8] + texture_view->unk_1E * 4);
-                frame_data = ((R06_80174934_S_80174934_3 *)render_ctl)->unk_08;
+                frame_data = render_ctl->unk_08;
                 frame_data[9] = (u8)(frame_data[9] + ((texture_view->unk_20 & 3) * 8));
             }
 

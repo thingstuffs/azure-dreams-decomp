@@ -1,9 +1,8 @@
 #include "town/player/position_handlers.h"
 #include "common.h"
 #include "town/player.h"
+#include "town/player/handler_reset_data.h"
 #include "town/player/object.h"
-
-extern s8 player_handler_reset_byte;
 
 typedef struct {
     s32 unk0;

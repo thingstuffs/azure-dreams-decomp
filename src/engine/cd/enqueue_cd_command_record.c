@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/cd.h"
+#include "engine/cd_command_index.h"
 #include "slus.h"
 typedef struct S_80083968
 {
@@ -10,7 +11,6 @@ typedef struct S_80083968
 }
 S_80083968;
 extern S_80083968 cd_command_records[32];
-extern u8 cd_command_write_index;
 typedef struct
 {
     u8 b[16];

@@ -31,7 +31,7 @@ extern u8 ifrit_action_resume_address[];
 /* Advance the actor action through animation setup, status handling, and completion. */
 void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor) {
     void *context = in_context;
-    void *actor = in_actor;
+    ActorRecord *actor = in_actor;
     s32 state;
 
     state = in_action->action_phase;
@@ -44,7 +44,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
             direction_frames = ifrit_frame_set;
             (in_sprite->frameTable) = direction_frames;
             select_sprite_entry(in_sprite,
-                direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
@@ -62,12 +62,12 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
                 return;
             }
 
-            if ((((ActorRecord *)actor)->hp_delta != 0) &&
+            if ((actor->hp_delta != 0) &&
                 (begin_ready_actor_directional_action(in_action, context, in_sprite, 0) != 0)) {
                 return;
             }
 
-            if (((ActorRecord *)actor)->mp_value.parts.whole == 0) {
+            if (actor->mp_value.parts.whole == 0) {
                 if (system_base->flags & 0x2008) {
                     return;
                 }
@@ -79,7 +79,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
                 return;
             }
 
-            actor_flags = ((ActorRecord *)actor)->flags1C;
+            actor_flags = actor->flags1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(in_action, context, in_sprite, actor);
                 return;
@@ -91,7 +91,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
                 return;
             }
 
-            if (((ActorRecord *)actor)->pending_turn_updates == 0) {
+            if (actor->pending_turn_updates == 0) {
                 return;
             }
 
@@ -155,7 +155,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
     default:
         return;
     }
-    ((ActorRecord *)actor)->flags1C &= ~ACTOR_ASLEEP;
+    actor->flags1C &= ~ACTOR_ASLEEP;
     in_action = (void *)&in_action->unk_8C.address; /* BYTES: retiring this parameter as the callback-slot cursor preserves the retail save order. */
     *(void **)in_action = ifrit_action_resume_address;
 }

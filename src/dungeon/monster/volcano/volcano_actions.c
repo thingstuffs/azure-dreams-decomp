@@ -212,7 +212,7 @@ void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in) {
-    void *status;
+    ActorRecord *status;
     u8 *anim_table;
     s32 tile_record;
     u16 direction_aux;
@@ -227,14 +227,14 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
     }
 
 
-    if (((E_80170E5C_S_80170E5C_1 *)status)->unk_25 == 0) {
+    if (status->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor_in, context_in, sprite_in, status);
         if (sprite_in->frameTable == volcano_frame_set_2) {
             return;
         }
         sprite_in->frameTable = volcano_frame_set_7;
         select_sprite_entry(sprite_in,
-            volcano_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
+            volcano_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -270,7 +270,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
                 if (sprite_in->frameTable != anim_table) {
                     sprite_in->frameTable = anim_table;
                     select_sprite_entry(sprite_in,
-                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 actor_in->action_id = next_state;
@@ -278,7 +278,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
         }
 
         actor_in->action_state_flags &= 0xFFF3;
-        if (((E_80170E5C_S_80170E5C_1 *)status)->unk_64 != 0) {
+        if (status->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor_in, context_in, sprite_in, D_80174548)) {
                 return;
             }
@@ -298,7 +298,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
     tile_record = find_active_rect_containing_point(sprite_in->tile_x, sprite_in->tile_y);
     sprite_in->room_index = tile_record;
 
-    if (((E_80170E5C_S_80170E5C_1 *)status)->unk_6D > 0) {
+    if (status->pending_turn_updates > 0) {
         if (((E_80170E5C_S_80170E5C_1 *)status)->unk_1C & 0x20) {
             update_actor_status_and_mp(status);
             return;
@@ -307,7 +307,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
             update_actor_targeting_and_movement(actor_in, context_in, sprite_in, status);
             return;
         }
-        if (!(((E_80170E5C_S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
+        if (!(status->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 {
                     ObjectNodeHeader *previous_node;
@@ -326,14 +326,14 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
             if ((s16)select_actor_relation_state(actor_in, context_in, sprite_in, 0) == 0) {
                 return;
             }
-            ((E_80170E5C_S_80170E5C_1 *)status)->unk_46 |= 0x4000;
-            if (!(((E_80170E5C_S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
+            status->action_flags |= 0x4000;
+            if (!(status->action_flags & 0x8000)) {
                 update_actor_targeting_and_movement(actor_in, context_in, sprite_in, status);
                 return;
             }
         }
 
-        switch (((E_80170E5C_S_80170E5C_1 *)status)->unk_46 & 0x3FFF) {
+        switch (status->action_flags & 0x3FFF) {
         case 8:
             if ((s16)begin_actor_directional_attack(actor_in, context_in, sprite_in, status) == 0) {
                 begin_actor_attack_after_status_check(actor_in, context_in, sprite_in, status);
@@ -344,10 +344,10 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
             if (((E_80170E5C_S_80170E5C_1 *)status)->unk_1C & 0x400) {
                 s32 movement_flags;
 
-                movement_flags = ((E_80170E5C_S_80170E5C_1 *)status)->unk_14;
+                movement_flags = status->flags14;
 
                 if (!(movement_flags & 0x80000000)) {
-                    ((E_80170E5C_S_80170E5C_1 *)status)->unk_14 = movement_flags | 0x80000000;
+                    status->flags14 = movement_flags | 0x80000000;
                     ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.u += (generate_random_value() & 7) << 9;
                 }
             }
@@ -369,7 +369,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);
             active_actor = primary_actor_record;
-            ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s = direction;
+            status->facing = direction;
             if (active_actor->action_id == 0x11) {
                 begin_actor_spell_action(actor_in, context_in, sprite_in, D_80174560, update_actor_behavior_facing_and_animation_2);
                 return;
@@ -401,7 +401,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
                 if ((s16)test_neighbor_position_relation(sprite_in->tile_x,
                         sprite_in->tile_y, reference_tile_object.tile_position.parts.tile_x,
                         reference_tile_object.tile_position.parts.tile_y) != 0) {
-                    ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s = get_rounded_facing_and_rounding_flag(
+                    status->facing = get_rounded_facing_and_rounding_flag(
                         sprite_in->tile_x, sprite_in->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
@@ -424,7 +424,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
 update_table:
     sprite_in->frameTable = anim_table;
     select_sprite_entry(sprite_in,
-        *(u8 *)((u32)(((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7) +
+        *(u8 *)((u32)(((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 9) & 7) +
                 (u32)anim_table),
         0);
 }

@@ -1012,7 +1012,7 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *
 {
     s32 state;
     void *allocated_effect;
-    void *effect = 0;
+    R03_80172620_S_80172620_3 *effect = 0;
     SpriteFrameState *effect_sprite;
     R03_80172620_Copy24 *effect_transform;
 
@@ -1054,14 +1054,14 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *
                 s32 sprite_link;
                 s32 sprite_data;
 
-                register_node(effect, project_sprite_chain);
-                ((R03_80172620_S_80172620_3 *)effect)->unk_10 = effect_update_tag;
-                effect_transform = ((R03_80172620_S_80172620_3 *)effect)->unk_08;
+                register_node((struct ObjectNodeHeader *)effect, project_sprite_chain);
+                effect->unk_10 = effect_update_tag;
+                effect_transform = effect->unk_08;
                 *effect_transform = *(R03_80172620_Copy24 *)position;
-                ((R03_80172620_S_80172620_3 *)effect)->unk_BB = 0;
-                ((R03_80172620_S_80172620_3 *)effect)->unk_4A = actor->facing;
+                effect->unk_BB = 0;
+                effect->unk_4A = actor->facing;
 
-                effect_sprite = ((R03_80172620_S_80172620_3 *)effect)->unk_0C;
+                effect_sprite = effect->unk_0C;
                 sprite_link = sprite->animation_resource;
                 effect_sprite->scale_y = 0x1000;
                 effect_sprite->scale_x = 0x1000;

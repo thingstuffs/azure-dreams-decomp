@@ -3,7 +3,7 @@
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 extern s32 D_80010208;
-extern s8 card_dev_effect_mode;
+#include "frontend/card/effect_mode_data.h"
 
 typedef struct S_8001EC4C_0 {
     u8 pad_00[0x44];

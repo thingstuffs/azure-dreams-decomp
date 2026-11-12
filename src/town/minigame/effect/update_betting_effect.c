@@ -93,7 +93,7 @@ void update_betting_effect(TownEffect *input)
     {
         ProjectileObject *object;
         SpriteFrameState *object_child;
-        u8 *object_link;
+        ApproachMotionObject *object_link;
         s32 column;
         s32 grid_origin_x;
         u16 flags;
@@ -155,7 +155,7 @@ void update_betting_effect(TownEffect *input)
                 object_child->unk_04 = 0;
                 object_child->frame_ticks = 0;
                 object_child->color.word = 0x00808080;
-                ((ApproachMotionObject *)object_link)->owner = effect;
+                object_link->owner = effect;
             }
         }
         break;

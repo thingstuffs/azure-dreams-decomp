@@ -6,7 +6,7 @@
 #include "town/player/position_handlers.h"
 
 void set_global_800_cfcec_initialize_call_callee_800954_dc(ObjectPosition *, s32);                  /* extern */
-extern s32 town_secondary_probe_offset;
+#include "town/player/probe_offset_data.h"
 
 /* Applies fixed-point boundary corrections according to D_800FE5D0. */
 void correct_fixed_point_value_at_boundaries(ObjectPosition *position) {

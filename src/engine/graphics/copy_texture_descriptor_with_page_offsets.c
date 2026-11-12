@@ -3,16 +3,11 @@
 #include "engine/window.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "slus/blinking_cursor_data.h"
 
 extern void copy_texture_descriptor_with_page_offsets(u32 *texture_pos, u32 *src, void *dst);
 
-extern u32 blinking_cursor_texture_template_0[3];
-extern u32 blinking_cursor_texture_template_1[3];
-extern u32 blinking_cursor_texture_template_2[3];
 extern void *texture_descriptor_variant_values[];
-extern u32 blinking_cursor_texture_descriptor_0[6];
-extern u32 blinking_cursor_texture_descriptor_1[6];
-extern u32 blinking_cursor_texture_descriptor_2[6];
 
 /* Updates three data tables and selects an output value and flashing intensity. */
 void update_blinking_cursor_with_bright_idle(WindowCursorBody *input, ObjectPosition *unused, SpriteFrameState *output) {

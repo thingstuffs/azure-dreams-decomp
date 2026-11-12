@@ -3,9 +3,9 @@
 #include "sdk/libspu.h"
 
 #include "engine/audio/spu/sound_range_records.h"
+#include "engine/audio/spu/voice_sample_notes.h"
 
 extern s32 spu_reverb_start_addresses[10];
-extern s16 spu_voice_sample_notes[24];
 extern s32 spu_reverb_enabled;
 extern s32 spu_reverb_range_override;
 extern s32 spu_reverb_mode;

@@ -582,7 +582,7 @@ def main():
                       split_by_row[r["id"]], sorted(verified_by_row[r["id"]], key=str),
                       sorted(row_tail_syms(er)), _fid_id(er) in fp, sorted(dep.get(_fid_id(er), ()))]
         rec = cache.get(r["id"], inputs, lambda: evaluate_row(
-            er, text, raw_text, promoted, sweeps, split_idx, call_verified=call_verified))
+            er, text, raw_text, promoted, sweeps, split_idx, call_verified=call_verified), names=facts.slice)
         rec["id"] = r["id"]; rec["evidence"] = list(_ev.get(r["id"], []))
         if r["id"] in placement and r.get("placement") != "unproven":
             rec["module"] = placement[r["id"]].get("module")

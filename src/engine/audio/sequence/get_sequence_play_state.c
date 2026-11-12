@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
+#include "slus/audio_sequence_state_data.h"
 
 typedef struct {
     u8 pad_00[0x2C];
@@ -7,7 +8,6 @@ typedef struct {
     u8 pad_30[0x50 - 0x30];
 } Slot;
 
-extern s32 audio_sequence_track_count[3];
 extern Slot audio_sequence_tracks[];
 
 /* Return 1 if any slot is active, or 3 if all slots are finished. */

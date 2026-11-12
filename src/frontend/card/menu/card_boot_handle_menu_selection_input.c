@@ -11,7 +11,7 @@
 
 
 
-extern s8 card_dev_effect_mode;
+#include "frontend/card/effect_mode_data.h"
 
 extern void func_804008A0(s32 slot_index);
 extern void submit_stored_and_queried_boot_values(void);

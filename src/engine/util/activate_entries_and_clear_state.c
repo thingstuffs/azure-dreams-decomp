@@ -1,9 +1,9 @@
 #include "common.h"
 #include "engine/util.h"
+#include "slus/audio_sequence_state_data.h"
 
 /* see src/code2.c sibling audio_set_all_track_tempo_steps: same D_80085FA8 array-of-structs / D_800869B4 count idiom */
 
-extern int audio_sequence_track_count[3];
 
 typedef struct {
     int field_00;

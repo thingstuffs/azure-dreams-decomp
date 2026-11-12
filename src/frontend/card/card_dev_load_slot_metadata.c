@@ -18,7 +18,7 @@ s32 card_dev_load_slot_metadata(s32 slot_index) {
 
     result = 1;
     configure_target_for_active_state_and_entry(slot_data, slot_index);
-    if (card_selected_channel[0] != 0) {
+    if (card_selected_channel != 0) {
         lookup_key = dev_card_directory_counts + 1;
     } else {
         lookup_key = dev_card_directory_counts;

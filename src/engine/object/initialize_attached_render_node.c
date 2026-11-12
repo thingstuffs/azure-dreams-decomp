@@ -1,5 +1,6 @@
 #include "engine/window/attached_message_window.h"
 #include "engine/object/render_words.h"
+#include "slus/window_node_list_data.h"
 
 #include "common.h"
 #include "engine/object.h"
@@ -17,7 +18,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
     ObjectPosition *aux_state;
     SpriteFrameState *render_state;
 
-    node = initialize_runtime_node_storage(0x11, node_storage, 0x49, window_node_list_storage);
+    node = initialize_runtime_node_storage(0x11, node_storage, 0x49, &window_node_list_storage);
     node->update_callback = dispatch_window_fade_and_update_extents;
     register_node(node, draw_linked_sprite_nodes);
 

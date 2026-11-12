@@ -1,4 +1,5 @@
 #include "slus/owned_80035484.h"
+#include "slus/window_node_list_data.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -10,7 +11,7 @@ void create_window_object(void *object_addr, S_func_80035484_4 *model, S_func_80
     SpriteFrameState *appearance;
     ObjectNodeHeader *object;
 
-    object = initialize_runtime_node_storage(0x11, object_addr, 0x49, &window_node_list_storage[0]);
+    object = initialize_runtime_node_storage(0x11, object_addr, 0x49, &window_node_list_storage);
     current_window_object = object;
     object->update_callback = invoke_window_object_callback;
     register_node(object, &draw_linked_sprite_nodes);

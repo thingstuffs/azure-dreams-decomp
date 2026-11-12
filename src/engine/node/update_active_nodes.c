@@ -7,8 +7,7 @@
 #include "engine/graphics.h"
 #include "engine/node.h"
 #include "engine/scene.h"
-
-extern u8 node_update_mode;
+#include "slus/node_update_data.h"
 
 extern s32 D_800814A0;
 

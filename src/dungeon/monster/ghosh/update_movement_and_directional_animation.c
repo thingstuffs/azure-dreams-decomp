@@ -36,9 +36,9 @@ typedef struct S_8016CB80_0 {
 /* Updates movement, directional animation, and action completion. */
 void update_movement_and_directional_animation(void *state_arg, void *motion_arg, void *actor_arg, void *entity_arg) {
     S_8016CB80_0 *state = state_arg;
-    void *motion = motion_arg;
+    ObjectPosition *motion = motion_arg;
     SpriteFrameState *actor= actor_arg;
-    void *entity = entity_arg;
+    ActorRecord *entity = entity_arg;
     u16 direction_info;
     s32 move_ticks;
     s32 next_move_ticks;
@@ -56,7 +56,7 @@ void update_movement_and_directional_animation(void *state_arg, void *motion_arg
     switch (phase) {
     case 0:
         state->unk_98 = (u16) (state->unk_98 | 8);
-        ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
+        entity->flags1C = (s32) (entity->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         state->unk_9E = 5;
         state->unk_A0 = 0;
         state->unk_9B = (u8) (state->unk_9B + 1);
@@ -65,10 +65,10 @@ void update_movement_and_directional_animation(void *state_arg, void *motion_arg
         state->unk_90 = (s32) (state->unk_90 - state->unk_A0);
         if (move_ticks != 0) {
             tile_x = actor->tile_x << 6;
-            pixel_offset = ((EntityRec *)motion)->x.w.i - 0x20;
-            ((EntityRec *)motion)->unk_0C = (s32) ((s32) ((tile_x - pixel_offset) << 0x10) / move_ticks);
-            pixel_y = ((EntityRec *)motion)->y.w.i - 0x20;
-            ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((actor->tile_y << 6) - pixel_y)
+            pixel_offset = motion->x.w.i - 0x20;
+            motion->velocity_x = (s32) ((s32) ((tile_x - pixel_offset) << 0x10) / move_ticks);
+            pixel_y = motion->y.w.i - 0x20;
+            motion->velocity_y = (s32) ((s32) (((actor->tile_y << 6) - pixel_y)
                 << 0x10) / (s16) state->unk_9E);
             state->unk_A0 = (s32) ((0 - rsin(state->unk_9E * 0x199))
                 << 0xA);
@@ -79,15 +79,15 @@ void update_movement_and_directional_animation(void *state_arg, void *motion_arg
         if ((next_move_ticks << 0x10) < 0) {
             state->unk_90 = 0;
             state->unk_98 = (u16) (state->unk_98 & 0xFFF7);
-            ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | ACTOR_GROUNDED);
+            entity->flags1C = (s32) (entity->flags1C | ACTOR_GROUNDED);
             state->unk_9B = (u8) (state->unk_9B + 1);
         }
     case 2:
-        if (((EntityRec *)entity)->flags1C & ACTOR_GROUNDED) {
+        if (entity->flags1C & ACTOR_GROUNDED) {
             state->unk_98 = (u16) (state->unk_98 & 0xFFF7);
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
             state->unk_9B = (u8) (state->unk_9B + 1);
         }
@@ -98,7 +98,7 @@ void update_movement_and_directional_animation(void *state_arg, void *motion_arg
             anims = (u8 *)&ghosh_frame_set_3;
             if (current_anims != anims) {
                 (actor->frameTable) = anims;
-                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100)
+                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100)
                     >> 9) & 7) + (u32)anims), 0);
             }
         } else {
@@ -106,7 +106,7 @@ void update_movement_and_directional_animation(void *state_arg, void *motion_arg
             anims = ghosh_frame_set_4;
             if (current_anims != anims) {
                 (actor->frameTable) = anims;
-                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100)
+                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100)
                     >> 9) & 7) + (u32)anims), 0);
             }
         }
@@ -116,24 +116,24 @@ void update_movement_and_directional_animation(void *state_arg, void *motion_arg
     action_ticks = state->unk_96 - 1;
     state->unk_96 = action_ticks;
     if ((action_ticks << 0x10) <= 0) {
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         advance_status_timers(entity);
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
             g_dungeon_status.activity_counts.parts.pending_movement_count = (s16) ((u16) g_dungeon_status.activity_counts.parts.pending_movement_count - 1);
         }
-        entity_flags = ((EntityRec *)entity)->flags1C;
+        entity_flags = entity->flags1C;
         if (entity_flags & 0x2000) {
-            status_flags = ((EntityRec *)entity)->unk_46;
+            status_flags = entity->action_flags;
             if (status_flags & 0x8000) {
-                ((EntityRec *)entity)->unk_46 = status_flags & 0x7FFF;
+                entity->action_flags = status_flags & 0x7FFF;
             }
         } else {
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
-                    ((EntityRec *)entity)->facing = get_rounded_facing_and_rounding_flag(actor->tile_x,
+                    entity->facing = get_rounded_facing_and_rounding_flag(actor->tile_x,
                         actor->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_info);
                 }
             }

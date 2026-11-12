@@ -6,7 +6,7 @@ s32 get_lower_probe_result_sampling_x_offset_displacement_exceeds_limit(ObjectPo
 s16 handle_queries_large_offset_returns_larger_original_shifted_result(ObjectPosition *input);                           /* extern */
 struct EntityRec; void set_global_800_cfceb_initialize_call_callee_800954_c_4(ObjectPosition *, s32);                  /* extern */
 struct EntityRec; void set_global_800_cfcea_initialize_call_callee_800954_c_4(struct EntityRec *, s32);                  /* extern */
-extern s32 town_primary_probe_offset;
+#include "town/player/probe_offset_data.h"
 
 /* Applies fixed-point boundary corrections according to D_800FE5CC. */
 void apply_fixed_point_boundary_corrections_according_global_800_fe_5_cc(ObjectPosition *position) {

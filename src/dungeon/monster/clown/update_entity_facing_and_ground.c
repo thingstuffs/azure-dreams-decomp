@@ -1778,20 +1778,25 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition
         state->unk_9B = (u8) (state->unk_9B + 1);
         return;
     case 1:
+    {
+        Rec_D_80082E80 *model_view = model;
         run_cd_image_commands(((s32 *)D_801742CC), (clown_image_load_done), 0);
         state->unk_A6 = 0;
         state->unk_9B = (u8) (state->unk_9B + 1);
-        ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
-        ((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v =
-            (s32) (((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v & 0xFFFBFFFF);
+        model_view->unk_8A = (u16) model_view->unk_28.at02_u16.v;
+        model_view->unk_1C.at00_s32.v =
+            (s32) (model_view->unk_1C.at00_s32.v & 0xFFFBFFFF);
+    }
     case 2:
-        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100)
+    {
+        Rec_D_80082E80 *model_view = model;
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) model_view->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
         if ((*(u8 *)((s32 *)clown_image_load_done)) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
+            model_view->unk_28.at02_u16.v = (u16) (model_view->unk_28.at02_u16.v + 0x200);
             return;
         }
         run_cd_image_commands(((s32 *)D_801742CC), (clown_image_load_done), 1);
@@ -1802,6 +1807,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition
         select_nearby_target_and_initialize_slot(model - 0x20, position, 8, 0x300);
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
+    }
     case 3:
         fade_timer = state->unk_96;
         fade_left = fade_timer - 1;
@@ -1879,6 +1885,8 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition
             state->unk_9B = (u8) (state->unk_9B + 1);
         }
     case 6:
+    {
+        Rec_D_80082E80 *model_view = model;
         if (state->unk_9B != 6) {
             return;
         }
@@ -1887,14 +1895,18 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition
         }
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
-        decrement_monster_entry_count(((Rec_D_80082E80 *)model)->unk_12.at01_u8.v, 3);
+        decrement_monster_entry_count(model_view->unk_12.at01_u8.v, 3);
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
         unlink_entity_node(model);
         effect_sprite = model - 0x20;
         effect_sprite->unk_10 = (s32) (effect_sprite->unk_10 | 0x80000000);
         return;
+    }
     case 7:
-        ((Rec_D_80082E80 *)model)->unk_60.as_s32 = advance_staged_entity_load(actor, model);
+    {
+        Rec_D_80082E80 *model_view = model;
+        model_view->unk_60.as_s32 = advance_staged_entity_load(actor, model);
         return;
+    }
     }
 }

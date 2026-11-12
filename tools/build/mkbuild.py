@@ -26,8 +26,9 @@ sys.path.insert(0, str(ROOT))
 from tools.link.graph import Graph, number
 from tools.link.combined import selected_images, object_metadata, slus_origins
 from tools.link.prepare import load_gate, linklist_snapshot
-from tools.build import content_cache, compile_tools, name_inputs, object_cache
-from tools.build.recipe_cache import RecipeCache, load as load_recipe_cache, is_structural, structural_digest
+from tools.build import content_cache, compile_tools, name_inputs, object_cache, slus_rodata_trim
+from tools.build.recipe_cache import (RecipeCache, load as load_recipe_cache, is_structural, structural_digest,
+                                      guard_links)
 
 STATE = ROOT / 'build/.state'
 GENERATION_WRITES = None
@@ -283,12 +284,33 @@ def _bootstrap_cached(snapshot=None):
     old_structure = previous.get('structure', {})
     def view_neutral(n):
         if n.startswith(('src/', 'include/')):
-            return True  # body edit of an existing file (bootstrap_source_inputs); additions/removals run in full
+            return True  # body edit of an existing file (bootstrap_source_inputs)
         # The bootstrap producers read layout_inline only for its member -> TU mapping and never open the link graph
         # (strace of a forced bootstrap), so edits that keep their structure leave every view output as it is.
         return is_structural(n) and old_structure.get(n) is not None and old_structure.get(n) == structure.get(n)
-    if (valid and sensitive is not None and set(old) == set(before)
-            and all(old[n] is not None and before[n] is not None and view_neutral(n) for n in changed)):
+    projected = {'/'.join(n.split('/')[:3]) for n in old if n.startswith('src/')}
+    def presence_neutral(n):
+        """A source or header added or removed where no view producer looks. The producers list only the entries
+        layout_flat projects (every src/<dir>/<entry>, which build_slus/src and its src/*.c glob mirror) and
+        include/ only as one directory link; they test the existence of the module manifests' sources and of
+        ledger/tu_layout.jsonl's move targets. A file below a projected entry that existed before and still does
+        is invisible to them."""
+        parts = n.split('/')
+        if n in sensitive or n in moved:
+            return False
+        if parts[0] == 'include':
+            return True
+        entry = '/'.join(parts[:3])
+        return parts[0] == 'src' and len(parts) >= 4 and entry in projected and (ROOT/entry).is_dir()
+    moved = set()
+    if valid and sensitive is not None and set(old) != set(before):
+        from tools.gate.source_layout import tu_moves
+        moved = {n for pair in tu_moves(ROOT).items() for n in pair}
+    def neutral(n):
+        if old.get(n) is not None and before.get(n) is not None:
+            return view_neutral(n)
+        return presence_neutral(n)
+    if valid and sensitive is not None and all(neutral(n) for n in changed):
         # Every view output is current. The name/authority/link guards prove
         # that these particular body edits cannot change bootstrap's outputs.
         # Generate independently checks production recipe/module read sets.
@@ -301,7 +323,10 @@ def _bootstrap_cached(snapshot=None):
         content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=all_links,
                                        inputs=before, outputs=outputs, source_sensitive=sensitive, export_layout=tool_layout,
                                        structure=structure))
-        print('Build views unchanged (source-only edit; content verified)', flush=True)
+        added = sum(n not in old for n in before) + sum(n not in before for n in old)
+        print('Build views unchanged (source-only edit%s; content verified)'
+              % (f', {added} source/header file(s) added or removed below the projected entries' if added else ''),
+              flush=True)
         return
     _bootstrap()
     outputs = content_cache.inventory(ROOT, ('build_ovl/tools', 'build_slus/config/generated', 'build_slus/asm', 'build_slus/assets'))
@@ -881,7 +906,9 @@ def _generate_cached(full=False, snapshot=None):
     before = snapshot.hashes(names)
     input_links = configure_links()
     observed_now = {n: RecipeCache.hash_at(ROOT, n) for n in previous.get('observed', {})}
-    context = dict(schema=1, root=str(ROOT), environment=configure_environment(), links=input_links)
+    # The derived per-entry view links (build_*/layout_flat/<container>/<entry>, build_slus/src/<entry>) are bound by
+    # the records that resolve a read through them (recipe_cache.is_view_link), not by the guard context.
+    context = dict(schema=1, root=str(ROOT), environment=configure_environment(), links=guard_links(input_links))
     try:
         current_names = name_inputs.table(ROOT/'config/names.tsv')
         for n in previous.get('name_inputs', ()):
@@ -890,12 +917,12 @@ def _generate_cached(full=False, snapshot=None):
     except (FileNotFoundError, ValueError, KeyError, TypeError):
         runtime_valid = False
     compatible = (previous.get('root') == str(ROOT) and previous.get('environment') == context['environment']
-                  and previous.get('links') == input_links)
+                  and guard_links(previous.get('links', {})) == context['links'])
     outputs_valid = (compatible and previous.get('outputs')
                      and all(v is not None for v in previous['outputs'].values())
                      and snapshot.hashes(previous['outputs']) == previous['outputs'])
     if (not full and outputs_valid and runtime_valid and previous.get('inputs') == before
-            and observed_now == previous.get('observed', {})):
+            and previous.get('links') == input_links and observed_now == previous.get('observed', {})):
         print('Make projection unchanged (inputs and generated bytes verified)', flush=True)
         return
     load_gate(ROOT)
@@ -917,8 +944,12 @@ def _generate_cached(full=False, snapshot=None):
         GENERATION_WRITES = None
         RECIPE_CACHE = None
     after_links = configure_links()
-    if before != snapshot.hashes(names) or input_links != after_links or not cache.extra_unchanged():
-        raise ValueError('configure inputs changed during generation')
+    changed = ([n for n, v in snapshot.hashes(names).items() if before.get(n) != v]
+               + sorted(n for n in set(input_links) | set(after_links) if input_links.get(n) != after_links.get(n))
+               + cache.extra_changed())
+    if changed:
+        raise ValueError('configure inputs changed during generation: ' + ', '.join(changed[:5])
+                         + (f' and {len(changed) - 5} more' if len(changed) > 5 else ''))
     index = read(STATE/'index.json')
     # Projected sources and frozen evidence are replayed with write(), even on
     # checkpoint hits. They are already in outputs; do not parse 8,859 recipes.
@@ -953,7 +984,9 @@ def _generate():
     registry = {r['id']: r for r in map(json.loads, (ROOT/'ledger/rows.jsonl').read_text().splitlines())}
     # Source bytes do not choose a graph recipe/placement. Reuse the validated
     # structure, then refresh EVERY live source/input digest from this snapshot.
-    attestation = checkpoint('attestation-model', lambda: attest_graph(graph, registry), lambda value: [])
+    # It resolves every row TU's source through the row layout, which the guard leaves to the records that read it.
+    attestation = checkpoint('attestation-model', lambda: attest_graph(graph, registry),
+                             lambda value: [ROOT/'ledger/layout.jsonl'])
     if RECIPE_CACHE is not None:
         attestation['inputs'] = {n: RECIPE_CACHE.digest(n) for n in graph.manifest.get('inputs', {})}
         for tu in attestation['tus'].values():
@@ -1031,7 +1064,10 @@ def _generate():
                 import dataclasses
                 table, _ = gate.load_matches(sb, 0, graph.files[family]['size'], family=family)
                 return [dict(dataclasses.asdict(m), source=str(m.source)) for m in table.values()]
-            values = checkpoint('matches:'+family, select, copy_value=False)
+            # The selector tests each matched source with exists() (unobserved) through the flat view: bind the
+            # flat directory's listing, which the guard context no longer binds (recipe_cache.is_view_link).
+            flat = RECIPE_CACHE.name(os.path.realpath(gate.ROOT/sb['matched_sources'][0]['source_dir'])) if RECIPE_CACHE is not None else None
+            values = checkpoint('matches:'+family, select, copy_value=False, bind=[flat] if flat else ())
             matches[family] = {(v['start'], v['size']): gate.MatchEntry(**dict(v, source=Path(v['source']))) for v in values}
         old_run, old_rebind, old_copy = gate.run, linklist.rebind_object, linklist.copy_link_object
         gate.run, linklist.rebind_object = record, rebound
@@ -1162,7 +1198,9 @@ def _generate():
             outside = extend_checks(images, recipes, row_plans, registry, modules, module_jobs, docs, gate)
             placement_checks = extend_placement_checks(images, recipes, row_plans, registry, modules, module_jobs, placements, gate)
             return dict(images=list(images.items()), outside=outside, placement_checks=placement_checks)
-        layout_key = sha(json.dumps([[list(k),v] for k,v in row_plans.items()] + [module_jobs], sort_keys=True).encode())
+        # The image documents name each TU's source, which the guard's link-graph structure leaves out: key on them.
+        tu_sources = sorted((k, t['source']) for k, t in graph.tus.items())
+        layout_key = sha(json.dumps([[list(k),v] for k,v in row_plans.items()] + [module_jobs, tu_sources], sort_keys=True).encode())
         layout = checkpoint('images:'+layout_key, compose_images, lambda value: [], copy_value=False)
         images, outside, placement_checks = dict(layout['images']), layout['outside'], layout['placement_checks']
     put(STATE/'outside_recipes.json', outside)
@@ -1180,7 +1218,7 @@ def _generate():
     pipeline += sorted(rel(p) for p in (ROOT/'toolchain/maspsx').rglob('*.py') if p.is_file())
     compiletools = compile_tools.inputs(ROOT)
     linktools = [n for n in pipeline if n != 'config/names.tsv'
-                 and (not n.startswith('tools/build/') or n == 'tools/build/mkbuild.py')]
+                 and (not n.startswith('tools/build/') or n in ('tools/build/mkbuild.py', 'tools/build/slus_rodata_trim.py'))]
     out = ['# Generated by tools/build/mkbuild.py; private, no authority switch.\n']
     # Link inputs read by image_one (symbol catalogs, rowbase/rodata-owner/link-list/graph tables).
     linkinputs = sorted(rel(p) for d in ('config/overlays', 'config/link', 'config/link_graph')
@@ -1395,6 +1433,54 @@ def compile_uncached(path):
     print('CC' if spec['wrapper'].endswith('cc.sh') else 'AS', spec['output'], spec['source'], flush=True)
 
 
+def owner_switch_tables(family):
+    """Registered compiler switch tables whose data rows are retired: container foff -> record."""
+    path = ROOT/'config/overlays'/(family+'.switch_tables.jsonl')
+    records = {}
+    if path.exists():
+        for line in path.read_text().splitlines():
+            if line.strip():
+                record = json.loads(line)
+                record = dict(record, foff=number(record['foff']), vma=number(record['vma']))
+                if record.get('schema') != 'azure-clean.switch-table.v1' or record['foff'] in records:
+                    raise ValueError('bad switch table record: ' + line[:120])
+                records[record['foff']] = record
+    return records
+
+
+def check_linker_words(root, family, start, size, compiled, padding):
+    """Refuse compiled bytes over a decision-68c linker-owned word unless a switch table claims it.
+
+    The link-list word views (config/link, docs/LINK_LISTS.md) stay as accounting records. A registered
+    switch-table record whose owner's .rodata is loaded in this image may cover the alignment words its
+    `padding_words` names: the owner emits them between its tables. `padding` maps each such word image to
+    the (foff, size) of the record's loaded allocation. Any other overlap is a double claim, and a listed
+    word that is not a live word inside its record's span is a stale record."""
+    import linklist
+    seen = set()
+    for image in linklist.load(root)[0].values():
+        if image['container'] != linklist.family(family):
+            continue
+        for entry in image['entries']:
+            if entry.get('kind') not in ('data', 'padding') or not entry.get('extractor'):
+                continue
+            a, b = entry['foff'], entry['foff'] + entry['size']
+            if b <= start or a >= start + size:
+                continue
+            over = [c for c in compiled if c['foff'] < b and a < c['foff'] + c['size']]
+            if not over:
+                continue
+            span = padding.get(image['image'])
+            if (span is None or len(over) != 1 or (over[0]['foff'], over[0]['size']) != span
+                    or not span[0] <= a < b <= span[0] + span[1]):
+                raise ValueError('compiled bytes cover linker-owned word %s at 0x%X, not listed in a loaded '
+                                 'switch table record' % (image['image'], a))
+            seen.add(image['image'])
+    stale = sorted(set(padding) - seen)
+    if stale:
+        raise ValueError('switch table padding word is not a live linker-owned word inside its record: ' + stale[0])
+
+
 def cover_image(start, size, compiled):
     """Partition an image into source allocations and explicit retail gaps."""
     cursor, chunks = start, []
@@ -1476,6 +1562,8 @@ def _image_one(path):
         raw = mmap.mmap(disc_file.fileno(), 0, access=mmap.ACCESS_READ)
     compiled, symbols, noloads, objects = [], ['_gp = 0x80080994;'], [], []
     tables_checked = 0
+    switch_tables = owner_switch_tables(spec['image'].split('/')[0])
+    loaded_tables = set()
     catalogs = [gate.cfg_path('config/slus_006.14.symbols.txt'), gate.cfg_path('config/overlays/abs_syms.txt')]
     if spec['image'].startswith('dungeon/'):
         catalogs.append(gate.cfg_path('config/overlays/dungeon_engine.symbols.txt'))
@@ -1540,10 +1628,21 @@ def _image_one(path):
                         if errors:
                             raise ValueError('compiler-local table differs from retail in ' + spec['image'] + ': ' + errors[0])
                         tables_checked += len(placements)
+                    owned = []
                     for section, address in placements.items():
-                        noloads.append(f'.table_{i}_{len(noloads)} 0x{address:X} (NOLOAD) : SUBALIGN(4) {{ KEEP("{rel(placed)}"({section}*)) }}')
+                        record = switch_tables.get(off + address - vma)
+                        if record is not None and spec['start'] <= record['foff'] and record['foff'] + record['size'] <= spec['start'] + spec['size']:
+                            # The switch table's registered data rows are retired (docs/LINK_LISTS.md): the owner's
+                            # own .rodata supplies those bytes, linked where retail has it and cut to its extent.
+                            if (record['owner'] not in unit.get('rows', []) or record['section'] != section
+                                    or record['vma'] != address):
+                                raise ValueError('switch table differs from its registered owner: ' + spec['image'] + ':' + hex(record['foff']))
+                            owned.append(dict(section=section, foff=record['foff'], vma=address, size=record['size'], link_alignment=1))
+                            loaded_tables.add(record['foff'])
+                        else:
+                            noloads.append(f'.table_{i}_{len(noloads)} 0x{address:X} (NOLOAD) : SUBALIGN(4) {{ KEEP("{rel(placed)}"({section}*)) }}')
                     section = '.text.*' if unit['kind'] == 'c' else '.text'
-                    allocations = [dict(section=section, foff=off, vma=vma, size=size, link_alignment=1)]
+                    allocations = [dict(section=section, foff=off, vma=vma, size=size, link_alignment=1)] + owned
                 defs = {name: int(value,16) for name,value in re.findall(r'^\s*(\w+)\s*=\s*0x([0-9a-fA-F]+)\s*;', rules, re.M)}
                 if spec['vma'] is not None and vma != spec['vma'] + off - spec['start']:
                     target_vma = spec['vma'] + off - spec['start']
@@ -1563,11 +1662,26 @@ def _image_one(path):
                         raise ValueError('unwitnessed import: ' + name)
                     symbols.append(f'{prefix}{name} = 0x{address:X};')
             run(['mipsel-linux-gnu-objcopy', '--prefix-symbols='+prefix, original, placed])
+            for allocation in allocations:
+                if allocation['section'] in {'.rodata', '.rdata'} and not unit.get('module') and not owner:
+                    # Guarded section-size cut of GNU-as end padding only (zero bytes, below the alignment, no
+                    # relocation or symbol): ASPSX did not pad, the next retail datum follows the table.
+                    blob = bytearray(placed.read_bytes())
+                    slus_rodata_trim.trim(blob, allocation['size'], allocation['section'])
+                    placed.write_bytes(bytes(blob))
             objects.append(placed)
             for allocation in allocations:
                 if not allocation['size']:
                     continue
                 compiled.append(dict(allocation, object=rel(placed), origin='original_object'))
+    unused = sorted(foff for foff, record in switch_tables.items() if foff not in loaded_tables
+                    and spec['start'] <= foff and foff + record['size'] <= spec['start'] + spec['size']
+                    and any(record['owner'] in u.get('rows', []) for u in spec['units']))
+    if unused:
+        raise ValueError('registered switch table not placed by its owner in ' + spec['image'] + ': ' + hex(unused[0]))
+    padding = {word: (foff, switch_tables[foff]['size']) for foff in loaded_tables
+               for word in switch_tables[foff].get('padding_words', [])}
+    check_linker_words(gate.ROOT, spec['image'].split('/')[0], spec['start'], spec['size'], compiled, padding)
     chunks = cover_image(spec['start'], spec['size'], compiled)
     imports = []
     import_object = directory/'imports.o'

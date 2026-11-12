@@ -40,6 +40,25 @@ Address binding uses this priority:
 Rules 1-6 rebind placements only; a home unit links each undefined `func_<A>` at
 the address in its name.
 
+### Compiler switch tables of row units
+
+A row unit's switch tables are in its own object's `.rodata`. The image link places that section at the
+address its `%hi/%lo` pairs resolve to in retail and compares its contents with retail. By default the
+section is NOLOAD, and the image bytes there come from whatever else covers them. A record in
+`config/overlays/<container>.switch_tables.jsonl` (`azure-clean.switch-table.v1`) gives the owner those bytes:
+the record names the owner row, the table's container offset, address, size and section, and the data
+rows it replaced. Wherever the owner unit is linked in an image that contains the extent, the section is
+loaded there as compiled bytes. If the section is larger than the record, GNU-as end padding is cut first
+(`tools/build/slus_rodata_trim.py`: zero bytes below the alignment, with no relocation or symbol in them).
+The link fails if a record's owner, section or address differs from the derived placement, or if an
+image links the owner without placing the record's table. The replaced data rows and their C files are
+retired (`ledger/link_data_retired.jsonl`). Alignment words between two tables of one owner are inside
+the loaded span, so the owner's section emits them. Their decision-68c padding views (the 25
+`config/link/<container>/word_*.json` files a record lists in `padding_words`) are kept as accounting
+records that the owner's span also covers: the published byte census still labels those words padding.
+The image link fails if compiled bytes cover any other linker-owned word, or if a listed word is not a
+live word inside its record's span.
+
 ### Same-image copy links
 
 The original overlays were each linked with their own copy of shared C, so a

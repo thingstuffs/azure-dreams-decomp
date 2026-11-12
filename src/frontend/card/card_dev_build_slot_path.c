@@ -12,7 +12,7 @@ void card_dev_build_slot_path(s32 target, s32 entry_index) {
     s32 *active_value;
 
     active_value = &dev_card_paths[0];
-    if (card_selected_channel[0] != 0) {
+    if (card_selected_channel != 0) {
         active_value = &dev_card_paths[0] + 1;
     }
     func_8007BF80(target, *active_value);

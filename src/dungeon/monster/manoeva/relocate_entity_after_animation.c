@@ -134,7 +134,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     s16 depth_bias)
 {
     GameWork *render_globals = &g_game_work;
-    u8 *scratch = (u8 *)0x1F800000;
+    S_80175594_1 *scratch = (S_80175594_1 *)0x1F800000;
     u8 *state;
     MATRIX *matrix;
     Packet *packet;
@@ -154,133 +154,133 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     }
 
     state = render_globals->draw_buffer;
-    ((S_80175594_1 *)scratch)->unk_EC = 0;
-    ((S_80175594_1 *)scratch)->unk_8C = 0;
-    ((S_80175594_1 *)scratch)->unk_84 = 0;
-    ((S_80175594_1 *)scratch)->unk_7C = 0;
-    ((S_80175594_1 *)scratch)->unk_74 = 0;
-    ((S_80175594_1 *)scratch)->unk_20 = state + 0xB0;
-    ((S_80175594_1 *)scratch)->unk_00 = position->x.unsigned_parts.integer;
-    ((S_80175594_1 *)scratch)->unk_02 = position->y.unsigned_parts.integer;
-    ((S_80175594_1 *)scratch)->unk_04 = position->z.unsigned_parts.integer;
+    scratch->unk_EC = 0;
+    scratch->unk_8C = 0;
+    scratch->unk_84 = 0;
+    scratch->unk_7C = 0;
+    scratch->unk_74 = 0;
+    scratch->unk_20 = state + 0xB0;
+    scratch->unk_00 = position->x.unsigned_parts.integer;
+    scratch->unk_02 = position->y.unsigned_parts.integer;
+    scratch->unk_04 = position->z.unsigned_parts.integer;
     packet = ((GpuContext *)state)->packetCursor;
-    ((S_80175594_1 *)scratch)->unk_C0 = RotTransPers(
-        scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
+    scratch->unk_C0 = RotTransPers(
+        scratch, (u8 *)scratch + 0xB8, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
 
     render->unk_14 |= 0x8000;
     {
-        u32 depth = *(u32 *)(scratch + 0xC0);
+        u32 depth = *(u32 *)((u8 *)scratch + 0xC0);
         u32 sort_depth;
         u32 biased_depth;
         sort_depth = (biased_depth = depth - 6, biased_depth - (s16)depth_bias);
         matrix = &sprite_projection_matrix;
         matrix->t[2] = depth * 4;
-        ((S_80175594_1 *)scratch)->unk_C0 = sort_depth;
+        scratch->unk_C0 = sort_depth;
     }
 
-    if ((u32)((S_80175594_1 *)scratch)->unk_C0 < 0x1E0U) {
+    if ((u32)scratch->unk_C0 < 0x1E0U) {
         PushMatrix();
-        ((S_80175594_1 *)scratch)->unk_B8 -= 0xA0;
-        ((S_80175594_1 *)scratch)->unk_BA -= 0x78;
-        ((S_80175594_1 *)scratch)->unk_30 = render_globals->view.camera_rotation.parts.camera_rotation_x;
-        ((S_80175594_1 *)scratch)->unk_34 = render_globals->view.camera_rotation.parts.camera_rotation_y;
-        ((S_80175594_1 *)scratch)->unk_38 = render_globals->view.camera_rotation.parts.viewAngle;
+        scratch->unk_B8 -= 0xA0;
+        scratch->unk_BA -= 0x78;
+        scratch->unk_30 = render_globals->view.camera_rotation.parts.camera_rotation_x;
+        scratch->unk_34 = render_globals->view.camera_rotation.parts.camera_rotation_y;
+        scratch->unk_38 = render_globals->view.camera_rotation.parts.viewAngle;
 
-        ((S_80175594_1 *)scratch)->unk_100 = render->unk_16;
-        ((S_80175594_1 *)scratch)->unk_104 =
+        scratch->unk_100 = render->unk_16;
+        scratch->unk_104 =
             ((u16)(render_globals->view.view_rotation_offset.parts.view_rotation_offset_z)) +
-            (render->unk_1A - (*(u16 *)&((S_80175594_1 *)scratch)->unk_34));
-        view_angle = ((*(u16 *)&((S_80175594_1 *)scratch)->unk_38) + 0x100) & 0x1FF;
+            (render->unk_1A - (u16)scratch->unk_34);
+        view_angle = ((u16)scratch->unk_38 + 0x100) & 0x1FF;
         angle_offset = render->unk_18 - 0x100;
-        ((S_80175594_1 *)scratch)->unk_102 = view_angle + angle_offset;
+        scratch->unk_102 = view_angle + angle_offset;
 
-        ((S_80175594_1 *)scratch)->unk_108 = ((S_80175594_1 *)scratch)->unk_E4 =
+        scratch->unk_108 = scratch->unk_E4 =
             render->unk_20;
-        ((S_80175594_1 *)scratch)->unk_10A = ((S_80175594_1 *)scratch)->unk_E8 =
+        scratch->unk_10A = scratch->unk_E8 =
             render->unk_22;
-        RotMatrix(scratch + 0x100, scratch + 0xD0);
+        RotMatrix(&scratch->unk_100, (u8 *)scratch + 0xD0);
 
-        ((S_80175594_1 *)scratch)->unk_30 = render->unk_1C;
-        ((S_80175594_1 *)scratch)->unk_34 = render->unk_1E;
-        ((S_80175594_1 *)scratch)->unk_38 = 0x1000;
-        ScaleMatrix(scratch + 0xD0, scratch + 0x30);
-        CompMatrix(matrix, scratch + 0xD0, scratch + 0x50);
-        SetTransMatrix(scratch + 0x50);
-        SetRotMatrix(scratch + 0x50);
+        scratch->unk_30 = render->unk_1C;
+        scratch->unk_34 = render->unk_1E;
+        scratch->unk_38 = 0x1000;
+        ScaleMatrix((u8 *)scratch + 0xD0, &scratch->unk_30);
+        CompMatrix(matrix, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
+        SetTransMatrix((u8 *)scratch + 0x50);
+        SetRotMatrix((u8 *)scratch + 0x50);
 
         texture = (Texture *)render->unk_08;
-        ((S_80175594_1 *)scratch)->unk_24 = render->unk_14;
+        scratch->unk_24 = render->unk_14;
 
         for (;;) {
-            ((S_80175594_1 *)scratch)->unk_08.s32 = texture->f8;
-            ((S_80175594_1 *)scratch)->unk_0C.s32 = texture->f9;
-            ((S_80175594_1 *)scratch)->unk_10.s32 = texture->fA;
-            ((S_80175594_1 *)scratch)->unk_14.s32 = texture->fB;
+            scratch->unk_08.s32 = texture->f8;
+            scratch->unk_0C.s32 = texture->f9;
+            scratch->unk_10.s32 = texture->fA;
+            scratch->unk_14.s32 = texture->fB;
 
             scaled_coord = (texture->x -
-                     (s16)((S_80175594_1 *)scratch)->unk_108) *
+                     (s16)scratch->unk_108) *
                     sprite->unk_22;
-            (*(s16 *)&((S_80175594_1 *)scratch)->unk_70) = scaled_coord >> 12;
+            scratch->unk_70 = scaled_coord >> 12;
             scaled_coord = (texture->x -
-                     (s16)((S_80175594_1 *)scratch)->unk_108) *
+                     (s16)scratch->unk_108) *
                     sprite->unk_2A;
-            ((S_80175594_1 *)scratch)->unk_80 = scaled_coord >> 12;
-            scaled_coord = ((s16)((S_80175594_1 *)scratch)->unk_70 +
-                     ((S_80175594_1 *)scratch)->unk_10.s32) *
+            scratch->unk_80 = scaled_coord >> 12;
+            scaled_coord = ((s16)scratch->unk_70 +
+                     scratch->unk_10.s32) *
                     sprite->unk_28;
-            ((S_80175594_1 *)scratch)->unk_78 = scaled_coord >> 12;
-            scaled_coord = ((s16)((S_80175594_1 *)scratch)->unk_70 +
-                     ((S_80175594_1 *)scratch)->unk_10.s32) *
+            scratch->unk_78 = scaled_coord >> 12;
+            scaled_coord = ((s16)scratch->unk_70 +
+                     scratch->unk_10.s32) *
                     sprite->unk_30;
-            ((S_80175594_1 *)scratch)->unk_88 = scaled_coord >> 12;
+            scratch->unk_88 = scaled_coord >> 12;
 
             scaled_coord = (texture->y -
-                     (s16)((S_80175594_1 *)scratch)->unk_10A) *
+                     (s16)scratch->unk_10A) *
                     sprite->unk_24;
-            (*(s16 *)&((S_80175594_1 *)scratch)->unk_72) = scaled_coord >> 12;
+            scratch->unk_72 = scaled_coord >> 12;
             scaled_coord = (texture->y -
-                     (s16)((S_80175594_1 *)scratch)->unk_10A) *
+                     (s16)scratch->unk_10A) *
                     sprite->unk_28;
-            ((S_80175594_1 *)scratch)->unk_7A = scaled_coord >> 12;
-            scaled_coord = ((s16)((S_80175594_1 *)scratch)->unk_72 +
-                     ((S_80175594_1 *)scratch)->unk_14.s32) *
+            scratch->unk_7A = scaled_coord >> 12;
+            scaled_coord = ((s16)scratch->unk_72 +
+                     scratch->unk_14.s32) *
                     sprite->unk_2C;
-            ((S_80175594_1 *)scratch)->unk_82 = scaled_coord >> 12;
+            scratch->unk_82 = scaled_coord >> 12;
             {
-                void *vertex_1 = scratch + 0x78;
-                void *vertex_2 = scratch + 0x80;
-                void *vertex_3 = scratch + 0x88;
+                void *vertex_1 = &scratch->unk_78;
+                void *vertex_2 = &scratch->unk_80;
+                void *vertex_3 = &scratch->unk_88;
                 void *screen_0;
                 s32 bottom_y;
 
-                bottom_y = (s16)((S_80175594_1 *)scratch)->unk_72 +
-                                ((S_80175594_1 *)scratch)->unk_14.s32;
-                screen_0 = scratch + 0xF0;
-                ((S_80175594_1 *)scratch)->unk_8A = (bottom_y * sprite->unk_30) >> 12;
+                bottom_y = (s16)scratch->unk_72 +
+                                scratch->unk_14.s32;
+                screen_0 = &scratch->unk_F0;
+                scratch->unk_8A = (bottom_y * sprite->unk_30) >> 12;
 
-                RotTransPers4(scratch + 0x70, vertex_1,
+                RotTransPers4(&scratch->unk_70, vertex_1,
                               vertex_2, vertex_3,
-                              screen_0, scratch + 0xF4,
-                              scratch + 0xF8, scratch + 0xFC,
-                              scratch + 0x90, scratch + 0x94);
+                              screen_0, (u8 *)scratch + 0xF4,
+                              (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
+                              (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
             }
 
             packet->x0 =
-                ((S_80175594_1 *)scratch)->unk_F0 + ((S_80175594_1 *)scratch)->unk_B8;
+                scratch->unk_F0 + scratch->unk_B8;
             packet->y0 =
-                ((S_80175594_1 *)scratch)->unk_F2 + ((S_80175594_1 *)scratch)->unk_BA;
+                scratch->unk_F2 + scratch->unk_BA;
             packet->x1 =
-                ((S_80175594_1 *)scratch)->unk_F4 + ((S_80175594_1 *)scratch)->unk_B8;
+                scratch->unk_F4 + scratch->unk_B8;
             packet->y1 =
-                ((S_80175594_1 *)scratch)->unk_F6 + ((S_80175594_1 *)scratch)->unk_BA;
+                scratch->unk_F6 + scratch->unk_BA;
             packet->x2 =
-                ((S_80175594_1 *)scratch)->unk_F8 + ((S_80175594_1 *)scratch)->unk_B8;
+                scratch->unk_F8 + scratch->unk_B8;
             packet->y2 =
-                ((S_80175594_1 *)scratch)->unk_FA + ((S_80175594_1 *)scratch)->unk_BA;
+                scratch->unk_FA + scratch->unk_BA;
             packet->x3 =
-                ((S_80175594_1 *)scratch)->unk_FC + ((S_80175594_1 *)scratch)->unk_B8;
+                scratch->unk_FC + scratch->unk_B8;
             packet->y3 =
-                ((S_80175594_1 *)scratch)->unk_FE + ((S_80175594_1 *)scratch)->unk_BA;
+                scratch->unk_FE + scratch->unk_BA;
 
             visible_0 = 0;
             if ((u16)(((S_80175594_7 *)packet)->unk_08 + 0x20) < 0x181U) {
@@ -306,18 +306,18 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
             }
 
             if ((visible_012 | visible_3) != 0) {
-                ((S_80175594_1 *)scratch)->unk_10.s32 += ((S_80175594_1 *)scratch)->unk_08.s32;
-                ((S_80175594_1 *)scratch)->unk_14.s32 =
-                    (((S_80175594_1 *)scratch)->unk_0C.s32 +
-                     ((S_80175594_1 *)scratch)->unk_14.s32) << 8;
-                ((S_80175594_1 *)scratch)->unk_0C.s32 <<= 8;
+                scratch->unk_10.s32 += scratch->unk_08.s32;
+                scratch->unk_14.s32 =
+                    (scratch->unk_0C.s32 +
+                     scratch->unk_14.s32) << 8;
+                scratch->unk_0C.s32 <<= 8;
 
                 packet->clut =
                     render->unk_12 + texture->f6;
                 packet->uv0 =
-                    ((S_80175594_1 *)scratch)->unk_0C.u16 + ((S_80175594_1 *)scratch)->unk_08.u16;
+                    scratch->unk_0C.u16 + scratch->unk_08.u16;
                 packet->uv1 =
-                    ((S_80175594_1 *)scratch)->unk_0C.u16 + ((S_80175594_1 *)scratch)->unk_10.u16;
+                    scratch->unk_0C.u16 + scratch->unk_10.u16;
                 if (render->unk_10 != 0) {
                     packet->tpage =
                         render->unk_10 +
@@ -326,9 +326,9 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
                     packet->tpage = texture->f4;
                 }
                 packet->uv2 =
-                    ((S_80175594_1 *)scratch)->unk_14.u16 + ((S_80175594_1 *)scratch)->unk_08.u16;
+                    scratch->unk_14.u16 + scratch->unk_08.u16;
                 packet->uv3 =
-                    ((S_80175594_1 *)scratch)->unk_14.u16 + ((S_80175594_1 *)scratch)->unk_10.u16;
+                    scratch->unk_14.u16 + scratch->unk_10.u16;
 
                 if (((S_80175594_7 *)packet)->unk_14.u8 == 0) {
                     ((S_80175594_7 *)packet)->unk_14.u8--;
@@ -341,12 +341,12 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
 
                 packet->color = render->unk_0C;
                 SetPolyFT4(packet);
-                if (((S_80175594_1 *)scratch)->unk_24 & 8) {
+                if (scratch->unk_24 & 8) {
                     ((S_80175594_7 *)packet)->unk_04.at03.v |= 2;
                 }
 
-                AddPrim(((S_80175594_1 *)scratch)->unk_20 +
-                              ((S_80175594_1 *)scratch)->unk_C0 * 4,
+                AddPrim(scratch->unk_20 +
+                              scratch->unk_C0 * 4,
                               packet);
                 packet++;
             }

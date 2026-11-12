@@ -31,7 +31,7 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
 
 void attempt_actor_directional_action(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
 
-void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *entity);
+void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 
 void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ctx, SpriteFrameState *anim, ActorRecord *entity);

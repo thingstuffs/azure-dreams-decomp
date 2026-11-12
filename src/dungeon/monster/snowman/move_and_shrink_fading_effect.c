@@ -2018,15 +2018,16 @@ void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s3
                 (node_data->unk_25 == (match_y & 0xFFFF))) {
                 height = node_position->unk_0A;
                 if (((center_height + 0x40) >= height) && (low_height < height)) {
-                    if ((u32)(((R10_8017442C_S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
+                    R10_8017442C_S_801745BC_1 *current = node;
+                    if ((u32)(current->unk_13 - 0x33) < 4U) {
                         u16 angle;
                         R10_8017442C_OffsetPair *offset;
 
-                        ((R10_8017442C_S_801745BC_1 *)node)->unk_28 = 0;
-                        ((R10_8017442C_S_801745BC_1 *)node)->unk_64 = -1;
+                        current->unk_28 = 0;
+                        current->unk_64 = -1;
                         initialize_timed_motion_step((u16)(6), 0xC);
                         target_y = 0x601;
-                        if (((R10_8017442C_S_801745BC_1 *)node)->unk_13 == 0x34) {
+                        if (current->unk_13 == 0x34) {
                             target_y = 0x80B;
                         }
                         play_sound_if_enabled(target_y);
@@ -2068,7 +2069,7 @@ void prepare_directional_attacks_for_neighbor_entities(ActorRecord *node, s32 ti
             (tile->unk_25 == (match_y & 0xFFFF)) &&
             (height = height_data->unk_0A, height <= target_height + 0x38) &&
             (height > target_height - 0x38) &&
-            ((u32)(((Rec_func_80174800_arg0 *)node)->unk_13 - 0x33) >= 4U)) {
+            ((u32)(node->species - 0x33) >= 4U)) {
             actor->unk_84 = 0x7C;
             actor->unk_85 =
                 (s8)((s32)(actor->current_attack * 3) >> 1);

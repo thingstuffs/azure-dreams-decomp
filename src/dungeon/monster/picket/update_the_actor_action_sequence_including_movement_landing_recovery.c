@@ -106,7 +106,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
         if (*selector != 0) {
             ObjectNodeHeader *owner;
             u16 use_owner;
-            s32 move_result;
+            SpriteFrameState *move_result;
 
             action->action_state_flags &= 0xFF7F;
             use_owner = special;
@@ -114,16 +114,16 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
                 owner = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = owner;
                 move_result = (owner - 1)->sprite;
-                actor->target_tile_x = ((SpriteFrameState *)move_result)->tile_x;
-                actor->target_tile_y = ((SpriteFrameState *)move_result)->tile_y;
+                actor->target_tile_x = move_result->tile_x;
+                actor->target_tile_y = move_result->tile_y;
             } else {
                 dir_offset = *selector;
                 if (item_action_definitions[dir_offset].kind == 2) {
                     owner = actor->target;
                     if (owner != 0) {
                         move_result = (owner - 1)->sprite;
-                        actor->target_tile_x = ((SpriteFrameState *)move_result)->tile_x;
-                        actor->target_tile_y = ((SpriteFrameState *)move_result)->tile_y;
+                        actor->target_tile_x = move_result->tile_x;
+                        actor->target_tile_y = move_result->tile_y;
                     }
                 } else {
                     actor->target = scan_actor_along_heading(actor,

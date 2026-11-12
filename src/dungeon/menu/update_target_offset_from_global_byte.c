@@ -8,7 +8,7 @@
 void update_target_offset_from_global_byte(void *record, ItemMenuPart *owner) {
     u8 current_value;
 
-    current_value = *((u8 *)primary_actor_record + 0x29);
+    current_value = primary_actor_record->max_hp;
     if (current_value != *((s32 *)record + 5)) {
         s16 *target;
 

@@ -73,7 +73,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
     S_80174CCC_1 *position = position_arg;
     s32 state;
     s32 height_offset;
-    void *created;
+    S_80174CCC_6 *created;
     ActorRecord *source;
     SpriteFrameState *owner;
     S_80174CCC_9 *parent;
@@ -169,31 +169,31 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
                 motion->unk_36.s);
             if (created != 0) {
                 func_80042640(created, 0x1E);
-                ((S_80174CCC_6 *)created)->unk_14 &= ~7;
-                created_flags_14 = ((S_80174CCC_6 *)created)->unk_14;
+                created->unk_14 &= ~7;
+                created_flags_14 = created->unk_14;
                 motion_flags = motion->unk_38.u;
-                ((S_80174CCC_6 *)created)->unk_1C &= ~7;
-                created_flags_1c = ((S_80174CCC_6 *)created)->unk_1C;
+                created->unk_1C &= ~7;
+                created_flags_1c = created->unk_1C;
                 created_flags_14 |= motion_flags;
-                ((S_80174CCC_6 *)created)->unk_14 = created_flags_14;
+                created->unk_14 = created_flags_14;
                 created_flags_1c |= motion->unk_38.u;
-                ((S_80174CCC_6 *)created)->unk_1C = created_flags_1c;
+                created->unk_1C = created_flags_1c;
 
-                ((S_80174CCC_6 *)created)->unk_05 =
+                created->unk_05 =
                     ((motion->unk_10)->unk_00[5] + 1) >> 1;
-                ((S_80174CCC_6 *)created)->unk_29 =
+                created->unk_29 =
                     ((motion->unk_10)->max_hp + 1) >> 1;
                 source_value_28 = (motion->unk_10)->hp;
-                ((S_80174CCC_6 *)created)->unk_43 = 0xFD;
-                ((S_80174CCC_6 *)created)->unk_28 = (source_value_28 + 1) >> 1;
+                created->unk_43 = 0xFD;
+                created->unk_28 = (source_value_28 + 1) >> 1;
 
                 source = motion->unk_10;
-                linked_object = created;
+                linked_object = (S_80174CCC_8 *)created;
                 if ((u32)(source->flags14) & 0x4000) {
-                    ((S_80174CCC_6 *)created)->unk_A4 = motion->unk_0C;
+                    created->unk_A4 = motion->unk_0C;
                 } else {
                     if (source->unk_A4.address != 0) {
-                        ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4.address;
+                        created->unk_A4 = source->unk_A4.address;
                     }
                 }
 
@@ -208,7 +208,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
                 owner->clut = motion->unk_3A;
                 select_sprite_entry(owner,
                     (*(u8 **)&owner->frameTable)
-                        [((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
+                        [((g_game_work.view.camera_rotation.parts.viewAngle + created->unk_2A + 0x100) >> 9) & 7],
                     0);
                 retain_spawn_resource(0x1E, 1);
             }

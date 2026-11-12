@@ -88,7 +88,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
     u16 timer;
     ObjectNodeHeader *effect;
     ActorImpactEffectBody *effect_state;
-    void *target_sprite;
+    struct SpriteFrameState *target_sprite;
     void (*callback)(void);
     ActorRecord *player_state;
     ObjectNodeHeader *special_target;
@@ -148,16 +148,16 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                 special_target = ((ObjectNodeHeader *)primary_actor_record);
                 actor->target = special_target;
                 target_sprite = (special_target - 1)->sprite;
-                actor->target_tile_x = ((S_801728C4_3 *)target_sprite)->unk_24;
-                actor->target_tile_y = ((S_801728C4_3 *)target_sprite)->unk_25;
+                actor->target_tile_x = target_sprite->tile_x;
+                actor->target_tile_y = target_sprite->tile_y;
             } else {
                 anim_id = *anim;
                 if (item_action_definitions[anim_id].kind == 2) {
                     target_sprite = actor->target;
                     if (target_sprite != 0) {
                         target_sprite = ((S_801728C4_3_pre *)target_sprite)[-1].unk_00;
-                        actor->target_tile_x = ((S_801728C4_3 *)target_sprite)->unk_24;
-                        actor->target_tile_y = ((S_801728C4_3 *)target_sprite)->unk_25;
+                        actor->target_tile_x = target_sprite->tile_x;
+                        actor->target_tile_y = target_sprite->tile_y;
                     }
                 } else {
                     actor->target = scan_actor_along_heading(
@@ -232,11 +232,11 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                     effect_state->unk_A4.s = 0;
                     effect_state->unk_96 = 4;
                     target_sprite = effect->sprite;
-                    ((S_801728C4_3 *)target_sprite)->unk_28 = sprite->animation_resource;
-                    ((S_801728C4_3 *)target_sprite)->unk_1E = 0x1000;
-                    ((S_801728C4_3 *)target_sprite)->unk_1C = 0x1000;
-                    ((S_801728C4_3 *)target_sprite)->unk_14 = sprite->flags;
-                    ((S_801728C4_3 *)target_sprite)->unk_12 = sprite->clut;
+                    target_sprite->animation_resource = sprite->animation_resource;
+                    target_sprite->scale_y = 0x1000;
+                    target_sprite->scale_x = 0x1000;
+                    target_sprite->flags = sprite->flags;
+                    target_sprite->clut = sprite->clut;
                     ((S_801728C4_3 *)target_sprite)->unk_0C.s = ((S_801728C4_4 *)sprite)->unk_0C;
                     select_sprite_entry(target_sprite, 0x2D, 0);
                 }
@@ -274,14 +274,14 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                     effect_state->unk_A4.s = 0;
                     effect_state->unk_96 = 7;
                     target_sprite = effect->sprite;
-                    ((S_801728C4_3 *)target_sprite)->unk_28 = sprite->animation_resource;
-                    ((S_801728C4_3 *)target_sprite)->unk_1E = 0x1000;
-                    ((S_801728C4_3 *)target_sprite)->unk_1C = 0x1000;
-                    ((S_801728C4_3 *)target_sprite)->unk_14 = sprite->flags;
-                    ((S_801728C4_3 *)target_sprite)->unk_12 = sprite->clut - 0x80;
-                    ((S_801728C4_3 *)target_sprite)->unk_10 = 0x60;
-                    ((S_801728C4_3 *)target_sprite)->unk_0C.u = 0x00808080;
-                    ((S_801728C4_3 *)target_sprite)->unk_14 |= 0xC;
+                    target_sprite->animation_resource = sprite->animation_resource;
+                    target_sprite->scale_y = 0x1000;
+                    target_sprite->scale_x = 0x1000;
+                    target_sprite->flags = sprite->flags;
+                    target_sprite->clut = sprite->clut - 0x80;
+                    target_sprite->tpage_abr = 0x60;
+                    target_sprite->color.word = 0x00808080;
+                    target_sprite->flags |= 0xC;
                     select_sprite_entry(target_sprite, 0x2F, 0);
                 }
                 particle_count--;

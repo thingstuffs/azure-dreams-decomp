@@ -5,7 +5,7 @@
 #include "dungeon/system.h"
 #include "town/data.h"
 
-extern s32 town_secondary_probe_offset;
+#include "town/player/probe_offset_data.h"
 
 /* Queries the input and, for a large offset, returns the larger original or shifted result. */
 s16 query_larger_position_result(ObjectPosition *input)

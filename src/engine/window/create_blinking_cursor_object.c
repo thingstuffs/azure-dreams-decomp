@@ -8,6 +8,8 @@
 #include "engine/object.h"
 #include "engine/window.h"
 #include "engine/graphics.h"
+#include "slus/blinking_cursor_data.h"
+#include "slus/window_node_list_data.h"
 
 
 
@@ -17,13 +19,6 @@
 
 
 void copy_texture_descriptor_with_page_offsets(); /* extern */
-extern u8 blinking_cursor_texture_template_0[];
-extern u8 blinking_cursor_texture_template_1[];
-extern u8 blinking_cursor_texture_template_2[];
-extern u8 blinking_cursor_texture_descriptor_0[];
-extern u8 blinking_cursor_texture_descriptor_1[];
-extern u8 blinking_cursor_texture_descriptor_2[];
-extern u8 window_node_list_storage[];
 
 /* Initializes and links a runtime node, then sets its record, state, and display data. */
 void create_blinking_cursor_object(void *node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value,

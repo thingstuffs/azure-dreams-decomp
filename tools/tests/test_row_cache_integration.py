@@ -63,7 +63,9 @@ class AccountingIntegration(unittest.TestCase):
                  patch.object(M,'overlay_statuses',return_value=[]),patch.object(U,'valid_placements',return_value={}),
                  patch.object(U,'module_status',return_value=[]),patch.object(evidence,'EV',self.ledger/'evidence'),
                  patch.object(evidence,'census',return_value=''),patch.object(gen_src_index,'main'),
-                 patch.object(time,'gmtime',return_value=time.struct_time((2026,1,1,0,0,0,3,1,0)))]
+                 patch.object(time,'gmtime',return_value=time.struct_time((2026,1,1,0,0,0,3,1,0))),
+                 # the patched placement readers are the legacy-certificate path (the default reads build/check.json)
+                 patch.object(sys,'argv',['accounting','--legacy-certificates'])]
         for item in patches:item.start();self.addCleanup(item.stop)
 
     def write(self,name,records):
@@ -113,6 +115,29 @@ class AccountingIntegration(unittest.TestCase):
         (self.root/'src/main/func_80010004.c').write_text('void func_80010004(int value, int extra) { use(value); }')
         count,after=self.levels();self.assertEqual(count,2);self.assertNotEqual(before,after)
 
+    def test_name_table_edit_reevaluates_only_rows_that_consult_the_name(self):
+        def oracle():
+            with patch.dict(os.environ,AZURE_ROW_CACHE='0'):
+                return self.levels()[1]
+        count,cold=self.levels();self.assertEqual(count,2)
+        self.assertEqual(self.levels()[0],0)
+        names=self.root/'config/names.tsv'
+        names.write_text('0x80020000\tmain\tunrelated_name\n')   # no row consults this address
+        count,warm=self.levels();self.assertEqual(count,0);self.assertEqual(warm,oracle())
+        names.write_text(names.read_text()+'0x80010000\tmain\tnamed_first\n')   # no audit site: no name lookup
+        count,warm=self.levels();self.assertEqual(count,0);self.assertEqual(warm,oracle())
+        # an audit site makes the first row resolve its own spellings and its callee's
+        (self.root/'src/main/func_80010000.c').write_text('void func_80010000(void) { helper_one(1); }')
+        (self.root/'config/decomp_audit_baseline.json').write_text(json.dumps({'sites':{'main/func_80010000':{'sites':['PASSTHRU|func_80010004|']}}}))
+        count,_=self.levels();self.assertEqual(count,1)
+        self.assertEqual(self.levels()[0],0)
+        names.write_text(names.read_text()+'0x80010004\tmain\thelper_one\n')   # the callee's spelling in its text
+        count,warm=self.levels();self.assertEqual(count,1);self.assertEqual(warm,oracle())
+        names.write_text(names.read_text().replace('named_first','renamed_first'))   # its own address
+        count,warm=self.levels();self.assertEqual(count,1);self.assertEqual(warm,oracle())
+        names.write_text(names.read_text()+'0x80030000\tmain\tanother_unrelated\n')
+        count,warm=self.levels();self.assertEqual(count,0);self.assertEqual(warm,oracle())
+
     def test_status_matches_cold_oracle_and_reuses_only_unchanged_facts(self):
         self.levels()
         def status(enabled):
@@ -128,5 +153,7 @@ class AccountingIntegration(unittest.TestCase):
         (self.root/'src/main/func_80010000.c').write_text('int func_80010000(void) { int temp_x=0; return temp_x; }')
         count,changed=status('1');self.assertGreater(count,0);self.assertNotEqual(first,changed)
         self.assertEqual(changed,status('0')[1])
+        (self.root/'config/names.tsv').write_text('0x80020000\tmain\tunrelated_name\n')
+        count,renamed=status('1');self.assertEqual(count,0);self.assertEqual(renamed,status('0')[1])
 
 if __name__=='__main__':unittest.main()

@@ -79,15 +79,16 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
                 (node_data->tile_y == (match_y & 0xFFFF))) {
                 height = node_position->z.w.i;
                 if (((center_height + 0x40) >= height) && (low_height < height)) {
-                    if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
+                    S_801745BC_1 *current = node;
+                    if ((u32)(current->unk_13 - 0x33) < 4U) {
                         u16 angle;
                         SaberTileOffset *offset;
 
-                        ((S_801745BC_1 *)node)->unk_28 = 0;
-                        ((S_801745BC_1 *)node)->unk_64 = -1;
+                        current->unk_28 = 0;
+                        current->unk_64 = -1;
                         initialize_timed_motion_step(6, 0xC);
                         target_y = 0x601;
-                        if (((S_801745BC_1 *)node)->unk_13 == 0x34) {
+                        if (current->unk_13 == 0x34) {
                             target_y = 0x80B;
                         }
                         play_sound_if_enabled(target_y);

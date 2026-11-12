@@ -9,6 +9,7 @@
 #include "shared/resident_resources.h"
 #include "shared/movie_list.h"
 #include "shared/sound_state.h"
+#include "slus/window_choice_data.h"
 
 
 struct InputRecord;

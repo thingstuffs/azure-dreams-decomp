@@ -20,7 +20,7 @@ void toggle_card_selection_state(void) {
     invoke_callback_for_four_global_values();
     _card_wait_80408654(0);
     _card_wait_80408654(1);
-    next_value = 0x10 - card_selected_channel[0];
+    next_value = 0x10 - card_selected_channel;
     D_804094EC_2[0] = next_value;
     wait_selected(next_value);
 }

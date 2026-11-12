@@ -12,11 +12,11 @@ void advance_actor_replacement_sequence(RotateAndRestoreActorStateBody *effect, 
     if (ticks_left < 16) {
         s8 shade = ticks_left * 3;
 
-        *(s8 *)((u8 *)primitive + 0xE) = shade;
-        *(s8 *)((u8 *)primitive + 0xD) = shade;
-        *(s8 *)((u8 *)primitive + 0xC) = shade;
+        primitive->color.c.b = shade;
+        primitive->color.c.g = shade;
+        primitive->color.c.r = shade;
     } else {
-        *(s32 *)((u8 *)primitive + 0xC) = 0x808080;
+        primitive->color.word = 0x808080;
     }
     ticks_left = (u16)effect->ticks_remaining - 1;
     effect->ticks_remaining = ticks_left;

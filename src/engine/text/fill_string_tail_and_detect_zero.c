@@ -1,20 +1,12 @@
 #include "common.h"
 #include "engine/text.h"
-
-typedef struct PatternSource {
-    s8 b0;
-    s8 b1;
-    s8 b2;
-    s8 pad[13];
-} PatternSource;
+#include "slus/text_pattern_data.h"
 
 typedef struct Pattern3 {
     s8 b0;
     s8 b1;
     s8 b2;
 } Pattern3;
-
-extern PatternSource string_tail_fill_pattern;
 
 /* Fill from the first zero byte with overlapping patterns; return whether a zero was found. */
 s32 fill_string_tail_and_detect_zero(u8 *buffer, s32 pair_count)

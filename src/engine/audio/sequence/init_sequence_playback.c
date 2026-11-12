@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 #include "slus/data.h"
+#include "slus/audio_sequence_state_data.h"
 
 /* S_80058B70: view of the D_80085FA8[] element struct touched here (base passed
  * to read_big_endian_word/read_sequence_halfword/read_next_byte_and_finish; direct fields f00,f1c,f20,f24). */
@@ -15,8 +16,6 @@ typedef struct {
 extern S_80058B70 audio_sequence_tracks[32];
 extern s32 audio_sequence_format[4];
 extern s32 audio_sequence_timing_division[4];
-extern s32 audio_sequence_track_count[4];
-extern s32 audio_sequence_multitrack_mode[4];
 
 extern s32 read_next_byte_and_finish(S_80058B70 *);
 

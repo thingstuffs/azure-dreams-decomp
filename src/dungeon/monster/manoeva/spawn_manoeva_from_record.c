@@ -51,8 +51,8 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
     s32 table_offset;
     PlayerRecord *table_entry;
     void *previous_entity;
-    void *source_entity;
-    void *entity;
+    ActorRecord *source_entity;
+    ActorRecord *entity;
     S_80E3C98C_4 *type_data;
     void *result;
 
@@ -64,27 +64,27 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
                                get_item_category_value(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
                                    + ((u8 *)dungeon_ground_items)));
         if (entity != NULL) {
-            ((ActorRecord *)entity)->flags14 = 0;
-            ((ActorRecord *)entity)->flags1C = 0;
+            entity->flags14 = 0;
+            entity->flags1C = 0;
             copy_entity_record(entity, spawn_data);
-            ((ActorRecord *)entity)->flags14 |= 0x20000000;
-            ((ActorRecord *)entity)->flags1C =
-                (((ActorRecord *)entity)->flags1C | 0x02000200) & 0xFFFEFFFF;
+            entity->flags14 |= 0x20000000;
+            entity->flags1C =
+                (entity->flags1C | 0x02000200) & 0xFFFEFFFF;
         }
     } else {
         entity_spawn_variant_code = 1;
-        source_entity = (void *)source_ref;
+        source_entity = (ActorRecord *)source_ref;
 
-        type_data = find_or_retain_sprite_resource_slot(((ActorRecord *)source_entity)->species, 1);
+        type_data = find_or_retain_sprite_resource_slot(source_entity->species, 1);
         if (!((type_data != NULL) && (type_data->unk_01 != 0))) {
-            type_data = find_or_retain_sprite_resource_slot(((ActorRecord *)source_entity)->species, 3);
+            type_data = find_or_retain_sprite_resource_slot(source_entity->species, 3);
             result = NULL;
             if (type_data == NULL) {
                 return result;
             }
         }
         set_code_for_entity_mode(source_entity);
-        create_entity = load_monster_code_module(((ActorRecord *)source_entity)->species, type_data, 1);
+        create_entity = load_monster_code_module(source_entity->species, type_data, 1);
         drain_cd_command_queue();
         spawn_mode = 4;
         if (spawn_data->unk_1C.at00_u32.v & 0x2000) {
@@ -92,16 +92,16 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
         }
         entity = create_entity(spawn_mode, position->tile_x, position->tile_y, spawn_data->unk_88.as_s16);
         if (entity != NULL) {
-            func_80042640(entity, ((ActorRecord *)entity)->species);
-            ((ActorRecord *)entity)->flags14 = 0;
-            ((ActorRecord *)entity)->flags1C = 0;
+            func_80042640(entity, entity->species);
+            entity->flags14 = 0;
+            entity->flags1C = 0;
             copy_entity_record(entity, spawn_data);
-            ((ActorRecord *)entity)->hp++;
-            ((ActorRecord *)entity)->species = ((ActorRecord *)source_entity)->species;
+            entity->hp++;
+            entity->species = source_entity->species;
             ((SpriteFrameState *)(((S_80E3C98C_2_pre *)entity)[-1].unk_00))->clut =
                 ((SpriteFrameState *)(((S_80E3C98C_3_pre *)source_entity)[-1].unk_00))->clut & 3;
-            ((ActorRecord *)entity)->flags14 |= 0x20000000;
-            ((ActorRecord *)entity)->flags1C = (((ActorRecord *)entity)->flags1C | 0x02000000) & 0xFFFEFFFF;
+            entity->flags14 |= 0x20000000;
+            entity->flags1C = (entity->flags1C | 0x02000000) & 0xFFFEFFFF;
         }
     }
     if (spawn_data->unk_14.at00_s32.v & 0x4000) {

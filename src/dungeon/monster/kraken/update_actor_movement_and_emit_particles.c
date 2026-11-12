@@ -53,7 +53,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
     s32 speed_work;
     s32 component_work;
     s32 component_work_2;
-    u8 *particle_work;
+    S_80172D1C_3 *particle_work;
 
     if (actor->action_phase == 1) {
         particle_or_dir_index = 6;
@@ -79,7 +79,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
                     ((rand() & 0xFF) - 0x80) << 10;
                 particle->position->velocity_z = (-4 - (rand() & 3)) << 16;
 
-                ((S_80172D1C_3 *)particle_work)->unk_48 = 10;
+                particle_work->unk_48 = 10;
                 sprite_flags = sprite->animation_resource;
                 component_work = particle_sprite->flags | 0xC;
                 particle_sprite->scale_y = 0x1800;

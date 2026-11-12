@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "frontend/card/server_imports.h"
-extern s8 card_dev_effect_mode;
+#include "frontend/card/effect_mode_data.h"
 
 /* Set the global mode to 2 and invoke the transition routines. */
 void card_dev_start_default_screen(void) {

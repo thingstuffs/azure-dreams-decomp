@@ -22,6 +22,7 @@
 #include "engine/entity.h"
 #include "engine/node.h"
 #include "sdk/libgpu.h"
+#include "slus/node_update_data.h"
 
 typedef struct {
     u8 before_flags[0x1C];
@@ -46,7 +47,6 @@ typedef struct S_8003E2D8 S_8003E2D8;
 typedef s32 (*Callback)(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 extern s32 D_800814A0;
-extern u8 node_update_mode;
 extern u16 system_update_flags;
 extern void remove_marked_active_nodes(void);
 extern u8 upper_draw_context[16];

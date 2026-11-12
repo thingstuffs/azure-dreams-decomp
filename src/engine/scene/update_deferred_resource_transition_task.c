@@ -5,7 +5,6 @@
 #include "engine/resource.h"
 #include "engine/scene.h"
 #include "slus.h"
-extern s8 node_update_mode;
 #define D_80080A86_store (*(s8 *)0x80080A86)
 extern s32 D_800814A0_load[3];
 #define D_800814A0_store (*(s32 *)0x800814A0)

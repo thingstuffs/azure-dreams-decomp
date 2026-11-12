@@ -24,7 +24,7 @@ extern u8 D_800E2408[];
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
 void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *position, SpriteFrameState *visual) {
     ActorRecord *entity;
-    void *entity_saved;
+    ActorRecord *entity_saved;
     ObjectPosition *source_position;
     S_80170CEC_1 *entity_base;
     SpriteFrameState *record;
@@ -69,8 +69,8 @@ void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *pos
     }
         break;
     case 1:
-        if ((((ActorRecord *)entity_saved)->action_id == 0x19) ||
-            (((ActorRecord *)entity_saved)->unk_B4.bytes[1] == 0)) {
+        if ((entity_saved->action_id == 0x19) ||
+            (entity_saved->unk_B4.bytes[1] == 0)) {
             effect->phase.u = state_bits + 1;
             effect->duration = 0x14;
             effect->ticks.s = 0x14;
@@ -80,7 +80,7 @@ void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *pos
             effect->duration = 0x14;
             effect->ticks.s = 0x14;
         }
-        if ((((ActorRecord *)entity_saved)->flags14 & 0x100000) &&
+        if ((entity_saved->flags14 & 0x100000) &&
             (dungeon_actor_ring_anchor->action_id != 0x28)) {
             effect->phase.s = 3;
             effect->duration = 0x14;

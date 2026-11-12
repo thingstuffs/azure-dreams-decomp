@@ -1895,7 +1895,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
     s32 sin_angle;
     s32 cos_angle;
     s32 addr_mask;
-    u8 **display_root = (u8 **)((u8 *)(&g_game_work));
+    R12_80173FDC_RootSlot *display_root = (R12_80173FDC_RootSlot *)((u8 *)(&g_game_work));
 
     screen_xy = (u8 *)0x1F800000;
     vertex_depths = (u8 *)0x1F800100;
@@ -1978,11 +1978,11 @@ grid_loop:
                     ot_index = ((s16)((R12_80173FDC_S_80173FDC_2 *)vertex_depth)->unk_00 +
                         (s16)((R12_80173FDC_S_80173FDC_2_pre *)vertex_depth)[-1].unk_00) >> 3;
                     if ((u32)ot_index < 0x1E0) {
-                        display = (R12_80173FDC_S_80173FDC_3 *)(*display_root);
+                        display = (R12_80173FDC_S_80173FDC_3 *)display_root->ptr;
                         line = display->unk_8D0.p;
                         display->unk_8D0.p2 = (u8 *)line + 0x14;
 
-                        display = (R12_80173FDC_S_80173FDC_3 *)(*display_root);
+                        display = (R12_80173FDC_S_80173FDC_3 *)display_root->ptr;
                         tpage = display->unk_8D0.p2;
                         display->unk_8D0.p2 = tpage + 0x0C;
 
@@ -1997,15 +1997,15 @@ grid_loop:
                         line->xy1 = ((R12_80173FDC_S_80173FDC_4_pre *)xy)[-1].unk_00;
 
                         line->tag = (line->tag & 0xFF000000) |
-                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
-                        (*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
-                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
+                            ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
+                        (*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) =
+                            ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)line & addr_mask);
 
                         ((R12_80173FDC_S_80173FDC_5 *)tpage)->unk_00 = (((R12_80173FDC_S_80173FDC_5 *)tpage)->unk_00 & 0xFF000000) |
-                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
-                        (*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
-                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
+                            ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
+                        (*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) =
+                            ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)tpage & addr_mask);
                     }
                     xy -= 4;
@@ -2035,11 +2035,11 @@ grid_loop:
                     ot_index = ((s16)((R12_80173FDC_S_80173FDC_6 *)ring_depth)->unk_00 +
                         (*(s16 *)(depth_base + next_col * 2))) >> 3;
                     if ((u32)ot_index < 0x1E0) {
-                        display = (R12_80173FDC_S_80173FDC_3 *)(*display_root);
+                        display = (R12_80173FDC_S_80173FDC_3 *)display_root->ptr;
                         line = display->unk_8D0.p;
                         display->unk_8D0.p2 = (u8 *)line + 0x14;
 
-                        display = (R12_80173FDC_S_80173FDC_3 *)(*display_root);
+                        display = (R12_80173FDC_S_80173FDC_3 *)display_root->ptr;
                         tpage = display->unk_8D0.p2;
                         display->unk_8D0.p2 = tpage + 0x0C;
 
@@ -2054,15 +2054,15 @@ grid_loop:
                         line->xy1 = (*(u32 *)(xy_base + next_col * 4));
 
                         line->tag = (line->tag & 0xFF000000) |
-                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
-                        (*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
-                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
+                            ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
+                        (*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) =
+                            ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)line & addr_mask);
 
                         ((R12_80173FDC_S_80173FDC_5 *)tpage)->unk_00 = (((R12_80173FDC_S_80173FDC_5 *)tpage)->unk_00 & 0xFF000000) |
-                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
-                        (*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) =
-                            ((*(u32 *)((((R12_80173FDC_RootSlot *)display_root)->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
+                            ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
+                        (*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) =
+                            ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)tpage & addr_mask);
                     }
                     ring_xy -= 4;
@@ -2122,7 +2122,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
 {
     R12_80174618_S_80174618_2 *render_params = render_params_arg;
     u8 *line_packet;
-    u8 *scratch = (u8 *)0x1F800000;
+    R12_80174618_S_80174618_0 *scratch = (R12_80174618_S_80174618_0 *)0x1F800000;
     u8 *draw_packet;
     GameWork *work_base;
     GpuContext *context;
@@ -2140,67 +2140,67 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     R12_80174618_EMPTY_ARG no_arg;
 
     context = (GpuContext *)&g_game_work;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_24.s = *(u8 **)context + 0xB0;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_88 = position->unk_02;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_8C = position->unk_06;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_90 = position->unk_0A;
+    scratch->unk_24.s = *(u8 **)context + 0xB0;
+    scratch->unk_88 = position->unk_02;
+    scratch->unk_8C = position->unk_06;
+    scratch->unk_90 = position->unk_0A;
     render_params->unk_14 |= 0x8000;
 
     PushMatrix();
 
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_3C = 0x2000;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_38 = 0x2000;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_34 = 0x2000;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_A4 = render_params->unk_16;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_A8 = render_params->unk_1A;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_A6 = render_params->unk_18;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = render_params->unk_16;
+    scratch->unk_A8 = render_params->unk_1A;
+    scratch->unk_A6 = render_params->unk_18;
+    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
-    depth_cue = scratch + 0xD0;
-    transform_flags = scratch + 0xD4;
-    start_vertex = scratch + 0xB0;
+    depth_cue = (u8 *)scratch + 0xD0;
+    transform_flags = (u8 *)scratch + 0xD4;
+    start_vertex = (u8 *)scratch + 0xB0;
 
     field_value = render_params->unk_14;
     context = (GpuContext *)(*(u8 **)context);
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_28 = field_value;
+    scratch->unk_28 = field_value;
     line_packet = context->packetCursor;
     context->packetCursor = line_packet + 0x10;
 
     field_value = endpoints->unk_64;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_C0 = field_value;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_B0 = field_value;
+    scratch->unk_C0 = field_value;
+    scratch->unk_B0 = field_value;
     field_value = endpoints->unk_6A;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_C8 = field_value;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_B8 = field_value;
+    scratch->unk_C8 = field_value;
+    scratch->unk_B8 = field_value;
     field_value = endpoints->unk_66;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_C2 = field_value;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_B2 = field_value;
+    scratch->unk_C2 = field_value;
+    scratch->unk_B2 = field_value;
     field_value = endpoints->unk_6C;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_CA = field_value;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_BA = field_value;
+    scratch->unk_CA = field_value;
+    scratch->unk_BA = field_value;
     field_value = endpoints->unk_68;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_C4 = field_value;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_B4 = field_value;
+    scratch->unk_C4 = field_value;
+    scratch->unk_B4 = field_value;
     end_z = endpoints->unk_6E;
     screen_start = line_packet + 8;
     screen_end = line_packet + 0xC;
     work_base = &g_game_work;
-    depth_index = RotAverage4(start_vertex, scratch + 0xB8,
-                          scratch + 0xC0, scratch + 0xC8,
+    depth_index = RotAverage4(start_vertex, (u8 *)scratch + 0xB8,
+                          (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
                           screen_start, screen_end,
                           screen_start, screen_end,
                           depth_cue, transform_flags,
-                          (((R12_80174618_S_80174618_0 *)scratch)->unk_CC = end_z,
-                           ((R12_80174618_S_80174618_0 *)scratch)->unk_BC = end_z,
+                          (scratch->unk_CC = end_z,
+                           scratch->unk_BC = end_z,
                            no_arg));
     depth_index = depth_index - depth_bias - 6;
-    ((R12_80174618_S_80174618_0 *)scratch)->unk_100 = depth_index;
-    flags = ((R12_80174618_S_80174618_0 *)scratch)->unk_28;
+    scratch->unk_100 = depth_index;
+    flags = scratch->unk_28;
 
     if (flags & 8) {
         u8 color_code;
@@ -2216,7 +2216,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_00.at03.v = 3;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at00.v = color_word;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at03.v = 0x40;
-    flags = ((R12_80174618_S_80174618_0 *)scratch)->unk_28;
+    flags = scratch->unk_28;
     if (flags & 8) {
         s32 line_code = flags & 4;
         if (line_code) {
@@ -2229,16 +2229,16 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
 
     {
         GpuContext *draw_context;
-        ((R12_80174618_P_TAG *)line_packet)->addr = ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr;
-        ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr = (u32)line_packet;
+        ((R12_80174618_P_TAG *)line_packet)->addr = ((R12_80174618_P_TAG *)&scratch->unk_24.u[scratch->unk_100])->addr;
+        ((R12_80174618_P_TAG *)&scratch->unk_24.u[scratch->unk_100])->addr = (u32)line_packet;
 
         draw_context = work_base->draw_buffer;
         draw_packet = draw_context->packetCursor;
         draw_context->packetCursor = draw_packet + 0xC;
         SetDrawMode(draw_packet, 0, 0, (u16)GetTPage(0, 1, 0, 0), 0);
 
-        ((R12_80174618_P_TAG *)draw_packet)->addr = ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr;
-        ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr = (u32)draw_packet;
+        ((R12_80174618_P_TAG *)draw_packet)->addr = ((R12_80174618_P_TAG *)&scratch->unk_24.u[scratch->unk_100])->addr;
+        ((R12_80174618_P_TAG *)&scratch->unk_24.u[scratch->unk_100])->addr = (u32)draw_packet;
 
         PopMatrix();
     }
@@ -2535,7 +2535,7 @@ void create_offset_effect(void *source_arg, ObjectPosition *spawn_pos_arg, Sprit
 {
     ObjectPosition *spawn_pos = spawn_pos_arg;
     u16 render_flags;
-    void *effect;
+    R12_80175180_S_80175180_2 *effect;
     SpriteFrameState *render_part;
     R12_80175180_S_80175180_4 *position;
     R12_80175180_S_80175180_0 *state;
@@ -2546,21 +2546,21 @@ void create_offset_effect(void *source_arg, ObjectPosition *spawn_pos_arg, Sprit
         state->unk_08 = 0x4A;
         state->unk_0A = ((R12_80175180_S_80175180_1 *)source_arg)->unk_96;
         state->unk_0C = 0;
-        ((R12_80175180_S_80175180_2 *)effect)->unk_10 = ((u8 *)build_animated_spherical_wireframe);
+        effect->unk_10 = ((u8 *)build_animated_spherical_wireframe);
         source_arg = project_sprite_chain;
-        register_node(effect, source_arg);
-        render_part = ((R12_80175180_S_80175180_2 *)effect)->unk_0C;
+        register_node((struct ObjectNodeHeader *)effect, source_arg);
+        render_part = effect->unk_0C;
         render_flags = render_part->flags;
         render_flags |= 0xC;
         render_part->flags = render_flags;
         render_part->tpage_abr = 0x20;
         render_flags |= 0x80;
         render_part->flags = render_flags;
-        position = ((R12_80175180_S_80175180_2 *)effect)->unk_08;
+        position = effect->unk_08;
         position->unk_00 = spawn_pos->x.v;
         position->unk_04 = spawn_pos->y.v;
         position->unk_08 = spawn_pos->z.v + 0xFFE80000;
-        render_part = ((R12_80175180_S_80175180_2 *)effect)->unk_0C;
+        render_part = effect->unk_0C;
         render_part->scale_y = 0x1000;
         render_part->scale_x = 0x1000;
         render_part->color.c.b = 0x80;

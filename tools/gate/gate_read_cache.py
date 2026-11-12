@@ -32,6 +32,8 @@ _OBS = local()
 _HOOKED = False
 
 def stamp_of(path):
+    if isinstance(path, str) and path.startswith("\0"):
+        return None  # a marker (VOLATILE, USES, LISTED), not a path: recorded as None, always unchanged
     try:
         st = os.stat(path)
     except (FileNotFoundError, NotADirectoryError):
@@ -58,6 +60,10 @@ VOLATILE = "\0volatile"
 # "\0uses:<input>:<path>": the computation used fields of <input> that belong to <path> (a source-derived slice, such
 # as a TU's layout_inline extents). The memo that stores it must bind <path>; see recipe_cache.RecipeCache.memo.
 USES = "\0uses:"
+# "\0listed:<path>": the computation listed the directory <path> (os.listdir/os.scandir: glob, iterdir, os.walk), as
+# opposed to recording it only as the parent of a path it probed. A memo that drops a parent's listing for a narrower
+# binding (recipe_cache: the flat view directories) keeps it when the directory itself was listed.
+LISTED = "\0listed:"
 
 def uses(input_name, path):
     """Record that the running computation consumed <input_name>'s fields for <path> (no file read implied)."""
@@ -91,7 +97,12 @@ def _audit(event, args):
     path = args[0] if args else None
     if isinstance(path, int):
         return
-    observe("." if path is None else path)
+    path = "." if path is None else path
+    observe(path)
+    if event != "open":
+        marker = LISTED + os.path.abspath(os.fsdecode(path))
+        for seen in _OBS.stack:
+            seen.setdefault(marker, None)
 
 @contextmanager
 def observing(seed=None):

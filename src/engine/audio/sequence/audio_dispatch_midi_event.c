@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/entity.h"
 #include "slus.h"
+#include "slus/audio_sequence_state_data.h"
 
 typedef struct
 {
@@ -31,8 +32,6 @@ typedef struct
 S_80084960;
 extern S_80085FA8 audio_sequence_tracks[];
 extern S_80084960 audio_channel_controls[];
-extern s32 audio_sequence_track_count[3];
-extern s32 audio_sequence_multitrack_mode[3];
 extern void start_channel_note(s32 a0, s32 a1, s32 a2);
 extern void audio_sequence_note_off(s32 a0, s32 a1, s32 a2);
 extern void audio_apply_channel_control(s32 a0, s32 a1, s32 a2);

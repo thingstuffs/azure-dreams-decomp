@@ -33,7 +33,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     void *obj_alt;
     SpriteFrameState *part_b;
     ObjectPosition *part_a;
-    void *work_copy;
+    ActorRecord *work_copy;
     ObjectNodeHeader *object;
     ActorRecord *work;
 
@@ -71,15 +71,15 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
             variant = generate_random_value() & 3;
         }
         initialize_actor_sprite_and_animation(object, part_a, part_b, spawn_flags);
-        ((ActorRecord *)work_copy)->action_id = 0xFF;
-        ((ActorRecord *)work_copy)->unk_9C = -1;
-        ((ActorRecord *)work_copy)->unk_8C.address = &D_8014CF74;
-        ((ActorRecord *)work_copy)->unk_A4.halves.low.s = -1;
+        work_copy->action_id = 0xFF;
+        work_copy->unk_9C = -1;
+        work_copy->unk_8C.address = &D_8014CF74;
+        work_copy->unk_A4.halves.low.s = -1;
         if (variant != 0) {
-            ((ActorRecord *)work_copy)->unk_A4.halves.high.s = 0;
+            work_copy->unk_A4.halves.high.s = 0;
         } else {
-            obj_alt = work_copy - 0x20;
-            ((ActorRecord *)work_copy)->unk_A4.halves.high.s = 1;
+            obj_alt = NODE_HEADER(work_copy);
+            work_copy->unk_A4.halves.high.s = 1;
             part_b->tpage_abr = 0x60;
             part_b->flags = (u16) (part_b->flags | 0xC);
             part_b->clut = (u16) (part_b->clut - 0x80);

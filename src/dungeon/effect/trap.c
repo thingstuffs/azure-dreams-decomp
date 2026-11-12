@@ -2010,7 +2010,7 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
     u16 *base_cell;
     u16 *offset_cell;
     s32 random_offset;
-    u8 *base_row;
+    S_800CE4E8_0 *base_row;
     S_800CE4E8_0 *grid_data;
     GridEffectObject *object;
     u8 *row_data;
@@ -2031,14 +2031,14 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
             row_base = row_data;
             offset_cell = (u16 *)(row_data + 0x36);
             do {
-                base_row = (u8 *)grid_data;
-                origin_x = ((S_800CE4E8_0 *)base_row)->unk_00;
-                origin_y = ((S_800CE4E8_0 *)base_row)->unk_02;
+                base_row = (S_800CE4E8_0 *)grid_data;
+                origin_x = base_row->unk_00;
+                origin_y = base_row->unk_02;
                 tile_value = get_surface_height_at_coordinates(
                     ((col + origin_x) << 6) & 0xFFC0,
                     ((row + origin_y) << 6) & 0xFFC0);
                 rand_max = 3;
-                base_row = row_base + 4;
+                base_row = (S_800CE4E8_0 *)(row_base + 4);
                 base_cell = (u16 *)((unsigned long)(col * 2) +
                     (unsigned long)base_row);
                 *base_cell = -tile_value;

@@ -42,6 +42,7 @@ def portable(value, root_text):
 #   extents, hashes and include spellings only select, restore or check bytes of their own TU, so any reader must
 #   read that TU.
 LAYOUT_INLINE = 'ledger/layout_inline.jsonl'
+LAYOUT = 'ledger/layout.jsonl'
 INLINE_DERIVED = frozenset(('offset', 'source_sha256', 'bytes', 'inlined_bytes', 'original_includes'))
 GRAPH_MANIFEST = 'config/link_graph/graph.json'
 _STRUCTURE = {}
@@ -50,6 +51,43 @@ _STRUCTURE = {}
 # saw only top-level readers, which run every configure); a checkpoint that does read it binds its bytes on its own
 # record. It stays a configure input, so the unchanged-projection fast path still binds it.
 PER_RECORD = frozenset({'config/names.tsv'})
+# The row layout and the module graph bootstrap derives from it leave the guard too, so a row-TU rename or move does
+# not make configure cold. Their readers bind them per record: source_layout's layout memos record the file in every
+# consumer (gate_read_cache.memo_read), the graph attestation binds the layout explicitly, and the module graph is
+# read directly (each read is observed). A checkpoint that consumes a row's path without reading the layout reads the
+# row through its flat view link, which it binds (view_links).
+PER_RECORD |= {'ledger/layout.jsonl', 'ledger/splits/overlay_modules.build.json'}
+
+# Derived per-entry view links: build_*/layout_flat/<container>/<entry> (one per row TU and per entry directly in
+# src/<container>/, a projection of the source tree and the row layout) and build_slus/src/<entry> (one per
+# layout_flat/slus entry). The guard context leaves them out (they change with every file added, removed or renamed
+# directly in src/<container>/ and with every row-TU rename): a record binds each one it resolved a read through, by
+# its target (hash_at), and binds a flat view directory's listing only if it listed that directory.
+VIEW_ROOTS = ('build_ovl', 'build_slus')
+
+
+def is_view_link(name):
+    parts = name.split('/')
+    return ((len(parts) == 4 and parts[0] in VIEW_ROOTS and parts[1] == 'layout_flat')
+            or (len(parts) == 3 and parts[:2] == ['build_slus', 'src']))
+
+
+def is_view_listing(name):
+    parts = name.split('/')
+    return (len(parts) == 3 and parts[0] in VIEW_ROOTS and parts[1] == 'layout_flat') or name == 'build_slus/src'
+
+
+def guard_links(links):
+    """The view links the configure guard context binds: all but the derived per-entry links (is_view_link)."""
+    return {n: t for n, t in links.items() if not is_view_link(n)}
+
+
+def link_digest(root, target):
+    """A link's binding: its target, with this checkout's root spelled <root> so copied checkouts agree."""
+    for prefix in dict.fromkeys((os.path.abspath(root), os.path.realpath(root))):
+        if target == prefix or target.startswith(prefix + os.sep):
+            return 'link:<root>' + target[len(prefix):]
+    return 'link:' + target
 
 
 def is_structural(name):
@@ -69,10 +107,13 @@ def structure_of(name, blob):
         manifest = json.loads(blob)
         for part in manifest.get('tables', {}).get('tus', ()):
             part.pop('sha256', None)
-        if LAYOUT_INLINE in manifest.get('inputs', {}):
-            manifest['inputs'][LAYOUT_INLINE] = None
+        for derived in (LAYOUT_INLINE, LAYOUT):
+            if derived in manifest.get('inputs', {}):
+                manifest['inputs'][derived] = None
         return manifest
-    return [{k: v for k, v in r.items() if k != 'source_sha256'} for r in _records(blob)]
+    # A TU's source path follows the row layout (a row-TU rename rewrites it): the 'graph' checkpoint binds the files,
+    # the attestation binds the layout, and the image layout checkpoint keys on every TU's source.
+    return [{k: v for k, v in r.items() if k not in ('source_sha256', 'source')} for r in _records(blob)]
 
 
 def structural_digest(root, name, digest):
@@ -109,6 +150,7 @@ def inline_slices(root, digest):
 
 
 USES = '\0uses:'  # gate_read_cache.uses markers
+LISTED = '\0listed:'  # gate_read_cache directory-listing markers
 
 
 def refuse_unbound(key, read, used, bind):
@@ -139,10 +181,8 @@ class RecipeCache:
     def guard_for(inputs, context):
         # src/ and include/ are not authorities: a record binds each file it read (absent ones as None) and, through
         # gate_read_cache's observer, the directory listing of each such file's parent, and an include closure binds
-        # every resolution candidate its walk tried (closure_probes). The context's view links (configure_links:
-        # build_*/layout_flat holds one link per row TU and per file directly in src/<container>/) still bind those
-        # files' set, so adding, removing or renaming one of them still makes configure cold; other files (headers
-        # under include/ and feature folders, non-row sources) regenerate only the records that read them.
+        # every resolution candidate its walk tried (closure_probes). The context's view links leave out the derived
+        # per-entry ones (guard_links): a record binds those it resolved a read through (memo, view_links).
         root = context.get('root')
         authority = {n: (True if n in PER_RECORD else structural_digest(root, n, v))
                      for n, v in inputs.items() if not n.startswith(('src/', 'include/'))}
@@ -179,6 +219,41 @@ class RecipeCache:
         self.walkers = {}
         self.probes = None
         self.inline = inline_slices(self.root, inputs.get(LAYOUT_INLINE))
+        self.real_root = os.path.realpath(self.root)
+        self.resolved = {}
+
+    def view_links(self, path):
+        """The derived view links (is_view_link) that resolving this absolute path passes through, in order."""
+        return self.resolve(os.path.abspath(path))[1]
+
+    def resolve(self, path, depth=0):
+        """(physical path, view links traversed) for a normalised absolute path; memoised per prefix (configure
+        checks after generation that no link changed)."""
+        hit = self.resolved.get(path)
+        if hit is not None:
+            return hit
+        parent, base = os.path.split(path)
+        if not base or depth > 40:
+            return os.path.realpath(path), ()
+        physical_parent, links = self.resolve(parent, depth + 1)
+        candidate = os.path.join(physical_parent, base)
+        try:
+            target = os.readlink(candidate)
+        except OSError:  # not a link, or absent
+            result = candidate, links
+        else:
+            prefix = self.real_root + os.sep
+            name = candidate[len(prefix):] if candidate.startswith(prefix) else None
+            if name is not None and is_view_link(name):
+                links = links + (name,)
+            joined = target if os.path.isabs(target) else os.path.join(physical_parent, target)
+            if '..' in target.split('/'):
+                result = os.path.realpath(joined), links
+            else:
+                physical, more = self.resolve(os.path.normpath(joined), depth + 1)
+                result = physical, links + more
+        self.resolved[path] = result
+        return result
 
     def name(self, path):
         logical = os.path.abspath(path)
@@ -194,6 +269,8 @@ class RecipeCache:
     def hash_at(root, name):
         if os.path.isabs(name) or '..' in name.split('/'):
             raise ValueError('unsafe checkpoint input: '+name)
+        if is_view_link(name) and os.path.islink(root/name):
+            return link_digest(root, os.readlink(root/name))
         try:
             return hashlib.sha256((root/name).read_bytes()).hexdigest()
         except FileNotFoundError:
@@ -228,9 +305,12 @@ class RecipeCache:
             from gate_read_cache import observing, stamp_of
             with observing() as observed:
                 value = produce()
-            probes, used = {}, {}
+            probes, used, listed, links = {}, {}, set(), set()
             for path, stamp in observed.items():
                 if path == '\0volatile':
+                    continue
+                if path.startswith(LISTED):
+                    listed.add(self.name(path[len(LISTED):]))
                     continue
                 if path.startswith(USES):
                     source, _, target = path[len(USES):].partition(':')
@@ -242,11 +322,26 @@ class RecipeCache:
                     continue
                 if per_record(name) or name not in self.inputs:
                     probes[name] = (path, stamp)
+                physical, through = self.resolve(os.path.abspath(path))
+                if through:
+                    # read through a view link: bind the link and, as for any read, the listing of the directory
+                    # the file is actually in
+                    links.update(through)
+                    links.add(self.name(os.path.dirname(physical)))
             refuse_unbound(key, set(probes) | {self.name(p) for p in observed if not p.startswith('\0')},
                            used, set(bind))
+            # A flat view directory lists every row TU and every entry directly in src/<container>/: as the parent
+            # of a path read through it, it would tie the record to all of them. The record binds the link it
+            # resolved through instead (the target's own directory listing is bound as that file's parent), and
+            # keeps the listing only when it listed the directory itself.
+            for name in [n for n in probes if is_view_listing(n) and n not in listed]:
+                del probes[name]
             # Bind undeclared review files and absent optional inputs too. Their
             # parent directory name sets catch new siblings outside inventories.
-            names = set(probes)
+            links.discard(None)
+            names = set(probes) | links
+            for name in links:
+                self.digest(name)
             for name, (path, stamp) in probes.items():
                 self.digest(name)
                 if stamp_of(path) != stamp:
@@ -254,7 +349,13 @@ class RecipeCache:
             cacheable = '\0volatile' not in observed
         else:
             value = produce()
-            names = {self.name(p) for p in dependencies(value)} - {None}
+            paths = list(dependencies(value))
+            # a dependency named through a view (an include walk over build_slus/src) binds the links it resolves
+            # through as well as the file
+            names = ({self.name(p) for p in paths} | {n for p in paths for n in self.view_links(p)}) - {None}
+            for name in names:
+                if is_view_link(name):
+                    self.digest(name)
             cacheable = True
         names = set(names) | set(bind)
         if cacheable:
@@ -264,7 +365,11 @@ class RecipeCache:
         return value
 
     def extra_unchanged(self):
-        return all(self.current_digest(n) == self.digests[n] for n in self.used if n not in self.inputs)
+        return not self.extra_changed()
+
+    def extra_changed(self):
+        """Names bound by records (outside the configure inputs) whose content changed since they were bound."""
+        return sorted(n for n in self.used if n not in self.inputs and self.current_digest(n) != self.digests[n])
 
     def closure(self, module, root, starts):
         # Do not observe M.closure's invocation-wide read cache: its observer

@@ -2,6 +2,7 @@
 #include "town/minigame/keima.h"
 #include "sdk/abs.h"
 #include "common.h"
+#include "town/minigame/payout_data.h"
 #include "shared/entity_objects.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
@@ -39,7 +40,6 @@ extern u8 D_80022514[0x100];
 extern ObjectNodeHeader *D_80024338;
 
 extern s16 keima_selection_mask[8];
-extern s32 keima_payout_remaining[0xC58];
 
 typedef struct DialogArgs {
     s16 unk_10;
@@ -288,7 +288,7 @@ loop_3:
             pair_value = one << pair_value;
             object_index = collision_value + pair_value;
             if (winning_mask != object_index) {
-                keima_payout_remaining[0] = 0;
+                keima_payout_remaining = 0;
             }
             game->timer = 0x40U;
             game->unk_4A = 0x400U;
@@ -394,7 +394,7 @@ loop_3:
 
             if (keima_selection_mask[0] != 0) {
                 gold_total = town_money[0];
-                gold_remaining = keima_payout_remaining[0];
+                gold_remaining = keima_payout_remaining;
                 payout_handle = D_80024338;
                 gold_total += gold_remaining;
                 town_money[0] = gold_total;
@@ -433,19 +433,19 @@ loop_3:
         break;
     }
     if ((u32) ((u16) game->stage - 6) < 3U) {
-        payout_amount = keima_payout_remaining[0];
+        payout_amount = keima_payout_remaining;
         if (payout_amount >= 0x3E8) {
             payout_gold = town_money;
             payout_carry = *payout_gold;
             payout_amount -= 0x3E8;
-            keima_payout_remaining[0] = payout_amount;
+            keima_payout_remaining = payout_amount;
             payout_carry += 0x3E8;
             *payout_gold = payout_carry;
         } else if (payout_amount >= 0x64) {
             payout_gold = town_money;
             payout_carry = *payout_gold;
             payout_amount -= 0x64;
-            keima_payout_remaining[0] = payout_amount;
+            keima_payout_remaining = payout_amount;
             payout_carry += 0x64;
             *payout_gold = payout_carry;
         }

@@ -7,6 +7,7 @@
  * calls keep their bytes.  Used by the server functions recovered in opus_nobody2 (docs/evidence/opus_nobody2.md).
  */
 #include "common.h"
+#include "frontend/card/service/selected_channel_data.h"
 
 /* card_dev_drain_hw_events (row main/func_8001A4E4) at 0x804014E4 */
 void invoke_callback_for_four_global_values(void);
@@ -24,8 +25,6 @@ void func_804059A8(void *part);
 void func_80407D38(void *part);
 void func_80404570(void *part);
 
-/* the server's selected card channel: 0 or 16 (0x804094EC) */
-extern s32 card_selected_channel[];
 /* the card UI dirty word (0x8008DAB4) as the server's load-screen release reads and writes it: one scalar word
  * (its other users still declare their own array views locally) */
 extern s32 card_ui_dirty_flags;

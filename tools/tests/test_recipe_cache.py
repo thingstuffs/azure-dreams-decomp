@@ -51,8 +51,9 @@ class ScopedConfigureTests(unittest.TestCase):
         for name in ('a', 'b'):
             def recipe():
                 self.calls.append(name)
-                return dict(source='src/'+name+'.c', flag=selection['flag'],
-                            evidence=B.sha((self.root/'src'/ (name+'.c')).read_bytes()))
+                # via_flat: read the row through its flat view link, as the overlay gate does
+                path = (self.root/'build_ovl/layout_flat/c' if getattr(self, 'via_flat', False) else self.root/'src')/(name+'.c')
+                return dict(source='src/'+name+'.c', flag=selection['flag'], evidence=B.sha(path.read_bytes()))
             spec = B.checkpoint('recipe:'+name, recipe)
             spec['dependencies'] = sorted(B.include_closure(M, self.root, [spec['source']]))
             key = B.sha(json.dumps(spec, sort_keys=True).encode())[:24]
@@ -162,6 +163,46 @@ class ScopedConfigureTests(unittest.TestCase):
         deps = self.current_dependencies()
         self.assertIn('src/sub/leaf.h', deps)
         self.assertNotIn('include/sub/leaf.h', deps)
+        self.assert_full_equal()
+
+    def flat_view(self, **targets):
+        """build_ovl/layout_flat/c/<name> -> <root>/<target> (absolute, like materialize_flat)."""
+        flat = self.root/'build_ovl/layout_flat/c'
+        flat.mkdir(parents=True, exist_ok=True)
+        for name, target in targets.items():
+            link = flat/(name+'.c')
+            if os.path.lexists(link):
+                link.unlink()
+            link.symlink_to(self.root/target)
+
+    def test_flat_view_entry_added_keeps_records_and_matches_full(self):
+        # A file added directly in src/<container>/ adds a flat view link (and changes that listing): records that
+        # read other rows through their own links keep them; before, the guard context bound every view link.
+        self.via_flat = True
+        (self.root/'src/other').mkdir()
+        self.write('src/other/x.c', 'int x;\n')
+        self.flat_view(a='src/a.c', b='src/b.c')
+        self.generate(); self.calls.clear()
+        self.flat_view(x='src/other/x.c')
+        self.generate()
+        self.assertEqual(self.calls, [])
+        self.assert_full_equal()
+        self.generate(); self.calls.clear()
+        (self.root/'build_ovl/layout_flat/c/x.c').unlink()
+        self.generate()
+        self.assertEqual(self.calls, [])
+        self.assert_full_equal()
+
+    def test_flat_view_link_repointed_regenerates_its_reader(self):
+        # A row moved to another existing file without its old file changing (a layout edit): only the link moved
+        self.via_flat = True
+        (self.root/'src/other').mkdir()
+        self.write('src/other/a.c', '#include "shared.h"\nint moved;\n')
+        self.flat_view(a='src/a.c', b='src/b.c')
+        self.generate(); self.calls.clear()
+        self.flat_view(a='src/other/a.c')
+        self.generate()
+        self.assertEqual(self.calls, ['a'])
         self.assert_full_equal()
 
     def test_authority_edit_invalidates_all_records(self):
@@ -504,6 +545,41 @@ class ScopedBootstrapTests(unittest.TestCase):
                 (root/'build_slus/build.ninja').write_text('corrupt output')
                 B.bootstrap(); self.assertEqual(len(calls), 4)
 
+    def test_file_set_edits_below_projected_entries_reuse_views(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td); state = root/'build/.state'
+            for d in ('src/town/event', 'include/town', 'config', 'ledger', 'build_slus/build', 'build/.state'):
+                (root/d).mkdir(parents=True, exist_ok=True)
+            (root/'src/town/event/a.c').write_text('int a;')
+            (root/'src/town/f.c').write_text('int f;')
+            (root/'include/town/x.h').write_text('int x;')
+            (root/'ledger/tu_layout.jsonl').write_text(json.dumps(dict(old='src/town/old.c', new='src/town/event/moved.c')) + '\n')
+            calls = []
+            def views():
+                calls.append(1)
+                (root/'build_slus/build.ninja').write_text('constant recipes')
+                (root/'build_slus/build/slus_006.14.ld').write_text('constant layout')
+            with patch.object(B, 'ROOT', root), patch.object(B, 'STATE', state), \
+                 patch.object(B, '_bootstrap', side_effect=views), \
+                 patch.object(B, 'bootstrap_source_inputs', return_value=['src/town/event/review.c']), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                B.bootstrap(); self.assertEqual(len(calls), 1)
+                for edit in (lambda: (root/'src/town/event/new.c').write_text('int n;'),        # below a projected dir
+                             lambda: (root/'src/town/event/new.c').rename(root/'src/town/event/renamed.c'),
+                             lambda: (root/'include/town/y.h').write_text('int y;'),           # include/: one link
+                             lambda: (root/'include/town/x.h').unlink(),
+                             lambda: (root/'src/town/event/renamed.c').unlink()):
+                    edit()
+                    B.bootstrap(); self.assertEqual(len(calls), 1)
+                expected = 1
+                for edit in (lambda: (root/'src/town/g.c').write_text('int g;'),               # a projected entry
+                             lambda: (root/'src/town/g.c').unlink(),
+                             lambda: ((root/'src/town/fresh').mkdir(), (root/'src/town/fresh/a.c').write_text('')),
+                             lambda: (root/'src/town/event/review.c').write_text('int r;'),    # a manifest source
+                             lambda: (root/'src/town/event/moved.c').write_text('int m;')):    # a TU move target
+                    edit()
+                    B.bootstrap(); expected += 1; self.assertEqual(len(calls), expected)
+
 
 class StructuralGuardTests(unittest.TestCase):
     """Source-derived fields of the link graph and layout_inline do not invalidate unrelated checkpoints."""
@@ -548,6 +624,11 @@ class StructuralGuardTests(unittest.TestCase):
         cache, values, saved = self.run_cache(saved)
         self.assertEqual((cache.hits, cache.misses), (2, 1))
         self.assertIn('2'*64, values['graph'])
+        self.tus['source'] = 'src/b.c'  # a row-TU rename: only the graph checkpoint (bound to the files) reruns
+        self.write_tables()
+        cache, values, saved = self.run_cache(saved)
+        self.assertEqual((cache.hits, cache.misses), (2, 1))
+        self.assertIn('src/b.c', values['graph'])
         self.tus['recipe_witness'] = dict(cfg='y')
         self.write_tables()
         cache, _, _ = self.run_cache(saved)
@@ -628,12 +709,96 @@ class StructuralGuardTests(unittest.TestCase):
             B.bootstrap(); self.assertEqual(len(calls), 1)
             self.inline['tu_new'] = 'src/b.c'; self.write_tables()
             B.bootstrap(); self.assertEqual(len(calls), 2)
+            # a TU source path follows the row layout (whose content bootstrap binds); the graph's own copy is not
+            # read by bootstrap
             self.tus['source'] = 'src/b.c'; self.write_tables()
+            B.bootstrap(); self.assertEqual(len(calls), 2)
+            self.tus['recipe_witness'] = dict(cfg='z'); self.write_tables()
             B.bootstrap(); self.assertEqual(len(calls), 3)
 
 
-@unittest.skipUnless(os.environ.get('AZURE_MAKE_SCOPED_EQUIVALENCE') == '1',
-                     'opt-in production full-enumeration comparison')
+class ViewLinkBindingTests(unittest.TestCase):
+    """Derived per-entry view links leave the guard context; each record binds the ones it resolved through."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        for d in ('src/c/feat', 'build_ovl/layout_flat/c', 'build_ovl/overlays/c'):
+            (self.root/d).mkdir(parents=True, exist_ok=True)
+        (self.root/'src/c/feat/a.c').write_text('int a;\n')
+        (self.root/'src/c/feat/b.c').write_text('int b;\n')
+        self.flat = self.root/'build_ovl/layout_flat/c'
+        for n in ('a', 'b'):
+            (self.flat/(n+'.c')).symlink_to(self.root/'src/c/feat'/(n+'.c'))
+        (self.flat/'feat').symlink_to(self.root/'src/c/feat')  # a directory entry of src/c/
+        (self.root/'build_ovl/overlays/c/first_pass_matched').symlink_to(self.flat)  # relative view of the flat dir
+        self.matched = self.root/'build_ovl/overlays/c/first_pass_matched'
+
+    def cache(self, saved=None):
+        return RecipeCache(self.root, {}, dict(schema=1, root=str(self.root)), saved)
+
+    def saved(self, cache):
+        return dict(guard=cache.guard, records=cache.records)
+
+    def test_read_binds_the_link_not_the_flat_listing(self):
+        first = self.cache()
+        first.memo('row:a', lambda: (self.matched/'a.c').read_text())
+        inputs = first.records['row:a']['inputs']
+        self.assertEqual(inputs['build_ovl/layout_flat/c/a.c'], 'link:<root>/src/c/feat/a.c')
+        self.assertIn('src/c/feat/a.c', inputs)
+        self.assertIn('src/c/feat', inputs)  # the target's own directory listing
+        self.assertNotIn('build_ovl/layout_flat/c', inputs)
+        (self.flat/'new.c').symlink_to(self.root/'src/c/feat/a.c')  # a new flat entry: the record holds
+        second = self.cache(self.saved(first))
+        self.assertEqual(second.memo('row:a', lambda: self.fail('regenerated')), 'int a;\n')
+        (self.root/'src/c/other').mkdir()
+        (self.root/'src/c/other/a.c').write_text('int a;\n')  # same bytes, different file: still a move
+        (self.flat/'a.c').unlink(); (self.flat/'a.c').symlink_to(self.root/'src/c/other/a.c')
+        third = self.cache(self.saved(first))
+        third.memo('row:a', lambda: (self.matched/'a.c').read_text())
+        self.assertEqual((third.hits, third.misses), (0, 1))
+
+    def test_read_through_a_flat_directory_entry_binds_that_link(self):
+        first = self.cache()
+        first.memo('row:b', lambda: (self.flat/'feat/b.c').read_text())
+        self.assertEqual(first.records['row:b']['inputs']['build_ovl/layout_flat/c/feat'], 'link:<root>/src/c/feat')
+        (self.flat/'feat').unlink(); (self.flat/'feat').symlink_to(self.root/'src/c')
+        (self.root/'src/c/b.c').write_text('int b;\n')
+        second = self.cache(self.saved(first))
+        second.memo('row:b', lambda: (self.flat/'feat/b.c').read_text())
+        self.assertEqual(second.misses, 1)
+
+    def test_declared_dependencies_named_through_a_view_bind_its_links(self):
+        first = self.cache()
+        first.memo('closure:a', lambda: ['a.c'], lambda found: [self.matched/n for n in found])
+        inputs = first.records['closure:a']['inputs']
+        self.assertEqual(sorted(inputs), ['build_ovl/layout_flat/c/a.c', 'src/c/feat/a.c'])
+        (self.flat/'a.c').unlink(); (self.flat/'a.c').symlink_to(self.root/'src/c/feat/b.c')
+        second = self.cache(self.saved(first))
+        second.memo('closure:a', lambda: ['a.c'], lambda found: [self.matched/n for n in found])
+        self.assertEqual(second.misses, 1)
+
+    def test_listing_the_flat_directory_keeps_its_listing(self):
+        first = self.cache()
+        first.memo('matches:c', lambda: sorted(os.listdir(self.matched)))
+        self.assertIn('build_ovl/layout_flat/c', first.records['matches:c']['inputs'])
+        (self.flat/'new.c').symlink_to(self.root/'src/c/feat/a.c')
+        second = self.cache(self.saved(first))
+        self.assertIn('new.c', second.memo('matches:c', lambda: sorted(os.listdir(self.matched))))
+        self.assertEqual(second.misses, 1)
+
+    def test_guard_context_leaves_out_derived_view_links(self):
+        from tools.build.recipe_cache import guard_links, is_view_link
+        links = {'build_ovl/layout_flat/c/a.c': '/r/src/c/a.c', 'build_slus/src/x.c': '/r/build_slus/layout_flat/slus/x.c',
+                 'build_ovl/overlays/c/first_pass_matched': '/r/build_ovl/layout_flat/c', 'build_slus/src': '/r/x',
+                 'build_ovl/src': '/r/src'}
+        self.assertEqual(sorted(guard_links(links)), ['build_ovl/overlays/c/first_pass_matched', 'build_ovl/src',
+                                                      'build_slus/src'])
+        self.assertFalse(is_view_link('build_ovl/layout_flat/c'))
+        self.assertEqual(RecipeCache.hash_at(self.root, 'build_ovl/layout_flat/c/a.c'), 'link:<root>/src/c/feat/a.c')
+        self.assertIsNone(RecipeCache.hash_at(self.root, 'build_ovl/layout_flat/c/missing.c'))
+
+
 class UnboundReadRefusalTests(unittest.TestCase):
     """A checkpoint that consumes a guard-excluded part of a structural input without its binding fails loudly."""
     def setUp(self):
@@ -675,6 +840,8 @@ class UnboundReadRefusalTests(unittest.TestCase):
             self.assertIn('config/names.tsv', self.cache.records[key]['inputs'])
 
 
+@unittest.skipUnless(os.environ.get('AZURE_MAKE_SCOPED_EQUIVALENCE') == '1',
+                     'opt-in production full-enumeration comparison')
 class ProductionEqualityTests(unittest.TestCase):
     def test_current_projection_is_byte_identical_to_full_regeneration(self):
         root = Path(__file__).resolve().parents[2]

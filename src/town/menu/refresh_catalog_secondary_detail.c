@@ -24,7 +24,7 @@ typedef struct {
     SpriteFields *src;
 } DisplayPair;
 
-extern u8 catalog_scroll_offset[16];
+#include "town/menu/catalog_scroll_data.h"
 extern u8 D_80126A0D[16];
 extern ImageEntry catalog_glyphs[];
 extern DisplayPair *D_80129780[3];
@@ -33,7 +33,7 @@ extern DisplayPair *D_80129780[3];
 void refresh_catalog_secondary_detail(CatalogDisplay *town_obj)
 {
     draw_catalog_secondary_detail(town_obj);
-    D_80126A0D[0] = catalog_scroll_offset[0];
+    D_80126A0D[0] = catalog_scroll_offset;
 
     if (town_obj->unk_14 == 0x31) {
         town_obj->parts.nodes[21]->handler = catalog_detail_fallback;

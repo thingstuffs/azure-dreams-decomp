@@ -69,9 +69,12 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         ((S_80172B00_0 *)effect_data)->unk_96 = 0x78;
         effect_object->update_callback = &update_boss_actor_direction_state;
         ((S_80172B00_0 *)effect_data)->unk_AC = parent_object;
-        ((S_80172B00_0 *)effect_data)->unk_94 = (u16) ((S_80172B00_2 *)parent_data)->unk_2A;
-        copy_src = sprite_template;
-        ((S_80172B00_0 *)effect_data)->unk_2A = (u16) ((S_80172B00_2 *)parent_data)->unk_2A;
+        {
+            S_80172B00_2 *parent_view = parent_data;
+            ((S_80172B00_0 *)effect_data)->unk_94 = (u16) parent_view->unk_2A;
+            copy_src = sprite_template;
+            ((S_80172B00_0 *)effect_data)->unk_2A = (u16) parent_view->unk_2A;
+        }
         sprite = effect_object->sprite;
         copy_dst = (CopyBlock *) sprite;
         *(Copy48 *)copy_dst = *(Copy48 *)copy_src;
@@ -97,7 +100,10 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         direction_index >>= 9;
         direction_index &= 7;
         sprite->depth_bias = (s16) (view_direction_depth_biases[direction_index] * 4);
-        ((S_80172B00_2 *)parent_data)->unk_B0 = (u8) (((S_80172B00_2 *)parent_data)->unk_B0 + 1);
+        {
+            S_80172B00_2 *parent_view = parent_data;
+            parent_view->unk_B0 = (u8) (parent_view->unk_B0 + 1);
+        }
         create_tracked_effect(effect_object, setup_mode, ((void *)sprite) + 0x2C, effect_data + 0x2A);
     }
 }

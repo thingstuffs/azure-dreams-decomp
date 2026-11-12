@@ -11,6 +11,7 @@
 #include "town/map.h"
 #include "town/map/position.h"
 #include "town/player.h"
+#include "town/player/overlay_height_data.h"
 #include "town/data.h"
 
    /* coord in draw_entry_overlays */
@@ -88,7 +89,6 @@ typedef struct S_800970FC_14 {
 extern void func_80067EF4(void *, s32, s32);
 extern u8 scene_object_payload_alias[];
 extern u8 view_reference_entity[];
-extern s32 overlay_height_in_range[3];
 extern PlayerOverlayTextureRect player_overlay_texture_rect;
 extern u8 D_800D04D8[];
 extern u8 D_800D04E0[];
@@ -145,7 +145,7 @@ s32 draw_entry_overlays(void) {
     if (!(entry->sprite_flags & 0x80)) {
         coord = view_reference_entity;
 #define view_reference_entity (*(u8 *)coord)
-        overlay_height_in_range[0] = 0;
+        overlay_height_in_range = 0;
         coord_x = coord->x.w.i;
         coord_y = coord->y.w.i;
         height_index = check_masked_value_in_current_range(read_map_cell_at_world_position(coord_x, coord_y) & 0xFFFF);
@@ -154,7 +154,7 @@ s32 draw_entry_overlays(void) {
             height_delta = (s32) (coord_z - terrain_height_limits[height_index]) / 2;
             overlay_height = height_delta + 6;
             if ((u32) ((height_delta + 5) & 0xFFFF) < 0x3FU) {
-                overlay_height_in_range[0] = 1;
+                overlay_height_in_range = 1;
                 scratch_control = (u32 *)0x1F80013C;
                 *scratch_control = 0;
                 project_sprite_commands(NULL, coord, D_800D04E0, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));

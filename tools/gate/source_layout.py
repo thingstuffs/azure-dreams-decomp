@@ -108,10 +108,21 @@ def _load(path, stamp, rows_path, rows_stamp, inline_path, inline_stamp):
     return mapping
 
 
+def _memo_read(path):
+    """Record path in the running configure checkpoint even when a process memo serves it (the configure guard
+    leaves the row layout to the records that read it: recipe_cache.PER_RECORD)."""
+    try:
+        from gate_read_cache import memo_read
+    except ImportError:
+        return
+    memo_read(path)
+
+
 def mapping(root=ROOT):
     root = Path(root).absolute()
     p, rp = root / "ledger/layout.jsonl", root / "ledger/rows.jsonl"
     ip = root / "ledger/layout_inline.jsonl"
+    _memo_read(p)
     return _load(str(p), _stamp(p), str(rp), _stamp(rp), str(ip), _stamp(ip))
 
 

@@ -1715,12 +1715,12 @@ void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, 
 {
     u16 ticks_left;
 
-    *(u16 *)((u8 *)primitive + 0x1A) += 0x320;
-    *(s8 *)((u8 *)primitive + 0x0C) =
+    primitive->angle_z += 0x320;
+    primitive->color.c.r =
         (*((u8 *)effect + 0) * *(s16 *)((u8 *)effect + 0x24)) / 5;
-    *(s8 *)((u8 *)primitive + 0x0D) =
+    primitive->color.c.g =
         (*((u8 *)effect + 1) * *(s16 *)((u8 *)effect + 0x24)) / 5;
-    *(s8 *)((u8 *)primitive + 0x0E) =
+    primitive->color.c.b =
         (*((u8 *)effect + 2) * *(s16 *)((u8 *)effect + 0x24)) / 5;
 
     ticks_left = *(u16 *)((u8 *)effect + 0x24) - 1;
@@ -1782,8 +1782,8 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
 {
     CB_80173E40_S_80173E40_2 *render_info = render_info_arg;
     ObjectPosition *position = position_arg;
-    u8 *scratch = (u8 *)0x1F800000;
-    u8 *packet;
+    CB_80173E40_S_80173E40_0 *scratch = (CB_80173E40_S_80173E40_0 *)0x1F800000;
+    CB_80173E40_S_80173E40_4 *packet;
     u8 *texture;
     s32 ot_index;
     u16 render_flags;
@@ -1792,35 +1792,35 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
     GameWork *render_state_ptr = &g_game_work;
     CB_80173E40_MATRIX current_matrix;
 
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_88 = position->x.w.i;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_8C = position->y.w.i;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_90 = position->z.w.i;
+    scratch->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
+    scratch->unk_88 = position->x.w.i;
+    scratch->unk_8C = position->y.w.i;
+    scratch->unk_90 = position->z.w.i;
     render_info->unk_14 |= 0x8000;
 
     PushMatrix();
 
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_3C = 0x2000;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_38 = 0x2000;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_34 = 0x2000;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_A4 = render_info->unk_16;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_A8 = render_info->unk_1A;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_A6 = render_info->unk_18;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = render_info->unk_16;
+    scratch->unk_A8 = render_info->unk_1A;
+    scratch->unk_A6 = render_info->unk_18;
+    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&current_matrix);
-    CompMatrix(&current_matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&current_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     texture = (*(u8 * *)((u8 *)render_info + 8));
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_28 = render_info->unk_14;
-    packet = ((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0;
-    ((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
+    scratch->unk_28 = render_info->unk_14;
+    packet = (CB_80173E40_S_80173E40_4 *)((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0;
+    ((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0 = (u8 *)packet + 0xC;
     texture_page = GetTPage(0, 0, 0, 0);
     SetDrawMode(packet, 0, 0, texture_page, 0);
 
-    (*(u32 *)(packet + 0)) = (((CB_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
+    packet->unk_00 = (packet->unk_00 & 0xFF000000) |
         (((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
     (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
         (((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0xFF000000) |
@@ -1828,46 +1828,46 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
 
     {
         CB_80173E40_S_80173E40_5 *render_state = g_game_work.draw_buffer;
-        packet = render_state->unk_8D0;
-        render_state->unk_8D0 = packet + 0x24;
+        packet = (CB_80173E40_S_80173E40_4 *)render_state->unk_8D0;
+        render_state->unk_8D0 = (u8 *)packet + 0x24;
     }
 
     {
         CB_80173E40_S_80173E40_6 *draw_body = (CB_80173E40_S_80173E40_6 *)body;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B0 = body->unk_44.whole;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B8 = draw_body->unk_4A;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C0 = body->unk_50.halves.low;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C8 = draw_body->unk_56;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B2 = body->action_flags;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BA = draw_body->unk_4C;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C2 = body->unk_50.halves.high;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CA = draw_body->unk_58;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B4 = draw_body->unk_48;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BC = draw_body->unk_4E;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C4 = draw_body->unk_54;
-        ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CC = draw_body->unk_5A;
+        scratch->unk_B0 = body->unk_44.whole;
+        scratch->unk_B8 = draw_body->unk_4A;
+        scratch->unk_C0 = body->unk_50.halves.low;
+        scratch->unk_C8 = draw_body->unk_56;
+        scratch->unk_B2 = body->action_flags;
+        scratch->unk_BA = draw_body->unk_4C;
+        scratch->unk_C2 = body->unk_50.halves.high;
+        scratch->unk_CA = draw_body->unk_58;
+        scratch->unk_B4 = draw_body->unk_48;
+        scratch->unk_BC = draw_body->unk_4E;
+        scratch->unk_C4 = draw_body->unk_54;
+        scratch->unk_CC = draw_body->unk_5A;
     }
 
-    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                             scratch + 0xC0, scratch + 0xC8,
-                             packet + 8, packet + 0x10,
-                             packet + 0x18, packet + 0x20,
-                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_100 = ot_index;
+    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
+                             &scratch->unk_C0, &scratch->unk_C8,
+                             &packet->unk_08, &packet->unk_10,
+                             &packet->unk_18, &packet->unk_20,
+                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+    scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
-        if ((((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_08 + 0x20) < 0x181) &&
-             ((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_0A + 0x20) < 0x121)) |
-            (((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_10 + 0x20) < 0x181) &&
-             ((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_12 + 0x20) < 0x121)) |
-            (((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_18 + 0x20) < 0x181) &&
-             ((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_1A + 0x20) < 0x121)) |
-            (((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_20 + 0x20) < 0x181) &&
-             ((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_22 + 0x20) < 0x121))) {
+        if ((((u16)(packet->unk_08 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_0A + 0x20) < 0x121)) |
+            (((u16)(packet->unk_10 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_12 + 0x20) < 0x121)) |
+            (((u16)(packet->unk_18 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_1A + 0x20) < 0x121)) |
+            (((u16)(packet->unk_20 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_22 + 0x20) < 0x121))) {
             render_info->unk_14 &= 0x7FFF;
             texture_flags = texture[1];
             render_info->unk_0F = texture_flags;
-            render_flags = ((CB_80173E40_S_80173E40_0 *)scratch)->unk_28;
+            render_flags = scratch->unk_28;
             if (render_flags & 8) {
                 render_info->unk_0F = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
@@ -1875,32 +1875,32 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
 
             {
                 CB_80173E40_S_80173E40_6 *draw_body = (CB_80173E40_S_80173E40_6 *)body;
-                ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at00.v = draw_body->unk_04;
-                ((CB_80173E40_S_80173E40_4 *)packet)->unk_0C = draw_body->unk_08;
-                ((CB_80173E40_S_80173E40_4 *)packet)->unk_14 = (u32)(body->unk_0C.value);
-                ((CB_80173E40_S_80173E40_4 *)packet)->unk_1C = draw_body->unk_10;
+                packet->unk_04.at00.v = draw_body->unk_04;
+                packet->unk_0C = draw_body->unk_08;
+                packet->unk_14 = (u32)(body->unk_0C.value);
+                packet->unk_1C = draw_body->unk_10;
             }
             SetPolyG4(packet);
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at03.v |= 2;
+            packet->unk_04.at03.v |= 2;
 
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_00 = (((CB_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)
-                    + ((CB_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p2) + ((CB_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)
-                    + ((CB_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            packet = ((CB_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0;
-            ((CB_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0 = packet + 0xC;
+            packet = (CB_80173E40_S_80173E40_4 *)((CB_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0;
+            ((CB_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0 = (u8 *)packet + 0xC;
             texture_page = GetTPage(0, 1, 0, 0);
             SetDrawMode(packet, 0, 0, texture_page, 0);
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_00 = (((CB_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)
-                    + ((CB_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p2) + ((CB_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)
-                    + ((CB_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }
@@ -2065,7 +2065,7 @@ void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition 
             s16 end_radius = 0;
             s16 start_radius = 0;
             s32 last_band;
-            void *effect;
+            CB_80174724_S_80C96F24_3 *effect;
 
             if (band_index == 0) {
                 start_radius = 0x18;
@@ -2100,16 +2100,16 @@ void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition 
 
                 ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_2C =
                     init_value - owner->unk_A4;
-                ((CB_80174724_S_80C96F24_3 *)effect)->unk_10 = update_radial_effect_band;
-                register_node(effect, project_linked_effect_quads);
+                effect->unk_10 = update_radial_effect_band;
+                register_node((struct ObjectNodeHeader *)effect, project_linked_effect_quads);
 
-                render_state = (CB_80174724_S_80C96F24_4 *)((CB_80174724_S_80C96F24_3 *)effect)->unk_0C;
+                render_state = (CB_80174724_S_80C96F24_4 *)effect->unk_0C;
                 render_state->unk_10 = 0x20;
                 render_state->unk_14 |= 0x0C;
 
                 {
 
-                    position = ((CB_80174724_S_80C96F24_3 *)effect)->unk_08;
+                    position = effect->unk_08;
                     position->unk_00 =
                         origin->x.v;
                     position->unk_04 =
@@ -2118,14 +2118,14 @@ void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition 
                         origin->z.v + 0x200000;
                 }
 
-                render_state = (CB_80174724_S_80C96F24_4 *)((CB_80174724_S_80C96F24_3 *)effect)->unk_0C;
+                render_state = (CB_80174724_S_80C96F24_4 *)effect->unk_0C;
                 render_state->unk_1E = 0x1000;
                 render_state->unk_1C = 0x1000;
                 render_state->unk_0E = 0x80;
                 render_state->unk_0D = 0x80;
                 render_state->unk_0C = 0x80;
 
-                ((CB_80174724_S_80C96F24_3 *)effect)->unk_20 =
+                effect->unk_20 =
                     (rand() & 0x1F) + 0x10 + shade_offset;
                 ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_01 =
                     (rand() & 0x1F) + 0x10 + shade_offset;
@@ -2136,7 +2136,7 @@ void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition 
                     s32 segment_index = (s16)segment;
 
                     if ((segment_index == 1) || (segment_index == 6)) {
-                        ((CB_80174724_S_80C96F24_3 *)effect)->unk_20 += 0x0A;
+                        effect->unk_20 += 0x0A;
                         ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_01 += 0x0A;
                         ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_02 += 0x0A;
                     }
@@ -2326,18 +2326,23 @@ void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, ObjectPosi
         state->phase = next_state;
         return;
     case 1:
+    {
+        Rec_D_80082E80 *actor_view = actor;
         run_cd_image_commands(&block_image_commands, &block_image_load_done, 0);
         state->unk_A4 = 0;
         state->phase = (u8) (state->phase + 1);
-        ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
+        actor_view->unk_8A = (u16) actor_view->unk_28.at02_u16.v;
+    }
     case 2:
-        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100)
+    {
+        Rec_D_80082E80 *actor_view = actor;
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) actor_view->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
         if ((*&block_image_load_done) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x200);
+            actor_view->unk_28.at02_u16.v = (u16) (actor_view->unk_28.at02_u16.v + 0x200);
             return;
         }
 
@@ -2350,6 +2355,7 @@ void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, ObjectPosi
         state->timer = 0x10U;
         state->phase = (u8) (state->phase + 1);
         create_radial_effect_bands(state, position, entity);
+    }
     case 3:
         previous_ticks = state->timer;
         fade_ticks = previous_ticks - 1;
@@ -2412,6 +2418,8 @@ void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, ObjectPosi
             state->phase = (u8) (state->phase + 1);
         }
     case 6:
+    {
+        Rec_D_80082E80 *actor_view = actor;
         if (state->phase != 6) {
             return;
         }
@@ -2420,39 +2428,46 @@ void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, ObjectPosi
         }
         state->timer = 0x10U;
         state->phase = (u8) (state->phase + 1);
-        decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
+        decrement_monster_entry_count(actor_view->unk_12.at01_u8.v, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
         render_obj = actor - 0x20;
         render_obj->unk_10 = (s32) (render_obj->unk_10 | 0x80000000);
         return;
+    }
     case 7:
+    {
+        Rec_D_80082E80 *actor_view = actor;
         new_model = advance_staged_entity_load(entity, actor);
-        ((Rec_D_80082E80 *)actor)->unk_60.as_pv = new_model;
+        actor_view->unk_60.as_pv = new_model;
         if (new_model == NULL) {
             return;
         }
         state->timer = 0x10U;
         state->phase = (u8) (state->phase + 1);
-        ((CB_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A =
-            (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
-        model = ((Rec_D_80082E80 *)actor)->unk_60.as_pv;
+        ((CB_80174D14_S_80C97514_15 *)actor_view->unk_60.as_pv)->unk_2A =
+            (u16) actor_view->unk_28.at02_u16.v;
+        model = actor_view->unk_60.as_pv;
         render_obj = ((CB_80174D14_S_80C97514_9_pre *)model)[-1].unk_00;
         select_indirect_table_entry(render_obj, render_obj->unk_2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((CB_80174D14_S_80C97514_9 *)model)->unk_2A + 0x100) >> 9) & 7], render_obj->unk_04);
         render_obj->unk_14 = (u16) (render_obj->unk_14 & 0xFFFE);
+    }
     case 8:
+    {
+        Rec_D_80082E80 *actor_view = actor;
         finish_ticks = state->timer - 1;
         state->timer = finish_ticks;
         if ((finish_ticks << 0x10) > 0) {
             return;
         }
-        ((CB_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
+        ((CB_80174D14_S_80C97514_15 *)actor_view->unk_60.as_pv)->unk_2A = (u16) actor_view->unk_8A;
         ((CB_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((CB_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        ((Rec_D_80082E80 *)actor)->unk_6D = 0;
+        actor_view->unk_6D = 0;
         return;
+    }
     }
 }
 

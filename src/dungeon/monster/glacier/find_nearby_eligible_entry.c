@@ -36,14 +36,15 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
         target_height = scratch >> 0x10;
         min_height = target_height - 0x20;
         do {
+            ActorRecord *actor = (ActorRecord *)current;
             object = (SpriteFrameState *)((S_801748FC_0_pre *)current)[-1].unk_00;
             entry = current - 0x20;
             if ((object->tile_x == (filter_24 & 0xFFFF)) &&
                 (object->tile_y == (filter_25 & 0xFFFF)) &&
-                (height = ((ActorRecord *)current)->ground_height,
+                (height = actor->ground_height,
                  height <= target_height + 0x20) &&
                 (height >= min_height) &&
-                ((u32)(((ActorRecord *)current)->species - MONSTER_WALL_OF_FIRE) >= 4U)) {
+                ((u32)(actor->species - MONSTER_WALL_OF_FIRE) >= 4U)) {
                 scratch = check_entity_eligibility(current);
                 scratch <<= 0x10;
                 if (scratch != 0) {

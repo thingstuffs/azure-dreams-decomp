@@ -39,7 +39,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
     u8 *packet;
     JitteredTerrainSeekingPointBody *node;
     B32_818CE83C_S_8002403C_2 *coords;
-    void *prev_entry;
+    B32_818CE83C_S_8002403C_5 *prev_entry;
     u32 depth_index;
     u16 coord_x;
 
@@ -131,7 +131,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
         if (prev_entry == 0) {
             break;
         }
-        coords = (B32_818CE83C_S_8002403C_2 *)((B32_818CE83C_S_8002403C_5 *)prev_entry)->unk_08;
+        coords = (B32_818CE83C_S_8002403C_2 *)prev_entry->unk_08;
     }
 
     final_state = *state_ptr;
@@ -435,7 +435,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
             s32 a3v;
             s32 rv;
             rv = rand();
-            w1 = ((u8 *)entity - 0x20);
+            w1 = NODE_HEADER(entity);
             src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
             create_jittered_terrain_seeking_point(w1, entity->unk_16, (s32)src, a3v, 0, 0, 0);

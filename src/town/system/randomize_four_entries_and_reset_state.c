@@ -1,10 +1,10 @@
 #include "common.h"
+#include "town/minigame/payout_data.h"
 #include "sdk/libc.h"
 #include "town/system.h"
 #include "town/data.h"
 
 extern s16 keima_selection_mask;
-extern s32 keima_payout_remaining;
 
 /* Randomize four entries, set two distinct entries to 1 and 2, and reset state. */
 s32 randomize_four_entries_and_reset_state(void) {

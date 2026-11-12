@@ -13,7 +13,7 @@ typedef struct {
 
 s16 find_minimum_sampled_position(s32, s32, s32);
 extern void *town_secondary_probe_samples[3];
-extern s32 town_secondary_probe_offset[3];
+#include "town/player/probe_offset_data.h"
 
 /* Return the lower probe result, sampling an X offset when the displacement exceeds the limit. */
 s32 query_lower_bound_with_x_offset(ObjectPosition *input_pos) {
@@ -26,7 +26,7 @@ s32 query_lower_bound_with_x_offset(ObjectPosition *input_pos) {
     probe_pos.y = input_pos->y.v;
     probe_pos.z = input_pos->z.v;
     initial_result = find_minimum_sampled_position((s32)(&probe_pos), (s32)(town_secondary_probe_samples[0]), 6);
-    x_delta = town_secondary_probe_offset[0];
+    x_delta = town_secondary_probe_offset;
     if (abs(x_delta) <= 0x140000) {
         return initial_result;
     }

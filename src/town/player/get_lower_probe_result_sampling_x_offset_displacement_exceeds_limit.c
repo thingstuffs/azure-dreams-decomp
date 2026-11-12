@@ -12,7 +12,7 @@ typedef struct {
 } Vec3s32;
 
 extern void *town_primary_probe_samples[3];
-extern s32 town_primary_probe_offset[3];
+#include "town/player/probe_offset_data.h"
 
 /* Return the lower probe result, sampling an X offset when the displacement exceeds the limit. */
 s32 get_lower_probe_result_sampling_x_offset_displacement_exceeds_limit(ObjectPosition *input_pos) {
@@ -25,7 +25,7 @@ s32 get_lower_probe_result_sampling_x_offset_displacement_exceeds_limit(ObjectPo
     probe_pos.y = input_pos->y.v;
     probe_pos.z = input_pos->z.v;
     initial_result = min_indexed_query((s32)(&probe_pos), town_primary_probe_samples[0], 6);
-    x_delta = town_primary_probe_offset[0];
+    x_delta = town_primary_probe_offset;
     if (abs(x_delta) <= 0x140000) {
         return initial_result;
     }

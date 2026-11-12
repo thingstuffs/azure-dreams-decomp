@@ -5,6 +5,7 @@
 #include "engine/scene.h"
 #include "engine/window.h"
 #include "sdk/libc.h"
+#include "slus/window_node_list_data.h"
 
 struct Func80037F70Outer;
 
@@ -43,7 +44,6 @@ typedef struct RuntimeTask {
     RuntimeLinks field20;
 } RuntimeTask;
 
-extern u8 window_node_list_storage[9];
 extern RuntimeState runtime_script_state;
 extern u8 message_window_state_data[9];
 extern u8 D_80012D6E[9];
@@ -60,7 +60,7 @@ void initialize_message_window_runtime_task(void)
     void *state_data;
     s32 index;
 
-    task = initialize_scene_object_in_buffer(0, window_node_list_storage, 0x49);
+    task = initialize_scene_object_in_buffer(0, &window_node_list_storage, 0x49);
     links = &task->field20;
     task->field10 = sync_message_window_state;
     links->field04 = &runtime_script_state;

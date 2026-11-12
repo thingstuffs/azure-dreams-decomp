@@ -1100,6 +1100,28 @@ def access_report_lines(access):
     return lines
 
 
+TABLE_ROW = re.compile(r'\(\(u8 \*\)[A-Za-z_]\w* \+ 0x[0-9A-Fa-f]+\),?')
+TABLE_LINES = (re.compile(r'#include\s+\S+'), re.compile(r'struct\s+\w+\s*;'), re.compile(r'extern\s[^;{}]*;'), TABLE_ROW, re.compile(r'\};'),
+               re.compile(r'const\s+void\s*\*\s*const\s+\w+\s*\[\d*\]\s*(?:__attribute__\(\(\w+\(\d+\)\)\)\s*)?=\s*\{'))
+
+
+def table_row_report(root):
+    """Report-only: pointer casts that are switch-table rows ((u8 *)function + offset) in data files that hold
+    nothing else; their owner's compiler .rodata can supply them (config/overlays/<container>.switch_tables.jsonl)."""
+    casts = files = 0
+    for path in sorted((root / 'src').rglob('*.c')):
+        text = path.read_text(errors='replace')
+        if '((u8 *)' not in text:
+            continue
+        lines = [line.strip() for line in re.sub(r'/\*.*?\*/', '', text, flags=re.S).splitlines() if line.strip()]
+        if lines and all(any(p.fullmatch(line) for p in TABLE_LINES) for line in lines):
+            rows = sum(1 for line in lines if TABLE_ROW.fullmatch(line))
+            if rows:
+                casts += rows
+                files += 1
+    return casts, files
+
+
 def access_summary_from_sites(path):
     """Read a cached access census without invoking its compiler or parser."""
     source = mapped = agreement = 0
@@ -1238,6 +1260,9 @@ def main(argv=None):
             for line in RC.summary_lines(summary['readcounts']):
                 print(line)
             RC.write_lists(args.readcounts_out or args.root.resolve() / 'build/readcounts', summary['readcounts'])
+        table_casts, table_files = table_row_report(args.root.resolve())
+        print(f'jump_table_rows (report only)\t{table_casts}\tin {table_files} data files whose only content is '
+              f'switch-table rows ((u8 *)function + offset); counted in pointer_casts')
         import decl_agreement
         data_rows, data_names = decl_agreement.data_census(args.root.resolve())
         print(f'data_decl_disagreements (report only)\t{len(data_rows)}\tof {len(data_names)} data names declared '

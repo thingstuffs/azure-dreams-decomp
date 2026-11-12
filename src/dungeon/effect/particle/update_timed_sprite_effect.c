@@ -121,17 +121,17 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
         if ((((AnimationFlags *)effect->launch_context)->unk_00 & 0x80) == 0) {
             return;
         }
-        if (resolve_record_orientation_or_fallback(((ProjectileSprite *)caster_obj->sprite)->unk_08,
+        if (resolve_record_orientation_or_fallback(caster_obj->sprite->source,
                           caster_obj->sprite, launch_offset, 0) == 0) {
             launch_offset[1] = 0;
             launch_offset[0] = 0;
             launch_offset[2] = (caster_sprite->flags & 0x8000) ? -48 : 0;
         }
-        motion->x.s = ((ProjectileMotion *)caster_obj->position)->x.s +
+        motion->x.s = caster_obj->position->x.v +
                               ((s32)launch_offset[0] << 16);
-        motion->y.s = ((ProjectileMotion *)caster_obj->position)->y.s +
+        motion->y.s = caster_obj->position->y.v +
                               ((s32)launch_offset[1] << 16);
-        motion->z.s = ((ProjectileMotion *)caster_obj->position)->z.s +
+        motion->z.s = caster_obj->position->z.v +
                               ((s32)launch_offset[2] << 16);
         register_node((u8 *)effect - 0x20, draw_animated_projectile_quads);
         range = (s16)get_definition_entry_byte_13(7);
@@ -153,7 +153,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
                     direction_x = (u8 *)(sprite_or_x);
                     probe_y = offset_y & 0xFFFF;
                     ground_z = (s16)sample_terrain_surface_height((s32)direction_x, probe_y,
-                                       (s16)(((ProjectileMotion *)caster_obj->position)->z.h.unk_0A - 128));
+                                       (s16)(caster_obj->position->z.unsigned_parts.integer - 128));
                 }
                 particle_or_y = offset_y & 0xFFFF;
                 if ((s16)check_enabled_neighbor_height(sprite_or_x, particle_or_y, ground_z, caster->unk_2A.s,
@@ -181,9 +181,9 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
         target_tile = caster->unk_73.s;
         target_pos.y.w.i = (target_tile << 6) + 32;
         target_pos.z.w.i = (s16)sample_terrain_surface_height(target_pos.x.unsigned_parts.integer, target_pos.y.unsigned_parts.integer,
-                                           (s16)(((ProjectileMotion *)caster_obj->position)->z.h.unk_0A - 48));
+                                           (s16)(caster_obj->position->z.unsigned_parts.integer - 48));
         if (target_pos.z.w.i >= 512) {
-            target_pos.z.w.i = ((ProjectileMotion *)caster_obj->position)->z.h.unk_0A;
+            target_pos.z.w.i = caster_obj->position->z.unsigned_parts.integer;
         }
         target_pos.z.w.i -= 48;
         index_or_x = target_pos.x.w.i - motion->x.h.unk_02;

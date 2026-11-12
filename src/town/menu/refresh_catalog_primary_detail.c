@@ -22,7 +22,7 @@ typedef struct DisplayPair {
     SpriteFields *src;
 } DisplayPair;
 
-extern u8 catalog_scroll_offset;
+#include "town/menu/catalog_scroll_data.h"
 extern ImageEntry catalog_glyphs[];
 extern DisplayPair *D_80129748;
 

@@ -577,7 +577,7 @@ def main():
         with cache.phase("dependencies"):
             inputs = [r, text_key(t), facts.for_row(r), r["id"] in _onetrip_tracked,
                       sorted(tgt for rid, tgt in _call_verified if rid == r["id"])]
-        return cache.get(r["id"], inputs, compute)
+        return cache.get(r["id"], inputs, compute, names=facts.slice)
     _call_verified = _levels.call_verified_index()   # owner ruling 2026-10-14 (levels.py)
     curc = {r["id"]: cur_facts(r) for r in rs}
     cache.save()

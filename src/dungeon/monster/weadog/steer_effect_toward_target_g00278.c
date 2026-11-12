@@ -149,25 +149,25 @@ void create_random_color_offset_effect(
     s32 color_high;
     s32 color_mid;
     DelayMotionZ *source_data;
-    void *effect;
+    ProjectileObject *effect;
     SteeringEffectWork *effect_data;
 
     effect = allocate_list_node(0x211, parent_arg);
     if (effect != NULL) {
-        ((ProjectileObject *)effect)->update_callback = D_801712C4;
+        effect->update_callback = D_801712C4;
 
-        ((SignedPositionView *)(((ProjectileObject *)effect)->position))->x =
+        ((SignedPositionView *)(effect->position))->x =
             ((MovingPosition *)(parent->unk_08))->x + held_offset_x;
-        ((SignedPositionView *)(((ProjectileObject *)effect)->position))->y =
+        ((SignedPositionView *)(effect->position))->y =
             ((MovingPosition *)(parent->unk_08))->y + held_offset_y;
-        ((SignedPositionView *)(((ProjectileObject *)effect)->position))->z =
+        ((SignedPositionView *)(effect->position))->z =
             ((MovingPosition *)(parent->unk_08))->z + held_offset_z;
 
         source_data = parent->unk_0C;
         if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, &source_offset, 0) != 0) {
-            ((SignedPositionView *)(((ProjectileObject *)effect)->position))->x += source_offset.x;
-            ((SignedPositionView *)(((ProjectileObject *)effect)->position))->y += source_offset.y;
-            ((SignedPositionView *)(((ProjectileObject *)effect)->position))->z += source_offset.z;
+            ((SignedPositionView *)(effect->position))->x += source_offset.x;
+            ((SignedPositionView *)(effect->position))->y += source_offset.y;
+            ((SignedPositionView *)(effect->position))->z += source_offset.z;
         }
 
         effect_data = (u8 *)effect + 0x20;
@@ -188,13 +188,13 @@ void create_random_color_offset_effect(
 
         step = 0;
         do {
-            steer_effect_toward_target(effect_data, ((ProjectileObject *)effect)->position, ((ProjectileObject *)effect)->sprite);
+            steer_effect_toward_target(effect_data, effect->position, effect->sprite);
             step++;
         } while (step < 10);
 
         effect_data->param_14 = initial_14;
         effect_data->timer.s = initial_32;
-        register_node(effect, D_80170ED8);
+        register_node((struct ObjectNodeHeader *)effect, D_80170ED8);
 
         color_high = rand();
         color_mid = rand();

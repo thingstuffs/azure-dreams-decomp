@@ -51,10 +51,18 @@ class RowCache:
             phases[name] = phases.get(name, 0) + time.monotonic() - start
             phases[name + '_cpu'] = phases.get(name + '_cpu', 0) + time.process_time() - cpu
 
-    def get(self, row_id, inputs, compute):
+    def get(self, row_id, inputs, compute, names=None):
+        """names: a NameSlice. The entry then records the name-table entries compute consulted, and a hit needs
+        each of them unchanged (an entry without that record misses)."""
         with self.phase('keys'):
             key = content_key(inputs)
         old = self.old.get(row_id)
+        if self.enabled and isinstance(old, dict) and old.get('key') == key:
+            if names is not None:
+                with self.phase('names'):
+                    current = names.unchanged(old.get('names'))
+                if not current:
+                    old = None
         if self.enabled and isinstance(old, dict) and old.get('key') == key:
             try:
                 if old['sha256'] == content_key(old['value']):
@@ -65,11 +73,19 @@ class RowCache:
                 pass
             self.stats['corrupt'] += 1
         self.stats['misses'] += 1
+        consulted = None
         with self.phase('compute'):
-            value = compute()
+            if names is None:
+                value = compute()
+            else:
+                with names.recording() as log:
+                    value = compute()
+                consulted = names.slice(log)
         if self.enabled:
             value = copy.deepcopy(value)
             self.new[row_id] = dict(key=key, value=value, sha256=content_key(value))
+            if consulted is not None:
+                self.new[row_id]['names'] = consulted
         return copy.deepcopy(value)
 
     def save(self):
@@ -113,11 +129,12 @@ class FactInputs:
         # These helpers consult all definition sources, baseline and the symbol
         # tables. Read them anew in each CLI invocation, not from persistent IO
         # stat memos. Values below include additions/deletions and absent inputs.
-        canon, rev, hexnames, name2hex = call_arity._name_tables()
-        self.names = content_key([sorted(canon.items()),
-                                 [(k, sorted(v)) for k, v in sorted(rev.items())],
-                                 [(k, sorted(v)) for k, v in sorted(hexnames.items())],
-                                 sorted(name2hex.items())])
+        # The name tables (row true names, the SLUS symbol table and config/names.tsv) are keyed per row by the
+        # entries each row's evaluation consults (NameSlice, passed to RowCache.get): most batches edit names.tsv
+        # (per-overlay behaviour names), and a digest of the whole table missed every row. The values below that
+        # use the tables are computed here, outside any row, and enter the keys as values.
+        self.names = 'names:per-row-slice'
+        self.slice = NameSlice(call_arity)
         self.void = content_key(sorted(census.void_exact_targets()))
         self.sites = census.audit_sites()
 
@@ -132,6 +149,100 @@ class FactInputs:
             idx = self.arity.default_def_index()
             params = [(t, idx.callee_params(t, row['container'], row['id'])) for t in targets]
         return [self.code, self.names, self.void, sites, params]
+
+
+class _Recording(dict):
+    """A read-only copy of one name table that logs the keys looked up (whole-table use logs '*')."""
+    def __init__(self, table, index):
+        super().__init__(table)
+        self.index, self.log = index, None
+        self.factory = getattr(table, 'default_factory', None)
+
+    def note(self, key):
+        if self.log is not None:
+            self.log.add((self.index, key if isinstance(key, str) else '*'))
+
+    def __getitem__(self, key):
+        self.note(key)
+        try:
+            return dict.__getitem__(self, key)
+        except KeyError:
+            if self.factory is None:
+                raise
+            return self.factory()  # defaultdict semantics, without inserting
+
+    def get(self, key, default=None):
+        self.note(key)
+        return dict.get(self, key, default)
+
+    def __contains__(self, key):
+        self.note(key)
+        return dict.__contains__(self, key)
+
+    def whole(name):
+        method = getattr(dict, name)
+        def use(self, *args, **kwargs):
+            self.note(None)
+            return method(self, *args, **kwargs)
+        return use
+    for _name in ('keys', 'items', 'values', '__iter__', '__len__', 'copy', '__eq__', '__ne__', '__repr__',
+                  '__or__', '__ror__'):
+        locals()[_name] = whole(_name)
+    del whole, _name
+    __hash__ = None
+
+
+class NameSlice:
+    """The entries of call_arity's name tables (canon, rev, hexnames, name2hex) a row computation consults.
+
+    recording() swaps call_arity's table memo for recording copies while compute runs; slice() turns the log into
+    [table, key, value] triples (value None: absent; key '*': the whole table, by content); a cached entry holds
+    while every recorded triple still has its value (unchanged)."""
+    def __init__(self, arity):
+        self.arity = arity
+        self.tables = arity._name_tables()
+        self.proxies = tuple(_Recording(t, i) for i, t in enumerate(self.tables))
+        self.values = {}
+
+    def value(self, index, key):
+        cached = self.values.get((index, key))
+        if cached is None:
+            table = self.tables[index]
+            if key == '*':
+                cached = ['*', content_key(sorted([k, sorted(v) if isinstance(v, (set, frozenset)) else v]
+                                                  for k, v in table.items()))]
+            elif dict.__contains__(table, key):
+                v = dict.__getitem__(table, key)
+                cached = ['=', sorted(v) if isinstance(v, (set, frozenset)) else v]
+            else:
+                cached = ['absent']
+            self.values[(index, key)] = cached
+        return cached
+
+    @contextmanager
+    def recording(self):
+        log = set()
+        saved = self.arity._NAMES
+        for proxy in self.proxies:
+            proxy.log = log
+        self.arity._NAMES = self.proxies
+        try:
+            yield log
+        finally:
+            self.arity._NAMES = saved
+            for proxy in self.proxies:
+                proxy.log = None
+
+    def slice(self, log):
+        return [[index, key, self.value(index, key)] for index, key in sorted(log)]
+
+    def unchanged(self, recorded):
+        if not isinstance(recorded, list):
+            return False
+        try:
+            return all(self.value(index, key) == value for index, key, value in recorded)
+        except (TypeError, ValueError, IndexError):
+            return False
 
 
 def text_key(text):

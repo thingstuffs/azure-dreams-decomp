@@ -7,7 +7,7 @@
 
 
 extern s32 max_adjusted_x_query_at_least_zero();
-extern s32 town_primary_probe_offset;
+#include "town/player/probe_offset_data.h"
 
 /* Queries the input and, for a large offset, returns the larger original or shifted result. */
 s16 handle_queries_large_offset_returns_larger_original_shifted_result(ObjectPosition *input)

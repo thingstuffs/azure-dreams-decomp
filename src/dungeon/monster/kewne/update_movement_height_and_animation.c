@@ -175,7 +175,7 @@ void update_movement_height_and_animation(ActorRecord *action, ObjectPosition *m
         spend_actor_mp(actor, 0x100);
         action->unk_8C.word_ptr = &kewne_action_resume_address;
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
         action->action_state_flags &= 0xFFF7;
         advance_status_timers(actor);
     }

@@ -387,8 +387,8 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                         u32 depth = scratch->sort_depth;
                         u32 depth_offset = scratch->depth_offset;
                         if (depth + depth_offset < 0x1D6U) {
-                            ((GpuLinkTag *)packet)->addr = ((GpuLinkTag *)(((ScratchOt *)scratch)->ot + depth + depth_offset))->addr;
-                            ((GpuLinkTag *)(((ScratchOt *)scratch)->ot + scratch->sort_depth + scratch->depth_offset))->addr = (u32)packet;
+                            ((GpuLinkTag *)packet)->addr = ((GpuLinkTag *)(scratch->ordering_table + depth + depth_offset))->addr;
+                            ((GpuLinkTag *)(scratch->ordering_table + scratch->sort_depth + scratch->depth_offset))->addr = (u32)packet;
                         }
                     }
                     packet++;

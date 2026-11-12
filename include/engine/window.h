@@ -100,11 +100,8 @@ void display_speaker_name_plate(struct Func80035AF8State *state);
 /* init_cursor_color_object.c */
 void init_cursor_color_object(void *object, void *model, s32 *data, s16 index, s16 table_index, void *list);
 
-/* init_cursor_display_object.c */
-void init_cursor_display_object(void *object, void *display, s32 *data, s16 data_index, s16 table_offset, void *list_head);
-
 /* init_cursor_sprite_object.c */
-void init_cursor_sprite_object(void *node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base, void *owner);
+#include "engine/window/cursor_init.h"
 
 /* init_menu_choice_object.c */
 void init_menu_choice_object(struct S_func_800362D0_0 *object);

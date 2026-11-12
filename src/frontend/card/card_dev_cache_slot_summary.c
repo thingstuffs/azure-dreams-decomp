@@ -10,7 +10,7 @@ void card_dev_cache_slot_summary(void) {
     s32 slot_index;
     s32 entry_id;
 
-    slot_index = card_selected_channel[0] != 0;
+    slot_index = card_selected_channel != 0;
     entry_id = count_entries_for_selected_card_path();
     dev_card_directory_counts[slot_index] = entry_id;
     D_8009EB58[slot_index] = card_dev_calc_remaining_8k_blocks(entry_id);

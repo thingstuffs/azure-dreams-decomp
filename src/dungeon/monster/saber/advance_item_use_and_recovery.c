@@ -77,7 +77,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
     u8 * effect_handle;
     s16 special_or_effect;
     GteOffset effect_offset;
-    u8 *item_slot;
+    S_80173230_7 *item_slot;
     ObjectNodeHeader *action_object;
     s32 next_state;
     u8 state;
@@ -97,19 +97,19 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                 special_or_effect = 1;
                 /* fallthrough */
             case 3:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = (S_80173230_7 *)((u8 *)actor + 0xE);
                 break;
             case 6:
                 special_or_effect = 1;
                 /* fallthrough */
             case 2:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = (S_80173230_7 *)((u8 *)actor + 0xB);
                 break;
             case 5:
                 special_or_effect = 1;
                 /* fallthrough */
             case 1:
-                item_slot = (u8 *)actor + 8;
+                item_slot = (S_80173230_7 *)((u8 *)actor + 8);
                 break;
             default:
                 item_slot = 0;
@@ -118,13 +118,13 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
         } else {
             switch (actor->action_flags & 0x3FFF) {
             case 3:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = (S_80173230_7 *)((u8 *)actor + 0xE);
                 break;
             case 2:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = (S_80173230_7 *)((u8 *)actor + 0xB);
                 break;
             case 1:
-                item_slot = (u8 *)actor + 8;
+                item_slot = (S_80173230_7 *)((u8 *)actor + 8);
                 break;
             default:
                 item_slot = 0;
@@ -132,7 +132,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
             }
         }
 
-        if (*item_slot != 0) {
+        if (*(u8 *)item_slot != 0) {
             body->action_state_flags &= 0xFF7F;
             if ((s16)special_or_effect != 0) {
                 item_target = (ObjectNodeHeader *)primary_actor_record;
@@ -141,7 +141,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                     actor->target_tile_x = ((S_80173230_2 *)effect_state)->unk_24;
                     actor->target_tile_y = ((S_80173230_2 *)effect_state)->unk_25;
             } else {
-                u8 item_id = *item_slot;
+                u8 item_id = *(u8 *)item_slot;
                 u8 *item_defs = item_action_definitions;
                 if (item_defs[item_id * 20 + 0x12] == 2) {
                     item_target = actor->target;
@@ -213,31 +213,31 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                     ((S_80173230_6 *)((void *)effect_handle))->unk_10 = D_80171020;
                     ((SelectedItemActionEffectBody *)effect_state)->reference_position = motion;
                     ((SelectedItemActionEffectBody *)effect_state)->facing.u = (*(u16 *)((u8 *)actor + 0x2A));
-                    item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_0C;
+                    item_slot = (S_80173230_7 *)((S_80173230_6 *)((void *)effect_handle))->unk_0C;
                     *(Copy48 *)item_slot = *(Copy48 *)sprite;
-                    ((S_80173230_7 *)item_slot)->unk_1E = 0x1000;
-                    ((S_80173230_7 *)item_slot)->unk_1C = 0x1000;
-                    ((S_80173230_7 *)item_slot)->unk_0E = 0x80;
-                    ((S_80173230_7 *)item_slot)->unk_0D = 0x80;
-                    ((S_80173230_7 *)item_slot)->unk_0C = 0x80;
+                    item_slot->unk_1E = 0x1000;
+                    item_slot->unk_1C = 0x1000;
+                    item_slot->unk_0E = 0x80;
+                    item_slot->unk_0D = 0x80;
+                    item_slot->unk_0C = 0x80;
                     register_node((void *)effect_handle, project_sprite_chain);
                     animation_id = D_80174E34[0];
-                    ((S_80173230_7 *)item_slot)->unk_2C = D_80174E34;
+                    item_slot->unk_2C = D_80174E34;
                     select_sprite_entry(item_slot, animation_id, 0);
-                    ((S_80173230_7 *)item_slot)->unk_10 = 0x20;
-                    ((S_80173230_7 *)item_slot)->unk_12 = 0xFF80;
-                    ((S_80173230_7 *)item_slot)->unk_14 |= 0x0C;
+                    item_slot->unk_10 = 0x20;
+                    item_slot->unk_12 = 0xFF80;
+                    item_slot->unk_14 |= 0x0C;
 
                     actor_model = action_object->sprite;
-                    item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_08;
+                    item_slot = (S_80173230_7 *)((S_80173230_6 *)((void *)effect_handle))->unk_08;
                     if (resolve_record_orientation_or_fallback(
                             actor_model->source, actor_model, &effect_offset.orientation, 1) != 0) {
-                        ((S_80173230_7 *)item_slot)->unk_02 = ((u16)motion->x.w.i);
-                        ((S_80173230_7 *)item_slot)->unk_06 = ((u16)motion->y.w.i);
-                        ((S_80173230_7 *)item_slot)->unk_0A = ((u16)motion->z.w.i);
-                        ((S_80173230_7 *)item_slot)->unk_02 += effect_offset.distance[0];
-                        ((S_80173230_7 *)item_slot)->unk_06 += effect_offset.distance[1];
-                        ((S_80173230_7 *)item_slot)->unk_0A += effect_offset.distance[2];
+                        item_slot->unk_02 = ((u16)motion->x.w.i);
+                        item_slot->unk_06 = ((u16)motion->y.w.i);
+                        item_slot->unk_0A = ((u16)motion->z.w.i);
+                        item_slot->unk_02 += effect_offset.distance[0];
+                        item_slot->unk_06 += effect_offset.distance[1];
+                        item_slot->unk_0A += effect_offset.distance[2];
                     }
                 }
             }

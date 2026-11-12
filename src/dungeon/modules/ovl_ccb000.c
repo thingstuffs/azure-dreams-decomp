@@ -822,33 +822,33 @@ void begin_block_attack_slot_c(CL_CCB000_80172180_S_80172180_1 *state, s32 posit
 s32 check_block_action_ready_slot_c(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = entity_arg;
+    CL_CCB000_80172298_S_80172628_0 *entity = entity_arg;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, (void *)entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        choose_block_move_slot_c(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_block_move_slot_c((Rec_func_800A9E70_arg0 *)entity, primary_context_arg, secondary_context_arg, (ActorRecord *)entity);
         result = 0;
         return result;
     }
     switch (state_type) {
     case 0:
-        ((CL_CCB000_80172298_S_80172628_0 *)entity)->unk_9A = 0xE;
+        entity->unk_9A = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
     case 2:
-        choose_block_move_slot_c(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_block_move_slot_c((Rec_func_800A9E70_arg0 *)entity, primary_context_arg, secondary_context_arg, (ActorRecord *)entity);
         result = 0;
         return result;
     case 1:
-        ((CL_CCB000_80172298_S_80172628_0 *)entity)->unk_71 = (u8) (((CL_CCB000_80172298_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        ((CL_CCB000_80172298_S_80172628_0 *)entity)->unk_71 = (u8) (((CL_CCB000_80172298_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -856,7 +856,7 @@ s32 check_block_action_ready_slot_c(void *entity_arg, ObjectPosition *primary_co
         break;
     }
     result = 0;
-    ((CL_CCB000_80172298_S_80172628_0 *)entity)->unk_46 = (u16) (((CL_CCB000_80172298_S_80172628_0 *)entity)->unk_46 & 0x7FFF);
+    entity->unk_46 = (u16) (entity->unk_46 & 0x7FFF);
     return result;
 }
 
@@ -1386,7 +1386,7 @@ void finish_block_hop_grow_slot_c(S_80173364_0 *state,ObjectPosition *position,S
 
 /* Maintains the status-slot-1 animation, services pending actions, and restores behavior when the
    status clears. */
-void update_block_status_animation_slot_c(void *action, ObjectPosition *context, SpriteFrameState *sprite_in, void *actor_in)
+void update_block_status_animation_slot_c(void *action, ObjectPosition *context, SpriteFrameState *sprite_in, CL_CCB000_8017339C_S_80173D4C_2 *actor_in)
 {
     s32 state;
     void *actor_to_check;
@@ -1401,7 +1401,7 @@ void update_block_status_animation_slot_c(void *action, ObjectPosition *context,
         }
         sprite_in->frameTable = ccb000_frame_set_1;
         select_sprite_entry(sprite_in,
-            ccb000_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((CL_CCB000_8017339C_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            ccb000_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->unk_2A + 0x100) >> 9) & 7],
             0);
         {
             DungeonGlobalStatus *counter_base;
@@ -1419,12 +1419,12 @@ void update_block_status_animation_slot_c(void *action, ObjectPosition *context,
             if (status->flags & 0x1000) {
                 return;
             }
-            if (((CL_CCB000_8017339C_S_80173D4C_2 *)actor_in)->unk_64 != 0) {
+            if (actor_in->unk_64 != 0) {
                 if (begin_ready_actor_directional_action(action, context, sprite_in, 0) != 0) {
                     return;
                 }
             }
-            if (((CL_CCB000_8017339C_S_80173D4C_2 *)actor_in)->unk_25 == 0) {
+            if (actor_in->unk_25 == 0) {
                 if (status->flags & 0x2008) {
                     return;
                 }
@@ -1434,21 +1434,21 @@ void update_block_status_animation_slot_c(void *action, ObjectPosition *context,
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 return;
             }
-            actor_flags = ((CL_CCB000_8017339C_S_80173D4C_2 *)actor_in)->unk_1C;
+            actor_flags = actor_in->unk_1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(action, context, sprite_in, actor_in);
                 return;
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(action, context, sprite_in, actor_in);
-                update_block_parent_motion_slot_c(action, context, sprite_in, actor_in);
+                update_block_parent_motion_slot_c(action, context, sprite_in, (CL_CCB000_80173A38_S_80173A38_2 *)actor_in);
                 return;
             }
-            if (((CL_CCB000_8017339C_S_80173D4C_2 *)actor_in)->unk_6D == 0) {
+            if (actor_in->unk_6D == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
-                if ((check_entity_relation(actor_in,
+                if ((check_entity_relation((ActorRecord *)actor_in,
                         NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                     return;
                 }
@@ -1486,7 +1486,7 @@ void update_block_status_animation_slot_c(void *action, ObjectPosition *context,
 
             sprite_in->frameTable = ccb000_status_frames;
             select_sprite_entry(sprite_in,
-                ccb000_status_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((CL_CCB000_8017339C_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                ccb000_status_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->unk_2A + 0x100) >> 9) & 7],
                 0);
             if (sprite_in->flags & 0x8000) {
                 ((CL_CCB000_8017339C_S_80173D4C_0 *)action)->unk_8C = dispatch_block_turn_actions_slot_c;
@@ -1499,7 +1499,7 @@ void update_block_status_animation_slot_c(void *action, ObjectPosition *context,
         }
         sprite_in->frameTable = ccb000_status_frames;
         select_sprite_entry(sprite_in,
-            ccb000_status_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((CL_CCB000_8017339C_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            ccb000_status_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->unk_2A + 0x100) >> 9) & 7],
             0);
         if (sprite_in->flags & 0x8000) {
             ((CL_CCB000_8017339C_S_80173D4C_0 *)action)->unk_8C = dispatch_block_turn_actions_slot_c;
@@ -1745,10 +1745,10 @@ void create_gray_fading_sprite_slot_c(void *unused_context, ObjectPosition *sour
  * effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set. One packed 12-byte
  * assignment emits the retail lwl/lwr and swl/swr copy.
  */
-void draw_shaded_effect_quad_slot_c(void *quad, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias)
+void draw_shaded_effect_quad_slot_c(CL_CCB000_80173E40_S_80173E40_6 *quad, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias)
 {
-    u8 *scratch = (u8 *)0x1F800000;
-    u8 *packet;
+    CL_CCB000_80173E40_S_80173E40_0 *scratch = (CL_CCB000_80173E40_S_80173E40_0 *)0x1F800000;
+    CL_CCB000_80173E40_S_80173E40_4 *packet;
     u8 *texture;
     s32 ot_index;
     u16 render_flags;
@@ -1756,34 +1756,34 @@ void draw_shaded_effect_quad_slot_c(void *quad, ObjectPosition *position, Sprite
     GameWork *render_state_ptr = &g_game_work;
     CL_CCB000_80173E40_MATRIX current_matrix;
 
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_88 = position->x.w.i;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_8C = position->y.w.i;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_90 = position->z.w.i;
+    scratch->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
+    scratch->unk_88 = position->x.w.i;
+    scratch->unk_8C = position->y.w.i;
+    scratch->unk_90 = position->z.w.i;
     render_info->flags |= 0x8000;
 
     PushMatrix();
 
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_3C = 0x2000;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_38 = 0x2000;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_34 = 0x2000;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_A4 = render_info->angle_x;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_A8 = render_info->angle_z;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_A6 = render_info->angle_y;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = render_info->angle_x;
+    scratch->unk_A8 = render_info->angle_z;
+    scratch->unk_A6 = render_info->angle_y;
+    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&current_matrix);
-    CompMatrix(&current_matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&current_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     texture = render_info->source;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_28 = render_info->flags;
+    scratch->unk_28 = render_info->flags;
     packet = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
-    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = packet + 0xC;
+    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = &packet->unk_0C;
     SetDrawMode(packet, 0, 0, GetTPage(0, 0, 0, 0), 0);
 
-    (*(u32 *)(packet + 0)) = (((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
+    packet->unk_00 = (packet->unk_00 & 0xFF000000) |
         (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0x00FFFFFF);
     ((GpuContext *)g_game_work.draw_buffer)->orderTag =
         (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0xFF000000) |
@@ -1792,71 +1792,71 @@ void draw_shaded_effect_quad_slot_c(void *quad, ObjectPosition *position, Sprite
     {
         GpuContext *render_state = g_game_work.draw_buffer;
         packet = render_state->packetCursor;
-        render_state->packetCursor = packet + 0x24;
+        render_state->packetCursor = (u8 *)packet + 0x24;
     }
 
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_B0 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_44;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_B8 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_4A;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_C0 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_50;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_C8 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_56;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_B2 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_46;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_BA = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_4C;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_C2 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_52;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_CA = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_58;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_B4 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_48;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_BC = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_4E;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_C4 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_54;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_CC = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_5A;
+    scratch->unk_B0 = quad->unk_44;
+    scratch->unk_B8 = quad->unk_4A;
+    scratch->unk_C0 = quad->unk_50;
+    scratch->unk_C8 = quad->unk_56;
+    scratch->unk_B2 = quad->unk_46;
+    scratch->unk_BA = quad->unk_4C;
+    scratch->unk_C2 = quad->unk_52;
+    scratch->unk_CA = quad->unk_58;
+    scratch->unk_B4 = quad->unk_48;
+    scratch->unk_BC = quad->unk_4E;
+    scratch->unk_C4 = quad->unk_54;
+    scratch->unk_CC = quad->unk_5A;
 
-    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                             scratch + 0xC0, scratch + 0xC8,
-                             packet + 8, packet + 0x10,
-                             packet + 0x18, packet + 0x20,
-                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-    ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_100 = ot_index;
+    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
+                             &scratch->unk_C0, &scratch->unk_C8,
+                             &packet->unk_08, &packet->unk_10,
+                             &packet->unk_18, &packet->unk_20,
+                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+    scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
-        if ((((u16)(((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_08 + 0x20) < 0x181) &&
-             ((u16)(((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_0A + 0x20) < 0x121)) |
-            (((u16)(((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_10 + 0x20) < 0x181) &&
-             ((u16)(((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_12 + 0x20) < 0x121)) |
-            (((u16)(((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_18 + 0x20) < 0x181) &&
-             ((u16)(((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_1A + 0x20) < 0x121)) |
-            (((u16)(((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_20 + 0x20) < 0x181) &&
-             ((u16)(((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_22 + 0x20) < 0x121))) {
+        if ((((u16)(packet->unk_08 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_0A + 0x20) < 0x121)) |
+            (((u16)(packet->unk_10 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_12 + 0x20) < 0x121)) |
+            (((u16)(packet->unk_18 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_1A + 0x20) < 0x121)) |
+            (((u16)(packet->unk_20 + 0x20) < 0x181) &&
+             ((u16)(packet->unk_22 + 0x20) < 0x121))) {
             render_info->flags &= 0x7FFF;
             texture_flags = texture[1];
             render_info->color.c.code = texture_flags;
-            render_flags = ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_28;
+            render_flags = scratch->unk_28;
             if (render_flags & 8) {
                 render_info->color.c.code = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_04.at00.v = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_04;
-            ((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_0C = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_08;
-            ((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_14 = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_0C;
-            ((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_1C = ((CL_CCB000_80173E40_S_80173E40_6 *)quad)->unk_10;
+            packet->unk_04.at00.v = quad->unk_04;
+            packet->unk_0C = quad->unk_08;
+            packet->unk_14 = quad->unk_0C;
+            packet->unk_1C = quad->unk_10;
             SetPolyG4(packet);
-            ((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_04.at03.v |= 2;
+            packet->unk_04.at03.v |= 2;
 
-            ((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_00 = (((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)
-                    + ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_24.p2) + ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)
-                    + ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            packet = ((CL_CCB000_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0;
-            ((CL_CCB000_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0 = packet + 0xC;
+            packet = (CL_CCB000_80173E40_S_80173E40_4 *)((CL_CCB000_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0;
+            ((CL_CCB000_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0 = (u8 *)packet + 0xC;
             SetDrawMode(packet, 0, 0, GetTPage(0, 1, 0, 0), 0);
-            ((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_00 = (((CL_CCB000_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)
-                    + ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_24.p2) + ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)
-                    + ((CL_CCB000_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }
@@ -2260,7 +2260,7 @@ void restore_scene_tint_slot_c(u8 *task, void *context, u8 *input)
 }
 
 /* Coordinates actor replacement with CD loads, scene tint, segmented visuals, and actor-list updates. */
-void update_block_replacement_slot_c(void *state, ObjectPosition *position, SpriteFrameState *entity, void *actor) {
+void update_block_replacement_slot_c(CL_CCB000_80174D14_S_80C97514_0 *state, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor) {
     s16 direction;
     u16 fade_ticks;
     u16 finish_ticks;
@@ -2275,25 +2275,25 @@ void update_block_replacement_slot_c(void *state, ObjectPosition *position, Spri
     void *new_model;
     void *model;
 
-    status = ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase;
+    status = state->phase;
     switch (status) {
     case 0:
-        next_state = ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase + 1;
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase = next_state;
+        next_state = state->phase + 1;
+        state->phase = next_state;
         return;
     case 1:
         run_cd_image_commands(&D_8015D30C, &block_slot_c_image_load_done, 0);
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->unk_A4 = 0;
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase + 1);
-        ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
+        state->unk_A4 = 0;
+        state->phase = (u8) (state->phase + 1);
+        actor->unk_8A = (u16) actor->facing;
     case 2:
-        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100)
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7;
         if ((*&block_slot_c_image_load_done) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x200);
+            actor->facing = actor->facing + 0x200;
             return;
         }
 
@@ -2302,31 +2302,31 @@ void update_block_replacement_slot_c(void *state, ObjectPosition *position, Spri
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         (*(s8 *)&block_slot_c_effect_load_done) = 0;
         Control_CD(0xFF, &resource_completion_callback_address, &block_slot_c_effect_load_done);
-        select_nearby_target_and_initialize_slot(actor - 0x20, position, 8, 0x300);
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase + 1);
-        create_segmented_effect_rings_slot_c(state, position, entity);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
+        state->timer = 0x10U;
+        state->phase = (u8) (state->phase + 1);
+        create_segmented_effect_rings_slot_c((CL_CCB000_80174724_S_80C96F24_0 *)state, position, entity);
     case 3:
-        previous_ticks = ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer;
+        previous_ticks = state->timer;
         fade_ticks = previous_ticks - 1;
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer = fade_ticks;
+        state->timer = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
             status = ((CL_CCB000_80174D14_S_80C97514_2 *)(&block_slot_c_effect_load_done))->unk_00;
-            ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer = previous_ticks;
+            state->timer = previous_ticks;
             if (status == 0) {
                 return;
             }
-            ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase + 1);
+            state->phase = (u8) (state->phase + 1);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         effect_data = ((void **)&actor_effect_color_targets)[lookup_masked_byte_table(actor)];
         scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (effect_data->unk_00
-            - scene_color->view.tint.parts.tint_r) / (s16) ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer));
+            - scene_color->view.tint.parts.tint_r) / (s16) state->timer));
         scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (effect_data->unk_01
-            - scene_color->view.tint.parts.tint_g) / (s16) ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer));
+            - scene_color->view.tint.parts.tint_g) / (s16) state->timer));
         scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (effect_data->unk_02
-            - scene_color->view.tint.parts.tint_b) / (s16) ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer));
+            - scene_color->view.tint.parts.tint_b) / (s16) state->timer));
         return;
     case 4:
     {
@@ -2339,7 +2339,7 @@ void update_block_replacement_slot_c(void *state, ObjectPosition *position, Spri
         }
         effect->header.update_callback = restore_scene_tint_slot_c;
         register_node(&effect->header, project_sprite_chain);
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->unk_AC = effect;
+        state->unk_AC = effect;
         effect->header.position->x.v = (s32) position->x.v;
         effect->header.position->y.v = (s32) position->y.v;
         effect->header.position->z.v = (s32) position->z.v;
@@ -2355,58 +2355,58 @@ void update_block_replacement_slot_c(void *state, ObjectPosition *position, Spri
         effect_data = (void *)(*((s32 *)&D_8015D318 + (s16) effect_index) + (u8 *)&dungeon_resource_buffer);
         select_record_entry_and_value(effect_sprite, effect_data, 0);
         entity->flags = (u16) (entity->flags | 0x80);
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer = 0U;
-        next_state = ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase + 1;
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase = next_state;
+        state->timer = 0U;
+        next_state = state->phase + 1;
+        state->phase = next_state;
         return;
     }
     case 5:
-        render_obj = ((CL_CCB000_80174D14_S_80C97514_0 *)state)->unk_AC;
+        render_obj = state->unk_AC;
         render_obj = render_obj->unk_0C.u;
         if (render_obj->unk_14 & 0xE000) {
-            ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase + 1);
+            state->phase = (u8) (state->phase + 1);
         }
     case 6:
-        if (((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase != 6) {
+        if (state->phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, D_8015D3AC, D_8015D314, &staged_spawn_count) == 0) {
             return;
         }
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase + 1);
-        decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
+        state->timer = 0x10U;
+        state->phase = (u8) (state->phase + 1);
+        decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
-        unlink_entity_node(actor);
-        render_obj = actor - 0x20;
+        unlink_entity_node((struct EntityLinkNode *)actor);
+        render_obj = (CL_CCB000_80174D14_S_80C97514_7 *)NODE_HEADER(actor);
         render_obj->unk_10 = (s32) (render_obj->unk_10 | 0x80000000);
         return;
     case 7:
         new_model = advance_staged_entity_load(entity, actor);
-        ((Rec_D_80082E80 *)actor)->unk_60.as_pv = new_model;
+        actor->target = new_model;
         if (new_model == NULL) {
             return;
         }
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CCB000_80174D14_S_80C97514_0 *)state)->phase + 1);
-        ((CL_CCB000_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A =
-            (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
-        model = ((Rec_D_80082E80 *)actor)->unk_60.as_pv;
+        state->timer = 0x10U;
+        state->phase = (u8) (state->phase + 1);
+        ((CL_CCB000_80174D14_S_80C97514_15 *)(actor->target))->unk_2A =
+            (u16) actor->facing;
+        model = actor->target;
         render_obj = ((CL_CCB000_80174D14_S_80C97514_9_pre *)model)[-1].unk_00;
         select_indirect_table_entry(render_obj, render_obj->unk_2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((CL_CCB000_80174D14_S_80C97514_9 *)model)->unk_2A + 0x100) >> 9) & 7], render_obj->unk_04);
         render_obj->unk_14 = (u16) (render_obj->unk_14 & 0xFFFE);
     case 8:
-        finish_ticks = ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer - 1;
-        ((CL_CCB000_80174D14_S_80C97514_0 *)state)->timer = finish_ticks;
+        finish_ticks = state->timer - 1;
+        state->timer = finish_ticks;
         if ((finish_ticks << 0x10) > 0) {
             return;
         }
-        ((CL_CCB000_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
+        ((CL_CCB000_80174D14_S_80C97514_15 *)(actor->target))->unk_2A = (u16) actor->unk_8A;
         ((CL_CCB000_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((CL_CCB000_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        ((Rec_D_80082E80 *)actor)->unk_6D = 0;
+        actor->pending_turn_updates = 0;
         return;
     }
 }
