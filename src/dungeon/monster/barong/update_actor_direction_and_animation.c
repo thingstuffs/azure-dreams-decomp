@@ -19,7 +19,7 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 #include "dungeon/monster/grineut/path_motion.h"
-extern s32 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
 extern void func_8017430C(void *, void *, void *, void *);
 

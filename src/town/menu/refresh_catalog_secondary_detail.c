@@ -1,15 +1,10 @@
 #include "common.h"
 #include "shared/item_menu.h"
 #include "town/menu/catalog.h"
+#include "town/menu/catalog_glyph_data.h"
 #include "town/menu.h"
 #include "town/data.h"
 
-typedef struct {
-    void *image;
-    void **image_ref;
-    s16 value;
-    u16 unused;
-} ImageEntry;
 
 typedef struct {
     u32 pad0;
@@ -26,7 +21,6 @@ typedef struct {
 
 #include "town/menu/catalog_scroll_data.h"
 extern u8 D_80126A0D[16];
-extern ImageEntry catalog_glyphs[];
 extern DisplayPair *D_80129780[3];
 
 /* Select the town object's image and update its sprite field from the image entry. */
@@ -43,5 +37,5 @@ void refresh_catalog_secondary_detail(CatalogDisplay *town_obj)
     }
 
     D_80129780[0]->src->f8 =
-        (s16)(((5 - catalog_glyphs[town_obj->unk_14].value) * 6) + 0xD2);
+        (s16)(((5 - catalog_glyphs[town_obj->unk_14].detail_value) * 6) + 0xD2);
 }

@@ -4,24 +4,11 @@
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "town/data.h"
+#include "town/menu/catalog_detail_data.h"
+#include "town/menu/catalog_glyph_data.h"
 
 #include "sdk/libgpu_types.h"
 
-typedef struct {
-    void *image;
-    void **image_ref;
-    u16 unused;
-    u16 width;
-} ImageEntry;
-
-typedef struct {
-    void **images;
-    u8 count;
-    u8 pad[3];
-} ImageList;
-
-extern ImageEntry catalog_glyphs[];
-extern ImageList catalog_detail_images[];
 
 /* Clear display regions and draw the selected entry images and numbered label. */
 void draw_catalog_secondary_detail(CatalogDisplay *state)
@@ -29,7 +16,7 @@ void draw_catalog_secondary_detail(CatalogDisplay *state)
     RECT clear_rect;
     char label[16];
     char number_text[5];
-    ImageList *image_lists;
+    CatalogDetailImageList *image_lists;
     char *label_cursor;
     s32 pos;
     u8 entry_index;
@@ -58,7 +45,7 @@ void draw_catalog_secondary_detail(CatalogDisplay *state)
 
     entry_index = state->unk_14;
     draw_vram_glyph_text(*catalog_glyphs[entry_index].image_ref,
-                  (s16)(0x1CF - catalog_glyphs[entry_index].width), 0xD0);
+                  (s16)(0x1CF - catalog_glyphs[entry_index].label_width), 0xD0);
 
     entry_index = state->unk_14;
     pos = 0;

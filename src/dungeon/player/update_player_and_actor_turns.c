@@ -38,7 +38,7 @@ s16 get_entity_effect_value();                 /* extern */ /* Unprototyped: ret
 #include "engine/texture.h"
 #include "dungeon/player/input.h"
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 #include "dungeon/item.h"
 #include "slus.h"
 #include "engine/graphics.h"

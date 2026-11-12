@@ -764,7 +764,7 @@ extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_movement_clearance_and_height(s16,void *,void *,s32);
 extern struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
-extern s32 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s16 get_actor_height_difference(void *,void *);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);

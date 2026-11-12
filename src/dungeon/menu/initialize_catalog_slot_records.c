@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/menu.h"
+#include "town/menu/catalog_frame_data.h"
 
 typedef struct {
     u8 pad_0[8];
@@ -24,24 +25,13 @@ typedef struct {
     Slot *slots[14];
 } SlotTable;
 
-typedef struct {
-    u8 pad_0[4];
-    u16 value_4;
-    u16 value_6;
-} Record;
-
-typedef struct {
-    Record records[14];
-} RecordTable;
-
 extern SlotTable catalog_display_node_slots;
-extern RecordTable catalog_frame_layout;
 
 /* Initialize 14 slots from records, applying part_8 defaults except for the last two slots. */
 void initialize_catalog_slot_records(void) {
     SlotTable *slot_base;
     Slot **slot;
-    Record *record;
+    CatalogFrameEntry *record;
     s32 slot_index;
     s32 default_6;
     s16 default_8;
@@ -52,10 +42,10 @@ void initialize_catalog_slot_records(void) {
     slot_base = &catalog_display_node_slots;
     slot = slot_base->slots;
     for (; slot_index < 14; slot_index++) {
-        record = &catalog_frame_layout.records[slot_index];
+        record = &catalog_frame_layout[slot_index];
         (*slot)->part_0 = 0;
-        (*slot)->part_4->value_8 = record->value_4;
-        (*slot)->part_4->value_A = record->value_6;
+        (*slot)->part_4->value_8 = record->x;
+        (*slot)->part_4->value_A = record->y;
         (*slot)->part_8->value_6 = default_6;
         (*slot)->part_8->value_8 = default_8;
         slot += 1;
@@ -63,15 +53,15 @@ void initialize_catalog_slot_records(void) {
 
     {
         SlotTable *slots;
-        Record *records;
+        CatalogFrameEntry *records;
         Slot *current;
 
         slots = &catalog_display_node_slots;
-        records = catalog_frame_layout.records;
+        records = catalog_frame_layout;
         current = slots->slots[12];
-        current->part_8->value_6 = records[12].value_4;
-        slots->slots[12]->part_8->value_8 = records[12].value_6;
-        slots->slots[13]->part_8->value_6 = records[13].value_4;
-        slots->slots[13]->part_8->value_8 = records[13].value_6;
+        current->part_8->value_6 = records[12].x;
+        slots->slots[12]->part_8->value_8 = records[12].y;
+        slots->slots[13]->part_8->value_6 = records[13].x;
+        slots->slots[13]->part_8->value_8 = records[13].y;
     }
 }

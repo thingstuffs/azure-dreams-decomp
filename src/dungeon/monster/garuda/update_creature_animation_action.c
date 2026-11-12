@@ -23,7 +23,7 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
-extern s8 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);

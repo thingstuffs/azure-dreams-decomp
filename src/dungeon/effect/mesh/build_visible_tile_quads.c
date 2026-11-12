@@ -4,6 +4,7 @@
 #include "dungeon/effect/mesh.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
 
 typedef struct S_800D1824_0 {
     u8 pad_00[0x20];
@@ -118,7 +119,7 @@ void build_visible_tile_quads(MeshEffectObjectBody *tiles)
 
                 if ((u32)depth < 0x1E0) {
                     gte_stsxy(prim + 0x20);
-                    func_80065034((u8 *)scratch + 0x28, &globals->view.tint.word, prim + 4);
+                    NormalColorCol((SVECTOR *)((u8 *)scratch + 0x28), (CVECTOR *)&globals->view.tint, (CVECTOR *)(prim + 4));
                     *(u32 *)(prim + 0xC) = style->unk_08;
                     *(u32 *)(prim + 0x14) = style->unk_0C;
                     *(u16 *)(prim + 0x1C) = style->unk_12;

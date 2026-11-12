@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/menu.h"
+#include "town/menu/catalog_cursor_data.h"
 
 
 typedef struct SpriteFields {
@@ -34,10 +35,6 @@ typedef struct TownObject {
     u8 pad13[0x45];
     TownSlots *town;
 } TownObject;
-
-extern void *catalog_normal_digits[10];
-extern s16 catalog_cursor_columns[8];
-extern u8 catalog_number_marker[16];
 
 
 /* Updates an available entry's number sprites and interpolates a display field. */

@@ -3,6 +3,6 @@
 
 #include "common.h"
 
-s16 find_active_rect_containing_point(s32 point_x, s32 point_y);
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 
 #endif

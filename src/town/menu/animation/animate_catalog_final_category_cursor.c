@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/menu.h"
 #include "town/menu/animation.h"
+#include "town/menu/catalog_cursor_data.h"
 
 typedef struct HalfFields {
     u8 pad0[4];
@@ -18,7 +19,7 @@ typedef struct Pair {
 } Pair;
 
 typedef struct Pool {
-    u32 *slots[97];
+    void **slots[97];
     Pair *pair;
 } Pool;
 
@@ -31,11 +32,6 @@ typedef struct TownObject {
     u8 pad11[0x47];
     Pool *pool;
 } TownObject;
-
-extern u32 catalog_normal_digits[];
-extern u16 catalog_cursor_rows[];
-extern u16 catalog_cursor_columns;
-extern u8 catalog_number_marker[];
 
 /* Updates the object's number display and paired fields for its current state. */
 void animate_catalog_final_category_cursor(TownObject *obj)
@@ -64,7 +60,7 @@ void animate_catalog_final_category_cursor(TownObject *obj)
         if (is_catalog_entry_available((u8)entry_index) != 0) {
             s32 display_number = entry_index + 1;
 
-            *obj->pool->slots[slot_index] = (u32)catalog_number_marker;
+            *obj->pool->slots[slot_index] = catalog_number_marker;
             slot_index = side_offset + 34;
             *obj->pool->slots[slot_index] = catalog_normal_digits[display_number / 10];
             slot_index = side_offset + 35;
@@ -82,7 +78,7 @@ void animate_catalog_final_category_cursor(TownObject *obj)
 
     case CATALOG_CURSOR_POSITION:
         obj->pool->pair->first->field8 = catalog_cursor_rows[obj->side];
-        obj->pool->pair->first->fieldA = catalog_cursor_columns;
+        obj->pool->pair->first->fieldA = catalog_cursor_columns[0];
         break;
 
     default:

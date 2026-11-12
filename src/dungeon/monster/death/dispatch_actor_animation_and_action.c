@@ -19,7 +19,7 @@
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/death_frames.h"
 
-extern s8 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void func_801743F0(void *, void *, void *, void *);
 
 extern s32 death_action_resume_address;

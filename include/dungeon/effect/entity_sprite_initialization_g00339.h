@@ -49,7 +49,7 @@ typedef struct S_800B23F8_1 {
 /* part_a in create_mode_configured_object */
 
 /* state in initialize_entity_sprite_effect */
-extern s8 find_active_rect_containing_point(u8, u8);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 extern void create_tracked_effect(void *, s32, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */

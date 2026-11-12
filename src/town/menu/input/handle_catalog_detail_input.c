@@ -4,15 +4,7 @@
 #include "town/menu/catalog.h"
 #include "town/data.h"
 #include "slus.h"
-
-typedef struct {
-    void **images;
-    u8 count;
-    u8 pad[3];
-} ImageList;
-
-
-extern ImageList catalog_detail_images[];
+#include "town/menu/catalog_detail_data.h"
 
 /* Handles selection navigation, scrolling, transitions, and the idle toggle timer. */
 void handle_catalog_detail_input(CatalogDisplay *state)

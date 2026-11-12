@@ -181,7 +181,7 @@ typedef struct ovl_1830850_81811168_DungeonObj81811168 {
 } ovl_1830850_81811168_DungeonObj81811168;
 typedef struct ovl_1830850_81811250_S_80026250_0 {
     u8 pad_00[0x14];
-    s32 * unk_14;
+    void **unk_14; /* handle slot of an object later flagged by flag_optional_object_for_removal */
 } ovl_1830850_81811250_S_80026250_0;
 typedef struct ovl_1830850_818112EC_S_800262EC_0 {
     u8 pad_00[0x10];
@@ -227,7 +227,7 @@ extern void register_node(ovl_1830850_81811168_DungeonObj81811168 *, void *);
 extern void release_null_terminated_entries(void *);
 extern void func_8004B248(void *);
 extern int func_8004CAA0(void *object, int unused, void *data);
-void flag_optional_object_for_removal();
+void flag_optional_object_for_removal(void *object);
 void inventory_dispatch_indexed_handler(void *context, s32 handler_index);
 void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, s32 index);
 s32 inventory_menu_returns_zero(void *menu);

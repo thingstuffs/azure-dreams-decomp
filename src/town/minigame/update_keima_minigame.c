@@ -3,6 +3,7 @@
 #include "sdk/abs.h"
 #include "common.h"
 #include "town/minigame/payout_data.h"
+#include "town/minigame/keima_selection_mask_data.h"
 #include "shared/entity_objects.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
@@ -39,7 +40,6 @@ extern s32 town_money[0xB58];
 extern u8 D_80022514[0x100];
 extern ObjectNodeHeader *D_80024338;
 
-extern s16 keima_selection_mask[8];
 
 typedef struct DialogArgs {
     s16 unk_10;
@@ -283,7 +283,7 @@ loop_3:
             one = 1;
             collision_value = game->unk_44;
             pair_value = game->unk_46;
-            winning_mask = keima_selection_mask[0];
+            winning_mask = keima_selection_mask;
             collision_value = one << collision_value;
             pair_value = one << pair_value;
             object_index = collision_value + pair_value;
@@ -325,7 +325,7 @@ loop_3:
         if (transition_timer <= 0) {
             s32 stage;
 
-            if (keima_selection_mask[0] != 0) {
+            if (keima_selection_mask != 0) {
                 D_80024338 = create_dual_buffer_object(0, -0x50, 0x40);
             }
             stage = game->stage;
@@ -392,7 +392,7 @@ loop_3:
         if (phase_value <= 0) {
             s32 stage;
 
-            if (keima_selection_mask[0] != 0) {
+            if (keima_selection_mask != 0) {
                 gold_total = town_money[0];
                 gold_remaining = keima_payout_remaining;
                 payout_handle = D_80024338;

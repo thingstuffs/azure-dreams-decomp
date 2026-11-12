@@ -1,4 +1,4 @@
-{"by_class":{"generated_layouts":5859,"goto":226,"local_externs":8418,"m2c_macros":361,"pointer_casts":31320,"sign_views":4456,"volatile":50},"by_file":{
+{"by_class":{"generated_layouts":5859,"goto":226,"local_externs":8418,"m2c_macros":361,"pointer_casts":31323,"sign_views":4456,"volatile":50},"by_file":{
 "src/dungeon":{
 "D_80283000.c":[150,{"<global>":[150,0,0,0,0,0,13]}],
 "D_80283034.c":[200,{"<global>":[200,0,0,0,0,0,18]}],
@@ -233,7 +233,7 @@
 "append_coordinate_record.c":[187,{"<global>":[30,2],"append_coordinate_record#1":[157,0,0,0,0,0,1]}],
 "build_and_projects_textured_vertex_colored_quad_links_ordering_table.c":[1223,{"<global>":[107,1],"build_and_projects_textured_vertex_colored_quad_links_ordering_table#1":[1116,0,0,0,0,0,22]}],
 "build_textured_sprite_strips.c":[10333,{"<global>":[119,0,3],"build_inverted#1":[797,0,0,0,0,0,26],"build_textured_sprite_strips#1":[3061,0,6,0,0,0,59],"decrement_effect_counter_by_twelve#1":[512,0,0,0,0,0,16],"draw_brightness_scaled_linked_tiles#1":[563,0,0,0,0,0,14],"get_half_byte_length#1":[306,0,0,0,0,0,2],"try_halve_actor_counter#1":[290,0,0,0,0,0,1],"update_effect_animation_slots#1":[274,0,1,0,0,0,8],"update_effect_brightness_pulse#1":[321,0,0,0,0,0,10],"update_traveling#1":[3858,0,11,0,1,0,84]}],
-"build_visible_tile_quads.c":[736,{"<global>":[164,0,3],"build_visible_tile_quads#1":[572,0,3,0,0,0,19]}],
+"build_visible_tile_quads.c":[750,{"<global>":[164,0,3],"build_visible_tile_quads#1":[586,0,3,0,0,0,22]}],
 "create_an_effect_position_randomized_sprite_angle.c":[8663,{"advance_shrinking_arc_effect#1":[286,0,0,0,0,0,2,7],"build_and_depth_sorts_five_radial_line_segments_effect#1":[1551,0,0,0,0,0,79],"build_and_enqueue_five_translucent_quads_between_interpolated_points#1":[1015,0,0,0,0,0,14],"build_and_queue_interpolated_vertical_quads_around_five_perimeter_points#1":[2106,0,0,0,0,0,45],"create_an_effect_position_randomized_sprite_angle#1":[251,0,0,0,0,0,3,2],"create_and_initializes_copying_n_24_bytes_source_data#1":[162,0,0,0,0,0,2],"create_object_hex_212_initialize_data_pointer_mode#1":[62,0,0,0,0,0,2],"draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends#1":[260,0,0,0,0,0,6],"update_movement_toward_target_along_direction_advances_action_phases#1":[1959,0,0,0,3,0,10,11],"update_the_five_orbiting_points_advance_effect_animation#1":[913,0,0,0,0,0,2]}],
 "create_an_initialize_fields_randomized_child_state.c":[268,{"<global>":[72,2,2],"create_an_initialize_fields_randomized_child_state#1":[196,0,2,0,0,0,1]}],
 "create_an_owner_linked_sprite_effect_position_vertical_offset.c":[307,{"<global>":[65,3,2],"create_an_owner_linked_sprite_effect_position_vertical_offset#1":[242,0,2,0,0,0,3]}],
@@ -1911,7 +1911,7 @@
 "process_changed_item_text.c":[149,{"<global>":[60,2,2],"process_changed_item_text#1":[89,0,2,0,0,0,3]}],
 "process_mode_gated_entity.c":[146,{"<global>":[78,3,1],"process_mode_gated_entity#1":[68,0,1,0,0,0,1]}],
 "process_record_resolved_value.c":[69,{"<global>":[30,1,1],"process_record_resolved_value#1":[39,0,1]}],
-"process_resolved_item_value.c":[56,{"<global>":[34,2,1],"process_resolved_item_value#1":[22,0,1]}],
+"process_resolved_item_value.c":[56,{"<global>":[34,2,1],"clear_second_work_object_buffer#1":[22,0,1]}],
 "process_value_pairs.c":[111,{"<global>":[19,1,1],"dispatch_packed_value_pairs#1":[92,0,1,0,0,0,2]}],
 "query_offset_position_minus_x.c":[190,{"<global>":[40,1,2],"query_offset_position_minus_x#1":[150,0,2]}],
 "query_offset_position_minus_z.c":[186,{"<global>":[40,1,2],"query_offset_position_minus_z#1":[146,0,2]}],

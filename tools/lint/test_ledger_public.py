@@ -129,5 +129,88 @@ class CheckTests(unittest.TestCase):
             self.assertEqual(I.main(['HEAD', '--root', str(self.root), '--no-layouts']), 0)  # report mode
 
 
+class TreeHashTests(unittest.TestCase):
+    """A prototype-floor row's "tree" must name a commit in public history (an ancestor of HEAD or a public ref)."""
+
+    def setUp(self):
+        self.root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.root)
+        (self.root / 'ledger').mkdir()
+        git(self.root, 'init', '-q')
+        (self.root / 'a.txt').write_text('a')
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'public')
+        self.public = git(self.root, 'rev-parse', 'HEAD')
+        # a private commit on a side branch: an object of the repository, but not an ancestor of HEAD
+        git(self.root, 'checkout', '-qb', 'lane')
+        (self.root / 'a.txt').write_text('b')
+        git(self.root, 'commit', '-qam', 'private')
+        self.private = git(self.root, 'rev-parse', 'HEAD')
+        git(self.root, 'checkout', '-q', '-')
+        git(self.root, 'branch', '-qD', 'lane')
+        (self.root / 'ledger/unions.jsonl').write_text('')
+        self.floors = self.root / 'ledger/prototype_floors.jsonl'
+        self.floors.write_text(json.dumps({'name': 'f', 'tree': self.public}) + '\n')
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'base')
+
+    def run_check(self, **kw):
+        buf = io.StringIO()
+        return P.check(self.root, 'HEAD', out=buf, **kw), buf.getvalue()
+
+    def add_row(self, tree):
+        self.floors.write_text(self.floors.read_text() + json.dumps({'name': 'g', 'tree': tree}) + '\n')
+
+    def test_public_ancestor_passes(self):
+        self.add_row(self.public)
+        self.assertEqual(self.run_check()[0], 0)
+
+    def test_new_private_hash_fails(self):
+        self.add_row(self.private)
+        n, text = self.run_check()
+        self.assertEqual(n, 1, text)
+        self.assertIn(f'NEW tree ledger/prototype_floors.jsonl: {self.private} (+1)', text)
+        # unknown hashes (not even an object here) count as outside public history too
+        self.floors.write_text(self.floors.read_text().replace(self.private, '0' * 40))
+        self.assertEqual(self.run_check()[0], 1)
+
+    def test_existing_private_hash_is_not_new(self):
+        self.add_row(self.private)
+        git(self.root, 'commit', '-qam', 'row with a private hash')
+        self.floors.write_text(self.floors.read_text() + json.dumps({'name': 'h', 'tree': None}) + '\n')
+        self.assertEqual(self.run_check()[0], 0)  # on BASE already: census reports it, check does not fail
+        found = P.unreachable_trees(self.root, self.floors.read_text(), P.public_refs(self.root))
+        self.assertEqual(dict(found), {self.private: 1})
+
+    def test_lane_root_public_ref(self):
+        # a lane root made from master: its history has no master commits, so master hashes need --public-ref
+        lane = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, lane)
+        git(lane, 'init', '-q')
+        (lane / 'objects').write_text('')
+        (lane / '.git/objects/info/alternates').write_text(str(self.root / '.git/objects') + '\n')
+        (lane / 'ledger').mkdir()
+        (lane / 'ledger/prototype_floors.jsonl').write_text('')
+        git(lane, 'add', '-A')
+        git(lane, 'commit', '-qm', 'base')
+        (lane / 'ledger/prototype_floors.jsonl').write_text(json.dumps({'name': 'g', 'tree': self.public}) + '\n')
+        buf = io.StringIO()
+        self.assertEqual(P.check(lane, 'HEAD', out=buf), 1)
+        self.assertEqual(P.check(lane, 'HEAD', out=io.StringIO(), public_ref=[self.public]), 0)
+        os.environ['LEDGER_PUBLIC_REF'] = self.public
+        try:
+            self.assertEqual(P.check(lane, 'HEAD', out=io.StringIO()), 0)
+        finally:
+            del os.environ['LEDGER_PUBLIC_REF']
+
+    def test_ledger_integrity_fails_new_tree(self):
+        self.add_row(self.private)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = I.main(['HEAD', '--root', str(self.root), '--fail-new', '--no-layouts'])
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn('1 new private commit hashes', buf.getvalue())
+
+
 if __name__ == '__main__':
     unittest.main()

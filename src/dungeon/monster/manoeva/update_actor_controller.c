@@ -20,7 +20,7 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 #include "dungeon/monster/grineut/path_motion.h"
-extern s8 find_active_rect_containing_point(u8, u8);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 
 extern void func_801737B8(void *, void *, void *, void *);
 void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);

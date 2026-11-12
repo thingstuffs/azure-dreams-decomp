@@ -1,6 +1,7 @@
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "town/minigame/payout_data.h"
+#include "town/minigame/keima_selection_mask_data.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "engine/runtime.h"
@@ -71,7 +72,6 @@ extern u8 D_800203D8[];
 extern u8 betting_ticket_text[];
 extern u8 D_80021028[];
 extern s32 town_money;
-extern u16 keima_selection_mask;
 
 extern void func_800201C8(void *, void *);
 extern void func_8002025C(void *, void *);

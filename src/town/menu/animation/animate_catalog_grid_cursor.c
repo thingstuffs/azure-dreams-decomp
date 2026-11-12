@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/menu.h"
 #include "town/menu/animation.h"
+#include "town/menu/catalog_cursor_data.h"
 
 typedef struct SpriteFields {
     u32 pad0;
@@ -33,11 +34,6 @@ typedef struct TownObject {
     u8 pad13[0x45];
     TownSlots *town;
 } TownObject;
-
-extern void *catalog_normal_digits[10];
-extern u16 catalog_cursor_rows[2];
-extern u16 catalog_cursor_columns[8];
-extern u8 catalog_number_marker[16];
 
 /* Updates numbered slots and sprite display fields according to the object state. */
 void animate_catalog_grid_cursor(TownObject *object)

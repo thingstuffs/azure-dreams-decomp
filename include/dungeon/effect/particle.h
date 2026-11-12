@@ -281,4 +281,6 @@ void subtract_limit_or_flag_record(void *record);
 
 void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
 
+void scatter_landing_sparks_on_grid(struct ObjectNodeHeader *source);
+
 #endif

@@ -16,7 +16,7 @@
 #include "dungeon/player/object.h"
 
 #include "dungeon/monster/dragon/transition_effect.h"
-extern s8 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 extern void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 /* Bank copy of update_actor_state_after_map_check. */

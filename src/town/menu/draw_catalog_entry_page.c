@@ -1,24 +1,18 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/menu/catalog.h"
+#include "town/menu/catalog_glyph_data.h"
 #include "town/menu.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgpu_types.h"
 extern u8 D_8011ACD8;
-typedef struct {
-    void *image;
-    void **image_ref;
-    u16 unused;
-    u16 width;
-} ImageEntry;
-extern ImageEntry catalog_glyphs[];
 
 
 /* Clears the image area and draws available images for the object's category. */
 void draw_catalog_entry_page(CatalogDisplay *object_data) {
     CatalogDisplay *object = object_data; /* Retains the retail register allocation. */
     RECT clear_rect;
-    ImageEntry *image_entry;
+    CatalogGlyphEntry *image_entry;
     u8 *loop_image_base;
     s32 second_image_id;
     s32 image_id;
@@ -55,7 +49,7 @@ void draw_catalog_entry_page(CatalogDisplay *object_data) {
         grid_category = object->unk_0F;
         loop_image_base = (u8 *)catalog_glyphs;
         image_id = grid_category * 0x10;
-        image_entry = (ImageEntry *)(((((grid_category << 5) + image_id) << 2)) +
+        image_entry = (CatalogGlyphEntry *)(((((grid_category << 5) + image_id) << 2)) +
                                 loop_image_base);
         do {
             if (is_catalog_entry_available(image_id & 0xFF) & 0xFF) {

@@ -530,7 +530,7 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 extern s32 check_movement_clearance_and_height(s16,void *,void *,s32);
 extern s32 find_eligible_entry_at_coordinates();
 extern struct Ent *prepare_directional_attack();
-extern s32 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern s16 get_tile_chebyshev_distance(void *, void *);
 /* Signed differences arrive sign-extended in the 32-bit v0 ABI slot.
  * The two signed comparisons explicitly narrow that slot; the other caller

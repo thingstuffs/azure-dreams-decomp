@@ -352,7 +352,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
 
    /* arg3 in update_bank_actor_state */
 
-extern s8 find_active_rect_containing_point(u8, u8);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);

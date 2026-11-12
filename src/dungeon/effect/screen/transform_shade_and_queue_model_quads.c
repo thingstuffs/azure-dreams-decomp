@@ -16,7 +16,7 @@ typedef struct S_800C9088_4 S_800C9088_4;
 typedef struct S_800C9088_0 {
     u8 pad_00[0x8];
     S_800C9088_4 *unk_08;
-    CVECTOR base_color; /* the colour func_80065034 shades each vertex normal with */
+    CVECTOR base_color; /* the colour NormalColorCol shades each vertex normal with */
     u16 unk_10;
     u16 unk_12;
     u16 unk_14;
@@ -211,14 +211,14 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     if (*winding_slot > 0) {
         scratch->sort_depth -= depth_bias;
         if (scratch->sort_depth < 0x1E0) {
-            func_80065034(&normals[*(u16 *)(indices + 0x10)],
-                          base_color, &packet->r0);
-            func_80065034(&normals[*(u16 *)(indices + 0x12)],
-                          base_color, &packet->r1);
-            func_80065034(&normals[*(u16 *)(indices + 0x14)],
-                          base_color, &packet->r2);
-            func_80065034(&normals[*(u16 *)(indices + 0x16)],
-                          base_color, &packet->r3);
+            NormalColorCol(&normals[*(u16 *)(indices + 0x10)],
+                          base_color, (CVECTOR *)&packet->r0);
+            NormalColorCol(&normals[*(u16 *)(indices + 0x12)],
+                          base_color, (CVECTOR *)&packet->r1);
+            NormalColorCol(&normals[*(u16 *)(indices + 0x14)],
+                          base_color, (CVECTOR *)&packet->r2);
+            NormalColorCol(&normals[*(u16 *)(indices + 0x16)],
+                          base_color, (CVECTOR *)&packet->r3);
 
             /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
             *(s32 *)&packet->u0 = (*(s32 *)(indices + 8));

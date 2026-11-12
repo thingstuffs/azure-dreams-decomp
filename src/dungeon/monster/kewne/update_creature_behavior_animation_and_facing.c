@@ -23,7 +23,7 @@
 #include "dungeon/monster/hikewne.h"
 
 
-extern s8 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_8016E574(void *, void *, void *, void *);
 

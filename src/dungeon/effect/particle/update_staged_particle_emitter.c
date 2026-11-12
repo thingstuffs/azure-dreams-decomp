@@ -2,12 +2,13 @@
 #include "shared/object_flags.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "shared/object_node.h"
 
 extern void create_short_lived_child_particle(void *, s32, s32, s32, s32, s32, s32); /* Unprototyped: the wide local parameters preserve this call; canonical s16 parameters change its bytes */
 extern void create_short_lived_colored_particle(void *, s32, s32, s32, s32, s32, s32);
 extern void create_ballistic_landing_particle(void *, s32, s32, s32, s32, s32, s32);
 extern void create_jittered_landing_spark(void *);
-extern void scatter_landing_sparks_on_grid(void *);
+extern void scatter_landing_sparks_on_grid(struct ObjectNodeHeader *source); /* owner include/dungeon/effect/particle.h: not included here because its create_short_lived_child_particle prototype changes this file's bytes */
 extern void create_short_lived_red_spark(void *, s32, s32, s32, s32, s32, s32);
 
 /* Advances a timed particle effect, emitting particles and sounds until completion. */
@@ -112,7 +113,7 @@ void update_staged_particle_emitter(void *effect_data)
         }
         *(s32 *)(effect + 0x64) += 0x2000;
         if ((u16)(*(u16 *)(effect + 0x18) - 0xF) < 0xB) {
-            scatter_landing_sparks_on_grid(effect - 0x20);
+            scatter_landing_sparks_on_grid(NODE_HEADER(effect));
         }
         if (*(s16 *)(effect + 0x18) == 0xF ||
             *(s16 *)(effect + 0x18) == 0x14 ||

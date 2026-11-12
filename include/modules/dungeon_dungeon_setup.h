@@ -276,7 +276,7 @@ extern s32 D_800E3D1C;
 extern u8 familiar_record_storage[];
 extern void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
 extern void register_node(void *, void *);
-extern void zero_words(void *, s32);
+extern void zero_words(void *dst, s32 count);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 extern s32 test_resident_bit(s16 value);
 extern s32 func_80033BC0(s32);
@@ -286,7 +286,7 @@ extern void restore_inventory_and_familiars(void *, void *, u8, u8);
 extern s32 get_entity_effect_value(void *, s32);
 extern void select_record_entry_and_value(void *, void *, s32);
 extern void create_tracked_effect(void *, s32, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s8 find_active_rect_containing_point(s32, s32, void *, u16);
+extern s8 find_active_rect_containing_point(s32, s32, void *, u16); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void process_global_buffer_and_submit(void);
 extern void *create_pulsing_effect_object(void);
 extern s32 dungeon_mode_state;

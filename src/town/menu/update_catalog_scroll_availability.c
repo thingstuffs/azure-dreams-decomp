@@ -1,14 +1,7 @@
 #include "town/menu/catalog.h"
 #include "town/menu.h"
-struct Tbl {
-    unsigned char unk0[4];
-    unsigned char unk4;
-    unsigned char unk5[3];
-};
-
-
+#include "town/menu/catalog_detail_data.h"
 #include "town/menu/catalog_scroll_data.h"
-extern struct Tbl catalog_detail_images[];
 
 /* Update entry flags from the global value and the entry's table threshold. */
 void update_catalog_scroll_availability(CatalogDisplay *entry)
@@ -20,7 +13,7 @@ void update_catalog_scroll_availability(CatalogDisplay *entry)
     } else {
         entry->unk_0E &= 0xFE;
     }
-    if (catalog_scroll_offset < ((catalog_detail_images[entry->unk_13].unk4 - 3) << 4)) {
+    if (catalog_scroll_offset < ((catalog_detail_images[entry->unk_13].count - 3) << 4)) {
         flags = entry->unk_0E | 2;
     } else {
         flags = entry->unk_0E & 0xFD;

@@ -996,7 +996,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
     POLY_FT4 *packet_next;
     s16 local_y;
     s16 local_x;
-    s32 (*draw_callback)(s32, void *, void *, void *, POLY_FT4 *);
+    SpritePartCallback draw_callback;
     s32 top_visible;
     s32 three_visible;
     s32 top_dx;
@@ -1060,7 +1060,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
 
     render_globals = &g_game_work;
     state = g_game_work.draw_buffer;
-    scratch->local_matrix.t[2] = NULL;
+    scratch->local_matrix.t[2] = 0;
     scratch->vertices[3].vz = 0;
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
@@ -1098,11 +1098,11 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
         origin_y = (*(u16 *)((u8 *)sprite + 0x22));
         scratch->local_matrix.t[1] = origin_y;
         scratch->extent_y = origin_y;
-        RotMatrix(0x1F800100, 0x1F8000D0);
+        RotMatrix(&scratch->angles, &scratch->local_matrix);
     /* MATCH: retain these views for production byte identity. */
         scratch->input.vx = sprite->scale_x;
         scratch->input.vy = *(u16 *)((u8 *)sprite + 0x1E);
-        scratch->input.vz = NULL;
+        scratch->input.vz = 0;
         ScaleMatrix(&scratch->local_matrix, &scratch->input);
         CompMatrix((MATRIX *)matrix_or_u, &scratch->local_matrix, &scratch->matrix);
         SetTransMatrix(&scratch->matrix);
@@ -1299,9 +1299,9 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
                     right_y = saved_right_y;
                 } while (row < 4);
             } else {
-                draw_callback = (s32 (*)(s32, void *, void *, void *, POLY_FT4 *))part->data.callback;
+                draw_callback = part->data.callback;
                 if (draw_callback != NULL) {
-                    visible_or_result = draw_callback(context, position, sprite, part, packet_next);
+                    visible_or_result = (s32)(unsigned long)draw_callback(context, position, sprite, part, packet_next);
                     kseg_base = 0x80000000;
                     if (visible_or_result > 0) {
                         part = (SpritePartCommand *)(visible_or_result | kseg_base);

@@ -20,7 +20,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/kewne_uncached_frames.h"
 
-extern s8 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void func_80154510(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_801546C8(void *, void *, void *, void *);
 extern s32 func_80154E10(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);

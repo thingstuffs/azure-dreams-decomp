@@ -2,16 +2,17 @@
 #include "dungeon/effect/sprite.h"
 #include "sdk/libgte.h"
 #include "engine/graphics/sprite_scratch.h"
+#include "sdk/libgpu_packets.h"
+#include "shared/gpu_packets.h"
 
-typedef struct OrderingTag { u32 addr : 24; u32 count : 8; } OrderingTag;
 /* Build visible textured quads for the matching sprite and link them into the ordering table. */
-void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, SpriteFrameState *render_state_addr, u8 *placement, u8 *packet_buf)
+void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, SpriteFrameState *render_state_addr, u8 *placement, POLY_FT4 *packet_buf)
 {
     SpriteQuadScratch *scratch;
     s32 index;
 
     u8 *sprite;
-    u8 *packet;
+    POLY_FT4 *packet;
     u8 *part;
     u8 *quad;
     s32 bottom_y;
@@ -140,15 +141,15 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                         (s32 *)&scratch->projected_vertices[0], (s32 *)&scratch->projected_vertices[1], (s32 *)&scratch->projected_vertices[2], (s32 *)&scratch->projected_vertices[3],
                         &scratch->depth_cue,
                         &scratch->gte_flag);
-                    *((u16 *) (packet + 0x8)) = scratch->projected_vertices[0].x + scratch->screen_origin.x;
-                    *((u16 *) (packet + 0xA)) = scratch->projected_vertices[0].y + scratch->screen_origin.y;
-                    *((u16 *) (packet + 0x10)) = scratch->projected_vertices[1].x + scratch->screen_origin.x;
-                    *((u16 *) (packet + 0x12)) = scratch->projected_vertices[1].y + scratch->screen_origin.y;
-                    *((u16 *) (packet + 0x18)) = scratch->projected_vertices[2].x + scratch->screen_origin.x;
-                    *((u16 *) (packet + 0x1A)) = scratch->projected_vertices[2].y + scratch->screen_origin.y;
-                    *((u16 *) (packet + 0x20)) = scratch->projected_vertices[3].x + scratch->screen_origin.x;
+                    packet->x0 = scratch->projected_vertices[0].x + scratch->screen_origin.x;
+                    packet->y0 = scratch->projected_vertices[0].y + scratch->screen_origin.y;
+                    packet->x1 = scratch->projected_vertices[1].x + scratch->screen_origin.x;
+                    packet->y1 = scratch->projected_vertices[1].y + scratch->screen_origin.y;
+                    packet->x2 = scratch->projected_vertices[2].x + scratch->screen_origin.x;
+                    packet->y2 = scratch->projected_vertices[2].y + scratch->screen_origin.y;
+                    packet->x3 = scratch->projected_vertices[3].x + scratch->screen_origin.x;
                     bottom_y = scratch->projected_vertices[3].y + scratch->screen_origin.y;
-                    *((s16 *) (packet + 0x22)) = bottom_y;
+                    packet->y3 = bottom_y;
                     {
                         s32 pair_visible;
                         s32 clip_test;
@@ -156,29 +157,29 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                         s32 third_visible;
                         s32 any_visible;
                         pair_visible = 0;
-                        if (((u16) ((*((u16 *) (packet + 0x8))) + 0x20)) < 0x181U) {
-                            clip_test = (u16) ((*((u16 *) (packet + 0xA))) + 0x20);
+                        if ((u16)(packet->x0 + 0x20) < 0x181U) {
+                            clip_test = (u16)(packet->y0 + 0x20);
                             pair_visible = clip_test < 0x121U;
                         }
                         corner_visible = 0;
-                        if (((u16) ((*((u16 *) (packet + 0x10))) + 0x20)) < 0x181U) {
-                            corner_visible = ((u16) ((*((u16 *) (packet + 0x12))) + 0x20)) < 0x121U;
+                        if ((u16)(packet->x1 + 0x20) < 0x181U) {
+                            corner_visible = (u16)(packet->y1 + 0x20) < 0x121U;
                         }
                         third_visible = 0;
-                        clip_test = (u16) ((*((u16 *) (packet + 0x18))) + 0x20);
+                        clip_test = (u16)(packet->x2 + 0x20);
                         pair_visible |= corner_visible;
                         if (clip_test < 0x181U) {
-                            clip_test = (u16) ((*((u16 *) (packet + 0x1A))) + 0x20);
+                            clip_test = (u16)(packet->y2 + 0x20);
                             third_visible = clip_test < 0x121U;
                         }
                         corner_visible = 0;
                         any_visible = pair_visible | third_visible;
-                        if (((u16) ((*((u16 *) (packet + 0x20))) + 0x20)) < 0x181U) {
+                        if ((u16)(packet->x3 + 0x20) < 0x181U) {
                             corner_visible = ((u16) (bottom_y + 0x20)) < 0x121U;
                         }
                         clip_test = any_visible | corner_visible;
                         if (clip_test != 0) {
-                            *((s8 *) (packet + 3)) = 9;
+                            ((GpuLinkTag *)&packet->tag)->len = 9;
                             scratch->uv_u_extent += scratch->uv_u_start;
                             if (scratch->uv_u_extent & 0x100) {
                                 scratch->uv_u_extent -= 1;
@@ -189,10 +190,12 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                             }
                             scratch->uv_v_extent <<= 8;
                             scratch->uv_v_start <<= 8;
-                            *((s32 *) (packet + 0xC)) = (scratch->uv_v_start + scratch->uv_u_start)
+                            /* BYTES: retail stores u0, v0 and the CLUT with one sw of the combined word; member stores compile to sb, sb, sh */
+                            *(s32 *)&packet->u0 = (scratch->uv_v_start + scratch->uv_u_start)
                                 + ((render_state_addr->clut
                                 + (*((u16 *) (quad + 0x6)))) << 16);
-                            *((s16 *) (packet + 0x14)) =
+                            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                            *(s16 *)&packet->u1 =
                                 ((u16)scratch->uv_v_start) + ((u16)scratch->uv_u_extent);
                             {
                                 u16 blend_mode;
@@ -204,9 +207,10 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                                 else {
                                     tpage = *((u16 *) (quad + 0x4));
                                 }
-                                *((u16 *) (packet + 0x16)) = tpage;
+                                packet->tpage = tpage;
                             }
-                            *((s16 *) (packet + 0x1C)) =
+                            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                            *(s16 *)&packet->u2 =
                                 ((u16)scratch->uv_v_extent) + ((u16)scratch->uv_u_start);
                             {
                                 s32 bottom_right_uv;
@@ -214,17 +218,18 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                                 s32 count_or_x;
                                 bottom_right_uv = (u16)scratch->uv_v_extent;
                                 bottom_right_uv += (u16)scratch->uv_u_extent;
-                                *((s16 *) (packet + 0x24)) = bottom_right_uv;
-                                count_or_x = *((s16 *) (packet + 0x8));
-                                right_x = *((s16 *) (packet + 0x20));
+                                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                                *(s16 *)&packet->u3 = bottom_right_uv;
+                                count_or_x = packet->x0;
+                                right_x = packet->x3;
                                 if (right_x < count_or_x) {
-                                    *((packet + 0x14)) -= 1;
-                                    *((packet + 0x24)) -= 1;
+                                    packet->u1 -= 1;
+                                    packet->u3 -= 1;
                                 }
                             }
-                            if ((*((s16 *) (packet + 0xA))) > (*((s16 *) (packet + 0x22)))) {
-                                *((packet + 0x1D)) -= 1;
-                                *((packet + 0x25)) -= 1;
+                            if (packet->y0 > packet->y3) {
+                                packet->v2 -= 1;
+                                packet->v3 -= 1;
                             }
                             {
                                 u16 part_flags;
@@ -253,12 +258,13 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                                 }
                                 *((part + 0xF)) = flags;
                             }
-                            *((s32 *) (packet + 0x4)) = *((s32 *) (part + 0xC));
+                            /* BYTES: retail copies the sprite colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
+                            *(s32 *)&packet->r0 = *((s32 *) (part + 0xC));
                             if (!((*((u16 *) (sprite + 4))) & 0x8000)) {
-                                ((OrderingTag *)packet)->addr = ((OrderingTag *)((scratch->sort_depth << 2) + (u32)scratch->ordering_table))->addr;
-                                ((OrderingTag *)((scratch->sort_depth << 2) + (u32)scratch->ordering_table))->addr = (u32)packet;
+                                ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)(scratch->ordering_table + scratch->sort_depth))->addr;
+                                ((GpuLinkTag *)(scratch->ordering_table + scratch->sort_depth))->addr = (u32)packet;
                             }
-                            packet += 0x28;
+                            packet++;
                         }
                     }
                 }

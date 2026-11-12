@@ -45,7 +45,6 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/initialize_destination_from_vector.c	initialize_destination_from_vector	1	ScaleMatrix
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/offset_parent.c	project_linked_vertical_point_quads	3	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_effect_quads.c	draw_effect_and_restore_clip	1	SetDrawArea
--Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_effect_quads.c	render_rotated_effect_quads	1	
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_grid_surface.c	render_rotated_grid_surface	5	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/route.c	project_linked_shaded_points	3	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/update_directional_actor_effect.c	create_counted_sprite_effect	2	RotTransPers,SetPolyFT4

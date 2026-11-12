@@ -1,7 +1,6 @@
-#include "shared/sprite_frame_state.h"
-
 #ifndef DUNGEON_OVL_16B08_LOCAL_H
 #define DUNGEON_OVL_16B08_LOCAL_H
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/town_object.h"

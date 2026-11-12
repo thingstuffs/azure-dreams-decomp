@@ -26,7 +26,7 @@
 #include "dungeon/monster/dragon/transition_effect.h"
 #include "dungeon/monster/grineut/path_motion.h"
 #include "dungeon/monster/hikewne.h"
-extern s32 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void func_80174598(void *, void *, void *, void *);
 void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 

@@ -20,7 +20,7 @@
 
 
 
-extern s8 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 #include "dungeon/monster/u_boat.h"
 
 

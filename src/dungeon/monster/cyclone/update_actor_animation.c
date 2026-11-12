@@ -17,7 +17,7 @@
 
 
 
-extern s8 find_active_rect_containing_point(u8, u8);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 
 extern void func_80174520(void *, void *, void *, void *);
 

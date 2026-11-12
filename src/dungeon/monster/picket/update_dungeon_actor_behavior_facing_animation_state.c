@@ -26,7 +26,7 @@
 #include "dungeon/monster/dragon/transition_effect.h"
 #include "dungeon/monster/picket.h"
 
-extern s8 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80174060(void *, void *, void *, void *);
 extern void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *, ObjectPosition *, void *, void *);

@@ -17,7 +17,7 @@
 #include "dungeon/monster/hikewne.h"
 
 #include "dungeon/monster/grineut/path_motion.h"
-extern s32 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void func_80173A84(void *, void *, void *, void *);
 
 extern u8 killer_action_resume_address;

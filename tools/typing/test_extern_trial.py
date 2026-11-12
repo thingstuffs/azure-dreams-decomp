@@ -210,5 +210,120 @@ class LintTests(unittest.TestCase):
                                       lambda h: closure[h]), [])
 
 
+class FakeDisk:
+    """DiskState stand-in over a temporary directory: write() puts a state on disk, restore() the baseline."""
+
+    def __init__(self, root, originals):
+        self.root, self.originals, self.restored = root, dict(originals), 0
+        for f, t in originals.items():
+            (root / f).write_text(t)
+
+    def write(self, texts):
+        for f, t in texts.items():
+            (self.root / f).write_text(t)
+        return dict(texts)
+
+    def restore(self):
+        self.restored += 1
+        for f, t in self.originals.items():
+            (self.root / f).write_text(t)
+
+    def text(self, f):
+        return (self.root / f).read_text()
+
+
+class SettleBulk:
+    """The parts of extern_bulk.Bulk that settle() and blame() use, with one edited TU."""
+
+    def __init__(self, root, texts):
+        self.root, self._texts = root, texts
+        self.holds, self.restored, self.jobs, self.logged = [], {}, dict.fromkeys(texts), []
+
+    def texts(self):
+        return dict(self._texts)
+
+    def appended(self, h):
+        return set()
+
+    def log(self, msg):
+        self.logged.append(msg)
+
+
+class RestoreTests(unittest.TestCase):
+    """The files on disk at exit are the baseline whenever a trial fails, is interrupted or is terminated."""
+
+    def setUp(self):
+        import tempfile
+        import shutil
+        self.root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.root)
+        self.disk = FakeDisk(self.root, {'a.c': 'baseline\n'})
+        self.lines = []
+
+    def test_failing_proof_restores(self):
+        import extern_bulk as B
+        bulk = SettleBulk(self.root, {'a.c': 'edited\n'})
+        graph = NS(recipes={}, real=lambda f: f, own_source=lambda spec: None)
+
+        def prover(state, screen):
+            self.assertEqual(self.disk.text('a.c'), 'edited\n')  # the proof sees the edited state
+            return dict(verdict='FAIL', recipes={'r1': dict(verdict='FAIL', cause='bytes differ')},
+                        scope=dict(recipes=['r1'], slus_recipes=[]))
+        prover.graph = graph
+        with self.assertRaisesRegex(RuntimeError, 'failure without an edited input|no new hold'):
+            with T.restoring(self.disk, self.lines.append):
+                B.settle(bulk, prover, self.disk, log=self.lines.append)
+        self.assertEqual(self.disk.text('a.c'), 'baseline\n')
+        self.assertEqual(self.disk.restored, 1)
+        self.assertIn('failed/interrupted: every file restored', self.lines)
+
+    def test_unattributable_lint_failure_raises_and_restores(self):
+        import json
+        out = self.root / 'out'
+        out.mkdir()
+        gate = T.LintGate(self.root, self.root, out, 1, self.lines.append)
+        gate.bulk = FakeBulk({}, {'src/a.c': ['include/x.h']})
+        gate.bulk.plan.corpus = NS(closure=lambda h: [h])
+        result = dict(plan=dict(renames={}), base_findings=[], base_failures=[], head_failures=[],
+                      head_findings=[dict(file='src/elsewhere.c', function='g', warning='W', sites='src/elsewhere.c:1:1',
+                                          count=1, messages='m')])
+
+        def run(cmd, **kw):
+            (out / 'lint1').mkdir()
+            (out / 'lint1' / 'closure_result.json').write_text(json.dumps(result))
+            return NS(returncode=1, stdout='lint closure FAIL: 1 new warning site\n', stderr='')
+        saved, T.subprocess.run = T.subprocess.run, run
+        try:
+            self.disk.write({'a.c': 'edited\n'})
+            with self.assertRaisesRegex(RuntimeError, 'nothing attributable'):
+                with T.restoring(self.disk, self.lines.append):
+                    gate({}, {'a.c': 'edited\n'})
+        finally:
+            T.subprocess.run = saved
+        self.assertEqual(gate.bulk.restored, {})
+        self.assertEqual(self.disk.text('a.c'), 'baseline\n')
+
+    def test_sigterm_restores(self):
+        import os
+        import signal
+        saved = signal.getsignal(signal.SIGTERM)
+        self.addCleanup(signal.signal, signal.SIGTERM, saved)
+        T.install_sigterm_exit()
+        self.disk.write({'a.c': 'edited\n'})
+        with self.assertRaises(SystemExit) as cm:
+            with T.restoring(self.disk, self.lines.append):
+                os.kill(os.getpid(), signal.SIGTERM)
+                raise AssertionError('SIGTERM did not interrupt the trial')
+        self.assertEqual(cm.exception.code, 128 + signal.SIGTERM)
+        self.assertEqual(self.disk.text('a.c'), 'baseline\n')
+
+    def test_success_leaves_the_state(self):
+        self.disk.write({'a.c': 'edited\n'})
+        with T.restoring(self.disk, self.lines.append):
+            pass
+        self.assertEqual(self.disk.text('a.c'), 'edited\n')
+        self.assertEqual(self.disk.restored, 0)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -44,6 +44,7 @@ prototype floors; --exclude-names-file; identifiers in the subjects of REPO's la
 from __future__ import annotations
 
 import argparse
+import contextlib
 import copy
 import json
 import re
@@ -456,6 +457,23 @@ def _tsv(path, header, rows):
 
 # ------------------------------------------------------------------ main
 
+def install_sigterm_exit():
+    """A terminated trial exits through SystemExit, so restoring() puts the baseline texts back as for ^C."""
+    import signal
+    signal.signal(signal.SIGTERM, lambda signum, frame: sys.exit(128 + signum))
+
+
+@contextlib.contextmanager
+def restoring(disk, log=print):
+    """Restore every baseline text (disk.restore()) when the body fails, is interrupted or is terminated."""
+    try:
+        yield
+    except BaseException:
+        disk.restore()
+        log('failed/interrupted: every file restored')
+        raise
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', type=Path, default=HERE.parents[1])
@@ -497,9 +515,8 @@ def main(argv=None):
         logf.flush()
 
     started = time.monotonic()
-    import signal
-    # a terminated trial restores the baseline texts like an interrupted one (the except clause below)
-    signal.signal(signal.SIGTERM, lambda signum, frame: sys.exit(128 + signum))
+    # a terminated trial restores the baseline texts like an interrupted one (restoring() below)
+    install_sigterm_exit()
     import extern_bulk as B
     import extern_wave as EW
     plan = load_plan(root, log)
@@ -595,7 +612,7 @@ def main(argv=None):
         gate = LintGate(root, a.lint_port.resolve(), a.out, a.lint_jobs, log)
         gate.bulk = bulk
     proofs = []
-    try:
+    with restoring(disk, log):
         state, rows = B.settle(bulk, prover, disk, max_rounds=a.max_rounds, log=log, out=a.out, after_pass=gate)
         proofs += rows
         # retry, one name at a time, the names of TUs restored with another selected name
@@ -649,10 +666,6 @@ def main(argv=None):
             disk.restore()
             log('dry run: every file restored')
         return 0
-    except BaseException:
-        disk.restore()
-        log('failed/interrupted: every file restored')
-        raise
 
 
 if __name__ == '__main__':

@@ -22,7 +22,7 @@
 #include "dungeon/monster/troll.h"
 #include "dungeon/player/object.h"
 
-extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 
 void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *entity);
 extern void func_8017531C(void *, void *, void *, void *);

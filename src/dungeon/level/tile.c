@@ -411,7 +411,8 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 }
 #include "modules/dungeon_engine_tile_map_fragment_b4f0c.h"
 
-extern s16 find_active_rect_containing_point(u16, u16);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
+
 
 extern s16 direction_x_offsets[];
 extern s16 direction_y_offsets[];
@@ -520,7 +521,6 @@ typedef struct {
 
 extern s16 direction_x_offsets[];
 extern s16 direction_y_offsets[];
-s16 find_active_rect_containing_point(u16, u16);
 
 /* Check a directional move against map bounds, collisions, monsters, and floor height. */
 s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, ActorRecord *body, u16 height_offset) {

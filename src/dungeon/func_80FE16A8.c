@@ -18,7 +18,7 @@
 #include "dungeon/monster/killer_frames.h"
 #include "dungeon/monster/killer.h"
 
-extern s32 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);

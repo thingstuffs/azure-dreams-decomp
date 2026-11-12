@@ -1,5 +1,5 @@
 {
- "count": 1363,
+ "count": 1361,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -1093,8 +1093,6 @@
   "src/dungeon/effect/sprite/create_radial_effect_from_source.c::parts.unk_2E",
   "src/dungeon/effect/sprite/create_radial_effect_from_source.c::parts.unk_72",
   "src/dungeon/effect/sprite/create_radial_effect_from_source.c::parts.unk_73",
-  "src/dungeon/effect/sprite/draw_shaded_textured_cylinder.c::S_80024930_0.unk_18",
-  "src/dungeon/effect/sprite/draw_shaded_textured_cylinder.c::S_80024930_3.unk_00",
   "src/dungeon/effect/sprite/endpoint_delta.c::S_800247D4_2.unk_00",
   "src/dungeon/effect/sprite/move_to_target_and_run_child_effects.c::Fixed32.Fixed32",
   "src/dungeon/effect/sprite/move_to_target_and_run_child_effects.c::WideProduct.WideProduct",

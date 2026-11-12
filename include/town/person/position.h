@@ -28,5 +28,6 @@ s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin);
 #include "shared/entity.h"
 #include "shared/town_object.h"
 void ease_reaction_position_to_target(TownObjectRecord *state, ObjectPosition *position, void *update_arg);
+void copy_global_position_output_offset(s32 unused, ObjectPosition *position_out);
 
 #endif

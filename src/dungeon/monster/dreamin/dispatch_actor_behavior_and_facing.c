@@ -15,7 +15,7 @@
 #include "dungeon.h"
 #include "dungeon/player/object.h"
 
-extern s32 find_active_rect_containing_point(u8, u8);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 #include "dungeon/actor/state.h"
 
 extern void advance_stored_path_motion(void *, void *, void *, void *);

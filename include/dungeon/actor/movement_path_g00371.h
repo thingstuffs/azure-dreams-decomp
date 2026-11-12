@@ -96,7 +96,7 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern u8 actor_action_resume_address;
 extern u8 actor_movement_frames[];
 extern Callback actor_contact_callbacks[];
-extern s32 find_active_rect_containing_point(s32, s32);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 
 
 extern void *actor_action_frames[];

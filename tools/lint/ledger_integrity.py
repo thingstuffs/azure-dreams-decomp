@@ -52,6 +52,8 @@
     (ledger/*.jsonl|json, tools/**/*baseline*.json, config/*.tsv) must not gain lane-local strings: work/ or
     out/ paths, home or session scratch paths, lane names.  --fail-new and --fail-all both fail on a NEW one
     (strings already on BASE are the historical journals' and are only counted by `ledger_public.py census`).
+    They must not gain a 40-hex "tree" commit hash outside public history either (an ancestor of HEAD, a local
+    master, LEDGER_PUBLIC_REF or --public-ref): a lane root's private commit cannot be resolved by anyone.
 
 --rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
 the same cast spelling that passes the field rule, following the file's history from the
@@ -777,6 +779,8 @@ def main(argv=None):
                         help='do not run clang for record layouts (renames become renamed?)')
     parser.add_argument('--rederive', action='store_true', help='propose current lines for stale entries')
     parser.add_argument('--write', action='store_true', help='with --rederive, rewrite the ledger')
+    parser.add_argument('--public-ref', action='append', default=[],
+                        help='a ref whose ancestors are public history, for "tree" hashes (repeatable)')
     args = parser.parse_args(argv)
     root = args.root.resolve()
     head_rows = read_ledger((root / args.ledger).read_text())
@@ -846,7 +850,7 @@ def main(argv=None):
             print(f'  EVIDENCE-LOADS {rid}: {op} stated {numbers}, loads field has {actual}')
     for problem in loads['problems']:
         print('LOADS ' + problem)
-    lane_local = ledger_public.check(root, args.base)
+    lane_local = ledger_public.check(root, args.base, public_ref=args.public_ref)
     failed = (bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
               or ((args.fail_new or args.fail_all) and lane_local > 0))
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))

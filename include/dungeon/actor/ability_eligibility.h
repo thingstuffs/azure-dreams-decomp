@@ -127,7 +127,7 @@ extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern s32 generate_random_value(void);
 extern s32 check_entity_interaction_compatibility(void *, void *);
 /* data in find_eligible_nearby_entry */
-extern s32 find_active_rect_containing_point(u16, u16);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern DungeonSlot *familiar_record_slots[];
 /* This data symbol has no shared-catalog address. */
 extern u8 temporary_item_record[];

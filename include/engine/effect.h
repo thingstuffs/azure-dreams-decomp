@@ -163,7 +163,7 @@ void start_gauge_ramp(struct S_80050640 *obj);
 void tick_screen_fade_slots(void);
 
 /* update_color_fade_effect.c */
-void update_color_fade_effect(struct CdCueEffectBody *effect, ObjectPosition *unused_1, SpriteFrameState *color, void *unused_3);
+void update_color_fade_effect(CdCueEffectBody *effect, ObjectPosition *unused_1, SpriteFrameState *color, void *unused_3);
 
 /* update_fade_in_out_effect.c */
 void update_fade_in_out_effect(CdCueEffectBody *state, ObjectPosition *unused_arg, SpriteFrameState *visual);
@@ -181,7 +181,7 @@ void func_800517CC(struct EffectState800517CC *effect, struct VecState800517CC *
 void update_sine_motion_effect(struct EffectState800517CC *effect, ObjectPosition *motion, SpriteFrameState *color);
 
 /* update_staged_motion_effect.c */
-void update_staged_motion_effect(struct CdCueEffectBody *obj, ObjectPosition *position, SpriteFrameState *flags);
+void update_staged_motion_effect(CdCueEffectBody *obj, ObjectPosition *position, SpriteFrameState *flags);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/gpu_packets.h"

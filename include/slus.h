@@ -22,7 +22,7 @@ struct VtableObj;
 
 /* code.c */
 void initialize_memory_card_services(s32 enable_pad);
-void zero_words(int *dst, int count);
+void zero_words(void *dst, s32 count);
 void copy_words_forward(int *dst, int *src, int count);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void swap_int_values(int *left, int *right);

@@ -26,7 +26,7 @@ typedef struct S_8127C3E0_6 {
 } S_8127C3E0_6;   /* global_count in step_beldo_old_toward_target */
 
 extern s32 return_zero_fn(void *, void *, void *, void *);
-extern void find_active_rect_containing_point(void *, s8, void *, void *);
+extern void find_active_rect_containing_point(void *, s8, void *, void *); /* Unprototyped: stale-bank call (include/dungeon/stale_bank_imports.h); its callee at this address is not shown to be this function */
 extern void initialize_indexed_object_and_lookup_value(s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern s8 D_8006BDA8;

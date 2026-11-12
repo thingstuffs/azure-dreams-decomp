@@ -259,7 +259,7 @@ s16 sample_terrain_surface_height();
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);

@@ -4,12 +4,9 @@
 #include "town/menu/catalog.h"
 #include "town/menu.h"
 #include "town/data.h"
+#include "town/menu/catalog_cursor_data.h"
 
 extern void *D_80126998[4];
-extern void *catalog_normal_digits[10];
-extern u16 catalog_cursor_rows[2];
-extern u16 catalog_cursor_columns[8];
-extern u8 catalog_number_marker[16];
 extern u8 D_80127E4C[16];
 extern u8 D_80127F48[16];
 extern u8 D_801289EC[16];

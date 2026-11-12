@@ -33,7 +33,7 @@ typedef struct S_8016B778_5 {
 } S_8016B778_5;   /* entry in update_main_actor_action_and_facing */
 
 extern u8 ghosh_action_resume_address[];
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 struct ActorRecord;
 extern u8 D_8017469C[];
 extern u8 D_801746BC[];

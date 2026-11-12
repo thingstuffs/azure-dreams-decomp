@@ -30,7 +30,7 @@ extern u8 golem_frame_set_3[];
 extern u8 D_80175F50;
 extern u8 D_80175F60;
 
-extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void advance_stored_path_motion();
 extern void update_actor_movement_and_tile_position();
 extern s32 func_801727D8(); /* Slot contract: loading images do not establish one callee contract. */

@@ -1,11 +1,6 @@
+#include "common.h"
 #include "shared/game_work.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
 extern void append_list_tail(void *a0, void *a1);
 extern unsigned char town_movie_callback_list[16];
 extern unsigned char D_800D4284[16];

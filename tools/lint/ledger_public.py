@@ -27,6 +27,14 @@ rows.jsonl and instances.jsonl) keep their strings; `check` keeps them from grow
 
 `check BASE` compares, per public file that differs from BASE, the multiset of lane-local strings: a string whose
 count rises is NEW and fails (exit 1).  tools/lint/ledger_integrity.py runs it in --fail-new/--fail-all mode.
+
+Private commit hashes (kind `tree`): a 40-hex `"tree": "<sha>"` value (the commit a prototype-floor row was measured
+on) must name a commit in public history, an ancestor of HEAD, of a local `master`/`origin/master` branch, of
+LEDGER_PUBLIC_REF or of a `--public-ref`.  A lane or batch root's own commits never become public, so citing one leaves
+a hash nobody can resolve.  `check` fails on a rise of such hashes in a changed public file (the ones already on BASE
+are reported by `census` only); in a lane root whose history does not contain master, pass the master commit the root
+was made from as `--public-ref` (or set LEDGER_PUBLIC_REF, which is not an AZURE_* name and so stays out of the
+configure checkpoint guard) so hashes of master commits are recognised.
 """
 from __future__ import annotations
 
@@ -222,6 +230,32 @@ def _git(root, *args):
     return subprocess.run(['git', *args], cwd=root, capture_output=True)
 
 
+TREE_RE = re.compile(r'"tree":\s*"([0-9a-f]{40})"')
+
+
+def public_refs(root, extra=()):
+    """Refs whose ancestry is public history: HEAD, a local master/origin/master, LEDGER_PUBLIC_REF and EXTRA."""
+    refs = ['HEAD']
+    for name in ('master', 'origin/master'):
+        if _git(root, 'rev-parse', '--verify', '--quiet', name + '^{commit}').returncode == 0:
+            refs.append(name)
+    env = os.environ.get('LEDGER_PUBLIC_REF')
+    refs += [r for r in (env, *extra) if r]
+    return refs
+
+
+def unreachable_trees(root, text, refs, cache=None):
+    """Counter of the 40-hex "tree" commit hashes in TEXT that are not an ancestor of any of REFS."""
+    cache = {} if cache is None else cache
+    res = collections.Counter()
+    for sha, n in collections.Counter(TREE_RE.findall(text)).items():
+        if sha not in cache:
+            cache[sha] = any(_git(root, 'merge-base', '--is-ancestor', sha, ref).returncode == 0 for ref in refs)
+        if not cache[sha]:
+            res[sha] = n
+    return res
+
+
 def new_strings(root, base):
     """{path: Counter((kind, token) -> rise)} for public files that gained lane-local strings since BASE."""
     root = Path(root)
@@ -242,7 +276,28 @@ def new_strings(root, base):
     return res
 
 
-def check(root, base, out=None):
+def new_trees(root, base, refs):
+    """{path: Counter(sha -> rise)} for public files that gained commit hashes outside public history since BASE."""
+    root = Path(root)
+    changed = _git(root, 'diff', '--name-only', '--no-renames', base, '--').stdout.decode().split()
+    changed += _git(root, 'ls-files', '--others', '--exclude-standard', '--', 'ledger', 'tools', 'config').stdout.decode().split()
+    res, cache = {}, {}
+    for rel in sorted(set(changed)):
+        if not is_public(rel) or not (root / rel).is_file():
+            continue
+        head = unreachable_trees(root, (root / rel).read_text(errors='replace'), refs, cache)
+        if not head:
+            continue
+        shown = _git(root, 'show', f'{base}:{rel}')
+        old = (unreachable_trees(root, shown.stdout.decode(errors='replace'), refs, cache)
+               if shown.returncode == 0 else collections.Counter())
+        rise = collections.Counter({k: n - old[k] for k, n in head.items() if n > old[k]})
+        if rise:
+            res[rel] = rise
+    return res
+
+
+def check(root, base, out=None, public_ref=()):
     out = out or sys.stdout
     rises = new_strings(root, base)
     total = sum(sum(c.values()) for c in rises.values())
@@ -250,7 +305,14 @@ def check(root, base, out=None):
         for (kind, tok), n in sorted(rise.items()):
             print(f'  NEW {kind} {rel}: {tok!r} (+{n})', file=out)
     print(f'public ledgers: {total} new lane-local strings in {len(rises)} files', file=out)
-    return total
+    refs = public_refs(root, public_ref)
+    trees = new_trees(root, base, refs)
+    ntrees = sum(sum(c.values()) for c in trees.values())
+    for rel, rise in trees.items():
+        for sha, n in sorted(rise.items()):
+            print(f'  NEW tree {rel}: {sha} (+{n}) is not an ancestor of {", ".join(refs)}', file=out)
+    print(f'public ledgers: {ntrees} new private commit hashes in {len(trees)} files', file=out)
+    return total + ntrees
 
 
 def scrub(root, write=False, files=SCRUB_FILES):
@@ -277,6 +339,8 @@ def main(argv=None):
     ap.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
     ap.add_argument('--write', action='store_true')
     ap.add_argument('--top', type=int, default=3)
+    ap.add_argument('--public-ref', action='append', default=[],
+                    help='a ref whose ancestors are public history (repeatable; HEAD and master always count)')
     a = ap.parse_args(argv)
     root = a.root.resolve()
     if a.cmd == 'census':
@@ -290,6 +354,12 @@ def main(argv=None):
             top = ', '.join(f'{t} x{n}' for (_, t), n in found.most_common(a.top))
             print(f'{rel}: ' + ' '.join(f'{k} {n}' for k, n in sorted(kinds.items())) + f' | {top}')
         print(f'total: {sum(tot.values())} in {len(res)} files (' + ', '.join(f'{k} {n}' for k, n in sorted(tot.items())) + ')')
+        refs, cache = public_refs(root, a.public_ref), {}
+        for rel in public_files(root):
+            trees = unreachable_trees(root, (root / rel).read_text(errors='replace'), refs, cache)
+            if trees:
+                print(f'{rel}: {sum(trees.values())} "tree" commit hashes outside public history '
+                      f'({len(trees)} distinct; refs {", ".join(refs)})')
         return 0
     if a.cmd == 'scrub':
         for rel, before, after, lines in scrub(root, a.write):
@@ -298,7 +368,7 @@ def main(argv=None):
         return 0
     if not a.base:
         ap.error('check needs BASE')
-    return 1 if check(root, a.base) else 0
+    return 1 if check(root, a.base, public_ref=a.public_ref) else 0
 
 
 if __name__ == '__main__':

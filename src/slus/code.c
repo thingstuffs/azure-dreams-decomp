@@ -28,6 +28,7 @@
 #include "sdk/libc.h"
 #include "engine/cd.h"
 #include "engine/audio/slots.h"
+#include "engine/effect.h"
 #include "sdk/libspu.h"
 
 extern int   card_server_initialized[3];
@@ -43,11 +44,13 @@ void initialize_memory_card_services(s32 enable_pad) {
 }
 
 /* Clear count words starting at dst. */
-void zero_words(int *dst, int count) {
+void zero_words(void *dst, s32 count) {
+    s32 *word = dst;
+
     while (count != 0) {
-        *dst = 0;
+        *word = 0;
         count--;
-        dst++;
+        word++;
     }
 }
 
@@ -938,19 +941,10 @@ void mark_sine_motion_effect_complete(Entity *entity)
     }
 }
 
-extern void update_fade_in_out_effect(void);
-
-typedef struct {
-    unsigned char pad_00[0x10];
-    void (*update_func)(void);
-    unsigned char pad_14[0x2C - 0x14];
-    short field_2C;
-} Obj;
-
-/* Mark the object when its callback is update_fade_in_out_effect. */
-void mark_fade_in_out_effect_complete(Obj *object) {
-    if (object->update_func == update_fade_in_out_effect) {
-        object->field_2C = 1;
+/* Mark the fade node complete when its callback is update_fade_in_out_effect (init_fade_in_out_effect installs it). */
+void mark_fade_in_out_effect_complete(CdCueEffectNode *object) {
+    if (object->header.update_callback == update_fade_in_out_effect) {
+        object->body.completion = 1;
     }
 }
 

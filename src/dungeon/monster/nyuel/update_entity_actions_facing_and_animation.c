@@ -35,7 +35,7 @@ typedef struct {
     s16 unk_2A;
 } MapObject;
 
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 
 /* Updates entity actions, facing, and animation from state and terrain. */

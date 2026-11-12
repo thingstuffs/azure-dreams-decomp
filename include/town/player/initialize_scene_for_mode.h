@@ -129,7 +129,7 @@ void no_op_scene_callback_b(void);
 
 extern void clear_resident_bitmap_bit(s32 flag_id);
 extern s32 test_resident_bitmap_bit(s32 bit_id);
-extern void zero_words(void *ptr, s32 count);
+extern void zero_words(void *dst, s32 count);
 extern void register_node(func_80092868_TownObject *object, void *data);
 extern void initialize_circular_list_head(void);
 extern void initialize_pointer_table_self_links(void);

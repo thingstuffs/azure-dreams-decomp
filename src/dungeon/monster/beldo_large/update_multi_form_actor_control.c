@@ -26,7 +26,7 @@
 #include "dungeon/monster/beldo_large_frames.h"
 
 struct ActorRecord; 
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2;
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 

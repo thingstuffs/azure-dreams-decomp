@@ -51,7 +51,7 @@ extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern s16 actor_turn_angle_offsets[];
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 void update_actor_status_and_mp(ActorRecord *entity);

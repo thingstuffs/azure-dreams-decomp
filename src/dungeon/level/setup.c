@@ -486,7 +486,7 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
     u8 *tile_flags;
     u8 *flags;
     u8 *extra_flags;
-    void *tile;
+    dungeon_setup_80283BF0_S_80016BF0_2 *tile;
     dungeon_setup_80283BF0_S_80016BF0_0 *map;
     GameWork *state;
     dungeon_setup_80283BF0_S_80016BF0_3 *tile_above;
@@ -506,20 +506,20 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
                     tile_y = start_y + row;
                     row_width = width;
                     do {
-                        tile = (tiles_base + (((tile_y << map->unk_14) + start_x + col) * 6));
-                        tile_id = ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_00;
+                        tile = (dungeon_setup_80283BF0_S_80016BF0_2 *)(tiles_base + (((tile_y << map->unk_14) + start_x + col) * 6));
+                        tile_id = tile->unk_00;
                         flags = tile_flags + tile_id;
                         if (*flags & 1) {
-                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 1);
+                            tile->unk_04 = (u16)(tile->unk_04 | 1);
                         }
                         if (*flags & 4) {
-                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 4);
+                            tile->unk_04 = (u16)(tile->unk_04 | 4);
                         }
                         if (*flags & 8) {
-                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 8);
+                            tile->unk_04 = (u16)(tile->unk_04 | 8);
                         }
                         if (*flags & 0x20) {
-                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 0x400);
+                            tile->unk_04 = (u16)(tile->unk_04 | 0x400);
                         }
                         tile_x = col + start_x;
                         if (*flags & 2) {
@@ -528,7 +528,7 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
                                     (u16)(((dungeon_setup_80283BF0_S_80016BF0_2_pre *)tile)[-1].unk_00 | 1);
                             }
                             if (tile_x < ((1 << map->unk_14) - 1)) {
-                                ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_0A = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_0A | 1);
+                                tile->unk_0A = (u16)(tile->unk_0A | 1);
                             }
                             if (tile_y > 0) {
                                 tile_above = (void *)((((0 - (1 << map->unk_14)) * 6)) + (u32)tile);
@@ -541,10 +541,10 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
                         }
                         extra_flags = tile_flags + tile_id;
                         if (*extra_flags & 0x80) {
-                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 0x8000);
+                            tile->unk_04 = (u16)(tile->unk_04 | 0x8000);
                         }
                         if (*extra_flags & 0x40) {
-                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 0x40);
+                            tile->unk_04 = (u16)(tile->unk_04 | 0x40);
                         }
                         col += 1;
                     } while (col < row_width);
@@ -796,7 +796,7 @@ void initialize_random_effect_position(ObjectPosition *source, s16 base_offset) 
     s16 position_x;
     s16 position_y;
     GameView *state;
-    void *effect;
+    dungeon_setup_802842A0_S_800172A0_3 *effect;
     s32 random_angle;
     dungeon_setup_802842A0_S_800172A0_2 *bounds;
     s16 rotation_step;
@@ -804,7 +804,7 @@ void initialize_random_effect_position(ObjectPosition *source, s16 base_offset) 
 
     state = &g_game_work.view;
     bounds = (u8 *)state + 0x1C4;
-    effect = &state->slot[0].unk_04;
+    effect = (dungeon_setup_802842A0_S_800172A0_3 *)&state->slot[0].unk_04;
     random_angle = (rand() & 0x1FFF) - 0x1000;
     if (!((u16) *((s16 *)&system_update_flags) & 2)) {
         position_x = ((u16)(source->x.w.i)) + (rcos(random_angle) * 2);
@@ -830,16 +830,16 @@ void initialize_random_effect_position(ObjectPosition *source, s16 base_offset) 
             rotation_step = 0x800;
         }
         state->camera_rotation.parts.viewAngle = rotation_step;
-        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_00 = (effect + 4);
-        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_14 = 1;
-        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_24 = 0x40;
-        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_0C = source;
-        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_18 = 0;
-        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_26 = base_offset;
+        effect->unk_00 = ((u8 *)effect + 4);
+        effect->unk_14 = 1;
+        effect->unk_24 = 0x40;
+        effect->unk_0C = source;
+        effect->unk_18 = 0;
+        effect->unk_26 = base_offset;
         state->slot[0].callback = &D_800C7B38;
-        state_offset = base_offset + ((((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_24 + 1) * 0x30);
+        state_offset = base_offset + ((effect->unk_24 + 1) * 0x30);
         state->view_offset.parts.view_offset_z = state_offset;
-        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_10 = (s32) state_offset;
+        effect->unk_10 = (s32) state_offset;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     }
 }

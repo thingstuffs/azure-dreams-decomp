@@ -54,7 +54,7 @@ typedef struct S_801711A4_2 {
     void * unk_2C;
 } S_801711A4_2;   /* arg2 in update_actor_animation_and_dispatch */
 
-s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+#include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);

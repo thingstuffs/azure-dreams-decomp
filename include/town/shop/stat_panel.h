@@ -1,7 +1,6 @@
-#include "shared/entity.h"
-
 #ifndef TOWN_SHOP_STAT_PANEL_H
 #define TOWN_SHOP_STAT_PANEL_H
+#include "shared/entity.h"
 /* Initialize display entries and draw entity statistics panels. */
 
 #include "common.h"
