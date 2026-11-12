@@ -5,12 +5,12 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "town/map.h"
+#include "town/map/palette_frame_zero_data.h"
 #include "town/data.h"
 
 
 extern u8 town_map_variants[];
 extern u8 town_map_variant[];
-extern u8 building_palette_frame_zero[];
 extern u8 D_8012F004[];
 extern u8 D_8014F004[];
 
@@ -35,7 +35,7 @@ void initialize_building_scene_assets(void) {
     u8 *state_base;
     MapGrid *asset_state;
     RuntimeDispatchState *shared_state;
-    BuildingUploadRect *upload_rect;
+    RECT *upload_rect;
     u8 *image_data;
 
     upload_rect = &building_upload_rect;

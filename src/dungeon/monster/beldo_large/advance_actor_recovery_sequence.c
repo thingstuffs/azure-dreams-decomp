@@ -33,7 +33,7 @@ extern u8 D_80173A28[];
 extern u8 D_80173A30[];
 extern u8 D_80173A38[];
 extern u8 D_80175DC0;
-extern u8 encounter_recovery_flag;
+#include "dungeon/monster/beldo_large_data.h"
 
 /* Move the actor back to its tile, update its animation, and advance its recovery state. */
 void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, S_func_8016C64C_2 *sprite,

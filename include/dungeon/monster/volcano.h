@@ -28,6 +28,8 @@ struct ObjectPosition;
 #include "records/Rec_func_80173204_arg0.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "sdk/abs.h"
+#include "sdk/libgte.h"
 struct ObjectPosition;
 struct SpriteFrameState;
 
@@ -523,10 +525,9 @@ extern u8 D_80174560[];
 extern E_80170A58_Callback volcano_callbacks[];
 extern u8 D_801745CC[];
 extern u8 D_801745F8[];
-extern int abs(int);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-struct GteShortVector;
-extern SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *, SpriteFrameState *, struct GteShortVector *, s16);
+struct SVECTOR;
+extern SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *, SpriteFrameState *, struct SVECTOR *, s16);
 extern s32 get_cd_command_queue_depth(void);
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void func_80042640(void *, s32);
@@ -537,8 +538,6 @@ extern void func_80042B68(ActorRecord *owner, s8 match_type);
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 
 extern void advance_sprite_animation_and_textures(void *arg);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *,u8 *);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);

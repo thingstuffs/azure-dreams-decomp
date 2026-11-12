@@ -3,6 +3,7 @@
 #include "town/menu/catalog.h"
 #include "engine/text.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 #include "town/menu.h"
 
 typedef struct S_80123928_0 {
@@ -12,7 +13,7 @@ typedef struct S_80123928_0 {
 
 /* Outputs two-byte character codes, advancing the position by two per character. */
 void draw_vram_glyph_text(u8 *text, s16 start_x, s16 y) {
-    s32 glyph;
+    RECT glyph;
     s16 x;
     u8 *cursor;
     u8 code_hi;

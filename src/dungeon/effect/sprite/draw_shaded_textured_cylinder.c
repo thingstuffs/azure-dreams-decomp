@@ -184,7 +184,7 @@ s32 draw_shaded_textured_cylinder(B22_81893474_EffectState *unused_data, MovingP
 
         scratch->unk_B4 = RotAverage4(
             &scratch->unk_64, &scratch->unk_6C, &scratch->unk_74, &scratch->unk_7C,
-            &scratch->unk_D8, &scratch->unk_DC, &scratch->unk_E0, &scratch->unk_E4,
+            (s32 *)&scratch->unk_D8, (s32 *)&scratch->unk_DC, (s32 *)&scratch->unk_E0, (s32 *)&scratch->unk_E4,
             &scratch->depth_cue, &scratch->gte_flag);
 
         ((S_80024930_3 *)prim)->unk_08 = scratch->unk_D8;

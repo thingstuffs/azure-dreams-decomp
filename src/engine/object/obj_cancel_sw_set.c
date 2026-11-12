@@ -91,12 +91,12 @@ s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameSta
     render_state = D_80083160[0];
     prim_cursor = S32_AT(render_state, 0x8D0);
     scratch->ordering_table = (u32)(render_state + 0x70);
-    scratch->input_z = 0x1000;
-    scratch->translation_z = 0;
-    scratch->vertices[3].z = 0;
-    scratch->vertices[2].z = 0;
-    scratch->vertices[1].z = 0;
-    scratch->vertices[0].z = 0;
+    scratch->input.vz = 0x1000;
+    scratch->translation.vz = 0;
+    scratch->vertices[3].vz = 0;
+    scratch->vertices[2].vz = 0;
+    scratch->vertices[1].vz = 0;
+    scratch->vertices[0].vz = 0;
     scratch->primitive_cursor = prim_cursor;
     PushMatrix();
 
@@ -107,17 +107,17 @@ s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameSta
         context_flags = context->flags;
         sprite_data = context->source;
         scratch->context_flags = context_flags;
-        scratch->input_x = S32_AT(object, 0x20);
-        scratch->input_y = S32_AT(object, 0x24);
-        scratch->input_z = S32_AT(object, 0x28);
+        scratch->input.vx = S32_AT(object, 0x20);
+        scratch->input.vy = S32_AT(object, 0x24);
+        scratch->input.vz = S32_AT(object, 0x28);
 
         if (PTR_AT(object, 0x4) == 0) {
-            scratch->translation_x = S16_AT(transform, 0x2);
-            scratch->translation_y = S16_AT(transform, 0x6);
-            scratch->translation_z = S16_AT(transform, 0xA);
+            scratch->translation.vx = S16_AT(transform, 0x2);
+            scratch->translation.vy = S16_AT(transform, 0x6);
+            scratch->translation.vz = S16_AT(transform, 0xA);
             TransMatrix(matrix, translation);
             RotMatrix(object + 0x8, matrix);
-            ScaleMatrix(matrix, &scratch->input_x);
+            ScaleMatrix(matrix, &scratch->input);
 
             S32_AT(object, 0x40) = scratch->matrix.rotation_row0_xy;
             S32_AT(object, 0x44) = scratch->matrix.rotation_row0_z_row1_x;
@@ -128,9 +128,9 @@ s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameSta
             S32_AT(object, 0x58) = scratch->matrix.translation_y;
             S32_AT(object, 0x5C) = scratch->matrix.translation_z;
 
-            scratch->translation_x = S32_AT(object, 0x10);
-            scratch->translation_y = S32_AT(object, 0x14);
-            scratch->translation_z = S32_AT(object, 0x18);
+            scratch->translation.vx = S32_AT(object, 0x10);
+            scratch->translation.vy = S32_AT(object, 0x14);
+            scratch->translation.vz = S32_AT(object, 0x18);
             TransMatrix(work_matrix, translation);
             RotMatrix(object_render_rotation_angles, work_matrix);
             CompMatrix(matrix, work_matrix, matrix);
@@ -139,7 +139,7 @@ s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameSta
         } else {
             TransMatrix(matrix, object + 0x30);
             RotMatrix(object + 0x8, matrix);
-            ScaleMatrix(matrix, &scratch->input_x);
+            ScaleMatrix(matrix, &scratch->input);
             CompMatrix(PTR_AT(object, 0x4) + 0x40, matrix, matrix);
 
             S32_AT(object, 0x40) = scratch->matrix.rotation_row0_xy;
@@ -151,10 +151,10 @@ s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameSta
             S32_AT(object, 0x58) = scratch->matrix.translation_y;
             S32_AT(object, 0x5C) = scratch->matrix.translation_z;
 
-            scratch->translation_x = S32_AT(object, 0x10);
-            scratch->translation_y = S32_AT(object, 0x14);
-            scratch->translation_z = S32_AT(object, 0x18);
-            TransMatrix(work_matrix, &scratch->translation_x);
+            scratch->translation.vx = S32_AT(object, 0x10);
+            scratch->translation.vy = S32_AT(object, 0x14);
+            scratch->translation.vz = S32_AT(object, 0x18);
+            TransMatrix(work_matrix, &scratch->translation);
             RotMatrix(object_render_rotation_angles, work_matrix);
             CompMatrix(matrix, work_matrix, matrix);
             SetRotMatrix(matrix);
@@ -184,38 +184,38 @@ sprite_loop:
 
             if ((U8_AT(sprite_data, 0) ^ scratch->context_flags) & 1) {
                 coord = -((s32)(U8_AT(sprite, 1) << 24) >> 23);
-                scratch->vertices[2].x = coord;
-                scratch->vertices[0].x = coord;
+                scratch->vertices[2].vx = coord;
+                scratch->vertices[0].vx = coord;
                 coord -= (u16)scratch->uv_u_extent;
             } else {
                 coord = (s32)(U8_AT(sprite, 1) << 24) >> 23;
-                scratch->vertices[2].x = coord;
-                scratch->vertices[0].x = coord;
+                scratch->vertices[2].vx = coord;
+                scratch->vertices[0].vx = coord;
                 coord += (u16)scratch->uv_u_extent;
             }
-            scratch->vertices[3].x = coord;
-            scratch->vertices[1].x = coord;
+            scratch->vertices[3].vx = coord;
+            scratch->vertices[1].vx = coord;
 
             if ((U8_AT(sprite_data, 0) ^ scratch->context_flags) & 2) {
                 coord = -((s32)(U8_AT(sprite, 2) << 24) >> 23);
-                scratch->vertices[1].y = coord;
-                scratch->vertices[0].y = coord;
+                scratch->vertices[1].vy = coord;
+                scratch->vertices[0].vy = coord;
                 coord -= (u16)scratch->uv_v_extent;
-                scratch->vertices[3].y = coord;
-                scratch->vertices[2].y = coord;
+                scratch->vertices[3].vy = coord;
+                scratch->vertices[2].vy = coord;
             } else {
                 coord = (s32)(U8_AT(sprite, 2) << 24) >> 23;
-                scratch->vertices[1].y = coord;
-                scratch->vertices[0].y = coord;
+                scratch->vertices[1].vy = coord;
+                scratch->vertices[0].vy = coord;
                 coord += (u16)scratch->uv_v_extent;
-                scratch->vertices[3].y = coord;
-                scratch->vertices[2].y = coord;
+                scratch->vertices[3].vy = coord;
+                scratch->vertices[2].vy = coord;
             }
 
             RotTransPers4(&scratch->vertices[0], &scratch->vertices[1],
                           &scratch->vertices[2], &scratch->vertices[3],
-                          &scratch->projected_vertices[0], &scratch->projected_vertices[1],
-                          &scratch->projected_vertices[2], &scratch->projected_vertices[3],
+                          (s32 *)&scratch->projected_vertices[0], (s32 *)&scratch->projected_vertices[1],
+                          (s32 *)&scratch->projected_vertices[2], (s32 *)&scratch->projected_vertices[3],
                           &scratch->depth_cue, &scratch->gte_flag);
 
             visible = 0;
@@ -307,11 +307,11 @@ sprite_loop:
                     U8_AT(primitive, 0x1D) -= 1;
                     U8_AT(primitive, 0x25) -= 1;
                 }
-                if (scratch->input_x >= 0x1800) {
+                if (scratch->input.vx >= 0x1800) {
                     U8_AT(primitive, 0x14) -= 1;
                     U8_AT(primitive, 0x24) -= 1;
                 }
-                if (scratch->input_y >= 0x1800) {
+                if (scratch->input.vy >= 0x1800) {
                     U8_AT(primitive, 0x1D) -= 1;
                     U8_AT(primitive, 0x25) -= 1;
                 }

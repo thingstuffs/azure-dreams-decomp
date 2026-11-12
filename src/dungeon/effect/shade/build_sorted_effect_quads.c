@@ -3,6 +3,8 @@
 #include "dungeon/effect/shade.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "sdk/libgpu_types.h"
+#include "sdk/libgpu_packets.h"
 
 typedef struct S_800259DC_0 {
     u8 pad_00[0x18];
@@ -48,16 +50,6 @@ typedef struct S_800259DC_1 {
     s32 unk_58;
 } S_800259DC_1;   /* arg0 in build_sorted_effect_quads */
 
-typedef struct S_800259DC_2 {
-    u8 pad_00[0x4];
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_800259DC_2;   /* obj in build_sorted_effect_quads */
 
 typedef struct GlobalState {
     u8 pad[0x8D0];
@@ -69,7 +61,8 @@ typedef struct GlobalState {
 s32 build_sorted_effect_quads(void *quad_entry) {
     GlobalState **state_table = ((GlobalState * *)(&g_game_work));
     S_800259DC_0 *scratch = (S_800259DC_0 *)0x1F800000;
-    S_800259DC_2 *packet;
+    POLY_G4 *packet;
+    DR_MODE *mode_packet;
     u32 depth_index;
     s32 color_01;
     s32 color_23;
@@ -82,7 +75,7 @@ s32 build_sorted_effect_quads(void *quad_entry) {
     scratch->unk_18 = render_state->next;
     do {
         packet = scratch->unk_18;
-        scratch->unk_18 = (u8 *)packet + 0x24;
+        scratch->unk_18 = packet + 1;
         scratch->unk_70 = ((S_800259DC_1 *)quad_entry)->unk_34;
         scratch->unk_78 = ((S_800259DC_1 *)quad_entry)->unk_3C;
         scratch->unk_80 = ((S_800259DC_1 *)quad_entry)->unk_44;
@@ -94,27 +87,31 @@ s32 build_sorted_effect_quads(void *quad_entry) {
         scratch->unk_8C = ((S_800259DC_1 *)quad_entry)->unk_50;
         depth_index = RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78,
                               (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
-                              (u8 *)packet + 8, (u8 *)packet + 0x10,
-                              (u8 *)packet + 0x18, (u8 *)packet + 0x20,
+                              (s32 *)&packet->x0, (s32 *)&packet->x1,
+                              (s32 *)&packet->x2, (s32 *)&packet->x3,
                               (u8 *)scratch + 0x90, (u8 *)scratch + 0x94) - 8;
         scratch->unk_C0 = depth_index;
         if (depth_index < 0x1E0U) {
             color_01 = ((S_800259DC_1 *)quad_entry)->unk_54;
-            packet->unk_0C = color_01;
-            packet->unk_04.at00.v = color_01;
+            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            *(s32 *)&packet->red1 = color_01;
+            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            *(s32 *)&packet->red0 = color_01;
             color_23 = ((S_800259DC_1 *)quad_entry)->unk_58;
-            packet->unk_1C = color_23;
-            packet->unk_14 = color_23;
+            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            *(s32 *)&packet->red3 = color_23;
+            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            *(s32 *)&packet->red2 = color_23;
             SetPolyG4(packet);
-            packet->unk_04.at03.v = (u8)(packet->unk_04.at03.v | 2);
+            packet->code = packet->code | 2;
             AddPrim((u8 *)scratch->unk_20 +
                           (scratch->unk_C0 * 4), packet);
-            packet = scratch->unk_18;
-            scratch->unk_18 = (u8 *)packet + 0xC;
-            SetDrawMode(packet, 0, 0,
+            mode_packet = scratch->unk_18;
+            scratch->unk_18 = mode_packet + 1;
+            SetDrawMode(mode_packet, 0, 0,
                           (u16)GetTPage(0, 1, 0, 0), 0);
             AddPrim((u8 *)scratch->unk_20 +
-                          (scratch->unk_C0 * 4), packet);
+                          (scratch->unk_C0 * 4), mode_packet);
         }
         next_entry = ((S_800259DC_1_pre *)quad_entry)[-1].unk_00;
         if (next_entry == 0) {

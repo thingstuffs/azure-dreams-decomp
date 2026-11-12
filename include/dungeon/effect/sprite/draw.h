@@ -177,8 +177,7 @@ typedef struct {
 
 #include "sdk/libgte.h"
 #include "dungeon/effect/sprite.h"
-s32 GetTPage(s32, s32, s32, s32);
-void SetDrawMode(void *, s32, s32, s32, s32);
+#include "sdk/libgpu.h"
 
 void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset);
 s32 draw_linked_gap_effects(void *state, void *position, void *appearance);

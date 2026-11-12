@@ -25,12 +25,7 @@ typedef struct {
     u8 config[56];
 } ActorDefinition;
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} Rect;
+#include "sdk/libgpu_types.h"
 
 extern s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
 
@@ -53,12 +48,12 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
     s8 value2_byte;
     s16 value3_saved;
     ObjectNodeHeader *created;
-    u8 *work = 0;
+    ActorRecord *work = 0;
     ObjectPosition *position;
     SpriteFrameState *monster;
     u8 *actor;
     s32 kind;
-    Rect rect;
+    RECT rect;
 
     value1_saved = value1;
     value3_saved = value3;
@@ -77,34 +72,34 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
 
         work = NODE_BODY(created);
         (created ->update_callback) = func_80170B40;
-        ((ActorRecord *)work)->species = MONSTER_MANDARA;
+        work->species = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
         position = created ->position;
         position->z.w.i = value3_saved;
         monster = created ->sprite;
         monster->tile_y = value2_byte;
-        actor = work;
+        actor = (u8 *)work;
         monster->frameTable = func_80175258;
         monster->tile_x = value1_saved;
 
         kind = (s32)mode & 3;
         if (kind == 1) {
-            flags0 = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags1 = ((ActorRecord *)work)->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((ActorRecord *)work)->flags14 = flags0;
-            ((ActorRecord *)work)->flags1C = flags1;
+            flags0 = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags1 = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = flags0;
+            work->flags1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
-            flags1 = ((ActorRecord *)work)->flags1C | ACTOR_PLAYER_SIDE;
-            ((ActorRecord *)work)->flags14 = flags0;
-            ((ActorRecord *)work)->flags1C = flags1;
+            flags0 = work->flags14 | ACTOR_CLASS_ENABLED;
+            flags1 = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = flags0;
+            work->flags1C = flags1;
         } else {
             if ((s16)((s32)mode & -4) == 0 &&
-                !(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
+                !(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 value = generate_random_value();
                 if (value & 1) {
-                    ((ActorRecord *)work)->flags1C |= ACTOR_ASLEEP;
+                    work->flags1C |= ACTOR_ASLEEP;
                     value = generate_random_value();
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP, (value & 0x3F) | 0x20);
                     monster->frameTable = func_80175298;

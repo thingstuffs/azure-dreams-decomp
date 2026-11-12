@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/map.h"
+#include "town/map/state_ids_data.h"
 
 typedef struct {
     u8 pad0[8];
@@ -16,7 +17,7 @@ typedef struct {
 } Func8008E3F0Arg;
 
 
-extern u8 town_map_state_ids[];
+
 extern void* town_map_state_values[];
 
 /* Advance the inner value by 0x200, clamping and loading indexed state when positive. */

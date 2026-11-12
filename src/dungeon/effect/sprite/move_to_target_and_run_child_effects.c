@@ -97,7 +97,7 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, Spri
     Motion *root_motion;
     Child *child;
     u8 *linked_root;
-    GteShortVector delta;
+    SVECTOR delta;
     u16 target_cell_x;
     u16 target_cell_y[1];
     s32 index;

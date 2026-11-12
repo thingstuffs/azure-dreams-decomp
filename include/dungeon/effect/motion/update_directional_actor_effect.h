@@ -24,8 +24,7 @@ void spawn_spiraling(void *, s16, s16, void *, s32);
 void process_effect_modes_and_completion(void *);
 void allocate_and_initialize_effect_object(ObjectNodeHeader *, s16, s16, ActorRecord *);
 #include "dungeon/effect/screen.h"
-s32 rsin(s32);
-s32 rcos(s32);
+#include "sdk/libgte.h"
 extern u8 D_800DF334[];
 extern u8 linked_mesh_processor_address[];
 extern u8 D_80024980[];

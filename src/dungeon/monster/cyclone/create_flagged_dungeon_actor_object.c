@@ -34,7 +34,7 @@ extern u8 D_801764B8[];
 void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     ObjectNodeHeader *obj;
-    void *work = 0;
+    ActorRecord *work = 0;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
     ActorRecord *actor;
@@ -49,7 +49,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
     if (obj != 0) {
         work = NODE_BODY(obj);
         obj->update_callback = D_80170AE8;
-        ((ActorRecord *)work)->species = MONSTER_CYCLONE;
+        work->species = MONSTER_CYCLONE;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -62,18 +62,18 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         part_b->frameTable = cyclone_move_direction_frames;
 
         if (kind == 1) {
-            left = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = ((ActorRecord *)work)->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((ActorRecord *)work)->flags14 = left;
-            ((ActorRecord *)work)->flags1C = right;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (kind >= 2) {
-            left = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
-            right = ((ActorRecord *)work)->flags1C | ACTOR_PLAYER_SIDE;
-            ((ActorRecord *)work)->flags14 = left;
-            ((ActorRecord *)work)->flags1C = right;
+            left = work->flags14 | ACTOR_CLASS_ENABLED;
+            right = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = left;
+            work->flags1C = right;
         } else {
             if (((flags & ~3) << 16) == 0) {
-                if (!(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
+                if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                     if (generate_random_value() & 1) {
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
@@ -87,7 +87,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = update_actor_animation;
-        ((ActorRecord *)work)->flags1C |= 0x00040000;
+        work->flags1C |= 0x00040000;
         actor->unk_90.parts.high = -32;
 
         {

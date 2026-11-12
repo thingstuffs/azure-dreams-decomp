@@ -7,6 +7,7 @@ struct ObjectNodeHeader;
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008E0B8. */
 
 #include "common.h"
+#include "slus/town_map_selection_data.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 struct ObjectNodeHeader;
@@ -28,7 +29,6 @@ void select_record_entry_and_value(void *, void *, s16);
 extern u8 town_map_tag;
 extern u8 D_80037714;
 extern u8 D_800794AC;
-extern s32 town_map_selection;
 
 extern M2C_UNK D_8008BA00;
 extern s32 D_800CFB74[];

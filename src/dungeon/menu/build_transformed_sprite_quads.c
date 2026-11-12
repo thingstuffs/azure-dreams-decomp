@@ -22,17 +22,17 @@ typedef struct SpriteQuadScratch {
     /* 0x20 */ u8 *order_table; /* ordering table of the current draw context */
     /* 0x24 */ u16 sprite_flags; /* copy of the sprite's flags */
     u8 pad_26[0x2];
-    /* 0x28 */ GteShortVector center_offset; /* offset of the sprite center from its extent, rotated to find the screen center */
+    /* 0x28 */ SVECTOR center_offset; /* offset of the sprite center from its extent, rotated to find the screen center */
     /* 0x30 */ IntVector3 scale; /* ScaleMatrix scale vector */
     u8 pad_3C[0xC];
     /* 0x48 */ s32 unk_48;
     u8 pad_4C[0x24];
-    /* 0x70 */ GteShortVector corners[4]; /* the four frame corners passed to RotTransSV */
+    /* 0x70 */ SVECTOR corners[4]; /* the four frame corners passed to RotTransSV */
     u8 pad_90[0x4];
     /* 0x94 */ s32 gte_flags; /* RotTransSV flag output */
-    /* 0x98 */ GteShortVector rotation; /* RotMatrix angles; only the view angle is nonzero */
+    /* 0x98 */ SVECTOR rotation; /* RotMatrix angles; only the view angle is nonzero */
     u8 pad_A0[0x30];
-    /* 0xD0 */ GteMatrix transform; /* rotation, scale and placement translation */
+    /* 0xD0 */ MATRIX transform; /* rotation, scale and placement translation */
     u8 pad_F0[0x10];
     /* 0x100 */ u16 center_x; /* projected sprite center X, made relative to the placement */
     /* 0x102 */ u16 center_y; /* projected sprite center Y, made relative to the placement */

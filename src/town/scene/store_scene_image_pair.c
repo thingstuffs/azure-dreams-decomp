@@ -2,8 +2,8 @@
 #include "sdk/libgpu.h"
 #include "town/scene.h"
 
-extern SceneImageRect D_800D43B0;
-extern SceneImageRect D_800D43B8;
+extern RECT D_800D43B0;
+extern RECT D_800D43B8;
 
 /* Save both scene image rectangles, waiting for each VRAM transfer. */
 void store_scene_image_pair(void) {

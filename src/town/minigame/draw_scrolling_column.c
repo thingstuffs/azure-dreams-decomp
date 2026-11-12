@@ -1,6 +1,7 @@
 #include "common.h"
 #include "sdk/libgpu.h"
 #include "town/minigame.h"
+#include "town/minigame/column_tiles_data.h"
 
 typedef struct {
     u16 x;
@@ -8,8 +9,6 @@ typedef struct {
     s16 w;
     s16 h;
 } Rect;
-
-extern u8 slot_machine_column_tiles[][12];
 
 /* Draws a scrolling column of tiles, clipping at the top edge. */
 void draw_scrolling_column(s16 column, s16 tile_index, s16 scroll_y)

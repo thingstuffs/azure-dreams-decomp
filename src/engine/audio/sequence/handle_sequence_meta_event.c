@@ -33,7 +33,6 @@ typedef struct {
 extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
 extern s32 audio_sequence_format[];
 extern S_80085FA8 audio_sequence_tracks[];
-extern u32 audio_sequence_timing_division[];
 
 /* Handles sequence metadata events, updating tempo and marking track endings. */
 void handle_sequence_meta_event(S_80085FA8 *track, s32 event_type)

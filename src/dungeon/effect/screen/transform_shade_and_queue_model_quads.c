@@ -23,11 +23,7 @@ typedef struct S_800C9088_0 {
     u16 unk_20;
 } S_800C9088_0;   /* object in transform_shade_and_queue_model_quads */
 
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MATRIX;
+#include "sdk/libgte_matrix.h"
 
 typedef struct S_800C9088_1 {
     u8 pad_00[0x20];

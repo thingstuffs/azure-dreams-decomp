@@ -476,6 +476,8 @@ extern u8 *write_text_byte_and_advance(s8 value, s8 *dest);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 #include "dungeon/effect/screen.h"
 #include "shared/entity.h"
+#include "sdk/libgpu.h"
+#include "sdk/rand.h"
 extern s32 generate_random_value(void);
 extern u8 counter_halved_message[];
 extern u8 counter_halve_failed_message[];
@@ -489,16 +491,9 @@ extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *
 extern void RotMatrix(void *, void *);
 extern void func_80067EF4();
 extern u8 upper_draw_context[16];
-extern void SetDrawArea(void *, void *);
 extern u32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s16 traveling_strip_effect_updated[5];
-extern s32 rand(void);
 extern s32 rsin(s32);
-extern s32 DrawSync(s32);
-extern void LoadImage(Box *, u8 *);
-extern void StoreImage(Box *, u8 *);
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 extern u8 D_80026820[];
 extern u8 D_80026760[12];
@@ -509,7 +504,6 @@ extern u8 D_800267A8[12];
 extern u8 current_spell_effect_variant[1];
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, Vec3 *, s32);
 extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
-extern s32 rand(void);
 void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context);
 void build_textured_sprite_strips(void *screen_pos, struct TravelingSpriteEffectBody *sprite, s32 *ordering_table, s32 draw_mode);
 void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);

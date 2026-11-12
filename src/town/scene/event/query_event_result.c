@@ -1,11 +1,11 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/state_data.h"
 #include "town/scene/position_entries.h"
 #include "town/scene/event.h"
 #include "town/player/state.h"
 
 extern ScenePositionEntry D_80018E2C;
-extern s32 scene_state_dispatch_context;
 
 // Returns func_800182E4's result when func_80018D6C(0xFDD) is nonzero, otherwise zero.
 s32 query_event_result(void *firstInput, s32 unusedInput, s32 secondInput) {

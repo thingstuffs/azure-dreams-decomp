@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/monster/beldo_large_overlay_object_data.h"
 
 typedef struct DungeonState {
     s8 pad00[0x12];
@@ -7,9 +8,6 @@ typedef struct DungeonState {
     u8 pad14[4];
     u16 field18;
 } DungeonState;
-
-extern DungeonState *encounter_object_slots[];
-extern DungeonState *encounter_overlay_object[];
 
 /* Increments the selected state counter and clears its timer. */
 void advance_encounter_overlay_phase(s32 state_selector) {

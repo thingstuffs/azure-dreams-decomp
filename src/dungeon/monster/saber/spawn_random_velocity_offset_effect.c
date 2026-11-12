@@ -6,6 +6,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/monster/saber.h"
 #include "shared/object_node.h"
+#include "dungeon/effect/depth_projection_work.h"
 extern u8 resident_globals_page[];
 
    /* arg1 in spawn_random_velocity_offset_effect */
@@ -19,20 +20,12 @@ extern s32 object_flag_block __attribute__((section(".data")));
 extern s16 view_facing_angle_alias __attribute__((section(".data")));
 extern s8 view_direction_depth_biases[8];
 
-typedef struct StackWork {
-    u16 xyz[3];
-    u16 pad;
-    s64 out18;
-    s32 out20;
-    s32 out24;
-} StackWork;
-
 /* Updates the relative position value with an angle bias and flags countdown completion. */
 /* Adjusts a Saber effect's draw depth relative to its stored origin and facing, advances animation, and
  * expires its timer. */
 void spawn_random_velocity_offset_effect(SelectedItemActionEffectBody *state, MovingPosition *position, Rec_D_80082E80 *result)
 {
-    StackWork work;
+    DepthProjectionWork work;
     s16 ticks_left;
     s32 position_value;
     s32 reference_value;
@@ -40,16 +33,16 @@ void spawn_random_velocity_offset_effect(SelectedItemActionEffectBody *state, Mo
     u32 angle_page;
     MovingPosition *reference_pos;
 
-    work.xyz[0] = position->x;
-    work.xyz[1] = position->y;
-    work.xyz[2] = position->z;
-    position_value = RotTransPers(work.xyz, &work.out18, &work.out20, &work.out24);
+    work.position.vx = position->x;
+    work.position.vy = position->y;
+    work.position.vz = position->z;
+    position_value = RotTransPers(&work.position, &work.screen_xy, &work.depth_cue, &work.gte_flag);
 
     reference_pos = state->reference_position;
-    work.xyz[0] = reference_pos->x;
-    work.xyz[1] = reference_pos->y;
-    work.xyz[2] = reference_pos->z;
-    reference_value = RotTransPers(work.xyz, &work.out18, &work.out20, &work.out24);
+    work.position.vx = reference_pos->x;
+    work.position.vy = reference_pos->y;
+    work.position.vz = reference_pos->z;
+    reference_value = RotTransPers(&work.position, &work.screen_xy, &work.depth_cue, &work.gte_flag);
     angle_page = (u32)resident_globals_page;
     angle_bias = &view_direction_depth_biases[
         ((*(s16 *)(angle_page + 0x3228) +
@@ -67,5 +60,5 @@ void spawn_random_velocity_offset_effect(SelectedItemActionEffectBody *state, Mo
     }
 }
 
-/* MECHANISM: StackWork fixes the 0x40 frame and the s2/s1/s0 stack-output roles. A retained 0x80080000
+/* MECHANISM: DepthProjectionWork fixes the 0x40 frame and the s2/s1/s0 stack-output roles. A retained 0x80080000
    page base yields the displaced angle/global accesses. The table pointer stays in a1. */

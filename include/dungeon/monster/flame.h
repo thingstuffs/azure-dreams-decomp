@@ -33,6 +33,8 @@ struct SpriteFrameState;
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "engine/node/allocation.h"
+#include "sdk/abs.h"
+#include "sdk/libgte.h"
 struct S_800AC480_0;
 struct S_800AC480_3;
 struct S_800AD594_0;
@@ -323,7 +325,7 @@ typedef struct R06_80174334_S_80174334_0 {
     s32 unk_3C;
     u8 pad_40[0x14];
     union {
-        GteMatrix transform[2];
+        MATRIX transform[2];
         struct {
             u8 pad_00[0x34];
             s32 x;
@@ -603,13 +605,11 @@ typedef struct R06_80175270_S_80175270_9 {
 typedef struct R06_80175270_S_80175270_10 {
     u8 unk_00;
 } R06_80175270_S_80175270_10;
-extern int abs(int);
 extern s32 Control_CD();
 s32 generate_random_value(void);
 s32 select_sprite_entry();
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
 void advance_sprite_animation_and_textures(void *entity);
-s32 rsin(s32);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
@@ -646,17 +646,6 @@ s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
 void project_sprite_commands(void *context, void *position, struct Entry *entry, s16 depth_bias);
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
-s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
-void * CompMatrix(void *, void *, void *);
-void PushMatrix(void);
-void PopMatrix(void);
-void * ReadRotMatrix(void *);
-void * ScaleMatrix(void *, void *);
-void SetRotMatrix(void *);
-void SetTransMatrix(void *);
-s32 RotAverage4(void *v0, void *v1, void *v2, void *v3, s32 *s0, s32 *s1, s32 *s2, s32 *s3, s32 *p, s32 *flag);
-void * RotMatrix(void *, void *);
-s32 rcos(s32);
 void unlink_node();
 void select_record_entry_and_value(void *state, void *entries, short index);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);

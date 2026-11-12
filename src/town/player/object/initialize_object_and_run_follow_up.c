@@ -1,11 +1,11 @@
 #include "common.h"
+#include "town/player/action_reset_data.h"
 #include "shared/town_handler_entries.h"
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
 #include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern s8 town_action_reset_byte;
 void tick_countdown_and_initialize_record(TownObjectRecord *state, s32 value, s32 mode);
 
 /* Initialize the object, clear the global flag, and invoke the follow-up routine. */

@@ -1,5 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/state_data.h"
+#include "town/scene/choice_data.h"
 #include "town/scene.h"
 #include "town/scene/entry_requests.h"
 #include "town/player/state.h"
@@ -8,8 +10,6 @@ struct S_8046C8C4_0;
 extern s32 copy_indexed_entry_value();
 
 extern s32 D_800170B4;
-extern s32 scene_update_state;
-extern s32 scene_choice_index;
 extern u8 *D_80019BBC;
 
 /* Shop slot fill: take the next entry (or the default record) into slot arg1 and redraw. */

@@ -1,3 +1,4 @@
+#include "sdk/libgte_matrix.h"
 #include "dungeon/effect/sprite/offset_parent.h"
 #include "dungeon/effect/sprite.h"
 
@@ -5,7 +6,7 @@
 /* Projects two vertical points per linked node and queues a textured quad using the node's tile index. */
 s32 project_linked_vertical_point_quads(void *sprite_data, void *position)
 {
-    u16 world_pos[4];
+    SVECTOR world_pos;
     s16 screen_points[4];
     Row_818E6F98_WorkOutput scratch;
     u8 *uv_source;
@@ -32,18 +33,18 @@ s32 project_linked_vertical_point_quads(void *sprite_data, void *position)
     scratch_base = &scratch;
 loop:
     uv_source = sprite_data;
-    world_pos[0] = *(u16 *)((u8 *)position + 2);
-    world_pos[1] = *(u16 *)((u8 *)position + 6);
-    world_pos[2] = *(u16 *)((u8 *)position + 0xA) - 0x20;
+    world_pos.vx = *(u16 *)((u8 *)position + 2);
+    world_pos.vy = *(u16 *)((u8 *)position + 6);
+    world_pos.vz = *(u16 *)((u8 *)position + 0xA) - 0x20;
     point_index = 0;
     screen_cursor = screen_base;
     do {
         ordering_index =
-            RotTransPers(world_pos, screen_cursor, scratch_base, scratch_base);
+            RotTransPers(&world_pos, (s32 *)screen_cursor, scratch_base, scratch_base);
         ordering_index -= 8;
         screen_cursor += 2;
         point_index++;
-        world_pos[2] += 0x40;
+        world_pos.vz += 0x40;
     } while (point_index < 2);
 
     width = screen_points[1] - screen_points[3];

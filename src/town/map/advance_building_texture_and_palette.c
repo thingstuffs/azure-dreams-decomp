@@ -16,7 +16,7 @@ void advance_building_texture_and_palette(BuildingSelectionHandlerBody *state, s
     u16 next_tick;
     s16 phase;
     s32 dispatch_index;
-    BuildingUploadRect *rect;
+    RECT *rect;
     s32 tile_width;
 
     next_tick = state->animation_tick.u + 1;

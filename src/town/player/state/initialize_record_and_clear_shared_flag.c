@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/player/action_reset_data.h"
 
 #include "town/player/action_initializers.h"
 #include "town/player/state.h"
-extern s8 town_action_reset_byte;
 
 /* Initializes the record handler and count, then clears town_action_reset_byte. */
 void initialize_record_and_clear_shared_flag(TownObjectRecord *primary_value, ObjectPosition *secondary_value, void *context_value) {

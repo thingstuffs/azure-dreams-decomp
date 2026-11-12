@@ -12,7 +12,7 @@ typedef struct S_func_8133A3F0_0_body {
     s16 unk_18;
 } S_func_8133A3F0_0_body;
 
-extern s8 encounter_recovery_flag;
+#include "dungeon/monster/beldo_large_data.h"
 
 /* Creates object 0x112 and initializes its position and render state. */
 void create_encounter_actor_object(void) {

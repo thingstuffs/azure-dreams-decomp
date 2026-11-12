@@ -830,7 +830,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     void *value_4;
     union { void *pointer; s32 bits; } glyph_end; /* BYTES: retain the masked glyph-end word and pointer lifetime. */
     s32 tail;
-    void *sub;
+    S_800B1B10_2 *sub;
     s32 *slots;
     ObjectPosition *header;
     void *part;
@@ -844,25 +844,25 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     if (obj != 0) {
         meta = ((S_800B1B10_0 *)obj)->unk_0C;
         header = ((S_800B1B10_0 *)obj)->unk_08;
-        sub = obj + 0x20;
+        sub = NODE_BODY(obj);
         header->x.w.i = a_held;
         header->y.w.i = b_held;
-        ((S_800B1B10_2 *)sub)->unk_08 = 1;
+        sub->unk_08 = 1;
         meta->scale_x = 0x1000;
         meta->color.word = 0;
         ((S_800B1B10_0 *)obj)->unk_10 = update_fading_effect_scale;
         register_node(obj, transform_linked_quad_batches);
         call_kind = 3;
         style_byte = (s32) (style_held << 0x10) >> 0x18;
-        ((S_800B1B10_2 *)sub)->unk_24 = (s16) style_byte;
-        ((S_800B1B10_2 *)sub)->unk_0A = a_held;
-        ((S_800B1B10_2 *)sub)->unk_0C = b_held;
+        sub->unk_24 = (s16) style_byte;
+        sub->unk_0A = a_held;
+        sub->unk_0C = b_held;
         ((S_800B1B10_0 *)obj)->unk_20 = (obj + 0x70);
-        ((S_800B1B10_2 *)sub)->unk_04 = (obj + 0x58);
+        sub->unk_04 = (obj + 0x58);
         if (has_enough_available_runtime_nodes(call_kind) != 0) {
             a_held = (s32) allocate_panel_offset_or_zero();
             slots = (obj + 0x5C);
-            ((S_800B1B10_2 *)sub)->unk_28 = a_held;
+            sub->unk_28 = a_held;
             b_held = a_held;
             ((S_800B1B10_0 *)obj)->unk_70 = b_held;
             part = lookup_item_category_mapped_value(owner_held->unk_01, owner_held->unk_00);
@@ -907,19 +907,19 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             slots++;
             strlen(value_4);
             b_held = (s32) allocate_panel_offset_or_zero();
-            ((S_800B1B10_2 *)sub)->unk_2C = b_held;
+            sub->unk_2C = b_held;
             {
                 s32 mask_v0;
                 mask_v0 = 0x7FFFFFFF;
-                ((S_800B1B10_6 *)(((style_held++ * 4) + sub)))->unk_50 = b_held & mask_v0;
+                ((S_800B1B10_6 *)(((style_held++ * 4) + (u8 *)sub)))->unk_50 = b_held & mask_v0;
             }
             copy_records_through_end((void *) b_held, glyph_end.pointer);
             offset_record_coordinates(glyph_end.pointer, 1, 1);
             b_held = (s32) allocate_panel_offset_or_zero();
-            ((S_800B1B10_2 *)sub)->unk_30 = b_held;
+            sub->unk_30 = b_held;
             *slots = 0x80808;
             geom = 0x80000;
-            ((S_800B1B10_6 *)(((style_held * 4) + sub)))->unk_50 = b_held;
+            ((S_800B1B10_6 *)(((style_held * 4) + (u8 *)sub)))->unk_50 = b_held;
             ((S_800B1B10_5 *)((void *) b_held))->unk_01 = 0x38U;
             ((S_800B1B10_5 *)((void *) b_held))->unk_02 = -0xA;
             ((S_800B1B10_5 *)((void *) b_held))->unk_03 = -0x10;
@@ -928,29 +928,29 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             ((S_800B1B10_5 *)((void *) b_held))->unk_08 = 0;
             ((S_800B1B10_5 *)((void *) b_held))->unk_0B = 0x14;
             ((S_800B1B10_5 *)((void *) b_held))->unk_00 = 0xC0;
-            ((S_800B1B10_2 *)sub)->unk_10 = 0;
-            ((S_800B1B10_2 *)sub)->unk_14 = 0;
+            sub->unk_10 = 0;
+            sub->unk_14 = 0;
             geom |= 0x4008;
-            ((S_800B1B10_2 *)sub)->unk_18 = geom;
-            ((S_800B1B10_2 *)sub)->unk_1C = geom;
-            ((S_800B1B10_5 *)((void *) b_held))->unk_04.at00.v = (s32) ((S_800B1B10_2 *)sub)->unk_10;
-            ((S_800B1B10_5 *)((void *) b_held))->unk_0C = (s32) ((S_800B1B10_2 *)sub)->unk_14;
-            copy_a = ((S_800B1B10_2 *)sub)->unk_18;
+            sub->unk_18 = geom;
+            sub->unk_1C = geom;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_04.at00.v = (s32) sub->unk_10;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_0C = (s32) sub->unk_14;
+            copy_a = sub->unk_18;
             style_held++;
             ((S_800B1B10_5 *)((void *) b_held))->unk_10 = copy_a;
-            copy_b = ((S_800B1B10_2 *)sub)->unk_1C;
+            copy_b = sub->unk_1C;
             ((S_800B1B10_5 *)((void *) b_held))->unk_01 |= 2;
             ((S_800B1B10_5 *)((void *) b_held))->unk_14 = copy_b;
             b_held += 0x18;
-            ((S_800B1B10_6 *)(((style_held * 4) + sub)))->unk_50 = b_held;
+            ((S_800B1B10_6 *)(((style_held * 4) + (u8 *)sub)))->unk_50 = b_held;
             ((S_800B1B10_5 *)((void *) b_held))->unk_01 = 0x81;
             ((S_800B1B10_5 *)((void *) b_held))->unk_04.at00u.v = 0x20;
             ((S_800B1B10_5 *)((void *) b_held))->unk_04.at02.v = 0;
             ((S_800B1B10_5 *)((void *) b_held))->unk_00 = 0xC0;
         }
-        ((S_800B1B10_2 *)sub)->unk_22 = 4;
+        sub->unk_22 = 4;
         flags_held = saved_flags;
-        ((S_800B1B10_2 *)sub)->unk_26 = flags_held;
+        sub->unk_26 = flags_held;
     }
 }
 

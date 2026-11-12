@@ -13,6 +13,7 @@
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "sdk/libc.h"
+#include "sdk/libgte.h"
 typedef struct ovl_19a332c_81982864_S_80024064_0_pre {
     u16 unk_00;
 } ovl_19a332c_81982864_S_80024064_0_pre;
@@ -550,8 +551,6 @@ void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, 
 extern s32 D_800269D4;
 extern s32 D_800269FC;
 extern s32 D_800DF31C;
-extern s32 rcos(s32);
-extern s32 rsin(s32);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 D_80026AB0[];
 extern u8 positioned_motion_sprite_data[];

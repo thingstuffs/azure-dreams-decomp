@@ -39,7 +39,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
     R06_8017087C_S_8017087C_8 *child_slot;
     s32 entry_id_fixed;
     SpriteFrameState *part_b;
-    void *work;
+    ActorRecord *work;
     s8 saved_x;
     s16 saved_part_id;
     s8 saved_y;
@@ -61,34 +61,34 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
     if (obj != 0) {
         work = NODE_BODY(obj);
         obj->update_callback = update_flame_motion_and_facing;
-        ((R06_8017087C_S_8017087C_1 *)work)->unk_13 = MONSTER_FLAME;
+        work->species = MONSTER_FLAME;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
         part_a->z.w.i = saved_part_id;
         part_b = obj->sprite;
-        slot_base = work;
+        slot_base = (R06_8017087C_S_8017087C_5 *)work;
         kind = kind_flags & 3;
         part_b->frameTable = flame_direction_frames;
         part_b->tile_x = saved_x;
         part_b->tile_y = saved_y;
 
         if (kind == 1) {
-            setup_value = ((R06_8017087C_S_8017087C_1 *)work)->unk_14 | 0x6000;
-            work_flags = ((R06_8017087C_S_8017087C_1 *)work)->unk_1C | 0x6000;
-            ((R06_8017087C_S_8017087C_1 *)work)->unk_14 = setup_value;
-            ((R06_8017087C_S_8017087C_1 *)work)->unk_1C = work_flags;
+            setup_value = work->flags14 | 0x6000;
+            work_flags = work->flags1C | 0x6000;
+            work->flags14 = setup_value;
+            work->flags1C = work_flags;
         } else if (kind >= 2) {
-            setup_value = ((R06_8017087C_S_8017087C_1 *)work)->unk_14 | 0x2000;
-            work_flags = ((R06_8017087C_S_8017087C_1 *)work)->unk_1C | 0x2000;
-            ((R06_8017087C_S_8017087C_1 *)work)->unk_14 = setup_value;
-            ((R06_8017087C_S_8017087C_1 *)work)->unk_1C = work_flags;
+            setup_value = work->flags14 | 0x2000;
+            work_flags = work->flags1C | 0x2000;
+            work->flags14 = setup_value;
+            work->flags1C = work_flags;
         } else {
             if (((kind_flags & ~3) << 16) == 0) {
-                if (!(((R06_8017087C_S_8017087C_1 *)work)->unk_14 & 0x200)) {
+                if (!(work->flags14 & 0x200)) {
                     setup_value = generate_random_value();
                     if (setup_value & 1) {
-                        ((R06_8017087C_S_8017087C_1 *)work)->unk_1C |= 0x200;
+                        work->flags1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = flame_alt_direction_frames;
@@ -105,7 +105,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
         ((R06_8017087C_S_8017087C_4 *)slot)->unk_9A = 0xFF;
         slot_base->unk_9C = -1;
         slot_base->unk_8C = initialize_destination_state;
-        ((R06_8017087C_S_8017087C_1 *)work)->unk_1C |= 0x40000;
+        work->flags1C |= 0x40000;
         slot_base->unk_92 = -24;
         slot_base->unk_9E = 3;
         do {

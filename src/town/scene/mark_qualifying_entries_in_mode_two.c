@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/scene/state_data.h"
+#include "town/scene/choice_data.h"
 #include "town/scene.h"
 #include "town/player/state.h"
 
@@ -23,8 +25,6 @@ typedef struct S_80017DBC_2 {
 
 extern s32 town_indexed_values;
 extern s32 D_80016608;
-extern s32 scene_update_state;
-extern s32 scene_choice_index;
 
 /* Marks qualifying entries and their associated state with 0x400 in mode 2. */
 s32 mark_qualifying_entries_in_mode_two(void)

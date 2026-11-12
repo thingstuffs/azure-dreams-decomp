@@ -4,7 +4,7 @@
 #include "sdk/libgpu.h"
 #include "slus/data.h"
 
-typedef struct { s16 x, y, w, h; } RECT;
+#include "sdk/libgpu_types.h"
 
 /* Uploads a VRAM strip and records its source and width in the cache. */
 void upload_vram_row_and_cache(s32 src_addr, s32 vram_addr, s32 block_count, s32 skip_flags)

@@ -61,56 +61,11 @@ void apply_random_duration_actor_status(void *entity, s32 direction, void *unuse
 #include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MATRIX;
+#include "sdk/libgte_matrix.h"
+#include "sdk/libgpu_packets.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
-
-typedef struct S_81874988_0 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-    s32 unk_18;
-    u8 pad_1C[0x8];
-    u8 *unk_24;
-    u16 unk_28;
-    u8 pad_2A[0xA];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    u8 pad_40[0x14];
-    MATRIX composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
-    MATRIX object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
-    u8 pad_94[0x10];
-    u16 unk_A4;
-    u16 unk_A6;
-    u16 unk_A8;
-    u8 pad_AA[0x6];
-    u16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-    u8 pad_B6[0x2];
-    u16 unk_B8;
-    u16 unk_BA;
-    u16 unk_BC;
-    u8 pad_BE[0x2];
-    u16 unk_C0;
-    u16 unk_C2;
-    u16 unk_C4;
-    u8 pad_C6[0x2];
-    u16 unk_C8;
-    u16 unk_CA;
-    u16 unk_CC;
-    u8 pad_CE[0x2];
-    s32 depth_cue; /* RotAverage4 depth-cue output */
-    s32 gte_flag; /* RotAverage4 GTE flag output */
-    u8 pad_D8[0x28];
-    s32 unk_100;
-} S_81874988_0;   /* scratch in project_textured_quad_or_callback */
 
    /* global_value in project_textured_quad_or_callback */
 
@@ -130,37 +85,13 @@ typedef struct S_81874988_4 {
     u16 unk_66;
 } S_81874988_4;   /* arg0 in project_textured_quad_or_callback */
 
-typedef struct S_81874988_5 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    s16 unk_08;
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x2];
-    u16 unk_18;
-    u16 unk_1A;
-    union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_1C;   /* overlapping accesses */
-    u8 pad_1E[0x2];
-    s16 unk_20;
-    s16 unk_22;
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_81874988_5;   /* packet in project_textured_quad_or_callback */
-
 /* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
 void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias)
 {
     S_81874988_4 *quad = quad_arg;
     u8 *render_state = g_game_work.draw_buffer;
-    S_81874988_0 *scratch = (S_81874988_0 *)0x1F800000;
-    S_81874988_5 *packet;
+    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    POLY_FT4 *packet;
     u32 tex_attr;
     u8 *texture;
     Callback callback;
@@ -170,139 +101,142 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
     u8 tex_flags;
     MATRIX view_matrix;
 
-    scratch->unk_24 = render_state + 0xB0;
-    scratch->object_matrix.t[0] = position->x.w.i;
-    scratch->object_matrix.t[1] = position->y.w.i;
-    scratch->object_matrix.t[2] = position->z.w.i;
+    scratch->ordering_table = (u32 *)(render_state + 0xB0);
+    scratch->local_matrix.t[0] = position->x.w.i;
+    scratch->local_matrix.t[1] = position->y.w.i;
+    scratch->local_matrix.t[2] = position->z.w.i;
 
     packet = ((GpuContext *)render_state)->packetCursor;
-    ((GpuContext *)render_state)->packetCursor = (u8 *)packet + 0x28;
+    ((GpuContext *)render_state)->packetCursor = packet + 1;
 
     material->flags |= 0x8000;
     PushMatrix();
 
-    scratch->unk_3C = 0x2000;
-    scratch->unk_38 = 0x2000;
-    scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = material->angle_x;
-    scratch->unk_A8 = material->angle_z;
-    scratch->unk_A6 = material->angle_y;
-    RotMatrix(&scratch->unk_A4, &scratch->object_matrix);
+    scratch->scale.vz = 0x2000;
+    scratch->scale.vy = 0x2000;
+    scratch->scale.vx = 0x2000;
+    scratch->angles.vx = material->angle_x;
+    scratch->angles.vz = material->angle_z;
+    scratch->angles.vy = material->angle_y;
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&view_matrix);
-    CompMatrix(&view_matrix, &scratch->object_matrix, &scratch->composed_matrix);
-    ScaleMatrix(&scratch->composed_matrix, &scratch->unk_34);
+    CompMatrix(&view_matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
     SetTransMatrix(&scratch->composed_matrix);
     SetRotMatrix(&scratch->composed_matrix);
 
     texture = material->source;
-    scratch->unk_28 = material->flags;
+    scratch->render_flags = material->flags;
 
     if (!(texture[0] & 0x20)) {
-        scratch->unk_0C = texture[8];
-        scratch->unk_10 = texture[9];
-        scratch->unk_14 = texture[0xA];
-        scratch->unk_18 = texture[0xB];
+        scratch->uv_u_start = texture[8];
+        scratch->uv_v_start = texture[9];
+        scratch->uv_u_extent = texture[0xA];
+        scratch->uv_v_extent = texture[0xB];
 
-        scratch->unk_B0 = quad->unk_50;
-        scratch->unk_B8 = quad->unk_52;
-        scratch->unk_C0 = quad->unk_54;
-        scratch->unk_C8 = quad->unk_56;
-        scratch->unk_B2 = quad->unk_58;
-        scratch->unk_BA = quad->unk_5A;
-        scratch->unk_C2 = quad->unk_5C;
-        scratch->unk_CA = quad->unk_5E;
-        scratch->unk_B4 = quad->unk_60;
-        scratch->unk_BC = quad->unk_62;
-        scratch->unk_C4 = quad->unk_64;
-        scratch->unk_CC = quad->unk_66;
+        scratch->vertices[0].vx = quad->unk_50;
+        scratch->vertices[1].vx = quad->unk_52;
+        scratch->vertices[2].vx = quad->unk_54;
+        scratch->vertices[3].vx = quad->unk_56;
+        scratch->vertices[0].vy = quad->unk_58;
+        scratch->vertices[1].vy = quad->unk_5A;
+        scratch->vertices[2].vy = quad->unk_5C;
+        scratch->vertices[3].vy = quad->unk_5E;
+        scratch->vertices[0].vz = quad->unk_60;
+        scratch->vertices[1].vz = quad->unk_62;
+        scratch->vertices[2].vz = quad->unk_64;
+        scratch->vertices[3].vz = quad->unk_66;
 
-        depth_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
-                              &scratch->unk_C0, &scratch->unk_C8,
-                              (u8 *)packet + 8, (u8 *)packet + 0x10,
-                              (u8 *)packet + 0x18, (u8 *)packet + 0x20,
+        depth_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
+                              &scratch->vertices[2], &scratch->vertices[3],
+                              (s32 *)&packet->x0, (s32 *)&packet->x1,
+                              (s32 *)&packet->x2, (s32 *)&packet->x3,
                               &scratch->depth_cue, &scratch->gte_flag) - depth_bias - 6;
-        scratch->unk_100 = depth_index;
+        scratch->ot_index = depth_index;
 
         if ((u32)depth_index < 0x1E0) {
             if (
-                (((u16)((u16)packet->unk_08 + 0x20) < 0x181) &&
-                 ((u16)((u16)packet->unk_0A + 0x20) < 0x121)) |
-                (((u16)(packet->unk_10 + 0x20) < 0x181) &&
-                 ((u16)(packet->unk_12 + 0x20) < 0x121)) |
-                (((u16)(packet->unk_18 + 0x20) < 0x181) &&
-                 ((u16)(packet->unk_1A + 0x20) < 0x121)) |
-                (((u16)((u16)packet->unk_20 + 0x20) < 0x181) &&
-                 ((u16)((u16)packet->unk_22 + 0x20) < 0x121))
+                (((u16)((u16)packet->x0 + 0x20) < 0x181) &&
+                 ((u16)((u16)packet->y0 + 0x20) < 0x121)) |
+                (((u16)(packet->x1 + 0x20) < 0x181) &&
+                 ((u16)(packet->y1 + 0x20) < 0x121)) |
+                (((u16)(packet->x2 + 0x20) < 0x181) &&
+                 ((u16)(packet->y2 + 0x20) < 0x121)) |
+                (((u16)((u16)packet->x3 + 0x20) < 0x181) &&
+                 ((u16)((u16)packet->y3 + 0x20) < 0x121))
                 ) {
-                packet->unk_00.at03.v = 9;
-                packet->unk_04.at03.v = 0x2C;
+                ((GpuLinkTag *)&packet->tag)->len = 9;
+                packet->code = 0x2C;
                 material->flags &= 0x7FFF;
 
-                scratch->unk_14 += scratch->unk_0C;
-                if (scratch->unk_14 & 0x100) {
-                    scratch->unk_14--;
+                scratch->uv_u_extent += scratch->uv_u_start;
+                if (scratch->uv_u_extent & 0x100) {
+                    scratch->uv_u_extent--;
                 }
-                scratch->unk_18 += scratch->unk_10;
-                if (scratch->unk_18 & 0x100) {
-                    scratch->unk_18--;
+                scratch->uv_v_extent += scratch->uv_v_start;
+                if (scratch->uv_v_extent & 0x100) {
+                    scratch->uv_v_extent--;
                 }
-                scratch->unk_10 <<= 8;
-                scratch->unk_18 <<= 8;
+                scratch->uv_v_start <<= 8;
+                scratch->uv_v_extent <<= 8;
 
                 tex_adjust = material->clut;
                 if (tex_adjust) {
-                    if (scratch->unk_28 & 0x100) {
-                        packet->unk_0E = tex_adjust;
+                    if (scratch->render_flags & 0x100) {
+                        packet->clut = tex_adjust;
                     } else {
                         tex_attr = tex_adjust + (*(u16 *)(texture + 6));
-                        packet->unk_0E = tex_attr;
+                        packet->clut = tex_attr;
                     }
                 } else {
-                    packet->unk_0E = (*(u16 *)(texture + 6));
+                    packet->clut = (*(u16 *)(texture + 6));
                 }
 
-                (*(u16 *)((u8 *)packet + 0xC)) = (*(u16 *)((u8 *)scratch + 0x10)) +
-                                          (*(u16 *)((u8 *)scratch + 0xC));
-                packet->unk_14 = (*(u16 *)((u8 *)scratch + 0x10)) +
-                                           (*(u16 *)((u8 *)scratch + 0x14));
+                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                *(u16 *)&packet->u0 = scratch->uv_v_start +
+                                          scratch->uv_u_start;
+                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                *(u16 *)&packet->u1 = scratch->uv_v_start +
+                                           scratch->uv_u_extent;
 
                 tex_adjust = material->tpage_abr;
                 if (tex_adjust) {
-                    (*(u16 *)((u8 *)packet + 0x16)) = tex_adjust +
+                    packet->tpage = tex_adjust +
                                    ((*(u16 *)(texture + 4)) & 0xFF9F);
                 } else {
-                    (*(u16 *)((u8 *)packet + 0x16)) = (*(u16 *)(texture + 4));
+                    packet->tpage = (*(u16 *)(texture + 4));
                 }
 
-                packet->unk_1C.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
-                                           (*(u16 *)((u8 *)scratch + 0xC));
-                packet->unk_24.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
-                                           (*(u16 *)((u8 *)scratch + 0x14));
+                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                *(u16 *)&packet->u2 = scratch->uv_v_extent +
+                                           scratch->uv_u_start;
+                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                *(u16 *)&packet->u3 = scratch->uv_v_extent +
+                                           scratch->uv_u_extent;
 
-                if (packet->unk_08 > packet->unk_20) {
-                    (*(u8 *)&packet->unk_14)--;
-                    packet->unk_24.at00u.v--;
+                if (packet->x0 > packet->x3) {
+                    packet->u1--;
+                    packet->u3--;
                 }
-                if (packet->unk_0A > packet->unk_22) {
-                    packet->unk_1C.at01.v--;
-                    packet->unk_24.at01.v--;
+                if (packet->y0 > packet->y3) {
+                    packet->v2--;
+                    packet->v3--;
                 }
 
                 tex_flags = texture[1];
                 material->color.c.code = tex_flags;
-                draw_flags = scratch->unk_28;
+                draw_flags = scratch->render_flags;
                 if (draw_flags & 8) {
                     material->color.c.code = (draw_flags & 4) ?
                         (tex_flags | 2) : (tex_flags & 0xFD);
                 }
 
-                packet->unk_04.at00.v = ((u32)(material->color.word));
-                packet->unk_00.at00.v = (packet->unk_00.at00.v & 0xFF000000) |
-                    ((*(u32 *)(scratch->unk_24
-                        + scratch->unk_100 * 4)) & 0x00FFFFFF);
-                (*(u32 *)(scratch->unk_24 + scratch->unk_100 * 4)) =
-                    ((*(u32 *)(scratch->unk_24
-                        + scratch->unk_100 * 4)) & 0xFF000000) |
+                /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+                *(u32 *)&packet->r0 = material->color.word;
+                packet->tag = (packet->tag & 0xFF000000) |
+                    (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);
+                scratch->ordering_table[scratch->ot_index] =
+                    (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
                     ((u32)packet & 0x00FFFFFF);
             }
         }
@@ -333,24 +267,19 @@ s32 project_linked_quad_record(void *record, ObjectPosition *context, SpriteFram
         data = node->sprite;
     }
 }
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} P_TAG;
-
 /* Draws a textured spherical mesh and adds its visible quads to the ordering table. */
 void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 depth_bias) {
-    s32 view_matrix[8];
+    MATRIX view_matrix;
     u16 saved_depth_bias;
     u8 *texture;
     s32 column;
     s32 row;
-    u8 *scratch = (u8 *)0x1F800000;
-    u8 *page;
+    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    GpuContext *page;
     u8 *initial_page;
     u32 page_dependency;
     void **page_ptr;
-    u8 *quad;
+    POLY_FT4 *quad;
     s32 column_count;
     s32 row_count;
     s32 latitude_span;
@@ -382,37 +311,37 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
 
     page_ptr = &g_game_work.draw_buffer;
     initial_page = *page_ptr;
-    *(u8 **)(scratch + 0x24) = initial_page + 0xB0;
-    *(s32 *)(scratch + 0x88) = *(s16 *)((u8 *)position + 2);
-    *(s32 *)(scratch + 0x8C) = *(s16 *)((u8 *)position + 6);
-    *(s32 *)(scratch + 0x90) = *(s16 *)((u8 *)position + 0xA);
+    scratch->ordering_table = (u32 *)(initial_page + 0xB0);
+    scratch->local_matrix.t[0] = *(s16 *)((u8 *)position + 2);
+    scratch->local_matrix.t[1] = *(s16 *)((u8 *)position + 6);
+    scratch->local_matrix.t[2] = *(s16 *)((u8 *)position + 0xA);
     *(u16 *)((u8 *)material + 0x14) = *(u16 *)((u8 *)material + 0x14) | 0x8000;
     saved_depth_bias = depth_bias;
     PushMatrix();
-    *(s32 *)(scratch + 0x3C) = 0x2000;
-    *(s32 *)(scratch + 0x38) = 0x2000;
-    *(s32 *)(scratch + 0x34) = 0x2000;
-    *(u16 *)(scratch + 0xA4) = *(u16 *)((u8 *)material + 0x16);
-    *(u16 *)(scratch + 0xA8) = *(u16 *)((u8 *)material + 0x1A);
-    *(u16 *)(scratch + 0xA6) = *(u16 *)((u8 *)material + 0x18);
-    RotMatrix((u8 *)0x1F8000A4, (u8 *)0x1F800074);
-    ReadRotMatrix(&view_matrix[0]);
-    CompMatrix(&view_matrix[0], (u8 *)0x1F800074, (u8 *)0x1F800054);
-    ScaleMatrix((u8 *)0x1F800054, (u8 *)0x1F800034);
-    SetTransMatrix((u8 *)0x1F800054);
-    SetRotMatrix((u8 *)0x1F800054);
+    scratch->scale.vz = 0x2000;
+    scratch->scale.vy = 0x2000;
+    scratch->scale.vx = 0x2000;
+    scratch->angles.vx = *(u16 *)((u8 *)material + 0x16);
+    scratch->angles.vz = *(u16 *)((u8 *)material + 0x1A);
+    scratch->angles.vy = *(u16 *)((u8 *)material + 0x18);
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
+    ReadRotMatrix(&view_matrix);
+    CompMatrix(&view_matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
     texture = *(u8 **)((u8 *)material + 8);
-    *(u16 *)(scratch + 0x28) = *(u16 *)((u8 *)material + 0x14);
+    scratch->render_flags = *(u16 *)((u8 *)material + 0x14);
     for (;;) {
         for (row = 0; row < *(s16 *)((u8 *)mesh + 0xC); row++) {
             for (column = 0; column < *(s16 *)((u8 *)mesh + 0xA); column++) {
-                *(s32 *)(scratch + 0x0C) = *(texture + 8);
-                *(s32 *)(scratch + 0x10) = *(texture + 9);
-                *(s32 *)(scratch + 0x14) = *(texture + 10);
+                scratch->uv_u_start = *(texture + 8);
+                scratch->uv_v_start = *(texture + 9);
+                scratch->uv_u_extent = *(texture + 10);
                 page = *page_ptr;
-                *(s32 *)(scratch + 0x18) = *(texture + 11);
-                quad = *(u8 **)(page + 0x8D0);
-                *(u8 **)(page + 0x8D0) = quad + 0x28;
+                scratch->uv_v_extent = *(texture + 11);
+                quad = page->packetCursor;
+                page->packetCursor = quad + 1;
                 column_count = *(s16 *)((u8 *)mesh + 0xA);
                 longitude = (column << 0xC) / column_count;
                 latitude_span = -*(s16 *)((u8 *)mesh + 0xE);
@@ -439,98 +368,103 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                 }
                 ring_radius = ((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rcos(latitude)) >> 0x14;
                 next_ring_radius = ((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rcos(next_latitude)) >> 0x14;
-                *(s16 *)(scratch + 0xB0) = (ring_radius * rsin(longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xB2) = (ring_radius * rcos(longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xB4) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(latitude)) >> 0x14);
-                *(s16 *)(scratch + 0xB8) = (ring_radius * rsin(next_longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xBA) = (ring_radius * rcos(next_longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xBC) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(latitude)) >> 0x14);
-                *(s16 *)(scratch + 0xC0) = (next_ring_radius * rsin(longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xC2) = (next_ring_radius * rcos(longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xC4) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(next_latitude))
+                scratch->vertices[0].vx = (ring_radius * rsin(longitude)) >> 0xC;
+                scratch->vertices[0].vy = (ring_radius * rcos(longitude)) >> 0xC;
+                scratch->vertices[0].vz = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(latitude)) >> 0x14);
+                scratch->vertices[1].vx = (ring_radius * rsin(next_longitude)) >> 0xC;
+                scratch->vertices[1].vy = (ring_radius * rcos(next_longitude)) >> 0xC;
+                scratch->vertices[1].vz = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(latitude)) >> 0x14);
+                scratch->vertices[2].vx = (next_ring_radius * rsin(longitude)) >> 0xC;
+                scratch->vertices[2].vy = (next_ring_radius * rcos(longitude)) >> 0xC;
+                scratch->vertices[2].vz = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(next_latitude))
                     >> 0x14);
-                *(s16 *)(scratch + 0xC8) = (next_ring_radius * rsin(next_longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xCA) = (next_ring_radius * rcos(next_longitude)) >> 0xC;
+                scratch->vertices[3].vx = (next_ring_radius * rsin(next_longitude)) >> 0xC;
+                scratch->vertices[3].vy = (next_ring_radius * rcos(next_longitude)) >> 0xC;
                 last_vertex_z = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(next_latitude)) >> 0x14);
-                depth_index = (RotAverage4(scratch + 0xB0, scratch + 0xB8, scratch + 0xC0, scratch + 0xC8, quad + 8,
-                    quad + 0x10, quad + 0x18, quad + 0x20, scratch + 0xD0, (*(s16 *)(scratch + 0xCC) = last_vertex_z, (void *)(scratch + 0xD4))) - (s16)saved_depth_bias) - 6;
-                *(s32 *)(scratch + 0x100) = depth_index;
+                depth_index = (RotAverage4(&scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2],
+                    &scratch->vertices[3], (s32 *)&quad->x0, (s32 *)&quad->x1, (s32 *)&quad->x2, (s32 *)&quad->x3,
+                    &scratch->depth_cue, (scratch->vertices[3].vz = last_vertex_z, &scratch->gte_flag)) - (s16)saved_depth_bias) - 6;
+                scratch->ot_index = depth_index;
                 if ((u32)depth_index < 0x1E0U) {
                     corner_0_visible = 0;
-                    if ((u32)((*(u16 *)(quad + 8) + 0x20) & 0xFFFF) < 0x181U) {
-                        screen_y = *(u16 *)(quad + 0xA) + 0x20;
+                    if ((u32)(((u16)quad->x0 + 0x20) & 0xFFFF) < 0x181U) {
+                        screen_y = (u16)quad->y0 + 0x20;
                         screen_y = screen_y & 0xFFFF;
                         corner_0_visible = (u32)screen_y < 0x121U;
                     }
                     corner_1_visible = 0;
-                    if ((u32)((*(u16 *)(quad + 0x10) + 0x20) & 0xFFFF) < 0x181U) {
-                        screen_y = *(u16 *)(quad + 0x12) + 0x20;
+                    if ((u32)(((u16)quad->x1 + 0x20) & 0xFFFF) < 0x181U) {
+                        screen_y = (u16)quad->y1 + 0x20;
                         screen_y = screen_y & 0xFFFF;
                         corner_1_visible = (u32)screen_y < 0x121U;
                     }
                     corner_2_visible = 0;
                     corner_0_visible = corner_0_visible | corner_1_visible;
-                    if ((u32)((*(u16 *)(quad + 0x18) + 0x20) & 0xFFFF) < 0x181U) {
-                        screen_y = *(u16 *)(quad + 0x1A) + 0x20;
+                    if ((u32)(((u16)quad->x2 + 0x20) & 0xFFFF) < 0x181U) {
+                        screen_y = (u16)quad->y2 + 0x20;
                         screen_y = screen_y & 0xFFFF;
                         corner_2_visible = (u32)screen_y < 0x121U;
                     }
                     corner_3_visible = 0;
                     any_corner_visible = corner_0_visible | corner_2_visible;
-                    if ((u32)((*(u16 *)(quad + 0x20) + 0x20) & 0xFFFF) < 0x181U) {
-                        screen_y = *(u16 *)(quad + 0x22) + 0x20;
+                    if ((u32)(((u16)quad->x3 + 0x20) & 0xFFFF) < 0x181U) {
+                        screen_y = (u16)quad->y3 + 0x20;
                         screen_y = screen_y & 0xFFFF;
                         corner_3_visible = (u32)screen_y < 0x121U;
                     }
                     if ((any_corner_visible | corner_3_visible) != 0) {
                         *(u16 *)((u8 *)material + 0x14) = *(u16 *)((u8 *)material + 0x14) & 0x7FFF;
                         SetPolyFT4(quad);
-                        uv_end = *(s32 *)(scratch + 0x14) + *(s32 *)(scratch + 0x0C);
-                        *(s32 *)(scratch + 0x14) = uv_end;
+                        uv_end = scratch->uv_u_extent + scratch->uv_u_start;
+                        scratch->uv_u_extent = uv_end;
                         if (uv_end & 0x100) {
-                            *(s32 *)(scratch + 0x14) = uv_end - 1;
+                            scratch->uv_u_extent = uv_end - 1;
                         }
-                        uv_end = *(s32 *)(scratch + 0x18) + *(s32 *)(scratch + 0x10);
-                        *(s32 *)(scratch + 0x18) = uv_end;
+                        uv_end = scratch->uv_v_extent + scratch->uv_v_start;
+                        scratch->uv_v_extent = uv_end;
                         if (uv_end & 0x100) {
-                            *(s32 *)(scratch + 0x18) = uv_end - 1;
+                            scratch->uv_v_extent = uv_end - 1;
                         }
-                        *(s32 *)(scratch + 0x10) = *(s32 *)(scratch + 0x10) << 8;
-                        *(s32 *)(scratch + 0x18) = *(s32 *)(scratch + 0x18) << 8;
+                        scratch->uv_v_start = scratch->uv_v_start << 8;
+                        scratch->uv_v_extent = scratch->uv_v_extent << 8;
                         clut_override = *(u16 *)((u8 *)material + 0x12);
                         if (clut_override != 0) {
-                            if (*(u16 *)(scratch + 0x28) & 0x100) {
-                                *(u16 *)(quad + 0xE) = clut_override;
+                            if (scratch->render_flags & 0x100) {
+                                quad->clut = clut_override;
                             } else {
                                 clut = clut_override + *(u16 *)(texture + 6);
-                                *(u16 *)(quad + 0xE) = clut;
+                                quad->clut = clut;
                             }
                         } else {
                             clut = *(u16 *)(texture + 6);
-                            *(u16 *)(quad + 0xE) = clut;
+                            quad->clut = clut;
                         }
-                        *(s16 *)(quad + 0xC) = *(u16 *)(scratch + 0x10) + *(u16 *)(scratch + 0x0C);
-                        *(s16 *)(quad + 0x14) = *(u16 *)(scratch + 0x10) + *(u16 *)(scratch + 0x14);
+                        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                        *(u16 *)&quad->u0 = scratch->uv_v_start + scratch->uv_u_start;
+                        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                        *(u16 *)&quad->u1 = scratch->uv_v_start + scratch->uv_u_extent;
                         tpage_override = *(u16 *)((u8 *)material + 0x10);
                         if (tpage_override != 0) {
                             tpage = tpage_override + (*(u16 *)(texture + 4) & 0xFF9F);
                         } else {
                             tpage = *(u16 *)(texture + 4);
                         }
-                        *(u16 *)(quad + 0x16) = tpage;
-                        *(s16 *)(quad + 0x1C) = *(u16 *)(scratch + 0x18) + *(u16 *)(scratch + 0x0C);
-                        *(s16 *)(quad + 0x24) = *(u16 *)(scratch + 0x18) + *(u16 *)(scratch + 0x14);
-                        if (*(s16 *)(quad + 8) > *(s16 *)(quad + 0x20)) {
-                            *(quad + 0x14) = *(quad + 0x14) - 1;
-                            *(quad + 0x24) = *(quad + 0x24) - 1;
+                        quad->tpage = tpage;
+                        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                        *(u16 *)&quad->u2 = scratch->uv_v_extent + scratch->uv_u_start;
+                        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                        *(u16 *)&quad->u3 = scratch->uv_v_extent + scratch->uv_u_extent;
+                        if (quad->x0 > quad->x3) {
+                            quad->u1--;
+                            quad->u3--;
                         }
-                        if (*(s16 *)(quad + 0xA) > *(s16 *)(quad + 0x22)) {
-                            *(quad + 0x1D) = *(quad + 0x1D) - 1;
-                            *(quad + 0x25) = *(quad + 0x25) - 1;
+                        if (quad->y0 > quad->y3) {
+                            quad->v2--;
+                            quad->v3--;
                         }
                         texture_flags = *(texture + 1);
                         *((u8 *)material + 0xF) = texture_flags;
-                        material_flags = *(u16 *)(scratch + 0x28);
+                        material_flags = scratch->render_flags;
                         if (material_flags & 8) {
                             if (material_flags & 4) {
                                 draw_flags = texture_flags | 2;
@@ -543,12 +477,12 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                         {
                             u32 address_mask = 0x00FFFFFF;
                             u32 tag_mask = 0xFF000000;
-                            s32 *ordering_slot;
-                            *(s32 *)(quad + 4) = *(s32 *)((u8 *)material + 0xC);
-                            ((P_TAG *)&*(s32 *)quad)->addr = ((P_TAG *)&*(s32 *)((*(s32 *)(scratch + 0x100) * 4)
-                                + *(s32 *)(scratch + 0x24)))->addr;
-                            ordering_slot = (s32 *)((*(s32 *)(scratch + 0x100) * 4) + *(s32 *)(scratch + 0x24));
-                            ((P_TAG *)&*ordering_slot)->addr = (u32)((s32)quad);
+                            u32 *ordering_slot;
+                            /* BYTES: retail stores the colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+                            *(s32 *)&quad->r0 = *(s32 *)((u8 *)material + 0xC);
+                            ((GpuLinkTag *)&quad->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[scratch->ot_index])->addr;
+                            ordering_slot = (u32 *)(scratch->ot_index * 4 + (unsigned long)scratch->ordering_table);
+                            ((GpuLinkTag *)ordering_slot)->addr = (u32)quad;
                         }
                     }
                 }
@@ -580,6 +514,9 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
     }
 }
 
+#include "sdk/libgpu_types.h"
+#include "dungeon/effect/colored_point_scratch.h"
+
 #define FIELD_U8(base, off)  (*(u8 *)((u8 *)(base) + (off)))
 #define FIELD_S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
 #define FIELD_U16(base, off) (*(u16 *)((u8 *)(base) + (off)))
@@ -589,11 +526,11 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
 /* Projects a colored point and links its drawing packets into the ordering table. */
 s32 project_colored_point(TerrainSeekingPointBody *render_data, u8 *source_vertex)
 {
-    u8 **context_slot;
-    u8 *scratch;
-    u8 *context;
-    u8 *point_packet;
-    u8 *mode_packet;
+    GpuContext **context_slot;
+    ColoredPointScratch *scratch;
+    GpuContext *context;
+    TILE_1 *point_packet;
+    DR_MODE *mode_packet;
     u8 *next_node;
     u8 *vertex = source_vertex;
     u16 vertex_x;
@@ -604,53 +541,54 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, u8 *source_verte
     u32 *mode_ot_entry;
 
     context = g_game_work.draw_buffer;
-    context_slot = (u8 **)&g_game_work;
+    context_slot = (GpuContext **)&g_game_work;
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
-    scratch = (u8 *)0x1F800000;
-    FIELD_PTR(scratch, 0x18) = FIELD_PTR(context, 0x8D0);
-    FIELD_PTR(scratch, 0x20) = context + 0xB0;
+    scratch = (ColoredPointScratch *)0x1F800000;
+    scratch->packet_cursor = context->packetCursor;
+    scratch->ordering_table = (u32 *)&context->orderTag;
     do {
-        point_packet = FIELD_PTR(scratch, 0x18);
+        point_packet = scratch->packet_cursor;
         vertex_x = FIELD_U16(vertex, 2);
-        FIELD_U16(scratch, 0) = vertex_x;
-        FIELD_U16(scratch, 2) = FIELD_U16(vertex, 6);
-        FIELD_U16(scratch, 4) = FIELD_U16(vertex, 0xA);
-        FIELD_PTR(scratch, 0x18) = point_packet + 0xC;
+        scratch->position.vx = vertex_x;
+        scratch->position.vy = FIELD_U16(vertex, 6);
+        scratch->position.vz = FIELD_U16(vertex, 0xA);
+        scratch->packet_cursor = point_packet + 1;
 
-        depth_index = RotTransPers(scratch, point_packet + 8, scratch + 0x90, scratch + 0x94);
-        FIELD_U32(scratch, 0xC0) = depth_index;
+        depth_index = RotTransPers(&scratch->position, (s32 *)&point_packet->x0, &scratch->depth_cue,
+                                   &scratch->gte_flag);
+        scratch->ot_index = depth_index;
         if (depth_index < 0x1E0U) {
-            FIELD_U32(point_packet, 4) = render_data->color;
-            FIELD_U8(point_packet, 4) = (u8)((FIELD_U8(point_packet, 4) * render_data->intensity) /
+            /* BYTES: retail stores the tile colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+            *(u32 *)&point_packet->r0 = render_data->color;
+            point_packet->r0 = (u8)((point_packet->r0 * render_data->intensity) /
                                       render_data->divisor);
-            FIELD_U8(point_packet, 5) = (u8)((FIELD_U8(point_packet, 5) * render_data->intensity) /
+            point_packet->g0 = (u8)((point_packet->g0 * render_data->intensity) /
                                       render_data->divisor);
-            blue = (u8)((FIELD_U8(point_packet, 6) * render_data->intensity) /
+            blue = (u8)((point_packet->b0 * render_data->intensity) /
                         render_data->divisor);
-            FIELD_U8(point_packet, 3) = 2;
-            FIELD_U8(point_packet, 7) = 0x6A;
-            FIELD_U8(point_packet, 6) = blue;
+            ((GpuLinkTag *)&point_packet->tag)->len = 2;
+            point_packet->code = 0x6A;
+            point_packet->b0 = blue;
 
-            FIELD_U32(point_packet, 0) = (FIELD_U32(point_packet, 0) & length_mask) |
-                (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
+            point_packet->tag = (point_packet->tag & length_mask) |
+                (scratch->ordering_table[scratch->ot_index] & address_mask);
             {
                 u32 *ot_entry;
                 u32 ot_tag;
-                ot_entry = (u32 *)((FIELD_U32(scratch, 0xC0) * 4) +
-                                   (u32)FIELD_PTR(scratch, 0x20));
+                ot_entry = (u32 *)(scratch->ot_index * 4 + (u32)scratch->ordering_table);
                 ot_tag = *ot_entry;
                 *ot_entry = (ot_tag & length_mask) |
                            ((u32)point_packet & address_mask);
             }
 
-            mode_packet = FIELD_PTR(scratch, 0x18);
-            FIELD_PTR(scratch, 0x18) = mode_packet + 0xC;
+            mode_packet = scratch->packet_cursor;
+            scratch->packet_cursor = mode_packet + 1;
             SetDrawMode(mode_packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
-            FIELD_U32(mode_packet, 0) = (FIELD_U32(mode_packet, 0) & length_mask) |
-                (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
-            mode_ot_entry = (u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20));
+            mode_packet->tag = (mode_packet->tag & length_mask) |
+                (scratch->ordering_table[scratch->ot_index] & address_mask);
+            mode_ot_entry = (u32 *)(scratch->ot_index * 4 + (u32)scratch->ordering_table);
             *mode_ot_entry = (*mode_ot_entry & length_mask) | ((u32)mode_packet & address_mask);
         }
 
@@ -661,7 +599,7 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, u8 *source_verte
         }
         vertex = FIELD_PTR(next_node, 8);
     } while (1);
-    FIELD_PTR(*context_slot, 0x8D0) = FIELD_PTR(scratch, 0x18);
+    (*context_slot)->packetCursor = scratch->packet_cursor;
     return 0;
 }
 #include "shared/object_flags.h"

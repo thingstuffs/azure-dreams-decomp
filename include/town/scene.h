@@ -93,8 +93,8 @@ void apply_position_offset_pair(void *offsets);
 s32 call_indexed_callback_failed_test(void);
 s32 dispatch_first_failed_entry_b(void);
 
+#include "sdk/libgpu_types.h"
 /* The two fixed RAM buffers used by scene image transfers. */
-typedef struct { s16 x, y, w, h; } SceneImageRect;
 #define SCENE_IMAGE_BUFFER_0 ((u32 *)0x80020000)
 #define SCENE_IMAGE_BUFFER_1 ((u32 *)0x80024000)
 void store_scene_image_pair(void);

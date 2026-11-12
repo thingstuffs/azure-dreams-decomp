@@ -1693,7 +1693,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
     ActorRecord *actor = actor_arg;
     ObjectPosition *motion = motion_arg;
     SpriteFrameState *sprite= sprite_arg;
-    void *entity = entity_arg;
+    ActorRecord *entity = entity_arg;
     DungeonGlobalStatus *global_state;
     u8 *anim_table;
     u32 clear_mask;
@@ -1708,15 +1708,15 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
             (sprite->frameTable) = univern_alt_spawn_direction_frames;
             select_sprite_entry(
                 sprite,(u8)(univern_alt_spawn_direction_frames[
-                    ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                    ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7]),
                 0);
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             actor->action_phase = 2;
             return;
         }
         actor->action_state_flags |= 8;
-        ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= 0xFFFBFFFF;
+        entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
+        entity->flags1C &= 0xFFFBFFFF;
         if (!(sprite->flags & 0x6000)) {
             return;
         }
@@ -1727,7 +1727,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         }
         (sprite->frameTable) = anim_table;
         select_sprite_entry(
-            sprite,(u8)(*(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7)
+            sprite,(u8)(*(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + (u32)anim_table)),
             0);
         actor->action_phase++;
@@ -1745,7 +1745,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         (sprite->frameTable) = univern_alt_spawn_direction_frames;
         select_sprite_entry(
             sprite,(u8)(univern_alt_spawn_direction_frames[
-                ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7]),
             0);
         update_actor_status_and_mp(entity);
 
@@ -1758,15 +1758,15 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
 
     case 2:
         actor->action_state_flags &= 0xFFF7;
-        ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C |= ACTOR_GROUNDED;
+        entity->flags1C |= ACTOR_GROUNDED;
         if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) == 0) {
             (sprite->frameTable) = univern_frame_set_2;
             select_sprite_entry(
                 sprite,(u8)(univern_frame_set_2[
-                    ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                    ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7]),
                 0);
-            entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C | 0x40000;
-            ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C = entity_flags;
+            entity_flags = entity->flags1C | 0x40000;
+            entity->flags1C = entity_flags;
             if (sprite->flags & 0x8000) {
                 clear_mask = ~0x200U;
                 break;
@@ -1786,7 +1786,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         if (global_state->flags & 0x1000) {
             return;
         }
-        if (((R17_801738E0_S_801738E0_2 *)entity)->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, motion, sprite, 0) != 0) {
                 return;
             }
@@ -1801,7 +1801,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             return;
         }
-        entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C;
+        entity_flags = entity->flags1C;
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(actor, motion, sprite, entity);
             return;
@@ -1812,7 +1812,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
             update_univern_parent_motion(actor, motion, sprite, entity);
             return;
         }
-        if (((R17_801738E0_S_801738E0_2 *)entity)->unk_6D == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
@@ -1841,10 +1841,10 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         (sprite->frameTable) = univern_frame_set_2;
         select_sprite_entry(
             sprite,(u8)(univern_frame_set_2[
-                ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7]),
             0);
-        entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C | 0x40000;
-        ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C = entity_flags;
+        entity_flags = entity->flags1C | 0x40000;
+        entity->flags1C = entity_flags;
         if (sprite->flags & 0x8000) {
             clear_mask = ~0x200U;
             break;
@@ -1864,7 +1864,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         }
 
         select_sprite_entry(
-            sprite,(u8)(univern_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+            sprite,(u8)(univern_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7]),
             0);
 
 advance_state:
@@ -1881,10 +1881,10 @@ advance_state:
         (sprite->frameTable) = univern_alt_direction_frames;
         select_sprite_entry(
             sprite,(u8)(univern_alt_direction_frames[
-                ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7]),
             0);
         actor->action_state_flags |= 8;
-        ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
+        entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         actor->action_phase = 0x10;
         return;
 
@@ -1893,21 +1893,21 @@ advance_state:
             return;
         }
         actor->action_state_flags &= 0xFFF7;
-        ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C |= ACTOR_GROUNDED;
+        entity->flags1C |= ACTOR_GROUNDED;
         actor->action_state_flags |= 0x4000;
         motion->velocity_z = 0;
         {
             struct R17_801738E0_GlobalStruct *globals = ((struct R17_801738E0_GlobalStruct *)&g_dungeon_status);
             globals->counter--;
         }
-        ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= ~ACTOR_ASLEEP;
+        entity->flags1C &= ~ACTOR_ASLEEP;
         actor->unk_8C.address = ((u8 *)update_entity_movement_and_ground_height);
         return;
     default:
         return;
     }
 
-    ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C = clear_mask & entity_flags;
+    entity->flags1C = clear_mask & entity_flags;
     actor->unk_8C.address = ((u8 *)update_entity_movement_and_ground_height);
 
     return;
@@ -1942,7 +1942,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
         counter_state = (R17_80173F10_S_80173ED8_2 *)&g_dungeon_status.turn_scale;
         counter_state->unk_0A--;
         (sprite->frameTable) = univern_frame_set_2;
-        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite,(u8)(univern_frame_set_2[direction & 7]), 0);
         action->action_phase++;
         return;
@@ -1953,7 +1953,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
             register R17_80173F10_S_80173ED8_2 *counter_state;
 
             (sprite->frameTable) = univern_frame_set_1;
-            direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+            direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
             select_sprite_entry(sprite,(u8)(univern_frame_set_1[direction & 7]), 0);
             (*(u32 *)&entity->flags1C) |= 0x40000;
             counter_state = (R17_80173F10_S_80173ED8_2 *)&g_dungeon_status.turn_scale;
@@ -1976,12 +1976,12 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
             return;
         }
 
-        if (((u32)((EntityRec *)entity)->flags1C) & ACTOR_PUSH_PENDING) {
+        if (((u32)entity->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(action, context, sprite, entity);
             return;
         }
 
-        if (((u32)((EntityRec *)entity)->flags1C) & ACTOR_LIFTED) {
+        if (((u32)entity->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(action, context, sprite, entity);
             ((R17_80173F10_S_80173ED8_0 *)action)->unk_A8 = 0;
             update_univern_parent_motion(action, context, sprite, entity);
@@ -2008,9 +2008,9 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
         }
 
         (sprite->frameTable) = univern_frame_set_1;
-        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite,(u8)(univern_frame_set_1[direction & 7]), 0);
-        ((EntityRec *)entity)->flags1C |= 0x40000;
+        entity->flags1C |= 0x40000;
         ((R17_80173F10_S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
         action->action_phase++;
@@ -2026,7 +2026,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
 
         counter_state = (R17_80173F10_S_80173ED8_2 *)&g_dungeon_status.turn_scale;
         counter_state->unk_0A--;
-        ((EntityRec *)entity)->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
+        entity->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
         ((R17_80173F10_S_80173ED8_0 *)action)->unk_8C = ((u8 *)update_entity_movement_and_ground_height);
         return;
     }

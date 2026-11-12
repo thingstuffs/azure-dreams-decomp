@@ -2,10 +2,7 @@
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
 
-/* PSX libgpu RECT: x,y,w,h as s16 fields. */
-typedef struct {
-    s16 x, y, w, h;
-} RECT_8004B568;
+#include "sdk/libgpu_types.h"
 
 /* D_80081480 / D_8008148C: pointer-valued words (retail neighbours D_80081485 / D_80081490 bound them). */
 typedef struct {
@@ -26,7 +23,7 @@ extern S_8008148C_8004B568 gpu_scratch_buffer_base;
  */
 void read_vram_blocks_to_buffer(void)
 {
-    RECT_8004B568 rect;
+    RECT rect;
     void *decode_dst;
     s16 rect_x;
     s16 rect_w;

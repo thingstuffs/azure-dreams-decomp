@@ -8,6 +8,8 @@
 #include "shared/game_work.h"
 #include "shared/gpu_packets.h"
 #include "dungeon/level.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800BC3E4_0_pre {
     void * unk_00;
@@ -133,17 +135,6 @@ typedef struct S_800BC4D4_6 {
 extern s32 is_frame_packet_arena_overflowed(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* texture + 4 in render_projected_sprite_with_depth_bias */
 /* *global in render_projected_sprite_with_depth_bias */
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern u32 RotTransPers(void *, void *, void *, void *);
-extern void RotTransPers4(s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *,
-                          s16 *, s16 *);
-extern void RotMatrix(void *, void *);
-extern void AddPrim(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 
 /* Functions defined in this translation unit. */

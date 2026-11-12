@@ -31,6 +31,7 @@ struct ObjectPosition;
 #include "dungeon/actor/state.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor/status.h"
+#include "sdk/abs.h"
 struct SpriteFrameState;
 struct ObjectPosition;
 
@@ -288,7 +289,6 @@ typedef struct R08_80174648_S_80174648_10 {
 typedef struct R08_80174648_S_80174648_11 {
     u8 unk_00;
 } R08_80174648_S_80174648_11;
-extern int abs(int);
 extern s32 Control_CD();
 s32 generate_random_value(void);
 s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);

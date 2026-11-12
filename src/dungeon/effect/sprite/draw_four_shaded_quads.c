@@ -257,8 +257,8 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
             void *vertex3 = &scratch->unk_7C;
 
             depth = RotAverage4(vertex0, vertex1, vertex2, vertex3,
-                              &scratch->unk_D8, &scratch->unk_DC,
-                              &scratch->unk_E0, &scratch->unk_E4,
+                              (s32 *)&scratch->unk_D8, (s32 *)&scratch->unk_DC,
+                              (s32 *)&scratch->unk_E0, (s32 *)&scratch->unk_E4,
                               (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
         }
         scratch->unk_B4 = depth;

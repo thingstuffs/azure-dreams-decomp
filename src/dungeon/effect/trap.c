@@ -9,6 +9,7 @@
 #include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/entity_spawn_variant_data.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
@@ -2292,7 +2293,6 @@ typedef struct AreaRecord {
 
 extern u32 level_experience_table[];
 extern u8 D_800E1C3A;
-extern s8 entity_spawn_variant_code;
 
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern void SD_Call(s32);

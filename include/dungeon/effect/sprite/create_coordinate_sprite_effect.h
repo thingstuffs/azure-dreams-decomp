@@ -148,10 +148,10 @@ typedef struct Row_818A4ED0_S_818A4ED0_3 {
 
 /* Creates an object at the supplied position with a randomized rotation. */
 #include "dungeon/effect/screen.h"
+#include "sdk/rand.h"
 s32 get_random_scaled_value(s16 input_value);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void advance_sprite_animation_and_textures(void *);
-s32 rand(void);
 s32 register_node(void *, void *);
 extern u8 coordinate_effect_sprite_data[];
 extern u8 ribbon_sprite_entries[];

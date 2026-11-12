@@ -20,8 +20,9 @@ empty parameter list `()` is an unprototyped declaration and agrees with anythin
 
 A declaration agrees if it matches any non-static definition of the name (overlays can
 define one name in several units); static definitions are checked only against the
-declarations in their own file.  With no definition in the tree, prototypes under
-include/ are the reference.  --fail-new exits 1 when any declaration disagrees.
+declarations in their own file.  With no definition in the tree, the include/sdk prototype
+is the reference for a library function (the Psy-Q prototype is the contract), and otherwise
+every prototype under include/ is.  --fail-new exits 1 when any declaration disagrees.
 
 Function-pointer parameters compare by shape: parameter names and the pointer's own name
 are dropped, the return and inner parameter types are normalised recursively, and a
@@ -296,7 +297,10 @@ def scan_tree(root, names, files=None):
         if global_defs:
             refs = global_defs
         else:
-            refs = [(f, e) for f, e in entries if f.startswith('include/')]
+            # a library function: its include/sdk prototype is the contract (decision 54; owner 11-02);
+            # other names without a C definition fall back to every prototype under include/
+            refs = [(f, e) for f, e in entries if f.startswith('include/sdk/')] or \
+                [(f, e) for f, e in entries if f.startswith('include/')]
         for file, entry in entries:
             if file in static_files:
                 own = [e for f, e in entries if f == file and e[2] == 'def' and e[5]]

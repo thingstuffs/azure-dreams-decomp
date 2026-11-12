@@ -5,11 +5,11 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_delay_views.h"
 #include "shared/slus_callbacks.h"
+#include "sdk/rand.h"
 extern u8 secondary_sprite[];
 extern u8 landing_sprite_entries[];
 extern u8 fading_sprite_entries[];
 void *allocate_list_node(s32, void *);
-s32 rand(void);
 s32 get_definition_entry_byte_13(s16);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 void register_node(void *, void *);

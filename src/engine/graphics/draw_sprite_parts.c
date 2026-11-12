@@ -46,12 +46,12 @@ void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth)
     contexts = (u8 **)((void * *)(&g_game_work));
     prim = context->packetCursor;
     scratch->ordering_table = &context->orderTag070;
-    scratch->input_z = 0x1000;
-    scratch->translation_z = 0;
-    scratch->vertices[3].z = 0;
-    scratch->vertices[2].z = 0;
-    scratch->vertices[1].z = 0;
-    scratch->vertices[0].z = 0;
+    scratch->input.vz = 0x1000;
+    scratch->translation.vz = 0;
+    scratch->vertices[3].vz = 0;
+    scratch->vertices[2].vz = 0;
+    scratch->vertices[1].vz = 0;
+    scratch->vertices[0].vz = 0;
     PushMatrix();
 
     parts = sprite->source;
@@ -59,16 +59,16 @@ void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth)
     sprite->flags = flags;
     scratch->sprite_flags = flags;
     part = parts + 1;
-    scratch->input_x = sprite->scale_x;
-    origin_x = (s16)scratch->position_x;
+    scratch->input.vx = sprite->scale_x;
+    origin_x = scratch->position.vx;
     packet = (u8 *)prim + 4;
-    scratch->input_y = sprite->scale_y;
+    scratch->input.vy = sprite->scale_y;
     sprite_x = sprite->offset_x;
-    scratch->translation_x = origin_x + sprite_x;
-    scratch->translation_y = (s16)scratch->position_y + sprite->offset_y;
-    TransMatrix(&scratch->matrix, &scratch->translation_x, sprite_x);
+    scratch->translation.vx = origin_x + sprite_x;
+    scratch->translation.vy = scratch->position.vy + sprite->offset_y;
+    TransMatrix(&scratch->matrix, &scratch->translation, sprite_x);
     RotMatrix(&sprite->angle_x, &scratch->matrix);
-    ScaleMatrix(&scratch->matrix, &scratch->input_x);
+    ScaleMatrix(&scratch->matrix, &scratch->input);
     SetRotMatrix(&scratch->matrix);
     SetTransMatrix(&scratch->matrix);
 
@@ -97,21 +97,21 @@ next_part:
             } else {
                 flipped_offset = -S8_AT(part, 1);
             }
-            scratch->vertices[2].x = flipped_offset;
-            scratch->vertices[0].x = flipped_offset;
+            scratch->vertices[2].vx = flipped_offset;
+            scratch->vertices[0].vx = flipped_offset;
             corner_x = flipped_offset - (u16)scratch->uv_u_extent;
         } else {
             s16 offset = S8_AT(part, 1);
             if (sprite->flags & 0x400) {
                 offset <<= 1;
             }
-            scratch->vertices[2].x = offset;
-            scratch->vertices[0].x = offset;
+            scratch->vertices[2].vx = offset;
+            scratch->vertices[0].vx = offset;
             offset += (u16)scratch->uv_u_extent;
             corner_x = offset;
         }
-        scratch->vertices[3].x = corner_x;
-        scratch->vertices[1].x = corner_x;
+        scratch->vertices[3].vx = corner_x;
+        scratch->vertices[1].vx = corner_x;
 
         if ((parts[0] ^ scratch->sprite_flags) & 2) {
             if (sprite->flags & 0x400) {
@@ -119,21 +119,21 @@ next_part:
             } else {
                 flipped_offset = -S8_AT(part, 2);
             }
-            scratch->vertices[1].y = flipped_offset;
-            scratch->vertices[0].y = flipped_offset;
+            scratch->vertices[1].vy = flipped_offset;
+            scratch->vertices[0].vy = flipped_offset;
             corner_y = flipped_offset - (u16)scratch->uv_v_extent;
         } else {
             s16 offset = S8_AT(part, 2);
             if (sprite->flags & 0x400) {
                 offset <<= 1;
             }
-            scratch->vertices[1].y = offset;
-            scratch->vertices[0].y = offset;
+            scratch->vertices[1].vy = offset;
+            scratch->vertices[0].vy = offset;
             offset += (u16)scratch->uv_v_extent;
             corner_y = offset;
         }
-        scratch->vertices[3].y = corner_y;
-        scratch->vertices[2].y = corner_y;
+        scratch->vertices[3].vy = corner_y;
+        scratch->vertices[2].vy = corner_y;
 
         gte_ldv0(&scratch->vertices[0]);
         gte_rtv0tr();

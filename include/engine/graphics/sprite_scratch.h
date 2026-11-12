@@ -4,13 +4,6 @@
 #include "common.h"
 #include "sdk/libgte_matrix.h"
 
-typedef struct SpriteScratchVertex {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 flag;
-} SpriteScratchVertex;
-
 typedef struct SpriteScratchScreenPoint {
     u16 x;
     u16 y;
@@ -20,10 +13,7 @@ typedef struct SpriteScratchScreenPoint {
  * The three input words at +0x30 hold camera angles before they are reused
  * for scale. The matrix translation is also the temporary sprite offset. */
 typedef struct SpriteQuadScratch {
-    u16 position_x;
-    u16 position_y;
-    u16 position_z;
-    u16 pad_06;
+    SVECTOR position; /* RotTransPers input: the sprite's world position */
     u32 uv_u_start;
     u32 uv_v_start;
     u32 uv_u_extent;
@@ -32,20 +22,11 @@ typedef struct SpriteQuadScratch {
     u32 *ordering_table; /* ordering-table slot the sprite packets are linked into */
     u16 sprite_flags;
     u16 pad_26;
-    s16 rotation_x;
-    s16 rotation_y;
-    s16 rotation_z;
-    s16 pad_2E;
-    s32 input_x;
-    s32 input_y;
-    s32 input_z;
-    u8 pad_3C[4];
-    s32 translation_x;
-    s32 translation_y;
-    s32 translation_z;
-    u8 pad_4C[4];
+    SVECTOR rotation;
+    VECTOR input; /* camera angles, then the ScaleMatrix scale */
+    VECTOR translation;
     MATRIX matrix;
-    SpriteScratchVertex vertices[4];
+    SVECTOR vertices[4]; /* RotTransPers4/RotAverage4 inputs */
     s32 depth_cue;
     s32 gte_flag;
     u8 pad_98[0x20];
@@ -56,10 +37,7 @@ typedef struct SpriteQuadScratch {
     s32 depth_offset;
     MATRIX local_matrix;
     SpriteScratchScreenPoint projected_vertices[4];
-    u16 angle_x;
-    u16 angle_y;
-    u16 angle_z;
-    u16 pad_106;
+    SVECTOR angles; /* RotMatrix input */
     u16 extent_x;
     u16 extent_y;
     u8 pad_10C[0x30];
@@ -98,16 +76,10 @@ typedef struct SpriteLinkedScratch {
     s32 ordering_table;
     u16 context_flags;
     u8 pad_2A[0xA];
-    s32 input_x;
-    s32 input_y;
-    s32 input_z;
-    u8 pad_40[4];
-    s32 translation_x;
-    s32 translation_y;
-    s32 translation_z;
-    u8 pad_50[4];
+    VECTOR input; /* object scale (ScaleMatrix) */
+    VECTOR translation; /* TransMatrix translation */
     SpriteLinkedMatrix matrix;
-    SpriteScratchVertex vertices[4];
+    SVECTOR vertices[4]; /* RotTransPers4 inputs */
     s32 depth_cue;
     s32 gte_flag;
     SpriteLinkedScreenPoint projected_vertices[4];
@@ -124,22 +96,15 @@ typedef struct SpriteAttachmentScratch {
     u8 pad_04[0x20];
     u16 sprite_flags;
     u8 pad_26[0xA];
-    s32 input_x; /* camera angles, then sprite scale; low halves feed ScaleMatrix */
-    s32 input_y;
-    s32 input_z;
-    u8 pad_3C[0x34];
-    s16 point_x;
-    s16 point_z;
-    s16 point_y;
-    u8 pad_76[0x1E];
+    VECTOR input; /* camera angles, then the ScaleMatrix scale (sprite scale) */
+    u8 pad_40[0x30];
+    SVECTOR point; /* RotTransSV input: the flipped attachment X in vx, 0 in vy, the flipped Y in vz */
+    u8 pad_78[0x1C];
     s32 transform_flag;
     u8 pad_98[0x38];
     MATRIX local_matrix;
     u8 pad_F0[0x10];
-    u16 angle_x;
-    u16 angle_y;
-    u16 angle_z;
-    u16 pad_106;
+    SVECTOR angles; /* RotMatrix input */
     u16 extent_x;
     u16 extent_y;
 } SpriteAttachmentScratch;

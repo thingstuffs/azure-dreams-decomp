@@ -9,6 +9,7 @@ typedef struct S_8003DF74_Vec SpriteAttachmentVector;
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "dungeon/effect/particle.h"
+#include "sdk/libgte.h"
 typedef struct S_81940800_1 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -125,7 +126,6 @@ typedef struct {
 } __attribute__((packed)) EffectPacked12;
 void select_record_entry_and_value(void *state, void *entries, short index);
 void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
-u32 RotTransPers(void *, void *, void *, void *);
 extern s16 tint_particle_effect_updated;
 extern PackedVec3 tint_particle_sprite_data;
 void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused, void *primitive);

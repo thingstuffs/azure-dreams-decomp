@@ -3,6 +3,7 @@
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_52CE0_Rect {
     s16 x;
@@ -33,7 +34,6 @@ typedef struct S_52CE0_Ent {
     u16 flags;
 } S_52CE0_Ent;
 
-extern void MoveImage(S_52CE0_Rect *rect, s32 x, s32 y);
 
 /* Advance the entity animation, moving its position and copying image rows in VRAM. */
 

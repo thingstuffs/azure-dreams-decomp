@@ -1,10 +1,10 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio/staging_destinations_data.h"
 #include "slus.h"
 
 /* Canonical status block shared across the D_800847D0 family (see w_8005405C.c etc). */
 
-extern void *audio_staging_destinations[];
 extern u32 audio_staging_spu_offsets[];
 extern void *audio_bank_owner_payloads[];
 

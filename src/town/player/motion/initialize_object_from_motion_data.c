@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/action_reset_data.h"
 #include "shared/town_handler.h"
 #include "town/player/motion.h"
 #include "town/player/object.h"
@@ -8,7 +9,6 @@ typedef struct {
     unsigned char pad04[0];
 } Unknown;
 
-extern signed char town_action_reset_byte;
 
 extern int D_800D01B8[];
 

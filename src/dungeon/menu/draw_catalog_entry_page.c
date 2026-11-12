@@ -3,6 +3,7 @@
 #include "dungeon/menu.h"
 #include "town/menu.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_8011ACD8;
@@ -15,7 +16,7 @@ typedef struct S_80123A60_0 {
 
 /* Draws available entries for the selected group at fixed screen positions. */
 void draw_catalog_entry_page(S_80123A60_0 *state) {
-    s16 draw_rect[4];
+    RECT draw_rect;
     s32 *entry;
     s32 *entry_table;
     s32 *entry_table_2;
@@ -24,11 +25,11 @@ void draw_catalog_entry_page(S_80123A60_0 *state) {
     s32 slot;
     s32 group;
 
-    draw_rect[0] = 0x180;
-    draw_rect[1] = 0x80;
-    draw_rect[2] = 0x36;
-    draw_rect[3] = 0x60;
-    ClearImage(draw_rect, 0, 0, 0);
+    draw_rect.x = 0x180;
+    draw_rect.y = 0x80;
+    draw_rect.w = 0x36;
+    draw_rect.h = 0x60;
+    ClearImage(&draw_rect, 0, 0, 0);
     draw_cached_catalog_text(&D_8011ACD8, 0x192, 0xD0);
     DrawSync(0);
     slot = 0;

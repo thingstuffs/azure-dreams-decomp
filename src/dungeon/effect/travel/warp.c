@@ -1221,11 +1221,7 @@ typedef struct S_8002593C_2 {
     u16 unk_1A;
 } S_8002593C_2;   /* arg2 in build_install */
 
-typedef struct MATRIX {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MATRIX;
+#include "sdk/libgte_matrix.h"
 
 extern void CompMatrix(void *, void *, void *);
 extern void ReadRotMatrix(void *);

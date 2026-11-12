@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/action_reset_data.h"
 #include "town/player/object_initialization_g00546.h"
 #include "shared/town_handler_entries.h"
 #include "m2c_compat.h"
@@ -6,7 +7,6 @@
 #include "shared/town_handler.h"
 #include "town/player.h"
 
-extern s8 town_action_reset_byte;
 
 
 /* Initialize the record from global data, clear the global flag, and set its table and counter. */

@@ -65,7 +65,7 @@ typedef struct S_80026A84_7 {
 /* Creates six linked effects at an offset from the origin and initializes their points. */
 void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos, void *effect_param, SpriteFrameState *source)
 {
-    GteShortVector offset;
+    SVECTOR offset;
     void (*callback)(ActorTrailWork *, TrailMotion *, SpriteFrameState *);
     TableEntry *effect_entry;
     s32 effect_index;

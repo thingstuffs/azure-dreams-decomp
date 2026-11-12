@@ -2,20 +2,9 @@
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
-
-typedef union {
-    struct {
-        u16 x;
-        u16 y;
-    } half;
-    u32 word;
-} XY;
-
-typedef struct {
-    XY xy;
-    s16 z;
-    s16 pad;
-} VERTEX;
+#include "sdk/libgte_matrix.h"
+#include "sdk/libgpu_packets.h"
+#include "shared/gpu_packets.h"
 
 typedef struct {
     u16 x;
@@ -52,67 +41,16 @@ typedef struct {
     RECTANGLE solid;
 } DRAW_DESC;
 
-typedef struct {
-    u32 tag;
-    u8 r0;
-    u8 g0;
-    u8 b0;
-    u8 code;
-    u32 xy0;
-    u8 u0;
-    u8 v0;
-    u16 clut;
-    u32 xy1;
-    u8 u1;
-    u8 v1;
-    u16 tpage;
-    u32 xy2;
-    u8 u2;
-    u8 v2;
-    u16 pad1E;
-    u32 xy3;
-    u8 u3;
-    u8 v3;
-    u16 pad26;
-} POLY_FT4;
-
-typedef struct {
-    u32 tag;
-    u8 r0;
-    u8 g0;
-    u8 b0;
-    u8 code;
-    u32 xy0;
-    u8 r1;
-    u8 g1;
-    u8 b1;
-    u8 pad0F;
-    u32 xy1;
-    u8 r2;
-    u8 g2;
-    u8 b2;
-    u8 pad17;
-    u32 xy2;
-    u8 r3;
-    u8 g3;
-    u8 b3;
-    u8 pad1F;
-    u32 xy3;
-} POLY_G4;
-
-typedef struct {
-    u32 tag;
-    u32 code[2];
-} DR_MODE;
+#include "sdk/libgpu_types.h"
 
 #define ON_SCREEN(v) \
-(((u16)((v).xy.half.x + 0x20) < 0x181U) && \
-    ((u16)((v).xy.half.y + 0x20) < 0x121U))
+(((u16)((v).vx + 0x20) < 0x181U) && \
+    ((u16)((v).vy + 0x20) < 0x121U))
 
 /* Project and enqueue visible textured and translucent blue gradient rectangles. */
 void draw_window_rects(DRAW_DESC *desc) {
-    VERTEX vertices[4];
-    VERTEX projected[4];
+    SVECTOR vertices[4];
+    SVECTOR projected[4]; /* RotTransPers4 screen XY outputs, one per vertex slot */
     s32 depth;
     s32 transform_flags;
     TEX_RECT *textured;
@@ -121,8 +59,8 @@ void draw_window_rects(DRAW_DESC *desc) {
     POLY_FT4 *tex_quad;
     POLY_G4 *gradient_quad;
     DR_MODE *draw_mode;
-    u8 *display;
-    u8 **displays;
+    GpuContext *display;
+    GpuContext **displays;
     s32 page_u;
     s32 tex_u;
     s32 page_y;
@@ -131,23 +69,23 @@ void draw_window_rects(DRAW_DESC *desc) {
     owner = desc->owner;
     textured = &desc->textured;
     solid = &desc->solid;
-    displays = ((u8 * *)(&g_game_work));
+    displays = (GpuContext **)&g_game_work;
 
-    vertices[0].xy.half.x = vertices[2].xy.half.x = textured->x;
-    vertices[1].xy.half.x = vertices[3].xy.half.x = textured->x + textured->width;
-    vertices[0].xy.half.y = vertices[1].xy.half.y = textured->y;
-    vertices[2].xy.half.y = vertices[3].xy.half.y = textured->y + textured->height;
-    vertices[0].z = vertices[1].z = vertices[2].z = vertices[3].z = 0;
+    vertices[0].vx = vertices[2].vx = textured->x;
+    vertices[1].vx = vertices[3].vx = textured->x + textured->width;
+    vertices[0].vy = vertices[1].vy = textured->y;
+    vertices[2].vy = vertices[3].vy = textured->y + textured->height;
+    vertices[0].vz = vertices[1].vz = vertices[2].vz = vertices[3].vz = 0;
 
     RotTransPers4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                  &projected[0], &projected[1], &projected[2], &projected[3],
+                  (s32 *)&projected[0], (s32 *)&projected[1], (s32 *)&projected[2], (s32 *)&projected[3],
                   &depth, &transform_flags);
 
     if (ON_SCREEN(projected[0]) | ON_SCREEN(projected[1]) |
         ON_SCREEN(projected[2]) | ON_SCREEN(projected[3])) {
         display = g_game_work.draw_buffer;
-        tex_quad = *(POLY_FT4 **)(display + 0x8D0);
-        *(u8 **)(display + 0x8D0) = (u8 *)tex_quad + sizeof(POLY_FT4);
+        tex_quad = display->packetCursor;
+        display->packetCursor = tex_quad + 1;
         SetPolyFT4(tex_quad);
 
         tex_quad->clut = GetClut(textured->clut_x, textured->clut_y);
@@ -166,45 +104,53 @@ void draw_window_rects(DRAW_DESC *desc) {
         tex_v += textured->tex_height;
         tex_quad->v2 = tex_quad->v3 = tex_v;
 
-        tex_quad->xy0 = projected[0].xy.word;
-        tex_quad->xy1 = projected[1].xy.word;
-        tex_quad->xy2 = projected[2].xy.word;
-        tex_quad->xy3 = projected[3].xy.word;
+        /* BYTES: retail copies the packed screen XY word with one lw/sw; member copies compile to two lh/sh */
+        *(u32 *)&tex_quad->x0 = *(u32 *)&projected[0];
+        /* BYTES: retail copies the packed screen XY word with one lw/sw; member copies compile to two lh/sh */
+        *(u32 *)&tex_quad->x1 = *(u32 *)&projected[1];
+        /* BYTES: retail copies the packed screen XY word with one lw/sw; member copies compile to two lh/sh */
+        *(u32 *)&tex_quad->x2 = *(u32 *)&projected[2];
+        /* BYTES: retail copies the packed screen XY word with one lw/sw; member copies compile to two lh/sh */
+        *(u32 *)&tex_quad->x3 = *(u32 *)&projected[3];
         AddPrim(g_game_work.draw_buffer + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), tex_quad);
     }
 
-    vertices[0].xy.half.x = vertices[2].xy.half.x = solid->x;
-    vertices[1].xy.half.x = vertices[3].xy.half.x = solid->x + solid->width;
-    vertices[0].xy.half.y = vertices[1].xy.half.y = solid->y;
-    vertices[2].xy.half.y = vertices[3].xy.half.y = solid->y + solid->height;
-    vertices[0].z = vertices[1].z = vertices[2].z = vertices[3].z = 0;
+    vertices[0].vx = vertices[2].vx = solid->x;
+    vertices[1].vx = vertices[3].vx = solid->x + solid->width;
+    vertices[0].vy = vertices[1].vy = solid->y;
+    vertices[2].vy = vertices[3].vy = solid->y + solid->height;
+    vertices[0].vz = vertices[1].vz = vertices[2].vz = vertices[3].vz = 0;
 
     RotTransPers4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                  &projected[0], &projected[1], &projected[2], &projected[3],
+                  (s32 *)&projected[0], (s32 *)&projected[1], (s32 *)&projected[2], (s32 *)&projected[3],
                   &depth, &transform_flags);
 
     if (ON_SCREEN(projected[0]) | ON_SCREEN(projected[1]) |
         ON_SCREEN(projected[2]) | ON_SCREEN(projected[3])) {
         display = displays[0];
-        gradient_quad = *(POLY_G4 **)(display + 0x8D0);
-        *(u8 **)(display + 0x8D0) = (u8 *)gradient_quad + sizeof(POLY_G4);
+        gradient_quad = display->packetCursor;
+        display->packetCursor = gradient_quad + 1;
         SetPolyG4(gradient_quad);
         SetSemiTrans(gradient_quad, 1);
 
-        gradient_quad->r0 = gradient_quad->g0 = gradient_quad->b0 = gradient_quad->r1 = gradient_quad->g1 =
-            gradient_quad->r2 = gradient_quad->g2 = gradient_quad->b2 = gradient_quad->r3 = gradient_quad->g3 = 0;
-        gradient_quad->b1 = gradient_quad->b3 = 0x40;
+        gradient_quad->red0 = gradient_quad->green0 = gradient_quad->blue0 = gradient_quad->red1 = gradient_quad->green1 =
+            gradient_quad->red2 = gradient_quad->green2 = gradient_quad->blue2 = gradient_quad->red3 = gradient_quad->green3 = 0;
+        gradient_quad->blue1 = gradient_quad->blue3 = 0x40;
 
-        gradient_quad->xy0 = projected[0].xy.word;
-        gradient_quad->xy1 = projected[1].xy.word;
-        gradient_quad->xy2 = projected[2].xy.word;
-        gradient_quad->xy3 = projected[3].xy.word;
-        AddPrim(displays[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), gradient_quad);
+        /* BYTES: retail copies the packed screen XY word with one lw/sw; member copies compile to two lh/sh */
+        *(u32 *)&gradient_quad->x0 = *(u32 *)&projected[0];
+        /* BYTES: retail copies the packed screen XY word with one lw/sw; member copies compile to two lh/sh */
+        *(u32 *)&gradient_quad->x1 = *(u32 *)&projected[1];
+        /* BYTES: retail copies the packed screen XY word with one lw/sw; member copies compile to two lh/sh */
+        *(u32 *)&gradient_quad->x2 = *(u32 *)&projected[2];
+        /* BYTES: retail copies the packed screen XY word with one lw/sw; member copies compile to two lh/sh */
+        *(u32 *)&gradient_quad->x3 = *(u32 *)&projected[3];
+        AddPrim((u8 *)displays[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), gradient_quad);
 
         display = displays[0];
-        draw_mode = *(DR_MODE **)(display + 0x8D0);
-        *(u8 **)(display + 0x8D0) = (u8 *)draw_mode + sizeof(DR_MODE);
+        draw_mode = display->packetCursor;
+        display->packetCursor = draw_mode + 1;
         SetDrawMode(draw_mode, 0, 0, GetTPage(0, 0, 0x140, 0), 0);
-        AddPrim(displays[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), draw_mode);
+        AddPrim((u8 *)displays[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), draw_mode);
     }
 }

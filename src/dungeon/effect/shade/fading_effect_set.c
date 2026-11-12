@@ -553,7 +553,7 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
     u8 *linked_root;
     u8 *linked_root_2;
     u8 *linked_root_3;
-    GteShortVector offsets;
+    SVECTOR offsets;
     u16 end_x;
     u16 end_y;
     s32 steps;

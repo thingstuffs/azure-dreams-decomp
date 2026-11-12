@@ -2,6 +2,7 @@
 #include "shared/position_views.h"
 #include "town/map/object.h"
 #include "town/map.h"
+#include "town/map/state_ids_data.h"
 
 typedef struct S_8008BA44_0 {
     void * unk_00;
@@ -21,7 +22,7 @@ typedef struct S_8008BA44_2 {
 
 
 
-extern u8 town_map_state_ids[];
+
 extern s32 town_map_state_values[];
 
 /* Decrement the inner value, clamping it to zero and resetting object state if it becomes negative. */

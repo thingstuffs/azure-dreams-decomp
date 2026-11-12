@@ -3,14 +3,7 @@
 #include "engine/text.h"
 #include "sdk/libgpu.h"
 
-typedef struct
-{
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-}
-RECT;
+#include "sdk/libgpu_types.h"
 
 /* Draws a two-byte character string by copying font tiles to successive screen positions. */
 void draw_double_byte_text(u8 *text, s16 start_x, s16 start_y)

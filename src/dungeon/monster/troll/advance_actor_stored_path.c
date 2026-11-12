@@ -585,7 +585,7 @@ void prepare_actor_path_movement(ActorRecord *action_input, ObjectPosition *x_of
     action_input->unk_8C.word = 0;
     action_input->action_id = 0x11;
     action_input->action_phase = 0;
-    ((T_80173B48_S_80173B48_0 *)actor)->unk_6D--;
+    actor->pending_turn_updates--;
 
     if (actor->unk_48 == 15) {
         actor->target =
@@ -601,7 +601,7 @@ void prepare_actor_path_movement(ActorRecord *action_input, ObjectPosition *x_of
                               actor->target);
             }
 
-            if (((T_80173B48_S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
+            if (actor->flags14 & 0x04000000) {
                 remaining_steps = 10;
                 saved_x = position_input->tile_x;
                 saved_y = position_input->tile_y;
@@ -629,7 +629,7 @@ loop:
                             prepare_directional_attack(actor, position_input, actor->facing, travel_steps,
                                           actor->target);
                         }
-                        if (((T_80173B48_S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
+                        if (actor->flags14 & 0x04000000) {
                             goto loop;
                         }
                     } else {
@@ -647,7 +647,7 @@ loop:
         }
 
         {
-            u32 direction_offset = (((T_80173B48_S_80173B48_0 *)actor)->unk_6A >> 8) & 0xE;
+            u32 direction_offset = ((u16)actor->movement_facing >> 8) & 0xE;
             setup_object_within_planar_range(
                 (u8 *)actor - 0x20,
                 (position_input->tile_x << 6) +

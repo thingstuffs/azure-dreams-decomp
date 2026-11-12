@@ -11,6 +11,7 @@
 #include "m2c_compat.h"
 #include "shared/scratchpad.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 typedef struct { s32 w[10]; } Blk40;
@@ -79,16 +80,9 @@ typedef struct Row_818ED25C_S_80024A5C_7 {
 /* Draws at a page-adjusted position with clipping commands and an optional black rectangle.
  * Keeping the page pointer live across setup and spelling the sign extension as one expression
  * reproduce the retail allocation and call-argument order. */
-s32 rsin(s32);
-void *CompMatrix(void *, void *, void *);
 void PushMatrix();
 void PopMatrix();
-void *ScaleMatrix(void *, void *);
-void SetRotMatrix(void *);
-void SetTransMatrix(void *);
-void *RotMatrix(void *, void *);
 void func_80067EF4();
-void SetDrawArea(void *, void *);
 extern u8 upper_draw_context[16];
 void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode);
 void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);

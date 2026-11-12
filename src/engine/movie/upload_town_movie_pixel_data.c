@@ -2,6 +2,7 @@
 
 #include "engine/movie.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 
 /* --- port/hal accessor shims (mechanical, no HAL dependency) --- */
 #define PVAL(p)     ((u32)(p))
@@ -13,11 +14,11 @@
  */
 void upload_pixel_rectangle(s16 x, s16 y, s16 width, s16 height, const void *pixels)
 {
-    s16 rect[4];
+    RECT rect;
 
-    rect[0] = x;
-    rect[1] = y;
-    rect[2] = width;
-    rect[3] = height;
-    LoadImage(rect, pixels);
+    rect.x = x;
+    rect.y = y;
+    rect.w = width;
+    rect.h = height;
+    LoadImage(&rect, pixels);
 }

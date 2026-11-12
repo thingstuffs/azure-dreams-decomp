@@ -30,6 +30,7 @@ struct ObjectPosition;
 #include "engine/texture.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "sdk/abs.h"
 struct ObjectPosition;
 
 #define NULL 0
@@ -564,7 +565,6 @@ typedef struct R12_80175470_S_80175470_5 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } R12_80175470_S_80175470_5;
-extern int abs(int);
 s32 Control_CD();
 s32 generate_random_value(void);
 void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
@@ -615,15 +615,15 @@ void func_80065770();
 s32 ratan2(s32, s32);
 void transform_rotated_vertices(void *transform_data);
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
-void * CompMatrix(void *, void *, void *);
+struct MATRIX *CompMatrix(void *, void *, void *);
 void PushMatrix(void);
 void PopMatrix(void);
-void * ReadRotMatrix(void *);
-void * ScaleMatrix(void *, void *);
+struct MATRIX *ReadRotMatrix(void *);
+struct MATRIX *ScaleMatrix(void *, void *);
 void SetRotMatrix(void *);
 void SetTransMatrix(void *);
 s32 RotAverage4();
-void * RotMatrix(void *, void *);
+struct MATRIX *RotMatrix(void *, void *);
 void unlink_node();
 void select_record_entry_and_value(void *state, void *entries, short index);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);

@@ -32,13 +32,6 @@ extern u8 D_80171020[];
 
 extern u8 D_80174E34[];
 
-typedef struct S_80173230_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173230_2;   /* linked in advance_item_use_and_recovery */
-
-
 typedef struct S_80173230_6 {
     u8 pad_00[0x8];
     u8 * unk_08;
@@ -73,7 +66,8 @@ typedef struct S_80173230_7 {
  * restores idle. */
 void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    u8 *effect_state;
+    SelectedItemActionEffectBody *effect_state;
+    SpriteFrameState *target_sprite;
     u8 * effect_handle;
     s16 special_or_effect;
     GteOffset effect_offset;
@@ -137,18 +131,18 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
             if ((s16)special_or_effect != 0) {
                 item_target = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = item_target;
-                    effect_state = (item_target - 1)->sprite;
-                    actor->target_tile_x = ((S_80173230_2 *)effect_state)->unk_24;
-                    actor->target_tile_y = ((S_80173230_2 *)effect_state)->unk_25;
+                target_sprite = (item_target - 1)->sprite;
+                actor->target_tile_x = target_sprite->tile_x;
+                actor->target_tile_y = target_sprite->tile_y;
             } else {
                 u8 item_id = *(u8 *)item_slot;
                 u8 *item_defs = item_action_definitions;
                 if (item_defs[item_id * 20 + 0x12] == 2) {
                     item_target = actor->target;
                     if (item_target != 0) {
-                    effect_state = (item_target - 1)->sprite;
-                    actor->target_tile_x = ((S_80173230_2 *)effect_state)->unk_24;
-                    actor->target_tile_y = ((S_80173230_2 *)effect_state)->unk_25;
+                        target_sprite = (item_target - 1)->sprite;
+                        actor->target_tile_x = target_sprite->tile_x;
+                        actor->target_tile_y = target_sprite->tile_y;
                     }
                 } else {
                     s32 dx;
@@ -208,11 +202,11 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                     SpriteFrameState *actor_model;
                     u8 animation_id;
 
-                    effect_state = effect_handle + 0x20;
-                    ((SelectedItemActionEffectBody *)effect_state)->ticks_remaining = 9;
+                    effect_state = NODE_BODY(effect_handle);
+                    effect_state->ticks_remaining = 9;
                     ((S_80173230_6 *)((void *)effect_handle))->unk_10 = D_80171020;
-                    ((SelectedItemActionEffectBody *)effect_state)->reference_position = motion;
-                    ((SelectedItemActionEffectBody *)effect_state)->facing.u = (*(u16 *)((u8 *)actor + 0x2A));
+                    effect_state->reference_position = motion;
+                    effect_state->facing.u = (*(u16 *)((u8 *)actor + 0x2A));
                     item_slot = (S_80173230_7 *)((S_80173230_6 *)((void *)effect_handle))->unk_0C;
                     *(Copy48 *)item_slot = *(Copy48 *)sprite;
                     item_slot->unk_1E = 0x1000;

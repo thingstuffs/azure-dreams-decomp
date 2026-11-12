@@ -36,13 +36,13 @@ void runtime_transform_sprite_attachment_point(SpriteFrameState *transform, void
     view_angle_x = render_state->view.camera_rotation.parts.camera_rotation_x;
     view_angle_y = render_state->view.camera_rotation.parts.camera_rotation_y;
     view_angle_z = render_state->view.camera_rotation.parts.viewAngle;
-    scratch->input_x = view_angle_x;
-    scratch->input_y = view_angle_y;
-    scratch->input_z = view_angle_z;
+    scratch->input.vx = view_angle_x;
+    scratch->input.vy = view_angle_y;
+    scratch->input.vz = view_angle_z;
     angle_x = sprite->angle_x - 0x400;
-    scratch->angle_x = angle_x - (u16)scratch->input_x;
-    scratch->angle_z = ((u16)(render_state->view.view_rotation_offset.parts.view_rotation_offset_z)) + (sprite->angle_z - (u16)scratch->input_y);
-    scratch->angle_y = sprite->angle_y;
+    scratch->angles.vx = angle_x - (u16)scratch->input.vx;
+    scratch->angles.vz = ((u16)(render_state->view.view_rotation_offset.parts.view_rotation_offset_z)) + (sprite->angle_z - (u16)scratch->input.vy);
+    scratch->angles.vy = sprite->angle_y;
     offset_x = sprite->offset_x;
     scratch->local_matrix.t[0] = offset_x;
     scratch->extent_x = offset_x;
@@ -50,42 +50,42 @@ void runtime_transform_sprite_attachment_point(SpriteFrameState *transform, void
     scratch->local_matrix.t[2] = 0;
     scratch->local_matrix.t[1] = offset_y;
     scratch->extent_y = offset_y;
-    RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
 
-    scratch->input_x = sprite->scale_x << 1;
-    scratch->input_y = sprite->scale_y << 1;
-    scratch->input_z = 0x2000;
-    ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
-    SetTransMatrix((void *)0x1F8000D0);
-    SetRotMatrix((void *)0x1F8000D0);
+    scratch->input.vx = sprite->scale_x << 1;
+    scratch->input.vy = sprite->scale_y << 1;
+    scratch->input.vz = 0x2000;
+    ScaleMatrix(&scratch->local_matrix, &scratch->input);
+    SetTransMatrix(&scratch->local_matrix);
+    SetRotMatrix(&scratch->local_matrix);
 
     scratch->sprite_flags = sprite->flags;
 
     if ((U8_AT(point, 0) ^ scratch->sprite_flags) & 1) {
-        scratch->point_x = -S8_AT(point, 2) - scratch->extent_x;
+        scratch->point.vx = -S8_AT(point, 2) - scratch->extent_x;
     } else {
-        scratch->point_x = S8_AT(point, 2) - scratch->extent_x;
+        scratch->point.vx = S8_AT(point, 2) - scratch->extent_x;
     }
 
     if ((U8_AT(point, 0) ^ scratch->sprite_flags) & 2) {
-        scratch->point_y = -S8_AT(point, 3) - scratch->extent_y;
+        scratch->point.vz = -S8_AT(point, 3) - scratch->extent_y;
     } else {
-        scratch->point_y = S8_AT(point, 3) - scratch->extent_y;
+        scratch->point.vz = S8_AT(point, 3) - scratch->extent_y;
     }
-    scratch->point_z = 0;
-    RotTransSV(&scratch->point_x, result, &scratch->transform_flag);
+    scratch->point.vy = 0;
+    RotTransSV(&scratch->point, result, &scratch->transform_flag);
 
     transformed_x = U16_AT(((u8 *)result), 0);
     scratch->transformed_x = transformed_x;
     final_angle_x = render_state->view.camera_rotation.parts.camera_rotation_x;
     transformed_y = U16_AT(((u8 *)result), 2);
-    scratch->input_x = -final_angle_x;
+    scratch->input.vx = -final_angle_x;
     final_angle_z = render_state->view.camera_rotation.parts.viewAngle;
     base_angle = render_state->view.view_rotation_offset.parts.view_rotation_offset_z;
     scratch->transformed_y = transformed_y;
-    scratch->input_z = base_angle - final_angle_z;
-    U16_AT(((u8 *)result), 4) += ((s32)(s16)scratch->transformed_y * rcos(scratch->input_x)) >> 12;
-    S16_AT(((u8 *)result), 0) = ((s16)scratch->transformed_x * rcos(scratch->input_z)) >> 12;
-    S16_AT(((u8 *)result), 2) = ((s16)scratch->transformed_x * rsin(scratch->input_z)) >> 12;
+    scratch->input.vz = base_angle - final_angle_z;
+    U16_AT(((u8 *)result), 4) += ((s32)(s16)scratch->transformed_y * rcos(scratch->input.vx)) >> 12;
+    S16_AT(((u8 *)result), 0) = ((s16)scratch->transformed_x * rcos(scratch->input.vz)) >> 12;
+    S16_AT(((u8 *)result), 2) = ((s16)scratch->transformed_x * rsin(scratch->input.vz)) >> 12;
     PopMatrix();
 }

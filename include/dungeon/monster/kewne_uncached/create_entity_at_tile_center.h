@@ -29,7 +29,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-extern int abs(int);
+#include "sdk/abs.h"
 
 typedef struct S_812A524C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */

@@ -30,7 +30,7 @@ extern u8 D_800DEEC0;
 void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spawn_height)
 {
     ObjectPosition *position;
-    s8 *entity = NULL;
+    ActorRecord *entity = NULL;
     ObjectNodeHeader *object;
     u8 saved_tile_y = tile_y;
     u8 saved_tile_x = tile_x;
@@ -43,10 +43,10 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
         entity = NODE_BODY(object);
-        ((ActorRecord *)entity)->species = MONSTER_WALL_OF_ICE;
+        entity->species = MONSTER_WALL_OF_ICE;
         if (variant == 1) {
-            ((ActorRecord *)entity)->flags14 |= ACTOR_CLASS_ENABLED;
-            ((ActorRecord *)entity)->flags1C |= ACTOR_PLAYER_SIDE;
+            entity->flags14 |= ACTOR_CLASS_ENABLED;
+            entity->flags1C |= ACTOR_PLAYER_SIDE;
         }
         register_node(object, project_sprite_chain);
         position = object->position;
@@ -63,7 +63,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
         sprite->flags |= 0x100;
         select_record_entry_and_value(sprite, &D_800DEEC0, 0);
         object->update_callback = &D_800D4158;
-        ((ActorRecord *)entity)->unk_8C.address = &actor_default_action_address;
+        entity->unk_8C.address = &actor_default_action_address;
         sprite->room_index =
             find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
         set_record_integer_tile_center(position, sprite->tile_x,
@@ -71,22 +71,22 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
         ground_height = sample_terrain_surface_height(((u16)(position->x.w.i)),
                                ((u16)(position->y.w.i)),
                                position->z.w.i);
-        ((ActorRecord *)entity)->ground_height = ground_height;
-        ((ActorRecord *)entity)->unk_90.value = 0;
-        ((ActorRecord *)entity)->unk_90.parts.high = spawn_height - ground_height;
+        entity->ground_height = ground_height;
+        entity->unk_90.value = 0;
+        entity->unk_90.parts.high = spawn_height - ground_height;
         sprite->color.word = 0x2C808080;
         sprite->flags |= 0x8000;
         clear_entry_flag_and_link_owner(object);
         sprite_tile_x = sprite->tile_x;
         sprite_tile_y = sprite->tile_y;
         tile_flags = 0x3000;
-        if (((ActorRecord *)entity)->flags1C & ACTOR_PLAYER_SIDE) {
+        if (entity->flags1C & ACTOR_PLAYER_SIDE) {
             tile_flags = 0x300;
         }
         cycle_map_cell_flags(sprite_tile_x, sprite_tile_y, tile_flags);
-        ((ActorRecord *)entity)->action_id = 0xE;
-        ((ActorRecord *)entity)->unk_9C = -1;
-        ((ActorRecord *)entity)->flags1C |= (ACTOR_REFRESH_GROUND | ACTOR_ASLEEP);
+        entity->action_id = 0xE;
+        entity->unk_9C = -1;
+        entity->flags1C |= (ACTOR_REFRESH_GROUND | ACTOR_ASLEEP);
     }
     return entity;
 }

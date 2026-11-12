@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/emission_data.h"
 #include "dungeon/effect/head_bank_imports.h"
 #include "dungeon/globals.h"
 
@@ -13,7 +14,6 @@ typedef struct {
     s32 words[3];
 } __attribute__((packed)) Packed12;
 
-extern u16 emitted_effect_counter;
 extern u8 emitter_height_offsets[16];
 extern M2C_UNK D_8010BF40;
 extern Packed12 D_8010C450;

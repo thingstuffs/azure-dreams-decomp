@@ -3,13 +3,7 @@
 #include "engine/text.h"
 #include "sdk/libgpu.h"
 
-/* PSY-Q GPU primitive rect */
-typedef struct S_80052C10_RECT {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} S_80052C10_RECT;
+#include "sdk/libgpu_types.h"
 
 /* Struct passed as arg1: only offsets 0x8 and 0xC (two text pointers) are
  * touched by this function; the rest is unknown padding. */
@@ -21,8 +15,8 @@ typedef struct S_80052C10_Arg1 {
 
 /* Clears two 64x16 VRAM text regions and draws the two strings at the given row. */
 void clear_and_draw_paired_text_rows(s16 row, S_80052C10_Arg1 *texts) {
-    S_80052C10_RECT left_rect;
-    S_80052C10_RECT right_rect;
+    RECT left_rect;
+    RECT right_rect;
 
     left_rect.x = 0x380;
     left_rect.y = row * 0x10;

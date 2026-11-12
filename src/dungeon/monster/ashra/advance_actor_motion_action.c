@@ -50,6 +50,7 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
     s32 offset_y;
     s32 wait_ticks;
     ObjectNodeHeader *action_globals;
+    SpriteFrameState *target_sprite;
 
     use_player = 0;
     switch (action_state->action_phase) {
@@ -102,15 +103,15 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
                 if (player_target != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    action_globals = NODE_HEADER(target)->sprite;
-                    actor->target_tile_x = ((S_80172810_3 *)action_globals)->unk_24;
-                    actor->target_tile_y = ((S_80172810_3 *)action_globals)->unk_25;
+                    target_sprite = NODE_HEADER(target)->sprite;
+                    actor->target_tile_x = target_sprite->tile_x;
+                    actor->target_tile_y = target_sprite->tile_y;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        action_globals = NODE_HEADER(target)->sprite;
-                        actor->target_tile_x = ((S_80172810_3 *)action_globals)->unk_24;
-                        actor->target_tile_y = ((S_80172810_3 *)action_globals)->unk_25;
+                        target_sprite = NODE_HEADER(target)->sprite;
+                        actor->target_tile_x = target_sprite->tile_x;
+                        actor->target_tile_y = target_sprite->tile_y;
                     }
                 } else {
                     actor->target =

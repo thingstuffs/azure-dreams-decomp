@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/scene/state_data.h"
+#include "town/scene/choice_data.h"
 #include "town/scene.h"
 
 typedef struct TownStateEntry {
@@ -13,8 +15,6 @@ typedef struct TownStateEntryTable {
 } TownStateEntryTable;
 
 extern s32 func_80017F5C(s32);
-extern s32 scene_update_state;
-extern s32 scene_choice_index;
 
 /*
  * Stores func_80017F5C of scene_choice_index in the selected entry unless scene_update_state is 4;

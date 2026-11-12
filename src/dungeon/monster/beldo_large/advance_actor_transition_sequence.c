@@ -32,7 +32,7 @@ extern void func_80164BA4(void *);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 D_80175DC0;
-extern u8 encounter_recovery_flag;
+#include "dungeon/monster/beldo_large_data.h"
 
 /* Advances the actor sequence, then resets its state and updates world objects. */
 void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *work_arg, SpriteFrameState *sprite, ActorRecord *ctx_arg)

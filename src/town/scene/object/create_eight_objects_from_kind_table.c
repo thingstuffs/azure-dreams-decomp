@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/collection.h"
 #include "town/scene/object.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 
 typedef struct Object Object;
@@ -46,7 +47,6 @@ typedef struct TableEntry {
 
 extern u8 D_80528B94[];
 extern TableEntry D_8052FF9C[][8];
-extern u8 score_sprite_draw_callback_address[];
 extern u8 D_80288EE0[];
 
 

@@ -14,6 +14,7 @@ typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "dungeon/actor.h"
 #include "dungeon/monster/mandara.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 
 
 
@@ -25,7 +26,7 @@ extern u8 D_8015D298[];
 /* Creates a Mandara actor, initializes status and tile placement, and prepares sprite image rectangles. */
 void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
-    void *work;
+    ActorRecord *work;
     ObjectNodeHeader *obj;
     s32 call_id;
     ObjectNodeHeader **list_head;
@@ -39,7 +40,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
     s32 count;
     u16 actor_value;
     s32 double_index;
-    s16 values[4];
+    RECT rect;
     u8 *entry;
     s16 saved_tile_x;
     s16 saved_height;
@@ -56,7 +57,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
     if (obj != 0) {
         work = NODE_BODY(obj);
         obj->update_callback = D_80158B40;
-        ((ActorRecord *)work)->species = MONSTER_MANDARA;
+        work->species = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);
 
         pin_part_a = obj->position;
@@ -68,20 +69,20 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
         part_b->frameTable = D_8015D258;
         part_b->tile_x = saved_tile_x;
         if (kind == 1) {
-            left = ((ActorRecord *)work)->flags14 | 0x6000;
-            right = ((ActorRecord *)work)->flags1C | 0x6000;
-            ((ActorRecord *)work)->flags14 = left;
-            ((ActorRecord *)work)->flags1C = right;
+            left = work->flags14 | 0x6000;
+            right = work->flags1C | 0x6000;
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (kind >= 2) {
-            left = ((ActorRecord *)work)->flags14 | 0x2000;
-            right = ((ActorRecord *)work)->flags1C | 0x2000;
-            ((ActorRecord *)work)->flags14 = left;
-            ((ActorRecord *)work)->flags1C = right;
+            left = work->flags14 | 0x2000;
+            right = work->flags1C | 0x2000;
+            work->flags14 = left;
+            work->flags1C = right;
         } else {
             if (((spawn_flags = (s16)(spawn_flags & ~3)) << 16) == 0) {
-                if (!(((ActorRecord *)work)->flags14 & 0x200)) {
+                if (!(work->flags14 & 0x200)) {
                     if (generate_random_value() & 1) {
-                        ((ActorRecord *)work)->flags1C |= 0x200;
+                        work->flags1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) |
                                       0x20);
@@ -109,19 +110,19 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
             }
         } while (1);
         count = ((CountView *)(*(u8 * *)&part_b->source + (double_index + index) * 4))->count >> 6;
-        values[0] = 0;
-        values[1] = count;
-        values[2] = 0x100;
-        values[3] = 1;
-        MoveImage(values, 0, count - 1);
+        rect.x = 0;
+        rect.y = count;
+        rect.w = 0x100;
+        rect.h = 1;
+        MoveImage(&rect, 0, count - 1);
 
-        values[2] = 0x10;
-        values[0] = 0x30;
-        values[1] -= 1;
+        rect.w = 0x10;
+        rect.x = 0x30;
+        rect.y -= 1;
         do {
-            MoveImage(values, values[0] - 0x30, values[1]);
-            values[0] += 0x40;
-        } while (values[0] < 0x100);
+            MoveImage(&rect, rect.x - 0x30, rect.y);
+            rect.x += 0x40;
+        } while (rect.x < 0x100);
 
         try_move_actor_to_valid_position(pin_actor, pin_part_a, part_b, work);
     }

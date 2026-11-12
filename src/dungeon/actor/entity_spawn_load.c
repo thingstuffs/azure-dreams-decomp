@@ -98,7 +98,7 @@ s32 advance_staged_entity_load(s32 unused, ActorRecord *entity)
     S_800A504C_4 *spawned;
     S_800A504C_4 *replacement;
     ObjectNodeHeader *shifted;
-    u8 *entity_data;
+    SpriteFrameState *entity_data;
     S_800A504C_2_pre *mode_page;
     S_800A504C_5 *record;
     u8 *record_data;
@@ -149,9 +149,9 @@ case 2:
         if (spawned == NULL) {
             return 0;
         }
-        entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
+        entity_data = NODE_HEADER(entity)->sprite;
         spawn = load_monster_code_module(entity->species, spawned, 1);
-        spawned = spawn(6, entity_data[0x24], entity_data[0x25],
+        spawned = spawn(6, entity_data->tile_x, entity_data->tile_y,
                         (s16)(entity->ground_height - 0x20));
         if (spawned == NULL) {
             return 0;
@@ -178,9 +178,9 @@ case 2:
         copy_call_entity = (u8 *)spawned;
         copy_call_zero = 0;
         scale = 0x1000;
-        entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
-        ((SpriteFrameState *)entity_data)->scale_y = scale;
-        ((SpriteFrameState *)entity_data)->scale_x = scale;
+        entity_data = NODE_HEADER(spawned)->sprite;
+        entity_data->scale_y = scale;
+        entity_data->scale_x = scale;
         spawned->unk_14 &= -8;
         spawned->unk_1C &= -8;
         spawned->unk_14 |= entity->flags14 & 7;
@@ -203,7 +203,7 @@ case 2:
         offset += (s32)record;
         record = (S_800A504C_5 *)offset;
         record->unk_AC = (u8 *)spawned;
-        update_map_cell_flags_with_item_limit(entity_data[0x24], entity_data[0x25], 0x300);
+        update_map_cell_flags_with_item_limit(entity_data->tile_x, entity_data->tile_y, 0x300);
         unlink_entity_node((struct EntityLinkNode *)spawned);
         shifted = NODE_HEADER(spawned);
         unlink_node(shifted);
@@ -259,9 +259,9 @@ case 2:
         if (replacement == NULL) {
             return 0;
         }
-        entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
+        entity_data = NODE_HEADER(entity)->sprite;
         spawn = load_monster_code_module(entity->species, replacement, 1);
-        replacement = spawn(1, entity_data[0x24], entity_data[0x25],
+        replacement = spawn(1, entity_data->tile_x, entity_data->tile_y,
                         (s16)(entity->ground_height - 0x20));
         if (replacement != NULL) {
             replacement->unk_14 |= ACTOR_PARTY_MEMBER;
@@ -275,9 +275,9 @@ case 2:
             record_data[0] = entity->species;
             (*(u8 * *)(familiar_record_slots + (record_data[3] & 0x1F) * 4)) = (u8 *)replacement;
 
-            entity_data = ((S_800A504C_4_pre *)replacement)[-1].unk_00;
-            ((SpriteFrameState *)entity_data)->scale_y = 0x1000;
-            ((SpriteFrameState *)entity_data)->scale_x = 0x1000;
+            entity_data = NODE_HEADER(replacement)->sprite;
+            entity_data->scale_y = 0x1000;
+            entity_data->scale_x = 0x1000;
             func_80042640(replacement, replacement->unk_10.at03.v);
             copy_call_entity = (u8 *)replacement;
             replace_call_zero = 0;
@@ -301,11 +301,11 @@ case 2:
             angle = ((u16)entity->facing);
             (*(u16 *)((u8 *)replacement + 0x2A)) = angle;
             offset = ((g_game_work.view.camera_rotation.parts.viewAngle + (s16)angle + 0x100) >> 9) & 7;
-            select_indirect_table_entry(entity_data, ((u8 *)((SpriteFrameState *)entity_data)->frameTable)[offset],
-                          ((SpriteFrameState *)entity_data)->unk_04);
-            data_flags = ((SpriteFrameState *)entity_data)->flags;
+            select_indirect_table_entry(entity_data, ((u8 *)entity_data->frameTable)[offset],
+                          entity_data->unk_04);
+            data_flags = entity_data->flags;
             sprite_resource_base = dungeon_resource_buffer;
-            ((SpriteFrameState *)entity_data)->flags = data_flags & 0xFFFE;
+            entity_data->flags = data_flags & 0xFFFE;
             remaining_count = base->unk_0A.u;
             staged_spawn_count = count;
             base->unk_0A.s = (s16)(remaining_count - 1);

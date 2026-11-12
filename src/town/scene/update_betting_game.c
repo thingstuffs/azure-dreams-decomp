@@ -3,6 +3,7 @@
 #include "shared/vector.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/scene/score_sprite_data.h"
 #define AZ_FOREIGN_LOCAL_FUNC_802441A4
 #include "town/devkit/old_minigame_imports.h"
 #undef AZ_FOREIGN_LOCAL_FUNC_802441A4
@@ -106,7 +107,6 @@ typedef struct S_func_8080F4A4_8 {
 void func_802441A4();                   /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 extern u32 scene_value_total[3];
 extern u32 D_80012BC8[4];
-extern u8 score_sprite_draw_callback_address[16];
 extern u8 D_80095AA0[16];
 extern u8 D_8012F130[0x14];
 extern u8 collection_round_work[0x20];

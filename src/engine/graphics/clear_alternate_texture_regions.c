@@ -4,7 +4,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 
-typedef struct { s16 x, y, w, h; } RECT;
+#include "sdk/libgpu_types.h"
 
 /* Real symbol is a RECT (8 bytes); padded here to force %hi/%lo (not $gp)
  * addressing, matching the target's lui/addiu address construction. */

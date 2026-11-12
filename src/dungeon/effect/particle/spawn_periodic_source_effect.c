@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/emission_data.h"
 #include "m2c_compat.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/effect/head_bank_imports.h"
@@ -55,7 +56,6 @@ typedef struct S_7FFEA1CC_4 {
 
 
 extern u8 emitter_height_offsets[0x100];
-extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010C460;
 extern M2C_UNK D_8010C984;
 

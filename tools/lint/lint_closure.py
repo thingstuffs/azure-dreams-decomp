@@ -27,6 +27,24 @@ Full mode runs the complete lint_build census on --root and compares it with a c
 BASE census directory (lint_findings.tsv + lint_summary.json from a previous run);
 --save-census copies this run's census for the next landing.
 
+Accepted sites (tools/lint/accepted_warning_sites.tsv): a change that adopts a stricter contract on purpose
+(the typed Psy-Q SDK prototypes in include/sdk) records the warning groups it raises, one row per (class, file,
+function) with the site count it accepts.  The file is a ratchet, not a mute:
+  * Against BASE's copy a change may only lower or drop rows.  A row it adds, or a count it raises, fails the
+    closure unless the file carries the stamp `--write-accepted` writes for this BASE (the sha256 of BASE's copy
+    of the file, `none` when BASE has none).  Adding rows therefore takes a deliberate --write-accepted run whose
+    diff a review sees; the stamp expires at the next landing, whose BASE copy is different.
+  * A stamped added or raised row honours only rising sites whose every HEAD message is `passing argument N of
+    'f' from incompatible pointer type` with f declared in include/sdk: the group is accepted only when its sites
+    of any other message (assignment, initialization, return, a non-SDK callee) do not outnumber BASE's, so the
+    honoured rise is at most its SDK sites.  Only the classes in ACCEPTABLE_CLASSES can be accepted.
+  * Rows BASE already has, or that a change lowers, are the record of an earlier landing and honour nothing;
+    later landings compare against a census that already has those sites.
+--write-accepted writes (with the stamp) the rising groups that meet the SDK rule, drops rows this change wrote
+earlier whose group no longer rises, and keeps BASE's rows.  Per-site messages come from lint_build's
+`site_messages` column; a BASE census written before that column bounds BASE's other-message sites by its site
+count less its SDK message kinds (a note says so).
+
 After the warning gate, decl_agreement checks every declaration of each function whose
 declaration or definition changed (block-scope externs and other headers included)
 against the HEAD definition and fails on a newly disagreeing one; GCC's census cannot
@@ -68,6 +86,14 @@ void volatile while __inline __inline__ __attribute__ __asm__ asm define include
 undef elif pragma defined NULL s8 u8 s16 u16 s32 u32 s64 u64 f32 f64 bool true false
 '''.split())
 DEFAULT_CAP = 300
+ACCEPTED = 'tools/lint/accepted_warning_sites.tsv'
+ACCEPTED_HEADER = 'warning\tfile\tfunction\tsites\tcallees'
+ACCEPTABLE_CLASSES = frozenset({'-Wincompatible-pointer-types'})
+CALLEE = re.compile(r"argument \d+ of .([A-Za-z_]\w*).")
+SDK_PASSING = re.compile(r"^passing argument \d+ of '([A-Za-z_]\w*)' from incompatible pointer type$")
+SDK_PROTOTYPE = re.compile(r'\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*;')
+STAMP = '# BASE copy sha256: '
+STAMP_LINE = re.compile(r'^# BASE copy sha256: ([0-9a-f]{64}|none)\b', re.M)
 
 
 # ---------------------------------------------------------------- text helpers
@@ -435,9 +461,13 @@ def increases(base_findings, head_findings, renames=None):
     for key, (sites, count, row) in sorted(head.items()):
         was_sites, was_count = base.get(key, (0, 0, None))[:2]
         if sites > was_sites:
+            base_row = base.get(key, (0, 0, None))[2]
             out.append(dict(file=key[0], function=key[1], warning=key[2], base_sites=was_sites,
                             head_sites=sites, base_count=was_count, head_count=count,
-                            sites=row['sites'], messages=row['messages']))
+                            sites=row['sites'], messages=row['messages'],
+                            site_messages=row.get('site_messages'),
+                            base_messages=base_row.get('messages') if base_row else None,
+                            base_site_messages=base_row.get('site_messages') if base_row else None))
     return out
 
 
@@ -486,6 +516,8 @@ def main(argv=None):
     parser.add_argument('--no-decl-check', action='store_true', help='skip the declaration agreement check')
     parser.add_argument('--fail-void', action='store_true',
                         help='fail on void_pointer_stale declarations (reported only by default)')
+    parser.add_argument('--write-accepted', action='store_true',
+                        help=f'record the rising groups of {sorted(ACCEPTABLE_CLASSES)} in {ACCEPTED} and accept them')
     parser.add_argument('--save-census', type=Path, help='with --full, copy this census here for the next landing')
     args = parser.parse_args(argv)
     if args.out is not None:
@@ -530,7 +562,12 @@ def run(args, parser):
         return 0
     if not plan['closure']:
         print('closure empty: nothing to lint')
-        return 0 if args.no_decl_check else decl_check(args, root, head_tree, plan['functions'], plan['renames'])
+        refused = accepted_rows(root, args.base)[1]
+        for line in refused:
+            print('ACCEPTED ROW REFUSED ' + line)
+        code = 1 if refused else 0
+        return code if args.no_decl_check else code | decl_check(args, root, head_tree, plan['functions'],
+                                                                   plan['renames'])
     base_tree = materialize(root, args.base, out / 'base_tree')
     head_tus = [tu for tu in plan['closure'] if (head_tree / tu).is_file()]
     base_tus = sorted({plan['renames'].get(tu, tu) for tu in plan['closure']})
@@ -546,7 +583,9 @@ def run(args, parser):
     write_json(out / 'closure_result.json', dict(plan=plan, base_findings=base_findings,
                head_findings=head_findings, base_failures=base_failures, head_failures=head_failures))
     code = report(base_findings, head_findings, base_failures, head_failures, plan['renames'], started,
-                  recorded_renames(root))
+                  recorded_renames(root), accepted=accepted_rows(root, args.base),
+                  write_root=root if args.write_accepted else None, base=args.base,
+                  sdk=sdk_functions(head_tree))
     if not args.no_decl_check:
         code |= decl_check(args, root, head_tree, plan['functions'], plan['renames'], base_tree)
     return code
@@ -647,8 +686,129 @@ def proven_rename(base_findings, row, old, names, line_map=None):
     return False
 
 
+def read_accepted(text):
+    """{(file, function, warning): accepted sites} from an accepted_warning_sites.tsv text (None: no file)."""
+    rows = {}
+    for line in (text or '').splitlines():
+        cols = line.split('\t')
+        if not line.strip() or line.startswith('#') or cols[0] == 'warning' or len(cols) < 4:
+            continue
+        rows[(cols[1], cols[2], cols[0])] = int(cols[3])
+    return rows
+
+
+def sdk_functions(tree):
+    """Names of the functions include/sdk/*.h declares in the given tree."""
+    names = set()
+    for header in sorted((Path(tree) / 'include/sdk').glob('*.h')):
+        text = '\n'.join(l for l in strip_comments(header.read_text(errors='replace')).splitlines()
+                         if not l.lstrip().startswith('#'))
+        names.update(m.group(1) for m in SDK_PROTOTYPE.finditer(text))
+    return names - STOP
+
+
+def is_sdk_message(message, sdk):
+    match = SDK_PASSING.match(message.strip())
+    return bool(match) and match.group(1) in sdk
+
+
+def other_sites(sites, messages, site_messages, sdk):
+    """(number of a group's sites with a message other than an SDK passing-argument one, exact).  Without
+    per-site messages (a census written before lint_build's site_messages column) the count is bounded by the
+    site count less the group's SDK message kinds: exact when every kind is SDK (0) or none is."""
+    if not sites:
+        return 0, True
+    if site_messages:
+        per_site = json.loads(site_messages)
+        return sum(1 for msgs in per_site.values() if not msgs or not all(is_sdk_message(m, sdk) for m in msgs)), True
+    kinds = [m for m in (messages or '').split(' | ') if m.strip()]
+    sdk_kinds = sum(1 for m in kinds if is_sdk_message(m, sdk))
+    if sdk_kinds == len(kinds):
+        return 0, True
+    return max(sites - sdk_kinds, 1), sdk_kinds == 0
+
+
+def stamp_of(text):
+    """sha256 of an accepted-file text (`none` for an absent file), the --write-accepted stamp value."""
+    return 'none' if text is None else hashlib.sha256(text.encode()).hexdigest()
+
+
+def accepted_rows(root, base):
+    """(honoured, refused) for the --root accepted file against BASE's copy.  Rows added or raised against BASE
+    are honoured only when the file carries the --write-accepted stamp of BASE's copy and their class is
+    acceptable; otherwise each is refused (the closure fails).  Lowered, dropped and unchanged rows honour
+    nothing."""
+    head_text = show(root, None, ACCEPTED)
+    base_text = show(root, base, ACCEPTED)
+    head, before = read_accepted(head_text), read_accepted(base_text)
+    grown = {k: v for k, v in head.items() if before.get(k) is None or v > before[k]}
+    stamp = STAMP_LINE.search(head_text or '')
+    stamped = bool(stamp) and stamp.group(1) == stamp_of(base_text)
+    honoured, refused = {}, []
+    for key, limit in sorted(grown.items()):
+        was = before.get(key)
+        what = f"{key[2]} {key[0]} {key[1]}: {'added' if was is None else f'raised {was} ->'} {limit}"
+        if key[2] not in ACCEPTABLE_CLASSES:
+            refused.append(what + ' (class cannot be accepted)')
+        elif not stamped:
+            refused.append(what + ' (no --write-accepted stamp for this BASE: a change may only lower or drop rows)')
+        else:
+            honoured[key] = limit
+    return honoured, refused
+
+
+def honour_sdk_only(row, sdk):
+    """None when a rising group's growth is SDK passing-argument sites only, else the reason it is not."""
+    head_other, _ = other_sites(row['head_sites'], row.get('messages'), row.get('site_messages'), sdk)
+    base_other, exact = other_sites(row['base_sites'], row.get('base_messages'), row.get('base_site_messages'), sdk)
+    if head_other > base_other:
+        return (f"{head_other} site(s) with assignment/initialization/return or non-SDK callee messages "
+                f"(BASE {base_other}{'' if exact else ', bounded'})")
+    return None
+
+
+def write_accepted(root, rising, base=None, sdk=frozenset()):
+    """Record the rising groups of acceptable classes whose growth is SDK passing-argument sites only in the
+    --root accepted file, stamped for BASE's copy; rows this change wrote earlier whose group no longer rises are
+    dropped and BASE's rows are kept.  Returns the recorded groups (honoured in this run)."""
+    path = Path(root) / ACCEPTED
+    base_text = show(root, base, ACCEPTED) if base else None
+    before = read_accepted(base_text)
+    current = read_accepted(path.read_text() if path.is_file() else None)
+    rows, added = {}, {}
+    for key, sites in current.items():
+        if key in before:
+            rows[key] = sites
+    for row in rising:
+        key = (row['file'], row['function'], row['warning'])
+        if row['warning'] not in ACCEPTABLE_CLASSES or honour_sdk_only(row, sdk):
+            continue
+        callees = ','.join(sorted(set(CALLEE.findall(row.get('messages') or ''))))
+        rows[key] = (row['head_sites'], callees)
+        added[key] = row['head_sites']
+    callee_cols = {}
+    for line in (path.read_text().splitlines() if path.is_file() else []):
+        cols = line.split('\t')
+        if len(cols) >= 4 and not line.startswith('#') and cols[0] != 'warning':
+            callee_cols[(cols[1], cols[2], cols[0])] = cols[4] if len(cols) > 4 else ''
+    body = []
+    for key, value in rows.items():
+        sites, callees = value if isinstance(value, tuple) else (value, callee_cols.get(key, ''))
+        body.append('\t'.join([key[2], key[0], key[1], str(sites), callees]))
+    header = ['# Warning groups accepted once by the landing that wrote them (tools/lint/lint_closure.py).',
+              STAMP + stamp_of(base_text) + ' (written by --write-accepted; rows added or raised against any other '
+              'BASE fail the closure)',
+              ACCEPTED_HEADER]
+    path.write_text('\n'.join(header + sorted(body, key=lambda l: l.split('\t')[1:3] + [l.split('\t')[0]])) + '\n')
+    print(f'wrote {len(added)} accepted group(s) to {ACCEPTED}')
+    return added
+
+
 def report(base_findings, head_findings, base_failures, head_failures, renames, started, names=None,
-           line_map=None):
+           line_map=None, accepted=None, write_root=None, base=None, sdk=frozenset()):
+    """Print the gate and return its exit code.  `accepted` is accepted_rows()'s (honoured, refused) pair (a
+    bare dict is taken as honoured rows); refused rows fail."""
+    honoured, refused = accepted if isinstance(accepted, tuple) else (accepted or {}, [])
     rising = increases(base_findings, head_findings, renames)
     hints = rename_hints(base_findings, head_findings, rising, renames)
     kept = []
@@ -660,6 +820,27 @@ def report(base_findings, head_findings, base_failures, head_failures, renames, 
         else:
             kept.append(row)
     rising = kept
+    if any(r.get('base_sites') and not r.get('base_site_messages') for r in rising):
+        print('note: the BASE census has no per-site messages; BASE sites of other messages are bounded by the '
+              'site count less the SDK message kinds')
+    if write_root is not None:
+        honoured, refused = write_accepted(write_root, rising, base, sdk), []
+    for line in refused:
+        print('ACCEPTED ROW REFUSED ' + line)
+    if honoured:
+        kept = []
+        for row in rising:
+            limit = honoured.get((row['file'], row['function'], row['warning']))
+            why = honour_sdk_only(row, sdk) if limit is not None else None
+            if limit is not None and row['head_sites'] <= limit and why is None:
+                print(f"accepted {row['warning']} {row['file']} {row['function']}: sites {row['base_sites']} -> "
+                      f"{row['head_sites']} (recorded in {ACCEPTED} by this change)")
+            else:
+                if why:
+                    print(f"not accepted {row['warning']} {row['file']} {row['function']}: {why}")
+                kept.append(row)
+        print(f'accepted groups: {len(rising) - len(kept)} of {len(rising)} rising')
+        rising = kept
     back = {old: new for new, old in (renames or {}).items()}
     base_failed = {(back.get(f['tu'], f['tu']), f['mode'], f['phase']) for f in base_failures}
     new_failures = [f for f in head_failures if (f['tu'], f['mode'], f['phase']) not in base_failed]
@@ -672,9 +853,10 @@ def report(base_findings, head_findings, base_failures, head_failures, renames, 
         print(f"NEW COMPILE FAILURE {failure['tu']} -{failure['mode']} {failure['phase']}: {failure['first_error']}")
     by_class = collections.Counter(r['warning'] for r in rising)
     summary = ', '.join(f'{w} +{n}' for w, n in sorted(by_class.items())) or 'none'
-    status = 'FAIL' if rising or new_failures else 'PASS'
+    status = 'FAIL' if rising or new_failures or refused else 'PASS'
     print(f'lint closure {status}: {len(rising)} groups with new sites ({summary}), '
-          f'{len(new_failures)} new compile failures; {time.time() - started:.1f}s total')
+          f'{len(new_failures)} new compile failures, {len(refused)} refused accepted rows; '
+          f'{time.time() - started:.1f}s total')
     return 1 if status == 'FAIL' else 0
 
 
@@ -699,7 +881,9 @@ def run_full(args, root, out, started):
     head_failures = list(csv.DictReader((census / 'lint_compile_failures.tsv').open(), delimiter='\t'))
     renames = {new: old for status, old, new in changes(root, args.base, None) if status == 'R'}
     result = report(read_census(base_dir), read_census(census), base_failures, head_failures,
-                    renames, started, recorded_renames(root), diff_line_map(root, args.base))
+                    renames, started, recorded_renames(root), diff_line_map(root, args.base),
+                    accepted=accepted_rows(root, args.base), write_root=root if args.write_accepted else None,
+                    base=args.base, sdk=sdk_functions(root))
     if not args.no_decl_check:
         import decl_agreement
         names = decl_agreement.changed_function_names(root, args.base, None)

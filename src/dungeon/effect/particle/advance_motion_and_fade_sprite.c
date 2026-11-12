@@ -679,7 +679,7 @@ s32 project_linked_shape_quads(void *shape_data)
             s32 point_depth;
             s32 biased_depth_sum;
 
-            point_depth = RotTransPers((u8 *)shape + 4 + point_index * 8, points[point_index],
+            point_depth = RotTransPers((u8 *)shape + 4 + point_index * 8, (s32 *)points[point_index],
                                    &half_width, &half_width);
             biased_depth_sum = depth_or_tag_mask - 8;
             depth_or_tag_mask = biased_depth_sum + point_depth;

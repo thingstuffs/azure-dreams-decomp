@@ -4,11 +4,7 @@
 #include "frontend/card/service.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
-
-typedef struct S_8001EFC4_0_pre {
-    void * unk_00;
-    u8 pad_04[0xC];
-} S_8001EFC4_0_pre;   /* the 0x10 bytes before root in card_dev_update_menu_input, addressed as root[-1] */
+#include "shared/object_node.h"
 
 typedef struct S_8001EFC4_0 {
     u8 pad_00[0x20];
@@ -45,7 +41,7 @@ void card_dev_update_menu_input(u8 *root)
         flags20 = boot_pressed_buttons;
         if (flags20 & 0x40) {
             func_80063FF8(0x515);
-            ((S_8001EFC4_0_pre *)root)[-1].unk_00 = D_80405AB4;
+            NODE_HEADER(root)->update_callback = D_80405AB4;
         }
         flags10 = boot_pressed_buttons;
         if (flags10 & 0x20) {
@@ -64,7 +60,8 @@ void card_dev_update_menu_input(u8 *root)
                         action = 1;
                     }
                 } else {
-                    value = ((S_8001EFC4_0 *)root)->unk_30;
+                    S_8001EFC4_0 *body = (S_8001EFC4_0 *)root;
+                    value = body->unk_30;
                     if (value >= 13) {
                         side = value - 2;
                         (*(s32 *)(root + 0x30)) = side;
@@ -76,16 +73,17 @@ void card_dev_update_menu_input(u8 *root)
                         }
                     } else {
                         side = value + 1;
-                        ((S_8001EFC4_0 *)root)->unk_30 = side;
+                        body->unk_30 = side;
                     }
                 }
             }
         }
 
         if (action != 0) {
+            S_8001EFC4_0 *body = (S_8001EFC4_0 *)root;
             func_80063FF8(0x502);
-            value = func_80058FF0(((S_8001EFC4_0 *)root)->unk_28, action, 5);
-            ((S_8001EFC4_0 *)root)->unk_28 = value;
+            value = func_80058FF0(body->unk_28, action, 5);
+            body->unk_28 = value;
             card_devkit_refresh_save_slot_pair_highlights(root);
         }
     }
@@ -98,7 +96,7 @@ void card_dev_update_menu_input(u8 *root)
     if (result == 1) {
         return;
     }
-    propagate_object_high_bit_flags(root - 0x20);
+    propagate_object_high_bit_flags(NODE_HEADER(root));
     allocate_or_reuse_effect_and_install_callback(((S_8001EFC4_0 *)root)->unk_20, 0);
 
     return;

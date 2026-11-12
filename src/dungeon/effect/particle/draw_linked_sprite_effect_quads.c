@@ -1,6 +1,7 @@
 #include "engine/scene.h"
 #include "slus.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
 #include "shared/object_node_flags.h"
 /* Linked sprite quad rendering, nearby target effects, and fading radial grids. */
 #include "dungeon/effect/particle/draw_linked_sprite_effect_quads.h"
@@ -97,7 +98,7 @@ void (*const dungeon_19d2800_entry)(S_func_819B2800_0 *, S_func_819B2800_1 *) = 
 
 /* Advances a timed effect, spawns its visuals, and applies it to nearby targets. */
 void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
-    GteShortVector offset;
+    SVECTOR offset;
     u16 next_phase;
     u16 timer;
     s32 effect_code;
@@ -300,7 +301,7 @@ typedef struct SpriteQuad {
 /* Retail 819B2C40 (draw_linked_sprite_effect_quads): projects each linked sprite effect and queues a textured quad centred on
  * its screen position into the ordering table.  The chain runs through the previous header's unk_18 link. */
 s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
-    u16 world_pos[4];
+    SVECTOR world_pos;
     ScreenPoints screen_points;
     s32 projection_scratch;
     SpriteEffect *node = first_item;
@@ -316,19 +317,19 @@ s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
         s32 half_width;
         u16 center_z;
 
-        world_pos[0] = item->x;
-        world_pos[1] = item->y;
+        world_pos.vx = item->x;
+        world_pos.vy = item->y;
         center_z = item->z;
-        world_pos[2] = center_z;
-        world_pos[2] = center_z - ((s32)(item->size << 16) >> 17);
+        world_pos.vz = center_z;
+        world_pos.vz = center_z - ((s32)(item->size << 16) >> 17);
 
         point_index = 0;
         screen_point = screen_base;
         do {
-            depth_index = RotTransPers(world_pos, screen_point, &projection_scratch, &projection_scratch) - 8;
+            depth_index = RotTransPers(&world_pos, screen_point, &projection_scratch, &projection_scratch) - 8;
             screen_point = (u8 *)screen_point + 4;
             point_index++;
-            world_pos[2] += item->size;
+            world_pos.vz += item->size;
         } while (point_index < 2);
 
         half_width = (screen_points.y0 - screen_points.y1) >> 1;
@@ -457,7 +458,7 @@ extern u8 secondary_sprite[];
 void update_animated_target_effect(void *effect_arg)
 {
     S_8002466C_0 *effect = effect_arg;
-    GteShortVector target_pos;
+    SVECTOR target_pos;
     s16 state;
     s32 last_particle;
     s32 particle_index;

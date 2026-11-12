@@ -9,6 +9,7 @@
 #include "shared/dungeon_effect_views.h"
 #include "shared/object_index_slots.h"
 #include "shared/object_flags.h"
+#include "sdk/libgte.h"
 
 /* extern */
 struct IntVector3;
@@ -39,8 +40,6 @@ typedef struct {
 
 /* extern */
 extern void unlink_node_if_registered(void *);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 
 /* Functions defined in this translation unit. */
 void present_flower_set(s32 initial_value);

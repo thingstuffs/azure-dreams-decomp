@@ -1,17 +1,8 @@
 #include "common.h"
 #include "engine/audio.h"
 #include "engine/audio/slots.h"
+#include "engine/audio/staging_destinations_data.h"
 #include "slus/data.h"
-
-
-
-typedef struct {
-    void *f0;
-    void *f1;
-    void *f2;
-    void *f3;
-} S_80084538;
-extern S_80084538 audio_staging_destinations;
 
 
 
@@ -28,10 +19,10 @@ void init_audio_staging_buffers(void) {
     s32 first_size = 0x3A980, second_offset = 0x3B990, second_size = 0x1BD50;
     s32 third_offset = 0x576E0, third_size = 0x11940, fourth_offset = 0x69020;
 
-    audio_staging_destinations.f0 = audio_staging_storage;
-    audio_staging_destinations.f1 = audio_staging_storage + 0x3000;
-    audio_staging_destinations.f2 = audio_staging_storage + 0x4020;
-    audio_staging_destinations.f3 = audio_staging_storage + 0x4E40;
+    audio_staging_destinations[0] = audio_staging_storage;
+    audio_staging_destinations[1] = audio_staging_storage + 0x3000;
+    audio_staging_destinations[2] = audio_staging_storage + 0x4020;
+    audio_staging_destinations[3] = audio_staging_storage + 0x4E40;
 
     audio_staging_spu_offsets[0] = 0x1010;
     audio_staging_spu_offsets[1] = second_offset;

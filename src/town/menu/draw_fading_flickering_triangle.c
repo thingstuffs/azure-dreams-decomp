@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_effect_views.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 #include "sdk/libgte.h"
 #include "town/menu.h"
 #include "town/menu/fading_triangle_effect.h"
@@ -37,7 +38,7 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
     State *params;
     GpuContext *render_state;
     FlickeringTrianglePacket *triangle;
-    u8 *draw_packet;
+    DR_MODE *draw_packet;
 
     params = effect->parameters;
     angle = (u16)params->field_2;
@@ -103,7 +104,7 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
 
         render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
         draw_packet = render_state->packetCursor;
-        render_state->packetCursor = draw_packet + 0xC;
+        render_state->packetCursor = draw_packet + 1;
         draw_page = GetTPage(0, 0, 0x140, 0);
         SetDrawMode(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
         AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
@@ -112,7 +113,7 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
 
         render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
         draw_packet = render_state->packetCursor;
-        render_state->packetCursor = draw_packet + 0xC;
+        render_state->packetCursor = draw_packet + 1;
         draw_page = GetTPage(0, 1, 0x140, 0);
         SetDrawMode(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
         AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);

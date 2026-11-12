@@ -21,7 +21,7 @@ extern u8 D_80163258[];
 extern u8 D_80163298[];
 
 typedef void (*Callback)(void);
-typedef struct { s16 x, y, w, h; } Rect;
+#include "sdk/libgpu_types.h"
 
 
 typedef struct S_80FB1000_2 {
@@ -37,12 +37,12 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
     s8 saved_tile_y;
     s16 saved_height;
     ObjectNodeHeader *created;
-    u8 *work = 0;
+    ActorRecord *work = 0;
     ObjectPosition *position;
     SpriteFrameState *monster;
     u8 *actor;
     s32 kind;
-    Rect rect;
+    RECT rect;
 
     saved_tile_x = kind_id;
     saved_height = spawn_height;
@@ -61,34 +61,34 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
 
         work = NODE_BODY(created);
         (created ->update_callback) = D_8015EB40;
-        ((ActorRecord *)work)->species = MONSTER_MANDARA;
+        work->species = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
         position = created ->position;
         position->z.w.i = saved_height;
         monster = created ->sprite;
         monster->tile_y = saved_tile_y;
-        actor = work;
+        actor = (u8 *)work;
         monster->frameTable = D_80163258;
         monster->tile_x = saved_tile_x;
 
         kind = (s32)flags & 3;
         if (kind == 1) {
-            flags0 = ((ActorRecord *)work)->flags14 | 0x6000;
-            flags1 = ((ActorRecord *)work)->flags1C | 0x6000;
-            ((ActorRecord *)work)->flags14 = flags0;
-            ((ActorRecord *)work)->flags1C = flags1;
+            flags0 = work->flags14 | 0x6000;
+            flags1 = work->flags1C | 0x6000;
+            work->flags14 = flags0;
+            work->flags1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((ActorRecord *)work)->flags14 | 0x2000;
-            flags1 = ((ActorRecord *)work)->flags1C | 0x2000;
-            ((ActorRecord *)work)->flags14 = flags0;
-            ((ActorRecord *)work)->flags1C = flags1;
+            flags0 = work->flags14 | 0x2000;
+            flags1 = work->flags1C | 0x2000;
+            work->flags14 = flags0;
+            work->flags1C = flags1;
         } else {
             if ((s16)((s32)flags & -4) == 0 &&
-                !(((ActorRecord *)work)->flags14 & 0x200)) {
+                !(work->flags14 & 0x200)) {
                 value = generate_random_value();
                 if (value & 1) {
-                    ((ActorRecord *)work)->flags1C |= 0x200;
+                    work->flags1C |= 0x200;
                     value = generate_random_value();
                     set_or_clear_actor_status_slot(work, 1, (value & 0x3F) | 0x20);
                     monster->frameTable = D_80163298;

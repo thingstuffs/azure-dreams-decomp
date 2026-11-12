@@ -60,7 +60,7 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     output = town->packetCursor;
     scratch->unk_20.p = (u8 *)town + 0x8B0;
     origin_y = D_80100D88;
-    origin_x = town_display_offset;
+    origin_x = (u16)town_display_offset;
     context_view = context;
     context_data = context_view->unk_08;
     scratch->unk_118.p = context_data;

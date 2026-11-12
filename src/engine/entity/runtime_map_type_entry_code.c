@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/entity_spawn_variant_data.h"
 
 typedef struct {
     u8 pad_0x00[0x48];
@@ -13,7 +14,6 @@ typedef struct {
 } S_80043914_Arg;
 
 extern S_800E3E48 familiar_record_storage[];
-extern u8 entity_spawn_variant_code;
 
 /* Maps the selected entry's code from 0xD/0xF to 0xF/0xA for type 0x16. */
 void runtime_map_type_16_entry_code(S_80043914_Arg *input)

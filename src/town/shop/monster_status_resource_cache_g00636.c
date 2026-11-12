@@ -1,5 +1,6 @@
 /* Initialize and refresh monster status resource cache. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B956C, CL:town/func_800B958C, CL:town/func_800B95F4, CL:town/func_800B9634, CL:town/func_800B97F4. */
+#include "sdk/libgpu_types.h"
 #include "town/shop/monster_status_resource_cache_g00636.h"
 #include "town/shop.h"
 #include "town/shop/state.h"
@@ -41,21 +42,21 @@ void initialize_coordinate_entry(void *object) {
 
 /* Clear the texture's rectangle with zeroed image data. */
 void clear_monster_status_texture(void *texture) {
-    s16 rect[4];
+    RECT rect;
     void *clear_data;
 
     clear_data = alloc_gpu_scratch_ring(0x200);
     bzero(clear_data, 0x200);
     DrawSync(0);
 
-    rect[0] = (*((u8 *)texture + 8) >> 2)
+    rect.x = (*((u8 *)texture + 8) >> 2)
     + ((*(u16 *)((u8 *)texture + 4) << 6) & 0x3C0);
-    rect[1] = ((*(u16 *)((u8 *)texture + 4) << 4) & 0x100)
+    rect.y = ((*(u16 *)((u8 *)texture + 4) << 4) & 0x100)
     + *((u8 *)texture + 9);
-    rect[2] = *((u8 *)texture + 10) >> 2;
-    rect[3] = *((u8 *)texture + 11);
+    rect.w = *((u8 *)texture + 10) >> 2;
+    rect.h = *((u8 *)texture + 11);
 
-    LoadImage(rect, clear_data);
+    LoadImage(&rect, clear_data);
     DrawSync(0);
 }
 

@@ -6,6 +6,7 @@
 #include "sdk/libc.h"
 #include "town/scene/animation.h"
 #include "town/data.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 struct SpawnSeed;
 
@@ -66,7 +67,6 @@ typedef struct S_8052F2C8_9 {
 
 
 extern void create_object_position_configures_color(s32 color, s32 x, s32 y, s32 z);
-extern u8 score_sprite_draw_callback_address[12];
 extern s32 D_80095AAC;
 extern s32 collection_target_y;
 extern u8 D_8028E17C[];

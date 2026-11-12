@@ -145,6 +145,141 @@ class GateTests(unittest.TestCase):
         self.assertIn('NEW COMPILE FAILURE', out.getvalue())
 
 
+class AcceptedSitesTests(unittest.TestCase):
+    """tools/lint/accepted_warning_sites.tsv: groups a change records are accepted once, by that change."""
+
+    def repo(self, base_text=None):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        (root / 'tools/lint').mkdir(parents=True)
+        git(root, 'init', '-q')
+        (root / 'f').write_text('x\n')
+        if base_text is not None:
+            (root / C.ACCEPTED).write_text(base_text)
+        git(root, 'add', '-A')
+        git(root, 'commit', '-qm', 'base')
+        return root
+
+    SDK = frozenset({'RotTransPers', 'SetRotMatrix'})
+    PTR = '-Wincompatible-pointer-types'
+
+    @staticmethod
+    def sdk_finding(file, function, per_site):
+        """A finding with per-site messages {site: [message]} (lint_build's site_messages column)."""
+        row = finding(file, function, AcceptedSitesTests.PTR, sorted(per_site))
+        row['messages'] = ' | '.join(sorted({m for ms in per_site.values() for m in ms}))
+        row['site_messages'] = json.dumps({k: sorted(v) for k, v in sorted(per_site.items())})
+        return row
+
+    @staticmethod
+    def arg(n, f):
+        return f"passing argument {n} of '{f}' from incompatible pointer type"
+
+    def stamped(self, root, rows, base_text=None):
+        (root / C.ACCEPTED).write_text('# header\n' + C.STAMP + C.stamp_of(base_text) + '\n' + C.ACCEPTED_HEADER
+                                       + '\n' + ''.join(r + '\n' for r in rows))
+
+    def gate(self, base, head, root):
+        with redirect_stdout(io.StringIO()) as out:
+            code = C.report(base, head, [], [], {}, 0, accepted=C.accepted_rows(root, 'HEAD'), sdk=self.SDK)
+        return code, out.getvalue()
+
+    def test_added_row_without_stamp_fails(self):
+        # The old code honoured any row absent from BASE's copy (a mute): this must now fail the closure.
+        root = self.repo()
+        (root / C.ACCEPTED).write_text(C.ACCEPTED_HEADER + '\n' + self.PTR + '\tsrc/a.c\ta\t2\tSetRotMatrix\n')
+        head = [self.sdk_finding('src/a.c', 'a', {'src/a.c:1:1': [self.arg(1, 'SetRotMatrix')],
+                                                  'src/a.c:2:1': [self.arg(1, 'SetRotMatrix')]})]
+        code, out = self.gate([], head, root)
+        self.assertEqual(code, 1, out)
+        self.assertIn('ACCEPTED ROW REFUSED', out)
+        self.assertEqual(self.gate([], [], root)[0], 1)          # growth fails even when nothing rises
+
+    def test_raised_row_without_stamp_fails_and_lowered_row_is_inert(self):
+        text = '# old\n' + C.ACCEPTED_HEADER + '\n' + self.PTR + '\tsrc/a.c\ta\t2\t\n'
+        root = self.repo(text)
+        (root / C.ACCEPTED).write_text(text.replace('\t2\t', '\t3\t'))
+        self.assertEqual(C.accepted_rows(root, 'HEAD')[0], {})
+        self.assertEqual(len(C.accepted_rows(root, 'HEAD')[1]), 1)
+        (root / C.ACCEPTED).write_text(text.replace('\t2\t', '\t1\t'))     # lowering is allowed
+        self.assertEqual(C.accepted_rows(root, 'HEAD'), ({}, []))
+        rising = [self.sdk_finding('src/a.c', 'a', {'src/a.c:1:1': [self.arg(1, 'RotTransPers')]})]
+        self.assertEqual(self.gate([], rising, root)[0], 1)       # a BASE row honours nothing
+
+    def test_stamped_row_honours_sdk_passing_argument_sites_up_to_its_count(self):
+        root = self.repo()
+        self.stamped(root, [self.PTR + '\tsrc/a.c\ta\t2\tRotTransPers', '-Wint-conversion\tsrc/a.c\ta\t5\t'])
+        honoured, refused = C.accepted_rows(root, 'HEAD')
+        self.assertEqual(honoured, {('src/a.c', 'a', self.PTR): 2})
+        self.assertEqual(len(refused), 1)                         # class cannot be accepted
+        self.stamped(root, [self.PTR + '\tsrc/a.c\ta\t2\tRotTransPers'])
+        sdk2 = {'src/a.c:1:1': [self.arg(1, 'RotTransPers')], 'src/a.c:2:1': [self.arg(2, 'RotTransPers')]}
+        code, out = self.gate([], [self.sdk_finding('src/a.c', 'a', sdk2)], root)
+        self.assertEqual(code, 0, out)
+        self.assertIn(f'accepted {self.PTR} src/a.c a: sites 0 -> 2', out)
+        three = dict(sdk2, **{'src/a.c:3:1': [self.arg(1, 'RotTransPers')]})
+        self.assertEqual(self.gate([], [self.sdk_finding('src/a.c', 'a', three)], root)[0], 1)
+
+    def test_stamp_for_another_base_is_refused(self):
+        root = self.repo()
+        self.stamped(root, [self.PTR + '\tsrc/a.c\ta\t1\t'], base_text='an older copy\n')
+        honoured, refused = C.accepted_rows(root, 'HEAD')
+        self.assertEqual(honoured, {})
+        self.assertIn('no --write-accepted stamp', refused[0])
+
+    def test_assignment_initialization_and_return_sites_are_never_honoured(self):
+        root = self.repo()
+        self.stamped(root, [self.PTR + '\tsrc/a.c\ta\t2\t'])
+        for message in ("assignment to 'ActorRecord *' from incompatible pointer type 'u8 *'",
+                        "initialization of 'S *' from incompatible pointer type 'u8 *'",
+                        "returning 'u8 *' from a function with incompatible return type 'S *'"):
+            head = [self.sdk_finding('src/a.c', 'a', {'src/a.c:1:1': [self.arg(1, 'RotTransPers')],
+                                                      'src/a.c:2:1': [message]})]
+            code, out = self.gate([], head, root)
+            self.assertEqual(code, 1, out)
+            self.assertIn('not accepted', out)
+
+    def test_non_sdk_callee_is_never_honoured(self):
+        root = self.repo()
+        self.stamped(root, [self.PTR + '\tsrc/a.c\ta\t1\t'])
+        head = [self.sdk_finding('src/a.c', 'a', {'src/a.c:1:1': [self.arg(1, 'update_object_animation')]})]
+        self.assertEqual(self.gate([], head, root)[0], 1)
+
+    def test_pre_existing_other_sites_do_not_block_an_sdk_rise(self):
+        root = self.repo()
+        self.stamped(root, [self.PTR + '\tsrc/a.c\ta\t2\t'])
+        assign = "assignment to 'S *' from incompatible pointer type 'u8 *'"
+        base = [self.sdk_finding('src/a.c', 'a', {'src/a.c:5:1': [assign]})]
+        head = [self.sdk_finding('src/a.c', 'a', {'src/a.c:6:1': [assign],              # shifted by an edit
+                                                  'src/a.c:1:1': [self.arg(1, 'RotTransPers')]})]
+        self.assertEqual(self.gate(base, head, root)[0], 0)
+        old = dict(base[0]); old.pop('site_messages')                                   # a census without the column
+        self.assertEqual(self.gate([old], head, root)[0], 0)
+
+    def test_write_accepted_stamps_sdk_groups_and_drops_stale_rows(self):
+        root = self.repo()
+        (root / C.ACCEPTED).write_text(C.ACCEPTED_HEADER + '\n' + self.PTR + '\tsrc/z.c\tz\t4\t\n')  # no longer rises
+        head = [self.sdk_finding('src/b.c', 'b', {'src/b.c:1:1': [self.arg(1, 'SetRotMatrix')]}),
+                self.sdk_finding('src/c.c', 'c', {'src/c.c:1:1': ["assignment to 'S *' from incompatible pointer type 'u8 *'"]}),
+                finding('src/b.c', 'b', '-Wshadow', ['src/b.c:2:1'])]
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(C.report([], head, [], [], {}, 0, write_root=root, base='HEAD', sdk=self.SDK), 1)
+        rows = (root / C.ACCEPTED).read_text().splitlines()
+        self.assertIn(self.PTR + '\tsrc/b.c\tb\t1\tSetRotMatrix', rows)
+        self.assertFalse(any('src/c.c' in r or 'src/z.c' in r for r in rows), rows)
+        self.assertEqual(C.accepted_rows(root, 'HEAD'), ({('src/b.c', 'b', self.PTR): 1}, []))
+        self.assertEqual(self.gate([], head[:1], root)[0], 0)
+
+    def test_sdk_functions_reads_include_sdk(self):
+        root = self.repo()
+        (root / 'include/sdk').mkdir(parents=True)
+        (root / 'include/sdk/libgte.h').write_text('/* RotX(void); */\n#define setXY(p) ((p)->x = 0)\n'
+                                                   'struct MATRIX * RotMatrix(struct SVECTOR *, struct MATRIX *);\n'
+                                                   'typedef void (*Callback)(void);\n')
+        self.assertEqual(C.sdk_functions(root), {'RotMatrix'})
+
+
 class RenameAndFullTests(unittest.TestCase):
     def test_rename_hint(self):
         base = [finding('src/a.c', 'old_name', '-Wshadow', ['src/a.c:4:1'])]

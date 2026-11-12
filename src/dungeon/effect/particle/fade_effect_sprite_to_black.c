@@ -39,7 +39,7 @@ typedef struct EffectFrame {
         struct { s16 pad28; s16 z; } half;
     } target_z;         /* 0x28 */
     u8 pad2C[12];
-    GteShortVector launch; /* 0x38 */
+    SVECTOR launch; /* 0x38 */
     ParticleSpec spec;  /* 0x40 */
     u8 pad5C[4];
     s16 vel_x;          /* 0x60 */

@@ -13,6 +13,7 @@
 #include "shared/slus_callbacks.h"
 #include "dungeon/actor.h"
 #include "dungeon/item/actor_target.h"
+#include "sdk/rand.h"
 
 typedef struct S_8182C800_1 {
     u8 pad_00[0x2A];
@@ -188,11 +189,9 @@ typedef struct {
 extern u8 directional_effect_entries[];
 extern u8 directional_sprite_entries[];
 extern s32 D_800DEB70;
-s32 rand(void);
 void apply_attack_power_and_element_effects();
 s32 get_definition_entry_byte_13();
 extern u8 D_800DEBD8;
-extern s32 rand(void);
 void update_directional_actor_effect(void *effect, void *motion, void *sprite);
 void move_the_effect_count_down_timer_fade_sprite_black(SpriteFadeCountdownBody *effect, S_8182D544_2 *motion, SpriteFrameState *sprite);
 void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, SpriteFrameState *effect);

@@ -33,6 +33,8 @@ const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{
 
 
 #include "dungeon/effect/screen.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
 
 extern s32 D_800E1C64;
@@ -40,15 +42,10 @@ extern s32 D_800E1C64;
 
 
 /* Applies effect 0x12 to an eligible entity and handles messages for flagged entities. */
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s16 D_80025308;
 extern s32 begin_view_parameter_transition(PointRecord *, ObjectPosition *);
 extern void create_randomized_transform_effect();
 extern s16 D_80025308;
-s32 rsin(s16);                          /* extern */
-s32 rcos(s16);                          /* extern */
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector();
 extern const s16 D_80024038[8][2];
 extern u8 D_800252FC[12];

@@ -59,11 +59,7 @@ void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameS
 #include "modules/dungeon_ovl_189a800.h"
 #include "shared/game_work.h"
 
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MATRIX;
+#include "sdk/libgte_matrix.h"
 
 typedef struct {} EmptyArg;
 
@@ -654,6 +650,11 @@ void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, Obje
     }
 }
 
+#include "shared/gpu_packets.h"
+#include "sdk/libgpu_types.h"
+#include "sdk/libgpu_packets.h"
+#include "dungeon/effect/colored_point_scratch.h"
+
 #define FIELD_U8(base, off)  (*(u8 *)((u8 *)(base) + (off)))
 #define FIELD_S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
 #define FIELD_U16(base, off) (*(u16 *)((u8 *)(base) + (off)))
@@ -666,11 +667,11 @@ extern u32 RotTransPers();
 /* Projects a colored point and links its drawing packets into the ordering table. */
 s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *render_data, u8 *source_vertex)
 {
-    u8 **context_slot;
-    u8 *scratch;
-    u8 *context;
-    u8 *point_packet;
-    u8 *mode_packet;
+    GpuContext **context_slot;
+    ColoredPointScratch *scratch;
+    GpuContext *context;
+    TILE_1 *point_packet;
+    DR_MODE *mode_packet;
     u8 *next_node;
     u8 *vertex = source_vertex;
     u16 vertex_x;
@@ -680,54 +681,55 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
     u32 address_mask;
     u32 *mode_ot_entry;
 
-    context = FIELD_PTR(resident_globals_page, 0x3160);
-    context_slot = (u8 **)(resident_globals_page + 0x3160);
+    context_slot = (GpuContext **)(resident_globals_page + 0x3160);
+    context = *context_slot;
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
-    scratch = (u8 *)0x1F800000;
-    FIELD_PTR(scratch, 0x18) = FIELD_PTR(context, 0x8D0);
-    FIELD_PTR(scratch, 0x20) = context + 0xB0;
+    scratch = (ColoredPointScratch *)0x1F800000;
+    scratch->packet_cursor = context->packetCursor;
+    scratch->ordering_table = (u32 *)&context->orderTag;
     do {
-        point_packet = FIELD_PTR(scratch, 0x18);
+        point_packet = scratch->packet_cursor;
         vertex_x = FIELD_U16(vertex, 2);
-        FIELD_U16(scratch, 0) = vertex_x;
-        FIELD_U16(scratch, 2) = FIELD_U16(vertex, 6);
-        FIELD_U16(scratch, 4) = FIELD_U16(vertex, 0xA);
-        FIELD_PTR(scratch, 0x18) = point_packet + 0xC;
+        scratch->position.vx = vertex_x;
+        scratch->position.vy = FIELD_U16(vertex, 6);
+        scratch->position.vz = FIELD_U16(vertex, 0xA);
+        scratch->packet_cursor = point_packet + 1;
 
-        depth_index = RotTransPers(scratch, point_packet + 8, scratch + 0x90, scratch + 0x94);
-        FIELD_U32(scratch, 0xC0) = depth_index;
+        depth_index = RotTransPers(&scratch->position, (s32 *)&point_packet->x0, &scratch->depth_cue,
+                                   &scratch->gte_flag);
+        scratch->ot_index = depth_index;
         if (depth_index < 0x1E0U) {
-            FIELD_U32(point_packet, 4) = render_data->color;
-            FIELD_U8(point_packet, 4) = (u8)((FIELD_U8(point_packet, 4) * render_data->intensity) /
+            /* BYTES: retail stores the tile colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+            *(u32 *)&point_packet->r0 = render_data->color;
+            point_packet->r0 = (u8)((point_packet->r0 * render_data->intensity) /
                                       render_data->divisor);
-            FIELD_U8(point_packet, 5) = (u8)((FIELD_U8(point_packet, 5) * render_data->intensity) /
+            point_packet->g0 = (u8)((point_packet->g0 * render_data->intensity) /
                                       render_data->divisor);
-            blue = (u8)((FIELD_U8(point_packet, 6) * render_data->intensity) /
+            blue = (u8)((point_packet->b0 * render_data->intensity) /
                         render_data->divisor);
-            FIELD_U8(point_packet, 3) = 2;
-            FIELD_U8(point_packet, 7) = 0x6A;
-            FIELD_U8(point_packet, 6) = blue;
+            ((GpuLinkTag *)&point_packet->tag)->len = 2;
+            point_packet->code = 0x6A;
+            point_packet->b0 = blue;
 
-            FIELD_U32(point_packet, 0) = (FIELD_U32(point_packet, 0) & length_mask) |
-                (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
+            point_packet->tag = (point_packet->tag & length_mask) |
+                (scratch->ordering_table[scratch->ot_index] & address_mask);
             {
                 u32 *ot_entry;
                 u32 ot_tag;
-                ot_entry = (u32 *)((FIELD_U32(scratch, 0xC0) * 4) +
-                                   (u32)FIELD_PTR(scratch, 0x20));
+                ot_entry = (u32 *)(scratch->ot_index * 4 + (u32)scratch->ordering_table);
                 ot_tag = *ot_entry;
                 *ot_entry = (ot_tag & length_mask) |
                            ((u32)point_packet & address_mask);
             }
 
-            mode_packet = FIELD_PTR(scratch, 0x18);
-            FIELD_PTR(scratch, 0x18) = mode_packet + 0xC;
+            mode_packet = scratch->packet_cursor;
+            scratch->packet_cursor = mode_packet + 1;
             SetDrawMode(mode_packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
-            FIELD_U32(mode_packet, 0) = (FIELD_U32(mode_packet, 0) & length_mask) |
-                (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
-            mode_ot_entry = (u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20));
+            mode_packet->tag = (mode_packet->tag & length_mask) |
+                (scratch->ordering_table[scratch->ot_index] & address_mask);
+            mode_ot_entry = (u32 *)(scratch->ot_index * 4 + (u32)scratch->ordering_table);
             *mode_ot_entry = (*mode_ot_entry & length_mask) | ((u32)mode_packet & address_mask);
         }
 
@@ -738,7 +740,7 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
         }
         vertex = FIELD_PTR(next_node, 8);
     } while (1);
-    FIELD_PTR(*context_slot, 0x8D0) = FIELD_PTR(scratch, 0x18);
+    (*context_slot)->packetCursor = scratch->packet_cursor;
     return 0;
 }
 

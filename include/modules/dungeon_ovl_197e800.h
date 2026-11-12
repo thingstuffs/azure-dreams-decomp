@@ -217,7 +217,7 @@ typedef struct S_81960CD4_0 {
     u32 unk_34;
     u32 unk_38;
     u8 pad_3C[0x14];
-    GteMatrix tile_matrix; /* RotMatrix of the effect angles with a zero translation, installed in the GTE */
+    MATRIX tile_matrix; /* RotMatrix of the effect angles with a zero translation, installed in the GTE */
     u16 unk_70;
     u16 unk_72;
     u16 unk_74;
@@ -464,7 +464,7 @@ typedef struct S_8195FD40_0 {
     u32 unk_34;
     u32 unk_38;
     u8 pad_3C[0x14];
-    GteMatrix composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled and installed */
+    MATRIX composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled and installed */
     u32 unk_70;
     u16 unk_74;
     u8 pad_76[0x2];
@@ -482,7 +482,7 @@ typedef struct S_8195FD40_0 {
     u8 pad_98[0x28];
     u32 unk_C0;
     u8 pad_C4[0xC];
-    GteMatrix object_matrix; /* RotMatrix of the quad angles at +0x100; its translation is the quad position */
+    MATRIX object_matrix; /* RotMatrix of the quad angles at +0x100; its translation is the quad position */
     u8 pad_F0[0x10];
     u16 unk_100;
     u16 unk_102;
@@ -608,11 +608,11 @@ typedef struct S_8195F43C_0 {
     u8 pad_98[0x28];
     u32 unk_C0;
     u8 pad_C4[0xC];
-    GteMatrix object_matrix; /* RotMatrix of object_angles; its translation is the tile origin */
+    MATRIX object_matrix; /* RotMatrix of object_angles; its translation is the tile origin */
     u8 pad_F0[0x10];
-    GteShortVector object_angles; /* rotation angles passed to RotMatrix */
+    SVECTOR object_angles; /* rotation angles passed to RotMatrix */
     u8 pad_108[0x14];
-    GteMatrix camera_matrix; /* current GTE rotation saved by ReadRotMatrix */
+    MATRIX camera_matrix; /* current GTE rotation saved by ReadRotMatrix */
 } S_8195F43C_0;
 typedef struct S_8195F43C_1 {
     u8 pad_00[0x2];

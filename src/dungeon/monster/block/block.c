@@ -2,6 +2,9 @@
 #include "engine/entity/effect_slots.h"
 #include "shared/entity.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_packets.h"
+#include "sdk/libgpu_types.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 #include "dungeon/level/room_flags.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
@@ -106,7 +109,7 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
     s32 kind;
     s32 flags0;
     s32 flags1;
-    void *result;
+    ActorRecord *result;
     void *object;
     CB_80170A5C_S_80170A5C_2 *part0;
     SpriteFrameState *part1;
@@ -115,10 +118,9 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
     result = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = object;
-        result += 0x20;
+        result = NODE_BODY(object);
         ((CB_80170A5C_S_80170A5C_0 *)object)->unk_10 = update_block_motion_and_facing;
-        ((CB_80170A5C_S_80170A5C_1 *)result)->unk_13 = MONSTER_BLOCK;
+        result->species = MONSTER_BLOCK;
         register_node(object, project_sprite_chain);
 
         {
@@ -130,27 +132,27 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
             part1 = ((CB_80170A5C_S_80170A5C_0 *)object)->unk_0C;
             kind = spawn_flags & 3;
             part1->tile_y = attr_b;
-            result_copy = result;
+            result_copy = (CB_80170A5C_S_80170A5C_4 *)result;
             part1->frameTable = handler;
         }
         part1->tile_x = attr_a;
 
         if (kind == 1) {
-            flags0 = ((CB_80170A5C_S_80170A5C_1 *)result)->unk_14;
-            flags1 = ((CB_80170A5C_S_80170A5C_1 *)result)->unk_1C;
+            flags0 = result->flags14;
+            flags1 = result->flags1C;
             flags0 |= 0x6000;
             flags1 |= 0x6000;
-            ((CB_80170A5C_S_80170A5C_1 *)result)->unk_14 = flags0;
-            ((CB_80170A5C_S_80170A5C_1 *)result)->unk_1C = flags1;
+            result->flags14 = flags0;
+            result->flags1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((CB_80170A5C_S_80170A5C_1 *)result)->unk_14;
-            flags1 = ((CB_80170A5C_S_80170A5C_1 *)result)->unk_1C;
+            flags0 = result->flags14;
+            flags1 = result->flags1C;
             flags0 |= 0x2000;
             flags1 |= 0x2000;
-            ((CB_80170A5C_S_80170A5C_1 *)result)->unk_14 = flags0;
-            ((CB_80170A5C_S_80170A5C_1 *)result)->unk_1C = flags1;
+            result->flags14 = flags0;
+            result->flags1C = flags1;
         } else if (((spawn_flags & -4) << 16) == 0 &&
-                   (((CB_80170A5C_S_80170A5C_1 *)result)->unk_14 & ACTOR_RESIST_SLEEP) == 0 &&
+                   (result->flags14 & ACTOR_RESIST_SLEEP) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
             part1->frameTable = block_frame_set_1;
@@ -1771,103 +1773,98 @@ void create_randomized_rotated_effect(void *unused_context, ObjectPosition *sour
     }
 }
 
-/*
- * Projects an effect quad, checks its screen bounds and depth, and queues visible shaded polygons.
- *
- * MECHANISM: The four-argument ABI keeps source_pos/scale in s3/s4 while effect, effect_data, and
- * effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set. One packed 12-byte
- * assignment emits the retail lwl/lwr and swl/swr copy.
- */
+/* Projects an effect quad, checks its screen bounds and depth, and queues visible shaded polygons. */
 void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg, void *render_info_arg, s16 depth_bias)
 {
     CB_80173E40_S_80173E40_2 *render_info = render_info_arg;
     ObjectPosition *position = position_arg;
-    CB_80173E40_S_80173E40_0 *scratch = (CB_80173E40_S_80173E40_0 *)0x1F800000;
-    CB_80173E40_S_80173E40_4 *packet;
+    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    DR_MODE *mode;
+    POLY_G4 *packet;
     u8 *texture;
     s32 ot_index;
     u16 render_flags;
     u16 texture_page;
     u8 texture_flags;
     GameWork *render_state_ptr = &g_game_work;
-    CB_80173E40_MATRIX current_matrix;
+    MATRIX current_matrix;
 
-    scratch->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
-    scratch->unk_88 = position->x.w.i;
-    scratch->unk_8C = position->y.w.i;
-    scratch->unk_90 = position->z.w.i;
+    scratch->ordering_table = (u32 *)&((GpuContext *)g_game_work.draw_buffer)->orderTag;
+    scratch->local_matrix.t[0] = position->x.w.i;
+    scratch->local_matrix.t[1] = position->y.w.i;
+    scratch->local_matrix.t[2] = position->z.w.i;
     render_info->unk_14 |= 0x8000;
 
     PushMatrix();
 
-    scratch->unk_3C = 0x2000;
-    scratch->unk_38 = 0x2000;
-    scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = render_info->unk_16;
-    scratch->unk_A8 = render_info->unk_1A;
-    scratch->unk_A6 = render_info->unk_18;
-    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
+    scratch->scale.vz = 0x2000;
+    scratch->scale.vy = 0x2000;
+    scratch->scale.vx = 0x2000;
+    scratch->angles.vx = render_info->unk_16;
+    scratch->angles.vz = render_info->unk_1A;
+    scratch->angles.vy = render_info->unk_18;
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&current_matrix);
-    CompMatrix(&current_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
-    SetTransMatrix((u8 *)scratch + 0x54);
-    SetRotMatrix((u8 *)scratch + 0x54);
+    CompMatrix(&current_matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
     texture = (*(u8 * *)((u8 *)render_info + 8));
-    scratch->unk_28 = render_info->unk_14;
-    packet = (CB_80173E40_S_80173E40_4 *)((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0;
-    ((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0 = (u8 *)packet + 0xC;
+    scratch->render_flags = render_info->unk_14;
+    mode = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
+    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = mode + 1;
     texture_page = GetTPage(0, 0, 0, 0);
-    SetDrawMode(packet, 0, 0, texture_page, 0);
+    SetDrawMode(mode, 0, 0, texture_page, 0);
 
-    packet->unk_00 = (packet->unk_00 & 0xFF000000) |
-        (((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
-    (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
-        (((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0xFF000000) |
-        ((u32)packet & 0x00FFFFFF);
+    mode->tag = (mode->tag & 0xFF000000) |
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0x00FFFFFF);
+    ((GpuContext *)g_game_work.draw_buffer)->orderTag =
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0xFF000000) |
+        ((u32)mode & 0x00FFFFFF);
 
     {
-        CB_80173E40_S_80173E40_5 *render_state = g_game_work.draw_buffer;
-        packet = (CB_80173E40_S_80173E40_4 *)render_state->unk_8D0;
-        render_state->unk_8D0 = (u8 *)packet + 0x24;
+        GpuContext *render_state = g_game_work.draw_buffer;
+        packet = render_state->packetCursor;
+        render_state->packetCursor = packet + 1;
     }
 
     {
         CB_80173E40_S_80173E40_6 *draw_body = (CB_80173E40_S_80173E40_6 *)body;
-        scratch->unk_B0 = body->unk_44.whole;
-        scratch->unk_B8 = draw_body->unk_4A;
-        scratch->unk_C0 = body->unk_50.halves.low;
-        scratch->unk_C8 = draw_body->unk_56;
-        scratch->unk_B2 = body->action_flags;
-        scratch->unk_BA = draw_body->unk_4C;
-        scratch->unk_C2 = body->unk_50.halves.high;
-        scratch->unk_CA = draw_body->unk_58;
-        scratch->unk_B4 = draw_body->unk_48;
-        scratch->unk_BC = draw_body->unk_4E;
-        scratch->unk_C4 = draw_body->unk_54;
-        scratch->unk_CC = draw_body->unk_5A;
+        scratch->vertices[0].vx = body->unk_44.whole;
+        scratch->vertices[1].vx = draw_body->unk_4A;
+        scratch->vertices[2].vx = body->unk_50.halves.low;
+        scratch->vertices[3].vx = draw_body->unk_56;
+        scratch->vertices[0].vy = body->action_flags;
+        scratch->vertices[1].vy = draw_body->unk_4C;
+        scratch->vertices[2].vy = body->unk_50.halves.high;
+        scratch->vertices[3].vy = draw_body->unk_58;
+        scratch->vertices[0].vz = draw_body->unk_48;
+        scratch->vertices[1].vz = draw_body->unk_4E;
+        scratch->vertices[2].vz = draw_body->unk_54;
+        scratch->vertices[3].vz = draw_body->unk_5A;
     }
 
-    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
-                             &scratch->unk_C0, &scratch->unk_C8,
-                             &packet->unk_08, &packet->unk_10,
-                             &packet->unk_18, &packet->unk_20,
-                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
-    scratch->unk_100 = ot_index;
+    ot_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
+                             &scratch->vertices[2], &scratch->vertices[3],
+                             (s32 *)&packet->x0, (s32 *)&packet->x1,
+                             (s32 *)&packet->x2, (s32 *)&packet->x3,
+                             &scratch->depth_cue, &scratch->gte_flag) - depth_bias - 6;
+    scratch->ot_index = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
-        if ((((u16)(packet->unk_08 + 0x20) < 0x181) &&
-             ((u16)(packet->unk_0A + 0x20) < 0x121)) |
-            (((u16)(packet->unk_10 + 0x20) < 0x181) &&
-             ((u16)(packet->unk_12 + 0x20) < 0x121)) |
-            (((u16)(packet->unk_18 + 0x20) < 0x181) &&
-             ((u16)(packet->unk_1A + 0x20) < 0x121)) |
-            (((u16)(packet->unk_20 + 0x20) < 0x181) &&
-             ((u16)(packet->unk_22 + 0x20) < 0x121))) {
+        if ((((u16)(packet->x0 + 0x20) < 0x181) &&
+             ((u16)(packet->y0 + 0x20) < 0x121)) |
+            (((u16)(packet->x1 + 0x20) < 0x181) &&
+             ((u16)(packet->y1 + 0x20) < 0x121)) |
+            (((u16)(packet->x2 + 0x20) < 0x181) &&
+             ((u16)(packet->y2 + 0x20) < 0x121)) |
+            (((u16)(packet->x3 + 0x20) < 0x181) &&
+             ((u16)(packet->y3 + 0x20) < 0x121))) {
             render_info->unk_14 &= 0x7FFF;
             texture_flags = texture[1];
             render_info->unk_0F = texture_flags;
-            render_flags = scratch->unk_28;
+            render_flags = scratch->render_flags;
             if (render_flags & 8) {
                 render_info->unk_0F = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
@@ -1875,33 +1872,33 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
 
             {
                 CB_80173E40_S_80173E40_6 *draw_body = (CB_80173E40_S_80173E40_6 *)body;
-                packet->unk_04.at00.v = draw_body->unk_04;
-                packet->unk_0C = draw_body->unk_08;
-                packet->unk_14 = (u32)(body->unk_0C.value);
-                packet->unk_1C = draw_body->unk_10;
+                /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                *(u32 *)&packet->red0 = draw_body->unk_04;
+                /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                *(u32 *)&packet->red1 = draw_body->unk_08;
+                /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                *(u32 *)&packet->red2 = (u32)(body->unk_0C.value);
+                /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                *(u32 *)&packet->red3 = draw_body->unk_10;
             }
             SetPolyG4(packet);
-            packet->unk_04.at03.v |= 2;
+            packet->code |= 2;
 
-            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0xFF000000) |
+            packet->tag = (packet->tag & 0xFF000000) |
+                (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);
+            scratch->ordering_table[scratch->ot_index] =
+                (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            packet = (CB_80173E40_S_80173E40_4 *)((CB_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0;
-            ((CB_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0 = (u8 *)packet + 0xC;
+            mode = ((GpuContext *)render_state_ptr->draw_buffer)->packetCursor;
+            ((GpuContext *)render_state_ptr->draw_buffer)->packetCursor = mode + 1;
             texture_page = GetTPage(0, 1, 0, 0);
-            SetDrawMode(packet, 0, 0, texture_page, 0);
-            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0xFF000000) |
-                ((u32)packet & 0x00FFFFFF);
+            SetDrawMode(mode, 0, 0, texture_page, 0);
+            mode->tag = (mode->tag & 0xFF000000) |
+                (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);
+            scratch->ordering_table[scratch->ot_index] =
+                (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
+                ((u32)mode & 0x00FFFFFF);
         }
     }
 

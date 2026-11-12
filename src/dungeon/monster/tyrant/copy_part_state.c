@@ -36,7 +36,7 @@ typedef struct S_8016A898_0 {
  * placement. */
 void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
 {
-    register void *result;
+    register ActorRecord *result;
     ObjectNodeHeader *object;
     ObjectPosition *motion;
     s8 held_a;
@@ -57,7 +57,7 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
     if (object != 0) {
         result = NODE_BODY(object);
         (object->update_callback) = D_8016AAA4;
-        ((S_8016A898_0 *)result)->unk_13 = MONSTER_TYRANT;
+        result->species = MONSTER_TYRANT;
         register_node(object, project_sprite_chain);
 
         motion = object->position;
@@ -69,19 +69,19 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
         state_data = result;
 
         if ((spawn_flags & 3) == 1) {
-            ((S_8016A898_0 *)result)->unk_14.u32 |= 0x6000;
-            ((S_8016A898_0 *)result)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((S_8016A898_0 *)result)->unk_98 |= 0x4000;
+            result->flags14 |= 0x6000;
+            result->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            result->action_state_flags |= 0x4000;
         } else {
             if ((spawn_flags & 3) >= 2) {
-                ((S_8016A898_0 *)result)->unk_14.u32 |= 0x2000;
-                ((S_8016A898_0 *)result)->unk_1C |= ACTOR_PLAYER_SIDE;
-                ((S_8016A898_0 *)result)->unk_98 |= 0x4000;
+                result->flags14 |= 0x2000;
+                result->flags1C |= ACTOR_PLAYER_SIDE;
+                result->action_state_flags |= 0x4000;
             } else {
                 if (((spawn_flags & -4) << 16) == 0 &&
-                    !(((S_8016A898_0 *)result)->unk_14.u32 & 0x200)) {
+                    !(result->flags14 & 0x200)) {
                     if (generate_random_value() & 1) {
-                        ((S_8016A898_0 *)result)->unk_1C |= ACTOR_ASLEEP;
+                        result->flags1C |= ACTOR_ASLEEP;
                         value = generate_random_value();
                         set_or_clear_actor_status_slot(result, STATUS_SLEEP, (value & 0x3F) | 0x20);
                         part_data->frameTable = D_8016E000;

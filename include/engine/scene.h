@@ -134,8 +134,8 @@ void reset_game_state_preserving_session_fields(void);
 void reset_runtime_slot_state(void);
 
 /* resolve_record_orientation_or_fallback.c */
-struct SpriteAttachment *func_8003DE58(struct SpriteAttachment *records, struct SpriteFrameState *actor, GteShortVector *out_vec, s16 record_id);
-struct SpriteAttachment *resolve_record_orientation_or_fallback(struct SpriteAttachment *records, struct SpriteFrameState *actor, GteShortVector *out_vec, s16 record_id);
+struct SpriteAttachment *func_8003DE58(struct SpriteAttachment *records, struct SpriteFrameState *actor, SVECTOR *out_vec, s16 record_id);
+struct SpriteAttachment *resolve_record_orientation_or_fallback(struct SpriteAttachment *records, struct SpriteFrameState *actor, SVECTOR *out_vec, s16 record_id);
 
 /* restore_actor_stats_from_snapshot.c */
 void restore_actor_stats_from_snapshot(struct S_80041E28_Dst *dst, struct S_80041E28_Src *src);
@@ -210,6 +210,6 @@ extern s16 secondary_transition_slot_index;
 extern s16 transition_runtime_slot_index;
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void transform_vector_with_saved_matrix(GteMatrix *matrix, GteShortVector *input_vec, GteTranslationVector *output_vec);
+void transform_vector_with_saved_matrix(MATRIX *matrix, SVECTOR *input_vec, GteTranslationVector *output_vec);
 
 #endif

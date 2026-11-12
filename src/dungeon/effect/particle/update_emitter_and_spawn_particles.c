@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/emission_data.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/head_bank_imports.h"
 #include "dungeon/globals.h"
@@ -59,7 +60,6 @@ typedef struct S_7FFE79F4_4 {
     s16 unk_0A;
 } S_7FFE79F4_4;
 
-extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010AA44;
 
 /* Update the emitter position, spawn particles, and mark it for removal when its lifetime expires. */

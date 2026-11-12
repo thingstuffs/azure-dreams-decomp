@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/abs.h"
 
 typedef struct TownState {
     u8 pad0[8];
@@ -29,7 +30,6 @@ typedef struct S_800B3C74_2 {
     u8 * unk_04;
 } S_800B3C74_2;
 
-extern int abs(int);
 
 /* Functions defined in this translation unit. */
 void move_color_channels_toward_neutral(u8 *channels);

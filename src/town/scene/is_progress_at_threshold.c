@@ -3,10 +3,8 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
+#include "town/scene/progress_data.h"
 
-
-
-extern u32 scene_progress_step;
 
 
 /* Checks whether the stored value meets the D_8001C368 threshold. */

@@ -8,6 +8,8 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 
 #ifndef NULL
 #define NULL 0
@@ -27,9 +29,6 @@ typedef struct DungeonEffect {
     u16 flags;
 } DungeonEffect;
 
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern s32 rand(void);
 /* param_width floor: keep this local s16 declaration; the owner prototype changes this call's argument setup. */
 extern void spawn_opposite_offset_effect(DungeonEffect *, s16);
 /* sub in spawn_randomized_radial_burst */

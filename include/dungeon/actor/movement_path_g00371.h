@@ -18,6 +18,7 @@
 #include "shared/actor_status.h"
 #include "shared/record_ptrs.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/rand.h"
 
 typedef void (*Callback)();
 
@@ -91,7 +92,6 @@ typedef struct {
 } DungeonEntry;
 
 extern void advance_sprite_animation_and_textures(void *entity);
-extern s32 rand(void);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern u8 actor_action_resume_address;
 extern u8 actor_movement_frames[];

@@ -163,19 +163,20 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
     u8 uv_extent;
 
     scratch->local_matrix.t[2] = 0;
-    scratch->vertices[3].z = 0;
-    scratch->vertices[2].z = 0;
-    scratch->vertices[1].z = 0;
-    scratch->vertices[0].z = 0;
+    scratch->vertices[3].vz = 0;
+    scratch->vertices[2].vz = 0;
+    scratch->vertices[1].vz = 0;
+    scratch->vertices[0].vz = 0;
     draw_context = render_state->draw_buffer;
     scratch->ordering_table = (u32 *)&draw_context->orderTag;
 
-    scratch->position_x = *(u16 *)((u8 *)position + 2);
-    scratch->position_y = *(u16 *)((u8 *)position + 6);
-    scratch->position_z = *(u16 *)((u8 *)position + 0xA);
+    scratch->position.vx = *(u16 *)((u8 *)position + 2);
+    scratch->position.vy = *(u16 *)((u8 *)position + 6);
+    scratch->position.vz = *(u16 *)((u8 *)position + 0xA);
     packet = draw_context->packetCursor;
 
-    scratch->sort_depth = RotTransPers(scratch, &scratch->screen_origin, &scratch->depth_cue, &scratch->gte_flag);
+    scratch->sort_depth = RotTransPers(&scratch->position, (s32 *)&scratch->screen_origin, &scratch->depth_cue,
+                                       &scratch->gte_flag);
     entry->flags |= 0x8000;
     projected_depth = scratch->sort_depth;
     {
@@ -194,17 +195,17 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
             screen_x = scratch->screen_origin.x;
             scratch->screen_origin.x = screen_x - 0xA0;
             scratch->screen_origin.y -= 0x78;
-            scratch->input_x = render_state->view.camera_rotation.parts.camera_rotation_x;
-            scratch->input_y = render_state->view.camera_rotation.parts.camera_rotation_y;
-            scratch->input_z = render_state->view.camera_rotation.parts.viewAngle;
+            scratch->input.vx = render_state->view.camera_rotation.parts.camera_rotation_x;
+            scratch->input.vy = render_state->view.camera_rotation.parts.camera_rotation_y;
+            scratch->input.vz = render_state->view.camera_rotation.parts.viewAngle;
 
-            scratch->angle_x = entry->angle_x;
+            scratch->angles.vx = entry->angle_x;
             rotation_z = (u16)render_state->view.view_rotation_offset.parts.view_rotation_offset_z +
-                (entry->angle_z - (u16)scratch->input_y);
-            scratch->angle_z = rotation_z;
+                (entry->angle_z - (u16)scratch->input.vy);
+            scratch->angles.vz = rotation_z;
             rotation_y = entry->angle_y - 0x100;
-            rotation_y += ((u16)scratch->input_z + 0x100) & 0x1FF;
-            scratch->angle_y = rotation_y;
+            rotation_y += ((u16)scratch->input.vz + 0x100) & 0x1FF;
+            scratch->angles.vy = rotation_y;
             sprite_extent = entry->sprite_w;
             scratch->local_matrix.t[0] = sprite_extent;
             scratch->extent_x = sprite_extent;
@@ -212,14 +213,14 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
             scratch->local_matrix.t[1] = sprite_extent;
             scratch->extent_y = sprite_extent;
 
-            RotMatrix(&scratch->angle_x, &scratch->local_matrix);
+            RotMatrix(&scratch->angles, &scratch->local_matrix);
         }
         scale_x = entry->scale_x;
-        scratch->input_x = scale_x;
+        scratch->input.vx = scale_x;
         scale_y = entry->scale_y;
-        scratch->input_z = 0x1000;
-        scratch->input_y = scale_y;
-        ScaleMatrix(&scratch->local_matrix, &scratch->input_x);
+        scratch->input.vz = 0x1000;
+        scratch->input.vy = scale_y;
+        ScaleMatrix(&scratch->local_matrix, &scratch->input);
         CompMatrix(&sprite_projection_matrix, &scratch->local_matrix, &scratch->matrix);
         SetTransMatrix(&scratch->matrix);
         SetRotMatrix(&scratch->matrix);
@@ -247,40 +248,40 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
 
                 if ((command->flags ^ scratch->sprite_flags) & 1) {
                     coord = -command->x - scratch->extent_x;
-                    scratch->vertices[2].x = coord;
-                    scratch->vertices[0].x = coord;
+                    scratch->vertices[2].vx = coord;
+                    scratch->vertices[0].vx = coord;
                     coord -= (u16)scratch->uv_u_extent;
-                    scratch->vertices[3].x = coord;
-                    scratch->vertices[1].x = coord;
+                    scratch->vertices[3].vx = coord;
+                    scratch->vertices[1].vx = coord;
                 } else {
                     coord = command->x - scratch->extent_x;
-                    scratch->vertices[2].x = coord;
-                    scratch->vertices[0].x = coord;
+                    scratch->vertices[2].vx = coord;
+                    scratch->vertices[0].vx = coord;
                     coord += (u16)scratch->uv_u_extent;
-                    scratch->vertices[3].x = coord;
-                    scratch->vertices[1].x = coord;
+                    scratch->vertices[3].vx = coord;
+                    scratch->vertices[1].vx = coord;
                 }
 
                 if ((command->flags ^ scratch->sprite_flags) & 2) {
                     coord = (u16)scratch->vertex_y_offset + (-command->y - scratch->extent_y);
-                    scratch->vertices[1].y = coord;
-                    scratch->vertices[0].y = coord;
+                    scratch->vertices[1].vy = coord;
+                    scratch->vertices[0].vy = coord;
                     coord -= (u16)scratch->uv_v_extent;
-                    scratch->vertices[3].y = coord;
-                    scratch->vertices[2].y = coord;
+                    scratch->vertices[3].vy = coord;
+                    scratch->vertices[2].vy = coord;
                 } else {
                     coord = (u16)scratch->vertex_y_offset + (command->y - scratch->extent_y);
-                    scratch->vertices[1].y = coord;
-                    scratch->vertices[0].y = coord;
+                    scratch->vertices[1].vy = coord;
+                    scratch->vertices[0].vy = coord;
                     coord += (u16)scratch->uv_v_extent;
-                    scratch->vertices[3].y = coord;
-                    scratch->vertices[2].y = coord;
+                    scratch->vertices[3].vy = coord;
+                    scratch->vertices[2].vy = coord;
                 }
 
-                RotTransPers4(&scratch->vertices[0].x, &scratch->vertices[1].x,
-                    &scratch->vertices[2].x, &scratch->vertices[3].x,
-                    &scratch->projected_vertices[0], &scratch->projected_vertices[1],
-                    &scratch->projected_vertices[2], &scratch->projected_vertices[3],
+                RotTransPers4(&scratch->vertices[0], &scratch->vertices[1],
+                    &scratch->vertices[2], &scratch->vertices[3],
+                    (s32 *)&scratch->projected_vertices[0], (s32 *)&scratch->projected_vertices[1],
+                    (s32 *)&scratch->projected_vertices[2], (s32 *)&scratch->projected_vertices[3],
                     &scratch->depth_cue, &scratch->gte_flag);
 
                 packet->x0 = scratch->projected_vertices[0].x + scratch->screen_origin.x;

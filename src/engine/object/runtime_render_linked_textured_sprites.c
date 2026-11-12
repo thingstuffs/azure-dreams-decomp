@@ -17,7 +17,7 @@
 s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *position, u8 *render_state)
 {
     ScratchPad *scratch;
-    GteMatrix *fixed_matrix;
+    MATRIX *fixed_matrix;
     s32 base_x;
     s32 center_x;
     s32 center_y;
@@ -68,7 +68,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
     scratch->sw[0xE4 / 4] = 0;
     scratch->sw[0x1C / 4] = (s32) next_prim;
     render_pools = ((GpuContext * *)(&g_game_work));
-    fixed_matrix = (GteMatrix *) 0x1F8000C8;
+    fixed_matrix = (MATRIX *) 0x1F8000C8;
     do {
         copy_matrix_a = sprite_fixed_transform_matrix;
         copy_matrix_b = &effect_view_matrix;

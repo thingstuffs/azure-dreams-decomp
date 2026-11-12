@@ -6,6 +6,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_800B06F0_0 {
     u8 pad_00[0x20];
@@ -187,15 +188,13 @@ typedef struct S_800B0BE0_5 {
 extern void swap_int_values();
 extern s32 PushMatrix();
 void PopMatrix(void);
-void * ScaleMatrix(void *, void *);
+struct MATRIX *ScaleMatrix(void *, void *);
 void SetRotMatrix(void *);
 void SetTransMatrix(void *);
 extern s32 NormalClip();
 extern s32 RotTransPers4();
-void * RotMatrix(void *, void *);
-s32 AddPrim(void *, void *);
+struct MATRIX *RotMatrix(void *, void *);
 /* extern */
-s32 SetPolyFT4(void *);
 
 extern s32 (*quad_batch_callbacks[])(s32, void *, void *);
 

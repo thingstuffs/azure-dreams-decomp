@@ -57,12 +57,7 @@ typedef struct {
     u8 config[56];
 } ActorDefinition;
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} Rect;
+#include "sdk/libgpu_types.h"
 
 /* Creates a monster actor and initializes its state, placement, and palette. */
 /* Creates Mandara with frames at D_80151258, copies its palette row and four strips, and attempts tile
@@ -76,13 +71,13 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
     ObjectPosition *position;
     SpriteFrameState *monster;
     S_80FD5000_1 *actor;
-    Rect palette_strip;
+    RECT palette_strip;
     s32 appearance_id;
     s32 palette_y;
     S_80FD5000_4 *entry;
     s32 entry_index;
     s32 twice_index;
-    Rect *palette_rect;
+    RECT *palette_rect;
     S_80FD5000_4 *selected;
     S_80FD5000_4 *selected2;
     S_80FD5000_4 *selected3;

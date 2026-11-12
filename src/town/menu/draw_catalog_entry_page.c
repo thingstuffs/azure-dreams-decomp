@@ -3,6 +3,7 @@
 #include "town/menu/catalog.h"
 #include "town/menu.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 extern u8 D_8011ACD8;
 typedef struct {
     void *image;
@@ -16,7 +17,7 @@ extern ImageEntry catalog_glyphs[];
 /* Clears the image area and draws available images for the object's category. */
 void draw_catalog_entry_page(CatalogDisplay *object_data) {
     CatalogDisplay *object = object_data; /* Retains the retail register allocation. */
-    s16 clear_rect[4];
+    RECT clear_rect;
     ImageEntry *image_entry;
     u8 *loop_image_base;
     s32 second_image_id;
@@ -26,11 +27,11 @@ void draw_catalog_entry_page(CatalogDisplay *object_data) {
     s32 category;
     u8 test_category;
 
-    clear_rect[0] = 0x180;
-    clear_rect[1] = 0x80;
-    clear_rect[2] = 0x36;
-    clear_rect[3] = 0x60;
-    ClearImage(clear_rect, 0, 0, 0);
+    clear_rect.x = 0x180;
+    clear_rect.y = 0x80;
+    clear_rect.w = 0x36;
+    clear_rect.h = 0x60;
+    ClearImage(&clear_rect, 0, 0, 0);
     draw_cached_catalog_text(&D_8011ACD8, 0x192, 0xD0);
     DrawSync(0);
     category = object->unk_0F;

@@ -17,6 +17,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/level.h"
 #include "dungeon/system.h"
+#include "sdk/abs.h"
 typedef struct ovl_188898c_81868A64_S_81868A64_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -218,7 +219,6 @@ extern void *dungeon_actor_ring_anchor;
 extern u8 current_spell_effect_variant;
 extern s32 check_entity_interaction_compatibility(void *kind, void *actor);
 extern s32 generate_random_value(void);
-extern s32 abs(s32);
 extern void advance_sprite_animation_and_textures(void *render_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */

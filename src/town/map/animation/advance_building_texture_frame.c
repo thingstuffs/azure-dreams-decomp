@@ -1,16 +1,16 @@
 #include "common.h"
 #include "sdk/libgpu.h"
 #include "town/map/animation.h"
+#include "town/map/palette_frame_zero_data.h"
 #include "town/data.h"
 
-extern u16 building_palette_frame_zero[];
 extern u16 D_80111F68[];
 extern u16 D_80111F88[];
 
 /* Advance the animation tick and upload the selected texture and palette frames. */
 void advance_building_texture_frame(BuildingSelectionHandlerBody *state)
 {
-    BuildingUploadRect *rect;
+    RECT *rect;
     void *upload_data;
     s32 palette_phase;
     s32 next_tick;

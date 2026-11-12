@@ -1,8 +1,8 @@
 #include "shared/object_node.h"
 #include "dungeon/effect/mesh.h"
 #include "engine/node.h"
+#include "slus/tile_key_pair_count_data.h"
 
-extern s16 tile_key_pair_count;
 extern void *tile_coordinate_records;
 
 /* Creates an object, attaches its data, and clears the shared state. */

@@ -190,12 +190,5 @@ typedef struct {
 #define setaddr(p, _addr) (((T_80170874_P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((T_80170874_P_TAG *)(p))->addr)
 
-void * CompMatrix(void *, void *, void *);
-void PushMatrix(void);
-void PopMatrix(void);
-void * ScaleMatrix(void *, void *);
-void SetRotMatrix(void *);
-void SetTransMatrix(void *);
-extern s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 extern void RotMatrix();
 #endif

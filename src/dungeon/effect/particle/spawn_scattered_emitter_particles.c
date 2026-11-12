@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/emission_data.h"
 #include "dungeon/effect/particle.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/head_bank_imports.h"
@@ -12,7 +13,6 @@ typedef struct {
     u32 word8;
 } __attribute__((packed)) Copy12;
 
-extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010BA44;
 extern Copy12 D_8010BF30;
 

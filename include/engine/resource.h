@@ -8,7 +8,7 @@
 
 struct FadeManagerBody;
 struct SpriteFrameState;
-struct S_80040490_RECT;
+struct RECT;
 
 /* activate_scene_resource_and_clear_view_callbacks.c */
 void activate_scene_resource_and_clear_view_callbacks(void);
@@ -25,7 +25,7 @@ void *queue_cd_resource(s32 id);
 void clear_flags_on_resource_list(void);
 
 /* decode_and_upload_image.c */
-s32 decode_and_upload_image(u8 *compressed_image, struct S_80040490_RECT *rect);
+s32 decode_and_upload_image(u8 *compressed_image, struct RECT *rect);
 
 /* decode_or_copy_resource_pixels.c */
 u8 *decode_or_copy_resource_pixels(u8 *src_start, u8 *dst_start);

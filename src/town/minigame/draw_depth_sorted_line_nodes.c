@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 #include "sdk/libgte.h"
 #include "town/minigame.h"
 #include "town/paired_indicators.h"
@@ -36,7 +37,7 @@ s32 draw_depth_sorted_line_nodes(PairedIndicators *node)
     GameWork *town_state;
     GpuContext *render_state;
     u8 *line_prim;
-    u8 *draw_mode_prim;
+    DR_MODE *draw_mode_prim;
     void *next_link;
     s16 first_depth;
     s32 avg_depth;
@@ -63,7 +64,7 @@ s32 draw_depth_sorted_line_nodes(PairedIndicators *node)
 
                 render_state = town_state->draw_buffer;
                 draw_mode_prim = render_state->packetCursor;
-                render_state->packetCursor = draw_mode_prim + 0xC;
+                render_state->packetCursor = draw_mode_prim + 1;
                 SetDrawMode(draw_mode_prim, 0, 0,
                     GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
                 addPrim((u8 *)(ot_offset + (long)town_state->draw_buffer) + 0xB0,

@@ -7,6 +7,7 @@ struct SpriteFrameState;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
+#include "sdk/rand.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -89,7 +90,6 @@ typedef struct Row_8189EBBC_S_800243BC_4 {
 } Row_8189EBBC_S_800243BC_4;   /* temp_v1_3 in func_800243BC */
 
 /* Creates an object with a random sprite variant and copies its transform. */
-s32 rand(void);
 void advance_sprite_animation_and_textures(void *record);
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 D_80024020[];

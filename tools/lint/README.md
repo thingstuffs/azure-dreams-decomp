@@ -37,7 +37,8 @@ byte identity. Findings still need source/retail triage before changing C.
 Outputs:
 
 - `lint_units.tsv`: selected TUs and registry rows.
-- `lint_findings.tsv`: stable IDs, locations/messages, widths, phases and TU counts.
+- `lint_findings.tsv`: stable IDs, locations/messages, widths, phases and TU counts; `site_messages`
+  holds each site's own messages (JSON `{site: [message, ...]}`).
 - `lint_counts.tsv`: per-class/per-subsystem counts, also printed by `--summary`.
 - `lint_summary.json`: all counts, compiler, normalized flags and census metadata.
 - `lint_compile_failures.tsv` and `failed_logs/`: every failed job, including
@@ -102,6 +103,30 @@ lists each group with new sites, and any compiler failure HEAD has that BASE did
 Renaming a function moves its warnings to a new group, so a rename also fails; the
 output then prints a `hint: possibly OLD renamed` line when a BASE group of the same
 file, class and site count vanished; a confirmed rename is not a regression.
+
+A change that adopts a stricter contract on purpose (the typed Psy-Q prototypes in `include/sdk`)
+records the warning groups it raises in `tools/lint/accepted_warning_sites.tsv` with `--write-accepted`
+(one row per class, file and function with the site count accepted, and the callees the messages name).
+The file is a ratchet, not a mute:
+
+- Against BASE's copy a change may only lower or drop rows. An added row or a raised count fails the
+  closure (`ACCEPTED ROW REFUSED`) unless the file carries the stamp `--write-accepted` writes for this
+  BASE (`# BASE copy sha256: <sha256 of BASE's copy, or none>`). Adding rows therefore takes a
+  deliberate `--write-accepted` run whose diff a review sees; the stamp expires at the next landing,
+  whose BASE copy differs.
+- A stamped added or raised row honours only `-Wincompatible-pointer-types` sites whose every message is
+  `passing argument N of 'f' from incompatible pointer type` with `f` declared in `include/sdk`. The
+  group is accepted only when its sites with any other message (an assignment, initialization or return
+  incompatibility, or a non-SDK callee) do not outnumber BASE's, so the honoured rise is at most its SDK
+  sites. Per-site messages come from lint_build's `site_messages` column; against a BASE census written
+  before that column, BASE's other-message sites are bounded by its site count less its SDK message kinds
+  (a note is printed).
+- Rows BASE already has, or that a change lowers, honour nothing: they record an earlier landing, and
+  every later landing compares against a census that already has those sites.
+
+`--write-accepted` writes the stamped file: the rising groups that meet the SDK rule, BASE's rows kept, and
+rows the change wrote earlier whose group no longer rises dropped. Write the rows from an uncapped run
+(`--cap 100000`) or a `--full` run so no includer is left out, and review them in the diff like a baseline.
 
 `--full --base-census DIR` runs the complete census on the `--root` checkout instead
 and compares it with a saved BASE census (the `lint_findings.tsv` and

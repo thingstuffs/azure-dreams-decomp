@@ -3,11 +3,11 @@
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
+#include "sdk/libgpu.h"
 
 
-typedef struct { s16 x, y, w, h; } RECT;
+#include "sdk/libgpu_types.h"
 
-extern int LoadImage(RECT *rect, void *p);
 
 /* Dual-access global: halfword stores via $gp scalars; LoadImage's rect
  * pointer is the absolute address of D_80080B08 (D_80080B00 declared at its

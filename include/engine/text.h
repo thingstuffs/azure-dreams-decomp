@@ -5,6 +5,7 @@
 #include "common.h"
 
 struct S_8004D98C;
+struct RECT;
 
 /* alloc_parsed_string.c */
 void *alloc_parsed_string(char *text, int parse_arg);
@@ -39,7 +40,7 @@ char *func_8004E5E8(int value, unsigned short width, char *buf);
 char *format_reversed_unsigned_decimal(u32 value, s32 width, char *buf, s32 pad);
 
 /* get_glyph_vram_rectangle.c */
-void get_glyph_vram_rectangle(s32 rect_id, s16 *vram_rect);
+void get_glyph_vram_rectangle(s32 rect_id, struct RECT *vram_rect);
 
 /* pad_both_key_states_clear.c */
 s32 pad_both_key_states_clear(void);

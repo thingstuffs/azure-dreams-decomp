@@ -2,6 +2,7 @@
 /* Shaded tile rendering. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AF9D8, PD:town/engine:800D1548. */
 #include "town/map/shaded_tile_rendering_g00594.h"
+#include "town/map/wide_culling_data.h"
 #include "shared/game_work.h"
 #include "town/map.h"
 #include "engine/graphics.h"

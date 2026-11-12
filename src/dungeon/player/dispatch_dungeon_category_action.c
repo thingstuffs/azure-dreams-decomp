@@ -12,11 +12,11 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/player.h"
+#include "dungeon/player/category_action_handlers_data.h"
 #include "dungeon/level.h"
 #include "dungeon/effect/object.h"
 
 
-extern u32 *dungeon_category_action_handlers[];
 extern u8 floor_objects[];
 
 extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);

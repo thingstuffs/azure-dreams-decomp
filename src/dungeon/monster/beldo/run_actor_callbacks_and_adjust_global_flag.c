@@ -6,11 +6,9 @@
 
 #include "dungeon/actor/spend_actor_mp_api.h"
 
-extern s32 beldo_action_dispatch_address;
-
 typedef struct S_80172474_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    ActorActionHandler unk_8C;
     u8 pad_90[0x2];
     s16 unk_92;
 } S_80172474_0;   /* entity in run_actor_callbacks_and_adjust_global_flag */
@@ -30,7 +28,7 @@ void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, void *motion, 
         }
         /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_81252C74). */
         do {
-            entity->unk_8C = &beldo_action_dispatch_address;
+            entity->unk_8C = update_object_animation;
         } while (0);
     }
     if (g_dungeon_status.flags & 0x80) {

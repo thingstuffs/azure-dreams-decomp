@@ -45,6 +45,7 @@ void advance_actor_motion_and_reset_action(ActorRecord *action_state, ObjectPosi
     ActorRecord *target;
     s32 wait_frames;
     ObjectNodeHeader *action_counters;
+    SpriteFrameState *target_sprite;
 
     special_mode = 0;
     switch (action_state->action_phase) {
@@ -95,15 +96,15 @@ void advance_actor_motion_and_reset_action(ActorRecord *action_state, ObjectPosi
             if (special_mode != 0) {
                 target = primary_actor_record;
                 actor->target = target;
-                action_counters = NODE_HEADER(target)->sprite;
-                actor->target_tile_x = ((S_80172870_3 *)action_counters)->unk_24;
-                actor->target_tile_y = ((S_80172870_3 *)action_counters)->unk_25;
+                target_sprite = NODE_HEADER(target)->sprite;
+                actor->target_tile_x = target_sprite->tile_x;
+                actor->target_tile_y = target_sprite->tile_y;
             } else if (item_action_definitions[*motion].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
-                    action_counters = NODE_HEADER(target)->sprite;
-                    actor->target_tile_x = ((S_80172870_3 *)action_counters)->unk_24;
-                    actor->target_tile_y = ((S_80172870_3 *)action_counters)->unk_25;
+                    target_sprite = NODE_HEADER(target)->sprite;
+                    actor->target_tile_x = target_sprite->tile_x;
+                    actor->target_tile_y = target_sprite->tile_y;
                 }
             } else {
                 actor->target =

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_sequence_state_data.h"
 
 typedef struct {
     u8 pad0[0x10];
@@ -7,7 +8,6 @@ typedef struct {
     s32 remainder;
 } S_80059814;
 
-extern u32 audio_sequence_timing_division[4];
 
 /*
  * Scales the value according to audio_sequence_timing_division, carrying low-bit remainders for

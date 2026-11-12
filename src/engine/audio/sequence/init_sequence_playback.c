@@ -15,7 +15,6 @@ typedef struct {
 
 extern S_80058B70 audio_sequence_tracks[32];
 extern s32 audio_sequence_format[4];
-extern s32 audio_sequence_timing_division[4];
 
 extern s32 read_next_byte_and_finish(S_80058B70 *);
 

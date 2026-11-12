@@ -17,7 +17,7 @@
 void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
-    void *work;
+    ActorRecord *work;
     s8 held_a;
     s8 held_b;
     ObjectNodeHeader *obj;
@@ -46,7 +46,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
     if (obj != 0) {
         work = NODE_BODY(obj);
         obj->update_callback = func_8014CB64;
-        ((ActorRecord *)work)->species = MONSTER_KRAKEN;
+        work->species = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 
@@ -59,21 +59,21 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
         part_b->tile_y = held_b;
 
         if (kind == 1) {
-            left = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = ((ActorRecord *)work)->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((ActorRecord *)work)->flags14 = left;
-            ((ActorRecord *)work)->flags1C = right;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (kind >= 2) {
-            left = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
-            right = ((ActorRecord *)work)->flags1C | ACTOR_PLAYER_SIDE;
-            ((ActorRecord *)work)->flags14 = left;
-            ((ActorRecord *)work)->flags1C = right;
+            left = work->flags14 | ACTOR_CLASS_ENABLED;
+            right = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = left;
+            work->flags1C = right;
         } else {
             if (((spawn_flags & ~3) << 16) == 0) {
-                if (!(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
+                if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                     left = generate_random_value();
                     if (left & 1) {
-                        ((ActorRecord *)work)->flags1C |= ACTOR_ASLEEP;
+                        work->flags1C |= ACTOR_ASLEEP;
                         right = generate_random_value();
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP, (right & 0x3F) | 0x20);
                         part_b->frameTable = D_801501CC;
@@ -87,7 +87,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.handler = func_8014D1A4;
-        ((ActorRecord *)work)->flags1C |= 0x00040000;
+        work->flags1C |= 0x00040000;
         actor->unk_90.parts.high = -16;
         flags = actor->action_state_flags;
         actor->unk_A8 = 0;

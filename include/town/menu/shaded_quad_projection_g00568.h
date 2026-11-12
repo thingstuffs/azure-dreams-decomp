@@ -8,6 +8,8 @@
 #include "shared/game_work.h"
 
 #include "sdk/libgpu_packets.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 typedef POLY_G4 ShadedQuadPacket;
 
 typedef struct InputPair {
@@ -30,16 +32,6 @@ typedef struct {
     u32 w1;
 } __attribute__((packed)) Packed8;
 
-extern s32 RotTransPers4(InputPair *, InputPair *, InputPair *, InputPair *,
-                         OutputPair *, OutputPair *, OutputPair *, OutputPair *,
-                         u32 *, u32 *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void AddPrim(void *, void *);
-extern void SetSemiTrans(void *, s32);
-extern void SetPolyG4(void *);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
-extern s32 rsin();
-extern s32 rcos();
 extern void copy_odd_halfwords_3();
 extern void copy_menu_vector_halfwords();
 

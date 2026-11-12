@@ -8,6 +8,7 @@
 #include "records/Rec_func_800249DC_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/travel/linked_warp_projectile.h"
+#include "sdk/rand.h"
 typedef struct MotionRecord {
     s16 unk_00;
     s16 unk_02;
@@ -78,6 +79,5 @@ void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param
 void fade_effect_color_to_black(void *record, ObjectPosition *unused, struct EffectColor *color);
 void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-s32 rand(void);
 s32 draw_linked_model_chain(void *, s32, void *);
 #endif

@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/scene/state_data.h"
 #include "town/scene/flags.h"
-
-extern s32 scene_update_state;
 
 /* Returns whether scene_update_state is neither 1 nor 5. */
 s32 is_global_flag_neither_one_nor_five(void) {

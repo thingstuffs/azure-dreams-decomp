@@ -7,6 +7,7 @@
 #include "shared/object_payload.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 
 #define SCALE255(value) ((u32)(value) / 255)
 
@@ -40,7 +41,7 @@ void draw_random_tinted_quad_pair(u8 *effect)
     scratch->order_table.bytes = &(*render_ctx_addr)->orderTag;
     do {
         GpuContext *render_ctx = *render_ctx_addr;
-        u8 *draw_mode;
+        DR_MODE *draw_mode;
         vertex_group = (S_800A1354_4 *)(effect + (vertex_index * 4));
 
         quad = render_ctx->packetCursor;
@@ -94,7 +95,7 @@ void draw_random_tinted_quad_pair(u8 *effect)
         vertex_index += 3;
         render_ctx = *render_ctx_addr;
         draw_mode = render_ctx->packetCursor;
-        render_ctx->packetCursor = draw_mode + 0xC;
+        render_ctx->packetCursor = draw_mode + 1;
         SetDrawMode(draw_mode, 1, 0, GetTPage(0, 1, 0x140, 0), 0);
         AddPrim(scratch->order_table.bytes + scratch->depth * 4, draw_mode);
     } while (vertex_index < 6);

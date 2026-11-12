@@ -2,9 +2,12 @@
 #define DUNGEON_DUNGEON_SETUP_H
 #include "sdk/libgte.h"
 #include "dungeon/level.h"
+#include "dungeon/level/sprite_bundle_data.h"
+#include "dungeon/player/camera_depth_presets_data.h"
 
 struct ObjectPosition;
 #include "common.h"
+#include "dungeon/actor/pending_marked_actor_count_data.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_item_entries.h"
@@ -20,6 +23,7 @@ struct ObjectPosition;
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
+#include "sdk/rand.h"
 typedef struct {
     u8 pad_00[0x19];
     s8 red;
@@ -247,7 +251,6 @@ extern M2C_UNK D_80080E30;
 extern M2C_UNK D_80080EE8;
 extern s16 floor_generation_state[3];
 extern u8 scene_mode_code;
-extern s16 pending_marked_actor_count;
 extern s8 dungeon_event_pending_flag;
 extern s8 D_800DCF58;
 extern s8 scripted_boundary_active;
@@ -258,7 +261,6 @@ extern s32 player_turn_fraction;
 extern s8 entity_resource_read_complete;
 extern u8 dungeon_resource_buffer[];
 extern void clear_floor_resource_state_table(void);
-extern s32 rand(void);
 extern void mark_category_items_flag_400(s32);
 extern void shuffle_enabled_item_category_pointers(void);
 extern void request_scene_dispatch_state(s32);
@@ -269,7 +271,6 @@ extern void invalidate_four_sprite_resource_slots(void);
 extern s32 D_8001022C;
 extern s8 scene_music_hold;
 extern s16 current_dungeon_floor;
-extern s8 sprite_bundle_loaded;
 extern u8 dungeon_button_latch;
 extern s32 D_800E3D1C;
 extern u8 familiar_record_storage[];
@@ -305,7 +306,6 @@ extern s32 D_800E3D48[];
 extern void *actor_default_frames[];
 extern u8 player_wait_frames[];
 extern u16 camera_pitch_presets[];
-extern u16 camera_depth_presets[];
 extern u8 dungeon_camera_targets[];
 extern s32 dungeon_menu_action_state[];
 extern u8 monster_resource_cache_slots[];

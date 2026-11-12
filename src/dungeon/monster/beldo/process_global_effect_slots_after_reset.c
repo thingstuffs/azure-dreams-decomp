@@ -1,10 +1,10 @@
 #include "common.h"
 #include "dungeon/monster/beldo.h"
+#include "dungeon/monster/beldo/command_ticks_data.h"
 
 extern void unlink_entity_node(s32 node);
 extern s32 beldo_effect_stream;
 extern s32 beldo_active_entity;
-extern s16 beldo_command_ticks;
 extern s32 D_80173F90;
 extern s32 beldo_effect_scripts;
 

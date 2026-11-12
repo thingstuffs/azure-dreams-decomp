@@ -45,11 +45,10 @@ void select_record_entry_and_value(void *state,void *entries, short index);
 
 #include "shared/sprite_source.h"
 #include "town/map/motion.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 extern SpriteSourceEntry map_animation_sprite_entries[];
-extern s32 rsin(s32 value);
-extern s32 rcos(s32 value);
 
-s32 rand(void);
 
 /* Functions defined in this translation unit. */
 void *create_reverse_motion_effect(StackRecord *source_motion, u32 flags);

@@ -4,7 +4,7 @@ typedef unsigned int u32;
 
 
 /* Test whether the computed value is below the squared threshold. */
-u32 points_within_squared_threshold(struct GteShortVector *input_1, struct GteShortVector *input_2, s32 threshold)
+u32 points_within_squared_threshold(struct SVECTOR *input_1, struct SVECTOR *input_2, s32 threshold)
 {
     s32 threshold_value;
 

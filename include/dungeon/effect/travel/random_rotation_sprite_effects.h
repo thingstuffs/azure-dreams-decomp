@@ -12,6 +12,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/system.h"
+#include "sdk/abs.h"
+#include "sdk/rand.h"
 typedef struct RandomRotationSpriteEffectBody {
     u8 pad_00[0xC];
     void * owner;
@@ -150,7 +152,6 @@ typedef struct ovl_18b8824_81898EBC_Scratch {
 #define ovl_18b8824_81898EBC_probe scratch.ovl_18b8824_81898EBC_probe
 #define ovl_18b8824_81898EBC_result scratch.ovl_18b8824_81898EBC_result
 #define ovl_18b8824_81898EBC_map_flags scratch.ovl_18b8824_81898EBC_map_flags
-extern s32 rand(void);
 extern void register_node(void *, void *);
 extern u8 D_80024E88[];
 extern void advance_sprite_animation_and_textures(void *target);
@@ -159,7 +160,6 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 extern SpriteSourceEntry D_80024EF4[];
 extern SpriteSourceEntry D_80024E40[];
 extern u8 D_80024FC4[];
-extern int abs(int);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s16 get_surface_height_at_record(void *);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);

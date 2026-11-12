@@ -138,6 +138,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     u8 *state;
     MATRIX *matrix;
     Packet *packet;
+    S_80175594_7 *packet_view;
     Texture *texture;
     s32 scaled_coord;
     s32 view_angle;
@@ -282,27 +283,28 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
             packet->y3 =
                 scratch->unk_FE + scratch->unk_BA;
 
+            packet_view = (S_80175594_7 *)packet;
             visible_0 = 0;
-            if ((u16)(((S_80175594_7 *)packet)->unk_08 + 0x20) < 0x181U) {
+            if ((u16)(packet_view->unk_08 + 0x20) < 0x181U) {
                 visible_0 =
-                    (u16)(((S_80175594_7 *)packet)->unk_0A + 0x20) < 0x121U;
+                    (u16)(packet_view->unk_0A + 0x20) < 0x121U;
             }
             visible_1 = 0;
-            if ((u16)(((S_80175594_7 *)packet)->unk_10 + 0x20) < 0x181U) {
+            if ((u16)(packet_view->unk_10 + 0x20) < 0x181U) {
                 visible_1 =
-                    (u16)(((S_80175594_7 *)packet)->unk_12 + 0x20) < 0x121U;
+                    (u16)(packet_view->unk_12 + 0x20) < 0x121U;
             }
             visible_01 = visible_0 | visible_1;
             visible_2 = 0;
-            if ((u16)(((S_80175594_7 *)packet)->unk_18 + 0x20) < 0x181U) {
+            if ((u16)(packet_view->unk_18 + 0x20) < 0x181U) {
                 visible_2 =
-                    (u16)(((S_80175594_7 *)packet)->unk_1A + 0x20) < 0x121U;
+                    (u16)(packet_view->unk_1A + 0x20) < 0x121U;
             }
             visible_012 = visible_01 | visible_2;
             visible_3 = 0;
-            if ((u16)(((S_80175594_7 *)packet)->unk_20 + 0x20) < 0x181U) {
+            if ((u16)(packet_view->unk_20 + 0x20) < 0x181U) {
                 visible_3 =
-                    (u16)(((S_80175594_7 *)packet)->unk_22 + 0x20) < 0x121U;
+                    (u16)(packet_view->unk_22 + 0x20) < 0x121U;
             }
 
             if ((visible_012 | visible_3) != 0) {
@@ -330,19 +332,19 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
                 packet->uv3 =
                     scratch->unk_14.u16 + scratch->unk_10.u16;
 
-                if (((S_80175594_7 *)packet)->unk_14.u8 == 0) {
-                    ((S_80175594_7 *)packet)->unk_14.u8--;
-                    ((S_80175594_7 *)packet)->unk_24.at00u.v--;
+                if (packet_view->unk_14.u8 == 0) {
+                    packet_view->unk_14.u8--;
+                    packet_view->unk_24.at00u.v--;
                 }
-                if (((S_80175594_7 *)packet)->unk_1C.at01.v == 0) {
-                    ((S_80175594_7 *)packet)->unk_1C.at01.v--;
-                    ((S_80175594_7 *)packet)->unk_24.at01.v--;
+                if (packet_view->unk_1C.at01.v == 0) {
+                    packet_view->unk_1C.at01.v--;
+                    packet_view->unk_24.at01.v--;
                 }
 
                 packet->color = render->unk_0C;
                 SetPolyFT4(packet);
                 if (scratch->unk_24 & 8) {
-                    ((S_80175594_7 *)packet)->unk_04.at03.v |= 2;
+                    packet_view->unk_04.at03.v |= 2;
                 }
 
                 AddPrim(scratch->unk_20 +

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/emission_data.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/effect/head_bank_imports.h"
 #include "dungeon/data.h"
@@ -42,7 +43,6 @@ typedef struct Particle {
     s16 size_y;
 } Particle;
 
-extern u16 emitted_effect_counter;
 
 /* Emit scattered particles and mark the entity for removal when its timer expires. */
 void emit_scattered_particles_until_expired(Entity *self, Position *origin, s32 spawn_arg) {

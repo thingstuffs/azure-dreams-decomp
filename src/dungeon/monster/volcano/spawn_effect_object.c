@@ -12,7 +12,7 @@
 void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     u8 *work = 0;
-    long part_b;
+    SpriteFrameState *part_b;
     long work_copy;
     ObjectNodeHeader *object;
     ObjectPosition *part_a;
@@ -34,23 +34,23 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 
         part_a = object->position;
         part_a->z.w.i = attr_c;
-        part_b = (long)*(u8 * *)&object->sprite;
-        ((SpriteFrameState *)part_b)->tile_x = attr_a;
-        ((SpriteFrameState *)part_b)->tile_y = attr_b;
+        part_b = (SpriteFrameState *)*(u8 * *)&object->sprite;
+        part_b->tile_x = attr_a;
+        part_b->tile_y = attr_b;
         work_copy = (long)work;
 
         if ((spawn_flags & 3) == 1) {
             *(ActorActionHandler *)(work + 0x8C) = func_8014CE5C;
             *(u32 *)(work + 0x14) |= 0x6000;
             *(u32 *)(work + 0x1C) |= 0x6000;
-            ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
+            part_b->frameTable = volcano_frame_set;
         } else if ((spawn_flags & 3) >= 2) {
             *(ActorActionHandler *)(work + 0x8C) = func_8014CE5C;
             flags0 = *(u32 *)(work + 0x14) | 0x2000;
             flags1 = *(u32 *)(work + 0x1C) | 0x2000;
             *(u32 *)(work + 0x14) = flags0;
             *(u32 *)(work + 0x1C) = flags1;
-            ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
+            part_b->frameTable = volcano_frame_set;
         } else {
             spawn_flags = (s16)(spawn_flags & -4);
             if (spawn_flags == 0) {
@@ -58,14 +58,14 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
                     if ((generate_random_value() & 1) != 0) {
                         random = generate_random_value();
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP, (random & 0x3F) | 0x20);
-                        ((SpriteFrameState *)part_b)->frameTable = D_80150538;
+                        part_b->frameTable = D_80150538;
                     }
                 }
                 *(ActorActionHandler *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
-                ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
+                part_b->frameTable = volcano_frame_set;
             } else {
                 *(ActorActionHandler *)(work + 0x8C) = func_8014CE5C;
-                ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
+                part_b->frameTable = volcano_frame_set;
             }
         }
 

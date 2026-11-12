@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "modules/main_server_ship.h"
+#include "sdk/libetc.h"
 
 typedef struct {
     s8 pad0[0x18];
@@ -14,7 +15,6 @@ typedef struct {
 
 extern s32 firstfile2(void *, void *);
 extern void *nextfile(void *);
-extern void VSync(s32);
 extern void format(s32);
 
 /* Functions defined in this translation unit. */

@@ -106,12 +106,6 @@ typedef struct S_800A504C_3 {
 } S_800A504C_3;
 
 /* tail_dst in advance_staged_entity_load */
-typedef struct S_800A504C_4_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_800A504C_4_pre;
-
-/* the 0x14 bytes before spawned in advance_staged_entity_load, addressed as spawned[-1] */
 typedef struct S_800A504C_4 {
     u8 pad_00[0x10];
     union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_10;   /* overlapping accesses */

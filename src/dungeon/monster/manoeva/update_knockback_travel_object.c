@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/entity_spawn_variant_data.h"
 #include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -62,7 +63,6 @@ typedef struct S_80174CCC_9 {
 } S_80174CCC_9;   /* parent in update_knockback_travel_object */
 
 
-extern s8 entity_spawn_variant_code;
 extern u8 manoeva_frame_set_2[];
 
 extern void select_sprite_entry(void *, s32, s32);
@@ -91,7 +91,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
     u32 created_flags_1c;
     u32 motion_flags;
     u32 used_page;
-    s8 *state_page = 0;
+    u8 *state_page = 0;
     u16 flags;
     u16 removal_flags;
     u16 timer;

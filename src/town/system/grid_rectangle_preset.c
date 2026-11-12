@@ -19,8 +19,8 @@ typedef struct S_80018094_1 {
 /* Scales a tile target by 64, adds the grid origin and 32, then tests it against the current position. */
 static u32 apply_target_grid_rectangle(s32 target_x, s32 target_y)
 {
-    GteShortVector current_rect;
-    GteShortVector target_rect;
+    SVECTOR current_rect;
+    SVECTOR target_rect;
     s32 coord_offset;
 
     copy_current_record_components_3(&current_rect);

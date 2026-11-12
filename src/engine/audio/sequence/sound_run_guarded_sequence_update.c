@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
+#include "slus/audio_sequence_state_data.h"
 
 typedef struct {
     s32 v;
@@ -9,7 +10,6 @@ typedef struct {
 
 extern S_80085F98 audio_update_guard;
 extern s32 audio_sequence_active[];
-extern s32 audio_sequence_timing_division[];
 
 /* Prevents re-entry while processing active state updates and running cleanup. */
 void sound_run_guarded_sequence_update(void) {

@@ -117,18 +117,16 @@ extern void func_80024FB0(void);
 extern void func_800250E0(void);
 extern void func_80025118(void);
 #include "dungeon/effect/screen.h"
+#include "sdk/abs.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 extern s32 get_random_scaled_value(s16 input_value);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void register_node(void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
-extern s32 rand(void);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry fading_sprite_entries[];
-extern s32 rcos(s32);
-extern s32 rand(void);
 extern u8 D_800777DC[];
-extern int abs(int);
 s32 check_layer_offset_height(s32, s32, s16, s32);
 void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorRecord *owner);
 void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, void *position, SpriteFrameState *sprite);

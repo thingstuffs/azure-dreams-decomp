@@ -1,7 +1,9 @@
 """Decision 74(b,c): evidence-based SDK routing and conservative data ownership.
 
 No SDK headers are read or copied. Signatures below are independently written call
-contracts using the game's scalar aliases and opaque pointers for SDK records.
+contracts using the game's scalar aliases; SDK records the tree defines (include/sdk/libgte_matrix.h,
+libgpu_types.h, libgpu_packets.h) are named by struct tag as the Psy-Q API types them (decision 54),
+other SDK records stay opaque pointers.
 Unknown library signatures and ambiguous data views remain local. The ordinary
 TU/header byte decision also applies to every declaration introduced here.
 """
@@ -23,19 +25,22 @@ def _sig(names, ret, args):
 _sig('rsin rcos SquareRoot0 SquareRoot12', 's32', 's32')
 _sig('ratan2', 's32', 's32, s32')
 _sig('PushMatrix PopMatrix InitGeom', 'void', 'void')
-_sig('SetRotMatrix SetTransMatrix SetLightMatrix SetColorMatrix', 'void', 'void *')
+_sig('SetRotMatrix SetTransMatrix SetLightMatrix SetColorMatrix', 'void', 'struct MATRIX *')
 _sig('SetGeomOffset SetFogFar', 'void', 's32, s32')
 _sig('SetGeomScreen', 'void', 's32')
 _sig('SetBackColor SetFarColor', 'void', 's32, s32, s32')
-_sig('CompMatrix ApplyMatrixSV', 'void *', 'void *, void *, void *')
-_sig('ScaleMatrix TransMatrix RotMatrix TransposeMatrix', 'void *', 'void *, void *')
-_sig('RotMatrixX RotMatrixY RotMatrixZ', 'void *', 's32, void *')
-_sig('ReadRotMatrix', 'void *', 'void *')
-_sig('RotTransPers', 's32', 'void *, s32 *, s32 *, s32 *')
-_sig('RotTrans', 'void', 'void *, void *, s32 *')
+_sig('CompMatrix', 'struct MATRIX *', 'struct MATRIX *, struct MATRIX *, struct MATRIX *')
+_sig('ApplyMatrixSV', 'struct SVECTOR *', 'struct MATRIX *, struct SVECTOR *, struct SVECTOR *')
+_sig('ScaleMatrix TransMatrix', 'struct MATRIX *', 'struct MATRIX *, struct VECTOR *')
+_sig('RotMatrix', 'struct MATRIX *', 'struct SVECTOR *, struct MATRIX *')
+_sig('TransposeMatrix', 'struct MATRIX *', 'struct MATRIX *, struct MATRIX *')
+_sig('RotMatrixX RotMatrixY RotMatrixZ', 'struct MATRIX *', 's32, struct MATRIX *')
+_sig('ReadRotMatrix', 'struct MATRIX *', 'struct MATRIX *')
+_sig('RotTransPers', 's32', 'struct SVECTOR *, s32 *, s32 *, s32 *')
+_sig('RotTrans', 'void', 'struct SVECTOR *, struct VECTOR *, s32 *')
 _sig('NormalClip', 's32', 's32, s32, s32')
-_sig('RotTransPers4', 's32', 'void *, void *, void *, void *, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *')
-_sig('RotAverage4', 's32', 'void *, void *, void *, void *, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *')
+_sig('RotTransPers4', 's32', 'struct SVECTOR *, struct SVECTOR *, struct SVECTOR *, struct SVECTOR *, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *')
+_sig('RotAverage4', 's32', 'struct SVECTOR *, struct SVECTOR *, struct SVECTOR *, struct SVECTOR *, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *')
 _sig('GetTPage', 'u16', 's32, s32, s32, s32')
 _sig('GetClut', 'u16', 's32, s32')
 _sig('LoadTPage', 'u16', 'u32 *, s32, s32, s32, s32, s32, s32')
@@ -44,15 +49,18 @@ _sig('AddPrim CatPrim', 'void', 'void *, void *')
 _sig('AddPrims', 'void', 'void *, void *, void *')
 _sig('TermPrim DrawPrim DrawOTag', 'void', 'void *')
 _sig('SetSemiTrans SetShadeTex', 'void', 'void *, s32')
-_sig('SetPolyF3 SetPolyFT3 SetPolyG3 SetPolyGT3 SetPolyF4 SetPolyFT4 SetPolyG4 SetPolyGT4 SetSprt SetSprt8 SetSprt16 SetTile SetTile1 SetTile8 SetTile16 SetLineF2 SetLineG2 SetLineF3 SetLineG3 SetLineF4 SetLineG4', 'void', 'void *')
-_sig('SetDrawMode', 'void', 'void *, s32, s32, s32, void *')
+_sig('SetPolyF3 SetPolyFT3 SetPolyGT3 SetPolyGT4 SetSprt SetSprt8 SetSprt16 SetTile SetTile1 SetTile8 SetTile16 SetLineF2 SetLineG2 SetLineF3 SetLineG3 SetLineF4 SetLineG4', 'void', 'void *')
+for _packet in 'POLY_F4 POLY_FT4 POLY_G3 POLY_G4'.split():
+    _sig('SetPoly' + _packet[5:], 'void', 'struct %s *' % _packet)
+_sig('SetDrawMode', 'void', 'struct DR_MODE *, s32, s32, s32, struct RECT *')
 _sig('SetDrawTPage', 'void', 'void *, s32, s32, s32')
 _sig('SetDefDrawEnv SetDefDispEnv', 'void *', 'void *, s32, s32, s32, s32')
 _sig('PutDrawEnv PutDispEnv GetDrawEnv GetDispEnv', 'void *', 'void *')
-_sig('SetDrawArea SetDrawOffset', 'void', 'void *, void *')
-_sig('LoadImage StoreImage', 's32', 'void *, u32 *')
-_sig('MoveImage', 's32', 'void *, s32, s32')
-_sig('ClearImage', 's32', 'void *, u8, u8, u8')
+_sig('SetDrawArea', 'void', 'void *, struct RECT *')
+_sig('SetDrawOffset', 'void', 'void *, void *')
+_sig('LoadImage StoreImage', 's32', 'struct RECT *, u32 *')
+_sig('MoveImage', 's32', 'struct RECT *, s32, s32')
+_sig('ClearImage', 's32', 'struct RECT *, u8, u8, u8')
 _sig('ClearOTag ClearOTagR', 'u32 *', 'u32 *, s32')
 _sig('DrawSync ResetGraph SetGraphDebug SetGraphReverse SetDispMask', 's32', 's32')
 _sig('VSync SetVideoMode', 's32', 's32')
@@ -98,10 +106,10 @@ _sig('Krom2RawAdd', 's32', 'u32')
 _sig('erase', 's32', 'char *')
 _sig('DMACallback', 'void *', 's32, void (*)(void)')
 _sig('CdMix', 's32', 'void *')
-_sig('NormalColorCol', 'void', 'void *, void *, void *')
+_sig('NormalColorCol', 'void', 'struct SVECTOR *, struct CVECTOR *, struct CVECTOR *')
 _sig('ReadGeomScreen', 's32', 'void')
-_sig('RotTransSV', 'void', 'void *, void *, s32 *')
-_sig('SetTexWindow', 'void', 'void *, void *')
+_sig('RotTransSV', 'void', 'struct SVECTOR *, struct SVECTOR *, s32 *')
+_sig('SetTexWindow', 'void', 'void *, struct RECT *')
 _sig('rindex', 'char *', 'char *, s32')
 
 
@@ -257,7 +265,7 @@ def augment_functions(corpus, tindex, defs, sites, functions):
                 ret, args = SDK[canonical]
                 proto = f'{ret} {name}({args})'
                 fd = _fd(name, proto, 'include/common.h', 'sdk', M.RESIDENT)
-                # SDK signatures here contain only common scalars/opaque pointers.
+                # SDK signatures here contain common scalars, opaque pointers and struct-tag record pointers.
                 row = P.FnRow(name, fd, header='include/sdk/' + lib + '.h', proto=proto)
                 row.kind = 'sdk'
                 owner = row.header

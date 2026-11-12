@@ -356,7 +356,7 @@ void register_node(void *, void *);
 void SetTile(void *, s32);
 void AddPrim(void *, void *);
 #include "engine/node/allocation.h"
-int abs(int);
+#include "sdk/abs.h"
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s16 check_layer_offset_height(u16, u16, s16, s16);
 s32 sample_terrain_surface_height(u16, u16, s16);

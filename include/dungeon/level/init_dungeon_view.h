@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "sdk/libgte.h"
 
 typedef struct S_804FE87C_0 {
     u8 pad_00[0x38];
@@ -35,13 +36,6 @@ typedef struct S_804FE87C_0 {
 } S_804FE87C_0;   /* state in func_8001607C */
 
 
-extern void SetGeomScreen(s32);
-extern void SetFarColor(s32, s32, s32);
-extern void SetColorMatrix(void *);
-extern void SetLightMatrix(void *);
-extern void SetFogFar(s32, s32);
-extern void SetBackColor(s32, s32, s32);
-extern void SetGeomOffset(s32, s32);
 
 extern u8 monster_spawn_records[];
 extern u8 upper_draw_context[0x1C];

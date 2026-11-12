@@ -24,7 +24,6 @@ extern s32 find_active_rect_containing_point(u8, u8);
 extern void func_80171BE0(void *, void *, void *, void *);
 extern void func_801736B8(void *, void *, void *, void *);
 
-extern u8 beldo_action_dispatch_address;
 extern u8 D_80173EC4[];
 extern u8 D_80173EE4[];
 
@@ -174,7 +173,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
         case 7:
         case 8:
             callback_state = state;
-            obj->unk_8C.address = &beldo_action_dispatch_address;
+            obj->unk_8C.handler = update_object_animation;
             update_actor_status_and_mp(callback_state);
             state->action_flags &= 0x7FFF;
             return;
@@ -182,7 +181,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
         case 0:
         case 1:
         case 2:
-            begin_actor_spell_action(obj, motion, part, 0, &beldo_action_dispatch_address);
+            begin_actor_spell_action(obj, motion, part, 0, update_object_animation);
             return;
 
         case 3:

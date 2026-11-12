@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/scene/state_data.h"
+#include "town/scene/choice_data.h"
 #include "town/scene.h"
 
 typedef struct TownEntry {
@@ -15,8 +17,6 @@ typedef struct TownContext {
 
 s32 copy_indexed_entry_value(s32);
 s32 select_next_eligible_wrapped_entry(void);
-extern s32 scene_update_state;
-extern s32 scene_choice_index;
 
 /* Selects a value with a fallback and stores its converted result in the town entry. */
 s32 start_interaction_on_code_0x479(TownContext *context, s32 entry_index) {

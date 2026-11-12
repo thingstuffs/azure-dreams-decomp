@@ -11,6 +11,9 @@
 #include "shared/sprite_source.h"
 #include "shared/entity.h"
 #include "dungeon/effect/spell_effect.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 
 typedef struct S_81844800_0_pre {
     u16 unk_00;
@@ -170,15 +173,9 @@ typedef struct {
 
 extern u8 secondary_sprite[];
 extern u8 fading_sprite_entries[];
-extern s32 rand(void);
 extern s32 get_definition_entry_byte_13(s16 entry_index);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern void *resolve_record_orientation_or_fallback(void *, void *, Vec3 *, s32);
-extern s32 RotTransPers(Packed8 *, ProjectedXY *, ProjectedXY *, ProjectedXY *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern s32 GetClut(s32, s32);
-extern void SetSemiTrans(void *, s32);
-extern void SetPolyFT4(void *);
 void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosition *motion, SpriteFrameState *source_render);
 void update_effect_base_state(s32 effect_or_count);
 s32 draw_layered_vertical_sprite_chain(u8 *first_node);

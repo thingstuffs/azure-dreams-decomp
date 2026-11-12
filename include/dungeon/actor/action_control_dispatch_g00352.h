@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "slus.h"
+#include "dungeon/level/sprite_bundle_data.h"
 
 /* Fixed 0x6000-byte memory-card image: the read/write wrappers use 0xC0
  * 128-byte units, and the checksum covers [0x208,0x6000). The resident
@@ -25,7 +26,6 @@ extern char level_module_read_descriptor_b[];
 extern void func_8003F320(void);
 
 extern u8 scene_mode_code;
-extern u8 sprite_bundle_loaded;
 
 /* Functions defined in this translation unit. */
 void request_scene_state_21_or_reload_level_module_a(void);

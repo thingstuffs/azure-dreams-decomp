@@ -1,12 +1,12 @@
 #include "common.h"
 #include "town/scene/effect.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 
 
 typedef void (*Callback)(void);
 
 extern void func_8052FC8C(void);
-extern u8 score_sprite_draw_callback_address[];
 
 
 typedef struct SpawnMotion {

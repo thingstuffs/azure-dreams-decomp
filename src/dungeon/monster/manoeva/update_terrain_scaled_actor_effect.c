@@ -22,7 +22,7 @@
 void update_terrain_scaled_actor_effect(ManoevaTerrainEffectBody *effect, MovingPosition *out_position, SpriteFrameState *out_render)
 {
     ObjectNodeHeader *owner_base;
-    void *owner;
+    ActorRecord *owner;
     ObjectPosition *source_position;
     s16 target_scale;
     s32 sampled_height;
@@ -41,16 +41,16 @@ void update_terrain_scaled_actor_effect(ManoevaTerrainEffectBody *effect, Moving
 
         owner_base = effect->unk_0C;
         owner = NODE_BODY(owner_base);
-        if ((((u32)((ActorRecord *)owner)->flags1C) & 0x00800000) ||
+        if ((((u32)owner->flags1C) & 0x00800000) ||
             (owner_base->flags & 0x8000) ||
-            (((ActorRecord *)owner)->unk_8C.address == (void *)transfer_linked_object_state) ||
+            (owner->unk_8C.address == (void *)transfer_linked_object_state) ||
             ((get_entity_effect_value(owner, STATUS_FROG) << 16) != 0)) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
 
-        if (((s8)((ActorRecord *)owner)->unk_87) != -1) {
+        if (((s8)owner->unk_87) != -1) {
             MovingPosition *sample_position = (MovingPosition *)effect->unk_18;
 
             sampled_height = sample_terrain_surface_height(sample_position->x,

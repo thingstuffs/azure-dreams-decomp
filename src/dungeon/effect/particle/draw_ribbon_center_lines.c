@@ -15,8 +15,8 @@ typedef struct S_80166968_0 {
     s32 unk_38;
     s32 unk_3C;
     u8 pad_40[0x14];
-    GteMatrix composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
-    GteMatrix object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
+    MATRIX composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
+    MATRIX object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
     u8 pad_94[0x10];
     u16 unk_A4;
     u16 unk_A6;
@@ -66,11 +66,7 @@ typedef struct S_80166968_5 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
 } S_80166968_5;   /* packet in draw_ribbon_center_lines */
 
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MATRIX;
+#include "sdk/libgte_matrix.h"
 
 /* Project edge midpoints and queue line and draw-mode packets in the ordering table. */
 void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias)

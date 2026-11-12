@@ -1,10 +1,10 @@
 #include "slus/data.h"
+#include "slus/event_string_fallback_data.h"
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
 #include "town/scene.h"
 
 extern u8 scene_choice_text[];
-extern u8 event_string_fallback[];
 extern u8 D_800227FB[];
 
 

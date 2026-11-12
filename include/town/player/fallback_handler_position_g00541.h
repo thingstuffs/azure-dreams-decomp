@@ -9,6 +9,7 @@
 #include "shared/entity.h"
 struct SpriteFrameState;
 #include "shared/vector.h"
+#include "sdk/libgte.h"
 
 
 typedef struct Record {
@@ -21,8 +22,6 @@ typedef struct Record {
 extern s32 town_position_callback_address[3];
 extern void *D_800D04A4[];
 extern void *D_800D04B8[];
-extern s32 rcos(s32 angle);
-extern s32 rsin(s32 angle);
 extern IntVector3 town_fallback_origin;
 extern IntVector3 computed_position;
 

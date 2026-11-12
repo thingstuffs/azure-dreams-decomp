@@ -16,6 +16,7 @@
 #include "shared/dungeon_effect_views.h"
 #include "town/person/position.h"
 #include "shared/town_object.h"
+#include "sdk/rand.h"
 
 #ifndef NULL
 #define NULL 0
@@ -87,7 +88,6 @@ extern void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_va
 extern void *allocate_list_node();
 extern u8 D_8009C4E8[];
 extern u8 D_8009C5D8[];
-extern s32 rand(void);
 extern u8 D_80088D78[8];
 extern M2C_UNK D_800D06C8[3];
 

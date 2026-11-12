@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/emission_data.h"
 #include "dungeon/effect/particle.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/head_bank_imports.h"
@@ -60,7 +61,6 @@ typedef struct S_7FFE89B0_6 {
 } S_7FFE89B0_6;   /* ((S_7FFE89B0_0 *)arg0)->unk_00 in emit_parent_relative_particles */
 
 extern u8 emitter_height_offsets[];
-extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010B4EC;
 
 /* Emit particles at the parent-relative position and retire the emitter when its lifetime expires. */

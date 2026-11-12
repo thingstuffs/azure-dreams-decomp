@@ -8,6 +8,7 @@ struct ObjectPosition;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "sdk/libgpu.h"
 struct ObjectNodeHeader;
 /* Decrement the countdown, reset scale, and flag completion when it expires. */
 /* Sets the object and global flags and marks the update. */
@@ -106,9 +107,6 @@ typedef struct {
 } MirroredSpriteNode;
 
 /* Creates an owner-linked object with the supplied position and appearance. */
-s32 DrawSync(s32);
-void LoadImage(void *, void *);
-void StoreImage(void *, void *);
 void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 
 extern Row_818FF19C_Rect8 D_80024028;

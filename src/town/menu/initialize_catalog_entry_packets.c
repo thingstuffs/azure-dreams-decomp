@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/menu.h"
+#include "town/menu/catalog_grid_data.h"
 
 typedef struct S_80123238_0_pre {
     s8 unk_00;
@@ -9,21 +10,6 @@ typedef struct S_80123238_0_pre {
     s8 unk_09;
 } S_80123238_0_pre;
 
-typedef struct Row {
-    u8 f0;
-    s8 f1;
-    s8 f2;
-    s8 f3;
-    s16 f4;
-    s16 f6;
-    s8 f8;
-    s8 f9;
-    s8 f10;
-    s8 f11;
-} Row;
-
-extern Row catalog_grid_packets[0x10];
-
 /* Initializes 16 entries with fixed attributes and coordinates in a three-column grid. */
 void initialize_catalog_entry_packets(void)
 {
@@ -31,7 +17,7 @@ void initialize_catalog_entry_packets(void)
     s32 grid_col;
     s32 entry_index;
     S_80123238_0_pre *entry_tail;
-    Row *entry;
+    CatalogGridPacket *entry;
 
     entry = &catalog_grid_packets[0];
     entry_index = 0;

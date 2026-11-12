@@ -7,12 +7,7 @@
 
 
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} Rect;
+#include "sdk/libgpu_types.h"
 
 extern s32 resource_completion_callback_address[];
 
@@ -20,9 +15,9 @@ extern s32 resource_completion_callback_address[];
 void load_catalog_detail_texture(CatalogDisplay *loader_arg)
 {
     CatalogDisplay *loader = loader_arg;
-    Rect texture_rect;
-    Rect palette_rect;
-    Rect *upload_rect;
+    RECT texture_rect;
+    RECT palette_rect;
+    RECT *upload_rect;
     u32 *texture_pixels;
     void *compressed;
     void *pixels;

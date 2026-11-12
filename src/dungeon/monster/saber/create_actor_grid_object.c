@@ -11,6 +11,10 @@ struct SpriteFrameState;
 #include "dungeon/monster/weadog.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
+#include "sdk/libgpu_types.h"
+#include "sdk/libgpu_packets.h"
+#include "dungeon/effect/point_tile_scratch.h"
 
 extern void * spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void update_entity_callbacks_and_floor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
@@ -64,63 +68,31 @@ __asm__(".size queue_projected_translucent_pixel, 644");
 #endif
 
 
-
-typedef struct Scratch {
-    u8 pad0[4];
-    u16 in0;
-    u16 in1;
-    u16 in2;
-    u8 pad0A[0x12];
-    u8 *current;
-    u8 pad20[4];
-    u8 *table;
-    u8 pad28[0xA8];
-    u16 out0;
-    u16 padD2;
-    u16 out1;
-    u8 padD4[0x2A];
-    s32 index;
-} Scratch;
-
-typedef struct Packet {
-    u8 pad0[3];
-    u8 code;
-    union {
-        u32 link;
-        struct {
-            u8 r;
-            u8 g;
-            u8 b;
-            u8 command;
-        } color;
-    } data;
-} Packet;
-
 /* Projects a point and queues a semitransparent pixel and its drawing mode. */
 s32 create_actor_grid_object(u8 *node_data, u16 *position)
 {
-    Scratch *scratch = (Scratch *)0x1F800000;
+    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
     void **global_state = ((void * *)(&g_game_work));
     GpuContext *render_state = global_state[0];
-    Packet *first_packet = render_state->packetCursor;
-    Packet *packet;
-    Packet *mode_packet;
+    TILE_1 *first_packet = render_state->packetCursor;
+    TILE_1 *packet;
+    DR_MODE *mode_packet;
     s32 depth_index;
     u32 addr_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
 
-    scratch->table = (u8 *)render_state + 0xB0;
-    scratch->current = (u8 *)first_packet;
+    scratch->ordering_table = (u32 *)&render_state->orderTag;
+    scratch->packet_cursor = first_packet;
     for (;;) {
-        scratch->in0 = position[1];
-        packet = (Packet *)scratch->current;
-        scratch->in1 = position[3];
-        scratch->in2 = position[5];
+        scratch->position.vx = position[1];
+        packet = scratch->packet_cursor;
+        scratch->position.vy = position[3];
+        scratch->position.vz = position[5];
 
-        scratch->current = (u8 *)packet + 0xC;
-        depth_index = RotTransPers(&scratch->in0, (u8 *)packet + 8,
-                              &scratch->out0, &scratch->out1);
-        scratch->index = depth_index;
+        scratch->packet_cursor = packet + 1;
+        depth_index = RotTransPers(&scratch->position, (s32 *)&packet->x0,
+                              &scratch->depth_cue, &scratch->gte_flag);
+        scratch->ot_index = depth_index;
 
         if ((u32)depth_index < 480U) {
             u16 tpage;
@@ -128,32 +100,33 @@ s32 create_actor_grid_object(u8 *node_data, u16 *position)
             u8 g;
             u8 b;
 
-            packet->data.link = *(u32 *)(node_data + 8);
-            packet->code = 2;
-            r = packet->data.color.r;
-            g = packet->data.color.g;
-            b = packet->data.color.b;
-            packet->data.color.r = r;
-            packet->data.color.g = g;
-            packet->data.color.b = b;
-            packet->data.color.command = 106;
+            /* BYTES: retail copies the tile colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
+            *(u32 *)&packet->r0 = *(u32 *)(node_data + 8);
+            ((GpuLinkTag *)&packet->tag)->len = 2;
+            r = packet->r0;
+            g = packet->g0;
+            b = packet->b0;
+            packet->r0 = r;
+            packet->g0 = g;
+            packet->b0 = b;
+            packet->code = 106;
 
-            *(u32 *)packet = (*(u32 *)packet & length_mask) |
-                          (((u32 *)scratch->table)[scratch->index] & addr_mask);
-            ((u32 *)scratch->table)[scratch->index] =
-                                    (((u32 *)scratch->table)[scratch->index] & length_mask) |
+            packet->tag = (packet->tag & length_mask) |
+                          (scratch->ordering_table[scratch->ot_index] & addr_mask);
+            scratch->ordering_table[scratch->ot_index] =
+                                    (scratch->ordering_table[scratch->ot_index] & length_mask) |
                                     ((u32)packet & addr_mask);
 
-            mode_packet = (Packet *)scratch->current;
-            scratch->current = (u8 *)mode_packet + 0xC;
+            mode_packet = scratch->packet_cursor;
+            scratch->packet_cursor = mode_packet + 1;
             tpage = (u16)GetTPage(0, 1, 0, 0);
             SetDrawMode(mode_packet, 0, 0, tpage, 0);
 
-            *(u32 *)mode_packet = (*(u32 *)mode_packet & length_mask) |
-                          (((u32 *)scratch->table)[scratch->index] & addr_mask);
-            mode_packet = (Packet *)((u32)mode_packet & addr_mask);
-            ((u32 *)scratch->table)[scratch->index] =
-                                    (((u32 *)scratch->table)[scratch->index] & length_mask) |
+            mode_packet->tag = (mode_packet->tag & length_mask) |
+                          (scratch->ordering_table[scratch->ot_index] & addr_mask);
+            mode_packet = (DR_MODE *)((u32)mode_packet & addr_mask);
+            scratch->ordering_table[scratch->ot_index] =
+                                    (scratch->ordering_table[scratch->ot_index] & length_mask) |
                                     (u32)mode_packet;
         }
 
@@ -167,7 +140,7 @@ s32 create_actor_grid_object(u8 *node_data, u16 *position)
         }
     }
 
-    ((GpuContext *)global_state[0])->packetCursor = scratch->current;
+    ((GpuContext *)global_state[0])->packetCursor = scratch->packet_cursor;
     return 0;
 }
 

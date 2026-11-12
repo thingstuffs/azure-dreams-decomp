@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "frontend/settings.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 
@@ -25,7 +26,7 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
     ObjectPosition *position = (ObjectPosition *)scroll_data;
     FrameDrawContextSlot *main_state;
     TexturedSpritePacket *sprite;
-    u8 *draw_mode;
+    DR_MODE *draw_mode;
     ObjectNodeHeader *next_entry;
     s32 row;
     s32 column;
@@ -55,7 +56,7 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
                 addPrim(&main_state->context->orderTag82C, sprite);
 
                 draw_mode = main_state->context->packetCursor;
-                main_state->context->packetCursor = draw_mode + 0xC;
+                main_state->context->packetCursor = draw_mode + 1;
                 texture_page = GetTPage(1, 0, texture_x, base_y);
                 SetDrawMode(draw_mode, 0, 0, texture_page & 0xFFFF, 0);
                 column--;

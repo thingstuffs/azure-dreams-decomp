@@ -91,50 +91,52 @@ check_zone:
             }
             {
                 s32 box_x;
+                Box *box;
+                box = (Box *)candidate;
                 actor_role_x = actor->x.w.i;
-                box_x = ((Box *)candidate)->x;
+                box_x = box->x;
                 if (actor_role_x >= box_x) {
                     actor_role_y = actor->y.w.i;
-                    height_or_box_y = ((Box *)candidate)->y;
+                    height_or_box_y = box->y;
                     if (actor_role_y >= height_or_box_y) {
-                        if (box_x + ((Box *)candidate)->w >= actor_role_x) {
-                            if (height_or_box_y + ((Box *)candidate)->h >= actor_role_y) {
+                        if (box_x + box->w >= actor_role_x) {
+                            if (height_or_box_y + box->h >= actor_role_y) {
                                 if (((Zone *)zone_y_m)->kind == 0) {
                                     *offset_y -= actor->velocity_y;
                                     velocity = actor->velocity_y;
                                     if (velocity > 0) {
-                                        actor->y.w.i = ((Box *)candidate)->y;
+                                        actor->y.w.i = box->y;
                                         do {
                                             return 2;
                                         } while (0);
                                     }
                                     if (velocity < 0) {
-                                        actor->y.w.i = ((Box *)candidate)->y + ((Box *)candidate)->h;
+                                        actor->y.w.i = box->y + box->h;
                                         do {
                                             return 2;
                                         } while (0);
                                     }
-                                    if (abs(actor->y.w.i - ((Box *)candidate)->y) < abs(((Box *)candidate)->y + ((Box *)candidate)->h - actor->y.w.i)) {
-                                        actor->y.w.i = (u16)((Box *)candidate)->y;
+                                    if (abs(actor->y.w.i - box->y) < abs(box->y + box->h - actor->y.w.i)) {
+                                        actor->y.w.i = (u16)box->y;
                                         return 2;
                                     }
-                                    actor->y.w.i = (u16)((Box *)candidate)->y + (u16)((Box *)candidate)->h;
+                                    actor->y.w.i = (u16)box->y + (u16)box->h;
                                     return 2;
                                 } else {
                                     *offset_x -= actor->velocity_x;
                                     velocity = actor->velocity_x;
                                     if (velocity > 0) {
-                                        edge_x = (u16)((Box *)candidate)->x;
+                                        edge_x = (u16)box->x;
                                     } else if (velocity < 0) {
-                                        edge_x = (u16)((Box *)candidate)->x;
-                                        edge_delta = (u16)((Box *)candidate)->w;
+                                        edge_x = (u16)box->x;
+                                        edge_delta = (u16)box->w;
                                         edge_x = edge_x + edge_delta;
                                     } else {
-                                        edge_delta = abs(actor->x.w.i - ((Box *)candidate)->x);
-                                        edge_x = abs(((Box *)candidate)->x + ((Box *)candidate)->w - actor->x.w.i);
+                                        edge_delta = abs(actor->x.w.i - box->x);
+                                        edge_x = abs(box->x + box->w - actor->x.w.i);
                                         edge_delta = edge_delta < edge_x;
-                                        edge_x = (u16)((Box *)candidate)->x;
-                                        box_width = (u16)((Box *)candidate)->w;
+                                        edge_x = (u16)box->x;
+                                        box_width = (u16)box->w;
                                         if (!edge_delta) {
                                             edge_x = edge_x + box_width;
                                         }

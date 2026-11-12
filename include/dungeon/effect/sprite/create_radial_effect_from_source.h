@@ -6,6 +6,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
+#include "sdk/libgpu.h"
 struct FadeEndpoints; struct FadeSettings;
  struct S_80025160_1;
 struct Actor; struct Motion;
@@ -34,8 +35,5 @@ extern u8 staged_glow_data[];
 void create_radial_effect_from_source(); /* Slot contract: loading images do not establish one callee contract. */
 s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void);
 
-s32 GetTPage(s32, s32, s32, s32);
-void AddPrim(void *, void *);
-void SetDrawMode(void *, s32, s32, u16, s32);
 
 #endif

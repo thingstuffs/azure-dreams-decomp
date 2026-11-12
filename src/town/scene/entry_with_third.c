@@ -3,6 +3,7 @@
 #include "common.h"
 #include "sdk/libc.h"
 #include "town/scene.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 
 #ifndef NULL
@@ -10,7 +11,6 @@
 #endif
 
 
-extern u8 score_sprite_draw_callback_address[16];
 extern u8 D_8028DFD8[16];
 extern u8 D_8052E40C[0x2000];
 

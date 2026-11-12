@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/mode_data.h"
 #include "town/player/state.h"
 #include "town/scene.h"
 
-extern s32 scene_dispatch_mode_index[];
 extern s32 D_80019770[];
 extern u8 scene_selector_one_mode_three_data[];
 extern u8 scene_selector_one_default_data[];
@@ -14,9 +14,9 @@ s32 select_table_for_selector(s32 unused_a, s32 unused_b, s32 selector) {
 
     if (selector == 8) {
         set_script_flag_bit(Ft_paty_love);
-        result = select_fallback_when_below_threshold(D_80019770[scene_dispatch_mode_index[0]]);
+        result = select_fallback_when_below_threshold(D_80019770[scene_dispatch_mode_index]);
     } else if (selector == 1) {
-        if (scene_dispatch_mode_index[0] != 3) {
+        if (scene_dispatch_mode_index != 3) {
             result = (s32)scene_selector_one_default_data;
         } else {
             result = (s32)scene_selector_one_mode_three_data;

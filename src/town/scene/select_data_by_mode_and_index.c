@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/mode_data.h"
 #include "town/player/state.h"
 #include "town/scene.h"
 
-extern s32 scene_dispatch_mode_index;
 extern s32 D_80019760[];
 extern u8 scene_selector_one_mode_three_data[];
 extern u8 scene_selector_one_default_data[];

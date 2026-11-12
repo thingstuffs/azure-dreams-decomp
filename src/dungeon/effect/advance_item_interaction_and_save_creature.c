@@ -5,6 +5,7 @@
 #include "dungeon/effect/state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
+#include "dungeon/entity_spawn_variant_data.h"
 #include "dungeon/system/random.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/sys_flags.h"
@@ -182,7 +183,6 @@ extern u8 D_800DD110[];
 extern s32 D_800814A0;
 extern u8 D_800E0A2A[9];
 extern u8 D_800E0A33[15];
-extern s8 entity_spawn_variant_code;
 extern u8 active_actor_command_code;
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
@@ -190,7 +190,7 @@ extern u8 familiar_record_storage[];
 /* Advances the item interaction, spawning, initializing, and saving a linked creature. */
 void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, ObjectPosition *position, SpriteFrameState *sprite,
     S_func_800B1364_4 *actor) {
-    GteShortVector spawn_offset;
+    SVECTOR spawn_offset;
     s16 spawn_height;
     void *creature_variant;
     void *message_start;

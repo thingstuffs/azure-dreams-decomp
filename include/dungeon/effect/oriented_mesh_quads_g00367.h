@@ -6,6 +6,7 @@
 #include "common.h"
 #include "slus/data.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
 
 typedef struct Node {
     s32 pad[2];
@@ -176,7 +177,6 @@ s32 RotTransPers(void *, s32 *, s32 *, s32 *);
 s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 s32 RotMatrix(void *, void *);
 u16 ratan2();
-s32 AddPrim(void *, void *);
 
 /* Functions defined in this translation unit. */
 s32 process_linked_mesh_states_mode_1(void *initial_state, s32 value, void *data);

@@ -38,12 +38,12 @@ void apply_relative_projected_depth(void *entity_arg, MovingPosition *position, 
     coords.x0 = position->x;
     coords.x1 = position->y;
     coords.x2 = position->z;
-    depth_delta = RotTransPers(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
+    depth_delta = RotTransPers(&coords.x0, screen_xy, &depth_cue, &projection_flags);
     base_position = entity->reference_position;
     coords.x0 = base_position->x.unsigned_parts.integer;
     coords.x1 = base_position->y.unsigned_parts.integer;
     coords.x2 = base_position->z.unsigned_parts.integer;
-    depth_delta = depth_delta - RotTransPers(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
+    depth_delta = depth_delta - RotTransPers(&coords.x0, screen_xy, &depth_cue, &projection_flags);
     depth_bias = view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16)entity->facing + 0x100) >> 9) & 7] * 2;
     depth_delta = depth_delta + depth_bias;
     result->flags = (u16) (result->flags & 0xFF7F);

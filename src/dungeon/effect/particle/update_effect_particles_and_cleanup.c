@@ -137,7 +137,7 @@ typedef struct ParticleCleanupWork {
 
 /* Updates an effect's movement, particles, target effects, and cleanup state. */
 void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
-    GteShortVector offset;
+    SVECTOR offset;
     Local28 texture_rect;
     Local38 direction_steps;
     void *particle_owner;

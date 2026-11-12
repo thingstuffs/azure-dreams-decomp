@@ -7,20 +7,15 @@
 
 
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} Rect;
+#include "sdk/libgpu_types.h"
 
 extern s32 resource_completion_callback_address[];
 
 /* Loads an image and palette into VRAM, then updates the loading state. */
 void load_catalog_adjacent_detail_texture(CatalogDisplay *context_arg) {
     CatalogDisplay *context = context_arg;
-    Rect image_rect;
-    Rect palette_rect;
+    RECT image_rect;
+    RECT palette_rect;
     void *compressed;
     void *pixels;
     u8 load_phase;

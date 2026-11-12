@@ -1937,7 +1937,7 @@ void create_four_directional_effects(ActorRecord *owner_arg, ObjectPosition *mot
     offsets[1] = 0;
     offsets[0] = 0;
     owner = owner_arg;
-    resolve_record_orientation_or_fallback(origin->source, origin, (struct GteShortVector *)offsets, 0);
+    resolve_record_orientation_or_fallback(origin->source, origin, (struct SVECTOR *)offsets, 0);
     effect_index = 0;
     effect_data = (s32 *)(dampen_actor_motion);
     do {

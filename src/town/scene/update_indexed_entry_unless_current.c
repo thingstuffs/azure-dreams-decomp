@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/scene/state_data.h"
+#include "town/scene/choice_data.h"
 #include "shared/town_event_state.h"
 
 typedef struct S_80017EF0_0 {
@@ -9,8 +11,6 @@ typedef struct S_80017EF0_0 {
 
 
 extern s32 copy_indexed_entry_to_state();
-extern s32 scene_update_state;
-extern s32 scene_choice_index;
 
 /* Update the indexed entry unless the current state is 3; return whether updated. */
 s32 update_indexed_entry_unless_current(S_80017EF0_0 *entry_table, s32 entry_index) {

@@ -5,12 +5,12 @@
 #include "engine/script.h"
 #include "town/map.h"
 #include "town/map/body.h"
+#include "slus/town_map_selection_data.h"
 
 void send_resource_command_23(s32);
 
 extern u8 D_80072210[];
 extern u8 D_80072214[];
-extern s32 town_map_selection;
 extern u8 D_8008BED8[];
 extern u8 town_map_status;
 extern u8 town_building_slot_rectangles;

@@ -77,6 +77,7 @@ typedef struct Scratch80024124 {
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/slus_callbacks.h"
+#include "sdk/rand.h"
 typedef struct {
     u8 bytes[0x20];
 } LocalPoints;
@@ -300,7 +301,6 @@ extern const NativeOffsets58 target_effect_direction_steps;
 extern const RectTable target_particle_texture_rects;
 extern s16 particle_activity;
 extern PackedVec3 staged_particle_sprite_data;
-s32 rand(void);
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 void create_lingering_ballistic_sprite(Work *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y, s16 offset_z);

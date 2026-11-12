@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/emission_data.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/effect/head_bank_imports.h"
 #include "dungeon/data.h"
@@ -42,7 +43,6 @@ typedef struct Particle {
     s16 size_y;
 } Particle;
 
-extern u16 emitted_effect_counter;
 
 /* Emit scattered particles during the first 19 ticks and mark the entity expired when its timer ends. */
 void emit_early_scattered_particles(Entity *self, Position *origin, s32 spawn_param) {

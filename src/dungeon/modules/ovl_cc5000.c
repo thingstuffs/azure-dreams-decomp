@@ -12,6 +12,9 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/gpu_packets.h"
+#include "sdk/libgpu_packets.h"
+#include "sdk/libgpu_types.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 #include "dungeon/effect.h"
 #include "engine/cd.h"
 #include "engine/graphics.h"
@@ -1738,126 +1741,121 @@ void create_gray_fading_sprite_slot_d(void *unused_context, ObjectPosition *sour
     }
 }
 
-/*
- * Transforms four colored vertices and queues a visible shaded quad with the requested depth bias.
- *
- * MECHANISM: The four-argument ABI keeps source_pos/scale in s3/s4 while effect, effect_data, and
- * effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set. One packed 12-byte
- * assignment emits the retail lwl/lwr and swl/swr copy.
- */
+/* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void draw_shaded_effect_quad_slot_d(CL_CC5000_80173E40_S_80173E40_6 *quad, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias)
 {
-    CL_CC5000_80173E40_S_80173E40_0 *scratch = (CL_CC5000_80173E40_S_80173E40_0 *)0x1F800000;
-    CL_CC5000_80173E40_S_80173E40_4 *packet;
+    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    DR_MODE *mode;
+    POLY_G4 *packet;
     u8 *texture;
     s32 ot_index;
     u16 render_flags;
     u8 texture_flags;
     GameWork *render_state_ptr = &g_game_work;
-    CL_CC5000_80173E40_MATRIX current_matrix;
+    MATRIX current_matrix;
 
-    scratch->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
-    scratch->unk_88 = position->x.w.i;
-    scratch->unk_8C = position->y.w.i;
-    scratch->unk_90 = position->z.w.i;
+    scratch->ordering_table = (u32 *)&((GpuContext *)g_game_work.draw_buffer)->orderTag;
+    scratch->local_matrix.t[0] = position->x.w.i;
+    scratch->local_matrix.t[1] = position->y.w.i;
+    scratch->local_matrix.t[2] = position->z.w.i;
     render_info->flags |= 0x8000;
 
     PushMatrix();
 
-    scratch->unk_3C = 0x2000;
-    scratch->unk_38 = 0x2000;
-    scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = render_info->angle_x;
-    scratch->unk_A8 = render_info->angle_z;
-    scratch->unk_A6 = render_info->angle_y;
-    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
+    scratch->scale.vz = 0x2000;
+    scratch->scale.vy = 0x2000;
+    scratch->scale.vx = 0x2000;
+    scratch->angles.vx = render_info->angle_x;
+    scratch->angles.vz = render_info->angle_z;
+    scratch->angles.vy = render_info->angle_y;
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&current_matrix);
-    CompMatrix(&current_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
-    SetTransMatrix((u8 *)scratch + 0x54);
-    SetRotMatrix((u8 *)scratch + 0x54);
+    CompMatrix(&current_matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
     texture = render_info->source;
-    scratch->unk_28 = render_info->flags;
-    packet = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
-    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = &packet->unk_0C;
-    SetDrawMode(packet, 0, 0, GetTPage(0, 0, 0, 0), 0);
+    scratch->render_flags = render_info->flags;
+    mode = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
+    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = mode + 1;
+    SetDrawMode(mode, 0, 0, GetTPage(0, 0, 0, 0), 0);
 
-    packet->unk_00 = (packet->unk_00 & 0xFF000000) |
+    mode->tag = (mode->tag & 0xFF000000) |
         (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0x00FFFFFF);
     ((GpuContext *)g_game_work.draw_buffer)->orderTag =
         (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0xFF000000) |
-        ((u32)packet & 0x00FFFFFF);
+        ((u32)mode & 0x00FFFFFF);
 
     {
         GpuContext *render_state = g_game_work.draw_buffer;
         packet = render_state->packetCursor;
-        render_state->packetCursor = (u8 *)packet + 0x24;
+        render_state->packetCursor = packet + 1;
     }
 
-    scratch->unk_B0 = quad->unk_44;
-    scratch->unk_B8 = quad->unk_4A;
-    scratch->unk_C0 = quad->unk_50;
-    scratch->unk_C8 = quad->unk_56;
-    scratch->unk_B2 = quad->unk_46;
-    scratch->unk_BA = quad->unk_4C;
-    scratch->unk_C2 = quad->unk_52;
-    scratch->unk_CA = quad->unk_58;
-    scratch->unk_B4 = quad->unk_48;
-    scratch->unk_BC = quad->unk_4E;
-    scratch->unk_C4 = quad->unk_54;
-    scratch->unk_CC = quad->unk_5A;
+    scratch->vertices[0].vx = quad->unk_44;
+    scratch->vertices[1].vx = quad->unk_4A;
+    scratch->vertices[2].vx = quad->unk_50;
+    scratch->vertices[3].vx = quad->unk_56;
+    scratch->vertices[0].vy = quad->unk_46;
+    scratch->vertices[1].vy = quad->unk_4C;
+    scratch->vertices[2].vy = quad->unk_52;
+    scratch->vertices[3].vy = quad->unk_58;
+    scratch->vertices[0].vz = quad->unk_48;
+    scratch->vertices[1].vz = quad->unk_4E;
+    scratch->vertices[2].vz = quad->unk_54;
+    scratch->vertices[3].vz = quad->unk_5A;
 
-    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
-                             &scratch->unk_C0, &scratch->unk_C8,
-                             &packet->unk_08, &packet->unk_10,
-                             &packet->unk_18, &packet->unk_20,
-                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
-    scratch->unk_100 = ot_index;
+    ot_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
+                             &scratch->vertices[2], &scratch->vertices[3],
+                             (s32 *)&packet->x0, (s32 *)&packet->x1,
+                             (s32 *)&packet->x2, (s32 *)&packet->x3,
+                             &scratch->depth_cue, &scratch->gte_flag) - depth_bias - 6;
+    scratch->ot_index = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
-        if ((((u16)(packet->unk_08 + 0x20) < 0x181) &&
-             ((u16)(packet->unk_0A + 0x20) < 0x121)) |
-            (((u16)(packet->unk_10 + 0x20) < 0x181) &&
-             ((u16)(packet->unk_12 + 0x20) < 0x121)) |
-            (((u16)(packet->unk_18 + 0x20) < 0x181) &&
-             ((u16)(packet->unk_1A + 0x20) < 0x121)) |
-            (((u16)(packet->unk_20 + 0x20) < 0x181) &&
-             ((u16)(packet->unk_22 + 0x20) < 0x121))) {
+        if ((((u16)(packet->x0 + 0x20) < 0x181) &&
+             ((u16)(packet->y0 + 0x20) < 0x121)) |
+            (((u16)(packet->x1 + 0x20) < 0x181) &&
+             ((u16)(packet->y1 + 0x20) < 0x121)) |
+            (((u16)(packet->x2 + 0x20) < 0x181) &&
+             ((u16)(packet->y2 + 0x20) < 0x121)) |
+            (((u16)(packet->x3 + 0x20) < 0x181) &&
+             ((u16)(packet->y3 + 0x20) < 0x121))) {
             render_info->flags &= 0x7FFF;
             texture_flags = texture[1];
             render_info->color.c.code = texture_flags;
-            render_flags = scratch->unk_28;
+            render_flags = scratch->render_flags;
             if (render_flags & 8) {
                 render_info->color.c.code = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            packet->unk_04.at00.v = quad->unk_04;
-            packet->unk_0C = quad->unk_08;
-            packet->unk_14 = quad->unk_0C;
-            packet->unk_1C = quad->unk_10;
+            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            *(u32 *)&packet->red0 = quad->unk_04;
+            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            *(u32 *)&packet->red1 = quad->unk_08;
+            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            *(u32 *)&packet->red2 = quad->unk_0C;
+            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            *(u32 *)&packet->red3 = quad->unk_10;
             SetPolyG4(packet);
-            packet->unk_04.at03.v |= 2;
+            packet->code |= 2;
 
-            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0xFF000000) |
+            packet->tag = (packet->tag & 0xFF000000) |
+                (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);
+            scratch->ordering_table[scratch->ot_index] =
+                (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            packet = (CL_CC5000_80173E40_S_80173E40_4 *)((CL_CC5000_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0;
-            ((CL_CC5000_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0 = (u8 *)packet + 0xC;
-            SetDrawMode(packet, 0, 0, GetTPage(0, 1, 0, 0), 0);
-            packet->unk_00 = (packet->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0xFF000000) |
-                ((u32)packet & 0x00FFFFFF);
+            mode = ((GpuContext *)render_state_ptr->draw_buffer)->packetCursor;
+            ((GpuContext *)render_state_ptr->draw_buffer)->packetCursor = mode + 1;
+            SetDrawMode(mode, 0, 0, GetTPage(0, 1, 0, 0), 0);
+            mode->tag = (mode->tag & 0xFF000000) |
+                (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);
+            scratch->ordering_table[scratch->ot_index] =
+                (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
+                ((u32)mode & 0x00FFFFFF);
         }
     }
 
@@ -2040,7 +2038,7 @@ void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner
             effect = allocate_flagged_object_node(0x12);
             if (effect != 0) {
                 SpriteFrameState *render_state;
-                void *effect_data;
+                CL_CC5000_80174724_S_80C96F24_1 *effect_data;
                 ObjectPosition *position;
                 s16 init_value;
                 s16 angle_index;
@@ -2049,12 +2047,12 @@ void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner
 
                 effect_data = NODE_BODY(effect);
 
-                ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_24 = 0x42;
+                effect_data->unk_24 = 0x42;
                 init_value = 0x17;
-                ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_26 = 0;
-                ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_2A = segment;
+                effect_data->unk_26 = 0;
+                effect_data->unk_2A = segment;
 
-                ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_2C =
+                effect_data->unk_2C =
                     init_value - owner->unk_A4;
                 effect->update_callback = update_flashing_effect_segment_slot_d;
                 register_node(effect, draw_linked_effect_quads_slot_d);
@@ -2083,9 +2081,9 @@ void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner
 
                 ((CL_CC5000_80174724_S_80C96F24_3 *)effect)->unk_20 =
                     (rand() & 0x1F) + 0x10 + shade_offset;
-                ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_01 =
+                effect_data->unk_01 =
                     (rand() & 0x1F) + 0x10 + shade_offset;
-                ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_02 =
+                effect_data->unk_02 =
                     (rand() & 0x1F) + 0x10 + shade_offset;
 
                 {
@@ -2093,19 +2091,19 @@ void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner
 
                     if ((segment_index == 1) || (segment_index == 6)) {
                         ((CL_CC5000_80174724_S_80C96F24_3 *)effect)->unk_20 += 0x0A;
-                        ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_01 += 0x0A;
-                        ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_02 += 0x0A;
+                        effect_data->unk_01 += 0x0A;
+                        effect_data->unk_02 += 0x0A;
                     }
                 }
                 if (((s16)segment == 2) || ((s16)segment == 5)) {
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_00 += 0x14;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_01 += 0x14;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_02 += 0x14;
+                    effect_data->unk_00 += 0x14;
+                    effect_data->unk_01 += 0x14;
+                    effect_data->unk_02 += 0x14;
                 }
                 if ((u16)(segment - 3) < 2U) {
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_00 += 0x1E;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_01 += 0x1E;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_02 += 0x1E;
+                    effect_data->unk_00 += 0x1E;
+                    effect_data->unk_01 += 0x1E;
+                    effect_data->unk_02 += 0x1E;
                 }
 
                 {
@@ -2124,36 +2122,36 @@ void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner
                     angle_index = (s16)segment;
                     end_angle = (angle_index + 1) << 9;
                     trig_angle = end_angle;
-                    render_data = effect_data + 0x7A;
+                    render_data = (u8 *)effect_data + 0x7A;
                     render_state->source = render_data;
 
                     product = start_radius * rcos(trig_angle);
                     start_angle = angle_index << 9;
                     last_band = product >> 12;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_44 = last_band;
+                    effect_data->unk_44 = last_band;
                     product = start_radius * rcos(start_angle);
                     last_band = product >> 12;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_4A = last_band;
+                    effect_data->unk_4A = last_band;
                     trig_value = rcos(end_angle);
                     end_radius_copy = end_radius;
                     product = end_radius_copy * trig_value;
                     last_band = product >> 12;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_50 = last_band;
+                    effect_data->unk_50 = last_band;
                     product = end_radius_copy * rcos(start_angle);
                     last_band = product >> 12;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_56 = last_band;
+                    effect_data->unk_56 = last_band;
                     product = start_radius * rsin(end_angle);
                     last_band = product >> 12;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_46 = last_band;
+                    effect_data->unk_46 = last_band;
                     product = start_radius * rsin(start_angle);
                     last_band = product >> 12;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_4C = last_band;
+                    effect_data->unk_4C = last_band;
                     product = end_radius_copy * rsin(end_angle);
                     last_band = product >> 12;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_52 = last_band;
+                    effect_data->unk_52 = last_band;
                     product = end_radius_copy * rsin(start_angle);
                     last_band = product >> 12;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_58 = last_band;
+                    effect_data->unk_58 = last_band;
                 }
 
                 {
@@ -2174,10 +2172,10 @@ void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner
                         start_z = -0x42;
                         end_z = -0x2E;
                     }
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_4E = start_z;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_48 = start_z;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_5A = end_z;
-                    ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_54 = end_z;
+                    effect_data->unk_4E = start_z;
+                    effect_data->unk_48 = start_z;
+                    effect_data->unk_5A = end_z;
+                    effect_data->unk_54 = end_z;
                 }
             }
 

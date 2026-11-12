@@ -153,7 +153,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
     SpriteFrameState *appearance;
     u8 *direction_page;
     s32 *world_page;
-    void *menu = menu_in;
+    S_8002520C_0 *menu = menu_in;
     void *motion_data = motion_in;
 
     entry_counter = selection_animation_counters[0];
@@ -161,34 +161,34 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
     motion = motion_data;
     appearance = appearance_in;
     state_base = &g_game_work;
-    state = ((S_8002520C_0 *)menu)->unk_1C;
+    state = menu->unk_1C;
     switch ((u32)state) {
     case SELECTION_MENU_INIT:
-        register_node(menu - 0x20, &render_three_by_three_terrain_grid);
+        register_node(NODE_HEADER(menu), &render_three_by_three_terrain_grid);
         motion->unk_02 = -0x180;
         motion->unk_06 = -0x20;
         appearance->angle_x = 0x1000U;
         appearance->scale_y = 0x1000U;
         appearance->scale_x = 0x1000U;
-        ((S_8002520C_0 *)menu)->unk_22 = 8;
-        ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
+        menu->unk_22 = 8;
+        menu->unk_1C = (s16) ((u16) menu->unk_1C + 1);
                     /* fallthrough */
     case SELECTION_MENU_OPEN:
-        side_data = (void *)(((S_8002520C_0 *)menu)->unk_22);
+        side_data = (void *)(menu->unk_22);
         if (((s16)side_data) != 0) {
             motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x80 - motion->unk_02) / ((s16)side_data)));
-            motion->unk_0A.s = (s16) (rsin(((S_8002520C_0 *)menu)->unk_22 << 5) + 0x400);
+            motion->unk_0A.s = (s16) (rsin(menu->unk_22 << 5) + 0x400);
             enter_tilt = appearance->angle_x;
             appearance->angle_x = (u16) (enter_tilt + ((s32) (0xD00
-                - enter_tilt) / (s16) ((S_8002520C_0 *)menu)->unk_22));
+                - enter_tilt) / (s16) menu->unk_22));
             enter_shade = appearance->color.c.b;
-            lit_shade = enter_shade + ((s32) (0x80 - enter_shade) / (s16) ((S_8002520C_0 *)menu)->unk_22);
+            lit_shade = enter_shade + ((s32) (0x80 - enter_shade) / (s16) menu->unk_22);
             appearance->color.c.b = lit_shade;
             appearance->color.c.g = lit_shade;
             appearance->color.c.r = lit_shade;
         }
-        enter_left = (u16) ((S_8002520C_0 *)menu)->unk_22 - 1;
-        ((S_8002520C_0 *)menu)->unk_22 = enter_left;
+        enter_left = (u16) menu->unk_22 - 1;
+        menu->unk_22 = enter_left;
         if ((enter_left << 0x10) <= 0) {
             motion->unk_02 = -0x80;
             motion->unk_06 = -0x20;
@@ -197,8 +197,8 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
             appearance->color.c.b = 0x80U;
             appearance->color.c.g = 0x80U;
             appearance->color.c.r = 0x80U;
-            ((S_8002520C_0 *)menu)->unk_22 = 0;
-            ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
+            menu->unk_22 = 0;
+            menu->unk_1C = (s16) ((u16) menu->unk_1C + 1);
             case SELECTION_MENU_INPUT:
         }
         if (selection_blink_timer[0] == 0) {
@@ -217,11 +217,11 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                 {
 
                     input_angle = input_angle >> 9;
-                    side_index = ((S_8002520C_0 *)menu)->unk_26;
+                    side_index = menu->unk_26;
                     step_index = input_angle & 7;
                 }
                 step_or_cell = step_index * 2;
-                side_object = ((S_8002520C_22 *)(((side_index * 4) + menu)))->unk_0C;
+                side_object = menu->side_slots[side_index];
                 side_data = side_object + 0x20;
                 cell = ((S_8002520C_5_pre *)side_data)[-1].unk_00;
                 {
@@ -252,19 +252,19 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                         x_value = x_step + base_x;
                         target_y = (u16)(y_value + next_y);
                     }
-                    first_slot = menu + 0xC;
+                    first_slot = &menu->side_slots[0];
                 } else {
-                    first_slot = menu + 0xC;
+                    first_slot = &menu->side_slots[0];
                 }
-                step_or_cell = ((S_8002520C_0 *)menu)->unk_26;
+                step_or_cell = menu->unk_26;
                 other_slot = first_slot;
                 if (step_or_cell == 0) {
-                    other_slot = menu + 0x10;
+                    other_slot = &menu->side_slots[1];
                 }
                 if (*other_slot != NULL) {
                     other_slot_data = first_slot;
                     if (step_or_cell == 0) {
-                        other_slot_data = menu + 0x10;
+                        other_slot_data = &menu->side_slots[1];
                     }
                     step_or_cell = (s32) ((S_8002520C_7 *)(*other_slot_data))->unk_0C;
                     state = ((S_8002520C_8 *)((void *) step_or_cell))->unk_24;
@@ -301,7 +301,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                     S_8002520C_10 *world_node;
 
                     world_page = (s32 *)0x800E0000;
-                    side_offset = ((S_8002520C_0 *)menu)->unk_26;
+                    side_offset = menu->unk_26;
                     side_ptr = (s32 *)(((S_8002520C_9 *)world_page)->unk_3D7C);
                     side_offset *= 4;
                     world_node = (void *) (side_offset + (long)menu);
@@ -317,16 +317,16 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                     S_8002520C_13 *direction_entry;
 
                     turned_dir = direction - 2;
-                    step_index = ((S_8002520C_0 *)menu)->unk_26;
+                    step_index = menu->unk_26;
                     direction_page = (u8 *)0x80010000;
                     direction_entry = (S_8002520C_13 *)(((s16)step_index * 2) + direction_page);
                     if ((turned_dir & 7) != direction_entry->unk_2094) {
                         direction = (direction - 2) & 7;
                         direction_entry->unk_2094 = direction;
                         actor->unk_45 = (s8) direction;
-                        append_packed_action_record(((S_8002520C_9 *)world_page)->unk_3D7C, 0x90, ((S_8002520C_0 *)menu)->unk_26,
+                        append_packed_action_record(((S_8002520C_9 *)world_page)->unk_3D7C, 0x90, menu->unk_26,
                             direction);
-                        selected_side = ((S_8002520C_0 *)menu)->unk_26;
+                        selected_side = menu->unk_26;
                         other_dir = (u16 *)0x80012094;
                         if (selected_side == 0) {
                             other_dir = (u16 *)0x80012096;
@@ -341,7 +341,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                                 other_dir_src = (u16 *)0x80012096;
                             }
                             *next_dir_dst = *other_dir_src + 1;
-                            wrap_side = ((S_8002520C_0 *)menu)->unk_26;
+                            wrap_side = menu->unk_26;
                             other_dir_dst = (u16 *)0x80012094;
                             if (wrap_side == 0) {
                                 other_dir_dst = (u16 *)0x80012096;
@@ -355,35 +355,35 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                     }
                 }
                 if (last_frame_ticks[0] != 0) {
-                    selection_blink_target[0] = (u16) ((S_8002520C_0 *)menu)->unk_26;
+                    selection_blink_target[0] = (u16) menu->unk_26;
                     selection_blink_timer[0] = (s16) (0x20 / (s32) last_frame_ticks[0]);
                 }
-                ((S_8002520C_25 *)(((S_8002520C_24 *)(((((S_8002520C_0 *)menu)->unk_26 * 4)
-                    + menu)))->unk_0C))->unk_B6 = 1;
+                ((S_8002520C_25 *)(((S_8002520C_24 *)(((menu->unk_26 * 4)
+                    + (u8 *)menu)))->unk_0C))->unk_B6 = 1;
             }
             if ((state_base->pressed_buttons) & 8) {
-                ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 - 0x200);
+                menu->unk_20 = (u16) (menu->unk_20 - 0x200);
             }
             if ((state_base->pressed_buttons) & 4) {
-                ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 + 0x200);
+                menu->unk_20 = (u16) (menu->unk_20 + 0x200);
             }
         }
-        if (((S_8002520C_0 *)menu)->unk_1E != (s16) ((S_8002520C_0 *)menu)->unk_20) {
-            ((S_8002520C_0 *)menu)->unk_1E = (s16) ((S_8002520C_0 *)menu)->unk_20;
-            ((S_8002520C_0 *)menu)->unk_24 = 8;
+        if (menu->unk_1E != (s16) menu->unk_20) {
+            menu->unk_1E = (s16) menu->unk_20;
+            menu->unk_24 = 8;
         }
-        turn_ticks = ((S_8002520C_0 *)menu)->unk_24;
+        turn_ticks = menu->unk_24;
         if (turn_ticks != 0) {
-            appearance->angle_z = (u16) (appearance->angle_z + ((s32) (((S_8002520C_0 *)menu)->unk_1E
+            appearance->angle_z = (u16) (appearance->angle_z + ((s32) (menu->unk_1E
                 - (s16) appearance->angle_z) / turn_ticks));
-            turn_left = (u16) ((S_8002520C_0 *)menu)->unk_24 - 1;
-            ((S_8002520C_0 *)menu)->unk_24 = turn_left;
+            turn_left = (u16) menu->unk_24 - 1;
+            menu->unk_24 = turn_left;
             if ((turn_left << 0x10) <= 0) {
-                appearance->angle_z = (u16) ((S_8002520C_0 *)menu)->unk_1E;
-                ((S_8002520C_0 *)menu)->unk_24 = 0;
+                appearance->angle_z = (u16) menu->unk_1E;
+                menu->unk_24 = 0;
                 appearance->angle_z = (u16) (appearance->angle_z & 0xFFF);
-                ((S_8002520C_0 *)menu)->unk_1E = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1E & 0xFFF);
-                ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 & 0xFFF);
+                menu->unk_1E = (s16) ((u16) menu->unk_1E & 0xFFF);
+                menu->unk_20 = (u16) (menu->unk_20 & 0xFFF);
                 return;
             }
         }
@@ -395,37 +395,37 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                 return;
             }
         }
-        ((S_8002520C_0 *)menu)->unk_22 = 8;
+        menu->unk_22 = 8;
         motion->unk_16 = 8U;
-        ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
+        menu->unk_1C = (s16) ((u16) menu->unk_1C + 1);
         /* fallthrough */
     case SELECTION_MENU_CLOSE:
-                exit_ticks = ((S_8002520C_0 *)menu)->unk_22;
+                exit_ticks = menu->unk_22;
                 if (exit_ticks != 0) {
                     motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x480 - motion->unk_02) / exit_ticks));
-                    motion->unk_0A.u = (u16) (motion->unk_0A.u + rsin(((S_8002520C_0 *)menu)->unk_22 << 5));
+                    motion->unk_0A.u = (u16) (motion->unk_0A.u + rsin(menu->unk_22 << 5));
                     exit_tilt = appearance->angle_x;
                     appearance->angle_x = (u16) (exit_tilt + ((s32) (0x1000
-                        - exit_tilt) / (s16) ((S_8002520C_0 *)menu)->unk_22));
+                        - exit_tilt) / (s16) menu->unk_22));
                     exit_shade = appearance->color.c.b;
                     scale_y = appearance->scale_x;
-                    faded_shade = exit_shade + ((s32) (0 - exit_shade) / (s16) ((S_8002520C_0 *)menu)->unk_22);
+                    faded_shade = exit_shade + ((s32) (0 - exit_shade) / (s16) menu->unk_22);
                     appearance->color.c.b = faded_shade;
                     appearance->color.c.g = faded_shade;
                     appearance->color.c.r = faded_shade;
                     scale_z = appearance->scale_y;
                     appearance->scale_x = (u16) (scale_y + ((s32) (0x200
-                        - scale_y) / (s16) ((S_8002520C_0 *)menu)->unk_22));
+                        - scale_y) / (s16) menu->unk_22));
                     appearance->scale_y = (u16) (scale_z + ((s32) (0x200
-                        - scale_z) / (s16) ((S_8002520C_0 *)menu)->unk_22));
+                        - scale_z) / (s16) menu->unk_22));
                     motion->unk_16 = (u16) (motion->unk_16 * 2);
                     side_ptr = (s32 *)0x80080000;
-                    exit_left = (u16) ((S_8002520C_0 *)menu)->unk_22 - 1;
-                    ((S_8002520C_0 *)menu)->unk_22 = exit_left;
+                    exit_left = (u16) menu->unk_22 - 1;
+                    menu->unk_22 = exit_left;
                 } else {
                     side_ptr = (s32 *)0x80080000;
-                    exit_left = (u16) ((S_8002520C_0 *)menu)->unk_22 - 1;
-                    ((S_8002520C_0 *)menu)->unk_22 = exit_left;
+                    exit_left = (u16) menu->unk_22 - 1;
+                    menu->unk_22 = exit_left;
                 }
                 if ((exit_left << 0x10) <= 0) {
                     s32 object_or_flags;
@@ -434,7 +434,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
 
                     ((S_8002520C_0_pre *)menu)[-1].unk_00 = (u16) (((S_8002520C_0_pre *)menu)[-1].unk_00 | 0x8000);
                     flags_or_page = ((S_8002520C_17 *)side_ptr)->unk_14A0;
-                    object_or_state = (s32) ((S_8002520C_0 *)menu)->unk_08;
+                    object_or_state = (s32) menu->unk_08;
                     object_or_flags = flags_or_page | 0x8000;
                     ((S_8002520C_17 *)side_ptr)->unk_14A0 = object_or_flags;
                     if (object_or_state != 0) {
@@ -443,7 +443,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                     }
                     side_count = 0;
                     side_data = side_ptr;
-                    side_ptr = menu;
+                    side_ptr = (s32 *)menu;
                     do {
                         object_or_flags = (s32) ((S_8002520C_17 *)side_ptr)->unk_0C;
                         if (object_or_flags != 0) {
@@ -458,7 +458,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                         side_count += 1;
                         side_ptr += 1;
                     } while (side_count < 2);
-                    side_count = (s32) ((S_8002520C_0 *)menu)->unk_14;
+                    side_count = (s32) menu->unk_14;
                     if (side_count != 0) {
                         flags_or_page = (s32) 0x80080000;
                         object_or_state = ((S_8002520C_20 *)((void *) side_count))->unk_1E;
@@ -794,7 +794,7 @@ void initialize_children_or_shutdown(S_80026190_0 *owner)
     S_80026190_15 *flag_page;
     S_80026190_8 *cleanup_page;
     GameWork *status;
-    void *source;
+    S_80026190_10 *source;
     SpriteFrameState *parent;
     S_80026190_2 *main_child;
     S_80026190_3 *aux_child;
@@ -887,11 +887,11 @@ void initialize_children_or_shutdown(S_80026190_0 *owner)
     source = *(void **)(((u8 *)dungeon_actor_ring_anchor) + (source_slot * 4) + 0xAC);
     if (source != NULL) {
         object_or_kind = 0x1E;
-        if (!(((S_80026190_10 *)source)->unk_14 & 0x20000000)) {
-            object_or_kind = ((S_80026190_10 *)source)->unk_13;
+        if (!(source->unk_14 & 0x20000000)) {
+            object_or_kind = source->unk_13;
         }
-        if (((S_80026190_10 *)source)->unk_13 == 0x2E) {
-            object_or_kind = ((S_80026190_10 *)source)->unk_A8;
+        if (source->unk_13 == 0x2E) {
+            object_or_kind = source->unk_A8;
             set_code_for_entity_mode(source);
         } else {
             set_code_for_entity_mode(source);
@@ -909,7 +909,7 @@ void initialize_children_or_shutdown(S_80026190_0 *owner)
 
         factory = load_monster_code_module(signed_kind, find_or_retain_sprite_resource_slot(signed_kind, 3), 1);
         drain_cd_command_queue();
-        entity = factory(1, 0, 0, ((S_80026190_10 *)source)->unk_88);
+        entity = factory(1, 0, 0, source->unk_88);
 
         status_page = (u8 *)0x80010000;
         mode = ((S_80026190_11 *)status_page)->unk_2090;
@@ -964,7 +964,7 @@ void initialize_children_or_shutdown(S_80026190_0 *owner)
         entity->unk_1C |= 0x40000;
         unlink_entity_node(entity_arg);
 
-        flags_mask = ((S_80026190_10 *)source)->unk_14;
+        flags_mask = source->unk_14;
         parent = NODE_HEADER(entity)->sprite;
         flags_mask &= 0x20000000;
         if (flags_mask) {
@@ -1361,17 +1361,8 @@ void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mo
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 /* POLY_G4 packet: four packed color words interleaved with screen points. */
-typedef struct MenuShadeQuad {
-    u32 tag;
-    SpriteColor color0;
-    s16 x0, y0;
-    SpriteColor color1;
-    s16 x1, y1;
-    SpriteColor color2;
-    s16 x2, y2;
-    SpriteColor color3;
-    s16 x3, y3;
-} MenuShadeQuad;
+#include "sdk/libgpu_types.h"
+#include "sdk/libgpu_packets.h"
 
 /* Queues four shaded quads fading from each linked rectangle's center color to black at its edges. */
 s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_arg)
@@ -1381,7 +1372,8 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
     GpuContext **render_state_ptr;
     s32 quadrant;
     GpuContext *render_state;
-    MenuShadeQuad *packet;
+    POLY_G4 *packet;
+    DR_MODE *mode_packet;
     ObjectNodeHeader *next_node;
     u16 center_coord;
     s16 edge_coord;
@@ -1422,23 +1414,27 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
             packet->y2 = edge_coord;
 
             packet_word = rect_data->color.word;
-            packet->color3.word = 0;
-            packet->color1.word = 0;
-            packet->color2.word = 0;
-            packet->color0.word = packet_word;
+            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            *(u32 *)&packet->red3 = 0;
+            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            *(u32 *)&packet->red1 = 0;
+            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            *(u32 *)&packet->red2 = 0;
+            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            *(u32 *)&packet->red0 = packet_word;
             SetPolyG4(packet);
 
             quadrant--;
-            packet->color0.c.code |= 2;
+            packet->code |= 2;
             AddPrim(&(*render_state_ptr)->orderTag + owner->z.w.i, packet);
         } while (quadrant >= 0);
 
         render_state = *render_state_ptr;
-        packet = render_state->packetCursor;
-        render_state->packetCursor = (u8 *)packet + 0xC;
+        mode_packet = render_state->packetCursor;
+        render_state->packetCursor = mode_packet + 1;
         packet_word = GetTPage(0, 2, 0, 0);
-        SetDrawMode(packet, 0, 0, packet_word & 0xFFFF, 0);
-        AddPrim(&(*render_state_ptr)->orderTag + owner->z.w.i, packet);
+        SetDrawMode(mode_packet, 0, 0, packet_word & 0xFFFF, 0);
+        AddPrim(&(*render_state_ptr)->orderTag + owner->z.w.i, mode_packet);
 
         next_node = ((ObjectNodeHeader *)rect_data)[-1].chain_next;
         rect_data = NODE_BODY(next_node);

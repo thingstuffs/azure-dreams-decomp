@@ -48,7 +48,8 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
     SetSemiTrans(packet, 1);
 
     depth_or_page = RotTransPers4((InputPair *)&vertex_0, (InputPair *)&vertex_1, (InputPair *)&vertex_2, (InputPair *)&vertex_3,
-                          &screen_0, &screen_1, &screen_2, &screen_3, &depth_cue, &transform_flags);
+                          (s32 *)&screen_0, (s32 *)&screen_1, (s32 *)&screen_2, (s32 *)&screen_3,
+                          &depth_cue, &transform_flags);
 
     quad_packet->x0 = screen_0.first;
     quad_packet->y0 = screen_0.second;

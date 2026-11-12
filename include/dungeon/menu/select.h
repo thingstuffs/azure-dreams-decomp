@@ -54,11 +54,6 @@ typedef struct S_80025170_0 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-typedef struct S_8002520C_22 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8002520C_22;   /* ((side_index * 4) + arg0) in func_8002520C */
-
 typedef struct S_8002520C_23 {
     u8 pad_00[0x2094];
     u16 unk_2094;
@@ -81,7 +76,7 @@ typedef struct S_8002520C_0_pre {
 typedef struct S_8002520C_0 {
     u8 pad_00[0x8];
     void * unk_08;
-    u8 pad_0C[0x8];
+    void *side_slots[2];
     void * unk_14;
     u8 pad_18[0x4];
     s16 unk_1C;
@@ -664,8 +659,8 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 #include "shared/sprite_source.h"
+#include "sdk/libgpu.h"
 extern SpriteSourceEntry menu_effect_sprite_entries[];
-s32 rsin(s32);                        /* extern */
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);      /* extern */
 u32 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */ /* extern */
 extern u8 last_frame_ticks[16];
@@ -699,25 +694,13 @@ extern M2C_UNK D_80027160;
 extern Cell menu_mesh_cells[];
 extern s16 D_8002713A[];
 extern s8 scene_geometry[];
-void PushMatrix(void);
-void * TransMatrix(void *, void *);
-void * RotMatrix(void *, void *);
-void * ScaleMatrix(void *, void *);
-void SetRotMatrix(void *);
-void SetTransMatrix(void *);
 #include "sdk/libgte.h"
 extern s32 func_800656C0();
-extern void func_80065034();
 extern void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 extern void draw_sprite_clipped();
 extern void func_80045CC4();
-void PopMatrix(void);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetPolyG4(void *);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s16 selection_blink_timer[5];
 extern u16 selection_blink_target[5];
 extern s16 selection_animation_counters[5];
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-void AddPrim(void *, void *);
 #endif

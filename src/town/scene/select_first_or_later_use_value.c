@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/scene/choice_data.h"
 
 #include "town/scene.h"
 #include "town/data.h"
-extern s32 scene_choice_index;
 
 /* Returns a helper result or a value from the first-use or subsequent-use table. */
 void *select_first_or_later_use_value(s32 unused_0, s32 unused_1, s32 selector) {

@@ -427,7 +427,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
         scratch_or_height = &screen_coords[2];
         screen_pos = screen_base;
         do {
-            depth_bucket = RotTransPers(&world_pos, screen_pos, scratch_or_height, scratch_or_height) - 8;
+            depth_bucket = RotTransPers(&world_pos, (s32 *)screen_pos, scratch_or_height, scratch_or_height) - 8;
             screen_pos++;
             index_or_jitter++;
             *(u16 *)((u8 *)&world_pos + 4) =

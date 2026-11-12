@@ -7,6 +7,7 @@ struct ObjectPosition;
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/libgte.h"
 typedef struct {
     s16 x;
     u16 y;
@@ -37,7 +38,6 @@ void create_offset_colored_effect(s32,s32,s32,s32,s32,s32,s32,s32,s32,s32);
 void advance_particle_fade_and_cleanup(struct S_func_80026418_0 *effect);
 s32 register_node(void *, void *, ...);
 void select_record_entry_and_value(void *state, void *entries, short index);
-void ScaleMatrix(void *, void *);
 extern s16 impact_effect_update_flag;
 extern void *D_80028630;
 /* Pooled particle callback work shared by the shrinking and rotating variants.

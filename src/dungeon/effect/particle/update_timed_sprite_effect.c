@@ -283,6 +283,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
     }
 }
 #include "shared/game_work.h"
+#include "sdk/libgte_matrix.h"
 
 
 
@@ -302,14 +303,14 @@ s32 draw_animated_projectile_quads(RenderRecord *render_record, EntityRec *posit
     POLY_FT4 *poly;
 
 next_record:
-    world_point.x = (u16)position->x.w.i;
+    world_point.vx = (u16)position->x.w.i;
     frame_record = render_record;
-    world_point.y = (u16)position->y.w.i;
-    world_point.z = (u16)position->z.w.i - 14;
+    world_point.vy = (u16)position->y.w.i;
+    world_point.vz = (u16)position->z.w.i - 14;
 
     for (endpoint = 0; endpoint < 2; endpoint++) {
-        depth = RotTransPers(&world_point, &screen_base[endpoint * 2], projection_out, projection_out) - 8;
-        world_point.z += 28;
+        depth = RotTransPers(&world_point, (s32 *)&screen_base[endpoint * 2], projection_out, projection_out) - 8;
+        world_point.vz += 28;
     }
 
     height = screen[1] - screen[3];

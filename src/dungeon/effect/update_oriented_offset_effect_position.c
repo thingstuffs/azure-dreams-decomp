@@ -17,7 +17,7 @@
 
 /* Update the position from a base and offset, and mark completion or timeout. */
 void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosition *position) {
-    GteShortVector offset;
+    SVECTOR offset;
     u16 new_position[3];
     s16 old_x;
     s16 old_y;

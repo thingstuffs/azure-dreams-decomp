@@ -67,7 +67,7 @@ void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_dat
     MovingPosition *output;
     SpriteFrameState *context;
     u8 *owner;
-    u8 *base;
+    S_80172610_2 *base;
     register u8 *saved_base;
     S_80172610_3 *linked;
     MovingPosition *source;
@@ -87,15 +87,15 @@ void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_dat
     owner = (u8 *)actor->unk_AC.address;
     linked = (S_80172610_3 *)((S_80172610_1 *)owner)->unk_0C;
     source = ((S_80172610_1 *)owner)->unk_08;
-    base = owner + 0x20;
-    saved_base = base;
+    base = (S_80172610_2 *)(owner + 0x20);
+    saved_base = (u8 *)base;
 
     if (actor->action_id != 0) {
         return;
     }
 
-    apply_monster_koyaw_data(((S_80172610_2 *)base)->unk_1C.p, ((u8 *)context) + 0xC);
-    if ((((S_80172610_2 *)base)->unk_1C.i & 0x20) == 0) {
+    apply_monster_koyaw_data(base->unk_1C.p, ((u8 *)context) + 0xC);
+    if ((base->unk_1C.i & 0x20) == 0) {
         advance_sprite_animation_and_textures(context);
     }
 
@@ -105,8 +105,8 @@ void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_dat
     }
 
     old_angle = actor->facing;
-    new_angle = ((S_80172610_2 *)base)->unk_2A;
-    new_angle_bits = ((u16)((S_80172610_2 *)base)->unk_2A);
+    new_angle = base->unk_2A;
+    new_angle_bits = ((u16)base->unk_2A);
     if (old_angle != new_angle) {
         actor->facing = new_angle_bits;
         facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + new_angle + 0x100) >> 9) & 7;

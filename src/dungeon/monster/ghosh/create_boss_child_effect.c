@@ -52,7 +52,7 @@ typedef struct {
 void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, void *sprite_template) {
     ObjectNodeHeader *parent_object;
     SpriteFrameState *sprite;
-    void *effect_data;
+    S_80172B00_0 *effect_data;
     ObjectNodeHeader *effect_object;
     ObjectPosition *effect_pos;
     CopyBlock *copy_dst;
@@ -66,14 +66,14 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
     effect_object = allocate_list_node(0x112, &parent_object->next);
     effect_data = NODE_BODY(effect_object);
     if (effect_object != NULL) {
-        ((S_80172B00_0 *)effect_data)->unk_96 = 0x78;
+        effect_data->unk_96 = 0x78;
         effect_object->update_callback = &update_boss_actor_direction_state;
-        ((S_80172B00_0 *)effect_data)->unk_AC = parent_object;
+        effect_data->unk_AC = parent_object;
         {
             S_80172B00_2 *parent_view = parent_data;
-            ((S_80172B00_0 *)effect_data)->unk_94 = (u16) parent_view->unk_2A;
+            effect_data->unk_94 = (u16) parent_view->unk_2A;
             copy_src = sprite_template;
-            ((S_80172B00_0 *)effect_data)->unk_2A = (u16) parent_view->unk_2A;
+            effect_data->unk_2A = (u16) parent_view->unk_2A;
         }
         sprite = effect_object->sprite;
         copy_dst = (CopyBlock *) sprite;
@@ -104,6 +104,6 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
             S_80172B00_2 *parent_view = parent_data;
             parent_view->unk_B0 = (u8) (parent_view->unk_B0 + 1);
         }
-        create_tracked_effect(effect_object, setup_mode, ((void *)sprite) + 0x2C, effect_data + 0x2A);
+        create_tracked_effect(effect_object, setup_mode, ((void *)sprite) + 0x2C, &effect_data->unk_2A);
     }
 }

@@ -3,6 +3,7 @@
 #include "dungeon/menu.h"
 #include "engine/camera.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -13,7 +14,7 @@ typedef struct S_80123928_0 {
 
 /* Renders two-byte character codes, advancing the horizontal position by two per character. */
 void draw_vram_glyph_text(u8 *text, s16 x, s16 y) {
-    s32 glyph;
+    RECT glyph;
     s16 draw_x;
     u8 *cursor;
     u8 code_hi;

@@ -37,12 +37,12 @@ typedef struct SegmentedLineScratch {
     u8 pad_2A[0xA];
     IntVector3 scale;
     u8 pad_40[0x14];
-    GteMatrix transform;
-    GteMatrix rotation;
+    MATRIX transform;
+    MATRIX rotation;
     u8 pad_94[0x10];
-    GteShortVector angles;
+    SVECTOR angles;
     u8 pad_AC[4];
-    GteShortVector point[4];
+    SVECTOR point[4];
     s32 projection;
     s32 projection_flags;
     u8 pad_D8[0x28];

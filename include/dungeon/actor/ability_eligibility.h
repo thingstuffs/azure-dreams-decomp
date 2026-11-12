@@ -121,7 +121,7 @@ typedef struct S_800A4A9C_0 {
 
 
 #include "engine/item.h"
-extern int abs(int);
+#include "sdk/abs.h"
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 generate_random_value(void);

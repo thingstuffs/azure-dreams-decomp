@@ -19,6 +19,8 @@ struct SpriteFrameState;
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/town_object.h"
+#include "sdk/abs.h"
+#include "sdk/rand.h"
 
 
 typedef struct Func800BFE50Object {
@@ -101,9 +103,7 @@ extern void configure_the_set_mode_n_1(void *, void *, void *);
 extern u8 D_800BCE78[];
 extern u8 town_map_motion_defaults[];
 extern s32 D_800D2130;
-extern int abs(int);
 
-extern s32 rand(void);
 extern void advance_sprite_animation_and_textures(void *);
 struct Dst;
 struct Elem;

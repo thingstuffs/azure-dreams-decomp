@@ -3,6 +3,7 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
+#include "sdk/rand.h"
 typedef struct PackedVector {
     u16 x;
     u16 y;
@@ -72,5 +73,4 @@ void advance_grayscale_fade(struct ParticleState *state, s32 unused, struct Spri
 void update_timed(struct ParticleState *state, struct ObjectPosition *position_out, struct SpriteFrameState *effect_arg);
 void set_record_pair_to_one(struct ProjectileSelf *self, struct ObjectPosition *position, struct SpriteFrameState *render_data);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-s32 rand(void);
 #endif

@@ -3,6 +3,7 @@
 #include "common.h"
 #include "engine/node/registration.h"
 #include "m2c_compat.h"
+#include "sdk/rand.h"
 
 #ifndef NULL
 #define NULL 0
@@ -49,7 +50,6 @@ typedef struct Row_818FECCC_S_818FECCC_6 {
 
 /* Creates an effect at randomized offsets from the source object's position. */
 void *allocate_list_node(s32, void *);
-s32 rand(void);
 
 
 #endif

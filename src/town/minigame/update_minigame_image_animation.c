@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 #include "town/minigame.h"
 #include "town/data.h"
 
@@ -15,12 +16,12 @@ extern u32 D_800246C0[];
 /* Updates image-strip animation and sets completion flags when its timer expires. */
 void update_minigame_image_animation(MinigameImageAnimationObject *anim)
 {
-    s16 rect[4];
+    RECT rect;
     s16 phase;
     u16 timer;
 
-    rect[2] = 0x10;
-    rect[3] = 1;
+    rect.w = 0x10;
+    rect.h = 1;
 
     switch (anim->state.s) {
     case 0:
@@ -33,52 +34,52 @@ void update_minigame_image_animation(MinigameImageAnimationObject *anim)
         return;
     }
 
-    rect[1] = 0x1D0;
+    rect.y = 0x1D0;
     if ((anim->timer >> 1) & 1) {
         u32 *image = D_80024660;
 
-        rect[0] = 0x40;
-        LoadImage(rect, image);
-        rect[0] = 0x50;
-        LoadImage(rect, image - 8);
+        rect.x = 0x40;
+        LoadImage(&rect, image);
+        rect.x = 0x50;
+        LoadImage(&rect, image - 8);
     } else {
         u32 *image = minigame_palette_backup;
 
-        rect[0] = 0x40;
-        LoadImage(rect, image);
-        rect[0] = 0x50;
-        LoadImage(rect, image + 8);
+        rect.x = 0x40;
+        LoadImage(&rect, image);
+        rect.x = 0x50;
+        LoadImage(&rect, image + 8);
     }
 
-    rect[1] = 0x1F8;
+    rect.y = 0x1F8;
     phase = (s16)anim->timer % 3;
     switch (phase) {
     case 0:
     {
         u32 *image = D_800246C0;
 
-        rect[0] = 0xC0;
-        LoadImage(rect, image);
-        rect[0] = 0xD0;
-        rect[2] = 0x20;
-        LoadImage(rect, image - 16);
+        rect.x = 0xC0;
+        LoadImage(&rect, image);
+        rect.x = 0xD0;
+        rect.w = 0x20;
+        LoadImage(&rect, image - 16);
         break;
     }
     case 1:
     {
         u32 *image = minigame_image_backup;
 
-        rect[0] = 0xE0;
-        LoadImage(rect, image);
-        rect[0] = 0xC0;
-        rect[2] = 0x20;
-        LoadImage(rect, image + 8);
+        rect.x = 0xE0;
+        LoadImage(&rect, image);
+        rect.x = 0xC0;
+        rect.w = 0x20;
+        LoadImage(&rect, image + 8);
         break;
     }
     case 2:
-        rect[0] = 0xC0;
-        rect[2] = 0x30;
-        LoadImage(rect, minigame_image_backup);
+        rect.x = 0xC0;
+        rect.w = 0x30;
+        LoadImage(&rect, minigame_image_backup);
         break;
     default:
         break;

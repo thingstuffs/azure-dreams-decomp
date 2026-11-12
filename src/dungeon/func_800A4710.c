@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/pending_marked_actor_count_data.h"
 #include "slus/imports.h"
 #include "dungeon/actor.h"
 #include "shared/dir_step.h"
@@ -14,7 +15,6 @@ extern void select_record_entry_and_value(void *state, s32 entries, s8 index);
 
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
-extern s16 pending_marked_actor_count;
 
 typedef struct S_800A9E70_2 {
     u8 pad_00[0x4];

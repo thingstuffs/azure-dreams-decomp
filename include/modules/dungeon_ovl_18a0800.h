@@ -8,6 +8,8 @@ struct ActorRecord;
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 
 
 
@@ -37,7 +39,4 @@ void apply_indexed_effect_condition(struct ActorRecord *,u8,struct ActorRecord *
 s32 select_record_entry_and_value(void *,void *,s32);
 s32 get_sprite_attachment_vector(void *,void *,s16 *,s32);
 s32 func_8003DF74(void *,void *,s16 *,s32);
-s32 rsin(s32);
-s32 rcos(s32);
-s32 rand(void);
 #endif

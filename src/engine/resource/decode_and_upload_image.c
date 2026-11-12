@@ -3,15 +3,10 @@
 #include "engine/resource.h"
 #include "sdk/libgpu.h"
 
-typedef struct S_80040490_RECT {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} S_80040490_RECT;
+#include "sdk/libgpu_types.h"
 
 /* Decompresses image data into an allocated buffer and uploads it to the VRAM rectangle. */
-s32 decode_and_upload_image(u8 *compressed_image, S_80040490_RECT *rect) {
+s32 decode_and_upload_image(u8 *compressed_image, RECT *rect) {
     void *image_buf;
 
     image_buf = alloc_gpu_scratch_ring(rect->w * (rect->h << 1));

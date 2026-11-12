@@ -25,6 +25,10 @@ struct ObjectPosition;
 #include "engine/texture.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor/state.h"
+#include "sdk/abs.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 struct EntityLinkNode;
 struct ObjectPosition;
 struct SpriteFrameState;
@@ -464,42 +468,6 @@ typedef struct CB_80173CFC_S_80173CFC_0 {
 
 /* Creates an effect at an offset from the source position with randomized rotation. */
 
-typedef struct CB_80173E40_S_80173E40_0 {
-    u8 pad_00[0x24];
-    union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
-    u16 unk_28;
-    u8 pad_2A[0xA];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    u8 pad_40[0x48];
-    s32 unk_88;
-    s32 unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x10];
-    u16 unk_A4;
-    u16 unk_A6;
-    u16 unk_A8;
-    u8 pad_AA[0x6];
-    u16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-    u8 pad_B6[0x2];
-    u16 unk_B8;
-    u16 unk_BA;
-    u16 unk_BC;
-    u8 pad_BE[0x2];
-    u16 unk_C0;
-    u16 unk_C2;
-    u16 unk_C4;
-    u8 pad_C6[0x2];
-    u16 unk_C8;
-    u16 unk_CA;
-    u16 unk_CC;
-    u8 pad_CE[0x32];
-    s32 unk_100;
-} CB_80173E40_S_80173E40_0;   /* scratch in func_80173E40 */
-
 typedef struct CB_80173E40_S_80173E40_1 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -518,34 +486,6 @@ typedef struct CB_80173E40_S_80173E40_2 {
     u16 unk_18;
     u16 unk_1A;
 } CB_80173E40_S_80173E40_2;   /* arg2 in func_80173E40 */
-
-typedef struct CB_80173E40_S_80173E40_3 {
-    u8 pad_00[0xB0];
-    u32 unk_B0;
-    u8 pad_B4[0x81C];
-    u8 * unk_8D0;
-} CB_80173E40_S_80173E40_3;   /* *(u8 **)D_80083160 in func_80173E40 */
-
-typedef struct CB_80173E40_S_80173E40_4 {
-    u32 unk_00;
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    u16 unk_08;
-    u16 unk_0A;
-    u32 unk_0C;
-    u16 unk_10;
-    u16 unk_12;
-    u32 unk_14;
-    u16 unk_18;
-    u16 unk_1A;
-    u32 unk_1C;
-    u16 unk_20;
-    u16 unk_22;
-} CB_80173E40_S_80173E40_4;   /* packet in func_80173E40 */
-
-typedef struct CB_80173E40_S_80173E40_5 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} CB_80173E40_S_80173E40_5;   /* state in func_80173E40 */
 
 typedef struct CB_80173E40_S_80173E40_6 {
     u8 pad_00[0x4];
@@ -567,17 +507,6 @@ typedef struct CB_80173E40_S_80173E40_6 {
     u16 unk_58;
     u16 unk_5A;
 } CB_80173E40_S_80173E40_6;   /* arg0 in func_80173E40 */
-
-typedef struct CB_80173E40_S_80173E40_7 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} CB_80173E40_S_80173E40_7;   /* *(u8 **)global in func_80173E40 */
-
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} CB_80173E40_MATRIX;
 
 /* Projects a quad and adds it to the ordering table when visible. */
 
@@ -825,7 +754,6 @@ extern CB_80172BCC_Copy12 D_8017539C;
 extern u8 block_image_load_done;
 extern u8 block_effect_load_done;
 extern s32 D_801753AC;
-extern int abs(int);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 get_cd_command_queue_depth(void);
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
@@ -841,19 +769,6 @@ extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *, s16, s16);
 extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 lookup_masked_byte_table();
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(void *);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
-extern void SetPolyG4(void *);
-extern s32 rand(void);
 extern void unlink_entity_node(struct EntityLinkNode *node);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
@@ -895,7 +810,6 @@ extern void emit_scattered_effects_unless_blocked(void *);
 /* Retail banks use the signed-halfword height-query return view; this
  * is the existing certified fa7000 contract, not a per-function flag. */
 extern s16 sample_terrain_surface_height(s32,s32,s16);
-extern s32 rand(void);
 
 void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords);
 void expand_then_shrink_effect(void *effect, void *unused, SpriteFrameState *visual);

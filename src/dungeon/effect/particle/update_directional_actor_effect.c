@@ -60,7 +60,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
     s32 tile_x;
     s32 tile_y;
     s32 distance;
-    GteShortVector offset;
+    SVECTOR offset;
     s32 original_count;
     s32 delta_y;
     s32 frames;

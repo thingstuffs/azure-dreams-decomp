@@ -22,7 +22,7 @@ void draw_segmented_motion_lines(SegmentedLineState *state,
     SegmentedLineScratch *scratch = SEGMENTED_LINE_SCRATCH;
     SegmentedLinePacket *line;
     SegmentedLineDrawMode *draw_mode;
-    GteMatrix matrix;
+    MATRIX matrix;
     s32 length, segments, index, next;
     s32 color;
     u16 draw_page;

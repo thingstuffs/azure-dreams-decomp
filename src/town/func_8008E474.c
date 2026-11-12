@@ -1,6 +1,7 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
 #include "town/map.h"
+#include "town/map/state_ids_data.h"
 
 typedef struct {
     u8 pad0[8];
@@ -17,7 +18,7 @@ typedef struct {
 } Func8008E3F0Arg;
 
 
-extern u8 town_map_state_ids[];
+
 extern void* town_map_state_values[];
 
 /*

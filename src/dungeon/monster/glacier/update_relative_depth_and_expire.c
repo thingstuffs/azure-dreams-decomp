@@ -8,6 +8,7 @@
 #include "slus.h"
 #include "dungeon/monster/glacier.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
 
    /* arg1 in update_relative_depth_and_expire */
 
@@ -25,7 +26,7 @@ extern s8 view_direction_depth_biases[];
 /* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
 void update_relative_depth_and_expire(void *state_arg, MovingPosition *position, SpriteFrameState *entity) {
     S_8102F0D4_1 *state = state_arg;
-    u16 coords[4];
+    SVECTOR coords;
     s32 transform_result[2];
     s32 transform_aux;
     s32 transform_flags;
@@ -35,15 +36,15 @@ void update_relative_depth_and_expire(void *state_arg, MovingPosition *position,
     u16 ticks_left;
     MovingPosition *reference_pos;
 
-    coords[0] = position->x;
-    coords[1] = position->y;
-    coords[2] = position->z;
-    position_depth = RotTransPers(coords, transform_result, &transform_aux, &transform_flags);
+    coords.vx = position->x;
+    coords.vy = position->y;
+    coords.vz = position->z;
+    position_depth = RotTransPers(&coords, transform_result, &transform_aux, &transform_flags);
     reference_pos = state->reference_position;
-    coords[0] = reference_pos->x;
-    coords[1] = reference_pos->y;
-    coords[2] = reference_pos->z;
-    reference_depth = RotTransPers(coords, transform_result, &transform_aux, &transform_flags);
+    coords.vx = reference_pos->x;
+    coords.vy = reference_pos->y;
+    coords.vz = reference_pos->z;
+    reference_depth = RotTransPers(&coords, transform_result, &transform_aux, &transform_flags);
     direction_offset = &view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->unk_94 + 0x100)
         >> 9) & 7];
     entity->depth_bias = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));

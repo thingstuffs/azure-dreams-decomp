@@ -7,7 +7,7 @@
 void advance_building_animation_frame(BuildingSelectionHandlerBody *state) {
     u16 next_tick;
     s32 tick_index;
-    BuildingUploadRect *rect;
+    RECT *rect;
 
     next_tick = state->animation_tick.u + 1;
     state->animation_tick.u = next_tick;

@@ -7,6 +7,7 @@
 #include "sdk/libc.h"
 #include "town/scene/object.h"
 #include "town/data.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 
    /* the 0x2 bytes before in0 in update_sequenced_object, addressed as in0[-1] */
@@ -42,7 +43,6 @@ typedef struct S_8080C650_4 {
 
 s16 func_8025E01C(void *position);                          /* extern */
 extern s16 D_800133A0;
-extern u8 score_sprite_draw_callback_address[3];
 extern s32 D_8012F130[5];
 extern s32 collection_round_work[3];
 extern s32 town_motion_state[3];

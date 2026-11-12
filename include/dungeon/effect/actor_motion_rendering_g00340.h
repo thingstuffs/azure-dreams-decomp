@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACDDC. */
 
 #include "common.h"
+#include "dungeon/actor/pending_marked_actor_count_data.h"
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -21,7 +22,6 @@
 #include "dungeon/player/object/action_state.h"
 
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, s32 properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s16 pending_marked_actor_count;
 extern ActorCallback actor_render_callbacks[];
 extern void apply_monster_koyaw_data(void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s16 sample_terrain_surface_height(u16, u16, s16);

@@ -3,6 +3,7 @@
 #include "shared/town_state.h"
 #include "town/scene/animation.h"
 #include "town/data.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 
 
@@ -39,7 +40,6 @@ extern TownRewardValues D_80526448;
 extern s32 score_object_images[];
 extern u8 score_bounce_motion_data[];
 extern u8 town_motion_state[];
-extern s32 score_sprite_initial_value[3];
 extern s32 scene_value_total;
 
 

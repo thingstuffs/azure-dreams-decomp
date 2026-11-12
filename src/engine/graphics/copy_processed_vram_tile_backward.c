@@ -3,14 +3,12 @@
 #include "engine/texture.h"
 #include "sdk/libgpu.h"
 
-typedef struct {
-    s16 x, y, w, h;
-} S_8004846C_RECT;
+#include "sdk/libgpu_types.h"
 
 /* Reads a 16x1 VRAM tile and redraws it at tile index minus 0x80. */
 s32 copy_processed_vram_tile_backward(s32 tile_index)
 {
-    S_8004846C_RECT rect;
+    RECT rect;
     s32 pixels[8];
 
     rect.x = (tile_index & 0x3F) << 4;

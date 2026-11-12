@@ -38,7 +38,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
     s32 particles_left;
     s32 spawn_coord;
     u32 color;
-    GteShortVector origin_offset;
+    SVECTOR origin_offset;
 
     owner = self->owner;
     owner_object = NODE_HEADER(owner);

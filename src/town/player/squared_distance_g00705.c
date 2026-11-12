@@ -5,7 +5,7 @@
 #include "town/player.h"
 
 /* Compute the squared distance between two 3D points. */
-s32 squared_distance_3s(GteShortVector *point_a, GteShortVector *point_b) {
+s32 squared_distance_3s(SVECTOR *point_a, SVECTOR *point_b) {
     s32 diff;
     s32 total;
 
@@ -21,8 +21,8 @@ s32 squared_distance_3s(GteShortVector *point_a, GteShortVector *point_b) {
 }
 
 /* Returns the lowest-valued entry and reports a player.c assertion if none is selected. */
-GteShortVector *find_nearest_point_3s(GteShortVector *entries, GteShortVector *eval_context, s32 entry_count) {
-    GteShortVector *best_entry;
+SVECTOR *find_nearest_point_3s(SVECTOR *entries, SVECTOR *eval_context, s32 entry_count) {
+    SVECTOR *best_entry;
     s32 best_value;
     s32 index;
     s32 value;

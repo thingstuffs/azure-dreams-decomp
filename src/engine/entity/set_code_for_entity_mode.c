@@ -1,9 +1,9 @@
 #include "common.h"
+#include "dungeon/entity_spawn_variant_data.h"
 #include "shared/entity.h"
 #include "engine/entity.h"
 
 /* a one-byte code; an extern, so absolute (lui/sb) in ASPSX */
-extern u8 entity_spawn_variant_code;
 
 /* Maps modes 0xD and 0xF of type 0x16 entities to global codes 0xF and 0xA. */
 void set_code_for_entity_mode(ActorRecord *entity)

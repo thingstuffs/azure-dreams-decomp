@@ -12,6 +12,7 @@
 #include "town/person/position.h"
 #include "town/shop/object.h"
 #include "town/minigame/state.h"
+#include "town/minigame/column_tiles_data.h"
 #include "town/menu.h"
 #include "town/player.h"
 #include "town/data.h"
@@ -26,7 +27,6 @@
 extern u8 D_80020224[];
 extern s32 town_money[];
 extern s16 D_800244E8[16];
-extern u8 slot_machine_column_tiles[0x30];
 extern u8 minigame_pickup_bounds[0x10];
 extern u8 D_80024470[];
 
@@ -276,7 +276,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     angle = 2;
                     do {
                         s32 *symbol_out = &symbols[index][angle];
-                        u8 *strip = &slot_machine_column_tiles[index * 12];
+                        u8 *strip = slot_machine_column_tiles[index];
                         *symbol_out = strip[(angle + ((ReelObject *)state->slot[index])->unk_2A) % 12];
                     } while (--angle >= 0);
                 } while (--index >= 0);

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/collection.h"
 #include "town/scene/object.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/scene/flags.h"
 #include "shared/vector.h"
 #include "town/devkit/old_minigame_imports.h"
@@ -61,7 +62,6 @@ typedef struct {
 extern void allocate_record_and_store_three_blocks(void *, void *);
 extern void create_object_payload_registers_callback(void *, void *);
 
-extern u8 score_sprite_draw_callback_address[];
 extern u8 D_80289454[];
 
 extern u8 D_805268D4[];

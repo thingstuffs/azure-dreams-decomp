@@ -2,19 +2,13 @@
 #include "modules/dungeon_ovl_7f43f800_p01.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect/depth_projection_work.h"
 
 /* Update effect brightness, size and position, then decrement its lifetime. */
 void update_effect_visuals_and_lifetime(void *state_arg, ObjectPosition *position, SpriteFrameState *effect_arg)
 {
     TimedActorVisualEffectBody *state = state_arg;
-    struct {
-        u16 xyz[3];
-        u16 pad;
-        /* BYTES: the output slot retains its eight-byte extent and alignment. */
-        union { long long alignment; s32 value; } out18;
-        s32 out20;
-        s32 out24;
-    } coord_work;
+    DepthProjectionWork coord_work;
     ObjectPosition *effect_coords;
     SpriteFrameState *effect;
     s16 ticks_left;
@@ -73,16 +67,16 @@ void update_effect_visuals_and_lifetime(void *state_arg, ObjectPosition *positio
     effect->offset_y = (s16)(((s32)(-scaled_offset)) / 2);
 
     if (state->use_linked_position == 0) {
-        coord_work.xyz[0] = effect_coords->x.w.i;
-        coord_work.xyz[1] = effect_coords->y.w.i;
-        coord_work.xyz[2] = effect_coords->z.w.i;
-        position_value = RotTransPers(coord_work.xyz, &coord_work.out18.value, &coord_work.out20, &coord_work.out24);
+        coord_work.position.vx = effect_coords->x.w.i;
+        coord_work.position.vy = effect_coords->y.w.i;
+        coord_work.position.vz = effect_coords->z.w.i;
+        position_value = RotTransPers(&coord_work.position, &coord_work.screen_xy, &coord_work.depth_cue, &coord_work.gte_flag);
 
         reference_coords = state->reference_position;
-        coord_work.xyz[0] = reference_coords->unk_02;
-        coord_work.xyz[1] = reference_coords->unk_06;
-        coord_work.xyz[2] = reference_coords->unk_0A;
-        reference_value = RotTransPers(coord_work.xyz, &coord_work.out18.value, &coord_work.out20, &coord_work.out24);
+        coord_work.position.vx = reference_coords->unk_02;
+        coord_work.position.vy = reference_coords->unk_06;
+        coord_work.position.vz = reference_coords->unk_0A;
+        reference_value = RotTransPers(&coord_work.position, &coord_work.screen_xy, &coord_work.depth_cue, &coord_work.gte_flag);
         effect->depth_bias = position_value - reference_value -
             (view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + state->direction + 0x100) >> 9) & 7] * 2);
     } else {

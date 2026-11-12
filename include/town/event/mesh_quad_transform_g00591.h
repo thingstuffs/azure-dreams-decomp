@@ -7,6 +7,9 @@
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/gpu_packets.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 
 #define OTSLOT() (*(u32 *)((u8 *)scratch->unk_24 + scratch->unk_C4 * 4))
 
@@ -69,22 +72,8 @@ typedef struct S_func_800AC9AC_3 {
     u16 unk_22;
 } S_func_800AC9AC_3;
 
-s32 TransMatrix(void *, void *);
-s32 ScaleMatrix(void *, void *);
-s32 SetRotMatrix(void *);
-s32 SetTransMatrix(void *);
-s32 RotTrans(void *, void *, s32 *);
-s32 RotMatrix(void *, void *);
 /* extern */
 extern s32 D_800D11C0[4];
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetSemiTrans(void *, s32);
-extern void SetLineG4(void *);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
-extern s32 rand(void);
 extern void copy_menu_vector_halfwords(void *, void *);
 extern void add_entity_position_to_menu_vector(void *, void *);
 

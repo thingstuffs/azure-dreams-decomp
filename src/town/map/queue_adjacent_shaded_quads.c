@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_packets.h"
+#include "sdk/libgpu_types.h"
 #include "town/map.h"
 
 typedef struct Func800AB788Arg {
@@ -30,27 +32,11 @@ typedef struct Func800AB788Arg {
 
 
 
-typedef struct Func800AB788Poly {
-    u32 tag;
-    u32 color0;
-    u16 x0;
-    u16 y0;
-    u32 color1;
-    u16 x1;
-    u16 y1;
-    u32 color2;
-    u16 x2;
-    u16 y2;
-    u32 color3;
-    u16 x3;
-    u16 y3;
-} Func800AB788Poly;
-
 /* Queue two adjoining shaded quads whose vertices fall within the screen margin. */
 void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
 {
-    Func800AB788Poly *poly;
-    u8 *tpage;
+    POLY_G4 *poly;
+    DR_MODE *tpage;
     GameWork *render_state_ptr = &g_game_work;
 
     if ((((u16)(strip->x0 + 0x20) < 0x181) &&
@@ -66,12 +52,16 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
 
         poly_state = render_state_ptr->draw_buffer;
         poly = poly_state->packetCursor;
-        poly_state->packetCursor = (u8 *)poly + sizeof(*poly);
+        poly_state->packetCursor = poly + 1;
 
-        poly->color0 = 0x383838;
-        poly->color1 = strip->color1;
-        poly->color2 = 0x383838;
-        poly->color3 = strip->color3;
+        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+        *(u32 *)&poly->red0 = 0x383838;
+        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+        *(u32 *)&poly->red1 = strip->color1;
+        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+        *(u32 *)&poly->red2 = 0x383838;
+        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+        *(u32 *)&poly->red3 = strip->color3;
         SetPolyG4(poly);
         SetSemiTrans(poly, 1);
 
@@ -92,7 +82,7 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
 
         tpage_state = render_state_ptr->draw_buffer;
         tpage = tpage_state->packetCursor;
-        tpage_state->packetCursor = tpage + 0xC;
+        tpage_state->packetCursor = tpage + 1;
         SetDrawMode(tpage, 1, 0, GetTPage(0, 1, 0x140, 0), 0);
         AddPrim(strip->ot + strip->otIndex, tpage);
     }
@@ -110,12 +100,16 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
 
         poly_state = render_state_ptr->draw_buffer;
         poly = poly_state->packetCursor;
-        poly_state->packetCursor = (u8 *)poly + sizeof(*poly);
+        poly_state->packetCursor = poly + 1;
 
-        poly->color0 = strip->color1;
-        poly->color1 = 0;
-        poly->color2 = strip->color3;
-        poly->color3 = 0;
+        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+        *(u32 *)&poly->red0 = strip->color1;
+        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+        *(u32 *)&poly->red1 = 0;
+        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+        *(u32 *)&poly->red2 = strip->color3;
+        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+        *(u32 *)&poly->red3 = 0;
         SetPolyG4(poly);
         SetSemiTrans(poly, 1);
 
@@ -136,7 +130,7 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
 
         tpage_state = render_state_ptr->draw_buffer;
         tpage = tpage_state->packetCursor;
-        tpage_state->packetCursor = tpage + 0xC;
+        tpage_state->packetCursor = tpage + 1;
         SetDrawMode(tpage, 1, 0, GetTPage(0, 1, 0x140, 0), 0);
         AddPrim(strip->ot + strip->otIndex, tpage);
     }

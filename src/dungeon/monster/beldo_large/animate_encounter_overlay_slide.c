@@ -2,14 +2,12 @@
 #include "shared/object_flags.h"
 #include "dungeon/monster/beldo_large.h"
 #include "shared/object_node.h"
+#include "dungeon/monster/beldo_large_overlay_object_data.h"
 
    /* the 0x2 bytes before arg0 in animate_encounter_overlay_slide, addressed as arg0[-1] */
 
 
 
-
-extern void *encounter_object_slots[];
-extern void *encounter_overlay_object[];
 
 /* Advances a timed transition, updates its target, and marks completion. */
 void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, ObjectPosition *target)

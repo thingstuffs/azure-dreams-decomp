@@ -33,6 +33,8 @@ struct ActorRecord;
 #include "dungeon/actor/state.h"
 #include "engine/graphics.h"
 #include "engine/texture.h"
+#include "sdk/abs.h"
+#include "sdk/rand.h"
 struct S_800AC480_0;
 struct S_800AC480_3;
 
@@ -158,8 +160,6 @@ typedef struct R03_80173358_S_80173358_2 {
 
 
 
-extern s32 rand(void);
-extern int abs(int);
 s32 generate_random_value(void);
 
 void advance_sprite_animation_and_textures(void *entity);

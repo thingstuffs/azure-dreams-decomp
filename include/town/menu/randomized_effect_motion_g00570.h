@@ -11,6 +11,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "sdk/libgte.h"
 
 /* Body installed by allocate_object_with_initial_state and called through dispatch_menu_state_callback. */
 typedef struct RandomizedEffectMotionBody {
@@ -25,8 +26,6 @@ typedef struct RandomizedEffectMotionBody {
 } RandomizedEffectMotionBody;
 
 extern void select_record_entry_and_value(void *,void *, s32);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 extern s16 D_800D0B18[];
 extern u8 *D_800D0B50[];
 /* extern */

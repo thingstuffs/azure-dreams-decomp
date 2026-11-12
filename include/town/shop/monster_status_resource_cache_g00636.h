@@ -8,6 +8,7 @@
 #include "records/Rec_func_800B683C_arg0.h"
 #include "shared/resident_resources.h"
 #include "engine/entity.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_800B6CCC_0 {
     s32 unk_00;
@@ -25,8 +26,6 @@ extern s32 normalize_monster_status_species_code(s32);
 extern s32 select_mapped_object_status_code(void *);
 extern void *alloc_gpu_scratch_ring(s32 size);
 extern void bzero(void *dst, s32 size);
-extern void DrawSync(s32 sync_mode);
-extern void LoadImage(s16 *rect, void *data);
 extern s32 Control_CD();
 extern s32 get_enabled_record_flag_priority();
 extern s16 display_resource_cache_keys[8];

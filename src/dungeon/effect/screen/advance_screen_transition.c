@@ -10,6 +10,7 @@
 #include "engine/resource.h"
 #include "slus.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/effect/sprite/linked_object_chain.h"
 #include "dungeon/data.h"
 
 typedef struct S_80024078_2_pre {
@@ -45,7 +46,6 @@ typedef struct {
 extern void *update_actor_effect_sequence(void *, s32);
 
 extern u8 D_80028F68[];
-extern u8 linked_effect_chain_attack_option[12];
 extern u16 sprite_effect_update_count[];
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
@@ -67,7 +67,7 @@ void advance_screen_transition(State *ctx)
     decode_and_upload_image(D_80028F68, (Rect *)rect_words);
     upload_vram_row_and_cache(screen_transition_pixels, 0x7AC0, 1, 2);
     linked_effect_chain_updated[0] = 1;
-    linked_effect_chain_attack_option[0] = ctx->field_9;
+    linked_effect_chain_attack_option = ctx->field_9;
     linked_effect_chain_attack_event[0] = ctx->field_0;
 
     object = primary_actor_record;

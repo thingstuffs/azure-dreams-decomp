@@ -3,6 +3,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/entity_spawn_variant_data.h"
 #include "engine/node/registration.h"
 #include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
@@ -18,7 +19,6 @@
 
 
 
-extern u8 entity_spawn_variant_code;
 extern u8 D_80170AE0[];
 extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_variant_action_address[];
@@ -37,7 +37,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     s32 alloc_id;
     ObjectNodeHeader **list_head;
     ObjectNodeHeader *part;
-    void *work;
+    ActorRecord *work;
     ObjectPosition *coord;
     SpriteFrameState *state;
     ActorRecord *actor;
@@ -51,7 +51,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     arg0_copy = flags;
     if (part != 0) {
         work = NODE_BODY(part);
-        ((ActorRecord *)work)->species = MONSTER_PULUNPA;
+        work->species = MONSTER_PULUNPA;
         register_node(part, project_sprite_chain);
         coord = part->position;
         kind = flags & 3;
@@ -62,17 +62,17 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
         state->tile_x = kind_id;
 
         if (kind == 1) {
-            ((ActorRecord *)work)->unk_8C.address = pulunpa_action_resume_address;
-            ((ActorRecord *)work)->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            ((ActorRecord *)work)->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->unk_8C.address = pulunpa_action_resume_address;
+            work->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            work->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             state->frameTable = pulunpa_frame_set_1;
         } else if (kind >= 2) {
-            ((ActorRecord *)work)->unk_8C.address = pulunpa_action_resume_address;
-            ((ActorRecord *)work)->flags14 |= ACTOR_CLASS_ENABLED;
-            ((ActorRecord *)work)->flags1C |= ACTOR_PLAYER_SIDE;
+            work->unk_8C.address = pulunpa_action_resume_address;
+            work->flags14 |= ACTOR_CLASS_ENABLED;
+            work->flags1C |= ACTOR_PLAYER_SIDE;
             state->frameTable = pulunpa_frame_set_1;
         } else if (((flags & -4) << 16) == 0) {
-            if (!(((u32)((ActorRecord *)work)->flags14) & ACTOR_RESIST_SLEEP)) {
+            if (!(((u32)work->flags14) & ACTOR_RESIST_SLEEP)) {
                 random = generate_random_value();
                 if (random & 1) {
                     random = generate_random_value();
@@ -89,7 +89,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
                 state->frameTable = pulunpa_frame_set_2;
             }
         } else {
-            ((ActorRecord *)work)->unk_8C.address = pulunpa_action_resume_address;
+            work->unk_8C.address = pulunpa_action_resume_address;
             state->frameTable = pulunpa_frame_set_1;
         }
 

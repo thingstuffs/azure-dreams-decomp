@@ -54,7 +54,7 @@ typedef struct S_80026C88_5 {
 /* Create and link up to six objects with source-relative positions and initialized render data. */
 void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
 {
-    GteShortVector position_offset;
+    SVECTOR position_offset;
     void (*callback)(ActorTrailWork *, TrailMotion *, SpriteFrameState *);
     TableEntry *table_entry;
     s32 object_index;
@@ -63,7 +63,7 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
     ObjectNodeHeader *object;
     S_80026C88_5 *point_cursor;
     SpriteFrameState *source_object;
-    union { GteShortVector *offset; S_80026C88_4 *render; } pointers;
+    union { SVECTOR *offset; S_80026C88_4 *render; } pointers;
     void *list_head;
 
     list_head = NULL;

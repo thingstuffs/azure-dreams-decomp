@@ -3,12 +3,12 @@
 #include "shared/entity.h"
 #include "shared/town_object.h"
 #include "town/menu/animation.h"
+#include "town/map/display_offset_data.h"
 
 
 
 extern void *D_8008274C;
 extern s32 D_800C5100;
-extern s16 town_display_offset;
 
 /* Advances the animation phase and frame index, applying the state-one offset transition. */
 void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, ObjectPosition *unused) {

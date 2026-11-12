@@ -2,8 +2,6 @@
 #include "town/scene.h"
 #include "sdk/libgpu.h"
 
-typedef SceneImageRect RECT;
-
 extern RECT D_800D43B0;
 extern RECT D_800D43B8;
 

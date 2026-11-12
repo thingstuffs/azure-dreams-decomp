@@ -22,6 +22,7 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "engine/scene.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 #include "slus.h"
 #include "dungeon/actor.h"
 #include "dungeon/data.h"
@@ -609,13 +610,13 @@ typedef struct {
 /* Queue a full-screen grayscale quad with its draw mode at the input ordering index. */
 s32 draw_fullscreen_grayscale_quad(Input *input) {
     GpuContext *arena;
-    u8 *draw_mode;
+    DR_MODE *draw_mode;
     Work *quad;
     s16 color;
 
     arena = g_game_work.draw_buffer;
     draw_mode = arena->packetCursor;
-    arena->packetCursor = draw_mode + 0xC;
+    arena->packetCursor = draw_mode + 1;
     arena = g_game_work.draw_buffer;
     quad = arena->packetCursor;
     arena->packetCursor = (u8 *)quad + 0x18;

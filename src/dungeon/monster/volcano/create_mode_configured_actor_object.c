@@ -13,7 +13,7 @@
  * callbacks. */
 void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
-    void *result = NULL;
+    ActorRecord *result = NULL;
     ObjectNodeHeader *root;
     ObjectPosition *position;
     s16 held_flags;
@@ -33,7 +33,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
         held_flags = spawn_flags;
         if (root != NULL) {
             result = NODE_BODY(root);
-            ((ActorRecord *)result)->species = MONSTER_VOLCANO;
+            result->species = MONSTER_VOLCANO;
             register_node(root, project_sprite_chain);
 
             position = root->position;
@@ -45,19 +45,19 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
             arg2_work = result;
 
             if (kind == 1) {
-                ((ActorRecord *)result)->unk_8C.address = func_8016AE5C;
-                ((ActorRecord *)result)->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-                ((ActorRecord *)result)->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+                result->unk_8C.address = func_8016AE5C;
+                result->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                result->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
                 arg3_part->frameTable = volcano_frame_set_5;
             } else {
                 if (kind >= 2) {
-                    ((ActorRecord *)result)->unk_8C.address = func_8016AE5C;
-                    ((ActorRecord *)result)->flags14 |= ACTOR_CLASS_ENABLED;
-                    ((ActorRecord *)result)->flags1C |= ACTOR_PLAYER_SIDE;
+                    result->unk_8C.address = func_8016AE5C;
+                    result->flags14 |= ACTOR_CLASS_ENABLED;
+                    result->flags1C |= ACTOR_PLAYER_SIDE;
                     arg3_part->frameTable = volcano_frame_set_5;
                 } else {
                     if ((s16)(spawn_flags & ~3) == 0) {
-                        if (!(((ActorRecord *)result)->flags14 & ACTOR_RESIST_SLEEP)) {
+                        if (!(result->flags14 & ACTOR_RESIST_SLEEP)) {
                             spawn_flags = generate_random_value();
                             if (spawn_flags & 1) {
                                 set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
@@ -67,7 +67,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
                         arg2_work->unk_8C.address = func_8016AE5C;
                         arg3_part->frameTable = volcano_frame_set_5;
                     } else {
-                        ((ActorRecord *)result)->unk_8C.address = func_8016AE5C;
+                        result->unk_8C.address = func_8016AE5C;
                         arg3_part->frameTable = volcano_frame_set_5;
                     }
 

@@ -9,6 +9,9 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "dungeon/level.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 typedef struct ovl_9c32d4_809A32D4_S_80174AD4_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
@@ -159,8 +162,6 @@ typedef struct ovl_9c32d4_809A38E4_RingRadii {
     u16 outer_y;
 } ovl_9c32d4_809A38E4_RingRadii;
 extern void register_node(void *, void *);
-extern void AddPrim(void *, void *);
-extern void SetDrawArea(void *, void *);
 void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
                    u16 center_x, s16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
                    s32 draw_bucket, s32 start_segment, s32 end_segment);
@@ -171,11 +172,7 @@ extern u8 D_80175F90[12];
 extern s16 dir_step_x[];
 extern s16 dir_step_y[];
 extern s32 D_800814A0;
-extern u32 rand(void);
 extern u8 D_80175F9C[12];
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern void SetPolyGT4(void *);
 void update_actor_render_effect_and_position(u8 *actor_data, ObjectPosition *output_data, SpriteFrameState *sprite);
 void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);
 void advance_directional_effect_motion(ovl_9c32d4_809A3698_MotionState *state, ovl_9c32d4_809A3698_MotionPosition *position);

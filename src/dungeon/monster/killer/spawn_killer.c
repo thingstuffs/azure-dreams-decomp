@@ -29,7 +29,7 @@ extern u8 killer_action_resume_address[];
  * placement. */
 void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 {
-    void *result = 0;
+    ActorRecord *result = 0;
     ObjectNodeHeader *created;
     ObjectPosition *position;
     SpriteFrameState *part_b;
@@ -52,7 +52,7 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     if (created != 0) {
         result = NODE_BODY(created);
         created->update_callback = D_80170A7C;
-        ((ActorRecord *)result)->species = MONSTER_KILLER;
+        result->species = MONSTER_KILLER;
         register_node(created, project_sprite_chain);
 
         position = created->position;
@@ -65,18 +65,18 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
         part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
-            ((ActorRecord *)result)->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            ((ActorRecord *)result)->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            result->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            result->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            ((ActorRecord *)result)->flags14 |= ACTOR_CLASS_ENABLED;
-            ((ActorRecord *)result)->flags1C |= ACTOR_PLAYER_SIDE;
+            result->flags14 |= ACTOR_CLASS_ENABLED;
+            result->flags1C |= ACTOR_PLAYER_SIDE;
         } else {
             call_a0 = created;
             if (((flags & ~3) << 16) == 0) {
-                if (!(((u32)((ActorRecord *)result)->flags14) & ACTOR_RESIST_SLEEP)) {
+                if (!(((u32)result->flags14) & ACTOR_RESIST_SLEEP)) {
                     call_a1 = position;
                     if (generate_random_value() & 1) {
-                        ((ActorRecord *)result)->flags1C |= ACTOR_ASLEEP;
+                        result->flags1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(result, STATUS_SLEEP,
                             (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = killer_frame_set_2;

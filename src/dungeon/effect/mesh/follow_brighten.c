@@ -1,3 +1,4 @@
+#include "sdk/libgpu_types.h"
 #include "shared/audio_commands.h"
 /* Moving radial effects, their line geometry, and timed brightness changes. */
 #include "shared/entity.h"
@@ -36,22 +37,22 @@ void apply_random_actor_value_gain(EntityRec *entity, s32 value_id, void *record
 
 /* Writes single pixels at VRAM coordinates (832, 256) and (832, 384), then waits for drawing to finish. */
 void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2) {
-    s16 rect[4];
+    RECT rect;
     u16 pixel;
 
     pixel = 0;
-    rect[0] = 0x340;
-    rect[1] = 0x100;
-    rect[2] = 1;
-    rect[3] = 1;
-    LoadImage(rect, &pixel);
+    rect.x = 0x340;
+    rect.y = 0x100;
+    rect.w = 1;
+    rect.h = 1;
+    LoadImage(&rect, &pixel);
 
     pixel = 0xFC00;
-    rect[0] = 0x340;
-    rect[1] = 0x180;
-    rect[2] = 1;
-    rect[3] = 1;
-    LoadImage(rect, &pixel);
+    rect.x = 0x340;
+    rect.y = 0x180;
+    rect.w = 1;
+    rect.h = 1;
+    LoadImage(&rect, &pixel);
 
     DrawSync(0);
 }
@@ -288,10 +289,10 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
     scratch->sw[45] = depth;
     if (((u32) depth) < 0x1E0U)
     {
-      u8 *draw_mode_prim;
+      DR_MODE *draw_mode_prim;
       ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, line_prim);
       draw_mode_prim = ((GpuContext *)render_state->draw_buffer)->packetCursor;
-      ((GpuContext *)render_state->draw_buffer)->packetCursor = draw_mode_prim + 0xC;
+      ((GpuContext *)render_state->draw_buffer)->packetCursor = draw_mode_prim + 1;
       SetDrawMode(draw_mode_prim, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
       ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, draw_mode_prim);
     }

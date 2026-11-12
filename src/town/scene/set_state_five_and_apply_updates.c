@@ -1,9 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/state_data.h"
 #include "town/scene.h"
 #include "town/player/state.h"
-
-extern s32 scene_update_state;
 
 /* Set state 5 and apply the two updates when check 0x145D succeeds. */
 s32 set_state_five_and_apply_updates(void) {

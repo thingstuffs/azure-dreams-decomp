@@ -5,41 +5,14 @@
 #include "common.h"
 #include "shared/fade_effect.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
+#include "sdk/libgpu_types.h"
+#include "sdk/libgpu_packets.h"
+#include "dungeon/effect/point_tile_scratch.h"
+#include "sdk/rand.h"
 
-typedef struct Scratch {
-    u8 pad0[4];
-    u16 in0;
-    u16 in1;
-    u16 in2;
-    u8 pad0A[0x12];
-    u8 *current;
-    u8 pad20[4];
-    u8 *table;
-    u8 pad28[0xA8];
-    u16 out0;
-    u16 padD2;
-    u16 out1;
-    u8 padD4[0x2A];
-    s32 index;
-} Scratch;
-
-typedef struct Packet {
-    u8 pad0[3];
-    u8 code;
-    union {
-        u32 link;
-        struct {
-            u8 r;
-            u8 g;
-            u8 b;
-            u8 command;
-        } color;
-    } data;
-} Packet;
-
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Project linked points and queue their tile and draw-mode packets for rendering. */
 #include "shared/object_flags.h"
@@ -48,6 +21,7 @@ extern void SetDrawMode(void *, s32, s32, u16, s32);
 #include "shared/object_links.h"
 #include "shared/object_payload.h"
 #include "shared/position_views.h"
+#include "dungeon/effect/depth_projection_work.h"
 struct ObjectNodeHeader;
 
    /* arg1 in func_80170A64 */
@@ -91,7 +65,6 @@ typedef struct S_80BC172C_3 {
 
    /* ((S_80BC172C_3 *)temp_v0)->unk_0C in func_80170F2C */
 
-extern s32 rand(void);
 
 typedef struct S_80BC172C_0 {
     u8 pad_00[0x10];
@@ -138,14 +111,6 @@ typedef struct S_80BC1880_1 {
 } S_80BC1880_1;   /* arg0 in func_80171080 */
 
    /* arg1 in func_80171080 */
-
-typedef struct StackWork {
-    u16 xyz[3];
-    u16 pad;
-    s64 out18;
-    s32 out20;
-    s32 out24;
-} StackWork;
 
 /* Update the effect's transform, color, and depth, and flag it when its lifetime expires. */
 s32 build_projected_tile_packets(u8 *,u16 *);

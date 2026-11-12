@@ -5,12 +5,7 @@
 #include "sdk/libgpu.h"
 #include "town/data.h"
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} Rect;
+#include "sdk/libgpu_types.h"
 
 typedef struct {
     void *image;
@@ -31,7 +26,7 @@ extern ImageList catalog_detail_images[];
 /* Clear display regions and draw the selected entry images and number label. */
 void draw_catalog_primary_detail(CatalogDisplay *entry_state)
 {
-    Rect clear_rect;
+    RECT clear_rect;
     char label[16];
     char number_text[5];
     ImageList *image_lists;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/action_reset_data.h"
 #include "shared/town_handler_entries.h"
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
@@ -7,7 +8,6 @@
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 #include "town/player/record.h"
-extern s8 town_action_reset_byte;
 
 /* Initialize the object's data and state, then run the setup callback. */
 void initialize_object_and_reset_value(TownObjectRecord *object, ObjectPosition *setupArgument, void *ptr2) {

@@ -1,4 +1,5 @@
 #include "slus/data.h"
+#include "slus/event_string_fallback_data.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
@@ -9,7 +10,6 @@
 extern char D_8001B8CC[];
 extern char D_8001B9E0[];
 extern char D_800206CC[];
-extern char event_string_fallback[];
 
 extern void *select_address_based_input(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 

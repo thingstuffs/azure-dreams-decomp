@@ -32,16 +32,16 @@ extern s16 check_entity_interaction_compatibility(void *, s32);
 /* Starts Hikewne's attack against a compatible neighbor within 64 height units; returns 1, 0 if
  * unsuitable, or -1 if busy. */
 s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data) {
-    void *actor = actor_data;
+    ActorRecord *actor = actor_data;
     s32 action_ready;
     s32 target_code;
     u8 actor_flags;
 
-    actor_flags = (*((u8 *)actor + 0x71));
+    actor_flags = actor->movement_queue_state;
     {
 
         actor_flags = (u8)(actor_flags & 0x7F);
-        ((ActorRecord *)actor)->movement_queue_state = actor_flags;
+        actor->movement_queue_state = actor_flags;
         action_ready = 0;
 
         if (g_dungeon_status.flags & 0x2000) {
@@ -50,7 +50,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
 
         target_code = probe_directional_neighbor(
             actor, target->tile_x, target->tile_y,
-            ((ActorRecord *)actor)->facing);
+            actor->facing);
         {
             s32 result = 0;
 
@@ -60,7 +60,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
             if (g_dungeon_status.flags & 0x2000) {
                 return -1;
             }
-            if ((((ActorRecord *)actor)->action_flags & 0x8000) == 0) {
+            if ((actor->action_flags & 0x8000) == 0) {
                 if (g_dungeon_status.flags & 8) {
                     return -1;
                 }
@@ -71,7 +71,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
             }
 
             action_ready = 1;
-            if ((((ActorRecord *)actor)->action_flags & 0x8000) == 0) {
+            if ((actor->action_flags & 0x8000) == 0) {
                 if (g_dungeon_status.flags & 8) {
                     return -1;
                 }
@@ -90,7 +90,7 @@ s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect
             action->action_phase = 0;
             action->action_timer = 0;
             if (result != 0) {
-                S_8017237C_3 *active_actor = actor;
+                S_8017237C_3 *active_actor = (S_8017237C_3 *)actor;
                 void *action_target = target;
                 s32 facing;
                 u8 remaining_count;

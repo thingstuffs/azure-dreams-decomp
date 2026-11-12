@@ -9,7 +9,7 @@
 typedef struct LinkedObjectChainBody {
     u8 pad_00[0x20];
     ObjectNodeHeader *head;
-    GteShortVector position_offset; /* orientation result; added to the reference position */
+    SVECTOR position_offset; /* orientation result; added to the reference position */
     s16 unk_2C;
     s16 unk_2E;
     s16 unk_30;
@@ -23,5 +23,8 @@ typedef struct LinkedObjectChainBody {
     s16 unk_40;
     u16 unk_42;
 } LinkedObjectChainBody;
+
+/* Attack option supplied when the linked effect chain is created. */
+extern u8 linked_effect_chain_attack_option;
 
 #endif

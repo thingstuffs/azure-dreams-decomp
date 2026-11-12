@@ -1,17 +1,6 @@
 #include "town/person/position_callbacks_api.h"
+#include "town/person/offset_target_data.h"
 #include "common.h"
-
-typedef struct {
-    s16 pad0;
-    s16 x;
-    s16 pad4;
-    s16 y;
-} TownCoordPair;
-
-typedef struct {
-    u8 pad0[8];
-    TownCoordPair *coords;
-} TownCoordOwner;
 
 typedef struct town_offset_actor_position {
     u32 x;
@@ -23,14 +12,13 @@ typedef struct town_offset_actor {
     u16 countdown;
 } TownActor;
 
-extern TownCoordOwner *person_offset_target_owner;
 #include "town/person/object_setup.h"
 #include "town/person/object.h"
 
 /* Moves the position toward the town coordinates plus a vertical offset until the countdown expires. */
 void move_toward_offset_town_position(TownActor *actor, TownVec2 *position, void *completion_arg)
 {
-    TownCoordPair *coords;
+    TownOffsetTargetCoords *coords;
     s32 coord_x;
     s32 base_y;
     s32 coord_y;

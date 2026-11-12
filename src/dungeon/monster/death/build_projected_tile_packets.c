@@ -9,28 +9,28 @@
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
 s32 build_projected_tile_packets(u8 *point_data, u16 *position)
 {
-    Scratch *scratch = (Scratch *)0x1F800000;
+    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
     void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = globals[0];
-    Packet *first_packet = render_state->packetCursor;
-    Packet *packet;
-    Packet *mode_packet;
+    TILE_1 *first_packet = render_state->packetCursor;
+    TILE_1 *packet;
+    DR_MODE *mode_packet;
     s32 depth;
     u32 addr_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
 
-    scratch->table = (u8 *)render_state + 0xB0;
-    scratch->current = (u8 *)first_packet;
+    scratch->ordering_table = (u32 *)&render_state->orderTag;
+    scratch->packet_cursor = first_packet;
     for (;;) {
-        scratch->in0 = position[1];
-        packet = (Packet *)scratch->current;
-        scratch->in1 = position[3];
-        scratch->in2 = position[5];
+        scratch->position.vx = position[1];
+        packet = scratch->packet_cursor;
+        scratch->position.vy = position[3];
+        scratch->position.vz = position[5];
 
-        scratch->current = (u8 *)packet + 0xC;
-        depth = RotTransPers(&scratch->in0, (u8 *)packet + 8,
-                              &scratch->out0, &scratch->out1);
-        scratch->index = depth;
+        scratch->packet_cursor = packet + 1;
+        depth = RotTransPers(&scratch->position, (s32 *)&packet->x0,
+                              &scratch->depth_cue, &scratch->gte_flag);
+        scratch->ot_index = depth;
 
         if ((u32)depth < 480U) {
             u16 tpage;
@@ -38,32 +38,33 @@ s32 build_projected_tile_packets(u8 *point_data, u16 *position)
             u8 g;
             u8 b;
 
-            packet->data.link = *(u32 *)(point_data + 8);
-            packet->code = 2;
-            r = packet->data.color.r;
-            g = packet->data.color.g;
-            b = packet->data.color.b;
-            packet->data.color.r = r;
-            packet->data.color.g = g;
-            packet->data.color.b = b;
-            packet->data.color.command = 106;
+            /* BYTES: retail copies the tile colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
+            *(u32 *)&packet->r0 = *(u32 *)(point_data + 8);
+            ((GpuLinkTag *)&packet->tag)->len = 2;
+            r = packet->r0;
+            g = packet->g0;
+            b = packet->b0;
+            packet->r0 = r;
+            packet->g0 = g;
+            packet->b0 = b;
+            packet->code = 106;
 
-            *(u32 *)packet = (*(u32 *)packet & length_mask) |
-                          (((u32 *)scratch->table)[scratch->index] & addr_mask);
-            ((u32 *)scratch->table)[scratch->index] =
-                                    (((u32 *)scratch->table)[scratch->index] & length_mask) |
+            packet->tag = (packet->tag & length_mask) |
+                          (scratch->ordering_table[scratch->ot_index] & addr_mask);
+            scratch->ordering_table[scratch->ot_index] =
+                                    (scratch->ordering_table[scratch->ot_index] & length_mask) |
                                     ((u32)packet & addr_mask);
 
-            mode_packet = (Packet *)scratch->current;
-            scratch->current = (u8 *)mode_packet + 0xC;
+            mode_packet = scratch->packet_cursor;
+            scratch->packet_cursor = mode_packet + 1;
             tpage = (u16)GetTPage(0, 1, 0, 0);
             SetDrawMode(mode_packet, 0, 0, tpage, 0);
 
-            *(u32 *)mode_packet = (*(u32 *)mode_packet & length_mask) |
-                          (((u32 *)scratch->table)[scratch->index] & addr_mask);
-            mode_packet = (Packet *)((u32)mode_packet & addr_mask);
-            ((u32 *)scratch->table)[scratch->index] =
-                                    (((u32 *)scratch->table)[scratch->index] & length_mask) |
+            mode_packet->tag = (mode_packet->tag & length_mask) |
+                          (scratch->ordering_table[scratch->ot_index] & addr_mask);
+            mode_packet = (DR_MODE *)((u32)mode_packet & addr_mask);
+            scratch->ordering_table[scratch->ot_index] =
+                                    (scratch->ordering_table[scratch->ot_index] & length_mask) |
                                     (u32)mode_packet;
         }
 
@@ -77,7 +78,7 @@ s32 build_projected_tile_packets(u8 *point_data, u16 *position)
         }
     }
 
-    ((GpuContext *)globals[0])->packetCursor = scratch->current;
+    ((GpuContext *)globals[0])->packetCursor = scratch->packet_cursor;
     return 0;
 }
 
@@ -254,7 +255,7 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
 void spawn_configured_overlay_object_b(void *effect_arg, MovingPosition *position, S_80BC1880_0 *render_state)
 {
     S_80BC1880_1 *effect = effect_arg;
-    StackWork projection;
+    DepthProjectionWork projection;
     s16 ticks_left;
 
     render_state->unk_1C -= 500;
@@ -274,11 +275,11 @@ void spawn_configured_overlay_object_b(void *effect_arg, MovingPosition *positio
         (effect->unk_1C - effect->unk_1A.s) /
         effect->unk_1C;
 
-    projection.xyz[0] = position->x;
-    projection.xyz[1] = position->y;
-    projection.xyz[2] = position->z;
+    projection.position.vx = position->x;
+    projection.position.vy = position->y;
+    projection.position.vz = position->z;
     render_state->unk_06 =
-        RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24) - 8;
+        RotTransPers(&projection.position, &projection.screen_xy, &projection.depth_cue, &projection.gte_flag) - 8;
 
     ticks_left = effect->unk_1A.u - 1;
     effect->unk_1A.u = ticks_left;

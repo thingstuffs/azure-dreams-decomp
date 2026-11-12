@@ -176,8 +176,9 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                             scratch->data82 = y;
                         }
                     }
-                    RotTransPers4(&scratch->data70, &scratch->data78, &scratch->data80, &scratch->data88, &scratch->dataF0,
-                        &scratch->dataF4, &scratch->dataF8, &scratch->dataFC, (u16 *) (((u8 *) scratch) + 0x90),
+                    RotTransPers4(&scratch->data70, &scratch->data78, &scratch->data80, &scratch->data88,
+                        (s32 *)&scratch->dataF0, (s32 *)&scratch->dataF4, (s32 *)&scratch->dataF8, (s32 *)&scratch->dataFC,
+                        (u16 *) (((u8 *) scratch) + 0x90),
                         (u16 *) (((u8 *) scratch) + 0x94));
                     *((u16 *) (packet + 0x8)) = scratch->dataF0 + scratch->dataB8;
                     *((u16 *) (packet + 0xA)) = scratch->dataF2 + scratch->dataBA;

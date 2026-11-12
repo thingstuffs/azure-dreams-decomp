@@ -18,6 +18,8 @@ struct B32_818CF0E8_S_818CF0E8_9;
 #include "shared/object_flags.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_node.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 typedef struct ChasingStarEffectBody {
     u8 pad_00[2];
     u16 remaining;
@@ -345,9 +347,6 @@ extern const B32_818CFB74_PackedOffsets sprite_route_direction_offsets;
 extern s16 linked_point_effect_updated[5];
 struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, void *, s32);
 void *func_8003DF74(void *, void *, void *, s32);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern s32 RotTransPers(void *, void *, void *, void *);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input);
 extern void drain_audio_commands_and_service_channels(void);

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "town/player/action_reset_data.h"
 #include "m2c_compat.h"
 #include "town/player/state.h"
 #include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern s8 town_action_reset_byte;
 extern void D_80098104();
 
 typedef struct S_80098C04_0 {

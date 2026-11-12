@@ -49,7 +49,7 @@ struct CasinoNode {
 s32 initialize_casino_minigame(void)
 {
     CasinoDisplay *display = 0;
-    SceneImageRect rect = D_80020018;
+    RECT rect = D_80020018;
     void *callback_data = D_80020014;
     CasinoNode *node;
     CasinoMainBody *main;

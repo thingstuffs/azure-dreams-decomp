@@ -35,6 +35,7 @@ struct ObjectPosition;
 #include "dungeon/actor/state.h"
 #include "dungeon/item/actor_target.h"
 #include "dungeon/monster/cyclone.h"
+#include "sdk/abs.h"
 struct EntityLinkNode;
 struct S_800AC480_0;
 struct S_800AC480_3;
@@ -250,7 +251,6 @@ typedef struct R16_80173CEC_S_80173CEC_9 {
     s16 unk_1C;
     s16 unk_1E;
 } R16_80173CEC_S_80173CEC_9;
-extern s32 abs(s32);
 s32 Control_CD();
 s32 generate_random_value(void);
 void advance_sprite_animation_and_textures(void *entity);

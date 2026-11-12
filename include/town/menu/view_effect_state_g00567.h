@@ -16,9 +16,8 @@ typedef struct {
 } GlobalState;
 
 #include "town/menu/view_state.h"
+#include "sdk/libgte.h"
 
-extern s32 rcos(s32);
-extern s16 ratan2(s32, s32);
 extern u8 D_800A2690[9];
 
 /* Functions defined in this translation unit. */

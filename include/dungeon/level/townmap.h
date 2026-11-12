@@ -8,6 +8,9 @@ struct ObjectNodeHeader;
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "sdk/libgpu.h"
+#include "slus/town_map_selection_data.h"
+#include "town/map/state_ids_data.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 typedef void (*Callback)(void *);
 typedef struct town_map_7FFEE278_S_8008B9D8_0 {
@@ -103,7 +106,6 @@ typedef struct town_map_7FFEE778_S_8008BED8_0 {
 extern u32 loaded_town_resource_attributes[];
 extern s32 town_resource_descriptors[218];
 extern s32 town_resource_request[203];
-extern void DrawSync(s32 control_value);
 extern s32 load_cd_resource(s32 entry_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 func_80047E78(s32 entry_value);
 extern void func_80035208(s32 value);
@@ -127,11 +129,10 @@ extern void func_80033D08(void *);
 extern u8 town_map_tag;
 extern u8 D_80037714;
 extern u8 D_800794AC;
-extern u32 town_map_selection;
 extern u32 D_800CFB74[];
 extern u8 D_800CFC38[];
 extern u32 D_800CFC44[];
-extern s8 town_map_state_ids[];
+
 extern s32 town_map_state_values[];
 extern void advance_sprite_animation_and_textures(void *entity);
 extern u8 D_80072210[];

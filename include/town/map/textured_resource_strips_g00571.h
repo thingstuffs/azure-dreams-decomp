@@ -11,6 +11,8 @@
 #include "engine/node.h"
 #include "shared/gpu_packets.h"
 #include "town/menu/motion.h"
+#include "sdk/libgte.h"
+#include "town/map/display_offset_data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -191,8 +193,6 @@ typedef struct S_800A47A8_1 {
     u8 unk_0E;
 } S_800A47A8_1;
 
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 /* texture_entry in project_visible_textured_strips */
 extern s32 func_80065610();
 extern s32 GetTPage();
@@ -205,7 +205,6 @@ extern s32 D_800A3B1C[];
 extern s32 D_800D0C40[];
 
 extern u16 D_80100D88;
-extern u16 town_display_offset;
 
 /* Functions defined in this translation unit. */
 s32 process_linked_state_chain(void *initial_state, s32 carrier1, u8 *carrier2);

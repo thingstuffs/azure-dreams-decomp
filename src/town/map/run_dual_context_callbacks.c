@@ -1,4 +1,5 @@
 #include "town/map/camera.h"
+#include "town/map/wide_culling_data.h"
 #include "town/map.h"
 #include "town/data.h"
 
@@ -12,7 +13,6 @@ typedef struct S_func_800A496C_2 {
 } S_func_800A496C_2;
 
 extern s16 map_scene_selector_alias;
-extern s8 map_wide_culling;
 
 /* Run both contexts' callbacks, then update the flag from the current mode and threshold. */
 void run_dual_context_callbacks(void)
@@ -41,9 +41,9 @@ void run_dual_context_callbacks(void)
     update_view_gray_level();
     if (map_scene_selector_alias != 0xC) {
         if (((S_func_800A496C_2 *)D_80100D90)->unk_06 < 0x600) {
-            map_wide_culling = 1;
+            map_wide_culling[0] = 1;
             return;
         }
-        map_wide_culling = 0;
+        map_wide_culling[0] = 0;
     }
 }

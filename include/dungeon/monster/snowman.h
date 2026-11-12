@@ -34,6 +34,7 @@ struct ObjectPosition;
 #include "dungeon/actor/status.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/state.h"
+#include "sdk/libgte.h"
 struct EntityLinkNode;
 struct S_800AC480_0;
 struct S_800AC480_3;
@@ -453,7 +454,6 @@ extern s32 Control_CD();
 typedef struct { s16 x; u16 y; } Resource10DirectionOffset;
 extern const Resource10DirectionOffset D_80170854[8];
 extern const Resource10DirectionOffset D_80170874[8];
-s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 void advance_sprite_animation_and_textures(void *entity);
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
@@ -480,7 +480,6 @@ struct ObjectNodeHeader;
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
-s32 rsin(s32);
 void func_800A9A04(void *actor);
 s32 get_cd_command_queue_depth(void);
 
@@ -495,7 +494,6 @@ s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
 void initialize_timed_motion_step(unsigned short countdown, unsigned int amount);
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
-s32 rcos(s32);
 void unlink_node();
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);

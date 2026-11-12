@@ -18,6 +18,10 @@
 #include "dungeon/system.h"
 #include "shared/entity.h"
 #include "dungeon/effect/spell_effect.h"
+#include "sdk/abs.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 /* Spell state for movement toward a target and its delayed attack. */
 typedef struct ApproachingImpactSpellBody {
     SpellEffectHeader spell;
@@ -74,16 +78,10 @@ typedef struct {
     s32 f4;
     s32 f5;
 } ovl_1930844_81910970_Copy6;
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} ovl_1930844_81910EC0_P_TAG;
 #define ovl_1930844_81910EC0_U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define ovl_1930844_81910EC0_S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define ovl_1930844_81910EC0_U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define ovl_1930844_81910EC0_S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define ovl_1930844_81910EC0_U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
-#define ovl_1930844_81910EC0_PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
 #define ovl_1930844_81910EC0_GFX_ROOT_SLOT (&g_game_work)
 typedef struct ovl_1930844_819112CC_S_819112CC_0 {
     u8 pad_00[0xA];
@@ -103,76 +101,13 @@ typedef struct ovl_1930844_819112CC_S_819112CC_1 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } ovl_1930844_819112CC_S_819112CC_1;
-typedef struct ovl_1930844_819112CC_S_819112CC_2 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    s8 unk_07;
-    u16 unk_08;
-    u16 unk_0A;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u16 unk_12;
-    u8 unk_14;
-    u8 unk_15;
-    u8 unk_16;
-    u8 pad_17[0x1];
-    u16 unk_18;
-    u16 unk_1A;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-    u8 pad_1F[0x1];
-    u16 unk_20;
-    u16 unk_22;
-} ovl_1930844_819112CC_S_819112CC_2;
 typedef struct ovl_1930844_819112CC_S_819112CC_3 {
     u8 pad_00[0x18];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_18;   
     u8 pad_1C[0x10];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_2C;   
 } ovl_1930844_819112CC_S_819112CC_3;
-typedef struct ovl_1930844_819112CC_S_819112CC_5 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    s8 unk_07;
-    u16 unk_08;
-    u16 unk_0A;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u16 unk_12;
-    u8 unk_14;
-    u8 unk_15;
-    u8 unk_16;
-    u8 pad_17[0x1];
-    u16 unk_18;
-    u16 unk_1A;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-    u8 pad_1F[0x1];
-    u16 unk_20;
-    u16 unk_22;
-} ovl_1930844_819112CC_S_819112CC_5;
-typedef struct {
-    unsigned addr: 24;
-    unsigned len: 8;
-    u8 r0, g0, b0, code;
-} ovl_1930844_819112CC_P_TAG;
 typedef struct {} ovl_1930844_819112CC_EmptyArg;
-#define ovl_1930844_819112CC_SP16(off) (scratch->h[(off) / 2])
-#define ovl_1930844_819112CC_setaddr(p, _addr) (((ovl_1930844_819112CC_P_TAG *)(p))->addr = (u32)(_addr))
-#define ovl_1930844_819112CC_getaddr(p) (u32)(((ovl_1930844_819112CC_P_TAG *)(p))->addr)
-#define ovl_1930844_819112CC_SP32(off) (scratch->w[(off) / 4])
 #define ovl_1930844_819112CC_GFX_ROOT_SLOT (&g_game_work)
 typedef struct ovl_1930844_81911A8C_S_81911A8C_0_pre {
     u16 unk_00;
@@ -325,17 +260,7 @@ typedef struct ovl_1930844_81912154_LocalStack {
     u8 motion[0x18];
     GteOffset offset;
 } ovl_1930844_81912154_LocalStack;
-s32 rsin(s32);
-extern s32 rand(void);
 extern u8 D_800DE720[9];
-extern s32 rcos(s32);
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
-extern u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-void AddPrim(void *ordering_table, void *primitive);
-void SetTile(void *);
-extern int abs(int);
 void apply_attack_power_and_element_effects();
 s32 check_layer_offset_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);

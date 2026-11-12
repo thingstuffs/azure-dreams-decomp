@@ -25,7 +25,7 @@ extern u8 g_game_work[], building_texture_frame_zero[], building_texture_backup[
 void initialize_building_graphics(void)
 {
     u8 *base, *status;
-    BuildingUploadRect *image_rect, *first_rect, *palette_rect;
+    RECT *image_rect, *first_rect, *palette_rect;
     u8 *image_data;
     S_800B6FB8_0 *draw;
     s32 width, color, draw_setting;

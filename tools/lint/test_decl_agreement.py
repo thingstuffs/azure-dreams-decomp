@@ -227,6 +227,17 @@ class TreeTests(unittest.TestCase):
             f.write_text(f.read_text().replace('struct Actor *a', 'Rec *a'))
         self.assertEqual(D.check_tree(self.root, {'pick'}), [])
 
+    def test_sdk_prototype_is_the_reference_for_a_library_function(self):
+        (self.root / 'include/sdk').mkdir()
+        (self.root / 'include/sdk/libgte.h').write_text('s32 rcos(s32);\n')
+        (self.root / 'include/m/old.h').write_text('s32 rcos(s32, ...);\n')        # a stale module copy
+        (self.root / 'src/m/trig.c').write_text('s32 rcos(s32, ...);\nint f(void) { return rcos(1, 2); }\n')
+        problems = D.check_tree(self.root, {'rcos'})
+        self.assertEqual({p['file'] for p in problems}, {'include/m/old.h', 'src/m/trig.c'})
+        self.assertTrue(all(p['expected_at'].startswith('include/sdk/libgte.h') for p in problems))
+        (self.root / 'include/sdk/libgte.h').unlink()           # without an SDK header every include/ prototype counts
+        self.assertEqual(D.check_tree(self.root, {'rcos'}), [])
+
     def test_static_definitions_are_per_file(self):
         self.assertEqual(D.check_tree(self.root, {'helper'}), [])
         f = self.root / 'src/m/static_b.c'

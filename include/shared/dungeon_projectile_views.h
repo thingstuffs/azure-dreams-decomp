@@ -121,13 +121,6 @@ typedef struct {
     s32 rz;
 } ProjectileTargetTransform;
 
-/* Stack integer world point projected by func_800248F8; the renderer fills it from the projectile position. */
-typedef struct {
-    s16 x; /* integer world X supplied to the projection routine */
-    s16 y; /* integer world Y supplied to the projection routine */
-    s16 z; /* integer world height; the renderer projects endpoints 28 units apart */
-} SVECTOR;
-
 
 /* Partial frame draw-context view selected through GameWork.draw_buffer; init_frame_buffers owns the backing contexts.
  * func_800248F8 allocates projectile quads through its packet cursor. */

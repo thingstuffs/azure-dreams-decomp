@@ -1,5 +1,6 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
+#include "town/player/action_reset_data.h"
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
@@ -8,7 +9,6 @@
 #include "town/player/object.h"
 #include "town.h"
 #include "town/data.h"
-extern s8 town_action_reset_byte;
 extern s32 D_800D01E8;
 
 /*

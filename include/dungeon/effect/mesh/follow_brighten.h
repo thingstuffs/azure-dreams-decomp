@@ -256,23 +256,18 @@ typedef struct ovl_18d0850_818B1664_LargeScalar {
     s32 pad[2];
 } ovl_18d0850_818B1664_LargeScalar;
 #include "dungeon/effect/screen.h"
+#include "sdk/abs.h"
+#include "sdk/libgpu.h"
 extern s32 get_random_scaled_value(s16 input_value);
-extern void LoadImage();
-s32 DrawSync(s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 D_800814A0;
 void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 extern void register_node(ovl_18d0850_818B09F8_MainObj *, void *);
 extern u8 shared_sprite_entries[];
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 extern unsigned char resident_globals_page[];
 #include "sdk/libgte.h"
 #include "shared/scratchpad.h"
-u16 GetTPage(s32, s32, s32, s32);
-void SetDrawMode(void *, s32, s32, s32, void *);
 extern M2C_UNK D_8002588C;
-extern int abs(int);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
 void apply_random_actor_value_gain(EntityRec *entity, s32 value_id, void *record);

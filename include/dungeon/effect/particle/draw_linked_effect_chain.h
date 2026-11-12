@@ -14,44 +14,9 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 struct ObjectNodeHeader;
-typedef struct Row_819A088C_S_819A088C_0 {
-    u8 pad_00[0x24];
-    union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
-    u16 unk_28;
-    u8 pad_2A[0xA];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    u8 pad_40[0x14];
-    GteMatrix composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
-    GteMatrix object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
-    u8 pad_94[0x10];
-    u16 unk_A4;
-    u16 unk_A6;
-    u16 unk_A8;
-    u8 pad_AA[0x6];
-    u16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-    u8 pad_B6[0x2];
-    u16 unk_B8;
-    u16 unk_BA;
-    u16 unk_BC;
-    u8 pad_BE[0x2];
-    u16 unk_C0;
-    u16 unk_C2;
-    u16 unk_C4;
-    u8 pad_C6[0x2];
-    u16 unk_C8;
-    u16 unk_CA;
-    u16 unk_CC;
-    u8 pad_CE[0x2];
-    s32 depth_cue; /* RotAverage4 depth-cue output */
-    s32 gte_flag; /* RotAverage4 GTE flag output */
-    u8 pad_D8[0x28];
-    s32 unk_100;
-} Row_819A088C_S_819A088C_0;   /* scratch in func_8002408C */
 
 typedef struct Row_819A088C_S_819A088C_1 {
     u8 pad_00[0x2];
@@ -71,34 +36,6 @@ typedef struct Row_819A088C_S_819A088C_2 {
     u16 unk_18;
     u16 unk_1A;
 } Row_819A088C_S_819A088C_2;   /* arg2 in func_8002408C */
-
-typedef struct Row_819A088C_S_819A088C_3 {
-    u8 pad_00[0xB0];
-    u32 unk_B0;
-    u8 pad_B4[0x81C];
-    u8 * unk_8D0;
-} Row_819A088C_S_819A088C_3;   /* *(u8 **)D_80083160 in func_8002408C */
-
-typedef struct Row_819A088C_S_819A088C_4 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    u16 unk_08;
-    u16 unk_0A;
-    u32 unk_0C;
-    u16 unk_10;
-    u16 unk_12;
-    u32 unk_14;
-    u16 unk_18;
-    u16 unk_1A;
-    u32 unk_1C;
-    u16 unk_20;
-    u16 unk_22;
-} Row_819A088C_S_819A088C_4;   /* packet in func_8002408C */
-
-typedef struct Row_819A088C_S_819A088C_5 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} Row_819A088C_S_819A088C_5;   /* context in func_8002408C */
 
 typedef struct Row_819A088C_S_819A088C_6 {
     u8 pad_00[0xC];
@@ -120,17 +57,6 @@ typedef struct Row_819A088C_S_819A088C_6 {
     u16 unk_68;
     u16 unk_6A;
 } Row_819A088C_S_819A088C_6;   /* arg0 in func_8002408C */
-
-typedef struct Row_819A088C_S_819A088C_7 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} Row_819A088C_S_819A088C_7;   /* *global in func_8002408C */
-
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} Row_819A088C_MATRIX;
 
 /* Transform and queue a visible Gouraud-shaded quad in the ordering table. */
 typedef struct Row_819A0D64_GapNode { u8 pad[8]; void *position; void *appearance; } Row_819A0D64_GapNode;
@@ -444,17 +370,6 @@ typedef struct Row_819A1654_Blob24 {
 } __attribute__((packed)) Row_819A1654_Blob24;
 
 /* Advance the entity effect sequence, spawning particles and trails before cleanup. */
-void CompMatrix(void *, void *, void *);
-void PushMatrix(void);
-void PopMatrix(void);
-void ReadRotMatrix(void *);
-void ScaleMatrix(void *, void *);
-void SetRotMatrix(void *);
-void SetTransMatrix(void *);
-s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-void RotMatrix(void *, void *);
-u16 GetTPage(s32, s32, s32, s32);
-void SetDrawMode(void *, s32, s32, u16, s32);
 void advance_sprite_animation_and_textures(void *);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void select_record_entry_and_value(void *state, void *entries, short index);

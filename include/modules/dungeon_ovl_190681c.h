@@ -9,6 +9,9 @@
 #include "shared/game_work.h"
 #include "sdk/libc.h"
 #include "dungeon/level.h"
+#include "sdk/abs.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 /* Advance the effect through target selection, movement, impact, and cleanup. */
 typedef struct Row_818E6F98_Primitive {
@@ -48,7 +51,6 @@ typedef union Row_818E6F98_WorkOutput {
 } Row_818E6F98_WorkOutput;
 
 /* Queues a textured quad at the supplied world position. */
-int abs(int);
 void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
@@ -56,11 +58,6 @@ s32 get_definition_entry_byte_13(s16 entry_index);
 s32 scan_actor_along_heading(void *, u8, u8, s16, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void unlink_node(void *);
 void initialize_timed_motion_step(s32, s32);
-s32 RotTransPers(void *, void *, void *, void *);
-s16 GetTPage(s32, s32, s32, s32);
-s16 GetClut(s32, s32);
-void SetSemiTrans(void *, s32);
-void SetPolyFT4(void *);
 extern u8 directional_particle_node_callback[];
 extern u8 directional_particle_callback[];
 extern u8 D_800249DC[];

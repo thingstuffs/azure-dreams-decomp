@@ -6,11 +6,10 @@
 #define TOWN_SCENE_GLOBAL_MODE_DISPATCH_G00734_H
 
 #include "common.h"
+#include "town/scene/mode_data.h"
 
 extern void func_80018570(void);
-extern s32 scene_dispatch_mode_index;
 extern s32 D_8001970C[];
-extern s32 scene_cell_dispatch_code;
 extern s32 dispatch_state_entry_event_8(s32, s32, s32, s32);
 extern s32 process_event_ids_and_succeed(void);
 

@@ -1874,7 +1874,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
     R12_80173FDC_Frame frame;
     /* The loop state also carries a successor header before reloading its position. */
     s32 next_node = (s32)position;
-    u8 *effect;
+    ArachneActionEffectBody *effect;
     u8 *vertex_depths;
     u8 *transform_work;
     u8 *depth_base;
@@ -1907,7 +1907,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
         (frame.desc).points1 = &(frame.points)[0][0];
         (frame.desc).zero = 0;
         (frame.desc).angle = ((ArachneActionEffectBody *)node)->unk_10 - 0x400;
-        effect = node;
+        effect = (ArachneActionEffectBody *)node;
         /* BYTES: The bytes fix the test's shape (a scratchpad word, then next_node), not its meaning; the arm reconstructs a conditional update of a local nothing reads (decision 45). */
         if (*(s32 *)screen_xy && next_node) {
             /* retail evidence (decision 45, docs/evidence/r97_decisions.md): both operands of this test are loaded in retail's
@@ -1930,7 +1930,7 @@ grid_loop:
             s32 angle;
             s32 point_offset;
 
-            next_node = row * ((8 - ((ArachneActionEffectBody *)effect)->unk_0E.s) << 4);
+            next_node = row * ((8 - effect->unk_0E.s) << 4);
             point_base = &(frame.points)[0][0];
             point_offset = col << 3;
             point_offset += row << 6;
@@ -1958,7 +1958,7 @@ grid_loop:
         }
 
         (frame.desc).count = 0x40;
-        (frame.desc).header = *(R12_80173FDC_Header8 *)effect;
+        (frame.desc).header = effect->unk_00.header;
         (frame.desc).one = 1;
         transform_rotated_vertices(&(frame.desc));
 
@@ -1988,8 +1988,8 @@ grid_loop:
 
                         SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
-                        line->color0 = ((ArachneActionEffectBody *)effect)->unk_08.u32;
-                        line->color1 = ((ArachneActionEffectBody *)effect)->unk_08.u32;
+                        line->color0 = effect->unk_08.u32;
+                        line->color1 = effect->unk_08.u32;
                         SetLineG2(line);
                         SetSemiTrans(line, 1);
 
@@ -2045,8 +2045,8 @@ grid_loop:
 
                         SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
-                        line->color0 = ((ArachneActionEffectBody *)effect)->unk_08.u32;
-                        line->color1 = ((ArachneActionEffectBody *)effect)->unk_08.u32;
+                        line->color0 = effect->unk_08.u32;
+                        line->color1 = effect->unk_08.u32;
                         SetLineG2(line);
                         SetSemiTrans(line, 1);
 

@@ -2,18 +2,12 @@
 #define TOWN_MAP_ANIMATION_H
 
 #include "common.h"
+#include "sdk/libgpu_types.h"
 #include "shared/entity.h"
 #include "shared/dungeon_delay_views.h"
 
-/* Four halfwords passed to the building texture and palette upload routines. */
-typedef struct BuildingUploadRect {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-} BuildingUploadRect;
-
-extern BuildingUploadRect building_upload_rect;
+/* VRAM rectangle the building texture and palette uploads fill and pass to LoadImage and StoreImage. */
+extern RECT building_upload_rect;
 
 typedef union TownMapAnimHalf { s16 s; u16 u; } TownMapAnimHalf;
 

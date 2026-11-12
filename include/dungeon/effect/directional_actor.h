@@ -10,6 +10,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/level.h"
 #include "dungeon/item/actor_target.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 typedef struct Row_818E0800_S_818E0800_0_pre {
     u16 unk_00;
 } Row_818E0800_S_818E0800_0_pre;   /* the 0x2 bytes before arg0 in func_8002401C, addressed as arg0[-1] */
@@ -164,13 +166,10 @@ typedef struct {
 
 /* Advances effect motion and sprite appearance, marking completion after 32 ticks. */
 void *allocate_list_node(s32, void *);
-s32 rand(void);
 void jitter_effect_position_and_fade(void *, s32); /* Unprototyped: retail call passes a different argument count */
 void initialize_timed_motion_step(s32, s32);
 s32 get_definition_entry_byte_13(s16 entry_index);
 void advance_sprite_animation_and_textures(void *);
-s32 rsin(s32);
-s32 rand(void);
 void transform_rotated_vertices(void *);
 extern u8 directional_effect_entries[];
 extern u8 current_spell_effect_variant[];

@@ -1,5 +1,6 @@
 #include "shared/actor_status_ids.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
@@ -33,13 +34,6 @@ typedef struct S_80095A10_4 {
     u8 unk_00;
 } S_80095A10_4;   /* &D_800E3E40 in update_familiar_summoning */
 
-typedef struct S_80095A10_5_pre {
-    void * unk_00;
-    void * unk_04;
-    u8 pad_08[0x10];
-} S_80095A10_5_pre;   /* 0x18-byte header immediately before the payload. */
-
-
 
    /* ((S_80095A10_2 *)arg3)->unk_60 in update_familiar_summoning */
 
@@ -62,7 +56,7 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
     S_80095A10_3 *resource_info;
     u32 state;
     u32 previous_state;
-    void *object;
+    ActorRecord *object;
     SpriteFrameState *object_scale;
     ObjectPosition *object_position;
 
@@ -116,25 +110,25 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
         if (object != 0) {
             context->target = object;
             familiar_record_slots[resource_info->unk_03 & 0x1F] = object;
-            object_scale = ((S_80095A10_5_pre *)object)[-1].unk_04;
+            object_scale = NODE_HEADER(object)->sprite;
             object_scale->scale_y = 0x800;
             object_scale->scale_x = 0x800;
-            object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
+            object_position = NODE_HEADER(object)->position;
             object_position->x.unsigned_parts.integer = (u16) position->x.w.i;
             object_position->y.unsigned_parts.integer = (u16) position->y.w.i;
             object_position->z.w.i = (s16) (position->z.w.i - 0x10);
-            func_80042640(object, ((ActorRecord *)object)->species);
-            apply_actor_template_and_class(object, ((ActorRecord *)object)->species, resource_info);
-            object_flags = ((ActorRecord *)object)->flags1C;
+            func_80042640(object, object->species);
+            apply_actor_template_and_class(object, object->species, resource_info);
+            object_flags = object->flags1C;
             object_flags |= 0x02000000;
             object_flags |= 0x20000;
-            ((ActorRecord *)object)->flags1C = object_flags;
+            object->flags1C = object_flags;
             replay_actor_status_slots(object);
             play_sound_if_enabled(0x704);
             clear_slots_of_type(object, STATUS_BLIND);
             clear_slots_of_type(object, STATUS_SLEEP);
-            if (((ActorRecord *)object)->mp_value.parts.whole == 0) {
-                ((ActorRecord *)object)->mp_value.parts.whole = 1U;
+            if (object->mp_value.parts.whole == 0) {
+                object->mp_value.parts.whole = 1U;
             }
         }
         previous_state = actor->action_phase;

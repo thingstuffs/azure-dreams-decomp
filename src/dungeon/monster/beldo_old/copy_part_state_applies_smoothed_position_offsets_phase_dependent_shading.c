@@ -69,15 +69,16 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(S
     MovingPosition *transform = output_transform;
     S_8127B000_3 *render_part = target_part;
     S_8127B000_1 *owner;
+    S_8127B000_2 *owner_part;
     S_8127B000_5 *part_transform;
     S_8127B000_6 *motion_part;
     s8 phase;
 
     owner = root->unk_AC;
-    output_transform = owner->unk_0C;
+    owner_part = owner->unk_0C;
     part_transform = owner->unk_08;
 
-    if (!(((S_8127B000_2 *)output_transform)->unk_14 & 0x80)) {
+    if (!(owner_part->unk_14 & 0x80)) {
         render_part->unk_14 &= 0xFF7F;
     }
 
@@ -100,13 +101,13 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(S
     }
 
     part_transform = render_part->unk_08;
-    render_part->unk_1C = ((S_8127B000_2 *)output_transform)->unk_1C;
-    render_part->unk_1E = ((S_8127B000_2 *)output_transform)->unk_1E;
-    render_part->unk_14 = ((S_8127B000_2 *)output_transform)->unk_14;
+    render_part->unk_1C = owner_part->unk_1C;
+    render_part->unk_1E = owner_part->unk_1E;
+    render_part->unk_14 = owner_part->unk_14;
     part_transform->unk_01 &= 0xFE;
 
     if (root->unk_B6 == 1) {
-        phase = ((S_8127B000_2 *)output_transform)->unk_04.s8;
+        phase = owner_part->unk_04.s8;
         if (phase < 8) {
             s32 brightness =
                 (phase * 14) + 0x20;
@@ -122,14 +123,14 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(S
             render_part->unk_0D = brightness;
             render_part->unk_0C = brightness;
         }
-        if (!(((S_8127B000_2 *)output_transform)->unk_14 & 0x8000) &&
-            ((S_8127B000_2 *)output_transform)->unk_04.u16 == 0x10C) {
+        if (!(owner_part->unk_14 & 0x8000) &&
+            owner_part->unk_04.u16 == 0x10C) {
             func_800A4398(0x709);
         }
     }
 
     if (root->unk_B6 == 2) {
-        phase = ((S_8127B000_2 *)output_transform)->unk_04.s8;
+        phase = owner_part->unk_04.s8;
         if (phase < 8) {
             s32 brightness =
                 ((7 - phase) * 14) + 0x20;
@@ -145,8 +146,8 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(S
             render_part->unk_0D = brightness;
             render_part->unk_0C = brightness;
         }
-        if (!(((S_8127B000_2 *)output_transform)->unk_14 & 0x8000) &&
-            ((S_8127B000_2 *)output_transform)->unk_04.u16 == 0x104) {
+        if (!(owner_part->unk_14 & 0x8000) &&
+            owner_part->unk_04.u16 == 0x104) {
             func_800A4398(0x709);
         }
     }

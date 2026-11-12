@@ -1,6 +1,7 @@
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
+#include "dungeon/entity_spawn_variant_data.h"
 #include "shared/record_ptrs.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/effect.h"
@@ -40,7 +41,6 @@ typedef struct S_80E3C98C_4 {
 extern void copy_entity_record();
 extern void set_code_for_entity_mode();
 extern MonsterFactory load_monster_code_module();
-extern s8 entity_spawn_variant_code;
 
 /* Create an entity from spawn data and update its tracked reference. */
 void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, SpriteFrameState *position, Rec_D_80082E80 *spawn_data) {

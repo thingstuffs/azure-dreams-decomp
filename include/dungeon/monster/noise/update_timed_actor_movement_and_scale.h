@@ -8,6 +8,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "sdk/libgte.h"
 
 
 
@@ -19,7 +20,6 @@
 
 
 
-extern s32 rsin(s32 value);
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *sprite, u8 value, s32 zero);

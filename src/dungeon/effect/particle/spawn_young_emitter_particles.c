@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/emission_data.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/particle.h"
@@ -44,7 +45,6 @@ typedef struct S_7FFEA9D4_3 {
 } S_7FFEA9D4_3;
 
 extern u8 emitter_height_offsets[0x100];
-extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010C994;
 
 /* Spawns randomized particles while the emitter is young and marks it inactive when its timer expires. */

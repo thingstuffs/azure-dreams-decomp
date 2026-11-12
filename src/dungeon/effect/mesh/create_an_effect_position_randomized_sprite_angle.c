@@ -222,6 +222,10 @@ void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4
 
 /* Builds five translucent quads between the effect's interpolated points and queues their draw modes
    by depth. */
+#include "sdk/libgpu_types.h"
+#include "sdk/libgpu_packets.h"
+#include "dungeon/effect/projected_quad_scratch.h"
+
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den)
 {
     GameWork *gfx_slot= ovl_1930844_81910EC0_GFX_ROOT_SLOT;
@@ -230,13 +234,14 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
     s32 scale = scale_num;
     s32 divisor = scale_den;
     s32 interpolate = scale < divisor;
-    u8 *scratchpad = (u8 *)0x1F800000;
+    ProjectedQuadScratch *scratch = (ProjectedQuadScratch *)0x1F800000;
 
-    ovl_1930844_81910EC0_PTR_AT(scratchpad, 0x18) = gfx + 0xB0;
+    scratch->ordering_table = (u32 *)(gfx + 0xB0);
     do {
         GpuContext **gfx_pool = (GpuContext **)gfx_slot;
         u8 *start_point = shape + edge * 4;
-        u8 *packet;
+        POLY_G4 *packet;
+        DR_MODE *mode_packet;
         u8 *end_point;
         s32 coord_delta;
         u16 coord;
@@ -244,104 +249,106 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
         u32 depth;
 
         packet = (*gfx_pool)->packetCursor;
-        (*gfx_pool)->packetCursor = packet + 0x24;
+        (*gfx_pool)->packetCursor = packet + 1;
 
-        ovl_1930844_81910EC0_U8_AT(packet, 3) = 8;
-        ovl_1930844_81910EC0_U8_AT(packet, 7) = 0x3A;
-        ovl_1930844_81910EC0_U8_AT(packet, 4) = ovl_1930844_81910EC0_U8_AT(shape, 0x40);
-        ovl_1930844_81910EC0_U8_AT(packet, 5) = ovl_1930844_81910EC0_U8_AT(shape, 0x41);
-        ovl_1930844_81910EC0_U8_AT(packet, 6) = ovl_1930844_81910EC0_U8_AT(shape, 0x42);
-        ovl_1930844_81910EC0_U8_AT(packet, 0xC) = ovl_1930844_81910EC0_U8_AT(shape, 0x40);
-        ovl_1930844_81910EC0_U8_AT(packet, 0xD) = ovl_1930844_81910EC0_U8_AT(shape, 0x41);
-        ovl_1930844_81910EC0_U8_AT(packet, 0xE) = ovl_1930844_81910EC0_U8_AT(shape, 0x42);
-        ovl_1930844_81910EC0_U8_AT(packet, 0x14) = ovl_1930844_81910EC0_U8_AT(shape, 0x40);
-        ovl_1930844_81910EC0_U8_AT(packet, 0x15) = ovl_1930844_81910EC0_U8_AT(shape, 0x41);
-        ovl_1930844_81910EC0_U8_AT(packet, 0x16) = ovl_1930844_81910EC0_U8_AT(shape, 0x42);
-        ovl_1930844_81910EC0_U8_AT(packet, 0x1C) = ovl_1930844_81910EC0_U8_AT(shape, 0x40);
-        ovl_1930844_81910EC0_U8_AT(packet, 0x1D) = ovl_1930844_81910EC0_U8_AT(shape, 0x41);
-        ovl_1930844_81910EC0_U8_AT(packet, 0x1E) = ovl_1930844_81910EC0_U8_AT(shape, 0x42);
+        ((GpuLinkTag *)&packet->tag)->len = 8;
+        packet->code = 0x3A;
+        packet->red0 = ovl_1930844_81910EC0_U8_AT(shape, 0x40);
+        packet->green0 = ovl_1930844_81910EC0_U8_AT(shape, 0x41);
+        packet->blue0 = ovl_1930844_81910EC0_U8_AT(shape, 0x42);
+        packet->red1 = ovl_1930844_81910EC0_U8_AT(shape, 0x40);
+        packet->green1 = ovl_1930844_81910EC0_U8_AT(shape, 0x41);
+        packet->blue1 = ovl_1930844_81910EC0_U8_AT(shape, 0x42);
+        packet->red2 = ovl_1930844_81910EC0_U8_AT(shape, 0x40);
+        packet->green2 = ovl_1930844_81910EC0_U8_AT(shape, 0x41);
+        packet->blue2 = ovl_1930844_81910EC0_U8_AT(shape, 0x42);
+        packet->red3 = ovl_1930844_81910EC0_U8_AT(shape, 0x40);
+        packet->green3 = ovl_1930844_81910EC0_U8_AT(shape, 0x41);
+        packet->blue3 = ovl_1930844_81910EC0_U8_AT(shape, 0x42);
 
         end_point = shape + (((edge + 2) % 5) * 4);
         {
             u16 start_x = ovl_1930844_81910EC0_U16_AT(start_point, 0x1A);
 
-            ovl_1930844_81910EC0_U16_AT(scratchpad, 0x74) = start_x;
-            ovl_1930844_81910EC0_U16_AT(scratchpad, 0x64) = start_x;
+            scratch->vertices[2].vx = start_x;
+            scratch->vertices[0].vx = start_x;
         }
 
         coord_delta = ovl_1930844_81910EC0_S32_AT(end_point, 0x18) - ovl_1930844_81910EC0_S32_AT(start_point, 0x18);
-        ovl_1930844_81910EC0_S32_AT(scratchpad, 0x108) = coord_delta;
+        scratch->step_x = coord_delta;
         if (interpolate) {
-            ovl_1930844_81910EC0_S32_AT(scratchpad, 0x108) = (coord_delta / divisor) * scale;
+            scratch->step_x = (coord_delta / divisor) * scale;
         }
 
-        coord = ovl_1930844_81910EC0_U16_AT(start_point, 0x1A) + ovl_1930844_81910EC0_U16_AT(scratchpad, 0x10A);
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x7C) = coord;
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x6C) = coord;
+        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        coord = ovl_1930844_81910EC0_U16_AT(start_point, 0x1A) + ((u16 *)&scratch->step_x)[1];
+        scratch->vertices[3].vx = coord;
+        scratch->vertices[1].vx = coord;
 
         vertex_y = ovl_1930844_81910EC0_U16_AT(start_point, 0x2E);
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x76) = vertex_y;
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x66) = vertex_y;
+        scratch->vertices[2].vy = vertex_y;
+        scratch->vertices[0].vy = vertex_y;
 
         coord_delta = ovl_1930844_81910EC0_S32_AT(end_point, 0x2C) - ovl_1930844_81910EC0_S32_AT(start_point, 0x2C);
-        ovl_1930844_81910EC0_S32_AT(scratchpad, 0x10C) = coord_delta;
+        scratch->step_y = coord_delta;
         if (interpolate) {
-            ovl_1930844_81910EC0_S32_AT(scratchpad, 0x10C) = (coord_delta / divisor) * scale;
+            scratch->step_y = (coord_delta / divisor) * scale;
         }
 
-        vertex_y = ovl_1930844_81910EC0_U16_AT(start_point, 0x2E) + ovl_1930844_81910EC0_U16_AT(scratchpad, 0x10E);
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x7E) = vertex_y;
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x6E) = vertex_y;
+        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        vertex_y = ovl_1930844_81910EC0_U16_AT(start_point, 0x2E) + ((u16 *)&scratch->step_y)[1];
+        scratch->vertices[3].vy = vertex_y;
+        scratch->vertices[1].vy = vertex_y;
 
         coord = ovl_1930844_81910EC0_U16_AT(position, 0xA) - ovl_1930844_81910EC0_U16_AT(shape, 0x10);
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x70) = coord;
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x68) = coord;
+        scratch->vertices[1].vz = coord;
+        scratch->vertices[0].vz = coord;
 
         coord = ovl_1930844_81910EC0_U16_AT(position, 0xA);
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x78) = coord;
-        ovl_1930844_81910EC0_U16_AT(scratchpad, 0x80) = coord;
+        scratch->vertices[2].vz = coord;
+        scratch->vertices[3].vz = coord;
 
-        ovl_1930844_81910EC0_U32_AT(scratchpad, 0xB4) = RotAverage4(
-            scratchpad + 0x64, scratchpad + 0x6C,
-            scratchpad + 0x74, scratchpad + 0x7C,
-            scratchpad + 0xD8, scratchpad + 0xDC,
-            scratchpad + 0xE0, scratchpad + 0xE4,
-            scratchpad + 0x84, scratchpad + 0x88);
+        scratch->ot_index = RotAverage4(
+            &scratch->vertices[0], &scratch->vertices[1],
+            &scratch->vertices[2], &scratch->vertices[3],
+            (s32 *)&scratch->screen[0], (s32 *)&scratch->screen[1],
+            (s32 *)&scratch->screen[2], (s32 *)&scratch->screen[3],
+            &scratch->depth_cue, &scratch->gte_flag);
 
-        ovl_1930844_81910EC0_U16_AT(packet, 8) = ovl_1930844_81910EC0_U16_AT(scratchpad, 0xD8);
-        ovl_1930844_81910EC0_U16_AT(packet, 0xA) = ovl_1930844_81910EC0_U16_AT(scratchpad, 0xDA);
-        ovl_1930844_81910EC0_U16_AT(packet, 0x10) = ovl_1930844_81910EC0_U16_AT(scratchpad, 0xDC);
-        ovl_1930844_81910EC0_U16_AT(packet, 0x12) = ovl_1930844_81910EC0_U16_AT(scratchpad, 0xDE);
-        ovl_1930844_81910EC0_U16_AT(packet, 0x18) = ovl_1930844_81910EC0_U16_AT(scratchpad, 0xE0);
-        ovl_1930844_81910EC0_U16_AT(packet, 0x1A) = ovl_1930844_81910EC0_U16_AT(scratchpad, 0xE2);
-        ovl_1930844_81910EC0_U16_AT(packet, 0x20) = ovl_1930844_81910EC0_U16_AT(scratchpad, 0xE4);
-        ovl_1930844_81910EC0_U16_AT(packet, 0x22) = ovl_1930844_81910EC0_U16_AT(scratchpad, 0xE6);
+        packet->x0 = scratch->screen[0].x;
+        packet->y0 = scratch->screen[0].y;
+        packet->x1 = scratch->screen[1].x;
+        packet->y1 = scratch->screen[1].y;
+        packet->x2 = scratch->screen[2].x;
+        packet->y2 = scratch->screen[2].y;
+        packet->x3 = scratch->screen[3].x;
+        packet->y3 = scratch->screen[3].y;
 
-        depth = ovl_1930844_81910EC0_U32_AT(scratchpad, 0xB4);
+        depth = scratch->ot_index;
         if (depth < 0x1E0) {
             u32 addr_mask = 0x00FFFFFF;
             u32 length_mask = 0xFF000000;
 
-            ((ovl_1930844_81910EC0_P_TAG *)packet)->addr = ((ovl_1930844_81910EC0_P_TAG *)(u32 *)(ovl_1930844_81910EC0_PTR_AT(scratchpad, 0x18) + depth * 4))->addr;
-            *(u32 *)(ovl_1930844_81910EC0_PTR_AT(scratchpad, 0x18) + ovl_1930844_81910EC0_U32_AT(scratchpad, 0xB4) * 4) =
-                (*(u32 *)(ovl_1930844_81910EC0_PTR_AT(scratchpad, 0x18) + ovl_1930844_81910EC0_U32_AT(scratchpad, 0xB4) * 4) & length_mask) |
+            ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[depth])->addr;
+            *(u32 *)((u8 *)scratch->ordering_table + scratch->ot_index * 4) =
+                (scratch->ordering_table[scratch->ot_index] & length_mask) |
                 ((u32)packet & addr_mask);
 
             gfx_pool = (GpuContext **)gfx_slot;
-            packet = (*gfx_pool)->packetCursor;
-            (*gfx_pool)->packetCursor = packet + 0xC;
-            SetDrawMode(packet, 0, 0,
+            mode_packet = (*gfx_pool)->packetCursor;
+            (*gfx_pool)->packetCursor = mode_packet + 1;
+            SetDrawMode(mode_packet, 0, 0,
                 (u16)GetTPage(0, ovl_1930844_81910EC0_S16_AT(shape, 0x12), 0, 0), 0);
 
-            ovl_1930844_81910EC0_U32_AT(packet, 0) = (ovl_1930844_81910EC0_U32_AT(packet, 0) & length_mask) |
-                (*(u32 *)(ovl_1930844_81910EC0_PTR_AT(scratchpad, 0x18) + ovl_1930844_81910EC0_U32_AT(scratchpad, 0xB4) * 4) & addr_mask);
+            mode_packet->tag = (mode_packet->tag & length_mask) |
+                (scratch->ordering_table[scratch->ot_index] & addr_mask);
             {
-                u32 packet_depth = ovl_1930844_81910EC0_U32_AT(scratchpad, 0xB4);
+                u32 packet_depth = scratch->ot_index;
 
-                packet = (u8 *)((u32)packet & addr_mask);
-                *(u32 *)(ovl_1930844_81910EC0_PTR_AT(scratchpad, 0x18) + packet_depth * 4) =
-                    (*(u32 *)(ovl_1930844_81910EC0_PTR_AT(scratchpad, 0x18) + packet_depth * 4) & length_mask) |
-                    (u32)packet;
+                mode_packet = (DR_MODE *)((u32)mode_packet & addr_mask);
+                scratch->ordering_table[packet_depth] =
+                    (scratch->ordering_table[packet_depth] & length_mask) |
+                    (u32)mode_packet;
             }
         }
 
@@ -369,14 +376,15 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(ov
     s32 step = step_in;
     s32 duration = duration_in;
 
-    u8 *prim;
+    POLY_G4 *quad;
+    DR_MODE *mode;
     s32 angle_x_or_mask;
     s32 angle_x_or_mask_2;
     s32 target_x;
     s32 target_y;
     s32 radial_y;
     s32 interpolate;
-    s32 vertex_base;
+    SVECTOR *vertex_base;
     s16 next_end_y;
     s16 end_y;
     s16 bottom_z;
@@ -402,26 +410,26 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(ov
     s32 modulo_result;
     s32 ot_slot;
     s32 ot_slot2;
-    ScratchPad *scratch;
+    ProjectedQuadScratch *scratch;
     GameWork *context_slot;
-    u8 *v1;
-    u8 *v2;
-    u8 *v3;
-    u8 *sxy0;
-    u8 *sxy1;
-    u8 *sxy2;
-    u8 *sxy3;
-    u8 *depth;
-    u8 *flag;
+    SVECTOR *v1;
+    SVECTOR *v2;
+    SVECTOR *v3;
+    SpriteScratchScreenPoint *sxy0;
+    SpriteScratchScreenPoint *sxy1;
+    SpriteScratchScreenPoint *sxy2;
+    SpriteScratchScreenPoint *sxy3;
+    s32 *depth;
+    s32 *flag;
     ovl_1930844_819112CC_EmptyArg empty_arg;
     u8 *render_context = g_game_work.draw_buffer;
 
     context_slot = ovl_1930844_819112CC_GFX_ROOT_SLOT;
     point_index = 0;
-    scratch = (ScratchPad *)0x1F800000;
+    scratch = (ProjectedQuadScratch *)0x1F800000;
     interpolate = step < duration;
-    vertex_base = 0x1F800064;
-    ovl_1930844_819112CC_SP32(0x18) = (u32)render_context + 0xB0;
+    vertex_base = &scratch->vertices[0];
+    scratch->ordering_table = (u32 *)(render_context + 0xB0);
     for (; point_index < 5; point_index = next_index) {
         twice_index = point_index * 2;
         angle_x_or_mask_2 = (twice_index + 1) * 0x199;
@@ -435,177 +443,181 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(ov
         target_y = radial_y;
         {
             GpuContext **pool = (GpuContext **)context_slot;
-            prim = (*pool)->packetCursor;
-            (*pool)->packetCursor = prim + 0x24;
+            quad = (*pool)->packetCursor;
+            (*pool)->packetCursor = quad + 1;
         }
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_00.at03.v = 8;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_07 = 0x3A;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_04 = effect->field40;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_05 = effect->field41;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_06 = effect->field42;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0C = effect->field40;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0D = effect->field41;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0E = effect->field42;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_14 = effect->field40;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_15 = effect->field41;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_16 = effect->field42;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1C = effect->field40;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1D = effect->field41;
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1E = effect->field42;
+        ((GpuLinkTag *)&quad->tag)->len = 8;
+        quad->code = 0x3A;
+        quad->red0 = effect->field40;
+        quad->green0 = effect->field41;
+        quad->blue0 = effect->field42;
+        quad->red1 = effect->field40;
+        quad->green1 = effect->field41;
+        quad->blue1 = effect->field42;
+        quad->red2 = effect->field40;
+        quad->green2 = effect->field41;
+        quad->blue2 = effect->field42;
+        quad->red3 = effect->field40;
+        quad->green3 = effect->field41;
+        quad->blue3 = effect->field42;
         start_x = ((EffectCoords *)effect)->x[point_index].half.high;
-        ovl_1930844_819112CC_SP16(0x74) = start_x;
-        ovl_1930844_819112CC_SP16(0x64) = start_x;
+        scratch->vertices[2].vx = start_x;
+        scratch->vertices[0].vx = start_x;
         delta_x = target_x - effect->x[point_index];
-        ovl_1930844_819112CC_SP32(0x108) = delta_x;
+        scratch->step_x = delta_x;
         if (interpolate != 0) {
-            ovl_1930844_819112CC_SP32(0x108) = (delta_x / duration) * step;
+            scratch->step_x = (delta_x / duration) * step;
         }
-        end_x = ((EffectCoords *)effect)->x[point_index].half.high + ovl_1930844_819112CC_SP16(0x10A);
-        ovl_1930844_819112CC_SP16(0x7C) = end_x;
-        ovl_1930844_819112CC_SP16(0x6C) = end_x;
+        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        end_x = ((EffectCoords *)effect)->x[point_index].half.high + ((u16 *)&scratch->step_x)[1];
+        scratch->vertices[3].vx = end_x;
+        scratch->vertices[1].vx = end_x;
         start_y = ((EffectCoords *)effect)->y[point_index].half.high;
-        ovl_1930844_819112CC_SP16(0x76) = start_y;
-        ovl_1930844_819112CC_SP16(0x66) = start_y;
+        scratch->vertices[2].vy = start_y;
+        scratch->vertices[0].vy = start_y;
         delta_y = radial_y - effect->y[point_index];
-        ovl_1930844_819112CC_SP32(0x10C) = delta_y;
+        scratch->step_y = delta_y;
         if (interpolate != 0) {
-            ovl_1930844_819112CC_SP32(0x10C) = (delta_y / duration) * step;
+            scratch->step_y = (delta_y / duration) * step;
         }
-        end_y = ((EffectCoords *)effect)->y[point_index].half.high + ovl_1930844_819112CC_SP16(0x10E);
-        ovl_1930844_819112CC_SP16(0x7E) = end_y;
-        ovl_1930844_819112CC_SP16(0x6E) = end_y;
+        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        end_y = ((EffectCoords *)effect)->y[point_index].half.high + ((u16 *)&scratch->step_y)[1];
+        scratch->vertices[3].vy = end_y;
+        scratch->vertices[1].vy = end_y;
         bottom_z = origin->unk_0A - effect->field10;
-        ovl_1930844_819112CC_SP16(0x70) = bottom_z;
-        ovl_1930844_819112CC_SP16(0x68) = bottom_z;
+        scratch->vertices[1].vz = bottom_z;
+        scratch->vertices[0].vz = bottom_z;
         top_z = origin->unk_0A;
-        v1 = (u8 *)scratch + 0x6C;
-        v2 = (u8 *)scratch + 0x74;
-        v3 = (u8 *)scratch + 0x7C;
-        sxy0 = (u8 *)scratch + 0xD8;
-        sxy1 = (u8 *)scratch + 0xDC;
-        sxy2 = (u8 *)scratch + 0xE0;
-        sxy3 = (u8 *)scratch + 0xE4;
-        depth = (u8 *)scratch + 0x84;
-        flag = (u8 *)scratch + 0x88;
-        ovl_1930844_819112CC_SP32(0xB4) = RotAverage4(vertex_base, v1, v2, v3,
-                                   sxy0, sxy1, sxy2, sxy3,
-                                   depth, (ovl_1930844_819112CC_SP16(0x78) = top_z,
-                                    ovl_1930844_819112CC_SP16(0x80) = top_z,
+        v1 = &scratch->vertices[1];
+        v2 = &scratch->vertices[2];
+        v3 = &scratch->vertices[3];
+        sxy0 = &scratch->screen[0];
+        sxy1 = &scratch->screen[1];
+        sxy2 = &scratch->screen[2];
+        sxy3 = &scratch->screen[3];
+        depth = &scratch->depth_cue;
+        flag = &scratch->gte_flag;
+        scratch->ot_index = RotAverage4(vertex_base, v1, v2, v3,
+                                   (s32 *)sxy0, (s32 *)sxy1, (s32 *)sxy2, (s32 *)sxy3,
+                                   depth, (scratch->vertices[2].vz = top_z,
+                                    scratch->vertices[3].vz = top_z,
                                     flag));
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_08 = ovl_1930844_819112CC_SP16(0xD8);
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0A = ovl_1930844_819112CC_SP16(0xDA);
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_10 = ovl_1930844_819112CC_SP16(0xDC);
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_12 = ovl_1930844_819112CC_SP16(0xDE);
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_18 = ovl_1930844_819112CC_SP16(0xE0);
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1A = ovl_1930844_819112CC_SP16(0xE2);
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_20 = ovl_1930844_819112CC_SP16(0xE4);
-        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_22 = ovl_1930844_819112CC_SP16(0xE6);
-        link = (u32 *)(ovl_1930844_819112CC_SP32(0xB4));
+        quad->x0 = scratch->screen[0].x;
+        quad->y0 = scratch->screen[0].y;
+        quad->x1 = scratch->screen[1].x;
+        quad->y1 = scratch->screen[1].y;
+        quad->x2 = scratch->screen[2].x;
+        quad->y2 = scratch->screen[2].y;
+        quad->x3 = scratch->screen[3].x;
+        quad->y3 = scratch->screen[3].y;
+        link = (u32 *)scratch->ot_index;
         if ((u32)link < 0x1E0U) {
             ot_slot = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
-            ot_slot += ovl_1930844_819112CC_SP32(0x18);
-            ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(ot_slot));
-            link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
+            ot_slot += (unsigned long)scratch->ordering_table;
+            ((GpuLinkTag *)&quad->tag)->addr = ((GpuLinkTag *)ot_slot)->addr;
+            link = (u32 *)scratch->ot_index;
             link = (u32 *)((u32)link << 2);
-            link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
-            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
+            link = (u32 *)((u8 *)link + (unsigned long)scratch->ordering_table);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)quad & 0xFFFFFF);
             {
                 GpuContext *ctx = context_slot->draw_buffer;
-                prim = ctx->packetCursor;
-                ctx->packetCursor = prim + 0xC;
+                mode = ctx->packetCursor;
+                ctx->packetCursor = mode + 1;
             }
-            SetDrawMode(prim, 0, 0,
+            SetDrawMode(mode, 0, 0,
                           GetTPage(0, effect->field12, 0, 0) & 0xFFFF,
                           0);
-            ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(&((u32 *)ovl_1930844_819112CC_SP32(0x18))[ovl_1930844_819112CC_SP32(0xB4)]));
-            link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
+            ((GpuLinkTag *)&mode->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[scratch->ot_index])->addr;
+            link = (u32 *)scratch->ot_index;
             link = (u32 *)((u32)link << 2);
-            link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
-            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
+            link = (u32 *)((u8 *)link + (unsigned long)scratch->ordering_table);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)mode & 0xFFFFFF);
         }
         {
             GpuContext **pool = (GpuContext **)context_slot;
-            prim = (*pool)->packetCursor;
-            (*pool)->packetCursor = prim + 0x24;
+            quad = (*pool)->packetCursor;
+            (*pool)->packetCursor = quad + 1;
         }
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_00.at03.v = 8;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_07 = 0x3A;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_04 = effect->field40;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_05 = effect->field41;
+        ((GpuLinkTag *)&quad->tag)->len = 8;
+        quad->code = 0x3A;
+        quad->red0 = effect->field40;
+        quad->green0 = effect->field41;
         next_index = point_index + 1;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_06 = effect->field42;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0C = effect->field40;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0D = effect->field41;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0E = effect->field42;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_14 = effect->field40;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_15 = effect->field41;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_16 = effect->field42;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1C = effect->field40;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1D = effect->field41;
+        quad->blue0 = effect->field42;
+        quad->red1 = effect->field40;
+        quad->green1 = effect->field41;
+        quad->blue1 = effect->field42;
+        quad->red2 = effect->field40;
+        quad->green2 = effect->field41;
+        quad->blue2 = effect->field42;
+        quad->red3 = effect->field40;
+        quad->green3 = effect->field41;
         row_off = effect->field42;
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1E = row_off;
+        quad->blue3 = row_off;
         modulo_result = next_index % 5;
         row_off = modulo_result;
         point = (ovl_1930844_819112CC_S_819112CC_3 *)((u8 *)effect + row_off * 4);
         next_start_x = point->unk_18.at02.v;
-        ovl_1930844_819112CC_SP16(0x74) = next_start_x;
-        ovl_1930844_819112CC_SP16(0x64) = next_start_x;
+        scratch->vertices[2].vx = next_start_x;
+        scratch->vertices[0].vx = next_start_x;
         next_delta_x = target_x - point->unk_18.at00.v;
-        ovl_1930844_819112CC_SP32(0x108) = next_delta_x;
+        scratch->step_x = next_delta_x;
         if (interpolate != 0) {
-            ovl_1930844_819112CC_SP32(0x108) = (next_delta_x / duration) * step;
+            scratch->step_x = (next_delta_x / duration) * step;
         }
-        next_end_x = point->unk_18.at02.v + ovl_1930844_819112CC_SP16(0x10A);
-        ovl_1930844_819112CC_SP16(0x7C) = next_end_x;
-        ovl_1930844_819112CC_SP16(0x6C) = next_end_x;
+        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        next_end_x = point->unk_18.at02.v + ((u16 *)&scratch->step_x)[1];
+        scratch->vertices[3].vx = next_end_x;
+        scratch->vertices[1].vx = next_end_x;
         next_start_y = point->unk_2C.at02.v;
-        ovl_1930844_819112CC_SP16(0x76) = next_start_y;
-        ovl_1930844_819112CC_SP16(0x66) = next_start_y;
+        scratch->vertices[2].vy = next_start_y;
+        scratch->vertices[0].vy = next_start_y;
         next_delta_y = target_y - point->unk_2C.at00.v;
-        ovl_1930844_819112CC_SP32(0x10C) = next_delta_y;
+        scratch->step_y = next_delta_y;
         if (interpolate != 0) {
-            ovl_1930844_819112CC_SP32(0x10C) = (next_delta_y / duration) * step;
+            scratch->step_y = (next_delta_y / duration) * step;
         }
         next_end_y = point->unk_2C.at02.v;
-        y_step = ovl_1930844_819112CC_SP16(0x10E);
-        ovl_1930844_819112CC_SP32(0xB4) = RotAverage4(vertex_base, v1, v2, v3,
-                                   sxy0, sxy1, sxy2, sxy3,
+        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        y_step = ((u16 *)&scratch->step_y)[1];
+        scratch->ot_index = RotAverage4(vertex_base, v1, v2, v3,
+                                   (s32 *)sxy0, (s32 *)sxy1, (s32 *)sxy2, (s32 *)sxy3,
                                    depth, (next_end_y += y_step,
-                                    ovl_1930844_819112CC_SP16(0x7E) = next_end_y,
-                                    ovl_1930844_819112CC_SP16(0x6E) = next_end_y,
+                                    scratch->vertices[3].vy = next_end_y,
+                                    scratch->vertices[1].vy = next_end_y,
                                     flag));
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_08 = ovl_1930844_819112CC_SP16(0xD8);
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0A = ovl_1930844_819112CC_SP16(0xDA);
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_10 = ovl_1930844_819112CC_SP16(0xDC);
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_12 = ovl_1930844_819112CC_SP16(0xDE);
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_18 = ovl_1930844_819112CC_SP16(0xE0);
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1A = ovl_1930844_819112CC_SP16(0xE2);
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_20 = ovl_1930844_819112CC_SP16(0xE4);
-        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_22 = ovl_1930844_819112CC_SP16(0xE6);
-        link = (u32 *)(ovl_1930844_819112CC_SP32(0xB4));
+        quad->x0 = scratch->screen[0].x;
+        quad->y0 = scratch->screen[0].y;
+        quad->x1 = scratch->screen[1].x;
+        quad->y1 = scratch->screen[1].y;
+        quad->x2 = scratch->screen[2].x;
+        quad->y2 = scratch->screen[2].y;
+        quad->x3 = scratch->screen[3].x;
+        quad->y3 = scratch->screen[3].y;
+        link = (u32 *)scratch->ot_index;
         if ((u32)link < 0x1E0U) {
             ot_slot2 = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
-            ot_slot2 += ovl_1930844_819112CC_SP32(0x18);
-            ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(ot_slot2));
-            link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
+            ot_slot2 += (unsigned long)scratch->ordering_table;
+            ((GpuLinkTag *)&quad->tag)->addr = ((GpuLinkTag *)ot_slot2)->addr;
+            link = (u32 *)scratch->ot_index;
             link = (u32 *)((u32)link << 2);
-            link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
-            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
+            link = (u32 *)((u8 *)link + (unsigned long)scratch->ordering_table);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)quad & 0xFFFFFF);
             {
                 GpuContext *ctx = context_slot->draw_buffer;
-                prim = ctx->packetCursor;
-                ctx->packetCursor = prim + 0xC;
+                mode = ctx->packetCursor;
+                ctx->packetCursor = mode + 1;
             }
-            SetDrawMode(prim, 0, 0,
+            SetDrawMode(mode, 0, 0,
                           GetTPage(0, effect->field12, 0, 0) & 0xFFFF,
                           0);
-            ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(&((u32 *)ovl_1930844_819112CC_SP32(0x18))[ovl_1930844_819112CC_SP32(0xB4)]));
-            link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
+            ((GpuLinkTag *)&mode->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[scratch->ot_index])->addr;
+            link = (u32 *)scratch->ot_index;
             link = (u32 *)((u32)link << 2);
-            link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
-            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
+            link = (u32 *)((u8 *)link + (unsigned long)scratch->ordering_table);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)mode & 0xFFFFFF);
         }
     }
 }

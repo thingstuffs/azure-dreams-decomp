@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/monster/beldo_large_overlay_object_data.h"
 
 typedef struct {
     u8 pad[0x12];
@@ -7,8 +8,6 @@ typedef struct {
     u8 pad14[4];
     s16 timer;
 } Obj;
-
-extern Obj *encounter_object_slots[];
 
 /* Sets the selected object value and clears its timer. */
 void set_encounter_overlay_phase(s32 state_selector, s16 value) {

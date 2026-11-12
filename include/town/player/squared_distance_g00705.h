@@ -16,6 +16,6 @@ extern s8 D_80016130[];
 extern s8 D_80016158[];
 
 /* Functions defined in this translation unit. */
-GteShortVector *find_nearest_point_3s(GteShortVector *entries, GteShortVector *eval_context, s32 entry_count);
+SVECTOR *find_nearest_point_3s(SVECTOR *entries, SVECTOR *eval_context, s32 entry_count);
 
 #endif

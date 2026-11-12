@@ -47,7 +47,7 @@ typedef struct S_81263000_5 {
 void create_flagged_actor_object_2(AttachedSpriteWithOffsetBody *root, void *output_pos_arg, void *target_data)
 {
     MovingPosition *output_pos = output_pos_arg;
-    GteShortVector offset;
+    SVECTOR offset;
     S_81263000_2 *position_data;
     SpriteFrameState *target_part= target_data;
     S_81263000_1 *owner;

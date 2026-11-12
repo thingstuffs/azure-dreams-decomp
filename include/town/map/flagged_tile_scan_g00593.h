@@ -33,7 +33,6 @@ extern s32 has_runtime_key_pair(s32, s32);
  * This alias has no repeated GridInfo records. */
 extern GridInfo scene_geometry;
 
-extern s16 tile_key_pair_count[5];
 extern S_80081508 *tile_coordinate_records[3];
 
 /* Functions defined in this translation unit. */

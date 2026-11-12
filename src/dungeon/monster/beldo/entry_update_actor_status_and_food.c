@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "dungeon/monster/beldo.h"
+#include "dungeon/monster/beldo/command_ticks_data.h"
 #include "dungeon/data.h"
 
 #include "dungeon/actor/state.h"
@@ -11,7 +12,6 @@
 extern void func_80171BE0(); /* Slot contract: loading images do not establish one callee contract. */
 
 extern u8 *beldo_effect_stream;
-extern u16 beldo_command_ticks;
 
 /* Advance the repeated command stream and apply its direction and action to the actor. */
 s32 replay_actor_direction_commands(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite) {

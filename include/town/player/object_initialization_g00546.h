@@ -13,7 +13,7 @@ struct ObjectPosition;
 #include "m2c_compat.h"
 
 
-extern s8 town_action_reset_byte;
+#include "town/player/action_reset_data.h"
 void tick_countdown_and_initialize_target(UnsignedCountdownView *state, struct ObjectPosition *value);
 /* Registered code-address alias for tick_countdown_and_initialize_target. */
 void target_action_update_address(UnsignedCountdownView *state, s32 value);

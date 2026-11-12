@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/mode_data.h"
 #include "town/scene/entry_requests.h"
 #include "shared/record_ptrs.h"
 #include "town.h"
@@ -24,7 +25,6 @@ typedef struct S_80016B0C_2 {
                 + ((S_80016B0C_1 *)(*(void **)D_80016000))->unk_08 * 8 in process_current_cell_and_clear */
 
 
-extern s32 scene_cell_dispatch_code;
 
 extern void mark_indexed_records_8000(void *, u8 *);
 

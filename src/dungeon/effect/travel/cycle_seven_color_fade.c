@@ -249,8 +249,8 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
 {
     SpriteFrameState *color_source = color_source_arg;
     u8 *render_buffer;
-    B28_818B6F90_S_818B6F90_2 *packet;
-    B28_818B6F90_S_818B6F90_0 *scratch;
+    POLY_GT4 *packet;
+    RadialBandQuadScratch *scratch;
     s32 texture_u;
     s16 texture_id;
     u32 *ot_read;
@@ -258,93 +258,93 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
     u32 depth_index;
     u32 write_depth;
     u32 ot_entry;
-    u8 *screen_xy0;
-    u8 *screen_xy1;
-    u8 *screen_xy2;
-    u8 *screen_xy3;
+    SpriteScratchScreenPoint *screen_xy0;
+    SpriteScratchScreenPoint *screen_xy1;
+    SpriteScratchScreenPoint *screen_xy2;
+    SpriteScratchScreenPoint *screen_xy3;
     s32 *depth_cue;
     s32 *transform_flags;
 
-    scratch = (B28_818B6F90_S_818B6F90_0 *)0x1F800000;
+    scratch = (RadialBandQuadScratch *)0x1F800000;
     render_buffer = g_game_work.draw_buffer;
-    scratch->unk_00 = render_buffer + 0xB0;
+    scratch->ordering_table = (u32 *)(render_buffer + 0xB0);
     packet = ((GpuContext *)render_buffer)->packetCursor;
-    ((GpuContext *)render_buffer)->packetCursor = (u8 *)packet + 0x34;
-    packet->unk_00.at03.v = 0x0C;
-    packet->unk_07 = 0x3E;
+    ((GpuContext *)render_buffer)->packetCursor = packet + 1;
+    ((GpuLinkTag *)&packet->tag)->len = 0x0C;
+    packet->code = 0x3E;
 
     texture_id = GetTPage(0, 3, 0x300, 0x100);
     texture_u = (texture_index << 16) >> 13;
     texture_u += 0x80;
-    screen_xy0 = (u8 *)scratch + 0x70;
-    screen_xy1 = (u8 *)scratch + 0x74;
-    screen_xy2 = (u8 *)scratch + 0x78;
-    screen_xy3 = (u8 *)scratch + 0x7C;
+    screen_xy0 = &scratch->screen[0];
+    screen_xy1 = &scratch->screen[1];
+    screen_xy2 = &scratch->screen[2];
+    screen_xy3 = &scratch->screen[3];
     depth_cue = &scratch->depth_cue;
     transform_flags = &scratch->gte_flag;
 
-    packet->unk_1A = texture_id;
-    packet->unk_0E = 0x7DCF;
-    packet->unk_0C = texture_u;
-    packet->unk_0D = 0x40;
-    packet->unk_18 = texture_u | 7;
-    packet->unk_19 = 0x40;
-    packet->unk_24 = texture_u | 7;
-    packet->unk_25 = 0x7F;
-    packet->unk_30 = texture_u;
-    packet->unk_31 = 0x7F;
-    packet->unk_04 = 0;
-    packet->unk_05 = 0;
-    packet->unk_06 = 0;
-    packet->unk_10 = 0;
-    packet->unk_11 = 0;
-    packet->unk_12 = 0;
+    packet->tpage = texture_id;
+    packet->clut = 0x7DCF;
+    packet->u0 = texture_u;
+    packet->v0 = 0x40;
+    packet->u1 = texture_u | 7;
+    packet->v1 = 0x40;
+    packet->u2 = texture_u | 7;
+    packet->v2 = 0x7F;
+    packet->u3 = texture_u;
+    packet->v3 = 0x7F;
+    packet->r0 = 0;
+    packet->g0 = 0;
+    packet->b0 = 0;
+    packet->r1 = 0;
+    packet->g1 = 0;
+    packet->b1 = 0;
 
-    packet->unk_1C = color_source->color.c.r;
-    packet->unk_1D = color_source->color.c.g;
-    packet->unk_1E = color_source->color.c.b;
-    packet->unk_28 = color_source->color.c.r;
-    packet->unk_29 = color_source->color.c.g;
-    packet->unk_2A = color_source->color.c.b;
+    packet->r2 = color_source->color.c.r;
+    packet->g2 = color_source->color.c.g;
+    packet->b2 = color_source->color.c.b;
+    packet->r3 = color_source->color.c.r;
+    packet->g3 = color_source->color.c.g;
+    packet->b3 = color_source->color.c.b;
 
-    scratch->unk_10 = scratch->unk_30 >> 16;
-    scratch->unk_18 = scratch->unk_40 >> 16;
-    scratch->unk_20 = scratch->unk_50 >> 16;
-    scratch->unk_28 = scratch->unk_60 >> 16;
+    scratch->vertices[0].vx = scratch->positions[0].vx >> 16;
+    scratch->vertices[1].vx = scratch->positions[1].vx >> 16;
+    scratch->vertices[2].vx = scratch->positions[2].vx >> 16;
+    scratch->vertices[3].vx = scratch->positions[3].vx >> 16;
 
-    scratch->unk_12 = scratch->unk_34 >> 16;
-    scratch->unk_1A = scratch->unk_44 >> 16;
-    scratch->unk_22 = scratch->unk_54 >> 16;
-    scratch->unk_2A = scratch->unk_64 >> 16;
+    scratch->vertices[0].vy = scratch->positions[0].vy >> 16;
+    scratch->vertices[1].vy = scratch->positions[1].vy >> 16;
+    scratch->vertices[2].vy = scratch->positions[2].vy >> 16;
+    scratch->vertices[3].vy = scratch->positions[3].vy >> 16;
 
-    scratch->unk_14 = scratch->unk_38 >> 16;
-    scratch->unk_1C = scratch->unk_48 >> 16;
-    scratch->unk_24 = scratch->unk_58 >> 16;
-    scratch->unk_2C = scratch->unk_68 >> 16;
+    scratch->vertices[0].vz = scratch->positions[0].vz >> 16;
+    scratch->vertices[1].vz = scratch->positions[1].vz >> 16;
+    scratch->vertices[2].vz = scratch->positions[2].vz >> 16;
+    scratch->vertices[3].vz = scratch->positions[3].vz >> 16;
 
-    scratch->unk_04.v = RotAverage4(
-        &scratch->unk_10, &scratch->unk_18, &scratch->unk_20, &scratch->unk_28,
-        screen_xy0, screen_xy1, screen_xy2, screen_xy3,
+    scratch->ot_index = RotAverage4(
+        &scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2], &scratch->vertices[3],
+        (s32 *)screen_xy0, (s32 *)screen_xy1, (s32 *)screen_xy2, (s32 *)screen_xy3,
         depth_cue, transform_flags);
 
-    (*(u16 *)((u8 *)packet + (0x08))) = scratch->unk_70;
-    (*(u16 *)((u8 *)packet + (0x0A))) = scratch->unk_72;
-    (*(u16 *)((u8 *)packet + (0x14))) = scratch->unk_74;
-    (*(u16 *)((u8 *)packet + (0x16))) = scratch->unk_76;
-    (*(u16 *)((u8 *)packet + (0x20))) = scratch->unk_78;
-    (*(u16 *)((u8 *)packet + (0x22))) = scratch->unk_7A;
-    packet->unk_2C = scratch->unk_7C;
-    packet->unk_2E = scratch->unk_7E;
+    packet->x0 = scratch->screen[0].x;
+    packet->y0 = scratch->screen[0].y;
+    packet->x1 = scratch->screen[1].x;
+    packet->y1 = scratch->screen[1].y;
+    packet->x2 = scratch->screen[2].x;
+    packet->y2 = scratch->screen[2].y;
+    packet->x3 = scratch->screen[3].x;
+    packet->y3 = scratch->screen[3].y;
 
-    depth_index = scratch->unk_04.v2;
+    depth_index = scratch->ot_index;
     if (depth_index < 0x1E0) {
-        ot_read = ((u32 *)scratch->unk_00);
+        ot_read = scratch->ordering_table;
         ot_entry = ot_read[depth_index];
-        packet->unk_00.at00.v =
-            (packet->unk_00.at00.v & 0xFF000000) |
+        packet->tag =
+            (packet->tag & 0xFF000000) |
             (ot_entry & 0x00FFFFFF);
-        write_depth = scratch->unk_04.v2;
-        ot_write = ((u32 *)scratch->unk_00);
+        write_depth = scratch->ot_index;
+        ot_write = scratch->ordering_table;
         ot_write[write_depth] =
             (ot_write[write_depth] & 0xFF000000) |
             ((u32)packet & 0x00FFFFFF);
@@ -361,7 +361,7 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
 
 /* Builds and draws two eight-segment radial bands around the effect center. */
 s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, SpriteFrameState *draw_arg) {
-    B28_818B7264_S_80024A64_2 *scratch;
+    RadialBandQuadScratch *scratch;
     s32 first_outer_x;
     s32 first_outer_y;
     s32 first_inner_x;
@@ -383,12 +383,12 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     s32 jitter_limit;
     s32 scaled;
 
-    scratch = (B28_818B7264_S_80024A64_2 *)0x1F800000;
+    scratch = (RadialBandQuadScratch *)0x1F800000;
     if (effect->unk_06 < 8) {
         s32 growing_z;
         growing_z = center->unk_08 - (effect->unk_06 * 0x180000);
-        scratch->unk_48 = growing_z;
-        scratch->unk_38 = growing_z;
+        scratch->positions[1].vz = growing_z;
+        scratch->positions[0].vz = growing_z;
         {
             s32 phase_scale = effect->unk_06;
             s32 inner_scale;
@@ -403,8 +403,8 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     } else if (effect->unk_06 < 40) {
         {
             s32 plateau_z = center->unk_08 - (8 * 0x180000);
-            scratch->unk_48 = plateau_z;
-            scratch->unk_38 = plateau_z;
+            scratch->positions[1].vz = plateau_z;
+            scratch->positions[0].vz = plateau_z;
         }
         outer_radius = 8 * 6;
         inner_radius = 8 * 2;
@@ -414,8 +414,8 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
         s32 fading_z;
         jitter_count = 48;
         fading_z = center->unk_08 - ((jitter_count - effect->unk_06) * 0x180000);
-        scratch->unk_48 = fading_z;
-        scratch->unk_38 = fading_z;
+        scratch->positions[1].vz = fading_z;
+        scratch->positions[0].vz = fading_z;
         {
             s32 inner_scale;
             s32 tip_value;
@@ -438,7 +438,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
 
     segment = 0;
     jitter_limit = (s16)jitter_count;
-    scratch->unk_58 = scratch->unk_68 = center->unk_08;
+    scratch->positions[2].vz = scratch->positions[3].vz = center->unk_08;
     do {
         angle_step = segment * 512;
         radial_offset = rand() % jitter_limit;
@@ -446,24 +446,24 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
             s32 wave_x = rsin(effect->unk_0C + angle_step);
             radial_offset = (s16)radial_offset;
             jittered_outer = (s16)outer_radius + radial_offset;
-            scratch->unk_40 = center->unk_00 +
+            scratch->positions[1].vx = center->unk_00 +
                 (((wave_x >> 4) * jittered_outer) << 8);
         }
-        scratch->unk_44 = center->unk_04 +
+        scratch->positions[1].vy = center->unk_04 +
             (((rcos(effect->unk_0C + angle_step) >> 4) * jittered_outer) << 8);
         {
             s32 wave_x = rsin(effect->unk_0C + angle_step);
             jittered_inner = (s16)inner_radius + radial_offset;
-            scratch->unk_50 = center->unk_00 +
+            scratch->positions[2].vx = center->unk_00 +
                 (((wave_x >> 4) * jittered_inner) << 8);
         }
-        scratch->unk_54 = center->unk_04 +
+        scratch->positions[2].vy = center->unk_04 +
             (((rcos(effect->unk_0C + angle_step) >> 4) * jittered_inner) << 8);
         next_segment = segment + 1;
         next_angle = next_segment * 512;
-        scratch->unk_30 = scratch->unk_60 = center->unk_00 +
+        scratch->positions[0].vx = scratch->positions[3].vx = center->unk_00 +
             (((rsin(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
-        scratch->unk_34 = scratch->unk_64 = center->unk_04 +
+        scratch->positions[0].vy = scratch->positions[3].vy = center->unk_04 +
             (((rcos(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
         draw_indexed_shaded_quad((s16)segment, draw_arg);
         segment = next_segment;
@@ -491,14 +491,14 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
         outer_x = center->unk_00 +
             (((wave_x >> 4) * ((s16)outer_radius + (s16)outer_offset)) << 8);
         outer_offset = (s16)outer_radius + (s16)outer_offset;
-        scratch->unk_30 = outer_x;
+        scratch->positions[0].vx = outer_x;
         first_outer_x = outer_x;
     }
     {
         s32 outer_y;
         outer_y = center->unk_04 +
             (((rcos(effect->unk_0E) >> 4) * outer_offset) << 8);
-        scratch->unk_34 = outer_y;
+        scratch->positions[0].vy = outer_y;
         first_outer_y = outer_y;
     }
     {
@@ -506,26 +506,26 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
         s32 inner_x;
         inner_x = center->unk_00 +
             (((wave_x >> 4) * (s16)inner_radius) << 8);
-        scratch->unk_60 = inner_x;
+        scratch->positions[3].vx = inner_x;
         first_inner_x = inner_x;
     }
     {
         s32 inner_y = center->unk_04 +
             (((rcos(effect->unk_0E + 512) >> 4) * (s16)inner_radius) << 8);
-        scratch->unk_64 = inner_y;
+        scratch->positions[3].vy = inner_y;
         first_inner_y = inner_y;
     }
     angle_step = 512;
     do {
-        scratch->unk_40 = scratch->unk_30;
-        scratch->unk_44 = scratch->unk_34;
-        scratch->unk_50 = scratch->unk_60;
-        scratch->unk_54 = scratch->unk_64;
+        scratch->positions[1].vx = scratch->positions[0].vx;
+        scratch->positions[1].vy = scratch->positions[0].vy;
+        scratch->positions[2].vx = scratch->positions[3].vx;
+        scratch->positions[2].vy = scratch->positions[3].vy;
         if (segment == 7) {
-            scratch->unk_30 = first_outer_x;
-            scratch->unk_34 = first_outer_y;
-            scratch->unk_60 = first_inner_x;
-            scratch->unk_64 = first_inner_y;
+            scratch->positions[0].vx = first_outer_x;
+            scratch->positions[0].vy = first_outer_y;
+            scratch->positions[3].vx = first_inner_x;
+            scratch->positions[3].vy = first_inner_y;
         } else {
             {
                 s32 random_raw = rand();
@@ -543,15 +543,15 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
             {
                 scaled = rsin(effect->unk_0E + (segment * 512)) >> 4;
                 arm_radius = (s16)outer_radius + (s16)arm_offset;
-                scratch->unk_30 = center->unk_00 +
+                scratch->positions[0].vx = center->unk_00 +
                     ((scaled * arm_radius) << 8);
             }
             scaled = rcos(effect->unk_0E + (segment * 512)) >> 4;
-            scratch->unk_34 = center->unk_04 +
+            scratch->positions[0].vy = center->unk_04 +
                 ((scaled * arm_radius) << 8);
-            scratch->unk_60 = center->unk_00 +
+            scratch->positions[3].vx = center->unk_00 +
                 (((rsin(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
-            scratch->unk_64 = center->unk_04 +
+            scratch->positions[3].vy = center->unk_04 +
                 (((rcos(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
         }
         draw_indexed_shaded_quad((s16)segment, draw_arg);

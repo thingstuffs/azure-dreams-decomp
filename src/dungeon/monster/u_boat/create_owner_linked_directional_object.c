@@ -9,7 +9,7 @@
  * offset. */
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite) {
     ObjectNodeHeader *object;
-    u8 *object_data;
+    S_80D3B0B8_0 *object_data;
     SpriteFrameState *sprite;
     ObjectPosition *position;
     u8 *direction_table;
@@ -17,11 +17,11 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     object_data = NODE_BODY(object);
     if (object != 0) {
-        ((S_80D3B0B8_0 *)object_data)->unk_96 = 0x78;
+        object_data->unk_96 = 0x78;
         object->update_callback = D_800D5594;
-        ((S_80D3B0B8_0 *)object_data)->unk_AC = NODE_HEADER(owner_data);
-        ((S_80D3B0B8_0 *)object_data)->unk_94 = owner_data->facing;
-        ((S_80D3B0B8_0 *)object_data)->unk_2A = owner_data->facing;
+        object_data->unk_AC = NODE_HEADER(owner_data);
+        object_data->unk_94 = owner_data->facing;
+        object_data->unk_2A = owner_data->facing;
         sprite = object->sprite;
 
         *(Copy48 *)sprite = *(Copy48 *)source_sprite;
@@ -53,6 +53,6 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
             view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle +
                 owner_data->facing + 0x100) >> 9) & 7] * 4;
         owner_data->unk_B0.bytes[0]++;
-        create_tracked_effect(object, 0, ((u8 *)sprite) + 0x2C, object_data + 0x2A);
+        create_tracked_effect(object, 0, ((u8 *)sprite) + 0x2C, &object_data->unk_2A);
     }
 }

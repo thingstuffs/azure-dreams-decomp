@@ -1,12 +1,12 @@
 #include "town/player/position_handlers.h"
 #include "common.h"
+#include "town/player/action_reset_data.h"
 #include "shared/town_object.h"
 #include "town/player.h"
 #include "town/player/object.h"
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern s8 town_action_reset_byte;
 extern s32 D_800D0178;
 
 /* Initializes the object with default data and resets its state. */

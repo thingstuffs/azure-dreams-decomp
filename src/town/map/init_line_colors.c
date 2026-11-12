@@ -4,7 +4,9 @@
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
 #include "town/map.h"
 
 typedef struct PacketTag { unsigned addr : 24; unsigned len : 8; u8 r0; u8 g0; u8 b0; u8 code; } PacketTag;
@@ -20,13 +22,13 @@ static __inline__ void init_line_colors(LineG2 *line, u32 color0, u32 color1) { 
 /* Draw depth-sorted gradient lines for the linked nodes. */
 s32 draw_depth_sorted_gradient_lines(TownMapFallingObject *node)
 {
-    u16 endpoint[4];
+    SVECTOR endpoint;
     s32 projection_param;
     s32 projection_flags;
     GameWork *town;
     GpuContext *render;
     LineG2 *line;
-    u8 *draw_mode;
+    DR_MODE *draw_mode;
     ObjectNodeHeader *next_node;
     s16 start_depth;
     s32 mean_depth;
@@ -40,18 +42,19 @@ s32 draw_depth_sorted_gradient_lines(TownMapFallingObject *node)
         init_line_colors(line, 0x202020, 0);
         SetLineG2(line);
         SetSemiTrans(line, 1);
-        endpoint[0] = node->motion.halves.x_integer;
-        endpoint[1] = node->motion.halves.y_integer;
-        endpoint[2] = node->motion.halves.z_integer;
-        start_depth = RotTransPers(endpoint, &line->x0, &projection_param, &projection_flags);
-        mean_depth = (start_depth + RotTransPers(((u8 *)node) + 0xC, &line->x1, &projection_param, &projection_flags)) >> 1;
+        endpoint.vx = node->motion.halves.x_integer;
+        endpoint.vy = node->motion.halves.y_integer;
+        endpoint.vz = node->motion.halves.z_integer;
+        start_depth = RotTransPers(&endpoint, (s32 *)&line->x0, &projection_param, &projection_flags);
+        mean_depth = (start_depth + RotTransPers(((u8 *)node) + 0xC, (s32 *)&line->x1, &projection_param,
+                                                 &projection_flags)) >> 1;
         zero = 0;
         if ((u16)mean_depth < 0x1E0U) {
             ot_offset = (s16)mean_depth * 4;
             addPrim((u8 *)(ot_offset + (long)((GpuContext *)town->draw_buffer)) + 0xB0, line);
             render = town->draw_buffer;
             draw_mode = render->packetCursor;
-            render->packetCursor = draw_mode + 0xC;
+            render->packetCursor = draw_mode + 1;
             SetDrawMode(draw_mode, 0, 0, GetTPage(zero, 1, zero, zero) & 0xFFFF, 0);
             addPrim((u8 *)(ot_offset + (long)((GpuContext *)town->draw_buffer)) + 0xB0, draw_mode);
         }

@@ -14,6 +14,8 @@ struct B22_81893474_EffectState;
 #include "shared/slus_callbacks.h"
 #include "shared/tile_object.h"
 #include "modules/dungeon_native_abi.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct B22_81893474_ColorPart {
     u8 pad[0xC];
@@ -249,11 +251,7 @@ void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param);
 void update_effect_launch_travel_impact_cleanup(struct B22_81893474_EffectState *effect_state, ObjectPosition *effect_motion, B22_81893474_ColorPart *color_part);
 void select_record_entry_and_value(void *state, void *entries, short index);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
-extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
-extern s32 rcos(s32);
-extern s32 rsin(s32);
 extern s32 generate_random_value(void);
 extern void func_80042640(void *, s32);
 extern void *create_actor_at_tile(u8, s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */

@@ -4,18 +4,18 @@
 #include "engine/resource.h"
 #include "sdk/libgte.h"
 
-extern void apply_camera_shake(GteMatrix *matrix);
+extern void apply_camera_shake(MATRIX *matrix);
 
 /* Build and install the combined rotation and translation from global transform state. */
 void compose_and_install_camera_transform(void)
 {
     GameView *transform = (&g_game_work.view);
     GteTranslationVector rotated_pos;
-    GteMatrix base_mat;
-    GteMatrix combined_mat;
-    GteMatrix offset_mat;
-    GteMatrix *offset_mat_ptr;
-    GteShortVector neg_offset;
+    MATRIX base_mat;
+    MATRIX combined_mat;
+    MATRIX offset_mat;
+    MATRIX *offset_mat_ptr;
+    SVECTOR neg_offset;
     s32 gte_flags;
     offset_mat.t[2] = 0;
     offset_mat.t[1] = 0;

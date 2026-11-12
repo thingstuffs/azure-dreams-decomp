@@ -10,6 +10,7 @@
 
 struct SpriteFrameState;
 #include "common.h"
+#include "dungeon/entity_spawn_variant_data.h"
 #include "dungeon/monster/u_boat.h"
 #include "shared/object_flags.h"
 
@@ -364,7 +365,6 @@ extern T_80171928_Blob12 D_80175EDC;
 
 
 extern T_80171BEC_Packed3 D_80175EE8;
-extern s8 entity_spawn_variant_code;
 extern u8 D_801720B4[];
 
 

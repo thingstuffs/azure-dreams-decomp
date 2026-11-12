@@ -11,6 +11,8 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_payload.h"
 #include "engine/node.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 
 #ifndef NULL
 #define NULL 0
@@ -47,10 +49,7 @@ void select_record_entry_and_value(void *state,void *entries, short index);
 
 extern s32 town_radial_offset_callback;
 extern s32 radial_sprite_entries;
-extern s32 rsin(s32 value);
-extern s32 rcos(s32 value);
 
-extern s32 rand(void);
 
 /* Functions defined in this translation unit. */
 void *create_randomized_offset_effect(StackRecord *source, u32 angle);

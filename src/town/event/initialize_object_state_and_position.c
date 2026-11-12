@@ -13,8 +13,6 @@ extern void *town_saved_motion_pointer;
 
 
 extern IntVector3 D_80100D28;
-extern s16 town_motion_x_phase;
-extern s16 town_motion_y_phase;
 extern s16 town_event_motion_pair[];
 extern u8 D_80100D68[];
 

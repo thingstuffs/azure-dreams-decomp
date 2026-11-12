@@ -55,7 +55,7 @@ extern u8 kraken_action_resume_address[];
 void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
-    void *work;
+    ActorRecord *work;
     s8 saved_value_24;
     s8 saved_value_25;
     void *obj;
@@ -82,9 +82,9 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     saved_mode = mode;
     obj = allocate_list_node(0x112, (saved_value_24 = value_24, &scene_object_list_anchor.next));
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = NODE_BODY(obj);
         ((ProjectileObject *)obj)->update_callback = update_actor_callbacks_movement_and_terrain;
-        ((ActorRecord *)work)->species = MONSTER_KRAKEN;
+        work->species = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 
@@ -97,21 +97,21 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
         part_b->unk_25 = saved_value_25;
 
         if (kind == 1) {
-            left = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = ((ActorRecord *)work)->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((ActorRecord *)work)->flags14 = left;
-            ((ActorRecord *)work)->flags1C = right;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = left;
+            work->flags1C = right;
         } else if (kind >= 2) {
-            left = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
-            right = ((ActorRecord *)work)->flags1C | ACTOR_PLAYER_SIDE;
-            ((ActorRecord *)work)->flags14 = left;
-            ((ActorRecord *)work)->flags1C = right;
+            left = work->flags14 | ACTOR_CLASS_ENABLED;
+            right = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = left;
+            work->flags1C = right;
         } else {
             if (((mode & ~3) << 16) == 0) {
-                if (!(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
+                if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                     left = generate_random_value();
                     if (left & 1) {
-                        ((ActorRecord *)work)->flags1C |= ACTOR_ASLEEP;
+                        work->flags1C |= ACTOR_ASLEEP;
                         right = generate_random_value();
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP, (right & 0x3F) | 0x20);
                         part_b->unk_2C = kraken_frame_set_2;
@@ -125,7 +125,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = kraken_action_resume_address;
-        ((ActorRecord *)work)->flags1C |= 0x00040000;
+        work->flags1C |= 0x00040000;
         actor->unk_90.parts.high = -16;
         flags = actor->action_state_flags;
         actor->unk_A8 = 0;

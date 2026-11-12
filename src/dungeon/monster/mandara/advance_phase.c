@@ -154,7 +154,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, SpriteFrame
             u16 x_bits;
             s32 screen_y;
             u16 y_bits;
-            vertex_depth = RotTransPers(vertex_bytes, scratch.screen, (void *) depth_out_or_phase,
+            vertex_depth = RotTransPers(vertex_bytes, (s32 *)scratch.screen, (void *) depth_out_or_phase,
                 (void *) depth_out_or_phase);
             depth += vertex_depth - 8;
             x_bits = (u16) scratch.screen[0];

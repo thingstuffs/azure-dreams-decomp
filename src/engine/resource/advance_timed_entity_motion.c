@@ -32,7 +32,7 @@ extern S_80041900_D80083CA8 timed_entity_motion_state;
 /* While the shake countdown runs, push the camera matrix's translation up or down by half the shake
  * amplitude and sideways by a quarter (directions from the frame word's low bits), then tick the
  * countdown and decay the amplitude by the per-tick step initialize_timed_motion_step computed. */
-void apply_camera_shake(GteMatrix *matrix)
+void apply_camera_shake(MATRIX *matrix)
 {
     GameWork *direction_state = &g_game_work;
     S_80041900_D80083CA8 *motion_state = &timed_entity_motion_state;

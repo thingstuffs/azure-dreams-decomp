@@ -28,7 +28,7 @@ extern M2C_UNK D_8015EE5C;
 void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 rotation)
 {
     s32 kind;
-    void *work;
+    ActorRecord *work;
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
@@ -46,10 +46,9 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
     saved_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = obj;
-        work += 0x20;
+        work = NODE_BODY(obj);
         obj->update_callback = D_8015EA30;
-        ((ActorRecord *)work)->species = MONSTER_BATTNEL;
+        work->species = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -63,25 +62,25 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
         do {
 
             if (kind == 1) {
-                flags_or_roll = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            pending_flags = ((ActorRecord *)work)->flags1C | 0x6000;
-            ((ActorRecord *)work)->flags14 = flags_or_roll;
-            ((ActorRecord *)work)->flags1C = pending_flags;
+                flags_or_roll = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            pending_flags = work->flags1C | 0x6000;
+            work->flags14 = flags_or_roll;
+            work->flags1C = pending_flags;
             } else if (kind >= 2) {
-                flags_or_roll = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
-            pending_flags = ((ActorRecord *)work)->flags1C | 0x2000;
-            ((ActorRecord *)work)->flags14 = flags_or_roll;
-            ((ActorRecord *)work)->flags1C = pending_flags;
+                flags_or_roll = work->flags14 | ACTOR_CLASS_ENABLED;
+            pending_flags = work->flags1C | 0x2000;
+            work->flags14 = flags_or_roll;
+            work->flags1C = pending_flags;
             } else {
                 saved_part_a = obj;
-                if (((spawn_flags & ~3) << 16) == 0 && !(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
+                if (((spawn_flags & ~3) << 16) == 0 && !(work->flags14 & ACTOR_RESIST_SLEEP)) {
                     saved_part_a = part_a;
                     flags_or_roll = generate_random_value();
                     saved_part_a = obj;
                     if (!(flags_or_roll & 1)) {
                         break;
                     }
-                    ((ActorRecord *)work)->flags1C |= 0x200;
+                    work->flags1C |= 0x200;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_80161D4C;

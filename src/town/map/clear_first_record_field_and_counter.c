@@ -2,8 +2,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/map.h"
+#include "slus/tile_key_pair_count_data.h"
 
-extern s16 tile_key_pair_count;
 extern s32 tile_coordinate_records;
 
 typedef struct S_800AC454_0 {

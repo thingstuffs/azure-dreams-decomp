@@ -1,7 +1,7 @@
 #include "common.h"
+#include "town/scene/mode_data.h"
 #include "town/scene.h"
 
-extern s32 scene_dispatch_mode_index;
 extern s32 D_800196F4[];
 
 /* Dispatch the current state entry when the event code is 8. */

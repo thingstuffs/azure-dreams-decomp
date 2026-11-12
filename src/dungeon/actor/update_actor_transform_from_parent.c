@@ -28,7 +28,7 @@ typedef struct S_800AC82C_6 {
 /* Updates the actor's position and facing relative to its parent. */
 s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor) {
 
-    GteShortVector offset;
+    SVECTOR offset;
     u16 dest_x;
     u16 dest_y;
     s32 tile_mask;

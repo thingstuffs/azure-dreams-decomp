@@ -886,11 +886,11 @@ typedef struct SpritePartWork {
 void PushMatrix(void);
 extern void PopMatrix(void);
 extern void TransMatrix(void *, void *, s32, s32);
-extern void *ScaleMatrix(void *, void *);
+extern struct MATRIX *ScaleMatrix(void *, void *);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern void func_80065320(void *, void *, void *);
-extern void *RotMatrix(void *, void *);
+extern struct MATRIX *RotMatrix(void *, void *);
 extern void AddPrim(void *, void *, ...);
 extern void func_80067EF4(void *, s32, s32, ...);
 
@@ -1931,7 +1931,7 @@ typedef struct S_800BA414_4 {
 
    /* *global in draw_projected_quad_with_depth_bias */
 
-extern void *CompMatrix(void *, void *, void *);
+extern struct MATRIX *CompMatrix(void *, void *, void *);
 void PushMatrix(void);
 extern void PopMatrix(void);
 extern void ReadRotMatrix(void *);
@@ -1939,7 +1939,7 @@ extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern u32 RotAverage4(void *, void *, void *, void *, void *, void *,
                          void *, void *, void *, void *);
-extern void *RotMatrix(void *, void *);
+extern struct MATRIX *RotMatrix(void *, void *);
 extern void AddPrim(void *, void *, ...);
 extern void SetPolyF4(void *);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
@@ -3157,14 +3157,14 @@ typedef struct S_800BBDEC_5 {
     s32 unk_1C;
 } S_800BBDEC_5;   /* prim in draw_shaded_vertical_quad */
 
-extern void *CompMatrix(void *, void *, void *);
+extern struct MATRIX *CompMatrix(void *, void *, void *);
 void PushMatrix(void);
 extern void PopMatrix(void);
 extern void ReadRotMatrix(void *);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void *RotMatrix(void *, void *);
+extern struct MATRIX *RotMatrix(void *, void *);
 extern void AddPrim(void *, void *, ...);
 extern void SetPolyG4(void *);
 extern void SetDrawMode(void *, s32, s32, s32, s32);

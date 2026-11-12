@@ -66,7 +66,7 @@ enum PlayerItemUsePhase {
 
 /* Advances a directional animation, spawns its effect and message, and handles completion. */
 void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor) {
-    GteShortVector offset;
+    SVECTOR offset;
     ObjectNodeHeader *effect_obj;
     ObjectPosition *effect_prim;
     S_800927E4_9 *effect;

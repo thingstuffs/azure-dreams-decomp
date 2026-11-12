@@ -11,6 +11,7 @@ struct DecrementObjectCounterBody;
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_node.h"
 #include "dungeon/effect/spell_effect.h"
+#include "sdk/libgte.h"
 typedef struct {
     u8 pad0[2];
     s16 remaining;
@@ -171,7 +172,6 @@ typedef struct PathBlock {
 } PathBlock;
 void select_record_entry_and_value(void *state, void *entries, short index);
 void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
-u32 RotTransPers(void *, void *, void *, void *);
 extern s16 textured_effect_update_flag;
 typedef struct S_80045C34 { u8 pad0[6]; s16 unk6; u8 pad1[12]; u16 unk14; } S_80045C34;
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);

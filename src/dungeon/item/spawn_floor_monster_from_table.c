@@ -1,5 +1,6 @@
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
+#include "dungeon/entity_spawn_variant_data.h"
 #include "dungeon/system/random.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/dungeon_floor.h"
@@ -15,7 +16,6 @@
 typedef MonsterFactory SpawnFunc;
 
 extern u32 level_experience_table[];
-extern u8 entity_spawn_variant_code;
 
 extern void init_monster_from_stats(void *, s32);
 struct EntityLinkNode;

@@ -1,6 +1,7 @@
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/actor/pending_marked_actor_count_data.h"
 #include "engine/entity/effect_slots.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -107,7 +108,6 @@ struct Entity;
 struct EntityLinkNode;
 
 extern s32 object_flag_block;
-extern s16 pending_marked_actor_count;
 extern u8 D_800E0C34[36];
 extern M2C_UNK D_800E0C58;
 extern M2C_UNK D_800E0C67;

@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/mode_data.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
@@ -13,7 +14,6 @@ typedef struct S_805D2FC4_2 {
     u8 unk_04;
 } S_805D2FC4_2;   /* ((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32) in func_805D2FC4 */
 
-extern s32 scene_cell_dispatch_code;
 
 /* Dispatches the current cell's action and clears its status after completion or a status-1 fallback. */
 s32 process_current_town_cell(Rec_func_800165F4_arg0 *input_value, s32 input) {

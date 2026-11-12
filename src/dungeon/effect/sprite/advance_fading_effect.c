@@ -429,7 +429,7 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
 
     u8 *linked_root;
     u8 *slot;
-    GteShortVector delta;
+    SVECTOR delta;
     u16 final_x;
     u16 final_y;
     s32 step;

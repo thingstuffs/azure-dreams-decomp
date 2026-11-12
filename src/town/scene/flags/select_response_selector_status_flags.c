@@ -1,4 +1,5 @@
 #include "slus/data.h"
+#include "slus/event_string_fallback_data.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
@@ -7,7 +8,6 @@
 #include "town.h"
 
 extern char scene_choice_text[];
-extern char event_string_fallback[];
 extern char D_8001D000[];
 extern char D_8001D3CC[];
 extern char D_80022694[];

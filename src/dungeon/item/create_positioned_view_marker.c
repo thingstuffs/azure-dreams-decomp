@@ -631,6 +631,8 @@ void *find_linked_entity_of_type_21(void *entity)
     return 0;
 }
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct DungeonRoot DungeonRoot;
 struct DungeonRoot {
@@ -666,11 +668,6 @@ struct Scratch {
     s32 length;
 };
 
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern void AddPrim(void *, void *);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s16 func_80069EF8(void);
 
 typedef union {
@@ -1248,10 +1245,10 @@ s32 update_special_actor_transition(void) {
     DirectionOffsets offsets = dungeon_7ce800_directions;
     u16 collision_flags;
     ObjectNodeHeader *root = (u8 *)active_action_object;
-    u8 *entity = NODE_BODY(root);
+    ActorRecord *entity = NODE_BODY(root);
     s32 *motion = *(s32 * *)&root->position;
     s32 entity_flags;
-    s32 state = ((ActorRecord *)entity)->action_phase;
+    s32 state = entity->action_phase;
     SpriteFrameState *target = root->sprite;
     S_807B040C_6 *entity_aux = (S_807B040C_6 *)entity;
     s32 direction;
@@ -1295,7 +1292,7 @@ s32 update_special_actor_transition(void) {
                     s16 next_state;
 
                     result = 1;
-                    ((ActorRecord *)entity)->action_phase = ((s16)(0x63));
+                    entity->action_phase = ((s16)(0x63));
                     next_state = 2;
                     ((S_807B040C_1 *)entity)->unk_B8 = next_state;
                     return result;
@@ -1303,7 +1300,7 @@ s32 update_special_actor_transition(void) {
             }
         }
 
-        ((ActorRecord *)entity)->action_phase++;
+        entity->action_phase++;
         direction = get_direction_toward_target_position(motion);
         direction += 4;
         if (direction >= 8) {
@@ -1420,7 +1417,7 @@ s32 update_special_actor_transition(void) {
         if ((s16)((u16)((S_807B040C_1 *)entity)->unk_96) > 0) {
             return 0;
         }
-        ((ActorRecord *)entity)->action_phase++;
+        entity->action_phase++;
         break;
 
     case 2:
@@ -1642,20 +1639,13 @@ typedef struct {
     s32 projection_flag;
 } StackLocals;
 
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s16 GetTPage(s32, s32, s32, s32);
-extern s16 GetClut(s32, s32);
-extern void SetSemiTrans(void *, s32);
-extern void SetPolyG4(void *);
-extern void SetPolyGT4(u8 *primitive);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern u8 D_80083150[];
 
 /* Builds and queues textured and shaded quads for an effect and advances to the next object. */
 s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) {
     u8 *scratch;
-    u8 *colors;
-    u8 *verts;
+    S_807B0B3C_12 *colors;
+    S_807B0B3C_8 *verts;
     TerrainParticleEmitterBody *effect;
     s16 saved_a1 = caller_a1;
     void *saved_a2 = caller_a2;
@@ -1672,8 +1662,8 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
     s32 tex_left;
     u8 *world_vertex;
     u8 *screen_vertex;
-    u8 *prim;
-    u8 *shaded_prim;
+    S_807B0B3C_7 *prim;
+    S_807B0B3C_7 *shaded_prim;
     u8 *draw_prim;
     u8 *next_object;
     u16 component;
@@ -1682,31 +1672,31 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
     u16 component_4;
     u16 component_5;
     s32 coord;
-    u8 **global_slot;
+    RenderRootSlot *global_slot;
     S_807B0B3C_10 *render_state_m;
     u8 *bucket_ptr_m;
 
     scratch = (u8 *)0x1F800000;
-    colors = scratch;
-    verts = scratch;
-    colors = (u8 *)((u32)colors | 0x40);
-    verts = (u8 *)((u32)verts | 0x80);
+    colors = (S_807B0B3C_12 *)scratch;
+    verts = (S_807B0B3C_8 *)scratch;
+    colors = (S_807B0B3C_12 *)((u32)colors | 0x40);
+    verts = (S_807B0B3C_8 *)((u32)verts | 0x80);
     do {
-        global_slot = (u8 **)(D_80083150 + 0x10);
+        global_slot = (RenderRootSlot *)(D_80083150 + 0x10);
         effect = object;
         if ((((TerrainParticleEmitterBody *)object)->unk_06.u >> 10) & 1) {
-            u8 *vertex_pair;
+            S_807B0B3C_2 *vertex_pair;
             S_807B0B3C_3 *vertex_ptr;
             s32 coord_half;
 
             for (vertex_index = 0; vertex_index < 2; vertex_index++) {
-                vertex_pair = scratch + vertex_index * 0x10;
+                vertex_pair = (S_807B0B3C_2 *)(scratch + vertex_index * 0x10);
                 bucket_ptr_m = (u8 *)(vertex_index * 2);
                 coord_half = effect->origin_x.u;
                 stack.projection_flag = (s32)bucket_ptr_m;
-                ((S_807B0B3C_2 *)vertex_pair)->unk_08 = coord_half;
-                ((S_807B0B3C_2 *)vertex_pair)->unk_00 = coord_half;
-                vertex_ptr = (S_807B0B3C_3 *)(vertex_pair + 8);
+                vertex_pair->unk_08 = coord_half;
+                vertex_pair->unk_00 = coord_half;
+                vertex_ptr = (S_807B0B3C_3 *)((u8 *)vertex_pair + 8);
                 bucket_ptr_m = (u8 *)(effect->origin_y.s);
                 if (vertex_index < 2) {
                     coord_half = (s32)bucket_ptr_m - 0x20;
@@ -1718,7 +1708,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 pair_addr = stack.projection_flag;
                 coord_half = vertex_ptr->unk_02.v;
                 pair_addr <<= 3;
-                ((S_807B0B3C_2 *)vertex_pair)->unk_02 = coord_half;
+                vertex_pair->unk_02 = coord_half;
                 draw_value = (u32)(effect->height.u);
                 pair_addr += (u32)scratch;
                 ((S_807B0B3C_4 *)((u8 *)pair_addr))->unk_0C = (s32)draw_value;
@@ -1768,7 +1758,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         depth = 0;
 
         for (vertex_index = 0; vertex_index < 4; vertex_index++) {
-            s32 vertex_depth = RotTransPers(scratch + vertex_index * 8, verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
+            s32 vertex_depth = RotTransPers(scratch + vertex_index * 8, (u8 *)verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
             bucket_ptr_m = (u8 *)(depth - 8);
             depth = (s32)bucket_ptr_m + vertex_depth;
         }
@@ -1783,30 +1773,30 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         {
             u8 *render_state;
 
-            render_state = ((RenderRootSlot *)global_slot)->root;
-            prim = *(u8 **)(render_state + 0x8D0);
+            render_state = global_slot->root;
+            prim = (S_807B0B3C_7 *)*(u8 **)(render_state + 0x8D0);
             prim_arg = prim;
-            *(u8 **)(render_state + 0x8D0) = prim + 0x34;
+            *(u8 **)(render_state + 0x8D0) = (u8 *)prim + 0x34;
         }
         gray = 0xA0A0A0;
-        ((S_807B0B3C_7 *)prim)->unk_1C = 0;
-        ((S_807B0B3C_7 *)prim)->unk_04 = 0;
-        ((S_807B0B3C_7 *)prim)->unk_28 = gray;
-        ((S_807B0B3C_7 *)prim)->unk_10 = gray;
+        prim->unk_1C = 0;
+        prim->unk_04 = 0;
+        prim->unk_28 = gray;
+        prim->unk_10 = gray;
         SetPolyGT4(prim_arg);
         SetSemiTrans(prim, 1);
-        ((S_807B0B3C_7 *)prim)->unk_18.at02.v = GetTPage(0, 1, 0x280, 0x100);
+        prim->unk_18.at02.v = GetTPage(0, 1, 0x280, 0x100);
         {
             u16 clut;
 
             clut = GetClut(0x90, 0x1F7);
-            tex_left = ((S_807B0B3C_8 *)verts)->unk_00;
-            ((S_807B0B3C_7 *)prim)->unk_0C.at02.v = clut;
-            ((S_807B0B3C_7 *)prim)->unk_08 = tex_left;
+            tex_left = verts->unk_00;
+            prim->unk_0C.at02.v = clut;
+            prim->unk_08 = tex_left;
         }
-        ((S_807B0B3C_7 *)prim)->unk_14 = ((S_807B0B3C_8 *)verts)->unk_04;
-        ((S_807B0B3C_7 *)prim)->unk_20 = ((S_807B0B3C_8 *)verts)->unk_08;
-        ((S_807B0B3C_7 *)prim)->unk_2C = ((S_807B0B3C_8 *)verts)->unk_0C;
+        prim->unk_14 = verts->unk_04;
+        prim->unk_20 = verts->unk_08;
+        prim->unk_2C = verts->unk_0C;
 
         draw_value = effect->tick_count.u16;
         draw_value &= 7;
@@ -1815,16 +1805,16 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         tex_coord -= 0x61;
         draw_value >>= 2;
         draw_value <<= 5;
-        ((S_807B0B3C_7 *)prim)->unk_30 = tex_coord;
-        ((S_807B0B3C_7 *)prim)->unk_24 = tex_coord;
+        prim->unk_30 = tex_coord;
+        prim->unk_24 = tex_coord;
         tex_coord = draw_value - 0x40;
         draw_value -= 0x21;
-        ((S_807B0B3C_7 *)prim)->unk_31 = tex_coord;
-        ((S_807B0B3C_7 *)prim)->unk_18.at01.v = tex_coord;
-        ((S_807B0B3C_7 *)prim)->unk_18.at00.v = tex_left;
-        ((S_807B0B3C_7 *)prim)->unk_0C.at00.v = tex_left;
-        ((S_807B0B3C_7 *)prim)->unk_25 = draw_value;
-        ((S_807B0B3C_7 *)prim)->unk_0C.at01.v = draw_value;
+        prim->unk_31 = tex_coord;
+        prim->unk_18.at01.v = tex_coord;
+        prim->unk_18.at00.v = tex_left;
+        prim->unk_0C.at00.v = tex_left;
+        prim->unk_25 = draw_value;
+        prim->unk_0C.at01.v = draw_value;
 
         if ((u32)depth < 0x1E0U) {
             s32 textured_offset;
@@ -1834,19 +1824,19 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 u32 bucket_tag;
 
                 textured_offset = depth * 4;
-                prim_tag = ((S_807B0B3C_7 *)prim)->unk_00;
-                render_state_m = (S_807B0B3C_10 *)((u32)textured_offset + (u32)((RenderRootSlot *)global_slot)->root);
+                prim_tag = prim->unk_00;
+                render_state_m = (S_807B0B3C_10 *)((u32)textured_offset + (u32)global_slot->root);
                 prim_tag &= 0xFF000000U;
 
                 bucket_tag = render_state_m->unk_B0;
 
-                ((S_807B0B3C_7 *)prim)->unk_00 = prim_tag | (bucket_tag & 0xFFFFFFU);
+                prim->unk_00 = prim_tag | (bucket_tag & 0xFFFFFFU);
             }
             {
                 u8 *render_state;
                 S_807B0B3C_10 *bucket_ptr;
 
-                render_state = ((RenderRootSlot *)global_slot)->root;
+                render_state = global_slot->root;
 
                 bucket_ptr = (S_807B0B3C_10 *)((u32)textured_offset + (unsigned long)render_state);
                 bucket_ptr->unk_B0 =
@@ -1861,7 +1851,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
 
             for (vertex_index = 3; vertex_index >= 0; vertex_index--) {
                 vertex_ptr = (S_807B0B3C_3 *)(scratch + vertex_index * 8);
-                color_ptr = (S_807B0B3C_11 *)(colors + vertex_index * 4);
+                color_ptr = (S_807B0B3C_11 *)((u8 *)colors + vertex_index * 4);
                 coord = effect->origin_x.s;
                 if (vertex_index < 2) {
                     vertex_ptr->unk_00.n = coord - 0x20;
@@ -1885,8 +1875,8 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         coord = effect->unk_06.s;
         switch (coord) {
         case 0:
-            ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
-            ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
+            colors->unk_08.u = 0x808080;
+            colors->unk_00.u = 0x808080;
             component = effect->origin_y.u;
             {
                 u8 *vertex_ptr;
@@ -1898,14 +1888,14 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             break;
         case 0x400:
             component_2 = effect->origin_x.u;
-            ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
-            ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
+            colors->unk_0C.u = 0x808080;
+            colors->unk_08.u = 0x808080;
             ((S_807B0B3C_14 *)scratch)->unk_18 = component_2;
             ((S_807B0B3C_14 *)scratch)->unk_10 = component_2;
             break;
         case 0x800:
-            ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
-            ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
+            colors->unk_0C.u = 0x808080;
+            colors->unk_04.u = 0x808080;
             component_3 = effect->origin_y.u;
             {
                 u8 *vertex_ptr;
@@ -1917,14 +1907,14 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             break;
         case 0xC00:
             component_4 = effect->origin_x.u;
-            ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
-            ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
+            colors->unk_04.u = 0x808080;
+            colors->unk_00.u = 0x808080;
             ((S_807B0B3C_14 *)scratch)->unk_08 = component_4;
             ((S_807B0B3C_14 *)scratch)->unk_00 = component_4;
             break;
         }
         for (vertex_index = 3; vertex_index >= 0; vertex_index--) {
-            RotTransPers(scratch + vertex_index * 8, verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
+            RotTransPers(scratch + vertex_index * 8, (u8 *)verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
         }
 
         if ((u32)depth < 0x1E0U) {
@@ -1935,19 +1925,19 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             {
                 u8 *render_state;
 
-                render_state = ((RenderRootSlot *)global_slot)->root;
-                shaded_prim = *(u8 **)(render_state + 0x8D0);
+                render_state = global_slot->root;
+                shaded_prim = (S_807B0B3C_7 *)*(u8 **)(render_state + 0x8D0);
                 {
                     s32 first_color;
 
-                    first_color = ((S_807B0B3C_12 *)colors)->unk_00.s;
-                    *(u8 **)(render_state + 0x8D0) = shaded_prim + 0x24;
-                    ((S_807B0B3C_7 *)shaded_prim)->unk_04 = first_color;
+                    first_color = colors->unk_00.s;
+                    *(u8 **)(render_state + 0x8D0) = (u8 *)shaded_prim + 0x24;
+                    shaded_prim->unk_04 = first_color;
                 }
             }
-            ((S_807B0B3C_7 *)shaded_prim)->unk_0C.at00u.v = ((S_807B0B3C_12 *)colors)->unk_04.s;
-            ((S_807B0B3C_7 *)shaded_prim)->unk_14 = ((S_807B0B3C_12 *)colors)->unk_08.s;
-            ((S_807B0B3C_7 *)shaded_prim)->unk_1C = ((S_807B0B3C_12 *)colors)->unk_0C.s;
+            shaded_prim->unk_0C.at00u.v = colors->unk_04.s;
+            shaded_prim->unk_14 = colors->unk_08.s;
+            shaded_prim->unk_1C = colors->unk_0C.s;
             SetPolyG4(shaded_prim);
             SetSemiTrans(shaded_prim, 1);
             {
@@ -1955,36 +1945,36 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 u32 prim_tag;
                 u32 bucket_tag;
 
-                vertex = ((S_807B0B3C_8 *)verts)->unk_00;
-                prim_tag = ((S_807B0B3C_7 *)shaded_prim)->unk_00;
+                vertex = verts->unk_00;
+                prim_tag = shaded_prim->unk_00;
 
-                ((S_807B0B3C_7 *)shaded_prim)->unk_08 = vertex;
-                vertex = ((S_807B0B3C_8 *)verts)->unk_04;
+                shaded_prim->unk_08 = vertex;
+                vertex = verts->unk_04;
                 bucket_offset = depth * 4;
-                ((S_807B0B3C_7 *)shaded_prim)->unk_10 = vertex;
-                vertex = ((S_807B0B3C_8 *)verts)->unk_08;
+                shaded_prim->unk_10 = vertex;
+                vertex = verts->unk_08;
                 draw_value = 0;
-                ((S_807B0B3C_7 *)shaded_prim)->unk_18.at00u.v = vertex;
-                vertex = ((S_807B0B3C_8 *)verts)->unk_0C;
+                shaded_prim->unk_18.at00u.v = vertex;
+                vertex = verts->unk_0C;
                 blend_mode = 1;
-                ((S_807B0B3C_7 *)shaded_prim)->unk_20 = vertex;
+                shaded_prim->unk_20 = vertex;
                 prim_tag &= 0xFF000000U;
 
-                render_state_m = (S_807B0B3C_10 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
+                render_state_m = (S_807B0B3C_10 *)((u32)bucket_offset + (u32)global_slot->root);
                 bucket_tag = render_state_m->unk_B0;
 
-                ((S_807B0B3C_7 *)shaded_prim)->unk_00 = prim_tag | (bucket_tag & 0xFFFFFFU);
+                shaded_prim->unk_00 = prim_tag | (bucket_tag & 0xFFFFFFU);
             }
             {
                 u32 bucket_tag;
                 S_807B0B3C_10 *bucket;
 
-                bucket = (S_807B0B3C_10 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
+                bucket = (S_807B0B3C_10 *)((u32)bucket_offset + (u32)global_slot->root);
                 bucket_tag = bucket->unk_B0 & 0xFF000000U;
                 bucket_tag |= (u32)shaded_prim & 0xFFFFFFU;
 
                 (bucket->unk_B0) = bucket_tag;
-                bucket_ptr_m = ((RenderRootSlot *)global_slot)->root;
+                bucket_ptr_m = global_slot->root;
                 page_x = draw_value;
                 draw_prim = *(u8 **)(bucket_ptr_m + 0x8D0);
                 page_y = draw_value;
@@ -2005,7 +1995,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 u32 bucket_tag;
 
                 prim_tag = ((S_807B0B3C_7 *)draw_prim)->unk_00;
-                render_state_m = (S_807B0B3C_10 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
+                render_state_m = (S_807B0B3C_10 *)((u32)bucket_offset + (u32)global_slot->root);
                 prim_tag &= 0xFF000000U;
 
                 bucket_tag = render_state_m->unk_B0;
@@ -2015,7 +2005,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             {
                 u8 *render_state;
 
-                render_state = ((RenderRootSlot *)global_slot)->root;
+                render_state = global_slot->root;
 
                 bucket_offset += (s32)render_state;
                 ((S_807B0B3C_15 *)((u8 *)bucket_offset))->unk_B0 =

@@ -7,4 +7,8 @@
 extern s16 town_motion_x_step;
 extern s16 town_motion_y_step;
 
+/* Motion phases accumulate the signed steps as 16-bit angles. */
+extern u16 town_motion_x_phase;
+extern u16 town_motion_y_phase;
+
 #endif

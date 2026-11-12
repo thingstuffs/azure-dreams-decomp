@@ -137,10 +137,12 @@ def group_findings(diagnostics):
             continue
         key = d['file'], d['function'], d['warning']
         group = grouped.setdefault(key, dict(observations=set(), sites=set(), modes=set(),
-                                            tus=set(), phases=set(), messages=set()))
+                                            tus=set(), phases=set(), messages=set(), site_messages={}))
         # The same observation in syntax and flow is counted only once.
         group['observations'].add((d['tu'], d['mode'], d['line'], d['column'], d['message']))
-        group['sites'].add(f"{d['file']}:{d['line']}:{d['column']}")
+        site = f"{d['file']}:{d['line']}:{d['column']}"
+        group['sites'].add(site)
+        group['site_messages'].setdefault(site, set()).add(d['message'])
         for field, value in (('modes', d['mode']), ('tus', d['tu']),
                              ('phases', d['phase']), ('messages', d['message'])):
             group[field].add(value)
@@ -152,7 +154,10 @@ def group_findings(diagnostics):
             file=file, function=function, warning=warning, subsystem=file.split('/')[1],
             count=len(group['observations']), tu_count=len(group['tus']),
             modes=','.join(sorted(group['modes'])), phases=','.join(sorted(group['phases'])),
-            sites=';'.join(sorted(group['sites'])), messages=' | '.join(sorted(group['messages']))))
+            sites=';'.join(sorted(group['sites'])), messages=' | '.join(sorted(group['messages'])),
+            # Each site's own messages (`messages` is the group's set): JSON {site: [message, ...]}.
+            site_messages=json.dumps({k: sorted(v) for k, v in sorted(group['site_messages'].items())},
+                                     separators=(',', ':'))))
     return findings
 
 
@@ -281,7 +286,7 @@ def main(argv=None):
 
     findings = group_findings(diagnostics)
     write_tsv(out / 'lint_findings.tsv', ['finding', 'file', 'function', 'warning', 'subsystem',
-              'count', 'tu_count', 'modes', 'phases', 'sites', 'messages'], findings)
+              'count', 'tu_count', 'modes', 'phases', 'sites', 'messages', 'site_messages'], findings)
     totals = counts(findings)
     write_tsv(out / 'lint_counts.tsv', ['warning', 'subsystem', 'findings'],
               [dict(warning=w, subsystem=s, findings=n)

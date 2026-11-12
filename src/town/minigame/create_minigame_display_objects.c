@@ -7,6 +7,7 @@
 #include "engine/runtime.h"
 #include "slus.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
 #include "town/scene/list_setup.h"
 #include "town/minigame/state.h"
 #include "town/data.h"
@@ -49,7 +50,7 @@ extern s32 register_node(); /* Unprototyped: two, three or four arguments; retai
 /* Creates parent and child display objects and uploads their graphics data. */
 void create_minigame_display_objects(void)
 {
-    s16 upload_rect[4];
+    RECT upload_rect;
     s32 child_index;
     u8 *obj;
     u8 *parent_state;
@@ -155,14 +156,14 @@ void create_minigame_display_objects(void)
         child_index--;
     } while (child_index >= 0);
 
-    upload_rect[0] = 0x40;
-    upload_rect[1] = 0x1D0;
-    upload_rect[2] = 0x20;
-    upload_rect[3] = 1;
-    StoreImage(upload_rect, minigame_palette_backup);
-    upload_rect[0] = 0xC0;
-    upload_rect[1] = 0x1F8;
-    upload_rect[2] = 0x30;
-    upload_rect[3] = 1;
-    StoreImage(upload_rect, minigame_image_backup);
+    upload_rect.x = 0x40;
+    upload_rect.y = 0x1D0;
+    upload_rect.w = 0x20;
+    upload_rect.h = 1;
+    StoreImage(&upload_rect, minigame_palette_backup);
+    upload_rect.x = 0xC0;
+    upload_rect.y = 0x1F8;
+    upload_rect.w = 0x30;
+    upload_rect.h = 1;
+    StoreImage(&upload_rect, minigame_image_backup);
 }

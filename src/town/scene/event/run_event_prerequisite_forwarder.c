@@ -1,11 +1,11 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/state_data.h"
 #include "town/scene/event.h"
 #include "town/player/state.h"
 #include "town/scene/motion.h"
 
 extern s32 D_80018DFC;
-extern s32 scene_state_dispatch_context;
 
 /* Run func_80018C74, then forward the inputs if either queried condition is nonzero. */
 s32 run_event_prerequisite_forwarder(s32 primary_input, s32 unused, s32 secondary_input)

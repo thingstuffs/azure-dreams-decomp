@@ -28,7 +28,7 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
     s32 kind;
     s32 flags0;
     s32 flags1;
-    void *result;
+    ActorRecord *result;
     ObjectNodeHeader *object;
     ObjectPosition *part0;
     SpriteFrameState *part1;
@@ -37,10 +37,9 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
     result = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = object;
-        result += 0x20;
+        result = NODE_BODY(object);
         object->update_callback = D_80171248;
-        ((ActorRecord *)result)->species = MONSTER_METAL;
+        result->species = MONSTER_METAL;
         register_node(object, project_sprite_chain);
 
         {
@@ -58,21 +57,21 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
         part1->tile_x = kind_id;
 
         if (kind == 1) {
-            flags0 = ((ActorRecord *)result)->flags14;
-            flags1 = ((ActorRecord *)result)->flags1C;
+            flags0 = result->flags14;
+            flags1 = result->flags1C;
             flags0 |= 0x6000;
             flags1 |= 0x6000;
-            ((ActorRecord *)result)->flags14 = flags0;
-            ((ActorRecord *)result)->flags1C = flags1;
+            result->flags14 = flags0;
+            result->flags1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((ActorRecord *)result)->flags14;
-            flags1 = ((ActorRecord *)result)->flags1C;
+            flags0 = result->flags14;
+            flags1 = result->flags1C;
             flags0 |= 0x2000;
             flags1 |= 0x2000;
-            ((ActorRecord *)result)->flags14 = flags0;
-            ((ActorRecord *)result)->flags1C = flags1;
+            result->flags14 = flags0;
+            result->flags1C = flags1;
         } else if (((flags & -4) << 16) == 0 &&
-                   (((ActorRecord *)result)->flags14 & ACTOR_RESIST_SLEEP) == 0 &&
+                   (result->flags14 & ACTOR_RESIST_SLEEP) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
             part1->frameTable = D_80174310;

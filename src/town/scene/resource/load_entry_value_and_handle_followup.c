@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/mode_data.h"
 #include "town/scene/entry_requests.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/resource.h"
@@ -14,7 +15,6 @@ typedef struct TownRecord {
     u8 *entries;
 } TownRecord;
 
-extern s32 scene_cell_dispatch_code;
 
 /* Loads the current entry's value, conditionally clears it, and handles the follow-up check. */
 s32 load_entry_value_and_handle_followup(void *object, s32 entry_index) {

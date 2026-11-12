@@ -6,6 +6,7 @@ struct ObjectPosition;
 
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgte.h"
 
 typedef struct State_80083160 {
     char pad0[0x8d0];
@@ -184,8 +185,6 @@ typedef struct TwelveByteEntry {
     u8 bytes[12];
 } TwelveByteEntry;
 
-extern s32 rsin(s32 value);
-extern s32 rcos(s32 value);
 extern s32 func_80065610();
 extern void AddPrim();
 void SetPolyGT4(void *);

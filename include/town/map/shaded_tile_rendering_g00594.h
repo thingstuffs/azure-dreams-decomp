@@ -7,6 +7,8 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_floor.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_func_800AED64_2 {
     u8 pad_00[0x4];
@@ -342,14 +344,8 @@ typedef struct MapQuadScratch {
     union { u16 value; u8 low_byte; } uv_scroll;
 } MapQuadScratch;
 
-extern void SetFogFar(s32, s32);
-extern void SetLightMatrix(void *);
-extern void SetColorMatrix(void *);
 /* extern */
 extern u8 map_runtime_state[];
-extern u8 map_wide_culling[9];
-extern void AddPrim(void *, void *);
-extern void SetDrawMode(void *, s32, s32, s32, void *);
 
 extern s8 map_tile_uvs[12];
 #include "engine/effect.h"

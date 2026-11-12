@@ -35,7 +35,7 @@ void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition 
     SpriteFrameState *owner_model;
     ObjectPosition *position;
     SpriteFrameState *sprite;
-    void *object_data;
+    AttachedSpriteWithOffsetBody *object_data;
     ObjectNodeHeader *object;
     void *copy_dst;
     void *copy_src;
@@ -45,11 +45,11 @@ void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition 
     if (object != NULL) {
         object_data = NODE_BODY(object);
         object->update_callback = beldo_object_callback;
-        ((AttachedSpriteWithOffsetBody *)object_data)->unk_B6 = offset_id;
-        ((AttachedSpriteWithOffsetBody *)object_data)->unk_AC.integer = (s32)NODE_HEADER(owner_data);
-        ((AttachedSpriteWithOffsetBody *)object_data)->unk_94 = owner_data->facing;
+        object_data->unk_B6 = offset_id;
+        object_data->unk_AC.integer = (s32)NODE_HEADER(owner_data);
+        object_data->unk_94 = owner_data->facing;
         copy_src = sprite_template;
-        ((AttachedSpriteWithOffsetBody *)object_data)->unk_2A = owner_data->facing;
+        object_data->unk_2A = owner_data->facing;
         sprite = object->sprite;
         copy_dst = sprite;
         do {
@@ -70,10 +70,10 @@ void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition 
         position->y.w.i = (u16) base_position->y;
         position->z.w.i = (u16) base_position->z;
         owner_model = NODE_HEADER(owner_data)->sprite;
-        if (resolve_record_orientation_or_fallback((s32)owner_model->source, owner_model, object_data + 0xB0, saved_offset_id) != 0) {
-            position->x.w.i = (u16) ((u16)position->x.w.i + ((AttachedSpriteWithOffsetBody *)object_data)->unk_B0.u);
-            position->y.w.i = (u16) ((u16)position->y.w.i + ((AttachedSpriteWithOffsetBody *)object_data)->unk_B2.u);
-            position->z.w.i = (u16) ((u16)position->z.w.i + ((AttachedSpriteWithOffsetBody *)object_data)->unk_B4.u);
+        if (resolve_record_orientation_or_fallback((s32)owner_model->source, owner_model, &object_data->unk_B0, saved_offset_id) != 0) {
+            position->x.w.i = (u16) ((u16)position->x.w.i + object_data->unk_B0.u);
+            position->y.w.i = (u16) ((u16)position->y.w.i + object_data->unk_B2.u);
+            position->z.w.i = (u16) ((u16)position->z.w.i + object_data->unk_B4.u);
         }
         sprite->scale_x = (u16) sprite_template->scale_x;
         sprite_height = (u16) sprite_template->scale_y;

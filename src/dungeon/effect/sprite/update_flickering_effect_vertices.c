@@ -409,7 +409,7 @@ s32 draw_jittered_triangle_trails(void *first_item)
 
             byte_offset = (point_index * 8) + 0x28;
             depth_index = RotTransPers((u8 *)item_data + byte_offset,
-                screen_coords, &screen_coords[2], &screen_coords[2]) - 8;
+                (s32 *)screen_coords, &screen_coords[2], &screen_coords[2]) - 8;
 
             ((TrailTriangle *)triangle)->x0 = screen_coords[0] + (rand() & 1) + 1;
             ((TrailTriangle *)triangle)->y0 = screen_coords[1] + (rand() & 1) + 1;

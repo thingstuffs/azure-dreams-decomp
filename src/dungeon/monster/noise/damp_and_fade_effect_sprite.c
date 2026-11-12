@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libgte.h"
+#include "dungeon/effect/depth_projection_work.h"
 
 typedef long long s64;
 
@@ -30,14 +31,6 @@ typedef struct S_80D17000_2 {
 
 extern s8 view_direction_depth_biases[8];
 
-typedef struct StackWork {
-    u16 xyz[3];
-    u16 pad;
-    s64 out18;
-    s32 out20;
-    s32 out24;
-} StackWork;
-
 /* Move and damp the effect, expand and fade its sprite, and expire its lifetime. */
 /* Moves, damps, expands, and fades the effect sprite, adjusting its draw depth against the stored anchor
  * and facing. */
@@ -45,7 +38,7 @@ void damp_and_fade_effect_sprite(void *effect_arg, void *motion_arg, SpriteFrame
 {
     S_80D17000_0 *motion = motion_arg;
     S_80D17000_2 *effect = effect_arg;
-    StackWork projection;
+    DepthProjectionWork projection;
     s16 next_life;
     s16 life;
     s32 effect_depth;
@@ -68,17 +61,17 @@ void damp_and_fade_effect_sprite(void *effect_arg, void *motion_arg, SpriteFrame
     sprite->scale_y = render_value;
     sprite->scale_x = render_value;
 
-    projection.xyz[0] = motion->unk_00.at02.v;
-    projection.xyz[1] = motion->unk_04.at02.v;
-    projection.xyz[2] = motion->unk_08.at02.v;
-    effect_depth = RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24);
+    projection.position.vx = motion->unk_00.at02.v;
+    projection.position.vy = motion->unk_04.at02.v;
+    projection.position.vz = motion->unk_08.at02.v;
+    effect_depth = RotTransPers(&projection.position, &projection.screen_xy, &projection.depth_cue, &projection.gte_flag);
 
     anchor = effect->unk_A8;
-    projection.xyz[0] = anchor->x;
-    projection.xyz[1] = anchor->y;
-    projection.xyz[2] = anchor->z;
+    projection.position.vx = anchor->x;
+    projection.position.vy = anchor->y;
+    projection.position.vz = anchor->z;
     sprite->depth_bias = effect_depth -
-        RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
+        RotTransPers(&projection.position, &projection.screen_xy, &projection.depth_cue, &projection.gte_flag) -
         view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + effect->unk_94 + 0x100) >> 9) & 7] * 2;
 
     life = ((s16)effect->unk_96);

@@ -39,6 +39,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
     u8 *item_slot;
     ObjectNodeHeader *target;
     ObjectNodeHeader *scratch_pointer;
+    SpriteFrameState *target_sprite;
 
     is_special = 0;
     item_slot = (u8 *)(body->action_phase);
@@ -98,9 +99,9 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
                 if (use_special != 0) {
                     target = (ObjectNodeHeader *)primary_actor_record;
                     actor->target = target;
-                    scratch_pointer = (target - 1)->sprite;
-                    actor->target_tile_x = ((SpriteFrameState *)scratch_pointer)->tile_x;
-                    actor->target_tile_y = ((SpriteFrameState *)scratch_pointer)->tile_y;
+                    target_sprite = (target - 1)->sprite;
+                    actor->target_tile_x = target_sprite->tile_x;
+                    actor->target_tile_y = target_sprite->tile_y;
                 } else {
                     u8 item_id;
 
@@ -108,9 +109,9 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
                     if (item_action_definitions[item_id].kind == 2) {
                         target = actor->target;
                         if (target != 0) {
-                            scratch_pointer = (target - 1)->sprite;
-                            actor->target_tile_x = ((SpriteFrameState *)scratch_pointer)->tile_x;
-                            actor->target_tile_y = ((SpriteFrameState *)scratch_pointer)->tile_y;
+                            target_sprite = (target - 1)->sprite;
+                            actor->target_tile_x = target_sprite->tile_x;
+                            actor->target_tile_y = target_sprite->tile_y;
 
                         }
                     } else {

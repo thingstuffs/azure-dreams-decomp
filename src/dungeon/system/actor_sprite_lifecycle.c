@@ -2,6 +2,7 @@
 #include "shared/actor_status_flags.h"
 /* Actor sprite lifecycle and its file-private helper. */
 #include "common.h"
+#include "dungeon/actor/pending_marked_actor_count_data.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
@@ -16,7 +17,6 @@ static s32 uses_direct_actor_sprite_frames(ActorRecord *record);
 #include "slus.h"
 
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s16 pending_marked_actor_count;
 /* arg2 in refresh_actor_facing_and_lifecycle */
 
 static s32 uses_direct_actor_sprite_frames(ActorRecord *record) {

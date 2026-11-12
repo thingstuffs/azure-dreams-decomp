@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/mode_data.h"
 #include "town/scene.h"
 #include "shared/record_ptrs.h"
 
@@ -26,7 +27,6 @@ typedef struct S_8001640C_3 {
                 ((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_40 in pass_and_clear_selected_entry_byte */
 
 
-extern s32 scene_cell_dispatch_code;
 
 
 /* Pass the selected entry byte to func_80018618 and clear it if the call returns nonzero. */

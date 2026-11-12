@@ -2,10 +2,13 @@
 #include "shared/game_work.h"
 #include "dungeon/effect/shade.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_types.h"
+#include "sdk/libgpu_packets.h"
+#include "shared/gpu_packets.h"
 
 typedef struct Scratch {
     u8 pad0[0x18];
-    u8 *current;
+    void *current;
     u8 pad1c[4];
     u32 *table;
     u8 pad24[0x4c];
@@ -26,10 +29,6 @@ typedef struct Scratch {
     u8 pad98[0x28];
     u32 index;
 } Scratch;
-
-typedef struct Entry {
-    u8 bytes[0x24];
-} Entry;
 
 typedef struct EmptyCallArg {
 } EmptyCallArg;
@@ -65,7 +64,7 @@ s32 draw_adjacent_row_quads(void)
             vertex_record = (u8 *)vertices;
 
             do {
-                Entry *quad;
+                POLY_G4 *quad;
                 u32 *row_left;
                 u32 *row_right;
                 u32 *next_row_left;
@@ -81,10 +80,10 @@ s32 draw_adjacent_row_quads(void)
 
                 row_left = &scratch->value70;
                 row_start = quad_index & ~0xF;
-                quad = (Entry *)scratch->current;
+                quad = scratch->current;
                 row_right = &scratch->value78;
                 next_row_left = &scratch->value80;
-                scratch->current = (u8 *)quad + 0x24;
+                scratch->current = quad + 1;
                 scratch->value70 = *(u32 *)vertex_record;
                 scratch->value78 = vertices[
                     ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
@@ -101,8 +100,8 @@ s32 draw_adjacent_row_quads(void)
 
                 scratch->index = RotTransPers4(
                     row_left, row_right, next_row_left, next_row_right,
-                    (u32 *)((u8 *)quad + 8), (u32 *)((u8 *)quad + 16),
-                    (u32 *)((u8 *)quad + 24), (u32 *)((u8 *)quad + 32),
+                    (u32 *)&quad->x0, (u32 *)&quad->x1,
+                    (u32 *)&quad->x2, (u32 *)&quad->x3,
                     &scratch->out90, &scratch->out94,
                     (scratch->value88 = next_right_xy,
                      scratch->half84 = next_row_z,
@@ -112,24 +111,32 @@ s32 draw_adjacent_row_quads(void)
 
                 if (scratch->index < 0x1E0U) {
                     if ((quad_index % 32) < 16) {
-                        *(u32 *)((u8 *)quad + 12) = row_quad_top_color;
-                        *(u32 *)((u8 *)quad + 4) = row_quad_top_color;
-                        *(u32 *)((u8 *)quad + 28) = row_quad_bottom_color;
-                        *(u32 *)((u8 *)quad + 20) = row_quad_bottom_color;
+                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        *(u32 *)&quad->red1 = row_quad_top_color;
+                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        *(u32 *)&quad->red0 = row_quad_top_color;
+                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        *(u32 *)&quad->red3 = row_quad_bottom_color;
+                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        *(u32 *)&quad->red2 = row_quad_bottom_color;
                     } else {
-                        *(u32 *)((u8 *)quad + 28) = row_quad_top_color;
-                        *(u32 *)((u8 *)quad + 20) = row_quad_top_color;
-                        *(u32 *)((u8 *)quad + 12) = row_quad_bottom_color;
-                        *(u32 *)((u8 *)quad + 4) = row_quad_bottom_color;
+                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        *(u32 *)&quad->red3 = row_quad_top_color;
+                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        *(u32 *)&quad->red2 = row_quad_top_color;
+                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        *(u32 *)&quad->red1 = row_quad_bottom_color;
+                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        *(u32 *)&quad->red0 = row_quad_bottom_color;
                     }
 
                     SetPolyG4(quad);
-                    quad->bytes[7] |= 2;
+                    quad->code |= 2;
                     AddPrim(scratch->table + scratch->index, quad);
 
                     {
-                        u8 *draw_mode = scratch->current;
-                        scratch->current = draw_mode + 0x0C;
+                        DR_MODE *draw_mode = scratch->current;
+                        scratch->current = draw_mode + 1;
                         SetDrawMode(draw_mode, 0, 0,
                                       (u16)GetTPage(0, 1, 0, 0), 0);
                         AddPrim(scratch->table + scratch->index,
@@ -141,7 +148,7 @@ s32 draw_adjacent_row_quads(void)
                 quad_index++;
             } while (quad_index < D_80026476);
         }
-        *(u8 **)(*state_slot + 0x8D0) = scratch->current;
+        ((GpuContext *)*state_slot)->packetCursor = scratch->current;
     }
     return 0;
 }

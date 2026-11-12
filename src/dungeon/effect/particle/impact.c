@@ -707,6 +707,7 @@ void clear_circular_list_flags(void)
 }
 
 #include "shared/gpu_packets.h"
+#include "sdk/libgte.h"
 
 typedef struct S_80024BF4_0 {
     u8 pad_00[0x24];
@@ -717,8 +718,8 @@ typedef struct S_80024BF4_0 {
     s32 unk_38;
     s32 unk_3C;
     u8 pad_40[0x14];
-    GteMatrix composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
-    GteMatrix object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
+    MATRIX composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
+    MATRIX object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
     u8 pad_94[0x10];
     u16 unk_A4;
     u16 unk_A6;
@@ -808,20 +809,8 @@ typedef struct S_80024BF4_5 {
     u8 unk_31;
 } S_80024BF4_5;   /* packet in project_visible_textured_quad */
 
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MATRIX;
+#include "sdk/libgte_matrix.h"
 
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
 
 /* Projects a textured quad and adds it to the ordering table when visible. */
 void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
@@ -875,8 +864,8 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
 
     ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
                              &scratch->unk_C0, &scratch->unk_C8,
-                             &packet->unk_08, &packet->unk_14,
-                             &packet->unk_20, &packet->unk_2C,
+                             (s32 *)&packet->unk_08, (s32 *)&packet->unk_14,
+                             (s32 *)&packet->unk_20, (s32 *)&packet->unk_2C,
                              &scratch->depth_cue, &scratch->gte_flag) - depth_bias - 6;
     scratch->unk_100 = ot_index;
 
@@ -1053,12 +1042,6 @@ typedef struct S_800251F4_0 {
     s32 unk_90;
 } S_800251F4_0;   /* work in spawn_randomized_textured_particles */
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} RECT;
 /* the 0x18-byte UV block func_80024064 returns, copied into the particle at +0x52 */
 typedef struct {
     s16 v[12];

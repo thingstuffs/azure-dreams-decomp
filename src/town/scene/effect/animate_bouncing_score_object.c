@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/animation.h"
 #include "town/scene/effect.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 
 typedef struct { s32 words[22]; } Payload88;
@@ -28,7 +29,7 @@ typedef struct {
     RenderPart *render;
     ObjectCallback callback;
 } Object;
-extern u8 score_sprite_draw_callback_address[], D_8052643C[], score_bounce_update_address[];
+extern u8 D_8052643C[], score_bounce_update_address[];
 extern s32 score_object_images[3];
 
 /* Create an object, copy its two records, and initialize rendering state. */

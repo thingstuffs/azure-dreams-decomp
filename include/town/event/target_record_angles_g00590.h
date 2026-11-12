@@ -8,6 +8,7 @@ struct ObjectPosition;
 #include "town/event/mesh_motion.h"
 #include "town/event/motion_step_data.h"
 #include "shared/vector.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     u8 pad0[8];
@@ -22,13 +23,10 @@ typedef struct {
 extern TownRecord D_800D1178;
 extern TownRecord D_800D119C;
 
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 
 extern IntVector3 town_motion_offset_position, D_80100D68;
 extern PositionRotationPair town_event_motion_pair;
 
-extern u16 town_motion_x_phase, town_motion_y_phase;
 extern void draw_random_colored_line(s32, void *);
 
 /* Functions defined in this translation unit. */

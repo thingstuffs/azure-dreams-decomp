@@ -60,7 +60,7 @@ extern s32 create_indexed_floor_object();
 
 /* Move the effect toward its target, pulse its brightness, and handle expiration. */
 void update_held_item_attachment(S_8008D470_0 *effect, ObjectPosition *position, SpriteFrameState *visual) {
-    GteShortVector offsets;
+    SVECTOR offsets;
     s16 state;
     s32 expiry_mode;
     s16 brightness;

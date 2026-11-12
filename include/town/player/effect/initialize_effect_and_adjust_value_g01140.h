@@ -104,11 +104,11 @@ extern s32 D_800A5A98;
 extern s16 town_scene_effect_flips[];
 extern u8 town_position_reference_state[];
 #include "engine/texture.h"
+#include "sdk/abs.h"
 /* arg0 in update_object_view_transition */
 s32 read_map_cell_at_world_position(s16, s16);
 /* extern */
 extern u8 D_800D0000[];
-extern int abs(int);
 extern u8 D_800A5DF8;
 s32 runtime_estimate_vector_length(s32, s32);
 extern short SD_Call(int flags);

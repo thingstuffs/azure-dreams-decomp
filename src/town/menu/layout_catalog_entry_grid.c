@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_payload.h"
 #include "town/menu/catalog_parts.h"
+#include "town/menu/catalog_grid_data.h"
 #include "town/menu.h"
 
 typedef struct TownInitialPosition {
@@ -11,15 +12,14 @@ typedef struct TownInitialPosition {
 
 extern TownInitialPosition catalog_grid_layout[5];
 extern s8 D_80128614[];
-extern s8 catalog_grid_packets[];
 
 /* Initialize town object data, grid positions, and display dimensions. */
 void layout_catalog_entry_grid(void)
 {
     s32 object_index;
     TownInitialPosition *initial_pos;
-    s8 *group_data;
-    s8 *entry_data;
+    CatalogGridPacket *group_data;
+    CatalogGridPacket *entry_data;
     s16 detail_y;
     s32 row_offset;
     s32 row;
@@ -86,7 +86,7 @@ initial_loop:
         position = object->position;
         group_slot += 1;
         position->y = detail_y;
-        group_data += 0xC;
+        group_data += 1;
         (*group_slot)->position->x = column_offset + 0x44;
         initial_index += 1;
         (*group_slot)->position->y = detail_y;
@@ -105,7 +105,7 @@ initial_loop:
         row = initial_index & 7;
         initial_index += 1;
         (*entry_slot)->handler = entry_data;
-        entry_data += 0xC;
+        entry_data += 1;
         (*entry_slot)->position->x = (column << 7) + 0x54;
         (*entry_slot)->position->y = row * 0x12 + 0x30;
         entry_slot += 1;

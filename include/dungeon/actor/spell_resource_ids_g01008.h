@@ -24,6 +24,7 @@ struct ObjectPosition;
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/rand.h"
 struct S_800AD594_0;
 
 typedef struct Inner {
@@ -80,7 +81,6 @@ extern u8 spell_resource_ids[49];
 extern u8 active_spell_parameters[];
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
-s32 rand(void);
 s16 get_tile_chebyshev_distance();
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern u8 D_80089080[];

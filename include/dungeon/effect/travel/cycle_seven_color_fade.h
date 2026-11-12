@@ -11,6 +11,9 @@ struct B28_818B6AFC_FxEffect;
 #include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/gpu_packets.h"
+#include "sdk/libgte_matrix.h"
+#include "sdk/libgpu_packets.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "shared/object_flags.h"
 #include "shared/slus_callbacks.h"
 #include "modules/dungeon_native_abi.h"
@@ -259,103 +262,18 @@ typedef struct B28_818B7264_S_80024A64_1 {
     s32 unk_04;
     s32 unk_08;
 } B28_818B7264_S_80024A64_1;
-typedef struct B28_818B7264_S_80024A64_2 {
-    u8 pad_00[0x30];
-    s32 unk_30;
-    s32 unk_34;
-    s32 unk_38;
-    u8 pad_3C[0x4];
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    u8 pad_4C[0x4];
-    s32 unk_50;
-    s32 unk_54;
-    s32 unk_58;
-    u8 pad_5C[0x4];
-    s32 unk_60;
-    s32 unk_64;
-    s32 unk_68;
-} B28_818B7264_S_80024A64_2;
-typedef struct B28_818B6F90_S_818B6F90_0 {
-    u8 * unk_00;
-    union { s32 v; u32 v2; } unk_04;   /* accessed as both */
-    s32 depth_cue; /* RotAverage4 depth-cue output */
-    s32 gte_flag; /* RotAverage4 GTE flag output */
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    u8 pad_16[0x2];
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-    u8 pad_1E[0x2];
-    s16 unk_20;
-    s16 unk_22;
-    s16 unk_24;
-    u8 pad_26[0x2];
-    s16 unk_28;
-    s16 unk_2A;
-    s16 unk_2C;
-    u8 pad_2E[0x2];
-    s32 unk_30;
-    s32 unk_34;
-    s32 unk_38;
-    u8 pad_3C[0x4];
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    u8 pad_4C[0x4];
-    s32 unk_50;
-    s32 unk_54;
-    s32 unk_58;
-    u8 pad_5C[0x4];
-    s32 unk_60;
-    s32 unk_64;
-    s32 unk_68;
-    u8 pad_6C[0x4];
-    u16 unk_70;
-    u16 unk_72;
-    u16 unk_74;
-    u16 unk_76;
-    u16 unk_78;
-    u16 unk_7A;
-    u16 unk_7C;
-    u16 unk_7E;
-} B28_818B6F90_S_818B6F90_0;
-typedef struct B28_818B6F90_S_818B6F90_2 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    u8 unk_07;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    s16 unk_0E;
-    u8 unk_10;
-    u8 unk_11;
-    u8 unk_12;
-    u8 pad_13[0x5];
-    u8 unk_18;
-    u8 unk_19;
-    s16 unk_1A;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-    u8 pad_1F[0x5];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x2];
-    u8 unk_28;
-    u8 unk_29;
-    u8 unk_2A;
-    u8 pad_2B[0x1];
-    u16 unk_2C;
-    u16 unk_2E;
-    u8 unk_30;
-    u8 unk_31;
-} B28_818B6F90_S_818B6F90_2;
+/* Scratchpad slots of draw_indexed_shaded_quad: draw_two_radial_effect_bands leaves the four 16.16
+ * corner positions of a band segment in positions; their integer halves become the RotAverage4
+ * vertices, whose screen XY words land in screen before they are copied into the POLY_GT4. */
+typedef struct RadialBandQuadScratch {
+    /* 0x00 */ u32 *ordering_table;
+    /* 0x04 */ u32 ot_index;
+    /* 0x08 */ s32 depth_cue; /* RotAverage4 depth-cue output */
+    /* 0x0C */ s32 gte_flag; /* RotAverage4 GTE flag output */
+    /* 0x10 */ SVECTOR vertices[4];
+    /* 0x30 */ VECTOR positions[4];
+    /* 0x70 */ SpriteScratchScreenPoint screen[4];
+} RadialBandQuadScratch;
 typedef struct B28_818B6F90_S_818B6F90_3 {
     u8 pad_00[0xC];
     u8 unk_0C;
@@ -434,13 +352,8 @@ s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState
 s32 func_80045C34(u8 *first_data, s32 link_value, void *value_record);
 extern s32 get_random_scaled_value(s16 input_value);
 #include "dungeon/effect/screen.h"
-s32 rcos(s32);
-s32 rsin(s32);
-extern s32 RotAverage4(
-    void *ptr0, void *ptr1, void *ptr2, void *ptr3,
-    void *ptr4, void *ptr5, void *ptr6, void *ptr7,
-    void *ptr8, void *ptr9);
-extern s16 GetTPage(s32 value0, s32 value1, s32 value2, s32 value3);
-extern s32 rand(void);
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "sdk/rand.h"
 s32 check_layer_offset_height();              /* extern */
 #endif

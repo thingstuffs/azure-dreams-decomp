@@ -70,10 +70,10 @@ void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, 
         translation = position_data->y.w.i;
         scratchpad->local_matrix.t[1] = translation;
         translation = position_data->z.w.i;
-        scratchpad->vertices[3].z = 0;
-        scratchpad->vertices[2].z = 0;
-        scratchpad->vertices[1].z = 0;
-        scratchpad->vertices[0].z = 0;
+        scratchpad->vertices[3].vz = 0;
+        scratchpad->vertices[2].vz = 0;
+        scratchpad->vertices[1].vz = 0;
+        scratchpad->vertices[0].vz = 0;
         scratchpad->local_matrix.t[2] = translation;
     }
     packet = *(s32 **)((u8 *)global_base + 0x8D0);
@@ -83,12 +83,12 @@ void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, 
 
     scratchpad->extent_x = sprite->offset_x;
     scratchpad->extent_y = sprite->offset_y;
-    scratchpad->input_x = sprite->scale_x * 2;
-    scratchpad->input_y = sprite->scale_y * 2;
-    scratchpad->input_z = 0x2000;
-    scratchpad->angle_x = sprite->angle_x;
-    scratchpad->angle_z = sprite->angle_z;
-    scratchpad->angle_y = sprite->angle_y;
+    scratchpad->input.vx = sprite->scale_x * 2;
+    scratchpad->input.vy = sprite->scale_y * 2;
+    scratchpad->input.vz = 0x2000;
+    scratchpad->angles.vx = sprite->angle_x;
+    scratchpad->angles.vz = sprite->angle_z;
+    scratchpad->angles.vy = sprite->angle_y;
 
     RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
     ReadRotMatrix((void *)0x1F80011C);
@@ -125,34 +125,34 @@ void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, 
 
         if ((entry[0] ^ scratchpad->sprite_flags) & 1) {
             sx = -((s8 *)entry)[2] - scratchpad->extent_x;
-            scratchpad->vertices[2].x = sx;
-            scratchpad->vertices[0].x = sx;
+            scratchpad->vertices[2].vx = sx;
+            scratchpad->vertices[0].vx = sx;
             ex = sx - (u16)scratchpad->uv_u_extent;
-            scratchpad->vertices[3].x = ex;
-            scratchpad->vertices[1].x = ex;
+            scratchpad->vertices[3].vx = ex;
+            scratchpad->vertices[1].vx = ex;
         } else {
             sx = ((s8 *)entry)[2] - scratchpad->extent_x;
-            scratchpad->vertices[2].x = sx;
-            scratchpad->vertices[0].x = sx;
+            scratchpad->vertices[2].vx = sx;
+            scratchpad->vertices[0].vx = sx;
             ex = sx + (u16)scratchpad->uv_u_extent;
-            scratchpad->vertices[3].x = ex;
-            scratchpad->vertices[1].x = ex;
+            scratchpad->vertices[3].vx = ex;
+            scratchpad->vertices[1].vx = ex;
         }
 
         if ((entry[0] ^ scratchpad->sprite_flags) & 2) {
             sy = -((s8 *)entry)[3] - scratchpad->extent_y;
-            scratchpad->vertices[1].y = sy;
-            scratchpad->vertices[0].y = sy;
+            scratchpad->vertices[1].vy = sy;
+            scratchpad->vertices[0].vy = sy;
             ey = sy - (u16)scratchpad->uv_v_extent;
-            scratchpad->vertices[3].y = ey;
-            scratchpad->vertices[2].y = ey;
+            scratchpad->vertices[3].vy = ey;
+            scratchpad->vertices[2].vy = ey;
         } else {
             sy = ((s8 *)entry)[3] - scratchpad->extent_y;
-            scratchpad->vertices[1].y = sy;
-            scratchpad->vertices[0].y = sy;
+            scratchpad->vertices[1].vy = sy;
+            scratchpad->vertices[0].vy = sy;
             ey = sy + (u16)scratchpad->uv_v_extent;
-            scratchpad->vertices[3].y = ey;
-            scratchpad->vertices[2].y = ey;
+            scratchpad->vertices[3].vy = ey;
+            scratchpad->vertices[2].vy = ey;
         }
 
         depth = RotAverage4(

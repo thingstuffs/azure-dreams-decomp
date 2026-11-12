@@ -132,7 +132,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, ObjectPosi
 #include "town/scene/list_setup.h"
 extern s32 pickup_reward_total[];
 extern u8 D_80020014[];             /* callback data word shared by the casino models */
-extern SceneImageRect D_80020018;   /* initializer of the casino palette rectangle (112, 449, 48, 1) */
+extern RECT D_80020018;   /* initializer of the casino palette rectangle (112, 449, 48, 1) */
 extern u8 D_80024568[];             /* casino display context */
 extern u8 D_80024408[];             /* betting model mode-three parameters */
 extern u8 D_800243F0[];             /* payout digit mode-three parameters */

@@ -13,8 +13,8 @@
  * to runtime_transform_sprite_attachment_point. */
 
 /* Compute orientation from a matching record, or reset it when actor flags require a fallback. */
-SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *records, SpriteFrameState *actor, GteShortVector *out_vec, s16 record_id) {
-    GteShortVector orientation;
+SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *records, SpriteFrameState *actor, SVECTOR *out_vec, s16 record_id) {
+    SVECTOR orientation;
     SpriteAttachment *record;
 
     record = find_flagged_record_by_id(records, record_id);

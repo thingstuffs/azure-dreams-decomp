@@ -1,12 +1,10 @@
 #include "town/person/motion_callbacks_api.h"
+#include "town/person/offset_target_data.h"
 #include "common.h"
 
-typedef struct { s16 pad0; s16 x; s16 pad4; s16 y; } TownTarget;
-typedef struct { u8 pad0[8]; TownTarget *target; } TownContext;
 typedef struct town_offset_target_position { u32 x; u32 y; } TownPosition;
 typedef struct town_offset_target_object { u8 pad0[0x6C]; u16 timer; } TownObject;
 
-extern TownContext *person_offset_target_owner;
 #include "town/person/object_setup.h"
 #include "town/person/object.h"
 #include "town/person/motion.h"
@@ -14,7 +12,7 @@ extern TownContext *person_offset_target_owner;
 /* Move toward the offset target position and finish when the timer expires. */
 void move_toward_offset_target(TownObject *object, TownPosition *position, void *finish_arg)
 {
-    TownTarget *target;
+    TownOffsetTargetCoords *target;
     s32 raw_x;
     s32 raw_y;
     s32 coord_x;
@@ -24,7 +22,7 @@ void move_toward_offset_target(TownObject *object, TownPosition *position, void 
     u32 target_y;
     u16 timer;
 
-    target = person_offset_target_owner->target;
+    target = person_offset_target_owner->coords;
     raw_x = target->x;
     raw_y = target->y;
     timer = object->timer - 1;

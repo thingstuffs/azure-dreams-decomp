@@ -28,6 +28,7 @@
 #include "sdk/libc.h"
 #include "engine/cd.h"
 #include "engine/audio/slots.h"
+#include "sdk/libspu.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
@@ -1296,7 +1297,6 @@ void dispatch_audio_driver_halfword_flags(s32 value)
     dispatch_combined_driver_flags((s16)value);
 }
 
-extern void _SpuInit(int channel);
 
 /* Calls _SpuInit with 0. */
 void reset_audio_sequence_state_default(void)

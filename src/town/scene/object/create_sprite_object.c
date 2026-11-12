@@ -5,6 +5,7 @@
 #include "shared/object_node.h"
 #include "shared/vector.h"
 #include "town/scene/object.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 
 #ifndef NULL
@@ -20,7 +21,6 @@ typedef struct ObjectWithInitialWords {
     FiveWords initial_words;
 } ObjectWithInitialWords;
 
-extern u8 score_sprite_draw_callback_address[12];
 
 extern u8 D_8028E170[];
 

@@ -15,44 +15,10 @@
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "engine/node.h"
+#include "sdk/abs.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 struct ObjectNodeHeader;
-typedef struct Row_81922998_S_80024198_0 {
-    u8 pad_00[0x24];
-    union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
-    u16 unk_28;
-    u8 pad_2A[0xA];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    u8 pad_40[0x14];
-    MATRIX composed_matrix; /* CompMatrix(saved GTE matrix, local_matrix), scaled by unk_34..3C; loaded with SetRotMatrix/SetTransMatrix */
-    MATRIX local_matrix; /* RotMatrix of unk_A4..A8; its translation takes the position */
-    u8 pad_94[0x10];
-    u16 unk_A4;
-    u16 unk_A6;
-    u16 unk_A8;
-    u8 pad_AA[0x6];
-    u16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-    u8 pad_B6[0x2];
-    u16 unk_B8;
-    u16 unk_BA;
-    u16 unk_BC;
-    u8 pad_BE[0x2];
-    u16 unk_C0;
-    u16 unk_C2;
-    u16 unk_C4;
-    u8 pad_C6[0x2];
-    u16 unk_C8;
-    u16 unk_CA;
-    u16 unk_CC;
-    u8 pad_CE[0x2];
-    s32 depth_cue; /* RotAverage4 depth-cue output */
-    s32 gte_flag; /* RotAverage4 GTE flag output */
-    u8 pad_D8[0x28];
-    s32 unk_100;
-} Row_81922998_S_80024198_0;   /* scratch in func_80024198 */
 
 typedef struct Row_81922998_S_80024198_1 {
     u8 pad_00[0x2];
@@ -73,34 +39,6 @@ typedef struct Row_81922998_S_80024198_2 {
     u16 unk_1A;
 } Row_81922998_S_80024198_2;   /* arg2 in func_80024198 */
 
-typedef struct Row_81922998_S_80024198_3 {
-    u8 pad_00[0xB0];
-    u32 unk_B0;
-    u8 pad_B4[0x81C];
-    u8 * unk_8D0;
-} Row_81922998_S_80024198_3;   /* *(u8 **)D_80083160 in func_80024198 */
-
-typedef struct Row_81922998_S_80024198_4 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    u16 unk_08;
-    u16 unk_0A;
-    u32 unk_0C;
-    u16 unk_10;
-    u16 unk_12;
-    u32 unk_14;
-    u16 unk_18;
-    u16 unk_1A;
-    u32 unk_1C;
-    u16 unk_20;
-    u16 unk_22;
-} Row_81922998_S_80024198_4;   /* packet in func_80024198 */
-
-typedef struct Row_81922998_S_80024198_5 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} Row_81922998_S_80024198_5;   /* context in func_80024198 */
-
 typedef struct Row_81922998_S_80024198_6 {
     u32 unk_00;
     u32 unk_04;
@@ -120,17 +58,6 @@ typedef struct Row_81922998_S_80024198_6 {
     u16 unk_34;
     u16 unk_36;
 } Row_81922998_S_80024198_6;   /* arg0 in func_80024198 */
-
-typedef struct Row_81922998_S_80024198_7 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} Row_81922998_S_80024198_7;   /* *global in func_80024198 */
-
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} Row_81922998_MATRIX;
 
 /* Projects a shaded quad and adds it to the ordering table when visible. */
 typedef struct Row_81922E70_GapNode { u8 pad[8]; void *position; void *appearance; } Row_81922E70_GapNode;
@@ -351,23 +278,9 @@ typedef struct Row_8192365C_S_80024E5C_5 {
 } Row_8192365C_S_80024E5C_5;   /* ((Row_8192365C_S_80024E5C_0 *)arg0)->unk_8C in func_80024E5C */
 
 /* Update the effect's color cycle, movement, bursts, and destruction. */
-void CompMatrix(void *, void *, void *);
-void PushMatrix(void);
-void PopMatrix(void);
-void ReadRotMatrix(void *);
-void ScaleMatrix(void *, void *);
-void SetRotMatrix(void *);
-void SetTransMatrix(void *);
-s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-void RotMatrix(void *, void *);
-u16 GetTPage(s32, s32, s32, s32);
-void SetDrawMode(void *, s32, s32, u16, s32);
 s32 project_and_queue_visible_shaded_quad(s32);
-s32 rsin(s32);
-s32 rcos(s32);
 s32 advance_sprite_animation_and_textures(void *effect_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
-int abs(int);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 

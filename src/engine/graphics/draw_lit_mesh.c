@@ -24,7 +24,7 @@ typedef struct {
 void draw_lit_mesh(void *unused, ObjectPosition *position_arg, RenderObject *object, s16 depth_bias)
 {
     ObjectPosition *position = position_arg;
-    GteMatrix view_matrix;
+    MATRIX view_matrix;
     GameWork *render_globals;
     Vertex *vertex_table;
     u8 *normal_table;

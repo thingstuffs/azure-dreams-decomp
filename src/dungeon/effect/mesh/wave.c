@@ -81,10 +81,10 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     callback_arg = NODE_HEADER(context)->position;
     scratch = (SpriteQuadScratch *) 0x1F800000;
     scratch->local_matrix.t[2] = 0;
-    scratch->vertices[3].z = 0;
-    scratch->vertices[2].z = 0;
-    scratch->vertices[1].z = 0;
-    scratch->vertices[0].z = 0;
+    scratch->vertices[3].vz = 0;
+    scratch->vertices[2].vz = 0;
+    scratch->vertices[1].vz = 0;
+    scratch->vertices[0].vz = 0;
     packet = ((GpuContext *) g_game_work.draw_buffer)->packetCursor;
     scratch->ordering_table = ordering_table;
     scratch->sort_depth = 0;
@@ -104,23 +104,23 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     view_matrix = &effect_view_matrix;
     view_matrix->t[2] = globals->view.projection_distance;
     PushMatrix();
-    scratch->input_x = globals->view.camera_rotation.parts.camera_rotation_x;
-    scratch->input_y = globals->view.camera_rotation.parts.camera_rotation_y;
-    scratch->input_z = globals->view.camera_rotation.parts.viewAngle;
-    scratch->angle_x = sprite->angle_x;
-    scratch->angle_z = sprite->angle_z - scratch->input_y;
-    scratch->angle_y = (s16) ((((scratch->input_z + 0x100) & 0x1FF) - 0x100) + sprite->angle_y);
+    scratch->input.vx = globals->view.camera_rotation.parts.camera_rotation_x;
+    scratch->input.vy = globals->view.camera_rotation.parts.camera_rotation_y;
+    scratch->input.vz = globals->view.camera_rotation.parts.viewAngle;
+    scratch->angles.vx = sprite->angle_x;
+    scratch->angles.vz = sprite->angle_z - scratch->input.vy;
+    scratch->angles.vy = (s16) ((((scratch->input.vz + 0x100) & 0x1FF) - 0x100) + sprite->angle_y);
     origin_x = sprite->offset_x;
     scratch->local_matrix.t[0] = origin_x;
     scratch->extent_x = origin_x;
     origin_y = sprite->offset_y;
     scratch->local_matrix.t[1] = origin_y;
     scratch->extent_y = origin_y;
-    RotMatrix(&scratch->angle_x, &scratch->local_matrix);
-    scratch->input_x = sprite->scale_x;
-    scratch->input_y = sprite->scale_y;
-    scratch->input_z = 0x1000;
-    ScaleMatrix(&scratch->local_matrix, &scratch->input_x);
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
+    scratch->input.vx = sprite->scale_x;
+    scratch->input.vy = sprite->scale_y;
+    scratch->input.vz = 0x1000;
+    ScaleMatrix(&scratch->local_matrix, &scratch->input);
     CompMatrix(view_matrix, &scratch->local_matrix, &scratch->matrix);
     SetTransMatrix(&scratch->matrix);
     SetRotMatrix(&scratch->matrix);
@@ -133,35 +133,35 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
             scratch->uv_v_extent = part->data.texture.height;
             if ((part->flags ^ scratch->sprite_flags) & 1) {
                 flipped_x = (0 - part->offset_x) - scratch->extent_x;
-                scratch->vertices[2].x = flipped_x;
-                scratch->vertices[0].x = flipped_x;
+                scratch->vertices[2].vx = flipped_x;
+                scratch->vertices[0].vx = flipped_x;
                 end_x = flipped_x - scratch->uv_u_extent;
-                scratch->vertices[3].x = end_x;
-                scratch->vertices[1].x = end_x;
+                scratch->vertices[3].vx = end_x;
+                scratch->vertices[1].vx = end_x;
             }
             else {
                 start_x = part->offset_x - scratch->extent_x;
-                scratch->vertices[2].x = start_x;
-                scratch->vertices[0].x = start_x;
+                scratch->vertices[2].vx = start_x;
+                scratch->vertices[0].vx = start_x;
                 end_x = start_x + scratch->uv_u_extent;
-                scratch->vertices[3].x = end_x;
-                scratch->vertices[1].x = end_x;
+                scratch->vertices[3].vx = end_x;
+                scratch->vertices[1].vx = end_x;
             }
             if ((part->flags ^ scratch->sprite_flags) & 2) {
                 flipped_y = (0 - part->offset_y) - scratch->extent_y;
-                scratch->vertices[1].y = flipped_y;
-                scratch->vertices[0].y = flipped_y;
+                scratch->vertices[1].vy = flipped_y;
+                scratch->vertices[0].vy = flipped_y;
                 end_y = flipped_y - scratch->uv_v_extent;
-                scratch->vertices[3].y = end_y;
-                scratch->vertices[2].y = end_y;
+                scratch->vertices[3].vy = end_y;
+                scratch->vertices[2].vy = end_y;
             }
             else {
                 start_y = part->offset_y - scratch->extent_y;
-                scratch->vertices[1].y = start_y;
-                scratch->vertices[0].y = start_y;
+                scratch->vertices[1].vy = start_y;
+                scratch->vertices[0].vy = start_y;
                 end_y = start_y + scratch->uv_v_extent;
-                scratch->vertices[3].y = end_y;
-                scratch->vertices[2].y = end_y;
+                scratch->vertices[3].vy = end_y;
+                scratch->vertices[2].vy = end_y;
             }
             RotTransPers4(&scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2], &scratch->vertices[3],
                 (s32 *) &scratch->projected_vertices[0], (s32 *) &scratch->projected_vertices[1],

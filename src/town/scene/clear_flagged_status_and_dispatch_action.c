@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/mode_data.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
 #include "shared/town_root.h"
@@ -37,7 +38,6 @@ typedef struct S_800167E4_4 {
 } S_800167E4_4;   /* index * 8 + ((S_800167E4_2 *)town2)->unk_40 in clear_flagged_status_and_dispatch_action */
 
 extern s16 D_80019676;
-extern s32 scene_cell_dispatch_code;
 
 /* Clears flagged town status and dispatches the action when its conditions are met. */
 s32 clear_flagged_status_and_dispatch_action(S_800167E4_0 *entity, s32 action_arg)

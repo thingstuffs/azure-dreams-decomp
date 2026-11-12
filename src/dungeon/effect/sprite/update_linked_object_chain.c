@@ -25,7 +25,6 @@ s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 check_layer_offset_height();              /* extern */
 extern u16 sprite_effect_update_count;
-extern u8 linked_effect_chain_attack_option;
 extern s32 D_800C9034();
 
 
@@ -136,7 +135,7 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
             {
                 void *sprite_data = sprite;
                 SpriteFrameState *orientation_sprite = sprite_data;
-                GteShortVector *offset = &effect_in->position_offset;
+                SVECTOR *offset = &effect_in->position_offset;
 
                 transform_result = resolve_record_orientation_or_fallback(orientation_sprite->source, orientation_sprite, offset, 0);
             }

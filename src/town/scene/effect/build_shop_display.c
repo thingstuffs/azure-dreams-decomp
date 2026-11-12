@@ -3,6 +3,7 @@
 #include "town/scene/effect.h"
 #include "town/scene/object.h"
 #include "town/data.h"
+#include "town/scene/score_sprite_data.h"
 #define AZ_FOREIGN_LOCAL_FUNC_80034A1C
 #include "town/devkit/old_minigame_imports.h"
 #undef AZ_FOREIGN_LOCAL_FUNC_80034A1C
@@ -56,7 +57,6 @@ typedef struct RootPair {
 
 extern s32 func_80034A1C(); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 
-extern u8 score_sprite_draw_callback_address[];
 extern u8 menu_entry_draw_callback_address[];
 extern u8 menu_cursor_object_template[];
 extern RootPair D_80526790;

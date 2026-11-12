@@ -29,7 +29,7 @@ void * (*const resource16_slot0_entry0)(s16 spawn_flags, s32 attr_a, s32 attr_b,
  * callbacks. */
 void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
-    void *result = 0;
+    ActorRecord *result = 0;
     ObjectNodeHeader *created;
     ObjectPosition *position;
     SpriteFrameState *part_b;
@@ -51,7 +51,7 @@ void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 
         result = NODE_BODY(created);
         created->update_callback = update_entity_facing_and_ground;
-        ((R16_80170878_S_80170878_1 *)result)->unk_13 = MONSTER_CLOWN;
+        result->species = MONSTER_CLOWN;
         register_node(created, project_sprite_chain);
 
         position = created->position;
@@ -59,20 +59,20 @@ void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
         part_b = created->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = held_b;
-        actor = result;
+        actor = (R16_80170878_S_80170878_4 *)result;
         part_b->frameTable = clown_direction_frames;
         part_b->tile_x = held_a;
 
         if (kind == 1) {
-            ((R16_80170878_S_80170878_1 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            ((R16_80170878_S_80170878_1 *)result)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            result->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            result->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            ((R16_80170878_S_80170878_1 *)result)->unk_14 |= ACTOR_CLASS_ENABLED;
-            ((R16_80170878_S_80170878_1 *)result)->unk_1C |= ACTOR_PLAYER_SIDE;
+            result->flags14 |= ACTOR_CLASS_ENABLED;
+            result->flags1C |= ACTOR_PLAYER_SIDE;
         } else {
             call_a0 = created;
             if (((spawn_flags & ~3) << 16) == 0) {
-                if (!(((R16_80170878_S_80170878_1 *)result)->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(result->flags14 & ACTOR_RESIST_SLEEP)) {
                     call_a1 = position;
                     if (generate_random_value() & 1) {
                         set_or_clear_actor_status_slot(result, STATUS_SLEEP,
@@ -87,7 +87,7 @@ void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
-        ((R16_80170878_S_80170878_1 *)result)->unk_1C |= 0x40000;
+        result->flags1C |= 0x40000;
         actor->unk_92 = -0x20;
         try_move_actor_to_valid_position(actor, position, part_b, result);
     }

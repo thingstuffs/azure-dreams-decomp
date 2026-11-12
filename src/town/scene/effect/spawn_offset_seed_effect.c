@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_projectile_views.h"
 #include "town/scene/effect.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 
    /* slot in spawn_offset_seed_effect */
@@ -22,7 +23,6 @@ typedef struct SpawnSeed {
 } SpawnSeed;   /* seed in spawn_offset_seed_effect */
 
 
-extern u8 score_sprite_draw_callback_address[];
 extern u8 D_802843E8[];
 extern s32 D_802843EC[];
 extern u8 D_8052FA64[];

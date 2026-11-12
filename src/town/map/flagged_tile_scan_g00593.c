@@ -2,18 +2,19 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AE700, CL:town/func_800AE78C, CL:town/func_800AEA50, CL:town/func_800AEC1C.
  */
 #include "town/map/flagged_tile_scan_g00593.h"
+#include "slus/tile_key_pair_count_data.h"
 #include "town/map.h"
 
 /* Appends an accepted byte pair to the first list and marks its end. */
 void append_valid_key_pair(s32 first_value, s32 second_value, u32 unused_cell) {
     S_80081508 *entry;
 
-    if (tile_key_pair_count[0] < 64) {
+    if (tile_key_pair_count < 64) {
         if ((s16)has_runtime_key_pair((u16)first_value, (u16)second_value) == 0) {
-            entry = &tile_coordinate_records[0][tile_key_pair_count[0]];
+            entry = &tile_coordinate_records[0][tile_key_pair_count];
             entry->a = (u8)first_value;
             entry->b = (u8)second_value;
-            tile_key_pair_count[0]++;
+            tile_key_pair_count++;
             entry[1].a = 0;
         }
     }
@@ -263,7 +264,7 @@ void clear_flagged_cells_and_reset_list(void) {
             *cell = cellFlags & 0xBFFF;
         } while (*coordinateEntry != 0);
     }
-    tile_key_pair_count[0] = 0;
+    tile_key_pair_count = 0;
     tile_coordinate_records[0]->a = 0;
 }
 

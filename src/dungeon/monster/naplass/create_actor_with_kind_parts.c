@@ -17,6 +17,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
 {
     s32 kind;
     S_8014C870_1 *work;
+    Work *work_view;
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
@@ -35,6 +36,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
+        work_view = (Work *)work;
         obj->update_callback = func_8014CA3C;
         work->unk_13 = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);
@@ -49,20 +51,20 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
         part_b->tile_x = saved_x;
 
         if (kind == 1) {
-            flags_14 = ((Work *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags_1c = ((Work *)work)->flags1c | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((Work *)work)->flags14 = flags_14;
-            ((Work *)work)->flags1c = flags_1c;
+            flags_14 = work_view->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = work_view->flags1c | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work_view->flags14 = flags_14;
+            work_view->flags1c = flags_1c;
         } else if (kind >= 2) {
-            flags_14 = ((Work *)work)->flags14 | ACTOR_CLASS_ENABLED;
-            flags_1c = ((Work *)work)->flags1c | ACTOR_PLAYER_SIDE;
-            ((Work *)work)->flags14 = flags_14;
-            ((Work *)work)->flags1c = flags_1c;
+            flags_14 = work_view->flags14 | ACTOR_CLASS_ENABLED;
+            flags_1c = work_view->flags1c | ACTOR_PLAYER_SIDE;
+            work_view->flags14 = flags_14;
+            work_view->flags1c = flags_1c;
         } else {
             init_obj = obj;
             if (((kind_flags & ~3) << 16) == 0) {
-                if (!(((Work *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
-                    ((Work *)work)->flags1c |= ACTOR_ASLEEP;
+                if (!(work_view->flags14 & ACTOR_RESIST_SLEEP)) {
+                    work_view->flags1c |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_801501DC;

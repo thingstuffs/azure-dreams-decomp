@@ -3,6 +3,7 @@
 #include "town/scene/animation.h"
 #include "shared/vector.h"
 #include "town/data.h"
+#include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
 
 
@@ -46,7 +47,6 @@ typedef struct Object {
 } Object;
 
 extern s16 D_8001339C;
-extern u8 score_sprite_draw_callback_address[16];
 extern u8 menu_entry_draw_callback_address[16];
 extern u8 menu_cursor_object_template[16];
 extern s32 collection_target_y[4];
