@@ -86,7 +86,6 @@ typedef struct S_800970FC_14 {
     u8 unk_06;
 } S_800970FC_14;   /* temp_s0_8 in draw_entry_overlays */
 
-extern void func_80067EF4(void *, s32, s32);
 extern u8 scene_object_payload_alias[];
 extern u8 view_reference_entity[];
 extern PlayerOverlayTextureRect player_overlay_texture_rect;
@@ -311,7 +310,7 @@ s32 draw_entry_overlays(void) {
                 draw_entry->tpage_offset = saved_draw_param;
                 primitive = draw_ctx->packetCursor;
                 draw_ctx->packetCursor = (primitive + 0xC);
-                func_80067EF4(primitive, 0, 0);
+                SetPriority(primitive, 0, 0);
                 AddPrim(CUR_CTX + 0x830, primitive);
                 primitive = ((GpuContext *)CUR_CTX)->packetCursor;
                 ((GpuContext *)CUR_CTX)->packetCursor = (primitive + 0x18);
@@ -333,7 +332,7 @@ s32 draw_entry_overlays(void) {
                 AddPrim(CUR_CTX + 0x830, primitive);
                 primitive = ((GpuContext *)CUR_CTX)->packetCursor;
                 ((GpuContext *)CUR_CTX)->packetCursor = (primitive + 0xC);
-                func_80067EF4(primitive, 0, 1);
+                SetPriority(primitive, 0, 1);
                 AddPrim(CUR_CTX + 0x830, primitive);
                 primitive = ((GpuContext *)CUR_CTX)->packetCursor;
                 ((GpuContext *)CUR_CTX)->packetCursor = (primitive + 0xC);

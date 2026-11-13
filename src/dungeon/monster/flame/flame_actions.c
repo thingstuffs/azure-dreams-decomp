@@ -114,7 +114,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
             child_obj = allocate_list_node(274, &scene_object_list_anchor.next);
             ((R06_8017087C_S_8017087C_4 *)slot)->unk_A4 = child_obj;
             if (child_obj != 0) {
-                R06_8017087C_S_8017087C_6 *child_work = (R06_8017087C_S_8017087C_6 *)((u8 *)child_obj + 0x20);
+                R06_8017087C_S_8017087C_6 *child_work = (R06_8017087C_S_8017087C_6 *)NODE_BODY(child_obj);
 
                 if (child_index != 0) {
                     child_work->unk_02 = 1;

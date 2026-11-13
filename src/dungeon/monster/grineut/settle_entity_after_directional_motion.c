@@ -131,7 +131,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         tracked_addr = ((s32)g_dungeon_status.pending_display_owner);
-        if (tracked_addr == (s32)((u8 *)entity - 0x20)) {
+        if (tracked_addr == (s32)NODE_HEADER(entity)) {
             g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
         body->unk_8C.byte_ptr = &D_80152E54;

@@ -33,13 +33,7 @@ typedef struct S_800BC3E4_3 {
     s16 unk_0A;
 } S_800BC3E4_3;
 
-/* packet + 7 in render_projected_sprite_with_depth_bias */
-typedef struct S_800BC4D4_6 {
-    u16 unk_00;
-} S_800BC4D4_6;
-
 extern s32 is_frame_packet_arena_overflowed(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void func_80067EF4(void *, s32, s32);
 
 /* Functions defined in this translation unit. */
 

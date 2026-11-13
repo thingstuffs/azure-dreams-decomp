@@ -103,7 +103,7 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-        if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
+        if (g_dungeon_status.pending_display_owner == NODE_HEADER(actor)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         action->unk_8C.address = kewne_action_resume_address;

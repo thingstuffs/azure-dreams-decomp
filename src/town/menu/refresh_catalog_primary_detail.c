@@ -5,7 +5,6 @@
 #include "town/menu.h"
 #include "town/data.h"
 
-
 typedef struct SpriteFields {
     u32 pad0;
     u16 f4;

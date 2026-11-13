@@ -186,6 +186,13 @@ example a retype removed the cast), the line number is dropped and the entry end
 passes only through a proven rename, `history+field`, `field`, `gone`) for review;
 `--write` applies them. Only `retired_to_cast` changes.
 
+- **prototype-floor blocking spellings**: each `blocking` entry of
+  `ledger/prototype_floors.jsonl` must still be declared at its file (`declaration`, else
+  `path`) with that signature, compared after `decl_agreement.py` normalisation (parameter
+  names, whitespace, struct keywords and scalar typedef aliases do not matter; `()` matches
+  only an unprototyped declaration). `--fail-new` fails an entry stale on HEAD that was not
+  stale on BASE (a respelled or removed declaration the row still cites); `--fail-all`
+  fails every stale entry. The floor is then obsolete or must be re-solved.
 - **public ledgers** (audit rule R12, `ledger_public.py`): a public file that differs
   from BASE (`ledger/*.jsonl|json`, `tools/**/*baseline*.json`, `config/*.tsv`) must not
   gain a lane-local string: a `work/` or `out/` path, a home or session scratch path, or
@@ -195,6 +202,10 @@ passes only through a proven rename, `history+field`, `field`, `gone`) for revie
   `ledger_public.py census` counts the strings already there (the pin-campaign
   journals keep theirs); `ledger_public.py scrub --write` rewrites them in the review
   ledgers it lists, in place and idempotently, so it can be re-run after a merge.
+  A `"tree"` commit hash must be a full hash in public history (or null): an abbreviated
+  (7-39 hex) one always fails, and in a lane root (it has `SCRATCH_HEAD`) HEAD and the
+  local master are the lane's own commits, so pass the master commit as `--public-ref`.
+  A BASE that `git diff` cannot read fails the check instead of comparing nothing.
 
 ```sh
 python3 tools/lint/ledger_integrity.py BASE --fail-new

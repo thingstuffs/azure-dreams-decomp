@@ -11,7 +11,7 @@
 
 #include "shared/dungeon_effect_state.h"
 /* Selector entry invokes this complete native state machine. */
-void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual) = build_inverted;
+void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual) = launch_effect_to_target_and_apply_damage;
 
 /* Eases the camera toward its tracked object, blends the vertical view offset, and damps horizontal
    view offsets. */
@@ -684,7 +684,7 @@ void * create_an_attached_effect_copied_transform_data_randomized_angle(void *ob
 
 /* Stages an effect's launch and particle burst, moves it to the target, and applies damage after child
    completion. */
-void build_inverted(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual)
+void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual)
 {
     EntityRec *actor;
     EntityRec *target;

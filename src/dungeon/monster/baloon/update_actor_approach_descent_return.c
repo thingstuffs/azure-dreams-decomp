@@ -1,6 +1,7 @@
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/baloon_frames.h"
 #include "common.h"
+#include "dungeon/actor/action_control_dispatch_g00352.h"
 #include "dungeon/monster/baloon.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -40,8 +41,6 @@ typedef struct WorldStatePage {
 
 extern s32 dungeon_mode_state;
 extern s16 floor_generation_state[3];
-extern s16 current_dungeon_floor;
-extern u8 scene_mode_code;
 
 extern u8 D_80170940[];
 extern u8 D_80170950[];

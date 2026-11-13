@@ -5,6 +5,7 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/action_control_dispatch_g00352.h"
 
 typedef struct Entity {
     u8 pad[0x13];
@@ -15,7 +16,6 @@ typedef struct Entity {
 } Entity;
 
 extern s32 dungeon_mode_state;
-extern s16 current_dungeon_floor;
 extern u8 D_80089384[];
 extern u8 D_800E15FE[];
 extern u8 D_800E1677[];

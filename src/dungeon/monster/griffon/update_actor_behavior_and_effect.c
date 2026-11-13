@@ -11,6 +11,7 @@
 #include "shared/monster_ids.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_sprite_data.h"
 #include "engine/cd.h"
 #include "shared/actor_status.h"
 #include "dungeon/level/room_flags.h"
@@ -464,7 +465,7 @@ void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *positi
         void *effect;
         R08_80170E7C_S_80170E7C_7 *sprite;
         void *tint;
-        R08_80170E7C_S_80170E7C_8 *sprite_data;
+        SpriteSourceEntry *sprite_data;
 
         effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_pv.v = effect;
@@ -482,7 +483,7 @@ void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *positi
         ((ObjectNodeHeader *)object)->position->z.w.i =
             ((u16)position->z.w.i) + effect_offset[2];
         sprite = (R08_80170E7C_S_80170E7C_7 *)((ObjectNodeHeader *)object)->sprite;
-        sprite_data = ((R08_80170E7C_S_80170E7C_8 *)secondary_sprite);
+        sprite_data = &secondary_sprite;
         ((EntityRec *)((ObjectNodeHeader *)object + 1))->unk_9B = 0;
         sprite->unk_1E = 0xC00;
         sprite->unk_1C = 0xC00;
@@ -490,7 +491,7 @@ void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *positi
         sprite->unk_00 = sprite_data;
         sprite->unk_14 |= 0xC;
         {
-            s32 anim_data = sprite_data->unk_04;
+            s32 anim_data = sprite_data->source;
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
             sprite->unk_08 = anim_data;
@@ -1069,7 +1070,7 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
  * Runs update_linked_actor_motion and installs update_actor_behavior_and_effect only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void install_behavior_handler_after_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = update_actor_behavior_and_effect;
@@ -1883,7 +1884,7 @@ void finish_actor_terrain_interpolation_then_resume_effect_behavior(ActorRecord 
  * Runs update_spinning_actor_fall and installs update_actor_behavior_and_effect when it returns
  * nonzero.
  */
-void create_four_directional_effects(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void install_behavior_handler_after_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->unk_8C.handler = update_actor_behavior_and_effect;
     }

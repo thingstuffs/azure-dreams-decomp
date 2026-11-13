@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_1858800_H
 #include "shared/dungeon_height_query.h"
 #include "shared/dungeon_projectile_views.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "sdk/abs.h"
 #include "sdk/libgpu.h"
@@ -13,7 +14,6 @@ extern void register_node(void *, void *);
 extern s32 get_definition_entry_byte_13(s16 entry_index);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern void unlink_node(void *);
-extern u8 secondary_sprite[];
 void advance_sprite_animation_and_textures(void *);                 /* extern */
 extern u8 shared_sprite_entries[];
 extern SpriteSourceEntry timed_projectile_sprite_entries;

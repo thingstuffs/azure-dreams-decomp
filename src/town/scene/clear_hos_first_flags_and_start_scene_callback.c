@@ -10,8 +10,8 @@ extern s32 D_8001C9F4;
 
 typedef void (*TownCallback)(s32, s32);
 
-/* Conditionally updates the town state pointer and invokes the town callback. */
-s32 check_query_0x5c0_zero(void) {
+/* Clears the two first-visit flags, points the scene state at D_8001C9F4 unless F_cheril_orei is set, and calls service callback 0x2F8. */
+s32 clear_hos_first_flags_and_start_scene_callback(void) {
     clear_script_flag_bit(F_hos_first_cheriru);
     clear_script_flag_bit(F_hos_first_hush);
     if (get_script_flag_mask(F_cheril_orei) == 0) {

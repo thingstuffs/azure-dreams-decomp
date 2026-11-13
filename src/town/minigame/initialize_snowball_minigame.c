@@ -112,7 +112,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     object = allocate_list_node(1, &scene_object_list_anchor.next);
     if (object != 0) {
         root_part = &object->part;
-        object->callback = count_entries_matching_search_path;
+        object->callback = update_collection_cutscene_step;
     }
 
     object = allocate_list_node(0x136, &scene_object_list_anchor.next);

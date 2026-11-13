@@ -8,14 +8,6 @@
 #include "town/minigame/object.h"
 #include "town/player.h"
 
-
-
-
-
-
-
-
-
 /* Update object motion, scoring, and timed state transitions. */
 void update_gym_score_object(GymScoreObject *obj, ObjectPosition *motion)
 {

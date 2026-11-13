@@ -68,10 +68,6 @@ typedef struct R08_80170E7C_S_80170E7C_7 {
     s16 unk_1C;
     s16 unk_1E;
 } R08_80170E7C_S_80170E7C_7;
-typedef struct R08_80170E7C_S_80170E7C_8 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} R08_80170E7C_S_80170E7C_8;
 typedef struct R08_801715B4_S_80171570_2 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -349,7 +345,6 @@ extern u8 griffon_direction_frames[];
 extern u8 griffon_frame_set_3[];
 extern u8 griffon_behavior_handlers[];
 extern u8 griffon_object_callback[];
-extern u8 secondary_sprite[];
 extern u8 griffon_frame_set_4[];
 extern u8 griffon_frame_set_6[];
 extern u8 griffon_frame_set_1[];
@@ -387,7 +382,7 @@ void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_cont
 s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
 void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion,SpriteFrameState *sprite, ActorRecord *actor);
-void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
+void install_behavior_handler_after_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *object);
 void advance_action_phase_and_process_actor(ActorRecord *action, struct ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *entity);
@@ -400,7 +395,7 @@ void resume_actor_effect_behavior_after_status_animation(ActorRecord *controller
 void update_griffon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object);
 void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void finish_actor_terrain_interpolation_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void create_four_directional_effects(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void install_behavior_handler_after_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_fade_in_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, SpriteFrameState *entry, s32 unused);
 void advance_object_angle_and_height(u16 *record_data, ObjectPosition *unused_position, SpriteFrameState *object);

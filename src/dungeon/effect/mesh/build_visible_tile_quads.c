@@ -5,38 +5,8 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "sdk/libgte_matrix.h"
-
-typedef struct S_800D1824_0 {
-    u8 pad_00[0x20];
-    u8 * unk_20;
-    u8 pad_24[0x4];
-    s32 unk_28;
-    s16 unk_2C;
-    u8 pad_2E[0x42];
-    s16 unk_70;
-    s16 unk_72;
-    u16 unk_74;
-    u8 pad_76[0x2];
-    s16 unk_78;
-    s16 unk_7A;
-    u16 unk_7C;
-    u8 pad_7E[0x2];
-    s16 unk_80;
-    s16 unk_82;
-    u16 unk_84;
-    u8 pad_86[0x2];
-    s16 unk_88;
-    s16 unk_8A;
-    u16 unk_8C;
-    u8 pad_8E[0x32];
-    s32 unk_C0;
-    u8 pad_C4[0x8];
-    s32 unk_CC;
-    u8 pad_D0[0x44];
-    s32 unk_114;
-} S_800D1824_0;   /* scratch in build_visible_tile_quads */
-
-   /* root in build_visible_tile_quads */
+#include "sdk/libgpu_packets.h"
+#include "engine/graphics/sprite_scratch.h"
 
 typedef struct S_800D1824_4 {
     u8 pad_00[0x8];
@@ -57,84 +27,86 @@ typedef struct S_800D1824_5 {
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
 void build_visible_tile_quads(MeshEffectObjectBody *tiles)
 {
-    S_800D1824_0 *scratch = (S_800D1824_0 *)0x1F800000;
+    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
     GameWork *globals = &g_game_work;
     S_800D1824_4 *style;
-    u8 *prim;
-    u8 *render_state;
+    POLY_FT4 *prim;
+    GpuContext *render_state;
     s32 x;
     s32 y;
     s32 depth;
     s32 tri_depth;
     u16 z;
 
-    scratch->unk_28 = 0;
+    /* BYTES: retail clears the normal's vx and vy with one sw of zero; member stores compile to two sh */
+    *(s32 *)&scratch->rotation.vx = 0;
     render_state = globals->draw_buffer;
-    style = (S_800D1824_4 *)((S_800D1824_5 *)(((u8 *)globals->map.cell_faces)))->unk_10;
-    prim = ((GpuContext *)render_state)->packetCursor;
-    scratch->unk_2C = -0x1000;
-    scratch->unk_20 = render_state + 0xB0;
+    style = (S_800D1824_4 *)((S_800D1824_5 *)globals->map.cell_faces)->unk_10;
+    prim = render_state->packetCursor;
+    scratch->rotation.vz = -0x1000;
+    scratch->ordering_table = (u32 *)&render_state->orderTag;
 
     while (tiles->x != 0) {
         if (tiles->height != 0x8000) {
             x = (s32)tiles->x << 6;
-            scratch->unk_80 = (s16)x;
-            scratch->unk_70 = (s16)x;
+            scratch->vertices[2].vx = x;
+            scratch->vertices[0].vx = x;
             x += 0x40;
-            scratch->unk_88 = (s16)x;
-            scratch->unk_78 = (s16)x;
+            scratch->vertices[3].vx = x;
+            scratch->vertices[1].vx = x;
 
             y = (s32)tiles->y << 6;
-            scratch->unk_7A = (s16)y;
-            scratch->unk_72 = (s16)y;
+            scratch->vertices[1].vy = y;
+            scratch->vertices[0].vy = y;
             y += 0x40;
-            scratch->unk_8A = (s16)y;
-            scratch->unk_82 = (s16)y;
+            scratch->vertices[3].vy = y;
+            scratch->vertices[2].vy = y;
 
             z = tiles->height;
-            scratch->unk_84 = z;
-            scratch->unk_7C = z;
-            scratch->unk_74 = z;
+            scratch->vertices[2].vz = z;
+            scratch->vertices[1].vz = z;
+            scratch->vertices[0].vz = z;
 
-            gte_ldv3((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80);
-            scratch->unk_8C = tiles->height;
+            gte_ldv3(&scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2]);
+            scratch->vertices[3].vz = tiles->height;
             gte_rtpt_nn();
             gte_nclip();
-            gte_stopz((u8 *)scratch + 0x114);
+            gte_stopz(&scratch->winding);
 
-            if (scratch->unk_114 > 0) {
+            if (scratch->winding > 0) {
                 gte_stsxy3_g3(prim);
                 gte_avsz3();
-                gte_stotz((u8 *)scratch + 0xC0);
-                gte_ldv0((u8 *)scratch + 0x88);
-                tri_depth = scratch->unk_C0;
+                gte_stotz(&scratch->sort_depth);
+                gte_ldv0(&scratch->vertices[3]);
+                tri_depth = scratch->sort_depth;
                 tri_depth = tri_depth * 3;
-                scratch->unk_C0 = tri_depth;
+                scratch->sort_depth = tri_depth;
 
                 gte_rtps_nn();
-                gte_stszotz((u8 *)scratch + 0xCC);
-                depth = (scratch->unk_C0 +
-                         scratch->unk_CC) >> 2;
-                scratch->unk_C0 = depth;
+                gte_stszotz(&scratch->depth_offset);
+                depth = ((s32)scratch->sort_depth +
+                         scratch->depth_offset) >> 2;
+                scratch->sort_depth = depth;
 
                 if ((u32)depth < 0x1E0) {
-                    gte_stsxy(prim + 0x20);
-                    NormalColorCol((SVECTOR *)((u8 *)scratch + 0x28), (CVECTOR *)&globals->view.tint, (CVECTOR *)(prim + 4));
-                    *(u32 *)(prim + 0xC) = style->unk_08;
-                    *(u32 *)(prim + 0x14) = style->unk_0C;
-                    *(u16 *)(prim + 0x1C) = style->unk_12;
-                    *(u16 *)(prim + 0x24) = style->unk_14;
-                    prim[3] = 9;
-                    AddPrim(
-                        (s32)scratch->unk_20 +
-                            (scratch->unk_C0 << 2),
-                        prim);
-                    prim += 0x28;
+                    gte_stsxy(&prim->x3);
+                    NormalColorCol(&scratch->rotation, (CVECTOR *)&globals->view.tint, (CVECTOR *)&prim->r0);
+                    /* BYTES: retail stores u0, v0 and the CLUT with one sw of the style word; member stores compile to sb, sb, sh */
+                    *(u32 *)&prim->u0 = style->unk_08;
+                    /* BYTES: retail stores u1, v1 and the texture page with one sw of the style word; member stores compile to sb, sb, sh */
+                    *(u32 *)&prim->u1 = style->unk_0C;
+                    /* BYTES: retail writes the packet u/v byte pair with one sh of the style halfword; storing u and v separately compiles to two sb */
+                    *(u16 *)&prim->u2 = style->unk_12;
+                    /* BYTES: retail writes the packet u/v byte pair with one sh of the style halfword; storing u and v separately compiles to two sb */
+                    *(u16 *)&prim->u3 = style->unk_14;
+                    ((GpuLinkTag *)&prim->tag)->len = 9;
+                    AddPrim(scratch->ordering_table + scratch->sort_depth, prim);
+                    prim++;
                 }
             }
         }
         tiles++;
     }
 
-    ((GpuContext *)(((u8 *)globals->draw_buffer)))->packetCursor = prim;
+    ((GpuContext *)globals->draw_buffer)->packetCursor = prim;
 }

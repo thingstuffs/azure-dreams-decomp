@@ -86,7 +86,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, u32 *ordering_t
     shifted_mode = draw_mode << 0x10;
     draw_arg = 0;
     if (shifted_mode != 0) {
-        func_80067EF4(packet, draw_arg, draw_arg, shifted_mode);
+        SetPriority(packet, draw_arg, draw_arg);
         packet_mask = 0xFFFFFF;
         draw_arg = 0xFF000000;
         packet->tag = (packet->tag & 0xFF000000) | (*scratch->ordering_table & packet_mask);
@@ -335,7 +335,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, u32 *ordering_t
     } while (1);
     restore_arg = packet;
     if ((saved_draw_mode << 0x10) != 0) {
-        func_80067EF4(restore_arg, 0, 1);
+        SetPriority(restore_arg, 0, 1);
         packet->tag = (packet->tag & 0xFF000000) | (*scratch->ordering_table & 0xFFFFFF);
         end_tag = scratch->ordering_table;
         restore_arg = (POLY_FT4 *) (((s32) packet) & 0xFFFFFF);

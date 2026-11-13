@@ -8,6 +8,7 @@
 /* Psy-Q record types (include/sdk/libgpu_types.h and libgpu_packets.h define them). */
 struct RECT;
 struct DR_MODE;
+struct DR_PRIO;
 struct POLY_F4;
 struct POLY_FT4;
 struct POLY_G3;
@@ -34,6 +35,7 @@ s32 SetGraphDebug(s32);
 void SetPolyF4(struct POLY_F4 *);
 void SetPolyFT4(struct POLY_FT4 *);
 void SetPolyG4(struct POLY_G4 *);
+void SetPriority(struct DR_PRIO *, s32, s32);
 void SetSemiTrans(void *, s32);
 void SetSprt(void *);
 void SetTile(void *);

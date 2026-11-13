@@ -5,7 +5,6 @@
 #include "town/system.h"
 #include "town/data.h"
 
-
 /* Randomize four entries, set two distinct entries to 1 and 2, and reset state. */
 s32 randomize_four_entries_and_reset_state(void) {
     s32 entry_index;

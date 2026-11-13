@@ -54,7 +54,7 @@ typedef struct TimedActorVisualEffectBody {
 } TimedActorVisualEffectBody;
 void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context, SpriteFrameState *tile_in, ActorRecord *actor_in);
 void spawn_offset_motion_object(ActorRecord *parent_data, ObjectPosition *origin, SpriteFrameState *source_data, s16 position_index);
-void update_effect_visuals_and_lifetime();
+void update_manoeva_actor_callbacks_and_floor_motion();
 
 
 

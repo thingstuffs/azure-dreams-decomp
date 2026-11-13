@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -10,9 +11,6 @@
 #include "slus.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 ribbon_sprite_entries[];
-
-
 /* Creates sixteen effects at the given position with increasing sprite scales. */
 void create_layered_sprite_pulse(EntityRec *origin) {
     s16 scale_x;

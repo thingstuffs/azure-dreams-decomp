@@ -1,5 +1,6 @@
 #include "shared/gpu_packets.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_sprite_data.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/particle.h"
 /* One native TU; source order follows the complete ledger cohort. */
@@ -365,8 +366,6 @@ typedef struct S_800DAEF4_6 {
 } S_800DAEF4_6;   /* link in spawn_scattered_timed_objects */
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-
-extern s32 secondary_sprite;
 
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
 void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)

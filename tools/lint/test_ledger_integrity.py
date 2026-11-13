@@ -155,6 +155,40 @@ class RepoTests(unittest.TestCase):
         self.assertIn('stale already', out)
         self.assertEqual(self.run_main()[0], 0)          # report-only by default
 
+    def floors(self, rows):
+        (self.root / I.FLOOR_LEDGER).write_text(''.join(json.dumps(r, sort_keys=True) + '\n' for r in rows))
+
+    @staticmethod
+    def floor(name, caller, owner='include/x.h'):
+        return dict(name=name, owner=owner, definition=dict(path='src/x/def.c', proto='void %s(void)' % name),
+                    evidence=dict(header=owner, tool='t'), blocking=[dict(path=caller, spelling='void %s()' % name)],
+                    partitions=[dict(sites=[caller])], reason='example %s:3 against src/x/def.c' % caller)
+
+    def test_floor_rows_citing_a_missing_file_fail_new(self):
+        (self.root / 'src/x').mkdir()
+        (self.root / 'src/x/def.c').write_text('void g(void) {}\n')
+        (self.root / 'src/x/old.c').write_text('void g();\n')
+        self.floors([self.floor('g', 'src/x/old.c', owner='include/x.h'), self.floor('h', 'src/gone.c')])
+        git(self.root, 'add', '-A'); git(self.root, 'commit', '-qm', 'floors')
+        # src/gone.c is already missing on BASE: reported, not new; the planned owner header include/x.h
+        # (tools/headers/plan.py header_for of src/x/def.c) does not exist and is not evidence
+        code, out = self.run_main('--fail-new')
+        self.assertEqual(code, 0, out)
+        self.assertIn('floor cited paths: 1 rows cite a missing src/include file (new vs BASE 0)', out)
+        self.assertEqual(self.run_main('--fail-all')[0], 1)
+        # a rename that leaves the row naming the old file is new
+        git(self.root, 'mv', 'src/x/old.c', 'src/x/new.c')
+        code, out = self.run_main('--fail-new')
+        self.assertEqual(code, 1, out)
+        self.assertIn('NEW FLOOR PATH g: src/x/old.c', out)
+        self.floors([self.floor('g', 'src/x/new.c'), self.floor('h', 'src/gone.c')])
+        self.assertEqual(self.run_main('--fail-new')[0], 0)
+        # an owner header that is not the planned one is evidence and must exist
+        self.floors([self.floor('g', 'src/x/new.c', owner='include/elsewhere.h'), self.floor('h', 'src/gone.c')])
+        code, out = self.run_main('--fail-new')
+        self.assertEqual(code, 1, out)
+        self.assertIn('include/elsewhere.h', out)
+
     def test_loads_regression_always_fails(self):
         rows = [row('r1', ['src/a.c:3 (s16)'], path='f', member_loads=loads(s=dict(lh=2)))]
         self.write(rows)
@@ -227,6 +261,73 @@ TYPES = 'typedef signed char s8;\ntypedef unsigned char u8;\ntypedef short s16;\
 def frow(path, owner='S', members=('s', 'u'), file='src/a.c'):
     return dict(id=f'{file}::{owner}.{path}', owner=owner, path=path, file=file, status='retired',
                 members=[dict(name=m) for m in members], retired_to_cast=[])
+
+
+class FloorBlockingTests(unittest.TestCase):
+    """(g) a prototype-floor row's blocking spelling must still be declared at its file."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        root = self.root = Path(self.tmp.name)
+        (root / 'src').mkdir()
+        (root / 'include').mkdir()
+        (root / 'ledger').mkdir()
+        (root / I.LEDGER).write_text('')
+        (root / 'include/w.h').write_text('typedef short s16;\ns32 pick();\n')
+        (root / 'src/a.c').write_text('extern s16 find(unsigned short x, unsigned short y); /* narrows */\n')
+        self.floors = root / I.FLOORS
+        self.rows = [
+            dict(name='find', blocking=[dict(declaration='src/a.c', path='src/a.c', reason='param_width',
+                                             spelling='s16 find(u16, u16)')]),
+            dict(name='pick', blocking=[dict(declaration='include/w.h', path='src/w.c', reason='return_type',
+                                             spelling='s32 pick();')]),
+        ]
+        self.write()
+        git(root, 'init', '-q')
+        git(root, 'add', '-A')
+        git(root, 'commit', '-qm', 'base')
+
+    def write(self):
+        self.floors.write_text(''.join(json.dumps(r, sort_keys=True) + '\n' for r in self.rows))
+
+    def run_main(self, *args):
+        with redirect_stdout(io.StringIO()) as out:
+            code = I.main(['HEAD', '--root', str(self.root), '--no-layouts', *args])
+        return code, out.getvalue()
+
+    def test_present_spellings_pass(self):
+        # parameter names, typedef aliases and whitespace do not matter
+        code, out = self.run_main('--fail-new')
+        self.assertEqual(code, 0, out)
+        self.assertIn('floor blocking spellings: 2 entries, stale on HEAD 0 (new vs BASE 0)', out)
+
+    def test_respelled_declaration_fails_new(self):
+        # the AC151 class: the header's declaration was respelled, the row still cites the old one
+        (self.root / 'include/w.h').write_text('typedef short s16;\nvoid pick(void *state, short index);\n')
+        code, out = self.run_main('--fail-new')
+        self.assertEqual(code, 1, out)
+        self.assertIn('NEW FLOOR STALE pick blocking[0] include/w.h', out)
+        self.assertEqual(self.run_main()[0], 0)  # report-only without a fail mode
+
+    def test_removed_file_and_new_row_fail(self):
+        (self.root / 'src/a.c').unlink()
+        self.rows.append(dict(name='gone', blocking=[dict(path='src/a.c', spelling='void gone(void)')]))
+        self.write()
+        code, out = self.run_main('--fail-new')
+        self.assertEqual(code, 1, out)
+        self.assertIn('NEW FLOOR NOFILE find blocking[0] src/a.c', out)
+        self.assertIn('NEW FLOOR NOFILE gone blocking[0] src/a.c', out)
+
+    def test_stale_on_base_is_not_new(self):
+        (self.root / 'include/w.h').write_text('typedef short s16;\n')
+        git(self.root, 'commit', '-qam', 'declaration moved, row not updated')
+        code, out = self.run_main('--fail-new')
+        self.assertEqual(code, 0, out)
+        self.assertIn('stale on HEAD 1 (new vs BASE 0)', out)
+        code, out = self.run_main('--fail-all')
+        self.assertEqual(code, 1, out)
+        self.assertIn('FLOOR STALE pick', out)
 
 
 class FieldRuleTests(unittest.TestCase):

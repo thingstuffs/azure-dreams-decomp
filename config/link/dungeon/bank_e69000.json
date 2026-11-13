@@ -25,7 +25,7 @@
     },
     {
       "row": "dungeon/func_80E492D0",
-      "tu": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
+      "tu": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "home": "dungeon/func_80E372D0",
       "foff": "0xE692D0",
       "vma": "0x8015EAD0",

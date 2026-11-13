@@ -6,6 +6,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 
+struct CdCueEffectNode;
+
 typedef struct Child {
     u8 pad00[0x1E];
     u16 flags;
@@ -19,7 +21,7 @@ typedef struct Controller {
     s16 *script;
     Child *child0;
     Child *child1;
-    Child *child2;
+    struct CdCueEffectNode *child2; /* the fade node init_fade_in_out_effect initialises */
     Child *child3;
     void *group;
 } Controller;
@@ -33,11 +35,10 @@ extern Shared83160 D_80083160;
 
 extern s32 D_800814A0;
 
-
 extern void mark_staged_motion_effect_complete(void *);
 extern void mark_sine_motion_effect_complete(void *);
 extern void mark_timed_animation_sequence_complete(void *);
-extern void mark_fade_in_out_effect_complete(void *);
+extern void mark_fade_in_out_effect_complete(struct CdCueEffectNode *);
 extern void mark_color_fade_effect_complete(void *);
 
 /* Advances the timed child sequence and retires the controller when all children finish. */

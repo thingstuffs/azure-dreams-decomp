@@ -489,7 +489,6 @@ extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void RotMatrix(void *, void *);
-extern void func_80067EF4();
 extern u8 upper_draw_context[16];
 extern u32 RotTransPers(void *, void *, void *, void *);
 extern s16 traveling_strip_effect_updated[5];

@@ -153,7 +153,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     mode_bits = draw_mode << 0x10;
     matrix_arg = 0;
     if (mode_bits != 0) {
-        func_80067EF4(packet, 0, 0, mode_bits);
+        SetPriority(packet, 0, 0);
         {
             s32 link_mask = 0xFFFFFF;
             matrix_arg = 0xFF000000;
@@ -455,7 +455,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
 
     restore_packet = (u8 *)packet;
     if (restore_mode != 0) {
-        func_80067EF4(restore_packet, 0, 1);
+        SetPriority(restore_packet, 0, 1);
         packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & 0xFF000000) | (*scratch->unk_20 & 0xFFFFFF);
         restore_link = scratch->unk_20;
         restore_packet = (u8 *) ((s32) packet & 0xFFFFFF);

@@ -15,14 +15,13 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/monster/death.h"
+#include "dungeon/monster/death/actor_status_flags_g00165.h"
 #include "dungeon/player/object.h"
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/death_frames.h"
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void func_801743F0(void *, void *, void *, void *);
-
-extern s32 death_action_resume_address;
 
 
 

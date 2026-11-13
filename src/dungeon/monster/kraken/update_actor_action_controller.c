@@ -127,7 +127,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
             if (child_obj != 0) {
                 S_8017086C_6 *child;
 
-                child = (S_8017086C_6 *)((u8 *)child_obj + 0x20);
+                child = (S_8017086C_6 *)NODE_BODY(child_obj);
 
                 child->unk_02 = 1;
                 i = 0;

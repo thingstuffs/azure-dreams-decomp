@@ -892,7 +892,7 @@ extern void SetTransMatrix(void *);
 extern void func_80065320(void *, void *, void *);
 extern struct MATRIX *RotMatrix(void *, void *);
 extern void AddPrim(void *, void *, ...);
-extern void func_80067EF4(void *, s32, s32, ...);
+extern void SetPriority(void *, s32, s32);
 
 /* Build transformed textured quads from sprite parts and append them to the draw list. */
 void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16 draw_mode)
@@ -922,7 +922,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
     scratch->ordering_table = depth;
     scratch->unk_C0 = 0;
     if (mode_bits != 0) {
-        func_80067EF4(packet, 0, 0, mode_bits);
+        SetPriority(packet, 0, 0);
         AddPrim(scratch->ordering_table, packet);
         packet = (SpritePartQuad *)((u8 *)packet + 12);
     }
@@ -1206,7 +1206,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
     {
         s32 end_mode_bits = saved_mode << 16;
         if (end_mode_bits != 0) {
-            func_80067EF4(packet, 0, 1);
+            SetPriority(packet, 0, 1);
             AddPrim(scratch->ordering_table, packet);
             packet = (SpritePartQuad *)((u8 *)packet + 12);
         }
@@ -2705,7 +2705,7 @@ typedef struct {
 
 extern void AddPrim(void *, void *, ...);
 extern void SetDrawArea(void *, void *);
-extern void func_80067EF4(void *, s32, s32, ...);
+extern void SetPriority(void *, s32, s32);
 struct Position;
 struct Position;
 
@@ -2732,7 +2732,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, vo
     if (content_id != 0) {
         primitive = state->packetCursor;
         state->packetCursor = primitive + 0xC;
-        func_80067EF4(primitive, 0, 0);
+        SetPriority(primitive, 0, 0);
         AddPrim(ordering_table, primitive);
 
         bottom_center.x = ((S_800BB2E4_1 *)rect)->unk_00 + (s16)((S_800BB2E4_1 *)rect)->unk_04 / 2;
@@ -2741,7 +2741,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, vo
         buf = (GpuContext *)(*(u8 **)((u8 *)(&g_game_work)));
         primitive = buf->packetCursor;
         buf->packetCursor = primitive + 0xC;
-        func_80067EF4(primitive, 1, 0);
+        SetPriority(primitive, 1, 0);
         AddPrim(ordering_table, primitive);
     } else if (fill == 0) {
         packet = state->packetCursor;
@@ -2760,7 +2760,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, vo
         buf = (GpuContext *)(*(u8 **)((u8 *)(&g_game_work)));
         primitive = buf->packetCursor;
         buf->packetCursor = primitive + 0xC;
-        func_80067EF4(primitive, 0, 0);
+        SetPriority(primitive, 0, 0);
         AddPrim(ordering_table, primitive);
     }
 
@@ -2783,7 +2783,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, vo
         buf = (GpuContext *)(*state_addr);
         primitive = buf->packetCursor;
         buf->packetCursor = primitive + 0xC;
-        func_80067EF4(primitive, 0, 1);
+        SetPriority(primitive, 0, 1);
         AddPrim(ordering_table, primitive);
 
         buf = (GpuContext *)(*state_addr);

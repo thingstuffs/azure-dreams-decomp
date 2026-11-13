@@ -2,8 +2,6 @@
 #include "slus/audio_voice_data.h"
 #include "engine/audio/spu.h"
 
-
-
 /* Computes two outputs from indexed flags, scales them down by 128, and returns zero. */
 s32 query_driver_pair_shifted_seven(s16 flags_index, s16 *out_first, s16 *out_second)
 {

@@ -10263,7 +10263,7 @@
           "vma": 2147909164
         },
         {
-          "symbol": "func_80067EF4",
+          "symbol": "SetPriority",
           "kind": "function",
           "vma": 2147909364
         },
@@ -13381,7 +13381,7 @@
           "vma": 2147909164
         },
         {
-          "symbol": "func_80067EF4",
+          "symbol": "SetPriority",
           "kind": "function",
           "vma": 2147909364
         },
@@ -23014,7 +23014,7 @@
           "vma": 2147909164
         },
         {
-          "symbol": "func_80067EF4",
+          "symbol": "SetPriority",
           "kind": "function",
           "vma": 2147909364
         },
@@ -48785,7 +48785,7 @@
           "vma": 2147909164
         },
         {
-          "symbol": "func_80067EF4",
+          "symbol": "SetPriority",
           "kind": "function",
           "vma": 2147909364
         }
@@ -80723,7 +80723,7 @@
           "vma": 2147902860
         },
         {
-          "symbol": "func_80067EF4",
+          "symbol": "SetPriority",
           "kind": "function",
           "vma": 2147909364
         },
@@ -98641,7 +98641,7 @@
           "vma": 2147800844
         },
         {
-          "symbol": "func_80067EF4",
+          "symbol": "SetPriority",
           "kind": "function",
           "vma": 2147909364
         },

@@ -9,7 +9,7 @@ extern s32 *D_800190D8;
 extern s32 D_80019A74;
 
 /* Initializes state pointers and updates flags based on the current state. */
-void set_current_inner_object_unk(void) {
+void update_cheril_door_and_nurse_flags(void) {
     D_800190D8 = &D_80018FEC;
     set_script_flag_bit(F_sb24_door_dummy);
     clear_script_flag_bit(F_sb24_nd_dummy0);

@@ -31,7 +31,6 @@ typedef struct {
     s32 field14;
 } Stack24;
 
-
 /* Updates path following, turning, sprite state, and ground movement. */
 void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, SpriteFrameState *sprite) {
     s16 target_x;

@@ -1,8 +1,7 @@
 #ifndef SHARED_DUNGEON_MOVING_VIEWS_H
 #define SHARED_DUNGEON_MOVING_VIEWS_H
 #include "common.h"
-/* Partial moving-effect views; signed/unsigned counter operations share two bytes. */
-typedef struct BankEffectCounter { union { s16 s; u16 u; } value; } BankEffectCounter;
+/* Partial moving-effect views. */
 typedef struct MovingEffectState_pre {
     u16 unk_00;
 } MovingEffectState_pre;   /* the 0x2 bytes before self in func_80024050, addressed as self[-1] */

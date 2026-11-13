@@ -4,7 +4,6 @@
 #include "slus.h"
 #include "slus/audio_master_level.h"
 
-
 typedef struct {
     s32 f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
     s32 f30, f34, f38, f3c, f40, f44;

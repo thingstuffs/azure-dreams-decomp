@@ -64,7 +64,7 @@ void set_active_position_state_record(void);
 void func_80016278(void);
 void run_scene_service_224(void);
 void func_800162B8(void);
-void call_first_handler_if_flag_0x3ec_set(void);
+void invoke_service_callback_228_with_zero(void);
 void call_scene_service_280_1705(void);
 void func_80016328(void);
 void call_scene_service_280_1706(void);

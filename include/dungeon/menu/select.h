@@ -1,6 +1,8 @@
 #ifndef DUNGEON_OVL_1829800_H
 #define DUNGEON_OVL_1829800_H
 #include "common.h"
+#include "shared/gpu_packets.h"
+#include "sdk/libgpu_packets.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "dungeon/menu.h"
 #include "shared/sprite_frame_state.h"
@@ -501,25 +503,9 @@ typedef struct {
 } RenderParams;
 
 typedef struct {
-    u8 pad0[3];
-    u8 code;
-    CVECTOR rgb; /* NormalColorCol output: the shaded red, green and blue bytes and the GPU code byte */
-    s32 xy0;
-    s32 a;
-    s32 xy1;
-    s32 b;
-    s32 xy2;
-    u16 u2;
-    u16 pad2;
-    s32 xy3;
-    u16 u3;
-    u16 pad3;
-} Prim;
-
-typedef struct {
     u8 pad0[0xB0];
     u8 ot[0x820];
-    Prim *prim;
+    POLY_FT4 *prim;
 } DrawBuffer;
 
 typedef struct {

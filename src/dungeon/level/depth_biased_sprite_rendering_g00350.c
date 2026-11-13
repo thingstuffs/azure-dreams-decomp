@@ -7,6 +7,8 @@
 #include "shared/gpu_packets.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "sdk/libgpu_packets.h"
+#include "sdk/libgpu_types.h"
+#include "shared/sprite_part_command.h"
 
 /* Traverse object nodes backward and process unflagged primitives with their computed depth. */
 s32 traverse_nodes_and_render_unflagged(void *start_node) {
@@ -48,7 +50,8 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
     MATRIX *matrix;
     POLY_FT4 *packet;
     POLY_FT4 *packet_next;
-    u8 *texture;
+    DR_PRIO *priority;
+    SpritePartCommand *part;
     GpuContext *root;
     u32 projected_depth;
     u32 biased_depth;
@@ -75,7 +78,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
     scratch_view->vertices[1].vz = 0;
     scratch_view->vertices[0].vz = 0;
 
-    texture = sprite->source;
+    part = sprite->source;
     sprite_flags = sprite->flags;
     scratch_view->sprite_flags = sprite_flags;
     world_x = ((u16) position->x.w.i);
@@ -123,25 +126,26 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
         SetRotMatrix(&scratch_view->matrix);
 
         for (;;) {
-            if (!(texture[0] & 0x20)) {
-                scratch_view->uv_u_start = texture[8];
-                scratch_view->uv_v_start = texture[9];
-                scratch_view->uv_u_extent = texture[10];
-                scratch_view->uv_v_extent = texture[11];
-                func_80067EF4(packet, 0, 0);
-                AddPrim(scratch_view->ordering_table + scratch_view->sort_depth, packet);
-                packet_next = (POLY_FT4 *)((u32 *)packet + 3);
+            if (!(part->flags & 0x20)) {
+                scratch_view->uv_u_start = part->data.texture.u0;
+                scratch_view->uv_v_start = part->data.texture.v0;
+                scratch_view->uv_u_extent = part->data.texture.width;
+                scratch_view->uv_v_extent = part->data.texture.height;
+                priority = (DR_PRIO *)packet;
+                SetPriority(priority, 0, 0);
+                AddPrim(scratch_view->ordering_table + scratch_view->sort_depth, priority);
+                packet_next = (POLY_FT4 *)(priority + 1);
                 packet = packet_next;
 
-                if ((texture[0] ^ scratch_view->sprite_flags) & 1) {
-                    coord_x = -(s8)texture[2];
+                if ((part->flags ^ scratch_view->sprite_flags) & 1) {
+                    coord_x = -part->offset_x;
                     scratch_view->vertices[2].vx = coord_x;
                     scratch_view->vertices[0].vx = coord_x;
                     coord_x -= scratch_view->uv_u_extent;
                     scratch_view->vertices[3].vx = coord_x;
                     scratch_view->vertices[1].vx = coord_x;
                 } else {
-                    coord_x = (s8)texture[2];
+                    coord_x = part->offset_x;
                     scratch_view->vertices[2].vx = coord_x;
                     scratch_view->vertices[0].vx = coord_x;
                     coord_x += scratch_view->uv_u_extent;
@@ -149,15 +153,15 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
                     scratch_view->vertices[1].vx = coord_x;
                 }
 
-                if ((texture[0] ^ scratch_view->sprite_flags) & 2) {
-                    coord_y = -(s8)texture[3];
+                if ((part->flags ^ scratch_view->sprite_flags) & 2) {
+                    coord_y = -part->offset_y;
                     scratch_view->vertices[1].vy = coord_y;
                     scratch_view->vertices[0].vy = coord_y;
                     coord_y -= scratch_view->uv_v_extent;
                     scratch_view->vertices[3].vy = coord_y;
                     scratch_view->vertices[2].vy = coord_y;
                 } else {
-                    coord_y = (s8)texture[3];
+                    coord_y = part->offset_y;
                     scratch_view->vertices[1].vy = coord_y;
                     scratch_view->vertices[0].vy = coord_y;
                     coord_y += scratch_view->uv_v_extent;
@@ -204,7 +208,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
                 {
                     register u32 texture_page;
 
-                    if (((S_800BC4D4_6 *)(texture + 4))->unk_00 & 0x80) {
+                    if (part->tpage & 0x80) {
 
                         texture_page = 0x7F800000;
                         uv_word += texture_page;
@@ -219,7 +223,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
                 /* BYTES: retail stores u1, v1 and the texture page with one sw of the combined word; member stores compile to sb, sb, sh */
                 *(s32 *)&packet->u1 = scratch_view->uv_v_start +
                                                       scratch_view->uv_u_extent +
-                                                      ((s16)((S_800BC4D4_6 *)(texture + 4))->unk_00 << 16);
+                                                      ((s16)part->tpage << 16);
                 {
                     s32 bottom_left_uv;
                     s32 u_left;
@@ -259,14 +263,15 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
                 packet->code = 0x2E;
                 AddPrim(scratch_view->ordering_table + scratch_view->sort_depth, packet);
                 packet++;
-                func_80067EF4(packet, 1, 0);
-                AddPrim(scratch_view->ordering_table + scratch_view->sort_depth, packet);
-                packet = (POLY_FT4 *)((u32 *)packet + 3);
+                priority = (DR_PRIO *)packet;
+                SetPriority(priority, 1, 0);
+                AddPrim(scratch_view->ordering_table + scratch_view->sort_depth, priority);
+                packet = (POLY_FT4 *)(priority + 1);
             }
 
-            if ((s8)texture[0] >= 0) {
+            if ((s8)part->flags >= 0) {
 
-                texture += 0xC;
+                part++;
                 continue;
             }
             break;

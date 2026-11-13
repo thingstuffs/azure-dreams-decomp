@@ -34,7 +34,7 @@ void update_scene_effect_controller(Controller *controller)
             controller->finished++;
         }
         if (controller->child2 != 0) {
-            controller->child2->flags |= 0x8000;
+            controller->child2->header.flags |= 0x8000;
             controller->child2 = 0;
             D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;
@@ -122,7 +122,7 @@ void update_scene_effect_controller(Controller *controller)
             controller->finished++;
         }
         if (controller->child2 != 0) {
-            controller->child2->flags |= 0x8000;
+            controller->child2->header.flags |= 0x8000;
             controller->child2 = 0;
             D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;

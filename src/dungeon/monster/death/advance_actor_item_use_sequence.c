@@ -19,6 +19,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/death.h"
+#include "dungeon/monster/death/actor_status_flags_g00165.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "dungeon/monster/death_frames.h"
@@ -30,7 +31,6 @@ typedef struct {
 
 
 extern u8 D_80171080[];
-extern s32 death_action_resume_address;
 extern Packet12 D_80174694;
 
 

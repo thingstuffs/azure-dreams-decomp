@@ -80,10 +80,6 @@ typedef struct R07_80170E54_S_80170E54_7 {
     s16 unk_1C;
     s16 unk_1E;
 } R07_80170E54_S_80170E54_7;
-typedef struct R07_80170E54_S_80170E54_8 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} R07_80170E54_S_80170E54_8;
 typedef struct R07_80170E54_S_80170E54_9 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -223,7 +219,6 @@ extern u8 grineut_frame_set_1[];
 extern u8 grineut_alt_direction_frames[];
 extern u8 D_80174198[];
 extern u8 D_800D79B0[];
-extern u8 secondary_sprite[];
 extern u8 grineut_frame_set_3[];
 extern u8 grineut_frame_set_4[];
 extern u8 grineut_frame_set_2[];

@@ -150,7 +150,7 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Creates an object linked to the source with its position and default part data. */
-void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite) {
+void create_free_slot_display_spawner(void *source, void *unused_position, void *unused_sprite) {
     ObjectPosition *position;
     SpriteFrameState *part;
     ObjectNodeHeader *object;
@@ -477,7 +477,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
         component = F(primary_actor_record, u16, 0x2A);
         effect->state++;
         effect->facing = component;
-        advance_object_spawning_displays_high(init_object, position, effect_context);
+        create_free_slot_display_spawner(init_object, position, effect_context);
         if (effect->display_b != 0) {
             texture_rect[0] = 0x340;
             texture_rect[1] = 0x100;

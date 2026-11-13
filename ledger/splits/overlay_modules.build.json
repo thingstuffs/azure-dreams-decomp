@@ -34135,7 +34135,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_actor_grid_object.c",
+      "source": "src/dungeon/monster/saber/queue_projected_translucent_pixel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -81355,7 +81355,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
+      "source": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -81795,7 +81795,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
+      "source": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -82235,7 +82235,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
+      "source": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -82675,7 +82675,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
+      "source": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -83115,7 +83115,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
+      "source": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -83545,7 +83545,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
+      "source": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -83975,7 +83975,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
+      "source": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -101945,7 +101945,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/mandara/create_actor_grid_object.c",
+      "source": "src/dungeon/monster/mandara/create_mandara_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -102605,7 +102605,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/mandara/create_actor_grid_object.c",
+      "source": "src/dungeon/monster/mandara/create_mandara_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -103595,7 +103595,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/mandara/create_actor_grid_object.c",
+      "source": "src/dungeon/monster/mandara/create_mandara_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -119085,7 +119085,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/create_flagged_actor_object.c",
+      "source": "src/dungeon/monster/beldo/sync_beldo_part_to_owner_and_pulse_shade.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -129055,7 +129055,7 @@
       ]
     },
     {
-      "source": "src/dungeon/system/process_resolved_item_value.c",
+      "source": "src/dungeon/system/clear_second_work_object_buffer.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -132655,7 +132655,7 @@
       ]
     },
     {
-      "source": "src/frontend/card/service/build_entry_list.c",
+      "source": "src/frontend/card/service/count_dev_card_entries_matching_search_path.c",
       "recipe": {
         "cfg": "2.6.3-G0",
         "row_asflags": ""
@@ -152495,7 +152495,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/call_clear_script_flag_bit_second.c",
+      "source": "src/town/scene/flags/forward_to_process_checked_entry.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155375,7 +155375,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/call_first_handler_if_flag_set.c",
+      "source": "src/town/scene/flags/invoke_service_callback_228_with_zero.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156675,7 +156675,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/advance_counter_dispatch_event.c",
+      "source": "src/town/scene/event/set_script_flag_sbs07_pad27.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -165915,7 +165915,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_query_0x5c0_zero.c",
+      "source": "src/town/scene/clear_hos_first_flags_and_start_scene_callback.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -166695,7 +166695,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scene_position.c",
+      "source": "src/town/scene/motion/invoke_service_callback_04c_with_2_0x12.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -168595,7 +168595,7 @@
       ]
     },
     {
-      "source": "src/town/scene/process_ids_zero_second.c",
+      "source": "src/town/scene/cache_second_value_pair_and_return_first.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -171065,7 +171065,7 @@
       ]
     },
     {
-      "source": "src/town/scene/object/set_current_inner_object_unk.c",
+      "source": "src/town/scene/object/update_cheril_door_and_nurse_flags.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174595,7 +174595,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/query_event_c_return_one_b.c",
+      "source": "src/town/scene/event/init_scene_and_position_record_pointers.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -175945,7 +175945,7 @@
       ]
     },
     {
-      "source": "src/town/scene/get_base_address_b.c",
+      "source": "src/town/scene/forward_to_clear_generation_cell_grid.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -177445,7 +177445,7 @@
       ]
     },
     {
-      "source": "src/town/scene/hooks/forward_four_values_return_zero.c",
+      "source": "src/town/scene/hooks/get_scene_string_fallback.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -178345,7 +178345,7 @@
       ]
     },
     {
-      "source": "src/town/scene/decrement_town_global_counter_second.c",
+      "source": "src/town/scene/set_script_flag_sbs48_pad00.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -179495,7 +179495,7 @@
       ]
     },
     {
-      "source": "src/town/scene/hooks/get_shared_threshold_value_b.c",
+      "source": "src/town/scene/hooks/set_script_flag_sbs36_pad19.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -179955,7 +179955,7 @@
       ]
     },
     {
-      "source": "src/town/scene/get_saved_entry_count.c",
+      "source": "src/town/scene/select_scene_data_table_by_entry_index.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -183155,7 +183155,7 @@
       ]
     },
     {
-      "source": "src/town/minigame/count_entries_matching_search_path.c",
+      "source": "src/town/minigame/update_collection_cutscene_step.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""

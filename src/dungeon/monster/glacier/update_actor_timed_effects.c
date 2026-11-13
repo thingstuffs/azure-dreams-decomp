@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_sprite_data.h"
 #include "common.h"
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/monster/glacier/projected_depth.h"
@@ -30,7 +31,6 @@ extern void choose_block_move_slot_a(void *, void *, void *, void *);
 extern void func_8017412C(void *, void *, void *, void *);
 extern void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
-extern u8 secondary_sprite[];
 extern u8 D_80170A0C[];
 
 #include "dungeon/monster/glacier.h"

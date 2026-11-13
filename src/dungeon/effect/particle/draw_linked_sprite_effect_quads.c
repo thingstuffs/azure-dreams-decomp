@@ -3,6 +3,7 @@
 #include "sdk/libgte.h"
 #include "sdk/libgte_matrix.h"
 #include "shared/object_node_flags.h"
+#include "shared/dungeon_sprite_data.h"
 /* Linked sprite quad rendering, nearby target effects, and fading radial grids. */
 #include "dungeon/effect/particle/draw_linked_sprite_effect_quads.h"
 #include "shared/entity.h"
@@ -452,7 +453,6 @@ typedef struct S_8002466C_9 {
     s16 unk_4C;
 } S_8002466C_9;   /* ent in update_animated_target_effect */
 
-extern u8 secondary_sprite[];
 
 /* Update the animated effect, track its target, and spawn scattered particles. */
 void update_animated_target_effect(void *effect_arg)
@@ -557,7 +557,7 @@ void update_animated_target_effect(void *effect_arg)
         (((s32)((u16)effect->unk_48 << 16) >> 18) << 5) + 0x80;
     if (particle_index >= 0) {
         particle_data = mark_owner_while_sprite_animates;
-        display = secondary_sprite;
+        display = &secondary_sprite;
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != NULL) {

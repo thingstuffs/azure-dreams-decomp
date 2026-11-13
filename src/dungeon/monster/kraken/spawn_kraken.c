@@ -101,7 +101,7 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
             if (child_obj != 0) {
                 S_8016A86C_6 *child;
 
-                child = (S_8016A86C_6 *)((u8 *)child_obj + 0x20);
+                child = (S_8016A86C_6 *)NODE_BODY(child_obj);
 
                 child->unk_02 = 1;
                 i = 0;

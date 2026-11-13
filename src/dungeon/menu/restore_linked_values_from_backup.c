@@ -4,7 +4,6 @@
 #include "dungeon/data.h"
 #include "town/menu/catalog_parts.h"
 
-
 /* Restore 12 referenced values from the backup array. */
 void restore_linked_values_from_backup(void) {
     ItemMenuPart **table_base;

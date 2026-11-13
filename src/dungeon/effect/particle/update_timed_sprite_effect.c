@@ -98,8 +98,8 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
                     ((ProjectileSprite *)sprite_or_x)->unk_14 |= 1;
                 }
                 *(s16 *)((u8 *)sprite_or_x + 0x10) = 96;
-                *(void * *)((u8 *)sprite_or_x + 0x00) = secondary_sprite;
-                ((ProjectileSprite *)sprite_or_x)->unk_08 = *(void **)(secondary_sprite + 4);
+                ((ProjectileSprite *)sprite_or_x)->unk_00 = &secondary_sprite;
+                ((ProjectileSprite *)sprite_or_x)->unk_08 = secondary_sprite.source;
                 ((ProjectileSprite *)sprite_or_x)->unk_04 = 0;
                 ((ProjectileSprite *)sprite_or_x)->unk_05 = 0;
                 ((ProjectileSprite *)sprite_or_x)->unk_0C.at00u.v = 0x3030C0;

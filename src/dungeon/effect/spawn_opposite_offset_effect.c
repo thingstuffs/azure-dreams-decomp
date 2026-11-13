@@ -2,6 +2,7 @@
 #include "dungeon/effect/state.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_sprite_data.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -35,8 +36,6 @@ typedef struct {
 } Object;
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-
-extern s32 secondary_sprite;
 
 /* Spawn an offset effect with randomized motion opposite to the source. */
 void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {

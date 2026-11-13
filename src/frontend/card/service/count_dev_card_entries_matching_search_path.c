@@ -9,7 +9,7 @@ extern s8 dev_card_directory[];
 
 
 /* Collects entries matching the selected search path and returns their count. */
-s32 build_entry_list(void) {
+s32 count_dev_card_entries_matching_search_path(void) {
     s32 search_path[8];
     s32 *path_prefix;
     s8 *entry;

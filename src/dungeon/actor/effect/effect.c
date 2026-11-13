@@ -11,6 +11,7 @@
 #include "dungeon/level/tile_flags.h"
 #include "dungeon/level.h"
 #include "slus.h"
+#include "dungeon/actor/action_control_dispatch_g00352.h"
 
 #include "sdk/abs.h"
 struct ObjectNodeHeader;
@@ -1510,8 +1511,6 @@ struct EntityLinkNode;
 struct Node;
 
 extern s32 generate_random_value(void);
-
-extern s16 current_dungeon_floor;
 
 /* Dungeon item pickup: run the one-off 0x11F9 event, then occasionally take one entry from the floor's item table. */
 s32 select_random_eligible_item_entry(void *actor)

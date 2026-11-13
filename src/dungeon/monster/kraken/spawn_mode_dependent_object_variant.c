@@ -100,7 +100,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
             if (child_obj != 0) {
                 S_8015886C_6 *child;
 
-                child = (S_8015886C_6 *)((u8 *)child_obj + 0x20);
+                child = (S_8015886C_6 *)NODE_BODY(child_obj);
 
                 child->unk_02 = 1;
                 i = 0;

@@ -1753,7 +1753,7 @@ void settle_dragon_on_tile(ActorRecord *state, ObjectPosition *motion, SpriteFra
  * Runs update_spinning_actor_fall and installs dispatch_monster_move_attack_spell when it returns
  * nonzero.
  */
-void fade_entity_colors_to_neutral(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void install_move_attack_dispatch_after_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->unk_8C.handler = dispatch_monster_move_attack_spell;
     }

@@ -65,7 +65,6 @@ typedef struct Row_818ED25C_S_80024A5C_7 {
  * reproduce the retail allocation and call-argument order. */
 void PushMatrix();
 void PopMatrix();
-void func_80067EF4();
 extern u8 upper_draw_context[16];
 void render_rotated_effect_quads(void *screen_pos, void *effect, u32 *ordering_tag, u32 draw_mode);
 void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);

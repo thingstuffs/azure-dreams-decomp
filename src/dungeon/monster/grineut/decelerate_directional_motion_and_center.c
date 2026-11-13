@@ -132,7 +132,7 @@ void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition 
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         entity_ref = ((s32)g_dungeon_status.pending_display_owner);
-        if (entity_ref == (s32)((u8 *)entity - 0x20)) {
+        if (entity_ref == (s32)NODE_HEADER(entity)) {
             g_dungeon_status.pending_display_owner = entity_ref & 0x7FFFFFFF;
         }
         body->unk_8C.address = &D_80164E54;

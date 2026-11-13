@@ -203,6 +203,56 @@ class TreeHashTests(unittest.TestCase):
         finally:
             del os.environ['LEDGER_PUBLIC_REF']
 
+    def test_abbreviated_hash_fails(self):
+        # an abbreviated hash is counted even when it abbreviates a public commit: it cannot be checked
+        self.add_row(self.public[:12])
+        n, text = self.run_check()
+        self.assertEqual(n, 1, text)
+        self.assertIn(f'NEW tree ledger/prototype_floors.jsonl: {self.public[:12]} (+1) is abbreviated', text)
+        self.floors.write_text(self.floors.read_text().replace(f'"{self.public[:12]}"', f'"{self.public[:6]}"'))
+        self.assertEqual(self.run_check()[0], 0)  # six hex digits is not a hash
+
+    def test_lane_root_head_is_not_public(self):
+        # a lane root's own commits (HEAD, its local master) are private: a hash of one is NEW there
+        lane = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, lane)
+        git(lane, 'init', '-q')
+        (lane / '.git/objects/info/alternates').write_text(str(self.root / '.git/objects') + '\n')
+        (lane / 'SCRATCH_HEAD').write_text(self.public + '\n')
+        (lane / '.gitignore').write_text('/SCRATCH_HEAD\n')
+        (lane / 'ledger').mkdir()
+        (lane / 'ledger/prototype_floors.jsonl').write_text('')
+        git(lane, 'add', '-A')
+        git(lane, 'commit', '-qm', 'base')
+        lane_head = git(lane, 'rev-parse', 'HEAD')
+        self.assertNotIn('HEAD', P.public_refs(lane))
+        self.assertIn(self.public, P.public_refs(lane))  # the SCRATCH_HEAD commit, which the alternates provide
+        (lane / 'ledger/prototype_floors.jsonl').write_text(json.dumps({'name': 'g', 'tree': lane_head}) + '\n')
+        buf = io.StringIO()
+        self.assertEqual(P.check(lane, 'HEAD', out=buf), 1, buf.getvalue())
+        self.assertIn(f'NEW tree ledger/prototype_floors.jsonl: {lane_head} (+1)', buf.getvalue())
+        # the base commit the root was made from is public history
+        (lane / 'ledger/prototype_floors.jsonl').write_text(json.dumps({'name': 'g', 'tree': self.public}) + '\n')
+        self.assertEqual(P.check(lane, 'HEAD', out=io.StringIO()), 0)
+        # without the marker the same checkout counts HEAD as public (a landing checkout)
+        (lane / 'SCRATCH_HEAD').unlink()
+        (lane / 'ledger/prototype_floors.jsonl').write_text(json.dumps({'name': 'g', 'tree': lane_head}) + '\n')
+        self.assertEqual(P.check(lane, 'HEAD', out=io.StringIO()), 0)
+
+    def test_unknown_base_fails_closed(self):
+        self.add_row(self.public)
+        n, text = self.run_check_base('0' * 40)
+        self.assertEqual(n, 1, text)
+        self.assertIn('FAILED, nothing compared', text)
+        # ledger_integrity refuses the unknown BASE before it reaches the public-ledger check
+        with redirect_stdout(io.StringIO()), self.assertRaises(SystemExit) as stop:
+            I.main(['no-such-ref', '--root', str(self.root), '--fail-new', '--no-layouts'])
+        self.assertNotEqual(stop.exception.code, 0)
+
+    def run_check_base(self, base):
+        buf = io.StringIO()
+        return P.check(self.root, base, out=buf), buf.getvalue()
+
     def test_ledger_integrity_fails_new_tree(self):
         self.add_row(self.private)
         buf = io.StringIO()

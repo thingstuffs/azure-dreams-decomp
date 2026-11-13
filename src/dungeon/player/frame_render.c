@@ -50,7 +50,6 @@ typedef s32 (*Callback)(void *, struct ObjectPosition *, struct SpriteFrameState
 extern s32 D_800814A0;
 extern void remove_marked_active_nodes(void);
 extern u8 upper_draw_context[16];
-s32 func_80067EF4(void *, s32, s32);
 extern Callback D_800DCF80[];
 extern u8 D_800E0000[];
 
@@ -114,7 +113,7 @@ void queue_framebuffer_strip_quads(void) {
     SetDrawArea(packet, g_game_work.draw_buffer);
     AddPrim((u8 *)g_game_work.draw_buffer + 0x830, packet);
     packet += 0xC;
-    func_80067EF4(packet, 0, 0);
+    SetPriority(packet, 0, 0);
     AddPrim((u8 *)g_game_work.draw_buffer + 0x830, packet);
     packet += 0xC;
     {
@@ -172,7 +171,7 @@ void queue_framebuffer_strip_quads(void) {
     ((FrameStripPolyF4 *)packet)->y2 = other_strip_y + 0xE;
     AddPrim(context_slot->unk_00 + 0x7B0, packet);
     packet += 0x18;
-    func_80067EF4(packet, 0, 1);
+    SetPriority(packet, 0, 1);
     AddPrim(context_slot->unk_00 + 0x830, packet);
     packet += 0xC;
     SetDrawMode(packet, 0, 0, 0x20, 0);

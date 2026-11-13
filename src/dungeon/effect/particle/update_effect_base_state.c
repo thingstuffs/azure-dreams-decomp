@@ -9,6 +9,7 @@
 #include "dungeon/system.h"
 
 #include "shared/dungeon_effect_state.h"
+#include "shared/dungeon_sprite_data.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
 void (*const dungeon_1864800_entry)(FadingProjectileSpellBody *, ObjectPosition *, SpriteFrameState *) = run_fading_target_projectile;
 
@@ -34,7 +35,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
     FadingProjectileEffectBody *particle_data;
     SpriteFrameState *sprite;
     s32 particles_left;
-    S_81844800_5 *sprite_page;
+    SpriteSourceEntry *sprite_page;
     s16 state;
     s16 state_2;
 
@@ -47,7 +48,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
     if (state != 0) {
         if (state < 5) {
             particles_left = 12;
-            sprite_page = secondary_sprite;
+            sprite_page = &secondary_sprite;
             do {
                 spawned = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (spawned != 0) {
@@ -69,7 +70,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
                         sprite->unk_00 = sprite_page;
                         sprite->flags = flags | 0xC;
                         {
-                            u32 texture_page = sprite_page->unk_04;
+                            u32 texture_page = sprite_page->source;
                             sprite->unk_04 = 0;
                             sprite->frame_ticks = 0;
                             sprite->color.word = 0x00404040;

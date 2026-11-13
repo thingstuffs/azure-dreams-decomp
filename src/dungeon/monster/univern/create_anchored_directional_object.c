@@ -2095,7 +2095,7 @@ void finish_spinning_actor_fall_then_resume_ground_movement(ActorRecord *state, 
  * Runs update_actor_fade_in and installs update_entity_movement_and_ground_height when it returns
  * nonzero.
  */
-void update_effect_trajectory_and_sprite(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void install_ground_movement_after_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = update_entity_movement_and_ground_height;
     }
@@ -2106,7 +2106,7 @@ void update_effect_trajectory_and_sprite(ActorRecord *state, ObjectPosition *mot
  * Runs resolve_actor_floor_trap_once and installs update_entity_movement_and_ground_height when it
  * returns positive.
  */
-void blend_animation_palette_and_complete(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void install_ground_movement_after_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
         state->unk_8C.handler = update_entity_movement_and_ground_height;
     }

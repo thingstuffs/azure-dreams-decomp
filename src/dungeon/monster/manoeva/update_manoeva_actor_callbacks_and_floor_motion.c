@@ -18,10 +18,10 @@ extern u8 manoeva_action_resume_address[];
 extern Callback manoeva_callbacks[];
 
 
-   /* monster in update_effect_visuals_and_lifetime */
+   /* monster in update_manoeva_actor_callbacks_and_floor_motion */
 
 /* Updates actor callbacks, facing, movement, and floor contact. */
-void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite)
+void update_manoeva_actor_callbacks_and_floor_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite)
 {
     ActorRecord *actor = body;
     s16 direction_index;

@@ -1103,7 +1103,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
     Scratch *scratch;
     DrawBuffer *draw_buffer;
     DrawBuffer *active_buffer;
-    Prim *prim;
+    POLY_FT4 *prim;
     Face *face;
     SpriteData *sprite_data;
     Object *main_object;
@@ -1250,24 +1250,28 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
                         height3 = height3 - menu_mesh_cells[cell_index].bias;
                         scratch->h3 = height3;
                         facing.value = func_800656C0(&scratch->xy0, &scratch->xy1, &scratch->xy2, &scratch->xy3,
-                                          &prim->xy0, &prim->xy1, &prim->xy2, &prim->xy3,
+                                          &prim->x0, &prim->x1, &prim->x2, &prim->x3,
                                           &scratch->out0, &scratch->depth, &scratch->out1);
                         scratch->facing = facing.value;
                         if (facing.value > 0) {
                             depth = scratch->depth - scratch->depth_base;
                             scratch->depth = depth;
                             if ((u32) (depth - 1) < 0x1DF) {
-                                NormalColorCol(&materials[face->tex], &render_state->blend, &prim->rgb);
-                                prim->a = face->a;
-                                prim->b = face->b;
-                                prim->u2 = face->u2;
-                                prim->u3 = face->u3;
+                                NormalColorCol(&materials[face->tex], &render_state->blend, (CVECTOR *)&prim->r0);
+                                /* BYTES: retail stores u0, v0 and the CLUT with one sw of the face word; member stores compile to sb, sb, sh */
+                                *(s32 *)&prim->u0 = face->a;
+                                /* BYTES: retail stores u1, v1 and the texture page with one sw of the face word; member stores compile to sb, sb, sh */
+                                *(s32 *)&prim->u1 = face->b;
+                                /* BYTES: retail writes the packet u/v byte pair with one sh of the face halfword; storing u and v separately compiles to two sb */
+                                *(u16 *)&prim->u2 = face->u2;
+                                /* BYTES: retail writes the packet u/v byte pair with one sh of the face halfword; storing u and v separately compiles to two sb */
+                                *(u16 *)&prim->u3 = face->u3;
                                 if (render_params->color[0] != 0x80) {
-                                    prim->rgb.r = (prim->rgb.r * render_params->color[0]) >> 7;
-                                    prim->rgb.g = (prim->rgb.g * render_params->color[1]) >> 7;
-                                    prim->rgb.b = (prim->rgb.b * render_params->color[2]) >> 7;
+                                    prim->r0 = (prim->r0 * render_params->color[0]) >> 7;
+                                    prim->g0 = (prim->g0 * render_params->color[1]) >> 7;
+                                    prim->b0 = (prim->b0 * render_params->color[2]) >> 7;
                                 }
-                                prim->code = 9;
+                                ((GpuLinkTag *)&prim->tag)->len = 9;
                                 AddPrim(scratch->ot + scratch->depth * 4, prim);
                                 prim += 1;
                             }

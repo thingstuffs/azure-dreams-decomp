@@ -51,12 +51,6 @@ typedef struct S_81844800_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
 } S_81844800_3;   /* arg1_reg in func_80024020 */
 
-typedef struct S_81844800_5 {
-    u8 pad_00[0x4];
-    u32 unk_04;
-} S_81844800_5;   /* s8_page in func_80024020 */
-
-
 /* Owner and staged fade counters for particles spawned by a fading projectile. */
 typedef struct FadingProjectileEffectBody {
     void *owner;
@@ -171,7 +165,6 @@ typedef struct {
     s32 vx, vy, vz;
 } VecState;
 
-extern u8 secondary_sprite[];
 extern u8 fading_sprite_entries[];
 extern s32 get_definition_entry_byte_13(s16 entry_index);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);

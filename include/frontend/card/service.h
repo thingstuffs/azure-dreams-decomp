@@ -7,8 +7,8 @@
 /* advance_processing_selected_slot_sets_completion_flag.c */
 s32 advance_processing_selected_slot_sets_completion_flag(void);
 
-/* build_entry_list.c */
-s32 build_entry_list(void);
+/* count_dev_card_entries_matching_search_path.c */
+s32 count_dev_card_entries_matching_search_path(void);
 
 /* card_dev_cache_save_header.c */
 void card_dev_cache_save_header(s32 entry_index, void *source);

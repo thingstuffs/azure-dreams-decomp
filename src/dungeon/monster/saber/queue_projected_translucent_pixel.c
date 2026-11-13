@@ -44,7 +44,7 @@ struct CallbackBlock {
     u32 vectors[8];
 };
 
-const struct CallbackBlock queue_projected_translucent_pixel __attribute__((section(".text.queue_projected_translucent_pixel"))) = {
+const struct CallbackBlock saber_slot_g_callback_table __attribute__((section(".text.saber_slot_g_callback_table"))) = {
     {
         spawn_saber, update_entity_callbacks_and_floor_motion, func_80171B54, func_80171B54,
         func_80171B54, func_80171B80, func_80171B00, func_80171B00,
@@ -64,12 +64,12 @@ const struct CallbackBlock queue_projected_translucent_pixel __attribute__((sect
 
 /* The PS1 link needs the retail extent of the callback block and following code. */
 #ifdef __mips__
-__asm__(".size queue_projected_translucent_pixel, 644");
+__asm__(".size saber_slot_g_callback_table, 644");
 #endif
 
 
 /* Projects a point and queues a semitransparent pixel and its drawing mode. */
-s32 create_actor_grid_object(u8 *node_data, u16 *position)
+s32 queue_projected_translucent_pixel(u8 *node_data, u16 *position)
 {
     PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
     void **global_state = ((void * *)(&g_game_work));

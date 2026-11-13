@@ -118,7 +118,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, target->tile_x, target->tile_y);
 
-        if (((s32)g_dungeon_status.pending_display_owner) == (s32)entity - 0x20) {
+        if (g_dungeon_status.pending_display_owner == NODE_HEADER(entity)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         body->unk_8C.address = stealth_behavior_entry;

@@ -95,4 +95,5 @@ extern u8 noise_frame_set_2[];
 void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor);
 void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
+void update_effect_visuals_and_lifetime();
 #endif

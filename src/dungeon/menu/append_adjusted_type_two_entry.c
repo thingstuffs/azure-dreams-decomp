@@ -1,3 +1,4 @@
+#include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 #include "common.h"
 #include "dungeon/menu.h"
 #include "shared/game_work.h"
@@ -15,8 +16,6 @@ typedef struct State {
     u8 pad[0x8D0];
     Inner *next;
 } State;
-
-extern u8 upper_draw_context[16];
 
 // Append a single-dot tile at the offset map position with the given color and submit it.
 void append_map_dot_tile(s32 x, s32 y, void *color_data, void *submissionTarget)

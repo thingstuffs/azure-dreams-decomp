@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "dungeon/monster/kid.h"
+#include "dungeon/monster/block.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -11,7 +12,6 @@ typedef struct {
 } DungeonState;
 
 #include "dungeon/player/object/action_state.h"
-extern s16 actor_action_reset_value;
 
 /* Initializes entity state and conditionally increments the dungeon count. */
 void initialize_counted_entity_action(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *other_data)

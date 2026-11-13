@@ -24,7 +24,7 @@ void *(*const cc5000_spawn_entry)(s16,s16,s16,s32) = spawn_block_slot_d;
 void (*const cc5000_update_entry)(ActorRecord *,ObjectPosition *,SpriteFrameState *) = update_block_motion_and_facing_slot_d;
 
 /* Links a sprite effect, stores its owner value, copies its position, and sets neutral color and scale. */
-void create_randomized_flagged_object(CL_CC5000_8017087C_Object *object, s32 field60_value, CL_CC5000_8017087C_CopyFields *source_coords)
+void init_neutral_sprite_effect_at_position(CL_CC5000_8017087C_Object *object, s32 field60_value, CL_CC5000_8017087C_CopyFields *source_coords)
 {
     SpriteFrameState *part;
     ObjectPosition *copy;
@@ -1218,7 +1218,7 @@ void update_block_spell_slot_d(CL_CC5000_80172BCC_S_func_80C953CC_1 *work, CL_CC
             CL_CC5000_80172BCC_S_func_80C953CC_7 *node;
             CL_CC5000_80172BCC_S_func_80C953CC_8 *model;
 
-            create_randomized_flagged_object(actor, work, position);
+            init_neutral_sprite_effect_at_position(actor, work, position);
             transform = NODE_BODY(actor);
             transform->unk_24 = 10;
             transform->unk_26 = 10;

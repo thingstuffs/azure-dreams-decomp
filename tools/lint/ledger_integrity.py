@@ -55,6 +55,23 @@
     They must not gain a 40-hex "tree" commit hash outside public history either (an ancestor of HEAD, a local
     master, LEDGER_PUBLIC_REF or --public-ref): a lane root's private commit cannot be resolved by anyone.
 
+(g) prototype-floor blocking spellings, on ledger/prototype_floors.jsonl: each `blocking` entry
+    {declaration, path, spelling} names a declaration that keeps the floor.  Its file (`declaration`, else
+    `path`) must still declare the name with that signature (return and parameter types after
+    tools/lint/decl_agreement.py normalisation: whitespace, parameter names, struct keywords and scalar
+    typedef aliases do not matter; `()` matches only an unprototyped declaration).  --fail-new fails on an
+    entry that is stale on HEAD and was not stale on BASE (a new row, a new entry, or a declaration that a
+    change respelled or removed); --fail-all fails on every stale entry.  A floor whose blocker is gone is
+    obsolete or must be re-solved, not left citing a declaration that no longer exists.
+
+(h) prototype-floor cited paths, on ledger/prototype_floors.jsonl: every src/ or include/ file a row cites
+    (blocking and partition sites, the definition, callers, declarations, reason and evidence text) must
+    exist on HEAD.  The planned owner header (`owner` / evidence `header` equal to the interface header the
+    header planner derives for the definition's directory, tools/headers/plan.py header_for) is a plan, not
+    evidence, and may not exist yet.  --fail-new fails on a row that cites a missing path BASE's same row
+    (by name) did not; --fail-all fails on every one.  A rename that leaves a floor row naming the old file
+    makes the row unverifiable.
+
 --rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
 the same cast spelling that passes the field rule, following the file's history from the
 newest committed version where the entry held (cast and field), unique per row; a line that
@@ -77,6 +94,59 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ledger_public  # noqa: E402
+
+FLOORS = 'ledger/prototype_floors.jsonl'
+
+
+def blocking_signature(spelling, name, aliases):
+    """(return, params) of a floor `spelling` such as `s16 f(u16, u16)`, normalised like decl_agreement; or None."""
+    import decl_agreement as D
+    found = D.declarations(spelling.rstrip().rstrip(';') + ';', {name}, aliases)
+    return _sig(found[0]) if found else None
+
+
+def _sig(found):
+    params = found[4]
+    return found[3], None if params is None else tuple(params)
+
+
+def floor_blocking(rows, texts, aliases):
+    """[{name, index, entry, file, status}] for each blocking entry: status 'ok', 'stale' (the file no longer
+    declares that signature), 'nofile' or 'unparsed' (the spelling is not a declaration of the row's name)."""
+    import decl_agreement as D
+    out, decls = [], {}
+    for row in rows:
+        name = row.get('name')
+        for i, entry in enumerate(row.get('blocking') or []):
+            if not isinstance(entry, dict) or not entry.get('spelling') or not name:
+                continue
+            path = entry.get('declaration') or entry.get('path')
+            want = blocking_signature(entry['spelling'], name, aliases)
+            lines = texts.lines(path) if path else None
+            if want is None:
+                status = 'unparsed'
+            elif lines is None:
+                status = 'nofile'
+            else:
+                key = (path, name)
+                if key not in decls:
+                    decls[key] = {_sig(d) for d in D.declarations('\n'.join(lines), {name}, aliases)}
+                status = 'ok' if want in decls[key] else 'stale'
+            out.append(dict(name=name, index=i, file=path, status=status,
+                            entry=json.dumps(entry, sort_keys=True)))
+    return out
+
+
+def check_floors(root, base, head_text, base_text):
+    """(HEAD results, newly stale) for the prototype-floor blocking spellings; BASE results judge newness."""
+    import decl_agreement as D
+    aliases = D.scalar_aliases(root)
+    head = floor_blocking(read_ledger(head_text), Texts(root), aliases)
+    old = {(r['name'], r['entry']): r['status'] for r in
+           floor_blocking(read_ledger(base_text), Texts(root, base), aliases)} if base_text is not None else {}
+    bad = [r for r in head if r['status'] in ('stale', 'nofile')]
+    new = [r for r in bad if old.get((r['name'], r['entry'])) not in ('stale', 'nofile')]
+    return head, bad, new
 
 LEDGER = 'ledger/unions.jsonl'
 LOAD_OPS = ('lb', 'lbu', 'lh', 'lhu', 'lw')
@@ -765,6 +835,62 @@ def rederive(rows, results, texts, history=None, layouts=None):
 
 # ---------------------------------------------------------------- main
 
+FLOOR_LEDGER = 'ledger/prototype_floors.jsonl'
+CITED_PATH = re.compile(r'(?<![\w/.-])(?:src|include)/[\w/.-]+\.(?:c|h|inc)\b')
+
+
+def planned_header(definition_path):
+    """The interface header tools/headers/plan.py plans for a definition's directory."""
+    parts = definition_path.split('/')[1:-1]
+    return 'include/' + '/'.join(parts) + '.h'
+
+
+def floor_cited_paths(row):
+    """{path} that a prototype-floor row cites as evidence (the planned owner header excluded)."""
+    definition = (row.get('definition') or {}).get('path') if isinstance(row.get('definition'), dict) else None
+    plan = planned_header(definition) if definition else None
+    found = set()
+
+    def walk(value, key=None, parent=None):
+        if isinstance(value, dict):
+            for k, v in value.items():
+                walk(v, k, key)
+        elif isinstance(value, list):
+            for v in value:
+                walk(v, key, parent)
+        elif isinstance(value, str):
+            if value == plan and (key == 'owner' or (key == 'header' and parent == 'evidence')):
+                return
+            found.update(CITED_PATH.findall(value))
+    walk(row)
+    return found
+
+
+def check_floor_paths(root, base):
+    """(HEAD rows citing a missing path, the subset new vs BASE): [(name, sorted missing paths)]."""
+    path = Path(root) / FLOOR_LEDGER
+    if not path.is_file():
+        return [], []
+    head = read_ledger(path.read_text())
+    shown = subprocess.run(['git', 'show', f'{base}:{FLOOR_LEDGER}'], cwd=root, capture_output=True, text=True)
+    base_rows = read_ledger(shown.stdout) if shown.returncode == 0 else []
+    base_texts = Texts(root, base)
+    old = collections.defaultdict(set)
+    for row in base_rows:
+        old[row.get('name')].update(p for p in floor_cited_paths(row) if base_texts.lines(p) is None)
+    exists = {}
+    bad, new = [], []
+    for row in head:
+        missing = sorted(p for p in floor_cited_paths(row)
+                         if not exists.setdefault(p, (Path(root) / p).is_file()))
+        if missing:
+            bad.append((row.get('name'), missing))
+            fresh = [p for p in missing if p not in old.get(row.get('name'), set())]
+            if fresh:
+                new.append((row.get('name'), fresh))
+    return bad, new
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('base', help='base revision to compare loads and staleness against')
@@ -850,8 +976,28 @@ def main(argv=None):
             print(f'  EVIDENCE-LOADS {rid}: {op} stated {numbers}, loads field has {actual}')
     for problem in loads['problems']:
         print('LOADS ' + problem)
+    floors_head = root / FLOORS
+    if floors_head.is_file():
+        shown_floors = subprocess.run(['git', 'show', f'{args.base}:{FLOORS}'], cwd=root, capture_output=True, text=True)
+        floor_rows, floor_bad, floor_new = check_floors(
+            root, args.base, floors_head.read_text(), shown_floors.stdout if shown_floors.returncode == 0 else None)
+    else:
+        floor_rows, floor_bad, floor_new = [], [], []
+    print(f'floor blocking spellings: {len(floor_rows)} entries, stale on HEAD {len(floor_bad)} '
+          f'(new vs BASE {len(floor_new)}), unparsed {sum(1 for r in floor_rows if r["status"] == "unparsed")}')
+    for r in (floor_bad if (args.list or args.fail_all) else floor_new):
+        print(f"  {'NEW ' if r in floor_new else ''}FLOOR {r['status'].upper()} {r['name']} "
+              f"blocking[{r['index']}] {r['file']}: {r['entry']}")
+    floor_missing, floor_missing_new = check_floor_paths(root, args.base)
+    print(f'floor cited paths: {len(floor_missing)} rows cite a missing src/include file '
+          f'(new vs BASE {len(floor_missing_new)})')
+    for name, missing in (floor_missing if (args.list or args.fail_all) else floor_missing_new):
+        print(f"  {'NEW ' if any(n == name for n, _ in floor_missing_new) else ''}FLOOR PATH {name}: "
+              + ', '.join(missing))
     lane_local = ledger_public.check(root, args.base, public_ref=args.public_ref)
     failed = (bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
+              or (args.fail_all and floor_bad) or (args.fail_new and floor_new)
+              or (args.fail_new and floor_missing_new) or (args.fail_all and floor_missing)
               or ((args.fail_new or args.fail_all) and lane_local > 0))
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))
     return 1 if failed else 0

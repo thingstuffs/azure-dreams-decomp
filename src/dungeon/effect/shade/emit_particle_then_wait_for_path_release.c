@@ -39,7 +39,7 @@ void emit_particle_then_wait_for_path_release(void *effect, ObjectPosition *tran
     void *call_transform;
     s32 base_value;
 
-    staged_fade_count.value.u++;
+    staged_fade_count++;
     state = ((S_80024CD4_0 *)effect)->unk_0A;
     switch (state) {
     case 0:

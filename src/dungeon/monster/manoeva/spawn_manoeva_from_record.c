@@ -3,6 +3,7 @@
 #include "common.h"
 #include "dungeon/entity_spawn_variant_data.h"
 #include "shared/record_ptrs.h"
+#include "shared/object_node.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/effect.h"
 #include "engine/cd.h"
@@ -16,18 +17,6 @@
 #define NULL 0
 #endif
 
-
-
-typedef struct S_80E3C98C_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80E3C98C_2_pre;
-
-
-typedef struct S_80E3C98C_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80E3C98C_3_pre;
 
 
 typedef struct S_80E3C98C_4 {
@@ -98,8 +87,8 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
             copy_entity_record(entity, spawn_data);
             entity->hp++;
             entity->species = source_entity->species;
-            ((SpriteFrameState *)(((S_80E3C98C_2_pre *)entity)[-1].unk_00))->clut =
-                ((SpriteFrameState *)(((S_80E3C98C_3_pre *)source_entity)[-1].unk_00))->clut & 3;
+            NODE_HEADER(entity)->sprite->clut =
+                NODE_HEADER(source_entity)->sprite->clut & 3;
             entity->flags14 |= 0x20000000;
             entity->flags1C = (entity->flags1C | 0x02000000) & 0xFFFEFFFF;
         }
@@ -116,7 +105,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
     }
     result = NULL;
     if (entity != NULL) {
-        result = (u8 *)entity - 0x20;
+        result = NODE_HEADER(entity);
     }
     return result;
 }

@@ -134,7 +134,7 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         entity_ref = ((s32)g_dungeon_status.pending_display_owner);
-        if (entity_ref == (s32)((u8 *)entity - 0x20)) {
+        if (entity_ref == (s32)NODE_HEADER(entity)) {
             g_dungeon_status.pending_display_owner = entity_ref & 0x7FFFFFFF;
         }
         action->unk_8C.address = &griffon_slot_d_action_callback;

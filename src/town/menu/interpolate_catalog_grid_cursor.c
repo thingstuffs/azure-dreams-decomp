@@ -36,7 +36,6 @@ typedef struct TownObject {
     TownSlots *town;
 } TownObject;
 
-
 /* Updates an available entry's number sprites and interpolates a display field. */
 void interpolate_catalog_grid_cursor(TownObject *obj) {
     s32 row_offset;
@@ -58,7 +57,7 @@ void interpolate_catalog_grid_cursor(TownObject *obj) {
         *obj->town->slots[sprite_slot] = catalog_normal_digits[entry_number % 10];
     }
     obj->town->display->src->fA =
-        (s16) ((u16) catalog_cursor_columns[obj->column & 7]
+        (s16) (catalog_cursor_columns[obj->column & 7]
         + (((s32) (catalog_cursor_columns[obj->index & 7]
         - catalog_cursor_columns[obj->column & 7]) / (s16) obj->field6) * obj->field4));
 }

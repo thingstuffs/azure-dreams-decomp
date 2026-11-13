@@ -6,7 +6,7 @@
  * two-aligned spelling remains a follow-up; this is not a final game layout. */
 typedef struct { s32 words[4]; } __attribute__((packed)) PackedWords4;
 /* One animation entry; the explicit tail byte preserves its measured stride. */
-/* Borrowed 22-byte animation table entry; update_traveling expands it into a current-frame block.
+/* Borrowed 22-byte animation table entry; copy_anim_entry_and_widen_fields expands it into a current-frame block.
  * The animation owner supplies the table; its allocator is not established here. */
 typedef struct AnimEntry {
     PackedWords4 words;

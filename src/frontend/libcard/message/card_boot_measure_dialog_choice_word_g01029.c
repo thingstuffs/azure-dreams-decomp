@@ -127,7 +127,7 @@ void card_boot_position_dialog_selection_marker(CardMessageDialogBody *context, 
 }
 
 /* Processes the last word of an enabled table entry for the supplied object. */
-void card_boot_update_message_choice_highlight(void *object) {
+void card_boot_update_message_choice_highlight(CardMessageDialogBody *object) {
     CardMessageDialogBody *dialog = object;
     s32 result_first;
     s32 result_second;

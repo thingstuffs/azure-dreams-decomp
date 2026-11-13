@@ -1,3 +1,4 @@
+#include "dungeon/actor/movement_path_g00371.h"
 #include "shared/actor_status_flags.h"
 #include "slus.h"
 #include "common.h"
@@ -13,7 +14,6 @@
 #include "dungeon/player/object.h"
 
 #include "dungeon/actor/spend_actor_mp_api.h"
-extern void *actor_action_frames[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
 void update_actor_landing(ActorRecord *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor) {

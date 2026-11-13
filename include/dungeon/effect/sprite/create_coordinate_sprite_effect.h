@@ -18,16 +18,6 @@ typedef struct {
     s16 value;
 } Row_818A48C4_Func818A48C4Object;
 
-/* Increment the source flags and update the target with a random value. */
-typedef struct Row_818A4948_S_func_818A4948_0 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
-    void *unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} Row_818A4948_S_func_818A4948_0;
-
 typedef struct Row_818A4948_S_func_818A4948_2 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -42,15 +32,6 @@ typedef struct Row_818A4948_S_func_818A4948_2 {
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct Row_818A4A64_S_818A4A64_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} Row_818A4A64_S_818A4A64_0;   /* temp_v0 in func_80024264 */
 
 typedef struct Row_818A4A64_S_818A4A64_2 {
     u8 pad_00[0x2];
@@ -128,15 +109,6 @@ typedef struct Row_818A4E74_S_func_818A4E74_1 {
 
 /* Increment the object counter and store a random remainder modulo 4096 in the target. */
 
-typedef struct Row_818A4ED0_S_818A4ED0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} Row_818A4ED0_S_818A4ED0_0;   /* temp_v0 in func_800246D0 */
-
 typedef struct Row_818A4ED0_S_818A4ED0_3 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -152,7 +124,7 @@ typedef struct Row_818A4ED0_S_818A4ED0_3 {
 s32 get_random_scaled_value(s16 input_value);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void advance_sprite_animation_and_textures(void *);
-s32 register_node(void *, void *);
+s32 register_node(ObjectNodeHeader *, void *);
 extern u8 coordinate_effect_sprite_data[];
 extern u8 ribbon_sprite_entries[];
 #include "shared/sprite_source.h"

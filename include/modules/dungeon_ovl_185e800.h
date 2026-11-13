@@ -6,7 +6,6 @@
 #include "shared/dungeon_delay_views.h"
 #include "shared/slus_callbacks.h"
 #include "sdk/rand.h"
-extern u8 secondary_sprite[];
 extern u8 landing_sprite_entries[];
 extern u8 fading_sprite_entries[];
 void *allocate_list_node(s32, void *);

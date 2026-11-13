@@ -9,7 +9,6 @@
 
 #include "sdk/libgpu_types.h"
 
-
 /* Clear display regions and draw the selected entry images and numbered label. */
 void draw_catalog_secondary_detail(CatalogDisplay *state)
 {

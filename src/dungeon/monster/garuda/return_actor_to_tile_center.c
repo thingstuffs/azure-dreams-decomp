@@ -101,7 +101,7 @@ void return_actor_to_tile_center(ActorRecord *action, ObjectPosition *motion, Sp
         set_record_integer_tile_center(motion, entity->tile_x, entity->tile_y);
 
         tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
-        if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
+        if (tracked_actor == (s32)NODE_HEADER(actor)) {
             g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
         action->unk_8C.handler = update_creature_animation_action;

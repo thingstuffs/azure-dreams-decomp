@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/monster/death.h"
+#include "dungeon/monster/death/actor_status_flags_g00165.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -15,7 +16,6 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/data.h"
 
-extern s32 death_action_resume_address;
 extern u8 D_8017464C[8];
 
 /* Updates a staged jump animation and returns the actor to its tile center. */

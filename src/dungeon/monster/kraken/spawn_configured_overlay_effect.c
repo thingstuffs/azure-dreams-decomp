@@ -102,7 +102,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
             if (child_obj != 0) {
                 S_8014C86C_6 *child;
 
-                child = (S_8014C86C_6 *)((u8 *)child_obj + 0x20);
+                child = (S_8014C86C_6 *)NODE_BODY(child_obj);
 
                 child->unk_02 = 1;
                 i = 0;

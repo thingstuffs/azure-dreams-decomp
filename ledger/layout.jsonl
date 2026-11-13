@@ -256,7 +256,7 @@
 {"id":"main/func_8001A7EC","path":"src/frontend/card/service/card_devkit_debounce_channel_status.c"}
 {"id":"main/func_8001A8FC","path":"src/frontend/card/card_dev_print_status.c"}
 {"id":"main/func_8001A9A4","path":"src/frontend/card/card_dev_has_selected_channel.c"}
-{"id":"main/func_8001A9B4","path":"src/frontend/card/service/build_entry_list.c"}
+{"id":"main/func_8001A9B4","path":"src/frontend/card/service/count_dev_card_entries_matching_search_path.c"}
 {"id":"main/func_8001AA50","path":"src/frontend/card/card_dev_calc_remaining_8k_blocks.c"}
 {"id":"main/func_8001AAA4","path":"src/frontend/card/service/card_devkit_has_directory_name_prefix.c"}
 {"id":"main/func_8001AB30","path":"src/frontend/card/service/card_dev_run_selected_operation.c"}
@@ -2115,7 +2115,7 @@
 {"id":"town/func_8046F224","path":"src/town/scene/state_lookup.c"}
 {"id":"town/func_8046F28C","path":"src/town/scene/state_lookup.c"}
 {"id":"town/func_8046F3D0","path":"src/town/scene/select_table_result_with_override.c"}
-{"id":"town/func_8046F480","path":"src/town/scene/flags/call_clear_script_flag_bit_second.c"}
+{"id":"town/func_8046F480","path":"src/town/scene/flags/forward_to_process_checked_entry.c"}
 {"id":"town/func_8046F550","path":"src/town/scene/hooks/forward_context_value_to_handler_a.c"}
 {"id":"town/func_8046F620","path":"src/town/scene/hooks/forward_context_value_to_handler_b.c"}
 {"id":"town/func_8046F640","path":"src/town/scene/select_lookup_with_progress_threshold.c"}
@@ -2499,7 +2499,7 @@
 {"id":"town/func_806151B4","path":"src/town/scene/event/dispatch_state_entry_event_b.c"}
 {"id":"town/func_80615268","path":"src/town/scene/flags/reset_two_flags_flag_flag.c"}
 {"id":"town/func_806152EC","path":"src/town/scene/event/select_town_event_flag_default.c"}
-{"id":"town/func_806153E8","path":"src/town/scene/check_query_0x5c0_zero.c"}
+{"id":"town/func_806153E8","path":"src/town/scene/clear_hos_first_flags_and_start_scene_callback.c"}
 {"id":"town/func_8061545C","path":"src/town/scene/event/run_event_1478.c"}
 {"id":"town/func_80615500","path":"src/town/scene/interface_setup_g00740.c"}
 {"id":"town/func_80615574","path":"src/town/scene/interface_setup_g00740.c"}
@@ -2580,7 +2580,7 @@
 {"id":"town/func_806C5A98","path":"src/town/scene/event/update_event_prerequisite_flags.c"}
 {"id":"town/func_806C5CA4","path":"src/town/scene/event/check_event_prerequisites.c"}
 {"id":"town/func_806C5EFC","path":"src/town/scene/event/select_event_table_entry.c"}
-{"id":"town/func_806C5FB4","path":"src/town/scene/object/set_current_inner_object_unk.c"}
+{"id":"town/func_806C5FB4","path":"src/town/scene/object/update_cheril_door_and_nurse_flags.c"}
 {"id":"town/func_806C90C0","path":"src/town/scene/dispatch.c"}
 {"id":"town/func_806C90F8","path":"src/town/scene/run_guarded_processing_step.c"}
 {"id":"town/func_806C91D8","path":"src/town/scene/run_conditional_handler_and_process.c"}
@@ -2633,7 +2633,7 @@
 {"id":"town/func_806D4D18","path":"src/town/scene/get_local_global_table.c"}
 {"id":"town/func_806D4D78","path":"src/town/scene/event/select_data_array_based_flag_b.c"}
 {"id":"town/func_806D4D98","path":"src/town/scene/get_special_data_for_low_value_id.c"}
-{"id":"town/func_806D4EA0","path":"src/town/scene/event/query_event_c_return_one_b.c"}
+{"id":"town/func_806D4EA0","path":"src/town/scene/event/init_scene_and_position_record_pointers.c"}
 {"id":"town/func_806D4ECC","path":"src/town/scene/event/subtract_stored_progress_from_callback_query.c"}
 {"id":"town/func_806D7918","path":"src/town/scene/lookup_code_special_results_b.c"}
 {"id":"town/func_806D7A24","path":"src/town/scene/lookup_variant_special_overrides_b.c"}
@@ -2693,7 +2693,7 @@
 {"id":"town/func_80761C28","path":"src/town/scene/event/run_events_9da_to_9dc.c"}
 {"id":"town/func_80761C70","path":"src/town/scene/flags/lookup_slot_record_with_flag_substitute.c"}
 {"id":"town/func_80761DA4","path":"src/town/scene/get_indexed_table_entry_second.c"}
-{"id":"town/func_80770040","path":"src/town/scene/get_saved_entry_count.c"}
+{"id":"town/func_80770040","path":"src/town/scene/select_scene_data_table_by_entry_index.c"}
 {"id":"town/func_807700D4","path":"src/town/scene/dialogue/select_message_based_message_callback.c"}
 {"id":"town/func_807748D0","path":"src/town/scene/dispatch_town_callback_fallback_g00763.c"}
 {"id":"town/func_8077DC0C","path":"src/town/scene/toggle.c"}
@@ -2773,7 +2773,7 @@
 {"id":"town/func_80816948","path":"src/town/minigame/effect/create_paired_vector_color_effect.c"}
 {"id":"town/func_80816A20","path":"src/town/minigame/initialize_snowball_minigame.c"}
 {"id":"town/func_80816DF0","path":"src/town/minigame/update_snowball_minigame_actor.c"}
-{"id":"town/func_8081791C","path":"src/town/minigame/count_entries_matching_search_path.c"}
+{"id":"town/func_8081791C","path":"src/town/minigame/update_collection_cutscene_step.c"}
 {"id":"town/func_8081822C","path":"src/town/minigame/draw_translucent_gradient_line_list.c"}
 {"id":"town/func_8081841C","path":"src/town/minigame/effect/retire_transient_line_effect.c"}
 {"id":"town/func_80818454","path":"src/town/minigame/state/retire_line_effect_at_phase_eight.c"}
@@ -4194,7 +4194,7 @@
 {"id":"dungeon/func_80ABBA34","path":"src/dungeon/monster/griffon/update_actor_directional_movement.c"}
 {"id":"dungeon/func_80ABF07C","path":"src/dungeon/monster/griffon/create_actor_for_selected_kind.c"}
 {"id":"dungeon/func_80AC1A34","path":"src/dungeon/monster/griffon/update_directional_motion_and_center_variant.c"}
-{"id":"dungeon/func_80AC5000","path":"src/dungeon/monster/saber/create_actor_grid_object.c"}
+{"id":"dungeon/func_80AC5000","path":"src/dungeon/monster/saber/queue_projected_translucent_pixel.c"}
 {"id":"dungeon/func_80AC5284","path":"src/dungeon/monster/saber/update_shrinking_sprite_effect.c"}
 {"id":"dungeon/func_80AC5470","path":"src/dungeon/monster/saber/update_fading_sprite_effect.c"}
 {"id":"dungeon/func_80AC55DC","path":"src/dungeon/monster/saber/create_returning_sprite_effect.c"}
@@ -4561,7 +4561,7 @@
 {"id":"dungeon/func_80E12A58","path":"src/dungeon/monster/cyclone/consume_object_code_19.c"}
 {"id":"dungeon/func_80E12AA4","path":"src/dungeon/monster/cyclone/show_entity_message.c"}
 {"id":"dungeon/func_80E12B30","path":"src/dungeon/monster/cyclone/show_entity_message_with_prefix.c"}
-{"id":"dungeon/func_80E372D0","path":"src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c"}
+{"id":"dungeon/func_80E372D0","path":"src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c"}
 {"id":"dungeon/func_80E376E4","path":"src/dungeon/monster/manoeva/update_actor_controller.c"}
 {"id":"dungeon/func_80E37EA4","path":"src/dungeon/monster/manoeva/advance_actor_turn_path.c"}
 {"id":"dungeon/func_80E385CC","path":"src/dungeon/monster/manoeva/initialize_directional_state_sprite.c"}
@@ -4707,7 +4707,7 @@
 {"id":"dungeon/func_80F90E88","path":"src/dungeon/monster/zu/entry_transform_rotated_vertices.c"}
 {"id":"dungeon/func_80F93000","path":"src/dungeon/monster/zu/create_configured_overlay_actor_third.c"}
 {"id":"dungeon/func_80FAB000","path":"src/dungeon/monster/zu/create_actor_kind_object.c"}
-{"id":"dungeon/func_80FB1000","path":"src/dungeon/monster/mandara/create_actor_grid_object.c"}
+{"id":"dungeon/func_80FB1000","path":"src/dungeon/monster/mandara/create_mandara_actor.c"}
 {"id":"dungeon/func_80FB176C","path":"src/dungeon/monster/mandara/update_long_actor_action.c"}
 {"id":"dungeon/func_80FB2B14","path":"src/dungeon/monster/mandara/validate_transition_and_update_action.c"}
 {"id":"dungeon/func_80FB2D14","path":"src/dungeon/monster/mandara/reset_action_and_select_facing_animation.c"}
@@ -4838,7 +4838,7 @@
 {"id":"dungeon/func_81254460","path":"src/dungeon/monster/beldo/process_global_effect_slots_after_reset.c"}
 {"id":"dungeon/func_8125456C","path":"src/dungeon/monster/beldo/entry_update_actor_status_and_food.c"}
 {"id":"dungeon/func_81257000","path":"src/dungeon/monster/beldo/copy_part_state.c"}
-{"id":"dungeon/func_81263000","path":"src/dungeon/monster/beldo/create_flagged_actor_object.c"}
+{"id":"dungeon/func_81263000","path":"src/dungeon/monster/beldo/sync_beldo_part_to_owner_and_pulse_shade.c"}
 {"id":"dungeon/func_81275000","path":"src/dungeon/monster/beldo/update_beldo_part_position.c"}
 {"id":"dungeon/func_8127B000","path":"src/dungeon/monster/beldo_old/copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading.c"}
 {"id":"dungeon/func_8127C3E0","path":"src/dungeon/monster/beldo_old/step_beldo_old_toward_target.c"}
@@ -5088,7 +5088,7 @@
 {"id":"dungeon/func_81810548","path":"src/dungeon/system/call_indexed_handler_and_clear.c"}
 {"id":"dungeon/func_81810598","path":"src/dungeon/system/reset_object_to_default_data.c"}
 {"id":"dungeon/func_818105AC","path":"src/dungeon/system/forward_stored_object_value.c"}
-{"id":"dungeon/func_818105D0","path":"src/dungeon/system/process_resolved_item_value.c"}
+{"id":"dungeon/func_818105D0","path":"src/dungeon/system/clear_second_work_object_buffer.c"}
 {"id":"dungeon/func_818105FC","path":"src/dungeon/system/store_unique_text_record.c"}
 {"id":"dungeon/func_8181073C","path":"src/dungeon/system/process_changed_item_text.c"}
 {"id":"dungeon/func_818107C0","path":"src/dungeon/system/process_record_resolved_value.c"}
@@ -7091,7 +7091,7 @@
 {"id":"town/func_8047B9F0","path":"src/town/scene/test_unless_mode_2_c.c"}
 {"id":"town/func_8047E178","path":"src/town/scene/initialize_context_entry_tables_variant_b.c"}
 {"id":"town/func_8047E2B8","path":"src/town/scene/service/run_scene_service_224.c"}
-{"id":"town/func_8047E2F0","path":"src/town/scene/flags/call_first_handler_if_flag_set.c"}
+{"id":"town/func_8047E2F0","path":"src/town/scene/flags/invoke_service_callback_228_with_zero.c"}
 {"id":"town/func_8047E328","path":"src/town/scene/service/call_scene_service_280_1705.c"}
 {"id":"town/func_8047E360","path":"src/town/scene/service/call_scene_service_280_1706.c"}
 {"id":"town/func_8047E398","path":"src/town/scene/object/configure_active_object_two.c"}
@@ -7116,7 +7116,7 @@
 {"id":"town/func_804B7950","path":"src/town/scene/event/query_event_50d.c"}
 {"id":"town/func_804B7970","path":"src/town/scene/event/query_event_50e.c"}
 {"id":"town/func_804B7990","path":"src/town/scene/clear_script_flag_sbs07_pad23.c"}
-{"id":"town/func_804B79B0","path":"src/town/scene/event/advance_counter_dispatch_event.c"}
+{"id":"town/func_804B79B0","path":"src/town/scene/event/set_script_flag_sbs07_pad27.c"}
 {"id":"town/func_804B79D0","path":"src/town/scene/check_inputs_after_threshold_five_third.c"}
 {"id":"town/func_804B79F0","path":"src/town/scene/service/run_service_callback.c"}
 {"id":"town/func_804B7A28","path":"src/town/scene/set_entry_state.c"}
@@ -7155,7 +7155,7 @@
 {"id":"town/func_80601338","path":"src/town/scene/threshold_counter.c"}
 {"id":"town/func_80632100","path":"src/town/scene/hooks/invoke_callback_set_shared_pointer_second.c"}
 {"id":"town/func_806321D0","path":"src/town/scene/check_inputs_after_threshold_five_b.c"}
-{"id":"town/func_80632280","path":"src/town/scene/motion/set_scene_position.c"}
+{"id":"town/func_80632280","path":"src/town/scene/motion/invoke_service_callback_04c_with_2_0x12.c"}
 {"id":"town/func_8064711C","path":"src/town/scene/test_script_flag_sbs18_pad05.c"}
 {"id":"town/func_8064713C","path":"src/town/scene/set_state_4_run_transition.c"}
 {"id":"town/func_80647190","path":"src/town/scene/check_fixed_query_nonzero_b.c"}
@@ -7165,7 +7165,7 @@
 {"id":"town/func_8065BF88","path":"src/town/scene/get_state_record_byte.c"}
 {"id":"town/func_8065BFA8","path":"src/town/scene/check_result_not_minus_one_b.c"}
 {"id":"town/func_8065BFF4","path":"src/town/scene/flags/process_scene_action_flag_second.c"}
-{"id":"town/func_8067F74C","path":"src/town/scene/process_ids_zero_second.c"}
+{"id":"town/func_8067F74C","path":"src/town/scene/cache_second_value_pair_and_return_first.c"}
 {"id":"town/func_8067F840","path":"src/town/scene/get_saved_entry_count_second.c"}
 {"id":"town/func_8067F850","path":"src/town/scene/process_entry_list_in_mode_one.c"}
 {"id":"town/func_806A9C08","path":"src/town/scene/set_d_800174dc_to_one.c"}
@@ -7195,7 +7195,7 @@
 {"id":"town/func_806D8324","path":"src/town/scene/service/call_scene_service_54_2.c"}
 {"id":"town/func_806D8580","path":"src/town/scene/get_helper_result.c"}
 {"id":"town/func_806DB100","path":"src/town/scene/hooks/invoke_callback_set_shared_pointer_b.c"}
-{"id":"town/func_806DB114","path":"src/town/scene/get_base_address_b.c"}
+{"id":"town/func_806DB114","path":"src/town/scene/forward_to_clear_generation_cell_grid.c"}
 {"id":"town/func_806F1AA8","path":"src/town/scene/service/run_service_callback_zero_x.c"}
 {"id":"town/func_806F2690","path":"src/town/scene/set_selection_index_1.c"}
 {"id":"town/func_8070E9D4","path":"src/town/scene/check_stored_below_threshold.c"}
@@ -7205,7 +7205,7 @@
 {"id":"town/func_8070F224","path":"src/town/scene/service/call_scene_service_238_e_200.c"}
 {"id":"town/func_8070F678","path":"src/town/scene/service/call_run_town_service_callback.c"}
 {"id":"town/func_8070F6BC","path":"src/town/scene/hooks/get_shared_entry_buffer_y.c"}
-{"id":"town/func_8070F6E4","path":"src/town/scene/hooks/forward_four_values_return_zero.c"}
+{"id":"town/func_8070F6E4","path":"src/town/scene/hooks/get_scene_string_fallback.c"}
 {"id":"town/func_8070F6F8","path":"src/town/scene/money/get_primary_price.c"}
 {"id":"town/func_8070F708","path":"src/town/scene/money/get_secondary_price.c"}
 {"id":"town/func_8070F768","path":"src/town/scene/money/subtract_primary_price.c"}
@@ -7215,11 +7215,11 @@
 {"id":"town/func_8070F894","path":"src/town/scene/call_helper_fixed_id_f.c"}
 {"id":"town/func_8070F8EC","path":"src/town/person/object/get_referenced_object_active_flag.c"}
 {"id":"town/func_8070F90C","path":"src/town/scene/clear_script_flag_bar_pad12.c"}
-{"id":"town/func_8072A288","path":"src/town/scene/decrement_town_global_counter_second.c"}
+{"id":"town/func_8072A288","path":"src/town/scene/set_script_flag_sbs48_pad00.c"}
 {"id":"town/func_8072A2A8","path":"src/town/scene/service/run_service_callback_zero_x_b.c"}
 {"id":"town/func_8072A308","path":"src/town/scene/call_helper_with_fixed_id_0xbdb.c"}
 {"id":"town/func_8072AFFC","path":"src/town/scene/motion/enable_position_offset.c"}
-{"id":"town/func_80761D30","path":"src/town/scene/hooks/get_shared_threshold_value_b.c"}
+{"id":"town/func_80761D30","path":"src/town/scene/hooks/set_script_flag_sbs36_pad19.c"}
 {"id":"town/func_80761D50","path":"src/town/scene/flags/run_handler_after_flag_7.c"}
 {"id":"town/func_807701B4","path":"src/town/scene/event/dispatch_state_entry_event_8.c"}
 {"id":"town/func_80774928","path":"src/town/scene/dispatch_town_callback_fallback_g00763.c"}

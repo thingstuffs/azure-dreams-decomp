@@ -47,7 +47,7 @@ typedef struct ProjectileSprite {
     u8 unk_04; /* source entry index; reset to zero when restarting the particle animation */
     u8 unk_05; /* animation delay/rate byte; reset alongside the source index */
     u8 pad_06[2];
-    void *unk_08; /* selected command/attachment source read from source entry +4 */
+    s32 unk_08; /* selected command/attachment source word read from source entry +4 */
     union {
         struct { u8 v; /* red modulation byte, reduced by the particle fade step */ } at00;
         struct { s32 v; /* complete packed color/command word */ } at00u;

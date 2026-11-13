@@ -23,7 +23,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
     long slot_address;
 
     linked_object = owner->unk_A4.byte_address;
-    linked_state = linked_object + 0x20;
+    linked_state = NODE_BODY(linked_object);
     source_object = *(u8 **)(linked_object + 0xC);
     dest_object->tile_x = source_object[0x24];
     dest_object->tile_y = source_object[0x25];

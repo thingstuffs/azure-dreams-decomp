@@ -14,7 +14,7 @@ s32 dispatch_entry_by_798_state(void *handler_arg_a, s32 handler_arg_b);
 s32 dispatch_by_state_code_0x799(void *slot_index, s32 slot_value);
 s32 dispatch_menu_pair_by_798_state(void *slot_index, s32 slot_value);
 s32 dispatch_entry_and_set_11_fb_when_flagged(void *context, s32 entry_index);
-void call_clear_script_flag_bit(void *context, s32 entry_index);
+void forward_to_process_checked_entry(void *context, s32 entry_index);
 s32 dispatch_entry_by_799_flag(void *context, s32 entryIndex);
 s32 dispatch_entry_by_798_and_799_flags(void *context, s32 entry_index);
 s32 select_handler_by_state_code_0x798(void *primaryInput, s32 secondaryInput);

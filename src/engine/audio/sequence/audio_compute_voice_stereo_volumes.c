@@ -12,7 +12,6 @@ typedef struct {
     u8 unk1B;
 } S_800561D8_D80086A40;
 
-
 typedef struct {
     u8 pad00[0x10];
     u16 unk10;

@@ -941,7 +941,7 @@ extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void
  * is the existing certified fa7000 contract, not a per-function flag. */
 extern s16 sample_terrain_surface_height(s32,s32,s16);
 
-void create_randomized_flagged_object(CL_CC5000_8017087C_Object *object, s32 field60_value, CL_CC5000_8017087C_CopyFields *source_coords);
+void init_neutral_sprite_effect_at_position(CL_CC5000_8017087C_Object *object, s32 field60_value, CL_CC5000_8017087C_CopyFields *source_coords);
 void func_8015E920(void *effect, void *unused, void *visual);
 void *func_8015EA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void func_8015F02C(CL_CC5000_8017102C_S_8017102C_0 *state, void *motion, CL_CC5000_8017102C_S_8017102C_2 *sprite, CL_CC5000_8017102C_S_8017102C_1 *actor);

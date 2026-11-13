@@ -14,6 +14,7 @@ struct ObjectPosition;
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_image_buffer.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "slus.h"
@@ -30,7 +31,6 @@ struct ObjectPosition;
 
 extern s32 cd_cue_base[];
 extern u8 *actor_effect_color_targets[];
-extern u8 dungeon_resource_buffer[200000];
 extern u8 D_80173F68[];
 extern u8 D_801745D8[];
 extern u8 D_80174E24[];

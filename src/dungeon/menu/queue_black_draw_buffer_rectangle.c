@@ -1,10 +1,9 @@
+#include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/menu.h"
 #include "sdk/libgpu.h"
 #include "shared/gpu_packets.h"
-
-extern u8 upper_draw_context[16];
 
 /* Queues drawing commands and a black 64-by-64 rectangle in the active draw buffer. */
 void queue_black_draw_buffer_rectangle(InactiveTypeTwelveObjectBody *object) {

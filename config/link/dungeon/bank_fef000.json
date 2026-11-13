@@ -11,7 +11,7 @@
     {
       "row": "dungeon/func_80FCF0A4",
       "home": "dungeon/func_80FB1000",
-      "tu": "src/dungeon/monster/mandara/create_actor_grid_object.c",
+      "tu": "src/dungeon/monster/mandara/create_mandara_actor.c",
       "foff": "0xFEF0A4",
       "vma": "0x801528A4",
       "size": 668,

@@ -1014,7 +1014,7 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Sp
  * Runs update_linked_actor_motion and installs update_actor_state_and_select_target only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void check_boss_effect_threshold(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void install_target_selection_after_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = update_actor_state_and_select_target;
@@ -2265,7 +2265,7 @@ s32 queue_line_packets_for_node_chain(void *initial_state, void *context, Sprite
  * Decrements the 16-bit lifetime and sets local and global removal flags when the signed result is
  * zero or negative.
  */
-void update_turning_fade_effect_and_model(void *record_data) {
+void count_down_lifetime_and_flag_removal(void *record_data) {
     u16 remaining_count;
 
     remaining_count = ((R12_801749A8_S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_1C - 1;
@@ -2435,7 +2435,7 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
             meridian_line = NODE_BODY(meridian_object);
             meridian_line->unk_1A = 1;
             meridian_line->unk_1C = 1;
-            meridian_object->update_callback = ((u8 *)update_turning_fade_effect_and_model);
+            meridian_object->update_callback = ((u8 *)count_down_lifetime_and_flag_removal);
             register_node(meridian_object, &queue_line_packets_for_node_chain);
             meridian_render = meridian_object->sprite;
             meridian_render->tpage_abr = 0x20;
@@ -2479,7 +2479,7 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
                 meridian_line = NODE_BODY(ring_object);
                 meridian_line->unk_1A = 1;
                 meridian_line->unk_1C = 1;
-                ring_object->update_callback = ((u8 *)update_turning_fade_effect_and_model);
+                ring_object->update_callback = ((u8 *)count_down_lifetime_and_flag_removal);
                 register_node(ring_object, &queue_line_packets_for_node_chain);
                 ring_render = ring_object->sprite;
                 {

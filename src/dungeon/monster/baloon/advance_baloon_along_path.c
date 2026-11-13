@@ -10,11 +10,10 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/baloon.h"
+#include "dungeon/monster/baloon_frames.h"
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern s32 check_movement_clearance_and_height();
-
-extern u8 baloon_default_frames[8];
 
 /* Advance the actor along its queued path and update movement timing. */
 void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

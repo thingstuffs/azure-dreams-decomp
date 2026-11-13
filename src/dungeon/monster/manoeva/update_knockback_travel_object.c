@@ -29,11 +29,6 @@ typedef struct S_80174CCC_5 {
     s32 unk_14A0;
 } S_80174CCC_5;   /* (void *)used_page in update_knockback_travel_object */
 
-typedef struct S_80174CCC_6_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80174CCC_6_pre;   /* the 0x14 bytes before created in update_knockback_travel_object, addressed as created[-1] */
-
 typedef struct S_80174CCC_6 {
     u8 pad_00[0x5];
     u8 unk_05;
@@ -202,7 +197,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
                     parent->unk_CA++;
                 }
 
-                owner = ((S_80174CCC_6_pre *)created)[-1].unk_00;
+                owner = NODE_HEADER(created)->sprite;
                 owner->frameTable = manoeva_frame_set_2;
                 owner->flags |= 0x4000;
                 owner->clut = motion->unk_3A;

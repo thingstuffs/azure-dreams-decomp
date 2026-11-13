@@ -4,8 +4,8 @@
 #include "dungeon/effect/sprite.h"
 #include "sdk/libgte.h"
 #include "slus.h"
+#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
-extern u8 ribbon_sprite_entries[];
 
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))

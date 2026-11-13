@@ -130,7 +130,7 @@ extern s16 tint_particle_effect_updated;
 extern PackedVec3 tint_particle_sprite_data;
 void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused, void *primitive);
 void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner);
-void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite);
+void create_free_slot_display_spawner(void *source, void *unused_position, void *unused_sprite);
 s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition *first_position);
 void lower_timed_effect_position(Entity *entity, State *state);
 void handle_spawn_initialize_randomized_offset_parent(struct ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);

@@ -81,7 +81,7 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
 
-        if ((g_dungeon_status.pending_display_owner) == (u8 *)entity_data - 0x20) {
+        if (g_dungeon_status.pending_display_owner == NODE_HEADER(entity_data)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         controller->unk_8C.address = &weadog_action_resume_address;

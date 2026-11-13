@@ -354,7 +354,7 @@ void card_boot_initialize_dialog_packets_and_display(struct CardMessageDialogBod
 /* dialog_selection_highlight_g00379.c */
 void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 entry_count);
 void card_boot_position_dialog_selection_marker(CardMessageDialogBody *context, s32 column, s32 mode, s32 row, s32 row_value);
-void card_boot_update_message_choice_highlight(void *object);
+void card_boot_update_message_choice_highlight(CardMessageDialogBody *object);
 
 /* card_boot_stop_timer_and_init_server_g01041.c */
 void *init_card_boot_request_with_centered_geometry(void *request);

@@ -393,7 +393,7 @@ void advance_radial_effect_state(Row_8191740C_S_80024C0C_0 *motion, void *positi
 void *create_an_oriented_effect_between_position_owner(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos);
 void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform,struct SpriteFrameState *visual);
 void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
-void build_inverted(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
+void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 extern u8 camera_transition_timer[];
 extern void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 #endif

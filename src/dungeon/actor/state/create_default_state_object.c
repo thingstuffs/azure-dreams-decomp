@@ -3,6 +3,7 @@
 #include "common.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/actor/phase_body.h"
+#include "dungeon/actor/action_control_dispatch_g00352.h"
 #include "engine/node.h"
 #include "engine/scene.h"
 struct Arg0_800AFBFC;
@@ -16,7 +17,6 @@ typedef s32 M2C_UNK;
 
    /* obj in create_default_state_object */
 
-extern s16 current_dungeon_floor;
 extern s32 process_circular_segments(struct Arg0_800AFBFC *shape, ObjectPosition *unused, struct Arg2_800AFBFC *segment);
 extern s8 D_800DCF4C;
 extern M2C_UNK D_800DEF90;

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
@@ -7,14 +8,11 @@
 #include "sdk/libgte.h"
 #include "slus.h"
 
-typedef s32 M2C_UNK;
-
 #ifndef NULL
 #define NULL 0
 #endif
 
 extern M2C_UNK D_80024330[];
-extern u8 ribbon_sprite_entries[];
 
 typedef struct S_8185CE28_0 {
     u8 pad_00[0x8];

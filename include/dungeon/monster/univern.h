@@ -342,7 +342,7 @@ void update_univern_parent_motion(ActorRecord *actor, ObjectPosition *action, Sp
 void update_timed_effect_and_expire(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void finish_actor_terrain_interpolation_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_spinning_actor_fall_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void update_effect_trajectory_and_sprite(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void blend_animation_palette_and_complete(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void install_ground_movement_after_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void install_ground_movement_after_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_action_flag_propagation_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 #endif

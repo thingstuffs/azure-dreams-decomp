@@ -413,7 +413,6 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 
-
 extern s16 direction_x_offsets[];
 extern s16 direction_y_offsets[];
 

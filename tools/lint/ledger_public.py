@@ -31,10 +31,18 @@ count rises is NEW and fails (exit 1).  tools/lint/ledger_integrity.py runs it i
 Private commit hashes (kind `tree`): a 40-hex `"tree": "<sha>"` value (the commit a prototype-floor row was measured
 on) must name a commit in public history, an ancestor of HEAD, of a local `master`/`origin/master` branch, of
 LEDGER_PUBLIC_REF or of a `--public-ref`.  A lane or batch root's own commits never become public, so citing one leaves
-a hash nobody can resolve.  `check` fails on a rise of such hashes in a changed public file (the ones already on BASE
-are reported by `census` only); in a lane root whose history does not contain master, pass the master commit the root
-was made from as `--public-ref` (or set LEDGER_PUBLIC_REF, which is not an AZURE_* name and so stays out of the
-configure checkpoint guard) so hashes of master commits are recognised.
+a hash nobody can resolve.  A shorter hex value (7-39 digits) in a "tree" field is always counted: an abbreviated hash
+is ambiguous and cannot be checked against public history, so a row records the full hash or null.  `check` fails on
+a rise of such hashes in a changed public file (the ones already on BASE are reported by `census` only).
+
+A lane root (a checkout that tools/lanes/mk_scratch_root.py made: it carries SCRATCH_HEAD) has its own history: HEAD
+and its local `master` are the lane's private commits, so there neither counts as public; only `origin/master`, the
+SCRATCH_HEAD commit (when the root's object store has it), LEDGER_PUBLIC_REF and `--public-ref` do.  Pass the master
+commit the root was made from as `--public-ref` (or set LEDGER_PUBLIC_REF, which is not an AZURE_* name and so stays
+out of the configure checkpoint guard) so hashes of master commits are recognised.
+
+`check` fails closed: when `git diff BASE` (or listing the untracked files) fails, for example on an unknown BASE,
+nothing is compared and the check fails.
 """
 from __future__ import annotations
 
@@ -230,39 +238,68 @@ def _git(root, *args):
     return subprocess.run(['git', *args], cwd=root, capture_output=True)
 
 
-TREE_RE = re.compile(r'"tree":\s*"([0-9a-f]{40})"')
+TREE_RE = re.compile(r'"tree":\s*"([0-9a-f]{7,40})"')
+
+
+def lane_root(root):
+    """The base commit of a lane root (tools/lanes/mk_scratch_root.py writes SCRATCH_HEAD), or None."""
+    marker = Path(root) / 'SCRATCH_HEAD'
+    if not marker.is_file():
+        return None
+    return marker.read_text().strip() or 'unknown'
 
 
 def public_refs(root, extra=()):
-    """Refs whose ancestry is public history: HEAD, a local master/origin/master, LEDGER_PUBLIC_REF and EXTRA."""
-    refs = ['HEAD']
-    for name in ('master', 'origin/master'):
+    """Refs whose ancestry is public history: HEAD, a local master/origin/master, LEDGER_PUBLIC_REF and EXTRA.
+
+    In a lane root HEAD and the local master are the lane's own commits: only origin/master, the SCRATCH_HEAD
+    commit (when this object store has it), LEDGER_PUBLIC_REF and EXTRA count."""
+    lane = lane_root(root)
+    refs = [] if lane else ['HEAD']
+    for name in (('origin/master',) if lane else ('master', 'origin/master')):
         if _git(root, 'rev-parse', '--verify', '--quiet', name + '^{commit}').returncode == 0:
             refs.append(name)
+    if lane and _git(root, 'rev-parse', '--verify', '--quiet', lane + '^{commit}').returncode == 0:
+        refs.append(lane)
     env = os.environ.get('LEDGER_PUBLIC_REF')
     refs += [r for r in (env, *extra) if r]
     return refs
 
 
 def unreachable_trees(root, text, refs, cache=None):
-    """Counter of the 40-hex "tree" commit hashes in TEXT that are not an ancestor of any of REFS."""
+    """Counter of the "tree" commit hashes in TEXT outside public history: a full hash that is not an ancestor of any
+    of REFS, and every abbreviated (7-39 hex) hash."""
     cache = {} if cache is None else cache
     res = collections.Counter()
     for sha, n in collections.Counter(TREE_RE.findall(text)).items():
         if sha not in cache:
-            cache[sha] = any(_git(root, 'merge-base', '--is-ancestor', sha, ref).returncode == 0 for ref in refs)
+            cache[sha] = len(sha) == 40 and any(
+                _git(root, 'merge-base', '--is-ancestor', sha, ref).returncode == 0 for ref in refs)
         if not cache[sha]:
             res[sha] = n
     return res
 
 
+class DiffFailed(RuntimeError):
+    """`git diff BASE` (or the untracked listing) failed: the check cannot know which files changed."""
+
+
+def changed_paths(root, base):
+    """Paths that differ from BASE plus untracked public candidates; raises DiffFailed when git fails."""
+    diff = _git(root, 'diff', '--name-only', '--no-renames', base, '--')
+    if diff.returncode != 0:
+        raise DiffFailed(f'git diff {base} failed: ' + diff.stderr.decode(errors='replace').strip())
+    others = _git(root, 'ls-files', '--others', '--exclude-standard', '--', 'ledger', 'tools', 'config')
+    if others.returncode != 0:
+        raise DiffFailed('git ls-files failed: ' + others.stderr.decode(errors='replace').strip())
+    return sorted(set(diff.stdout.decode().split()) | set(others.stdout.decode().split()))
+
+
 def new_strings(root, base):
     """{path: Counter((kind, token) -> rise)} for public files that gained lane-local strings since BASE."""
     root = Path(root)
-    changed = _git(root, 'diff', '--name-only', '--no-renames', base, '--').stdout.decode().split()
-    changed += _git(root, 'ls-files', '--others', '--exclude-standard', '--', 'ledger', 'tools', 'config').stdout.decode().split()
     res = {}
-    for rel in sorted(set(changed)):
+    for rel in changed_paths(root, base):
         if not is_public(rel) or not (root / rel).is_file():
             continue
         head = count_tokens((root / rel).read_text(errors='replace'))
@@ -279,10 +316,8 @@ def new_strings(root, base):
 def new_trees(root, base, refs):
     """{path: Counter(sha -> rise)} for public files that gained commit hashes outside public history since BASE."""
     root = Path(root)
-    changed = _git(root, 'diff', '--name-only', '--no-renames', base, '--').stdout.decode().split()
-    changed += _git(root, 'ls-files', '--others', '--exclude-standard', '--', 'ledger', 'tools', 'config').stdout.decode().split()
     res, cache = {}, {}
-    for rel in sorted(set(changed)):
+    for rel in changed_paths(root, base):
         if not is_public(rel) or not (root / rel).is_file():
             continue
         head = unreachable_trees(root, (root / rel).read_text(errors='replace'), refs, cache)
@@ -299,7 +334,11 @@ def new_trees(root, base, refs):
 
 def check(root, base, out=None, public_ref=()):
     out = out or sys.stdout
-    rises = new_strings(root, base)
+    try:
+        rises = new_strings(root, base)
+    except DiffFailed as error:
+        print(f'public ledgers: FAILED, nothing compared ({error})', file=out)
+        return 1
     total = sum(sum(c.values()) for c in rises.values())
     for rel, rise in rises.items():
         for (kind, tok), n in sorted(rise.items()):
@@ -310,7 +349,9 @@ def check(root, base, out=None, public_ref=()):
     ntrees = sum(sum(c.values()) for c in trees.values())
     for rel, rise in trees.items():
         for sha, n in sorted(rise.items()):
-            print(f'  NEW tree {rel}: {sha} (+{n}) is not an ancestor of {", ".join(refs)}', file=out)
+            why = ('is abbreviated (record the full hash or null)' if len(sha) < 40 else
+                   'is not an ancestor of ' + (', '.join(refs) or 'any public ref (lane root: pass --public-ref)'))
+            print(f'  NEW tree {rel}: {sha} (+{n}) {why}', file=out)
     print(f'public ledgers: {ntrees} new private commit hashes in {len(trees)} files', file=out)
     return total + ntrees
 

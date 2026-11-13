@@ -5,11 +5,11 @@
 #include "sdk/libgte.h"
 #include "dungeon/effect/sprite.h"
 #include "slus.h"
+#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
 struct Dst;
 struct Elem;
 
-extern u8 ribbon_sprite_entries[];
 
 typedef struct S_8185CB30_0 {
     void * unk_00;

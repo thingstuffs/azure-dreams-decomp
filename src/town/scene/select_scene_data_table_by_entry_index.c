@@ -9,8 +9,8 @@ extern u8 D_80016620[];
 extern u8 D_80016674[];
 extern void *D_80017C7C;
 
-/* Selects a data table using the current object's ID at offset 8. */
-void get_saved_entry_count(void) {
+/* Stores one of five data tables in D_80017C7C chosen by the scene root's entry index. */
+void select_scene_data_table_by_entry_index(void) {
     switch (town_scene_root->entry_index) {
     case 37:
         D_80017C7C = D_80016524;

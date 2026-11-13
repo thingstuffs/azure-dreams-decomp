@@ -5,6 +5,7 @@
 /* Directional attack trails, target sprite distortion, and homing particles. */
 #include "modules/dungeon_ovl_1852800.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_sprite_data.h"
 #include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -24,7 +25,6 @@
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 secondary_sprite[];
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */                /* extern */
 s32 rand();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
@@ -160,7 +160,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             count = 5;
         }
         particle_callback = &update_shrinking_effect_sprite;
-        particle_texture = (S_func_81832800_7 *) secondary_sprite;
+        particle_texture = (S_func_81832800_7 *) &secondary_sprite;
         while (count >= 0) {
             object = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (object != NULL) {

@@ -1,12 +1,13 @@
 # Warning groups accepted once by the landing that wrote them (tools/lint/lint_closure.py).
-# BASE copy sha256: none (written by --write-accepted; rows added or raised against any other BASE fail the closure)
+# BASE copy sha256: 3aa4c43867da17b61bb567ac5a75b1bc56766d9d21ffb7cc3df999bac1c4831d (written by --write-accepted; rows added or raised against any other BASE fail the closure)
 warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/actor/effect/effect.c	render_floor_items	3	CompMatrix,RotTransPers
 -Wincompatible-pointer-types	src/dungeon/actor/effect/render_actor_sprite_parts.c	render_actor_sprite_parts	5	CompMatrix,RotTransPers4
 -Wincompatible-pointer-types	src/dungeon/effect/dispatch.c	transform_mesh_and_append_draw_packets	15	CompMatrix,ReadRotMatrix,RotMatrix,RotTransPers,ScaleMatrix,SetDrawMode,SetPolyG3
--Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	build_inverted	5	LoadImage,StoreImage,decrement_effect_counter_by_twelve
--Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	decrement_effect_counter_by_twelve	1	SetDrawArea
+-Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	build_inverted	5	LoadImage,StoreImage,draw_sprite_strips_with_clip_and_fill_rect
+-Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	build_textured_sprite_strips	2	SetPriority
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	draw_brightness_scaled_linked_tiles	1	SetDrawMode
+-Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	draw_sprite_strips_with_clip_and_fill_rect	1	SetDrawArea
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c	build_and_depth_sorts_five_radial_line_segments_effect	3	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/follow_brighten.c	draw_n_16_shaded_line_segments_link_them_ordering_table_depth	2	RotTransPers
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/follow_brighten.c	write_fixed_palette_pixels	2	LoadImage
@@ -15,6 +16,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c	project_shaded_points_to_ordering_table	1	SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c	transform_and_queue_mesh_primitives	1	SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/wave.c	draw_linked_brightness_points	2	RotTransPers,SetDrawMode
+-Wincompatible-pointer-types	src/dungeon/effect/mesh/wave.c	draw_wave_distorted_sprite	2	SetPriority
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/wave.c	draw_wave_sprite_in_draw_area	1	SetDrawArea
 -Wincompatible-pointer-types	src/dungeon/effect/motion/draw_ball_effect_points.c	draw_ball_effect_points	2	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/motion/raise_position_toward_height.c	advance_the_animation_draws_rectangles_in_randomized_order	1	LoadImage
@@ -33,7 +35,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/particle/render_textured_effect_parts.c	draw_shaded_point_chain	2	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/particle/update_actor_effect_particles_and_cleanup.c	draw_actor_effect_points	3	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/particle/update_effect_base_state.c	draw_layered_vertical_sprite_chain	5	RotTransPers,SetPolyFT4
--Wincompatible-pointer-types	src/dungeon/effect/particle/view_parameter_transition.c	begin_view_parameter_transition	2	RotTransPers,SetDrawMode
+-Wincompatible-pointer-types	src/dungeon/effect/particle/view_parameter_transition.c	draw_linked_brightness_scaled_points	2	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/screen/transform_shade_and_queue_model_quads.c	queue_linked_visible_rectangle_copies	1	
 -Wincompatible-pointer-types	src/dungeon/effect/shade/update_directional_actor_effect.c	create_textured_offset_object	3	ApplyMatrixSV
 -Wincompatible-pointer-types	src/dungeon/effect/shade/update_directional_actor_effect.c	update_rotating_effect_and_fade	3	ApplyMatrixSV
@@ -45,6 +47,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/initialize_destination_from_vector.c	initialize_destination_from_vector	1	ScaleMatrix
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/offset_parent.c	project_linked_vertical_point_quads	3	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_effect_quads.c	draw_effect_and_restore_clip	1	SetDrawArea
+-Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_effect_quads.c	render_rotated_effect_quads	2	SetPriority
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_grid_surface.c	render_rotated_grid_surface	5	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/route.c	project_linked_shaded_points	3	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/update_directional_actor_effect.c	create_counted_sprite_effect	2	RotTransPers,SetPolyFT4
@@ -105,7 +108,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/engine/window/create_window_overlay_object.c	create_window_overlay_object	4	ClearImage,copy_window_offset_rectangle,copy_window_params
 -Wincompatible-pointer-types	src/engine/window/message/queue_window_texture_draw_mode.c	queue_window_texture_draw_mode	1	SetDrawMode
 -Wincompatible-pointer-types	src/engine/window/queue_unwindowed_texture_draw_mode.c	queue_unwindowed_texture_draw_mode	1	SetDrawMode
--Wincompatible-pointer-types	src/frontend/libcard/message/initialize_text_editor_context.c	initialize_text_editor_context	1	StoreImage
+-Wincompatible-pointer-types	src/frontend/libcard/message/card_boot_store_save_icon_clut_and_frames.c	card_boot_store_save_icon_clut_and_frames	1	StoreImage
 -Wincompatible-pointer-types	src/frontend/settings/initialize_settings_screen.c	initialize_settings_screen	5	LoadImage,StoreImage,render_screen_fade_decreasing_intensity
 -Wincompatible-pointer-types	src/ovmovie/game_movie_playback_g01063.c	clear_movie_display_area	1	ClearImage
 -Wincompatible-pointer-types	src/ovmovie/game_movie_playback_g01063.c	upload_movie_strip_and_advance_buffer	1	LoadImage

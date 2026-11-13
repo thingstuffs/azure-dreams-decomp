@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80E552D0",
-      "tu": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
+      "tu": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "home": "dungeon/func_80E372D0",
       "foff": "0xE752D0",
       "vma": "0x80152AD0",

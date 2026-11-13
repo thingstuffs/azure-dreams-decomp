@@ -1,14 +1,13 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/death.h"
+#include "dungeon/monster/death/actor_status_flags_g00165.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
-
-extern s32 death_action_resume_address;
 
 /* Advance the action delay, reset motion, and select the next handler. */
 void advance_action_delay_and_handler(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *action_info, ActorRecord *actor_data) {

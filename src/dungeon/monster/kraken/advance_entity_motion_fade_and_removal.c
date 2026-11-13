@@ -1,6 +1,7 @@
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/object_links.h"
@@ -15,13 +16,6 @@ struct EntityLinkNode;
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 s16 sample_terrain_surface_height();
-
-
-
-   /* the 0x2 bytes before arg3 in advance_entity_motion_fade_and_removal, addressed as arg3[-1] */
-
-
-
 
 /* Advance an entity through motion, fading, and removal. */
 void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, void *entity) {
@@ -106,7 +100,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
         if ((s16)next_brightness >= 0x18) {
             return;
         }
-        if (((s32)g_dungeon_status.pending_display_owner) == (entity - 0x20)) {
+        if (g_dungeon_status.pending_display_owner == NODE_HEADER(entity)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         distribute_experience_and_report_gains(entity);

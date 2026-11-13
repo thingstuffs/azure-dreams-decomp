@@ -310,7 +310,7 @@ void follow_brighten(MovingEffectState *self, MovingMotion *motion, MovingSprite
         break;
 
     case 17:
-        if (staged_fade_count.value.s != 0) {
+        if (staged_fade_count != 0) {
             break;
         }
         g_dungeon_status.active_actor = 0;
@@ -319,7 +319,7 @@ void follow_brighten(MovingEffectState *self, MovingMotion *motion, MovingSprite
     }
     {
         u16 frame = self->unk_18.u;
-        staged_fade_count.value.u = 0;
+        staged_fade_count = 0;
         self->unk_18.u = frame + 1;
     }
 }
@@ -331,11 +331,11 @@ void advance_object_and_global_counters(u16 *object)
     u16 object_count;
     s32 counter;
 
-    counter = staged_fade_count.value.u;
+    counter = (u16)staged_fade_count;
     object_count = object[13] + 1;
     counter++;
     object[13] = object_count;
-    staged_fade_count.value.u = counter;
+    staged_fade_count = counter;
     if ((s16)object_count >= 0x101) {
         object[-1] |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -1,5 +1,7 @@
 #include "common.h"
+#include "dungeon/monster/death/actor_status_flags_g00165.h"
 #include "dungeon/monster/death.h"
+#include "dungeon/monster/death_frames.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
@@ -17,9 +19,6 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern s32 refresh_actor_facing_and_lifecycle();
 
-extern s32 death_action_resume_address;
-extern u8 death_direction_frames[8];
-extern u8 death_frame_set_7[8];
 extern Callback D_801746A0[];
 
 

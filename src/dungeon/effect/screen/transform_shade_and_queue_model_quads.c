@@ -10,6 +10,7 @@
 #include "sdk/libgte_matrix.h"
 #include "sdk/libgpu_packets.h"
 #include "engine/graphics/sprite_scratch.h"
+#include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 
 typedef struct S_800C9088_4 S_800C9088_4;
 
@@ -342,7 +343,6 @@ typedef struct {
 } S_Stack;
 
 extern u8 resident_globals_page[];
-extern u8 upper_draw_context[16];
 extern void func_80066890(u8 *dst, S_Stack *rect, s32 x, s32 y);
 
 /* Queue a rectangle copy when both source and destination fit on screen. */

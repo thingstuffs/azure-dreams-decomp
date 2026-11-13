@@ -1,3 +1,4 @@
+#include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/vector.h"
@@ -88,8 +89,6 @@ typedef struct S_8009E798_6 {
 
    /* ret_state in build_transformed_sprite_quads */
 
-
-extern u8 upper_draw_context[16];
 
 /* Build and enqueue transformed sprite quads and restore the drawing area. */
 s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, ObjectPosition *placement, SpriteFrameState *sprite)

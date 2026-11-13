@@ -38,7 +38,7 @@ void remove_defeated_battnel(ActorRecord *action, ObjectPosition *unused, Sprite
         /* fall through */
     case 1:
         if (tile->flags & 0xE000) {
-            if ((g_dungeon_status.pending_display_owner) == ((u8 *)actor - 0x20)) {
+            if (g_dungeon_status.pending_display_owner == NODE_HEADER(actor)) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
             }
 
@@ -55,7 +55,7 @@ void remove_defeated_battnel(ActorRecord *action, ObjectPosition *unused, Sprite
             update_map_cell_flags_with_item_limit(x, y, strength);
             unlink_entity_node(actor);
 
-            *(u16 *)(((u8 *)actor - 2)) |= NODE_REMOVE;
+            NODE_HEADER(actor)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

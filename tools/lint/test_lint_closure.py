@@ -271,6 +271,44 @@ class AcceptedSitesTests(unittest.TestCase):
         self.assertEqual(C.accepted_rows(root, 'HEAD'), ({('src/b.c', 'b', self.PTR): 1}, []))
         self.assertEqual(self.gate([], head[:1], root)[0], 0)
 
+    def test_row_rekeyed_to_a_recorded_rename_is_carried_not_added(self):
+        text = '# old\n' + C.ACCEPTED_HEADER + '\n' + self.PTR + '\tsrc/old.c\told_name\t2\tStoreImage\n'
+        root = self.repo(text)
+        rekeyed = text.replace('src/old.c\told_name', 'src/new.c\tnew_name')
+        (root / C.ACCEPTED).write_text(rekeyed)
+        names = {'old_name': {'0x80025ffc'}, 'new_name': {'0x80025ffc'}, 'other': {'0x80010000'}}
+        renames = {'src/new.c': 'src/old.c'}
+        self.assertEqual(C.accepted_rows(root, 'HEAD', names, renames), ({}, []))
+        # without the rename record, an unrelated name, a file that git does not record renamed, or a raised
+        # count, the new key is an added row and is refused
+        self.assertEqual(len(C.accepted_rows(root, 'HEAD', dict(names, new_name={'0x80010004'}), renames)[1]), 1)
+        (root / C.ACCEPTED).write_text(rekeyed.replace('\t2\t', '\t3\t'))
+        self.assertEqual(len(C.accepted_rows(root, 'HEAD', names, renames)[1]), 1)
+        # a row left behind by a file rename that landed before BASE (BASE has no src/old.c) carries too
+        self.assertFalse((root / 'src/old.c').exists())
+        (root / C.ACCEPTED).write_text(rekeyed)
+        self.assertEqual(C.accepted_rows(root, 'HEAD', names, {}), ({}, []))
+        (root / 'src').mkdir()
+        (root / 'src/old.c').write_text('int x;\n')
+        git(root, 'add', 'src/old.c'); git(root, 'commit', '-qm', 'old.c exists at BASE')
+        (root / C.ACCEPTED).write_text(rekeyed)
+        self.assertEqual(len(C.accepted_rows(root, 'HEAD', names, {})[1]), 1)
+        # the old key still present: the new key is a second row, not a carry
+        (root / C.ACCEPTED).write_text(text + self.PTR + '\tsrc/new.c\tnew_name\t1\t\n')
+        self.assertEqual(len(C.accepted_rows(root, 'HEAD', names, renames)[1]), 1)
+        # a carried row honours nothing: its group rising still fails
+        (root / C.ACCEPTED).write_text(rekeyed)
+        with patch.object(C, 'recorded_renames', return_value=names), \
+                patch.object(C, 'accepted_renames', return_value=renames):
+            rising = [self.sdk_finding('src/new.c', 'new_name', {'src/new.c:1:1': [self.arg(1, 'RotTransPers')]})]
+            self.assertEqual(self.gate([], rising, root)[0], 1)
+            self.assertEqual(self.gate([], [], root)[0], 0)
+            # --write-accepted keeps the carried row (it is BASE's record), as it keeps BASE's own rows
+            with redirect_stdout(io.StringIO()):
+                C.report([], [], [], [], {}, 0, write_root=root, base='HEAD', sdk=self.SDK)
+            self.assertIn(self.PTR + '\tsrc/new.c\tnew_name\t2\tStoreImage',
+                          (root / C.ACCEPTED).read_text().splitlines())
+
     def test_sdk_functions_reads_include_sdk(self):
         root = self.repo()
         (root / 'include/sdk').mkdir(parents=True)
@@ -278,6 +316,41 @@ class AcceptedSitesTests(unittest.TestCase):
                                                    'struct MATRIX * RotMatrix(struct SVECTOR *, struct MATRIX *);\n'
                                                    'typedef void (*Callback)(void);\n')
         self.assertEqual(C.sdk_functions(root), {'RotMatrix'})
+
+
+class RecordedRenamePairTests(unittest.TestCase):
+    """A small file renamed with its function changes too much for git -M; names.tsv pairs it."""
+
+    def test_deleted_and_added_files_pair_through_one_address(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        (root / 'config').mkdir()
+        (root / 'src/a').mkdir(parents=True)
+        (root / 'config/names.tsv').write_text(
+            '0x80016530\tfunc_80016530\tget_value\tx\n0x80016530\tfunc_80016530\tset_flag_19\ty\n'
+            '0x80016288\tfunc_80016288\tcount_down\tx\n0x80016288\tfunc_80016288\tset_flag_00\ty\n')
+        (root / 'src/a/get_value_b.c').write_text('/* Calls f. */\ns32 get_value(void) { return f(19); }\n')
+        (root / 'src/a/count_down_second.c').write_text('/* Calls g. */\ns32 count_down(void)\n{\n    return f(0);\n}\n')
+        (root / 'src/a/keep.c').write_text('int keep(void) { return 0; }\n')
+        git(root, 'init', '-q'); git(root, 'add', '-A'); git(root, 'commit', '-qm', 'base')
+        git(root, 'mv', 'src/a/get_value_b.c', 'src/a/set_flag_19.c')
+        git(root, 'mv', 'src/a/count_down_second.c', 'src/a/set_flag_00.c')
+        (root / 'src/a/set_flag_19.c').write_text('/* Sets flag 19. */\ns32 set_flag_19(void) { return f(19); }\n')
+        (root / 'src/a/set_flag_00.c').write_text('/* Sets flag 0. */\ns32 set_flag_00(void) { return f(0); }\n')
+        (root / 'src/a/unrelated.c').write_text('int unrelated(void) { return 1; }\n')
+        git(root, 'add', '-A'); git(root, 'commit', '-qm', 'renamed')
+        rows = C.changes(root, 'HEAD~1', 'HEAD')
+        self.assertIn(('R', 'src/a/get_value_b.c', 'src/a/set_flag_19.c'), rows)
+        self.assertIn(('R', 'src/a/count_down_second.c', 'src/a/set_flag_00.c'), rows)
+        self.assertIn(('A', None, 'src/a/unrelated.c'), rows)
+        # two added files at the deleted function's address: ambiguous, left unpaired
+        (root / 'config/names.tsv').write_text((root / 'config/names.tsv').read_text()
+                                               + '0x80016530\tfunc_80016530\tunrelated\tz\n')
+        git(root, 'add', '-A'); git(root, 'commit', '-qm', 'ambiguous')
+        rows = C.changes(root, 'HEAD~2', 'HEAD')
+        self.assertIn(('D', 'src/a/get_value_b.c', None), rows)
+        self.assertIn(('R', 'src/a/count_down_second.c', 'src/a/set_flag_00.c'), rows)
 
 
 class RenameAndFullTests(unittest.TestCase):

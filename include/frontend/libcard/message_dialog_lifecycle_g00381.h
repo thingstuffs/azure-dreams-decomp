@@ -32,7 +32,7 @@ typedef struct S_set_handler_0 {
 extern void card_boot_initialize_message_render_templates(MenuDisplayNode *entity, MenuDisplayBlock *primary_data, DisplayPositionWords *secondary_data);
 /* arg0 in card_boot_activate_message_dialog */
 extern void *card_boot_build_message_window_packets(void *buffer, CardMessageDialogBody *layout);
-extern void card_boot_update_message_choice_highlight(void *object);
+extern void card_boot_update_message_choice_highlight(CardMessageDialogBody *object);
 
 
 extern struct S_800491F4 *card_boot_link_message_display_entries(void *ptr);

@@ -5,6 +5,7 @@
 #include "dungeon/system/random.h"
 #include "dungeon/monster/naplass.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
@@ -35,14 +36,8 @@ typedef struct S_80172840_8 {
     s16 unk_4C;
 } S_80172840_8;   /* spawn_fields in advance_move_action_particles */
 
-typedef struct S_80172840_10 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_80172840_10;   /* base in advance_move_action_particles */
-
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
-extern u8 secondary_sprite[0x20];
 extern u8 naplass_action_continuation_address[0x10];
 extern u8 D_80173EC0[0x10];
 extern u8 naplass_frame_set_1[0x10];
@@ -60,7 +55,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
     u16 coords[7];
     s32 direction_x;
     s32 direction_y;
-    S_80172840_10 *effect_base;
+    SpriteSourceEntry *effect_base;
     s32 abs_x;
     s32 abs_y;
     SpriteFrameState *record;
@@ -209,7 +204,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             action->unk_A8--;
             if (action->unk_A8 >= 0) {
                 counter = 9;
-                effect_base = secondary_sprite;
+                effect_base = &secondary_sprite;
                 for (; counter >= 0; counter--) {
                     SpriteFrameState *particle_data;
                     particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -259,7 +254,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
                         particle_data->tpage_abr = 0x60;
                         particle_data->unk_00 = effect_base;
                         particle_data->flags |= 0xC;
-                        effect_value = effect_base->unk_04;
+                        effect_value = effect_base->source;
                         color |= 0x7070;
                         particle_data->unk_04 = 0;
                         particle_data->frame_ticks = 0;

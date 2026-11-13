@@ -2,6 +2,7 @@
 struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/object_node.h"
 #include "dungeon/monster/beldo.h"
 #include "dungeon/level.h"
 
@@ -23,7 +24,7 @@ void process_global_effect_slots(void)
     do {
         object = *(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + slot * 4);
         if (object != 0) {
-            clear_entry_flag_and_link_owner((u8 *)object - 0x20);
+            clear_entry_flag_and_link_owner(NODE_HEADER(object));
         }
         slot++;
     } while (slot < 2);

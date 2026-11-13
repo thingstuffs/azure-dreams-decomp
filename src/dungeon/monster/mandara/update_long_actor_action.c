@@ -1,4 +1,5 @@
 #include "shared/sprite_source.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -44,7 +45,6 @@ void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectP
 extern void func_80174250(void *, void *, void *, void *);
 
 #include "shared/record_ptrs.h"
-extern u8 secondary_sprite[];
 extern u8 mandara_object_callback_2[];
 #include "dungeon/monster/mandara.h"
 #include "dungeon/item.h"
@@ -212,9 +212,9 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     part->scale_y = 0x1000;
                     part->scale_x = 0x1000;
                     part->tpage_abr = 0;
-                    part->unk_00 = secondary_sprite;
+                    part->unk_00 = &secondary_sprite;
                     part->flags |= 0xC;
-                    texture_word = ((u32)((SpriteSourceEntry *)secondary_sprite)->source);
+                    texture_word = ((u32)secondary_sprite.source);
                     color |= 0x8080;
                     part->unk_04 = 0;
                     part->frame_ticks = 0;

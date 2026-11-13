@@ -14,6 +14,7 @@
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/sprite_source.h"
+#include "shared/dungeon_sprite_data.h"
 #include "m2c_compat.h"
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
@@ -103,7 +104,6 @@ extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
 
 void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C800_BODY_2 *output);
-extern s32 secondary_sprite[];
 extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
 extern u8 homing_particle_sprite_entries[];
 extern SpriteSourceEntry landing_sprite_entries[];
@@ -583,7 +583,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         remaining = (s32)sprite;
         if (remaining >= 0) {
             void *particle_callback = (void *)move_sprite_until_animation_ends;
-            s32 *particle_data = secondary_sprite;
+            SpriteSourceEntry *particle_data = &secondary_sprite;
             do {
                 Spawn *spawn;
                 spawn = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -629,7 +629,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     state->tpage_abr = 0x60;
                     state->unk_00 = particle_data;
                     state->flags = state->flags | 0xC;
-                    data_word = particle_data[1];
+                    data_word = particle_data->source;
                     state->unk_04 = 0;
                     state->frame_ticks = 0;
                     state->color.word = (0xC00000 | 0x6060);

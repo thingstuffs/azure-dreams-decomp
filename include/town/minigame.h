@@ -104,7 +104,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
 void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_minigame_approach_motion(ApproachMotionObject *motion_state, ObjectPosition *motion);
 
-void count_entries_matching_search_path(TownCollectionSequence *scene);
+void update_collection_cutscene_step(TownCollectionSequence *scene);
 
 void create_minigame_display_objects(void);
 

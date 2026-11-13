@@ -17,4 +17,10 @@ typedef struct DR_MODE {
     u32 code[2];
 } DR_MODE;
 
+/* Psy-Q DR_PRIO: the mask-bit packet SetPriority fills (a tag word, the GP0(E6) command word and a zero word). */
+typedef struct DR_PRIO {
+    u32 tag;
+    u32 code[2];
+} DR_PRIO;
+
 #endif

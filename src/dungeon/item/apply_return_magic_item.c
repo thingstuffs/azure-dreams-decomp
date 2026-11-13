@@ -7,13 +7,13 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/action_control_dispatch_g00352.h"
 
 typedef struct Struct_80083460 {
     u8 pad[10];
     u16 count;
 } Struct_80083460;
 
-extern s16 current_dungeon_floor;
 
 extern u8 D_800DF45C[];
 extern u8 D_800E1375[];

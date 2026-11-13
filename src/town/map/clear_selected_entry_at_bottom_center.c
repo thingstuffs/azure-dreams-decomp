@@ -4,7 +4,6 @@
 #include "town/map/map_cursor_input_g00641.h"
 #include "town/menu/window.h"
 
-
 extern void request_scene_state_with_parameters(s32 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16);
 /*
  * Requests scene state 0xB at the selected building rectangle bottom center and clears the

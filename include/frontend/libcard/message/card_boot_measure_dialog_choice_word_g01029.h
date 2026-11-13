@@ -26,6 +26,6 @@ void card_boot_measure_dialog_choice_word( u8 *text, s32 word_index, s32 *offset
 void *card_boot_build_slot_marker_packet(s32 unused, Struct_8000F300 *packet, s32 slot_index);
 void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 entry_count);
 void card_boot_position_dialog_selection_marker(CardMessageDialogBody *context, s32 column, s32 mode, s32 row, s32 row_value);
-void card_boot_update_message_choice_highlight(void *object);
+void card_boot_update_message_choice_highlight(CardMessageDialogBody *object);
 
 #endif

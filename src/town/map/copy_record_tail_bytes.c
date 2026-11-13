@@ -4,7 +4,6 @@
 
 typedef unsigned long uptr;
 
-
 /* Copy the final two bytes of 34 records and clear the four destination flags. */
 void copy_record_tail_bytes(void)
 {

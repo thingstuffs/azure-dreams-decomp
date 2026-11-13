@@ -11,6 +11,7 @@
 #include "shared/actor_action_flags.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_sprite_data.h"
 #include "engine/cd.h"
 #include "shared/actor_status.h"
 #include "dungeon/level/room_flags.h"
@@ -457,7 +458,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
         void *created;
         R07_80170E54_S_80170E54_7 *sub;
         void *color;
-        u8 *base;
+        SpriteSourceEntry *base;
         s32 base_word;
 
         created = allocate_list_node(0x112, &scene_object_list_anchor.next);
@@ -476,14 +477,14 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
         ((R07_80170E54_S_80170E54_9 *)object->source)->unk_0A =
             ((u16)entity->z.w.i) + offset[2];
         sub = ((R07_80170E54_S_80170E54_2 *)object)->unk_0C;
-        base = secondary_sprite;
+        base = &secondary_sprite;
         ((R07_80170E54_S_80170E54_2 *)object)->unk_BB = 0;
         sub->unk_1E = 0xC00;
         sub->unk_1C = 0xC00;
         sub->unk_0C = color;
         sub->unk_00 = base;
         sub->unk_14 |= 0xC;
-        base_word = ((R07_80170E54_S_80170E54_8 *)base)->unk_04;
+        base_word = base->source;
         sub->unk_04 = 0;
         sub->unk_05 = 0;
         sub->unk_08 = base_word;

@@ -27,7 +27,6 @@ const Copy24 wave_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-3
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "shared/game_work.h"
 
-extern void func_80067EF4(void *, s32, s32);
 
 /* Draw sprite parts as textured strips displaced by a wave along either axis. */
 void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wave, void *context, u32 *ordering_table, s32 draw_control)
@@ -93,7 +92,7 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     saved_draw_control = draw_control;
     tag_mask = 0;
     if ((draw_control << 0x10) != 0) {
-        func_80067EF4(packet, 0, 0);
+        SetPriority(packet, 0, 0);
         tag_mask = 0xFF000000;
         packet->tag = (packet->tag & 0xFF000000) | (*scratch->ordering_table & 0xFFFFFF);
         start_link = scratch->ordering_table;
@@ -350,7 +349,7 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     }
     end_packet = packet;
     if ((saved_draw_control << 0x10) != 0) {
-        func_80067EF4(end_packet, 0, 1);
+        SetPriority(end_packet, 0, 1);
         packet->tag = (packet->tag & 0xFF000000) | (*scratch->ordering_table & 0xFFFFFF);
         end_link = scratch->ordering_table;
         end_packet = (POLY_FT4 *) ((u32) packet & 0xFFFFFF);

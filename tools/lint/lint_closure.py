@@ -39,7 +39,10 @@ function) with the site count it accepts.  The file is a ratchet, not a mute:
     of any other message (assignment, initialization, return, a non-SDK callee) do not outnumber BASE's, so the
     honoured rise is at most its SDK sites.  Only the classes in ACCEPTABLE_CLASSES can be accepted.
   * Rows BASE already has, or that a change lowers, are the record of an earlier landing and honour nothing;
-    later landings compare against a census that already has those sites.
+    later landings compare against a census that already has those sites.  A BASE row re-keyed to a renamed
+    function (config/names.tsv records both names at one address; the file is the same, git records it
+    renamed, or BASE no longer has the row's file; same class, count not higher) is that record under its new
+    key: not added, honours nothing.
 --write-accepted writes (with the stamp) the rising groups that meet the SDK rule, drops rows this change wrote
 earlier whose group no longer rises, and keeps BASE's rows.  Per-site messages come from lint_build's
 `site_messages` column; a BASE census written before that column bounds BASE's other-message sites by its site
@@ -305,7 +308,55 @@ def changes(root, base, head):
     if head is None:
         for path in git(root, 'ls-files', '--others', '--exclude-standard', '--', 'src', 'include').splitlines():
             rows.append(('A', None, path))
-    return rows
+    return pair_recorded_renames(root, base, head, rows)
+
+
+DEFINED = re.compile(r'^[A-Za-z_][\w \t\*]*?\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*\{', re.M)
+
+
+def defined_functions(text):
+    """Names of the functions a C text defines at file scope (comments removed; a definition header may span
+    lines up to its opening brace)."""
+    text = re.sub(r'/\*.*?\*/', ' ', text or '', flags=re.S)
+    return {m.group(1) for m in DEFINED.finditer(text)} - {'if', 'while', 'for', 'switch', 'return', 'sizeof'}
+
+
+def pair_recorded_renames(root, base, head, rows):
+    """Rows with deleted + added .c files paired as renames when git's similarity misses them: a small file
+    whose function an R6 rename gave a new name can change too much for -M.  A deleted BASE file and an added
+    HEAD file pair when config/names.tsv records one of the deleted file's functions and one of the added
+    file's functions, under different names, at one address (recorded_renames), and the pairing is unique in
+    both directions.  Unpaired rows are kept as they are."""
+    deleted = [old for status, old, _ in rows if status == 'D' and old.endswith('.c')]
+    added = [new for status, _, new in rows if status == 'A' and new.endswith('.c')]
+    if not deleted or not added:
+        return rows
+    names = recorded_renames(root, base)
+
+    def addresses(text):
+        return {(name, addr) for name in defined_functions(text) for addr in names.get(name, ())}
+
+    old_sites = {path: addresses(show(root, base, path)) for path in deleted}
+    new_sites = {path: addresses(show(root, head, path)) for path in added}
+    matches = {}
+    for old, a in old_sites.items():
+        for new, b in new_sites.items():
+            if any(x[1] == y[1] and x[0] != y[0] for x in a for y in b):
+                matches.setdefault(old, []).append(new)
+    targets = collections.Counter(new for news in matches.values() for new in news)
+    pairs = {old: news[0] for old, news in matches.items() if len(news) == 1 and targets[news[0]] == 1}
+    if not pairs:
+        return rows
+    paired_new = set(pairs.values())
+    out = []
+    for status, old, new in rows:
+        if status == 'D' and old in pairs:
+            out.append(('R', old, pairs[old]))
+        elif status == 'A' and new in paired_new:
+            continue
+        else:
+            out.append((status, old, new))
+    return out
 
 
 def diff_lines(old_text, new_text):
@@ -751,15 +802,62 @@ def stamp_of(text):
     return 'none' if text is None else hashlib.sha256(text.encode()).hexdigest()
 
 
-def accepted_rows(root, base):
+def carried_rows(head, before, names, renames, stale_files=frozenset()):
+    """{HEAD key: BASE key} for HEAD rows that re-key a BASE row after an R6 rename: the BASE row's key is gone
+    from HEAD, the warning class is the same, the file is the same or git records it renamed (renames: {HEAD
+    path: BASE path}) or the BASE row names a file BASE no longer has (stale_files: a rename that landed before
+    BASE left the row behind), config/names.tsv records both function names at one address (names:
+    recorded_renames) and the HEAD count is not higher.  Exactly one BASE row must match; such a row is the
+    BASE record under its new key, so it is neither added nor raised and honours nothing."""
+    out = {}
+    gone = [k for k in before if k not in head]
+    for key, sites in head.items():
+        if key in before:
+            continue
+        file, function, warning = key
+        base_file = (renames or {}).get(file, file)
+        match = [b for b in gone if b[2] == warning and (b[0] == base_file or b[0] in stale_files)
+                 and b[1] != function
+                 and (names.get(b[1], set()) & names.get(function, set())) and sites <= before[b]]
+        if len(match) == 1:
+            out[key] = match[0]
+    return out
+
+
+def stale_accepted_files(root, base, rows):
+    """Files named by accepted rows that the BASE tree does not have."""
+    files = sorted({k[0] for k in rows})
+    if not files:
+        return frozenset()
+    listed = subprocess.run(['git', 'ls-tree', '--name-only', base, '--', *files], cwd=root,
+                            capture_output=True, text=True)
+    if listed.returncode != 0:
+        return frozenset()
+    return frozenset(files) - set(listed.stdout.split('\n'))
+
+
+def accepted_renames(root, base):
+    """{HEAD path: BASE path} for src/include files git records renamed since BASE (the working tree)."""
+    try:
+        return {new: old for status, old, new in changes(root, base, None) if status == 'R'}
+    except (OSError, subprocess.CalledProcessError):
+        return {}
+
+
+def accepted_rows(root, base, names=None, renames=None):
     """(honoured, refused) for the --root accepted file against BASE's copy.  Rows added or raised against BASE
     are honoured only when the file carries the --write-accepted stamp of BASE's copy and their class is
     acceptable; otherwise each is refused (the closure fails).  Lowered, dropped and unchanged rows honour
-    nothing."""
+    nothing, nor does a BASE row carried to a renamed function's key (carried_rows)."""
     head_text = show(root, None, ACCEPTED)
     base_text = show(root, base, ACCEPTED)
     head, before = read_accepted(head_text), read_accepted(base_text)
     grown = {k: v for k, v in head.items() if before.get(k) is None or v > before[k]}
+    if any(k not in before for k in grown) and base_text is not None:
+        carried = carried_rows(head, before, recorded_renames(root, base) if names is None else names,
+                               accepted_renames(root, base) if renames is None else renames,
+                               stale_accepted_files(root, base, before))
+        grown = {k: v for k, v in grown.items() if k not in carried}
     stamp = STAMP_LINE.search(head_text or '')
     stamped = bool(stamp) and stamp.group(1) == stamp_of(base_text)
     honoured, refused = {}, []
@@ -794,8 +892,10 @@ def write_accepted(root, rising, base=None, sdk=frozenset()):
     before = read_accepted(base_text)
     current = read_accepted(path.read_text() if path.is_file() else None)
     rows, added = {}, {}
+    carried = carried_rows(current, before, recorded_renames(root, base), accepted_renames(root, base),
+                           stale_accepted_files(root, base, before)) if base else {}
     for key, sites in current.items():
-        if key in before:
+        if key in before or key in carried:
             rows[key] = sites
     for row in rising:
         key = (row['file'], row['function'], row['warning'])

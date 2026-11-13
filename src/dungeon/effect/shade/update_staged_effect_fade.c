@@ -8,7 +8,6 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/data.h"
 
-
 typedef struct S_80025E48_1 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -40,7 +39,7 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
 
     base_angle = effect->unk_22 << 8;
     held_angle = base_angle;
-    staged_fade_count.value.u++;
+    staged_fade_count++;
     if (effect->unk_24 != 0) {
         angle = base_angle + effect->unk_18.s * 0x10;
     } else {

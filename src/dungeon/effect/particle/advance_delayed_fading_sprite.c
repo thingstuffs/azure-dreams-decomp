@@ -1,4 +1,5 @@
 #include "shared/sprite_source.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/audio_commands.h"
 /* Targeted effect movement, delayed sprite fading, and accelerating particle emission. */
 #include "modules/dungeon_ovl_185e800.h"
@@ -30,7 +31,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
     DelayParticle *particle_data;
     SpriteFrameState *child_data;
     u16 *animation;
-    u8 *particle_texture;
+    SpriteSourceEntry *particle_texture;
     s16 state;
     s16 timer;
     s32 random_sample;
@@ -46,7 +47,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
     owner_record = NODE_HEADER(owner)->sprite;
     if (state != 0 && state < 5) {
         particles_left = 16;
-        particle_texture = secondary_sprite;
+        particle_texture = &secondary_sprite;
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
@@ -67,7 +68,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
                 F(child_data, u16, 28) = 0x1000;
                 F(child_data, u16, 16) = 0x60;
                 F(child_data, void *, 0) = particle_texture;
-                child_data->source = F(particle_texture, u32, 4);
+                child_data->source = particle_texture->source;
                 color |= 0x8080;
                 child_data->unk_04 = 0;
                 child_data->frame_ticks = 0;

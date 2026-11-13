@@ -23,5 +23,5 @@ s32 process_scene_status_actions(void *object, s32 value)
 }
 
 /* MECHANISM: A 24-byte frame holds arg0 in the sole saved register s0 across
-   store_supplied_values; explicit jump blocks preserve retail's nonzero-first layout.
+   set_global_entry_pair; explicit jump blocks preserve retail's nonzero-first layout.
    The two arms merge at one literal-zero epilogue, with no phantom tail call. */

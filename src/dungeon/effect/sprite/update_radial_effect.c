@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/effect/sprite.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -82,7 +83,6 @@ typedef struct {
     u16 count;
 } DungeonCounter;
 
-extern u8 secondary_sprite[];
 
 /* Updates the effect position, spawns eight objects per tick, and expires after a delay. */
 void update_radial_effect(DungeonState *effect) {
@@ -108,7 +108,7 @@ void update_radial_effect(DungeonState *effect) {
         s32 spawn_index = 7;
         u8 *object_data = update_spiral_effect;
         DungeonGlobalStatus *object_counter = &g_dungeon_status;
-        DungeonTemplate *object_template = (DungeonTemplate *)secondary_sprite;
+        DungeonTemplate *object_template = (DungeonTemplate *)&secondary_sprite;
 
         do {
             ObjectNodeHeader *object = allocate_list_node(0x312, &scene_object_list_anchor.next);

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "dungeon/menu.h"
-
-extern s16 floor_generation_state[3];
+#include "dungeon/actor/entity_spawn_load.h"
 
 /* Redraws the floor-generation value when it differs from the cached value, then updates the cache. */
 void update_cached_global_value(s32 *cachedValue) {

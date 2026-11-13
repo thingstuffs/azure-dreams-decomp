@@ -19,23 +19,23 @@
 #include "town/minigame/object.h"
 #include "town/player.h"
 
-   /* root in count_entries_matching_search_path */
+   /* root in update_collection_cutscene_step */
 
 
 
-   /* work in count_entries_matching_search_path */
+   /* work in update_collection_cutscene_step */
 
 typedef struct S_8002191C_5 {
     u8 pad_00[0x68];
     s16 unk_68;
-} S_8002191C_5;   /* part in count_entries_matching_search_path */
+} S_8002191C_5;   /* part in update_collection_cutscene_step */
 
 typedef struct S_8002191C_6 {
     u8 pad_00[0x8];
     u16 unk_08;
-} S_8002191C_6;   /* node_part in count_entries_matching_search_path */
+} S_8002191C_6;   /* node_part in update_collection_cutscene_step */
 
-   /* node in count_entries_matching_search_path */
+   /* node in update_collection_cutscene_step */
 
 typedef struct TownDraw32 {
     s16 h00;
@@ -80,7 +80,7 @@ extern void return_zero_variadic(void *, s32);
 extern void stop_scene_player_and_defer_action_setup(void);
 
 /* Town cutscene step machine: the 0x36 stage byte selects this frame's work -- seed the camera motion, run each animation phase in turn, and once past stage 4 clamp the camera to its limits. */
-void count_entries_matching_search_path(TownCollectionSequence *scene)
+void update_collection_cutscene_step(TownCollectionSequence *scene)
 {
     TownDraw32 draw;
     TownPos pos;

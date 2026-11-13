@@ -52,7 +52,7 @@ void *create_item_menu_child_at_position(void *parent, s32 x, s32 y, s32 resourc
     if (object != 0) {
         payload = NODE_BODY(object);
         if (load_item_menu_display_resource(payload, 0x1A) != 0) {
-            object->sprite = (u8 *)object + 0xE8;
+            object->sprite = (SpriteFrameState *)((u8 *)object + 0xE8);
             payload->unk_D4 = link_item_menu_display_entries(payload->unk_D8);
             initialize_item_menu_list_display(payload, parent, resource_id, resource_data, x, y, context);
             register_node(object, draw_tinted_node_sprites_scratch);

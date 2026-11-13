@@ -192,7 +192,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
             select_sprite_entry(sprite,
                           kraken_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                           0);
-            if ((g_dungeon_status.pending_display_owner) == (u8 *)entity - 0x20) {
+            if ((g_dungeon_status.pending_display_owner) == NODE_HEADER(entity)) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
             }
             actor->unk_8C.address = kraken_action_resume_address;

@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00165 - PD:dungeon/bank_be1000:8017468C, PD:dungeon/bank_be7000:8016E68C, PD:dungeon/bank_bed000:8016868C, PD:dungeon/bank_bf3000:8016268C, PD:dungeon/bank_bf9000:8015C68C, PD:dungeon/bank_bff000:8015668C. */
 
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/death.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -31,7 +32,6 @@ typedef struct S_8017409C_4 {
 
 /* global in advance_actor_action_state_handle_status */
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void select_sprite_entry(void *, s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);

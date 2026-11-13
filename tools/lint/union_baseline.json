@@ -1,5 +1,5 @@
 {
- "count": 1361,
+ "count": 1360,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -743,7 +743,6 @@
   "include/shared/dungeon_effect_state.h::B22_81893474_EffectState.x",
   "include/shared/dungeon_effect_state.h::B22_81893474_EffectState.y",
   "include/shared/dungeon_effect_state.h::B22_81893474_EffectState.z",
-  "include/shared/dungeon_moving_views.h::BankEffectCounter.value",
   "include/shared/dungeon_moving_views.h::MovingActor.unk_60",
   "include/shared/dungeon_moving_views.h::MovingActor.unk_70",
   "include/shared/dungeon_moving_views.h::MovingEffectState.unk_0A",
@@ -1196,7 +1195,7 @@
   "src/dungeon/monster/barong/update_motion_and_terrain_collision.c::S_801747F0_1.unk_04",
   "src/dungeon/monster/barong/update_motion_and_terrain_collision.c::S_801747F0_1.unk_08",
   "src/dungeon/monster/beldo/copy_part_state.c::S_81257000_2.unk_04",
-  "src/dungeon/monster/beldo/create_flagged_actor_object.c::S_81263000_2.unk_04",
+  "src/dungeon/monster/beldo/sync_beldo_part_to_owner_and_pulse_shade.c::S_81263000_2.unk_04",
   "src/dungeon/monster/beldo/update_actor_movement_and_height.c::DivProduct.DivProduct",
   "src/dungeon/monster/beldo/update_actor_movement_and_height.c::S_8017112C_4.unk_08",
   "src/dungeon/monster/beldo/update_actor_movement_and_height.c::S_8017112C_4.unk_14",

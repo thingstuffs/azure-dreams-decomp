@@ -47,7 +47,7 @@ void *spawn_manoeva(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
     if (obj != 0) {
         body = obj + 1;
         work = body;
-        obj->update_callback = update_effect_visuals_and_lifetime;
+        obj->update_callback = update_manoeva_actor_callbacks_and_floor_motion;
         work->actor.species = MONSTER_MANOEVA;
         register_node(obj, project_sprite_chain);
         position = obj->position;

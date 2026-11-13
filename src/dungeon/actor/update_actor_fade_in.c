@@ -30,7 +30,7 @@ s32 update_actor_fade_in(StructArg0 *object_arg, s32 unused, StructArg2 *effect_
     StructArg2 *effect = effect_arg;
     u8 phase = object->unk9B;
     u16 effect_count;
-    StructArg0 *owner;
+    ObjectNodeHeader *owner;
 
     switch (phase) {
     case 0:
@@ -50,7 +50,7 @@ s32 update_actor_fade_in(StructArg0 *object_arg, s32 unused, StructArg2 *effect_
         if (effect->unk0F != 0) {
             return 0;
         }
-        owner = (StructArg0 *)NODE_HEADER(object);
+        owner = NODE_HEADER(object);
         unlink_node(owner);
         effect->unk12 += 0x80;
         effect->unk14 &= 0xFFF3;

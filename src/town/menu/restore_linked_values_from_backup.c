@@ -3,7 +3,6 @@
 #include "town/data.h"
 #include "town/menu/catalog_parts.h"
 
-
 /* Restore saved values to the entries in slots sixteen through twenty-seven. */
 void restore_linked_values_from_backup(void) {
     s32 **entry_slot;

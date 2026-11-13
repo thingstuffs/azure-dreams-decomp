@@ -13,7 +13,7 @@ void draw_catalog_entry_page(CatalogDisplay *object_data) {
     CatalogDisplay *object = object_data; /* Retains the retail register allocation. */
     RECT clear_rect;
     CatalogGlyphEntry *image_entry;
-    u8 *loop_image_base;
+    CatalogGlyphEntry *glyphs;
     s32 second_image_id;
     s32 image_id;
     s32 slot;
@@ -35,11 +35,7 @@ void draw_catalog_entry_page(CatalogDisplay *object_data) {
         slot = category;
         second_image_id = slot * 0x10;
         if (is_catalog_entry_available(second_image_id & 0xF0) & 0xFF) {
-            u8 *image_base = (u8 *)catalog_glyphs;
-            void **image_ptr;
-            image_ptr = (void **)((((slot << 5) + second_image_id) << 2) +
-                                  image_base);
-            draw_vram_glyph_text(*image_ptr, 0x180, 0x80);
+            draw_vram_glyph_text(catalog_glyphs[second_image_id].image, 0x180, 0x80);
         }
         second_image_id += 1;
         if (is_catalog_entry_available(second_image_id & 0xFF) & 0xFF) {
@@ -47,10 +43,9 @@ void draw_catalog_entry_page(CatalogDisplay *object_data) {
         }
     } else {
         grid_category = object->unk_0F;
-        loop_image_base = (u8 *)catalog_glyphs;
+        glyphs = catalog_glyphs;
         image_id = grid_category * 0x10;
-        image_entry = (CatalogGlyphEntry *)(((((grid_category << 5) + image_id) << 2)) +
-                                loop_image_base);
+        image_entry = &glyphs[image_id];
         do {
             if (is_catalog_entry_available(image_id & 0xFF) & 0xFF) {
                 draw_vram_glyph_text(image_entry->image, (s16) (((slot % 3) * 0x12) + 0x180),

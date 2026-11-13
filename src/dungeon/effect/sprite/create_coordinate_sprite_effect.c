@@ -45,17 +45,22 @@ void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_re
     }
 }
 
+typedef struct {
+    ObjectNodeHeader header;
+    s32 user_data;
+} CoordinateSpriteEffectNode;
+
 /* Creates a gray half-scale animated sprite at the supplied coordinates and stores the user data. */
 void *create_coordinate_sprite_effect(s32 user_data, ObjectPosition *source_coords) {
-    Row_818A4948_S_func_818A4948_0 *obj;
+    CoordinateSpriteEffectNode *obj;
     SpriteFrameState *render_data;
     ObjectPosition *coords;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->unk_10 = animate_randomly_rotated_sprite;
-        render_data = obj->unk_0C;
-        obj->unk_20 = user_data;
+        obj->header.update_callback = animate_randomly_rotated_sprite;
+        render_data = obj->header.sprite;
+        obj->user_data = user_data;
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
@@ -64,8 +69,8 @@ void *create_coordinate_sprite_effect(s32 user_data, ObjectPosition *source_coor
         render_data->scale_x = 0x800;
         render_data->clut = 0x7E07;
         render_data->flags |= 0x100;
-        register_node(obj, project_sprite_chain);
-        coords = obj->unk_08;
+        register_node(&obj->header, project_sprite_chain);
+        coords = obj->header.position;
         coords->x.w.i = source_coords->x.unsigned_parts.integer;
         coords->y.w.i = source_coords->y.unsigned_parts.integer;
         coords->z.w.i = source_coords->z.unsigned_parts.integer;
@@ -90,18 +95,23 @@ void advance_counted_sprite_animation(void **object_ref, long long value) {
     advance_sprite_animation_and_textures(low_value);
 }
 
+typedef struct {
+    ObjectNodeHeader header;
+    s32 context_value;
+} GrayscaleSpriteEffectNode;
+
 /* Creates an initially black, full-scale animated sprite at the supplied coordinates and links it to
    its context. */
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position) {
     SpriteFrameState *render_state;
-    Row_818A4A64_S_818A4A64_0 *object;
+    GrayscaleSpriteEffectNode *object;
     ObjectPosition *position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        render_state = object->unk_0C;
-        object->unk_10 = (s32 *) advance_counted_sprite_animation;
-        object->unk_20 = context_value;
+        render_state = object->header.sprite;
+        object->header.update_callback = advance_counted_sprite_animation;
+        object->context_value = context_value;
         render_state->color.c.b = 0;
         render_state->color.c.g = 0;
         render_state->color.c.r = 0;
@@ -109,8 +119,8 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->flags |= 0xC;
-        register_node(object, project_sprite_chain);
-        position = object->unk_08;
+        register_node(&object->header, project_sprite_chain);
+        position = object->header.position;
         position->x.w.i = initial_position->unk_02;
         position->y.w.i = initial_position->unk_06;
         position->z.w.i = initial_position->unk_0A;
@@ -212,18 +222,23 @@ void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_
     target->unk_1A = (s16)(random_value - (random_quotient << 12));
 }
 
+typedef struct {
+    ObjectNodeHeader header;
+    s32 object_param;
+} RandomlyRotatedEffectNode;
+
 /* Creates an initially black, zero-scale sprite at the supplied coordinates with a random rotation. */
 s32 create_randomly_rotated_effect(s32 object_param, ObjectPosition *spawn_position) {
     s32 rotation_rng;
     SpriteFrameState *render_state;
     ObjectPosition *position;
-    Row_818A4ED0_S_818A4ED0_0 *object;
+    RandomlyRotatedEffectNode *object;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = randomize_counted_sprite_angle;
-        object->unk_20 = object_param;
-        render_state = object->unk_0C;
+        object->header.update_callback = randomize_counted_sprite_angle;
+        object->object_param = object_param;
+        render_state = object->header.sprite;
         render_state->source = D_80025214;
         render_state->clut = 0x7E07;
         render_state->color.c.b = 0;
@@ -235,8 +250,8 @@ s32 create_randomly_rotated_effect(s32 object_param, ObjectPosition *spawn_posit
         render_state->angle_z = (s16) (rotation_rng % 0x1000);
         render_state->scale_y = 0;
         render_state->scale_x = 0;
-        register_node(object, project_sprite_chain);
-        position = object->unk_08;
+        register_node(&object->header, project_sprite_chain);
+        position = object->header.position;
         {
             s32 unused_rng;
             unused_rng = rand();

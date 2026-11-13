@@ -129,7 +129,7 @@ void settle_directional_motion_variant(ActorRecord *action, ObjectPosition *moti
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
-        if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
+        if (tracked_actor == (s32)NODE_HEADER(actor)) {
             g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
         action->unk_8C.address = &grineut_slot_f_action_callback;

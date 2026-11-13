@@ -1,7 +1,6 @@
+#include "dungeon/system/submit_control_and_reset_status.h"
 #include "common.h"
 #include "dungeon/effect/sprite.h"
-
-extern s8 spell_effect_selector_cache;
 
 /* Stores -1 in spell_effect_selector_cache so the selection must be refreshed. */
 void invalidate_spell_effect_selection(void) {

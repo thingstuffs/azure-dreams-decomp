@@ -128,7 +128,7 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
-        if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
+        if (tracked_entity == (s32)NODE_HEADER(entity)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         action->unk_8C.address = &grineut_slot_d_action_callback;

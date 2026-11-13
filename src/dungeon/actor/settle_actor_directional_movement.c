@@ -1,3 +1,4 @@
+#include "dungeon/actor/movement_path_g00371.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -7,8 +8,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
-
-extern u8 actor_action_resume_address[];
 
 /* Updates directional movement, decelerates it, and settles the entity at its tile. */
 void settle_actor_directional_movement(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *entity, EntityRec *source)
@@ -102,7 +101,7 @@ void settle_actor_directional_movement(ActorRecord *controller, ObjectPosition *
         if (tracked_entity == (s32)NODE_HEADER(source)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        controller->unk_8C.address = actor_action_resume_address;
+        controller->unk_8C.address = &actor_action_resume_address;
         return;
 
     default:

@@ -1,3 +1,4 @@
+#include "dungeon/actor/movement_path_g00371.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/monster_ids.h"
@@ -11,8 +12,6 @@
 #include "engine/entity.h"
 
 extern u8 D_800D8728[];
-
-extern void *actor_action_frames[];
 
 /* Reset the entity state and animation, then update its child flags. */
 void *reset_actor_animation_state(ActorRecord *body)

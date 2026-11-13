@@ -61,7 +61,7 @@ void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position,
 
     if ((((u32)entity->flags14) & 0x20000000) == 0) {
         DungeonGlobalStatus *entity_tracker = &g_dungeon_status;
-        if (entity_tracker->pending_display_owner == (u8 *)entity - 0x20) {
+        if (entity_tracker->pending_display_owner == NODE_HEADER(entity)) {
             (*(u32 *)&entity_tracker->pending_display_owner) &= 0x7FFFFFFF;
         }
     }
