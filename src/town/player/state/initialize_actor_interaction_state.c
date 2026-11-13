@@ -10,10 +10,10 @@ typedef struct S_800946FC_0 {
     void (*unk_00)();
     u8 pad_04[0x6];
     s16 unk_0A;
-} S_800946FC_0;   /* arg0 in initialize_actor_interaction_state_19 */
+} S_800946FC_0;   /* arg0 in install_actor_interaction_handler */
 
 /* Initializes the object's data pointer and sets its initial value to 0x13. */
-void initialize_actor_interaction_state_19(S_800946FC_0 *object) {
+void install_actor_interaction_handler(S_800946FC_0 *object) {
     object->unk_00 = update_actor_interaction_actions;
     object->unk_0A = 0x13;
 }

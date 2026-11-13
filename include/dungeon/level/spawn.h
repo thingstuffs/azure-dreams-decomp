@@ -110,7 +110,7 @@ extern u8 D_80010000[];
 extern s32 entity_level_thresholds[];
 extern floor_spawns_isolated_8028BF0C_SpawnPosition dungeon_floor_object_positions[];
 extern u8 *D_800735C4[];
-extern u8 floor_object_sprite_sources[];
+#include "dungeon/level/floor_object_sprite_sources.h"
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void func_80042640(void *, s32);
 extern void retain_spawn_resource(s32, s32); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */

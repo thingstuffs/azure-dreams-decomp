@@ -12,8 +12,8 @@
  * Selects the table from the linked record, clears the indexed object slot, and installs
  * record_action_update_address with count 0x15.
  */
-void init_twenty_one_tick_record_action_c(TownObjectRecord *object, void *unused, void *handler_context) {
-    call_the_handler_selects_nonzero_entry(object->handler_entries[3], object, handler_context);
+void start_record_action_countdown(TownObjectRecord *object, void *unused, void *handler_context) {
+    dispatch_selected_entry_if_nonzero(object->handler_entries[3], object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_04 = &record_action_update_address;
     object->unk_0A = 0x15;

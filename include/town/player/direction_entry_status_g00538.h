@@ -42,7 +42,7 @@ extern s32 D_800D046C[4];
 extern s32 input_angle_with_offset(s32 unused, s32 angle_offset);
 
 /* Functions defined in this translation unit. */
-s32 select_an_available_entry_matching_direction_returns_status(void *record);
+s32 select_entry_by_input_direction(void *record);
 s32 get_status_active_entry_matching_direction(void *entries);
 
 #endif

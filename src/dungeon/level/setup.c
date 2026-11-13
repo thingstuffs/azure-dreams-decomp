@@ -197,9 +197,9 @@ void initialize_dungeon_floor_state(void) {
         *(s32 *)(globals_base + 0x3628) = rand();
         *(s16 *)(globals_base + 0x3624) = rand() & 0xFF;
         *(s16 *)(globals_base + 0x209C) = rand() & 0xFF;
-        mark_category_items_flag_400(*(s32 *)(globals_base + 0x2090));
+        mark_category_items(*(s32 *)(globals_base + 0x2090));
     }
-    shuffle_enabled_item_category_pointers();
+    shuffle_enabled_item_categories();
     dungeon_state = &runtime_dispatch_state;
     if (dungeon_state->field_B >= 0x12) {
         floor_index = dungeon_state->field_B - 0x12;

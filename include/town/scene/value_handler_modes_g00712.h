@@ -8,7 +8,7 @@
 extern void func_80018FDC(void *entries, s32 entry_mode);
 
 /* Functions defined in this translation unit. */
-void call_value_handler_mode_0(void *entries);
-void call_value_handler_index_plus_4(u8 *entries);
+void process_lshop_entries_default(void *entries);
+void process_lshop_entries_after_header(u8 *entries);
 
 #endif

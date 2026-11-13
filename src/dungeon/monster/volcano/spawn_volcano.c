@@ -20,7 +20,7 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
     ObjectNodeHeader *obj;
     register s8 saved_tile_y;
     s8 saved_tile_x;
-    void *part_a;
+    ObjectPosition *part_a;
     s16 saved_spawn_flags;
     SpriteFrameState *part_b;
     S_80158854_4 *actor;

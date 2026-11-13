@@ -40,7 +40,7 @@ void card_boot_initialize_dialog_draw_nodes(struct Entity *entity, s32 node_coun
 void card_boot_initialize_slot_window(struct CardSlotWindow *window, s32 owner, s32 slot_index);
 
 /* card_boot_layout_empty_slot_window.c */
-void card_boot_layout_empty_slot_window(void *object);
+void card_boot_layout_empty_slot_window(struct CardSlotWindow *object);
 
 /* card_boot_link_message_display_entries.c */
 struct S_800491F4 *card_boot_link_message_display_entries(struct S_800491F4 **input);
@@ -57,8 +57,8 @@ void card_boot_prepare_copy_destination_message(void *context);
 /* card_boot_release_five_message_entries.c */
 void card_boot_release_five_message_entries(CardMessageDialogBody *record);
 
-/* card_boot_release_three_row_panel_text.c */
-void card_boot_release_three_row_panel_text(void *record);
+/* card_boot_release_command_panel_text.c */
+void card_boot_release_command_panel_text(void *record);
 
 /* card_boot_stop_slot_window_updates.c */
 void card_boot_stop_slot_window_updates(struct CardSlotWindow *window);
@@ -90,7 +90,7 @@ typedef MenuDisplayNode CardDisplayNode;
  * and icon_nodes are pointers[4..10] and pointers[11..20]. */
 typedef struct CardFileListPanel {
     /* 0x000 */ s32 selection;
-    /* 0x004 */ u8 pad_004[0x78];
+    /* 0x004 */ u8 panel_packets[0x78]; /* four shaded packets and the final tag */
     /* 0x07C */ s32 selected_slot;
     /* 0x080 */ s32 mode;
     /* 0x084 */ u8 text_buffers[7][0x180];

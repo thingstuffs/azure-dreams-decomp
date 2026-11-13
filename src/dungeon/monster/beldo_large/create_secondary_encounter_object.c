@@ -25,7 +25,7 @@ extern void *beldo_actor_nodes;
 void create_secondary_encounter_object(void) {
     s32 data_index;
     ObjectPosition *position;
-    void *source_data;
+    SpriteFrameState *source_data;
     SpriteFrameState *render_data;
     ObjectNodeHeader *object;
     SecondaryEncounterObjectBody *body;

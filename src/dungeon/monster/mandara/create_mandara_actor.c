@@ -51,7 +51,7 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
     ActorRecord *work = 0;
     ObjectPosition *position;
     SpriteFrameState *monster;
-    u8 *actor;
+    ActorRecord *actor;
     s32 kind;
     RECT rect;
 
@@ -79,7 +79,7 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
         position->z.w.i = value3_saved;
         monster = created ->sprite;
         monster->tile_y = value2_byte;
-        actor = (u8 *)work;
+        actor = work;
         monster->frameTable = func_80175258;
         monster->tile_x = value1_saved;
 
@@ -111,10 +111,10 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
         initialize_actor_sprite_and_animation(init_object, position, monster, (s16)mode_copy);
         i = 0;
         value = monster->clut;
-        (*(actor + 0x9A)) = 0xFF;
-        (*(s8 *)(actor + 0x9C)) = -1;
-        (*(ActorActionHandler *)(actor + 0x8C)) = update_long_actor_action;
-        (*(s16 *)(actor + 0xAE)) = value;
+        actor->action_id = 0xFF;
+        actor->unk_9C = -1;
+        (*(ActorActionHandler *)((u8 *)actor + 0x8C)) = update_long_actor_action;
+        (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
         entry = *(u8 * *)&monster->source;
         while (1) {

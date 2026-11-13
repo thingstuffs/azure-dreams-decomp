@@ -5,11 +5,11 @@ struct SpriteFrameState;
 /* Function contracts owned by src/dungeon/actor/object/ (decision 74; maintained by tools/headers). */
 #include "common.h"
 s32 count_occupied_entity_slots(void *entity);
-s32 is_linked_object_flagged_10000(void *object);
+s32 has_anchor_linked_object_flag(void *object);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct Func8180F0F4_Obj;
-s32 find_entity_slot_by_field_e4(s32 target_value);
+s32 find_actor_ring_slot_by_value(s32 target_value);
 void *select_object_by_flags_and_keys(struct Func8180F0F4_Obj *first, struct Func8180F0F4_Obj *second, s16 *out_mask);
 
 #include "shared/entity.h"

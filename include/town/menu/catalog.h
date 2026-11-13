@@ -55,7 +55,7 @@ void refresh_catalog_primary_detail(CatalogDisplay *display);
 void refresh_catalog_secondary_detail(CatalogDisplay *display);
 void draw_catalog_primary_detail(CatalogDisplay *display);
 void draw_catalog_secondary_detail(CatalogDisplay *display);
-void swap_paired_entry_values_and_node_halfwords(CatalogDisplay *display);
+void swap_catalog_paired_entries(CatalogDisplay *display);
 
 s32 initialize_catalog_display_nodes(CatalogDisplay *display);
 void initialize_catalog_state(CatalogDisplay *state);

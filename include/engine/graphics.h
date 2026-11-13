@@ -48,8 +48,8 @@ void apply_block_16_template_to_nodes(struct S_8004CC38_Node **nodes, s32 node_c
 /* apply_command_colors.c */
 void *apply_command_colors(void *tint0, void *tint1, u8 *packet, void *record, u8 *command, s32 *count);
 
-/* begin_sprite_resource_load_with_completion_flag.c */
-void *begin_sprite_resource_load_with_completion_flag(s32 packed_code, s32 *callback_state);
+/* begin_sprite_resource_load.c */
+void *begin_sprite_resource_load(s32 packed_code, s32 *callback_state);
 
 /* build_gouraud_quad_packet.c */
 void *build_gouraud_quad_packet(void *tint_a, void *tint_b, void *packet, void *record, void *command);
@@ -71,7 +71,7 @@ void *func_800499E8(u8 *cmd, u8 *rect, u8 *tint);
 void clear_alternate_texture_regions(s16 use_alt_rect);
 
 /* clear_alternate_texture_regions_second.c */
-void load_alternate_sprite_bundle_and_clear_textures(void);
+void load_town_sprite_bundle_and_clear_alternates(void);
 
 /* clear_graphics_record.c */
 void clear_graphics_record(Rec_D_80082A38 *record);
@@ -164,8 +164,8 @@ struct Prim12 *init_tpage_prims(struct Prim12 *prim);
 /* load_and_upload_sprite_resource.c */
 void load_and_upload_sprite_resource(s16 entity_type);
 
-/* load_and_upload_three_slot_sprite_resource.c */
-void load_and_upload_three_slot_sprite_resource(s16 entity_id);
+/* load_three_slot_sprite_resource.c */
+void load_three_slot_sprite_resource(s16 entity_id);
 
 /* move_vram_rect.c */
 void move_vram_rect(s16 x, s16 y, s16 width, s16 height, s32 move_x, s32 move_y);
@@ -242,7 +242,7 @@ void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth
 void project_sprite_commands(void *context, void *position, struct Entry *entry, s16 depth_bias);
 
 /* update_tagged_record_flag.c */
-void update_tagged_record_flag_2(u8 *record, s32 set_status_bit);
+void update_record_chain_status_bit(u8 *record, s32 set_status_bit);
 
 /* update_vsync_frame_id.c */
 s32 func_80044618(s32 id_mode);
@@ -264,7 +264,7 @@ void upload_entry_textures_narrow(struct S_8004761C_Entry *entries, void **sourc
 void upload_entry_textures_wide(struct S_800475A4_Entry *entries, void **source_record_ptr);
 
 /* upload_image_blocks.c */
-void runtime_upload_image_blocks_vram_offsets_selected_tile_block_indices(s32 image_addr, s32 tile_id, s32 num_blocks);
+void upload_tile_image_blocks(s32 image_addr, s32 tile_id, s32 num_blocks);
 
 /* upload_three_color_gradient_palette.c */
 void upload_three_color_gradient_palette(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s32 blend_row, s32 semitrans_end);

@@ -27,9 +27,9 @@ void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec
         if (attempts <= 0)
             break;
         {
-            action = scale_random_to_unsigned_halfword_limit(3) & 0xFFFF;
+            action = scale_random_by_limit(3) & 0xFFFF;
             if (action == 1) {
-                direction = scale_random_to_unsigned_halfword_limit(4) & 0xFFFF;
+                direction = scale_random_by_limit(4) & 0xFFFF;
                 if (direction == 0) {
                     s32 center_x = actor->unk_84;
                     x_radius = actor->unk_8C;

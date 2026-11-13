@@ -8,7 +8,7 @@
 
 
 /* Functions defined in this translation unit. */
-s32 set_the_entry_flag_save_returned_table_index_success(void *entry);
+s32 equip_entry_and_save_slot(void *entry);
 s32 set_item_equip_00(s32 first, s32 second);
 
 #endif

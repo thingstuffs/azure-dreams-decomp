@@ -8,7 +8,7 @@ extern s32 func_800161E4(void);
 void attach_global_data_and_invoke_callback(void)
 {
     Rec_D_80016000 *state = town_scene_root;
-    void *callback_base;
+    TownServiceTable *callback_base;
 
     state->position->unk_40 = &scene_event_data;
     callback_base = state->services;

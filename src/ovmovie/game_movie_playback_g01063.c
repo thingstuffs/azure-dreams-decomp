@@ -21,7 +21,7 @@ void play_selected_movie_and_restore_display(void) {
 
     submit_tagged_driver_byte(0, 0, 1);
     movie_volume = 0x7F;
-    submit_scaled_driver_halfword_pair(0, (s16) movie_volume, (s16) movie_volume);
+    set_spu_cd_or_ext_volume(0, (s16) movie_volume, (s16) movie_volume);
 
     movie_flag = (u32) movie_frame_control >> 31;
     movie_globals_hi = (u8 *) 0x80180000;
@@ -391,7 +391,7 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
             }
             movie_volume -= (s16)fade_step;
             if (movie_volume < 0) movie_volume = 0;
-            submit_scaled_driver_halfword_pair(0,(s16)movie_volume,(s16)movie_volume);
+            set_spu_cd_or_ext_volume(0,(s16)movie_volume,(s16)movie_volume);
             if (!movie_volume) {
                 submit_tagged_driver_byte(0,0,0);
                 break;

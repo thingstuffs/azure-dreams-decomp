@@ -55,7 +55,7 @@ s32 create_dual_buffer_object();
 /* extern */
 void advance_dispatch_when_countdown_expires(GridMenuObject *state_data);
 extern void set_shop_object_data_if_present(s32 object);
-extern void set_object_data_pointer_2(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void set_advance_inner_value_callback(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 D_80082AB4[];
 
 extern TownState runtime_script_state;

@@ -32,7 +32,7 @@ struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 
 struct Rec_func_800A9E70_arg0;
 struct Rec_func_800A9E70_arg0;
-s32 advance_actor_effect_sequence_2();
+s32 run_beldo_large_action_script();
 extern u8 D_801739F8[];
 extern u8 D_80173A08[];
 extern u8 D_80173A10[];
@@ -267,7 +267,7 @@ block_37:
                 }
             }
             if (system_update_flags & 8) {
-                advance_actor_effect_sequence_2(actor, context, sprite);
+                run_beldo_large_action_script(actor, context, sprite);
                 entity->movement_queue_state = entity->movement_queue_state & 0x7F;
                 update_actor_status_and_mp(entity);
                 entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);

@@ -23,8 +23,8 @@ void update_entity_and_handle_flagged_action(void *record_arg, void *context, Sp
     if (previous_state == record->unk_00) {
         if (global_state->buttons & 0x80) {
             clear_entity_record_fields(context);
-            run_the_three_update_routines_context(context);
-            if (run_the_action_sequence_context_unless_flag_hex_a_5_set(record_arg - 0x20) != 0) {
+            sync_collision_motion_xyz(context);
+            if (create_item_menu_unless_minigame(record_arg - 0x20) != 0) {
                 initialize_shared_scene_data(record_arg, context, sprite);
                 return;
             }

@@ -300,7 +300,7 @@
     },
     {
       "row": "dungeon/func_81328FD4",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x1348FD4",
       "vma": "0x801707D4",
@@ -309,7 +309,7 @@
     {
       "row": "dungeon/func_81328FF4",
       "home": "dungeon/func_81328FD4",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "foff": "0x01348FF4",
       "vma": "0x801707F4",
       "size": 32,
@@ -324,7 +324,7 @@
     },
     {
       "row": "dungeon/func_81329014",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x1349014",
       "vma": "0x80170814",
@@ -337,7 +337,7 @@
     },
     {
       "row": "dungeon/func_81329034",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x1349034",
       "vma": "0x80170834",
@@ -350,7 +350,7 @@
     },
     {
       "row": "dungeon/func_81329054",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x1349054",
       "vma": "0x80170854",
@@ -363,7 +363,7 @@
     },
     {
       "row": "dungeon/func_81329074",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x1349074",
       "vma": "0x80170874",
@@ -376,7 +376,7 @@
     },
     {
       "row": "dungeon/func_81329094",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x1349094",
       "vma": "0x80170894",
@@ -404,7 +404,7 @@
     },
     {
       "row": "dungeon/func_813290EC",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x13490EC",
       "vma": "0x801708EC",
@@ -417,7 +417,7 @@
     },
     {
       "row": "dungeon/func_8132910C",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x134910C",
       "vma": "0x8017090C",
@@ -430,7 +430,7 @@
     },
     {
       "row": "dungeon/func_8132912C",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x134912C",
       "vma": "0x8017092C",
@@ -443,7 +443,7 @@
     },
     {
       "row": "dungeon/func_8132914C",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x134914C",
       "vma": "0x8017094C",
@@ -469,7 +469,7 @@
     },
     {
       "row": "dungeon/func_813291A4",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x13491A4",
       "vma": "0x801709A4",
@@ -482,7 +482,7 @@
     },
     {
       "row": "dungeon/func_813291C4",
-      "tu": "src/dungeon/monster/ghosh/set_boss_effect_data_pointer.c",
+      "tu": "src/dungeon/monster/ghosh/install_boss_action_handler.c",
       "home": "dungeon/func_81328FD4",
       "foff": "0x13491C4",
       "vma": "0x801709C4",

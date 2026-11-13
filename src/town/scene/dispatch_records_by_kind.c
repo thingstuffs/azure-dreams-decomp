@@ -22,7 +22,7 @@ void dispatch_records_by_kind(void *records, s32 *value_sets) {
     u8 *kind_entry;
     s32 record_kind;
     s32 values_base;
-    void *context;
+    TownServiceTable *context;
     s32 slot_index;
     u8 *status_ptr;
     void *record;

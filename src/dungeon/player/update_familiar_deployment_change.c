@@ -23,7 +23,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void runtime_map_type_16_entry_code();                      /* extern */
-s32 begin_sprite_resource_load_with_completion_flag(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                   /* extern */
+s32 begin_sprite_resource_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                   /* extern */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
@@ -189,7 +189,7 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
         message_or_list.base = selected_item_record_alias;
         load_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
         if (load_id != 0) {
-            loaded_entity_sprite_resource = begin_sprite_resource_load_with_completion_flag(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &sprite_resource_completion_flag);
+            loaded_entity_sprite_resource = begin_sprite_resource_load(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &sprite_resource_completion_flag);
             load_monster_code_module(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
             entity_resource_read_complete = 0;
             Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);

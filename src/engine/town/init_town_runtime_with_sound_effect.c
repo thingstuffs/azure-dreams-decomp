@@ -8,6 +8,6 @@ void town_se_reserve(s16 effect_id, s16 sound_id);
 /* Invoke operation 0xD with -1, then run the two runtime routines. */
 void init_town_runtime_with_sound_effect(void) {
     town_se_reserve(0xD, -1);
-    load_alternate_sprite_bundle_and_clear_textures();
+    load_town_sprite_bundle_and_clear_alternates();
     init_town_runtime_objects();
 }

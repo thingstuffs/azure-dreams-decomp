@@ -11,9 +11,9 @@ void randomize_person_color(TownObjectRecord *object, TownObjectRecord *context,
     s32 previous_state;
     s16 ticks_left;
 
-    *((s8 *)color_data + 0xC) = scale_random_to_unsigned_halfword_limit(0x100);
-    *((s8 *)color_data + 0xD) = scale_random_to_unsigned_halfword_limit(0x100);
-    *((s8 *)color_data + 0xE) = scale_random_to_unsigned_halfword_limit(0x100);
+    *((s8 *)color_data + 0xC) = scale_random_by_limit(0x100);
+    *((s8 *)color_data + 0xD) = scale_random_by_limit(0x100);
+    *((s8 *)color_data + 0xE) = scale_random_by_limit(0x100);
     previous_state = object->unk_50.as_s32;
     update_actor_surface_motion(object, context, (void *)(update_param), color_data);
     ticks_left = object->timer - 1;

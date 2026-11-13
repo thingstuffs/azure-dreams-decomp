@@ -28,7 +28,7 @@ void saber_attack_actors_on_target_tile(ActorRecord *node, s32 tile_x, s32 tile_
 {
     s32 match_x = tile_x;
     s32 match_y = tile_y;
-    void *head = node;
+    ActorRecord *head = node;
     ActorRecord *actor = head;
     void *owner;
 

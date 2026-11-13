@@ -60,7 +60,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record, 
 
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 
-void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount);
+void add_ground_item_value_at_tile(s16 x, s16 y, s32 amount);
 void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, ActorRecord *unused_data, s32 reverse_offset);
 void create_five_part_target_effect(u16 x, u16 y, s16 z);
 void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *owner);
@@ -73,7 +73,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
 void *func_8002522C(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
 void mark_all_actors_with_high_flag(void);
 s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
-void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value);
+void set_ground_item_value_at_tile(s16 x, s16 y, s16 value);
 void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 s32 take_map_item_slot(ActorRecord *object, s16 slot);
 void update_target_tracking_and_transition(void *tracker);

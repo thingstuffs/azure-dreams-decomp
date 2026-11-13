@@ -4,7 +4,7 @@
 #include "town/map.h"
 
 /* Writes zero to all 16,384 consecutive halfwords in row-major order. */
-void clear_halfword_grid_128(s16 *grid) {
+void clear_building_grid(s16 *grid) {
     s16 *cell;
     s16 next_row;
     s16 next_column;
@@ -33,6 +33,6 @@ void update_active_building_entries(void) {
 
 /* Clears the 128-halfword grid and initializes its building scene objects. */
 void clear_and_initialize_building_grid(void *grid) {
-    clear_halfword_grid_128(grid);
+    clear_building_grid(grid);
     initialize_building_scene_objects(grid);
 }

@@ -87,7 +87,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
     s32 color[2];
     TownObjectRecord *global = (TownObjectRecord *)&scene_object_payload_alias;
     u8 *work;
-    void *root = scene->owner;
+    ObjectNodeHeader *root = scene->owner;
     SignedPositionView *compare = ((ObjectPayloadView *)root)->unk_08;
     S_8002191C_5 *part = NODE_BODY(root);
     s16 mode = scene->state.s;
@@ -327,7 +327,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         draw.h00 = 0;
         draw.h02 = 0;
         draw.p0C = scene;
-        create_scene_object_with_48_byte_payload(tick_scene_value_text, &draw);
+        create_scene_object_with_payload(tick_scene_value_text, &draw);
         scene->state.s = 8;
         break;
     }

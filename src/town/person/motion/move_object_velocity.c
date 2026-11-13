@@ -16,7 +16,7 @@ void move_object_velocity(OwnerCallbackObject *owner, ObjectPosition *position, 
     position->x.v += velocity[0];
     position->y.v += velocity[1];
     position->z.v += velocity_z;
-    add_hex_20000_s_signed_offset_hex_14(position);
+    add_vertical_gravity(position);
     if (position->velocity_z >= 0) {
         owner->callback = &step_falling_object;
     }

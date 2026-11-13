@@ -20,7 +20,7 @@ typedef struct S_800B05DC_0 {
     s32 init_result; /* 0x18 */
 } S_800B05DC_0;
 
-/* the 0x2 bytes before arg0 in finish_item_menu_child_and_release_list, addressed as arg0[-1] */
+/* the 0x2 bytes before arg0 in release_item_menu_display, addressed as arg0[-1] */
 typedef struct S_800B06C4_0 {
     u8 pad_00[0x4];
     s32 child; /* 0x04 */
@@ -31,13 +31,13 @@ void bzero(void *, s32);
 s32 create_item_menu_child_at_position();
 /* extern */
 extern M2C_UNK D_800B0490;
-/* arg0 in finish_item_menu_child_and_release_list */
+/* arg0 in release_item_menu_display */
 void release_item_menu_list_object(s32);
 /* extern */
 extern struct { s32 v; s32 pad[2]; } object_flag_block;
 
 /* Functions defined in this translation unit. */
 void *create_item_menu_display_controller(ItemMenuStateNode *owner, s32 display_config, s32 x, s32 y, void *init_config);
-void finish_item_menu_child_and_release_list(void *record);
+void release_item_menu_display(void *record);
 
 #endif

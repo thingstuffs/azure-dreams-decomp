@@ -11,7 +11,7 @@ s32 func_800CE04C(s32, s32, s32);
 void advance_object_and_run_follow_up(TownObjectRecord *object, EntityRec *motion, s32 context) {
     object->heading = (u16) (((u16)object->heading) + 0x400);
     motion->z.v = (s32) (motion->z.v + motion->flags14);
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
     if (motion->flags14 >= 0) {
         func_800CE04C(object, motion, context);
     }

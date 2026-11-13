@@ -24,11 +24,11 @@ extern void initialize_action_object(void *action_state, void *actor, s32 contex
 extern void initialize_action_object_with_counter(void *action_state, ObjectPosition *actor, s32 context);
 extern void initialize_actor_movement_interaction_action(void *action_state, void *actor,void *context);
 extern void play_periodic_sound(s32 count, s32 interval);
-extern void store_the_valid_shared_angle_in_offset_hex_10(void *record_arg);
-extern void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(ObjectPosition *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 select_an_available_entry_matching_direction_returns_status(void *menu_state);
-extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *action_state, void *menu_state);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
+extern void store_input_angle(void *record_arg);
+extern void accelerate_toward_input_angle(ObjectPosition *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 select_entry_by_input_direction(void *menu_state);
+extern s32 select_adjacent_source_entry(void *action_state, void *menu_state);
+extern void set_height_and_slope_velocity(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
 extern void spawn_directional_effects(ObjectPosition *actor, s32 value);
 extern s32 town_actor_control;
 /* Updates the actor and dispatches town actions from input and interaction state. */
@@ -42,10 +42,10 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
     u16 timer;
     s32 buttons;
     s32 action_result;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
-    move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(actor);
+    resolve_collision_axis_order(actor);
+    step_perpendicular_to_input(actor);
     map_work = &position_query_scratch;
-    sampled_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, map_work);
+    sampled_height = query_capped_surface_height(actor, map_work);
     if ((sampled_height - actor->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(action_state, actor, (s32)sprite);
@@ -54,14 +54,14 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
     }
     else
         if (town_action_state_flag == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town(actor, sampled_height, map_work);
+            set_height_and_slope_velocity(actor, sampled_height, map_work);
         }
     timer = (*((u16 *) (((u8 *) action_state) + 0xA))) - 1;
     *((u16 *) (((u8 *) action_state) + 0xA)) = timer;
     if (((s16) timer) <= 0) {
-        timer = scale_random_to_unsigned_halfword_limit(4) + 6;
+        timer = scale_random_by_limit(4) + 6;
         *((u16 *) (((u8 *) action_state) + 0xA)) = timer;
-        spawn_directional_effects(actor, ((u16) scale_random_to_unsigned_halfword_limit(2)) + 2);
+        spawn_directional_effects(actor, ((u16) scale_random_by_limit(2)) + 2);
     }
     buttons = input_state->pressed_buttons;
     if (buttons & 0x10) {
@@ -69,7 +69,7 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
         return;
     }
     if (buttons & 0x40) {
-        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(action_state, &town_actor_control);
+        action_result = select_adjacent_source_entry(action_state, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
                 initialize_actor_movement_interaction_action(action_state, actor, sprite);
@@ -85,10 +85,10 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
         return;
     }
     menu_state = (u8 *) (&town_actor_control);
-    action_result = select_an_available_entry_matching_direction_returns_status(menu_state);
+    action_result = select_entry_by_input_direction(menu_state);
     if (action_result != 0) {
         if (action_result == (-1)) {
-            store_the_valid_shared_angle_in_offset_hex_10(action_state);
+            store_input_angle(action_state);
             initialize_record_and_select_active_data(action_state, (actor), sprite);
             *((s32 *) (((u8 *) action_state) + 0x2C)) = 0;
             submit_object_resource_data(*((s32 *) (menu_state + 0x10)));
@@ -100,16 +100,16 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
     buttons = input_state->buttons;
     if (!(buttons & 0x20)) {
         initialize_motion_action(action_state, actor, sprite);
-        store_the_valid_shared_angle_in_offset_hex_10(action_state);
-        call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(actor);
+        store_input_angle(action_state);
+        accelerate_toward_input_angle(actor);
         return;
     }
     if (buttons & 0xF000) {
         timer = (*((u16 *) (((u8 *) action_state) + 0x3E))) - 1;
         *((u16 *) (((u8 *) action_state) + 0x3E)) = timer;
         play_periodic_sound((s16) timer, 8);
-        store_the_valid_shared_angle_in_offset_hex_10(action_state);
-        call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(actor);
+        store_input_angle(action_state);
+        accelerate_toward_input_angle(actor);
         return;
     }
     action_result = runtime_estimate_vector_length(actor->velocity_x, actor->velocity_y);

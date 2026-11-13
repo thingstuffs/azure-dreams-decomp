@@ -9,7 +9,7 @@ extern s32 D_80090C68;
 
 /* Selects D_800D0180 and installs D_80090C68 with action count 0x15. */
 void init_flagged_entity_action(TownObjectRecord *record, void *unused, void *handler_context) {
-    call_the_handler_selects_nonzero_entry(D_800D0180, record, handler_context);
+    dispatch_selected_entry_if_nonzero(D_800D0180, record, handler_context);
     record->unk_00 = &D_80090C68;
     record->unk_0A = 0x15;
 }

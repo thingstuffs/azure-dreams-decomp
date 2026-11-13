@@ -8,7 +8,7 @@
 
 /* Functions defined in this translation unit. */
 void mark_progress_state_ready(void);
-s32 initialize_indexed_entry_on_first_479(S_80017824_0 *obj, s32 index);
+s32 install_progress_interaction_once(S_80017824_0 *obj, s32 index);
 s32 start_interaction_on_code_0x479(S_800178B4_0 *menu, s32 index);
 
 #endif

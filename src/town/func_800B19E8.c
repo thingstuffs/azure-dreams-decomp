@@ -18,7 +18,7 @@ void release_item_menu_list_object(s32 objectAddress) {
 
     if (objectAddress != 0) {
         objectFields = objectAddress + 0x20;
-        send_item_menu_page_entries_to_formatter(((S_800AF148_0 *)objectFields)->unk_D8, ((S_800AF148_0 *)objectFields)->unk_28);
+        remove_item_menu_entry_objects(((S_800AF148_0 *)objectFields)->unk_D8, ((S_800AF148_0 *)objectFields)->unk_28);
         release_null_terminated_entries(objectAddress + 0xFC);
         ((ObjectRetirementFlags *)objectFields)[-1].flags = (u16) (((ObjectRetirementFlags *)objectFields)[-1].flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

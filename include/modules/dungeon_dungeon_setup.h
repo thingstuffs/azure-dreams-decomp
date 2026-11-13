@@ -4,6 +4,7 @@
 #include "dungeon/level.h"
 #include "dungeon/level/sprite_bundle_data.h"
 #include "dungeon/player/camera_depth_presets_data.h"
+#include "dungeon/player/actor_sprite_sources.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -261,8 +262,8 @@ extern s32 player_turn_fraction;
 #include "dungeon/actor/entity_resource_read_complete.h"
 extern u8 dungeon_resource_buffer[];
 extern void clear_floor_resource_state_table(void);
-extern void mark_category_items_flag_400(s32);
-extern void shuffle_enabled_item_category_pointers(void);
+extern void mark_category_items(s32);
+extern void shuffle_enabled_item_categories(void);
 extern void request_scene_dispatch_state(s32);
 extern void pack_tagged_resource_descriptor(s32, void *, void *, s32);
 extern void Control_CD(s32, void *, s32);
@@ -300,8 +301,6 @@ extern u8 D_80089AA0[];
 extern u8 player_attack_frame_groups;
 extern u8 player_attack_followup_frames;
 extern u8 player_attack_frame_groups_alt;
-extern s32 equipped_actor_sprite_sources[];
-extern s32 unequipped_actor_sprite_sources[];
 extern s32 D_800E3D48[];
 extern void *actor_default_frames[];
 extern u8 player_wait_frames[];

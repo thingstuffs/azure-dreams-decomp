@@ -45,6 +45,11 @@ void same(s32 x) { x++; }
 static void hidden(void) { }
 '''
 C = 'static void hidden(s32 z) { }\nvoid other(void) { var_8 = temp_s0; }\n'
+P = '''typedef struct S_80012345_0 { s32 a; } S_80012345_0;
+typedef struct LocalView { s32 a; } LocalView;
+void weak(void *a, u8 *b, S_80012345_0 *c, LocalView *d, const unsigned char *e, struct Rec_D_80001234 *f) { }
+void strong(ActorRecord *a, void **pp, void (*cb)(void), s32 n, void *) { }
+'''
 
 
 class ReadCounts(unittest.TestCase):
@@ -109,6 +114,18 @@ class ReadCounts(unittest.TestCase):
         self.assertEqual(R.member_names('struct { s16 a; } pos[4], *q; s32 x[2], pad_10;'),
                          ['pos', 'q', 'x', 'pad_10'])
 
+    def test_weak_parameters(self):
+        (self.root / 'src/m/p.c').write_text(P)
+        w = self.report()['parameters']
+        # weak: void a, byte b and e, generated c and f, file-local d; strong: the void * (unnamed) of `strong`
+        self.assertEqual({k: w[k] for k in R.WEAK_KINDS}, {'void': 2, 'generated': 2, 'file_local': 1, 'byte': 2})
+        self.assertEqual(w['total'], 7)
+        self.assertEqual(w['functions'], 2)
+        self.assertEqual(R.parameter_kind('void **pp', set()), None)
+        self.assertEqual(R.parameter_kind('void (*cb)(void)', set()), None)
+        self.assertEqual(R.parameter_kind('struct Node *node', {'Node'}), 'file_local')
+        self.assertEqual(R.parameter_kind('ActorRecord *a', set()), None)
+
     def test_hygiene(self):
         h = self.report()['hygiene']
         self.assertEqual(h['include_dups'], 1)
@@ -129,7 +146,7 @@ class ReadCounts(unittest.TestCase):
         rep = self.report()
         lines = R.summary_lines(rep)
         self.assertTrue(all('(report only)' in line for line in lines))
-        self.assertEqual(len(lines), 10)
+        self.assertEqual(len(lines), 11)
         self.assertTrue(any(line.startswith('local views with <=2 non-pad fields') for line in lines))
         R.write_lists(self.root / 'lists', rep)
         self.assertTrue((self.root / 'lists/signature_conflicts.tsv').read_text().startswith('name\t'))

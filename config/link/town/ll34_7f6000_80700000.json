@@ -176,7 +176,7 @@
     {
       "row": "town/func_80878610",
       "home": "town/func_80878610",
-      "tu": "src/town/shop/shop_get_indexed_value_at_fc.c",
+      "tu": "src/town/shop/get_devkit_shop_selected_value.c",
       "foff": "0x7F8610",
       "vma": "0x80702610",
       "size": 48,

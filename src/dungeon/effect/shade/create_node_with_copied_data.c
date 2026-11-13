@@ -34,7 +34,7 @@ void *create_motion_copy_sprite(void *node_value, ObjectPosition *initial_data)
     ObjectNodeHeader *node;
     S_818C2E40_1 *fields;
     SpriteFrameState *display;
-    void *node_data;
+    ObjectPosition *node_data;
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {

@@ -98,7 +98,7 @@ s32 initialize_casino_minigame(void)
         position->z.v = 0;
         main->home_position = *position;
         main->callback_data = callback_data;
-        configure_the_set_mode_n_3(main->mode_record, &main->home_position, D_80024408);
+        init_scene_node_mode_3(main->mode_record, &main->home_position, D_80024408);
     }
 
     index = 2;
@@ -131,7 +131,7 @@ s32 initialize_casino_minigame(void)
             position->y.v = 0x03600000;
             position->z.v = 0;
             digit->callback_data = callback_data;
-            configure_the_set_mode_n_3(digit->mode_record, position, D_800243F0);
+            init_scene_node_mode_3(digit->mode_record, position, D_800243F0);
         }
         index--;
     } while (index >= 0);

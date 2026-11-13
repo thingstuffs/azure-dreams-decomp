@@ -6,9 +6,8 @@
 #include "shared/object_flags.h"
 #include "engine/node.h"
 #include "town/map/state.h"
+#include "town/map/map_animation_entries.h"
 
-
-extern u8 map_animation_sprite_entries[9];
 
 /* Moves the object through its animation states, spawns an effect, and marks completion. */
 void advance_object_animation_and_effect(TownMapFallingObject *object)
@@ -61,7 +60,7 @@ void advance_object_animation_and_effect(TownMapFallingObject *object)
             *((s32 *) (((u8 *) effect_sprite) + 0xC)) = 0xA0A0A0;
             *((void **) (((u8 *) effect_sprite) + 0)) = map_animation_sprite_entries;
             *((u16 *) (((u8 *) effect_sprite) + 0x14)) |= 0xC;
-            effect_sprite->source = *((s32 *) (map_animation_sprite_entries + 4));
+            effect_sprite->source = map_animation_sprite_entries[0].source;
             effect_sprite->unk_04 = 0;
             effect_sprite->frame_ticks = 0;
         }

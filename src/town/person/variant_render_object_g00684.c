@@ -67,7 +67,7 @@ void initialize_record_from_table_index(TownObjectRecord *record_data, ObjectPos
     table_index = record_data->variant;
     record_data->slot = (s32) table_index;
     state->source = D_800D68B0[table_index];
-    configure_the_set_mode_n_3(record_data, context, &D_800D6A58);
+    init_scene_node_mode_3(record_data, context, &D_800D6A58);
     initialize_optional_object_state(record_data, context, state, 0);
     NODE_HEADER(record_data)->update_callback = &D_800CBAAC;
 }

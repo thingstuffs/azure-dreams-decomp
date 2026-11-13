@@ -13,7 +13,7 @@ extern u8 D_800E0B2B[16];
 extern u8 D_800E202D[16];
 
 extern s16 find_entity_slot_by_field_ac(void *target_value);
-extern s32 find_entity_slot_by_field_e4(void *target_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 find_actor_ring_slot_by_value(void *target_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern u8 D_800E05E1[];
 extern u8 D_800E05F0[];
@@ -83,7 +83,7 @@ void resolve_familiar_deployment_request(void *context_ptr_data, s32 unused_one,
         return;
     }
 
-    index = (s16)find_entity_slot_by_field_e4(object);
+    index = (s16)find_actor_ring_slot_by_value(object);
     if (index >= 0) {
         object = ((S_800956B8_2 *)((u8 *)context_ptr + index * 4))->unk_AC;
         if (((ActorRecord *)object)->flags14 & 0x20000000) {

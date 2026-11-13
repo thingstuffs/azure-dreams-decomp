@@ -16,11 +16,11 @@ void initialize_actor_action_state();
 void initialize_action_object();
 /* extern */
 /* extern */
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(ObjectPosition *record);
+void apply_velocity_friction(ObjectPosition *record);
 /* extern */
 /* extern */
 /* extern */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(ObjectPosition *position);
+void resolve_collision_axis_order(ObjectPosition *position);
 extern void init_input_action_fallback(void *, void *, s32);
 
 /* Functions defined in this translation unit. */

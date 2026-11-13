@@ -949,7 +949,7 @@ s32 setup_dungeon_floor_encounters(void)
     if (state == 1) {
         if (((s16 *)current_dungeon_floor)[0] < 2) {
             floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 = state;
-            convert_valid_entry_code_2_to_39();
+            advance_current_entry_code();
         } else if (floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 == state) {
             floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 = 0;
         }
@@ -1186,7 +1186,7 @@ void load_floor_spawn_tables(s16 resource_index)
  * Replaces code 2 with 0x39 in the indexed four-byte entry at 0x800121E8 when the saved index is
  * nonnegative.
  */
-void convert_valid_entry_code_2_to_39(void)
+void advance_current_entry_code(void)
 {
     s32 index;
     u8 *base;

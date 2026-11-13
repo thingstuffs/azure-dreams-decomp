@@ -28,7 +28,7 @@ s16 get_tile_chebyshev_distance(void *, void *);
 void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* Processes object action states, dispatches actor_arg actions, and updates directional tiles. */
-void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_arg, SpriteFrameState *target_arg, ActorRecord *actor_arg) {
+void update_beldo_large_action_state(ActorRecord *obj_arg, ObjectPosition *context_arg, SpriteFrameState *target_arg, ActorRecord *actor_arg) {
     SpriteFrameState *target;
 
     DungeonGlobalStatus *held_base;

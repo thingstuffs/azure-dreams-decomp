@@ -88,7 +88,7 @@ s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_valu
 
 /* Moves an animated sprite along its heading with decreasing speed and a fixed vertical step until its
    duration ends. */
-void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, void *update_context)
+void update_decelerating_sprite_effect(void *motion, void *position, void *update_context)
 {
     s32 y_step;
     void *motion_state;
@@ -118,7 +118,7 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
 
 /* Creates a blue-tinted sprite with copied motion, two eight-step counters, and facing copied from the
    source. */
-void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, ObjectPosition *initial_data, Row_81916AEC_S_800242EC_2 *source)
+void *create_blue_decelerating_sprite(s32 object_id, ObjectPosition *initial_data, Row_81916AEC_S_800242EC_2 *source)
 {
     SpriteFrameState *visual;
     ObjectNodeHeader *object;
@@ -191,7 +191,7 @@ void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg819
     }
 }
 
-void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
+void create_short_timed_effect_node(s32 initial_value) {
     Row_81916D2C_S_8002452C_0 *object;
 
     object = allocate_flagged_object_node(0x212);
@@ -204,7 +204,7 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
 
 /* Advances sprite animation and, when it finishes, removes the child and increments the owner's
    completion counter. */
-void update_the_target_records_counts_flags_status(TargetCompletionEffectBody *object_slot, void *unused, SpriteFrameState *target)
+void update_completion_counting_particle(TargetCompletionEffectBody *object_slot, void *unused, SpriteFrameState *target)
 {
     B22_81893474_EffectState *post_object;
     B22_81893474_EffectState *pre_object;
@@ -228,7 +228,7 @@ void update_the_target_records_counts_flags_status(TargetCompletionEffectBody *o
 }
 
 /* Creates a gray animated sprite with copied motion and the owner's link for completion bookkeeping. */
-void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
+void *create_rotating_particle_sprite(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
     ObjectNodeHeader *owner_node;
     s32 owner_value;
     SpriteFrameState *render_state;
@@ -262,7 +262,7 @@ void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, 
 
 /* Advances a point along the radial direction given by two angles and increments the owner's update
    counter. */
-void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position) {
+void update_two_angle_drift_effect(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position) {
     s32 angle_scale_x;
     s32 angle_scale_y;
     Row_81916F10_S_80024710_1 *state;
@@ -348,7 +348,7 @@ void *create_radial_effect_from_source(void *source_arg, Row_81917004_Copy24 *or
 
 /* Retires three child nodes, resets the sprite, scatters its position on a sphere, and creates a new
    child. */
-void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, SpriteFrameState *visual) {
+void update_sphere_scatter_effect(void *object, Rec_func_80024600_arg1 *position, SpriteFrameState *visual) {
     s16 azimuth;
     s16 polar_angle;
     s32 radial_x;
@@ -408,7 +408,7 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
     radial_y = rsin(polar_angle);
     position->unk_04 = (s32) (position->unk_04 + ((radial_y >> 4) * (rcos(azimuth) >> 4) * 0x10));
     position->unk_08 = (s32) (position->unk_08 + ((rcos(polar_angle) >> 4) << 0xC));
-    create_an_default_rendering_settings_copies_initial_data(object, position);
+    create_rotating_particle_sprite(object, position);
 }
 
 /* Moves a rotating sprite along its radial direction, then scatters, expands, and fades it at its
@@ -466,7 +466,7 @@ void advance_radial_effect_state(Row_8191740C_S_80024C0C_0 *motion, void *positi
                 return;
             }
         }
-        initialize_the_s_visual_state_apply_random_spherical_position_offset(motion, position_arg, effect);
+        update_sphere_scatter_effect(motion, position_arg, effect);
         motion->unk_04++;
         break;
     case 1:
@@ -494,7 +494,7 @@ void advance_radial_effect_state(Row_8191740C_S_80024C0C_0 *motion, void *positi
 
 /* Creates a sprite aimed from the supplied position toward the owner's saved coordinates and adds
    three trail sprites. */
-void *create_an_oriented_effect_between_position_owner(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos) {
+void *create_owner_trail_sprite(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos) {
     ObjectNodeHeader *owner_node;
     ObjectNodeHeader *effect;
     Row_81917680_S_80024E80_2 *state;
@@ -565,7 +565,7 @@ void *create_an_oriented_effect_between_position_owner(AttachedRandomAngleEffect
 
 /* Grows and brightens an orbiting sprite, waits for its indexed delay, then replaces it with a
    directed effect. */
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform, SpriteFrameState *visual) {
+void update_growing_orbit_sprite(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform, SpriteFrameState *visual) {
     s32 scale;
     s16 phase;
     u8 brightness;
@@ -609,7 +609,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
     case 2:
         if (effect->unk_06 >=
             effect->unk_08) {
-            create_an_oriented_effect_between_position_owner(effect, transform);
+            create_owner_trail_sprite(effect, transform);
             (*(u16 *)((u8 *)effect + (-2))) =
                 (u16) (((Row_81917894_S_80025094_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -628,7 +628,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(Atta
 
 /* Creates a randomly rotated attached sprite with copied motion and staggered phase and timing from
    its index. */
-void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
+void * create_growing_orbit_sprite(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
     ObjectNodeHeader *owner_node;
     s32 first_word;
     s32 second_word;
@@ -769,7 +769,7 @@ void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, 
             motion->velocity_y = target_motion->y.v;
             motion->velocity_z = motion->z.v - 0x200000;
         }
-        create_an_initializes_visual_state_copies_initial_data(action, motion, actor);
+        create_blue_decelerating_sprite(action, motion, actor);
         action->ticks = 0;
         action->phase++;
         break;
@@ -780,7 +780,7 @@ void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, 
         if (action->ticks == 5) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             for (steps = 0; steps < 8; steps++)
-                create_an_attached_effect_copied_transform_data_randomized_angle(action, motion, (s16)steps);
+                create_growing_orbit_sprite(action, motion, (s16)steps);
         }
         if (action->ticks >= 9) {
             action->ticks = 0;
@@ -794,7 +794,7 @@ void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, 
             motion->z.v -= 0x20000;
         if (action->ticks < 0x3C)
             break;
-        create_a_type_hex_212_initializes_handler_mode(action);
+        create_short_timed_effect_node(action);
         target = actor->target;
         if (target) {
             target_motion = NODE_HEADER(target)->position;

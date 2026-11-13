@@ -30,7 +30,7 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, ObjectPosition *po
         rcos((actor->unk_86)) / (0x1000 / actor->unk_84) -
         ((u16)actor->unk_84);
 
-    adjustment = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(actor, &town_actor_control);
+    adjustment = get_box_overlap_axis(actor, &town_actor_control);
     if (adjustment != 0) {
         axis = adjustment->axis;
         if (axis != 2) {

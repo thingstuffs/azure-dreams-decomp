@@ -79,8 +79,8 @@ void runtime_set_record_byte_three(Rec_D_80082A38 *record, s32 value);
 /* runtime_set_record_value_and_buffer.c */
 void runtime_set_record_value_and_buffer(void *record, s32 value);
 
-/* runtime_store_value_in_shifted_slot_pool.c */
-void runtime_store_value_in_shifted_slot_pool(s32 value);
+/* push_script_slot_value.c */
+void push_script_slot_value(s32 value);
 
 /* runtime_unlink_doubly_linked_node.c */
 void runtime_unlink_doubly_linked_node(void *node_data);

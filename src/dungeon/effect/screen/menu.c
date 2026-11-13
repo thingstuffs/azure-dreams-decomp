@@ -16,6 +16,7 @@ struct ObjectPosition;
 #include "shared/game_work.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/menu.h"
+#include "slus/menu_effect_sprite_entries.h"
 #include "dungeon/player.h"
 #include "dungeon/effect.h"
 #include "dungeon/item.h"
@@ -1338,7 +1339,6 @@ typedef struct EntityHdr {
     u16 f88;
 } EntityHdr;
 
-extern u8 menu_effect_sprite_entries[];
 
 /* Creates and initializes a display object attached to the entity. */
 void *create_familiar_selection_marker(EntityHdr **entity_ref) {
@@ -1717,7 +1717,6 @@ extern s32 has_enough_available_runtime_nodes(s32 limit);
 
 extern s32 is_selectable_menu_target(ActorRecord *object);
 
-extern u8 menu_effect_sprite_entries[];
 struct Work;
 struct Out;
 struct Render;

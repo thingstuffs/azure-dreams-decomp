@@ -31,7 +31,7 @@
     {
       "row": "town/func_806D29EC",
       "home": "town/func_8095013C",
-      "tu": "src/town/scene/find_entry_index_or_assert_rev_b.c",
+      "tu": "src/town/scene/find_entry_index_or_assert.c",
       "foff": "0x6529EC",
       "vma": "0x800161EC",
       "size": 196,

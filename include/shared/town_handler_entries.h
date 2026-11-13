@@ -1,7 +1,7 @@
 #ifndef SHARED_TOWN_HANDLER_ENTRIES_H
 #define SHARED_TOWN_HANDLER_ENTRIES_H
 
-/* call_the_handler_selects_nonzero_entry indexes 32-bit entries by the
+/* dispatch_selected_entry_if_nonzero indexes 32-bit entries by the
  * record selector and tests for zero. The table extent is not established. */
 extern int approach_action_handler_table[];
 extern int movement_action_handler_table[];

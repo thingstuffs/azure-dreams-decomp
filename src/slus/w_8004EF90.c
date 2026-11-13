@@ -5,7 +5,7 @@
 
 /* Build the menu backdrop's full-ellipse glow: a shaded ellipse fan, then the additive draw-mode command
  * (no dithering) that ends the list.  Returns the next command slot. */
-void *init_object_header_a(void *cursor)
+void *build_ellipse_glow_commands(void *cursor)
 {
     EllipseGlowCommands *glow = cursor;
     DrawModeCommand *draw_mode;

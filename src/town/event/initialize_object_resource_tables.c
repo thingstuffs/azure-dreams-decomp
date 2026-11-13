@@ -14,6 +14,6 @@ extern s32 D_800F8C44[];
 void initialize_object_resource_tables(TownObjectRecord *object, ObjectPosition *init_arg, SpriteFrameState *state) {
     state->source = D_800F8C44;
     *(void **)((u8 *)object + 0x80) = D_800D0704;
-    handle_insert_initialize_two_values_status_flags(object, init_arg, town_object_resource_table);
+    init_scene_list_node(object, init_arg, town_object_resource_table);
     initialize_optional_object_state(object, init_arg, state, D_800D06AC);
 }

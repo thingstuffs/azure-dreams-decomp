@@ -210,7 +210,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             return;
         }
         town_money[0] += state->count * 100;
-        set_object_data_pointer_2((void *)slot_bet_display_object[0]);
+        set_advance_inner_value_callback((void *)slot_bet_display_object[0]);
         state->mode.s = 0;
         return;
     }
@@ -442,7 +442,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                 if ((state->flags & 2) == 0) {
                     void *bet_display = (void *)slot_bet_display_object[0];
                     state->count = 0;
-                    set_object_data_pointer_2(bet_display);
+                    set_advance_inner_value_callback(bet_display);
                     state->timer = 10;
                     state->mode.s = 3;
                 }
@@ -499,7 +499,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                 }
                 ((SlotPayout *)payout_state)->unk_00 = state;
                 ((SlotPayout *)payout_state)->unk_50 = payout_callback;
-                configure_the_set_mode_n_1(payout_state + 8, coin->position, minigame_pickup_bounds);
+                init_scene_node_mode_1(payout_state + 8, coin->position, minigame_pickup_bounds);
             }
         }
     }

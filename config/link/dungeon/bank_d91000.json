@@ -310,7 +310,7 @@
     },
     {
       "row": "dungeon/func_80D75380",
-      "tu": "src/dungeon/monster/hikewne/reset_state_field_a.c",
+      "tu": "src/dungeon/monster/hikewne/update_hikewne_hop_and_shrink.c",
       "home": "dungeon/func_80977D88",
       "foff": "0xD95380",
       "vma": "0x80168B80",

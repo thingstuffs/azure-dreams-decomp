@@ -42,7 +42,7 @@ void initialize_object_state_and_appearance(void *object_id, ObjectPosition *obj
     sprite->color.c.b = g_game_work.view.tint.parts.tint_b;
     object->z.v += 0x200000;
 
-    configure_the_set_mode_n_3(object_id, object, D_800D1BDC);
+    init_scene_node_mode_3(object_id, object, D_800D1BDC);
 }
 
 /* Update the object and advance its state angle by 0x20 modulo 0x1000. */
@@ -68,7 +68,7 @@ void clear_object_link_and_complete(void *object, void *value) {
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 30. */
-void set_handler_variant_b_with_counter_30(void *object, void *context, void *state) {
+void initialize_object_appearance_with_delay_b(void *object, void *context, void *state) {
     NODE_HEADER(object)->update_callback = D_800BB6C4;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 30;
@@ -82,7 +82,7 @@ void init_object_with_countdown(TownObjectRecord *object, ObjectPosition *contex
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 14. */
-void set_handler_variant_b_with_counter_14(void *object, void *context, void *state) {
+void init_object_with_countdown_b(void *object, void *context, void *state) {
     NODE_HEADER(object)->update_callback = D_800BB6C4;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 14;

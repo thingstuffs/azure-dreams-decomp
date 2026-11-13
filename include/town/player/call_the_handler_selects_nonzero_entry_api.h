@@ -5,6 +5,6 @@
 
 struct TownObjectRecord;
 
-void call_the_handler_selects_nonzero_entry(s32 *, struct TownObjectRecord *, void *);
+void dispatch_selected_entry_if_nonzero(s32 *, struct TownObjectRecord *, void *);
 
 #endif

@@ -40,7 +40,7 @@ typedef struct InputRecord InputRecord;
 #include "town/map/object.h"
 struct IntVector3;                       /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
-struct Rec_D_800FE490; void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);                   /* extern */
+struct Rec_D_800FE490; void update_record_overlap_node(struct Rec_D_800FE490 *);                   /* extern */
 struct ObjectPosition; struct ObjectPosition;            /* extern */
 extern u8 D_8006CCF8[];
 extern M2C_UNK D_80089960;
@@ -80,8 +80,8 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
     controls = ((s32 *)&g_game_work.draw_buffer);
     course = actor->course;
     progress = &actor->progress;
-    apply_the_enabled_movement_offsets_adding_z_offset_only_positive(motion);
-    update_the_s_field_10_using_callee_8008_fe_90(&town_motion_list);
+    apply_actor_control_offsets(motion);
+    update_record_overlap_node(&town_motion_list);
     add_motion_deltas_to_position(motion);
     motion->x.v = (s32) (motion->x.v + actor->impulse_x);
     motion->y.v = (s32) (motion->y.v + actor->impulse_y);
@@ -198,7 +198,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
     }
     if (town_blocked_directions != 0) {
         motion->velocity_z = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((motion));
+        copy_z_to_collision_motion((motion));
     }
     if (motion->z.w.i > ground_height) {
         motion->z.w.i = ground_height;

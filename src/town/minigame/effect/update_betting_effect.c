@@ -596,7 +596,7 @@ void update_betting_effect(TownEffect *input)
         if ((s16)timer_left > 0) {
             break;
         }
-        set_object_data_pointer_2(betting_display_object);
+        set_advance_inner_value_callback(betting_display_object);
         effect->state = 0;
         effect->flags |= 2;
         break;
@@ -619,7 +619,7 @@ void update_betting_effect(TownEffect *input)
         if ((s16)ticks_left > 0) {
             break;
         }
-        set_object_data_pointer_2(betting_display_object);
+        set_advance_inner_value_callback(betting_display_object);
         effect->ticks = 0;
         effect->state = 0;
         effect->flags |= 0xA;

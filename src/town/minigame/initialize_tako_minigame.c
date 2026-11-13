@@ -102,7 +102,7 @@ create_child:
         select_record_entry_and_value(draw_state, tako_minigame_sprites, 0);
         draw_state->color.word = 0x00808080;
         child_state->resource = child_data;
-        configure_the_set_mode_n_1((u8 *)object + 0x24, object->position, D_80026F50);
+        init_scene_node_mode_1((u8 *)object + 0x24, object->position, D_80026F50);
     }
     index--;
     child_slot--;

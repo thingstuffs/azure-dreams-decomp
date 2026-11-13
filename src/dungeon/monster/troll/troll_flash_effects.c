@@ -622,14 +622,14 @@ void create_tracked_attachment_sprite(ActorRecord *body, ObjectPosition *base_po
 /* Creates Troll, selecting item values and directional sprite tables from the global spawn variant. */
 void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
 {
-    u8 * record_addr;
+    ActorRecord *record_addr;
     ActorRecord *result;
     s16 saved_y;
     s16 saved_x;
     SpriteFrameState *sprite;
     s16 init_flags;
     ObjectNodeHeader *object;
-    void *position;
+    ObjectPosition *position;
     s32 call_object;
     s32 call_position;
     s32 alternate_kind;
@@ -669,7 +669,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         sprite->frameTable = default_frames;
         record_kind = 0x20;
         sprite->tile_y = saved_y;
-        record_addr = (u8 *)result;
+        record_addr = result;
         result->unk_4B = record_kind;
         result->unk_48 = call_position;
         result->unk_49 = alternate_kind;
@@ -741,8 +741,8 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         call_position = (s32)position;
         initialize_actor_sprite_and_animation((void *)call_object, (void *)call_position, sprite,
             (s16)init_flags);
-        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9A = 0xFF;
-        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9C = -1;
+        record_addr->action_id = 0xFF;
+        record_addr->unk_9C = -1;
         ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_8C = update_actor_behavior;
         try_move_actor_to_valid_position(record_addr, position, sprite, result);
 

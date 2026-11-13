@@ -289,7 +289,7 @@ mnemonic). Operands are listed in script order.
 | `0x2D` | `script_nop_2d` | - | No-op. | unused |
 | `0x51` | `script_nop` | - | No-op (shared function). | unused |
 | `0x52` | `script_nop` | - | No-op (shared function). | unused |
-| `0x05` | `script_set_block_byte_3d` | u8 | Store the byte at offset 0x3D of the VM block. | unused |
+| `0x05` | `script_store_block_byte` | u8 | Store the byte at offset 0x3D of the VM block. | unused |
 | `0x38` | `script_skip_byte` | u8 | Skip one byte. | unused |
 | `0x58` | `dispatch_town_transition` | - | Slot 88 holds dispatch_town_transition, which game code also calls directly; most likely the word after the real table, not an opcode. | not an opcode |
 

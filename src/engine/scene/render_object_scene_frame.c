@@ -62,7 +62,7 @@ void render_object_scene_frame(void)
     g_game_work[0]->cur = ((u8 *) g_game_work[0]) + 0x8D4;
     tick_screen_fade_slots();
     update_active_nodes();
-    dispatch_and_clear_four_pointer_slots();
+    flush_sprite_resource_slots();
     DrawSync(0);
     skip_vsync = scene_skip_vsync[0];
     if (skip_vsync == 0) {

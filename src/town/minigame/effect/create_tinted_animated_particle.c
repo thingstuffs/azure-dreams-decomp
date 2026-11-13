@@ -5,11 +5,11 @@
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
 #include "town/minigame/effect.h"
+#include "town/map/map_animation_entries.h"
 
 
 
 
-extern u8 map_animation_sprite_entries[];
 /* Creates a sprite at the given position and applies color-specific settings. */
 void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
 {
@@ -28,7 +28,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
         *((s16 *) (((s8 *) sprite) + 0x1E)) = 0x1000;
         *((s16 *) (((s8 *) sprite) + 0x1C)) = 0x1000;
         *((s32 **) (((s8 *) sprite) + 0)) = &map_animation_sprite_entries;
-        resource_word = *((s32 *) (((s8 *) (&map_animation_sprite_entries)) + 4));
+        resource_word = map_animation_sprite_entries[0].source;
         sprite->unk_04 = 0;
         sprite->frame_ticks = 0;
         sprite->color.word = color;

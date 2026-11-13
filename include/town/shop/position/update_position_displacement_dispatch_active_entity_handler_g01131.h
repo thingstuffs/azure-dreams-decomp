@@ -62,7 +62,7 @@ typedef struct S_8009F4C0_4 {
     u8 unk_983;
 } S_8009F4C0_4;
 
-/* ((arg0->unk_95 * 4) + (u8 *)baseD) in initialize_the_town_entity_synchronize_slot_state */
+/* ((arg0->unk_95 * 4) + (u8 *)baseD) in snapshot_entity_slot_and_start_jitter */
 typedef struct S_8009F4C0_5 {
     u8 pad_00[0xA94];
     s32 unk_A94;
@@ -105,12 +105,12 @@ typedef struct S_8009F4C0_2 {
 
 extern s32 town_timed_state_address;
 extern M2C_UNK D_80093524[3];
-extern s32 process_the_item_index_available_report_success();
+extern s32 remove_object_if_item_found();
 extern s32 D_800D09C8[];
 extern u8 D_8009EE9C[];
-/* arg1 in initialize_the_entity_s_action_copy_selected_state_hex_13 */
+/* arg1 in start_slot_entity_move_toward_view */
 extern u32 D_8009EF88;
-/* arg2 in update_the_target_offset_advance_phase_handle_active_event */
+/* arg2 in bob_entity_and_wait_for_event */
 short SD_Call(int flags);
 AllocatedObject *allocate_object_with_callbacks();
 /* extern */
@@ -137,13 +137,13 @@ extern s32 town_target_record[3];
 extern u8 town_slot_snapshot[];
 
 /* Functions defined in this translation unit. */
-void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, struct SpriteFrameState *context);
-void update_motion_toward_target_resolves_entity_countdown_expires(void *entity, s32 context, ObjectPosition *motion, s32 mode);
-void initialize_the_entity_s_action_copy_selected_state_hex_13(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action, void *unused_motion, struct SpriteFrameState *unused_context);
+void bob_entity_and_dispatch_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, struct SpriteFrameState *context);
+void move_entity_toward_view_reference(void *entity, s32 context, ObjectPosition *motion, s32 mode);
+void start_slot_entity_move_toward_view(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action, void *unused_motion, struct SpriteFrameState *unused_context);
 s32 get_target_itemp(void);
-void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, struct SpriteFrameState *context);
-void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, S_8009F374_2 *scale);
-void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, struct SpriteFrameState *unused_context);
-void initialize_the_town_entity_synchronize_slot_state(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context);
+void bob_entity_and_wait_for_event(void *state, s32 event_id, DelayMotionZ *target, struct SpriteFrameState *context);
+void jitter_and_pulse_entity_scale(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, S_8009F374_2 *scale);
+void unlink_entity_and_set_bob_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, struct SpriteFrameState *unused_context);
+void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context);
 
 #endif

@@ -198,7 +198,7 @@ void process_flagged_nodes_and_clear_global_bit(void) {
 /* Marks an actor processed and moves it beside the anchor in the actor ring unless already marked. */
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     ObjectNodeHeader *link_bits;
-    u8 * link_bits_2;
+    ActorRecord *link_bits_2;
     s32 state_flags;
     s32 anchor_flags;
     s32 prev_link;
@@ -218,7 +218,7 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     prev_link = 0x80000000;
     state_flags |= prev_link;
     entry->flags1C = state_flags;
-    link_bits_2 = (u8 *)entry;
+    link_bits_2 = entry;
     unlink_entity_node((void *)link_bits_2);
 
     prev_link = (s32)(unsigned long)anchor->next_actor_header;
@@ -1038,7 +1038,7 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
     s32 height_delta;
     ActorRecord *first_object;
     ActorRecord *object;
-    void *tile;
+    SpriteFrameState *tile;
 
     if ((get_offset_map_cell_value_and_flags((u16)(tile_x - 1), tile_y, 0, &flags) << 16) == 0) {
         return 0;
@@ -1051,8 +1051,8 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
     first_object = object;
     do {
         tile = NODE_HEADER(object)->sprite;
-        if (*((u8 *)tile + 0x24) == (u16)tile_x &&
-            *((u8 *)tile + 0x25) == (u16)tile_y) {
+        if (tile->tile_x == (u16)tile_x &&
+            tile->tile_y == (u16)tile_y) {
             height_delta = *(s16 *)((u8 *)object + 0x88) - target_height;
             if (height_delta < 0) {
                 height_delta = -height_delta;

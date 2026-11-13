@@ -9,5 +9,5 @@ void process_actor_link_callback(void *destinationObject, void *unused1, void *u
     process_unflagged_linked_entries_alt(*(void **)((u8 *)sourceObject + 0x5C));
     process_unflagged_linked_entries(*(void **)((u8 *)sourceObject + 0x5C));
     g_dungeon_status.flags |= 0x812;
-    *(void **)((u8 *)destinationObject + 0x8C) = handle_actor_commands_and_facing;
+    *(void **)((u8 *)destinationObject + 0x8C) = update_actor_commands_and_facing;
 }

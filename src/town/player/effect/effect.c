@@ -25,7 +25,7 @@ void tick_random_radial_spawns(TownObjectRecord *object, s32 target)
     ticks_left = object->timer - 1;
     object->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        object->timer = (u16)(scale_random_to_unsigned_halfword_limit(0xA) + 5);
-        spawn_radial_objects(target, &update_data, (scale_random_to_unsigned_halfword_limit(2) & 0xFFFF) + 1);
+        object->timer = (u16)(scale_random_by_limit(0xA) + 5);
+        spawn_radial_objects(target, &update_data, (scale_random_by_limit(2) & 0xFFFF) + 1);
     }
 }

@@ -31,7 +31,7 @@ void advance_player_toward_target(void *state_arg, ObjectPosition *motion, void 
         clear_entity_record_fields(motion);
         state->unk_10 = 0x400;
         state->timer = 0xA;
-        call_the_handler_selects_nonzero_entry(town_scene_record_handlers, state_arg, context);
+        dispatch_selected_entry_if_nonzero(town_scene_record_handlers, state_arg, context);
         state->unk_04 = forward_player_state_update;
     }
 }

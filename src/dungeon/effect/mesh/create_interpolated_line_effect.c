@@ -30,7 +30,7 @@ typedef struct Obj {
 } Obj;
 
 extern s16 get_surface_height_at_record(void *);
-extern void build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(Obj *); /* Unprototyped: retail call passes a different argument count */
+extern void queue_shaded_line_chain(Obj *); /* Unprototyped: retail call passes a different argument count */
 extern u8 D_80025940[];
 extern void *effect_position_source;
 
@@ -81,6 +81,6 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
         step_y = (end_pos[1] - start_pos[1]) / 12;
         motion->unk48 = step_z;
         motion->unk44 = step_y;
-        build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(obj);
+        queue_shaded_line_chain(obj);
     }
 }

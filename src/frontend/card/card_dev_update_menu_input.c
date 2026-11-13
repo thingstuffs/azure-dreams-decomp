@@ -18,7 +18,7 @@ typedef struct S_8001EFC4_0 {
 
 extern void submit_stored_and_queried_boot_values(void);
 extern void propagate_object_high_bit_flags(void *obj);
-extern void allocate_or_reuse_effect_and_install_callback(void *current,void *mode);
+extern void create_card_dev_slot_screen_effect(void *current,void *mode);
 extern volatile s32 boot_pad_state;
 extern volatile s32 boot_pressed_buttons;
 
@@ -97,7 +97,7 @@ void card_dev_update_menu_input(u8 *root)
         return;
     }
     propagate_object_high_bit_flags(NODE_HEADER(root));
-    allocate_or_reuse_effect_and_install_callback(((S_8001EFC4_0 *)root)->unk_20, 0);
+    create_card_dev_slot_screen_effect(((S_8001EFC4_0 *)root)->unk_20, 0);
 
     return;
 }

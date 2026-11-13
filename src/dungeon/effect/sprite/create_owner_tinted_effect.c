@@ -6,13 +6,13 @@
 #include "engine/node.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/sprite.h"
+#include "slus/tinted_sprite_entries.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 extern M2C_UNK D_800254E0;
-extern M2C_UNK tinted_sprite_entries;
 
 typedef struct S_818BDD8C_0 {
     u8 pad_00[0x8];
@@ -65,7 +65,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, ObjectPosition *initial_da
         render->color.c.g = 0x80;
         render->color.c.r = 0x80;
         render->clut = 0x7E01;
-        render->source = &tinted_sprite_entries;
+        render->source = tinted_sprite_entries;
         render->flags |= 0xC;
         render->tpage_abr |= 0x20;
         render->flags |= 0x100;

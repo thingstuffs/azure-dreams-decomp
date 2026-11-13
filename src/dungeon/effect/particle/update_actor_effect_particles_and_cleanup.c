@@ -660,7 +660,7 @@ state1_cleanup:
                 effect_kind = (generate_random_value() & 3) + 4;
                 effect_type = (actor->field09 >> 2) + effect_kind;
                 room_id = (current_spell_effect_variant[0] == 0xFF) ? 0xFF : 0x10;
-                try_apply_threshold_effect_variant_b(entity->target, room_id, effect_type);
+                try_apply_blind_effect(entity->target, room_id, effect_type);
                 return;
             }
         }

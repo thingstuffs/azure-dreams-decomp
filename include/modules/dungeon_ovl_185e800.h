@@ -1,13 +1,13 @@
 #ifndef DUNGEON_OVL_185E800_H
 #define DUNGEON_OVL_185E800_H
+#include "dungeon/effect/sprite/fading_entries.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_delay_views.h"
 #include "shared/slus_callbacks.h"
 #include "sdk/rand.h"
-extern u8 landing_sprite_entries[];
-extern u8 fading_sprite_entries[];
+#include "dungeon/effect/sprite/landing_entries.h"
 void *allocate_list_node(s32, void *);
 s32 get_definition_entry_byte_13(s16);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);

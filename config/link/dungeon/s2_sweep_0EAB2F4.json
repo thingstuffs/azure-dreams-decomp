@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80E8B8F4",
-      "tu": "src/dungeon/monster/picket/update_dungeon_actor_behavior_facing_animation_state.c",
+      "tu": "src/dungeon/monster/picket/update_picket_behavior.c",
       "home": "dungeon/func_80E8B8F4",
       "foff": "0xEAB8F4",
       "vma": "0x801710f4",
@@ -51,7 +51,7 @@
     },
     {
       "row": "dungeon/func_80E8D490",
-      "tu": "src/dungeon/monster/picket/update_the_actor_action_sequence_including_movement_landing_recovery.c",
+      "tu": "src/dungeon/monster/picket/update_picket_spell_leap.c",
       "home": "dungeon/func_80E8D490",
       "foff": "0xEAD490",
       "vma": "0x80172c90",
@@ -60,7 +60,7 @@
     {
       "row": "dungeon/func_80E8EA34",
       "home": "dungeon/func_80E8EA34",
-      "tu": "src/dungeon/monster/picket/start_the_actor_s_attack_step_clear_busy_bit_latch.c",
+      "tu": "src/dungeon/monster/picket/start_picket_steal_attempt.c",
       "foff": "0x00EAEA34",
       "vma": "0x80174234",
       "size": 500

@@ -64,7 +64,7 @@ void restore_item_text_before_edit(void *item_object)
  */
 void inventory_select_null_or_default_data(void *object)
 {
-    if (check_object_byte_pairs_content(*(s32 *)((u8 *)*(void **)((u8 *)object + 0x18) + 0x28))) {
+    if (has_text_editor_content(*(s32 *)((u8 *)*(void **)((u8 *)object + 0x18) + 0x28))) {
         **(void ***)((u8 *)*(void **)((u8 *)object + 0x54) + 0x30) = 0;
         return;
     }
@@ -78,7 +78,7 @@ s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
 
     check_passed = 0;
     if (context->unk_08 == 4) {
-        check_passed = check_object_byte_pairs_content(((ovl_1830850_818109CC_S_800259CC_2 *)context->unk_18)->unk_28) == 0;
+        check_passed = has_text_editor_content(((ovl_1830850_818109CC_S_800259CC_2 *)context->unk_18)->unk_28) == 0;
     }
     return check_passed;
 }
@@ -143,7 +143,7 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
 void update_inventory_menu(void *menu) { inventory_handle_menu_actions_and_repeat(menu); }
 
 /* Steps the inventory opening transform for five updates, then installs its regular menu callback. */
-void inventory_apply_step_and_reset_after_five(ovl_1830850_81810BF4_Entity *entity) {
+void step_inventory_open_animation(ovl_1830850_81810BF4_Entity *entity) {
     s32 next_state;
     s32 t;
 
@@ -229,7 +229,7 @@ void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet) {
  * Calls build_reverse_indexed_chain with context, item_window_chain_indices, 13 and returns its
  * result.
  */
-S_800491F4 *inventory_create_context_entry_13(S_800491F4 **context) {
+S_800491F4 *create_item_window_chain(S_800491F4 **context) {
     return build_reverse_indexed_chain(context, item_window_chain_indices, 13);
 }
 
@@ -262,7 +262,7 @@ void inventory_initialize_owner_patch_and_state(void *unused, ovl_1830850_81810D
 }
 
 /* Assigns inventory widget resources, text buffers, action rows, and their display offsets. */
-void inventory_initialize_owner_pointers_and_offsets(ovl_1830850_81810E3C_Source *source, ovl_1830850_81810E3C_Owner **owners)
+void initialize_item_window_layout(ovl_1830850_81810E3C_Source *source, ovl_1830850_81810E3C_Owner **owners)
 {
     s32 owner_idx;
 
@@ -312,7 +312,7 @@ void initialize_text_editor_context(void *object, s32 range_start, s32 initial_v
     *(s32 *)(data + 0x18) = range_start + 0x20;
     *(s32 *)(data + 0x88) = text_addr;
     strcpy(data + 0x78, text_addr);
-    *(s32 **)(data - 0x10) = (void *)inventory_apply_step_and_reset_after_five;
+    *(s32 **)(data - 0x10) = (void *)step_inventory_open_animation;
 }
 
 /*
@@ -322,7 +322,7 @@ void initialize_text_editor_context(void *object, s32 range_start, s32 initial_v
 void inventory_initialize_object_from_embedded_data(void *object, s32 init_value, s32 init_value_2, s32 init_value_3) {
     initialize_text_editor_context(object, init_value, init_value_2, init_value_3);
     inventory_initialize_owner_patch_and_state(object, object + 0x44, object + 0x1C, object + 0x2C);
-    inventory_initialize_owner_pointers_and_offsets(
+    initialize_item_window_layout(
         object, ((ovl_1830850_81811168_DungeonSub81811168 *)object)->value54);
 }
 
@@ -342,7 +342,7 @@ s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *
             state->unk38[0] = display_vector_defaults.unk0;
             state->unk38[1] = display_vector_defaults.unk4;
             state->unk38[2] = display_vector_defaults.unk8;
-            texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(state->unk54, state->unk38, 13);
+            set_menu_part_vectors(state->unk54, state->unk38, 13);
             success = 1;
         }
     }
@@ -360,7 +360,7 @@ ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child
     if (obj != 0) {
         if (inventory_copy_state_vector_after_buffers(state, 13) != 0) {
             obj->field0C = (u8 *)obj + 0x64;
-            state->value50 = (s32)inventory_create_context_entry_13(state->value54);
+            state->value50 = (s32)create_item_window_chain(state->value54);
             inventory_initialize_object_from_embedded_data(state, parent_obj, initial_value, text_addr);
             register_node(obj, (void *)draw_tinted_node_sprites_scratch);
             inventory_set_embedded_state_one(obj);

@@ -28,7 +28,7 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
 void advance_actor_action_and_effects(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_action_effects(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_timed_action_sequence_updating(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_the_actor_s_action_animation_triggers_timed_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor);
+void advance_troll_attack_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor);
 void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor);
 void advance_timed_action_and_play_sounds(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite);

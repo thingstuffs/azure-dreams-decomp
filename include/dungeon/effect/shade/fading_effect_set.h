@@ -224,7 +224,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 #include "shared/sprite_source.h"
 struct ObjectNodeHeader;
-extern SpriteSourceEntry rising_sprite_entries[];
+#include "dungeon/effect/sprite/rising_entries.h"
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern u8 D_80025368[];
 extern s32 check_layer_offset_height();

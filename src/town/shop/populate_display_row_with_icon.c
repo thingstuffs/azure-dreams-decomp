@@ -61,7 +61,7 @@ void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_
     set_storage_entry_text(row_data->unk_2C, build_encoded_display_sequence(entry->unk_01, text_buffer), 0, 0xA0, text_y);
     icon_id = get_low_flag_priority(entry_info->unk_10);
     icon_slot = row_data->unk_38;
-    if (runtime_test_table_byte_pattern(entry->unk_00) != 0) {
+    if (test_item_action_pattern(entry->unk_00) != 0) {
         display_value = lookup_patterned_display_icon(icon_id);
     } else {
         display_value = lookup_unpatterned_display_icon(icon_id);

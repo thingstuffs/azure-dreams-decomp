@@ -13,7 +13,7 @@ static __inline__ s32 clamp_min(s32 value, s32 bound) { if (bound < value) retur
  * Derives X/Y braking steps from the vector angle using sine/cosine times 32, then moves both
  * motion components toward zero without crossing it.
  */
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(ObjectPosition *record) {
+void apply_velocity_friction(ObjectPosition *record) {
     s32 clamped_x;
     s32 clamped_y;
     s32 min_component;

@@ -33,7 +33,7 @@ extern u8 dir_step_y[];
 #include "shared/object_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-extern u8 directional_sprite_entries[];
+#include "dungeon/effect/sprite/directional_entries.h"
 
 typedef struct {
     void * owner;
@@ -135,7 +135,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, ResolvedMotion 
     ObjectPosition *owner_motion;
     SpriteFrameState *spawn_sprite;
     ResolvedActor *owner;
-    void *source_sprite;
+    SpriteFrameState *source_sprite;
     ObjectNodeHeader *owner_header;
     ObjectNodeHeader *spawned;
     ObjectPosition *spawn_motion;

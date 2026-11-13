@@ -34,9 +34,9 @@ extern s32 func_800B0718(void);
 extern void *create_dual_buffer_object(void *setup_value, s32 x, s32 y);
 extern void reset_item_menu_object_state(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void schedule_item_menu_child_release(ObjectNodeHeader *object);
-extern void set_object_data_pointer_2(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void set_advance_inner_value_callback(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void enqueue_script_message_command(void);
-extern void handle_selection_and_create_object(void);
+extern void create_selected_town_object(void);
 
 /* Functions defined in this translation unit. */
 void * create_item_menu_object(s32 selector);

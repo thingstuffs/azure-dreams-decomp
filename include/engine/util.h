@@ -57,8 +57,8 @@ void *reverse_bytes(u8 *buf, u16 len);
 /* runtime_advance_three_component_interpolation.c */
 void runtime_advance_three_component_interpolation(CameraInterpolationBody *record_data);
 
-/* runtime_lookup_byte_by_key.c */
-s32 runtime_lookup_byte_by_key(s32 key);
+/* lookup_resident_byte_by_key.c */
+s32 lookup_resident_byte_by_key(s32 key);
 
 /* set_packed_2bit_flag.c */
 void func_8003E188(s32 field_index, s32 flag);
@@ -68,10 +68,10 @@ void set_packed_2bit_flag(s32 field_index, s32 flag);
 void sort_entries_by_key(void);
 
 /* table_handle_assign_consecutive_byte_data_blocks_items_selected_category_index.c */
-void table_handle_assign_consecutive_n_19_byte_data_blocks_items_selected_category_index(void);
+void assign_item_category_data_blocks(void);
 
 /* table_handle_decrements_counter_sets_preceding_halfword_global_flag_bit_remains.c */
-void table_handle_decrements_counter_sets_preceding_halfword_global_flag_bit_hex_8000_remains(unsigned short *entry_data, int *counter);
+void decrement_and_flag_removal_if_nonzero(unsigned short *entry_data, int *counter);
 
 /* uint_to_dec_str.c */
 char *func_8004E634(u32 num, char *buf);

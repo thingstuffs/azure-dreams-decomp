@@ -64,7 +64,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     s32 travel_x;
     s32 spread_angle;
     s32 target_tile_y;
-    u8 *flight_texture;
+    SpriteSourceEntry *flight_texture;
     s32 flight_tpage;
     u8 *hit_texture;
     s32 hit_tpage;
@@ -274,7 +274,7 @@ spawn_trail:
         object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (object != 0) {
             sprite_work = (s32)(object->sprite);
-            object->update_callback = (void *)move_the_effect_count_down_timer_fade_sprite_black;
+            object->update_callback = (void *)update_sprite_fade_countdown_effect;
             frame.vel_x = 0 - ((motion_extent = rand()) & 0x1FF);
             frame.vel_z = 0;
             frame.vel_y = 0;
@@ -416,7 +416,7 @@ spawn_trail:
                     object = allocate_list_node(0x312, &scene_object_list_anchor.next);
                     if (object != 0) {
                         burst_sprite = object->sprite;
-                        object->update_callback = (void *)advance_motion_damping_downward_acceleration_count_down_fade_effect;
+                        object->update_callback = (void *)update_falling_damped_sprite_effect;
                         (object->position)->x.v =
                             (s32) (((ObjectPosition *)motion)->x.v
                                 + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xD));
@@ -477,7 +477,7 @@ spawn_trail:
 }
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
-void move_the_effect_count_down_timer_fade_sprite_black(SpriteFadeCountdownBody *effect_arg, S_8182D544_2 *motion, SpriteFrameState *sprite)
+void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect_arg, S_8182D544_2 *motion, SpriteFrameState *sprite)
 {
     SpriteFadeCountdownBody *effect = effect_arg;
     s16 state;
@@ -534,7 +534,7 @@ void move_the_effect_count_down_timer_fade_sprite_black(SpriteFadeCountdownBody 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Advance motion with damping and downward acceleration, then count down or fade the effect. */
-void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, SpriteFrameState *effect) {
+void update_falling_damped_sprite_effect(Object *object, Motion *motion, SpriteFrameState *effect) {
     s16 state;
     ((s32 *)object->child)[3] |= 0x8000;
     motion->x += motion->dx;

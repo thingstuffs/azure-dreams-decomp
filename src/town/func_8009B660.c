@@ -18,7 +18,7 @@ s32 init_record_target_approach(TownObjectRecord *record, ObjectPosition *positi
     s32 result;
 
     clear_entity_record_fields((position));
-    call_the_handler_selects_nonzero_entry(approach_action_handler_table, record, init_context);
+    dispatch_selected_entry_if_nonzero(approach_action_handler_table, record, init_context);
     record->unk_04 = raise_record_value_to_target;
     result = 0x400;
     record->unk_10 = result;

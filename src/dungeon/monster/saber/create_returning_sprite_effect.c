@@ -44,7 +44,7 @@ typedef struct S_80AC55DC_2 {
 
    /* ((S_80AC55DC_1 *)arg0)->unk_08 in create_returning_sprite_effect */
 
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 extern u8 saber_return_effect_update_address[];
 
 /* Creates a sprite effect offset from its origin and initializes its return motion. */

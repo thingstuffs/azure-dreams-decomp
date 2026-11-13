@@ -82,11 +82,11 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
     switch (state) {
     case PLAYER_ITEM_ALIGN:
         if (body->action_id == 0x2C) {
-            void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
+            SpriteFrameState *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
             u8 *anim_table = player_carry_frames;
 
                            /* Pin: removal changes a delay-slot fill. */
-            ((SpriteAnimationTableView *)anim_sprite)->frame_table = anim_table;
+            anim_sprite->frameTable = anim_table;
             set_sprite_animation_frame(
                 anim_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle +

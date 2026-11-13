@@ -4,9 +4,9 @@
 #include "slus/display_commands.h"
 
 /* Build one of the menu backdrop's two corner glows (update_menu_backdrop_variant shows this one or the
- * mirrored list of init_object_header_c): a shaded quarter-ellipse fan, then the additive draw-mode
+ * mirrored list of build_menu_backdrop_corner_glow_mirrored): a shaded quarter-ellipse fan, then the additive draw-mode
  * command that ends the list.  Returns the next command slot. */
-void *init_object_header_b(void *cursor)
+void *build_menu_backdrop_corner_glow(void *cursor)
 {
     EllipseGlowCommands *glow = cursor;
     DrawModeCommand *draw_mode;

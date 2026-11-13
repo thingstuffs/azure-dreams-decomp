@@ -41,7 +41,7 @@ void spawn_effect_object_with_packet(TownObjectRecord *caller_data, ObjectPositi
         packet[1] = 0x02300000;
         packet[2] = 0;
         setup->setup_value = D_800D2360;
-        configure_the_set_mode_n_1(setup, packet, D_800D2348);
+        init_scene_node_mode_1(setup, packet, D_800D2348);
     }
     (((ObjectNodeHeader *)caller_data - 1)->flags) |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -22,8 +22,8 @@ void clear_script_flag_bit(s32 bit_index);
 /* clear_shared_flag_and_initialize_object.c */
 void clear_shared_flag_and_initialize_object(void *state, void *context, void *mode);
 
-/* clear_the_global_state_s_fifth_word_copy_source_s_second.c */
-void clear_the_global_state_s_fifth_word_copy_source_s_second(ObjectPosition *source);
+/* sync_collision_motion_y.c */
+void sync_collision_motion_y(ObjectPosition *source);
 
 /* dispatch_sound_by_global_flag.c */
 void dispatch_sound_by_global_flag(void);
@@ -44,7 +44,7 @@ s32 get_script_flag_mask(s32 flagIndex);
 void initialize_actor_action_state(TownObjectRecord *object, ObjectPosition *state, s32 initData);
 
 /* initialize_actor_interaction_state.c */
-void initialize_actor_interaction_state_19(struct S_800946FC_0 *object);
+void install_actor_interaction_handler(struct S_800946FC_0 *object);
 
 /* initialize_mode_state_tables.c */
 void initialize_mode_state_tables(void);
@@ -64,10 +64,10 @@ s32 read_script_flag_range(s32 start_index, s32 count);
 /* reset_player_slot_state.c */
 void reset_player_slot_state(TownObjectRecord *object, void *ptr, void *ptr2);
 
-/* run_action_then_fallback_on_flag.c */
+/* run_action_with_flag_fallback.c */
 
 /* run_the_action_sequence_context_unless_flag_a_set.c */
-s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32 context);
+s32 create_item_menu_unless_minigame(s32 context);
 
 /* select_next_item_state.c */
 void select_next_item_state(void *object, void *position, void *context);
@@ -99,7 +99,7 @@ void update_entity_and_dispatch_timed_state(void *state, void *entity, void *tra
 /* write_script_flag_range.c */
 void write_script_flag_range(s32 base, s32 bits, s32 count);
 
-void run_action_then_fallback_on_flag(s32 *value, ObjectPosition *context, SpriteFrameState *sprite);
+void run_action_with_flag_fallback(s32 *value, ObjectPosition *context, SpriteFrameState *sprite);
 
 
 #endif

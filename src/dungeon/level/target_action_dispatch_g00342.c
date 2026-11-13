@@ -8,7 +8,7 @@
 #include "dungeon/item.h"
 
 /* Selects and initializes an entry at the given position, returning its slot. */
-s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
+s32 place_floor_trap_at_tile(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
     s32 slot;
     s32 slot_sign;
     s32 entry_type;
@@ -51,7 +51,7 @@ s32 process_target_with_action_seven(void *target) {
 }
 
 /* Handle a nonzero type 2 query result and always return success. */
-s32 handle_type_two_query_result(void *object) {
+s32 clear_confusion_status(void *object) {
     if ((get_entity_effect_value(object, STATUS_CONFUSION) << 16) != 0) {
         clear_slots_of_type(object, STATUS_CONFUSION);
         adjust_source_value_and_finalize(object, D_800E0DF5);

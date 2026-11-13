@@ -56,7 +56,7 @@ void render_scene_frame_with_timing(void)
     if (!(system_update_flags[0] & 2)) {
         DrawSync(0);
     }
-    dispatch_and_clear_four_pointer_slots();
+    flush_sprite_resource_slots();
     DrawSync(0);
     frame_ticks = GetRCnt(1) + 0xFF;
     sync_flags = system_update_flags[0];

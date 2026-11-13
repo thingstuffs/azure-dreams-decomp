@@ -15,7 +15,7 @@
 void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_value)
 {
     ObjectNodeHeader *root;
-    void *copy;
+    ObjectPosition *copy;
     s32 outer_index;
     s32 saved_kind;
     s32 saved_copy_value;

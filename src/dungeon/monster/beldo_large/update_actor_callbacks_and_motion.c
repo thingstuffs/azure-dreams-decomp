@@ -101,7 +101,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
 
     {
         void *call_owner = body;
-        void *call_motion = motion;
+        ObjectPosition *call_motion = motion;
         void *call_data = sprite;
 
         initial_state = actor->pending_turn_updates;

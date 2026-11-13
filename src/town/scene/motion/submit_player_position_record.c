@@ -22,5 +22,5 @@ void submit_player_position_record(void) {
     fixed_values[2] = 0;
     fixed_values[1] = second_value << 16;
     ((s32 (*) (s32))town_scene_root->services->callback_208)(0);
-    ((s32 (*) (s32))town_scene_root->services->callback_228)(0);
+    ((s32 (*) (s32))town_scene_root->services->tcame_chase_fix_reset)(0);
 }

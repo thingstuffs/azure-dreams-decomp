@@ -78,7 +78,7 @@ void BuildLandBuilding(s32 slot, s16 palette);
 void build_map_variant_entry_list(void);
 
 /* building_grid_g00638.c */
-void clear_halfword_grid_128(s16 *grid);
+void clear_building_grid(s16 *grid);
 void update_active_building_entries(void);
 void clear_and_initialize_building_grid(void *grid);
 
@@ -103,7 +103,7 @@ s32 check_scratch_quad_half_turn_gaps(struct ScratchQuad *scratch);
 void clear_first_record_field_and_counter(void);
 
 /* clear_global_halfword_grid.c */
-void clear_global_halfword_grid_128(void);
+void clear_town_tile_grid(void);
 
 /* clear_selected_entry_at_bottom_center.c */
 void clear_selected_entry_at_bottom_center(void);
@@ -123,8 +123,8 @@ void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles);
 /* decrease_town_record_value.c */
 void decrease_town_record_value(void **record_ref);
 
-/* decrease_town_record_value_by_two_hundred.c */
-void decrease_town_record_value_by_two_hundred(void **record_ref);
+/* lower_town_map_record_value.c */
+void lower_town_map_record_value(void **record_ref);
 
 /* directional_sprite_effect_g00644.c */
 s32 create_directional_sprite_effect(void *position, s16 angle);
@@ -157,7 +157,7 @@ void into_dn_door_demo_set(void);
 void trigger_door_interaction_effect(void *actor, void *target, void *position);
 void change_door_map(void *map_source, s32 *map_table);
 void advance_door_step(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
-void select_tower_entry_handler_by_item_count(struct S_800A0C30_0 *script_state, void *unused_context, struct S_800A0C30_1 *event_params);
+void start_door_entry_or_wait(struct S_800A0C30_0 *script_state, void *unused_context, struct S_800A0C30_1 *event_params);
 void set_door_handler_if_ready(struct S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
 void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg);
 void advance_door_state_counter(struct S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b);
@@ -166,7 +166,7 @@ void into_dn_door_jobs(void);
 s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value);
 
 /* dot_sign_with_truncated_q_coefficients.c */
-s32 dot_sign_with_truncated_q_12_coefficients(s32 recordTableAddress, s32 recordIndexOrCoefficient, s32 componentsOrSum);
+s32 sign_of_q12_dot_product(s32 recordTableAddress, s32 recordIndexOrCoefficient, s32 componentsOrSum);
 
 /* draw_randomized_white_points.c */
 s32 draw_randomized_white_points(void *first_object, void *first_coords);
@@ -197,9 +197,9 @@ void refresh_state_and_dispatch_angles(void);
 s16 forward_surface_query_with_argument(SignedPositionView *record, void **plane_out);
 s16 forward_highest_surface_query(SignedPositionView *record);
 s16 forward_smallest_surface_x_query(SignedPositionView *record);
-s16 evaluate_surface_components_a(SignedPositionView *components);
-s16 evaluate_surface_components_b(SignedPositionView *components);
-s16 evaluate_surface_components_c(SignedPositionView *components);
+s16 query_greatest_cell_intersection(SignedPositionView *components);
+s16 find_lowest_surface_height_at(SignedPositionView *components);
+s16 find_highest_valid_cell_height_at(SignedPositionView *components);
 void update_map_world_extents(void);
 s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height, void **plane_out);
 s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height);
@@ -283,7 +283,7 @@ void p_came_set(s32 position);
 
 /* paired_actor_motion_g00645.c */
 void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode);
-void initialize_object_and_dispatch_by_state(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
+void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
 void randomize_paired_object_motion(void *pair);
 s32 event_tori_in(void *source);
 
@@ -345,8 +345,8 @@ void set_fallback_record_handler(void *record);
 /* set_record_handler_below_threshold.c */
 void set_record_handler_below_threshold(void *record);
 
-/* set_record_pointer_and_byte.c */
-void set_record_pointer_and_byte(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
+/* start_raised_position_pair.c */
+void start_raised_position_pair(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 /* shaded_tile_rendering_g00594.c */
 void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v);

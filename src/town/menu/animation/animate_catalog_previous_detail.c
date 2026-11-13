@@ -54,7 +54,7 @@ void animate_catalog_previous_detail(CatalogDisplay *context)
         refresh_catalog_secondary_detail(context);
         store_cached_value_at_pointer();
         refresh_catalog_primary_detail(context);
-        swap_paired_entry_values_and_node_halfwords(context);
+        swap_catalog_paired_entries(context);
         backup_and_clear_linked_values(context);
         {
             s32 clear_index;
@@ -109,7 +109,7 @@ void animate_catalog_previous_detail(CatalogDisplay *context)
         } while (object_index < 28);
         break;
     case 16:
-        swap_paired_entry_values_and_node_halfwords(context);
+        swap_catalog_paired_entries(context);
         {
             s32 clear_index;
             u8 *clear_base;

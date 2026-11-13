@@ -34,7 +34,7 @@ typedef struct BoundsExpiryObject {
 /* allocate_and_initialize_display_object_g01137.c */
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, void *object_param, s32 object_value);
 s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
-void update_menu_node_or_retire_on_zero_state(struct Func800A4A20Object *object, s32 context, void *output);
+void run_callback_until_state_clears(struct Func800A4A20Object *object, s32 context, void *output);
 void initialize_directional_object_state(void *object, ObjectPosition *placement, struct S_800A21EC_0 *state);
 void copy_signed_inner_value_by_flag(struct Func800A4B70Object *object, s32 unused, struct Func800A4B70Output *out);
 void *create_object_with_shared_data(s32 input_first, s32 input_second, s32 input_third, s32 input_fourth);
@@ -58,8 +58,8 @@ void create_timed_effect_object(s32 ownerDataAddress, ObjectPosition *position, 
 /* decrement_callback_object_timer.c */
 void decrement_callback_object_timer(struct S_func_800A9F90 *self, ObjectPosition *expiry_arg);
 
-/* finalize_object_after_check_or_expiry.c */
-void finalize_object_after_check_or_expiry(BoundsExpiryObject *object, s32 check_value);
+/* retire_object_on_check_or_timeout.c */
+void retire_object_on_check_or_timeout(BoundsExpiryObject *object, s32 check_value);
 
 /* initialize_effect_object.c */
 void initialize_effect_object(void *object, ObjectPosition *unused, struct SpriteFrameState *context);
@@ -73,7 +73,7 @@ void initialize_timed_scale_object(void *object, ObjectPosition *state, struct S
 /* render_shaded_object_primitive.c */
 void render_shaded_object_primitive(struct S_800A1D1C_0 *object, ObjectPosition *coords, struct SpriteFrameState *primitive);
 
-/* swap_paired_entry_values_and_node_halfwords.c */
+/* swap_catalog_paired_entries.c */
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/sprite_frame_state.h"

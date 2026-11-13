@@ -286,7 +286,7 @@ void apply_record_flags_through_end(void *record, s32 flag_mask) {
 }
 
 /* Set flags in the second byte of each record through the end marker. */
-void set_record_byte_flags_through_end(u8 *record, s32 flags) {
+void or_flags_into_record_list(u8 *record, s32 flags) {
     for (;;) {
         record[1] = record[1] | flags;
         if ((s8)record[0] < 0) {
@@ -335,7 +335,7 @@ s32 check_global_record_field_zero(void) {
 
 
 /* Returns whether held_item_kind_alias is zero. */
-s32 check_global_data_byte_zero(void) {
+s32 is_no_item_held(void) {
     return held_item_kind_alias == 0;
 }
 
@@ -665,7 +665,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
             }
             set_record_flags_and_negate_x(buf, gap);
             apply_record_flags_through_end(buf, 0x20);
-            set_record_byte_flags_through_end(buf, 2);
+            or_flags_into_record_list(buf, 2);
             color1 = 0x808080;
             *(u32 *)cursor = color1;
             cursor += 4;
@@ -871,7 +871,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             style_held = 2;
             b_held = (s32) copy_records_through_end((void *) b_held, part);
             apply_record_flags_through_end((void *) a_held, 0x20);
-            set_record_byte_flags_through_end((void *) a_held, style_held);
+            or_flags_into_record_list((void *) a_held, style_held);
             {
                 s32 color_v0;
                 color_v0 = 0x808080;
@@ -900,7 +900,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             }
             set_record_flags_and_negate_x((void *) b_held, offset);
             apply_record_flags_through_end((void *) b_held, 0x20);
-            set_record_byte_flags_through_end((void *) b_held, 2);
+            or_flags_into_record_list((void *) b_held, 2);
             {
                 s32 color_v0;
                 color_v0 = 0x808080;
@@ -1154,7 +1154,7 @@ typedef struct {
 
 
 extern void advance_panel_accumulator(void *counter_state, void *accumulator, void *update_arg);
-extern u8 shared_sprite_entries[16];
+#include "dungeon/effect/sprite/shared_entries.h"
 
 /* Creates an object from the source block and initializes its render part. */
 void create_rendered_panel_object(CopyBlock *source)

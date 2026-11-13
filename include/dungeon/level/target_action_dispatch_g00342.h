@@ -44,11 +44,11 @@ extern D_800DF2A8_fn D_800DF2A8[];
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern u8 floor_objects[16];
-extern s32 floor_object_sprite_sources[16];
+#include "dungeon/level/floor_object_sprite_sources.h"
 
 /* Functions defined in this translation unit. */
-s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
+s32 place_floor_trap_at_tile(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 s32 process_target_with_action_seven(void *target);
-s32 handle_type_two_query_result(void *object);
+s32 clear_confusion_status(void *object);
 
 #endif

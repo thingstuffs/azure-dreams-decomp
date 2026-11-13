@@ -17,7 +17,7 @@ void set_linked_data_pointers_variant_2(TownObjectRecord *object) {
 }
 
 /* Sets the object's linked data pointer to D_800D5930. */
-void set_linked_data_pointer_variant_3(S_800C6478_0 *object) {
+void set_linked_data_field_pointer(S_800C6478_0 *object) {
     ((S_800C6478_1 *)(object->linked_data))->data = &D_800D5930;
 }
 

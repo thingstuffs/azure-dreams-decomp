@@ -11,7 +11,7 @@
  * Returns zero while F_minigame_tyu is set; otherwise plays sound 0x514, clears the two action
  * globals, and returns the created item-menu object.
  */
-s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32 context) {
+s32 create_item_menu_unless_minigame(s32 context) {
     if (test_resident_bitmap_bit(F_minigame_tyu) != 0) {
         return 0;
     }

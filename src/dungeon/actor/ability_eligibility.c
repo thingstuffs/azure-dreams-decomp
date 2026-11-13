@@ -604,7 +604,7 @@ s32 find_type_13_slot_index(DungeonSlot *targetSlot) {
 /* Selects data at the entity's position and updates the owner's map or floor entry. */
 void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord *search_state) {
     s32 lookup_code;
-    void *owner;
+    ActorRecord *owner;
     u32 map_index_bits, floor_index_bits;
     u8 *map_base, *floor_base;
     s16 floor_index, map_index;

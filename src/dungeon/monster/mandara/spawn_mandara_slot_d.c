@@ -40,7 +40,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
     ActorRecord *work = 0;
     ObjectPosition *position;
     SpriteFrameState *monster;
-    u8 *actor;
+    ActorRecord *actor;
     s32 kind;
     RECT rect;
 
@@ -68,7 +68,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         position->z.w.i = saved_height;
         monster = created ->sprite;
         monster->tile_y = saved_tile_y;
-        actor = (u8 *)work;
+        actor = work;
         monster->frameTable = D_80163258;
         monster->tile_x = saved_tile_x;
 
@@ -100,10 +100,10 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         initialize_actor_sprite_and_animation(init_arg0, position, monster, (s16)saved_flags);
         i = 0;
         value = monster->clut;
-        (*(actor + 0x9A)) = 0xFF;
-        (*(s8 *)(actor + 0x9C)) = -1;
-        (*(Callback *)(actor + 0x8C)) = D_8015EF6C;
-        (*(s16 *)(actor + 0xAE)) = value;
+        actor->action_id = 0xFF;
+        actor->unk_9C = -1;
+        (*(Callback *)((u8 *)actor + 0x8C)) = D_8015EF6C;
+        (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
         entry = monster->source;
         while (1) {

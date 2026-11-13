@@ -21,15 +21,15 @@ void update_entity_and_dispatch_timed_state(void *state_arg, void *entity, void 
     TownObjectRecord *state = state_arg;
     s16 countdown;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
+    resolve_collision_axis_order(entity);
+    apply_velocity_friction(entity);
     countdown = ((u16)state->unk_0A) - 1;
     state->unk_0A = countdown;
     if (countdown < 0) {
         clear_entity_record_fields(entity);
-        run_the_three_update_routines_context(entity);
-        if (town_interaction_pending != 0 && run_the_action_sequence_context_unless_flag_hex_a_5_set((s32)(state_arg - 0x20)) != 0) {
-            call_the_handler_selects_nonzero_entry((s32 *)(&town_scene_record_handlers), state_arg, transition_arg);
+        sync_collision_motion_xyz(entity);
+        if (town_interaction_pending != 0 && create_item_menu_unless_minigame((s32)(state_arg - 0x20)) != 0) {
+            dispatch_selected_entry_if_nonzero((s32 *)(&town_scene_record_handlers), state_arg, transition_arg);
             initialize_shared_scene_data(state_arg, entity, transition_arg);
             return;
         }

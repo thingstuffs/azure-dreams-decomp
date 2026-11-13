@@ -29,7 +29,7 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
     s32 trig_factor;
     ObjectNodeHeader *object;
     ShortLivedSpawnerObject *object_state;
-    void *object_data;
+    ObjectPosition *object_data;
 
     angle = spawn_data->unk_10 + g_game_work.view.camera_rotation.parts.viewAngle;
     radius_fixed = spawn_data->unk_0C;

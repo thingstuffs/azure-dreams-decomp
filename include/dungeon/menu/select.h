@@ -645,9 +645,8 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
 
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-#include "shared/sprite_source.h"
+#include "slus/menu_effect_sprite_entries.h"
 #include "sdk/libgpu.h"
-extern SpriteSourceEntry menu_effect_sprite_entries[];
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);      /* extern */
 u32 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */ /* extern */
 extern u8 last_frame_ticks[16];

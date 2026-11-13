@@ -38,7 +38,7 @@ typedef struct S_8182C800_3 {
 
 
 typedef struct S_8182C800_6 {
-    u8 * unk_00;
+    void *unk_00;
     s8 unk_04;
     s8 unk_05;
     u8 pad_06[0x2];
@@ -187,12 +187,12 @@ typedef struct {
 } Effect;
 
 extern u8 directional_effect_entries[];
-extern u8 directional_sprite_entries[];
+#include "dungeon/effect/sprite/directional_entries.h"
 extern s32 D_800DEB70;
 void apply_attack_power_and_element_effects();
 s32 get_definition_entry_byte_13();
 extern u8 D_800DEBD8;
 void update_directional_actor_effect(void *effect, void *motion, void *sprite);
-void move_the_effect_count_down_timer_fade_sprite_black(SpriteFadeCountdownBody *effect, S_8182D544_2 *motion, SpriteFrameState *sprite);
-void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, SpriteFrameState *effect);
+void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect, S_8182D544_2 *motion, SpriteFrameState *sprite);
+void update_falling_damped_sprite_effect(Object *object, Motion *motion, SpriteFrameState *effect);
 #endif

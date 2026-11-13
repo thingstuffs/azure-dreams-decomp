@@ -19,5 +19,5 @@ void advance_and_clamp_entity_value(void *context, EntityRec *object, SpriteFram
         apply_object_setup_and_update(context, object, update_data);
         return;
     }
-    add_hex_20000_s_signed_offset_hex_14(object);
+    add_vertical_gravity(object);
 }

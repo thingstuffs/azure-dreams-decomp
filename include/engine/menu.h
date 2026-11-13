@@ -88,8 +88,8 @@ void animate_selection_menu_entry_spacing(struct S_8004F9AC_Obj *obj);
 /* animate_selection_menu_index_transition.c */
 void animate_selection_menu_index_transition(struct S_8004F95C *state);
 
-/* apply_scaled_byte_modifier_clamp_one.c */
-s32 apply_scaled_byte_modifier_clamp_one(s32 base_value, struct DungeonItemEntry *modifier);
+/* apply_item_value_modifier.c */
+s32 apply_item_value_modifier(s32 base_value, struct DungeonItemEntry *modifier);
 
 /* begin_selection_menu_index_change.c */
 void begin_selection_menu_index_change(struct S_8004FA2C *object, int target);
@@ -97,8 +97,8 @@ void begin_selection_menu_index_change(struct S_8004FA2C *object, int target);
 /* build_menu_line_tile_packets.c */
 s32 build_menu_line_tile_packets(struct S_80053A88_Node *first_node);
 
-/* call_state_callback.c */
-s32 call_state_callback(MenuSelectionBody *obj);
+/* call_menu_state_callback.c */
+s32 call_menu_state_callback(MenuSelectionBody *obj);
 
 /* create_animated_selection_menu.c */
 void *create_animated_selection_menu(void *init_data);
@@ -108,8 +108,8 @@ void *create_animated_selection_menu_owner(void *unused, void *source);
 /* Registered code-address alias of create_animated_selection_menu_owner. */
 void *D_8004F5F4(void *unused, void *source);
 
-/* create_or_reset_seven_entry_menu_backdrop.c */
-void *create_or_reset_seven_entry_menu_backdrop(s32 owner, s32 state);
+/* create_menu_backdrop.c */
+void *create_menu_backdrop(s32 owner, s32 state);
 
 /* destroy_animated_selection_menu_owner.c */
 void destroy_animated_selection_menu_owner(AnimatedSelectionMenuOwnerBody *object);
@@ -126,8 +126,8 @@ void handle_animated_selection_menu_cancel(AnimatedSelectionMenuOwnerBody *paylo
 /* handle_animated_selection_menu_input.c */
 void handle_animated_selection_menu_input(AnimatedSelectionMenuBody *menu);
 
-/* handle_object_input.c */
-void handle_object_input(void *object);
+/* handle_selection_menu_input.c */
+void handle_selection_menu_input(void *object);
 
 /* init_paired_packet_records.c */
 void *init_paired_packet_records(void *record, void *source);
@@ -186,6 +186,6 @@ extern u8 menu_element_order[ 4 ];
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct AnimatedMenuPanelBody;
-void menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values(struct AnimatedMenuPanelBody *object, s32 x, s32 y, s16 extent);
+void init_menu_panel_blocks(struct AnimatedMenuPanelBody *object, s32 x, s32 y, s16 extent);
 
 #endif

@@ -24,7 +24,7 @@ s32 load_menu_display_resource(MenuResourceOwner *owner, s32 resource)
         owner->vector.unk0 = display_vector_defaults.unk0;
         owner->vector.unk4 = display_vector_defaults.unk4;
         owner->vector.unk8 = display_vector_defaults.unk8;
-        texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(handle, &owner->vector, 31);
+        set_menu_part_vectors(handle, &owner->vector, 31);
         success = 1;
     }
     return success;

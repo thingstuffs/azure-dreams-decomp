@@ -18,7 +18,7 @@ typedef struct S_800C6478_0 {
     void * linked_data; /* 0x80 */
 } S_800C6478_0;
 
-/* arg0 in set_linked_data_pointer_variant_3 */
+/* arg0 in set_linked_data_field_pointer */
 typedef struct S_800C6478_1 {
     u8 pad_00[0x4];
     s32 * data; /* 0x04 */
@@ -35,7 +35,7 @@ typedef struct S_800C648C_1 {
 
 /* ((S_800C645C_1 *)arg0)->linked_data in set_linked_data_pointers_variant_2 */
 extern M2C_UNK D_800D58F4;
-/* ((S_800C6478_0 *)arg0)->linked_data in set_linked_data_pointer_variant_3 */
+/* ((S_800C6478_0 *)arg0)->linked_data in set_linked_data_field_pointer */
 extern M2C_UNK D_800D5930;
 
 extern M2C_UNK D_800D58B8;
@@ -46,6 +46,6 @@ void set_object_referenced_data_pointers(TownObjectRecord *object, void *unused_
 /* Functions defined in this translation unit. */
 void set_linked_data_pointers_variant_1(TownObjectRecord *record, ObjectPosition *unused_context, struct SpriteFrameState *unused_sprite);
 void set_linked_data_pointers_variant_2(TownObjectRecord *object);
-void set_linked_data_pointer_variant_3(S_800C6478_0 *object);
+void set_linked_data_field_pointer(S_800C6478_0 *object);
 
 #endif

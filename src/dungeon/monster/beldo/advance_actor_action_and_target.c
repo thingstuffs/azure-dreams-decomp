@@ -27,7 +27,7 @@ typedef struct {
     u16 field_A6;
 } D800814A8FieldView_81252D6C;
 
-extern void create_effect_from_sprite_and_facing(void *unused, ObjectPosition *source_transform, void *sprite_template, ActorRecord *facing_source);
+extern void create_beldo_expanding_fade(void *unused, ObjectPosition *source_transform, void *sprite_template, ActorRecord *facing_source);
 
 extern u8 D_80173EDC[8];
 
@@ -195,7 +195,7 @@ void advance_actor_action_and_target(ActorRecord *action, ObjectPosition *motion
         return;
 
     case 4:
-        create_effect_from_sprite_and_facing(action, motion, sprite, actor);
+        create_beldo_expanding_fade(action, motion, sprite, actor);
         ticks = action->action_timer;
         next_ticks = ticks + 1;
         action->action_timer = next_ticks;

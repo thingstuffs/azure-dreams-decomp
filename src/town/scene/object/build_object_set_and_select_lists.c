@@ -91,7 +91,7 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
     register S_8001A044_7 *lookup_entry;
     register S_8001A044_0 *data_page;
     register S_8001A044_6 *list_page;
-    register void *callbacks;
+    register TownServiceTable *callbacks;
     TownCallback report_count;
     S_8001A044_1 *group_bank;
     TownResourceGroupView *group_entry;

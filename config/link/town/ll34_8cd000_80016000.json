@@ -18,7 +18,7 @@
     {
       "row": "town/func_8094D140",
       "home": "town/func_8095013C",
-      "tu": "src/town/scene/find_entry_index_or_assert_rev_b.c",
+      "tu": "src/town/scene/find_entry_index_or_assert.c",
       "foff": "0x8CD140",
       "vma": "0x80016140",
       "size": 196,
@@ -222,7 +222,7 @@
     },
     {
       "row": "town/func_8094DAF4",
-      "tu": "src/town/scene/object/init_object_set_runtime_pointers_rev_b.c",
+      "tu": "src/town/scene/object/init_runtime_pointers_from_shared_buffer.c",
       "home": "town/func_806D3434",
       "foff": "0x8CDAF4",
       "vma": "0x80016AF4",
@@ -257,7 +257,7 @@
     },
     {
       "row": "town/func_8094DB8C",
-      "tu": "src/town/scene/flags/set_flag_test_indexed_bit.c",
+      "tu": "src/town/scene/flags/set_object_bitmap_bit.c",
       "home": "town/func_806D34CC",
       "foff": "0x8CDB8C",
       "vma": "0x80016B8C",

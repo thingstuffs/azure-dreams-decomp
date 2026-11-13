@@ -23,7 +23,7 @@ void initialize_nine_records_and_vectors(u8 *object) {
 }
 
 /* Assign the object tables and mode, then initialize the object. */
-s32 initialize_object_tables_2(S_800DCCF4_0 *object, void *mode) {
+s32 initialize_nine_record_tables(S_800DCCF4_0 *object, void *mode) {
     object->unk_04 = D_800E2828;
     object->unk_08 = &D_800E28B8;
     object->unk_00 = mode;
@@ -48,7 +48,7 @@ void *allocate_object_with_failure_flag(void) {
         header = NODE_BODY(object);
         if (allocation != 0) {
             data = ((u8 *)object) + 0x5C;
-            initialize_object_tables_2(data, allocation);
+            initialize_nine_record_tables(data, allocation);
             source_table = (s32 *)0x800133A0;
             header->field_38 = source_table;
             object->sprite = run_object_setup_and_finalize(data, source_table[0]);

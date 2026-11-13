@@ -56,7 +56,7 @@ void select_record_by_four_flags(void)
 
     {
         Rec_D_80016000 *root = (void *)town_scene_root;
-        void *owner = root->position;
+        TownPositionState *owner = root->position;
 
         ((S_8001C7A0_1 *)owner)->unk_10 = D_80018748;
     }

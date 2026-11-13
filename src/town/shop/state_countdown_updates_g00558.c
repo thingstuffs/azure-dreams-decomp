@@ -5,8 +5,8 @@
 #include "town/scene/motion.h"
 #include "town/shop_callbacks_api.h"
 
-/* Resets object state and passes the selected result to select_a_town_entry_writes_root_relative_coordinates_output. */
-void reset_object_state_passes_selected_result_callee_800_a_00_e_8(void *object, TownObjectRecord *status, ObjectPosition *position, s32 unused_finish_ctx) {
+/* Resets object state and passes the selected result to set_shop_target_to_entry. */
+void retarget_entity_to_nearest_entry(void *object, TownObjectRecord *status, ObjectPosition *position, s32 unused_finish_ctx) {
     s32 result;
     status->unk_15 = 0;
     position->velocity_x = 0;
@@ -17,23 +17,23 @@ void reset_object_state_passes_selected_result_callee_800_a_00_e_8(void *object,
     if (*((u8 *)object + 0x4D) == 0x13) {
         result = D_80100B3B;
     } else {
-        result = get_nearest_unflagged_s_result_n_1_none_available(find_target_byte_index_in_list(), position);
+        result = find_nearest_unflagged_record_result(find_target_byte_index_in_list(), position);
     }
-    select_a_town_entry_writes_root_relative_coordinates_output(result);
+    set_shop_target_to_entry(result);
 }
 
 /*
  * Runs both context updates and resolves collider overlap, then decrements the 16-bit countdown
  * and resets object state when the signed result is zero or negative.
  */
-void run_both_updates_decrement_countdown_check_completion(S_8009ECF0_0 *state, s32 update_ctx, ObjectPosition *position, s32 finish_ctx) {
+void update_entity_until_countdown_ends(S_8009ECF0_0 *state, s32 update_ctx, ObjectPosition *position, s32 finish_ctx) {
     u16 countdown;
 
-    call_the_same_context_both_processing_routines(update_ctx, (s32)position);
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis((void *)(update_ctx), position);
+    apply_bound_adjustments(update_ctx, (s32)position);
+    resolve_collider_overlaps((void *)(update_ctx), position);
     countdown = state->unk_6C - 1;
     state->unk_6C = countdown;
     if ((countdown << 0x10) <= 0) {
-        reset_object_state_passes_selected_result_callee_800_a_00_e_8(state, (void *)update_ctx, position, finish_ctx);
+        retarget_entity_to_nearest_entry(state, (void *)update_ctx, position, finish_ctx);
     }
 }

@@ -57,7 +57,7 @@ void configure_actor_slot_28_and_render_state(TownObjectRecord *context, ObjectP
 
 void configure_actor_slot_26_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
-void initialize_reaction_object_type_4_a(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *state);
+void init_reaction_object_slot_clut(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *state);
 
 void init_person_slot_sixty_one(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *output);
 

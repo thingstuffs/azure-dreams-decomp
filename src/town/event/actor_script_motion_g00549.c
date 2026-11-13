@@ -67,14 +67,14 @@ void update_actor_surface_motion(TownObjectRecord *actor, void *subject, void *m
     void *actor_callback;
     s32 *actor_value;
 
-    surface_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&position_query_scratch));
-    call_the_same_context_both_processing_routines(subject, motion);
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(subject, motion);
+    surface_height = get_min_surface_probe_capped(motion, ((u8 *)&position_query_scratch));
+    apply_bound_adjustments(subject, motion);
+    resolve_collider_overlaps(subject, motion);
     if (*((u8 *)subject + 0x3B) == 0) {
         if (surface_height - *(s16 *)((u8 *)motion + 0xA) >= 4) {
             set_actor_drop_state(actor, subject, motion, context);
         } else {
-            set_the_state_flag_initialize_s_fixed_point_clear_paired_field(subject, motion, surface_height);
+            stop_at_max_z(subject, motion, surface_height);
             *(s32 *)((u8 *)motion + 0xC) = 0;
             *(s32 *)((u8 *)motion + 0x10) = 0;
             *(s32 *)((u8 *)motion + 0x14) = 0;
@@ -107,7 +107,7 @@ void update_actor_slots_and_output(void *state_owner, void *update_target, void 
         if (*((u8 *)update_target + 0x3B) == 0) {
             set_actor_motion_state(state_owner, update_target, update_context, output);
         }
-        handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(update_target, update_context);
+        resolve_collider_overlaps(update_target, update_context);
         dispatch_active_town_object_script(state_owner, update_target, update_context, output);
     }
     current_state = *(void **)((u8 *)state_owner + 0x50);

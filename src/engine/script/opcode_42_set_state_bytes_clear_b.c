@@ -22,6 +22,6 @@ void script_timed_choice_menu(Func80039C44State *state) {
     operand = *(u8 *)operand;
     state->read_ptr = (u8 *)(read_addr + 1);
     state->byte_27 = 0;
-    state->func_10 = clear_two_state_fields_b;
+    state->func_10 = clear_advance_and_wait_for_input_flag;
     state->byte_26 = (u8)operand;
 }

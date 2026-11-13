@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Struct shared with table_count_consecutive_pointer_entries_whose_target_byte_matches_first_target_byte sibling: byte field unk0 (index) and
+/* Struct shared with count_entries_matching_first sibling: byte field unk0 (index) and
  * unk1 (match key). */
 typedef struct {
     u8 unk0;

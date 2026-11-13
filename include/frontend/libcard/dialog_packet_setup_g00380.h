@@ -24,6 +24,6 @@ void card_boot_center_message_dialog_display(CardMessageDialogBody *);
 
 /* Functions defined in this translation unit. */
 void *card_boot_build_paired_dialog_packets(void *buffer, struct CardMessageDialogBody *unused);
-void card_boot_initialize_dialog_packets_and_display(struct CardMessageDialogBody *record);
+void card_boot_init_dialog_packets(struct CardMessageDialogBody *record);
 
 #endif

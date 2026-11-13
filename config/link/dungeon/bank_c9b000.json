@@ -65,7 +65,7 @@
     },
     {
       "row": "dungeon/func_80C7B880",
-      "tu": "src/dungeon/monster/metal/spawn_configured_overlay_object_b.c",
+      "tu": "src/dungeon/monster/metal/spawn_metal_actor.c",
       "home": "dungeon/func_80C69880",
       "foff": "0xC9B880",
       "vma": "0x8015F080",

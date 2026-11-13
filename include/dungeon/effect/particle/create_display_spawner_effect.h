@@ -1,0 +1,22 @@
+#ifndef DUNGEON_OVL_19B4800_H
+#define DUNGEON_OVL_19B4800_H
+#include "common.h"
+#include "modules/dungeon_native_abi.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
+struct TransitionState;
+typedef struct { u16 x, y, w, h; } Rect16;
+typedef struct { Rect16 rect[8]; } RectTable;
+typedef struct { u32 word[3]; } __attribute__((packed)) PackedVec3;
+struct FreeSlotDisplayEffectBody;
+struct DisplaySpawnerEffectBody;
+void fade_linked_display_sprite(struct FreeSlotDisplayEffectBody *, void *, void *);
+void spawn_free_slot_display_effect(struct DisplaySpawnerEffectBody *);
+void create_display_spawner_effect(void *, ObjectPosition *, SpriteFrameState *);
+void fade_primitive_effect(void *, void *, u8 *);
+void update_palette_particle_transition(struct TransitionState *, void *, void *);
+extern const RectTable linked_particle_texture_rects;
+extern PackedVec3 D_8002533C;
+extern s16 parent_effect_update_flag;
+void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s16);
+#endif

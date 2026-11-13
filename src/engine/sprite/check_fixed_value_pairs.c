@@ -8,7 +8,7 @@ extern int item_text_checked_fallback_pair[4]; /* >8B forces %hi/%lo addressing 
 extern int item_text_default_fallback_pair[4]; /* >8B forces %hi/%lo addressing (matches target's lui/addiu) */
 
 /* Selects a global array based on the object check and returns get_item_name_text's result. */
-int select_item_name_table_from_pair_check(void *object)
+int get_item_name_with_fallback_pair(void *object)
 {
     void *saved_object = object;
     int check_result = check_fixed_value_pairs();

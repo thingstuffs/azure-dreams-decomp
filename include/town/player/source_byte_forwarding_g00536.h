@@ -12,7 +12,7 @@
 extern u8 animation_tick_scale;
 
 /* Functions defined in this translation unit. */
-void apply_a_selected_source_byte_destination_adjusts_sixth_byte(u8 *sourceBytes, s32 selection, u8 *destination);
-void store_the_in_forwards_field_10_callee_800949_c_4(s32 value, Rec_D_80082D58 *record, void *destination);
+void set_sprite_frame_by_view_angle(u8 *sourceBytes, s32 selection, u8 *destination);
+void store_entry_and_set_frame(s32 value, Rec_D_80082D58 *record, void *destination);
 
 #endif

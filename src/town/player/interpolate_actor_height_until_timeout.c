@@ -11,7 +11,7 @@ void interpolate_actor_height_until_timeout(TownObjectRecord *state, ObjectPosit
     s32 target_pos;
     u16 ticks_left;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(motion);
+    resolve_collision_axis_order(motion);
     ticks_left = ((u16)state->unk_0A) - 1;
     target_pos = state->unk_34 << 0x10;
     state->unk_0A = ticks_left;

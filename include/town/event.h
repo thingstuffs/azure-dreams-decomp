@@ -49,10 +49,10 @@ s32 filter_entry_by_kind(s32 unused, u8 *entry);
 s32 get_group_record_table_entry(s32 group_id, void *record);
 void increment_query_group_count_capped_at_three(s32 entry_index);
 s32 is_expected_movie_state(void);
-s32 test_resident_bit_11fa(void);
-s32 test_resident_bit_11fb(void);
+s32 test_niko_kenkatyu(void);
+s32 test_far_kenkatyu(void);
 void *find_unflagged_node_by_key(s32 target_key);
-void retry_sound_for_linked_item_and_remove_carry_item(void);
+void delete_carry_item_and_retry_sound(void);
 void *select_response_for_source_and_target(void *source, void *target);
 
 /* mesh_quad_transform_g00591.c */

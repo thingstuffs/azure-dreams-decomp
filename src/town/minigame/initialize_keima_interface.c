@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/minigame/keima.h"
+#include "town/map/directional_sprite_effect_g00644.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -72,7 +73,6 @@ extern u8 D_80023A00[];
 extern u8 D_80023C80[];
 extern Packed8 D_80024310[];
 extern u8 lit_mesh_renderer_address[];
-extern u8 town_directional_sprite_entries[];
 
 extern void func_8002108C();
 extern void func_80021120();

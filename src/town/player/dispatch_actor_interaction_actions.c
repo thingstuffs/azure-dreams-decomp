@@ -43,13 +43,13 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, ObjectPos
     S_80090A74_4 *shared_data;
     GameWork *input_state = &g_game_work;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(record);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(record);
+    resolve_collision_axis_order(record);
+    apply_velocity_friction(record);
     {
         void *height_record = record;
 
         height_data = &position_query_scratch;
-        height = select_the_smaller_position_query_result_capped_n_64_writes_associated(height_record, height_data);
+        height = query_capped_surface_height(height_record, height_data);
     }
     if ((height - record->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
@@ -57,14 +57,14 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, ObjectPos
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((record), height, (struct TownVec * *)(height_data));
+        set_height_and_slope_velocity((record), height, (struct TownVec * *)(height_data));
     }
     if ((input_state->pressed_buttons) & 0x10) {
         initialize_actor_action_state((struct TownObjectRecord *)(actor), (record), (s32)sprite);
         return;
     }
     if ((input_state->pressed_buttons) & 0x40) {
-        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, &town_actor_control);
+        action_result = select_adjacent_source_entry(actor, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
                 initialize_actor_movement_interaction_action(actor, record, sprite);
@@ -79,10 +79,10 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, ObjectPos
         }
     } else {
         shared_data = (S_80090A74_4 *)&town_actor_control;
-        interaction_result = select_an_available_entry_matching_direction_returns_status(shared_data);
+        interaction_result = select_entry_by_input_direction(shared_data);
         if (interaction_result != 0) {
             if (interaction_result == -1) {
-                store_the_valid_shared_angle_in_offset_hex_10(actor);
+                store_input_angle(actor);
                 initialize_record_and_select_active_data(actor, (record), sprite);
                 actor->unk_2C = 0;
                 submit_object_resource_data(shared_data->unk_10);

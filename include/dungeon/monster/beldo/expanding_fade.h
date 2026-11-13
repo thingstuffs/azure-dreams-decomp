@@ -4,7 +4,7 @@
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 
-/* create_effect_from_sprite_and_facing initializes this body and installs
+/* create_beldo_expanding_fade initializes this body and installs
  * expand_fade_effect_and_expire, which tracks the source, expands, and fades. */
 typedef struct BeldoExpandingFadeBody {
     u8 pad_00[0x96];

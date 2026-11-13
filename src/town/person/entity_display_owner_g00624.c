@@ -28,7 +28,7 @@ void initialize_object_data_blocks_and_entries(StorageMenuObject *object) {
     upload_three_color_gradient_palette(0x10, &entity_display_gradient_color, &entity_display_gradient_color, &entity_display_gradient_color, 0, 0xA);
     entry_data = D_800D1658;
     do {
-        update_four_slot_element_values_and_positions(object, entry_data, entry_index);
+        update_slot_menu_elements(object, entry_data, entry_index);
         entry_index += 1;
         entry_data += 1;
     } while (entry_index < 5);
@@ -36,7 +36,7 @@ void initialize_object_data_blocks_and_entries(StorageMenuObject *object) {
 }
 
 /* Sets the record's base value, offset value, and data pointer. */
-void set_record_base_and_data_pointer_alt(void *record_values, s32 base_value) {
+void bind_storage_menu_object_color_update(void *record_values, s32 base_value) {
     StorageMenuObject *object = record_values;
 
     object->unk_04 = base_value;
@@ -49,7 +49,7 @@ void set_record_base_and_data_pointer_alt(void *record_values, s32 base_value) {
  * owner data blocks and entries.
  */
 void initialize_entity_display_owner(u8 *owner, s32 base_value) {
-    set_record_base_and_data_pointer_alt(owner, base_value);
+    bind_storage_menu_object_color_update(owner, base_value);
     initialize_entity_display_parts(owner + 0x4C, owner + 0x24, owner + 0x34);
     initialize_object_data_blocks_and_entries((struct StorageMenuObject *)(owner));
 }

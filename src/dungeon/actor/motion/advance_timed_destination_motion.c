@@ -70,7 +70,7 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, ObjectPosi
             begin_player_trap_trigger(action, motion, destination, actor);
             return;
         }
-        action->unk_8C.as_pv = handle_actor_commands_and_facing;
+        action->unk_8C.as_pv = update_actor_commands_and_facing;
         return;
     case 12:
         if (destination->flags & 0x6000) {
@@ -79,7 +79,7 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, ObjectPosi
                 begin_player_trap_trigger(action, motion, destination, actor);
                 return;
             }
-            action->unk_8C.as_pv = handle_actor_commands_and_facing;
+            action->unk_8C.as_pv = update_actor_commands_and_facing;
         }
         return;
     default:

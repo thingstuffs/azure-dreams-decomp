@@ -1319,8 +1319,8 @@ copy_existing:
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         {
-            u8 *active_entity = (u8 *)primary_actor_record;
-            (*(u16 *)(active_entity + 0xA6))--;
+            ActorRecord *active_entity = primary_actor_record;
+            (*(u16 *)((u8 *)active_entity + 0xA6))--;
         }
         advance_status_timers(actor);
         actor->pending_turn_updates = actor->pending_turn_updates - 1;

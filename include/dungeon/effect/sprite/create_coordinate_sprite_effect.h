@@ -1,7 +1,9 @@
 #ifndef DUNGEON_OVL_18C4828_H
 #define DUNGEON_OVL_18C4828_H
+#include "dungeon/effect/sprite/fading_entries.h"
 struct ObjectPosition;
 #include "common.h"
+#include "dungeon/effect/sprite/ribbon_entries.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
@@ -126,9 +128,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 void advance_sprite_animation_and_textures(void *);
 s32 register_node(ObjectNodeHeader *, void *);
 extern u8 coordinate_effect_sprite_data[];
-extern u8 ribbon_sprite_entries[];
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry fading_sprite_entries[];
 extern u8 D_80025214[];
 void apply_small_random_value_gain(ActorRecord *target, s32 effect_param, ActorRecord *record);
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, struct ObjectPosition *unused,

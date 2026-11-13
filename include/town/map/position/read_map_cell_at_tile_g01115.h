@@ -35,7 +35,7 @@ s32 read_map_cell_at_world_position(s16 world_x, s16 world_y);
 void write_wrapped_packed_nibble(s32 nibble, s32 index, s32 nibble_count, u8 *packed_data);
 void process_all_lookup_entries(s32 lookup_key, void *context);
 void process_indexed_entry_record(s32 entry_index);
-void upload_town_movie_pixel_data_2(void);
+void upload_town_movie_pixels(void);
 void advance_index_and_mark_completion(TownMapEntryProcessorBody *processor);
 void create_town_map_entry_processor(void);
 

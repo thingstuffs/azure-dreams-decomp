@@ -16,7 +16,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
     T_80172FFC_WorkMid effect_work;
     s32 projection_aux;
     s32 projection_flags;
-    void *owner;
+    ObjectNodeHeader *owner;
     u16 spawn_count;                                       /* compiler-managed */
     u8 *directions;
     u16 *position_ptr;

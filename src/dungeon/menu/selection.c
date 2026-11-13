@@ -138,7 +138,7 @@ void forward_menu_object_to_selection_updater(ovl_1831370_8181140C_MenuState *me
  * Writes the current step scaled by 0x400 to the linked halfword, then advances it and switches to
  * selection updates after step four. Processes menu input each update.
  */
-void apply_step_and_reset_after_five(ovl_1831370_8181140C_MenuState *step) {
+void step_menu_open_animation(ovl_1831370_8181140C_MenuState *step) {
     s32 step_value = step->unk0 << 10;
 
     *(s16 *) (*(s32 *) ((u8 *) step + 0x64) + 6) = step_value;
@@ -246,7 +246,7 @@ void initialize_object_phase_data(void *recordFields, ObjectNodeHeader *recordVa
     set_descriptor_fields_and_flag(recordFields + 0x2C);
     record->unk_14 = recordValue24;
     record->unk_1C = recordValue2C;
-    NODE_HEADER(recordFields)->update_callback = apply_step_and_reset_after_five;
+    NODE_HEADER(recordFields)->update_callback = step_menu_open_animation;
 }
 
 /*
@@ -270,7 +270,7 @@ s32 get_and_position_object_handle(void *object)
         *(s32 *)((s8 *)object + 0x54) = initial_pos->x;
         *(s32 *)((s8 *)object + 0x58) = initial_pos->y;
         *(s32 *)((s8 *)object + 0x5C) = initial_pos->z;
-        texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(*(s32 *)((s8 *)object + 0x70), (s8 *)object + 0x54, 4);
+        set_menu_part_vectors(*(s32 *)((s8 *)object + 0x70), (s8 *)object + 0x54, 4);
         success = 1;
     }
     return success;
@@ -338,7 +338,7 @@ u32 has_available_object(void *object) {
 }
 
 /* Checks whether six or nine byte pairs contain text other than the default pair or two spaces. */
-s32 check_object_byte_pairs_content(s32 object_addr) {
+s32 has_text_editor_content(s32 object_addr) {
     s32 byte_count;
     s32 loop_bound;
     u8 compare_space;

@@ -1,0 +1,11 @@
+#include "common.h"
+#include "shared/entity.h"
+#include "town/player/state.h"
+
+extern s32 town_collision_motion[];
+
+/* Clears town_collision_motion[4] and copies source[1] to town_collision_motion[1]. */
+void sync_collision_motion_y(ObjectPosition *source) {
+    town_collision_motion[4] = 0;
+    town_collision_motion[1] = source->y.v;
+}

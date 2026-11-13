@@ -6,12 +6,12 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/scene.h"
 #include "engine/graphics.h"
+#include "dungeon/monster/golem_frames.h"
 
 typedef struct {
     s32 words[6];
 } Copy24;
 
-extern s32 golem_frame_set_3;
 
 
 
@@ -45,7 +45,7 @@ void advance_timed_target_flags(CopiedRenderObjectBody *state, void *output_arg,
     s32 signed_ticks;
     u16 target_flags;
 
-    if (((S_80174D24_4 *)state->render_data)->unk_2C != &golem_frame_set_3) {
+    if (((S_80174D24_4 *)state->render_data)->unk_2C != golem_frame_set_3) {
         (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;

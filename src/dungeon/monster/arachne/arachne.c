@@ -883,7 +883,7 @@ s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context
  * after a positive signed floor-trap result. Clears the secondary action halfword when dungeon
  * status flag 0x80 is set. /
  */
-void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target) {
+void finish_arachne_tile_move(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
@@ -1014,7 +1014,7 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Sp
  * Runs update_linked_actor_motion and installs update_actor_state_and_select_target only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void install_target_selection_after_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_arachne_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = update_actor_state_and_select_target;
@@ -1536,7 +1536,7 @@ void advance_arachne_removal(void *state, void *motion, void *position, void *ac
  * Runs update_actor_hop_and_grow and installs update_actor_state_and_select_target when it returns
  * nonzero.
  */
-void finish_actor_hop_and_grow_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_arachne_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
         state->unk_8C.handler = update_actor_state_and_select_target;
     }
@@ -1677,7 +1677,7 @@ void advance_arachne_status_action(ActorRecord *in_controller, ObjectPosition *i
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void resume_actor_target_selection_after_status_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
+void resume_arachne_after_status_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
 
     state = controller->action_phase;
@@ -1800,7 +1800,7 @@ void update_arachne_parent_motion(ActorRecord *actor, ObjectPosition *action, Sp
  * Runs update_thrown_actor_travel and installs update_actor_state_and_select_target only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void finish_thrown_actor_travel_and_floor_trap_then_select_target(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_arachne_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = update_actor_state_and_select_target;
@@ -1812,7 +1812,7 @@ void finish_thrown_actor_travel_and_floor_trap_then_select_target(ActorRecord *s
  * Runs interpolate_actor_to_terrain_tile and installs update_actor_state_and_select_target when it
  * returns nonzero.
  */
-void finish_actor_terrain_interpolation_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_arachne_terrain_move(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
         state->unk_8C.handler = update_actor_state_and_select_target;
     }
@@ -1822,7 +1822,7 @@ void finish_actor_terrain_interpolation_then_select_target(ActorRecord *state, O
  * Runs update_spinning_actor_fall and installs update_actor_state_and_select_target when it
  * returns nonzero.
  */
-void finish_spinning_actor_fall_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_arachne_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->unk_8C.handler = update_actor_state_and_select_target;
     }
@@ -1832,7 +1832,7 @@ void finish_spinning_actor_fall_then_select_target(ActorRecord *state, ObjectPos
  * Runs update_actor_fade_in and installs update_actor_state_and_select_target when it returns
  * nonzero.
  */
-void finish_actor_fade_in_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_arachne_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = update_actor_state_and_select_target;
     }
@@ -2805,7 +2805,7 @@ store_next_state:
  * Runs resolve_actor_floor_trap_once and installs update_actor_state_and_select_target when it
  * returns positive.
  */
-void finish_actor_floor_trap_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_arachne_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
         state->unk_8C.handler = update_actor_state_and_select_target;
     }
@@ -2815,7 +2815,7 @@ void finish_actor_floor_trap_then_select_target(ActorRecord *state, ObjectPositi
  * Runs propagate_actor_action_flag and installs update_actor_state_and_select_target when it
  * returns positive.
  */
-void finish_actor_action_flag_propagation_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_arachne_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
         state->unk_8C.handler = update_actor_state_and_select_target;
     }

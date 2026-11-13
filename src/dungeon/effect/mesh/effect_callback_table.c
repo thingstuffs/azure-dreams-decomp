@@ -17,7 +17,7 @@ const void *const D_80024028[9] __attribute__((aligned(4))) = {
     func_80025418,
     func_80025798,
     func_800257CC,
-    create_and_initializes_copying_n_24_bytes_source_data,
+    create_five_point_orbit_effect,
     func_800258B0,
     func_80025948,
     func_800258E4

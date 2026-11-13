@@ -23,7 +23,7 @@ extern void submit_stored_and_queried_boot_values(void);
 extern void invoke_indexed_object_callback(void *menu);
 extern void func_80406358(void *menu);
 extern void propagate_object_high_bit_flags(void *object);
-extern void allocate_or_reuse_effect_and_install_callback(void *value0,void *value1);
+extern void create_card_dev_slot_screen_effect(void *value0,void *value1);
 
 /* Handles menu navigation, button actions, and display refreshes. */
 void handle_object_menu_input(void *menu_arg)
@@ -45,7 +45,7 @@ void handle_object_menu_input(void *menu_arg)
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
             propagate_object_high_bit_flags((u8 *) menu - 0x20);
-            allocate_or_reuse_effect_and_install_callback(menu->unk_20, 0);
+            create_card_dev_slot_screen_effect(menu->unk_20, 0);
             return;
         } else if (pressed_buttons & 0x20) {
             func_80063FF8(0x514);
@@ -101,7 +101,7 @@ void handle_object_menu_input(void *menu_arg)
     if (nav_result != 0) {
         if (nav_result != 1) {
             propagate_object_high_bit_flags((u8 *) menu - 0x20);
-            allocate_or_reuse_effect_and_install_callback(menu->unk_20, 0);
+            create_card_dev_slot_screen_effect(menu->unk_20, 0);
         }
     }
     if (needs_refresh != 0) {

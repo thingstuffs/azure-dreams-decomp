@@ -42,27 +42,27 @@ void update_timed_state_transition(struct TownTimedTransitionState *state);
 
 #include "shared/item_menu.h"
 struct S_800B3178_0;
-void call_the_same_context_both_processing_routines(s32 value, s32 context);
+void apply_bound_adjustments(s32 value, s32 context);
 void populate_paged_entries_with_brightness(void **entries, struct S_800B3178_0 *page_info, s32 source_table);
 void position_decimal_digit_parts(ItemMenuObject *object);
 void remove_selected_entry_from_list(s32 list_addr, s32 index);
 void run_entry_update_steps(s32 entry_id);
 
-void apply_upper_lower_boundary_adjustments_fixed_point(s32 context, s32 *value);
+void start_adjustment_at_value_bounds(s32 context, s32 *value);
 void clear_indexed_table_flag(void *record);
 s32 directional_buttons_to_angle(s32 buttons);
 void dispatch_item_menu_request_result(void *request);
 s32 func_8001673C(s32 grid_y, s32 grid_x);
 s32 func_800B0198(ItemMenuObject *object, s32 entry_count);
-void handle_object_bounds_and_cleanup(TownObjectRecord *object, void *check_data, void *fallback_data);
+void retire_object_or_animate_sprite(TownObjectRecord *object, void *check_data, void *fallback_data);
 s32 load_item_menu_display_resource(void *object, s32 resource_id);
 s16 *map_cell_address_at_tile(s32 tile_x, s32 tile_y);
-void send_item_menu_page_entries_to_formatter(s32 entryTableAddress, s32 entryCount);
+void remove_item_menu_entry_objects(s32 entryTableAddress, s32 entryCount);
 void set_paired_entry_brightness(void *object);
 void set_resident_flag_when_item_present(u16 *record);
 void sort_selected_record_entries(void *record);
 s16 *town_map_mod_read_p(s16 world_x, s16 world_y);
-void update_the_data_set_local_global_flags(void *object, void *update_data);
+void remove_object_with_item_data(void *object, void *update_data);
 
 void *initialize_packed_record_defaults(void *record);
 

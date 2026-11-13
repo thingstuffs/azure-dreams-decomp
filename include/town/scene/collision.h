@@ -45,9 +45,9 @@ typedef struct CollisionOverlap {
     int amount;
 } CollisionOverlap;
 
-CollisionOverlap *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *first_box, void *second_box);
+CollisionOverlap *get_box_overlap_axis(void *first_box, void *second_box);
 
-void apply_the_entry_adjustment_increment_slot_count_store_slot(ColliderView *collider, ObjectPosition *position, CollisionScratch *entry);
+void apply_collision_entry_adjustment(ColliderView *collider, ObjectPosition *position, CollisionScratch *entry);
 void update_first_axis_slot_value(ColliderView *collider, ObjectPosition *position, CollisionScratch *entry);
 void update_second_axis_slot_value(ColliderView *collider, ObjectPosition *position, CollisionScratch *entry);
 

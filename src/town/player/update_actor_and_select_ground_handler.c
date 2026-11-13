@@ -15,12 +15,12 @@
 void update_actor_and_select_ground_handler(s32 context, ObjectPosition *record, SpriteFrameState *action_data) {
     s16 threshold;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(record);
-    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(record, &position_query_scratch);
+    resolve_collision_axis_order(record);
+    threshold = query_capped_surface_height(record, &position_query_scratch);
     if (record->z.w.i >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((record), threshold, (struct TownVec * *)(&position_query_scratch));
+        set_height_and_slope_velocity((record), threshold, (struct TownVec * *)(&position_query_scratch));
         bind_handler_and_initialize_entity(context, record, action_data);
         return;
     }
-    add_hex_20000_s_signed_offset_hex_14(record);
+    add_vertical_gravity(record);
 }

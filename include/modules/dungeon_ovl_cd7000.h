@@ -964,7 +964,7 @@ extern s32 update_actor_fade_in(void *,void *,void *);
 extern void spend_actor_mp(void *, s32);
 
 extern void * create_status_linked_render_effect(struct ObjectPosition *source_pos, s32 render_param, s16 initial_state, s8 *status);
-extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s8 *state_out_addr);
+extern s16 relink_entity_and_clear_high_flag(void *context, void *position, ActorRecord *entity, s16 near_range, s16 far_range, s8 *state_out_addr);
 /* Retail banks use the signed-halfword height-query return view; this
  * is the existing certified fa7000 contract, not a per-function flag. */
 extern s16 sample_terrain_surface_height(s32,s32,s16);
@@ -985,7 +985,7 @@ void func_8014E944(S_80172944_0 *state,void *position,void *render_state,void *e
 
 void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BCC_S_func_80C953CC_2 *position, CL_CD7000_80172BCC_S_func_80C953CC_3 *entity,
     CL_CD7000_80172BCC_S_func_80C953CC_4 *actor);
-void update_a_timed_hop_actor_s_tile_restores_idle_animation(CL_CD7000_801730E0_S_801730E0_0 *state, struct ObjectPosition *motion, struct SpriteFrameState *action, EntityRec *entity);
+void update_actor_impact_hop(CL_CD7000_801730E0_S_801730E0_0 *state, struct ObjectPosition *motion, struct SpriteFrameState *action, EntityRec *entity);
 void func_8014F304(void *state,void *position,void *render_state,void *entity);
 void func_8014F324(void *state,void *position,void *render_state,void *entity);
 void func_8014F344(void *state,void *position,void *render_state,void *entity);

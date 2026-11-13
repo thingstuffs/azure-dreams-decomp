@@ -22,7 +22,7 @@ typedef struct MainMemoryPage {
 } MainMemoryPage;
 
 extern void initialize_circular_list_head(void);
-extern void initialize_pointer_table_self_links(void);
+extern void init_town_motion_list(void);
 extern void clear_entry_table(void);
 extern void reserve_twch_load(s32 load_selector);
 extern void reserve_tw_mon_load(s32 load_selector);
@@ -45,7 +45,7 @@ void dispatch_town_transition(void)
     clear_town_movie_object_field(town_movie_callback_list);
     clear_town_movie_object_field(town_transition_callback_list);
     initialize_circular_list_head();
-    initialize_pointer_table_self_links();
+    init_town_motion_list();
     clear_entry_table();
     map_runtime_state[0] = 0;
     obj_disp23_cancel_sw_set(0);

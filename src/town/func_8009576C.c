@@ -23,24 +23,24 @@ void update_actor_movement_with_radial_effects(s32 object_id, ObjectPosition *ob
     GameWork *town_state;
 
     town_state = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
-    store_the_valid_shared_angle_in_offset_hex_10((void *)(object_id));
-    handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
+    resolve_collision_axis_order(object);
+    store_input_angle((void *)(object_id));
+    accelerate_toward_input_keep_speed(object);
     if ((town_state->pressed_buttons) & 0x40) {
         init_sound_threshold_action(object_id, object, update_context);
     }
-    update_threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &position_query_scratch);
+    update_threshold = query_capped_surface_height(object, &position_query_scratch);
     if (object->z.w.i >= update_threshold) {
         select_sound_command_from_mode();
-        compute_and_clamps_vector_based_adjustment_updates_town((object), update_threshold, (struct TownVec * *)(&position_query_scratch));
+        set_height_and_slope_velocity((object), update_threshold, (struct TownVec * *)(&position_query_scratch));
         spawn_person_radial_effects(object);
         initialize_actor_movement_interaction_action(object_id, object, update_context);
     } else if (town_action_state_flag != 0) {
         select_sound_command_from_mode();
         object->velocity_z = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((object));
+        copy_z_to_collision_motion((object));
         initialize_actor_movement_interaction_action(object_id, object, update_context);
     } else {
-        add_hex_20000_s_signed_offset_hex_14(object);
+        add_vertical_gravity(object);
     }
 }

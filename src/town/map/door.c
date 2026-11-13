@@ -272,12 +272,12 @@ void advance_door_step(void *entity, TownObjectRecord *unused_context, void *upd
         + 0x90));
     *(s16 *)((u8 *)entity + 0x90) = step_result;
     if ((step_result << 0x10) == 0) {
-        *(void **)((u8 *)entity + 0x50) = &select_tower_entry_handler_by_item_count;
+        *(void **)((u8 *)entity + 0x50) = &start_door_entry_or_wait;
     }
 }
 
 /* Selects the door's entrance or waiting handler according to whether the entry count is below six. */
-void select_tower_entry_handler_by_item_count(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params) {
+void start_door_entry_or_wait(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params) {
     if (check_door_input_and_angle(script_state, unused_context) != 0) {
         if (count_consecutive_nonzero_entries_up_twenty() < 6) {
             script_state->unk_90 = 6;
@@ -293,7 +293,7 @@ void select_tower_entry_handler_by_item_count(S_800A0C30_0 *script_state, void *
 /* Set the object handler when service_script_controller returns zero. */
 void set_door_handler_if_ready(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3) {
     if (service_script_controller() == 0) {
-        object->unk_50 = &select_tower_entry_handler_by_item_count;
+        object->unk_50 = &start_door_entry_or_wait;
     }
 }
 
@@ -349,7 +349,7 @@ void into_dn_door_jobs(void) {
 
 /* Tests the input and object angle against either supported global state. */
 s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value) {
-    if (get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(test_value, &town_actor_control) != 0) {
+    if (get_box_overlap_axis(test_value, &town_actor_control) != 0) {
         s32 *global_base = &scene_object_payload_alias;
         s32 global_angle = ((u16)((TownObjectRecord *)global_base)->unk_10) & 0xFFF;
         s32 object_angle = object->unk_72 & 0xFFF;

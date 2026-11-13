@@ -6,7 +6,7 @@
 void release_sound_channel_and_mark_pending(s16 channel)
 {
     if ((channel << 16) == 0 && (sound_playback_state.flags00 & 0x100)) {
-        handle_audio_status_code(0x71);
+        handle_sequence_control_code(0x71);
     }
     release_enabled_sound_channel(channel);
     sound_playback_state.flags04 |= 0x01000000 << channel;

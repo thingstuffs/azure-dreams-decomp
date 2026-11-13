@@ -20,9 +20,8 @@ typedef struct {
 #define MULT_HI(a, b) (0)
 
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
-#include "shared/sprite_source.h"
+#include "slus/random_variant_sprite_entries.h"
 #include "dungeon/effect/shade.h"
-extern SpriteSourceEntry random_variant_sprite_entries[];
 
 typedef struct S_818C370C_0 {
     u8 pad_00[0x8];
@@ -55,7 +54,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, ObjectPosition *source_dat
     SpriteFrameState *render_data;
     S_818C370C_1 *state;
     ObjectNodeHeader *object;
-    void *object_data;
+    ObjectPosition *object_data;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {

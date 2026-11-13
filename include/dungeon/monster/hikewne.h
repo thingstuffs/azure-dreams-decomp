@@ -19,7 +19,7 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
 void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor);
 
 struct S_80173588_0;
-void reset_state_field_a_2(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void update_hikewne_hop_and_shrink(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 

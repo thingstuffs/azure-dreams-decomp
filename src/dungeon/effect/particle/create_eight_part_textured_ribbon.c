@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect/sprite/ribbon_entries.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 /* cfail-repair: true-name warm-start */
@@ -18,7 +19,6 @@ typedef struct {
     u8 bytes[32];
 } Copy32;
 
-extern u8 ribbon_sprite_entries[3];
 extern Copy32 D_801648DC;
 extern u8 ribbon_vertices[96];
 

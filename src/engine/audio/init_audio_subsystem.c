@@ -18,7 +18,7 @@ void init_audio_subsystem(void) {
     submit_shifted_stereo_sound_parameters(0x3C, 0x3C);
     sound_set_spu_master_volume(0x7F, 0x7F);
     submit_tagged_driver_byte(0, 0, 0);
-    submit_scaled_driver_halfword_pair(0, 0, 0);
+    set_spu_cd_or_ext_volume(0, 0, 0);
     set_cd_audio_mix_mode(2);
     reset_audio_status();
     init_audio_staging_buffers();

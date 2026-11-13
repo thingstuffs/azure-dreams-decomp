@@ -16,7 +16,7 @@ struct S_800C9F34_3;
 s16 get_byte_coordinate_chebyshev_distance(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
 
 /* func_800A46D8.c */
-s32 uses_direct_actor_sprite_frames(void *record);
+s32 has_direct_actor_sprite_frames(void *record);
 
 /* func_800A4F54.c */
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
@@ -37,10 +37,10 @@ void initialize_nine_entry_links(void *entry_data, s32 enable_flag);
 s32 run_object_setup_and_finalize(s32 *value_ptr, s32 context);
 
 /* func_80F908F4.c */
-void begin_actor_hit_reaction_slot_f(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, EntityRec *actor);
+void begin_actor_hit_reaction(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, EntityRec *actor);
 
 /* func_80F90A60.c */
-void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
+void update_actor_timed_visual(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
 
 /* func_80FE16A8.c */
 void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);

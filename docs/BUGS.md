@@ -285,7 +285,7 @@ sites of the slot-index return-value defect described in DB003-DB006.
   Boolean: success in slot 0 loses its message, and rejected insertion returns -1
   and announces success. The status operation itself still follows the allocator's result.
   Sources: [apply_indexed_effect_condition](../src/dungeon/effect/travel/tint_and_advance_effect.c),
-  [check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01](../src/dungeon/effect/sprite/create_radial_effect_from_source.c),
+  [apply_timed_status_to_target](../src/dungeon/effect/sprite/create_radial_effect_from_source.c),
   [apply_conditional_target_effect](../src/dungeon/effect/shade/apply_conditional_target_effect.c).
 
 ## Searchable source markers and reconciliation

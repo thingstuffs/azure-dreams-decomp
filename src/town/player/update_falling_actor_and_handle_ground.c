@@ -14,11 +14,11 @@
 void update_falling_actor_and_handle_ground(TownObjectRecord *context, ObjectPosition *actor, SpriteFrameState *sprite) {
     s16 ground_height;
 
-    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
+    ground_height = query_capped_surface_height(actor, &position_query_scratch);
     if (actor->z.w.i >= ground_height) {
-        compute_and_clamps_vector_based_adjustment_updates_town((actor), ground_height, (struct TownVec * *)(&position_query_scratch));
+        set_height_and_slope_velocity((actor), ground_height, (struct TownVec * *)(&position_query_scratch));
         initialize_record_with_handler_table(context, (actor), sprite);
         return;
     }
-    add_hex_20000_s_signed_offset_hex_14(actor);
+    add_vertical_gravity(actor);
 }

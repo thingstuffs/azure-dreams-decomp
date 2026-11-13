@@ -9,7 +9,7 @@
     {
       "row": "town/func_803304A0",
       "home": "town/func_803304A0",
-      "tu": "src/town/player/copy_current_record_components.c",
+      "tu": "src/town/player/copy_scene_payload_position.c",
       "foff": "0x2b04a0",
       "vma": "0x8001aca0",
       "size": 72,

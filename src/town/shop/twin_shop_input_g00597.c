@@ -4,14 +4,14 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B016C, CL:town/func_800B02BC, CL:town/func_800B03A4, CL:town/func_800B03D0. */
 #include "town/shop/twin_shop_input_g00597.h"
 
-/* Calls get_item_name_with_shared_text_table with record->unk_20 +(record->unk_04 * 4). */
+/* Calls get_item_name with record->unk_20 +(record->unk_04 * 4). */
 void pass_indexed_record_to_loader(Rec_func_800AD7F8_arg0 *record) {
-    get_item_name_with_shared_text_table(record->unk_20 + (record->unk_04 * 4));
+    get_item_name(record->unk_20 + (record->unk_04 * 4));
 }
 
-/* Calls select_item_name_table_from_pair_check with entry_table->unk_20 +(entry_table->unk_04 * 4). */
+/* Calls get_item_name_with_fallback_pair with entry_table->unk_20 +(entry_table->unk_04 * 4). */
 void pass_indexed_entry_address(GridMenuObject *entry_table) {
-    select_item_name_table_from_pair_check(entry_table->entry_base + (entry_table->selected_index * 4));
+    get_item_name_with_fallback_pair(entry_table->entry_base + (entry_table->selected_index * 4));
 }
 
 /* Handles twin shop input and updates the selected item and row. */
@@ -42,7 +42,7 @@ void handle_twin_shop_input(s32 *menu) {
         return;
     }
     if ((pad_state->pressed_buttons) & 0x40) {
-        handle_selected_entry(menu);
+        confirm_selected_entry(menu);
         return;
     }
     if (!(held_buttons & 0xF000)) {
@@ -90,7 +90,7 @@ void handle_twin_shop_input(s32 *menu) {
     }
     store_shop_embedded_value(menu[10], selection);
     if (pad_state->buttons & 0x40) {
-        handle_selected_entry(menu);
+        confirm_selected_entry(menu);
     }
     pass_indexed_record_to_loader((Rec_func_800AD7F8_arg0 *)menu);
 }

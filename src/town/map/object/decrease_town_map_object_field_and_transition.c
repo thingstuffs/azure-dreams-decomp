@@ -11,14 +11,14 @@ typedef struct S_8008BA44_0 {
     s16 unk_66;
     void * unk_68;
     s32 unk_6C;
-} S_8008BA44_0;   /* obj in decrease_town_map_object_field_0a_and_transition */
+} S_8008BA44_0;   /* obj in lower_town_map_object_value_to_input */
 
-   /* inner in decrease_town_map_object_field_0a_and_transition */
+   /* inner in lower_town_map_object_value_to_input */
 
 typedef struct S_8008BA44_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8008BA44_2;   /* test_inner in decrease_town_map_object_field_0a_and_transition */
+} S_8008BA44_2;   /* test_inner in lower_town_map_object_value_to_input */
 
 
 
@@ -26,7 +26,7 @@ typedef struct S_8008BA44_2 {
 extern s32 town_map_state_values[];
 
 /* Decrement the inner value, clamping it to zero and resetting object state if it becomes negative. */
-void decrease_town_map_object_field_0a_and_transition(S_8008BA44_0 *obj)
+void lower_town_map_object_value_to_input(S_8008BA44_0 *obj)
 {
     UnsignedCountdownView *state;
     S_8008BA44_2 *signed_state;

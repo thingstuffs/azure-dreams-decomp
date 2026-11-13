@@ -16,13 +16,13 @@ typedef struct S_800A022C_0 {
     s8 unk_15;
 } S_800A022C_0;
 
-/* arg1 in initialize_the_active_flag_install_handler */
+/* arg1 in start_item_object_motion */
 typedef struct S_800A022C_2 {
     u8 pad_00[0x50];
     s32 * unk_50;
 } S_800A022C_2;
 
-/* arg1 in create_an_position_initializes_graphics_state */
+/* arg1 in create_item_object_at */
 typedef struct S_800A027C_3 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -68,6 +68,6 @@ extern u8 D_800D0754[];
 extern u8 D_800D076C[];
 
 /* Functions defined in this translation unit. */
-void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render);
+void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render);
 
 #endif

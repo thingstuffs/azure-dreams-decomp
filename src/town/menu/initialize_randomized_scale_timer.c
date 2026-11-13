@@ -9,7 +9,7 @@ void initialize_randomized_scale_timer(TownObjectRecord *object, void *unused_st
     s16 initial_value;
 
     object->unk_50.as_pm = &update_scale_effect_and_advance;
-    initial_value = scale_random_to_unsigned_halfword_limit(0x60) + 0xC0;
+    initial_value = scale_random_by_limit(0x60) + 0xC0;
     object->unk_90 = initial_value;
     object->timer = initial_value;
 }

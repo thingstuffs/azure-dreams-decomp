@@ -49,8 +49,8 @@ void *create_reverse_motion_effect(StackRecord *source_motion, u32 flags) {
         sprite->scale_x = 0x1000;
         sprite->tpage_abr = 0x60;
         sprite->flags = (u16) (sprite->flags | 0xC);
-        speed_roll = scale_random_to_unsigned_halfword_limit(7);
-        launch_speed = speed_roll + scale_random_to_unsigned_halfword_limit(7);
+        speed_roll = scale_random_by_limit(7);
+        launch_speed = speed_roll + scale_random_by_limit(7);
         launch->timer.launch_speed = launch_speed;
         motion->velocity_z = (s32) (0 - (launch_speed << 0x10));
         stored_speed = launch->timer.launch_speed;
@@ -80,13 +80,13 @@ void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s
         record.y = initial_y;
         for (spawn_index = 0; spawn_index < count; spawn_index++) {
             record.x = (center->x +
-                        scale_random_to_unsigned_halfword_limit(spread->unk_00.u16)) -
+                        scale_random_by_limit(spread->unk_00.u16)) -
                        (spread->unk_00.s32 / 2);
             record.z = (center->y +
-                        scale_random_to_unsigned_halfword_limit(spread->unk_04.u16)) -
+                        scale_random_by_limit(spread->unk_04.u16)) -
                        (spread->unk_04.s32 / 2);
             y = (center->z +
-                 scale_random_to_unsigned_halfword_limit(spread->unk_08.u16)) -
+                 scale_random_by_limit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;
             record.fieldC = rcos(angle) << 5;

@@ -40,7 +40,7 @@ void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, void *mo
 
 /* Creates a randomly rotated half-scale gray sprite with copied motion, an owner link, and a saved
    setting. */
-void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
+void *create_random_rotation_sprite_effect(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
 {
     ObjectNodeHeader *obj;
     RandomRotationSpriteEffectBody *fields;
@@ -78,7 +78,7 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
  * Increments the linked object and entry counters, advances sprite animation, and flags removal
  * when animation flags 0x6000 are set.
  */
-void handle_increment_entry_counters_process_target_propagate_status_flags(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target)
+void update_randomized_grayscale_effect(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target)
 {
     B22_81893474_EffectState *object;
 
@@ -101,7 +101,7 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = (void *)handle_increment_entry_counters_process_target_propagate_status_flags;
+        object->unk_10 = (void *)update_randomized_grayscale_effect;
         appearance = object->unk_0C;
         object->unk_20 = object_tag;
         object->unk_24 = 0;
@@ -127,7 +127,7 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
 }
 
 /* Advances sprite animation, creates a gray child at count 8, and removes the effect at count 16. */
-void advance_the_entry_counters_trigger_count_milestones_update_target(CountedSpriteEffectBody *entry, s32 unused, void *target)
+void update_counted_sprite_effect(CountedSpriteEffectBody *entry, s32 unused, void *target)
 {
     ovl_18b8824_81898B70_S_80024370_1 *object;
     u16 count;
@@ -165,7 +165,7 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->unk_10 = (void *)advance_the_entry_counters_trigger_count_milestones_update_target;
+        object->unk_10 = (void *)update_counted_sprite_effect;
         display = object->unk_0C;
         object->unk_20 = object_id;
         object->unk_24 = 0;
@@ -432,9 +432,9 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
                 ovl_18b8824_81898EBC_S32_AT(motion, 0x14) =
                     (ovl_18b8824_81898EBC_S32_AT(target_pos, 8) - raised_z) / state->duration;
             }
-            create_a_sprite_random_rotation_copies_initial_data(state, motion, state->duration);
-            create_a_sprite_random_rotation_copies_initial_data(state, motion, state->duration);
-            create_a_sprite_random_rotation_copies_initial_data(state, motion, state->duration);
+            create_random_rotation_sprite_effect(state, motion, state->duration);
+            create_random_rotation_sprite_effect(state, motion, state->duration);
+            create_random_rotation_sprite_effect(state, motion, state->duration);
             state->timer = 0;
             break;
         }

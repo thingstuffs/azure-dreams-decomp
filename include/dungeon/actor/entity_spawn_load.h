@@ -156,7 +156,7 @@ extern void select_indirect_table_entry(void *state_data, s16 table_index, s16 e
 extern s32 queue_cd_resource(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 func_80047E30();
 extern void *register_and_upload_sprite_resource();
-extern s32 begin_sprite_resource_load_with_completion_flag(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 begin_sprite_resource_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 read_sound_mode_blocking_status(s32 mode);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);

@@ -16,7 +16,7 @@ extern s32 D_800D6290[];
  */
 void rise_until_apex_then_advance_position(TownObjectRecord *object, EntityRec *motion, void *context) {
     motion->z.v = (s32) (motion->z.v + motion->flags14);
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
     if (motion->flags14 >= 0) {
         initialize_object_entries((object), context, D_800D6290);
         object->handler = &advance_object_position;

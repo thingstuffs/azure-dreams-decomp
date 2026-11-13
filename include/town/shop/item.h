@@ -110,8 +110,8 @@ void schedule_item_menu_child_release(ObjectNodeHeader *object);
 /* serch_item_plown.c */
 s32 serch_item_plown(s32 item_kind, s32 item_type);
 
-/* set_item_menu_data_pointer.c */
-void set_item_menu_data_pointer(ItemMenuStateNode *owner);
+/* set_item_menu_release_callback.c */
+void set_item_menu_release_callback(ItemMenuStateNode *owner);
 
 /* set_item_menu_entry_coordinates.c */
 void set_item_menu_entry_coordinates(ItemMenuObject *object);

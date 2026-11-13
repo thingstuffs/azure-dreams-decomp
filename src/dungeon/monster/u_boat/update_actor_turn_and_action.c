@@ -183,7 +183,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
             if ((try_turn_actor_toward_target(entity, context, sprite, actor) << 16) != 0) {
                 return;
             }
-            begin_actor_action(entity, context, sprite, actor);
+            begin_u_boat_attack_action(entity, context, sprite, actor);
             return;
 
         case 9:

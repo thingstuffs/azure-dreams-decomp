@@ -2,7 +2,7 @@
 #include "town/map.h"
 
 /* Returns the sign of a two-component dot product using record coefficients truncated from 12-bit fractional values. */
-s32 dot_sign_with_truncated_q_12_coefficients(s32 recordTableAddress, s32 recordIndexOrCoefficient, s32 componentsOrSum) {
+s32 sign_of_q12_dot_product(s32 recordTableAddress, s32 recordIndexOrCoefficient, s32 componentsOrSum) {
     s32 firstScale;
     s32 firstProduct;
     s32 secondScale;

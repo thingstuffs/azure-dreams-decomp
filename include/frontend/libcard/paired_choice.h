@@ -11,7 +11,7 @@ typedef struct CardChoiceDisplayNode {
     s32 unk_0C;
 } CardChoiceDisplayNode;
 
-/* card_boot_create_or_reset_paired_choice_panel clears 0xF0 bytes and initializes four display nodes. */
+/* card_boot_create_choice_panel clears 0xF0 bytes and initializes four display nodes. */
 typedef struct CardChoiceOwner {
     s32 initial_value;
     FrameState choice_cursors[2];

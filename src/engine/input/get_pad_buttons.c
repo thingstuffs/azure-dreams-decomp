@@ -5,6 +5,6 @@
 
 
 /* Returns the current pad button bits from g_game_work.buttons. */
-s32 runtime_get_state_value_83168(void) {
+s32 get_held_pad_buttons(void) {
     return g_game_work.buttons;
 }

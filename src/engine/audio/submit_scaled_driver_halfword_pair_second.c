@@ -5,7 +5,7 @@
 
 /*
  * When status flag 0x400 is set: sound_stream_task's level, scaled by volume scale [2], goes to
- * submit_scaled_driver_halfword_pair (mode 0).
+ * set_spu_cd_or_ext_volume (mode 0).
  *
  * Canonical status block shared across the sound_playback_state family (w_800540A8.c,
  * w_80054C58.c, w_8005405C.c, w_800559B4.c). Only flags1 is touched here.
@@ -24,6 +24,6 @@ void apply_scaled_cd_stream_volume(void) {
         level = (task->unk_08 * g_volume_scale[2]) / 32767;
         scaled = level * task->unk_10;
         level = scaled / 128;
-        submit_scaled_driver_halfword_pair(0, level, level);
+        set_spu_cd_or_ext_volume(0, level, level);
     }
 }

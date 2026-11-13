@@ -48,7 +48,7 @@ extern u8 barong_direction_frames[];
 
 
 
-void update_actor_movement_animation_states_completes_timed_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_barong_jump_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 void update_motion_and_grow_sprite(void *motion, void *position, SpriteFrameState *sprite);
 

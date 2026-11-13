@@ -12,7 +12,7 @@ void refresh_shared_state(void) {
     TownStateRecord *context;
 
     process_flagged_type_0x18_entries();
-    call_value_handler_mode_0(town_event_records);
+    process_lshop_entries_default(town_event_records);
     context = town_scene_root->town_state;
     context->money = (s32) (((signed int)context->money) - scene_price);
 }

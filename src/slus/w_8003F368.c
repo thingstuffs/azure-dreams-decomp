@@ -44,7 +44,7 @@ L8003F3A4:
             continue;
         }
         func_8003E70C();
-        if ((get_previous_cd_command_byte() & 0xFF) == 0x1B) {
+        if ((get_previous_cd_command() & 0xFF) == 0x1B) {
             index_is_zero = (recovery_state[-3] == 0);
             cd_command_phase[0] = 0xFF;
             if (!index_is_zero) {

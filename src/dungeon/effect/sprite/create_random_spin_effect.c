@@ -6,6 +6,7 @@
 #include "sdk/libc.h"
 #include "dungeon/effect/sprite.h"
 #include "engine/node.h"
+#include "slus/tinted_sprite_entries.h"
 
 typedef struct S_818BDB44_0 {
     u8 pad_00[0x8];
@@ -41,7 +42,6 @@ typedef struct {
 } Copy24;
 
 extern u8 D_80024F4C[];
-extern u8 tinted_sprite_entries[];
 
 /* Allocate and initialize a randomized object from the source and initial data. */
 s32 create_random_spin_effect(S_818BDB44_2 *source, ObjectPosition *init_data)

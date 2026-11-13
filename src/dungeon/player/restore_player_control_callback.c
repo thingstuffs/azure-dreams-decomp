@@ -15,7 +15,7 @@ void restore_player_control_callback(void *target_data, void *source) {
         s32 type_match;
         type_match = get_entity_effect_value(source, STATUS_FROG) << 16;
         if (type_match != 0) {
-            target->unk_8C.address = handle_actor_commands_and_facing;
+            target->unk_8C.address = update_actor_commands_and_facing;
         } else {
 
             {

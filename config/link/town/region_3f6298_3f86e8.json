@@ -217,7 +217,7 @@
     {
       "row": "town/func_804770D0",
       "home": "town/func_804770D0",
-      "tu": "src/town/scene/get_set.c",
+      "tu": "src/town/scene/is_scene_choice_one.c",
       "foff": "0x003F70D0",
       "vma": "0x800180D0",
       "size": 24
@@ -225,7 +225,7 @@
     {
       "row": "town/func_804770E8",
       "home": "town/func_804770E8",
-      "tu": "src/town/scene/is_mode_2.c",
+      "tu": "src/town/scene/is_scene_choice_two.c",
       "foff": "0x003F70E8",
       "vma": "0x800180E8",
       "size": 24
@@ -233,7 +233,7 @@
     {
       "row": "town/func_80477100",
       "home": "town/func_80477100",
-      "tu": "src/town/scene/is_mode_3.c",
+      "tu": "src/town/scene/is_scene_choice_three.c",
       "foff": "0x003F7100",
       "vma": "0x80018100",
       "size": 24
@@ -241,7 +241,7 @@
     {
       "row": "town/func_80477118",
       "home": "town/func_80477118",
-      "tu": "src/town/scene/is_mode_3_b.c",
+      "tu": "src/town/scene/is_scene_choice_six.c",
       "foff": "0x003F7118",
       "vma": "0x80018118",
       "size": 24

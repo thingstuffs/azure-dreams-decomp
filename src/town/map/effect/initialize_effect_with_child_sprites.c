@@ -115,7 +115,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
             } else {
                 obj->z.v = 0;
             }
-            configure_the_set_mode_n_3(entity, obj, *part_params);
+            init_scene_node_mode_3(entity, obj, *part_params);
         }
         part_index++;
         part_params++;

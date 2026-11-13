@@ -190,13 +190,13 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         case 6:
         {
             TileObject *player_pos = &reference_tile_object;
-            void *player;
+            ActorRecord *player;
             s16 facing_angle;
             facing_angle = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
                 player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, &direction_aux);
             player = primary_actor_record;
             creature->facing = facing_angle;
-            if ((*((((u8 *) player) + 0x9A))) == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(actor, context, sprite, &garuda_frame_set, update_creature_animation_action);
                 return;
             }

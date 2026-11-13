@@ -34,7 +34,7 @@ extern s32 scene_request_context;
 extern s32 func_80018BD0(s32);
 
 /* Functions defined in this translation unit. */
-void call_24_byte_entry_two(void *firstValue, s32 unusedValue, s32 secondValue);
+void apply_selected_entry_position(void *firstValue, s32 unusedValue, s32 secondValue);
 s32 run_global_interface_setup_sequence(void);
 
 #endif

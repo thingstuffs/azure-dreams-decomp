@@ -28,7 +28,7 @@ void invoke_enabled_entry_callback(s32 slot_id)
         u8 *entries = D_8001F288;
         entry = &entries[entry_index * 3];
         if (entry[2] != 0) {
-            copy_current_record_components_3(position);
+            copy_scene_payload_position(position);
             mode = entry[1];
             x = (entry[0] << 6) + position[0] + 0x20;
             y = position[1] - 0x40;

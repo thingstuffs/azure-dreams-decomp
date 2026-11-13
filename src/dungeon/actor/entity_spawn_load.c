@@ -232,7 +232,7 @@ case 2:
             entity->species--;
             func_8003E188(entity->species, 0);
             sprite_resource_base = D_80023000;
-            load_result = begin_sprite_resource_load_with_completion_flag(entity->species, sprite_resource_completion_flag);
+            load_result = begin_sprite_resource_load(entity->species, sprite_resource_completion_flag);
             load_spawned = (u8 *)replacement;
 
             loaded_entity_sprite_resource = load_result;

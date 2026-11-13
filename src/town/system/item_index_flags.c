@@ -11,15 +11,15 @@
  * lui before the store), the "array/struct >8B" codegen shape noted in
  * w_800510DC.c rather than the two-independent-lui -G0 shape. */
 
-extern void copy_a_pointer_table_initializes_extra_data_tag_hex_13(void *a0, void *a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void install_slot_record_with_extra_data(void *a0, void *a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /*
  * Initializes tagged data in the object payload, unlinks the object from both scene lists, and
  * sets local and global removal flags.
  */
-static void update_the_data_set_local_global_flags(void *object, void *update_data)
+static void remove_object_with_item_data(void *object, void *update_data)
 {
-    copy_a_pointer_table_initializes_extra_data_tag_hex_13(update_data, (u8 *)object + 0x4C);
+    install_slot_record_with_extra_data(update_data, (u8 *)object + 0x4C);
     unlink_scene_list_node(object);
     unlink_node_if_registered(object);
     *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
@@ -30,13 +30,13 @@ static void update_the_data_set_local_global_flags(void *object, void *update_da
  * Returns zero when get_item_chk finds no item; otherwise updates the indexed item data and
  * removal flags and returns one.
  */
-s32 process_the_item_index_available_report_success(s32 context) {
+s32 remove_object_if_item_found(s32 context) {
     s32 item_index;
 
     item_index = get_item_chk();
     if (item_index == -1) {
         return 0;
     }
-    update_the_data_set_local_global_flags(context, item_index);
+    remove_object_with_item_data(context, item_index);
     return 1;
 }

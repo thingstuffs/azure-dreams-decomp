@@ -77,7 +77,7 @@ extern void func_800201C8(void *, void *);
 extern void func_8002025C(void *, void *);
 extern void return_zero_variadic(void *, s32);
 extern s32 create_dual_buffer_object(s32, s32, s32);
-extern void set_object_data_pointer_2(s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void set_advance_inner_value_callback(s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Updates the selection menu, quantity, payment, and closing state. */
 void update_keima_selection_menu(TownEntity *menu)
@@ -252,13 +252,13 @@ void update_keima_selection_menu(TownEntity *menu)
             keima_payout_remaining = total_factor * 100;
             keima_selection_mask = option_ids.value[entity->selection];
             set_resident_bit(0x592);
-            set_object_data_pointer_2(keima_panel_object[0]);
+            set_advance_inner_value_callback(keima_panel_object[0]);
             entity->state = 0x100;
         }
         if ((input->pressed_buttons) & 0x20) {
             SD_Call(AUDIO_CANCEL);
             town_money += entity->quantity * 100;
-            set_object_data_pointer_2(keima_panel_object[0]);
+            set_advance_inner_value_callback(keima_panel_object[0]);
             set_resident_bit(0x592);
             set_resident_bit(0x593);
             entity->state = 0x200;

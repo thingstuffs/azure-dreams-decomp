@@ -7,7 +7,7 @@
 #include "town/player/state.h"
 
 /* Calls func_800181C8 with the selected 24-byte entry and two forwarded values. */
-void call_24_byte_entry_two(void *firstValue, s32 unusedValue, s32 secondValue) {
+void apply_selected_entry_position(void *firstValue, s32 unusedValue, s32 secondValue) {
     s32 entryIndex;
     s32 twiceEntryIndex;
     s32 thriceEntryIndex;

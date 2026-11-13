@@ -20,9 +20,8 @@ typedef struct DungeonOwner {
 extern s16 select_creature_action_and_target(ObjectPosition *, u8 *, ActorRecord *, s16, s16, s8 *); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 
 /* Process an entity and clear its high flag when relinking it into the active list. */
-s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity_data,
+s16 relink_entity_and_clear_high_flag(void *context, void *position, ActorRecord *entity,
                   s16 near_range, s16 far_range, s8 *state_out_addr) {
-    ActorRecord *entity = entity_data;
 
     register u16 entity_flags;
     s16 result = select_creature_action_and_target(context, position, entity, near_range, far_range, state_out_addr);

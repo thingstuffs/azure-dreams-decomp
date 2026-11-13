@@ -42,9 +42,9 @@ void initialize_object_at_current_position(void) {
     object->sprite = &reference_tile_object.frame_entry;
     object->position = &view_reference_entity.x.v;
     initialize_circular_list_head();
-    handle_insert_initialize_two_values_status_flags(&town_actor_control, &view_reference_entity.x.v, &D_800D0420);
-    initialize_pointer_table_self_links();
-    initialize_the_store_two_values_set_state_flags(&town_motion_list, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
+    init_scene_list_node(&town_actor_control, &view_reference_entity.x.v, &D_800D0420);
+    init_town_motion_list();
+    init_secondary_list_record(&town_motion_list, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
     {
         S_800C01DC_1 *position_data;
         u16 *position_entry;
@@ -55,5 +55,5 @@ void initialize_object_at_current_position(void) {
         view_reference_entity.y.w.i = (s16) (position_data->unk_16 + position_entry[1]);
         view_reference_entity.z.w.i = query_lowered_transform_position(&view_reference_entity.x.v);
     }
-    run_the_three_update_routines_context((void *)&view_reference_entity.x.v);
+    sync_collision_motion_xyz((void *)&view_reference_entity.x.v);
 }

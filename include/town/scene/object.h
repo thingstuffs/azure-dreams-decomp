@@ -53,7 +53,7 @@ void func_8052FE94(s16 object_value);
 void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w);
 void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_w);
 
-void init_object_set_runtime_pointers_rev_b(void);
+void init_runtime_pointers_from_shared_buffer(void);
 
 s32 check_object_callback_returns_two(void);
 

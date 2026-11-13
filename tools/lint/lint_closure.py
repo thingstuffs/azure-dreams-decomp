@@ -740,7 +740,8 @@ def proven_rename(base_findings, row, old, names, line_map=None, renames=None):
     """A hinted rename is the same warning site, not a new one, when the BASE group under the old name lists
     the same sites and config/names.tsv records both names at one address (an R6 rename). With line_map the BASE
     sites are first carried to their HEAD lines through unchanged lines, so an edit above the function that only
-    shifts it does not make its sites new.  A file renamed since BASE (renames: {HEAD path: BASE path}) is
+    shifts it does not make its sites new.  Columns are not compared: a rename of a callee on the warning's line
+    (a shorter or longer name before the argument) moves only the column.  A file renamed since BASE (renames: {HEAD path: BASE path}) is
     compared under its HEAD path, as the closure compares renamed files."""
     if not names or not (names.get(old, set()) & names.get(row['function'], set())):
         return False
@@ -749,10 +750,16 @@ def proven_rename(base_findings, row, old, names, line_map=None, renames=None):
         if b['file'] == base_file and b['function'] == old and b['warning'] == row['warning']:
             sites = ';'.join(row['file'] + site[len(base_file):] if site.startswith(base_file + ':') else site
                              for site in (b.get('sites') or '').split(';') if site)
-            if sites == row['sites']:
+            if sites == row['sites'] or site_lines(sites) == site_lines(row['sites']):
                 return True
-            return bool(line_map) and mapped_sites(sites, line_map) == row['sites']
+            mapped = mapped_sites(sites, line_map) if line_map else None
+            return mapped is not None and (mapped == row['sites'] or site_lines(mapped) == site_lines(row['sites']))
     return False
+
+
+def site_lines(sites):
+    """Sites without their columns: renaming a callee on a warning's line moves the warning's column only."""
+    return ';'.join(site.rsplit(':', 1)[0] for site in (sites or '').split(';') if site)
 
 
 def read_accepted(text):

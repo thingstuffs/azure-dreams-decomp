@@ -39,7 +39,7 @@ void *resource_load_indexed_sprite_bundle(s32 resource_id) {
     upload_vram_row_and_cache(payload, 0x7980, ((S_80048C3C_1 *)resource)->unk_20, 2);
     relocate_sprite_metadata_pointers(resource);
     entry3 = &entry2->unk_04;
-    texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(resource);
+    stamp_sprite_part_chain_values(resource);
     movie_overlay_loaded = 0;
     return entry3;
 }

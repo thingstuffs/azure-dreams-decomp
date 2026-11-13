@@ -309,7 +309,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         return;
                     case 0x80:
                         spell_cmd = command->unk_00;
-                        set_linked_actor_pending_halfword((u32) (spell_cmd & 0x60) >> 5, spell_cmd & 0x1F);
+                        set_linked_actor_pending_value((u32) (spell_cmd & 0x60) >> 5, spell_cmd & 0x1F);
                         return;
                     case 0x90:
                         order_cmd = command->unk_00;

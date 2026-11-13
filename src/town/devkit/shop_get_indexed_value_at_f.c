@@ -5,7 +5,7 @@
 extern u8 devkit_globals_page[];
 
 /* Return the value at 0x1F98 selected by the current signed index at 0x1FA4. */
-s32 shop_get_indexed_value_at_1_f_98(void) {
+s32 get_shop_selection_value_a(void) {
     return *(s32 *)(devkit_globals_page +
                     (*(s8 *)(devkit_globals_page + devkit_shop_selection + 0x1FA4) << 2) +
                     0x1F98);

@@ -18,9 +18,9 @@ void initialize_randomized_object_state(TownObjectRecord *object, ObjectPosition
     settings->scale_x = 0x37;
     settings->scale_y = 0x37;
     settings->offset_x = 0xFF00;
-    ((Fixed1616 *)&random_state->velocity_x)->w.i = scale_random_to_unsigned_halfword_limit(0xFFFF);
-    ((Fixed1616 *)&random_state->velocity_y)->w.i = scale_random_to_unsigned_halfword_limit(0xFFFF);
-    ((Fixed1616 *)&random_state->velocity_z)->w.i = scale_random_to_unsigned_halfword_limit(0xFFFF);
+    ((Fixed1616 *)&random_state->velocity_x)->w.i = scale_random_by_limit(0xFFFF);
+    ((Fixed1616 *)&random_state->velocity_y)->w.i = scale_random_by_limit(0xFFFF);
+    ((Fixed1616 *)&random_state->velocity_z)->w.i = scale_random_by_limit(0xFFFF);
     register_node_if_unregistered(object, process_linked_record_values);
     write_square_position_offsets(0x10, 0x11, 0x12, 0x13, (struct TownPositionXY *)random_state);
 }

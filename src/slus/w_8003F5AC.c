@@ -6,7 +6,7 @@
  * Returns the stored CD flags with bit 2 set while retries are pending; otherwise masks the flags
  * to eight bits.
  */
-s32 get_cd_flags_with_conditional_bit(void) {
+s32 get_cd_flags_with_retry_bit(void) {
     s32 flags = cd_driver_prefix[0].unk4;
 
     if (cd_retry_counters_pending != 0) {

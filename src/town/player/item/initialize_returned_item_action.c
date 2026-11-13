@@ -22,7 +22,7 @@ void initialize_returned_item_action(TownObjectRecord *object, S_800947CC_1 *set
     u16 secondSetting;
     s32 *handler;
 
-    call_the_handler_selects_nonzero_entry(type_three_action_handler_table, object, ptr2);
+    dispatch_selected_entry_if_nonzero(type_three_action_handler_table, object, ptr2);
     object->unk_30 = (u16) settings->unk_02;
     handler = (s32 *) approach_linked_position_until_timeout;
     secondSetting = settings->unk_06;

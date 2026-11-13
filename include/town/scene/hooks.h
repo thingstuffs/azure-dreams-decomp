@@ -86,7 +86,7 @@ void *get_shared_entry_buffer_y(void);
 s32 get_shared_threshold_value(void);
 
 /* increase_shared_byte_four_enter_state_eight.c */
-void increase_shared_byte_by_four_and_enter_state_eight(struct CatalogDisplay *controller);
+void scroll_catalog_text_down(struct CatalogDisplay *controller);
 
 /* is_pair_result_valid.c */
 s32 is_pair_result_valid(s32 first_input, s32 second_input);

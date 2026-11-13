@@ -8,7 +8,7 @@
 typedef struct S_800B260C_1 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800B260C_1;   /* arg0 in handle_item_menu_input_2 */
+} S_800B260C_1;   /* arg0 in handle_item_move_menu_input */
 
 
 extern void SD_Call(s32);
@@ -17,7 +17,7 @@ extern void decrement_entry_and_notify_handlers(void *);
 extern s32 move_item_to_list(void *);
 
 /* Handles menu button actions and directional cursor movement with key repeat. */
-void handle_item_menu_input_2(u8 *menu) {
+void handle_item_move_menu_input(u8 *menu) {
     GameWork *pad_state = &g_game_work;
     s32 held_buttons = pad_state->buttons;
     s32 pressed_buttons;
@@ -30,7 +30,7 @@ void handle_item_menu_input_2(u8 *menu) {
         pressed_buttons = pad_state->pressed_buttons;
         if (pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            set_object_data_pointer_if_present(menu - 0x20);
+            set_apply_record_values_callback_if_present(menu - 0x20);
         } else if (pressed_buttons & 0x40) {
             select_result = move_item_to_list(menu);
             if (select_result == 0) {
@@ -46,9 +46,9 @@ void handle_item_menu_input_2(u8 *menu) {
             sort_selected_record_entries(menu);
             decrement_entry_and_notify_handlers(menu);
         } else if (pressed_buttons & 4) {
-            store_table_index_and_entry_bytes(menu, 0);
+            store_shop_display_preset(menu, 0);
         } else if (pressed_buttons & 1) {
-            store_table_index_and_entry_bytes(menu, 1);
+            store_shop_display_preset(menu, 1);
         } else if ((held_buttons & 0xF000) != 0) {
             if (pressed_buttons & 0xF000) {
                 ((S_800B260C_1 *)menu)->unk_10 = 0;

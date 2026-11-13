@@ -15,7 +15,7 @@ void dispatch_indexed_handler(void *context, s32 handler_index) {
 }
 
 /* Call the indexed dispatch handler with its table entry. */
-void dispatch_indexed_handler_alt(void *context, s32 handler_index) {
+void dispatch_entry_change_handler(void *context, s32 handler_index) {
     DispatchFunc *dispatch_table;
     DispatchFunc *handler_entry;
 
@@ -45,7 +45,7 @@ void update_active_entry_and_notify_handlers(s8 *state_arg, s32 input) {
         entry->unk_08 = next_index;
         active_slot = state->unk_0C;
         next_group = index_result / 10;
-        dispatch_indexed_handler_alt((void *)*((s32 *)((s8 *)state + (active_slot * 4))), active_slot);
+        dispatch_entry_change_handler((void *)*((s32 *)((s8 *)state + (active_slot * 4))), active_slot);
         if (next_group != entry->unk_00) {
             entry->unk_00 = next_group;
             group_slot = state->unk_0C;
@@ -68,7 +68,7 @@ void decrement_entry_and_notify_handlers(void *state_arg) {
     entry->unk_08 = updated_value;
     entry->unk_00 = (s32) (updated_value / 10);
     selected_index = state->unk_0C;
-    dispatch_indexed_handler_alt((void *)(*((s32 *)state + selected_index)), selected_index);
+    dispatch_entry_change_handler((void *)(*((s32 *)state + selected_index)), selected_index);
     refresh_index = state->unk_0C;
     dispatch_indexed_handler((void *)(*((s32 *)state + refresh_index)), refresh_index);
     related_index = state->unk_18;

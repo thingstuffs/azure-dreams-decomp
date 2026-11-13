@@ -34,7 +34,7 @@ typedef struct S_8009FB2C_1 {
     u8 unk_02;
     u8 unk_03;
 } S_8009FB2C_1;
-/* arg1 in copy_an_entry_slot_creating_associated_type_hex_13 */
+/* arg1 in copy_item_entry_to_slot */
 
 typedef struct S_8009FB2C_2 {
     u8 pad_00[0x29C];
@@ -43,7 +43,7 @@ typedef struct S_8009FB2C_2 {
 } S_8009FB2C_2;
 
 /* Copies an item into a slot and creates a saved actor record for type 0x13 entries. */
-static void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, S_8009FB2C_1 *source_entry) {
+static void *copy_item_entry_to_slot(s32 slot_index, S_8009FB2C_1 *source_entry) {
     u8 *copy_dst;
     u8 *copy_src;
     s32 record_index;
@@ -99,7 +99,7 @@ void *set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3
         item_bytes[1] = item_byte_1;
         item_bytes[2] = item_byte_2;
         item_bytes[3] = item_byte_3;
-        result = copy_an_entry_slot_creating_associated_type_hex_13(slot, item_bytes_ptr);
+        result = copy_item_entry_to_slot(slot, item_bytes_ptr);
     }
     return result;
 }

@@ -62,14 +62,14 @@ void update_item_menu_selection(ItemMenuObject *obj)
     if (obj->menu->count == 0) {
         if ((g_game_work.pressed_buttons) & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            set_item_menu_data_pointer(obj->owner);
+            set_item_menu_release_callback(obj->owner);
         }
         return;
     }
 
     if ((g_game_work.pressed_buttons) & 0x20) {
         SD_Call(AUDIO_CANCEL);
-        set_item_menu_data_pointer(obj->owner);
+        set_item_menu_release_callback(obj->owner);
         return;
     }
     if ((g_game_work.pressed_buttons) & 0x40) {
@@ -86,7 +86,7 @@ void update_item_menu_selection(ItemMenuObject *obj)
         sort_entries_by_category((void *)0x8001029C);
         update_item_menu_record(obj);
         action_inner = obj->menu;
-        get_item_name_with_shared_text_table(action_inner->entries[action_inner->position]);
+        get_item_name(action_inner->entries[action_inner->position]);
         return;
     }
 
@@ -135,7 +135,7 @@ void update_item_menu_selection(ItemMenuObject *obj)
     next_band = obj->menu->position / 10;
     set_item_menu_entry_coordinates(obj);
     refreshed_inner = obj->menu;
-    get_item_name_with_shared_text_table(refreshed_inner->entries[refreshed_inner->position]);
+    get_item_name(refreshed_inner->entries[refreshed_inner->position]);
     if (next_band == obj->menu->page) {
         return;
     }

@@ -10,7 +10,7 @@ typedef void (*TownCallback)(s32, s32);
 
 /* Checks town event conditions and invokes the object callback when they are met. */
 s32 update_indexed_entry_unless_current(void) {
-    s8 *callback_owner;
+    TownServiceTable *callback_owner;
     s32 status;
 
     set_script_flag_94c();
@@ -25,8 +25,8 @@ s32 update_indexed_entry_unless_current(void) {
 
     if (get_script_flag_mask(F_sbs32_pad28) == 0) {
         set_script_flag_bit(F_sbs32_pad24);
-        callback_owner = ((s8 *)(town_scene_root->services));
-        (*(TownCallback *)(callback_owner + 0x2F8))(0xE, 0x200);
+        callback_owner = town_scene_root->services;
+        (*(TownCallback *)((u8 *)callback_owner + 0x2F8))(0xE, 0x200);
         status = 0;
     } else {
         status = 1;

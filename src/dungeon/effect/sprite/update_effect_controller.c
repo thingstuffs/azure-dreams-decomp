@@ -45,7 +45,7 @@ typedef struct S_func_800D7FB8_4 {
     s32 unk_04;
 } S_func_800D7FB8_4;
 
-extern u8 directional_sprite_entries[];
+#include "dungeon/effect/sprite/directional_entries.h"
 
 
 /* Spawns effect entries and marks the controller finished after two delays. */
@@ -81,7 +81,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
                 sub_data->tpage_abr = 0x20;
                 sub_data->unk_00 = directional_sprite_entries;
                 sub_data->flags = (u16)(sub_data->flags | 0xC);
-                resource_word = ((S_func_800D7FB8_4 *)directional_sprite_entries)->unk_04;
+                resource_word = directional_sprite_entries[0].source;
                 sub_data->unk_04 = 0;
                 sub_data->frame_ticks = 0;
                 sub_data->color.word = 0;

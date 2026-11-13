@@ -27,7 +27,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
 
-void (*const dungeon_192a800_entry)(struct S_func_8190B2D0_0 *,void *,void *) = update_a_moving_effect_target_animation_cleanup_state;
+void (*const dungeon_192a800_entry)(struct S_func_8190B2D0_0 *,void *,void *) = update_rising_capture_effect;
 const u8 level_not_decreased_suffix[52] = {0x81,0x66,0x82,0x93,0x81,0x40,0x82,0x8c,0x82,0x85,0x82,0x96,0x82,0x85,0x82,0x8c,0x81,0x40,0x82,0x84,0x82,0x89,0x82,0x84,0x82,0x8e,0x81,0x66,0x82,0x94,0x81,0x40,0x82,0x84,0x82,0x85,0x82,0x83,0x82,0x92,0x82,0x85,0x82,0x81,0x82,0x93,0x82,0x85,0x81,0x44,0x0,0x0};
 const Rect D_80024038 = {832,256,96,88};
 const Rect rising_effect_texture_rect = {832,256,2,2};
@@ -182,7 +182,7 @@ typedef struct EffectRecord {
  * Raises Z by 0x20000 plus 12-bit jitter while below sampled terrain height, subtracts eight from
  * the timer, and flags removal when its signed value is zero or negative.
  */
-void handle_raise_position_toward_queried_height_set_flags_countdown_expires(EffectRecord *state, ObjectPosition *position)
+void raise_effect_toward_terrain_height(EffectRecord *state, ObjectPosition *position)
 {
     u16 countdown;
 
@@ -201,9 +201,9 @@ void handle_raise_position_toward_queried_height_set_flags_countdown_expires(Eff
     }
 }
 
-/* Retail 8190AC70 (handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent): spawn an effect object under the parent node, placed at the parent's
+/* Retail 8190AC70 (spawn_rising_effect_under_parent): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
-void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
+void spawn_rising_effect_under_parent(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
                    s16 offset_y, s16 offset_z) {
     ObjectNodeHeader *source_obj = parent;
     u32 saved_field_28 = field_28;
@@ -226,7 +226,7 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->update_callback = (void *)handle_raise_position_toward_queried_height_set_flags_countdown_expires;
+        spawned->update_callback = (void *)raise_effect_toward_terrain_height;
         jitter_x = rand() & 0x1F;
         position_x = source_obj->position->x.w.i;
         dest_x = spawned->position;
@@ -261,7 +261,7 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
 
 /* Returns a random value in [0, limit), or zero when limit is zero. Rejection sampling: the rand() bits are masked
  * to the smallest bit range that covers limit (2, 4, 6, 8, 12 or 16 bits) and redrawn until below limit. */
-s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32 limit) {
+s32 random_value_below_limit(s32 limit) {
     s32 sample;
 
     sample = 0;
@@ -310,12 +310,12 @@ typedef struct S_8190AEB4_1 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_8190AEB4_1;   /* arg2 in advance_the_animation_draws_rectangles_in_randomized_order */
+} S_8190AEB4_1;   /* arg2 in update_shuffled_rect_clear_effect */
 
 typedef struct S_8190AEB4_2 {
     u8 pad_00[0x90];
     s16 unk_90;
-} S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in advance_the_animation_draws_rectangles_in_randomized_order */
+} S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in update_shuffled_rect_clear_effect */
 
 
 /*
@@ -323,7 +323,7 @@ typedef struct S_8190AEB4_2 {
  * and 44 row indices to clear its VRAM area over 44 updates. Signals the linked state and flags
  * removal when the clearing sequence finishes.
  */
-void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteClearBody *effect, s32 *position, void *transform_arg)
+void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *position, void *transform_arg)
 {
     S_8190AEB4_1 *transform = transform_arg;
     Rect rect;
@@ -451,7 +451,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
             shuffle_order = D_80025648;
             slot_2 = shuffle_order + entry;
             saved_entry = *slot_2;
-            order_index = get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(0x30);
+            order_index = random_value_below_limit(0x30);
             *slot_2 = shuffle_order[order_index];
             shuffle_order[order_index] = saved_entry;
         }
@@ -459,7 +459,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
             shuffle_order = D_80025678;
             slot = shuffle_order + entry;
             saved_entry = *slot;
-            order_index = get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(0x2C);
+            order_index = random_value_below_limit(0x2C);
             *slot = shuffle_order[order_index];
             shuffle_order[order_index] = saved_entry;
         }
@@ -630,7 +630,7 @@ typedef struct S_func_8190B2D0_9 {
 } S_func_8190B2D0_9;
 
 /* Updates a moving effect, its target animation, and cleanup state. */
-void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg)
+void update_rising_capture_effect(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg)
 {
     s16 start_offset[3];
     Rect capture_rect;
@@ -775,7 +775,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             s32 particle_shade;
             s32 random_bits = rand();
             particle_shade = (random_bits & 0xFF) | 0x80;
-            handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent((u8 *)effect - 32, effect->unk_7E,
+            spawn_rising_effect_under_parent((u8 *)effect - 32, effect->unk_7E,
                           0x00202020, particle_shade, 0, 0, 0);
             particle_index++;
         } while ((s32)particle_index < 4);
@@ -874,7 +874,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 child_data->unk_2C = owner;
                 child_data->unk_30 = owner->unk_60;
                 child_data->unk_34 = effect;
-                motion_or_child->unk_10.ptr = advance_the_animation_draws_rectangles_in_randomized_order;
+                motion_or_child->unk_10.ptr = update_shuffled_rect_clear_effect;
                 register_node(child_object, project_sprite_chain);
                 sprite = motion_or_child->unk_C.ptr;
                 sprite->tpage_abr = 32;

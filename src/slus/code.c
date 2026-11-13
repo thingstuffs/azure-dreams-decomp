@@ -168,7 +168,7 @@ void push_node_onto_free_list(ObjectNodeHeader *node)
 extern ObjectNodeHeader *active_node_list_head;
 
 /* Set flag bits 0xC00 on every node in the global list. */
-void mark_resource_list_flags_ten_and_eleven(void)
+void flag_all_active_nodes(void)
 {
     ObjectNodeHeader *node = active_node_list_head;
 
@@ -444,7 +444,7 @@ extern int item_name_text_table[4]; /* >8B forces hi/lo addressing (matches targ
 extern int get_item_name_text(void *a0, int *a1);
 
 /* Process an object using the fixed global table. */
-int get_item_name_with_shared_text_table(void *object) {
+int get_item_name(void *object) {
     return get_item_name_text(object, item_name_text_table);
 }
 
@@ -667,7 +667,7 @@ void *advance_packed_record_by_type(void *object) {
 }
 
 /* Encode the value's nibbles and fixed dimensions into a four-byte record. */
-void decode_glyph_id_to_byte_rectangle(u32 value, u8 *record) {
+void glyph_id_to_rect(u32 value, u8 *record) {
     record[0] = (value & 0xF) << 3;
     record[1] = (value & 0xF0) - 0x20;
     record[2] = 8;
@@ -696,7 +696,7 @@ void clear_message_command_words(void)
 }
 
 /* Invoke clear_resident_bitmap_bit with mode two. */
-void clear_resident_bitmap_bit_two(void) {
+void clear_win_sw0_resident_bit(void) {
     clear_resident_bitmap_bit(sn_win_sw0);
 }
 
@@ -770,9 +770,9 @@ extern struct Prim12 *init_tpage_prims(struct Prim12 *prim);
 /* Initialize four embedded records and then the containing object. */
 void build_menu_backdrop_display_buffers(SevenEntryMenuBackdropBody *object)
 {
-    init_object_header_a((char *)object + 0x8);
-    init_object_header_b((char *)object + 0x80);
-    init_object_header_c((char *)object + 0xF8);
+    build_ellipse_glow_commands((char *)object + 0x8);
+    build_menu_backdrop_corner_glow((char *)object + 0x80);
+    build_menu_backdrop_corner_glow_mirrored((char *)object + 0xF8);
     init_tpage_prims((char *)object + 0x170);
     layout_menu_backdrop_display_entries(object);
 }
@@ -849,10 +849,10 @@ void resolve_selected_menu_entry(char *object)
     func_80021300(read_selected_menu_entry_word(object));
 }
 
-/* Calls handle_object_input with object. */
+/* Calls handle_selection_menu_input with object. */
 void forward_object_input_handler(MenuSelectionBody *object)
 {
-    handle_object_input(object);
+    handle_selection_menu_input(object);
 }
 
 /* Leading handler of a node body; it takes the node update callback's (body, position, sprite):
@@ -1074,11 +1074,11 @@ void func_80056D3C(void) {
 }
 
 /* Return without performing any work. */
-void noop_midi_a0(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2) {
+void noop_midi_aftertouch(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2) {
 }
 
 /* Return without performing any work. */
-void noop_midi_d0(s32 unused_arg0, s32 unused_arg1) {
+void noop_midi_channel_pressure(s32 unused_arg0, s32 unused_arg1) {
 }
 
 extern int audio_sequence_active[4];
@@ -1164,7 +1164,7 @@ void noop_audio_init_hook(void *unused_data, s32 unused_arg1, s32 unused_arg2) {
 extern void audio_reset_all_voices(void);
 
 /* Run the three initialization routines in order. */
-void reset_voices_slots_and_stop_spu_service(void)
+void shut_down_spu_audio(void)
 {
     audio_reset_all_voices();
     reset_sound_slots();
@@ -1277,10 +1277,10 @@ void submit_audio_driver_byte_command(s32 first, s32 second, s32 third)
     submit_tagged_driver_byte(first, second, third);
 }
 
-/* Forward a byte code and two signed halfword values to submit_scaled_driver_halfword_pair. */
+/* Forward a byte code and two signed halfword values to set_spu_cd_or_ext_volume. */
 void submit_audio_driver_scaled_pair(unsigned char code, short first, short second)
 {
-    submit_scaled_driver_halfword_pair(code, first, second);
+    set_spu_cd_or_ext_volume(code, first, second);
 }
 
 /* Forward the value as a signed halfword to dispatch_combined_driver_flags. */
@@ -1345,7 +1345,7 @@ s32 is_tone_parameter_flag_set(void) {
 
 /* Forward two values with fixed trailing arguments 0xCC and 0xCD. */
 s32 update_spu_register_pair_cc_cd(s32 first, s32 second) {
-    return modify_spu_register_bit_pair(first, second, 0xCC, 0xCD);
+    return update_spu_register_pair(first, second, 0xCC, 0xCD);
 }
 
 /* Invoke read_spu_register_pair with values 0xCC and 0xCD. */

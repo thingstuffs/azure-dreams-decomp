@@ -56,7 +56,7 @@ struct S_func_80EF7000_1;
 struct S_func_80EF7000_2;
 struct S_func_80EF7000_3;
 void update_flight_landing_and_fall(struct S_func_80EF1000_1 *motion, struct S_func_80EF1000_2 *position, struct S_func_80EF1000_3 *sprite);
-void advance_motion_through_landing_and_fall(struct S_func_80EF7000_1 *motion, struct S_func_80EF7000_2 *position, struct S_func_80EF7000_3 *animation);
+void update_weadog_item_throw(struct S_func_80EF7000_1 *motion, struct S_func_80EF7000_2 *position, struct S_func_80EF7000_3 *animation);
 void advance_item_flight_to_floor(struct WeadogFlightBody *motion, struct S_func_80EDF000_1 *position, struct S_func_80EDF000_2 *render);
 
 #endif

@@ -13,7 +13,7 @@ void clear_shop_object_and_link(u8 *object_ref)
     u8 *object_flags;
     TownCall3 callback_168;
     Rec_D_80016000 *updated_context;
-    u8 *updated_callbacks;
+    TownServiceTable *updated_callbacks;
     TownCall1 callback_174;
     u8 *state_base;
     u8 *object_table;
@@ -35,8 +35,8 @@ void clear_shop_object_and_link(u8 *object_ref)
         callback_168 = (*(TownCall3 *)(object_flags + 0x168));
         callback_168(D_80016034, D_8001605C, 0x41);
         updated_context = ((S_80018D14_0 *)global_page)->unk_6000;
-        updated_callbacks = (u8 *)updated_context->services;
-        callback_174 = (*(TownCall1 *)(updated_callbacks + 0x174));
+        updated_callbacks = updated_context->services;
+        callback_174 = (*(TownCall1 *)((u8 *)updated_callbacks + 0x174));
         callback_174(1);
     }
 

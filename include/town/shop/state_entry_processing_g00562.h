@@ -26,9 +26,9 @@ extern s16 paired_scene_flag_ids[];
 extern void *town_item_list;
 
 /* Functions defined in this translation unit. */
-void load_a_shared_buffer_process_write_back(s32 record_ref);
-void process_entries_in_state_n_19_triggers_associated_sounds(void);
-void process_table_entries_referenced_objects_type_hex_13(void);
+void refresh_entity_slot_snapshot(s32 record_ref);
+void refresh_active_slot_snapshots(void);
+void refresh_item_list_snapshots(void);
 void process_state_entries_and_referenced_objects(void);
 
 #endif

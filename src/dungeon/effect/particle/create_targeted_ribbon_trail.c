@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -61,7 +62,6 @@ typedef struct {
     EffectPayload payload;
 } EffectObject;
 
-extern u8 ribbon_sprite_entries[];
 extern LocalPositionTable D_8016484C;
 extern u8 D_80167C74[];
 extern s16 ribbon_vertices[][8][2][3];

@@ -34,7 +34,7 @@ void set_current_entry_script_flag(void);
 
 void clear_indexed_flag_unless_identifier(s32 flag_id);
 s32 *get_flag_test_table_address(void *unused_table_a, void *unused_table_b, s32 unused_value, s32 unused_line);
-void set_flag_test_indexed_bit(s32 bit_index);
+void set_object_bitmap_bit(s32 bit_index);
 
 struct S_80016818_0;
 s32 run_flag_test_callbacks(struct S_80016818_0 *context);
@@ -44,7 +44,7 @@ void dispatch_flag_test_state(void);
 #include "records/Rec_func_800165F4_arg0.h"
 void apply_record_value_for_either_flag(Rec_func_800165F4_arg0 *object, s32 context);
 void dispatch_entry_for_active_flags(void *context, s32 entry_index);
-u8 *dispatch_or_override_for_flag_1390(s32 dispatch_arg, s32 unused, s32 dispatch_option);
+u8 *select_kenka_override_data(s32 dispatch_arg, s32 unused, s32 dispatch_option);
 void post_code_107_if_entry_bit_0(s32 row, s32 column);
 s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key);
 u8 *select_context_data_with_flag_override(void *context, s32 unused, s32 selector);
@@ -60,9 +60,9 @@ struct ScriptContext;
 struct ScriptEntry8;
 s32 get_2_flag_flag(s32 unused_captured_value);
 s32 query_referenced_flag_for_table_entry(struct ScriptEntry8 *entry_table, struct ScriptContext *context, s32 entry_key);
-void set_the_control_flag_initializes_cleared_trailing_field(Rec_func_8008F2D4_arg0 *control, Rec_func_8008F2D4_arg1 *record, s32 initial_value);
-void set_the_flag_initializes_state(Rec_func_8008F2D4_arg0 *record, Rec_func_8008F2D4_arg1 *state, s32 value);
-void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(Rec_D_800CFCB4 *state, EntityRec *object, s32 initial_value);
+void stop_at_max_x(Rec_func_8008F2D4_arg0 *control, Rec_func_8008F2D4_arg1 *record, s32 initial_value);
+void stop_at_min_x(Rec_func_8008F2D4_arg0 *record, Rec_func_8008F2D4_arg1 *state, s32 value);
+void stop_at_max_z(Rec_D_800CFCB4 *state, EntityRec *object, s32 initial_value);
 s32 update_scene_action_flags(s32 object, s32 context);
 
 struct SpawnDisplayObject;
@@ -73,7 +73,7 @@ void process_pair_16_bit_table(void);
 
 void clear_indexed_entry_flag(void);
 void set_indexed_entry_flag(Rec_func_800165F4_arg0 *record, s32 entry_index);
-void set_indexed_entry_flag_b(void);
+void set_current_entry_flag(void);
 s32 update_entry_flags(void *record, s32 entry_index);
 
 /* Address-qualified entries of distinct diagnostic devkit builds; docs/evidence/r141w_town_dev.md. */

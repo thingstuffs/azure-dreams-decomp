@@ -18,7 +18,7 @@ typedef struct WorkVec {
     s32 unused[3];
 } WorkVec;
 
-extern s32 evaluate_surface_components_c(WorkVec *);
+extern s32 find_highest_valid_cell_height_at(WorkVec *);
 
 /* Queries the highest valid surface at an indexed offset and removes its Y offset, preserving zero. */
 s16 adjust_summed_vector_by_entry_component(Vec4 *vector, Vec4 *entries, s32 entry_index)
@@ -31,7 +31,7 @@ s16 adjust_summed_vector_by_entry_component(Vec4 *vector, Vec4 *entries, s32 ent
     sum.x = vector->x + entry->x;
     sum.y = vector->y + entry->y;
     sum.z = vector->z + entry->z;
-    result = evaluate_surface_components_c(&sum);
+    result = find_highest_valid_cell_height_at(&sum);
 
     if ((result << 16) == 0) {
         return 0;

@@ -26,7 +26,7 @@ typedef struct S_80170A84_1 {
 void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, void *render_arg)
 {
     SpriteFrameState *render_data = render_arg;
-    void *owner_data;
+    ActorRecord *owner_data;
     u32 *source_words;
     u16 header_value;
     u16 angle;
@@ -70,7 +70,7 @@ void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, v
         break;
 
     case 1:
-        if (((S_80170A84_1 *)owner_data)->unk_9B >= 4) {
+        if (owner_data->action_phase >= 4) {
             effect->ticks.s = 0;
             effect->duration = 20;
             effect->phase.u++;

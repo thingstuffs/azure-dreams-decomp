@@ -38,7 +38,7 @@ void decode_compressed_image_to_vram(void *src, S_8004878C_hdr *rect)
         DrawSync(0);
     }
     decompress_lz(src, (void *)(gpu_scratch_write_pointer + image_bytes));
-    texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1((u8 *)(gpu_scratch_write_pointer + image_bytes), (u8 *)gpu_scratch_write_pointer);
+    expand_six_bit_runs((u8 *)(gpu_scratch_write_pointer + image_bytes), (u8 *)gpu_scratch_write_pointer);
     LoadImage(rect, (void *)gpu_scratch_write_pointer);
     gpu_scratch_write_pointer = gpu_scratch_write_pointer + image_bytes;
 }

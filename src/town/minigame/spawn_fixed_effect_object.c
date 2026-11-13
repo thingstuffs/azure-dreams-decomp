@@ -49,7 +49,7 @@ void spawn_fixed_effect_object(TownObjectRecord *caller_data, ObjectPosition *un
         transform_value = D_800D2344[0];
         position->z.v = 0xFFC00000;
         transform->setup_value = transform_value;
-        configure_the_set_mode_n_1(transform, position, D_800D232C);
+        init_scene_node_mode_1(transform, position, D_800D232C);
     }
     NODE_HEADER(caller_data)->flags |= 0x8000;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;

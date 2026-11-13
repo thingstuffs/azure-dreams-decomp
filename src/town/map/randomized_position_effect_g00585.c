@@ -34,9 +34,9 @@ void *create_randomized_position_effect(MovingPosition *source_position) {
         sprite->scale_x = 0x1000;
         sprite->tpage_abr = 0x60;
         sprite->flags = (u16) (sprite->flags | 0xC);
-        random_offset = scale_random_to_unsigned_halfword_limit(7);
+        random_offset = scale_random_by_limit(7);
         effect_state = NODE_BODY(object);
-        effect_state->ticks_left = (s16) (random_offset + scale_random_to_unsigned_halfword_limit(7));
+        effect_state->ticks_left = (s16) (random_offset + scale_random_by_limit(7));
     }
     return object;
 }
@@ -56,13 +56,13 @@ void build_randomized_offset_records(void *origin, void *spread, s32 count) {
         while (index < count) {
             index++;
             record.x = (*(u16 *)((u8 *)origin + 2) +
-                        scale_random_to_unsigned_halfword_limit(*(u16 *)spread)) -
+                        scale_random_by_limit(*(u16 *)spread)) -
                       (*(s32 *)spread / 2);
             record.y = (*(u16 *)((u8 *)origin + 6) +
-                        scale_random_to_unsigned_halfword_limit(*(u16 *)((u8 *)spread + 4))) -
+                        scale_random_by_limit(*(u16 *)((u8 *)spread + 4))) -
                       (*(s32 *)((u8 *)spread + 4) / 2);
             z = (*(u16 *)((u8 *)origin + 0xA) -
-                 scale_random_to_unsigned_halfword_limit(*(u16 *)((u8 *)spread + 8))) -
+                 scale_random_by_limit(*(u16 *)((u8 *)spread + 8))) -
                     (*(s32 *)((u8 *)spread + 8) / 2);
             record.z = z;
             create_randomized_position_effect((MovingPosition *)&record);

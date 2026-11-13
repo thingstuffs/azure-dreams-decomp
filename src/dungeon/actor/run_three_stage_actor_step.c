@@ -54,7 +54,7 @@ void run_three_stage_actor_step(ActorRecord *actor, S_80096AE0_1 *record, S_8009
               part->unk_14 = value & 0xF7FF,
               (value & 0xE000) != 0) ||
              ((has_action_input_without_modifier() << 16) != 0))) {
-            actor->unk_8C.handler = handle_actor_commands_and_facing;
+            actor->unk_8C.handler = update_actor_commands_and_facing;
         }
         return;
     default:

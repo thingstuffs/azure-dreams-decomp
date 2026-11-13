@@ -16,5 +16,5 @@ void advance_object_position(TownObjectRecord *context, EntityRec *object, Sprit
         apply_object_setup_and_update(context, object, finish_arg);
         return;
     }
-    add_hex_20000_s_signed_offset_hex_14(object);
+    add_vertical_gravity(object);
 }

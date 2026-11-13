@@ -464,7 +464,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     }
     PopMatrix((s32) restore_packet);
     {
-        u8 *state_slot = (u8 *)state_page;
+        GameWork *state_slot = state_page;
         u64 state_bits = *(u64 *)state_slot;
         GpuContext *final_state = (GpuContext *)(u32)state_bits;
         final_state->packetCursor = packet;

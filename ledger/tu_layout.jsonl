@@ -66,7 +66,7 @@
 {"old":"src/dungeon/modules/ovl_191eef8.c","new":"src/dungeon/effect/sprite/advance_timed_visual_effect.c"}
 {"old":"src/dungeon/modules/ovl_1924800.c","new":"src/dungeon/effect/mesh/build_textured_sprite_strips.c"}
 {"old":"src/dungeon/modules/ovl_192a800.c","new":"src/dungeon/effect/motion/raise_position_toward_height.c"}
-{"old":"src/dungeon/modules/ovl_1930844.c","new":"src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c"}
+{"old":"src/dungeon/modules/ovl_1930844.c","new":"src/dungeon/effect/mesh/create_shrinking_arc_effect.c"}
 {"old":"src/dungeon/modules/ovl_1936800.c","new":"src/dungeon/effect/motion/interpolate_view_parameters.c"}
 {"old":"src/dungeon/modules/ovl_193c848.c","new":"src/dungeon/effect/motion/create_randomized_source_effect.c"}
 {"old":"src/dungeon/modules/ovl_194286c.c","new":"src/dungeon/system/project_and_queue_visible_shaded_quad.c"}
@@ -80,7 +80,7 @@
 {"old":"src/dungeon/modules/ovl_199c800.c","new":"src/dungeon/actor/motion/update_rising_landing_effect.c"}
 {"old":"src/dungeon/modules/ovl_19a332c.c","new":"src/dungeon/effect/motion/initialize_entity_position_and_motion.c"}
 {"old":"src/dungeon/modules/ovl_19a8800.c","new":"src/dungeon/effect/sprite/update_directional_actor_effect.c"}
-{"old":"src/dungeon/modules/ovl_19b4800.c","new":"src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c"}
+{"old":"src/dungeon/modules/ovl_19b4800.c","new":"src/dungeon/effect/particle/create_display_spawner_effect.c"}
 {"old":"src/dungeon/modules/ovl_19ba800.c","new":"src/dungeon/effect/mesh/update_directional_actor_effect.c"}
 {"old":"src/dungeon/modules/ovl_19c088c.c","new":"src/dungeon/effect/particle/draw_linked_effect_chain.c"}
 {"old":"src/dungeon/modules/ovl_19c6800.c","new":"src/dungeon/effect/sprite/update_jittered_effect_points.c"}
@@ -96,11 +96,11 @@
 {"old":"src/dungeon/modules/ovl_7e711800.c","new":"src/dungeon/effect/motion/decrement_effect_counter_by_twelve.c"}
 {"old":"src/dungeon/modules/ovl_7e71d800.c","new":"src/dungeon/effect/motion/target.c"}
 {"old":"src/dungeon/modules/ovl_7e765800.c","new":"src/dungeon/effect/transform.c"}
-{"old":"src/dungeon/modules/ovl_7f0f7800_p01.c","new":"src/dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.c"}
-{"old":"src/dungeon/modules/ovl_7f0f7800_p03.c","new":"src/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.c"}
-{"old":"src/dungeon/modules/ovl_7f0f7800_p04.c","new":"src/dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.c"}
-{"old":"src/dungeon/modules/ovl_7f0f7800_p05.c","new":"src/dungeon/monster/tyrant/advance_a_timed_actor_animation_applies_completion_effects.c"}
-{"old":"src/dungeon/modules/ovl_7f0f7800_p07.c","new":"src/dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.c"}
+{"old":"src/dungeon/modules/ovl_7f0f7800_p01.c","new":"src/dungeon/monster/tyrant/update_tyrant_actor.c"}
+{"old":"src/dungeon/modules/ovl_7f0f7800_p03.c","new":"src/dungeon/monster/tyrant/choose_tyrant_move_direction.c"}
+{"old":"src/dungeon/modules/ovl_7f0f7800_p04.c","new":"src/dungeon/monster/tyrant/try_begin_tyrant_attack.c"}
+{"old":"src/dungeon/modules/ovl_7f0f7800_p05.c","new":"src/dungeon/monster/tyrant/advance_tyrant_attack_animation.c"}
+{"old":"src/dungeon/modules/ovl_7f0f7800_p07.c","new":"src/dungeon/monster/tyrant/begin_tyrant_defeat.c"}
 {"old":"src/dungeon/modules/ovl_7f1c9800.c","new":"src/dungeon/monster/zu/update_bank_actor_movement.c"}
 {"old":"src/dungeon/modules/ovl_7f1d5800.c","new":"src/dungeon/monster/viper/spawn_viper_slot_a.c"}
 {"old":"src/dungeon/modules/ovl_7f1ed800.c","new":"src/dungeon/monster/viper/spawn_viper_slot_c.c"}
@@ -121,7 +121,7 @@
 {"old":"src/dungeon/modules/ovl_7f469800_p07.c","new":"src/dungeon/monster/troll/update_actor_activity_state.c"}
 {"old":"src/dungeon/modules/ovl_7f511800_p01.c","new":"src/dungeon/monster/unicorn/settle_actor_after_movement.c"}
 {"old":"src/dungeon/modules/ovl_7f511800_p03.c","new":"src/dungeon/monster/unicorn/update_directional_motion_and_recenter_actor.c"}
-{"old":"src/dungeon/modules/ovl_7f511800_p04.c","new":"src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c"}
+{"old":"src/dungeon/modules/ovl_7f511800_p04.c","new":"src/dungeon/monster/unicorn/update_tinted_sprite_effect.c"}
 {"old":"src/dungeon/modules/ovl_7f51d800.c","new":"src/dungeon/monster/clown/allocate_object_state.c"}
 {"old":"src/dungeon/modules/ovl_7f535800.c","new":"src/dungeon/monster/clown/spawn_clown_slot_c.c"}
 {"old":"src/dungeon/modules/ovl_7f559800.c","new":"src/dungeon/monster/clown/create_flagged_actor_object.c"}
@@ -156,7 +156,7 @@
 {"old":"src/dungeon/modules/ovl_ca1084.c","new":"src/dungeon/monster/metal/queue_linked_object_draw_packets.c"}
 {"old":"src/dungeon/modules/ovl_cad084.c","new":"src/dungeon/monster/metal/queue_linked_point_packets.c"}
 {"old":"src/dungeon/modules/ovl_cb3000.c","new":"src/dungeon/monster/block/block.c"}
-{"old":"src/dungeon/modules/ovl_d10bc4_p02.c","new":"src/dungeon/monster/troll/update_direction_tables_kind_flags_processes_state.c"}
+{"old":"src/dungeon/modules/ovl_d10bc4_p02.c","new":"src/dungeon/monster/troll/update_troll_kind_frames.c"}
 {"old":"src/dungeon/modules/ovl_d16bc4_p02.c","new":"src/dungeon/monster/troll/update_direction_table_for_entity_kinds.c"}
 {"old":"src/dungeon/modules/ovl_d1cbc4_p02.c","new":"src/dungeon/monster/troll/update_kind_to_direction_tables.c"}
 {"old":"src/dungeon/modules/ovl_d28bc4_p02.c","new":"src/dungeon/monster/troll/update_kind_directional_tables.c"}

@@ -62,7 +62,7 @@ s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, 
 
     play_sound_if_enabled(0x816);
     object_fields = object + 0x20;
-    entry_index = select_and_initialize_entry_at_position(entity->tile_x,
+    entry_index = place_floor_trap_at_tile(entity->tile_x,
                           entity->tile_y,
                           body->ground_height, 6, object);
     entries = dungeon_floor_object_positions;

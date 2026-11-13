@@ -17,6 +17,7 @@
 #include "sdk/libgpu.h"
 #include "slus.h"
 #include "dungeon/system.h"
+#include "dungeon/effect/sprite/moving_entries.h"
 
 typedef struct AttackSequenceController {
     void *unk_00;
@@ -73,15 +74,9 @@ typedef struct S_func_819A6800_7 {
     u16 unk_4C;
 } S_func_819A6800_7;
 
-typedef struct S_func_819A6800_9 {
-    u8 pad_00[4];
-    u32 unk_04;
-} S_func_819A6800_9;
-
 extern u8 primary_actor_record[16];
 struct S_800244BC_2;
 s32 draw_chained_trail_quads(void *);
-extern u8 moving_sprite_entries[];
 extern u32 D_800814A0[];
 
 #define GLOBAL_OBJECT (*(void **)primary_actor_record)
@@ -185,7 +180,7 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             sprite->tpage_abr = 0x20;
             sprite->flags |= 0x0C;
             sprite->unk_00 = moving_sprite_entries;
-            sprite->source = ((S_func_819A6800_9 *)(moving_sprite_entries))->unk_04;
+            sprite->source = moving_sprite_entries[0].source;
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word = 0x00606060;

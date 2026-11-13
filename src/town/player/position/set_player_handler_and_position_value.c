@@ -11,7 +11,7 @@
 void set_player_handler_and_position_value(TownObjectRecord *object, s32 value_arg, SpriteFrameState *handler_param) {
     s32 saved_value_arg;
 
-    call_the_handler_selects_nonzero_entry(object->handler_entries[5], object, (void *)(handler_param));
+    dispatch_selected_entry_if_nonzero(object->handler_entries[5], object, (void *)(handler_param));
     saved_value_arg = value_arg;
     *((s8 *)(object_index_slots) + (object->unk_40 * 8)) = 0;
     object->unk_04 = &forward_player_motion_state;

@@ -825,33 +825,33 @@ void begin_block_attack_slot_c(CL_CCB000_80172180_S_80172180_1 *state, s32 posit
 s32 check_block_action_ready_slot_c(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    CL_CCB000_80172298_S_80172628_0 *entity = entity_arg;
+    ActorRecord *entity = entity_arg;
 
     state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, (void *)entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        choose_block_move_slot_c((Rec_func_800A9E70_arg0 *)entity, primary_context_arg, secondary_context_arg, (ActorRecord *)entity);
+        choose_block_move_slot_c((Rec_func_800A9E70_arg0 *)entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     }
     switch (state_type) {
     case 0:
-        entity->unk_9A = 0xE;
+        entity->action_id = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
     case 2:
-        choose_block_move_slot_c((Rec_func_800A9E70_arg0 *)entity, primary_context_arg, secondary_context_arg, (ActorRecord *)entity);
+        choose_block_move_slot_c((Rec_func_800A9E70_arg0 *)entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     case 1:
-        entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -859,7 +859,7 @@ s32 check_block_action_ready_slot_c(void *entity_arg, ObjectPosition *primary_co
         break;
     }
     result = 0;
-    entity->unk_46 = (u16) (entity->unk_46 & 0x7FFF);
+    entity->action_flags = entity->action_flags & 0x7FFF;
     return result;
 }
 

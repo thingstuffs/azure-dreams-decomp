@@ -428,7 +428,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
         s32 bob_offset = rsin((s32)(s16)effect->unk_18 << 7);
         motion->unk_08.s32 += bob_offset << 6;
     }
-    handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(motion, sprite);
+    create_mesh_fade_effect(motion, sprite);
     {
         s32 tile_coord = motion->unk_00.parts.unk_02.s16;
         if (tile_coord < 0) {
@@ -470,7 +470,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
                 motion->unk_04.parts.unk_06.s16 = (coordinate << 6) + 0x20;
             }
             motion->unk_08.parts.unk_0A = effect->unk_10;
-            handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(snapped_motion, sprite);
+            create_mesh_fade_effect(snapped_motion, sprite);
             {
                 u16 next_state = effect->unk_0A;
                 u16 target_id =
@@ -506,7 +506,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     case 3:
     ratan2(motion->unk_0C.parts.unk_0E.s16, motion->unk_10.parts.unk_12.s16);
     target_object = owner->unk_60;
-    effect->unk_28 = create_an_copies_three_source_fields_child_runs_n_16_child_setup(
+    effect->unk_28 = create_object_ring_effect(
         effect, motion, target_object->unk_88.s16, target_object);
     if (effect->unk_28 == 0) {
         break;
@@ -521,7 +521,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
             break;
         }
         if (owner->unk_60 != 0) {
-            check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(owner->unk_60,
+            apply_timed_status_to_target(owner->unk_60,
                           effect->unk_09, owner);
         }
         effect->unk_0A = 17;
@@ -541,7 +541,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
         sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 1;
         sprite->unk_0C.parts.unk_0D -= sprite->unk_0C.parts.unk_0D >> 1;
         sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 1;
-        handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(motion, sprite);
+        create_mesh_fade_effect(motion, sprite);
         if (sprite->unk_0C.parts.unk_0C < 2) {
             effect->unk_0A++;
         }
@@ -652,7 +652,7 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
         secondary_rgb[2] = effect->timer * 14;
 
         for (burst_index = 0; burst_index < 4; burst_index++) {
-            create_a_sprite_effect_position_randomized_rotation(pos->x, pos->y, pos->z);
+            create_falling_fading_sprite(pos->x, pos->y, pos->z);
         }
         if (effect->timer >= 0x10) {
             effect->timer = 0xA0;
@@ -670,7 +670,7 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
         random_rgb[1] = (rand() % 0x3F) - 0x80;
         effect->timer -= last_frame_ticks[0];
         if (effect->timer <= 0) {
-            create_quad_fragments_vertex_grid_randomized_motion_rotation();
+            create_quad_fragment_effects();
             effect->timer = 0x10;
             effect->state++;
         }
@@ -727,7 +727,7 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
 }
 
 /* Creates an object, copies three source fields to its child, and runs 16 child setup steps. */
-void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value, void *source, s32 unused, s32 context)
+void *create_object_ring_effect(s32 value, void *source, s32 unused, s32 context)
 {
     register u32 saved_context;
     s32 adjusted_value;
@@ -743,7 +743,7 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
         counter = D_80026324[0];
         object->update_callback = create_radial_effect_from_source;
         D_80026324[0] = counter + 1;
-        register_node(object, build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table);
+        register_node(object, queue_glow_grid_quads);
 
         child = object->position;
         child->x.unsigned_parts.integer = *(u16 *)((u8 *)source + 2);
@@ -764,9 +764,9 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
 
 extern u16 D_80026326;
 
-/* Retail 81887570 (handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark): fade the colour by 1/8 per call and mark the effect (header and global
+/* Retail 81887570 (update_mesh_fade_color): fade the colour by 1/8 per call and mark the effect (header and global
  * flags) finished once red falls below eight.  effect is the effect's record; its header precedes it. */
-void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, ObjectPosition *unused, EffectColor *color) {
+void update_mesh_fade_color(void *effect, ObjectPosition *unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;
@@ -824,16 +824,16 @@ typedef struct FadeSettings {
     u16 unk_1E;
 } FadeSettings;
 
-/* Retail 818875E8 (handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start): creates a fade object (updated each frame by handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark) with its start
+/* Retail 818875E8 (create_mesh_fade_effect): creates a fade object (updated each frame by update_mesh_fade_color) with its start
  * values, per-channel start - end differences and a copy of the settings. */
-ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(FadeEndpoints *endpoints, FadeSettings *settings) {
+ObjectNodeHeader *create_mesh_fade_effect(FadeEndpoints *endpoints, FadeSettings *settings) {
     FadeTransition *transition;
     ObjectNodeHeader *object;
     SpriteFrameState *object_settings;
 
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
-        object->update_callback = (void *)handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark;
+        object->update_callback = (void *)update_mesh_fade_color;
         register_node(object, &linked_mesh_processor_address);
         transition = object->position;
         transition->start[0].value = endpoints->start[0].value;
@@ -892,7 +892,7 @@ extern u32 RotTransPers4(
  * two edge colors by row. Projects each quad and queues it with its draw mode when its biased
  * depth is below 0x1E0, then saves the primitive cursor.
  */
-s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
+s32 queue_glow_grid_quads(void)
 {
     s32 quad_index = 0;
     Scratch *scratch = (Scratch *)0x1F800000;
@@ -1014,7 +1014,7 @@ typedef struct S_80025160_0 {
     u16 unk_1C;
     u8 pad_1E[0x4];
     s16 unk_22;
-} S_80025160_0;   /* arg0 in advance_the_effect_state_updates_motion_sets_display_color */
+} S_80025160_0;   /* arg0 in emit_offset_particles_then_wait_for_release */
 
 typedef struct S_80025160_1 {
     u8 pad_00[0x6];
@@ -1023,17 +1023,17 @@ typedef struct S_80025160_1 {
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_80025160_1;   /* arg2 in advance_the_effect_state_updates_motion_sets_display_color */
+} S_80025160_1;   /* arg2 in emit_offset_particles_then_wait_for_release */
 
 typedef struct S_80025160_2 {
     u8 pad_00[0x6328];
     s16 unk_6328;
-} S_80025160_2;   /* flag_page in advance_the_effect_state_updates_motion_sets_display_color */
+} S_80025160_2;   /* flag_page in emit_offset_particles_then_wait_for_release */
 
 typedef struct S_80025160_3 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_80025160_3;   /* flags_page in advance_the_effect_state_updates_motion_sets_display_color */
+} S_80025160_3;   /* flags_page in emit_offset_particles_then_wait_for_release */
 
 #define COUNTER D_80026326
 
@@ -1058,7 +1058,7 @@ typedef struct Global814A0 {
  * removal. May spawn a damped angular child during growth and signals D_80026328 for effect code
  * 0x6F.
  */
-void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s32 context, S_80025160_1 *visual) {
+void emit_offset_particles_then_wait_for_release(void *effect, s32 context, S_80025160_1 *visual) {
     s16 state;
     u16 value;
     u16 angle;
@@ -1153,7 +1153,7 @@ extern s32 RotTransPers(void *, void *, void *, void *);
  * extended positive-blend points into staged_glow_data. Projects the endpoints and queues a
  * half-brightness gradient line and draw mode at their average depth when it is below 0x1E0.
  */
-s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line)
+s32 queue_shaded_line_chain(void *first_owner, void *first_vertices, void *first_line)
 {
     {
         u8 *render_data = g_game_work.draw_buffer;
@@ -1306,8 +1306,8 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
 
     object = allocate_list_node(0x202, alloc_arg);
     if (object != NULL) {
-        object->update_callback = (s32 *)advance_the_effect_state_updates_motion_sets_display_color;
-        register_node(object, (s32 *)build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
+        object->update_callback = (s32 *)emit_offset_particles_then_wait_for_release;
+        register_node(object, (s32 *)queue_shaded_line_chain);
         positions = object->position;
         positions->x.w.i = (s16) (origin->x + ((s32) (rcos(angle) * radius) >> 0xF));
         positions->y.w.i = (s16) (origin->y + ((s32) (rsin(angle) * radius) >> 0xF));
@@ -1367,7 +1367,7 @@ extern u16 D_80026326;
  * Integrates velocity with X/Y damping and Z acceleration 0x4000, fades each color channel by one
  * quarter, and advances animation. Flags removal when the signed 16-bit lifetime expires.
  */
-void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Motion *motion, SpriteFrameState *color)
+void update_falling_fading_sprite(Actor *actor, Motion *motion, SpriteFrameState *color)
 {
     u16 *counter = &D_80026326;
     u16 timer;
@@ -1409,14 +1409,14 @@ struct Elem;
 extern SpriteSourceEntry D_800263F8[];
 
 /* Create a sprite effect at the given position with a randomized rotation. */
-void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
+void create_falling_fading_sprite(s16 x, s16 y, s16 z) {
     ObjectPosition *transform;
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x202);
     if (effect != NULL) {
-        effect->update_callback = (s32 *)advance_and_fade_effect_flagging_expiration_timer_runs_out;
+        effect->update_callback = (s32 *)update_falling_fading_sprite;
         register_node(effect, project_sprite_chain);
         transform = effect->position;
         transform->x.w.i = x;
@@ -1455,7 +1455,7 @@ typedef struct RadialQuadWork {
 } RadialQuadWork;
 
 /* Rotate and move an effect quad, fade its colors, and flag it when its lifetime ends. */
-void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(RadialQuadWork *effect, ObjectPosition *motion_data, SpriteFrameState *rotation_data)
+void update_rotating_quad_effect(RadialQuadWork *effect, ObjectPosition *motion_data, SpriteFrameState *rotation_data)
 {
     u16 angles[3];
     s32 matrix[8];
@@ -1563,12 +1563,12 @@ typedef struct S_80025E4C_0 {
     u16 unk_8C;
     u8 pad_8E[0x32];
     u32 unk_C0;
-} S_80025E4C_0;   /* scratch in handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth */
+} S_80025E4C_0;   /* scratch in queue_linked_shaded_quads */
 
 typedef struct S_80025E4C_1_pre {
     s32 unk_00;
     u8 pad_04[0x4];
-} S_80025E4C_1_pre;   /* the 0x8 bytes before arg0 in handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth, addressed as arg0[-1] */
+} S_80025E4C_1_pre;   /* the 0x8 bytes before arg0 in queue_linked_shaded_quads, addressed as arg0[-1] */
 
 typedef struct S_80025E4C_1 {
     u8 pad_00[0x30];
@@ -1586,7 +1586,7 @@ typedef struct S_80025E4C_1 {
     u8 pad_4E[0x2];
     s32 unk_50;
     s32 unk_54;
-} S_80025E4C_1;   /* arg0 in handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth */
+} S_80025E4C_1;   /* arg0 in queue_linked_shaded_quads */
 
 
 
@@ -1600,7 +1600,7 @@ typedef struct GlobalState {
  * Projects each linked quad with a depth bias of -8 and queues its translucent shaded packet and
  * draw-mode packet for depths below 0x1E0, then saves the packet cursor.
  */
-s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *quad) {
+s32 queue_linked_shaded_quads(void *quad) {
     GlobalState **render_states = ((GlobalState **)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     POLY_G4 *packet;
@@ -1703,7 +1703,7 @@ extern u8 D_80026474[];
 extern Cell D_800264F8[];
 
 /* Create quad fragments from the vertex grid with randomized motion and rotation. */
-void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
+void create_quad_fragment_effects(void) {
     Cell *vertices;
     Cell *lower_right;
     Cell *lower_left;
@@ -1732,8 +1732,8 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
         fragment = allocate_flagged_object_node(0x202);
         if (fragment != NULL) {
             object_or_x = (s32)fragment;
-            fragment->update_callback = handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends;
-            register_node((void *)object_or_x, handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth);
+            fragment->update_callback = update_rotating_quad_effect;
+            register_node((void *)object_or_x, queue_linked_shaded_quads);
 
             row_start = quad_index & ~0xF;
             column_or_coord = (quad_index + 1) & 0xF;
@@ -1787,7 +1787,7 @@ extern u8 D_800E1D01[9];
  * by four plus four. Applies D_800E1D01 when the returned slot is nonzero, including the existing
  * -1/slot-zero success-test bug.
  */
-void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(ActorRecord *target, s32 value, void *record) {
+void apply_timed_status_to_target(ActorRecord *target, s32 value, void *record) {
     u8 pinnedValue = value;
     if (try_trigger_target_record_effect(target, 2, record) == 0) {
         u32 scaledLowByte = pinnedValue;

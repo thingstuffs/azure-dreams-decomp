@@ -457,7 +457,7 @@
     {
       "row": "dungeon/func_80D104AC",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x00D304AC",
       "vma": "0x80151CAC",
       "size": 56,
@@ -471,7 +471,7 @@
     {
       "row": "dungeon/func_80D104E4",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x00D304E4",
       "vma": "0x80151CE4",
       "size": 56,
@@ -485,7 +485,7 @@
     {
       "row": "dungeon/func_80D1051C",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x00D3051C",
       "vma": "0x80151D1C",
       "size": 56,
@@ -513,7 +513,7 @@
     {
       "row": "dungeon/func_80D1058C",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x00D3058C",
       "vma": "0x80151D8C",
       "size": 56,

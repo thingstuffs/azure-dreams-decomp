@@ -52,7 +52,7 @@ s32 is_dispatch_state_two(void) {
 void select_next_event_state(void) {
     u8 value;
     s32 result;
-    void *state;
+    TownEventState *state;
 
     if ((get_script_flag_mask(F_sero_end) != 0) && (get_script_flag_mask(F_niko_selro_asa) == 0)) {
         set_script_flag_bit(F_niko_selro_asa);
@@ -72,35 +72,35 @@ void select_next_event_state(void) {
         }
         if ((get_script_flag_mask(F_sbs01_pad09) != 0) && (get_script_flag_mask(sn_return_successful) == 0)) {
             state = town_event_state;
-            value = *((u8 *)state + 3);
+            value = state->saved_entry;
             if (value != 0) {
-                *((u8 *)state + 4) = value;
+                state->selected_entry = value;
                 town_event_state->selection_mode = 7;
             } else {
-                *((u8 *)state + 5) = 8;
+                state->selection_mode = 8;
             }
             return;
         }
         if (get_script_flag_mask(F_sbs01_pad09) != 0) {
             state = town_event_state;
-            value = *((u8 *)state + 3);
+            value = state->saved_entry;
             if (value != 0) {
-                *((u8 *)state + 4) = value;
+                state->selected_entry = value;
                 town_event_state->selection_mode = 5;
             } else {
-                *((u8 *)state + 5) = 6;
+                state->selection_mode = 6;
             }
             return;
         }
         if ((get_script_flag_mask(F_veldil_dungeon_deatta) != 0) && (get_script_flag_mask(F_sbs01_pad09) == 0)) {
             set_script_flag_bit(F_sbs01_pad09);
             state = town_event_state;
-            value = *((u8 *)state + 3);
+            value = state->saved_entry;
             if (value != 0) {
-                *((u8 *)state + 4) = value;
+                state->selected_entry = value;
                 town_event_state->selection_mode = 3;
             } else {
-                *((u8 *)state + 5) = 4;
+                state->selection_mode = 4;
             }
             return;
         }
@@ -119,5 +119,5 @@ void select_next_event_state(void) {
         return;
     }
     state = town_event_state;
-    *((s8 *)state + 5) = 1;
+    state->selection_mode = 1;
 }

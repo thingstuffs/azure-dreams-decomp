@@ -147,8 +147,8 @@ void *ensure_selection_menu_and_register_draw(struct S_80050EF8 *object);
 /* runtime_initialize_polygon_edges.c */
 s32 runtime_initialize_polygon_edges(void *vertex_data, s32 *edges, u16 *edge_count);
 
-/* runtime_set_list_pointers_from_type_offsets.c */
-void runtime_set_list_pointers_from_type_offsets(s32 data_base, s16 type_index);
+/* relocate_resource_type_lists.c */
+void relocate_resource_type_lists(s32 data_base, s16 type_index);
 
 /* runtime_update_saved_vectors.c */
 s32 runtime_update_saved_vectors(void);

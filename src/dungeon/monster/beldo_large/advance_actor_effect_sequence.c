@@ -63,7 +63,7 @@ extern u8 *encounter_script_cursor;
 /* Advances the entity action script and updates its animation, facing, and timed events. */
 /* Interprets timed direction commands, relative script jumps, and form changes while updating actor status
  * and MP. */
-s32 advance_actor_effect_sequence_2(Entity *entity, ObjectPosition *action_value, SpriteFrameState *aux)
+s32 run_beldo_large_action_script(Entity *entity, ObjectPosition *action_value, SpriteFrameState *aux)
 {
     s32 angle_out[2];
     Entity *actor;

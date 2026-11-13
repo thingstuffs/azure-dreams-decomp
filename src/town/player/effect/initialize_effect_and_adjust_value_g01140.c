@@ -34,12 +34,12 @@ void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s3
 
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
 void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition *record, SpriteFrameState *sprite) {
-    apply_the_enabled_movement_offsets_adding_z_offset_only_positive(record);
-    update_the_s_field_10_using_callee_8008_fe_90(&town_motion_list);
+    apply_actor_control_offsets(record);
+    update_record_overlap_node(&town_motion_list);
     add_motion_deltas_to_position(record);
     update_object_and_clear_status_fields(record);
     store_position_and_compute_delta((s32 *)(record));
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&town_actor_control, record);
+    resolve_collider_overlaps(&town_actor_control, record);
     ((Rec_func_8009431C_arg0 *)handler)->unk_00.as_x78b360(handler, record, (s32)sprite);
     if (!(((S_800A5638_0_pre *)handler)[-1].unk_0E & 0x8000)) {
         if (record->y.v <= 0x06500000) {
@@ -67,7 +67,7 @@ void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, Sprite
 
     transform_arg = transform;
     input_state = &g_game_work;
-    clear_motion_along_blocked_directions_update_affected_axes(transform_arg);
+    clear_blocked_motion(transform_arg);
     {
         void *entity_type;
 
@@ -141,16 +141,16 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, ObjectPosition *obje
          /* MATCH: Order the s2 parameter copy before the s0 copy. */
     object_ref = object;
     town = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((object_ref));
-    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object_ref, &position_query_scratch);
+    resolve_collision_axis_order((object_ref));
+    threshold = query_capped_surface_height(object_ref, &position_query_scratch);
     if (object_ref->z.w.i >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((object_ref), threshold, (struct TownVec **)(&position_query_scratch));
+        set_height_and_slope_velocity((object_ref), threshold, (struct TownVec **)(&position_query_scratch));
     } else {
         if (D_800D0000[-0x311] != 0) {
             object_ref->velocity_z = 0;
-            clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((object_ref));
+            copy_z_to_collision_motion((object_ref));
         } else {
-            add_hex_20000_s_signed_offset_hex_14(object_ref);
+            add_vertical_gravity(object_ref);
         }
     }
     coords = &view_reference_entity;
@@ -158,8 +158,8 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, ObjectPosition *obje
         pitch_step = object_ref->velocity_z - compute_height_based_offset((object_ref));
         object_ref->velocity_z = pitch_step;
     }
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((object_ref));
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((object_ref));
+    apply_velocity_friction((object_ref));
+    apply_velocity_friction((object_ref));
     target_yaw = (state_arg->unk_10 - 0x800) & 0xFFF;
     yaw = step_angle_12_toward(town->view.camera_rotation.parts.viewAngle, target_yaw, 0x80);
     town->view.camera_rotation.parts.viewAngle = yaw;
@@ -200,38 +200,38 @@ void update_actor_movement_and_actions(State *state, ObjectPosition *actor) {
     s32 sound_period;
 
     input = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((actor));
+    resolve_collision_axis_order((actor));
 
     state->timer--;
     if ((s16)state->timer <= 0) {
-        state->timer = scale_random_to_unsigned_halfword_limit(3) + 5;
-        spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(2) + 2);
+        state->timer = scale_random_by_limit(3) + 5;
+        spawn_directional_effects(actor, (u16)scale_random_by_limit(2) + 2);
     }
 
     direction = (((u16)input->view.camera_rotation.parts.viewAngle) + 0x800) & 0xFFF;
     state->direction = direction;
 
     if (((u32)input->buttons) & 0x20) {
-        add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, town_movement_speed, actor);
-        spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
+        accelerate_toward_angle_capped(direction, town_movement_speed, actor);
+        spawn_directional_effects(actor, (u16)scale_random_by_limit(1));
     }
 
     if (((u32)input->buttons) & 0x10) {
-        move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
+        apply_velocity_friction((actor));
         if ((((u32)input->buttons) & 0x30) == 0x20) {
-            move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
+            apply_velocity_friction((actor));
         }
     } else {
-        move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
+        apply_velocity_friction((actor));
     }
-    height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
+    height_limit = query_capped_surface_height(actor, &position_query_scratch);
     if (actor->z.w.i >= height_limit) {
-        compute_and_clamps_vector_based_adjustment_updates_town((actor), height_limit, (struct TownVec **)(&position_query_scratch));
+        set_height_and_slope_velocity((actor), height_limit, (struct TownVec **)(&position_query_scratch));
     } else if ((&(*town_blocked_directions))[1] != 0) {
         actor->velocity_z = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((actor));
+        copy_z_to_collision_motion((actor));
     } else {
-        add_hex_20000_s_signed_offset_hex_14(actor);
+        add_vertical_gravity(actor);
     }
     world_value = read_map_cell_at_world_position(view_reference_entity.x.w.i, view_reference_entity.y.w.i);
     if (check_masked_value_in_current_range((u16)world_value) != 0) {
@@ -280,7 +280,7 @@ void update_actor_movement_and_actions(State *state, ObjectPosition *actor) {
             angle = angle - speed;
             input->view.camera_rotation.parts.viewAngle = angle;
         }
-        spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
+        spawn_directional_effects(actor, (u16)scale_random_by_limit(1));
     }
 
     if ((*(u32 *)&input->buttons) & 0x8000) {
@@ -291,7 +291,7 @@ void update_actor_movement_and_actions(State *state, ObjectPosition *actor) {
             angle = angle + speed;
             input->view.camera_rotation.parts.viewAngle = angle;
         }
-        spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
+        spawn_directional_effects(actor, (u16)scale_random_by_limit(1));
     }
 
     if ((((u32)input->pressed_buttons) & 0x10) && ((*town_blocked_directions) == 0)) {
@@ -319,24 +319,24 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, 
     register s32 *effect_data;
 
     scene_state = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((actor));
+    resolve_collision_axis_order((actor));
     effect_data = &position_query_scratch;
-    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, effect_data);
+    threshold = query_capped_surface_height(actor, effect_data);
     if (actor->z.w.i >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((actor), threshold, (struct TownVec **)(effect_data));
+        set_height_and_slope_velocity((actor), threshold, (struct TownVec **)(effect_data));
     } else if (town_action_state_flag != 0) {
         actor->velocity_z = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((actor));
+        copy_z_to_collision_motion((actor));
     } else {
-        add_hex_20000_s_signed_offset_hex_14(actor);
+        add_vertical_gravity(actor);
     }
 
     if (check_masked_value_in_current_range(read_map_cell_at_world_position(view_reference_entity.x.w.i, view_reference_entity.y.w.i) & 0xFFFF) != 0) {
         offset_step = actor->velocity_z - compute_height_based_offset((actor));
         actor->velocity_z = offset_step;
     }
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
+    apply_velocity_friction((actor));
+    apply_velocity_friction((actor));
     angle = step_angle_12_toward(scene_state->view.camera_rotation.parts.viewAngle, 0, 0x80);
     scene_state->view.camera_rotation.parts.viewAngle = angle;
     if ((angle & 0xFFF) < 0x80) {
@@ -389,40 +389,40 @@ void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *t
 
     context = action_context;
     globals = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(table);
+    resolve_collision_axis_order(table);
 
     state->timer--;
     if ((s16)state->timer <= 0) {
-        state->timer = scale_random_to_unsigned_halfword_limit(3) + 5;
-        random_choice = scale_random_to_unsigned_halfword_limit(2);
+        state->timer = scale_random_by_limit(3) + 5;
+        random_choice = scale_random_by_limit(2);
         spawn_directional_effects(table, (u16)random_choice + 2);
     }
 
     input_flags = globals->buttons;
     if (input_flags & 0xF000) {
-        store_the_valid_shared_angle_in_offset_hex_10(state);
+        store_input_angle(state);
         direction = input_angle_with_offset(globals->buttons,
                                   globals->view.camera_rotation.parts.viewAngle);
         if (direction != -1) {
-            add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, town_movement_speed, table);
+            accelerate_toward_angle_capped(direction, town_movement_speed, table);
         }
-        random_choice = scale_random_to_unsigned_halfword_limit(1);
+        random_choice = scale_random_by_limit(1);
         spawn_directional_effects(table, (u16)random_choice);
     } else {
         if (input_flags & 0x10) {
-            move_both_components_toward_zero_direction_dependent_steps_clamping_zero(table);
+            apply_velocity_friction(table);
         }
-        move_both_components_toward_zero_direction_dependent_steps_clamping_zero(table);
+        apply_velocity_friction(table);
     }
 
-    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(table, &position_query_scratch);
+    ground_height = query_capped_surface_height(table, &position_query_scratch);
     if (table->z.w.i >= ground_height) {
-        compute_and_clamps_vector_based_adjustment_updates_town((table), ground_height, (struct TownVec **)(&position_query_scratch));
+        set_height_and_slope_velocity((table), ground_height, (struct TownVec **)(&position_query_scratch));
     } else if (town_blocked_directions[1] != 0) {
         table->velocity_z = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((table));
+        copy_z_to_collision_motion((table));
     } else {
-        add_hex_20000_s_signed_offset_hex_14(table);
+        add_vertical_gravity(table);
     }
     tile_id = read_map_cell_at_world_position(view_reference_entity.x.w.i,
                             view_reference_entity.y.w.i);

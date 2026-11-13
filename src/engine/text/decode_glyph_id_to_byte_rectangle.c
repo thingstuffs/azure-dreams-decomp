@@ -23,5 +23,5 @@ void initialize_styled_glyph_rectangle(s32 data_id, s32 style_flags, S_8004D98C 
     if (style_flags & 0x10) {
         effect->unk6 = style_index + 0x7C88;
     }
-    decode_glyph_id_to_byte_rectangle(data_id & 0xFF, effect->unk8);
+    glyph_id_to_rect(data_id & 0xFF, effect->unk8);
 }

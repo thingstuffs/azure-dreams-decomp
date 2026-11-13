@@ -32,7 +32,7 @@ void *create_directional_render_object(ActorRecord *direction_src, Copy24 *initi
     SpriteFrameState *render_data;
     DirectionalRenderObjectBody *object_state;
     ObjectNodeHeader *object;
-    void *data_dst;
+    ObjectPosition *data_dst;
     u16 render_attr;
     ActorRecord *direction_ref = direction_src;
     Copy24 *data_src = initial_data;

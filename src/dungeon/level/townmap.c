@@ -40,7 +40,7 @@ void write_resource_command(s32 value, s32 command) {
 }
 
 /* Calls write_resource_command with D_800CFBA0[entry_index], 0x23. */
-void send_resource_command_23(s32 entry_index) {
+void write_town_map_resource_command(s32 entry_index) {
     write_resource_command(town_map_resource_ids[entry_index], 0x23);
 }
 
@@ -211,7 +211,7 @@ void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *stat
 }
 
 /* Reduces the map object's field at 0x0A by 256 until zero, then installs its input handler. */
-void decrease_town_map_object_field_0a_and_transition(town_map_7FFEE2E4_S_8008BA44_0 *state) {
+void lower_town_map_object_value_to_input(town_map_7FFEE2E4_S_8008BA44_0 *state) {
     town_map_7FFEE2E4_S_8008BA44_1 *object;
     town_map_7FFEE2E4_S_8008BA44_2 *checked_object;
     s32 next_value;
@@ -233,7 +233,7 @@ void decrease_town_map_object_field_0a_and_transition(town_map_7FFEE2E4_S_8008BA
  * Subtracts 0x200 from the inner field at offset 0x0A; once negative, clamps it to zero and
  * restores indexed town-map input state.
  */
-void decrease_inner_value_and_load_indexed_state(town_map_7FFEE36C_MainStruct *state) {
+void lower_town_map_value_to_input(town_map_7FFEE36C_MainStruct *state) {
     state->sub->unkA -= 0x200;
     if ((s16)state->sub->unkA < 0) {
         state->sub->unkA = 0;
@@ -247,7 +247,7 @@ void decrease_inner_value_and_load_indexed_state(town_map_7FFEE36C_MainStruct *s
  * Adds 0x200 to the inner field at offset 8; once positive, clamps it to zero and restores indexed
  * town-map input state.
  */
-void advance_inner_value_and_load_indexed_state(town_map_7FFEE3F0_Actor *actor) {
+void raise_town_map_value_to_input(town_map_7FFEE3F0_Actor *actor) {
     town_map_7FFEE3F0_SubStruct *sub = actor->sub;
 
     sub->unk8 += 0x200;
@@ -347,7 +347,7 @@ void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFE
             if (selection_index >= object->unk_78) {
                 object->unk_74 = 0;
             }
-            send_resource_command_23(selection_ids[object->unk_74]);
+            write_town_map_resource_command(selection_ids[object->unk_74]);
         } else if (buttons & 0x9000) {
             selection_index_2 = object->unk_74 - 1;
             object->unk_74 = selection_index_2;
@@ -355,7 +355,7 @@ void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFE
                 selection_index_3 = object->unk_78 - 1;
                 object->unk_74 = selection_index_3;
             }
-            send_resource_command_23(selection_ids[object->unk_74]);
+            write_town_map_resource_command(selection_ids[object->unk_74]);
         }
 
         selection_index_4 = object->unk_74;

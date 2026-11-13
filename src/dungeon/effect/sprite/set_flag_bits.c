@@ -19,7 +19,7 @@ typedef struct S_8092192C_4 {
     s16 unk_1E;
 } S_8092192C_4;
 
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 void func_800F68AC(s16 *state, s32 *position, u16 *object);
 
 /* Returns the union of the supplied flag word and mask. */

@@ -99,6 +99,6 @@ void initialize_person_object(TownObjectRecord *object, ObjectPosition *context,
     object->unk_8C = 0x40;
     object->unk_8E = 0x40;
     clear_object_status_and_dispatch_target(object, animation, **object->unk_7C.as_pps32, 0);
-    configure_the_set_mode_n_1(object, context, &D_800D5028);
+    init_scene_node_mode_1(object, context, &D_800D5028);
     dispatch_object_state(object, context, animation);
 }

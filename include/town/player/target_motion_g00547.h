@@ -19,6 +19,6 @@ void approach_player_target_position(UnsignedCountdownView *state, struct Object
 
 struct SpriteFrameState;
 
-void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, struct ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
+void start_random_radial_spawns(TownObjectRecord *record_data, struct ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 #endif

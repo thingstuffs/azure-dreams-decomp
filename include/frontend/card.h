@@ -80,8 +80,8 @@ void card_background_set_word(s32 *dest, s32 value);
 /* card_boot_jump_to_menu_code_entry.c */
 void card_boot_jump_to_menu_code_entry(void);
 
-/* card_boot_update_or_clears_selected_slot_outputs_refreshes_state_any_selected.c */
-void card_boot_update_or_clears_selected_slot_outputs_refreshes_state_any_selected(void *state, s32 *enabled, s32 *selected);
+/* card_boot_update_slot_outputs.c */
+void card_boot_update_slot_outputs(void *state, s32 *enabled, s32 *selected);
 
 /* card_build_selected_slot_details.c */
 void card_build_selected_slot_details(void *panel_data);
@@ -504,7 +504,7 @@ void refresh_object_value(void *object);
 void reset_card_selection_state(void);
 
 /* run_flag_handler_set_flags.c */
-void run_flag_handler_and_set_2000_flags(void *entry);
+void create_settings_controller_and_flag_removal(void *entry);
 
 /* save_copy_completion_g00392.c */
 void initialize_save_description(void *owner, s32 value);

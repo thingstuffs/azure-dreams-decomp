@@ -26,7 +26,7 @@ extern u8 D_800E11D7[];
 
 /* Applies an item effect to its target and prepares the resulting message. */
 s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item, s16 effect_type, void *effect_value) {
-    u8 *actor;
+    ActorRecord *actor;
     u8 *text_target;
     register void *text_cursor;
     DungeonItemEntry *linked_item;
@@ -37,7 +37,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
         return process_record_and_update_linked_state(item, effect_value);
     }
 
-    actor = ((u8 *)dungeon_actor_ring_anchor);
+    actor = dungeon_actor_ring_anchor;
     if (target_addr == actor) {
         u8 item_flags;
         s32 result;
@@ -61,7 +61,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
         return 1;
     }
 
-    linked_item = *(DungeonItemEntry **)(actor + 0x50);
+    linked_item = *(DungeonItemEntry **)((u8 *)actor + 0x50);
     if (linked_item != 0) {
         if (!(item->unk_03 & 0x20)) {
             u8 item_flags;

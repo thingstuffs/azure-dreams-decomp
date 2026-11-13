@@ -32,7 +32,7 @@ void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition
 #include "dungeon/monster/saber_frames.h"
 
 /* Updates creature behavior, facing, and animation from dungeon and action state. */
-void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite, ActorRecord *creature_in) {
+void update_saber_behavior(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite, ActorRecord *creature_in) {
     u8 *anim_table;
     u16 distance;
     s8 room_id;

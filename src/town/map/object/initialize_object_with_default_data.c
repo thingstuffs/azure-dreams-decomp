@@ -33,6 +33,6 @@ void initialize_object_with_default_data(void *object_arg, ObjectPosition *init_
     object->unk_A0 = defaults[0];
     object->unk_A4 = defaults[1];
     object->unk_A8 = defaults[2];
-    configure_the_set_mode_n_3(object, init_arg, D_800D20F4);
+    init_scene_node_mode_3(object, init_arg, D_800D20F4);
     select_record_entry_and_value(state, defaults[2], 0);
 }

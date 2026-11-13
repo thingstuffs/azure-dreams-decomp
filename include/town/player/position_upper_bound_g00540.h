@@ -31,8 +31,8 @@ extern s8 D_800CFCE8;
 extern s32 D_800FE5D4;
 
 /* Functions defined in this translation unit. */
-s32 handle_query_position_after_subtracting_global_z_offset(ObjectPosition *position);
-void set_the_clear_secondary_refresh_global_flag_set(ObjectPosition *record, s32 value);
-void update_the_computed_upper_bound_global_state_permits(ObjectPosition *record);
+s32 query_position_upper_bound(ObjectPosition *position);
+void set_player_z_and_sync_collision(ObjectPosition *record, s32 value);
+void update_position_upper_bound(ObjectPosition *record);
 
 #endif

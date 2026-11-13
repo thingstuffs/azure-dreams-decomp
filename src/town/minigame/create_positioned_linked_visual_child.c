@@ -42,7 +42,7 @@ void create_positioned_linked_visual_child(void *object_arg, ObjectPosition *pla
     position->x.v = 0x0F200000;
     position->y.v = 0x02600000;
     position->z.v = 0;
-    configure_the_set_mode_n_1(object, position, &D_800D2364[0]);
+    init_scene_node_mode_1(object, position, &D_800D2364[0]);
     select_record_entry_and_value(resource_context, &D_800F9F78[0], 0);
     object->unk_48 = D_800D237C[0];
     child = allocate_flagged_object_node(0x136);

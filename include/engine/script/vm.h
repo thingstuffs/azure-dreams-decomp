@@ -201,7 +201,7 @@ s32 script_set_flag(struct ScriptReader *state);
 void script_set_loop_counter(struct RuntimeState *state);
 
 /* vm_op_set_owner_byte.c */
-void script_set_block_byte_3d(struct ScriptReader *script_ctx);
+void script_store_block_byte(struct ScriptReader *script_ctx);
 
 /* vm_op_set_state_two.c */
 void script_instant_text(struct S_80039208_0 *script_ctx);

@@ -16,7 +16,7 @@ void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *
     movement->velocity_y = 0;
 
     for (attempt = 0; attempt < 16; attempt++) {
-        direction = scale_random_to_unsigned_halfword_limit(4) & 0xFFFF;
+        direction = scale_random_by_limit(4) & 0xFFFF;
 
         if (direction == 0) {
             if (movement->x.w.i <

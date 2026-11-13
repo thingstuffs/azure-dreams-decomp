@@ -14,7 +14,7 @@ extern s32 D_800D6268[];
 void finish_countdown_and_set_flags(TownObjectRecord *object, s32 *position);
 
 /* Functions defined in this translation unit. */
-void advance_object_after_timeout_variant_2(TownObjectRecord *object, s32 unused, void *updateContext);
+void turn_object_after_timeout(TownObjectRecord *object, s32 unused, void *updateContext);
 void decrement_entity_timer_updating_motion(TownObjectRecord *entity, ObjectPosition *motion, void *context);
 
 #endif

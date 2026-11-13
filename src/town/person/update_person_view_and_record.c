@@ -10,7 +10,7 @@
 
 typedef void (*Callback)(void *, void *, void *);
 
-/* garbage-passthru: a2/a3 survive load_record_halfwords_3; explicit arguments add saves/reloads absent from retail. */
+/* garbage-passthru: a2/a3 survive load_position_history_entry; explicit arguments add saves/reloads absent from retail. */
 #include "town/system/person_idle_dispatch.h"
 
 extern s32 D_800834A8;
@@ -29,7 +29,7 @@ void update_person_view_and_record(void *ptr, void *value, SpriteFrameState *rec
         return;
     }
 
-    load_record_halfwords_3(buf, 0);
+    load_position_history_entry(buf, 0);
     if (buf[1] != view_reference_entity.x.w.i || buf[3] != view_reference_entity.y.w.i ||
         buf[5] != view_reference_entity.z.w.i || service_script_controller() != 0 ||
         (work->buttons & 0xF000) != 0) {

@@ -84,7 +84,7 @@ typedef struct S_8009C648_3 {
 
 
 extern void SD_Call(s32 flags);
-extern void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_value);
+extern void spawn_queued_item_object(s32 check_value);
 extern void *allocate_list_node();
 extern u8 D_8009C4E8[];
 extern u8 D_8009C5D8[];

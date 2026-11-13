@@ -43,7 +43,7 @@ enum ScriptOpcode {
     SCRIPT_OP_NOP_02 = 0x02,                /* script_nop_02 */
     SCRIPT_OP_NOP_03 = 0x03,                /* script_nop_03 */
     SCRIPT_OP_NOP_04 = 0x04,                /* script_nop_04 */
-    SCRIPT_OP_SET_BLOCK_BYTE_3D = 0x05,     /* script_set_block_byte_3d: u8 */
+    SCRIPT_OP_SET_BLOCK_BYTE_3D = 0x05,     /* script_store_block_byte: u8 */
     SCRIPT_OP_WAIT_VOICE_THEN_ADVANCE = 0x06, /* script_wait_voice_then_advance */
     SCRIPT_OP_NOP_07 = 0x07,                /* script_nop */
     SCRIPT_OP_CLEAR_TEXT_WINDOW = 0x08,     /* script_clear_text_window */

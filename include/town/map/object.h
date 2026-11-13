@@ -19,8 +19,8 @@ struct ObjectNodeHeader;
 /* allocate_first_object_variant.c */
 void allocate_first_object_variant(void);
 
-/* allocate_object_with_data_pointer.c */
-void allocate_object_with_data_pointer(void);
+/* create_idle_map_object.c */
+void create_idle_map_object(void);
 
 /* check_building_entity_compatibility.c */
 s32 check_building_entity_compatibility(s32 record_id, s32 entity_id);
@@ -30,9 +30,9 @@ void clear_object_link_and_mark_complete(struct S_func_800BB508_0 *object, void 
 void advance_object_state_angle(void *object, void *context, SpriteFrameState *state);
 void initialize_object_appearance_with_delay(TownObjectRecord *object, ObjectPosition *context, void *state);
 void clear_object_link_and_complete(void *object, void *value);
-void set_handler_variant_b_with_counter_30(void *object, void *context, void *state);
+void initialize_object_appearance_with_delay_b(void *object, void *context, void *state);
 void init_object_with_countdown(TownObjectRecord *object, ObjectPosition *context, void *state);
-void set_handler_variant_b_with_counter_14(void *object, void *context, void *state);
+void init_object_with_countdown_b(void *object, void *context, void *state);
 
 /* copy_entity_record_fields.c */
 void copy_entity_record_fields(ObjectPosition *destination, ObjectPosition *source);
@@ -44,7 +44,7 @@ s32 create_object_from_polar_spawn_data(struct S_800BB798_0 *spawn_data, s16 sta
 s32 create_object_from_three_values(s32 *values);
 
 /* create_positioned_graphic_object.c */
-void *create_positioned_graphic_object_2(struct TownPropPosition *position, s32 object_param, s32 graphics_id);
+void *create_town_prop_graphic_object(struct TownPropPosition *position, s32 object_param, s32 graphics_id);
 
 /* create_positioned_visual_object.c */
 void *create_positioned_visual_object(struct TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data);
@@ -53,7 +53,7 @@ void *create_positioned_visual_object(struct TownPropPosition *source_pos, s32 o
 void deactivate_object_triggered(void *object, ObjectPosition *position, SpriteFrameState *rotation);
 
 /* decrease_town_map_object_field_and_transition.c */
-void decrease_town_map_object_field_0a_and_transition(struct S_8008BA44_0 *obj);
+void lower_town_map_object_value_to_input(struct S_8008BA44_0 *obj);
 
 /* initialize_object_rendering_resources.c */
 void initialize_object_rendering_resources(struct TownCourseActor *object_data, void *unused, SpriteFrameState *render_data);

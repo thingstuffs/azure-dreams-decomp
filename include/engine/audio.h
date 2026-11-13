@@ -58,8 +58,8 @@ u32 *find_sound_table_entry(s32 sound_id);
 /* get_volume_scale_by_selector.c */
 s32 get_volume_scale_by_selector(s32 selector);
 
-/* handle_audio_status_code.c */
-void handle_audio_status_code(u8 code);
+/* handle_sequence_control_code.c */
+void handle_sequence_control_code(u8 code);
 
 /* init_audio_staging_buffers.c */
 void init_audio_staging_buffers(void);
@@ -136,8 +136,8 @@ void sound_set_sequence_volume_scale(s16 new_value);
 /* sound_set_spu_master_volume.c */
 void sound_set_spu_master_volume(s32 left_volume, s32 right_volume);
 
-/* sound_start_scaled_primary_and_secondary_voices.c */
-void sound_start_scaled_primary_and_secondary_voices(s32 target_id, s32 note_pitch);
+/* start_scaled_effect_voices.c */
+void start_scaled_effect_voices(s32 target_id, s32 note_pitch);
 
 /* sound_stream_load.c */
 s32 func_8004437C(s16 entry_index, s16 mode);
@@ -151,8 +151,8 @@ void start_pending_selection(void);
 /* stop_audio_playback.c */
 void stop_audio_playback(void);
 
-/* submit_scaled_driver_halfword_pair.c */
-void submit_scaled_driver_halfword_pair(s32 mode, s32 value_1, s32 value_2);
+/* set_spu_cd_or_ext_volume.c */
+void set_spu_cd_or_ext_volume(s32 mode, s32 value_1, s32 value_2);
 
 /* submit_scaled_driver_halfword_pair_second.c */
 void apply_scaled_cd_stream_volume(void);

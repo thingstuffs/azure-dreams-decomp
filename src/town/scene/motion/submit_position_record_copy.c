@@ -21,5 +21,5 @@ void submit_position_record_copy(void) {
     record[1] = state->position->x;
     record[2] = 0;
     ((S_806F18F8_4 *)(state->services))->unk_208(0);
-    ((s32 (*) (s32 *))town_scene_root->services->callback_228)(record);
+    ((s32 (*) (s32 *))town_scene_root->services->tcame_chase_fix_reset)(record);
 }

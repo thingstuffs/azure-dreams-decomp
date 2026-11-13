@@ -84,7 +84,7 @@
     {
       "row": "town/func_8096DAD0",
       "home": "town/func_80098A48",
-      "tu": "src/town/player/call_the_callee_callee_b.c",
+      "tu": "src/town/player/clamp_x_then_correct_boundaries.c",
       "foff": "0x008EDAD0",
       "vma": "0x80125F68",
       "size": 48,

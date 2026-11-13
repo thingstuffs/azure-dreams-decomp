@@ -26,7 +26,7 @@ void *create_item_menu_display_controller(ItemMenuStateNode *owner, s32 display_
             display_object = create_item_menu_child_at_position(object, x, y, display_config, state->init_result, state);
             state->child = display_object;
             if (display_object == 0) {
-                finish_item_menu_child_and_release_list(state);
+                release_item_menu_display(state);
                 object = NULL;
             }
         }
@@ -35,7 +35,7 @@ void *create_item_menu_display_controller(ItemMenuStateNode *owner, s32 display_
 }
 
 /* Set the record and global high flags, then process the stored record value. */
-void finish_item_menu_child_and_release_list(void *record_arg) {
+void release_item_menu_display(void *record_arg) {
     ObjectRetirementFlags *record = record_arg;
     s32 record_value;
     s32 global_flags;

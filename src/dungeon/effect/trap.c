@@ -106,19 +106,19 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
 typedef struct S_800CBCA0_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CBCA0_0_pre;   /* the 0x14 bytes before arg0 in check_entity_chance_and_trigger_parent_action, addressed as arg0[-1] */
+} S_800CBCA0_0_pre;   /* the 0x14 bytes before arg0 in check_trap_trigger_chance, addressed as arg0[-1] */
 
 typedef struct S_800CBCA0_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800CBCA0_1;   /* parent in check_entity_chance_and_trigger_parent_action */
+} S_800CBCA0_1;   /* parent in check_trap_trigger_chance */
 
 extern s32 generate_random_value(void);
 extern u8 D_800E1AE6[];
 
 /* Checks an entity's flags and random roll before attempting its parent-based action. */
-s32 check_entity_chance_and_trigger_parent_action(void *entity_arg, s32 input_a, s32 input_b, s32 input_c)
+s32 check_trap_trigger_chance(void *entity_arg, s32 input_a, s32 input_b, s32 input_c)
 {
     EntityRec *entity = entity_arg;
     S_800CBCA0_1 *parent;
@@ -686,7 +686,7 @@ ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value,
 }
 
 /* Decrements the record countdown and marks completion when it reaches zero. */
-void tick_byte_timed_trap_effect(FivePartTargetEffectBody *effect) {
+void tick_trap_effect_timer(FivePartTargetEffectBody *effect) {
     u8 countdown;
 
     countdown = effect->ticks_remaining - 1;
@@ -1076,7 +1076,7 @@ extern u8 D_800E1BF3[];
 typedef struct S_800CD1A4_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CD1A4_0_pre;   /* the 0x14 bytes before actor in roll_trap_hit_and_raise_event_520, addressed as actor[-1] */
+} S_800CD1A4_0_pre;   /* the 0x14 bytes before actor in resolve_trap_hit, addressed as actor[-1] */
 
 typedef struct S_800CD1A4_1 {
     u8 pad_00[0x14];
@@ -1084,10 +1084,10 @@ typedef struct S_800CD1A4_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800CD1A4_1;   /* owner in roll_trap_hit_and_raise_event_520 */
+} S_800CD1A4_1;   /* owner in resolve_trap_hit */
 
 /* Roll the actor's trap check; on a hit mark it, play the burst at the owner's tile and raise event 0x520. */
-s32 roll_trap_hit_and_raise_event_520(EntityRec *actor) {
+s32 resolve_trap_hit(EntityRec *actor) {
     s32 chance;
     S_800CD1A4_1 *owner;
 
@@ -1148,7 +1148,7 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
     if (trap_request_blocked != 0) {
         check_mask = 0x400;
     }
-    if (roll_threshold_effect_variant_b(record_data, check_mask, 0x10) == 0) {
+    if (roll_blind_effect(record_data, check_mask, 0x10) == 0) {
         if (((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_27 == 0) {
             display_fixed_item_action_message();
             return 1;
@@ -1186,7 +1186,7 @@ s32 attempt_trap_request_eight_slots(void *object) {
     if (trap_request_blocked != 0) {
         amount = 0x400;
     }
-    if (roll_threshold_effect_variant_a(object, amount, 8) == 0) {
+    if (roll_poison_effect(object, amount, 8) == 0) {
         if (((EntityRec *)object)->flags14 & ACTOR_PARTY_MEMBER) {
             display_fixed_item_action_message();
             return 1;
@@ -1686,7 +1686,7 @@ void mark_all_actors_with_high_flag(void) {
 }
 
 /* Add amount to active entries at the given coordinates in both arrays. */
-void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount)
+void add_ground_item_value_at_tile(s16 x, s16 y, s32 amount)
 {
     s32 entry_index;
     s32 first_x;
@@ -1728,7 +1728,7 @@ void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount)
 }
 
 /* Sets the value of all active entries at the given coordinates in both tables. */
-void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value) {
+void set_ground_item_value_at_tile(s16 x, s16 y, s16 value) {
     FirstEntry *first_entry;
     DungeonItemEntry *first_status;
     SecondEntry *second_entry;
@@ -1838,7 +1838,7 @@ void update_long_lived_trap_effect(DungeonEffect *effect) {
                 target_ptr++;
                 tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height =
                     (u16)tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height + target_step;
-                add_value_to_active_entries_at_tile((s16)((u16)effect->x + target_col),
+                add_ground_item_value_at_tile((s16)((u16)effect->x + target_col),
                               (s16)((u16)effect->y + target_row),
                               (s16)-target_step);
                 target_col++;
@@ -1866,7 +1866,7 @@ snap_target_tile:
                 tiles[((target_row + origin_y) << row_shift) + origin_x + snap_target_col].height = *snap_target_ptr;
                 target_height = *snap_target_ptr;
                 snap_target_ptr++;
-                set_value_of_active_entries_at_tile((s16)((u16)effect->x + snap_target_col),
+                set_ground_item_value_at_tile((s16)((u16)effect->x + snap_target_col),
                               (s16)((u16)effect->y + target_row),
                               (s16)-target_height);
                 snap_target_col++;
@@ -1911,7 +1911,7 @@ snap_target_tile:
                 initial_ptr++;
                 tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height =
                     (u16)tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height + restore_step;
-                add_value_to_active_entries_at_tile((s16)((u16)effect->x + restore_col),
+                add_ground_item_value_at_tile((s16)((u16)effect->x + restore_col),
                               (s16)((u16)effect->y + restore_row),
                               (s16)-restore_step);
                 restore_col++;
@@ -1939,7 +1939,7 @@ snap_target_tile:
                     initial_height = *snap_initial_ptr;
                     snap_initial_ptr++;
                     x_or_mask = (s16)((u16)effect->x + snap_initial_col);
-                    set_value_of_active_entries_at_tile(x_or_mask,
+                    set_ground_item_value_at_tile(x_or_mask,
                                   (s16)((u16)effect->y + restore_row),
                                   (s16)-initial_height);
                     snap_initial_col++;
@@ -2160,7 +2160,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
 
     triggerFlags = 0;
     entryFlags = 0;
-    if (is_linked_object_flagged_10000(record) == 0) {
+    if (has_anchor_linked_object_flag(record) == 0) {
         s16 probability;
         s32 random_mod;
         firstEntry = record->unk_4C;
@@ -2174,7 +2174,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
                 entryFlags = is_one;
             }
             if (trap_request_blocked == 0) {
-                                /* garbage-passthru: a1/a3 are residue from is_linked_object_flagged_10000, without a defined C value. */
+                                /* garbage-passthru: a1/a3 are residue from has_anchor_linked_object_flag, without a defined C value. */
                 randomValueFirst = generate_random_value() & 0xFFFF;
                 if (record->unk_00[3] != 0) {
                     random_mod = randomValueFirst % record->unk_00[3];

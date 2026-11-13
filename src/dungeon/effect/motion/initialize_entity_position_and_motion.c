@@ -1399,7 +1399,7 @@ void inventory_clear_circular_list_flag_2000(void *unused_actor)
    distance limit. */
 void *find_eligible_nearby_entity(void *source_entity)
 {
-    void *node;
+    ActorRecord *node;
     s16 owner_limit;
     s32 initial_limit;
     void *next_link;
@@ -1412,7 +1412,7 @@ void *find_eligible_nearby_entity(void *source_entity)
         initial_limit = 4;
     }
     next_link = ((ovl_19a332c_81984C44_S_81984C44_2 *)node)->unk_5C;
-    node = (u8 *)next_link + 0x20;
+    node = NODE_BODY(next_link);
     if (node != primary_actor_record) {
         do {
             void *entry_link;
@@ -1433,7 +1433,7 @@ void *find_eligible_nearby_entity(void *source_entity)
                 }
             }
             entry_link = ((ovl_19a332c_81984C44_S_81984C44_2 *)node)->unk_5C;
-            node = (u8 *)entry_link + 0x20;
+            node = NODE_BODY(entry_link);
         } while (node != primary_actor_record);
     }
     return 0;

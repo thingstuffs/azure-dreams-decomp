@@ -41,7 +41,7 @@ typedef struct {
     s32 *callback;
 } Node;
 
-extern s32 rising_sprite_entries[3];
+#include "dungeon/effect/sprite/rising_entries.h"
 extern M2C_UNK D_80170D60[3];
 
 /* Creates a node at an offset from the origin and configures its display variant. */

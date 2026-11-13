@@ -4,10 +4,10 @@
 
 /* extern/typedef decls */
 /* D_80085FA4: accessed via %hi/%lo (not gp_rel) in this and sibling funcs
- * (read_next_byte_and_finish, func_800599B0, scan_stream_for_three_byte_marker, init_sequence_playback) -> declare size > 8 bytes. */
+ * (read_sequence_byte, func_800599B0, find_sequence_entry_marker, init_sequence_playback) -> declare size > 8 bytes. */
 
 /* D_800869B0: accessed via %hi/%lo (not gp_rel) in this and sibling funcs
- * (read_next_byte_and_finish, scan_stream_for_three_byte_marker, init_sequence_playback) -> declare size > 8 bytes. */
+ * (read_sequence_byte, find_sequence_entry_marker, init_sequence_playback) -> declare size > 8 bytes. */
 
 /* D_800737A4: hi/lo access -> size must be > 8 bytes (see func_800584E4 in src/code.c) */
 extern s32 audio_sequence_active[4];

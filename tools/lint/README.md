@@ -329,6 +329,7 @@ read-and-hash pass. The item lists land in `build/readcounts/` (or
 | `duplicate #include lines` | Extra copies of the same `#include` within one file. | `duplicate_includes.tsv` |
 | `stale tool comments` | Comments carrying lane or tool stamps (`cfail-repair`/`tf7-phase`, evidence banners, tool-written header notes, cohort/group ids, lane receipts, review pending, `MECHANISM:`); a comment counts once per tag. | `stale_tool_comments.tsv` |
 | `placeholder identifiers` | `argN`, `var_*` and `temp_*` identifier tokens in code, and how many are named only in comments. | `placeholder_identifiers_by_file.tsv` |
+| `weak parameter types` | Signature quality: parameters of `.c` function definitions (prototype-style lists) declared `void *`, a generated view (`tools/typing/caller_types.py`'s generated-name pattern), a struct typedef of the same file, or a byte pointer, by kind, and how many definitions have one. | `weak_parameters.tsv` |
 
 Unit tests: `python3 -m unittest tools/lint/test_readcounts.py`.
 

@@ -8,7 +8,7 @@
 #include "engine/node.h"
 #include "dungeon/effect/sprite.h"
 
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 extern u8 D_800F6000[];
 extern void advance_gravity_damped_effect_motion(void *entry, void *motion, void *object);
 

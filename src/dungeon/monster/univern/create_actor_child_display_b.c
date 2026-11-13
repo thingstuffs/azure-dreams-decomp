@@ -14,7 +14,7 @@
 void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial_value)
 {
     ObjectNodeHeader *root;
-    void *copy;
+    ObjectPosition *copy;
     s32 outer_index;
     s32 saved_kind;
     s32 saved_value;

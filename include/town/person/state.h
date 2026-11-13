@@ -92,7 +92,7 @@ void invoke_flag_state_callback(struct S_800CCC34_0 *object, s32 context, void *
 void invoke_state_indexed_callback(void *object, void *context, void *motion);
 
 /* process_object_flag_bits.c */
-void process_object_0x6000_flag_bits(TownObjectRecord *contextId, s32 contextData, SpriteFrameState *object);
+void reset_object_entries_on_flag_bits(TownObjectRecord *contextId, s32 contextData, SpriteFrameState *object);
 
 /* reset_indexed_flag_install_handlers.c */
 void reset_indexed_flag_install_handlers(void *object, void *context, struct SpriteFrameState *input);
@@ -119,7 +119,7 @@ void run_object_handlers_supplied_state(s32 object, ObjectPosition *position, s3
 void set_actor_flag_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state);
 
 /* set_flag_object_direction_c.c */
-void set_flag_object_direction_12_c(TownObjectRecord *state);
+void set_flag_object_heading_three_quarter_turn(TownObjectRecord *state);
 
 /* set_person_status_and_code.c */
 void set_person_status_and_code(struct S_800AAE00_1 *context, struct S_800AAE00_0 *status);

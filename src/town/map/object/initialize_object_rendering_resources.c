@@ -20,7 +20,7 @@ void initialize_object_rendering_resources(TownCourseActor *object_data, void *u
     render_data->scale_x = 0x1000;
     render_data->color.word = 0x808080;
     render_data->frameTable = &D_800D0C58;
-    store_the_in_forwards_field_10_callee_800949_c_4((s32) &D_800D0C58, object_data, render_data);
+    store_entry_and_set_frame((s32) &D_800D0C58, object_data, render_data);
     unlink_node_if_registered(object_data);
     apply_pending_table_entry(0x24, store_value_and_get_masked_offset);
     apply_pending_indexed_value(0xE4, read_and_clear_stored_value);

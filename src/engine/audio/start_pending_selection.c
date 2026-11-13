@@ -20,7 +20,7 @@ void start_pending_selection(void)
     s16 is_ready;
 
     if (sound_playback_state.unk_26 == -1) {
-        handle_audio_status_code(0x71);
+        handle_sequence_control_code(0x71);
         return;
     }
     is_ready = test_sound_channel_availability(0);

@@ -263,7 +263,7 @@ extern void advance_sprite_animation_and_textures(void *);
 extern s32 D_800814A0;
 void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 extern void register_node(ovl_18d0850_818B09F8_MainObj *, void *);
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 extern unsigned char resident_globals_page[];
 #include "sdk/libgte.h"
 #include "shared/scratchpad.h"
@@ -273,13 +273,13 @@ extern s32 check_layer_offset_height(s32, s32, s32, s32);
 void apply_random_actor_value_gain(EntityRec *entity, s32 value_id, void *record);
 void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2);
 void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, SpriteFrameState *state);
-ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec);
+ovl_18d0850_818B09F8_MainObj *create_owner_counter_sprite_effect(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec);
 void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, SpriteFrameState *object);
 s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 frame);
-s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0, void *origin, SpriteFrameState *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase);
-s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ObjectPosition *height_ref, void *context);
-s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ObjectPosition *target, SpriteFrameState *context);
+s32 queue_shaded_line_segments(void *unused_0, void *origin, SpriteFrameState *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase);
+s32 queue_height_offset_rings(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ObjectPosition *height_ref, void *context);
+s32 queue_phase_shifted_rings(ovl_18d0850_818B1334_S_818B1334_1 *source, ObjectPosition *target, SpriteFrameState *context);
 s32 draw_remaining_shaded_rings(ovl_18d0850_818B1484_S_818B1484_1 *effect, ObjectPosition *target, void *context);
 s32 dispatch_effect_state_handler(void *state_ptr, ObjectPosition *second_ptr, SpriteFrameState *third_ptr);
-void update_movement_toward_child_terrain_target_animates_associated_effects(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info);
+void update_radial_effect_toward_target(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info);
 #endif

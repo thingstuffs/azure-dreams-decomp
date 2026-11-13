@@ -9,7 +9,7 @@
 #include "town/scene.h"
 
 /* Update position and displacement, then dispatch the active entity handler. */
-void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, SpriteFrameState *context) {
+void bob_entity_and_dispatch_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, SpriteFrameState *context) {
     s32 previous_pos;
 
     previous_pos = motion->unk_08;
@@ -18,11 +18,11 @@ void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE
     motion->unk_14 = (s32) (motion->unk_08 - previous_pos);
     if (town_target_record[0] == entity_id) {
         if (scene_object_payload_alias[0] == &town_timed_state_address) {
-            initialize_the_entity_s_action_copy_selected_state_hex_13(entity, town_target_record[0], motion, context);
+            start_slot_entity_move_toward_view(entity, town_target_record[0], motion, context);
             return;
         }
         if (scene_object_payload_alias[0] == D_80093524) {
-            call_callee_80033_d_08_set_handler(entity, town_target_record[0], motion, context);
+            unlink_entity_and_set_bob_handler(entity, town_target_record[0], motion, context);
         }
     }
 }
@@ -32,7 +32,7 @@ void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE
  * countdown expiry. On success updates slot/type flags and clears the linked signal; otherwise
  * restores saved X/Y and initializes the type-dependent motion state.
  */
-void update_motion_toward_target_resolves_entity_countdown_expires(void *entity_arg, s32 context, ObjectPosition *motion, s32 mode) {
+void move_entity_toward_view_reference(void *entity_arg, s32 context, ObjectPosition *motion, s32 mode) {
     Rec_D_800CFCB4 *entity = entity_arg;
     s32 result[5];
     s8 *linked_flag;
@@ -52,7 +52,7 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity_
     entity->unk_6C.as_u16 = ticks_left;
     if ((ticks_left << 16) <= 0) {
         slot = entity->unk_95;
-        if (process_the_item_index_available_report_success(entity, context, motion, mode, result) != 0) {
+        if (remove_object_if_item_found(entity, context, motion, mode, result) != 0) {
             if (entity->unk_4D.as_u8 == 0x13) {
                 u8 *state_table = (u8 *)0x80010000;
                 s32 record_index = state_table[slot * 4 + 0x983] & 0x3F;
@@ -77,7 +77,7 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity_
         motion->y.v = 0;
         motion->x.w.i = entity->unk_84;
         motion->y.w.i = entity->unk_86;
-        initialize_entity_flags_transform_type_dependent_variant(entity, context, motion, mode);
+        start_entity_bob(entity, context, motion, mode);
     }
 }
 
@@ -85,7 +85,7 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity_
  * Sets both state bytes, clears all motion deltas, sets Z to -0x200000, and installs D_8009EE9C
  * with a random 12-bit phase. Selects variant 0x58 for type 0x12 or 0x59 otherwise.
  */
-void initialize_entity_flags_transform_type_dependent_variant(void *entity, void *state, void *transform, s32 unused)
+void start_entity_bob(void *entity, void *state, void *transform, s32 unused)
 {
     s32 variant_id;
     TownObjectRecord *entity_bytes = entity;
@@ -97,7 +97,7 @@ void initialize_entity_flags_transform_type_dependent_variant(void *entity, void
     entity_bytes->unk_A0 = 0xFFE00000;
     *((s32 *) (((u8 *) transform) + 8)) = 0xFFE00000;
     entity_bytes->unk_50.as_pm = D_8009EE9C;
-    entity_bytes->timer = scale_random_to_unsigned_halfword_limit(0x1000);
+    entity_bytes->timer = scale_random_by_limit(0x1000);
     variant_id = 0x12;
     if (entity_bytes->unk_4D != variant_id) {
         *((s32 *) (entity + 0x60)) = 0x59;
@@ -108,7 +108,7 @@ void initialize_entity_flags_transform_type_dependent_variant(void *entity, void
 }
 
 /* Initialize the entity's action and copy its selected record for state 0x13. */
-void initialize_the_entity_s_action_copy_selected_state_hex_13(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action, void *unused_motion, SpriteFrameState *unused_context)
+void start_slot_entity_move_toward_view(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action, void *unused_motion, SpriteFrameState *unused_context)
 {
     u8 state;
     void *callback;
@@ -149,7 +149,7 @@ s32 get_target_itemp(void) {
  * matching active event and D_800935BC payload, processes input, allocates callbacks, plays sound
  * 0x513, and synchronizes town state.
  */
-void update_the_target_offset_advance_phase_handle_active_event(void *state_arg, s32 event_id, DelayMotionZ *target, SpriteFrameState *context) {
+void bob_entity_and_wait_for_event(void *state_arg, s32 event_id, DelayMotionZ *target, SpriteFrameState *context) {
     TownObjectRecord *state = state_arg;
     s32 active_event;
 
@@ -161,7 +161,7 @@ void update_the_target_offset_advance_phase_handle_active_event(void *state_arg,
         check_adjusted_input_indices(target);
         allocate_object_with_callbacks(target);
         SD_Call(0x513);
-        initialize_the_town_entity_synchronize_slot_state(state_arg, active_event, (s32)(target), (void *)(context));
+        snapshot_entity_slot_and_start_jitter(state_arg, active_event, (s32)(target), (void *)(context));
     }
 }
 
@@ -170,12 +170,12 @@ void update_the_target_offset_advance_phase_handle_active_event(void *state_arg,
  * countdown-driven sine wave. Restores both scales and initializes type-dependent motion when the
  * countdown expires.
  */
-void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, S_8009F374_2 *scale) {
+void jitter_and_pulse_entity_scale(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, S_8009F374_2 *scale) {
     s16 ticks_left;
     s32 scale_x_wave;
     s32 scale_y_wave;
 
-    position->z.v = (s32) (state->unk_A0 + (((scale_random_to_unsigned_halfword_limit(0x10) & 0xFFFF) - 8) << 0x10));
+    position->z.v = (s32) (state->unk_A0 + (((scale_random_by_limit(0x10) & 0xFFFF) - 8) << 0x10));
     scale_x_wave = rsin(state->unk_6C.as_s16 * 0x199);
     scale->unk_1C = (s16) ((scale_x_wave / 4) + 0x1000);
     scale_y_wave = rsin(state->unk_6C.as_s16 * 0x199);
@@ -185,12 +185,12 @@ void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *
     if ((ticks_left << 0x10) <= 0) {
         scale->unk_1E = 0x1000;
         scale->unk_1C = 0x1000;
-        initialize_entity_flags_transform_type_dependent_variant(state, context, position, scale);
+        start_entity_bob(state, context, position, scale);
     }
 }
 
 /* Call unlink_node_if_registered and set the record handler. */
-void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, SpriteFrameState *unused_context) {
+void unlink_entity_and_set_bob_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, SpriteFrameState *unused_context) {
     unlink_node_if_registered(record);
     record->unk_50.as_pm = &D_8009F2A8;
 }
@@ -200,7 +200,7 @@ void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 valu
  * type/index fields, and applies the mode-selected object state. Installs the jitter/pulse
  * callback with a ten-tick countdown.
  */
-void initialize_the_town_entity_synchronize_slot_state(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context) {
+void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context) {
     void *stored_entry;
     s32 unused_value;
     s32 record_offset;
@@ -237,6 +237,6 @@ void initialize_the_town_entity_synchronize_slot_state(TownObjectRecord *entity,
     record_value = ((S_8009F4C0_5 *)(((record_index * 0x54) + (u8 *)data_base)))->unk_A94;
     func_8003E188(entity->unk_4C, 1);
     set_object_state_for_mode(entity, context, entity->unk_4C, record_value);
-    entity->unk_50.as_pm = &handle_jitter_position_pulse_scale_until_countdown_expires;
+    entity->unk_50.as_pm = &jitter_and_pulse_entity_scale;
     entity->timer = 0xA;
 }

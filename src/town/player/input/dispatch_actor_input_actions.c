@@ -54,17 +54,17 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position,
     s16 remaining_count;
     s32 *action_data;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(position);
-    move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(position);
+    resolve_collision_axis_order(position);
+    step_perpendicular_to_input(position);
 
-    height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, &position_query_scratch);
+    height = query_capped_surface_height(position, &position_query_scratch);
     if ((height - position->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object((s32 * *)(actor), position, sprite);
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((position), height, (struct TownVec * *)(&position_query_scratch));
+        set_height_and_slope_velocity((position), height, (struct TownVec * *)(&position_query_scratch));
     }
 
     input_flags = (input_state->pressed_buttons);
@@ -74,7 +74,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position,
     }
 
     if (input_flags & 0x40) {
-        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, town_actor_control);
+        action_result = select_adjacent_source_entry(actor, town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
                 initialize_actor_movement_interaction_action((s32 * *)(actor), position, sprite);
@@ -91,10 +91,10 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position,
     }
 
     action_data = town_actor_control;
-    action_result = select_an_available_entry_matching_direction_returns_status(action_data);
+    action_result = select_entry_by_input_direction(action_data);
     if (action_result != 0) {
         if (action_result == -1) {
-            store_the_valid_shared_angle_in_offset_hex_10(actor);
+            store_input_angle(actor);
             initialize_record_and_select_active_data(actor, (position), sprite);
             actor->unk_2C = 0;
             submit_object_resource_data(action_data[4]);
@@ -119,8 +119,8 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position,
             }
         } else {
             initialize_randomized_object_action((struct TownObjectRecord *)(actor), (position), sprite);
-            store_the_valid_shared_angle_in_offset_hex_10(actor);
-            call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58((position));
+            store_input_angle(actor);
+            accelerate_toward_input_angle((position));
             return;
         }
         return;
@@ -130,9 +130,9 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position,
         remaining_count = ((u16)actor->unk_3E) - 1;
         actor->unk_3E = remaining_count;
         play_periodic_sound(remaining_count, 12);
-        store_the_valid_shared_angle_in_offset_hex_10(actor);
-        handle_adjust_vector_toward_selected_angle_limit_magnitude(position);
-        reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting(position);
+        store_input_angle(actor);
+        accelerate_toward_input_keep_speed(position);
+        damp_velocity_toward_input_limits(position);
         return;
     } else {
         initialize_scene_action_record(actor, position, sprite);

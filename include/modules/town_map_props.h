@@ -16,7 +16,7 @@ struct S_800BDFA0_0;
 struct TownPropAnimationActor;
 struct S_800BE214_0;
 struct ObjectPosition;
-void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_param, s32 graphics_id);
+void *create_town_prop_graphic_object(TownPropPosition *position, s32 object_param, s32 graphics_id);
 void *create_positioned_visual_object(TownPropPosition *position, s32 object_data, s32 angle, s32 visual_data);
 void fill_wrapped_tile_pair(s16 start_x, s16 start_y, s16 mode, s32 pair_index);
 void fill_wrapped_four_by_four_grid(s32 start_x, s16 start_y, s32 unused_value);

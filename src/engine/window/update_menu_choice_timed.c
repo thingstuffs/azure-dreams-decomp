@@ -37,7 +37,7 @@ void update_menu_choice_timed(Object *object) {
         object->unk4d = 0xff;
         object->unk51 = 0;
         object->child->unk27 = object->child->unk26;
-        object->unk68 = runtime_mark_state_when_flag_51_set;
+        object->unk68 = request_message_advance_on_second_flag;
     } else {
         if ((((u32)state->pressed_buttons)) & 0x20) {
             object->unk4d = object->child->unk26 - 1;

@@ -97,7 +97,7 @@
     },
     {
       "row": "town/func_80476D88",
-      "tu": "src/town/scene/flags/is_global_flag_bb_set.c",
+      "tu": "src/town/scene/flags/is_scene_update_active.c",
       "home": "town/func_80476D88",
       "foff": "0x3F6D88",
       "vma": "0x80017D88",

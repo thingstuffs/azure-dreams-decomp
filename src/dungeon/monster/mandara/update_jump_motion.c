@@ -25,7 +25,7 @@ extern u8 D_80175278[];
 extern u8 D_80175280[];
 
 /* Updates jump motion and animation, then completes the landing. */
-void update_jump_motion_2(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *unit, ActorRecord *actor) {
+void update_mandara_jump_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *unit, ActorRecord *actor) {
     u16 distance;
     s32 frames_left;
     s16 next_timer;

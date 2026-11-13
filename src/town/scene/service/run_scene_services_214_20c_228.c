@@ -7,5 +7,5 @@ void run_scene_services_214_20c_228(void)
 {
     (*(s32 (**)(s32))((u8 *)town_scene_root->services + 0x214))(0);
     (*(s32 (**)(s32))((u8 *)town_scene_root->services + 0x20C))(0);
-    town_scene_root->services->callback_228(0);
+    town_scene_root->services->tcame_chase_fix_reset(0);
 }

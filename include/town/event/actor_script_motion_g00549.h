@@ -62,7 +62,7 @@ extern u8 D_80092698[];
 extern u8 tracked_actor_callback_address[];
 extern s32 D_800CFCCC;
 extern s32 D_800CFDD8[];
-extern void call_the_same_context_both_processing_routines(void *, void *);
+extern void apply_bound_adjustments(void *, void *);
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
 

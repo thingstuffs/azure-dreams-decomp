@@ -36,7 +36,7 @@ void card_boot_prepare_copy_destination_message(void *context)
         context = NODE_HEADER(record);
         if (status < 3) {
             record->unk_34 = card_boot_resume_menu_after_slot_refresh;
-            card_boot_show_insufficient_space_card_advice(context);
+            card_boot_show_no_space_card_notice(context);
         } else {
             card_boot_enter_copying_progress(record);
             return;

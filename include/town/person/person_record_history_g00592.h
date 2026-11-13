@@ -31,7 +31,7 @@ extern Record town_position_history[8];
 /* Functions defined in this translation unit. */
 void fill_person_records(void);
 void shift_history_and_store_current_values(void);
-void load_record_halfwords_3(void *destination, s32 entry_index);
+void load_position_history_entry(void *destination, s32 entry_index);
 void copy_person_table_value(Rec_func_800AB014_arg0 *record, s32 entry_index);
 
 #endif

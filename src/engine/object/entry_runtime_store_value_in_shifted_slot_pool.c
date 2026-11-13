@@ -24,10 +24,10 @@ s32 enqueue_runtime_pool_script(void *input_data) {
         for (entry_index = 10; entry_index < 15; entry_index++) {
             runtime_script_state.entries[entry_index] = 0;
         }
-        runtime_store_value_in_shifted_slot_pool(input_data);
+        push_script_slot_value(input_data);
         call_script(runtime_pool_service_script);
     } else {
-        runtime_store_value_in_shifted_slot_pool(input_data);
+        push_script_slot_value(input_data);
     }
     return 1;
 }

@@ -12,7 +12,7 @@
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
-extern void call_the_same_context_both_processing_routines(void *, void *);
+extern void apply_bound_adjustments(void *, void *);
 extern s32 read_map_cell_at_world_position(s16, s16);
 
 /* Updates motion, handles ground contact, and checks the tile height limit. */
@@ -20,17 +20,17 @@ void update_falling_motion(void *owner, void *actor, void *motion, s32 callback_
     s16 ground_height;
     s32 ground_height_s32;
 
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
     if (*(s32 *)((u8 *)motion + 0x14) > 0x200000) {
         *(s32 *)((u8 *)motion + 0x14) = 0x200000;
     }
     add_motion_deltas_to_position(motion);
-    ground_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, (&position_query_scratch));
-    call_the_same_context_both_processing_routines(actor, motion);
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(actor, motion);
+    ground_height = get_min_surface_probe_capped(motion, (&position_query_scratch));
+    apply_bound_adjustments(actor, motion);
+    resolve_collider_overlaps(actor, motion);
     ground_height_s32 = ground_height;
     if (*(s16 *)((u8 *)motion + 0xA) >= ground_height_s32) {
-        set_the_state_flag_initialize_s_fixed_point_clear_paired_field(actor, motion, ground_height_s32);
+        stop_at_max_z(actor, motion, ground_height_s32);
         ((Callback *)(*(void **)((u8 *)owner + 0x58)))[1](owner, actor, motion, callback_arg);
     } else if (*((u8 *)actor + 0x3B) != 0) {
         *(s32 *)((u8 *)motion + 0xC) = 0;

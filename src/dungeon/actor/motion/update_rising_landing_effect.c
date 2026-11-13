@@ -13,7 +13,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
-#include "shared/sprite_source.h"
+#include "dungeon/effect/sprite/landing_entries.h"
 #include "shared/dungeon_sprite_data.h"
 #include "m2c_compat.h"
 #include "sdk/libc.h"
@@ -96,9 +96,9 @@ typedef struct S_FUNC_8197C800_BODY_22 {
 } S_FUNC_8197C800_BODY_22;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_0C in update_directional_actor_effect */
 
 
-extern u8 rising_sprite_entries[];
+#include "dungeon/effect/sprite/rising_entries.h"
 extern u8 countdown_sprite_entries[];
-extern u8 directional_sprite_entries[];
+#include "dungeon/effect/sprite/directional_entries.h"
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
@@ -106,7 +106,6 @@ extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, v
 void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C800_BODY_2 *output);
 extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
 extern u8 homing_particle_sprite_entries[];
-extern SpriteSourceEntry landing_sprite_entries[];
 
 /* Converts the grid coordinate to units of 64 and adds random modulo 64. */
 static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)

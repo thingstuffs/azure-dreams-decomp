@@ -11,7 +11,7 @@
 
 /* Updates the object using its linked data, clears its slot flag, and resets its state. */
 void reset_player_slot_state(TownObjectRecord *object, void *ptr, void *ptr2) {
-    call_the_handler_selects_nonzero_entry(object->handler_entries[2], object, ptr2);
+    dispatch_selected_entry_if_nonzero(object->handler_entries[2], object, ptr2);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_04 = &move_player_toward_target_with_timer;
     object->unk_0A = 0x20;

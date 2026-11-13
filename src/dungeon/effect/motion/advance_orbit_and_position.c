@@ -9,8 +9,7 @@
 struct Dst;
 struct Elem;
 
-#include "shared/sprite_source.h"
-extern SpriteSourceEntry high_particle_sprite_entries[];
+#include "dungeon/effect/sprite/high_particle_entries.h"
 
 
 typedef struct S_800246AC_2 {

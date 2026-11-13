@@ -72,7 +72,7 @@ void advance_timed_motion_continuation(ActorRecord *actor, S_80097AF8_1 *motion,
             process_unflagged_linked_entries_alt(owner->unk_5C);
             process_unflagged_linked_entries(owner->unk_5C);
         }
-        actor->unk_8C.handler = handle_actor_commands_and_facing;
+        actor->unk_8C.handler = update_actor_commands_and_facing;
         return;
     }
 }

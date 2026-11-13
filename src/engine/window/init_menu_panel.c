@@ -6,7 +6,7 @@
 #include "engine/util.h"
 
 s16 read_terminal_tagged_entry_value();                             /* extern */
-void menu_copy_the_default_template_fills_five_byte_pairs_negated_half();       /* extern */
+void init_menu_record_from_template();       /* extern */
 
 /* Initializes resource state, resolves its size, and sets its position. */
 void init_menu_panel(AnimatedMenuPanelBody *state, s32 config_id, s32 resource_id, s16 x, s16 y, s32 size) {
@@ -24,7 +24,7 @@ void init_menu_panel(AnimatedMenuPanelBody *state, s32 config_id, s32 resource_i
     if (requested_size == -1) {
         resolved_size = read_terminal_tagged_entry_value(resource_handle) + 0x20;
     }
-    menu_copy_the_default_template_fills_five_byte_pairs_negated_half(state, state->template_buffer, resolved_size & 0xFFFF, state->flags & 1);
+    init_menu_record_from_template(state, state->template_buffer, resolved_size & 0xFFFF, state->flags & 1);
     state->template_word = (s32)(unsigned long)state->template_buffer;
-    menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values(state, x, y, (s16) resolved_size);
+    init_menu_panel_blocks(state, x, y, (s16) resolved_size);
 }

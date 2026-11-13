@@ -16,7 +16,7 @@ typedef struct { s32 word[6]; } Copy24;
 #endif
 
 extern u8 D_80024710[];
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 
 typedef struct S_818C2FAC_0 {
     u8 pad_00[0x8];
@@ -97,7 +97,7 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
         }
         {
             void *render_arg;
-            u8 *render_table;
+            SpriteSourceEntry *render_table;
             render_arg = (void *)render_or_radius;
             render_table = shared_sprite_entries;
             select_record_entry_and_value(render_arg, render_table, 0);

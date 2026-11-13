@@ -16,7 +16,7 @@ void load_and_upload_sprite_resource(s16 entity_type)
     if (entity) {
         drain_cd_command_queue();
         if (entity_type == 0x38) {
-            register_and_upload_three_slot_sprite_resource(0x38, entity);
+            register_sprite_resource(0x38, entity);
         } else {
             register_and_upload_sprite_resource(entity_type, entity);
         }

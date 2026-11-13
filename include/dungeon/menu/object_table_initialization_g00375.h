@@ -49,7 +49,7 @@ extern void *dungeon_menu_object[];
 
 /* Functions defined in this translation unit. */
 void initialize_nine_records_and_vectors(u8 *object);
-s32 initialize_object_tables_2(S_800DCCF4_0 *object, void *mode);
+s32 initialize_nine_record_tables(S_800DCCF4_0 *object, void *mode);
 void *allocate_object_with_failure_flag(void);
 
 #endif

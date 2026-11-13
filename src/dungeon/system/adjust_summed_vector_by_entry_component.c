@@ -3,7 +3,7 @@
 #include "dungeon/system.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 evaluate_surface_components_c(s32 *vector);                      /* extern */
+s32 find_highest_valid_cell_height_at(s32 *vector);                      /* extern */
 
 typedef struct S_8008C6B8_0 {
     s32 unk_00;
@@ -40,7 +40,7 @@ s16 adjust_summed_vector_by_entry_component(S_8008C6B8_0 *base_vector, s32 entri
     addend = entry->unk_08;
     component += addend;
     combined_vector[2] = component;
-    base_vector = (S_8008C6B8_0 *)evaluate_surface_components_c(combined_vector);
+    base_vector = (S_8008C6B8_0 *)find_highest_valid_cell_height_at(combined_vector);
     if (((u32)base_vector << 0x10) == 0) {
         return 0;
     }

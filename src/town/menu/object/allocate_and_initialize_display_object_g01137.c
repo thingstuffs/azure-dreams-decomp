@@ -53,7 +53,7 @@ s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 pa
 }
 
 /* Set object and global flags when the state is zero, otherwise invoke the callback. */
-void update_menu_node_or_retire_on_zero_state(Func800A4A20Object *object, s32 context, void *output)
+void run_callback_until_state_clears(Func800A4A20Object *object, s32 context, void *output)
 {
     u8 *state;
 

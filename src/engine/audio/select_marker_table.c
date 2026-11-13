@@ -21,7 +21,7 @@ extern S_800847F0 sound_stream_marker_index;
 void select_marker_table(s32 marker_code) {
     u8 marker_type = marker_code & 0xFF;
 
-    handle_audio_status_code(0x71);
+    handle_sequence_control_code(0x71);
 
     switch (marker_type) {
     case 0x21:

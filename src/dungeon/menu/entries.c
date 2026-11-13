@@ -343,7 +343,7 @@ void dispatch_menu_state_update(s32 *state, s32 mode, s32 value, s32 extra_value
  * Installs the countdown callback with the saved count, restores default object data, and clears
  * the embedded menu state.
  */
-void reset_menu_object_state_2(void *record) {
+void reset_menu_countdown_object(void *record) {
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_00 = (void *)tick_menu_countdown;
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_10 = (s32) ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_14;
     reset_object_to_default_data(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_54);
@@ -370,12 +370,12 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     pressed_buttons = (input->pressed_buttons);
     if (pressed_buttons & 0x20) {
         SD_Call(AUDIO_CANCEL);
-        reset_menu_object_state_2(menu);
+        reset_menu_countdown_object(menu);
         return;
     }
     if (pressed_buttons & 0x10) {
         SD_Call(AUDIO_MENU_CONFIRM);
-        reset_menu_object_state_2(menu);
+        reset_menu_countdown_object(menu);
         forward_stored_object_value(menu->unk44);
         return;
     }
@@ -387,7 +387,7 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
                       menu->unk40 + ((menu->unk8 % 72) * 2));
         if (menu->unk14 == 1 ||
             has_available_object(menu->unk48->unk28) != 0) {
-            reset_menu_object_state_2(menu);
+            reset_menu_countdown_object(menu);
             forward_stored_object_value(menu->unk44);
         }
         return;
@@ -477,7 +477,7 @@ void handle_menu_button_input(void *menu_arg) {
 
     if (buttons & 0x10) {
         SD_Call(AUDIO_MENU_CONFIRM);
-        reset_menu_object_state_2(menu);
+        reset_menu_countdown_object(menu);
         forward_stored_object_value(menu->unk_44);
         return;
     }
@@ -556,7 +556,7 @@ void update_enabled_menu_callback(s32 *record) { invoke_enabled_menu_callback(re
  * Advances the tagged stream and switches to the enabled callback updater with count zero on
  * completion, then invokes the enabled menu callback.
  */
-void handle_menu_record_check(void *record) {
+void advance_enabled_menu_stream(void *record) {
     if (advance_timed_tagged_stream(record + 0x2C) != 0) {
         ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_00 = (void *)update_enabled_menu_callback;
         ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_10 = 0;
@@ -680,7 +680,7 @@ void dispatch_menu_update_callback(s32 *state) {
     if (state[1] < state[0]) {
         set_entry_destination_and_value(state[34], state[19]);
         position_menu_grid_entries(state[34], state[2]);
-        state[-4] = (u32)(void *)handle_menu_record_check;
+        state[-4] = (u32)(void *)advance_enabled_menu_stream;
     }
     invoke_enabled_menu_callback(state);
 }
@@ -694,7 +694,7 @@ void tick_menu_countdown(s32 *countdownState) {
     countdownState[0]--;
     if (countdownState[0] < 0) {
         countdownState[0] = 0;
-        countdownState[-4] = (s32)(void *)handle_menu_record_check;
+        countdownState[-4] = (s32)(void *)advance_enabled_menu_stream;
     }
     invoke_enabled_menu_callback(countdownState);
 }
@@ -862,7 +862,7 @@ s32 allocate_menu_object_buffers(ovl_1831cd8_81813284_Unk818110CC *object, s32 b
             object->unk6C[0] = display_vector_defaults.unk0;
             object->unk6C[1] = display_vector_defaults.unk4;
             object->unk6C[2] = display_vector_defaults.unk8;
-            texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(object->unk88, object->unk6C, 15);
+            set_menu_part_vectors(object->unk88, object->unk6C, 15);
             success = 1;
         }
     }

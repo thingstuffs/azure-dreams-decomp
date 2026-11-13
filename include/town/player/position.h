@@ -35,8 +35,8 @@ void expand_bounds_to_inset_rectangle(s32 *bounds, s16 *rect);
 /* follow_linked_position_until_timeout.c */
 void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, struct SpriteFrameState *handler_arg);
 
-/* handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile.c */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(ObjectPosition *position);
+/* resolve_collision_axis_order.c */
+void resolve_collision_axis_order(ObjectPosition *position);
 
 /* initialize_actor_position_interaction_action.c */
 void initialize_actor_position_interaction_action(TownObjectRecord *record, ObjectPosition *unused, s32 setup_value);
@@ -52,7 +52,7 @@ s16 query_larger_position_result(ObjectPosition *input);
 /* refresh_object_position_and_initialize.c */
 
 /* select_the_smaller_position_query_result_capped_writes_associated.c */
-s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *position_data, s32 *out_value);
+s16 query_capped_surface_height(void *position_data, s32 *out_value);
 
 /* set_player_handler_and_position_value.c */
 void set_player_handler_and_position_value(TownObjectRecord *object, s32 value_arg, struct SpriteFrameState *handler_param);

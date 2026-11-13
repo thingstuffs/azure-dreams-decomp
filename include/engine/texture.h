@@ -7,7 +7,7 @@
 
 struct ItemMenuPart;
 struct DisplayPositionWords;
-void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(struct ItemMenuPart **entries, struct DisplayPositionWords *value, s32 count);
+void set_menu_part_vectors(struct ItemMenuPart **entries, struct DisplayPositionWords *value, s32 count);
 
 struct S_80047738;
 struct S_800478E8_0;
@@ -22,8 +22,8 @@ struct S_800491F4 *build_reverse_indexed_chain(struct S_800491F4 **node_table, u
 /* clear_marked_slot_entries.c */
 void clear_marked_slot_entries(void);
 
-/* dispatch_and_clear_four_pointer_slots.c */
-void dispatch_and_clear_four_pointer_slots(void);
+/* flush_sprite_resource_slots.c */
+void flush_sprite_resource_slots(void);
 
 /* find_free_sprite_resource_slot.c */
 s32 find_free_sprite_resource_slot(void);
@@ -40,8 +40,8 @@ void mark_sprite_resource_for_purge(s16 lookup_key);
 /* mark_sprite_resources_for_purge.c */
 void mark_sprite_resources_for_purge(void);
 
-/* patch_sprite_packet_texture_and_palette_ids.c */
-void patch_sprite_packet_texture_and_palette_ids(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset);
+/* offset_sprite_part_chains.c */
+void offset_sprite_part_chains(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset);
 
 /* prepare_uncached_sprite_resource.c */
 void *prepare_uncached_sprite_resource(s16 entity_index);
@@ -55,8 +55,8 @@ void queue_sprite_resource_slot_reads(int slot_index, int value);
 /* register_and_upload_sprite_resource.c */
 void *register_and_upload_sprite_resource(s32 object_type, void *object);
 
-/* register_and_upload_three_slot_sprite_resource.c */
-void *register_and_upload_three_slot_sprite_resource(s32 type_id, void *entity);
+/* register_sprite_resource.c */
+void *register_sprite_resource(s32 type_id, void *entity);
 
 /* relocate_sprite_metadata_pointers.c */
 s32 relocate_sprite_metadata_pointers(void *object_addr);
@@ -67,26 +67,26 @@ s32 retain_sprite_resource_in_cache(s16 slot_id);
 /* runtime_no_op_callback.c */
 void *load_and_publish_texture_resource_pair(int resource_id);
 void runtime_no_op_callback(u32 unused_state);
-void advance_effect_state(void);
+void prepare_resource_queue_sprites(void);
 void func_80047E30(void);
 
 /* select_indirect_table_entry.c */
 void select_indirect_table_entry(void *state_data, s16 table_index, s16 entry_index);
 
 /* texture_build_a_byte_two_color_swapped_pattern_blocks_returns_base.c */
-void *texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base(void *cursor, void *pattern_data);
+void *build_panel_rectangle_packets(void *cursor, void *pattern_data);
 
 /* texture_handle_expands_six_bit_values_runs_one_four_bytes_until.c */
-void texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1(u8 *source, u8 *output);
+void expand_six_bit_runs(u8 *source, u8 *output);
 
 /* texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags.c */
 void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(struct S_800489F4_Obj *object, s16 animation_index, s16 frame_index, s32 unused_context);
 
 /* texture_mark_unprocessed_type_node_sequences_set_low_six_bits.c */
-void texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(struct S_80048B8C *entries);
+void stamp_sprite_part_chain_values(struct S_80048B8C *entries);
 
-/* texture_select_a_slot_fallback_initializes_enclosing_returns.c */
-void *texture_select_a_slot_fallback_initializes_enclosing_returns(struct S_800485E0_Obj *obj, s16 slot_index, s16 base_index, s16 entry_index);
+/* init_slot_end_record.c */
+void *init_slot_end_record(struct S_800485E0_Obj *obj, s16 slot_index, s16 base_index, s16 entry_index);
 
 /* texture_set_the_active_entries_matching_id_in_type_table_slots.c */
 void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(struct S_800478E8_0 *owner, void *value, s32 entry_id);

@@ -12,7 +12,7 @@ extern u16 *D_800D1868[];
 void initialize_building_region_resources(void);
 
 /* Functions defined in this translation unit. */
-void clear_halfword_grid_128(s16 *grid);
+void clear_building_grid(s16 *grid);
 void update_active_building_entries(void);
 void clear_and_initialize_building_grid(void *grid);
 

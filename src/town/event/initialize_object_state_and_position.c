@@ -20,7 +20,7 @@ extern u8 D_80100D68[];
 void initialize_object_state_and_position(void **object, IntVector3 *start_position, void *ptr2) {
         s32 *position;
 
-    call_the_handler_selects_nonzero_entry(D_800D0130, (TownObjectRecord *) object, ptr2);
+    dispatch_selected_entry_if_nonzero(D_800D0130, (TownObjectRecord *) object, ptr2);
     *object = update_input_motion_and_action;
     town_orbit_radius = 0;
     town_motion_x_step = 8;

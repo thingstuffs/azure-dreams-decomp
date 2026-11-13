@@ -24,6 +24,6 @@ void initialize_heading_motion(void *owner, void *object, void *motion) {
         *(s32 *)((u8 *)motion + 0x14) = source_z + 0xFFF20000;
     }
     add_motion_deltas_to_position(motion);
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(object, motion);
+    resolve_collider_overlaps(object, motion);
     *(void **)((u8 *)owner + 0x50) = update_falling_motion;
 }

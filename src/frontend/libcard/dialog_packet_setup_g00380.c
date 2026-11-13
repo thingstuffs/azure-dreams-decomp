@@ -51,7 +51,7 @@ void *card_boot_build_paired_dialog_packets(void *buffer, CardMessageDialogBody 
 }
 
 /* Processes the embedded data and then updates the record. */
-void card_boot_initialize_dialog_packets_and_display(CardMessageDialogBody *record) {
+void card_boot_init_dialog_packets(CardMessageDialogBody *record) {
     card_boot_build_paired_dialog_packets(record->window_packets, record);
     card_boot_center_message_dialog_display(record);
 }

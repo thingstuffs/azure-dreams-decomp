@@ -23,7 +23,7 @@ extern u8 D_800D01D8[];
  * installs target_action_update_address with count 0x15.
  */
 void initialize_scene_state_twenty_one(SceneActionReset *object, void *position, void *handler_context) {
-    call_the_handler_selects_nonzero_entry((s32 *) D_800D01D8, (TownObjectRecord *) object, handler_context);
+    dispatch_selected_entry_if_nonzero((s32 *) D_800D01D8, (TownObjectRecord *) object, handler_context);
     object_index_slots[1].unk_00 = 0;
     object_index_slots[1].unk_01 = 0;
     object->unk4 = target_action_update_address;

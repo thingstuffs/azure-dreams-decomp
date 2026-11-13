@@ -24,7 +24,7 @@ u32 apply_target_grid_rectangle(s32 target_x, s32 target_y)
     SVECTOR target_rect;
     s32 coord_offset;
 
-    copy_current_record_components_3(&current_rect);
+    copy_scene_payload_position(&current_rect);
     target_x <<= 6;
     target_y <<= 6;
     current_rect.vz = 0;

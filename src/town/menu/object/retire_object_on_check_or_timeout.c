@@ -1,0 +1,32 @@
+#include "common.h"
+#include "shared/object_node.h"
+#include "engine/node/registration.h"
+#include "shared/object_flags.h"
+#include "town/menu/object.h"
+#include "town/menu.h"
+
+
+
+/* Finalizes and flags the object when its check succeeds or its countdown expires. */
+void retire_object_on_check_or_timeout(BoundsExpiryObject *object, s32 check_value)
+{
+    u8 *linked_flag;
+    u16 ticks_left;
+
+    if (classify_object_against_bounds(object, check_value) != 0) {
+        linked_flag = object->linked_flag;
+        if (linked_flag != 0) {
+            *linked_flag = 0;
+        }
+    } else {
+        ticks_left = object->timer - 1;
+        object->timer = ticks_left;
+        if ((s16)ticks_left > 0) {
+            return;
+        }
+    }
+
+    unlink_node_if_registered(object);
+    NODE_HEADER(object)->flags |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+}

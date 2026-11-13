@@ -175,12 +175,12 @@ s32 is_expected_movie_state(void) {
 }
 
 /* Passes 0x11FA to test_resident_bitmap_bit. */
-s32 test_resident_bit_11fa(void) {
+s32 test_niko_kenkatyu(void) {
     return test_resident_bitmap_bit(Fp_niko_kenkatyu);
 }
 
 /* Calls test_resident_bitmap_bit with 0x11FB. */
-s32 test_resident_bit_11fb(void) {
+s32 test_far_kenkatyu(void) {
     return test_resident_bitmap_bit(Fp_far_kenkatyu);
 }
 
@@ -207,7 +207,7 @@ void *find_unflagged_node_by_key(s32 target_key)
 }
 
 /* Invokes retry_sound_sequence_when_ready for an eligible linked object with code 0xD04, then calls plt_carry_item_del_ext. */
-void retry_sound_for_linked_item_and_remove_carry_item(void) {
+void delete_carry_item_and_retry_sound(void) {
     s8 *state_base;
     ObjectNodeHeader *node;
 

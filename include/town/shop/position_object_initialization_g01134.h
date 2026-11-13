@@ -23,13 +23,13 @@ typedef struct S_800A022C_0 {
     s8 unk_15;
 } S_800A022C_0;
 
-/* arg1 in initialize_the_active_flag_install_handler */
+/* arg1 in start_item_object_motion */
 typedef struct S_800A022C_2 {
     u8 pad_00[0x50];
     s32 * unk_50;
 } S_800A022C_2;
 
-/* arg1 in create_an_position_initializes_graphics_state */
+/* arg1 in create_item_object_at */
 typedef struct S_800A027C_3 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -107,13 +107,13 @@ extern TownRecord shop_record_queue[20];
 extern Rec_D_800CFCB4 town_actor_control;
 
 /* Functions defined in this translation unit. */
-void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render);
-void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, MovingPosition *position);
+void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render);
+void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position);
 void clear_entry_table(void);
-void handle_inserts_first_free_slot_discarding_first_full(TownRecord *record);
-s32 *get_address_global_80100_aa_0(void);
-void handle_shift_entries_left_until_free_entry_limit_clear_tail(void);
-void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_value);
+void enqueue_shop_record(TownRecord *record);
+s32 *get_shop_record_queue(void);
+void dequeue_shop_record(void);
+void spawn_queued_item_object(s32 check_value);
 void process_unlinked_type_four_entries(void);
 
 #endif

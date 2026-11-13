@@ -62,7 +62,7 @@ typedef struct {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern LocalPoints attached_particle_points;
-extern u8 directional_sprite_entries[];
+#include "dungeon/effect/sprite/directional_entries.h"
 extern s16 D_80025338[5];
 extern void func_800246DC(void *effect, void *position);
 

@@ -1329,8 +1329,8 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         {
-            u8 *active_object = (u8 *)primary_actor_record;
-            (*(u16 *)(active_object + 0xA6))--;
+            ActorRecord *active_object = primary_actor_record;
+            (*(u16 *)((u8 *)active_object + 0xA6))--;
         }
         advance_status_timers(object);
         object->pending_turn_updates--;

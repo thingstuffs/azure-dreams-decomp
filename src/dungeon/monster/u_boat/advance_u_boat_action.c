@@ -1,0 +1,150 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "dungeon/monster/u_boat_frames.h"
+#include "shared/object_node.h"
+#include "shared/actor_status_ids.h"
+#include "common.h"
+#include "engine/entity/effect_slots.h"
+#include "dungeon/system/random.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/tile_object.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "shared/entity.h"
+#include "records/Rec_D_80082E80.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+
+extern s32 get_tile_chebyshev_distance(void *, void *);
+#include "dungeon/player/object/action_state.h"
+#include "dungeon/actor/state.h"
+
+
+
+#include "dungeon/monster/u_boat.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+
+/* Advances the entity action through animation, behavior, and callback transitions. */
+void advance_u_boat_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
+    s32 entity_flags;
+    u16 action_value;
+    u16 value_offset;
+    DungeonGlobalStatus *global_base;
+    s32 phase;
+
+    phase = action->action_phase;
+    switch (phase) {
+    case 0:
+        if (!(sprite->flags & 0xE000)) {
+            return;
+        }
+        sprite->frameTable = uboat_action_frames;
+        select_sprite_entry(sprite,
+            uboat_action_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            0);
+        {
+            DungeonGlobalStatus *counter_base = &g_dungeon_status;
+
+            (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)--;
+        }
+        action->action_phase++;
+        return;
+    case 1:
+        global_base = &g_dungeon_status;
+        if (global_base->flags & 0x1000) {
+            return;
+        }
+        if (entity->hp_delta != 0) {
+            if (begin_ready_actor_directional_action(action, context, sprite, 0) != 0) {
+                return;
+            }
+        }
+        if (entity->mp_value.parts.whole == 0) {
+            if (global_base->flags & 0x2008) {
+                return;
+            }
+            advance_actor_pending_action(action, context, sprite, entity);
+            return;
+        }
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
+            return;
+        }
+        entity_flags = entity->flags1C;
+        if (entity_flags & 0x100) {
+            begin_pushed_actor_move(action, context, sprite, entity);
+            return;
+        }
+        if (entity_flags & 0x80000) {
+            begin_actor_move_to_target_facing(action, context, sprite, entity);
+            action_value = action->unk_90.parts.high;
+            value_offset = action->unk_A0.parts.high;
+            action->unk_A0.parts.high = 0;
+            action->unk_9E = 0;
+            action->unk_90.parts.high = action_value - value_offset;
+            update_actor_action_transition(action, context, sprite, entity);
+            return;
+        }
+        if (entity->pending_turn_updates == 0) {
+            return;
+        }
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
+            ActorRecord *owner = primary_actor_record;
+
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = owner->previous_actor_header;
+                previous_body = NODE_BODY(previous_node);
+                previous_actor = previous_body;
+                if ((check_entity_relation(entity,
+                        previous_actor) << 16) != 0) {
+                    return;
+                }
+            }
+        }
+        update_actor_status_and_mp(entity);
+        on_actor_status_updated(entity);
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
+            TileObject *origin = &reference_tile_object;
+            s8 tile = ((s8)(sprite->room_index));
+
+            if (((tile == origin->room_index) && (tile >= 0)) ||
+                ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
+                if (!(generate_random_value() & 7)) {
+                    clear_slots_of_type(entity, STATUS_SLEEP);
+                }
+            }
+        }
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
+            return;
+        }
+        sprite->frameTable = u_boat_motion_frames;
+        select_sprite_entry(sprite,
+            u_boat_motion_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            0);
+        entity->flags1C = (u32)((u32)(entity->flags1C) | (0x40000));
+        if (sprite->flags & 0x8000) {
+            action->unk_8C.address = uboat_behavior_entry;
+            return;
+        }
+        {
+            DungeonGlobalStatus *counter_base = &g_dungeon_status;
+
+            action->action_phase++;
+            (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)++;
+        }
+        return;
+    case 2:
+        if (!(sprite->flags & 0xE000)) {
+            return;
+        }
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
+        action->unk_8C.address = uboat_behavior_entry;
+        return;
+    default:
+        return;
+    }
+}

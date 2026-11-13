@@ -154,7 +154,7 @@
     },
     {
       "row": "town/func_80601B6C",
-      "tu": "src/town/scene/get_remaining_value.c",
+      "tu": "src/town/scene/get_remaining_town_item_capacity.c",
       "home": "town/func_80481244",
       "foff": "0x581B6C",
       "vma": "0x80016B6C",

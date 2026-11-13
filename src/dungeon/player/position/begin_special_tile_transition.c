@@ -39,6 +39,6 @@ void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameSt
     }
     if (tile_type == 4) {
         *(s32 *)0x80012090 = 2;
-        mark_category_items_flag_400(2);
+        mark_category_items(2);
     }
 }

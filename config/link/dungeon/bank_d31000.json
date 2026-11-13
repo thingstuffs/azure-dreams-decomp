@@ -449,7 +449,7 @@
     {
       "row": "dungeon/func_80D15648",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x00D35648",
       "vma": "0x80174E48",
       "size": 56,

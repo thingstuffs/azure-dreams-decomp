@@ -68,8 +68,8 @@ void reset_tagged_entry_states(void);
 /* runtime_save_or_restore_state.c */
 void runtime_save_or_restore_state(void);
 
-/* runtime_test_table_byte_pattern.c */
-s32 runtime_test_table_byte_pattern(s16 entry_id);
+/* test_item_action_pattern.c */
+s32 test_item_action_pattern(s16 entry_id);
 
 /* set_scaled_cell_flags.c */
 void set_scaled_cell_flags_8000(void);

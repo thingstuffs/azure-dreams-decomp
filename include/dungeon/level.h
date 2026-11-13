@@ -24,7 +24,7 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
+s32 place_floor_trap_at_tile(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 
 void process_unflagged_linked_entries(void *firstEntryBase);
 void process_unflagged_linked_entries_alt(void *firstNodeBase);

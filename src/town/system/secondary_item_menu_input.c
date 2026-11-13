@@ -16,7 +16,7 @@ void sort_entries_by_category(S_8004AFE8 **entries);
 #include "town/shop/resource_entry_initialization_g01156.h"
 #include "town/shop/object.h"
 #include "slus.h"
-/* arg0 in handle_item_menu_input_2 */
+/* arg0 in handle_item_move_menu_input */
 
 
 static void sort_selected_record_entries(void *);
@@ -30,7 +30,7 @@ static void sort_selected_record_entries(void *record) {
 }
 
 /* Handles item moves, sorting, page changes, and repeated cursor input, then updates menu transitions. */
-void handle_item_menu_input_2(u8 *menu) {
+void handle_item_move_menu_input(u8 *menu) {
     GameWork *pad_state = &g_game_work;
     s32 held_buttons = pad_state->buttons;
     s32 pressed_buttons;
@@ -43,7 +43,7 @@ void handle_item_menu_input_2(u8 *menu) {
         pressed_buttons = (pad_state->pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            set_object_data_pointer_if_present(menu - 0x20);
+            set_apply_record_values_callback_if_present(menu - 0x20);
         } else if (pressed_buttons & 0x40) {
             select_result = move_item_to_list(menu);
             if (select_result == 0) {
@@ -59,9 +59,9 @@ void handle_item_menu_input_2(u8 *menu) {
             sort_selected_record_entries(menu);
             decrement_entry_and_notify_handlers(menu);
         } else if (pressed_buttons & 4) {
-            store_table_index_and_entry_bytes(menu, 0);
+            store_shop_display_preset(menu, 0);
         } else if (pressed_buttons & 1) {
-            store_table_index_and_entry_bytes(menu, 1);
+            store_shop_display_preset(menu, 1);
         } else if ((held_buttons & 0xF000) != 0) {
             if (pressed_buttons & 0xF000) {
                 ((ItemMenuInputObject *)menu)->input_repeat_ticks = 0;

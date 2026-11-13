@@ -8,7 +8,7 @@
 s32 check_position_thresholds(void) {
     s16 result[4];
 
-    copy_current_record_components_3(result);
+    copy_scene_payload_position(result);
     if (result[0] < 0xF45) {
         if (result[1] < 0x1127) {
             return 1;

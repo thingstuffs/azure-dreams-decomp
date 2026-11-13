@@ -111,7 +111,7 @@ void * open_twin_souko(s32 option) {
     if (task == 0 ||
         (initialize_record_table_and_group(state),
          acquire_resource_and_initialize_state(state) != 0 &&
-         (store_table_index_and_entry_bytes(state, 0),
+         (store_shop_display_preset(state, 0),
           resource_08 = create_storage_item_menu(task),
           state->destination_menu = resource_08,
           resource_08 != 0) &&
@@ -125,7 +125,7 @@ void * open_twin_souko(s32 option) {
             came_bright_set(5);
             obj_disp23_cancel_sw_set(1);
             state->option = option;
-            NODE_HEADER(state)->update_callback = &handle_item_menu_input_2;
+            NODE_HEADER(state)->update_callback = &handle_item_move_menu_input;
         }
         return task;
     }

@@ -11,7 +11,7 @@
  * match for town_position_callback_address. Clears town_overlap_origin when neither key list
  * matches.
  */
-void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(TownPlayerRecord *entry, ObjectPosition *forwarded_a, void *forwarded_b)
+void dispatch_fallback_position(TownPlayerRecord *entry, ObjectPosition *forwarded_a, void *forwarded_b)
 {
     void **key_cursor;
     void **match_cursor;
@@ -27,24 +27,24 @@ void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(T
                     if (*match_cursor != 0) {
                         do {
                             if (entry->unk_04 == *match_cursor++) {
-                                compute_the_based_position_offset_publishes_resulting_vector(entry, forwarded_a, forwarded_b);
+                                compute_fallback_position_offset(entry, forwarded_a, forwarded_b);
                                 return;
                             }
                         } while (*match_cursor != 0);
                     }
                 } else {
-                    compute_the_based_position_offset_publishes_resulting_vector(entry, forwarded_a, forwarded_b);
+                    compute_fallback_position_offset(entry, forwarded_a, forwarded_b);
                     return;
                 }
             }
             key_cursor++;
         } while (*key_cursor != 0);
     }
-    clear_global_80100_d_20();
+    clear_town_overlap_origin();
 }
 
 /* Clears town_overlap_origin. */
-void clear_global_80100_d_20(void) {
+void clear_town_overlap_origin(void) {
     town_overlap_origin = 0;
 }
 
@@ -53,7 +53,7 @@ void clear_global_80100_d_20(void) {
  * plus the supplied vector, publishing computed_position through town_overlap_origin. Clears the
  * published pointer when no record is found.
  */
-void compute_the_based_position_offset_publishes_resulting_vector(TownPlayerRecord *object_arg, ObjectPosition *offset, void *resources) {
+void compute_fallback_position_offset(TownPlayerRecord *object_arg, ObjectPosition *offset, void *resources) {
     TownPlayerRecord *object = object_arg;
 
     Record *record;
@@ -63,7 +63,7 @@ void compute_the_based_position_offset_publishes_resulting_vector(TownPlayerReco
     s32 height;
 
     record = find_flagged_record_by_id(
-        call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(resources, *(u8 **)((u8 *)object + 0x1C), 4), 0);
+        lookup_entry_by_byte_index(resources, *(u8 **)((u8 *)object + 0x1C), 4), 0);
     if (record != 0) {
         angle = ((u16)object->unk_10 - 0xC00) & 0xFFF;
         x = (record->scale * rcos(angle)) << 5;
@@ -79,13 +79,13 @@ void compute_the_based_position_offset_publishes_resulting_vector(TownPlayerReco
     town_overlap_origin = 0;
 }
 
-/* Passes an indexed byte and the object's signed field to get_second_word_indexed_entry_in_s_nested_table. */
-void *call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(SpriteFrameState *object, u8 *values, s32 index) {
-    return get_second_word_indexed_entry_in_s_nested_table(object, values[index], object->unk_04, 0);
+/* Passes an indexed byte and the object's signed field to get_nested_table_entry_data. */
+void *lookup_entry_by_byte_index(SpriteFrameState *object, u8 *values, s32 index) {
+    return get_nested_table_entry_data(object, values[index], object->unk_04, 0);
 }
 
 /* Return the second word of an indexed entry in the record's nested table. */
-void *get_second_word_indexed_entry_in_s_nested_table(void *record, s32 row_index, s32 entry_index, s32 unused) {
+void *get_nested_table_entry_data(void *record, s32 row_index, s32 entry_index, s32 unused) {
     typedef struct {
         s32 unk_00;
         void *data;

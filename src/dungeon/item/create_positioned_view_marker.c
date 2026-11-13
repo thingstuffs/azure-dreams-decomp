@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/effect/sprite/ribbon_entries.h"
 #include "sdk/abs.h"
 #include "sdk/rand.h"
 /* Dungeon tile actions, map boundary updates, actor transitions, and linked particle effects. */
@@ -24,8 +25,6 @@ void update_sprite_from_third_argument(ObjectNodeHeader *unused_first, ObjectPos
 #include "shared/game_work.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 ribbon_sprite_entries[];
-
 /* Creates and initializes an object at the given coordinates with adjusted height. */
 void create_positioned_view_marker(s16 x, s16 y) {
     SpriteFrameState *render_state;
@@ -1218,15 +1217,6 @@ typedef struct S_807B040C_1 {
     u8 unk_B8;
 } S_807B040C_1;   /* entity in update_special_actor_transition */
 
-typedef struct S_807B040C_6 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    s16 unk_88;
-} S_807B040C_6;   /* entity_aux in update_special_actor_transition */
-
 typedef struct S_807B040C_7 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -1250,7 +1240,7 @@ s32 update_special_actor_transition(void) {
     s32 entity_flags;
     s32 state = entity->action_phase;
     SpriteFrameState *target = root->sprite;
-    S_807B040C_6 *entity_aux = (S_807B040C_6 *)entity;
+    ActorRecord *entity_aux = entity;
     s32 direction;
     s32 dx;
     s32 dy;
@@ -1351,7 +1341,7 @@ s32 update_special_actor_transition(void) {
             }
             ((S_807B040C_1 *)entity)->unk_96 = move_ticks;
 
-            entity_flags = entity_aux->unk_1C;
+            entity_flags = entity_aux->flags1C;
             tile_x = target->tile_x;
             tile_y = target->tile_y;
             tile_flags = 0x3000;
@@ -1382,10 +1372,10 @@ s32 update_special_actor_transition(void) {
         motion[4] = ((((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) << 16) -
                      motion[1]) /
                     ((S_807B040C_1 *)entity)->unk_96;
-        motion[5] = (((s16)ground_height - entity_aux->unk_88) << 16) /
+        motion[5] = (((s16)ground_height - entity_aux->ground_height) << 16) /
                     ((S_807B040C_1 *)entity)->unk_96;
-        entity_aux->unk_88 =
-            (u16)entity_aux->unk_88 + ((S_807B040C_7 *)motion)->unk_16;
+        entity_aux->ground_height =
+            (u16)entity_aux->ground_height + ((S_807B040C_7 *)motion)->unk_16;
 
         dx = motion[3];
         motion[5] = 0;
@@ -1412,7 +1402,7 @@ s32 update_special_actor_transition(void) {
                 }
             }
         }
-        entity_aux->unk_2A = direction << 9;
+        entity_aux->facing = direction << 9;
         (*(u16 *)&((S_807B040C_1 *)entity)->unk_96)--;
         if ((s16)((u16)((S_807B040C_1 *)entity)->unk_96) > 0) {
             return 0;

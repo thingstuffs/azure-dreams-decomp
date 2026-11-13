@@ -22,23 +22,23 @@ void update_threshold_object(void *context, ObjectPosition *object, void *update
     s16 threshold;
     s32 *threshold_data;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
-    store_the_valid_shared_angle_in_offset_hex_10(context);
-    handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
+    resolve_collision_axis_order(object);
+    store_input_angle(context);
+    accelerate_toward_input_keep_speed(object);
     threshold_data = &position_query_scratch;
-    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, threshold_data);
+    threshold = query_capped_surface_height(object, threshold_data);
 
     if (object->z.w.i >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town(object, threshold, threshold_data);
+        set_height_and_slope_velocity(object, threshold, threshold_data);
         initialize_scene_action_record(context, object, update_data);
         return;
     }
 
     if (town_action_state_flag != 0) {
         object->velocity_z = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
+        copy_z_to_collision_motion(object);
         initialize_scene_action_record(context, object, update_data);
     } else {
-        add_hex_20000_s_signed_offset_hex_14(object);
+        add_vertical_gravity(object);
     }
 }

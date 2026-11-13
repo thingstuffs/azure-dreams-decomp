@@ -1389,7 +1389,7 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
 }
 
 /* Sets flag 0x400 and bitmap bits for items without flag 0x200 in selected item categories. */
-void mark_category_items_flag_400(s32 group_bit) {
+void mark_category_items(s32 group_bit) {
     DungeonGroup *group;
     s32 item_index;
     s32 item_offset;
@@ -1433,7 +1433,7 @@ void mark_category_items_flag_400(s32 group_bit) {
 }
 
 /* Updates the selected item through item_clear_recorded_category_pair and clears its flag 0x400 in the item category table. */
-void clear_selected_item_flag_400(void *selection)
+void unmark_selected_item(void *selection)
 {
     u8 *key = selection;
 

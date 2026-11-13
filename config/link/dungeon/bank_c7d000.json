@@ -305,7 +305,7 @@
     },
     {
       "row": "dungeon/func_80C607F4",
-      "tu": "src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c",
+      "tu": "src/dungeon/monster/unicorn/update_tinted_sprite_effect.c",
       "home": "dungeon/func_80C427F4",
       "foff": "0xC807F4",
       "vma": "0x80155FF4",
@@ -314,7 +314,7 @@
     {
       "row": "dungeon/func_80C6086C",
       "home": "dungeon/func_80C4286C",
-      "tu": "src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c",
+      "tu": "src/dungeon/monster/unicorn/update_tinted_sprite_effect.c",
       "foff": 13109356,
       "vma": 2148884588,
       "size": 308
@@ -322,7 +322,7 @@
     {
       "row": "dungeon/func_80C609A0",
       "home": "dungeon/func_80C429A0",
-      "tu": "src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c",
+      "tu": "src/dungeon/monster/unicorn/update_tinted_sprite_effect.c",
       "foff": 13109664,
       "vma": 2148884896,
       "size": 468
@@ -330,7 +330,7 @@
     {
       "row": "dungeon/func_80C60B74",
       "home": "dungeon/func_80C42B74",
-      "tu": "src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c",
+      "tu": "src/dungeon/monster/unicorn/update_tinted_sprite_effect.c",
       "foff": 13110132,
       "vma": 2148885364,
       "size": 440

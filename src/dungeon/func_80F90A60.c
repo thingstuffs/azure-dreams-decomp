@@ -37,7 +37,7 @@ extern const ParameterRecord5 D_8016A874;
 extern u8 D_8016E688[];
 
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
-void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input) {
+void update_actor_timed_visual(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input) {
     ObjectPosition *motion = motion_input;
     GteOffset spawn_offset;
     Record10 effect_values_1c = D_8016A868.values;

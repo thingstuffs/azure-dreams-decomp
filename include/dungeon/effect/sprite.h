@@ -150,13 +150,13 @@ struct S_800244BC_2;
 s32 ground_items_lack_special_pair(void);
 void update_effect_countdown(AnchoredDirectionalObjectBody *object, MovingPosition *output, void *update_arg);
 void advance_target_chasing_emitter(void *object, struct S_800244BC_2 *position, SpriteFrameState *context);
-void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value, void *source, s32 unused, s32 context);
+void *create_object_ring_effect(s32 value, void *source, s32 unused, s32 context);
 struct POLY_FT4;
 void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, SpriteFrameState *render_state_addr, u8 *placement, struct POLY_FT4 *packet_buf);
 void process_effect_block_entries(void *block);
 struct Inner;
-void process_effect_record(OwnerPositionedSpriteBody *body, struct Inner *fields_target, struct Inner *field_c_target);
-void add_hex_200_s_field_64_runs_callbacks_mode_n_2_check_returns_zero(ActorRecord *object, s32 unused, ActorRecord *record);
+void update_owner_positioned_sprite(OwnerPositionedSpriteBody *body, struct Inner *fields_target, struct Inner *field_c_target);
+void add_hp_delta_and_show_popup(ActorRecord *object, s32 unused, ActorRecord *record);
 
 
 
@@ -181,10 +181,10 @@ struct EffectColor;
 struct S_func_81886800_1;
 struct S_func_81886800_11;
 struct S_func_81886800_3;
-void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(ActorRecord *target, s32 value, void *record);
-void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
-void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
-void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, ObjectPosition *unused, struct EffectColor *color);
+void apply_timed_status_to_target(ActorRecord *target, s32 value, void *record);
+void create_falling_fading_sprite(s16 x, s16 y, s16 z);
+void create_quad_fragment_effects(void);
+void update_mesh_fade_color(void *effect, ObjectPosition *unused, struct EffectColor *color);
 struct AttackSequenceController;
 void run_jittered_point_sequence(struct AttackSequenceController *sequence, void *out_position);
 void run_radial_sprite_sequence(struct S_func_81886800_1 *effect, struct S_func_81886800_11 *motion, struct S_func_81886800_3 *sprite);
@@ -194,7 +194,7 @@ void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, Obje
 struct IntermediatePointEffectBody;
 void update_randomized_intermediate_points(struct IntermediatePointEffectBody *self);
 
-s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line);
+s32 queue_shaded_line_chain(void *first_owner, void *first_vertices, void *first_line);
 
 struct Row_818A4E74_S_func_818A4E74_1;
 s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data);

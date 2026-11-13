@@ -52,7 +52,7 @@ extern s32 town_timed_state_address;
 extern s32 scene_fallback_request_address;
 extern s32 town_input_motion_address;
 
-extern void call_the_same_context_both_processing_routines(void *, void *);
+extern void apply_bound_adjustments(void *, void *);
 extern s32 check_object_type_and_data_tag(void *);
 extern void retry_sound_sequence_when_ready(void);
 
@@ -70,9 +70,9 @@ void track_player_and_dispatch_handler(Rec_D_80082D58 *context, S_7FFFE25C_1 *ow
     adjusted_pos->y.v = view_reference_entity.y.v;
     adjusted_pos->z.v = view_reference_entity.z.v + offset[2];
 
-    get_smaller_query_result_capped_hex_80_writes_associated_output(adjusted_pos, (&position_query_scratch));
-    call_the_same_context_both_processing_routines(owner, adjusted_pos);
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(owner, adjusted_pos);
+    get_min_surface_probe_capped(adjusted_pos, (&position_query_scratch));
+    apply_bound_adjustments(owner, adjusted_pos);
+    resolve_collider_overlaps(owner, adjusted_pos);
 
     target_z = view_reference_entity.z.v + offset[2];
     if (target_z - adjusted_pos->z.v >= 0x10) {

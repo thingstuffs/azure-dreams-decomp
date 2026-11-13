@@ -64,7 +64,7 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
         } while (remaining > 0);
     }
 
-    runtime_set_list_pointers_from_type_offsets(stream_start, entry_id);
+    relocate_resource_type_lists(stream_start, entry_id);
     if (runtime_dispatch_state.mode != 2) {
         gpu_scratch_ring_size = 0x8000;
     } else {

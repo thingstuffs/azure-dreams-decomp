@@ -25,7 +25,7 @@ typedef struct S_80048B8C {
  * Walks type-two entry sequences, marks unprocessed roots with flag 8, and replaces each node
  * value low six bits with 14 through the node carrying terminator flag 0x80.
  */
-void texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(S_80048B8C *entries) {
+void stamp_sprite_part_chain_values(S_80048B8C *entries) {
     u8 *entry_pos;
     S_80048B8C_node *node;
     S_80048B8C_entry *entry;

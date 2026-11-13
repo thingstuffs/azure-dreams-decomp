@@ -81,9 +81,9 @@ void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, S_8009B9BC_1 *o
     resolved_pos->y.v = view_reference_entity.y.v;
     resolved_pos->z.v = view_reference_entity.z.v + offset[2];
 
-    get_smaller_query_result_capped_hex_80_writes_associated_output(resolved_pos, ((u8 *)&position_query_scratch));
-    call_the_same_context_both_processing_routines(owner, resolved_pos);
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(owner, resolved_pos);
+    get_min_surface_probe_capped(resolved_pos, ((u8 *)&position_query_scratch));
+    apply_bound_adjustments(owner, resolved_pos);
+    resolve_collider_overlaps(owner, resolved_pos);
 
     target_z = view_reference_entity.z.v + offset[2];
     if (target_z - resolved_pos->z.v >= 0x10) {

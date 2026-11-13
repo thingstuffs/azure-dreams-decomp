@@ -3,6 +3,6 @@
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct TownObjectRecord;
-void advance_object_after_timeout_variant_2(struct TownObjectRecord *object, int unused, void *update_context);
+void turn_object_after_timeout(struct TownObjectRecord *object, int unused, void *update_context);
 
 #endif

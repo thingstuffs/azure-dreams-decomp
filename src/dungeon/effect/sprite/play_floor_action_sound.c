@@ -1,0 +1,12 @@
+#include "engine/audio.h"
+#include "common.h"
+#include "dungeon/system.h"
+#include "dungeon/effect/sprite.h"
+
+/* cfail-repair: tf7-phase1-cache-v3 */
+
+/* Selects buffered entry 0x2A in mode 1, then dispatches request 0x200. */
+void play_floor_action_sound(void) {
+    select_sound_stream(0x2A, 1);
+    play_sound_if_enabled(0x200);
+}

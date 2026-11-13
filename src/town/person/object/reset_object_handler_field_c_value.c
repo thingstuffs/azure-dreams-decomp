@@ -8,7 +8,7 @@
 #include "town/system.h"
 
 
-void reset_object_handler_field_6c_value_15(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
+void restart_person_countdown_update(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
     PersonDescriptor *descriptor;
 
     descriptor = object->descriptor;

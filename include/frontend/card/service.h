@@ -4,8 +4,8 @@
 
 #include "common.h"
 
-/* advance_processing_selected_slot_sets_completion_flag.c */
-s32 advance_processing_selected_slot_sets_completion_flag(void);
+/* poll_selected_card_slot.c */
+s32 poll_selected_card_slot(void);
 
 /* count_dev_card_entries_matching_search_path.c */
 s32 count_dev_card_entries_matching_search_path(void);

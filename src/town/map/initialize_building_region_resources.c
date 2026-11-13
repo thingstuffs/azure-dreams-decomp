@@ -3,7 +3,7 @@
 #include "town/map.h"
 #include "town/menu.h"
 
-extern void **scale_coordinates_and_append_pointers();
+extern void **append_scaled_rect_to_script_list();
 extern u8 town_building_records[];
 extern u8 town_building_slot_rectangles[];
 extern u8 D_800D43F0[];
@@ -35,7 +35,7 @@ void initialize_building_region_resources(void) {
     S_800B8248_1 *region;
 
     initialize_shared_script_data();
-    scale_coordinates_and_append_pointers(0x3FU, 0U, 0x10U, 0x10U, D_800D43F0);
+    append_scaled_rect_to_script_list(0x3FU, 0U, 0x10U, 0x10U, D_800D43F0);
     slot_counter = 0;
     state_base = (void *)0x80010000;
     resources = town_building_records;
@@ -51,7 +51,7 @@ void initialize_building_region_resources(void) {
             region_width = region->unk_02;
             region_height = region->unk_03;
             resource_index = slot->unk_33A4;
-            scale_coordinates_and_append_pointers(region_x, region_y, region_width, region_height,
+            append_scaled_rect_to_script_list(region_x, region_y, region_width, region_height,
                           (resource_index << 5) + (town_building_records + 0xC));
         }
         slot_counter += 1;

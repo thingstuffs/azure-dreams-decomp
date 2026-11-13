@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80921250",
-      "tu": "src/town/map/object/allocate_object_with_data_pointer.c",
+      "tu": "src/town/map/object/create_idle_map_object.c",
       "home": "town/func_800BB95C",
       "foff": "0x941250",
       "vma": "0x800f6250",

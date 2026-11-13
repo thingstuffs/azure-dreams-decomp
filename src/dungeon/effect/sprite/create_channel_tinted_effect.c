@@ -30,8 +30,7 @@ typedef struct S_818BD1C4_1 {
 
 
 void func_800248C0(void *state, s32 unused, Rec_D_80082E80 *primitive);
-#include "shared/sprite_source.h"
-extern SpriteSourceEntry flash_sprite_entries[];
+#include "dungeon/effect/sprite/flash_entries.h"
 
 /* Creates a colored object, copies its transform, and applies a vertical offset. */
 s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index, s32 y_offset) {

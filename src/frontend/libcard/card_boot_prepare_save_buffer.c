@@ -22,7 +22,7 @@ void card_boot_prepare_save_buffer(UA32 *buffer, s32 config, s32 mode) {
     *(s16 *)(state_base + 0x208) = is_mode_two;
     *(s16 *)(state_base + 0x20A) = is_mode_two;
     *(s32 *)(state_base + 0x224) = *(u32 *)(state_base + 0x2D5C);
-    *(s32 *)(state_base + 0x230) = card_boot_build_eight_entry_presence_mask();
+    *(s32 *)(state_base + 0x230) = card_boot_build_resident_bit_mask();
     *(s32 *)(state_base + 0x228) = card_boot_sum_slot_lookup_values();
     card_boot_build_save_description(buffer, config);
     card_boot_store_save_icon_clut_and_frames(buffer, config);

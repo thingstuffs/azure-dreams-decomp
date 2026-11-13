@@ -7,10 +7,10 @@
 #include "engine/node.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/effect/shade.h"
+#include "slus/random_variant_sprite_entries.h"
 
 
 extern u8 D_80025098[9];
-extern u8 random_variant_sprite_entries[9];
 
 typedef struct S_818C3A3C_0 {
     u8 pad_00[0x8];

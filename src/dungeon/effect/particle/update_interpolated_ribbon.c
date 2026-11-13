@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "dungeon/effect/particle.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -54,7 +55,6 @@ typedef struct S_func_81331914_4 {
     u8 unk_0E;
 } S_func_81331914_4;
 
-extern u8 ribbon_sprite_entries[];
 extern u8 D_80166914[];
 
 extern s16 ribbon_vertices[][8][2][3];

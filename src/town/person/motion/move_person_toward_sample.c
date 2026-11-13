@@ -23,7 +23,7 @@ void move_person_toward_sample(Rec_func_800AB014_arg0 *object, Rec_func_800AAE98
     s16 total_offset;
     u16 target_z;
 
-    load_record_halfwords_3(target_entries, 4);
+    load_position_history_entry(target_entries, 4);
     offset = get_person_lookup_step(position);
     object_arg = object;
     total_offset = offset;

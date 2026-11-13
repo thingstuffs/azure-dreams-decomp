@@ -109,8 +109,8 @@ void selection_sort_elements(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, 
 /* shuffle_category_item_data.c */
 void shuffle_category_item_data(s32 category);
 
-/* shuffle_enabled_item_category_pointers.c */
-void shuffle_enabled_item_category_pointers(void);
+/* shuffle_enabled_item_categories.c */
+void shuffle_enabled_item_categories(void);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/dungeon_item_entries.h"

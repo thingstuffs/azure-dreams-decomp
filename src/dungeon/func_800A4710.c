@@ -9,7 +9,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "engine/texture.h"
 
-extern s32 uses_direct_actor_sprite_frames(void *record);
+extern s32 has_direct_actor_sprite_frames(void *record);
 #include "dungeon/player/object/action_state.h"
 extern void select_record_entry_and_value(void *state, s32 entries, s8 index);
 
@@ -37,7 +37,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
     if (entity->flags14 & 0x100000) {
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         if (anim->unk_94 != direction) {
-            if (uses_direct_actor_sprite_frames(entity) != 0) {
+            if (has_direct_actor_sprite_frames(entity) != 0) {
                 select_record_entry_and_value(sprite, sprite->unk_2C.p[direction],
                               sprite->unk_04);
                 anim->unk_94 = direction;
@@ -71,7 +71,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
     if (!(sprite->unk_14 & 0x8000)) {
         if (anim->unk_98 & 0x400) {
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
-            if (uses_direct_actor_sprite_frames(entity) != 0) {
+            if (has_direct_actor_sprite_frames(entity) != 0) {
                 select_record_entry_and_value(sprite, sprite->unk_2C.p[direction],
                               sprite->unk_04);
             } else {

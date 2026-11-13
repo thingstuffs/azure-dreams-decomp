@@ -18,7 +18,7 @@ void choose_message_wait_handler(S_80038288_0 *context) {
         if (play_message_confirmation_sound(*context->unk_1C) != 0) {
             next_handler = &finish_message_when_idle;
         } else {
-            next_handler = &consume_message_byte_and_start_countdown;
+            next_handler = &start_message_countdown;
         }
         context->unk_10 = next_handler;
     }

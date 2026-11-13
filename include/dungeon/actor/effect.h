@@ -52,9 +52,9 @@ s32 update_actor_fade_in(struct StructArg0 *object, s32 unused, struct StructArg
 void run_actor_fade_in(void *owner, s32 context, void *effect);
 
 /* Callback entry points. */
-void advance_effect_positions_and_fade(void *effect, void *positions, SpriteFrameState *color);
+void advance_effect_positions_and_fade(void *effect, ObjectPosition *positions, SpriteFrameState *color);
 
-void clear_selected_item_flag_400(void *selection);
+void unmark_selected_item(void *selection);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 
@@ -64,7 +64,7 @@ s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 
 s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
 
-void mark_category_items_flag_400(s32 group_bit);
+void mark_category_items(s32 group_bit);
 
 struct ObjectNodeHeader;
 struct State;
@@ -72,9 +72,9 @@ void *create_source_linked_fading_effect(struct ObjectNodeHeader *source, s16 co
 s32 get_item_category_value(void *item_data);
 void pack_item_flag_400_bitmap(u16 unused_saved_setting);
 s32 roll_chance_and_apply_effect_four(struct State *state, s16 value, s16 flag);
-s32 roll_threshold_effect_variant_a(struct State *state_ptr, s16 limit_input, s16 byte_input);
-s32 roll_threshold_effect_variant_b(struct State *state_ptr, s16 limit_input, s16 byte_input);
-s32 try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
+s32 roll_poison_effect(struct State *state_ptr, s16 limit_input, s16 byte_input);
+s32 roll_blind_effect(struct State *state_ptr, s16 limit_input, s16 byte_input);
+s32 try_apply_blind_effect(void *entity, s16 chance, s16 effect_value);
 
 void compact_item_entry_table(s32 entry_index);
 

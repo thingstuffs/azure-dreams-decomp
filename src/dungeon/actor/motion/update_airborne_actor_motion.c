@@ -138,7 +138,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         process_unflagged_linked_entries(actor->next_actor_header);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
-        ((S_800974DC_0 *)body)->unk_8C = &handle_actor_commands_and_facing;
+        ((S_800974DC_0 *)body)->unk_8C = &update_actor_commands_and_facing;
         g_dungeon_status.active_actor = 0;
         body->action_timer = 0U;
         return;

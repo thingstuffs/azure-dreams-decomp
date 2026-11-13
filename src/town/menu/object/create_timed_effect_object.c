@@ -22,7 +22,7 @@ void create_timed_effect_object(s32 ownerDataAddress, ObjectPosition *position, 
     ObjectNodeHeader *createdObject;
     SpriteFrameState *objectData;
 
-    createdObject = create_town_effect_object(ownerDataAddress - 0x20, (struct IntVector3 *)(position), (s32)(&finalize_object_after_check_or_expiry), 0);
+    createdObject = create_town_effect_object(ownerDataAddress - 0x20, (struct IntVector3 *)(position), (s32)(&retire_object_on_check_or_timeout), 0);
     objectState = NODE_BODY(createdObject);
     if (createdObject != NULL) {
         objectData = createdObject->sprite;

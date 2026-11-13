@@ -6,6 +6,6 @@ struct ObjectPosition;
 
 struct EntityRec;
 
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(struct ObjectPosition *);
+void apply_velocity_friction(struct ObjectPosition *);
 
 #endif

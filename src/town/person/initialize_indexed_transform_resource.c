@@ -9,7 +9,7 @@ extern s32 D_800C283C[];
 void initialize_indexed_transform_resource(void *object, s32 setup_value, SpriteFrameState *unused) {
     u8 *obj = object;
 
-    initialize_the_store_two_values_set_state_flags(object, setup_value, person_transform_defaults[obj[0x94]]);
+    init_secondary_list_record(object, setup_value, person_transform_defaults[obj[0x94]]);
     obj[0x14] = 1;
     *(void **)(obj + 0x50) = D_800C283C;
 }

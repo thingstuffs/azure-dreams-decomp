@@ -10,7 +10,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 
-void (*const dungeon_ovl_18d0850_entry)(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info) = update_movement_toward_child_terrain_target_animates_associated_effects;
+void (*const dungeon_ovl_18d0850_entry)(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info) = update_radial_effect_toward_target;
 
 /* Adds a random actor value delta with an optional quarter bonus, clamps it, displays a popup, and
    applies it. */
@@ -71,7 +71,7 @@ void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void 
 }
 
 /* Creates a gray sprite at the supplied coordinates and links its update counter to the owner. */
-ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
+ovl_18d0850_818B09F8_MainObj *create_owner_counter_sprite_effect(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
     ovl_18d0850_818B09F8_MainObj *obj = allocate_flagged_object_node(530);
     SpriteFrameState *sub;
     ObjectPosition *vec;
@@ -182,7 +182,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin_arg, s16 motion, 
 }
 
 /* Projects 16 shaded line segments from scaled points and queues each visible segment with its draw mode. */
-s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0, void *origin, SpriteFrameState *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
+s32 queue_shaded_line_segments(void *unused_0, void *origin, SpriteFrameState *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
   u8 *globals_page = resident_globals_page;
   s32 segment = 15;
@@ -303,7 +303,7 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
 }
 
 /* Builds a circle lookup table and draws up to eight shaded rings at the saved height offsets. */
-s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ObjectPosition *height_ref, void *context) {
+s32 queue_height_offset_rings(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ObjectPosition *height_ref, void *context) {
     s32 trig_table[34];
     s32 *trig_buffer;
     s32 *trig_cursor;
@@ -349,7 +349,7 @@ s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18
             segment_source = source;
             height = ((ovl_18d0850_818B11B4_S_818B11B4_1 *)height_cursor)->unk_1A;
             scaled_segment = segment_index << 0x11;
-            draw_n_16_shaded_line_segments_link_them_ordering_table_depth(segment_source, height_ref, context, angle,
+            queue_shaded_line_segments(segment_source, height_ref, context, angle,
                          (u32)(s16)(height_ref->z.unsigned_parts.integer - height),
                          trig_buffer, 0xFF, scaled_segment >> 0x10);
             height_cursor = (u8 *)height_cursor + 2;
@@ -361,7 +361,7 @@ s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18
 
 /* Builds a circle lookup table and draws eight shaded rings with phase-dependent radii and saved
    height offsets. */
-s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ObjectPosition *target, SpriteFrameState *context) {
+s32 queue_phase_shifted_rings(ovl_18d0850_818B1334_S_818B1334_1 *source, ObjectPosition *target, SpriteFrameState *context) {
     s32 circle_values[34];
     s32 *circle_entry;
     register s32 *circle_table;
@@ -397,7 +397,7 @@ s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850
         source_arg = source;
         angle_offset = ((ovl_18d0850_818B1334_S_818B1334_2 *)offset_cursor)->unk_1A;
         entry_angle = entry_index << 0x11;
-        draw_n_16_shaded_line_segments_link_them_ordering_table_depth(source_arg, target, context, radius, (s32) (s16) (target->z.unsigned_parts.integer - angle_offset), circle_table, 0xFF, entry_angle >> 0x10);
+        queue_shaded_line_segments(source_arg, target, context, radius, (s32) (s16) (target->z.unsigned_parts.integer - angle_offset), circle_table, 0xFF, entry_angle >> 0x10);
         offset_cursor += 2;
         entry_index += 1;
     } while (entry_index < 8);
@@ -443,7 +443,7 @@ s32 draw_remaining_shaded_rings(ovl_18d0850_818B1484_S_818B1484_1 *effect, Objec
             effect_arg = effect;
             entry_offset = ((ovl_18d0850_818B1484_S_818B1484_2 *)entry_ptr)->unk_1A;
             entry_arg = entry_index << 0x11;
-            draw_n_16_shaded_line_segments_link_them_ordering_table_depth(effect_arg, target, context, entry_scale,
+            queue_shaded_line_segments(effect_arg, target, context, entry_scale,
                          (s32) (s16) (target->z.unsigned_parts.integer - entry_offset),
                          table_ptr, 0xFF, entry_arg >> 0x10);
             entry_ptr += 2;
@@ -468,10 +468,10 @@ s32 dispatch_effect_state_handler(void *state_ptr, ObjectPosition *second_ptr, S
     default:
         break;
     case 4:
-        build_a_trigonometric_table_processes_up_eight_height_offset_segments(state_ptr, second_ptr, third_ptr);
+        queue_height_offset_rings(state_ptr, second_ptr, third_ptr);
         break;
     case 5:
-        build_a_circular_lookup_table_submit_eight_phase_shifted_entries(state_ptr, second_ptr, third_ptr);
+        queue_phase_shifted_rings(state_ptr, second_ptr, third_ptr);
         break;
     case 6:
         draw_remaining_shaded_rings(state_ptr, second_ptr, third_ptr);
@@ -481,7 +481,7 @@ s32 dispatch_effect_state_handler(void *state_ptr, ObjectPosition *second_ptr, S
 }
 
 /* Moves toward an actor or terrain target, brightens and fades linked radial effects, then removes them. */
-void update_movement_toward_child_terrain_target_animates_associated_effects(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info)
+void update_radial_effect_toward_target(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info)
 {
     ovl_18d0850_818B1664_WorkFrame work;
     u16 saved_y;
@@ -738,7 +738,7 @@ loop_0:
         motion_arg->x.half.hi += motion_arg->dx.half.hi;
         motion_arg->y.half.hi += motion_arg->dy.half.hi;
         motion_arg->z.half.hi += motion_arg->dz.half.hi;
-        create_an_initialized_render_state_copy_vector(state_arg, motion_arg);
+        create_owner_counter_sprite_effect(state_arg, motion_arg);
         if (state_arg->timer < state_arg->duration) {
             break;
         }
@@ -885,7 +885,7 @@ create_loop:
         motion_arg->x.half.hi += motion_arg->dx.half.hi;
         motion_arg->y.half.hi += motion_arg->dy.half.hi;
         motion_arg->z.half.hi += motion_arg->dz.half.hi;
-        create_an_initialized_render_state_copy_vector(state_arg, motion_arg);
+        create_owner_counter_sprite_effect(state_arg, motion_arg);
         if (state_arg->timer < state_arg->duration) {
             break;
         }

@@ -8,9 +8,9 @@ extern S_8004F068_word object_header_c_default_word_08;
 extern S_8004F068_word object_header_c_default_word_0c;
 extern S_8004F068_word object_header_c_default_word_04;
 
-/* Build the menu backdrop's other corner glow: init_object_header_b's quarter-ellipse fan mirrored in x
+/* Build the menu backdrop's other corner glow: build_menu_backdrop_corner_glow's quarter-ellipse fan mirrored in x
  * (flag 1), then the additive draw-mode command that ends the list.  Returns the next command slot. */
-void *init_object_header_c(void *cursor)
+void *build_menu_backdrop_corner_glow_mirrored(void *cursor)
 {
     EllipseGlowCommands *glow = cursor;
     DrawModeCommand *draw_mode;

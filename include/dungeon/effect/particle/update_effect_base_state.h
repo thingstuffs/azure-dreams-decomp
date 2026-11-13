@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_1864800_H
 #define DUNGEON_OVL_1864800_H
+#include "dungeon/effect/sprite/fading_entries.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
@@ -165,7 +166,6 @@ typedef struct {
     s32 vx, vy, vz;
 } VecState;
 
-extern u8 fading_sprite_entries[];
 extern s32 get_definition_entry_byte_13(s16 entry_index);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern void *resolve_record_orientation_or_fallback(void *, void *, Vec3 *, s32);

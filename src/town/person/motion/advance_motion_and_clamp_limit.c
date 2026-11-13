@@ -29,6 +29,6 @@ void advance_motion_and_clamp_limit(TownObjectRecord *entity, EntityRec *motion,
             return;
         }
     } else {
-        add_hex_20000_s_signed_offset_hex_14(motion);
+        add_vertical_gravity(motion);
     }
 }

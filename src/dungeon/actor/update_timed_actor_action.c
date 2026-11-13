@@ -57,7 +57,7 @@ void update_timed_actor_action(ActorRecord *object, s32 unused1, s32 unused2, Ac
         process_unflagged_linked_entries_alt(resource->next_actor_header);
         process_unflagged_linked_entries(resource->next_actor_header);
         g_dungeon_status.flags |= 0x812;
-        object->unk_8C.handler = handle_actor_commands_and_facing;
+        object->unk_8C.handler = update_actor_commands_and_facing;
         g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
         break;
     }

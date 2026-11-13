@@ -31,7 +31,7 @@ void initialize_four_slot_object(StorageDisplayBody *obj) {
 }
 
 /* Set the record's data pointer, base value, and value offset by 0x20. */
-void set_record_value_and_data_pointer(void *field_ptr, s32 base_value) {
+void bind_storage_display_object(void *field_ptr, s32 base_value) {
     StorageDisplayBody *object = field_ptr;
 
     object->unk10 = base_value;
@@ -44,7 +44,7 @@ void set_record_value_and_data_pointer(void *field_ptr, s32 base_value) {
  * 0x4C/0x24/0x34, and initializes its four-slot object.
  */
 void initialize_four_slot_object_owner(u8 *owner, s32 base_value) {
-    set_record_value_and_data_pointer(owner, base_value);
+    bind_storage_display_object(owner, base_value);
     initialize_storage_display_links(owner + 0x4C, owner + 0x24, owner + 0x34);
     initialize_four_slot_object((struct StorageDisplayBody *)(owner));
 }

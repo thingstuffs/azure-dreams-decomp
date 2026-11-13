@@ -6,6 +6,6 @@ struct ObjectPosition;
 
 struct EntityRec;
 
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(struct ObjectPosition *);
+void resolve_collision_axis_order(struct ObjectPosition *);
 
 #endif

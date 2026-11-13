@@ -18,6 +18,8 @@ against.  Per merged TU the refresh takes, in order:
   2. the first (record, text) pair that verifies, over the working-tree and --base records and the TU's text
      at --base, then at each earlier revision that changed the TU (`git rev-list --first-parent`, at most
      --max-walk), and maps it to the current text.
+A TU renamed since --base (git mv after a function rename) is paired with the member's one --base record whose
+TU path no longer exists, and its --base text is read from that old path.
 A TU none of whose candidates verify stops the refresh with the member, the TU and the revisions tried
 (never a KeyError from a stale extent).  `stale_records(root, rev)` lists the records of a revision whose
 ledger does not describe its own text (affected.py accepts their repair on unedited TUs).
@@ -200,10 +202,21 @@ def main():
     # Installs since --base add records and may retire old TUs. Refresh only surviving baseline records,
     # retaining the current ledger's full roster.
     by_tu = {}
+    renamed = {}                                            # TU path now -> its path at --base
+    base_by_member = {}
+    for r in base_records:
+        base_by_member.setdefault(r['member_id'], []).append(r)
     for i, cur in enumerate(records):
         key = (cur['member_id'], cur['tu_new'])
-        if key in base_by_key:
-            by_tu.setdefault(cur['tu_new'], []).append(i)
+        if key not in base_by_key:
+            # A TU renamed since --base (a file named after a renamed function): the member's one --base record
+            # whose TU no longer exists describes the old path's text.
+            gone = [r for r in base_by_member.get(cur['member_id'], ()) if not (root / r['tu_new']).exists()]
+            if len(gone) != 1 or renamed.get(cur['tu_new'], gone[0]['tu_new']) != gone[0]['tu_new']:
+                continue
+            renamed[cur['tu_new']] = gone[0]['tu_new']
+            base_by_key[key] = gone[0]
+        by_tu.setdefault(cur['tu_new'], []).append(i)
     cache, changed, healed = {}, 0, []
     try:
         for tu, idxs in by_tu.items():
@@ -212,14 +225,16 @@ def main():
             base = {records[i]['member_id']: base_by_key[(records[i]['member_id'], tu)] for i in idxs}
             if all(verifies(r, new) for r in work.values()):
                 continue                                    # already describes the current text
-            recs, old, rev = choose_source(root, args.base, tu, [work, base], new, cache, args.max_walk)
+            recs, old, rev = choose_source(root, args.base, renamed.get(tu, tu), [work, base], new, cache,
+                                           args.max_walk)
             if recs != base or rev != args.base:
                 healed.append('%s (from %s %s)' % (tu, 'working-tree records' if recs is work else 'base records',
                                                    'at base' if rev == args.base else 'at ' + rev[:12]))
             mp = line_map(old, new) if old != new else None
             for i in idxs:
                 record = recs[records[i]['member_id']]
-                out = refresh(record, old, new, mp) if mp else record
+                out = refresh(record, old, new, mp) if mp else dict(record)
+                out['tu_new'] = tu
                 if out != records[i]:
                     changed += 1
                     records[i] = out

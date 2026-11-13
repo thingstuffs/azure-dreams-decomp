@@ -9,7 +9,7 @@ extern s32 boot_pressed_buttons;
 
 extern void submit_stored_and_queried_boot_values(void);
 extern void func_804070C4(void *object);
-extern void allocate_or_reuse_effect_and_install_callback(void *field20,void *field24);
+extern void create_card_dev_slot_screen_effect(void *field20,void *field24);
 
 
 typedef struct S_80406DA0_0 {
@@ -41,7 +41,7 @@ void handle_menu_selection_input(void *object_arg)
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
             func_804070C4((u8 *)object - 0x20);
-            allocate_or_reuse_effect_and_install_callback(object->unk_20, object->unk_24);
+            create_card_dev_slot_screen_effect(object->unk_20, object->unk_24);
             return;
         }
         if (pressed_buttons & 0x20) {
@@ -91,5 +91,5 @@ void handle_menu_selection_input(void *object_arg)
         return;
     }
     func_804070C4((u8 *)object - 0x20);
-    allocate_or_reuse_effect_and_install_callback(object->unk_20, object->unk_24);
+    create_card_dev_slot_screen_effect(object->unk_20, object->unk_24);
 }

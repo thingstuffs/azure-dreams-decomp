@@ -96,7 +96,7 @@ s16 process_perpendicular_eligible_tiles(s16 direction, s16 origin_x, s16 origin
 }
 
 /* Counts flagged tiles along a direction for up to eleven steps. */
-s32 count_flagged_tiles_along_direction_2(s16 scan_direction, s32 start_x, s32 start_y) {
+s32 scan_flagged_tiles_along_direction(s16 scan_direction, s32 start_x, s32 start_y) {
     s32 bound_bit;
     u16 flags;
     s32 saved_offset;
@@ -240,27 +240,27 @@ void process_current_facing_directions(void) {
         if (facing & 1) {
             diagonal_x = coord_x;
             diagonal_y = coord_y;
-            count_flagged_tiles_along_direction_2((direction + 1) & 7, diagonal_x, diagonal_y);
-            count_flagged_tiles_along_direction_2((direction - 1) & 7, diagonal_x, diagonal_y);
+            scan_flagged_tiles_along_direction((direction + 1) & 7, diagonal_x, diagonal_y);
+            scan_flagged_tiles_along_direction((direction - 1) & 7, diagonal_x, diagonal_y);
             next_direction = direction + 3;
             next_direction &= 7;
             diagonal_x_step = dir_step_x;
             diagonal_x_step = &diagonal_x_step[direction];
-            count_flagged_tiles_along_direction_2(next_direction, (u32) (s16) (diagonal_x + ((s16) *diagonal_x_step * 0xA)),
+            scan_flagged_tiles_along_direction(next_direction, (u32) (s16) (diagonal_x + ((s16) *diagonal_x_step * 0xA)),
                 (u32) (s16) (diagonal_y + ((s16) dir_step_y[direction] * 0xA)));
             last_direction = (direction - 3) & 7;
             last_x = (s16) (diagonal_x + ((s16) *diagonal_x_step * 0xA));
             last_y = (s16) (diagonal_y + ((s16) dir_step_y[direction] * 0xA));
-            count_flagged_tiles_along_direction_2(last_direction, last_x, last_y);
+            scan_flagged_tiles_along_direction(last_direction, last_x, last_y);
         } else {
             axis_index = direction;
-            count_flagged_tiles_along_direction_2(axis_index, coord_x, coord_y);
+            scan_flagged_tiles_along_direction(axis_index, coord_x, coord_y);
             next_axis_direction = axis_index + 2;
             next_axis_direction &= 7;
-            count_flagged_tiles_along_direction_2(next_axis_direction, coord_x, coord_y);
+            scan_flagged_tiles_along_direction(next_axis_direction, coord_x, coord_y);
             last_direction = axis_index - 2;
             last_direction &= 7;
-            count_flagged_tiles_along_direction_2(last_direction, coord_x, coord_y);
+            scan_flagged_tiles_along_direction(last_direction, coord_x, coord_y);
             next_direction = axis_index + 4;
             next_direction &= 7;
             x_step = dir_step_x;
@@ -268,16 +268,16 @@ void process_current_facing_directions(void) {
             x_step = (u16 *) ((s8 *) x_step + axis_index);
             offset_x_high = (s32) ((u32) (coord_x + ((s16) *x_step * 0xA)) << 16);
             y_step = (u16 *)((s8 *)dir_step_y + axis_index);
-            count_flagged_tiles_along_direction_2(next_direction, offset_x_high >> 16, (u32) (s16) (coord_y
+            scan_flagged_tiles_along_direction(next_direction, offset_x_high >> 16, (u32) (s16) (coord_y
                 + ((s16) *y_step * 0xA)));
-            count_flagged_tiles_along_direction_2(next_axis_direction, (u32) (s16) (coord_x + ((s16) *x_step * 0xA)),
+            scan_flagged_tiles_along_direction(next_axis_direction, (u32) (s16) (coord_x + ((s16) *x_step * 0xA)),
                 (u32) (s16) (coord_y + ((s16) *y_step * 0xA)));
             last_x_high = (s32)((u32)(coord_x + (s16)*x_step * 0xA) << 16);
             axis_step = (s16) *y_step;
             last_x = last_x_high >> 16;
             last_y_high = (s32) ((u32) (coord_y + (axis_step * 0xA)) << 16);
             last_y = last_y_high >> 16;
-            count_flagged_tiles_along_direction_2(last_direction, last_x, last_y);
+            scan_flagged_tiles_along_direction(last_direction, last_x, last_y);
         }
     }
 }

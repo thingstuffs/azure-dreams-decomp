@@ -19,6 +19,6 @@ extern void clear_linked_entry_state(struct ShopFirstCallbackObject *object);
 /* Functions defined in this translation unit. */
 s32 get_monster_status_type_data(s32 index);
 void initialize_monster_status_state(Rec_func_800B683C_arg0 *record, s32 context, s32 type_id);
-void initialize_entry_object(void *object, s32 entityId, s32 resourceIndex, s32 positionX, s32 positionY, s32 positionZ);
+void initialize_monster_status_object(void *object, s32 entityId, s32 resourceIndex, s32 positionX, s32 positionY, s32 positionZ);
 
 #endif

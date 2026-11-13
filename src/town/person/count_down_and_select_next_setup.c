@@ -3,7 +3,7 @@
 #include "shared/town_object.h"
 
 #include "town/person/object_setup.h"
-struct TownObjectRecord; void initialize_object_and_data_pointer(struct TownObjectRecord *, s32, void *);    /* extern */
+struct TownObjectRecord; void initialize_orbiting_object(struct TownObjectRecord *, s32, void *);    /* extern */
 void func_800CDE4C(void *, s32, void *);    /* extern */
 #include "records/Rec_D_800CFCB4.h"
 #include "engine/window.h"
@@ -16,11 +16,11 @@ void count_down_and_select_next_setup(TownObjectRecord *object, void *request_da
     u16 ticks_left;
 
     if ((select_object_setup_path(object, request_data, request_param) == 0) &&
-        ((state = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, &town_actor_control), (state == 0)) || (state->axis == 2)) &&
+        ((state = get_box_overlap_axis(object, &town_actor_control), (state == 0)) || (state->axis == 2)) &&
         (ticks_left = object->timer - 1,
          object->timer = ticks_left, ((ticks_left << 0x10) <= 0))) {
-        if (scale_random_to_unsigned_halfword_limit(2) & 0xFFFF) {
-            initialize_object_and_data_pointer(object, request_data, request_param);
+        if (scale_random_by_limit(2) & 0xFFFF) {
+            initialize_orbiting_object(object, request_data, request_param);
             return;
         }
         func_800CDE4C(object, request_data, request_param);

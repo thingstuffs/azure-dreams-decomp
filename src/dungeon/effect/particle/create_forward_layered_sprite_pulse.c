@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -26,7 +27,6 @@ typedef struct {
     s32 words[8];
 } __attribute__((packed)) LocalTable;
 
-extern u8 ribbon_sprite_entries[];
 extern LocalTable D_8016482C;
 extern s32 beldo_actor_nodes;
 

@@ -381,7 +381,7 @@ void D_80024C50(void *, void *, void *, s32, s32, s32);
 
 extern const Row_819A1450_LocalTable D_80024034;
 extern u8 D_800246F0[];
-extern u8 directional_sprite_entries[];
+#include "dungeon/effect/sprite/directional_entries.h"
 extern Row_819A1654_GlobalState D_800814A0[];
 extern Row_819A1654_LookupGlobal reference_tile_object[];
 extern s16 linked_effect_chain_count[6];

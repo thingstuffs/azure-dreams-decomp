@@ -2,7 +2,7 @@
 #include "engine/texture.h"
 
 /* Expands six-bit values into runs of one to four bytes until the 1, 1 terminator. */
-void texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1(u8 *source, u8 *output)
+void expand_six_bit_runs(u8 *source, u8 *output)
 {
     u32 encoded_byte;
     s32 run_limit;

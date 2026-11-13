@@ -179,7 +179,7 @@ extern u8 resident_byte_lookup_values[ ];
 extern s32 resource_directory_upload_rectangles[ ];
 extern s8 resource_sentinel_keys[ ];
 extern s32 resource_sentinel_values[ ];
-struct S_800362A0_0; extern void runtime_mark_state_when_flag_50_set(struct S_800362A0_0 *);
+struct S_800362A0_0; extern void request_message_advance_on_first_flag(struct S_800362A0_0 *);
 extern u32 runtime_mode_two_values[ 3 ];
 extern u8 runtime_object_pool[ ];
 extern u8 runtime_pool_service_script[ ];

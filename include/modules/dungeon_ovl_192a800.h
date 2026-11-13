@@ -14,12 +14,12 @@ void try_lower_actor_level(void *,s32,void *);
 struct PointRecord; struct EntityRec; struct ObjectPosition;
 s32 draw_dimmed_height_effect_points(struct PointRecord *,struct ObjectPosition *);
 struct EffectRecord; struct EntityRec;
-void handle_raise_position_toward_queried_height_set_flags_countdown_expires(struct EffectRecord *,struct ObjectPosition *);
-void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent(ObjectNodeHeader *,s16,s32,s16,s16,s16,s16);
-s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32);
+void raise_effect_toward_terrain_height(struct EffectRecord *,struct ObjectPosition *);
+void spawn_rising_effect_under_parent(ObjectNodeHeader *,s16,s32,s16,s16,s16,s16);
+s32 random_value_below_limit(s32);
 struct ShuffledSpriteClearBody;
-void advance_the_animation_draws_rectangles_in_randomized_order(struct ShuffledSpriteClearBody *,s32 *,void *);
+void update_shuffled_rect_clear_effect(struct ShuffledSpriteClearBody *,s32 *,void *);
 struct S_func_8190B2D0_0;
-void update_a_moving_effect_target_animation_cleanup_state(struct S_func_8190B2D0_0 *,void *,void *);
+void update_rising_capture_effect(struct S_func_8190B2D0_0 *,void *,void *);
 void draw_transformed_sprite_with_clip_rect(void *,void *,void *,s32,s32);
 #endif

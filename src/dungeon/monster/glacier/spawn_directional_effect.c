@@ -1,3 +1,4 @@
+#include "dungeon/effect/sprite/fading_entries.h"
 #include "shared/entity.h"
 #include "dungeon/monster/glacier.h"
 #include "shared/object_node.h"
@@ -20,7 +21,6 @@ typedef struct {
 
 extern void select_record_entry_and_value(void *, void *, s32);
 
-extern u8 fading_sprite_entries[];
 
 extern Pair16 glacier_direction_offsets[];
 

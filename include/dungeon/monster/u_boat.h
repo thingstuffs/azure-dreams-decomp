@@ -33,7 +33,7 @@ typedef struct UBoatAuraEffectBody {
 
 
 
-void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
+void advance_u_boat_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
@@ -60,7 +60,7 @@ s32 try_turn_actor_toward_target(ActorRecord *action_state, ObjectPosition *acti
 void update_actor_action_transition(ActorRecord *state, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity);
 void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *record, ActorRecord *object);
 
-void begin_actor_action(ActorRecord *state, ObjectPosition *world_pos, SpriteFrameState *sprite, ActorRecord *actor);
+void begin_u_boat_attack_action(ActorRecord *state, ObjectPosition *world_pos, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_actor_exclusive_action(ActorRecord *entity, ObjectPosition *unused_1, SpriteFrameState *unused_sprite, s32 unused_3, s32 requested_mode);
 void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state);
 

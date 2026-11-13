@@ -23,7 +23,7 @@ extern u16 D_80126E3C[];
 extern u16 D_80127024[];
 extern u16 D_80127FA8[];
 
-void ** scale_coordinates_and_append_pointers(s32, s32, s32, s32, void *);
+void ** append_scaled_rect_to_script_list(s32, s32, s32, s32, void *);
 
 /* Draws the active town entry and its state-dependent overlays. */
 void initialize_building_scene_objects(void *draw_param) {
@@ -104,7 +104,7 @@ void initialize_building_scene_objects(void *draw_param) {
             final_y = ((u8 *)event)[1];
             entry_offset = ((u8 *)event)[6] << 5;
             draw_entry = town_map_variants + entry_offset;
-            scale_coordinates_and_append_pointers(final_x, final_y,
+            append_scaled_rect_to_script_list(final_x, final_y,
                           draw_entry[4], draw_entry[5],
                           town_map_variants + entry_offset + 12);
         }

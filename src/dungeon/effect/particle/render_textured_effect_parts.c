@@ -8,6 +8,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -41,7 +42,6 @@ void animate_sprite_until_countdown_expires(OffsetPalettedSpriteBody *record_dat
     }
 }
 
-extern u8 effect_sprite_sources[9];
 
 /* Creates and initializes an object at an offset from the supplied origin. */
 void create_offset_paletted_sprite(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_id, s16 offset_x, s16 offset_y, s16 offset_z) {
@@ -418,7 +418,6 @@ extern u8 D_800258FC[];
 extern u8 D_8006CCD8[];
 extern u8 D_8006CCE8[];
 extern s32 D_800814A0[3];
-extern u8 effect_sprite_sources[];
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
 void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {

@@ -28,9 +28,9 @@ void update_actor_input_actions(void *context, ObjectPosition *entity, s32 updat
     s32 state_flags;
     s32 check_result;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
-    reference_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, &position_query_scratch);
+    resolve_collision_axis_order(entity);
+    apply_velocity_friction(entity);
+    reference_value = query_capped_surface_height(entity, &position_query_scratch);
     if ((reference_value - entity->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(context, entity, update_arg);
@@ -38,7 +38,7 @@ void update_actor_input_actions(void *context, ObjectPosition *entity, s32 updat
         }
     }
     else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town(entity, reference_value, &position_query_scratch);
+        set_height_and_slope_velocity(entity, reference_value, &position_query_scratch);
     }
 
     state_flags = (state->pressed_buttons);
@@ -47,7 +47,7 @@ void update_actor_input_actions(void *context, ObjectPosition *entity, s32 updat
         return;
     }
     if (state_flags & 0x40) {
-        check_result = select_an_eligible_source_entry_stores_pointer_in_destination(context, &town_actor_control);
+        check_result = select_adjacent_source_entry(context, &town_actor_control);
         if (check_result != 0) {
             if (check_result == 2) {
                 initialize_actor_movement_interaction_action(context, entity, update_arg);
@@ -63,8 +63,8 @@ void update_actor_input_actions(void *context, ObjectPosition *entity, s32 updat
     }
     else {
         if (state->buttons & 0xF000) {
-            store_the_valid_shared_angle_in_offset_hex_10(context);
-            if (select_an_available_entry_matching_direction_returns_status(&town_actor_control) > 0) {
+            store_input_angle(context);
+            if (select_entry_by_input_direction(&town_actor_control) > 0) {
                 return;
             }
         }

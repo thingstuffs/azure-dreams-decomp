@@ -39033,7 +39033,7 @@
         "raw_sha256": "0730a99c12742086de4ed0fff837244eb4a8d75b0f601326a1ab7286f78df617"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_entry_group_5",
+      "name": "initialize_countdown_follow_up_entry_group",
       "callee_contract": "town/func_800C5724",
       "body_contract": {
         "handler_contract": {
@@ -39669,7 +39669,7 @@
         "raw_sha256": "7f05a22a3a46f6204472ccd9fe29ee2b3e811f6044bf99fdb7546db2f44df206"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_entry_group_120",
+      "name": "initialize_offset_target_entry_group",
       "callee_contract": "town/func_800C5724",
       "body_contract": {
         "handler_contract": {
@@ -39828,7 +39828,7 @@
         "raw_sha256": "79d0856f15e8f57fbad689e6a17656e448674a7b5c08b79196249c9a6fd96912"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_entry_group_300",
+      "name": "initialize_offset_town_position_entry_group",
       "callee_contract": "town/func_800C5724",
       "body_contract": {
         "handler_contract": {

@@ -132,25 +132,25 @@ extern s32 test_resident_bitmap_bit(s32 bit_id);
 extern void zero_words(void *dst, s32 count);
 extern void register_node(func_80092868_TownObject *object, void *data);
 extern void initialize_circular_list_head(void);
-extern void initialize_pointer_table_self_links(void);
-extern void initialize_the_store_two_values_set_state_flags(void *record, func_80092868_ScenePos *scene, void *value_0c); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void initialize_six_global_pointers_corresponding_storage_blocks(void);
-extern void run_the_three_update_routines_context(ObjectPosition *context);
+extern void init_town_motion_list(void);
+extern void init_secondary_list_record(void *record, func_80092868_ScenePos *scene, void *value_0c); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void init_probe_sample_buffers(void);
+extern void sync_collision_motion_xyz(ObjectPosition *context);
 extern void create_person_object(void);
 extern void initialize_object_at_current_position(void);
 s32 load_town_sprite_bundle(void);
 s32 load_alternate_town_sprite_bundle(void);
-void call_the_handler_selects_nonzero_entry();
+void dispatch_selected_entry_if_nonzero();
 void initialize_player_object(void *object);
 extern s32 func_800352FC(void);
 extern void submit_object_resource_data(void *owner);
 extern s32 read_map_cell_at_world_position(s16 owner, s16 node_in);
 extern void add_motion_deltas_to_position(ObjectPosition *motion);
-extern void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(ObjectPosition *out);
+extern void apply_actor_control_offsets(ObjectPosition *out);
 extern void store_position_and_compute_delta(void *owner);
-extern void update_the_s_field_10_using_callee_8008_fe_90(void *owner);
-extern s32 get_whether_has_attached_state_type_n_1_n_3(void *owner);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
+extern void update_record_overlap_node(void *owner);
+extern s32 has_attached_state_type_1_or_3(void *owner);
+extern void set_height_and_slope_velocity(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
 extern s32 update_object_and_clear_status_fields(void *owner);
 extern s32 runtime_estimate_vector_length(s32, s32);
 #include "engine/texture.h"

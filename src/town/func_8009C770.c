@@ -12,7 +12,7 @@
 
 
 void init_three_quarter_turn_motion_action(TownObjectRecord *object, void *unused, void *handler_context) {
-    call_the_handler_selects_nonzero_entry(object->handler_entries[5], object, handler_context);
+    dispatch_selected_entry_if_nonzero(object->handler_entries[5], object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_04 = forward_player_motion_state;
     object->unk_10 = 0xC00;

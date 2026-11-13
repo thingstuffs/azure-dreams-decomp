@@ -1,0 +1,29 @@
+#include "common.h"
+#include "shared/object_node.h"
+#include "engine/menu.h"
+#include "slus/data.h"
+
+/* byte flags array indexed by the selected entry (obj->selected_entry) */
+
+/* table of callback function pointers indexed by the same state/id field;
+   called as fn(parent_ptr, arg) */
+typedef s32 (*Fn_8007179C)(void *, s32);
+extern Fn_8007179C menu_state_callbacks[];
+
+extern s32 func_800213AC(void);
+
+/* Calls the object's state callback with its parent and a flag-dependent argument. */
+s32 call_menu_state_callback(MenuSelectionBody *obj) {
+    s32 callback_arg = 0;
+
+    if (menu_state_callback_flags[obj->selected_entry] != 0) {
+        callback_arg = obj->result;
+        if (callback_arg == 2) {
+            s32 query_result = func_800213AC();
+            query_result = query_result ^ 2;
+            callback_arg = (u32)query_result < 1;
+        }
+    }
+
+    return menu_state_callbacks[obj->selected_entry](NODE_HEADER(obj), callback_arg);
+}

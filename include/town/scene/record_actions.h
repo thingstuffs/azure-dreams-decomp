@@ -15,7 +15,7 @@ s32 func_800176B8(Rec_func_800165F4_arg0 *record, s32 entry_index);
 s32 func_80018504(Rec_func_800165F4_arg0 *record, s32 entry_index);
 
 s32 process_context_entry_with_fallback(Rec_func_800165F4_arg0 *record, s32 entry_index);
-void dispatch_after_condition_12_c_4(Rec_func_800165F4_arg0 *record, s32 entry_index);
-s32 dispatch_if_condition_1463(Rec_func_800165F4_arg0 *record, s32 entry_index);
+void apply_selected_entry_values_for_mascot1(Rec_func_800165F4_arg0 *record, s32 entry_index);
+s32 set_entry_flag_if_s24_door_open(Rec_func_800165F4_arg0 *record, s32 entry_index);
 
 #endif

@@ -1,0 +1,77 @@
+#include "common.h"
+#include "shared/entity.h"
+#include "engine/resource.h"
+#include "town/shop.h"
+#include "town/shop/state_countdown_updates_g00558.h"
+#include "town/data.h"
+
+typedef struct {
+    u8 pad0[6];
+    u8 result;
+    u8 pad7[9];
+    s16 x;
+    s16 y;
+} TownRecord;
+
+typedef struct {
+    u16 x;
+    u16 y;
+    u8 pad4[8];
+    void *recordsOwner;
+} TownState;
+
+extern TownState *town_script_state_slots;
+
+/* Return the nearest unflagged record's result, or -1 if none is available. */
+s32 find_nearest_unflagged_record_result(s32 record_set, ObjectPosition *target)
+{
+    TownRecord *records;
+    TownRecord *record;
+    u8 *flag_base;
+    s32 count;
+    s32 best_distance;
+    s32 record_index;
+    s32 base_x;
+    s32 base_y;
+    s32 distance;
+    s32 result;
+    u16 raw_x;
+    u16 raw_y;
+
+    best_distance = 0x7FFFFFFF;
+    record_index = 0;
+    count = town_record_capacities[record_set];
+    records = *(TownRecord **)((u8 *)town_script_state_slots->recordsOwner + 4);
+    raw_x = town_script_state_slots->x;
+    raw_y = town_script_state_slots->y;
+    record_set = record_index;
+    if (count > 0) {
+        base_x = (s16)raw_x;
+        base_y = (s16)raw_y;
+        record = records;
+        flag_base = (u8 *)0x80010000;
+        do {
+            if (flag_base[0x981] == 0) {
+                distance = runtime_estimate_vector_length(
+                    ((record->x + base_x) - target->x.w.i) << 16,
+                    ((record->y + base_y) - target->y.w.i) << 16);
+                if (distance < best_distance) {
+                    best_distance = distance;
+                    record_set = record_index;
+                }
+                record++;
+            } else {
+                record++;
+            }
+            record_index++;
+            flag_base += 4;
+        } while (record_index < count);
+    }
+    if (best_distance != 0x7FFFFFFF) {
+        result = records[record_set].result;
+    } else {
+        result = -1;
+    }
+    return result;
+}
+

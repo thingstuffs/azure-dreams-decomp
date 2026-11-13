@@ -4,7 +4,7 @@
 
 
 /* Reads or updates a 24-bit value stored across two words, marking buffered changes. */
-u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_index)
+u32 update_spu_register_pair(s32 mode, u32 value, s32 low_index, s32 high_index)
 {
     u32 result;
     s32 dirty_bit;

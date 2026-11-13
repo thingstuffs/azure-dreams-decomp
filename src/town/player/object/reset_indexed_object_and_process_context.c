@@ -13,7 +13,7 @@
 
 /* Clears the object's indexed flag and resets its state before processing the context. */
 void reset_indexed_object_and_process_context(TownObjectRecord *object, ObjectPosition *context, void *ptr2) {
-    call_the_handler_selects_nonzero_entry(counted_action_handler_table, object, ptr2);
+    dispatch_selected_entry_if_nonzero(counted_action_handler_table, object, ptr2);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_04 = tick_countdown_and_initialize_target;
     object->unk_0A = 6;

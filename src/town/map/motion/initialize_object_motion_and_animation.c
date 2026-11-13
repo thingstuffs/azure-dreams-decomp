@@ -29,7 +29,7 @@ void initialize_object_motion_and_animation(void *object_data, ObjectPosition *m
     object->field50 = 0;
     register_node(NODE_HEADER(object), project_sprite_chain);
     object->fieldA6 = 2;
-    configure_the_set_mode_n_1(object, motion, town_map_motion_defaults);
+    init_scene_node_mode_1(object, motion, town_map_motion_defaults);
     select_record_entry_and_value(anim, D_800D211C[object->fieldA6], 0);
     object->field48 = D_800D212C;
 }

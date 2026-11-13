@@ -48,7 +48,7 @@ void update_directional_actor_effect(void *object)
     ActorRecord *map_data;
     u8 config_byte;
     void *created_obj;
-    void *display;
+    ActorRecord *display;
     void *source_obj;
     s32 dependency_scratch;
     s32 state;

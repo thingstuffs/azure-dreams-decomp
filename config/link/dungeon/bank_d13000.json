@@ -373,7 +373,7 @@
     },
     {
       "row": "dungeon/func_80CF6BC4",
-      "tu": "src/dungeon/monster/troll/advance_the_actor_s_action_animation_triggers_timed_effects.c",
+      "tu": "src/dungeon/monster/troll/advance_troll_attack_animation.c",
       "home": "dungeon/func_80CF0BC4",
       "foff": "0xD16BC4",
       "vma": "0x801683c4",
@@ -458,7 +458,7 @@
     {
       "row": "dungeon/func_80CF84AC",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x00D184AC",
       "vma": "0x80169CAC",
       "size": 56,
@@ -472,7 +472,7 @@
     {
       "row": "dungeon/func_80CF84E4",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x00D184E4",
       "vma": "0x80169CE4",
       "size": 56,
@@ -486,7 +486,7 @@
     {
       "row": "dungeon/func_80CF851C",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x00D1851C",
       "vma": "0x80169D1C",
       "size": 56,
@@ -514,7 +514,7 @@
     {
       "row": "dungeon/func_80CF858C",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x00D1858C",
       "vma": "0x80169D8C",
       "size": 56,

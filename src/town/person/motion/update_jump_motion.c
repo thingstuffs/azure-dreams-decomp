@@ -30,7 +30,7 @@ void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, void *ani
 
     case 1:
         motion->unk_08.at00.v += motion->unk_14.at00.v;
-        add_hex_20000_s_signed_offset_hex_14(motion);
+        add_vertical_gravity(motion);
         if (motion->unk_14.at00.v >= 0) {
             initialize_object_entries(actor, animation_id, &D_800D6AD0);
             actor->unk_6A++;
@@ -45,7 +45,7 @@ void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, void *ani
             actor->unk_6A = 0;
             actor->unk_68++;
         } else {
-            add_hex_20000_s_signed_offset_hex_14(motion);
+            add_vertical_gravity(motion);
         }
         break;
     }

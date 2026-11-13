@@ -42,7 +42,7 @@ void move_reaction_toward_target(Object *object, Position *position, void *conte
     ticks_left = (u16)object->timer - 1;
     object->timer = ticks_left;
     if (ticks_left <= 0) {
-        initialize_reaction_data_and_timer_10_b(object, position, context, game);
+        start_reaction_ease_to_target(object, position, context, game);
         SD_Call(0x605);
         return;
     }

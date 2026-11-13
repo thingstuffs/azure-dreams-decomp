@@ -11,7 +11,7 @@
  * w_80054E00.c / w_800540A8.c / w_80054C58.c / w_800559B4.c).
  */
 void update_cd_stream_flags(void) {
-    if (get_cd_flags_with_conditional_bit() & 4) {
+    if (get_cd_flags_with_retry_bit() & 4) {
         sound_playback_state.flags04 &= ~0x200;
         if (sound_playback_state.unk_10 != 0) {
             audio_handle_stream_control_event(0x74);

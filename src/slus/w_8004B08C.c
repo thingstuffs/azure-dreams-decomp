@@ -7,9 +7,9 @@ typedef struct {
     u8 unk1;
 } S_8004AFE8;
 
-extern s32 table_count_consecutive_pointer_entries_whose_target_byte_matches_first_target_byte(S_8004AFE8 **ptr);
+extern s32 count_entries_matching_first(S_8004AFE8 **ptr);
 extern void stamp_first_matching_entry_ranks(u8 *ptr, S_8004AFE8 **entries, s32 category);
-extern s32 table_handle_compares_two_records_subtracting_key_indexed_table_values(void *a0, void *a1);
+extern s32 compare_record_sort_weights(void *a0, void *a1);
 
 /* Sorts entries by category, then orders each group using discovery ranks from the original list. */
 void sort_entries_by_category(S_8004AFE8 **entries) {
@@ -30,7 +30,7 @@ void sort_entries_by_category(S_8004AFE8 **entries) {
     work_buf_2 = (u8 *)original_entries;
     memcpy(work_buf_2, group, count * 4);
     ((S_8004AFE8 **)work_buf_2)[count] = 0;
-    forward_selection_sort_request(group, count, 4, table_handle_compares_two_records_subtracting_key_indexed_table_values);
+    forward_selection_sort_request(group, count, 4, compare_record_sort_weights);
     group_category = 0;
     if (*group != 0) {
         work_buf = rank_table;
@@ -40,7 +40,7 @@ next_group:
             if (entry_category != group_category) {
                 group_category = entry_category;
                 bzero(work_buf, 0x80);
-                count = table_count_consecutive_pointer_entries_whose_target_byte_matches_first_target_byte(group);
+                count = count_entries_matching_first(group);
                 stamp_first_matching_entry_ranks(work_buf, original_entries, group_category);
                 forward_selection_sort_request(group, count, 4, compare_mapped_leading_bytes);
                 group = group + count;

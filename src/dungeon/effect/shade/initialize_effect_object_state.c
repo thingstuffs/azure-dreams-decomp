@@ -1,3 +1,4 @@
+#include "dungeon/effect/sprite/fading_entries.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -10,7 +11,6 @@
 #include "engine/node.h"
 #include "slus.h"
 
-extern s32 fading_sprite_entries;
 
 /* Initialize object state and rendering data from the source and position. */
 void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, ObjectPosition *position, s32 unused_spawn_context)

@@ -17,13 +17,13 @@ typedef struct EffectColor {
     u8 green;
     u8 blue;
 } EffectColor;
-ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(struct FadeEndpoints *, struct FadeSettings *);
+ObjectNodeHeader *create_mesh_fade_effect(struct FadeEndpoints *, struct FadeSettings *);
 void *create_object_offset(MovingPosition *, s16, s16, s16, s32);
-void advance_the_effect_state_updates_motion_sets_display_color(void *, s32, struct S_80025160_1 *);
-void advance_and_fade_effect_flagging_expiration_timer_runs_out(struct Actor *, struct Motion *, SpriteFrameState *);
+void emit_offset_particles_then_wait_for_release(void *, s32, struct S_80025160_1 *);
+void update_falling_fading_sprite(struct Actor *, struct Motion *, SpriteFrameState *);
 struct RadialQuadWork;
-void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(struct RadialQuadWork *, ObjectPosition *, SpriteFrameState *);
-s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *);
+void update_rotating_quad_effect(struct RadialQuadWork *, ObjectPosition *, SpriteFrameState *);
+s32 queue_linked_shaded_quads(void *);
 extern u16 D_80026324[];
 extern u16 D_80026326;
 extern s16 D_80026328[];
@@ -33,7 +33,7 @@ extern u8 D_80026474[];
 extern u8 staged_glow_data[];
 
 void create_radial_effect_from_source(); /* Slot contract: loading images do not establish one callee contract. */
-s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void);
+s32 queue_glow_grid_quads(void);
 
 
 #endif

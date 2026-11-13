@@ -10,8 +10,8 @@ struct FadeManagerBody;
 struct SpriteFrameState;
 struct RECT;
 
-/* activate_scene_resource_and_clear_view_callbacks.c */
-void activate_scene_resource_and_clear_view_callbacks(void);
+/* load_scene_resource_and_clear_views.c */
+void load_scene_resource_and_clear_views(void);
 
 /* alloc_gpu_scratch_ring.c */
 void *alloc_gpu_scratch_ring(s32 size);
@@ -73,7 +73,7 @@ s32 run_dispatch_entry_callbacks(u16 entry_id);
 void run_runtime_callbacks(void);
 
 /* runtime_clear_record_field.c */
-void runtime_clear_record_field_04(struct FadeManagerBody *state, struct SpriteFrameState *unused_sprite);
+void clear_fade_has_source(struct FadeManagerBody *state, struct SpriteFrameState *unused_sprite);
 
 /* runtime_copy_three_global_blocks.c */
 void runtime_copy_three_global_blocks(void);

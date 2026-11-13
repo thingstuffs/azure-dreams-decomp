@@ -79,7 +79,7 @@ s32 initialize_gym_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s
         render_record->color.word = 0x00808080;
         *(void **)((u8 *)object_data + 0x4C) = shared_data;
 
-        configure_the_set_mode_n_3((u8 *)object_or_slot + 0x24,
+        init_scene_node_mode_3((u8 *)object_or_slot + 0x24,
                       ((ObjectNodeHeader *)object_or_slot)->position,
                       &D_80026F0C);
 

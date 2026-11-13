@@ -21,7 +21,7 @@ extern s16 view_facing_angle_alias;
 extern u8 D_80083220[];
 
 /* Updates entity state and selects direction-dependent table entries. */
-void update_keima_view_actor_facing_and_frames(void *object, void *output, void *entity_data)
+void update_keima_view_actor_facing_and_frames(KeimaPathActor *object, void *output, void *entity_data)
 {
     KeimaPathActor *caller_obj = object;
     Copy24 *output_bytes = output;
@@ -33,13 +33,13 @@ void update_keima_view_actor_facing_and_frames(void *object, void *output, void 
 
     advance_sprite_animation_and_textures(entity_data);
     *output_bytes = *(Copy24 *)((u8 *)(&view_reference_entity));
-    ((KeimaPathActor *)object)->facing.u =
+    object->facing.u =
         (0x1400 - (*(u16 *)&state_base->unk_10)) & 0xFFF;
 
-    state = ((KeimaPathActor *)object)->state.s;
+    state = object->state.s;
     switch (state) {
     case 0:
-        ((KeimaPathActor *)object)->state.u++;
+        object->state.u++;
         return;
 
     case 1:
@@ -50,7 +50,7 @@ void update_keima_view_actor_facing_and_frames(void *object, void *output, void 
             town_minigame_directional_frames[((view_facing_angle_alias +
                 caller_obj->facing.s + 0x100) >> 9) & 7],
             0);
-        ((KeimaPathActor *)object)->state.u++;
+        object->state.u++;
         /* fallthrough */
     case 2:
         if (state_base->unk_08 == 2) {
@@ -59,7 +59,7 @@ void update_keima_view_actor_facing_and_frames(void *object, void *output, void 
                 minigame_motion_frames[((*(s16 *)(D_80083220 + 8) +
                     caller_obj->facing.s + 0x100) >> 9) & 7],
                 0);
-            ((KeimaPathActor *)object)->state.u++;
+            object->state.u++;
         }
         break;
 
@@ -71,7 +71,7 @@ void update_keima_view_actor_facing_and_frames(void *object, void *output, void 
             select_sprite_entry(entity_data,
                 town_minigame_directional_frames[((view_facing_angle_alias + caller_obj->facing.s + 0x100) >> 9) & 7],
                 0);
-            ((KeimaPathActor *)object)->state.u++;
+            object->state.u++;
         }
         break;
 
@@ -84,12 +84,12 @@ void update_keima_view_actor_facing_and_frames(void *object, void *output, void 
             select_sprite_entry(entity_data,
                 direction_table[((view_facing_angle_alias + caller_obj->facing.s + 0x100) >> 9) & 7],
                 0);
-            ((KeimaPathActor *)object)->state.u--;
+            object->state.u--;
         }
         break;
     }
 
-    if (((KeimaPathActor *)object)->state.s != 0) {
+    if (object->state.s != 0) {
         update_directional_record(caller_obj, object, entity_data);
     }
 

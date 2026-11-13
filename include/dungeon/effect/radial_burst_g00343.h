@@ -34,7 +34,7 @@ extern void spawn_opposite_offset_effect(DungeonEffect *, s16);
 /* sub in spawn_randomized_radial_burst */
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
-extern s32 directional_sprite_entries;
+#include "dungeon/effect/sprite/directional_entries.h"
 
 /* Functions defined in this translation unit. */
 void spawn_randomized_radial_burst(MovingPosition *origin);

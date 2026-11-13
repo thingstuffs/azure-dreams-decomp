@@ -14,7 +14,7 @@ struct Elem;
 
 void func_8002418C(void *object_ref, void *unused, void *state);
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry rising_sprite_entries[];
+#include "dungeon/effect/sprite/rising_entries.h"
 
 /* Creates and initializes an effect with a randomized offset from the source position. */
 void create_random_offset_sprite_effect(s32 effect_param, ObjectPosition *source_pos)

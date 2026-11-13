@@ -66,7 +66,7 @@
     },
     {
       "row": "dungeon/func_80D3D588",
-      "tu": "src/dungeon/monster/u_boat/begin_actor_action.c",
+      "tu": "src/dungeon/monster/u_boat/begin_u_boat_attack_action.c",
       "home": "dungeon/func_80D3D588",
       "foff": "0xD5D588",
       "vma": "0x80172D88",
@@ -106,7 +106,7 @@
     },
     {
       "row": "dungeon/func_80D3EB58",
-      "tu": "src/dungeon/monster/hikewne/reset_state_field_a.c",
+      "tu": "src/dungeon/monster/hikewne/update_hikewne_hop_and_shrink.c",
       "home": "dungeon/func_80977D88",
       "foff": "0xD5EB58",
       "vma": "0x80174358",
@@ -130,7 +130,7 @@
     },
     {
       "row": "dungeon/func_80D3EBDC",
-      "tu": "src/dungeon/monster/u_boat/advance_actor_action.c",
+      "tu": "src/dungeon/monster/u_boat/advance_u_boat_action.c",
       "home": "dungeon/func_80D3EBDC",
       "foff": "0xD5EBDC",
       "vma": "0x801743DC",

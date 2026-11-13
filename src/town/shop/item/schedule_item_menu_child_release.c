@@ -5,6 +5,6 @@
 /* Sets the object's data pointer when the object is present. */
 void schedule_item_menu_child_release(ObjectNodeHeader *object) {
     if (object != 0) {
-        object->update_callback = &finish_item_menu_child_and_release_list;
+        object->update_callback = &release_item_menu_display;
     }
 }

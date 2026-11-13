@@ -63,7 +63,7 @@ s32 identify_selected_item(ActorRecord *entity, DungeonItemEntry *action_id, s16
         saved_message_pos = message_pos;
         message_pos = expand_text_control_codes(D_800E11F5, append_typed_formatted_value(((S_800BF074_1 *)entity_state)->unk_04, message_pos));
         ((S_800BF074_2 *)(((S_800BF074_1 *)entity_state)->unk_04))->unk_03 &= 0x7F;
-        clear_selected_item_flag_400(((S_800BF074_1 *)entity_state)->unk_04);
+        unmark_selected_item(((S_800BF074_1 *)entity_state)->unk_04);
         clear_byte_and_advance(expand_text_control_codes(D_80089374, append_typed_formatted_value(((S_800BF074_1 *)entity_state)->unk_04, message_pos)));
         display_text_with_fullwidth_adjustment(saved_message_pos);
     }

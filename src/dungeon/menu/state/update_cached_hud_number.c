@@ -1,0 +1,26 @@
+#include "common.h"
+#include "shared/record_ptrs.h"
+#include "m2c_compat.h"
+#include "dungeon/menu.h"
+#include "dungeon/menu/state.h"
+
+
+typedef struct S_800DC000_0 {
+    u8 pad_00[0xFC];
+    s32 unk_FC;
+} S_800DC000_0;   /* *state in update_cached_hud_number */
+
+typedef struct S_800DC000_1 {
+    u8 pad_00[0x4];
+    s32 unk_04;
+} S_800DC000_1;   /* arg0 in update_cached_hud_number */
+
+/* Handle changes to the state value and update its cached copy. */
+void update_cached_hud_number(S_800DC000_1 *cache) {
+    void **state = (void **)(&primary_actor_record);
+
+    if (((S_800DC000_0 *)(*state))->unk_FC != cache->unk_04) {
+        draw_filler_first_number(((S_800DC000_0 *)(*state))->unk_FC, cache->unk_04, 8, 0x1A8, 0x1E0, 0);
+        cache->unk_04 = ((S_800DC000_0 *)(*state))->unk_FC;
+    }
+}

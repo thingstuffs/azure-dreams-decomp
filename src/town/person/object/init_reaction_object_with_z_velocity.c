@@ -1,0 +1,17 @@
+#include "common.h"
+#include "shared/entity.h"
+#include "m2c_compat.h"
+#include "shared/town_object.h"
+#include "town/person/object.h"
+#include "town/data.h"
+
+#include "town/person/object/initialize_object_entries_api.h"          /* extern */
+extern M2C_UNK D_800CE780;
+
+/* Initialize the object, clear the global flag, and set its handler and initial offset. */
+void init_reaction_object_with_z_velocity(TownObjectRecord *object, ObjectPosition *motion, void *init_data) {
+    initialize_object_entries((object), init_data, person_reaction_object_entries);
+    person_slot_reset_byte = 0;
+    object->handler = &D_800CE780;
+    motion->velocity_z = 0xFFF60000;
+}

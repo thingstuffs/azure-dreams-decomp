@@ -6,23 +6,15 @@
 #include "dungeon/system.h"
 #include "dungeon/item.h"
 
-typedef struct ActionDispatchState {
-    u8 pad_00[0x8C];
-    s32 callback;
-    u8 pad_90[0xA];
-    s8 action;
-    s8 phase;
-} ActionDispatchState;
-
 /* Sets the object action to 0x33, conditionally sets a global flag, and dispatches the target. */
-void begin_action_33_and_dispatch(void *object_arg, void *unused_1, void *unused_2, void *target) {
-    ActionDispatchState *object = object_arg;
+void begin_action_33_and_dispatch(ActorRecord *object_arg, void *unused_1, void *unused_2, void *target) {
+    ActorRecord *object = object_arg;
     s32 action = 0x33;
     void *saved_target;
 
-    object->action = action;
-    object->phase = 0;
-    object->callback = 0;
+    object->action_id = action;
+    object->action_phase = 0;
+    object->unk_8C.word = 0;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_80091258). */
     do {
         saved_target = target;

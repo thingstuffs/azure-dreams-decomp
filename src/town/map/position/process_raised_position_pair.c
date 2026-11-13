@@ -30,6 +30,6 @@ void process_raised_position_pair(s32 unused_arg, s32 *position) {
     raised_pos.x = position[0];
     raised_pos.y = position[1];
     raised_pos.z = position[2] + 0x100000;
-    spawn_radial_effect_objects(position, &pair, (scale_random_to_unsigned_halfword_limit(2) & 0xFFFF) + 2);
-    spawn_radial_objects(&raised_pos, &pair, (scale_random_to_unsigned_halfword_limit(2) & 0xFFFF) + 2);
+    spawn_radial_effect_objects(position, &pair, (scale_random_by_limit(2) & 0xFFFF) + 2);
+    spawn_radial_objects(&raised_pos, &pair, (scale_random_by_limit(2) & 0xFFFF) + 2);
 }

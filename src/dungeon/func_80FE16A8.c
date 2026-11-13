@@ -156,7 +156,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
                 }
             }
             if ((s16)validate_direction_and_initialize_action(body, position, sprite, actor) == 0) {
-                update_eligible_actor_action_alt(body, position, sprite, actor);
+                begin_killer_attack_action(body, position, sprite, actor);
                     return;
             }
             return;

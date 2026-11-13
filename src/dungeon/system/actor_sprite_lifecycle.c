@@ -11,7 +11,7 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-static s32 uses_direct_actor_sprite_frames(ActorRecord *record);
+static s32 has_direct_actor_sprite_frames(ActorRecord *record);
 #include "dungeon/player/object/action_state.h"
 #include "engine/texture.h"
 #include "slus.h"
@@ -19,7 +19,7 @@ static s32 uses_direct_actor_sprite_frames(ActorRecord *record);
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* arg2 in refresh_actor_facing_and_lifecycle */
 
-static s32 uses_direct_actor_sprite_frames(ActorRecord *record) {
+static s32 has_direct_actor_sprite_frames(ActorRecord *record) {
     if (*(s32 *)NODE_HEADER(record)->sprite == 0) {
         return 1;
     }
@@ -42,7 +42,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
     if (entity->flags14 & 0x100000) {
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         if (anim->unk_94 != direction) {
-            if (uses_direct_actor_sprite_frames(entity) != 0) {
+            if (has_direct_actor_sprite_frames(entity) != 0) {
                 select_record_entry_and_value(sprite, (*(s32 **)&sprite->frameTable)[direction],
                               sprite->unk_04);
                 anim->unk_94 = direction;
@@ -76,7 +76,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
     if (!(sprite->flags & 0x8000)) {
         if (anim->unk_98 & 0x400) {
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
-            if (uses_direct_actor_sprite_frames(entity) != 0) {
+            if (has_direct_actor_sprite_frames(entity) != 0) {
                 select_record_entry_and_value(sprite, (*(s32 **)&sprite->frameTable)[direction],
                               sprite->unk_04);
             } else {

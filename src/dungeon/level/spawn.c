@@ -723,12 +723,12 @@ void restore_spawns_and_place_floor_traps(void) {
         position[slot].flags = 0;
         cycle_map_cell_flags(x, y, TILE_HAS_OBJECT);
         {
-            u8 *lookup_base = 0;
+            s32 *lookup_base = 0;
             s32 table_index;
 
             table_index = trap_type;
             lookup_base = floor_object_sprite_sources;
-            value = *(s32 *)(lookup_base + (table_index << 2));
+            value = lookup_base[table_index];
         }
         if (value < 0) {
             select_record_entry_and_value(&position[slot], value, 0);

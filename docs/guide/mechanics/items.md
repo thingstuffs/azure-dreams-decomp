@@ -73,7 +73,7 @@ rejected -1 as true (DB003-DB006):
 
 Verified by reading
 [`identify_selected_item`](../../../src/dungeon/item/identify_selected_item.c),
-[`clear_selected_item_flag_400`](../../../src/dungeon/actor/effect/effect.c),
+[`unmark_selected_item`](../../../src/dungeon/actor/effect/effect.c),
 [`get_item_category_flags`](../../../src/engine/item/get_item_category_flags.c)
 and [`get_item_name_text`](../../../src/engine/item/get_item_name_text.c).
 Identification has both instance and category state. The selected-item path

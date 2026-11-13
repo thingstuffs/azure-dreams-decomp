@@ -6,7 +6,7 @@
 extern struct { s32 v; s32 pad[2]; } object_flag_block;
 
 /* Run the flag handler and set entry and global flags when bit 0x2000 is set. */
-void run_flag_handler_and_set_2000_flags(void *entry_arg) {
+void create_settings_controller_and_flag_removal(void *entry_arg) {
     ObjectNodeHeader *entry = entry_arg;
 
     if ((entry - 1)->flags & 0x2000) {

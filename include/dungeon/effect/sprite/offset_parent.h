@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_1906F98_H
 #define DUNGEON_OVL_1906F98_H
+#include "dungeon/effect/sprite/fading_entries.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
@@ -64,7 +65,6 @@ void initialize_timed_motion_step(s32, s32);
 extern u8 directional_particle_node_callback[];
 extern u8 directional_particle_callback[];
 extern u8 D_800249DC[];
-extern u8 fading_sprite_entries[];
 extern u8 current_spell_effect_variant[];
 void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg);
 s32 project_linked_vertical_point_quads(void *sprite_data, void *position);

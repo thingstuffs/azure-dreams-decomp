@@ -23,10 +23,10 @@
 #include "dungeon/monster/dragon/transition_effect.h"
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_work, ObjectPosition *entry_context, SpriteFrameState *position, ActorRecord *actor);
-s32 check_action_eligibility_updates_actor_state_directional_animation_success(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
+void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_context, SpriteFrameState *position, ActorRecord *actor);
+s32 try_begin_tyrant_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173900(void *, void *, void *, void *);
-extern void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void begin_tyrant_defeat(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 extern s32 tyrant_action_resume_address;
 extern u8 tyrant_direction_frames[];
@@ -127,7 +127,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             return;
         }
         if (*(u16 *)&map_object_arg->tile_x == reference_tile_object.tile_position.word) {
-            update_actor_movement_choosing_direction_recording_path(actor_arg, context_arg, map_object_arg, actor_state_arg);
+            choose_tyrant_move_direction(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
         if (!(actor_state_arg->action_flags & 0x8000)) {
@@ -151,20 +151,20 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             }
             actor_state_arg->action_flags |= 0x4000;
             if (!(actor_state_arg->action_flags & 0x8000)) {
-                update_actor_movement_choosing_direction_recording_path(actor_arg, context_arg, map_object_arg, actor_state_arg);
+                choose_tyrant_move_direction(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
             }
         }
 
         switch (actor_state_arg->action_flags & 0x3FFF) {
         case 8:
-            if ((s16)check_action_eligibility_updates_actor_state_directional_animation_success(actor_arg, context_arg, map_object_arg, actor_state_arg) == 0) {
+            if ((s16)try_begin_tyrant_attack(actor_arg, context_arg, map_object_arg, actor_state_arg) == 0) {
                 start_directional_actor_effect(actor_arg, context_arg, map_object_arg, actor_state_arg);
                 return;
             }
             return;
         case 9:
-            handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(actor_arg, context_arg, map_object_arg, actor_state_arg);
+            begin_tyrant_defeat(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         case 5:
         case 6:
@@ -194,7 +194,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             begin_actor_spell_action(actor_arg, context_arg, map_object_arg, D_80173FF0, &tyrant_action_resume_address);
             return;
         default:
-            update_actor_movement_choosing_direction_recording_path(actor_arg, context_arg, map_object_arg, actor_state_arg);
+            choose_tyrant_move_direction(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
     } else if (!(((u32)actor_state_arg->flags1C) & ACTOR_PLAYER_SIDE)) {

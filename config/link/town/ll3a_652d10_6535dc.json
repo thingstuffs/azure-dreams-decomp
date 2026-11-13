@@ -85,7 +85,7 @@
     },
     {
       "row": "town/func_806D3434",
-      "tu": "src/town/scene/object/init_object_set_runtime_pointers_rev_b.c",
+      "tu": "src/town/scene/object/init_runtime_pointers_from_shared_buffer.c",
       "home": "town/func_806D3434",
       "foff": "0x653434",
       "vma": "0x80016C34",
@@ -105,7 +105,7 @@
     },
     {
       "row": "town/func_806D34CC",
-      "tu": "src/town/scene/flags/set_flag_test_indexed_bit.c",
+      "tu": "src/town/scene/flags/set_object_bitmap_bit.c",
       "home": "town/func_806D34CC",
       "foff": "0x6534CC",
       "vma": "0x80016CCC",

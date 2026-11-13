@@ -1,6 +1,9 @@
 #include "shared/audio_commands.h"
 /* Particle rendering, timed display slots, and an actor tint and particle sequence. */
 #include "dungeon/effect/particle/advance_object_spawning_displays_high.h"
+#include "dungeon/effect/sprite/timed_projectile_entries.h"
+#include "dungeon/effect/sprite/high_particle_entries.h"
+#include "shared/dungeon_sprite_data.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
@@ -28,9 +31,6 @@ const RectTable high_particle_texture_rects = {{{832,320,64,64},{832,384,64,64},
 extern u8 D_80025704[16];
 extern u8 D_80025710[16];
 extern u8 D_800256EC[16];
-extern u8 timed_projectile_sprite_entries[];
-extern u8 high_particle_sprite_entries[];
-extern u8 effect_sprite_sources[];
 
 /* Fades a red-tinted sprite, adjusts its offset, and clears the owner's indexed slot when the
    countdown ends. */
@@ -280,7 +280,7 @@ void lower_timed_effect_position(Entity *entity, State *state)
 }
 
 /* Spawn and initialize an object at a randomized offset from its parent. */
-void handle_spawn_initialize_randomized_offset_parent(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
+void spawn_lowering_effect_under_parent(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
                    s16 x_offset, s16 y_offset, s16 z_offset) {
     ObjectNodeHeader *parent = source;
     s16 held_x_offset = x_offset;
@@ -528,7 +528,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                     particle_level = effect->facing;
                     particle_x = effect->attachment_x;
                     particle_color |= 0x20F0;
-                    handle_spawn_initialize_randomized_offset_parent(NODE_HEADER(primary_actor_record),
+                    spawn_lowering_effect_under_parent(NODE_HEADER(primary_actor_record),
                                   particle_level, particle_color,
                                   sprite_rgb,
                                   particle_x, effect->attachment_y,
@@ -579,7 +579,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                         {
                             void *anim_sprite = sprite;
                             if (particle_index != 0) {
-                                void *animation = timed_projectile_sprite_entries;
+                                void *animation = &timed_projectile_sprite_entries;
                                 s16 anim_context = 0;
                                 mode_c = 0x20;
                                 sprite->tpage_abr = mode_c;
@@ -616,7 +616,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                         particle_level = effect->facing;
                         particle_x = effect->midpoint_x;
                         particle_color |= 0x20F0;
-                        handle_spawn_initialize_randomized_offset_parent(NODE_HEADER(primary_actor_record),
+                        spawn_lowering_effect_under_parent(NODE_HEADER(primary_actor_record),
                                       particle_level, particle_color,
                                       sprite_rgb,
                                       particle_x, effect->midpoint_y,
@@ -669,7 +669,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
                             {
                                 neutral_color = (u32)(unsigned long)sprite;
                                 if (particle_index != 0) {
-                                    void *animation = timed_projectile_sprite_entries;
+                                    void *animation = &timed_projectile_sprite_entries;
                                     s16 anim_context = 0;
                                     mode_a = 0x20;
                                     F((void *)(unsigned long)neutral_color, u16, 0x10) = mode_a;

@@ -982,12 +982,12 @@ void spawn_initial_floor_monsters(void) {
 #include "dungeon/actor/effect.h"
 
 /* Sends the two-byte command 1, 0x12. */
-void clear_item_flag_400_for_egg_one(void) {
+void clear_fixed_item_mark_flag(void) {
     s8 command[2];
 
     command[0] = 1;
     command[1] = 0x12;
-    clear_selected_item_flag_400(&command[0]);
+    unmark_selected_item(&command[0]);
 }
 
 typedef struct {
@@ -1003,7 +1003,7 @@ typedef struct {
     u8 pad10[4];
 } DungeonGroup;
 
-extern void clear_item_flag_400_for_egg_one(void);
+extern void clear_fixed_item_mark_flag(void);
 extern DungeonGroup item_category_groups[];
 
 typedef struct {
@@ -1018,7 +1018,7 @@ typedef struct S_800A6A9C_0 {
     DungeonItem * unk_0C;
 } S_800A6A9C_0;
 
-/* Restores item flag 0x400 across the item category table from the RAM bitmap, then calls clear_item_flag_400_for_egg_one. */
+/* Restores item flag 0x400 across the item category table from the RAM bitmap, then calls clear_fixed_item_mark_flag. */
 void restore_item_flag_400_bitmap(void)
 {
     S_800A6A9C_0 *group;
@@ -1057,7 +1057,7 @@ void restore_item_flag_400_bitmap(void)
         }
         group_index += 1;
     } while (group_index < 0x13);
-    clear_item_flag_400_for_egg_one();
+    clear_fixed_item_mark_flag();
 }
 
 /* MECHANISM: The 0x18 frame has only the $ra save; explicit clear_flag_mask/page locals
@@ -1198,7 +1198,7 @@ void *create_pulsing_effect_object(void) {
         advance_record_values_by_step(sprite, 4);
         set_record_flags_and_negate_x(sprite, 8);
         apply_record_flags_through_end(sprite, 0x20);
-        set_record_byte_flags_through_end(sprite, 2);
+        or_flags_into_record_list(sprite, 2);
         ((S_800A6C00_0 *)object)->unk_C0 = 0x808080;
         ((S_800A6C00_0 *)object)->unk_F4 = 0;
     }

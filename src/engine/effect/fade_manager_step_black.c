@@ -27,6 +27,6 @@ void fade_manager_step_black(
     if ((s16)fade_state->scale_x <= 0) {
         fade_state->scale_y = 0;
         manager->step = 0;
-        runtime_clear_record_field_04(manager, fade_state);
+        clear_fade_has_source(manager, fade_state);
     }
 }

@@ -1450,7 +1450,7 @@ use_kind:
     motion->velocity_x = 0;
     set_record_integer_tile_center(motion, tile_arg->tile_x, tile_arg->tile_y);
     {
-        u8 *active_actor = primary_actor_record;
+        ActorRecord *active_actor = primary_actor_record;
         g_dungeon_status.active_actor = 0;
         ((R10_80173280_S_80173280_6 *)active_actor)->unk_A6--;
     }
@@ -2054,7 +2054,7 @@ void prepare_directional_attacks_for_neighbor_entities(ActorRecord *node, s32 ti
 {
     s32 match_x = tile_x;
     s32 match_y = tile_y;
-    void *head = node;
+    ActorRecord *head = node;
     ActorRecord *actor = head;
     void *owner;
 

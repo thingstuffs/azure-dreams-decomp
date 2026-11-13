@@ -32,17 +32,17 @@ void update_actor_with_interaction_state(TownObjectRecord *controller, ObjectPos
     GameWork *state = &g_game_work;
     s32 *samples;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
+    resolve_collision_axis_order(entity);
+    apply_velocity_friction(entity);
     samples = &position_query_scratch;
-    sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, samples);
+    sampled_value = query_capped_surface_height(entity, samples);
     if ((sampled_value - entity->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(controller, entity, context);
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town(entity, sampled_value, samples);
+        set_height_and_slope_velocity(entity, sampled_value, samples);
     }
     countdown = ((u16)controller->unk_0A) - 1;
     controller->unk_0A = countdown;

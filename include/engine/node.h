@@ -37,7 +37,7 @@ void run_active_node_callbacks(void);
 void run_node_callback_and_set_marker(struct FadeManagerBody *entry, struct ObjectPosition *output, struct SpriteFrameState *context);
 
 /* table_set_bit_in_node_global_flags_node_exists.c */
-void table_set_bit_hex_8000_in_node_global_flags_node_exists(struct ObjectNodeHeader *node);
+void flag_node_for_removal(struct ObjectNodeHeader *node);
 
 /* unlink_active_node.c */
 void unlink_active_node(ObjectNodeHeader *node);
@@ -53,7 +53,7 @@ void func_80033D08(void *block_data);
 void update_active_nodes(void);
 
 /* update_node_registration.c */
-void update_node_registration(void *state, void *context);
+void update_node_registration(struct FadeManagerBody *state, void *context);
 
 #include "shared/object_node_flags.h"
 

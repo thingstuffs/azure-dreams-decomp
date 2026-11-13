@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_800AD508",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0xcd508",
       "vma": "0x800b2c68",
       "size": 56

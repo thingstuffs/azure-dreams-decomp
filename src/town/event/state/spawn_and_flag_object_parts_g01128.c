@@ -21,7 +21,7 @@ void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_
     unlink_node_if_registered(object);
     object[-1] |= 0x8000;
     (*((struct S_800814A0 *)D_800814A0)).v |= 0x8000;
-    run_the_follow_up_action_has_eligible_type_passes_check(action_id);
+    spawn_queued_item_object(action_id);
 }
 
 /* Update the object and set the high bit in its header and the global flags. */
@@ -100,7 +100,7 @@ void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motio
         return;
     }
 
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
     add_motion_deltas_to_position(motion);
     height_limit = query_lowered_transform_position(motion);
     if (motion->z.w.i > height_limit) {

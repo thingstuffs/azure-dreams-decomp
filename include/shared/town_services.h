@@ -9,12 +9,14 @@
  * +0x74 returns a record pointer. Per-use casts may retain stricter prototypes
  * or a noreturn attribute where the caller needs it. See phase-12 DESIGN.md. */
 /* Town-scene engine service table reached through the scene root at +0x20.
- * Scene and event callbacks borrow these slots; the table initializer remains untraced. */
+ * Scene and event callbacks borrow these slots; the table initializer remains untraced. Slot offset / 4 is
+ * the entry of the town script call table at 0x800D3CC8 (+0x280 play_sound is entry 160, SD_Call), so a
+ * slot named after a developer symbol is that table entry (+0x04C entry 19, +0x228 entry 138). */
 typedef struct TownServiceTable {
     /* 0x000 */ unsigned char pad_000[0x44];
     /* 0x044 */ int (*callback_044)();
     /* 0x048 */ unsigned char pad_048[0x4];
-    /* 0x04C */ int (*callback_04C)();
+    /* 0x04C */ int (*BuildLandBuilding)();
     /* 0x050 */ int (*callback_050)();
     /* 0x054 */ int (*callback_054)();
     /* 0x058 */ unsigned char pad_058[0x10];
@@ -44,7 +46,7 @@ typedef struct TownServiceTable {
     /* 0x21C */ int (*callback_21C)();
     /* 0x220 */ int (*callback_220)();
     /* 0x224 */ int (*callback_224)();
-    /* 0x228 */ int (*callback_228)();
+    /* 0x228 */ int (*tcame_chase_fix_reset)();
     /* 0x22C */ unsigned char pad_22C[4];
     /* 0x230 */ int (*callback_230)();
     /* 0x234 */ unsigned char pad_234[0x4];

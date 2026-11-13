@@ -109,7 +109,7 @@ void initialize_effect_with_sprite_set_nine(EffectState *parent, ObjectPosition 
             } else {
                 obj.position->z.v = 0;
             }
-            configure_the_set_mode_n_3(entity.state, obj.position, *part_params);
+            init_scene_node_mode_3(entity.state, obj.position, *part_params);
         }
         part_index++;
         part_params++;

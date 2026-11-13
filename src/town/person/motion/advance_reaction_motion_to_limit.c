@@ -26,5 +26,5 @@ void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, EntityRec *
         initialize_reaction_object_four(state, motion, context);
         return;
     }
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
 }

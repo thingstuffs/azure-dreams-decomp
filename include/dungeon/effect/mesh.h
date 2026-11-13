@@ -79,7 +79,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
 
 void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 extent, s32 x, s32 y, s32 z);
 void clear_listed_tile_flags(void);
-s32 count_flagged_tiles_along_direction_2(s16 scan_direction, s32 start_x, s32 start_y);
+s32 scan_flagged_tiles_along_direction(s16 scan_direction, s32 start_x, s32 start_y);
 
 /* Callback work and the fields installed by create_linked_effect_controller. */
 typedef struct LinkedEffectControllerBody {
@@ -133,7 +133,7 @@ extern u8 shared_decode_staging_buffer[16400];
 /* Callback entry points. */
 s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position);
 void build_visible_tile_quads(MeshEffectObjectBody *tiles);
-void handle_increment_s_counter_update_state_propagate_status_flags(OwnerLinkedSpriteEffectBody *object, ObjectPosition *unused, SpriteFrameState *state);
+void update_owner_linked_sprite_effect(OwnerLinkedSpriteEffectBody *object, ObjectPosition *unused, SpriteFrameState *state);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
@@ -149,6 +149,6 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
 void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value);
 s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y);
 
-void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ObjectPosition *source_data, s16 initial_setting);
+void *create_five_point_orbit_effect(s32 state_value, ObjectPosition *source_data, s16 initial_setting);
 
 #endif

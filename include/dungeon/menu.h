@@ -61,7 +61,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
 void append_map_dot_tile(s32 x, s32 y, void *color_data, void *submissionTarget);
 void retire_menu_object(void *object);
 void select_paired_value_tables(Rec_func_801237A4_arg0 *record);
-void set_record_byte_flags_through_end(u8 *record, s32 flags);
+void or_flags_into_record_list(u8 *record, s32 flags);
 void set_record_flags_and_negate_x(u8 *record, s32 flags);
 
 

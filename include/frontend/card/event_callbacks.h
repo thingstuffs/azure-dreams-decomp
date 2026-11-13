@@ -14,7 +14,7 @@ typedef struct card_dev_event_table {
 
 extern card_dev_event_table D_80400054;
 extern card_dev_event_table D_80400068;
-s32 advance_processing_selected_slot_sets_completion_flag(void);
+s32 poll_selected_card_slot(void);
 s32 card_dev_clear_op_failed(void);
 s32 card_dev_clear_op_busy(void);
 s32 process_selection(void);

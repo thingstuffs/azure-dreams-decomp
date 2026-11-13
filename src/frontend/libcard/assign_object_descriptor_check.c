@@ -11,6 +11,6 @@ void assign_object_descriptor_on_check(void *object_data_addr) {
     object = object_data_addr;
     object -= 1;
     if (create_resource_transition_for_descriptor_check(object) != 0) {
-        object->update_callback = run_flag_handler_and_set_2000_flags;
+        object->update_callback = create_settings_controller_and_flag_removal;
     }
 }

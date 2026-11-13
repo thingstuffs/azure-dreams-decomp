@@ -34,8 +34,7 @@ typedef struct S_818BD3B0_2 {
     s32 center_z; /* 0x14 */
 } S_818BD3B0_2;   /* arg1 in update_orbital_motion_effect */
 
-#include "shared/sprite_source.h"
-extern SpriteSourceEntry shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 
 /* Advance orbital motion, expire it at its duration, and update the object. */
 void update_orbital_motion_effect(S_818BD3B0_0 *motion, S_818BD3B0_2 *position, SpriteFrameState *object) {

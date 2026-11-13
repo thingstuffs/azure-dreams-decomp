@@ -1,3 +1,4 @@
+#include "dungeon/effect/sprite/fading_entries.h"
 #include "shared/object_node.h"
 #include "slus.h"
 #include "shared/entity.h"
@@ -14,7 +15,6 @@ void emit_particles_until_expired(Rec_func_800D4BD4_arg1 *emitter, ObjectPositio
 #include "shared/sprite_source.h"
 #include "dungeon/system.h"
 
-extern SpriteSourceEntry fading_sprite_entries[];
 /* Creates a colored effect at the source position and optionally plays a sound. */
 void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id)
 {

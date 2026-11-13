@@ -34,7 +34,7 @@ typedef struct S_8009FB2C_1 {
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_8009FB2C_1;   /* arg1 in copy_an_entry_slot_creating_associated_type_hex_13 */
+} S_8009FB2C_1;   /* arg1 in copy_item_entry_to_slot */
 
 typedef struct S_8009FB2C_2 {
     u8 pad_00[0x29C];
@@ -43,7 +43,7 @@ typedef struct S_8009FB2C_2 {
 } S_8009FB2C_2;
 
 /* Copies an entry into a slot, creating an associated record for type 0x13. */
-void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, S_8009FB2C_1 *source_entry) {
+void *copy_item_entry_to_slot(s32 slot_index, S_8009FB2C_1 *source_entry) {
     u8 *copy_dst;
     u8 *copy_src;
     s32 record_index;

@@ -65,7 +65,7 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
     object = allocate_list_node(0x202, allocation_head);
     if (object != 0) {
         object->update_callback = (void *)emit_particle_then_wait_for_path_release;
-        register_node(object, build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
+        register_node(object, queue_shaded_line_chain);
         positions = object->position;
         positions->x.w.i = (s16) (((u16)(origin->x.w.i)) + ((s32) (rcos(angle) * radius) >> 0xF));
         positions->y.w.i = (s16) (((u16)(origin->y.w.i)) + ((s32) (rsin(angle) * radius) >> 0xF));

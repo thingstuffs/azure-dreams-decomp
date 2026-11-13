@@ -12,5 +12,5 @@ extern s32 D_800D54BC[];
 void initialize_actor_clear_table_flag(TownObjectRecord *actor, s32 unused, void *init_param) {
     initialize_object_entries((actor), init_param, D_800D54BC);
     object_index_slots[actor->slot].unk_00 = 0;
-    actor->handler = &process_object_0x6000_flag_bits;
+    actor->handler = &reset_object_entries_on_flag_bits;
 }

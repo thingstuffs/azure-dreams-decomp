@@ -61,7 +61,7 @@ void process_indexed_entry_record(s32 entry_index) {
  * Uploads the 32-by-128 pixel block at D_800FC428 to VRAM (0x360, 0x100) only for scene selector
  * 0x13000C.
  */
-void upload_town_movie_pixel_data_2(void) {
+void upload_town_movie_pixels(void) {
     if (map_scene_selector_alias == 0x13000C) {
         upload_pixel_rectangle(0x360, 0x100, 0x20, 0x80, &D_800FC428);
     }

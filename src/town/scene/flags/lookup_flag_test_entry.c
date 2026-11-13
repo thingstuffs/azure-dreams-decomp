@@ -23,6 +23,6 @@ typedef struct S_800166B0_0 {
 
 /* Look up an entry and query its associated flag. */
 void lookup_flag_test_entry(s32 entries, S_800166B0_0 *context, s32 entry_key) {
-    select_data_array_based_flag(((S_800166B0_2 *)(((((S_800166B0_1 *)(((find_entry_8_index_or_assert_rev_b(entries, entry_key) * 8)
+    select_data_array_based_flag(((S_800166B0_2 *)(((((S_800166B0_1 *)(((find_entry_index_or_assert(entries, entry_key) * 8)
         + entries)))->unk_02 * 4) + context->unk_14)))->unk_02);
 }

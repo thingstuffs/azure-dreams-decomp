@@ -31,11 +31,11 @@ u8 *process_eligible_object_value(Object *object, u8 *input_value) {
                 D_800E18C0,
                 append_typed_formatted_value(object, write_text_byte_and_advance(10, result)));
             object->flags &= 0x7F;
-            clear_selected_item_flag_400(object);
+            unmark_selected_item(object);
             result = expand_text_control_codes(
                 D_80088CA8,
                 append_typed_formatted_value(object, result));
-            clear_selected_item_flag_400(object);
+            unmark_selected_item(object);
         }
     }
 

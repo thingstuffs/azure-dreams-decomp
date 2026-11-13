@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_8128D000",
-      "tu": "src/dungeon/monster/beldo_old/copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading.c",
+      "tu": "src/dungeon/monster/beldo_old/sync_old_beldo_part_to_owner.c",
       "home": "dungeon/func_8127B000",
       "foff": "0x12AD098",
       "vma": "0x8015d898",
@@ -79,7 +79,7 @@
     },
     {
       "row": "dungeon/func_8128D618",
-      "tu": "src/dungeon/monster/beldo/create_effect_from_sprite_and_facing.c",
+      "tu": "src/dungeon/monster/beldo/create_beldo_expanding_fade.c",
       "home": "dungeon/func_81251618",
       "foff": "0x12AD618",
       "vma": "0x8015DE18",
@@ -279,7 +279,7 @@
     },
     {
       "row": "dungeon/func_8128EC74",
-      "tu": "src/dungeon/monster/beldo/run_actor_callbacks_and_adjust_global_flag.c",
+      "tu": "src/dungeon/monster/beldo/finish_beldo_tile_move.c",
       "home": "dungeon/func_81252C74",
       "foff": "0x12AEC74",
       "vma": "0x8015F474",
@@ -389,7 +389,7 @@
     },
     {
       "row": "dungeon/func_8128F640",
-      "tu": "src/dungeon/monster/hikewne/reset_state_field_a.c",
+      "tu": "src/dungeon/monster/hikewne/update_hikewne_hop_and_shrink.c",
       "home": "dungeon/func_80977D88",
       "foff": "0x12AF640",
       "vma": "0x8015FE40",

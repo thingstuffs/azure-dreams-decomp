@@ -7,15 +7,15 @@
 /* Installs shared buffers, clamps field +0x35BC to at least 20, and updates two scene flags. */
 void invoke_callback_and_set_shared_pointer(void) {
     Rec_D_80016000 *town_state;
-    void *field_base;
+    TownStateRecord *field_base;
     s32 field_value;
 
     town_state = town_scene_root;
     field_base = town_state->town_state;
-    field_value = *(s16 *)((u8 *)field_base + 0x35BC);
+    field_value = field_base->unk_35BC;
     D_80017548[0] = D_80017478;
     if (field_value < 20) {
-        *(s16 *)((u8 *)field_base + 0x35BC) = 20;
+        field_base->unk_35BC = 20;
     }
     clear_script_flag_bit(F_sbs09_pad05);
     clear_script_flag_bit(F_sbs09_pad06);

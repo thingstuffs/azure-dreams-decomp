@@ -157,7 +157,7 @@ typedef struct TargetCompletionEffectBody {
     u16 completion_count;
 } TargetCompletionEffectBody;
 
-void update_the_target_records_counts_flags_status(TargetCompletionEffectBody *object_slot, void *unused, SpriteFrameState *target);
+void update_completion_counting_particle(TargetCompletionEffectBody *object_slot, void *unused, SpriteFrameState *target);
 
 /* Creates an object with default rendering settings and copies its initial data. */
 
@@ -364,14 +364,13 @@ void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, 
 extern u8 D_80025B1C[16];
 
 extern Row_81916AEC_unk32 D_800241E4;
-extern Row_81916AEC_unk32 shared_sprite_entries;
+#include "dungeon/effect/sprite/shared_entries.h"
 extern M2C_UNK D_8002441C;
 extern M2C_UNK D_8002457C;
-#include "shared/sprite_source.h"
-extern SpriteSourceEntry rotating_particle_sprite_entries[];
+#include "dungeon/effect/sprite/rotating_entries.h"
 extern s32 D_80024710;
 extern s32 D_80025B10;
-extern s32 rising_sprite_entries[3];
+#include "dungeon/effect/sprite/rising_entries.h"
 extern u8 D_80024C0C[];
 extern u8 D_800DE39C[];
 extern s32 D_800DEB70;
@@ -380,19 +379,19 @@ extern u8 entity_height_offsets[];
 extern Row_81917C08_ActionSlot D_8008346C;
 void interpolate_view_parameters(void *tracker);
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param);
-void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, void *update_context);
-void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, ObjectPosition *initial_data, Row_81916AEC_S_800242EC_2 *source);
+void update_decelerating_sprite_effect(void *motion, void *position, void *update_context);
+void *create_blue_decelerating_sprite(s32 object_id, ObjectPosition *initial_data, Row_81916AEC_S_800242EC_2 *source);
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown);
-void create_a_type_hex_212_initializes_handler_mode(s32 initial_value);
-void update_the_target_records_counts_flags_status(TargetCompletionEffectBody *object_slot, void *unused, struct SpriteFrameState *target);
-void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data);
-void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position);
+void create_short_timed_effect_node(s32 initial_value);
+void update_completion_counting_particle(TargetCompletionEffectBody *object_slot, void *unused, struct SpriteFrameState *target);
+void *create_rotating_particle_sprite(s32 *owner_data, Row_81916E00_Copy24 *initial_data);
+void update_two_angle_drift_effect(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position);
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step);
-void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, struct SpriteFrameState *visual);
+void update_sphere_scatter_effect(void *object, Rec_func_80024600_arg1 *position, struct SpriteFrameState *visual);
 void advance_radial_effect_state(Row_8191740C_S_80024C0C_0 *motion, void *position, struct SpriteFrameState *effect);
-void *create_an_oriented_effect_between_position_owner(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos);
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform,struct SpriteFrameState *visual);
-void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
+void *create_owner_trail_sprite(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos);
+void update_growing_orbit_sprite(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform,struct SpriteFrameState *visual);
+void * create_growing_orbit_sprite(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
 void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 extern u8 camera_transition_timer[];
 extern void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);

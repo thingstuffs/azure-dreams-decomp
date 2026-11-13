@@ -10,7 +10,7 @@
 #include "town/person/position_callbacks_api.h"
 
 /* Initialize object resources and display state, then copy its position to shared state. */
-void initialize_object_resources_2(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state) {
+void initialize_camera_chase_object(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state) {
     ObjectPosition *shared_position;
 
     initialize_object_and_register_slot(object, 0x1D, &D_800D5120, &D_800D5124,
@@ -20,7 +20,7 @@ void initialize_object_resources_2(TownObjectRecord *object, ObjectPosition *pos
     NODE_HEADER(object)->update_callback = &set_camera_chase_data;
     display_state->tpage_abr = 0;
     display_state->flags = (u16) (display_state->flags | 0xC);
-    create_user_data_object_b(((void *)object) - 0x20);
+    create_gray_sprite_user_object(((void *)object) - 0x20);
     create_resource_display_object(0);
     create_resource_display_object(1);
     display_state->scale_y = 0x800;
@@ -94,7 +94,7 @@ void init_actor_handler_state(S_800C51DC_0 *actor, ObjectPosition *state) {
 }
 
 /* Allocates an object and initializes its display part and user data. */
-void *create_user_data_object_b(s32 user_data)
+void *create_gray_sprite_user_object(s32 user_data)
 {
     SpriteFrameState *part;
     S_800C5214_0 *object;

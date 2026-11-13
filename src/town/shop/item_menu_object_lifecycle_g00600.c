@@ -51,7 +51,7 @@ void release_item_menu_object(ItemMenuParameters *parameters) {
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     reset_item_menu_object_state(firstParameter);
     schedule_item_menu_child_release(parameters->field4);
-    set_object_data_pointer_2(parameters->field8);
+    set_advance_inner_value_callback(parameters->field8);
     enqueue_script_message_command();
-    handle_selection_and_create_object();
+    create_selected_town_object();
 }

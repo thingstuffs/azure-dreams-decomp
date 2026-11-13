@@ -31,6 +31,6 @@ void scroll_window_x(S_8003566C_0 *state) {
     if ((s16) state->unk_00->unk_08 < 0x100) {
         create_window_overlay_object(&scrolling_window_node_storage, &scrolling_window_display_storage, &message_window_object_template, state, 1, state->unk_74);
         state->unk_4D = 0;
-        state->unk_68 = &runtime_decrease_state_by_a_0;
+        state->unk_68 = &step_window_value_down_to_zero;
     }
 }

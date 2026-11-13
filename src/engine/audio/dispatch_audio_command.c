@@ -6,7 +6,7 @@
 
 
 
-extern void handle_audio_status_code(s32 a0);
+extern void handle_sequence_control_code(s32 a0);
 extern void start_pending_selection(void);
 
 /* Dispatches a status transition or queues a packed selection for playback. */
@@ -47,5 +47,5 @@ void dispatch_audio_command(s32 code)
     default:
         return;
     }
-    handle_audio_status_code(code);
+    handle_sequence_control_code(code);
 }

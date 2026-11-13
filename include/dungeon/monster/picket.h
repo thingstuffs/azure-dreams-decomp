@@ -9,22 +9,22 @@ struct S_80174978_0;
 
 
 
-void update_a_jump_toward_target_tile_restores_actor_finishes(ActorRecord *jump_state, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor);
-void update_movement_animation_settles_actor_target_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_picket_jump_to_tile(ActorRecord *jump_state, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor);
+void update_picket_jump_attack(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 
-void update_a_timed_movement_animation_marks_completion(struct S_80174978_0 *actor, ObjectPosition *motion, SpriteFrameState *visual);
-void update_movement_destination_selection_recovery_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_picket_item_drop_effect(struct S_80174978_0 *actor, ObjectPosition *motion, SpriteFrameState *visual);
+void update_picket_dash_and_retreat(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_func_800AD058_arg2.h"
-void create_and_initializes_display_source_position_appearance(ObjectPosition *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance);
+void create_picket_held_item_sprite(ObjectPosition *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance);
 
 void * move_eligible_item(void *origin, ActorRecord *actor);
 void * pick_up_adjacent_item(void *origin, struct ActorRecord *actor);
-void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
+void update_picket_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
-void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *entity, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void start_picket_action_if_idle(ActorRecord *entity, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

@@ -43,7 +43,7 @@ typedef struct {
 } Copy24;
 
 extern u8 D_80024BB0[];
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 
 /* Creates an effect node with phase-based color, random rotation, and offset coordinates. */
 void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 phase_index, s32 effect_param)

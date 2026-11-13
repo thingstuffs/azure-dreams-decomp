@@ -12,5 +12,5 @@ void dispatch_mode_two_by_state(s32 state_input) {
         set_selected_entry_state_3(state_input);
         return;
     }
-    set_indexed_entry_flag_b();
+    set_current_entry_flag();
 }

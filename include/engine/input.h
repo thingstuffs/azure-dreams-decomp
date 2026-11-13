@@ -5,9 +5,9 @@
 #include "common.h"
 
 /* get_pad_buttons.c */
-s32 runtime_get_state_value_83168(void);
+s32 get_held_pad_buttons(void);
 
 /* get_pad_trigger_buttons.c */
-s32 runtime_get_state_value_83170(void);
+s32 get_pressed_pad_buttons(void);
 
 #endif

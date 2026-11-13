@@ -6,6 +6,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
+#include "dungeon/player/actor_sprite_sources.h"
 #include "m2c_compat.h"
 
 typedef struct S_80098614_0 {
@@ -38,8 +39,6 @@ extern u8 D_800E081C[];
 extern u8 D_800E0844[];
 extern u8 D_800E0853[];
 extern u8 D_800E0862[];
-extern u8 unequipped_actor_sprite_sources[];
-extern u8 equipped_actor_sprite_sources[];
 void load_equipment_change_palette(short index);
 extern u8 D_800DD2EC[];
 extern u8 D_800E0874[];

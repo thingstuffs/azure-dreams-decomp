@@ -1,3 +1,4 @@
+#include "dungeon/effect/sprite/fading_entries.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
 /* Visible shaded quad and point rendering, jittered sprites, and timed emission sequences. */
@@ -399,7 +400,7 @@ typedef struct {
 } Motion;
 
 /* Advance a timed effect, update its intensity and motion, and flag completion. */
-void fade_sprite_by_timer_and_drift(QuarterColorFadeBody *effect, Motion *motion, SpriteFrameState *render_data)
+void update_fading_quad_effect(QuarterColorFadeBody *effect, Motion *motion, SpriteFrameState *render_data)
 {
     s32 intensity;
     u16 phase;
@@ -593,7 +594,6 @@ struct Bank1990800_19915d4_Object {
 };
 
 s32 rand();
-extern u8 fading_sprite_entries[];
 
 /* Creates a sprite object with randomized offsets from the source position. */
 void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, s16 base_x, s16 base_y, s16 base_z) {
@@ -609,7 +609,7 @@ void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, Sprite
         object_data = NODE_BODY(object);
         object_data->timer = 0x14;
         object_data->divisor = 0x14;
-        object->update_callback = (u8 *)fade_sprite_by_timer_and_drift;
+        object->update_callback = (u8 *)update_fading_quad_effect;
         register_node(object, project_sprite_chain);
         sprite = object->sprite;
         sprite->tpage_abr = 0x20;

@@ -37,7 +37,7 @@ s32 reject_forbidden_familiar_recall(s32 entry_index);
 void select_state_16_directional_animation(void *entity, ObjectPosition *unused, void *animation, ActorRecord *state);
 void set_familiar_formation_offset(s32 entry_index, s8 value);
 void set_linked_actor_code_and_mirror(s16 object_index, s8 value);
-void set_linked_actor_pending_halfword(s32 entry_index, s32 value);
+void set_linked_actor_pending_value(s32 entry_index, s32 value);
 void update_player_height_step(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *model);
 
 

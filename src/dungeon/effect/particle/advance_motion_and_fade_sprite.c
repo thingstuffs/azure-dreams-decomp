@@ -20,6 +20,8 @@
 #include "engine/scene.h"
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
+#include "dungeon/effect/sprite/moving_entries.h"
+#include "dungeon/effect/sprite/rotating_entries.h"
 
 typedef struct S_func_81856800_1 {
     void * unk_00;
@@ -159,9 +161,7 @@ typedef union SignedProduct {
 
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
-extern u8 moving_sprite_entries[];
-extern u8 rotating_particle_sprite_entries[];
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 
 extern void animate_jittering_five_point_effect();
 

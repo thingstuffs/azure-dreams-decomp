@@ -59,7 +59,7 @@ void card_boot_bind_message_dialog_record(CardMessageDialogBody *record, ObjectN
 void card_boot_initialize_message_dialog_layout(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
     card_boot_bind_message_dialog_record(record, value_14, entry_index, value_0c, value_20);
     card_boot_initialize_message_render_templates(record->display_data, &record->frame_block, &record->frame_vector);
-    card_boot_initialize_dialog_packets_and_display(record);
+    card_boot_init_dialog_packets(record);
 }
 
 /* Initialize the object from its table entry and select its callback. */

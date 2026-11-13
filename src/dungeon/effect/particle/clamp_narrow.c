@@ -1,5 +1,6 @@
 /* Targeted ribbon motion, interpolated trail particles, and fading trail segments. */
 #include "shared/object_node.h"
+#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "dungeon/effect/particle.h"
 #include "shared/sprite_frame_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -102,7 +103,6 @@ typedef struct {
 } PositionTableEntry;
 
 struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16, s16, s16, s16);
-extern u8 ribbon_sprite_entries[];
 extern s32 D_80166D14(void *initial_state, void *context, void *data);
 
 extern PositionTableEntry ribbon_vertices[];

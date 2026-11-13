@@ -53,10 +53,10 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
     s32 interaction_result;
     s32 target_handler;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(position);
-    store_the_valid_shared_angle_in_offset_hex_10(actor);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(position);
-    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, &position_query_scratch);
+    resolve_collision_axis_order(position);
+    store_input_angle(actor);
+    apply_velocity_friction(position);
+    ground_height = query_capped_surface_height(position, &position_query_scratch);
     if ((ground_height - position->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_callback_from_entry(actor, position, context);
@@ -64,7 +64,7 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
         }
     } else {
         if (town_action_state_flag == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town((position), ground_height, (struct TownVec * *)(&position_query_scratch));
+            set_height_and_slope_velocity((position), ground_height, (struct TownVec * *)(&position_query_scratch));
         }
     }
     if ((input->pressed_buttons) & 0x10) {
@@ -73,16 +73,16 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
     }
     if ((input->pressed_buttons) & 0x80) {
         if ((town_target_record != NULL) && (((Rec_D_800CFCC4 *)town_target_record)->unk_14 == 4)) {
-            run_the_three_update_routines_context(position);
+            sync_collision_motion_xyz(position);
             init_timed_dispatch_action(actor, position, context);
             town_interaction_pending[0] = 1;
             return;
         }
         clear_entity_record_fields(position);
-        run_the_three_update_routines_context(position);
-        if (run_the_action_sequence_context_unless_flag_hex_a_5_set((s32)(actor - 0x20)) != 0) {
+        sync_collision_motion_xyz(position);
+        if (create_item_menu_unless_minigame((s32)(actor - 0x20)) != 0) {
             set_default_scene_data_pointer(actor, position, context);
-            town_player_action_callback = &dispatch_actor_action;
+            town_player_action_callback = &begin_town_actor_interaction;
             return;
         }
     } else {
@@ -90,9 +90,9 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
             initialize_busy_checked_countdown_action(actor, position, context);
             return;
         }
-        if ((get_status_active_entry_matching_direction(&town_actor_control) == -1) && (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0)) {
-            select_an_available_entry_matching_direction_returns_status(&town_actor_control);
-            store_the_valid_shared_angle_in_offset_hex_10(actor);
+        if ((get_status_active_entry_matching_direction(&town_actor_control) == -1) && (is_map_state_in_special_range() == 0)) {
+            select_entry_by_input_direction(&town_actor_control);
+            store_input_angle(actor);
             init_motion_action_callback(actor, position, context);
             target_handler = ((S_800927EC_5 *)(((TownObjectRecord *)actor)->unk_2C))->unk_50;
             if ((target_handler != &update_motion_toward_shared_target) && (target_handler != update_motion_toward_town_target)) {
@@ -108,7 +108,7 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
             } else {
                 submit_object_resource_data(interaction->unk_10);
             }
-            town_player_action_callback = &dispatch_actor_action;
+            town_player_action_callback = &begin_town_actor_interaction;
             return;
         }
         if (input->buttons & 0xF000) {

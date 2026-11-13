@@ -8,7 +8,7 @@
 #include "town/menu/window.h"
 #include "slus/town_map_selection_data.h"
 
-void send_resource_command_23(s32);
+void write_town_map_resource_command(s32);
 
 extern u8 D_80072210[];
 extern u8 D_80072214[];
@@ -72,12 +72,12 @@ void handle_town_map_input(TownMapBody *object, ObjectPosition *transform, Sprit
             if (++object->selection >= object->entry_count) {
                 object->selection = 0;
             }
-            send_resource_command_23(entries[object->selection]);
+            write_town_map_resource_command(entries[object->selection]);
         } else if (buttons & 0x9000) {
             if (--object->selection < 0) {
                 object->selection = object->entry_count - 1;
             }
-            send_resource_command_23(entries[object->selection]);
+            write_town_map_resource_command(entries[object->selection]);
         }
         entry_index = object->selection;
         positions = town_building_slot_rectangles;

@@ -18,7 +18,7 @@
 
 
 extern void *create_source_to_owner_sprite(void *, void *, void *);
-extern s32 consume_object_code_19(void *);
+extern s32 clear_anorexia_if_present(void *);
 extern void show_entity_message(s32, void *);
 extern void func_801763CC(s32, void *);
 
@@ -35,7 +35,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
             sprite->flags = sprite_flags | 0x6000;
             if (actor->flags14 & ACTOR_PARTY_MEMBER) {
                 target = actor->target;
-                if (consume_object_code_19(target)) {
+                if (clear_anorexia_if_present(target)) {
                     func_801763CC(1, actor->target);
                 } else {
                     func_801763CC(0, actor->target);
@@ -84,7 +84,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
         if ((timer << 16) == 0 || (sprite->flags & 0x8000)) {
             if (actor->flags14 & ACTOR_PARTY_MEMBER) {
                 target = actor->target;
-                if (consume_object_code_19(target)) {
+                if (clear_anorexia_if_present(target)) {
                     func_801763CC(1, actor->target);
                 } else {
                     func_801763CC(0, actor->target);

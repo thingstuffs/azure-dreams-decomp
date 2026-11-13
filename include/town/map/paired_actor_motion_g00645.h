@@ -100,7 +100,7 @@ extern s32 D_800E9E34[];
 extern s32 D_800E9E54[];
 extern u8 paired_actor_sprite_entries[];
 extern s32 D_800E9ECC[];
-extern void configure_the_set_mode_n_1(void *, void *, void *);
+extern void init_scene_node_mode_1(void *, void *, void *);
 extern u8 D_800BCE78[];
 extern u8 town_map_motion_defaults[];
 extern s32 D_800D2130;
@@ -113,7 +113,7 @@ extern void select_record_entry_and_value(void *,void *, s16);
 extern s32 D_800E9E14[];
 /* Functions defined in this translation unit. */
 void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *motion,struct SpriteFrameState *sprite, s32 update_mode);
-void initialize_object_and_dispatch_by_state(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
+void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
 void randomize_paired_object_motion(void *pair_in);
 void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, struct SpriteFrameState *actor_id);
 s32 event_tori_in(void *source);

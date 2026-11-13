@@ -4,6 +4,6 @@
 #include "engine/resource.h"
 
 /* Clears the fade manager's has_source flag when its fade ends. */
-void runtime_clear_record_field_04(FadeManagerBody *state, SpriteFrameState *unused_sprite) {
+void clear_fade_has_source(FadeManagerBody *state, SpriteFrameState *unused_sprite) {
     state->has_source = 0;
 }

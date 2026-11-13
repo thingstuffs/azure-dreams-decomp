@@ -7,7 +7,7 @@
 #include "dungeon/actor/state.h"
 
 /* Updates the actor state, consumes completed counts, and dispatches its action. */
-void dispatch_actor_action_2(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *state) {
+void resolve_actor_turn_status(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *state) {
     s16 old_count;
 
     if (!(g_dungeon_status.flags & 0x2000)) {

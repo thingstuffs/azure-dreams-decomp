@@ -9,11 +9,11 @@
  * Sets entry flag 0x20 and searches 20 four-byte slots at 0x80010248; saves a successful index at
  * 0x80012D52 and returns the search result.
  */
-s32 set_the_entry_flag_save_returned_table_index_success(void *entry) {
+s32 equip_entry_and_save_slot(void *entry) {
     s32 entry_index;
 
     *((u8 *)entry + 3) |= 0x20;
-    entry_index = get_index_address_in_range_four_byte_slots_n_1(entry, (void *)0x80010248, 0x14);
+    entry_index = find_slot_index_by_address(entry, (void *)0x80010248, 0x14);
     if (entry_index != -1) {
         *(s8 *)0x80012D52 = entry_index;
     }
@@ -29,7 +29,7 @@ s32 set_item_equip_00(s32 first, s32 second) {
     if (item == 0) {
         result = -1;
     } else {
-        result = set_the_entry_flag_save_returned_table_index_success(item);
+        result = equip_entry_and_save_slot(item);
     }
     return result;
 }

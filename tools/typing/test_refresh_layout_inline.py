@@ -35,6 +35,37 @@ class RefreshRosterTests(unittest.TestCase):
                 with patch('sys.argv', args + ['--check']):
                     self.assertEqual(R.main(), 0)
 
+    def test_tu_renamed_after_its_function_is_refreshed_from_its_old_path(self):
+        old = b'int f(void) { return 1; }\n'
+        prefix = b'/* renamed callee declarations */\n'
+        record = dict(member_id='town/f', tu_new='src/town/old_name.c', offset=0,
+                      inlined_bytes=len(old), bytes=len(old), original_includes=[],
+                      source_sha256=hashlib.sha256(old).hexdigest())
+        baseline = (json.dumps(record) + '\n').encode()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'ledger').mkdir()
+            (root / 'src/town').mkdir(parents=True)
+            (root / 'src/town/new_name.c').write_bytes(prefix + old)
+            ledger = root / R.LEDGER
+            ledger.write_text(json.dumps(dict(record, tu_new='src/town/new_name.c')) + '\n')
+
+            def show(_root, _rev, rel):
+                if rel == R.LEDGER:
+                    return baseline
+                if rel == 'src/town/old_name.c':
+                    return old
+                raise R.subprocess.CalledProcessError(128, 'git show')
+
+            args = ['refresh_layout_inline', '--root', str(root), '--base', 'pristine']
+            with patch.object(R, 'git_show', side_effect=show), patch('sys.argv', args), \
+                    patch.object(R, 'history', return_value=[]), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(R.main(), 0)
+            out = json.loads(ledger.read_text())
+            self.assertEqual(out['tu_new'], 'src/town/new_name.c')
+            self.assertEqual(out['offset'], len(prefix))
+            self.assertTrue(R.verifies(out, prefix + old))
+
     def test_preserves_new_records_and_skips_retired_records(self):
         old = b'int f(void) { return 1; }\n'
         prefix = b'/* shared declarations */\n'

@@ -169,9 +169,9 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                 int attach_owner = has_owner;
                 if (attach_owner) {
                     S_80042BDC *owned_ent = spawn_result_2;
-                    u8 *owner_data;
-                    owner_data = ((u8 *)dungeon_actor_ring_anchor);
-                    *(S_80042BDC **)(owner_data + 0x124) = spawn_result_2;
+                    ActorRecord *owner_data;
+                    owner_data = dungeon_actor_ring_anchor;
+                    *(S_80042BDC **)((u8 *)owner_data + 0x124) = spawn_result_2;
                     spawn_result_2->x60 = owner_data;
                     spawn_result_2->x1C |= ACTOR_LIFTED;
                     /*

@@ -32,7 +32,7 @@ void setup_town_scene(void) {
     file_load_com(town_scene_resource_descriptor);
     file_load_com(D_800D1D54);
     file_load_com(D_800D1E7C);
-    load_alternate_sprite_bundle_and_clear_textures();
+    load_town_sprite_bundle_and_clear_alternates();
     init_town_runtime_objects();
     find_or_load_runtime_resource_key(&town_scene_setup_resource);
     reserve_twch_load(1);

@@ -15,15 +15,14 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/system.h"
 
-void (*const dungeon_18e8800_entry)(B31_818C8FD0_S_func_818C8FD0_1 *, B31_818C8FD0_S_func_818C8FD0_4 *, B31_818C8FD0_S_func_818C8FD0_5 *) = update_an_effect_through_attachment_motion_timed_cleanup;
+void (*const dungeon_18e8800_entry)(B31_818C8FD0_S_func_818C8FD0_1 *, B31_818C8FD0_S_func_818C8FD0_4 *, B31_818C8FD0_S_func_818C8FD0_5 *) = update_attached_effect_motion;
 const B31_818C8FD0_OffsetTable interpolation_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 
    /* the 0x2 bytes before arg0 in interpolate_view_parameters, addressed as arg0[-1] */
 
 /* Apply the effect offset, update its object, and flag expired or inactive effects. */
-extern u8 directional_sprite_entries[];
+#include "dungeon/effect/sprite/directional_entries.h"
 extern u8 current_spell_effect_variant;
-extern u8 directional_sprite_entries[];
 
 /* Moves and animates an expanding sprite, removing it when its lifetime ends or its hidden flag is set. */
 void interpolate_view_parameters(B31_818C8824_EffectState *state, ObjectPosition *position, SpriteFrameState *object)
@@ -84,18 +83,18 @@ void advance_accelerating_particle(B31_818C8924_EffectState *effect, ObjectPosit
     }
 }
 
-   /* the 0x2 bytes before arg0 in update_a_moving_effect_spawns_particles_advances_timed_phases, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_particle_spawning_effect, addressed as arg0[-1] */
 
-   /* arg0 in update_a_moving_effect_spawns_particles_advances_timed_phases */
+   /* arg0 in update_particle_spawning_effect */
 
-   /* arg1 in update_a_moving_effect_spawns_particles_advances_timed_phases */
+   /* arg1 in update_particle_spawning_effect */
 
-   /* the 0x18 bytes before ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30 in update_a_moving_effect_spawns_particles_advances_timed_phases, addressed as ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30[-1] */
+   /* the 0x18 bytes before ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30 in update_particle_spawning_effect, addressed as ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30[-1] */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Updates a moving effect, spawns particles, and advances its timed phases. */
-void update_a_moving_effect_spawns_particles_advances_timed_phases(B31_818C8A70_S_818C8A70_0 *effect, B31_818C8A70_S_818C8A70_4 *position) {
+void update_particle_spawning_effect(B31_818C8A70_S_818C8A70_0 *effect, B31_818C8A70_S_818C8A70_4 *position) {
     s32 effect_mode;
     s16 coord;
     s16 coord_2;
@@ -292,7 +291,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(B31_818C8A70_
 }
 
 /* Updates an effect through attachment, motion, and timed cleanup. */
-void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part)
+void update_attached_effect_motion(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part)
 {
     s16 delta[3];
     s32 mode;
@@ -453,7 +452,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                     state->unk_86 = effect->unk_02 + 0x1E;
                 }
 
-                effect_node->update_callback = update_a_moving_effect_spawns_particles_advances_timed_phases;
+                effect_node->update_callback = update_particle_spawning_effect;
                 {
                     effect_pos = effect_node->position;
 

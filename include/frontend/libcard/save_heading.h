@@ -2,7 +2,7 @@
 #define FRONTEND_LIBCARD_SAVE_HEADING_H
 #include "frontend/libcard/display_node.h"
 /* Four display pointers initialized in the 0x180-byte save-heading body, and the two text buffers that
- * card_boot_bind_save_heading_display_data points the value and heading nodes at. */
+ * card_boot_bind_save_heading points the value and heading nodes at. */
 typedef struct CardSaveHeadingDisplayPrefix {
     u8 pad_00[0x4];
     u8 value_text[0x78]; /* value node payload; card_boot_initialize_save_heading_layout fills it through func_80027080 */

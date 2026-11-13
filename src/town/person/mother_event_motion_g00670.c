@@ -11,7 +11,7 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
     s32 state;
     s32 frames_left;
 
-    motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, &town_actor_control);
+    motion_entry = get_box_overlap_axis(object, &town_actor_control);
     if (motion_entry != 0) {
         state = motion_entry->axis;
         if (state != 2) {
@@ -57,7 +57,7 @@ void initialize_mother_event_actor(void *actor, EntityRec *state, void *init_par
     state->unk_0C = 0;
     initialize_object_entries(actor, init_param, (s32 *)D_800D5FC4);
     *(void **)((u8 *)actor + 0x50) = D_800C7604;
-    *(s16 *)((u8 *)actor + 0x6C) = (s16) (scale_random_to_unsigned_halfword_limit(0x3F) + 0x15);
+    *(s16 *)((u8 *)actor + 0x6C) = (s16) (scale_random_by_limit(0x3F) + 0x15);
 }
 
 /* Try random directions against the bounds, then initialize the entity state. */
@@ -70,7 +70,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bound
     context = context_arg;
     attempts = 0;
     do {
-        direction = scale_random_to_unsigned_halfword_limit(4) & 0xFFFF;
+        direction = scale_random_by_limit(4) & 0xFFFF;
         if (direction == 0) {
             s32 upper_edge;
             s32 bound_test;

@@ -344,7 +344,7 @@ case 0xFF:
 }
 
 /* Initialize the object and dispatch setup according to its state. */
-void initialize_object_and_dispatch_by_state(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context) {
+void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context) {
     u8 state;
 
     NODE_HEADER(object)->update_callback = D_800BCE78;
@@ -360,7 +360,7 @@ void initialize_object_and_dispatch_by_state(TownObjectRecord *object, ObjectPos
         return;
 
     case 0:
-        configure_the_set_mode_n_1(object, params, town_map_motion_defaults);
+        init_scene_node_mode_1(object, params, town_map_motion_defaults);
         select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(paired_actor_sprite_entries), 0);
         object->unk_68 = 0;
         object->unk_48 = D_800D2130;

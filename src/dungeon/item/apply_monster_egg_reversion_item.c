@@ -98,7 +98,7 @@ s32 apply_monster_egg_reversion_item(void *entity, DungeonItemEntry *source, s16
         spawn_data[1] = 0x12;
         spawn_data[2] = (generate_random_value() & 0xF) + 0xA;
         spawn_data[3] = 0;
-        clear_selected_item_flag_400(spawn_data);
+        unmark_selected_item(spawn_data);
 
         position = ((S_800BE6F0_0_pre *)entity)[-1].unk_00;
         create_effect_or_fallback(

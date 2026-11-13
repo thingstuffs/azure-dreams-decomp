@@ -16,7 +16,7 @@ s32 dispatch_menu_pair_by_798_state(void *slot_index, s32 slot_value);
 s32 dispatch_entry_and_set_11_fb_when_flagged(void *context, s32 entry_index);
 void forward_to_process_checked_entry(void *context, s32 entry_index);
 s32 dispatch_entry_by_799_flag(void *context, s32 entryIndex);
-s32 dispatch_entry_by_798_and_799_flags(void *context, s32 entry_index);
+s32 pass_or_process_entry(void *context, s32 entry_index);
 s32 select_handler_by_state_code_0x798(void *primaryInput, s32 secondaryInput);
 void forward_context_value_to_handler_d(void *first_arg, s32 second_arg);
 void forward_context_value_to_handler_a(void *input_a, s32 input_b);

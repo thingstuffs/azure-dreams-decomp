@@ -488,7 +488,7 @@ process_queue:
         }
     } else {
         if (CdSync(1, 0) == 5) {
-            if ((get_previous_cd_command_byte() & 0xFF) == 0x1B) {
+            if ((get_previous_cd_command() & 0xFF) == 0x1B) {
                 cd_command_phase[0] = 0xFF;
                 if (cd_command_read_index != 0)
                     cd_command_read_index = cd_command_read_index - 1;

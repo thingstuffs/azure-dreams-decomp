@@ -8,7 +8,7 @@
 #include "town/person/object_setup.h"
 
 
-void reset_object_handler_field_72_value_800(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
+void reset_person_heading_half_turn(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
     PersonDescriptor *descriptor;
 
     descriptor = object->descriptor;

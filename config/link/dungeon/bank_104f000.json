@@ -26,7 +26,7 @@
     },
     {
       "row": "dungeon/func_8102F674",
-      "tu": "src/dungeon/monster/glacier/spawn_configured_overlay_object_alt.c",
+      "tu": "src/dungeon/monster/glacier/spawn_glacier_actor.c",
       "home": "dungeon/func_8102F674",
       "foff": "0x104F674",
       "vma": "0x80170E74",

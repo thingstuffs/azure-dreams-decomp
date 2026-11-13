@@ -29,5 +29,5 @@ void advance_vertical_motion_and_bounce(TownObjectRecord *actor, EntityRec *moti
         actor->handler = &person_bounce_handler_address;
         return;
     }
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
 }

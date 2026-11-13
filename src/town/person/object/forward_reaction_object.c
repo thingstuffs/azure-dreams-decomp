@@ -4,7 +4,7 @@
 #include "town/person/object.h"
 #include "town/person.h"
 
-/* Pass the object to initialize_reaction_data_and_timer_10. */
+/* Pass the object to start_reaction_vertical_ease. */
 void forward_reaction_object(TownObjectRecord *object) {
-    initialize_reaction_data_and_timer_10(object);
+    start_reaction_vertical_ease(object);
 }

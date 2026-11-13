@@ -8,8 +8,8 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	build_textured_sprite_strips	2	SetPriority
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	draw_brightness_scaled_linked_tiles	1	SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/build_textured_sprite_strips.c	draw_sprite_strips_with_clip_and_fill_rect	1	SetDrawArea
--Wincompatible-pointer-types	src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c	build_and_depth_sorts_five_radial_line_segments_effect	3	RotTransPers,SetDrawMode
--Wincompatible-pointer-types	src/dungeon/effect/mesh/follow_brighten.c	draw_n_16_shaded_line_segments_link_them_ordering_table_depth	2	RotTransPers
+-Wincompatible-pointer-types	src/dungeon/effect/mesh/create_shrinking_arc_effect.c	queue_radial_line_burst	3	RotTransPers,SetDrawMode
+-Wincompatible-pointer-types	src/dungeon/effect/mesh/follow_brighten.c	queue_shaded_line_segments	2	RotTransPers
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/follow_brighten.c	write_fixed_palette_pixels	2	LoadImage
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/queue_projected_mesh_points_and_texture_packets.c	queue_projected_mesh_points_and_texture_packets	5	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/render_map_cell_mesh.c	render_map_cell_mesh	3	SetColorMatrix,SetLightMatrix,build_screen_outline
@@ -19,7 +19,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/wave.c	draw_wave_distorted_sprite	2	SetPriority
 -Wincompatible-pointer-types	src/dungeon/effect/mesh/wave.c	draw_wave_sprite_in_draw_area	1	SetDrawArea
 -Wincompatible-pointer-types	src/dungeon/effect/motion/draw_ball_effect_points.c	draw_ball_effect_points	2	RotTransPers,SetDrawMode
--Wincompatible-pointer-types	src/dungeon/effect/motion/raise_position_toward_height.c	advance_the_animation_draws_rectangles_in_randomized_order	1	LoadImage
+-Wincompatible-pointer-types	src/dungeon/effect/motion/raise_position_toward_height.c	update_shuffled_rect_clear_effect	1	LoadImage
 -Wincompatible-pointer-types	src/dungeon/effect/motion/raise_position_toward_height.c	draw_dimmed_height_effect_points	2	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/motion/target.c	render_linked_jittered_effect_strips	2	SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/particle/advance_motion_and_fade_sprite.c	project_linked_shape_quads	2	RotTransPers,SetPolyFT4

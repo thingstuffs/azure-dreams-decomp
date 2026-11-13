@@ -5,5 +5,6 @@
 #include "common.h"
 
 extern u8 golem_alt_direction_frames[];
+extern u8 golem_frame_set_3[];
 
 #endif

@@ -281,7 +281,7 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
 
     if (g_dungeon_status.flags & 0x1000) {
         actor->action_id = 0xE;
-        advance_actor_path_step_and_update_counters(actor, actor_context, map_object, creature);
+        advance_clown_path_step(actor, actor_context, map_object, creature);
         return;
     }
     if (creature->mp_value.parts.whole == 0) {
@@ -463,7 +463,7 @@ void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPositi
 
 /* Advances a stored path step or adjusts height in place, then updates occupied tiles, facing, and
  * movement delay. */
-void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state) {
+void advance_clown_path_step(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state) {
     s32 distance;
     s32 flags;
     s32 old_x;
@@ -875,7 +875,7 @@ s32 relink_clown_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
  * after a positive signed floor-trap check. Sets the secondary timer to -0x20 under dungeon flag
  * 0x80 during movement or after an accepted trap check. /
  */
-void finish_actor_tile_move_then_dispatch_transition(ActorRecord *state, void *motion, void *source, void *target) {
+void finish_clown_tile_move(ActorRecord *state, void *motion, void *source, void *target) {
     if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
@@ -894,7 +894,7 @@ void finish_actor_tile_move_then_dispatch_transition(ActorRecord *state, void *m
  * Runs update_linked_actor_motion and installs update_actor_state_and_dispatch_transition only
  * when it succeeds and the signed floor-trap check returns positive.
  */
-void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_clown_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = update_actor_state_and_dispatch_transition;
@@ -1259,7 +1259,7 @@ void advance_clown_removal(void *state, void *motion, void *position, void *acto
  * Runs update_actor_hop_and_grow and installs update_actor_state_and_dispatch_transition when it
  * returns nonzero.
  */
-void finish_actor_hop_and_grow_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_clown_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
         state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
@@ -1507,7 +1507,7 @@ void update_clown_parent_motion(ActorRecord *actor, ObjectPosition *action, Spri
  * Runs update_thrown_actor_travel and installs update_actor_state_and_dispatch_transition only
  * when it succeeds and the signed floor-trap check returns positive.
  */
-void finish_thrown_actor_travel_and_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_clown_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = update_actor_state_and_dispatch_transition;
@@ -1519,7 +1519,7 @@ void finish_thrown_actor_travel_and_floor_trap_then_dispatch_transition(ActorRec
  * Runs interpolate_actor_to_terrain_tile and installs update_actor_state_and_dispatch_transition
  * when it returns nonzero.
  */
-void finish_actor_terrain_interpolation_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_clown_terrain_move(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
         state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
@@ -1529,7 +1529,7 @@ void finish_actor_terrain_interpolation_then_dispatch_transition(ActorRecord *st
  * Runs update_spinning_actor_fall and installs update_actor_state_and_dispatch_transition when it
  * returns nonzero.
  */
-void finish_spinning_actor_fall_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_clown_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
@@ -1539,7 +1539,7 @@ void finish_spinning_actor_fall_then_dispatch_transition(ActorRecord *state, Obj
  * Runs propagate_actor_action_flag and installs update_actor_state_and_dispatch_transition when it
  * returns nonzero.
  */
-void finish_actor_action_flag_propagation_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_clown_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor)) {
         state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
@@ -1549,7 +1549,7 @@ void finish_actor_action_flag_propagation_then_dispatch_transition(ActorRecord *
  * Runs update_actor_fade_in and installs update_actor_state_and_dispatch_transition when it
  * returns nonzero.
  */
-void finish_actor_fade_in_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_clown_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
@@ -1559,7 +1559,7 @@ void finish_actor_fade_in_then_dispatch_transition(ActorRecord *state, ObjectPos
  * Runs resolve_actor_floor_trap_once and installs update_actor_state_and_dispatch_transition when
  * it returns positive.
  */
-void finish_actor_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_clown_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
         state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }

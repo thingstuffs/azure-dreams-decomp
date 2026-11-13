@@ -32,7 +32,7 @@ static s32 load_actor_display_resource(ItemMenuObject *object, s32 entry_count) 
         object->part_vector.unk0 = display_vector_defaults[0];
         object->part_vector.unk4 = display_vector_defaults[1];
         object->part_vector.unk8 = display_vector_defaults[2];
-        texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(parts, &object->part_vector, 40);
+        set_menu_part_vectors(parts, &object->part_vector, 40);
         success = 1;
     }
     return success;

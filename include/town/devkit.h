@@ -107,8 +107,8 @@ void grid_run_bit_set_operation_b(s32 row, s32 column);
 /* grid_run_indexed_operation_a.c */
 s32 grid_run_indexed_operation_a(s32 table_index, s32 call_input, s32 call_param, s32 call_extra);
 
-/* grid_run_indexed_operation_b.c */
-s32 grid_run_indexed_operation_b(s32 table_index, s32 call_input, s32 call_param);
+/* run_indexed_operation_plus_base.c */
+s32 run_indexed_operation_plus_base(s32 table_index, s32 call_input, s32 call_param);
 
 /* handle_devkit_page_value.c */
 s32 handle_devkit_page_2_value(s32 carry_value);
@@ -231,7 +231,7 @@ s32 read_flag_row_fallback(void);
 s32 read_stored_runtime_word(void);
 
 /* shop_get_indexed_value_at_f.c */
-s32 shop_get_indexed_value_at_1_f_98(void);
+s32 get_shop_selection_value_a(void);
 
 /* shop_get_indexed_value_at_fa.c */
 s32 shop_get_indexed_value_at_1_fa_8(void);

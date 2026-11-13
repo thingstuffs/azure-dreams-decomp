@@ -13,7 +13,7 @@ void stop_audio_playback(void)
     s16 channel;
 
     if (sound_playback_state.flags00 & 0x100) {
-        handle_audio_status_code(0x71);
+        handle_sequence_control_code(0x71);
     }
 
     dispatch_combined_driver_flags(0);
@@ -23,5 +23,5 @@ void stop_audio_playback(void)
     }
 
     audio_reset_and_release_sequence_banks();
-    reset_voices_slots_and_stop_spu_service();
+    shut_down_spu_audio();
 }

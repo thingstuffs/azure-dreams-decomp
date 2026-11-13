@@ -41,7 +41,7 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
     u16 remaining_ticks;
     s32 target_x;
     s32 target_y;
-    void *active_object;
+    ActorRecord *active_object;
     ObjectNodeHeader *copy_object;
     SpriteFrameState *target_sprite;
     u8 *action_status;

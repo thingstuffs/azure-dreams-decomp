@@ -641,23 +641,23 @@ void advance_linked_actor_motion_script(ActorRecord *object, ObjectPosition *unu
 s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, SpriteFrameState *secondary_context_arg, s32 force_state_arg);
-void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
+void finish_arachne_tile_move(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
 void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void install_target_selection_after_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
+void finish_arachne_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);
 void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *source);
 void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12_801732EC_Entity *entity, R12_801732EC_Object *object);
 void advance_arachne_hop_and_shrink(void *state, void *motion, void *position, void *actor);
 void advance_arachne_removal(void *state, void *motion, void *position, void *actor);
-void finish_actor_hop_and_grow_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_arachne_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void advance_arachne_status_action(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor);
-void resume_actor_target_selection_after_status_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
+void resume_arachne_after_status_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void update_arachne_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object);
-void finish_thrown_actor_travel_and_floor_trap_then_select_target(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
-void finish_actor_terrain_interpolation_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void finish_spinning_actor_fall_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void finish_actor_fade_in_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_arachne_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
+void finish_arachne_terrain_move(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_arachne_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_arachne_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void dim_effect_after_delay(ArachneActionEffectBody *effect);
 s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, SpriteFrameState *unused_sprite);
 s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused);
@@ -669,8 +669,8 @@ void create_offset_effect(void *source_arg, ObjectPosition *spawn_pos_arg, struc
 void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *other_data);
 void fade_effect_to_neutral(void *entity_data, ObjectPosition *unused, void *source_data);
 void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosition *position, SpriteFrameState *record, ActorRecord *actor);
-void finish_actor_floor_trap_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void finish_actor_action_flag_propagation_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_arachne_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_arachne_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void *spawn_arachne(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
 
 #endif

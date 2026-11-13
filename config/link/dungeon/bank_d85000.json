@@ -11,7 +11,7 @@
     {
       "row": "dungeon/func_80D65244",
       "home": "dungeon/func_80D65244",
-      "tu": "src/dungeon/monster/baloon/create_translucent_directional_sprite_copy_above_anchor.c",
+      "tu": "src/dungeon/monster/baloon/create_baloon_translucent_copy.c",
       "foff": "0xD85244",
       "vma": "0x80170A44",
       "size": 372,
@@ -184,7 +184,7 @@
     },
     {
       "row": "dungeon/func_80D69380",
-      "tu": "src/dungeon/monster/hikewne/reset_state_field_a.c",
+      "tu": "src/dungeon/monster/hikewne/update_hikewne_hop_and_shrink.c",
       "home": "dungeon/func_80977D88",
       "foff": "0xD89380",
       "vma": "0x80174B80",

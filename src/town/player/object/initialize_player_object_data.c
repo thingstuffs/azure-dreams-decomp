@@ -3,7 +3,7 @@
 #include "town/player/object.h"
 
 extern void initialize_scene_action_record(void *buffer, s32 header_value08, s32 header_value0C); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
+extern void dispatch_selected_entry_if_nonzero(void *entries, void *record,void *handler_param);
 
 extern u8 scene_object_payload_alias[];
 extern u8 town_scene_record_handlers[];
@@ -20,6 +20,6 @@ void initialize_player_object_data(void) {
     headerValue08 = bufferHeader->position;
     headerValue0C = *(s32 *)&bufferHeader->sprite;
     clear_entity_record_fields(headerValue08);
-    call_the_handler_selects_nonzero_entry(town_scene_record_handlers, dataBuffer, headerValue0C);
+    dispatch_selected_entry_if_nonzero(town_scene_record_handlers, dataBuffer, headerValue0C);
     initialize_scene_action_record(dataBuffer, (s32)headerValue08, headerValue0C);
 }

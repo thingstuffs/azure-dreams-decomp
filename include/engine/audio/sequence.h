@@ -193,17 +193,17 @@ void reinit_audio_voices(void);
 /* scale_value_with_remainder_second.c */
 s32 initialize_audio_sequence_tracks(void);
 
-/* scan_stream_for_three_byte_marker.c */
-s32 scan_stream_for_three_byte_marker(s32 offset);
+/* find_sequence_entry_marker.c */
+s32 find_sequence_entry_marker(s32 offset);
 
 /* set_playback_note.c */
 void set_playback_note(s32 note);
 
-/* set_sound_slot_byte_pair.c */
-void set_sound_slot_byte_pair(s16 index, s32 value_8, s32 value_a);
+/* set_sequence_slot_gains.c */
+void set_sequence_slot_gains(s16 index, s32 value_8, s32 value_a);
 
 /* skip_vlq_payload_until_f.c */
-void skip_vlq_payload_until_f_7(void *stream);
+void skip_sequence_vlq_payload(void *stream);
 
 /* sound_activate_loaded_sequence_slot.c */
 void sound_activate_loaded_sequence_slot(s16 slot_index, u8 mode, s16 sub_id);
@@ -232,8 +232,8 @@ void sound_run_guarded_sequence_update(void);
 /* sound_set_indexed_voice_volumes.c */
 s32 sound_set_indexed_voice_volumes(s32 table_index, s32 field_8_value, s32 field_a_value);
 
-/* sound_set_seven_bit_channel_value_and_notify.c */
-void sound_set_seven_bit_channel_value_and_notify(u8 index, s32 unused, s32 value);
+/* set_channel_control_and_notify.c */
+void set_channel_control_and_notify(u8 index, s32 unused, s32 value);
 
 /* sound_step_bipolar_oscillation.c */
 void sound_step_bipolar_oscillation(AudioChannelControl *state);

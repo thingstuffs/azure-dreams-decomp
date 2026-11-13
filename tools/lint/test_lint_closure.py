@@ -380,6 +380,17 @@ class RenameAndFullTests(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             self.assertEqual(C.report(base, moved, [], [], {}, 0, names, edited), 1)
 
+    def test_rename_of_a_callee_on_the_warning_line_moves_only_the_column(self):
+        base = [finding('src/a.c', 'old_name', '-Wint-conversion', ['src/a.c:4:61'])]
+        head = [finding('src/a.c', 'new_name', '-Wint-conversion', ['src/a.c:4:40'])]
+        names = {'old_name': {'0x80024050'}, 'new_name': {'0x80024050'}}
+        with redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(C.report(base, head, [], [], {}, 0, names), 0)
+        self.assertIn('renamed -Wint-conversion src/a.c old_name -> new_name', out.getvalue())
+        other_line = [finding('src/a.c', 'new_name', '-Wint-conversion', ['src/a.c:5:40'])]
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(C.report(base, other_line, [], [], {}, 0, names), 1)   # another line is new
+
     def test_two_renames_in_one_file_with_equal_site_counts_are_not_new(self):
         base = [finding('src/a.c', 'old_one', '-Wshadow', ['src/a.c:4:1']),
                 finding('src/a.c', 'old_two', '-Wshadow', ['src/a.c:9:1'])]

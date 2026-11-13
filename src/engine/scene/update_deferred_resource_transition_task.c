@@ -45,7 +45,7 @@ void update_deferred_resource_transition_task(ScheduleDeferredResourceTransition
             runtime_transition_slots[controller->slot_index].unk_6 = 0;
             return;
         }
-        mark_resource_list_flags_ten_and_eleven();
+        flag_all_active_nodes();
         D_80080A86_store = (state = 1);
         node->field_1E &= 0xF3FF;
     }

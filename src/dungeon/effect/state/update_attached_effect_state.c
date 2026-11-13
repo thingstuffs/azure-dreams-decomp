@@ -72,7 +72,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
             if (!blocked) {
                 value = generate_random_value();
                 range = (dungeon_actor_ring_anchor[0][0xA9] >> 2) + 0x10;
-                if (roll_threshold_effect_variant_b(entityp, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
+                if (roll_blind_effect(entityp, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
                     saved = get_unused_text_buffer();
                     text = expand_text_control_codes(D_800E0BC7, saved);
                     text = append_entity_display_text(entityp, text);

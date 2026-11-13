@@ -41,7 +41,7 @@ s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 act
     if (object_addr != 0) {
         play_sound_if_enabled(0x60D);
         placed_effect = NODE_BODY(object_addr);
-        entry_index = select_and_initialize_entry_at_position(sprite->tile_x, sprite->tile_y,
+        entry_index = place_floor_trap_at_tile(sprite->tile_x, sprite->tile_y,
                                     user->ground_height, 5, (s32)object_addr);
         entries = dungeon_floor_object_positions;
         placed_effect->item_position_index = entry_index;

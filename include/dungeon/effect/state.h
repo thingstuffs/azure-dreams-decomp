@@ -23,7 +23,7 @@ typedef struct {
 
 
 
-void set_effect_state_pointer_on_success(ActorRecord *state, ObjectPosition *context, SpriteFrameState *data, ActorRecord *extra_data);
+void advance_linked_actor_motion(ActorRecord *state, ObjectPosition *context, SpriteFrameState *data, ActorRecord *extra_data);
 void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, ObjectPosition *position, SpriteFrameState *object, ActorRecord *state);
 
 

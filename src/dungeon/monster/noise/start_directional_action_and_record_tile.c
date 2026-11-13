@@ -48,7 +48,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
     T_801748D0_S_801748D0_11 *owner_link;
     void *linked_owner;
     T_801748D0_S_801748D0_6_pre *linked_body;
-    void *owner;
+    ObjectNodeHeader *owner;
     s16 count;
     u8 * object_or_height;
     s32 anchor_height;

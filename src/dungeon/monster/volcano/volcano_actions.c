@@ -978,7 +978,7 @@ void start_actor_directional_animation(ActorRecord *actor_state, ObjectPosition 
  * On completed tile movement, spends MP and advances status timers; resumes behavior and clears
  * the timer only after a positive signed floor-trap result. /
  */
-void move_actor_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void move_volcano_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_actor_movement_to_tile(state,motion,sprite,actor)!=0) {
   spend_actor_mp(actor,4);
   advance_status_timers(actor);
@@ -1414,14 +1414,14 @@ void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action,
  * Runs update_actor_hop_and_grow and installs update_actor_behavior_facing_and_animation_2 when it
  * returns nonzero.
  */
-void finish_actor_hop_and_grow_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void finish_volcano_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_actor_hop_and_grow(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
 /* Processes actor status while waiting for an effect to clear, then restores the normal animation and
  * movement. */
-void handle_actor_pending_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
+void wait_volcano_pending_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     void *saved_context;
     u8 state;
 
@@ -1670,7 +1670,7 @@ void update_thrown_actor_and_trap(ActorRecord *state, ObjectPosition *motion, Sp
  * Runs interpolate_actor_to_terrain_tile and installs update_actor_behavior_facing_and_animation_2
  * when it returns nonzero.
  */
-void finish_actor_terrain_interpolation_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void finish_volcano_terrain_interpolation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(interpolate_actor_to_terrain_tile(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
@@ -1679,7 +1679,7 @@ void finish_actor_terrain_interpolation_then_resume_facing_animation(ActorRecord
  * Runs update_spinning_actor_fall and installs update_actor_behavior_facing_and_animation_2 when
  * it returns nonzero.
  */
-void finish_spinning_actor_fall_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void finish_volcano_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_spinning_actor_fall(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
@@ -1688,7 +1688,7 @@ void finish_spinning_actor_fall_then_resume_facing_animation(ActorRecord *state,
  * Runs update_actor_fade_in and installs update_actor_behavior_facing_and_animation_2 when it
  * returns nonzero.
  */
-void finish_actor_fade_in_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void finish_volcano_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_actor_fade_in(state,motion,sprite) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
@@ -1697,7 +1697,7 @@ void finish_actor_fade_in_then_resume_facing_animation(ActorRecord *state, Objec
  * Runs resolve_actor_floor_trap_once and installs update_actor_behavior_facing_and_animation_2
  * when it returns positive.
  */
-void finish_actor_floor_trap_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void finish_volcano_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(resolve_actor_floor_trap_once(state,motion,sprite,actor) > 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
@@ -1706,7 +1706,7 @@ void finish_actor_floor_trap_then_resume_facing_animation(ActorRecord *state, Ob
  * Runs propagate_actor_action_flag and installs update_actor_behavior_facing_and_animation_2 when
  * it returns nonzero.
  */
-void finish_actor_action_flag_propagation_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void finish_volcano_flag_propagation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"

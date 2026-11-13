@@ -4,7 +4,7 @@
 #include "slus/audio_sequence_state_data.h"
 
 /* S_80058B70: view of the D_80085FA8[] element struct touched here (base passed
- * to read_big_endian_word/read_sequence_halfword/read_next_byte_and_finish; direct fields f00,f1c,f20,f24). */
+ * to read_big_endian_word/read_sequence_halfword/read_sequence_byte; direct fields f00,f1c,f20,f24). */
 typedef struct {
     s32 f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
     s32 f30, f34, f38, f3c, f40, f44;
@@ -16,7 +16,7 @@ typedef struct {
 extern S_80058B70 audio_sequence_tracks[32];
 extern s32 audio_sequence_format[4];
 
-extern s32 read_next_byte_and_finish(S_80058B70 *);
+extern s32 read_sequence_byte(S_80058B70 *);
 
 /* Configures the first playback slot and playback parameters for the current mode. */
 s32 init_sequence_playback(void)
@@ -45,7 +45,7 @@ s32 init_sequence_playback(void)
         if (audio_sequence_multitrack_mode[0] == 0) {
             s32 first_entry_offset;
             audio_sequence_stream_limit[0] = 0x10000;
-            first_entry_offset = scan_stream_for_three_byte_marker(0);
+            first_entry_offset = find_sequence_entry_marker(0);
             audio_sequence_stream_limit[0] = first_entry_offset;
             slot->f1c = first_entry_offset;
         } else {
@@ -53,7 +53,7 @@ s32 init_sequence_playback(void)
             audio_sequence_stream_limit[0] = 0x10000;
             if ((u32)stream_offset < (u32)audio_sequence_track_count[0]) {
                 do {
-                    stream_offset = scan_stream_for_three_byte_marker(stream_offset);
+                    stream_offset = find_sequence_entry_marker(stream_offset);
                     entry_index++;
                     slot->f1c = stream_offset;
                 } while ((u32)entry_index < (u32)audio_sequence_track_count[0]);
@@ -67,7 +67,7 @@ s32 init_sequence_playback(void)
         audio_sequence_multitrack_mode[0] = 0;
         audio_sequence_track_count[0] = 1;
         audio_sequence_stream_limit[0] = 0x10000;
-        audio_sequence_stream_limit[0] = scan_stream_for_three_byte_marker(0);
+        audio_sequence_stream_limit[0] = find_sequence_entry_marker(0);
         timing_divisor = read_big_endian_word(slot) >> 8;
         playback_rate = 0x3938700 / timing_divisor;
         slot->f20 = timing_divisor;
@@ -87,7 +87,7 @@ s32 init_sequence_playback(void)
             slot->f24 = (u32)slot->f24 >> 2;
             break;
         }
-        read_next_byte_and_finish(slot);
+        read_sequence_byte(slot);
         break;
     case 2:
         audio_sequence_multitrack_mode[0] = 1;

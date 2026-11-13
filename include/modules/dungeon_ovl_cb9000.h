@@ -936,7 +936,7 @@ extern s32 update_actor_fade_in(void *,void *,void *);
 extern void spend_actor_mp(void *, s32);
 
 extern void * create_status_linked_render_effect(struct ObjectPosition *source_pos, s32 render_param, s16 initial_state, s8 *status);
-extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s8 *state_out_addr);
+extern s16 relink_entity_and_clear_high_flag(void *context, void *position, ActorRecord *entity, s16 near_range, s16 far_range, s8 *state_out_addr);
 /* Retail banks use the signed-halfword height-query return view; this
  * is the existing certified fa7000 contract, not a per-function flag. */
 extern s16 sample_terrain_surface_height(s32,s32,s16);

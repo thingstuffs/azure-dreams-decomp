@@ -44,7 +44,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     s32 scaledTime;
     CardSaveSlot *recordBase;
     void *assetDataBase;
-    void *loop_base;
+    CardSaveSlot *loop_base;
     void *asset0;
     void *asset1;
     void *asset2;

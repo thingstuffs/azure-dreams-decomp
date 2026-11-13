@@ -31,7 +31,7 @@ void initialize_entry_object_and_play_sound(TownObject *object, ObjectPosition *
     TownEntry *entries;
     u16 entry_value;
 
-    call_the_handler_selects_nonzero_entry((s32 *) &D_800D0158, (TownObjectRecord *) object, ptr2);
+    dispatch_selected_entry_if_nonzero((s32 *) &D_800D0158, (TownObjectRecord *) object, ptr2);
     entries = object_index_slots;
     entries[1].pad0[0] = 0;
     entry_value = town_facing_angles[entries[object->entry_index].table_index];

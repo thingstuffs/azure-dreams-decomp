@@ -16,12 +16,12 @@ void select_object_state_by_mode(Rec_D_800CFCB4 *record, ObjectPosition *context
     void *alternate_value, void *update_value) {
     if (record->unk_94 != 0) {
         state->source = alternate_value;
-        configure_the_set_mode_n_3(record, context, update_value);
+        init_scene_node_mode_3(record, context, update_value);
         initialize_optional_object_state(record, context, state, 0);
         return;
     }
     state->source = default_value;
-    handle_insert_initialize_two_values_status_flags(record, context, update_value);
+    init_scene_list_node(record, context, update_value);
     {
         void *next_record;
         void *next_context;

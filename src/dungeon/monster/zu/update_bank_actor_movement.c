@@ -459,7 +459,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
                         return;
                     }
                 }
-                if ((relink_bank_actor_and_check_action_ready(actor, context, sprite, 0) << 16) == 0) {
+                if ((check_zu_action_ready(actor, context, sprite, 0) << 16) == 0) {
                     return;
                 }
                 action_state = stats->action_flags | 0x4000;
@@ -977,7 +977,7 @@ void update_actor_status_and_mp(ActorRecord *entity);
 /* Update entity state and flags according to the state query result. */
 /* Relinks Zu's state, updates movement or status as needed, and returns 1 only when dungeon activity
  * allows a new action. */
-s32 relink_bank_actor_and_check_action_ready(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
+s32 check_zu_action_ready(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
@@ -1684,7 +1684,7 @@ typedef struct S_80173294_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80173294_1;   /* p1 in advance_defeated_actor_launch_fade_and_removal */
+} S_80173294_1;   /* p1 in update_zu_defeat_removal */
 
 
 
@@ -1692,7 +1692,7 @@ typedef struct S_80173294_1 {
 extern void distribute_experience_and_report_gains(EntityRec *entity);
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
-void advance_defeated_actor_launch_fade_and_removal(ActorRecord *effect_data, void *motion_data_arg, SpriteFrameState *sprite_data, void *object_data) {
+void update_zu_defeat_removal(ActorRecord *effect_data, void *motion_data_arg, SpriteFrameState *sprite_data, void *object_data) {
     S_80173294_1 *motion_data = motion_data_arg;
     s32 direction_offset;
     s32 direction_x;
@@ -1815,7 +1815,7 @@ void advance_defeated_actor_launch_fade_and_removal(ActorRecord *effect_data, vo
 s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteFrameState *scale, void *render);
 
 /* Forward all four bank callback arguments to the resident handler. */
-void forward_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
+void update_zu_hop_and_shrink(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     update_actor_hop_and_shrink(state, action, source, target);
 }
 
@@ -1826,7 +1826,7 @@ void forward_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, S
 
 
 /* Forward all four bank callback arguments to the resident handler. */
-void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
+void forward_actor_removal_callback(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     advance_actor_removal(state, action, source, target);
 }
 
@@ -1836,7 +1836,7 @@ void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFr
 #include "shared/sprite_frame_state.h"
 
 /* Restore the bank actor callback after the resident state check succeeds. */
-void restore_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
+void finish_zu_hop_and_grow(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if (update_actor_hop_and_grow(state, action, source, target) != 0) {
         state->unk_8C.handler = update_bank_actor_state;
     }
@@ -2176,7 +2176,7 @@ void update_directional_sprite_state_and_signals(ActorRecord *state, ObjectPosit
 
 extern s32 interpolate_actor_to_terrain_tile();
 /* Restore the bank actor callback after the resident state check succeeds. */
-void restore_bank_actor_callback_b(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
+void restore_after_terrain_interpolation(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if (interpolate_actor_to_terrain_tile(state, action, source, target) != 0) {
         state->unk_8C.handler = update_bank_actor_state;
     }
@@ -2189,7 +2189,7 @@ void restore_bank_actor_callback_b(ActorRecord *state, ObjectPosition *action, S
 
 extern s32 update_spinning_actor_fall();
 /* Restore the bank actor callback after the resident state check succeeds. */
-void restore_bank_actor_callback_c(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
+void restore_after_spinning_fall(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if (update_spinning_actor_fall(state, action, source, target) != 0) {
         state->unk_8C.handler = update_bank_actor_state;
     }
@@ -2202,7 +2202,7 @@ void restore_bank_actor_callback_c(ActorRecord *state, ObjectPosition *action, S
 
 extern s32 update_actor_fade_in();
 /* Restore the bank actor callback after the resident state check succeeds. */
-void restore_bank_actor_callback_d(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
+void restore_after_fade_in(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if (update_actor_fade_in(state, action, source) != 0) {
         state->unk_8C.handler = update_bank_actor_state;
     }

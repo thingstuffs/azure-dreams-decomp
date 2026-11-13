@@ -131,7 +131,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
         object_data->scale_x = 0x1000;
         select_record_entry_and_value(object_data, D_800F2F28, 0);
         object_data->color.word = 0x00808080;
-        configure_the_set_mode_n_2(object_part, object->transform, D_80026DC8);
+        init_scene_node_mode_2(object_part, object->transform, D_80026DC8);
     }
 
     index = 7;
@@ -204,7 +204,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     tile.unk02 = 0x10;
     tile.unk0C = root_part;
     tile.unk04 = D_80026F04[0];
-    create_scene_object_with_48_byte_payload(D_800203F4, &tile);
+    create_scene_object_with_payload(D_800203F4, &tile);
 
     {
         void **image_base = D_80026EE0;
@@ -216,18 +216,18 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     do {
         tile.unk04 = images[index];
         tile.unk14 = 0x64 + index * 0x10;
-        create_scene_object_with_48_byte_payload(D_800203F4, &tile);
+        create_scene_object_with_payload(D_800203F4, &tile);
         index--;
     } while (index >= 0);
 
     tile.unk14 = 0xF4;
     tile.unk16 = 0xB6;
     tile.unk04 = D_800272C0;
-    create_scene_object_with_48_byte_payload(tick_summed_scene_value_text, &tile);
+    create_scene_object_with_payload(tick_summed_scene_value_text, &tile);
 
     tile.unk14 = 0x7E;
     tile.unk16 = 0x44;
     tile.unk04 = D_80026F08[0];
-    create_scene_object_with_48_byte_payload(D_80020488, &tile);
+    create_scene_object_with_payload(D_80020488, &tile);
     return 0;
 }

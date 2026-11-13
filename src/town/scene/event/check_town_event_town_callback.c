@@ -11,7 +11,7 @@ typedef void (*TownCallback)(s32, s32);
 
 /* Checks town event conditions and invokes the town callback if they allow it. */
 s32 check_town_event_town_callback(void) {
-    s8 *callback_object;
+    TownServiceTable *callback_object;
 
     set_script_flag_94c();
     if (town_table_contains_first_byte_b(0xB) != 0) {
@@ -24,7 +24,7 @@ s32 check_town_event_town_callback(void) {
         return 1;
     }
 
-    callback_object = ((s8 *)(town_scene_root->services));
-    (*(TownCallback *)(callback_object + 0x2F8))(0xF, 0x200);
+    callback_object = town_scene_root->services;
+    (*(TownCallback *)((u8 *)callback_object + 0x2F8))(0xF, 0x200);
     return 0;
 }

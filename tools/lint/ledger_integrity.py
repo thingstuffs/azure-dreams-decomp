@@ -137,15 +137,65 @@ def floor_blocking(rows, texts, aliases):
     return out
 
 
+def recorded_function_renames(root, base):
+    """{BASE name: HEAD name} for functions config/names.tsv renamed in place since BASE: at one address the
+    BASE rows name `old`, HEAD no longer names it anywhere, and HEAD has exactly one name there BASE lacked."""
+    def rows(text):
+        out = {}
+        for line in (text or '').splitlines():
+            cols = line.split('\t')
+            if len(cols) >= 3 and cols[0].startswith('0x'):
+                out.setdefault(cols[0].lower(), set()).add(cols[2])
+        return out
+    head_path = Path(root) / 'config/names.tsv'
+    head = rows(head_path.read_text(errors='replace') if head_path.is_file() else '')
+    shown = subprocess.run(['git', 'show', f'{base}:config/names.tsv'], cwd=root, capture_output=True, text=True)
+    old = rows(shown.stdout if shown.returncode == 0 else '')
+    head_names = {n for names in head.values() for n in names}
+    renames = {}
+    for addr, names in old.items():
+        added = head.get(addr, set()) - names
+        for name in names - head_names:
+            if len(added) == 1:
+                renames[name] = next(iter(added))
+    return renames
+
+
+def file_renames(root, base):
+    """{BASE path: HEAD path} for src/include files git records as renamed between BASE and the checkout."""
+    shown = subprocess.run(['git', 'diff', '-M', '--name-status', '--diff-filter=R', base, '--', 'src', 'include'],
+                           cwd=root, capture_output=True, text=True)
+    out = {}
+    for line in shown.stdout.splitlines() if shown.returncode == 0 else ():
+        cols = line.split('\t')
+        if len(cols) == 3 and cols[0].startswith('R'):
+            out[cols[1]] = cols[2]
+    return out
+
+
 def check_floors(root, base, head_text, base_text):
-    """(HEAD results, newly stale) for the prototype-floor blocking spellings; BASE results judge newness."""
+    """(HEAD results, newly stale) for the prototype-floor blocking spellings; BASE results judge newness.
+
+    A row whose function names.tsv renamed since BASE is compared with its BASE row by blocking index: an entry
+    that was already stale under the old name is not newly stale under the new one."""
     import decl_agreement as D
     aliases = D.scalar_aliases(root)
     head = floor_blocking(read_ledger(head_text), Texts(root), aliases)
-    old = {(r['name'], r['entry']): r['status'] for r in
-           floor_blocking(read_ledger(base_text), Texts(root, base), aliases)} if base_text is not None else {}
+    base_rows = floor_blocking(read_ledger(base_text), Texts(root, base), aliases) if base_text is not None else []
+    old = {(r['name'], r['entry']): r['status'] for r in base_rows}
+    moved = file_renames(root, base) if base_text is not None else {}
+    for r in base_rows:                         # the same entry, its cited files renamed since BASE
+        entry = json.loads(r['entry'])
+        if any(entry.get(k) in moved for k in ('path', 'declaration')):
+            for k in ('path', 'declaration'):
+                if entry.get(k) in moved:
+                    entry[k] = moved[entry[k]]
+            old.setdefault((r['name'], json.dumps(entry, sort_keys=True)), r['status'])
+    renames = recorded_function_renames(root, base) if base_text is not None else {}
+    renamed_old = {(renames[r['name']], r['index']): r['status'] for r in base_rows if r['name'] in renames}
     bad = [r for r in head if r['status'] in ('stale', 'nofile')]
-    new = [r for r in bad if old.get((r['name'], r['entry'])) not in ('stale', 'nofile')]
+    new = [r for r in bad if old.get((r['name'], r['entry'])) not in ('stale', 'nofile')
+           and renamed_old.get((r['name'], r['index'])) not in ('stale', 'nofile')]
     return head, bad, new
 
 LEDGER = 'ledger/unions.jsonl'

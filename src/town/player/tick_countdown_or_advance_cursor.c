@@ -20,7 +20,7 @@ void tick_countdown_or_advance_cursor(Func8009AA20Arg0 *countdown_state, ObjectP
     remaining_count = countdown_state->unkA - 1;
     countdown_state->unkA = remaining_count;
     if ((s16)remaining_count < 0) {
-        initialize_record_with_handler_and_countdown_800(countdown_state, cursor_state, context_value);
+        init_approach_record(countdown_state, cursor_state, context_value);
         return;
     }
     cursor_state->x.w.i += 4;

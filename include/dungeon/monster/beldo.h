@@ -32,9 +32,9 @@ typedef struct AttachedSpriteWithOffsetBody {
 
 void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id);
 void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void *dst_part_arg);
-void sync_beldo_part_to_owner_and_pulse_shade(AttachedSpriteWithOffsetBody *root, void *output_pos, void *target_data);
+void sync_beldo_part_to_owner(AttachedSpriteWithOffsetBody *root, void *output_pos, void *target_data);
 
-void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, void *motion, void *check_arg, void *actor_arg);
+void finish_beldo_tile_move(void *entity_ptr, void *motion, void *check_arg, void *actor_arg);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void update_actor_movement_and_height(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);

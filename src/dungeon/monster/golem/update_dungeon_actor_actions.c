@@ -26,7 +26,6 @@
 
 extern u8 golem_direction_frames[];
 extern u8 golem_frame_set_2;
-extern u8 golem_frame_set_3[];
 extern u8 D_80175F50;
 extern u8 D_80175F60;
 

@@ -41,7 +41,7 @@ void *dispatch_request_mode_two(void *request) {
 }
 
 /* Set up the request with scale 512 and center (160, 120), then dispatch in mode 0. */
-void *init_card_boot_request_with_centered_geometry(void *request) {
+void *card_boot_open_request_at_screen_center(void *request) {
     card_boot_stop_timer_and_init_server();
     g_game_work.view.projection_distance = 0x200;
     SetGeomScreen(0x200);

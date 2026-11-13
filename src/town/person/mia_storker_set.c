@@ -32,7 +32,7 @@ void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header
     SpriteFrameState *node_aux;
     if (test_resident_bitmap_bit(snf_truth) == 0)
         return;
-    node = create_town_effect_object(scene_object_list_anchor, 0, run_object_callback, advance_object_after_timeout_variant_2);
+    node = create_town_effect_object(scene_object_list_anchor, 0, run_object_callback, turn_object_after_timeout);
     if (node == 0)
         return;
     header = node->header;

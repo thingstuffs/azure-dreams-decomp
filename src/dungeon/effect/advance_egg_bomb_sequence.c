@@ -100,7 +100,7 @@ void advance_egg_bomb_sequence(EggBombBody *egg_bomb, Coord *position, void *eff
         egg_bomb->unk_04 = monster;
         if (monster != NULL) {
             set_packed_2bit_flag(monster->species, 0);
-            clear_selected_item_flag_400(egg_bomb);
+            unmark_selected_item(egg_bomb);
             init_monster_from_stats(monster, monster->species);
             apply_actor_template_and_class(monster, monster->species, 0);
             monster->unk_43 = 0xFE;

@@ -27,7 +27,7 @@ void draw_double_byte_text(u8 *text, s16 start_x, s16 start_y);
 s32 fill_string_tail_and_detect_zero(u8 *buffer, s32 pair_count);
 
 /* fill_string_tail_and_detect_zero_second.c */
-char *pad_double_byte_field_and_append_marker(u8 *dst, s32 field_width);
+char *fill_wide_string_tail(u8 *dst, s32 field_width);
 
 /* format_decimal_field_space_padded.c */
 void format_decimal_field_space_padded(s32 value, s32 width, char *buf);

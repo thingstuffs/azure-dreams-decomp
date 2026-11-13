@@ -40,21 +40,21 @@ typedef struct S_80093894_1 {
     s32 unk_08;
 } S_80093894_1;
 
-/* context in handle_selection_and_create_object */
-/* arg1 in handle_selection_and_create_object */
+/* context in create_selected_town_object */
+/* arg1 in create_selected_town_object */
 typedef struct S_80093894_3 {
     void * unk_00;
 } S_80093894_3;
 
-/* &D_80110EB8 in handle_selection_and_create_object */
+/* &D_80110EB8 in create_selected_town_object */
 
 extern TownState map_runtime_state;
 extern void write_resource_command(void *ptr, s32 value);
 extern void initialize_actor_movement_interaction_action(void *object, void *position, void *callback_data);
 #include "town/player/action_initializers.h"
-extern s32 get_first_free_four_byte_entry_index_n_1_none_available(void *ptr, s32 value);
-s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
-extern s32 count_type_n_4_links_whose_state_not_n_1(void);
+extern s32 find_free_entry_index(void *ptr, s32 value);
+s32 is_map_state_in_special_range(void);
+extern s32 count_live_type_four_links(void);
 extern s32 find_target_byte_index_in_list(void);
 extern u8 item_suffix_strings_ball_fruit_seed[];
 extern u8 item_suffix_strings_herb[];
@@ -73,6 +73,6 @@ extern u8 item_menu_scene_state[];
 /* Functions defined in this translation unit. */
 s32 is_town_state_pair_accepted(void);
 void initialize_town_context_action(void);
-void handle_selection_and_create_object(void);
+void create_selected_town_object(void);
 
 #endif

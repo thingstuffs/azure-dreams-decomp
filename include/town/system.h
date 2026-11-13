@@ -15,7 +15,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, str
 void create_user_data_object(s32 user_data);
 
 /* flag_test_conditions.c */
-s32 check_all_flag_test_bits(s16 *flag_ids);
+s32 check_all_flags_set(s16 *flag_ids);
 
 /* flag_test_pair_actions.c */
 s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 record_selector);

@@ -20,7 +20,7 @@ s32 decrement_flagged_item_parameters(DungeonObject *object) {
     u8 column;
 
     changed_count = 0;
-    if (is_linked_object_flagged_10000(object) != 0) {
+    if (has_anchor_linked_object_flag(object) != 0) {
         return changed_count;
     }
     entry = object->entry4C;

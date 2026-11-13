@@ -15,7 +15,7 @@ typedef struct {
 void move_reaction_toward_target(Object *object, Position *position, void *context);
 
 /* Set the object's data pointer and state to 13. */
-void initialize_reaction_data_and_timer_13(TownObjectRecord *object) {
+void start_reaction_move_toward_target(TownObjectRecord *object) {
     object->handler = &move_reaction_toward_target;
     object->timer = 0xD;
 }

@@ -8,7 +8,7 @@
  * for a matching direction. Saves the entry and slot, returning -1 for entry type one, one for
  * another match, or zero when absent.
  */
-s32 select_an_available_entry_matching_direction_returns_status(void *record_arg)
+s32 select_entry_by_input_direction(void *record_arg)
 {
     Rec_D_800CFCB4 *record = record_arg;
     s16 *direction_ptr;

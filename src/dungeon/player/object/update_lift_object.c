@@ -72,7 +72,7 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
 
         state = effect_state->actor.action_phase;
         if (state == 0) {
-            void *effect_target;
+            SpriteFrameState *effect_target;
             s32 entity_flags;
             s32 wait_roll;
 
@@ -92,7 +92,7 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
                 }
             }
             effect_state->actor.unk_8C.address = player_action_tag;
-            (*(u8 * *)((u8 *)effect_target + (0x2C))) = player_carry_frames;
+            effect_target->frameTable = player_carry_frames;
             set_sprite_animation_frame(effect_target,
                 player_carry_frames[((g_game_work.view.camera_rotation.parts.viewAngle + owner->actor.facing + 0x100) >> 9) & 7],
                 0, 1);

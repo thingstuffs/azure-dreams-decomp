@@ -13,7 +13,7 @@ extern int D_800814A0;
  * (same layout used by func_80040418's Node type in code.c). */
 
 /* Sets bit 0x8000 in the node and global flags when the node exists. */
-void table_set_bit_hex_8000_in_node_global_flags_node_exists(ObjectNodeHeader *node)
+void flag_node_for_removal(ObjectNodeHeader *node)
 {
     if (node != 0) {
         node->flags |= NODE_REMOVE;

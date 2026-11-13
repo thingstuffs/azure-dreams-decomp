@@ -59,7 +59,7 @@ void initialize_enabled_scene_object(void) {
             position_y = position->y.v;
             *(s32 *)(state + 0xA4) = position_y;
             *(s32 *)(state + 0xA0) = position_y;
-            handle_insert_initialize_two_values_status_flags(state, position, D_800D0CAC);
+            init_scene_list_node(state, position, D_800D0CAC);
             initialize_optional_object_state(state, position, object_resource, D_800D0C90);
             initialize_object_entries((TownObjectRecord *)state, object_resource, (s32 *)D_80100E24_R);
             NODE_HEADER(state)->update_callback = D_800A6684;

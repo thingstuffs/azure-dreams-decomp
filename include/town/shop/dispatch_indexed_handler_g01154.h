@@ -29,7 +29,7 @@ s32 advance_index_with_directional_clamp(s32 index, s32 step, s32 count);
 
 /* Functions defined in this translation unit. */
 void dispatch_indexed_handler(void *context, s32 handler_index);
-void dispatch_indexed_handler_alt(void *context, s32 handler_index);
+void dispatch_entry_change_handler(void *context, s32 handler_index);
 void update_active_entry_and_notify_handlers(s8 *state, s32 input);
 void decrement_entry_and_notify_handlers(void *state);
 

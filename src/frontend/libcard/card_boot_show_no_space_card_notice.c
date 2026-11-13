@@ -1,0 +1,11 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+#include "frontend/libcard/card_boot_create_or_reset_message_dialog_api.h"   /* extern */
+#include "frontend/libcard.h"
+
+/* Calls card_boot_create_or_reset_message_dialog with the supplied value, 10, and two zero arguments. */
+void card_boot_show_no_space_card_notice(ObjectNodeHeader *value) {
+    s32 zero = 0;
+    card_boot_create_or_reset_message_dialog(value, 0xa, zero, NULL);
+}

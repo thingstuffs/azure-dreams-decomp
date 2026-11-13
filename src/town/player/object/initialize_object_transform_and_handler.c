@@ -13,7 +13,7 @@
 
 /* Initialize the object and its transform with fixed placement and settings. */
 void initialize_object_transform_and_handler(TownObjectRecord *object, ObjectPosition *transform, void *ptr2) {
-    call_the_handler_selects_nonzero_entry(D_800D0170, object, ptr2);
+    dispatch_selected_entry_if_nonzero(D_800D0170, object, ptr2);
     object->unk_04 = &update_actor_and_select_ground_handler;
     clear_entity_record_fields(transform);
     transform->velocity_x = 0xFFFE0000;

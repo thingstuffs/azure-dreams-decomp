@@ -22,7 +22,7 @@ typedef struct RisingLandingEffectBody {
 void begin_pushed_actor_move(void *state_in, struct ObjectPosition *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void dispatch_actor_action_2(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *state);
+void resolve_actor_turn_status(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *state);
 
 void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
@@ -81,7 +81,7 @@ typedef struct ActorTrailWork {
 
 void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coords_out, SpriteFrameState *rgb);
 
-void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data);
+void update_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, ActorRecord *object);

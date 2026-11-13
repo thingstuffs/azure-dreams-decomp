@@ -9,15 +9,15 @@
 #include "town/scene.h"
 
 
-extern void reset_counter_after_check_99();
+extern void start_effect_when_bookshelf_fell();
 extern M2C_UNK D_800D0DC0;
 
 /* Initializes object callbacks and state, then sets unit scale. */
 void initialize_unit_scale_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform) {
     NODE_HEADER(object)->update_callback = retire_object_on_check_or_callback;
-    object->unk_50.as_pv = &reset_counter_after_check_99;
+    object->unk_50.as_pv = &start_effect_when_bookshelf_fell;
     initialize_object_transform_and_state((s32)(object), transform, 0xA);
-    configure_the_set_mode_n_3(object, position, &D_800D0DC0);
+    init_scene_node_mode_3(object, position, &D_800D0DC0);
     transform->offset_x = 0x1000;
     transform->scale_y = 0x1000;
     transform->scale_x = 0x1000;

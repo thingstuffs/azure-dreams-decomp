@@ -158,38 +158,38 @@ typedef struct S_8199AAD4_1 {
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_8199AAD4_1;   /* source in update_source_relative_position_delays_movement_advances_arc_toward_target */
+} S_8199AAD4_1;   /* source in update_delayed_arc_effect */
 
 
 
-   /* position in update_source_relative_position_delays_movement_advances_arc_toward_target */
+   /* position in update_delayed_arc_effect */
 
 typedef struct S_8199AAD4_4 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_8199AAD4_4;   /* global_flags in update_source_relative_position_delays_movement_advances_arc_toward_target */
+} S_8199AAD4_4;   /* global_flags in update_delayed_arc_effect */
 
 typedef struct S_8199AAD4_5 {
     void * unk_00;
     u8 pad_04[0x4];
     void * unk_08;
-} S_8199AAD4_5;   /* entry in update_source_relative_position_delays_movement_advances_arc_toward_target */
+} S_8199AAD4_5;   /* entry in update_delayed_arc_effect */
 
 typedef struct S_8199AAD4_6 {
     s32 unk_00;
     s32 unk_04;
-} S_8199AAD4_6;   /* target_node in update_source_relative_position_delays_movement_advances_arc_toward_target */
+} S_8199AAD4_6;   /* target_node in update_delayed_arc_effect */
 
 typedef struct S_8199AAD4_8 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_8199AAD4_8;   /* call_node in update_source_relative_position_delays_movement_advances_arc_toward_target */
+} S_8199AAD4_8;   /* call_node in update_delayed_arc_effect */
 
 typedef struct S_8199AAD4_10 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_8199AAD4_10;   /* ((S_8199AAD4_0 *)self)->unk_00 in update_source_relative_position_delays_movement_advances_arc_toward_target */
+} S_8199AAD4_10;   /* ((S_8199AAD4_0 *)self)->unk_00 in update_delayed_arc_effect */
 
 #define source source_or_step
 
@@ -208,7 +208,7 @@ extern void *actor_direction_sprites;
 extern void *create_positioned(void *, s32, s32, s32, void *, s32, s32, s32, s32);
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
-void update_source_relative_position_delays_movement_advances_arc_toward_target(LinkedEffectControllerBody *self, ObjectPosition *coords)
+void update_delayed_arc_effect(LinkedEffectControllerBody *self, ObjectPosition *coords)
 {
     u16 delta[3];
     s32 target[3];
@@ -370,7 +370,7 @@ typedef struct Node {
     void *field20;
 } Node;
 
-#define D_800242D4 ((char *)update_source_relative_position_delays_movement_advances_arc_toward_target)
+#define D_800242D4 ((char *)update_delayed_arc_effect)
 extern char D_80024A8C[];
 
 /* Allocate a node and initialize its child with supplied values and shared source data. */

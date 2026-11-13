@@ -12,7 +12,7 @@
 
 /* Clears the object's indexed flag and updates its state and handler. */
 void reset_indexed_object_and_set_handler(TownObjectRecord *object, ObjectPosition *context, void *ptr2) {
-    call_the_handler_selects_nonzero_entry(D_800D00A8, object, ptr2);
+    dispatch_selected_entry_if_nonzero(D_800D00A8, object, ptr2);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_0A = 0xA;
     clear_entity_record_fields((context));

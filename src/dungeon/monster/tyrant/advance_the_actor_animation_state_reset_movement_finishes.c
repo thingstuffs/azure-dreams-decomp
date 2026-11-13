@@ -29,7 +29,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
     s32 reuse_test;
     s32 state;
     s32 anim_kind;
-    void *target_root;
+    ActorRecord *target_root;
     SpriteFrameState *target_source;
     void *new_target;
     s32 target_x;

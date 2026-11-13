@@ -402,7 +402,7 @@
     },
     {
       "row": "dungeon/func_80E36A58",
-      "tu": "src/dungeon/monster/cyclone/consume_object_code_19.c",
+      "tu": "src/dungeon/monster/cyclone/clear_anorexia_if_present.c",
       "home": "dungeon/func_80E12A58",
       "foff": "0xE56A58",
       "vma": "0x80152258",

@@ -40,5 +40,5 @@ void decay_gauge_counters(S_800504B4 *object, s32 unused_arg1, s32 unused_arg2)
     if (object->arr[6]->sub->val.s == 0) {
         object->func = forward_object_input_handler;
     }
-    handle_object_input(object);
+    handle_selection_menu_input(object);
 }

@@ -5,6 +5,6 @@ struct SpriteFrameState;
 #include "common.h"
 #include "shared/entity.h"
 
-void decrement_target_halfword_by_four(void *unused_0, void *unused_1, struct SpriteFrameState *target);
+void decrement_sprite_angle_y(void *unused_0, void *unused_1, struct SpriteFrameState *target);
 
 #endif

@@ -30,7 +30,7 @@ typedef struct {
 
 extern Slot audio_sequence_tracks[];
 
-extern s32 read_next_byte_and_finish(Entity *);
+extern s32 read_sequence_byte(Entity *);
 extern void audio_dispatch_midi_event(Entity *, s32, s32, s32);
 
 /* Processes the next entity command and returns its control flag. */
@@ -43,10 +43,10 @@ s32 audio_read_compact_sequence_event(Entity *entity)
     s16 saved_command;
     s32 command_index;
 
-    command = read_next_byte_and_finish(ent);
+    command = read_sequence_byte(ent);
     saved_command = command;
     if (!(command & 0x80)) {
-        s32 next_byte = read_next_byte_and_finish(ent);
+        s32 next_byte = read_sequence_byte(ent);
         value = next_byte & 0x7F;
         if (value != 0) {
             operand = next_byte;
@@ -74,7 +74,7 @@ s32 audio_read_compact_sequence_event(Entity *entity)
     return 1;
     case 1:
     {
-        s32 next_byte = read_next_byte_and_finish(ent);
+        s32 next_byte = read_sequence_byte(ent);
         u32 slot_count;
         operand = next_byte;
         slot_count = audio_sequence_track_count[0];
@@ -89,33 +89,33 @@ s32 audio_read_compact_sequence_event(Entity *entity)
     }
     case 2:
     {
-        s32 next_byte = read_next_byte_and_finish(ent);
+        s32 next_byte = read_sequence_byte(ent);
         operand = next_byte;
-        sound_set_seven_bit_channel_value_and_notify(ent->field_4C, 0, next_byte & 0x7F);
+        set_channel_control_and_notify(ent->field_4C, 0, next_byte & 0x7F);
         break;
     }
     case 3:
     {
-        s32 next_byte = read_next_byte_and_finish(ent);
+        s32 next_byte = read_sequence_byte(ent);
         operand = next_byte;
         set_audio_channel_program(ent->field_4C, next_byte & 0x7F);
         break;
     }
     case 0:
     {
-        s32 next_byte = read_next_byte_and_finish(ent);
+        s32 next_byte = read_sequence_byte(ent);
         operand = next_byte;
         ent->field_4C = next_byte & 0xF;
         break;
     }
     case 57:
-    operand = read_next_byte_and_finish(ent);
+    operand = read_sequence_byte(ent);
     ent->field_2C = 1;
     break;
     default:
     default_command:
     {
-        s32 next_byte = read_next_byte_and_finish(ent);
+        s32 next_byte = read_sequence_byte(ent);
         operand = next_byte;
         audio_dispatch_midi_event(ent, (ent->field_4C + 0xB0) & 0xFF,
                       saved_command & 0x7F, next_byte & 0x7F);

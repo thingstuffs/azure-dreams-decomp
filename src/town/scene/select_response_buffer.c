@@ -18,7 +18,7 @@ u8 *select_response_buffer(s32 context, s32 data, s32 request) {
 
     if (request == 0) {
         state_page = (u8 **)0x80020000;
-        set_event_state_and_dispatch_a_2();
+        set_ending_event_state();
         if (check_event_value_in_list((*(u8 **)((u8 *)state_page - 0x16B0))[4]) == 0) {
             (*(u8 **)((u8 *)state_page - 0x16B0))[4] = find_first_enabled_entry_id();
         }

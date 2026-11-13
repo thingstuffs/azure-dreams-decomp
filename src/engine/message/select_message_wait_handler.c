@@ -10,7 +10,7 @@ s32 *select_message_wait_handler(Rec_func_800381D0_arg0 *context) {
         if (play_message_confirmation_sound(*context->unk_1C) != 0) {
             return &finish_message_when_idle;
         }
-        return &consume_message_byte_and_start_countdown;
+        return &start_message_countdown;
     }
     return &choose_message_wait_handler;
 }

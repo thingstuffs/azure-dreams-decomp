@@ -17,7 +17,7 @@ typedef struct StorageEntry {
     void *text;
     StorageEntryPosition *position;
 } StorageEntry;
-/* Display record load_storage_display_resource fills (allocate_object_and_mark_failed_setup_for_cleanup passes
+/* Display record load_storage_display_resource fills (create_monster_status_object passes
  * the monster-status display body): the shared part vector, the part table and its buffer list. */
 typedef struct StorageWork {
     u8 pad_00[0x7C];

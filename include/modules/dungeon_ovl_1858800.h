@@ -15,8 +15,8 @@ extern s32 get_definition_entry_byte_13(s16 entry_index);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern void unlink_node(void *);
 void advance_sprite_animation_and_textures(void *);                 /* extern */
-extern u8 shared_sprite_entries[];
-extern SpriteSourceEntry timed_projectile_sprite_entries;
+#include "dungeon/effect/sprite/shared_entries.h"
+#include "dungeon/effect/sprite/timed_projectile_entries.h"
 void run_timed_sprite_projectile(ProjectileState *, ProjectileMotion *, ProjectileSprite *);
 s32 draw_animated_projectile_quads(RenderRecord *, EntityRec *);
 void update_timed_sprite_effect(void *, void *, void *);

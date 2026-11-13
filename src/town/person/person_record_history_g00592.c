@@ -56,7 +56,7 @@ void shift_history_and_store_current_values(void)
 }
 
 /* Copies three halfwords from the selected table entry into the destination. */
-void load_record_halfwords_3(void *destination, s32 entry_index) {
+void load_position_history_entry(void *destination, s32 entry_index) {
     s8 *table_base;
     s8 *entry;
 

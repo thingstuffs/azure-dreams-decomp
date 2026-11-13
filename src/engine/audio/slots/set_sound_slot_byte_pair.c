@@ -20,6 +20,6 @@ void apply_scaled_sound_slot_volume(void)
         scaled_value = (s16) (scale_product / 32767);
         scaled_value = scaled_value * sound_sequence_task.unk_10;
         channel_value = clamp_sound_value_to_seven_bits((s16) (scaled_value / 128));
-        set_sound_slot_byte_pair(sound_playback_state.unk_22, channel_value, channel_value);
+        set_sequence_slot_gains(sound_playback_state.unk_22, channel_value, channel_value);
     }
 }

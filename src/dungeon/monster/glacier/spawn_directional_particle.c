@@ -20,7 +20,7 @@ typedef struct {
 
 extern void select_record_entry_and_value(void *, void *, s32);
 
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 
 extern Pair16 glacier_direction_offsets[];
 

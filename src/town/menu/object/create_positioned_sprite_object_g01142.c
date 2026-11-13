@@ -56,7 +56,7 @@ void advance_emote_motion(S_800A7360_1 *object, ObjectPosition *motion) {
     motion->x.v = (s32) (motion->x.v + motion->velocity_x);
     motion->y.v = (s32) (motion->y.v + motion->velocity_y);
     motion->z.v = (s32) (motion->z.v + (motion->velocity_z));
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
     if (motion->velocity_z >= 0) {
         object->unk_50 = &advance_position_and_handle_ground_contact;
     }
@@ -92,5 +92,5 @@ void advance_position_and_handle_ground_contact(void *entity, ObjectPosition *mo
         copy_indexed_motion_value_and_advance(entity, motion, context);
         return;
     }
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
 }

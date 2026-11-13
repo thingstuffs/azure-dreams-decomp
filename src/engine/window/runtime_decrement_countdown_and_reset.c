@@ -23,6 +23,6 @@ void runtime_decrement_countdown_and_reset(S_80036484_0 *state) {
     if ((countdown << 0x10) <= 0) {
         state->unk_4D = 0xFF;
         state->unk_51 = 0;
-        state->unk_68 = &runtime_mark_state_when_flag_51_set;
+        state->unk_68 = &request_message_advance_on_second_flag;
     }
 }

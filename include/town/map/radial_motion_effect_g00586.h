@@ -43,11 +43,10 @@ void select_record_entry_and_value(void *state,void *entries, short index);
 
 /* extern */
 
-#include "shared/sprite_source.h"
+#include "town/map/map_animation_entries.h"
 #include "town/map/motion.h"
 #include "sdk/libgte.h"
 #include "sdk/rand.h"
-extern SpriteSourceEntry map_animation_sprite_entries[];
 
 
 /* Functions defined in this translation unit. */

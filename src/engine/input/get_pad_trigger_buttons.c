@@ -5,6 +5,6 @@
 
 
 /* Returns the newly pressed pad button bits from g_game_work.pressed_buttons. */
-s32 runtime_get_state_value_83170(void) {
+s32 get_pressed_pad_buttons(void) {
     return (g_game_work.pressed_buttons);
 }

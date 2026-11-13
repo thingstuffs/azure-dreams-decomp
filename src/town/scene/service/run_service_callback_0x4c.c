@@ -4,5 +4,5 @@
 
 /* Run town service callback 0x04C with (0x11, 0x10). */
 void run_service_callback_0x4c(void) {
-    town_scene_root->services->callback_04C(0x11, 0x10);
+    town_scene_root->services->BuildLandBuilding(0x11, 0x10);
 }

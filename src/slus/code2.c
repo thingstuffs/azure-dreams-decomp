@@ -263,7 +263,7 @@ extern Entry80084960 audio_channel_controls[];
 void scene_save_previous_mode_and_reset_callbacks(void)
 {
     runtime_dispatch_state.field_18 = ((signed char)runtime_dispatch_state.field_B);
-    activate_scene_resource_and_clear_view_callbacks();
+    load_scene_resource_and_clear_views();
 }
 
 extern u8 indexed_count_byte_table[16];
@@ -308,7 +308,7 @@ extern u8 cd_command_read_index;
 extern Struct80083968 cd_command_records[32];
 
 /* Returns the previous history entry byte, wrapping the ring index modulo 32. */
-u8 get_previous_cd_command_byte(void) {
+u8 get_previous_cd_command(void) {
     return cd_command_records[(cd_command_read_index + 0x1F) & 0x1F].unk00;
 }
 

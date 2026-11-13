@@ -12,7 +12,7 @@
  * Reinitializes entries from linked data offset 0x1C, clears the indexed object slot, and installs
  * D_800C3FC8 with count 0x15.
  */
-void reset_object_handler_field_6c_value_15_46ee4(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
+void restart_person_countdown_expire(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
     PersonDescriptor *descriptor;
 
     descriptor = object->descriptor;

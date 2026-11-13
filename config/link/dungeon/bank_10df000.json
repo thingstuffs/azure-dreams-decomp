@@ -174,7 +174,7 @@
     },
     {
       "row": "dungeon/func_810C165C",
-      "tu": "src/dungeon/monster/maximum/update_directional_motion_and_return_to_tile.c",
+      "tu": "src/dungeon/monster/maximum/decelerate_maximum_actor_to_tile.c",
       "home": "dungeon/func_810AF65C",
       "foff": "0x10E165C",
       "vma": "0x80160E5C",

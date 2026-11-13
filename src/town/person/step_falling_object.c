@@ -32,5 +32,5 @@ void step_falling_object(OwnerCallbackObject *entity, ObjectPosition *motion, Sp
         load_indexed_state_value(entity, motion, output);
         return;
     }
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
 }

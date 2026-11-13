@@ -47,28 +47,28 @@ void no_op_scene_callback_b(void);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/entity.h"
 /* Position and other record callers share this signed word at +0x14. */
-void add_hex_20000_s_signed_offset_hex_14(void *record_arg);
+void add_vertical_gravity(void *record_arg);
 
 #include "shared/town_object.h"
 #include "records/Rec_func_8009431C_arg0.h"
 #include "shared/position_views.h"
 struct TownObj;
 struct TownVec;
-void apply_fixed_point_boundary_corrections_according_global_800_fe_5_cc(ObjectPosition *value);
-void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(ObjectPosition *source);
-void clear_slot_n_3_copies_slot_n_0(ObjectPosition *value);
-void compute_and_clamps_vector_based_adjustment_updates_town(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
+void clamp_x_to_probe_bounds(ObjectPosition *value);
+void copy_z_to_collision_motion(ObjectPosition *source);
+void copy_x_to_collision_motion(ObjectPosition *value);
+void set_height_and_slope_velocity(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
 void correct_fixed_point_value_at_boundaries(ObjectPosition *value);
 s32 get_status_active_entry_matching_direction(void *entries);
-void initialize_record_with_handler_and_countdown_800(TownObjectRecord *record, ObjectPosition *setup_value, struct SpriteFrameState *init_context);
+void init_approach_record(TownObjectRecord *record, ObjectPosition *setup_value, struct SpriteFrameState *init_context);
 void initialize_scene_action_record(TownObjectRecord *record, void *ptr, void *ptr2);
 void initialize_timed_scene_action(TownObjectRecord *record, ObjectPosition *unused, struct SpriteFrameState *setup_value);
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(ObjectPosition *record);
+void apply_velocity_friction(ObjectPosition *record);
 void noop_player_scene_action(void);
-void run_the_three_update_routines_context(ObjectPosition *context);
-s32 select_an_available_entry_matching_direction_returns_status(void *record);
-s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *destination, void *source);
-void store_the_valid_shared_angle_in_offset_hex_10(void *record_arg);
+void sync_collision_motion_xyz(ObjectPosition *context);
+s32 select_entry_by_input_direction(void *record);
+s32 select_adjacent_source_entry(void *destination, void *source);
+void store_input_angle(void *record_arg);
 void tick_countdown_and_initialize_target(UnsignedCountdownView *state, ObjectPosition *value);
 #include "shared/sprite_frame_state.h"
 void update_threshold_and_interaction(TownObjectRecord *state, ObjectPosition *entity, SpriteFrameState *context);
@@ -79,12 +79,12 @@ struct S_80097AD0_1;
 void spawn_radial_objects(MovingPosition *origin, struct S_80097AD0_1 *spread, s32 count);
 
 
-void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(ObjectPosition *context);
+void accelerate_toward_input_angle(ObjectPosition *context);
 
-s16 call_callee_8008_c_4_c_8_global_800_d_0410_parameter(s32 input_value, s32 parameter);
-void call_the_callee_80096208_callee_800962_b_8(ObjectPosition *input_value);
-void call_the_callee_800962_b_8_callee_80096208(ObjectPosition *input_value);
-void dispatch_actor_action(void *actor, void *position, void *context);
+s16 evaluate_primary_probe_samples(s32 input_value, s32 parameter);
+void clamp_x_then_correct_boundaries(ObjectPosition *input_value);
+void correct_boundaries_then_clamp_x(ObjectPosition *input_value);
+void begin_town_actor_interaction(void *actor, void *position, void *context);
 void play_periodic_sound(s32 count, s32 interval);
 
 void clear_global_80110_ec_0_global_80082_a_39(void);
@@ -102,13 +102,13 @@ void apply_pending_table_entry(s32 index, s32 entryValue);
 
 #include "shared/vector.h"
 #include "town/player/record.h"
-void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(ObjectPosition *out);
-void copy_current_record_components_3(void *output);
+void apply_actor_control_offsets(ObjectPosition *out);
+void copy_scene_payload_position(void *output);
 void dispatch_parameterized_or_default(s32 handler_param);
 u32 view_relative_angle_sector(s32 angle);
 
 
-void initialize_object_with_countdown_400(TownObjectRecord *object, ObjectPosition *setup_parameter, struct SpriteFrameState *sprite);
+void begin_countdown_advance_cursor_action(TownObjectRecord *object, ObjectPosition *setup_parameter, struct SpriteFrameState *sprite);
 
 s32 record_value_table_contains(s32 target_value);
 void complete_player_action(void *actor_arg, ObjectPosition *motionState, struct SpriteFrameState *sprite);
@@ -131,7 +131,7 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, ObjectPos
 
 void update_actor_interaction_actions(void *self_arg, ObjectPosition *target_arg, SpriteFrameState *sprite);
 
-void run_action_then_fallback_on_no_change(s32 *value, ObjectPosition *state, struct SpriteFrameState *sprite);
+void run_action_with_idle_fallback(s32 *value, ObjectPosition *state, struct SpriteFrameState *sprite);
 
 struct S_80090F00_0;
 
@@ -143,7 +143,7 @@ void invoke_object_state_callback(struct S_80097D2C_0 *object, void *position, v
 
 void initialize_record_and_select_active_data(void *record, ObjectPosition *position, SpriteFrameState *sprite);
 void initialize_shared_scene_data(s32 **out_ptr, void *unused_position, struct SpriteFrameState *unused_sprite);
-void add_a_directional_step_vector_scale_down_exceeds_length_limit(s16 angle, s32 max_length, ObjectPosition *vector);
+void accelerate_toward_angle_capped(s16 angle, s32 max_length, ObjectPosition *vector);
 void update_actor_movement_and_interaction(void *actor, ObjectPosition *position, s32 context);
 void update_threshold_countdown_with_busy_check(void *state, ObjectPosition *object, s32 context);
 

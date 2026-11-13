@@ -40,7 +40,7 @@ void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *posi
 
         state->unk_30 = ((u16)position->x.w.i);
         state->unk_32 = ((u16)position->y.w.i);
-        call_the_handler_selects_nonzero_entry(town_scene_record_handlers, state, context);
+        dispatch_selected_entry_if_nonzero(town_scene_record_handlers, state, context);
 
         state->unk_04 = update_player_global_state;
         state->unk_10 = 0x400;

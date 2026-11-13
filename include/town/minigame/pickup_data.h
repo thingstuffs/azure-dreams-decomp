@@ -13,7 +13,7 @@ typedef struct minigame_pickup_source {
     /* 0x00 */ s16 kind; /* update_bouncing_pickup state: 0 waits, 1 launches, 2-5 bounce, 6 retires */
     /* 0x02 */ u16 timer; /* frames left in the current bounce/idle state */
     /* 0x04 */ void *owner; /* betting effect that spawned the pickup; its flag 8 retires every pickup */
-    /* 0x08 */ u8 pad08[0x15]; /* scene collision record (configure_the_set_mode_n_1, unlink_scene_list_node) */
+    /* 0x08 */ u8 pad08[0x15]; /* scene collision record (init_scene_node_mode_1, unlink_scene_list_node) */
     /* 0x1D */ u8 unk_1D;
     /* 0x1E */ u8 pad1E[0x32];
     /* 0x50 */ void *unk_50; /* sprite table stored by the creator */

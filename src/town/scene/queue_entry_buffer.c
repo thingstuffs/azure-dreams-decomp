@@ -4,7 +4,7 @@
 #include "town/scene.h"
 
 
-/* Calls call_value_handler_index_plus_4 with town_event_records. */
+/* Calls process_lshop_entries_after_header with town_event_records. */
 void queue_entry_buffer(void) {
-    call_value_handler_index_plus_4(town_event_records);
+    process_lshop_entries_after_header(town_event_records);
 }

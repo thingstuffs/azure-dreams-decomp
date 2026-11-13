@@ -36,7 +36,7 @@ AnimatedMenuPanelNode *window_create_animated_content_panel(s32 style_flags, s16
             display_link = &state->elements[0].link;
             entity->header.sprite = display_link;
             register_node(entity, draw_tinted_node_sprites_scratch);
-            entity->header.update_callback = menu_move_the_position_halfway_toward_target_position;
+            entity->header.update_callback = ease_panel_toward_target;
         } else {
             entity_flags = entity->header.flags;
             entity->header.flags = entity_flags | 0x8000;

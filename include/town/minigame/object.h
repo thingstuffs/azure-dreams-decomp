@@ -109,7 +109,7 @@ void apply_minigame_object_tint(struct IndicatorChild *state, MovingPosition *se
 void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_value_10, struct GymState *object_value_20);
 
 /* create_scene_object_with_byte_payload.c */
-void create_scene_object_with_48_byte_payload(s32 init_value, void *init_data);
+void create_scene_object_with_payload(s32 init_value, void *init_data);
 
 /* create_scene_object_with_record_payload.c */
 void create_scene_object_with_record_payload(void *object_value, void *record);

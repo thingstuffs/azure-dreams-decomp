@@ -51,9 +51,9 @@ void initialize_scene_for_mode(void)
     initialize_circular_list_head();
 
     shared_data = D_800D0420;
-    handle_insert_initialize_two_values_status_flags(town_actor_control, scene, shared_data);
-    initialize_pointer_table_self_links();
-    initialize_the_store_two_values_set_state_flags(town_motion_list, scene, shared_data);
+    init_scene_list_node(town_actor_control, scene, shared_data);
+    init_town_motion_list();
+    init_secondary_list_record(town_motion_list, scene, shared_data);
 
     state = &map_runtime_state;
     if (state->mode == 0x37000C) {
@@ -96,8 +96,8 @@ void initialize_scene_for_mode(void)
         scene->z.w.i = -0x80;
         scene->y.w.i = y_offset + y_coord;
         scene->z.w.i = query_lowered_transform_position(scene);
-        initialize_six_global_pointers_corresponding_storage_blocks();
-        run_the_three_update_routines_context(scene);
+        init_probe_sample_buffers();
+        sync_collision_motion_xyz(scene);
 
         work = NODE_BODY(object);
         work->field12 = -1;
@@ -153,7 +153,7 @@ void synchronize_mode_and_pending_callback(void) {
         } else {
             clear_resident_bitmap_bit(F_player_mizugi_old);
         }
-        call_the_handler_selects_nonzero_entry(town_scene_record_handlers, handler_state, update_state);
+        dispatch_selected_entry_if_nonzero(town_scene_record_handlers, handler_state, update_state);
         initialize_player_object(handler_state);
         initialize_record_and_select_active_data(handler_state, (work_state), update_state);
         initialize_record_with_handler_table(handler_state, (work_state), update_state);
@@ -170,7 +170,7 @@ void synchronize_mode_and_pending_callback(void) {
 /* Initialize the global record using its preceding value and D_800D0178. */
 void initialize_global_scene_record(void) {
     s32 *record = &scene_object_payload_alias;
-    call_the_handler_selects_nonzero_entry(&D_800D0178, record, *(s32 *)&NODE_HEADER(record)->sprite);
+    dispatch_selected_entry_if_nonzero(&D_800D0178, record, *(s32 *)&NODE_HEADER(record)->sprite);
 }
 
 /* plt_init_sleep_set: set the sleep initialization pointer. */
@@ -199,7 +199,7 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
 
     handler = owner->unk_00;
     if (handler != town_position_callback_address || handler != noop_player_scene_action) {
-        apply_the_enabled_movement_offsets_adding_z_offset_only_positive(node_in);
+        apply_actor_control_offsets(node_in);
     }
     add_motion_deltas_to_position(node_in);
 
@@ -219,8 +219,8 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
 
     work = (func_80092C9C_S_800903FC_1 *)&town_motion_list;
     work->unk_16 = (u16)owner->unk_10;
-    update_the_s_field_10_using_callee_8008_fe_90(work);
-    if (get_whether_has_attached_state_type_n_1_n_3(work) != 0) {
+    update_record_overlap_node(work);
+    if (has_attached_state_type_1_or_3(work) != 0) {
         owner->unk_2C = 0;
         submit_object_resource_data(work->unk_10);
 
@@ -236,18 +236,18 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
                     s32 *update_work;
 
                     update_work = &position_query_scratch;
-                    value = select_the_smaller_position_query_result_capped_n_64_writes_associated(node_in, update_work);
-                    compute_and_clamps_vector_based_adjustment_updates_town(node_in, value, update_work);
+                    value = query_capped_surface_height(node_in, update_work);
+                    set_height_and_slope_velocity(node_in, value, update_work);
                 }
             }
-            run_the_three_update_routines_context(node_in);
+            sync_collision_motion_xyz(node_in);
             if (owner->unk_00 != town_position_callback_address) {
                 initialize_record_and_select_active_data(owner, (node_in), sprite);
             }
         }
     }
 
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&town_actor_control, node_in);
+    resolve_collider_overlaps(&town_actor_control, node_in);
     (*(func_80092C9C_ActorCallback *)((u8 *)owner + (0)))(owner, node_in, (s32)sprite);
 
     if ((*(void **)((u8 *)owner + (-0x10))) == D_800A5638) {
@@ -270,7 +270,7 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
     s32 movement;
     s32 index;
 
-    clear_motion_along_blocked_directions_update_affected_axes(input);
+    clear_blocked_motion(input);
 
     if (camera_turn_lock[0] == 0) {
         if (((u16)work->view.camera_rotation.parts.viewAngle) >= 0x800) {
@@ -278,7 +278,7 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
         }
 
         callback = context->unk_00;
-                /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_motion_along_blocked_directions_update_affected_axes. */
+                /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_blocked_motion. */
         if (callback == (void *)town_position_callback_address || callback == (void *)&noop_player_scene_action ||
             service_script_controller() != 0) {
             if (map_scene_selector_alias[0] == 12) {
@@ -346,7 +346,7 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
             sprite->flags &= 0xFFFE;
         }
     }
-    dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(context, input, sprite);
+    dispatch_fallback_position(context, input, sprite);
     step_actor_animation(sprite, 0);
 
     {

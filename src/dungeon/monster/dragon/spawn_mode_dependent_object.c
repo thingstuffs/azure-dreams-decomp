@@ -1476,7 +1476,7 @@ void grow_hopping_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrame
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
 void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor) {
     void *context = in_context;
-    void *actor = in_actor;
+    ActorRecord *actor = in_actor;
     s32 state;
 
     state = in_controller->action_phase;
@@ -1489,7 +1489,7 @@ void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectP
             direction_anims = dragon_alt_direction_frames;
             sprite->frameTable = direction_anims;
             select_sprite_entry(sprite,
-                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R03_80173358_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
@@ -1507,7 +1507,7 @@ void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectP
                 return;
             }
 
-            if ((((R03_80173358_S_80173358_2 *)actor)->unk_64 != 0) &&
+            if ((actor->hp_delta != 0) &&
                 (begin_ready_actor_directional_action(in_controller, context, sprite, 0) != 0)) {
                 return;
             }
@@ -1524,7 +1524,7 @@ void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectP
                 return;
             }
 
-            actor_flags = ((R03_80173358_S_80173358_2 *)actor)->unk_1C;
+            actor_flags = actor->flags1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(in_controller, context, sprite, actor);
                 return;
@@ -1536,7 +1536,7 @@ void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectP
                 return;
             }
 
-            if (((R03_80173358_S_80173358_2 *)actor)->unk_6D == 0) {
+            if (actor->pending_turn_updates == 0) {
                 return;
             }
 
@@ -1575,7 +1575,7 @@ void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectP
             direction_anims = D_80173CE4;
             sprite->frameTable = direction_anims;
             select_sprite_entry(sprite,
-                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R03_80173358_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -1602,7 +1602,7 @@ void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectP
     default:
         return;
     }
-    ((R03_80173358_S_80173358_2 *)actor)->unk_1C &= ~ACTOR_ASLEEP;
+    actor->flags1C &= ~ACTOR_ASLEEP;
     in_controller = (ActorRecord *)((u8 *)in_controller + 0x8C);
     *(void **)in_controller = ((u8 *)dispatch_monster_move_attack_spell);
 }

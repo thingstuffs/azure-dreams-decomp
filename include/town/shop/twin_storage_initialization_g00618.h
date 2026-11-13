@@ -27,7 +27,7 @@ StorageMenuNode *create_storage_item_menu();
 /* extern */
 StorageMenuNode *create_storage_owner_menu();
 /* extern */
-void handle_item_menu_input_2(u8 *menu);
+void handle_item_move_menu_input(u8 *menu);
 extern void fill_item_value_buffer(ItemMenuInputObject *table);
 extern void func_800B3A80(s32);
 extern void refresh_object_components_and_high_flag(StorageMenuNode *object);

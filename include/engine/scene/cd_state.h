@@ -20,5 +20,5 @@ extern u8 cd_command_mode_byte;
 extern u8 cd_command_phase[2];
 extern s32 cd_queue_buffered_argument_word_0;
 extern s32 cd_queue_buffered_argument_word_1;
-u8 get_previous_cd_command_byte(void);
+u8 get_previous_cd_command(void);
 #endif

@@ -126,10 +126,10 @@ void invoke_window_object_callback(struct S_800355EC_0 *object, void *context, v
 void mark_menu_slot_used(struct S_func_800368D0_0 *state);
 
 /* mark_state_when_flag_50_set.c */
-void runtime_mark_state_when_flag_50_set(struct S_800362A0_0 *state);
+void request_message_advance_on_first_flag(struct S_800362A0_0 *state);
 
 /* mark_state_when_flag_51_set.c */
-void runtime_mark_state_when_flag_51_set(struct S_800364BC_0 *state);
+void request_message_advance_on_second_flag(struct S_800364BC_0 *state);
 
 /* queue_unwindowed_texture_draw_mode.c */
 void queue_unwindowed_texture_draw_mode(s32 ot_index);
@@ -141,7 +141,7 @@ void runtime_advance_counter_and_callback(struct S_800357D0_0 *state);
 void runtime_assign_code_101_callback(struct S_800357B0_0 *object);
 
 /* runtime_decrease_state_by_a.c */
-void runtime_decrease_state_by_a_0(struct S_8003571C_0 *object);
+void step_window_value_down_to_zero(struct S_8003571C_0 *object);
 
 /* runtime_decrement_countdown_and_reset.c */
 void runtime_decrement_countdown_and_reset(struct S_80036484_0 *state);
@@ -149,11 +149,11 @@ void runtime_decrement_countdown_and_reset(struct S_80036484_0 *state);
 /* runtime_reset_state_and_advance_callback.c */
 void runtime_reset_state_and_advance_callback(struct S_80035760_0 *state);
 
-/* runtime_reset_state_on_trigger_bits.c */
-void runtime_reset_state_on_trigger_bits(struct S_8003626C_0 *state);
+/* reset_state_on_button_press.c */
+void reset_state_on_button_press(struct S_8003626C_0 *state);
 
-/* scale_random_to_unsigned_halfword_limit.c */
-u32 scale_random_to_unsigned_halfword_limit(s32 limit);
+/* scale_random_by_limit.c */
+u32 scale_random_by_limit(s32 limit);
 
 /* scroll_window_x.c */
 void scroll_window_x(struct S_8003566C_0 *state);

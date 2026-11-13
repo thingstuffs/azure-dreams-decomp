@@ -54,18 +54,18 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
     S_80092A84_4 *interaction_state;
 
     input_state = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(body);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(body);
+    resolve_collision_axis_order(body);
+    apply_velocity_friction(body);
 
     position_data = &position_query_scratch;
-    position = select_the_smaller_position_query_result_capped_n_64_writes_associated(body, position_data);
+    position = query_capped_surface_height(body, position_data);
     if ((position - body->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_callback_from_entry(actor, body, context);
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((body), position, (struct TownVec * *)(position_data));
+        set_height_and_slope_velocity((body), position, (struct TownVec * *)(position_data));
     }
 
     input_flags = (input_state->pressed_buttons);
@@ -79,10 +79,10 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
     }
 
     interaction_ctrl = &town_actor_control;
-    if ((get_status_active_entry_matching_direction(interaction_ctrl) == -1) && (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0)) {
-        select_an_available_entry_matching_direction_returns_status(interaction_ctrl);
-        store_the_valid_shared_angle_in_offset_hex_10(actor);
-        call_the_handler_selects_nonzero_entry(movement_action_handler_table, actor, (void *)(context));
+    if ((get_status_active_entry_matching_direction(interaction_ctrl) == -1) && (is_map_state_in_special_range() == 0)) {
+        select_entry_by_input_direction(interaction_ctrl);
+        store_input_angle(actor);
+        dispatch_selected_entry_if_nonzero(movement_action_handler_table, actor, (void *)(context));
         init_motion_action_callback(actor, body, context);
 
         entity = actor->unk_2C;
@@ -100,7 +100,7 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
         } else {
             submit_object_resource_data(interaction_state->unk_10);
         }
-        town_player_action_callback = (s32 *)&dispatch_actor_action;
+        town_player_action_callback = (s32 *)&begin_town_actor_interaction;
         return;
     }
 
@@ -108,8 +108,8 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
         position = ((u16)actor->unk_3E) - 1;
         actor->unk_3E = position;
         play_periodic_sound(position, 0xC);
-        store_the_valid_shared_angle_in_offset_hex_10(actor);
-        handle_adjust_vector_toward_selected_angle_limit_magnitude(body);
+        store_input_angle(actor);
+        accelerate_toward_input_keep_speed(body);
         return;
     }
 

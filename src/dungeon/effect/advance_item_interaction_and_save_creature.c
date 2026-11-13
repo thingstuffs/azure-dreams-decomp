@@ -413,7 +413,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
             return;
         }
         set_packed_2bit_flag(creature->unk_13, 0);
-        clear_selected_item_flag_400(action->unk_C0);
+        unmark_selected_item(action->unk_C0);
         creature_sprite = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_04;
         update_map_cell_flags_with_item_limit(creature_sprite->tile_x, creature_sprite->tile_y, 0x300);
         if (resolve_record_orientation_or_fallback(sprite->source, sprite, &spawn_offset, 0) == 0) {

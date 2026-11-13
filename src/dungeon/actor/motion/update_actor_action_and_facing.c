@@ -16,7 +16,7 @@
 extern void *actor_default_frames[8];
 
 /* Refresh the directional sprite and advance the actor state when sprite flags are set. */
-void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor)
+void finish_frog_status_action(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor)
 {
     s32 tracked_addr;
 
@@ -49,6 +49,6 @@ void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *
         }
 
         state->unk_96.as_s16 = 8;
-        state->unk_8C.as_pv = handle_actor_commands_and_facing;
+        state->unk_8C.as_pv = update_actor_commands_and_facing;
     }
 }

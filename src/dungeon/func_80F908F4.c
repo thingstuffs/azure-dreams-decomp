@@ -21,7 +21,7 @@ extern const u8 D_8016A854[20];
 extern u8 D_8016EB0C[];
 
 /* Start the actor's hit reaction, then build and post the damage message for it. */
-void begin_actor_hit_reaction_slot_f(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, EntityRec *actor) {
+void begin_actor_hit_reaction(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, EntityRec *actor) {
     s32 flags;
     void *call_arg;
     void *pass_result;

@@ -17,14 +17,14 @@ void correct_fixed_point_value_at_boundaries(ObjectPosition *position) {
     if (town_secondary_probe_offset > 0) {
         upper_bound = query_lower_bound_with_x_offset(position) << 0x10;
         if (position->y.v >= upper_bound) {
-            set_global_800_cfced_initialize_call_callee_800954_dc((position), upper_bound);
+            set_player_y_and_sync_collision((position), upper_bound);
             return;
         }
     } else {
         if (town_secondary_probe_offset >= 0) {
             neutral_upper_bound = query_lower_bound_with_x_offset(position) << 0x10;
             if (position->y.v >= neutral_upper_bound) {
-                set_global_800_cfced_initialize_call_callee_800954_dc((position), neutral_upper_bound);
+                set_player_y_and_sync_collision((position), neutral_upper_bound);
             }
         }
         lower_bound = (query_larger_position_result(position) << 0x10) - 1;

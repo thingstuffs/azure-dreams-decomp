@@ -208,7 +208,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             anim->depth_bias = 0;
             actor->callback48 = D_800200FC;
             actor->flagsA4 |= 2;
-            configure_the_set_mode_n_1(actor, motion, minigame_actor_bounds);
+            init_scene_node_mode_1(actor, motion, minigame_actor_bounds);
             owner->count8++;
         }
         if (actor->timerA2 == 3) {

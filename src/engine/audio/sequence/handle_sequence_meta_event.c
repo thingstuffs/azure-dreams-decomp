@@ -30,7 +30,7 @@ typedef struct {
     s8 f4d[3];
 } S_80085FA8;
 
-extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
+extern s32 read_sequence_byte(S_80085FA8 *a0);
 extern s32 audio_sequence_format[];
 extern S_80085FA8 audio_sequence_tracks[];
 
@@ -54,15 +54,15 @@ void handle_sequence_meta_event(S_80085FA8 *track, s32 event_type)
         return;
     case 0x2F:
         track->f2c = 1;
-        read_next_byte_and_finish(track);
+        read_sequence_byte(track);
         return;
     case 0x51:
         if (audio_sequence_format[0] == 1) {
             track->f20 = read_big_endian_word(track) & 0xFFFFFF;
         } else {
-            track->f20 = read_next_byte_and_finish(track) << 0x10;
-            track->f20 = track->f20 | (read_next_byte_and_finish(track) << 8);
-            track->f20 = track->f20 | read_next_byte_and_finish(track);
+            track->f20 = read_sequence_byte(track) << 0x10;
+            track->f20 = track->f20 | (read_sequence_byte(track) << 8);
+            track->f20 = track->f20 | read_sequence_byte(track);
         }
         bpm = 0x03938700U / (u32) track->f20;
         track->f24 = bpm;
@@ -98,21 +98,21 @@ void handle_sequence_meta_event(S_80085FA8 *track, s32 event_type)
         }
         return;
     case 0x54:
-        read_next_byte_and_finish(track);
-        read_next_byte_and_finish(track);
-        read_next_byte_and_finish(track);
-        read_next_byte_and_finish(track);
-        read_next_byte_and_finish(track);
-        read_next_byte_and_finish(track);
+        read_sequence_byte(track);
+        read_sequence_byte(track);
+        read_sequence_byte(track);
+        read_sequence_byte(track);
+        read_sequence_byte(track);
+        read_sequence_byte(track);
         return;
     case 0x58:
-        read_next_byte_and_finish(track);
+        read_sequence_byte(track);
         track->f34 = read_big_endian_word(track);
         return;
     case 0x59:
-        read_next_byte_and_finish(track);
-        read_next_byte_and_finish(track);
-        read_next_byte_and_finish(track);
+        read_sequence_byte(track);
+        read_sequence_byte(track);
+        read_sequence_byte(track);
         return;
     default:
         add_to_sequence_counter(track, read_base_128_vlq(track));

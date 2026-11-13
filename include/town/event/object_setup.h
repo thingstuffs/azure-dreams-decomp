@@ -7,8 +7,8 @@ struct SpriteFrameState;
 struct Rec_D_800CFCB4;
 
 void no_op_action_callback(TownObjectRecord *unused_object, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
-void initialize_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
-void initialize_variant_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
+void init_trigger_action_object(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
+void init_item_flag_check_object(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 void select_object_state_by_mode(struct Rec_D_800CFCB4 *record, ObjectPosition *position,
                                 struct SpriteFrameState *state, void *default_data,

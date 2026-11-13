@@ -16,10 +16,9 @@
 extern void register_node(void *, u8 *, s32, void *);
 
 
-extern s32 rising_sprite_entries[3];
-#include "shared/sprite_source.h"
+#include "dungeon/effect/sprite/rising_entries.h"
+#include "dungeon/effect/sprite/moving_entries.h"
 #include "dungeon/item_callbacks_api.h"
-extern SpriteSourceEntry moving_sprite_entries[];
 
 
 typedef struct S_80099C58_3 {

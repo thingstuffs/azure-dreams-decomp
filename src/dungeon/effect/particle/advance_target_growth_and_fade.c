@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/effect/sprite/ribbon_entries.h"
 /* Targeted effect movement, particle spawning, sprite growth, and fading. */
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_18fa800.h"
@@ -121,7 +122,6 @@ typedef struct S_func_818DA800_11 {
 extern s32 get_definition_entry_byte_13(s16 entry_index);
 
 #define D_80024538 ((u8 *)advance_target_growth_and_fade)
-extern u8 ribbon_sprite_entries[];
 #define D_80024684 ((u8 *)ramp_progress_value_over_countdown)
 
 extern u8 current_spell_effect_variant[];

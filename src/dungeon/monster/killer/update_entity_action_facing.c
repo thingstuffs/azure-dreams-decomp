@@ -156,7 +156,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
                 }
             }
             if ((s16)validate_direction_and_initialize_action(actor, context, sprite, entity) == 0) {
-                update_eligible_actor_action_alt(actor, context, sprite, entity);
+                begin_killer_attack_action(actor, context, sprite, entity);
                 return;
             }
             return;

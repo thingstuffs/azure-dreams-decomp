@@ -205,7 +205,7 @@ extern void *dungeon_actor_ring_anchor;
 extern u8 current_spell_effect_variant;
 extern s32 check_entity_interaction_compatibility(void *kind, void *actor);
 extern s32 generate_random_value(void);
-extern s32 rising_sprite_entries[3];
+#include "dungeon/effect/sprite/rising_entries.h"
 extern void advance_sprite_animation_and_textures(void *a0);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */

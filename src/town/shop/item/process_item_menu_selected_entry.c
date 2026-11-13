@@ -17,5 +17,5 @@ void process_item_menu_selected_entry(ItemMenuObject *record) {
     populate_item_menu_page_entries(record->parts, record);
     item_menu_no_op(record->parts, record);
     selection = record->menu;
-    get_item_name_with_shared_text_table(selection->entries[selection->position]);
+    get_item_name(selection->entries[selection->position]);
 }

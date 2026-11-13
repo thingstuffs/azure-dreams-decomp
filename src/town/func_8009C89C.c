@@ -15,8 +15,8 @@
  * count 0x20.
  */
 void init_positive_y_step_action(TownObjectRecord *object, void *unused, void *handler_context) {
-    call_the_handler_selects_nonzero_entry(object->handler_entries[6], object, handler_context);
+    dispatch_selected_entry_if_nonzero(object->handler_entries[6], object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;
-    object->unk_04 = step_actor_positive_y_until_timer_expires;
+    object->unk_04 = step_actor_plus_y_for_timer;
     object->unk_0A = 0x20;
 }

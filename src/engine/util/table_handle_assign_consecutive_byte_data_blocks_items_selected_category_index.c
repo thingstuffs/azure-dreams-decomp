@@ -32,7 +32,7 @@ extern S_8004A940_CategoryEntry itemCategoryTable[];
  * Walks 20 category/index pairs at 0x80013564 and assigns successive 0x13-byte blocks starting at
  * 0x800133E8 to records with a nonzero category.
  */
-void table_handle_assign_consecutive_n_19_byte_data_blocks_items_selected_category_index(void)
+void assign_item_category_data_blocks(void)
 {
     ResourceCategoryPair *item_pair = (ResourceCategoryPair *)0x80013564;
     void *item_data = (void *)0x800133E8;

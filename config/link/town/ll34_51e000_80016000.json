@@ -567,7 +567,7 @@
     },
     {
       "row": "town/func_8059F450",
-      "tu": "src/town/scene/get_remaining_value.c",
+      "tu": "src/town/scene/get_remaining_town_item_capacity.c",
       "home": "town/func_80481244",
       "foff": "0x51F450",
       "vma": "0x80017450",

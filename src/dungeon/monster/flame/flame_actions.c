@@ -1094,7 +1094,7 @@ s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
  * after a positive signed floor-trap check. Sets the secondary timer to -0x20 under dungeon flag
  * 0x80 during movement or after an accepted trap check. /
  */
-void finish_actor_tile_move_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *source, ActorRecord *target) {
+void finish_flame_tile_move(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *source, ActorRecord *target) {
     if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
@@ -1113,7 +1113,7 @@ void finish_actor_tile_move_then_initialize_destination(ActorRecord *state, Obje
  * Runs update_linked_actor_motion and installs initialize_destination_state only when it succeeds
  * and the signed floor-trap check returns positive.
  */
-void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_flame_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = initialize_destination_state;
@@ -1587,7 +1587,7 @@ void fade_sprites_and_remove_entity(void *actor, ObjectPosition *unused, SpriteF
 }
 
 /* Runs the shared hop and shrink update, then clears the record halfword at offset 0xB6. */
-void reset_record_motion_field_b(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void update_flame_hop_shrink(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     update_actor_hop_and_shrink(body, motion, sprite, actor);
     body->unk_B4.halves.high.s = 0;
 }
@@ -1904,7 +1904,7 @@ void update_flame_parent_motion(ActorRecord *actor, ObjectPosition *action, Spri
  * Runs update_thrown_actor_travel and installs initialize_destination_state only when it succeeds
  * and the signed floor-trap check returns positive.
  */
-void finish_thrown_actor_travel_then_initialize_destination(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_flame_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
             state->unk_8C.handler = initialize_destination_state;
@@ -1916,21 +1916,21 @@ void finish_thrown_actor_travel_then_initialize_destination(ActorRecord *state, 
  * Runs interpolate_actor_to_terrain_tile and installs initialize_destination_state when it returns
  * nonzero.
  */
-void finish_actor_terrain_interpolation_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_flame_terrain_move(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
         state->unk_8C.handler = initialize_destination_state;
     }
 }
 
 /* Runs update_spinning_actor_fall and installs initialize_destination_state when it returns nonzero. */
-void finish_spinning_actor_fall_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_flame_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->unk_8C.handler = initialize_destination_state;
     }
 }
 
 /* Runs update_actor_fade_in and installs initialize_destination_state when it returns nonzero. */
-void finish_actor_fade_in_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_flame_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = initialize_destination_state;
     }
@@ -2666,7 +2666,7 @@ void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused
 }
 
 /* Advances the transition sprite, then restores the view tint to neutral and removes the effect. */
-void fade_effect_to_neutral_and_finish(void *entity_data, ObjectPosition *unused, SpriteFrameState *source_data)
+void fade_flame_transition_tint(void *entity_data, ObjectPosition *unused, SpriteFrameState *source_data)
 {
     u8 *entity = entity_data;
     SpriteFrameState *source= source_data;
@@ -2705,7 +2705,7 @@ void fade_effect_to_neutral_and_finish(void *entity_data, ObjectPosition *unused
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void advance_actor_transition_and_restore_child_angle(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor) {
+void advance_flame_transition(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor) {
     ObjectNodeHeader *effect_node;
     SpriteFrameState *effect_sprite;
     R06_80175270_S_80175270_2 *work = ((u8 *)(&g_game_work));
@@ -2792,7 +2792,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
             if (effect_node == 0) {
                 return;
             }
-            effect_node->update_callback = ((u8 *)fade_effect_to_neutral_and_finish);
+            effect_node->update_callback = ((u8 *)fade_flame_transition_tint);
             register_node(effect_node, ((u8 *)project_flame_sprite_chain));
             color = 0x00808080;
             effect_node->position->x.v = position->x.v;
@@ -2893,7 +2893,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
  * Runs resolve_actor_floor_trap_once and installs initialize_destination_state when it returns
  * positive.
  */
-void finish_actor_floor_trap_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_flame_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
         state->unk_8C.handler = initialize_destination_state;
     }
@@ -2903,7 +2903,7 @@ void finish_actor_floor_trap_then_initialize_destination(ActorRecord *state, Obj
  * Runs propagate_actor_action_flag and installs initialize_destination_state when it returns
  * positive.
  */
-void finish_actor_action_flag_propagation_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_flame_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
         state->unk_8C.handler = initialize_destination_state;
     }

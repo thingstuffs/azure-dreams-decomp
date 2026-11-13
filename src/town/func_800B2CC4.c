@@ -12,7 +12,7 @@ void dispatch_item_menu_request_result(void *request) {
         return;
     }
     if (result_code == 2) {
-        set_item_menu_data_pointer(((s32 *)request)[2]);
+        set_item_menu_release_callback(((s32 *)request)[2]);
         return;
     }
 }

@@ -34,7 +34,7 @@ typedef struct MotherEventValues {
 } MotherEventValues;
 
 void advance_mother_event_values(TownObjectRecord *state, MotherEventValues *values, SpriteFrameState *setup_context);
-void advance_object_after_timeout_variant_1(TownObjectRecord *object, ObjectPosition *update_context, SpriteFrameState *state_context);
+void spawn_effect_after_timeout(TownObjectRecord *object, ObjectPosition *update_context, SpriteFrameState *state_context);
 
 /* Effect body allocated by create_offset_effect_object: callback at +0x50
  * and signed/unsigned contact counter at +0x90. */
@@ -87,7 +87,7 @@ extern u8 D_800D6C7C[], D_800D6C80[], D_800D6C4C[], D_800D6C54[];
 
 void reset_person_descriptor_entries(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
 void apply_person_descriptor_tail(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
-void reset_person_heading_c00(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
+void reset_person_heading_three_quarter_turn(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
 void step_person_y_up(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 void step_person_y_down(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 void init_person_timer_sixteen(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
@@ -130,7 +130,7 @@ void allocate_variant_object(s32 variant, s32 x, s32 y);
 s32 check_heading_past_half_sector(s32 angle, s16 divisions);
 void func_800CA60C(TownObjectRecord *actor, void *unused, void *output);
 s32 get_person_lookup_step(Rec_func_800AAE98_arg0 *coordinates);
-void load_record_halfwords_3(void *destination, s32 entry_index);
+void load_position_history_entry(void *destination, s32 entry_index);
 s32 map_angle_to_cardinal_direction(s16 angle);
 s32 quantize_heading_to_sector(s32 referenceAngle, s16 sectorCount);
 void shift_history_and_store_current_values(void);
@@ -165,10 +165,10 @@ void update_person_effect_fade(void *effect_record, ObjectPosition *motion, Spri
 void clear_mother_event_record_field(TownObjectRecord *record, void *unused_position, s32 unused_update_arg);
 
 /* initialize_reaction_data_timer.c */
-void initialize_reaction_data_and_timer_10(TownObjectRecord *object);
+void start_reaction_vertical_ease(TownObjectRecord *object);
 /* initialize_reaction_data_timer_b.c */
-void initialize_reaction_data_and_timer_13(TownObjectRecord *object);
-void initialize_reaction_data_and_timer_10_b(TownObjectRecord *object, void *unused_position, void *unused_context, void *unused_game);
+void start_reaction_move_toward_target(TownObjectRecord *object);
+void start_reaction_ease_to_target(TownObjectRecord *object, void *unused_position, void *unused_context, void *unused_game);
 
 void apply_setup_on_timeout_variant_2(TownObjectRecord *object, ObjectPosition *callback_arg_1, void *callback_arg_2);
 s32 check_actor_data_references_match(TownObjectRecord *actor);

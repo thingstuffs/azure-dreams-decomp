@@ -19,8 +19,8 @@ typedef struct Obj800AD0E4 {
 extern void initialize_scene_action_record(Obj800AD0E4 *, void *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_actor_action_state(Obj800AD0E4 *, ObjectPosition *, s32);
 extern void initialize_action_object(Obj800AD0E4 *, void *, s32);
-extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(ObjectPosition *);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
+extern void apply_velocity_friction(ObjectPosition *);
+extern void set_height_and_slope_velocity(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
 
 /* Update the object and dispatch actions based on its value, timer, and state flags. */
 void update_object_and_dispatch_actions(Obj800AD0E4 *timer_obj, ObjectPosition *object, SpriteFrameState *sprite) {
@@ -28,9 +28,9 @@ void update_object_and_dispatch_actions(Obj800AD0E4 *timer_obj, ObjectPosition *
     s16 next_value;
     u16 timer;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(object);
-    next_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &position_query_scratch);
+    resolve_collision_axis_order(object);
+    apply_velocity_friction(object);
+    next_value = query_capped_surface_height(object, &position_query_scratch);
 
     if ((next_value - (s16)object->z.unsigned_parts.integer) >= 4) {
         if (town_action_state_flag == 0) {
@@ -38,7 +38,7 @@ void update_object_and_dispatch_actions(Obj800AD0E4 *timer_obj, ObjectPosition *
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town(object, next_value, &position_query_scratch);
+        set_height_and_slope_velocity(object, next_value, &position_query_scratch);
     }
 
     timer = timer_obj->field_A - 1;

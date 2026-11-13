@@ -397,7 +397,7 @@ loop_3:
                 payout_handle = D_80024338;
                 gold_total += gold_remaining;
                 town_money[0] = gold_total;
-                set_object_data_pointer_2(payout_handle);
+                set_advance_inner_value_callback(payout_handle);
             }
             stage = game->stage;
                                      /* MATCH: the state load precedes timer materialization. */

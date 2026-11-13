@@ -4,7 +4,7 @@
 #include "slus/text_pattern_data.h"
 
 /* Fills a field, appends two pattern bytes, and returns the appended position. */
-char *pad_double_byte_field_and_append_marker(u8 *dst, s32 field_width) {
+char *fill_wide_string_tail(u8 *dst, s32 field_width) {
     u8 *field_end = dst;
     s32 width = field_width;
 

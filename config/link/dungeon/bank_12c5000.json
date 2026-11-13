@@ -126,7 +126,7 @@
     },
     {
       "row": "dungeon/func_812A90D0",
-      "tu": "src/dungeon/monster/hikewne/reset_state_field_a.c",
+      "tu": "src/dungeon/monster/hikewne/update_hikewne_hop_and_shrink.c",
       "home": "dungeon/func_80977D88",
       "foff": "0x12C90D0",
       "vma": "0x801748D0",
@@ -333,7 +333,7 @@
     {
       "row": "dungeon/func_812AA3F8",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x012CA3F8",
       "vma": "0x80175BF8",
       "size": 56,

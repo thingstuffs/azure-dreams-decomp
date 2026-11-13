@@ -66,7 +66,7 @@ s32 *initialize_shared_script_data(void) {
 }
 
 /* Scale a coordinate pair by 64 and append it to the null-terminated pointer list. */
-void **scale_coordinates_and_append_pointers(s32 firstX, s32 firstY, s32 secondX, s32 secondY,
+void **append_scaled_rect_to_script_list(s32 firstX, s32 firstY, s32 secondX, s32 secondY,
                      func_8009F66C_CoordPair *coords)
 {
     if (coords != NULL) {
@@ -441,7 +441,7 @@ void process_zero_terminated_entry_lists(void **entries) {
                 do {
                     value = *value_ptr;
                     value_ptr += 1;
-                    clear_record_20_status_bytes(value);
+                    clear_record_status_bytes(value);
                 } while (*value_ptr != 0);
             }
             entry_ptr = (void **)((s8 *)((void **)((s8 *)entry_ptr + 4)));
@@ -450,7 +450,7 @@ void process_zero_terminated_entry_lists(void **entries) {
 }
 
 /* Clear each record's first byte until the end marker is reached. */
-void clear_record_20_status_bytes(s8 *records) {
+void clear_record_status_bytes(s8 *records) {
     s8 *record;
 
     record = records;
@@ -695,7 +695,7 @@ void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *
         unlink_node_if_registered(object);
         saved_state = object->unk_15;
         object->unk_15 = 0;
-        NODE_HEADER(object)->update_callback = reset_object_handler_and_saved_byte;
+        NODE_HEADER(object)->update_callback = install_state_dispatch_callback;
         object->unk_AC = saved_state;
         return;
     }
@@ -710,7 +710,7 @@ void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *
 }
 
 /* Reset the object handler and restore its saved byte unless the check returns two. */
-void reset_object_handler_and_saved_byte(func_800A075C_S_func_8009DEBC_0 *object, void *context) {
+void install_state_dispatch_callback(func_800A075C_S_func_8009DEBC_0 *object, void *context) {
     if (classify_record_by_state_and_position(object, context) != 2) {
         register_node_if_unregistered(object, project_sprite_chain);
         NODE_HEADER(object)->update_callback = &dispatch_object_or_switch_alternate_state;
@@ -761,7 +761,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
         town_slot_snapshot = *copy_src;
     }
 
-    configure_the_set_mode_n_4(object, position, D_800D073C);
+    init_scene_node_mode_4(object, position, D_800D073C);
     if (alternate_callback != 0) {
         initialize_optional_object_state(object, position, render_state, D_800D0788);
     } else {
@@ -887,18 +887,18 @@ void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *pos
 
     mode = BU(object, 0x94);
     if (mode == 0) {
-        configure_the_set_mode_n_4(object, position, D_800D073C);
+        init_scene_node_mode_4(object, position, D_800D073C);
         initialize_optional_object_state(object, position, output, D_800D076C);
         BU(object, 0x4C) = BU(object, 0x95);
         BU(object, 0x4D) = BU(object, 0x96);
     } else
     if ((s8)mode == -1) {
-        configure_the_set_mode_n_3(object, position, D_800D073C);
+        init_scene_node_mode_3(object, position, D_800D073C);
         initialize_optional_object_state(object, position, output, 0);
         BU(object, 0x4C) = BU(object, 0x95);
         BU(object, 0x4D) = BU(object, 0x96);
     } else {
-        configure_the_set_mode_n_4(object, position, D_800D073C);
+        init_scene_node_mode_4(object, position, D_800D073C);
         initialize_optional_object_state(object, position, output, D_800D0788);
         {
             u8 *type_table;
@@ -909,10 +909,10 @@ void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *pos
             BU(object, 0x4E) = type_table[BU(object, 0x95) * 4 + 0x982];
             BU(object, 0x4F) = type_table[BU(object, 0x95) * 4 + 0x983];
         }
-        initialize_entity_flags_transform_type_dependent_variant(object, object, position, output);
+        start_entity_bob(object, object, position, output);
     }
 
-    if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0) {
+    if (is_map_state_in_special_range() == 0) {
         resource = (u32)&cleanup_or_dispatch_object;
         PP(object, -0x10) = (u8 *)resource;
     } else {
@@ -989,7 +989,7 @@ void update_object_pulse_brightness(TownObjectRecord *object, s32 context, Sprit
 }
 
 /* Initialize the entity from its table entry and invoke its callback. */
-void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectPosition *placement, SpriteFrameState *state) {
+void init_pulsing_item_entity(TownObjectRecord *entity, ObjectPosition *placement, SpriteFrameState *state) {
     u8 *table_page = (u8 *)0x80010000;
     s32 active;
     s32 init_flags;
@@ -1022,7 +1022,7 @@ void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectP
     state->flags = (u16)(flags | 0x1C);
     tail_entity = entity;
     if (active == 0) {
-        entity->timer = scale_random_to_unsigned_halfword_limit(0x1000);
+        entity->timer = scale_random_by_limit(0x1000);
     } else {
         tail_entity->timer = 0;
     }
@@ -1048,7 +1048,7 @@ extern void initialize_projected_sprite_chain_a(TownObjectRecord *, ObjectPositi
 extern void initialize_projected_sprite_chain_b(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_c(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_object_data_transform_color(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-extern void initialize_object_resources_2(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_camera_chase_object(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C60DC(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C620C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C629C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
@@ -1127,7 +1127,7 @@ TownObjectCallback town_object_callbacks[172] = {
     configure_actor_slot_64_and_render_state, /* 60 */
     configure_actor_slot_65_and_render_state, /* 61 */
     configure_actor_slot_66_and_render_state, /* 62 */
-    initialize_object_resources_2, /* 63 */
+    initialize_camera_chase_object, /* 63 */
     initialize_scene_slot_3, /* 64 */
     initialize_scene_slot_1, /* 65 */
     initialize_scene_slot_11_context_variant, /* 66 */
@@ -1139,7 +1139,7 @@ TownObjectCallback town_object_callbacks[172] = {
     configure_actor_slot_71_and_render_state, /* 72 */
     configure_actor_slot_72_and_render_state, /* 73 */
     configure_actor_slot_73_and_render_state, /* 74 */
-    initialize_reaction_object_type_4_a, /* 75 */
+    init_reaction_object_slot_clut, /* 75 */
     configure_actor_slot_75_and_copy_global, /* 76 */
     configure_actor_slot_76_and_copy_global, /* 77 */
     configure_actor_slot_77_and_copy_global, /* 78 */
@@ -1200,16 +1200,16 @@ TownObjectCallback town_object_callbacks[172] = {
     configure_actor_mode_13, /* 133 */
     func_800C620C, /* 134 */
     initialize_record_resources, /* 135 */
-    initialize_object_and_dispatch_by_state, /* 136 */
+    init_paired_actor_motion, /* 136 */
     initialize_scene_slot_18_context, /* 137 */
     no_op_secondary_effect_callback, /* 138 */
     initialize_timed_scale_object, /* 139 */
     initialize_effect_object, /* 140 */
     initialize_unit_scale_object, /* 141 */
     initialize_emote_animation, /* 142 */
-    initialize_entity_from_table_and_callback, /* 143 */
-    set_motion_handler_and_copy_signed_byte, /* 144 */
-    set_record_pointer_and_byte, /* 145 */
+    init_pulsing_item_entity, /* 143 */
+    start_random_radial_spawns, /* 144 */
+    start_raised_position_pair, /* 145 */
     initialize_timed_resource_object, /* 146 */
     initialize_randomized_object_state, /* 147 */
     initialize_indexed_resource_object, /* 148 */
@@ -1234,6 +1234,6 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_sprite_six, /* 167 */
     initialize_effect_with_sprite_set_nine, /* 168 */
     initialize_random_particle_effect, /* 169 */
-    initialize_record_pointers_and_clear_state, /* 170 */
-    initialize_variant_record_pointers_and_clear_state, /* 171 */
+    init_trigger_action_object, /* 170 */
+    init_item_flag_check_object, /* 171 */
 };

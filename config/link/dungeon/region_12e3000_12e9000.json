@@ -229,7 +229,7 @@
     {
       "row": "dungeon/func_812C83F8",
       "home": "dungeon/func_800AD508",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "foff": "0x012E83F8",
       "vma": "0x80157BF8",
       "size": 56,

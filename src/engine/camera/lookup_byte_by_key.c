@@ -47,7 +47,7 @@ s32 map_fullwidth_character_to_glyph_byte(s32 char_code)
     if ((u32)(letter_code & 0xFFFF) < 26) {
         output_char = letter_code + 0x61;
     } else {
-        output_char = runtime_lookup_byte_by_key(char_code & 0xFFFF);
+        output_char = lookup_resident_byte_by_key(char_code & 0xFFFF);
     }
 
     return output_char & 0xFF;

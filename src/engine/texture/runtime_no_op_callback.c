@@ -21,10 +21,10 @@ void runtime_no_op_callback(u32 unused_state)
 }
 
 /* Relocates sprite metadata, patches texture and palette IDs, and publishes the fixed resource buffer. */
-void advance_effect_state(void)
+void prepare_resource_queue_sprites(void)
 {
     relocate_sprite_metadata_pointers(&resource_queue_input_buffer);
-    patch_sprite_packet_texture_and_palette_ids(&resource_queue_input_buffer, 0xB, 0x7900, 0xD);
+    offset_sprite_part_chains(&resource_queue_input_buffer, 0xB, 0x7900, 0xD);
     runtime_texture_resource_handle = &resource_queue_input_buffer;
 }
 void *runtime_texture_resource_handle = 0;

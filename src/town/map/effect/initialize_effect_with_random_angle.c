@@ -108,7 +108,7 @@ void initialize_effect_with_random_angle(MapParticleEffect *effect, ObjectPositi
             particle_y = origin->y.v;
             child_pos->z = 0;
             child_pos->y = particle_y;
-            configure_the_set_mode_n_3(child_core, child_pos, map_particle_part_parameters[child_index]);
+            init_scene_node_mode_3(child_core, child_pos, map_particle_part_parameters[child_index]);
         }
         child_index += 1;
     } while (child_index < 4);

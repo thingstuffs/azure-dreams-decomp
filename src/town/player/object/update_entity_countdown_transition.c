@@ -23,8 +23,8 @@ void update_entity_countdown_transition(void *record_arg, void *context, SpriteF
     if ((saved_value == record->unk_00) &&
         (state_words->buttons & 0x80)) {
         clear_entity_record_fields(context);
-        run_the_three_update_routines_context(context);
-        if (run_the_action_sequence_context_unless_flag_hex_a_5_set((u8 *)record - 0x20) != 0) {
+        sync_collision_motion_xyz(context);
+        if (create_item_menu_unless_minigame((u8 *)record - 0x20) != 0) {
             initialize_shared_scene_data(record_arg, context, sprite);
         }
     }

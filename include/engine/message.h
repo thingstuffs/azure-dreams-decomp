@@ -67,7 +67,7 @@ s32 play_message_confirmation_sound(s32 mode);
 void finish_message_when_idle(struct S_8003832C_0 *handler_arg);
 
 /* init_message_countdown.c */
-void consume_message_byte_and_start_countdown(struct S_8003832C_0 *context);
+void start_message_countdown(struct S_8003832C_0 *context);
 
 /* mes_skip_disable_set.c */
 void mes_skip_disable_set(s8 skip_disabled);

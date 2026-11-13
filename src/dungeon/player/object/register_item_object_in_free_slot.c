@@ -30,7 +30,7 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
     u8 *entry;
     u8 *entry_base;
     s32 entry_base_s;
-    void *global_object;
+    ActorRecord *global_object;
     void **slot;
 
     if (target == (void *)&held_item_record ||
@@ -64,7 +64,7 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
         flags = *(u32 *)((u8 *)global_object + 0x1C);
         held_item_record = 0;
         *(s32 *)((u8 *)global_object + 0x124) = 0;
-        *(u32 *)((u8 *)global_object + 0x1C) = flags & 0xFFEFFFFF;
+        global_object->flags1C = flags & 0xFFEFFFFF;
     } else {
 
         found = (s16)get_bounded_stride_index(*(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xF0),

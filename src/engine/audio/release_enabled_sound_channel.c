@@ -15,7 +15,7 @@ void release_enabled_sound_channel(s16 channel) {
     if (status->flags00 & (0x10000 << channel_index)) {
         if (channel_index == 0) {
             if (status->flags00 & 0x100) {
-                handle_audio_status_code(0x71);
+                handle_sequence_control_code(0x71);
                 status->unk_26 = -1;
             }
         }

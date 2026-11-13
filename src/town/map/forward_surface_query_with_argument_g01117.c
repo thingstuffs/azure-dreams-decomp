@@ -19,17 +19,17 @@ s16 forward_smallest_surface_x_query(SignedPositionView *record) {
 }
 
 /* Evaluate the three signed components stored in the input record. */
-s16 evaluate_surface_components_a(SignedPositionView *components) {
+s16 query_greatest_cell_intersection(SignedPositionView *components) {
     return find_greatest_cell_intersection(components->x, components->y, components->z);
 }
 
 /* Evaluate the three signed components stored in the input record. */
-s16 evaluate_surface_components_b(SignedPositionView *components) {
+s16 find_lowest_surface_height_at(SignedPositionView *components) {
     return find_lowest_surface_height(components->x, components->y, components->z);
 }
 
 /* Evaluate the three signed components stored in the input record. */
-s16 evaluate_surface_components_c(SignedPositionView *components) {
+s16 find_highest_valid_cell_height_at(SignedPositionView *components) {
     return find_highest_valid_cell_height(components->x, components->y, components->z);
 }
 

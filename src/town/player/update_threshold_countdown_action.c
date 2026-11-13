@@ -13,9 +13,9 @@ void update_threshold_countdown_action(void *state, ObjectPosition *object, Spri
     s16 target_value;
     u16 countdown;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(object);
-    target_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &position_query_scratch);
+    resolve_collision_axis_order(object);
+    apply_velocity_friction(object);
+    target_value = query_capped_surface_height(object, &position_query_scratch);
     if (target_value - object->z.w.i >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(state, object, context);
@@ -23,7 +23,7 @@ void update_threshold_countdown_action(void *state, ObjectPosition *object, Spri
         }
     } else {
         if (town_action_state_flag == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town(object, target_value, &position_query_scratch);
+            set_height_and_slope_velocity(object, target_value, &position_query_scratch);
         }
     }
 

@@ -28,7 +28,7 @@ extern void func_8003F320(void);
 extern u8 scene_mode_code;
 
 /* Functions defined in this translation unit. */
-void request_scene_state_21_or_reload_level_module_a(void);
-void request_scene_state_21_or_reload_level_module_b(void);
+void request_scene_or_reload_level_module_a(void);
+void request_scene_or_reload_level_module_b(void);
 
 #endif

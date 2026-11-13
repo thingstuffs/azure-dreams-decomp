@@ -25,19 +25,19 @@ void update_threshold_timed_action(TownObjectRecord *state, ObjectPosition *enti
     s16 sampled_value;
     s16 ticks_left;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
-    sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, &position_query_scratch);
+    resolve_collision_axis_order(entity);
+    apply_velocity_friction(entity);
+    sampled_value = query_capped_surface_height(entity, &position_query_scratch);
     if ((sampled_value - entity->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(state, entity, context);
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((entity), sampled_value, (struct TownVec * *)(&position_query_scratch));
+        set_height_and_slope_velocity((entity), sampled_value, (struct TownVec * *)(&position_query_scratch));
     }
     if (state->unk_0A == 0) {
-        call_the_handler_selects_nonzero_entry(D_800D00E0, state, context);
+        dispatch_selected_entry_if_nonzero(D_800D00E0, state, context);
     }
     ticks_left = (u16) state->unk_0A - 1;
     state->unk_0A = ticks_left;

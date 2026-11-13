@@ -10,7 +10,7 @@
 
 
 /* Unlinks and marks an object on a nonzero bounds classification; otherwise advances its sprite animation. */
-void handle_object_bounds_and_cleanup(TownObjectRecord *object, void *check_data, void *fallback_data)
+void retire_object_or_animate_sprite(TownObjectRecord *object, void *check_data, void *fallback_data)
 {
     u8 *status_byte;
 

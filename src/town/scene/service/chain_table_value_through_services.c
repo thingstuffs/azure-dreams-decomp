@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/service_arguments.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/service.h"
 typedef struct Data20 {
@@ -16,7 +17,6 @@ typedef struct State {
 extern u8 D_80018348[];
 extern s32 D_800183D0;
 extern s32 D_800183D4;
-extern u8 scene_service_arguments[];
 
 /* Stores the selected table value and chains the state's callbacks on the shared buffer. */
 void chain_table_value_through_services(void) {

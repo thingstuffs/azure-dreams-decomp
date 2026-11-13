@@ -7,6 +7,6 @@
 
 /* Initialize the record from fixed data and apply its update parameters. */
 void initialize_record_with_update_parameters(TownObjectRecord *record, ObjectPosition *update_value, SpriteFrameState *sprite) {
-    call_the_handler_selects_nonzero_entry(D_800D0130, record, sprite);
+    dispatch_selected_entry_if_nonzero(D_800D0130, record, sprite);
     set_player_travel_timing(record, (update_value), sprite);
 }

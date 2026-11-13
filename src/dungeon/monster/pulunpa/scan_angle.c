@@ -46,7 +46,7 @@ s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosit
     s32 result;
     ActorRecord *neighbor;
     S_80175E6C_5 *target_pos;
-    void *target;
+    ActorRecord *target;
 
     target = NULL;
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;

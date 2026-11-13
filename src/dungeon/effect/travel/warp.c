@@ -813,7 +813,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
     u8 next_tint_out;
     u16 saved_x;
     u16 saved_y;
-    void *node;
+    ActorRecord *node;
     ObjectNodeHeader *attached;
     SpriteFrameState *info;
     void *head;
@@ -891,13 +891,13 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
                 node = primary_actor_record;
                 head = node;
                 link = ((S_819AD81C_3 *)node)->unk_5C.p;
-                node = link + 0x20;
+                node = NODE_BODY(link);
                 if (node != head) {
                     do {
                         info = NODE_HEADER(node)->sprite;
                         if (info->tile_x == entity->current_tile.tile.x) {
                             if (info->tile_y == entity->current_tile.tile.y) {
-                                dz = ((S_819AD81C_3 *)node)->unk_88;
+                                dz = node->ground_height;
                                 component = ((S_819AD81C_2 *)motion)->unk_08.at02.v;
                                 dz -= component;
                                 if (dz < 0) {
@@ -915,7 +915,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
                                 }
                             }
                         }
-                        node = ((S_819AD81C_3 *)node)->unk_5C.i + 0x20;
+                        node = NODE_BODY(node->next_actor_header);
                     } while (node != (void *) (primary_actor_record));
                 }
                 saved_x = (u16) entity->current_tile.tile.x;

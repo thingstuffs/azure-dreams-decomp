@@ -28,7 +28,7 @@ void dispatch_audio_event(s32 event) {
         break;
     case 0x70:
         if (event_bits & 1) {
-            handle_audio_status_code(0x71);
+            handle_sequence_control_code(0x71);
         }
         if (event_bits & 2) {
             stop_flagged_sound_voices();
@@ -39,7 +39,7 @@ void dispatch_audio_event(s32 event) {
         break;
     case 0xE0:
         if (event_bits & 1) {
-            handle_audio_status_code(0xE1);
+            handle_sequence_control_code(0xE1);
         }
         if (event_bits & 4) {
             audio_handle_stream_control_event(0xE4);
@@ -47,7 +47,7 @@ void dispatch_audio_event(s32 event) {
         break;
     case 0xF0:
         if (event_bits & 1) {
-            handle_audio_status_code(0xF1);
+            handle_sequence_control_code(0xF1);
         }
         if (event_bits & 4) {
             audio_handle_stream_control_event(0xF4);

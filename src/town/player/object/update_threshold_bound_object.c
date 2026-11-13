@@ -25,22 +25,22 @@ void update_threshold_bound_object(void *context, ObjectPosition *object, void *
 {
     s16 table_value;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
-    store_the_valid_shared_angle_in_offset_hex_10(context);
-    handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
-    table_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, (&position_query_scratch));
+    resolve_collision_axis_order(object);
+    store_input_angle(context);
+    accelerate_toward_input_keep_speed(object);
+    table_value = query_capped_surface_height(object, (&position_query_scratch));
 
     if (object->z.w.i >= table_value) {
         select_sound_command_from_mode();
-        compute_and_clamps_vector_based_adjustment_updates_town(object, table_value, (&position_query_scratch));
+        set_height_and_slope_velocity(object, table_value, (&position_query_scratch));
         spawn_person_radial_effects(object);
         initialize_scene_action_record(context, object, update_arg);
     } else if (town_action_state_flag != 0) {
         select_sound_command_from_mode();
         object->velocity_z = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
+        copy_z_to_collision_motion(object);
         initialize_scene_action_record(context, object, update_arg);
     } else {
-        add_hex_20000_s_signed_offset_hex_14(object);
+        add_vertical_gravity(object);
     }
 }

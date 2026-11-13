@@ -49,7 +49,7 @@ typedef struct ShopRecordResetObject {
 } ShopRecordResetObject;
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
+s32 is_map_state_in_special_range(void);
 
 void * create_item_menu_object(s32 selector);
 
@@ -70,7 +70,7 @@ void fill_display_slots(EntityRec *source, s32 output);
 void fill_ten_paged_entry_slots(s32 **outputs, struct S_800B2D00_0 *page_info, s32 entries_base);
 s32 find_target_byte_index_in_list(void);
 u32 find_unused_pool_slot(s32 *used_addrs, s32 pool_index, s32 slot_count);
-s32 get_first_free_four_byte_entry_index_n_1_none_available(void *entry, s32 entry_count);
+s32 find_free_entry_index(void *entry, s32 entry_count);
 s32 get_mode_selected_value(void);
 void handle_grid_menu_input(GridMenuObject *menu);
 void handle_twin_shop_input(s32 *menu);
@@ -89,7 +89,7 @@ struct ItemMenuTransition;
 void animate_item_menu_cursor_transition(struct ItemMenuTransition *state);
 s32 check_shop_entry_type_and_flags(void *entry);
 s32 count_nonzero_entries(s32 *entries);
-void finish_item_menu_child_and_release_list(void *record);
+void release_item_menu_display(void *record);
 void reset_five_shop_slots(Rec_func_800B15B8_arg0 *owner);
 void update_current_shop_page(void *list);
 
@@ -101,20 +101,20 @@ struct MotionVector;
 struct ObjectPosition;
 struct S_8009ECF0_0;
 struct TownActor;
-void move_toward_target_check_completion_countdown_expires(struct TownActor *actor, s32 context, struct MotionVector *motion, s32 extra);
-void run_both_updates_decrement_countdown_check_completion(struct S_8009ECF0_0 *state, s32 update_ctx, struct ObjectPosition *position, s32 finish_ctx);
+void move_toward_view_reference(struct TownActor *actor, s32 context, struct MotionVector *motion, s32 extra);
+void update_entity_until_countdown_ends(struct S_8009ECF0_0 *state, s32 update_ctx, struct ObjectPosition *position, s32 finish_ctx);
 
 void advance_item_menu_object_animation(struct ItemMenuTransition *object);
 s8 *clear_bytes(s8 *buffer, s32 length);
-void copy_a_pointer_table_initializes_extra_data_tag_hex_13(s32 entry_index, void *source);
+void install_slot_record_with_extra_data(s32 entry_index, void *source);
 void format_and_display_entity_stats(struct ActorRecord *stats, void *panels);
 void initialize_storage_cursor(struct StorageOwner *object);
 void initialize_storage_display_links(struct StorageDisplayLinks *state, union StorageDisplayBlock *primary, union StorageVector *secondary);
 void *link_shop_nodes_in_configured_order(void *node_table);
 void populate_display_rows(s32 source_id, void *display);
-s32 select_a_town_entry_writes_root_relative_coordinates_output(s32 entryIndex);
+s32 set_shop_target_to_entry(s32 entryIndex);
 void set_storage_entry_text(struct StorageEntry *entry, s32 text, s32 style, s16 x, s32 y);
-void store_table_index_and_entry_bytes(void *object, s32 index);
+void store_shop_display_preset(void *object, s32 index);
 void update_storage_display(struct StorageOwner *object);
 
 struct FuncArg;

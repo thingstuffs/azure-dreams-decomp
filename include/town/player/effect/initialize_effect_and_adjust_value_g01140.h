@@ -95,7 +95,7 @@ extern s32 D_800D0CC0[];
 /* extern */
 /* extern */
 /* extern */
-void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);
+void update_record_overlap_node(struct Rec_D_800FE490 *);
 /* extern */
 s32 update_object_and_clear_status_fields();
 extern Rec_D_800CFCB4 town_actor_control;

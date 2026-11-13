@@ -340,7 +340,7 @@
     },
     {
       "row": "dungeon/func_80E3CBD0",
-      "tu": "src/dungeon/monster/manoeva/update_an_effect_s_lifetime_fades_color_advances_motion.c",
+      "tu": "src/dungeon/monster/manoeva/update_manoeva_particle_burst.c",
       "home": "dungeon/func_80E3CBD0",
       "foff": "0xE5CBD0",
       "vma": "0x801763D0",

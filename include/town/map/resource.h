@@ -11,7 +11,7 @@ void create_building_resource_object(void);
 void load_resource_data(void);
 
 /* send_resource_command.c */
-void send_resource_command_23(s32 entry_index);
+void write_town_map_resource_command(s32 entry_index);
 
 /* town_sd_se_load_init.c */
 void town_sd_se_load_init(void);

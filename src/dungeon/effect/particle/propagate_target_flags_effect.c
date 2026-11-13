@@ -1,3 +1,4 @@
+#include "dungeon/effect/sprite/fading_entries.h"
 #include "shared/audio_commands.h"
 /* Terrain-colliding sprites, shaded particles, timed display slots, and staged projectile effects. */
 #include "dungeon/effect/particle/propagate_target_flags_effect.h"
@@ -32,8 +33,7 @@ const RectTable target_particle_texture_rects = {{{832,320,64,64},{832,384,64,64
 
 /* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
 extern void advance_counter_and_propagate_target_flags(void *);
-extern u8 shared_sprite_entries[];
-extern u8 fading_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
 extern Template12 D_80026990;
 extern Template12 D_8002699C;

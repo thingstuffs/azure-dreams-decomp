@@ -438,7 +438,7 @@ void update_timed_sprite_effect(void *effect, void *motion_arg, void *sprite_arg
             sprite->unk_0C.at00u.v = sprite->unk_0C.at00u.v * 4;
             if (((ProjectileParticle *)effect)->unk_48 & 1) {
                 sprite->unk_00 = shared_sprite_entries;
-                sprite_word = ((SpriteSourceEntry *)shared_sprite_entries)->source;
+                sprite_word = shared_sprite_entries[0].source;
             } else {
                 sprite->unk_00 = &timed_projectile_sprite_entries;
                 sprite_word = timed_projectile_sprite_entries.source;

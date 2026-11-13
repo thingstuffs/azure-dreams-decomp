@@ -18,7 +18,7 @@ void forward_context_request_to_handler(void *context, s32 request);
 void forward_context_request_to_handler_c_68(void *context, s32 request);
 void process_event_145_c_and_dispatch(void *dispatch_value, s32 unused, s32 dispatch_context);
 void *select_event_data_and_fallback(void *object, s32 unused, s32 eventCode);
-void set_event_state_and_dispatch_a_2(void);
+void set_ending_event_state(void);
 
 s32 *clear_event_resource_state_and_get_buffer(s32 unused_selected_entry);
 void dispatch_event_63_a_through_193_e_0(void);

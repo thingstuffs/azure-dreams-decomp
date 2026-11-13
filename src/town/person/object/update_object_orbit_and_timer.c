@@ -29,7 +29,7 @@ void update_object_orbit_and_timer(TownObjectRecord *object, ObjectPosition *pos
         rcos((object->unk_86)) / (0x1000 / object->unk_84) -
         ((u16)object->unk_84);
 
-    motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, &town_actor_control);
+    motion_entry = get_box_overlap_axis(object, &town_actor_control);
     if (motion_entry != 0 && (axis = motion_entry->axis) != 2) {
         if (axis == 0) {
             position->x.v -= motion_entry->amount;

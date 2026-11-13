@@ -13,6 +13,6 @@ s32 query_driver_pair_shifted_seven(s16 flags_index, s16 *out_first, s16 *out_se
 s32 func_8005E7B0(s32 low_index, s32 high_index);
 s32 read_spu_register_pair(s32 low_index, s32 high_index);
 s32 submit_driver_halfword_pair(s16 flags_index, s16 first_value, s16 second_value);
-s32 submit_driver_seven_bit_pair(s32 flag_index, s32 first_value, s32 second_value);
+s32 set_spu_voice_volume(s32 flag_index, s32 first_value, s32 second_value);
 
 #endif

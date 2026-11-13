@@ -18,7 +18,7 @@ void process_sprite_scroll_and_texture_uploads(u8 *records, s32 *image_ref, s32 
 s32 *allocate_entry_slots(s32 *entries, u32 size, s32 skip_limit);
 
 /* check_fixed_value_pairs.c */
-int select_item_name_table_from_pair_check(void *object);
+int get_item_name_with_fallback_pair(void *object);
 
 /* count_nonzero_word_prefix.c */
 s32 allocate_and_append_callback_payload(s32 *values, s32 lookup_key);

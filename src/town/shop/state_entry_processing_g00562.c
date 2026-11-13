@@ -5,14 +5,14 @@
 #include "engine/object.h"
 
 /* Load a record into the shared buffer, process it, and write it back. */
-void load_a_shared_buffer_process_write_back(s32 record_ref) {
+void refresh_entity_slot_snapshot(s32 record_ref) {
     restore_actor_stats_from_snapshot(&town_actor_scratch, record_ref);
     reset_person_object_entries(&town_actor_scratch);
     build_entity_slot_snapshot(record_ref, &town_actor_scratch);
 }
 
 /* Processes entries in state 19 and triggers their associated sounds. */
-void process_entries_in_state_n_19_triggers_associated_sounds(void) {
+void refresh_active_slot_snapshots(void) {
     s32 entry_count;
     s32 entry_index;
     u8 *entry;
@@ -24,7 +24,7 @@ void process_entries_in_state_n_19_triggers_associated_sounds(void) {
         state = entry[0x981 + entry_index * 4];
         if (state != 0) {
             if (state == 19) {
-                load_a_shared_buffer_process_write_back((s32)(0x80010A80 + ((entry[0x983 + entry_index * 4] & 0x3F) * 84)));
+                refresh_entity_slot_snapshot((s32)(0x80010A80 + ((entry[0x983 + entry_index * 4] & 0x3F) * 84)));
                 set_resident_bitmap_bit(paired_scene_flag_ids[entry_index]);
             }
         }
@@ -35,7 +35,7 @@ void process_entries_in_state_n_19_triggers_associated_sounds(void) {
  * Walks the zero-terminated town item pointer table and processes the 84-byte record selected by
  * each type-0x13 object byte-3 low five bits.
  */
-void process_table_entries_referenced_objects_type_hex_13(void) {
+void refresh_item_list_snapshots(void) {
     void **object_entry;
     u8 *object;
     s32 object_type;
@@ -50,15 +50,15 @@ void process_table_entries_referenced_objects_type_hex_13(void) {
         do {
             object = *object_entry;
             if (object[1] == object_type) {
-                load_a_shared_buffer_process_write_back((s32)((object[3] & 0x1F) * 84 + table_base));
+                refresh_entity_slot_snapshot((s32)((object[3] & 0x1F) * 84 + table_base));
             }
             object_entry++;
         } while (*object_entry != 0);
     }
 }
 
-/* Calls process_entries_in_state_n_19_triggers_associated_sounds followed by process_table_entries_referenced_objects_type_hex_13. */
+/* Calls refresh_active_slot_snapshots followed by refresh_item_list_snapshots. */
 void process_state_entries_and_referenced_objects(void) {
-    process_entries_in_state_n_19_triggers_associated_sounds();
-    process_table_entries_referenced_objects_type_hex_13();
+    refresh_active_slot_snapshots();
+    refresh_item_list_snapshots();
 }

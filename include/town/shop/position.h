@@ -38,14 +38,14 @@ void set_monster_status_display_position(struct S_800B6C94_0 *object, s16 x, s16
 void update_item_menu_page_bounds(ItemMenuObject *obj);
 
 /* update_position_displacement_dispatch_active_entity_handler_g01131.c */
-void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, struct S_8009EE9C_0 *motion, struct SpriteFrameState *context);
-void update_motion_toward_target_resolves_entity_countdown_expires(void *entity, s32 context, ObjectPosition *motion, s32 mode);
-void initialize_entity_flags_transform_type_dependent_variant(void *entity, void *state, void *transform, s32 unused);
-void initialize_the_entity_s_action_copy_selected_state_hex_13(Rec_func_8009EE9C_arg0 *entity, struct S_8009F1C0_0 *action, void *unused_motion, struct SpriteFrameState *unused_context);
+void bob_entity_and_dispatch_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, struct S_8009EE9C_0 *motion, struct SpriteFrameState *context);
+void move_entity_toward_view_reference(void *entity, s32 context, ObjectPosition *motion, s32 mode);
+void start_entity_bob(void *entity, void *state, void *transform, s32 unused);
+void start_slot_entity_move_toward_view(Rec_func_8009EE9C_arg0 *entity, struct S_8009F1C0_0 *action, void *unused_motion, struct SpriteFrameState *unused_context);
 s32 get_target_itemp(void);
-void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, struct SpriteFrameState *context);
-void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, struct S_8009F374_2 *scale);
-void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, struct SpriteFrameState *unused_context);
-void initialize_the_town_entity_synchronize_slot_state(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context);
+void bob_entity_and_wait_for_event(void *state, s32 event_id, DelayMotionZ *target, struct SpriteFrameState *context);
+void jitter_and_pulse_entity_scale(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, struct S_8009F374_2 *scale);
+void unlink_entity_and_set_bob_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, struct SpriteFrameState *unused_context);
+void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context);
 
 #endif

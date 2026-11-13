@@ -32,12 +32,12 @@ extern void func_800B47BC(void *);
 extern void func_800B4908(void *);
 extern void func_800B49A8(void *);
 extern void func_800B4A60(void *);
-/* arg0 in set_record_value_and_data_pointer; pointer addresses record offset 0x10 */
+/* arg0 in bind_storage_display_object; pointer addresses record offset 0x10 */
 extern M2C_UNK D_800B4C38;
 
 /* Functions defined in this translation unit. */
 void initialize_four_slot_object(StorageDisplayBody *obj);
-void set_record_value_and_data_pointer(void *field_ptr, s32 base_value);
+void bind_storage_display_object(void *field_ptr, s32 base_value);
 void initialize_four_slot_object_owner(u8 *owner, s32 base_value);
 
 #endif

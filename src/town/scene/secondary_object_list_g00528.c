@@ -27,7 +27,7 @@ void prepend_secondary_list_node(void *node) {
  * Appends the record to the secondary list, stores the two supplied values, sets byte 0x15 to one,
  * and clears mode byte 0x14.
  */
-void initialize_the_store_two_values_set_state_flags(Rec_D_800FE490 *record, s32 value_08, s32 value_0c) {
+void init_secondary_list_record(Rec_D_800FE490 *record, s32 value_08, s32 value_0c) {
     append_secondary_list_node(record);
     record->unk_08 = value_08;
     record->unk_0C = value_0c;

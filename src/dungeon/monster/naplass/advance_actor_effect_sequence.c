@@ -61,7 +61,7 @@ void advance_naplass_sleep_and_wake_sequence(ActorRecord *body, void *transform,
     SpriteFrameState *effect_sprite;
     void *new_effect;
     ObjectNodeHeader *effect_node;
-    void *effect_transform;
+    ObjectPosition *effect_transform;
     S_801732A4_8 *active_effect;
     TileObject *player_sprite;
 

@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/effect/sprite/ribbon_entries.h"
 #include "slus.h"
 #include "shared/slus_callbacks.h"
 #include "shared/actor_property_flags.h"
@@ -50,7 +51,6 @@ extern struct SpriteAttachmentEntry *get_sprite_attachment_vector();
 extern const s16 D_80024038[8][2];
 extern u8 D_800252FC[12];
 extern s16 D_80025308;
-extern u8 ribbon_sprite_entries[];
 
 /* Attempts status slot 0x12 with a randomized value and displays the result when the target's message
    flag is set. */

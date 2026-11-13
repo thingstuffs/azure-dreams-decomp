@@ -11,5 +11,5 @@
 void initialize_object_assigns_state_data(TownObjectRecord *object, void *unusedArg, void *initializationArg) {
     initialize_object_entries((object), initializationArg, *object->unk_7C.as_pps32);
     object->unk_50.as_pm = &run_unhandled_update_and_choose_direction;
-    object->timer = (s16) (((scale_random_to_unsigned_halfword_limit(4) & 0xFFFF) * 0x15) + 0x15);
+    object->timer = (s16) (((scale_random_by_limit(4) & 0xFFFF) * 0x15) + 0x15);
 }

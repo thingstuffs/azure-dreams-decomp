@@ -60,7 +60,7 @@ void process_record_and_apply_flags(FuncArg *record) {
     firstUpdateValue = record->field28;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     set_shop_object_data_if_present(firstUpdateValue);
-    set_object_data_pointer_2(record->field2C);
+    set_advance_inner_value_callback(record->field2C);
     D_80082AB4[0] = record->field4;
     initialize_state_from_source((Source *)record);
 }

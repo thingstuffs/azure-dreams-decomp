@@ -21,7 +21,7 @@ static void dispatch_item_menu_request_result(ItemMenuInput *request) {
         return;
     }
     if (result_code == 2) {
-        set_item_menu_data_pointer(request->owner);
+        set_item_menu_release_callback(request->owner);
         return;
     }
 }

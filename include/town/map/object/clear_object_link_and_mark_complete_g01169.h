@@ -33,7 +33,7 @@ void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *contex
 void initialize_object_state_and_appearance(void *object_id, ObjectPosition *object, SpriteFrameState *sprite);
 void advance_object_state_angle(void *object, void *context, SpriteFrameState *state);
 void clear_object_link_and_complete(void *object, void *value);
-void set_handler_variant_b_with_counter_30(void *object, void *context, void *state);
-void set_handler_variant_b_with_counter_14(void *object, void *context, void *state);
+void initialize_object_appearance_with_delay_b(void *object, void *context, void *state);
+void init_object_with_countdown_b(void *object, void *context, void *state);
 
 #endif

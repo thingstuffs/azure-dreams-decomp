@@ -189,6 +189,28 @@ class RepoTests(unittest.TestCase):
         self.assertEqual(code, 1, out)
         self.assertIn('include/elsewhere.h', out)
 
+    def test_floor_entry_already_stale_stays_old_across_function_and_file_renames(self):
+        (self.root / 'src/x').mkdir()
+        (self.root / 'config').mkdir()
+        (self.root / 'src/x/def.c').write_text('void old_name(void) {}\n')
+        (self.root / 'src/x/old.c').write_text('void caller(void) { old_name(); }\n')     # no declaration: stale
+        (self.root / 'config/names.tsv').write_text('0x80010000\tfunc_80010000\told_name\tbase\n')
+        self.floors([self.floor('old_name', 'src/x/old.c')])
+        git(self.root, 'add', '-A'); git(self.root, 'commit', '-qm', 'floors')
+        self.assertIn('stale on HEAD 1 (new vs BASE 0)', self.run_main('--fail-new')[1])
+        # the function is renamed in place (names.tsv) and its caller file renamed: still the same stale entry
+        git(self.root, 'mv', 'src/x/old.c', 'src/x/caller.c')
+        (self.root / 'src/x/caller.c').write_text('void caller(void) { new_name(); }\n')
+        (self.root / 'src/x/def.c').write_text('void new_name(void) {}\n')
+        (self.root / 'config/names.tsv').write_text('0x80010000\tfunc_80010000\tnew_name\trenamed\n')
+        self.floors([self.floor('new_name', 'src/x/caller.c')])
+        code, out = self.run_main('--fail-new')
+        self.assertEqual(code, 0, out)
+        self.assertIn('stale on HEAD 1 (new vs BASE 0)', out)
+        # a different function's entry at that path is new
+        self.floors([self.floor('new_name', 'src/x/caller.c'), self.floor('other', 'src/x/caller.c')])
+        self.assertEqual(self.run_main('--fail-new')[0], 1)
+
     def test_loads_regression_always_fails(self):
         rows = [row('r1', ['src/a.c:3 (s16)'], path='f', member_loads=loads(s=dict(lh=2)))]
         self.write(rows)

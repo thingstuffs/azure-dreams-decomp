@@ -20,7 +20,7 @@ void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *p
     u16 amplitude;
     u16 scale;
     void *init_or_snapshot;
-    void *global_state;
+    GameView *global_state;
     void *transform;
     Row_818F34E4_S_80024CE4_0 *view_state;
 

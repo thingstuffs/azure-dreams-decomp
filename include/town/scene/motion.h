@@ -35,8 +35,8 @@ void initialize_scene_slot_45(TownObjectRecord *object, ObjectPosition *unused, 
 /* check_scene_callback_and_position.c */
 s32 check_scene_callback_and_position(void);
 
-/* check_the_position_second_coordinate_adjusted_stored_offset.c */
-s16 check_the_position_second_coordinate_adjusted_stored_offset(void *source_record);
+/* min_sampled_position_minus_y_offset.c */
+s16 min_sampled_position_minus_y_offset(void *source_record);
 
 /* copy_callback_value_to_destination.c */
 void copy_callback_value_to_destination(void *destination, s32 *values);
@@ -50,14 +50,14 @@ void draw_wrapped_tile_column(s16 column, s16 row, s16 scroll_y);
 /* enable_position_offset.c */
 void enable_position_offset(void);
 
-/* get_smallest_signed_overlap_axis_amount_two_intersecting_boxes.c */
-struct CollisionOverlap *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *first_box, void *second_box);
+/* get_box_overlap_axis.c */
+struct CollisionOverlap *get_box_overlap_axis(void *first_box, void *second_box);
 
-/* handle_evaluate_position_after_subtracting_stored_offset_first_component.c */
-s16 handle_evaluate_position_after_subtracting_stored_offset_first_component(void *position);
+/* min_sampled_position_minus_x_offset.c */
+s16 min_sampled_position_minus_x_offset(void *position);
 
-/* handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis.c */
-void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(struct ColliderView *collider, ObjectPosition *position);
+/* resolve_collider_overlaps.c */
+void resolve_collider_overlaps(struct ColliderView *collider, ObjectPosition *position);
 
 /* motion.c */
 void play_timed_sound_sequence(void *record);

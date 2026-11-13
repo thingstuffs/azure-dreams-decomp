@@ -21,7 +21,7 @@ s32 load_storage_display_resource(StorageWork *work, s32 resource) {
         work->vector.unk0 = display_vector_defaults.unk0;
         work->vector.unk4 = display_vector_defaults.unk4;
         work->vector.unk8 = display_vector_defaults.unk8;
-        texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(parts, &work->vector, 24);
+        set_menu_part_vectors(parts, &work->vector, 24);
         success = 1;
     }
     return success;

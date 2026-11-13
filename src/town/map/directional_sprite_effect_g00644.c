@@ -109,5 +109,5 @@ void initialize_record_resources(TownObjectRecord *record, ObjectPosition *init_
     register_node(NODE_HEADER(record), project_sprite_chain);
     record->unk_48 = (s32) D_800D20E4;
     select_record_entry_and_value(resource_target, &town_directional_sprite_entries, 0);
-    configure_the_set_mode_n_1(record, init_context, &town_map_motion_defaults);
+    init_scene_node_mode_1(record, init_context, &town_map_motion_defaults);
 }

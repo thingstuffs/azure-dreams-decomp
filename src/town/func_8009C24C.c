@@ -11,7 +11,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Refreshes height and steps negative X until the countdown becomes negative, then resets the handler. */
-void step_actor_negative_x_until_timer_expires(TownObjectRecord *state, ObjectPosition *object, SpriteFrameState *sprite) {
+void step_actor_minus_x_for_timer(TownObjectRecord *state, ObjectPosition *object, SpriteFrameState *sprite) {
     u16 ticks_left;
 
     object->z.w.i = query_lowered_transform_position(object);

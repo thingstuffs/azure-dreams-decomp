@@ -147,7 +147,7 @@ void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position
             play_sound_if_enabled(0x80A);
         }
         if (body->action_timer == 2) {
-            create_translucent_directional_sprite_copy_above_anchor(body, (BaloonTemplateAnchor *)position, sprite, object);
+            create_baloon_translucent_copy(body, (BaloonTemplateAnchor *)position, sprite, object);
         }
         if (body->action_timer == 6) {
             create_anchored_directional_object(body, position, sprite, object, 0x1A);

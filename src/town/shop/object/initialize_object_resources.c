@@ -19,7 +19,7 @@ s32 initialize_object_resources(void *object, s32 resource_id) {
         state->vector.unk0 = display_vector_defaults[0];
         state->vector.unk4 = default_values[1];
         state->vector.unk8 = default_values[2];
-        texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(state->parts, &state->vector, 0x29);
+        set_menu_part_vectors(state->parts, &state->vector, 0x29);
         buffer = create_callback_pair_default(0x48);
         success = buffer != 0;
         state->unk20 = buffer;

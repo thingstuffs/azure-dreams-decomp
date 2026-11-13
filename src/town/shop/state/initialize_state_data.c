@@ -42,7 +42,7 @@ s32 initialize_state_data(void *state_arg, s32 input)
         state->unk_40 = display_vector_defaults[0];
         state->unk_44 = ((S_800B44F0_1 *)defaults)->unk_04;
         state->unk_48 = ((S_800B44F0_1 *)defaults)->unk_08;
-        texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(state->unk_5C, state_arg + 0x40, 0x21);
+        set_menu_part_vectors(state->unk_5C, state_arg + 0x40, 0x21);
         init_result = allocate_and_append_callback_payload(state_data, 0xC);
         success = init_result != 0;
         state->unk_20 = init_result;

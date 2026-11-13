@@ -3,7 +3,7 @@
 
 typedef struct { u8 pad[0x10]; void *callback; } Effect;
 
-Effect *allocate_or_reuse_effect_and_install_callback(void *first, void *second);
+Effect *create_card_dev_slot_screen_effect(void *first, void *second);
 #include "frontend/card/effect_mode_data.h"
 #include "frontend/card.h"
 
@@ -11,5 +11,5 @@ Effect *allocate_or_reuse_effect_and_install_callback(void *first, void *second)
 void process_memory_target_mode_zero(s32 target) {
     card_dev_effect_mode = 1;
     card_dev_init();
-    allocate_or_reuse_effect_and_install_callback(target, 0);
+    create_card_dev_slot_screen_effect(target, 0);
 }

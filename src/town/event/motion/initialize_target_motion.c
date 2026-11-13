@@ -20,7 +20,7 @@ void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *tar
     parameters->unk_10 = 0;
     parameters->flags14 = 0;
     parameters->z.v = combinedValue;
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(target, parameters);
+    resolve_collider_overlaps(target, parameters);
     owner->unk_50 = update_motion_toward_town_target;
     owner->unk_6C.as_s16 = 4;
 }

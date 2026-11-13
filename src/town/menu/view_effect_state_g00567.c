@@ -40,14 +40,14 @@ void *allocate_randomized_effect_object(State *state_value)
     }
     object->update_callback = draw_fading_flickering_triangle;
     state = NODE_BODY(object);
-    initial_count = scale_random_to_unsigned_halfword_limit(0xB4) + 0x3C;
+    initial_count = scale_random_by_limit(0xB4) + 0x3C;
     state->ticks_left = initial_count;
     state->fade_period = initial_count;
-    state->triangle_width = (scale_random_to_unsigned_halfword_limit(0x28) & 0xFFFF) + 0x80;
+    state->triangle_width = (scale_random_by_limit(0x28) & 0xFFFF) + 0x80;
     state->parameters = state_value;
-    offset_sample = scale_random_to_unsigned_halfword_limit(0x40);
-    state->center_offset = offset_sample + scale_random_to_unsigned_halfword_limit(0x40) - 0x40;
-    state->phase_x_offset = scale_random_to_unsigned_halfword_limit(0x40);
-    state->phase_y_offset = scale_random_to_unsigned_halfword_limit(0x40);
+    offset_sample = scale_random_by_limit(0x40);
+    state->center_offset = offset_sample + scale_random_by_limit(0x40) - 0x40;
+    state->phase_x_offset = scale_random_by_limit(0x40);
+    state->phase_y_offset = scale_random_by_limit(0x40);
     return object;
 }

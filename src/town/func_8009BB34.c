@@ -12,7 +12,7 @@
 #include "town/data.h"
 
 void init_four_tick_target_action(TownObjectRecord *object, ObjectPosition *motion_context, void *handler_context) {
-    call_the_handler_selects_nonzero_entry(&player_event_handler_entries, object, handler_context);
+    dispatch_selected_entry_if_nonzero(&player_event_handler_entries, object, handler_context);
     town_action_reset_byte = 0;
     object->unk_04 = &target_action_update_address;
     object->unk_0A = 4;

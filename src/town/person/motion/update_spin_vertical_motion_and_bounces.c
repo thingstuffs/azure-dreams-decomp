@@ -30,6 +30,6 @@ void update_spin_vertical_motion_and_bounces(TownObjectRecord *entity, EntityRec
             return;
         }
     } else {
-        add_hex_20000_s_signed_offset_hex_14(motion);
+        add_vertical_gravity(motion);
     }
 }

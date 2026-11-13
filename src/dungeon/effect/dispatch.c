@@ -965,7 +965,7 @@ typedef struct Func800C138CData {
 
 /* Process each linked state with draw_sprite_parts_as_quad_grid in mode zero. */
 s32 process_linked_states_mode_zero(ActorRecord *initial_state, ObjectPosition *context, SpriteFrameState *data) {
-    void *state = initial_state;
+    ActorRecord *state = initial_state;
     Func800C138CData *next_node;
 
     for (;;) {
@@ -974,7 +974,7 @@ s32 process_linked_states_mode_zero(ActorRecord *initial_state, ObjectPosition *
         if (next_node == 0) {
             return 0;
         }
-        state = (u8 *)next_node + 0x20;
+        state = NODE_BODY(next_node);
         context = next_node->context;
         data = next_node->data;
     }

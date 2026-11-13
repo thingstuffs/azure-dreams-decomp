@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80D52B3C",
-      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "tu": "src/dungeon/effect/state/advance_linked_actor_motion.c",
       "home": "dungeon/func_800AD508",
       "foff": "0xD72B3C",
       "vma": "0x8016433C",

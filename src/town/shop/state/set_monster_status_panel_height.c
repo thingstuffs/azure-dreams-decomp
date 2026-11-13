@@ -15,6 +15,6 @@ void set_monster_status_panel_height(S_800B6580_0 *object, s16 height) {
     rectangle[1] = 6;
     rectangle[3] = height;
     rectangle[2] = 0x76;
-    texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base(object, &rectangle[0]);
+    build_panel_rectangle_packets(object, &rectangle[0]);
     object->unk_3C = (u8)(object->unk_3C | 0x80);
 }

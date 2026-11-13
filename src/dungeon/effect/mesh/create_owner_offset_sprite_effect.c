@@ -1,0 +1,77 @@
+#include "shared/entity_height_offsets.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
+#include "engine/node/allocation.h"
+#include "dungeon/effect/mesh.h"
+#include "slus.h"
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+typedef struct S_81977D08_0 {
+    u8 pad_00[0x8];
+    void *unk_08;
+    void *unk_0C;
+    s32 *unk_10;
+    u8 pad_14[0xC];
+    OwnerLinkedSpriteEffectBody body;
+} S_81977D08_0;
+
+
+typedef struct S_81977D08_4 {
+    u8 pad_00[0x14];
+    void * unk_14;
+} S_81977D08_4;   /* arg0 in create_owner_offset_sprite_effect */
+
+
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+
+extern s32 D_8002548C;
+extern s32 D_800DEB70;
+
+/*
+ * Allocates type 0x212 with handler D_8002548C and gray D_800DEB70 sprite data at scale 0x1800.
+ * Copies the supplied position with half the owner height offset subtracted from Z and registers
+ * sprite projection.
+ */
+void create_owner_offset_sprite_effect(S_81977D08_4 *owner, ObjectPosition *position)
+{
+    ObjectPosition *effect_pos;
+    SpriteFrameState *sprite;
+    S_81977D08_0 *effect;
+
+    effect = allocate_list_node(0x212, &scene_object_list_anchor.next);
+    if (effect != NULL) {
+        void *sprite_data = &D_800DEB70;
+
+        effect->unk_10 = &D_8002548C;
+        {
+            s32 color = 0x80;
+
+            sprite = effect->unk_0C;
+            {
+                s32 zero = 0;
+
+                effect->body.owner = owner;
+                sprite->color.c.b = color;
+                sprite->color.c.g = color;
+                sprite->color.c.r = color;
+                select_record_entry_and_value(sprite, sprite_data, zero);
+            }
+        }
+        sprite->scale_y = 0x1800;
+        sprite->scale_x = 0x1800;
+        sprite->flags = sprite->flags | 0xC;
+        sprite->tpage_abr = sprite->tpage_abr | 0x20;
+        effect_pos = effect->unk_08;
+        effect_pos->x.v = position->x.v;
+        effect_pos->y.v = position->y.v;
+        effect_pos->z.v = position->z.v -
+            (((u8 *)((s32 *)entity_height_offsets))[((ActorRecord *)(owner->unk_14))->species] >> 1 << 16);
+        register_node(effect, project_sprite_chain);
+    }
+}

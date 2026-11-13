@@ -280,7 +280,7 @@ typedef struct TownWindowItemRecord { u8 pad_00[0x14]; u8 unk_14; u8 pad_15[0x37
 #define TB(idx, off) (D_80010000[(idx) * 4 + (off)])
 
 s32 *initialize_shared_script_data(void);
-void **scale_coordinates_and_append_pointers(s32 firstX, s32 firstY, s32 secondX, s32 secondY, func_8009F66C_CoordPair *coords);
+void **append_scaled_rect_to_script_list(s32 firstX, s32 firstY, s32 secondX, s32 secondY, func_8009F66C_CoordPair *coords);
 void create_entry_builder_controller(void);
 void build_entries_and_update_state(void);
 void update_shared_state_and_clear_flag(void);
@@ -290,7 +290,7 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position
 s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, void *spawn_entry);
 void init_and_publish_script_state(void **entries);
 void process_zero_terminated_entry_lists(void **entries);
-void clear_record_20_status_bytes(s8 *records);
+void clear_record_status_bytes(s8 *records);
 void compute_four_point_coordinate_bounds(void *points, func_800A00A8_S_8009D808_2 *max_point, func_800A00A8_S_8009D808_1 *min_point);
 void collect_overlapping_rectangles(func_800A01E0_S_8009D940_1 *query_max, func_800A01E0_S_8009D940_2 *query_min, void **entries, void **matches);
 void rectangle_to_four_corners(func_800A0284_S_8009D9E4_0 *rectangle, func_800A0284_S_8009D9E4_1 *vertices);
@@ -299,7 +299,7 @@ void set_object_state_for_mode(void *owner, struct SpriteFrameState *object, s32
 void cleanup_or_dispatch_object(void *object, s32 source, s32 context);
 void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, SpriteFrameState *callback_data);
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
-void reset_object_handler_and_saved_byte(func_800A075C_S_func_8009DEBC_0 *object, void *context);
+void install_state_dispatch_callback(func_800A075C_S_func_8009DEBC_0 *object, void *context);
 s32 store_selected_record_fields(void);
 s32 initialize_shared_state_from_table(void);
 s32 pass_shared_data_to_window_handler(void);
@@ -311,7 +311,7 @@ s32 t_soukowin_open(void);
 s32 t_soukowin_close_check(void);
 void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 void update_object_pulse_brightness(TownObjectRecord *object, s32 context, struct SpriteFrameState *primitive);
-void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectPosition *placement, struct SpriteFrameState *state);
+void init_pulsing_item_entity(TownObjectRecord *entity, ObjectPosition *placement, struct SpriteFrameState *state);
 
 extern void register_node(s32, void *);
 void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);

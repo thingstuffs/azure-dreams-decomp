@@ -34,7 +34,7 @@ TownSceneChoice square_flag_choices[17] = {
     { apply_record_value_when_enabled, get_shared_entry_buffer, D_8001C33C, 3412, 0 },
     { process_request_and_notify, dispatch_through_table_bb_5_c, D_8001E6B4, 3413, 0 },
     { apply_record_value_for_either_flag, dispatch_through_table_bb_64, D_8001E6B4, 3414, 0 },
-    { apply_gate_5000_flag_entry, dispatch_or_override_for_flag_1390, D_8001E6B4, 3415, 0 },
+    { apply_gate_5000_flag_entry, select_kenka_override_data, D_8001E6B4, 3415, 0 },
     { apply_gate_5211_flag_entry, get_shared_entry_buffer, D_8001C33C, 3416, 0 },
     { forward_context_request_to_handler_b, dispatch_through_table_bb_74, D_8001E6B4, 3417, 0 },
     { forward_context_request_to_handler_c, dispatch_entry_or_return_override, D_8001E6B4, 3418, 0 },

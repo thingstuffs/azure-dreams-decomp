@@ -55,7 +55,7 @@ void lower_animated_sprite(ColoredOffsetSpriteBody *counter_state, B28_818B68B8_
 #endif
 
 
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 
 /* Create an object with randomized rotation and a radial position offset. */
 void * create_colored_offset_sprite(s32 context_value, ObjectPosition *source_state, s32 render_param, B28_818B6AFC_FxEffect *ignored_context) {

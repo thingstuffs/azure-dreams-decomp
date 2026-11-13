@@ -11,7 +11,7 @@ typedef struct { void *callback; u8 pad4[6]; s16 count; } ovl_16b08_local_7FFF6D
 typedef struct { void *callback; u8 pad4[6]; s16 count; } ovl_16b08_local_7FFF6EC0_InitState;
 typedef struct { void *callback; u8 pad4[6]; s16 count; } ovl_16b08_local_7FFF6F00_InitState;
 typedef struct { void *callback; u8 pad4[6]; s16 count; } ovl_16b08_local_7FFF6F40_InitState;
-void call_the_handler_selects_nonzero_entry();
+void dispatch_selected_entry_if_nonzero();
 extern void update_movement_and_expire_state(void);
 extern s32 type_three_action_handler_table[];
 void dispatch_sound_by_global_flag(void);
@@ -22,7 +22,7 @@ extern void update_countdown_and_fallback(void);
 extern s32 D_800D00C0[];
 extern void update_threshold_bound_object(void *context, ObjectPosition *object, void *update_arg);
 extern u8 action_object_handler_table[16];
-void store_the_valid_shared_angle_in_offset_hex_10(void *record_arg);
+void store_input_angle(void *record_arg);
 extern void update_actor_movement_actions(void);
 extern s32 D_800D0108[];
 s16 SD_Call(int flags);
@@ -59,5 +59,5 @@ void initialize_input_driven_scene_object(s32 **outputSlot, EntityRec *state, s3
 void initialize_threshold_interaction_object(ovl_16b08_local_7FFF6EC0_InitState *state, void *unused, void *context);
 void initialize_action_callback_from_entry(ovl_16b08_local_7FFF6F00_InitState *state, void *unused, void *context);
 void initialize_busy_checked_countdown_action(ovl_16b08_local_7FFF6F40_InitState *state, void *argument, void *context);
-void initialize_actor_interaction_state_19(TownObjectRecord *record);
+void install_actor_interaction_handler(TownObjectRecord *record);
 #endif

@@ -30,19 +30,19 @@ void update_actor_interaction_actions(void *self_arg, ObjectPosition *target_arg
     context = sprite;
     state = &g_game_work;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(target_arg);
+    resolve_collision_axis_order(target_arg);
     self = self_arg;
 
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(target_arg);
-    if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0) {
-        target_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(target_arg, &position_query_scratch);
+    apply_velocity_friction(target_arg);
+    if (is_map_state_in_special_range() == 0) {
+        target_value = query_capped_surface_height(target_arg, &position_query_scratch);
         if ((target_value - target_arg->z.w.i) >= 4) {
             if (town_action_state_flag == 0) {
                 initialize_action_object(self, target_arg, context);
                 return;
             }
         } else if (town_action_state_flag == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town(target_arg, target_value, &position_query_scratch);
+            set_height_and_slope_velocity(target_arg, target_value, &position_query_scratch);
         }
         countdown = self->unk_0A - 1;
         self->unk_0A = countdown;

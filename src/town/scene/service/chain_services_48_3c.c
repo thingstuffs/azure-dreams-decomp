@@ -1,9 +1,9 @@
 #include "common.h"
+#include "town/scene/service_arguments.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/service.h"
 
 extern s32 D_800183D0[];
-extern s32 scene_service_arguments[];
 
 typedef struct S_func_8065C250_0 {
     void *unk_00;

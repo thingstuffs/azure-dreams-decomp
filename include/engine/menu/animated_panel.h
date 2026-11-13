@@ -33,5 +33,5 @@ typedef struct AnimatedMenuPanelNode {
     ObjectNodeHeader header;
     AnimatedMenuPanelBody body;
 } AnimatedMenuPanelNode;
-void menu_move_the_position_halfway_toward_target_position(AnimatedMenuPanelBody *position);
+void ease_panel_toward_target(AnimatedMenuPanelBody *position);
 #endif

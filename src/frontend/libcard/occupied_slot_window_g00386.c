@@ -7,49 +7,49 @@
 #include "engine/text.h"
 
 /* Initialize four message slots with their data and command parameters. */
-void card_boot_format_occupied_slot_window(void *slot_owner) {
+void card_boot_format_occupied_slot_window(CardSlotWindow *slot_owner) {
     s32 data_buffer[2];
     CardMenuDisplayNode *slot;
 
-    slot = *(CardMenuDisplayNode **) ((u8 *) slot_owner + 0x270);
+    slot = (CardMenuDisplayNode *)slot_owner->pointers[5];
     slot->block->fields.x = 0x70;
     slot->block->fields.y = 0x10;
     slot->payload.data = &D_80078FD0;
 
-    slot = *(CardMenuDisplayNode **) ((u8 *) slot_owner + 0x260);
-    slot->payload.data = decode_fullwidth_text((u8 *) slot_owner + 8, card_slot_payload + (*(s32 *) slot_owner << 7), 1);
+    slot = (CardMenuDisplayNode *)slot_owner->pointers[1];
+    slot->payload.data = decode_fullwidth_text(slot_owner->title_glyphs, card_slot_payload + (slot_owner->slot_index << 7), 1);
     slot->block->fields.x = 0xF0;
     slot->block->fields.y = 0x91;
 
-    slot = *(CardMenuDisplayNode **) ((u8 *) slot_owner + 0x26C);
-    func_8004E5A0((void *) *(s32 *) (card_slot_payload + (*(s32 *) slot_owner << 7) + 0x20), 4, data_buffer);
+    slot = (CardMenuDisplayNode *)slot_owner->pointers[4];
+    func_8004E5A0((void *) *(s32 *) (card_slot_payload + (slot_owner->slot_index << 7) + 0x20), 4, data_buffer);
     remap_flagged_string_bytes(data_buffer);
-    slot->payload.data = build_positioned_text_glyphs((u8 *) slot_owner + 0x104, data_buffer, 1);
+    slot->payload.data = build_positioned_text_glyphs(slot_owner->value_glyphs, data_buffer, 1);
     slot->block->fields.x = 0x147;
     slot->block->fields.y = 0x91;
 
-    slot = *(CardMenuDisplayNode **) ((u8 *) slot_owner + 0x278);
-    slot->payload.data = (u8 *) slot_owner + 0x134;
+    slot = (CardMenuDisplayNode *)slot_owner->pointers[7];
+    slot->payload.data = slot_owner->wide_panel;
     slot->block->fields.x = 0xAE;
     slot->block->fields.y = 0x18;
 }
 
 /* Initialize data pointers and layout values for three targets. */
-void card_boot_layout_alternate_slot_window(void *context) {
+void card_boot_layout_alternate_slot_window(CardSlotWindow *context) {
     CardMenuDisplayNode *target;
 
-    target = *(CardMenuDisplayNode **)((u8 *)context + 0x274);
+    target = (CardMenuDisplayNode *)context->pointers[6];
     target->block->fields.x = 0xFA;
     target->block->fields.y = 0x10;
     target->payload.data = &D_80027F7C;
 
-    target = *(CardMenuDisplayNode **)((u8 *)context + 0x268);
-    target->payload.data = decode_fullwidth_text((u8 *)context + 0xA4, (u8 *)&D_800282B0, 1);
+    target = (CardMenuDisplayNode *)context->pointers[3];
+    target->payload.data = decode_fullwidth_text(context->alternate_glyphs, (u8 *)&D_800282B0, 1);
     target->block->fields.x = 0x178;
     target->block->fields.y = 0x90;
 
-    target = *(CardMenuDisplayNode **)((u8 *)context + 0x27C);
-    target->payload.data = (u8 *)context + 0x1AC;
+    target = (CardMenuDisplayNode *)context->pointers[8];
+    target->payload.data = context->small_panel;
     target->block->fields.x = 0x10C;
     target->block->fields.y = 0x18;
 }

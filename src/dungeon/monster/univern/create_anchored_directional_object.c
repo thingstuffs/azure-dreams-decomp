@@ -28,7 +28,7 @@ void (*const resource17_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion
 void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 {
     ObjectNodeHeader *root;
-    void *copy;
+    ObjectPosition *copy;
     s32 outer_index;
     s32 saved_kind;
     s32 saved_copy_value;
@@ -1993,7 +1993,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
         }
 
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            void *owner = primary_actor_record;
+            ActorRecord *owner = primary_actor_record;
 
             if ((check_entity_relation(entity,
                     (u8 *)((R17_80173F10_S_80173ED8_5 *)owner)->unk_58 + 0x20) << 16) != 0) {

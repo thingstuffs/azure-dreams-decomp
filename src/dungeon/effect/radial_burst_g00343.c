@@ -85,7 +85,7 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
                 velocity_y = motion->velocity_y;
                 effect_state->acceleration_z = 0x2000;
                 effect_state->acceleration_y = -velocity_y >> 6;
-                select_record_entry_and_value(sprite, &directional_sprite_entries, 0);
+                select_record_entry_and_value(sprite, directional_sprite_entries, 0);
                 sprite->color.word = 0x808080;
                 sprite->scale_y = 0x400;
                 sprite->scale_x = 0x400;

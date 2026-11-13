@@ -8,9 +8,9 @@ void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 co
     s16 ground_height;
     GameWork *input_state = &g_game_work;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
-    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
+    resolve_collision_axis_order(actor);
+    apply_velocity_friction(actor);
+    ground_height = query_capped_surface_height(actor, &position_query_scratch);
     if ((ground_height - actor->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(controller, actor, context);
@@ -18,7 +18,7 @@ void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 co
         }
     } else {
         if (town_action_state_flag == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town(actor, ground_height, &position_query_scratch);
+            set_height_and_slope_velocity(actor, ground_height, &position_query_scratch);
         }
     }
     if ((input_state->pressed_buttons) & 0x10) {
@@ -26,7 +26,7 @@ void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 co
         return;
     }
     if (input_state->buttons & 0xF000) {
-        store_the_valid_shared_angle_in_offset_hex_10(controller);
+        store_input_angle(controller);
     }
 }
 

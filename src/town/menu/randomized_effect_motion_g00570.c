@@ -38,14 +38,14 @@ void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, s32 *v
     register_node(NODE_HEADER(obj), project_sprite_chain);
 
     if (obj->variant < 4) {
-        init_value = scale_random_to_unsigned_halfword_limit(0x1000);
+        init_value = scale_random_by_limit(0x1000);
         tilt_angle = 0x400;
         direction_angle = D_800D0B18[obj->variant] + (init_value & 0xFFFF);
     } else {
-        direction_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
-        tilt_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
+        direction_angle = scale_random_by_limit(0x1000) & 0xFFFF;
+        tilt_angle = scale_random_by_limit(0x1000) & 0xFFFF;
     }
-    scale_sample = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
+    scale_sample = scale_random_by_limit(0x1000) & 0xFFFF;
     scale_numerator = scale_sample + 0x1000;
     if (scale_numerator < 0) {
         scale_numerator = scale_sample + 0x101F;
@@ -95,7 +95,7 @@ void advance_motion_and_reset_appearance(RandomizedEffectMotionBody *state, Obje
         transform->velocity_x = 0;
         transform->velocity_y = 0;
         transform->velocity_z =
-            ((((u16) scale_random_to_unsigned_halfword_limit(0x1000)) << 1) + 0x2000) << 4;
+            ((((u16) scale_random_by_limit(0x1000)) << 1) + 0x2000) << 4;
         return;
     }
     transform->velocity_x = (s32) (transform->velocity_x - state->velocity_x);

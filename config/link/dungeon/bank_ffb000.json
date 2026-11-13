@@ -42,7 +42,7 @@
     },
     {
       "row": "dungeon/func_80FDC88C",
-      "tu": "src/dungeon/monster/killer/update_eligible_actor_action_alt.c",
+      "tu": "src/dungeon/monster/killer/begin_killer_attack_action.c",
       "home": "dungeon/func_80FDC88C",
       "foff": "0xFFC88C",
       "vma": "0x8017208C",

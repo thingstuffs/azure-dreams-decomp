@@ -451,7 +451,7 @@ typedef struct Resource {
     void *data;
 } Resource;
 
-extern u8 directional_sprite_entries[];
+#include "dungeon/effect/sprite/directional_entries.h"
 
 /* Moves an animated effect toward the actor's sprite offset and emits randomized fragments until it ends. */
 void update_effect_and_spawn_fragments(MainObject *obj)

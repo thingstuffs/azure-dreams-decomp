@@ -13,5 +13,5 @@ extern s32 D_800D7284[];
 void initialize_object_from_context(TownObjectRecord *object, EntityRec *unusedArg, void *initValue) {
     initialize_object_entries(object, initValue, D_800D7284);
     object->unk_50.as_pm = &count_down_and_select_next_setup;
-    object->timer = (s16)(((scale_random_to_unsigned_halfword_limit(4) & 0xFFFF) * 0x15) + 0x15);
+    object->timer = (s16)(((scale_random_by_limit(4) & 0xFFFF) * 0x15) + 0x15);
 }

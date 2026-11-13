@@ -12,7 +12,7 @@
 s32 project_and_draw_sprite_node_chain(u8 *first_data, ObjectPosition *first_coords, SpriteFrameState *first_entry)
 {
     u8 *node_data = first_data;
-    void *coords = first_coords;
+    ObjectPosition *coords = first_coords;
     SpriteFrameState *entry = first_entry;
     ScratchPad *scratch = (ScratchPad *)0x1F800000;
     ObjectNodeHeader *next_node;

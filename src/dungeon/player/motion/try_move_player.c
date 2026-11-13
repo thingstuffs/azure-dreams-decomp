@@ -146,9 +146,9 @@ void try_move_player(ActorRecord *move_state, s32 actor_id, SpriteFrameState *sp
         }
 
         {
-            register void *idle_sprite;
+            register SpriteFrameState *idle_sprite;
             idle_sprite = sprite;
-            ((SpriteAnimationTableView *)idle_sprite)->frame_table = player_wait_frames;
+            idle_sprite->frameTable = player_wait_frames;
             set_sprite_animation_frame(
                 idle_sprite,
                 player_wait_frames[((s32)(dungeon_state->view.camera_rotation.parts.viewAngle +
@@ -174,9 +174,9 @@ void try_move_player(ActorRecord *move_state, s32 actor_id, SpriteFrameState *sp
             return;
         }
         {
-            void *turn_sprite;
+            SpriteFrameState *turn_sprite;
             turn_sprite = sprite;
-            ((SpriteAnimationTableView *)turn_sprite)->frame_table = player_move_frames;
+            turn_sprite->frameTable = player_move_frames;
             set_sprite_animation_frame(
                 turn_sprite,
                 *(player_move_frames +

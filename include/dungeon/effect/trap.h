@@ -74,7 +74,7 @@ typedef struct FivePartTargetEffectRecord {
 } FivePartTargetEffectRecord;
 
 void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect);
-void tick_byte_timed_trap_effect(FivePartTargetEffectBody *effect);
+void tick_trap_effect_timer(FivePartTargetEffectBody *effect);
 
 /* State used by the falling effects installed by create_four_owner_sprite_effects. */
 typedef struct FourOwnerSpriteEffectsBody {

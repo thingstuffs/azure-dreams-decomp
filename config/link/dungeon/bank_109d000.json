@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_8107D2A4",
-      "tu": "src/dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.c",
+      "tu": "src/dungeon/monster/tyrant/update_tyrant_actor.c",
       "home": "dungeon/func_810592A4",
       "foff": "0x109D2A4",
       "vma": "0x8014CAA4",
@@ -48,7 +48,7 @@
     },
     {
       "row": "dungeon/func_8107DF68",
-      "tu": "src/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.c",
+      "tu": "src/dungeon/monster/tyrant/choose_tyrant_move_direction.c",
       "home": "dungeon/func_81059F68",
       "foff": "0x109DF68",
       "vma": "0x8014D768",
@@ -72,7 +72,7 @@
     },
     {
       "row": "dungeon/func_8107E724",
-      "tu": "src/dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.c",
+      "tu": "src/dungeon/monster/tyrant/try_begin_tyrant_attack.c",
       "home": "dungeon/func_8105A724",
       "foff": "0x109E724",
       "vma": "0x8014DF24",
@@ -158,7 +158,7 @@
     },
     {
       "row": "dungeon/func_8107EFCC",
-      "tu": "src/dungeon/monster/tyrant/advance_a_timed_actor_animation_applies_completion_effects.c",
+      "tu": "src/dungeon/monster/tyrant/advance_tyrant_attack_animation.c",
       "home": "dungeon/func_8105AFCC",
       "foff": "0x109EFCC",
       "vma": "0x8014E7CC",
@@ -332,7 +332,7 @@
     },
     {
       "row": "dungeon/func_810802D4",
-      "tu": "src/dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.c",
+      "tu": "src/dungeon/monster/tyrant/begin_tyrant_defeat.c",
       "home": "dungeon/func_8105C2D4",
       "foff": "0x10A02D4",
       "vma": "0x8014FAD4",
@@ -344,7 +344,7 @@
     },
     {
       "row": "dungeon/func_8108045C",
-      "tu": "src/dungeon/monster/tyrant/run_the_actor_s_eight_step_sink_animation_advancing_state_swapping.c",
+      "tu": "src/dungeon/monster/tyrant/advance_tyrant_hop_sequence.c",
       "home": "dungeon/func_8105C45C",
       "foff": "0x10A045C",
       "vma": "0x8014fc5c",

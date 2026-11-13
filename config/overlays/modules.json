@@ -97,7 +97,7 @@
         "src/slus/w_8003E4FC.c",
         "src/engine/cd/enqueue_cd_command_record.c",
         "src/engine/cd/drain_cd_command_queue.c",
-        "src/engine/graphics/begin_sprite_resource_load_with_completion_flag.c",
+        "src/engine/graphics/begin_sprite_resource_load.c",
         "src/engine/cd/start_cd_read.c",
         "docs/evidence/overlay_control_cd_abi.json"
       ]
@@ -346,7 +346,7 @@
         "src/slus/w_8003E4FC.c",
         "src/engine/cd/enqueue_cd_command_record.c",
         "src/engine/cd/drain_cd_command_queue.c",
-        "src/engine/graphics/begin_sprite_resource_load_with_completion_flag.c",
+        "src/engine/graphics/begin_sprite_resource_load.c",
         "src/engine/cd/start_cd_read.c",
         "docs/evidence/overlay_control_cd_abi.json"
       ]
@@ -13486,10 +13486,10 @@
       "key": "dungeon_ovl_19b4800",
       "container": "dungeon",
       "name": "ovl_19b4800.c",
-      "source": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
+      "source": "src/dungeon/effect/particle/create_display_spawner_effect.c",
       "region": "native_19b4800_80024000",
       "headers": [
-        "include/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h",
+        "include/dungeon/effect/particle/create_display_spawner_effect.h",
         "include/modules/dungeon_native_abi.h"
       ],
       "recipe": {
@@ -13533,7 +13533,7 @@
       "members": [
         {
           "id": "dungeon/func_81994800",
-          "source": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
+          "source": "src/dungeon/effect/particle/create_display_spawner_effect.c",
           "foff": 26953820,
           "vma": 2147631196,
           "size": 168,
@@ -13541,7 +13541,7 @@
         },
         {
           "id": "dungeon/func_81994904",
-          "source": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
+          "source": "src/dungeon/effect/particle/create_display_spawner_effect.c",
           "foff": 26953988,
           "vma": 2147631364,
           "size": 736,
@@ -13549,7 +13549,7 @@
         },
         {
           "id": "dungeon/func_81994BE4",
-          "source": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
+          "source": "src/dungeon/effect/particle/create_display_spawner_effect.c",
           "foff": 26954724,
           "vma": 2147632100,
           "size": 268,
@@ -13557,7 +13557,7 @@
         },
         {
           "id": "dungeon/func_81994CF0",
-          "source": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
+          "source": "src/dungeon/effect/particle/create_display_spawner_effect.c",
           "foff": 26954992,
           "vma": 2147632368,
           "size": 156,
@@ -13565,7 +13565,7 @@
         },
         {
           "id": "dungeon/func_81994D8C",
-          "source": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
+          "source": "src/dungeon/effect/particle/create_display_spawner_effect.c",
           "foff": 26955148,
           "vma": 2147632524,
           "size": 3492,
@@ -13757,7 +13757,7 @@
           "vma": 2148019860,
           "view_bytes": 2,
           "owner": "resident_runtime:slus",
-          "declaration": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
+          "declaration": "src/dungeon/effect/particle/create_display_spawner_effect.c",
           "evidence": "docs/evidence/dungeon_ovl_19b4800.imports.json"
         },
         {
@@ -31827,10 +31827,10 @@
       "key": "dungeon_ovl_1930844",
       "container": "dungeon",
       "name": "ovl_1930844.c",
-      "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+      "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
       "region": "native_1930800_80024000",
       "headers": [
-        "include/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
+        "include/dungeon/effect/mesh/create_shrinking_arc_effect.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -31839,7 +31839,7 @@
       "members": [
         {
           "id": "dungeon/func_81910844",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_80024044",
           "foff": 26413056,
           "vma": 2147631104,
@@ -31848,7 +31848,7 @@
         },
         {
           "id": "dungeon/func_81910970",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_80024170",
           "foff": 26413424,
           "vma": 2147631472,
@@ -31857,7 +31857,7 @@
         },
         {
           "id": "dungeon/func_81910A9C",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_8002429C",
           "foff": 26413724,
           "vma": 2147631772,
@@ -31866,7 +31866,7 @@
         },
         {
           "id": "dungeon/func_81910EC0",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_800246C0",
           "foff": 26414784,
           "vma": 2147632832,
@@ -31875,7 +31875,7 @@
         },
         {
           "id": "dungeon/func_819112CC",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_80024ACC",
           "foff": 26415820,
           "vma": 2147633868,
@@ -31884,7 +31884,7 @@
         },
         {
           "id": "dungeon/func_81911A8C",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_8002528C",
           "foff": 26417804,
           "vma": 2147635852,
@@ -31893,7 +31893,7 @@
         },
         {
           "id": "dungeon/func_81911B9C",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_8002539C",
           "foff": 26418076,
           "vma": 2147636124,
@@ -31902,7 +31902,7 @@
         },
         {
           "id": "dungeon/func_81911BF4",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_800253F4",
           "foff": 26418164,
           "vma": 2147636212,
@@ -31911,7 +31911,7 @@
         },
         {
           "id": "dungeon/func_81912074",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_80025874",
           "foff": 26419316,
           "vma": 2147637364,
@@ -31920,7 +31920,7 @@
         },
         {
           "id": "dungeon/func_81912154",
-          "source": "src/dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.c",
+          "source": "src/dungeon/effect/mesh/create_shrinking_arc_effect.c",
           "function": "func_80025954",
           "foff": 26419540,
           "vma": 2147637588,
@@ -38773,7 +38773,7 @@
         "docs/evidence/dungeon_ovl_cb3000.membership.json",
         "docs/evidence/dungeon_ovl_cb3000.imports.json",
         "docs/evidence/dungeon_ovl_cb3000.recipe.json",
-        "src/engine/texture/register_and_upload_three_slot_sprite_resource.c",
+        "src/engine/texture/register_sprite_resource.c",
         "src/engine/scene/upload_image_tiles.c"
       ],
       "genuine_aspsx": {
@@ -40362,7 +40362,7 @@
         "docs/evidence/dungeon_ovl_cb9000.membership.json",
         "docs/evidence/dungeon_ovl_cb9000.imports.json",
         "docs/evidence/dungeon_ovl_cb9000.recipe.json",
-        "src/engine/texture/register_and_upload_three_slot_sprite_resource.c",
+        "src/engine/texture/register_sprite_resource.c",
         "src/engine/scene/upload_image_tiles.c"
       ],
       "genuine_aspsx": {
@@ -41711,7 +41711,7 @@
         "docs/evidence/dungeon_ovl_cc5000.membership.json",
         "docs/evidence/dungeon_ovl_cc5000.imports.json",
         "docs/evidence/dungeon_ovl_cc5000.recipe.json",
-        "src/engine/texture/register_and_upload_three_slot_sprite_resource.c",
+        "src/engine/texture/register_sprite_resource.c",
         "src/engine/scene/upload_image_tiles.c"
       ],
       "genuine_aspsx": {
@@ -43060,7 +43060,7 @@
         "docs/evidence/dungeon_ovl_ccb000.membership.json",
         "docs/evidence/dungeon_ovl_ccb000.imports.json",
         "docs/evidence/dungeon_ovl_ccb000.recipe.json",
-        "src/engine/texture/register_and_upload_three_slot_sprite_resource.c",
+        "src/engine/texture/register_sprite_resource.c",
         "src/engine/scene/upload_image_tiles.c"
       ],
       "genuine_aspsx": {
@@ -44408,7 +44408,7 @@
         "docs/evidence/dungeon_ovl_cd7000.membership.json",
         "docs/evidence/dungeon_ovl_cd7000.imports.json",
         "docs/evidence/dungeon_ovl_cd7000.recipe.json",
-        "src/engine/texture/register_and_upload_three_slot_sprite_resource.c",
+        "src/engine/texture/register_sprite_resource.c",
         "src/engine/scene/upload_image_tiles.c",
         "docs/evidence/dungeon_ovl_cd7000.prefix-separation.json"
       ],
@@ -46872,7 +46872,7 @@
           "vma": 2148019860,
           "view_bytes": 2,
           "owner": "resident_runtime:slus",
-          "declaration": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
+          "declaration": "src/dungeon/effect/particle/create_display_spawner_effect.c",
           "evidence": "docs/evidence/dungeon_ovl_19c088c.imports.json"
         },
         {
@@ -61940,10 +61940,10 @@
       "key": "dungeon_ovl_7f0f7800_p01",
       "container": "dungeon",
       "name": "ovl_7f0f7800_p01.c",
-      "source": "src/dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.c",
+      "source": "src/dungeon/monster/tyrant/update_tyrant_actor.c",
       "region": "native_slot_1079000_80170800",
       "headers": [
-        "include/dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.h"
+        "include/dungeon/monster/tyrant/update_tyrant_actor.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -61952,7 +61952,7 @@
       "members": [
         {
           "id": "dungeon/func_810592A4",
-          "source": "src/dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.c",
+          "source": "src/dungeon/monster/tyrant/update_tyrant_actor.c",
           "function": "func_80170AA4",
           "foff": 17273508,
           "vma": 2148993700,
@@ -62073,10 +62073,10 @@
       "key": "dungeon_ovl_7f0f7800_p03",
       "container": "dungeon",
       "name": "ovl_7f0f7800_p03.c",
-      "source": "src/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.c",
+      "source": "src/dungeon/monster/tyrant/choose_tyrant_move_direction.c",
       "region": "native_slot_1079000_80170800",
       "headers": [
-        "include/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
+        "include/dungeon/monster/tyrant/choose_tyrant_move_direction.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -62085,7 +62085,7 @@
       "members": [
         {
           "id": "dungeon/func_81059F68",
-          "source": "src/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.c",
+          "source": "src/dungeon/monster/tyrant/choose_tyrant_move_direction.c",
           "function": "func_80171768",
           "foff": 17276776,
           "vma": 2148996968,
@@ -62152,7 +62152,7 @@
           "view_bytes": 4,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p03.imports.json",
-          "declaration": "include/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
+          "declaration": "include/dungeon/monster/tyrant/choose_tyrant_move_direction.h"
         },
         {
           "symbol": "D_80083460",
@@ -62276,10 +62276,10 @@
       "key": "dungeon_ovl_7f0f7800_p04",
       "container": "dungeon",
       "name": "ovl_7f0f7800_p04.c",
-      "source": "src/dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.c",
+      "source": "src/dungeon/monster/tyrant/try_begin_tyrant_attack.c",
       "region": "native_slot_1079000_80170800",
       "headers": [
-        "include/dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.h"
+        "include/dungeon/monster/tyrant/try_begin_tyrant_attack.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -62288,7 +62288,7 @@
       "members": [
         {
           "id": "dungeon/func_8105A724",
-          "source": "src/dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.c",
+          "source": "src/dungeon/monster/tyrant/try_begin_tyrant_attack.c",
           "function": "func_80171F24",
           "foff": 17278756,
           "vma": 2148998948,
@@ -62388,10 +62388,10 @@
       "key": "dungeon_ovl_7f0f7800_p05",
       "container": "dungeon",
       "name": "ovl_7f0f7800_p05.c",
-      "source": "src/dungeon/monster/tyrant/advance_a_timed_actor_animation_applies_completion_effects.c",
+      "source": "src/dungeon/monster/tyrant/advance_tyrant_attack_animation.c",
       "region": "native_slot_1079000_80170800",
       "headers": [
-        "include/dungeon/monster/tyrant/advance_a_timed_actor_animation_applies_completion_effects.h"
+        "include/dungeon/monster/tyrant/advance_tyrant_attack_animation.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -62400,7 +62400,7 @@
       "members": [
         {
           "id": "dungeon/func_8105AFCC",
-          "source": "src/dungeon/monster/tyrant/advance_a_timed_actor_animation_applies_completion_effects.c",
+          "source": "src/dungeon/monster/tyrant/advance_tyrant_attack_animation.c",
           "function": "func_801727CC",
           "foff": 17280972,
           "vma": 2149001164,
@@ -62522,10 +62522,10 @@
       "key": "dungeon_ovl_7f0f7800_p07",
       "container": "dungeon",
       "name": "ovl_7f0f7800_p07.c",
-      "source": "src/dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.c",
+      "source": "src/dungeon/monster/tyrant/begin_tyrant_defeat.c",
       "region": "native_slot_1079000_80170800",
       "headers": [
-        "include/dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.h"
+        "include/dungeon/monster/tyrant/begin_tyrant_defeat.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -62534,7 +62534,7 @@
       "members": [
         {
           "id": "dungeon/func_8105C2D4",
-          "source": "src/dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.c",
+          "source": "src/dungeon/monster/tyrant/begin_tyrant_defeat.c",
           "function": "func_80173AD4",
           "foff": 17285844,
           "vma": 2149006036,
@@ -65844,10 +65844,10 @@
       "key": "dungeon_ovl_d10bc4_p02",
       "container": "dungeon",
       "name": "ovl_d10bc4_p02.c",
-      "source": "src/dungeon/monster/troll/update_direction_tables_kind_flags_processes_state.c",
+      "source": "src/dungeon/monster/troll/update_troll_kind_frames.c",
       "region": "native_slot_d0d000_8016a800",
       "headers": [
-        "include/dungeon/monster/troll/update_direction_tables_kind_flags_processes_state.h"
+        "include/dungeon/monster/troll/update_troll_kind_frames.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -65856,7 +65856,7 @@
       "members": [
         {
           "id": "dungeon/func_80CF21A0",
-          "source": "src/dungeon/monster/troll/update_direction_tables_kind_flags_processes_state.c",
+          "source": "src/dungeon/monster/troll/update_troll_kind_frames.c",
           "function": "func_8016F9A0",
           "foff": 13705632,
           "vma": 2148989344,
@@ -69954,7 +69954,7 @@
         "docs/evidence/dungeon_ovl_51e800.base.json",
         "src/engine/scene/shared_slot_state.c",
         "src/engine/scene/init_double_buffered_gpu_environments.c",
-        "src/engine/menu/create_or_reset_seven_entry_menu_backdrop.c"
+        "src/engine/menu/create_menu_backdrop.c"
       ]
     },
     {
@@ -70718,10 +70718,10 @@
       "key": "dungeon_ovl_7f511800_p04",
       "container": "dungeon",
       "name": "ovl_7f511800_p04.c",
-      "source": "src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c",
+      "source": "src/dungeon/monster/unicorn/update_tinted_sprite_effect.c",
       "region": "native_slot_c5f000_80170800",
       "headers": [
-        "include/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
+        "include/dungeon/monster/unicorn/update_tinted_sprite_effect.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -70730,7 +70730,7 @@
       "members": [
         {
           "id": "dungeon/func_80C427F4",
-          "source": "src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c",
+          "source": "src/dungeon/monster/unicorn/update_tinted_sprite_effect.c",
           "function": "func_80173FF4",
           "foff": 12986356,
           "vma": 2149007348,
@@ -70738,7 +70738,7 @@
         },
         {
           "id": "dungeon/func_80C4286C",
-          "source": "src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c",
+          "source": "src/dungeon/monster/unicorn/update_tinted_sprite_effect.c",
           "function": "func_8017406C",
           "foff": 12986476,
           "vma": 2149007468,
@@ -70746,7 +70746,7 @@
         },
         {
           "id": "dungeon/func_80C429A0",
-          "source": "src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c",
+          "source": "src/dungeon/monster/unicorn/update_tinted_sprite_effect.c",
           "function": "func_801741A0",
           "foff": 12986784,
           "vma": 2149007776,
@@ -70754,7 +70754,7 @@
         },
         {
           "id": "dungeon/func_80C42B74",
-          "source": "src/dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.c",
+          "source": "src/dungeon/monster/unicorn/update_tinted_sprite_effect.c",
           "function": "func_80174374",
           "foff": 12987252,
           "vma": 2149008244,
@@ -72032,7 +72032,7 @@
           "symbol": "func_8095013C",
           "kind": "function",
           "vma": 2147574252,
-          "basis": "same-image copy of find_entry_8_index_or_assert_rev_b: home func_8095013C, original import func_800161EC at 0x800161EC; whole-module recertification preserves this address"
+          "basis": "same-image copy of find_entry_index_or_assert: home func_8095013C, original import func_800161EC at 0x800161EC; whole-module recertification preserves this address"
         },
         {
           "symbol": "func_80016510",

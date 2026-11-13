@@ -39,7 +39,7 @@ void *create_randomized_offset_effect(StackRecord *source, u32 angle) {
         appearance->scale_x = 0x1000;
         appearance->tpage_abr = 0x60;
         appearance->flags |= 0xC;
-        effect_params->ticks_left = scale_random_to_unsigned_halfword_limit(7) + scale_random_to_unsigned_halfword_limit(7);
+        effect_params->ticks_left = scale_random_by_limit(7) + scale_random_by_limit(7);
     }
     return effect;
 }
@@ -64,13 +64,13 @@ void spawn_radial_objects(MovingPosition *origin, S_80097AD0_1 *spread, s32 coun
         record.y = initial_y;
         for (object_index = 0; object_index < count; object_index++) {
             record.x = (origin->x +
-                        scale_random_to_unsigned_halfword_limit(spread->unk_00.u16)) -
+                        scale_random_by_limit(spread->unk_00.u16)) -
                        (spread->unk_00.s32 / 2);
             record.z = (origin->y +
-                        scale_random_to_unsigned_halfword_limit(spread->unk_04.u16)) -
+                        scale_random_by_limit(spread->unk_04.u16)) -
                        (spread->unk_04.s32 / 2);
             y = (origin->z -
-                 scale_random_to_unsigned_halfword_limit(spread->unk_08.u16)) -
+                 scale_random_by_limit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;
             record.fieldC = rcos(angle) << 5;

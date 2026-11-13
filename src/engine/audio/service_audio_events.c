@@ -20,7 +20,7 @@ void service_audio_events(void) {
 
     if (sound_playback_state.flags00 & 0x100) {
         if (get_sequence_play_state() == 3 || update_audio_fade(&sound_sequence_task) == -1) {
-            handle_audio_status_code(0x71);
+            handle_sequence_control_code(0x71);
         }
     }
 

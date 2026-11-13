@@ -21,7 +21,7 @@ void *create_item_menu_display_controller(ItemMenuStateNode *owner, s32 position
 extern s32 D_800891F4;
 extern u8 D_800AF96C[];
 extern s32 advance_index_with_directional_clamp(s32, s32, s32);
-extern int get_item_name_with_shared_text_table(void *entry);
+extern int get_item_name(void *entry);
 extern void sort_entries_by_category(void *);
 extern void SD_Call(s32);
 extern void set_item_menu_entry_coordinates(ItemMenuObject *object);

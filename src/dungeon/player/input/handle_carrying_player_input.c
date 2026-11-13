@@ -256,7 +256,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         return;
                     case 0x80:
                         data_80 = record->unk_00;
-                        set_linked_actor_pending_halfword((u32) (data_80 & 0x60) >> 5, data_80 & 0x1F);
+                        set_linked_actor_pending_value((u32) (data_80 & 0x60) >> 5, data_80 & 0x1F);
                         return;
                     case 0x90:
                         data_90 = record->unk_00;

@@ -19,11 +19,11 @@ void initialize_object_state_from_selector(TownObjectRecord *context, ObjectPosi
 /* initialize_optional_object_state.c */
 void initialize_optional_object_state(void *object, void *context, void *state, void *init_value);
 
-/* initialize_record_pointers_and_clear_state.c */
-void initialize_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
+/* init_trigger_action_object.c */
+void init_trigger_action_object(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
-/* initialize_variant_record_pointers_and_clear_state.c */
-void initialize_variant_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
+/* init_item_flag_check_object.c */
+void init_item_flag_check_object(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 /* select_object_state_by_mode.c */
 void select_object_state_by_mode(Rec_D_800CFCB4 *record, ObjectPosition *context, SpriteFrameState *state, void *default_value, void *alternate_value, void *update_value);

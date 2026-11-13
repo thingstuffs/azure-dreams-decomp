@@ -371,7 +371,7 @@ extern void func_8004068C(u8 *, u8 *);
 extern s32 get_surface_height_at_coordinates(s32, s32);
 extern void *floor_layout_resource_descriptors[];
 extern s16 floor_layout_loaded;
-extern s32 floor_object_sprite_sources[];
+#include "dungeon/level/floor_object_sprite_sources.h"
 extern s32 dungeon_floor_flags;
 extern s32 floor_loaded_content_flags;
 extern void apply_state_index_tile_masks(void);
@@ -445,7 +445,7 @@ s32 classify_directional_movement(s16 input_x, s16 input_y, s32 current_height, 
 void load_dungeon_layout(s16 layout_number);
 s32 setup_dungeon_floor_encounters(void);
 void load_floor_spawn_tables(s16 resource_index);
-void convert_valid_entry_code_2_to_39(void);
+void advance_current_entry_code(void);
 s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate);
 s32 load_dungeon_sound_effect_bank(s16 resource_index);
 s32 try_add_second_tower_entry(s16 entry_index);

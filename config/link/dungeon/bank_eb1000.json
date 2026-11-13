@@ -40,7 +40,7 @@
     },
     {
       "row": "dungeon/func_80E918F4",
-      "tu": "src/dungeon/monster/picket/update_dungeon_actor_behavior_facing_animation_state.c",
+      "tu": "src/dungeon/monster/picket/update_picket_behavior.c",
       "home": "dungeon/func_80E8B8F4",
       "foff": "0xEB18F4",
       "vma": "0x8016b0f4",
@@ -155,7 +155,7 @@
     },
     {
       "row": "dungeon/func_80E92CA8",
-      "tu": "src/dungeon/monster/picket/update_the_target_conditionally_resets_caller_state.c",
+      "tu": "src/dungeon/monster/picket/move_picket_to_tile_and_check_trap.c",
       "home": "dungeon/func_80E8CCA8",
       "foff": "0xEB2CA8",
       "vma": "0x8016C4A8",
@@ -166,7 +166,7 @@
     },
     {
       "row": "dungeon/func_80E92D40",
-      "tu": "src/dungeon/monster/picket/update_a_jump_toward_target_tile_restores_actor_finishes.c",
+      "tu": "src/dungeon/monster/picket/update_picket_jump_to_tile.c",
       "home": "dungeon/func_80E8CD40",
       "foff": "0xEB2D40",
       "vma": "0x8016C540",
@@ -190,7 +190,7 @@
     },
     {
       "row": "dungeon/func_80E93108",
-      "tu": "src/dungeon/monster/picket/update_movement_animation_settles_actor_target_tile.c",
+      "tu": "src/dungeon/monster/picket/update_picket_jump_attack.c",
       "home": "dungeon/func_80E8D108",
       "foff": "0xEB3108",
       "vma": "0x8016C908",
@@ -201,7 +201,7 @@
     },
     {
       "row": "dungeon/func_80E93490",
-      "tu": "src/dungeon/monster/picket/update_the_actor_action_sequence_including_movement_landing_recovery.c",
+      "tu": "src/dungeon/monster/picket/update_picket_spell_leap.c",
       "home": "dungeon/func_80E8D490",
       "foff": "0xEB3490",
       "vma": "0x8016cc90",
@@ -215,7 +215,7 @@
     },
     {
       "row": "dungeon/func_80E93C20",
-      "tu": "src/dungeon/monster/picket/update_directional_motion_settle_entity_grid_position.c",
+      "tu": "src/dungeon/monster/picket/update_picket_dash_motion.c",
       "home": "dungeon/func_80E8DC20",
       "foff": "0xEB3C20",
       "vma": "0x8016D420",
@@ -226,7 +226,7 @@
     },
     {
       "row": "dungeon/func_80E93EEC",
-      "tu": "src/dungeon/monster/picket/initialize_the_visual_effect_advances_action_state.c",
+      "tu": "src/dungeon/monster/picket/update_picket_defeat.c",
       "home": "dungeon/func_80E8DEEC",
       "foff": "0xEB3EEC",
       "vma": "0x8016D6EC",
@@ -276,7 +276,7 @@
     },
     {
       "row": "dungeon/func_80E94080",
-      "tu": "src/dungeon/monster/picket/advance_an_actor_s_action_state_updating_directional_animations_status_transitions.c",
+      "tu": "src/dungeon/monster/picket/advance_picket_status_action.c",
       "home": "dungeon/func_80E8E080",
       "foff": "0xEB4080",
       "vma": "0x8016D880",
@@ -360,7 +360,7 @@
     {
       "row": "dungeon/func_80E94A34",
       "home": "dungeon/func_80E8EA34",
-      "tu": "src/dungeon/monster/picket/start_the_actor_s_attack_step_clear_busy_bit_latch.c",
+      "tu": "src/dungeon/monster/picket/start_picket_steal_attempt.c",
       "foff": "0x00EB4A34",
       "vma": "0x8016E234",
       "size": 500,
@@ -390,7 +390,7 @@
     },
     {
       "row": "dungeon/func_80E94C28",
-      "tu": "src/dungeon/monster/picket/update_movement_destination_selection_recovery_animation.c",
+      "tu": "src/dungeon/monster/picket/update_picket_dash_and_retreat.c",
       "home": "dungeon/func_80E8EC28",
       "foff": "0xEB4C28",
       "vma": "0x8016e428",
@@ -399,7 +399,7 @@
     },
     {
       "row": "dungeon/func_80E95178",
-      "tu": "src/dungeon/monster/picket/update_a_timed_movement_animation_marks_completion.c",
+      "tu": "src/dungeon/monster/picket/update_picket_item_drop_effect.c",
       "home": "dungeon/func_80E8F178",
       "foff": "0xEB5178",
       "vma": "0x8016E978",
@@ -410,7 +410,7 @@
     },
     {
       "row": "dungeon/func_80E95314",
-      "tu": "src/dungeon/monster/picket/clear_the_state_flag_allowed_resets_entity_selects_directional.c",
+      "tu": "src/dungeon/monster/picket/start_picket_action_if_idle.c",
       "home": "dungeon/func_80E8F314",
       "foff": "0xEB5314",
       "vma": "0x8016EB14",
@@ -421,7 +421,7 @@
     },
     {
       "row": "dungeon/func_80E953F8",
-      "tu": "src/dungeon/monster/picket/initialize_a_timed_action_restore_animation_clear_entity_flags.c",
+      "tu": "src/dungeon/monster/picket/show_picket_held_item.c",
       "home": "dungeon/func_80E8F3F8",
       "foff": "0xEB53F8",
       "vma": "0x8016EBF8",
@@ -432,7 +432,7 @@
     },
     {
       "row": "dungeon/func_80E95548",
-      "tu": "src/dungeon/monster/picket/create_and_initializes_display_source_position_appearance.c",
+      "tu": "src/dungeon/monster/picket/create_picket_held_item_sprite.c",
       "home": "dungeon/func_80E8F548",
       "foff": "0xEB5548",
       "vma": "0x8016ED48",

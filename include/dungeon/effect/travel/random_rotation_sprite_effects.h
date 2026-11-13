@@ -167,10 +167,10 @@ extern void *create_actor_sprite_at_tile(u8, s16, s16, s16); /* Unprototyped: re
 extern void func_80042640(void *, s32);
 extern s32 generate_random_value(void);
 void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, void *motion, void *transform);
-void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value);
-void handle_increment_entry_counters_process_target_propagate_status_flags(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target);
+void *create_random_rotation_sprite_effect(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value);
+void update_randomized_grayscale_effect(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target);
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state);
-void advance_the_entry_counters_trigger_count_milestones_update_target(CountedSpriteEffectBody *entry, s32 unused, void *target);
+void update_counted_sprite_effect(CountedSpriteEffectBody *entry, s32 unused, void *target);
 void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state);
 void animate_sprite_once_counting_owner_ticks(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target);
 ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32 *initial_data);

@@ -36,7 +36,7 @@ void spawn_manoeva_particle_burst(ObjectPosition *origin, SpriteFrameState *sour
     do {
         particle = allocate_flagged_object_node(0x300);
         if (particle != NULL) {
-            particle->node.update_callback = update_an_effect_s_lifetime_fades_color_advances_motion;
+            particle->node.update_callback = update_manoeva_particle_burst;
             register_node(&particle->node, project_sprite_chain);
             sprite = particle->node.sprite;
             sprite->scale_y = 0x800;

@@ -502,7 +502,7 @@ s32 lookup_masked_byte_table();
 void unlink_entity_node(struct EntityLinkNode *node);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *create_status_linked_render_effect();
-extern u8 shared_sprite_entries[];
+#include "dungeon/effect/sprite/shared_entries.h"
 extern u8 snowman_direction_frames[];
 extern u8 snowman_alt_direction_frames[];
 extern u8 snowman_frame_set_2[];

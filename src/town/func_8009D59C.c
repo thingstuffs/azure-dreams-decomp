@@ -18,7 +18,7 @@ extern s32 D_800D0198;
  * D_8009AD70 with count 0x14.
  */
 void initialize_object_handler_and_countdown(TownObjectRecord *object, ObjectPosition *context, void *ptr2) {
-    call_the_handler_selects_nonzero_entry(&D_800D0198, object, ptr2);
+    dispatch_selected_entry_if_nonzero(&D_800D0198, object, ptr2);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_0A = 0x14;
     clear_entity_record_fields((context));

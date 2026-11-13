@@ -183,7 +183,7 @@ void into_dn_door_demo_set(void);
 void trigger_door_interaction_effect(void *actor, void *target, void *position);
 void change_door_map(void *map_source, s32 *map_table);
 void advance_door_step(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
-void select_tower_entry_handler_by_item_count(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params);
+void start_door_entry_or_wait(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params);
 void set_door_handler_if_ready(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
 void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg);
 void advance_door_state_counter(S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b);

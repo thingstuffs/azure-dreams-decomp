@@ -38,14 +38,14 @@ void init_three_quarter_turn_motion_action(TownObjectRecord *object, void *unuse
 void init_positive_y_step_action(TownObjectRecord *object, void *unused, void *handler_context);
 void init_sixteen_tick_record_action(TownObjectRecord *object, struct ObjectPosition *motion_context, void *handler_context);
 void init_twenty_one_tick_record_action_b(TownObjectRecord *record, void *unused, void *handler_context);
-void init_twenty_one_tick_record_action_c(TownObjectRecord *object, void *unused, void *handler_context);
+void start_record_action_countdown(TownObjectRecord *object, void *unused, void *handler_context);
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 
 struct EntityRec;
 void initialize_object_transform_and_handler(TownObjectRecord *object, struct ObjectPosition *transform, void *handler_context);
 void clear_shared_flag_and_initialize_object(void *state, void *context, void *mode);
 
-void initialize_record_with_handler_and_count(TownObjectRecord *record, struct ObjectPosition *setup_value, void *handler_context);
+void init_tick_countdown_record(TownObjectRecord *record, struct ObjectPosition *setup_value, void *handler_context);
 void initialize_record_and_clear_shared_flag(TownObjectRecord *record, struct ObjectPosition *setup_value, void *handler_context);
 
 void init_periodic_effect_action(TownObjectRecord *object, struct ObjectPosition *motion, struct SpriteFrameState *sprite);

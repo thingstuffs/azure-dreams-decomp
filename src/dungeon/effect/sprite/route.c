@@ -407,7 +407,7 @@ void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_
 
 extern B32_818CF0E8_Vec12 D_8002590C;
 extern B32_818CF0E8_Vec12 D_80025918;
-extern u8 directional_sprite_entries[];
+#include "dungeon/effect/sprite/directional_entries.h"
 extern u8 current_spell_effect_variant[];
 
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
@@ -806,7 +806,6 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-extern u8 directional_sprite_entries[12];
 extern B32_818CFB74_PackedTemplate D_80025900;
 
 /* Spawns and follows an entity effect, then completes its delayed cleanup. */

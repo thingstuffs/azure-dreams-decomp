@@ -28,8 +28,8 @@ typedef struct ShopFirstCallbackObject {
     /* 0x98 */ union { s32 as_s32; void *as_ptr; } resource_id;
 } ShopFirstCallbackObject;
 
-/* allocate_object_and_mark_failed_setup_for_cleanup.c */
-void *allocate_object_and_mark_failed_setup_for_cleanup(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z);
+/* create_monster_status_object.c */
+void *create_monster_status_object(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z);
 
 /* create_item_menu_handler_object.c */
 ItemMenuObjectNode *create_item_menu_handler_object(ItemMenuStateNode *owner);
@@ -67,10 +67,10 @@ void append_town_item(const struct Copy4 *input);
 void process_shop_object_data(s32 object_addr);
 
 /* set_object_data_pointer.c */
-void set_object_data_pointer_2(ObjectNodeHeader *object);
+void set_advance_inner_value_callback(ObjectNodeHeader *object);
 
-/* set_object_data_pointer_if_present.c */
-void set_object_data_pointer_if_present(struct S_800B2CE8_0 *object);
+/* set_apply_record_values_callback_if_present.c */
+void set_apply_record_values_callback_if_present(struct S_800B2CE8_0 *object);
 
 /* set_shop_object_data_if_present.c */
 void set_shop_object_data_if_present(struct S_800B1718_0 *object);

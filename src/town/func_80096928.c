@@ -10,7 +10,7 @@
 
 /* Selects D_800D00D0 and installs D_80091A08 with action count 6. */
 void init_threshold_countdown_action(TownObjectRecord *record, void *unused, void *handler_context) {
-    call_the_handler_selects_nonzero_entry(D_800D00D0, record, handler_context);
+    dispatch_selected_entry_if_nonzero(D_800D00D0, record, handler_context);
     record->unk_00 = update_threshold_countdown_action;
     record->unk_0A = 6;
 }

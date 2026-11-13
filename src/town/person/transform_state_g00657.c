@@ -20,7 +20,7 @@ void update_transform_motion_page(TownObjectRecord *object_data, void *motion_da
     } else {
         motion->unk_08 = 0xFFE00000;
     }
-    configure_the_set_mode_n_1(((object_data)), motion, get_transform_entry_by_index(0));
+    init_scene_node_mode_1(((object_data)), motion, get_transform_entry_by_index(0));
     ((S_800C2988_1 *)(object_data))->unk_50 = &D_800C2A10;
     object_data->unk_16 = (s16) ((((u16)object_data->heading) - 0x800) & 0xFFF);
 }
@@ -29,7 +29,7 @@ void update_transform_motion_page(TownObjectRecord *object_data, void *motion_da
 void update_transform_state_value(TownObjectRecord *object) {
     s32 result;
 
-    result = low_12_values_within_511(D_800FE4A6, object->unk_16);
+    result = is_angle_within_tolerance(D_800FE4A6, object->unk_16);
     if (result != 0) {
         *(s32 *)((s8 *)object + 0xC) = get_transform_entry_by_index(0);
     } else {

@@ -35,17 +35,17 @@ void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *coll
     s16 contact_height;
     s32 contact_height_ext;
 
-    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_vertical_gravity(motion);
     if (motion->velocity_z > 0x200000) {
         motion->velocity_z = 0x200000;
     }
     add_motion_deltas_to_position(motion);
-    contact_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&position_query_scratch));
-    call_the_same_context_both_processing_routines(collision, motion);
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(collision, motion);
+    contact_height = get_min_surface_probe_capped(motion, ((u8 *)&position_query_scratch));
+    apply_bound_adjustments(collision, motion);
+    resolve_collider_overlaps(collision, motion);
     contact_height_ext = contact_height;
     if (motion->z.w.i >= contact_height_ext) {
-        set_the_state_flag_initialize_s_fixed_point_clear_paired_field(collision, motion, contact_height_ext);
+        stop_at_max_z(collision, motion, contact_height_ext);
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     } else if (collision->unk_3B != 0) {
         motion->velocity_z = 0;

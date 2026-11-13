@@ -78,7 +78,7 @@ void create_minigame_display_objects(void)
         prim->x.v = 0x04600000;
         prim->y.v = 0x03600000;
         ((State8081FF68 *)parent_state)->parent = callback;
-        configure_the_set_mode_n_3(parent_state, prim, D_80024470);
+        init_scene_node_mode_3(parent_state, prim, D_80024470);
     }
 
     child_index = 2;
@@ -125,7 +125,7 @@ void create_minigame_display_objects(void)
         prim->y.v = 0x02C00000;
         prim->z.v = 0;
         *(void **)(object_state + 0x50) = callback;
-        configure_the_set_mode_n_3(render_state, *(u8 * *)&((ObjectNodeHeader *)obj)->position, D_800244A0);
+        init_scene_node_mode_3(render_state, *(u8 * *)&((ObjectNodeHeader *)obj)->position, D_800244A0);
     }
 
     child_index = 4;

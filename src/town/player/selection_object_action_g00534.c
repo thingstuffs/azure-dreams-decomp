@@ -37,7 +37,7 @@ void initialize_town_context_action(void) {
 }
 
 /* Checks the current selection, displays rejection messages, or creates and selects an object. */
-void handle_selection_and_create_object(void) {
+void create_selected_town_object(void) {
     Unk96134Work work;
     ObjectNodeHeader *data;
     S_80093894_1 *context;
@@ -67,13 +67,13 @@ void handle_selection_and_create_object(void) {
         work.bytes.unk3 = source->unk3;
         state_index = state_code - 0x12;
         state_is_12_or_13 = (u32)state_index < 2;
-        is_available = is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 1;
+        is_available = is_map_state_in_special_range() == 1;
 
         switch (is_available) {
         case 0: {
             if (is_town_state_pair_accepted() != 0) {
                 write_resource_command(item_suffix_strings_ball_fruit_seed, 0x11);
-            } else if (count_type_n_4_links_whose_state_not_n_1() >= 0x12) {
+            } else if (count_live_type_four_links() >= 0x12) {
                 write_resource_command(item_suffix_strings_herb, 0x11);
             } else if (work.bytes.unk1 == 0x13) {
                 write_resource_command(D_80088C8C, 0x11);
@@ -89,7 +89,7 @@ void handle_selection_and_create_object(void) {
             if (work.bytes.unk1 != 0x13) {
                 if (work.bytes.unk1 == 0x12) {
                     mode = find_target_byte_index_in_list();
-                    if (get_first_free_four_byte_entry_index_n_1_none_available((void *)0x80010980, town_record_capacities[mode]) == -1) {
+                    if (find_free_entry_index((void *)0x80010980, town_record_capacities[mode]) == -1) {
                         write_resource_command(D_80088CCC, 0x11);
                         set_item_selection_data_pointer(object, position, callback_data);
                         town_player_action_callback = (void (*)(void *, void *, void *))&town_motion_action_address;

@@ -11,7 +11,7 @@
 /* Reset and initialize the record, then assign its handler. */
 void initialize_action_object_and_play_sound(s32 **record, ObjectPosition *unused_position, s32 setup_value) {
     SD_Call(0x50B);
-    store_the_valid_shared_angle_in_offset_hex_10(record);
-    call_the_handler_selects_nonzero_entry(D_800D0110, (struct TownObjectRecord *)(record), (void *)(setup_value));
+    store_input_angle(record);
+    dispatch_selected_entry_if_nonzero(D_800D0110, (struct TownObjectRecord *)(record), (void *)(setup_value));
     *record = &update_actor_input_actions;
 }

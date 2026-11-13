@@ -127,7 +127,7 @@ s32 select_scene_result_with_overrides(s32 context, s32 check_value, s32 selecto
 void *select_lookup_with_progress_threshold(s32 selector, s32 check_value, s32 lookup_value);
 s32 select_lookup_with_count_threshold(s32 object, s32 check_value, s32 selection);
 void invoke_handler_with_code_7_a_0(void);
-s32 check_interaction_13_type_3(void);
+s32 check_progress_interaction_accepted(void);
 s32 select_interaction_result_with_refresh(s32 input, s32 check_value, s32 context);
 void invoke_match_callback_or_lookup(void);
 void invoke_handler_with_code_7_a_1(void);
@@ -151,7 +151,7 @@ s32 func_80017724(void);
 s32 lookup_entry_with_fallback_c(s32 context, s32 check_value, s32 selector);
 s32 func_80017758(s32 context, s32 check_value, s32 selector);
 void mark_progress_state_ready(void);
-s32 initialize_indexed_entry_on_first_479(S_80017824_0 *obj, s32 index);
+s32 install_progress_interaction_once(S_80017824_0 *obj, s32 index);
 s32 start_interaction_on_code_0x479(S_800178B4_0 *menu, s32 index);
 s32 lookup_entry_with_fallback_after_refresh(s32 input, s32 check_value, s32 context);
 s32 func_8001799C(s32 input, s32 check_value, s32 context);
@@ -159,19 +159,19 @@ s32 lookup_entry_with_fallback_d(s32 context, s32 check_value, s32 selector);
 s32 func_80017A70(s32 context, s32 check_value, s32 selector);
 s32 lookup_entry_with_fallback_e(s32 context, s32 check_value, s32 selector);
 s32 func_80017B40(s32 context, s32 check_value, s32 selector);
-void clear_progress_and_dispatch_code_12_cb(void *handler_id, s32 handler_arg);
+void apply_takoyaki_reward_entry(void *handler_id, s32 handler_arg);
 void invoke_handler_with_code_780(void);
 void invoke_alternate_handler_with_code_780(void);
 
 
-void invoke_handler_with_code_1470(void);
+void set_far_love_flag(void);
 void invoke_alternate_handler_with_code_79_e(void);
 void invoke_handler_with_code_79_e(void);
 void select_scene_choice_by_mode(void);
 void invoke_handler_with_code_798(void);
 void invoke_handler_with_code_799(void);
 void invoke_handler_with_code_11_fb(void);
-void invoke_alternate_handler_with_code_11_fb(void);
+void clear_far_kenkatyu_flag(void);
 #include "town/scene/fixed_position.h"
 s32 start_callback_with_fixed_parameters(void);
 /* Incomplete inherited argument-list evidence; retain the caller register passthrough. */

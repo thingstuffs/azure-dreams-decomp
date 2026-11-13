@@ -176,7 +176,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
         position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         {
-            void *inner_active_actor;
+            ActorRecord *inner_active_actor;
 
             inner_active_actor = primary_actor_record;
             g_dungeon_status.active_actor = 0;
@@ -205,7 +205,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
             if (effect_object != 0) {
                 SelectedItemActionEffectBody *effect_state;
                 S_801730E4_7 *effect_data;
-                void *owner_sprite;
+                SpriteFrameState *owner_sprite;
                 u8 animation_id;
 
                 effect_state = NODE_BODY(effect_object);
@@ -230,7 +230,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
 
                 owner_sprite = owner_object->sprite;
                 effect_data = (S_801730E4_7 *)*(u8 * *)&effect_object->position;
-                if (resolve_record_orientation_or_fallback(((SpriteFrameState *)owner_sprite)->source, owner_sprite, position_delta, 0) != 0) {
+                if (resolve_record_orientation_or_fallback(owner_sprite->source, owner_sprite, position_delta, 0) != 0) {
                     effect_data->unk_02 = ((u16)position->x.w.i);
                     effect_data->unk_06 = ((u16)position->y.w.i);
                     effect_data->unk_0A = ((u16)position->z.w.i);

@@ -12,7 +12,7 @@ void tick_object_counter_and_invoke_callback(void) {
     counter_obj = town_scene_root->town_state;
     counter_obj->money = (u32) (((signed int)counter_obj->money) - scene_progress_step);
     if (check_progress_against_callback() != 0) {
-        ((s32 (*) (s32, s32))town_scene_root->services->callback_04C)(0x10,
+        ((s32 (*) (s32, s32))town_scene_root->services->BuildLandBuilding)(0x10,
             5);
     }
 }

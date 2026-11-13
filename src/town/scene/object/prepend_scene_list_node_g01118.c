@@ -39,7 +39,7 @@ s32 append_scene_list_node(TownSceneListNode *node) {
  * On successful scene-list insertion, stores the two supplied values, marks byte 0x15 present, and
  * clears mode byte 0x14.
  */
-void handle_insert_initialize_two_values_status_flags(void *record, void *position, void *bounds) {
+void init_scene_list_node(void *record, void *position, void *bounds) {
     TownSceneListNode *node = record;
     if (prepend_scene_list_node(node) != 0) {
         node->position = position;

@@ -10,7 +10,10 @@ canonical signature per function and from code a reader can follow:
   3. address-named tokens (func_8xxxxxxx, D_8xxxxxxx) and unk_/pad_ member tokens;
   4. struct typedefs in .c files: exact-duplicate bodies, names with several bodies, and the local views
      with at most two non-pad members (casts spelled as structs: `{ u8 pad_00[0x2A]; u16 unk_2A; }`);
-  5. duplicate #include lines, stale tool comments, placeholder identifiers (argN, var_, temp_).
+  5. duplicate #include lines, stale tool comments, placeholder identifiers (argN, var_, temp_);
+  6. signature quality: parameters of .c function definitions declared `void *`, a byte pointer, a
+     generated view (S_<addr>, Row_, Rec_, B<n>_, R<n>_, *_pre, Func<addr>, any 8-hex name: caller_types.py's
+     pattern) or a struct typedef of the same .c file (prototype-style parameter lists only).
 
 Everything is lexical (comments and string contents never count) and cached per file by
 content hash; the whole aggregate is cached again by the hash of every input, so an unchanged
@@ -55,6 +58,13 @@ TOOL_TAGS = (
     ('MECHANISM note', re.compile(r'\bMECHANISM:')),
 )
 PLACEHOLDERS = ('arg', 'var_', 'temp_')
+# Weak parameter kinds (signature quality); GENERATED_VIEW is tools/typing/caller_types.py's GENERATED.
+GENERATED_VIEW = re.compile(r'(?:^|_)S_(?:func_)?[0-9A-Fa-f]{6,8}(?:_|$)|^Row_|^Rec_|^R\d+_|^B\d+_|_pre$|'
+                            r'^Func[0-9A-Fa-f]{8}|[0-9A-Fa-f]{8}')
+BYTE_TYPES = frozenset({'u8', 's8', 'char', 'unsigned char', 'signed char'})
+WEAK_KINDS = ('void', 'generated', 'file_local', 'byte')
+PARAM_POINTER = re.compile(r'^((?:(?:const|volatile|struct|union|register)\s+)*)([A-Za-z_]\w*(?:\s+[A-Za-z_]\w*)*?)'
+                           r'\s*\*\s*(?:const\s+)?([A-Za-z_]\w*)?\s*$')
 PAD_MEMBER = re.compile(r'_?(?:pad|reserved)', re.I)
 SMALL_VIEW = 2          # non-pad members at most
 CACHE_SUBDIR = 'readcounts'
@@ -246,6 +256,44 @@ def file_facts(text, is_c):
 
 
 
+def parameter_kind(param, local_types):
+    """void | byte | generated | file_local for a weakly typed one-star pointer parameter, else None."""
+    m = PARAM_POINTER.match(param.strip())
+    if not m:
+        return None
+    base = ' '.join(m[2].split())
+    if base == 'void':
+        return 'void'
+    if base in BYTE_TYPES:
+        return 'byte'
+    if GENERATED_VIEW.search(base):
+        return 'generated'
+    if base in local_types:
+        return 'file_local'
+    return None
+
+
+def weak_parameters(per_file):
+    """(counts by kind, rows [rel, line, function, index, kind, parameter], prototype-style definitions)."""
+    counts, rows, definitions = collections.Counter(), [], 0
+    for rel, f in sorted(per_file.items()):
+        if not rel.endswith('.c'):
+            continue
+        local_types = {alias for alias, *_ in f['structs']}
+        for name, line, kind, head, params, static, body in f['decls']:
+            if kind != 'def':
+                continue
+            if params is None:
+                continue
+            definitions += 1
+            for i, param in enumerate(_top_split(params, ',')):
+                k = parameter_kind(param, local_types)
+                if k:
+                    counts[k] += 1
+                    rows.append([rel, line, name, i, k, _squash(param)])
+    return counts, rows, definitions
+
+
 def source_paths(root):
     root = Path(root)
     out = []
@@ -371,6 +419,8 @@ def aggregate(per_file, aliases):
     conflicts.sort(key=lambda r: (-r['sites'], r['name']))
     top_names = sorted(((len(v), name) for name, v in sites.items()), key=lambda t: (-t[0], t[1]))[:TOP]
 
+    weak, weak_rows, definitions_seen = weak_parameters(per_file)
+
     # 2. definitions
     dup_defs = []
     identical = differing = 0
@@ -408,6 +458,8 @@ def aggregate(per_file, aliases):
             top=[[name, n] for n, name in top_names]),
         definitions=dict(names=len(defs), multiple=len(dup_defs), definitions=sum(r['definitions'] for r in dup_defs),
                          identical=identical, differing=differing),
+        parameters=dict({k: weak[k] for k in WEAK_KINDS}, total=sum(weak[k] for k in WEAK_KINDS),
+                        functions=len({(r[0], r[1]) for r in weak_rows}), definitions=definitions_seen),
         addresses=dict(func_tokens=sum(func.values()), func_distinct=len(func),
                        data_tokens=sum(data.values()), data_distinct=len(data),
                        unk=unk, pad=pad, func_in_comments=comment_tokens['func'],
@@ -433,7 +485,7 @@ def aggregate(per_file, aliases):
                                key=lambda t: (-t[0], t[1])),
             struct_names=sorted(([name, len(bs)] for name, bs in several.items()), key=lambda t: (-t[1], t[0])),
             include_dups=sorted(include_dups, key=lambda t: (-t[2], t[0], t[1])),
-            tag_sites=tag_sites,
+            tag_sites=tag_sites, weak_params=weak_rows,
             placeholder_files=sorted(([rel, sum(c.values()), dict(c)] for rel, c in placeholder_files.items()),
                                      key=lambda t: (-t[1], t[0]))))
 
@@ -451,6 +503,7 @@ def report(root, cache_dir, cache_value):
 
 def summary_lines(rep):
     s, d, a, t, h = (rep[k] for k in ('signatures', 'definitions', 'addresses', 'structs', 'hygiene'))
+    w = rep['parameters']
     top = ', '.join(f'{n} {c}' for n, c in s['top'])
     tags = ', '.join(f'{k} {v}' for k, v in sorted(h['tags'].items(), key=lambda kv: (-kv[1], kv[0])))
     ph = h['placeholders']
@@ -474,6 +527,8 @@ def summary_lines(rep):
         f'stale tool comments (report only)\t{h["tag_comments"]}\t{tags}',
         f'placeholder identifiers (report only)\t{ph["total"]}\targN {ph.get("arg", 0)}'
         f'\tvar_ {ph.get("var_", 0)}\ttemp_ {ph.get("temp_", 0)}\tnamed in comments {ph["in_comments"]}',
+        f'weak parameter types (report only)\t{w["total"]}\tvoid {w["void"]}\tgenerated {w["generated"]}'
+        f'\tfile-local {w["file_local"]}\tbyte {w["byte"]}\tin {w["functions"]} of {w["definitions"]} definitions',
     ]
 
 
@@ -505,5 +560,6 @@ def write_lists(out, rep):
     tsv('stale_tool_comments.tsv', ['file', 'line', 'tags'], [[r, l, ','.join(h)] for r, l, h in L['tag_sites']])
     tsv('placeholder_identifiers_by_file.tsv', ['file', 'tokens', 'by_kind'],
         [[r, n, json.dumps(c, sort_keys=True)] for r, n, c in L['placeholder_files']])
+    tsv('weak_parameters.tsv', ['file', 'line', 'function', 'index', 'kind', 'parameter'], L['weak_params'])
     summary = {k: v for k, v in rep.items() if k != 'lists'}
     (out / 'summary.json').write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')

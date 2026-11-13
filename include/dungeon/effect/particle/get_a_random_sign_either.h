@@ -110,11 +110,11 @@ void draw_effect_and_restore_clip(s32 draw_data, struct Row_818ED25C_S_80024A5C_
 
 extern u8 D_80020000[];
 extern Row_818EDB60_Rect D_80024048;
-s32 get_a_random_sign_either_n_1_n_1(void);
+s32 random_sign(void);
 void lift_particle_above_terrain_and_age(ParticleWork *work, ParticlePosition *position);
 void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz);
-void update_an_effect_s_grayscale_intensity_animation_frame_marking_finished_end(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
-void advance_object_counters_animation_values_flag_expiration(void *object_ptr);
-void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void *effect_arg, void *unused, void *sprite_arg);
+void update_grayscale_fade_effect(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
+void update_timed_value_ramp_effect(void *object_ptr);
+void update_timed_rectangle_effect(void *effect_arg, void *unused, void *sprite_arg);
 extern u8 rectangle_effect_updated[];
 #endif

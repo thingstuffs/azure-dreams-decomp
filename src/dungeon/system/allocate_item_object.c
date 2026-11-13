@@ -11,7 +11,7 @@
 
 extern void set_item_data_from_lookup();
 
-extern void release_menu_children_and_copy_entity_string();
+extern void release_entity_children();
 extern s32 inventory_allocate_and_initialize_child(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 allocate_initialized_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 create_menu_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
@@ -86,7 +86,7 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
         globals_base = (s32 *) 0x80080000;
         for (resource_index = 0, resource_cursor = state; resource_index < 3; resource_index++, resource_cursor += 4) {
             if (((S_80025198_1 *)resource_cursor)->unk_20 == 0) {
-                release_menu_children_and_copy_entity_string(state);
+                release_entity_children(state);
                 NODE_HEADER(state)->flags = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
                 object = NULL;
                 ((S_80025198_5 *)globals_base)->unk_14A0 |= 0x8000;

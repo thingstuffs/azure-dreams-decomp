@@ -34,7 +34,7 @@ void set_sound_payload_slot(int value);
 void wait_512_vertical_syncs(void);
 void pack_tagged_resource_descriptor(int tag, int id, int *record, int value);
 void push_node_onto_free_list(struct ObjectNodeHeader *node);
-void mark_resource_list_flags_ten_and_eleven(void);
+void flag_all_active_nodes(void);
 int count_null_terminated_pointers(void **entries);
 void append_terminated_runtime_word(int value);
 short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned short stride, unsigned short limit);
@@ -59,7 +59,7 @@ unsigned char read_display_spacing_byte(int index);
 s32 count_nonzero_word_prefix(s32 *entries, s32 limit);
 void append_linked_chain(struct Struct_C_next *tail, struct Struct_C_next *node);
 int is_type_twenty(int type);
-int get_item_name_with_shared_text_table(void *object);
+int get_item_name(void *object);
 int read_item_category_flag_ten(void *item);
 int get_low_flag_priority(int flags);
 int set_flag_and_return_success(int *flag);
@@ -83,11 +83,11 @@ void load_bin_nametwin(void);
 void *create_item_view_without_event(int object, int value);
 void initialize_scaled_entry_cursor(struct FrameState *state, struct FrameNode *entry, int *cursor);
 void *advance_packed_record_by_type(void *object);
-void decode_glyph_id_to_byte_rectangle(u32 value, u8 *record);
+void glyph_id_to_rect(u32 value, u8 *record);
 void set_descriptor_grid_byte_coordinates(signed char *record, int width, int height, int column, int row);
 void set_message_mode(int value);
 void clear_message_command_words(void);
-void clear_resident_bitmap_bit_two(void);
+void clear_win_sw0_resident_bit(void);
 void set_glyph_style_index(void *record, int index);
 unsigned char *read_decimal_digit_value(unsigned char *text, int *digit);
 void format_reversed_decimal_space_padded(int value, unsigned short width, char *buf);
@@ -128,8 +128,8 @@ void func_80055E6C(void);
 void noop_voice_start_notification(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s32 unused_arg3, s32 unused_arg4);
 void noop_channel_control_notification(s32 kind, s32 channel, s32 value);
 void func_80056D3C(void);
-void noop_midi_a0(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2);
-void noop_midi_d0(s32 unused_arg0, s32 unused_arg1);
+void noop_midi_aftertouch(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2);
+void noop_midi_channel_pressure(s32 unused_arg0, s32 unused_arg1);
 void tick_enabled_sequence_tracks(void);
 void func_800587F8(void);
 unsigned int pack_big_endian_word(int byte_3, int byte_2, int byte_1, int byte_0);
@@ -141,7 +141,7 @@ void set_audio_timer_state(int value);
 void run_enabled_sound_sequence_update(void);
 void clear_cd_audio_mix_mode(void);
 void noop_audio_init_hook(void *unused_data, s32 unused_arg1, s32 unused_arg2);
-void reset_voices_slots_and_stop_spu_service(void);
+void shut_down_spu_audio(void);
 void set_sound_flag_update_suppression(short value);
 void flush_pending_sound_voice_flags(void);
 void enable_available_spu_reverb(void);
@@ -186,7 +186,7 @@ void item_clear_recorded_category_pair(int first_value, int second_value);
 void scene_save_previous_mode_and_reset_callbacks(void);
 u8 select_display_spacing_table_entry(s32 index, s32 count);
 void load_secondary_optional_resource_descriptor(void);
-u8 get_previous_cd_command_byte(void);
+u8 get_previous_cd_command(void);
 void audio_disable_reverb(void);
 int audio_get_channel_pan(int unused, short index);
 int audio_get_channel_pitch_bend(int unused, short index);
@@ -212,7 +212,7 @@ void _spu_Fr_(s32 ram_address, s16 spu_address, s32 block_count);
 void _spu_Fw1ts(void);
 
 /* sound_key_buffer.c */
-u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_index);
+u32 update_spu_register_pair(s32 mode, u32 value, s32 low_index, s32 high_index);
 
 /* sound_streaming_transfer.c */
 s32 SpuClearReverbWorkArea(s32 voice);
@@ -231,7 +231,7 @@ void service_cd_command_queue(void);
 s32 query_validated_cd_sector_with_retry(void);
 
 /* w_8003F5AC.c */
-s32 get_cd_flags_with_conditional_bit(void);
+s32 get_cd_flags_with_retry_bit(void);
 
 /* w_8003F624.c */
 void cd_set_mode_with_retry(void);
@@ -267,13 +267,13 @@ void runtime_dispatch_and_reset_control_string(char *text);
 void enqueue_script_message_command(void);
 
 /* w_8004EF90.c */
-void *init_object_header_a(void *cursor);
+void *build_ellipse_glow_commands(void *cursor);
 
 /* w_8004EFF4.c */
-void *init_object_header_b(void *cursor);
+void *build_menu_backdrop_corner_glow(void *cursor);
 
 /* w_8004F068.c */
-void *init_object_header_c(void *cursor);
+void *build_menu_backdrop_corner_glow_mirrored(void *cursor);
 
 /* w_80050DA8.c */
 void begin_selection_menu_teardown_and_fade(u8 *object);

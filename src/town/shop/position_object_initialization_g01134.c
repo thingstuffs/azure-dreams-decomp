@@ -9,7 +9,7 @@
 #include "engine/menu.h"
 
 /* Initialize the record and active flag, then install the object handler. */
-void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render) {
+void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render) {
     state->unk_15 = 1;
     record->velocity_x = 0;
     record->velocity_y = 0;
@@ -19,7 +19,7 @@ void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C
 }
 
 /* Creates an object at the supplied position and initializes its graphics and state. */
-void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, MovingPosition *position) {
+void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position) {
     u8 type;
     S_800A027C_4 *state;
     S_800A027C_3 *render;
@@ -46,7 +46,7 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, Moving
     state->unk_4D = (u8) config->unk_01;
     state->unk_4E = (u8) config->unk_02;
     state->unk_4F = (u8) config->unk_03;
-    configure_the_set_mode_n_4(state, coords, &D_800D073C);
+    init_scene_node_mode_4(state, coords, &D_800D073C);
     initialize_optional_object_state(state, coords, render, &D_800D076C);
     type = state->unk_4D;
     if (type == 0x12) {
@@ -58,7 +58,7 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, Moving
         render->unk_08 = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
     }
     object->update_callback = &dispatch_object_or_switch_alternate_state;
-    initialize_the_active_flag_install_handler((S_800A022C_2 *)state, (S_800A022C_0 *)state, (ObjectPosition *)coords, render);
+    start_item_object_motion((S_800A022C_2 *)state, (S_800A022C_0 *)state, (ObjectPosition *)coords, render);
 
     return object;
 }
@@ -79,7 +79,7 @@ void clear_entry_table(void) {
 }
 
 /* Inserts a record into the first free slot, discarding the first record if full. */
-void handle_inserts_first_free_slot_discarding_first_full(TownRecord *record) {
+void enqueue_shop_record(TownRecord *record) {
     TownRecord *dst;
     s32 slot;
 
@@ -106,7 +106,7 @@ void handle_inserts_first_free_slot_discarding_first_full(TownRecord *record) {
 }
 
 /* Returns the address of shop_record_queue. */
-s32 *get_address_global_80100_aa_0(void) {
+s32 *get_shop_record_queue(void) {
     return (s32 *)&shop_record_queue;
 }
 
@@ -114,7 +114,7 @@ s32 *get_address_global_80100_aa_0(void) {
  * Shifts shop_record_queue words left while the current word second byte is nonzero, stopping
  * after at most 19 moves and clearing the vacated word.
  */
-void handle_shift_entries_left_until_free_entry_limit_clear_tail(void) {
+void dequeue_shop_record(void) {
     s32 entry_index;
     s32 *entries = (s32 *)&shop_record_queue[0];
     s32 *write_entry;
@@ -136,14 +136,14 @@ void handle_shift_entries_left_until_free_entry_limit_clear_tail(void) {
 }
 
 /* Run the follow-up action when the current record has an eligible type and passes the check. */
-void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_value) {
+void spawn_queued_item_object(s32 check_value) {
     u8 record_type;
     S_800A0504_0 *record;
 
-    record = (S_800A0504_0 *)get_address_global_80100_aa_0();
+    record = (S_800A0504_0 *)get_shop_record_queue();
     record_type = record->unk_01;
-    if ((record_type != 0) && (record_type != 0x13) && (create_an_position_initializes_graphics_state(record, check_value) != 0)) {
-        handle_shift_entries_left_until_free_entry_limit_clear_tail();
+    if ((record_type != 0) && (record_type != 0x13) && (create_item_object_at(record, check_value) != 0)) {
+        dequeue_shop_record();
     }
 }
 
@@ -153,7 +153,7 @@ void process_unlinked_type_four_entries(void)
     TownLink *sentinel = (TownLink *)&town_actor_control;
     TownLink *link = sentinel->next;
 
-    if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() != 0) {
+    if (is_map_state_in_special_range() != 0) {
         return;
     }
 
@@ -163,7 +163,7 @@ void process_unlinked_type_four_entries(void)
 
     do {
         if (link->type == 4 && link->state != -1 && link->object == 0) {
-            handle_inserts_first_free_slot_discarding_first_full((u8 *)link + 0x4C);
+            enqueue_shop_record((u8 *)link + 0x4C);
         }
         link = link->next;
     } while (link != sentinel);

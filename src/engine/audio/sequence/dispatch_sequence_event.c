@@ -32,7 +32,7 @@ typedef struct {
     s8 f4d[3];
 } S_80085FA8;
 
-extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
+extern s32 read_sequence_byte(S_80085FA8 *a0);
 extern void handle_sequence_meta_event(S_80085FA8 *a0, s32 a1);
 extern void audio_dispatch_midi_event(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 
@@ -49,7 +49,7 @@ s32 dispatch_sequence_event(S_80085FA8 *stream)
     s32 subcommand;
 
     second_data = 0;
-    input_byte = read_next_byte_and_finish(stream);
+    input_byte = read_sequence_byte(stream);
     event_byte = input_byte;
     if (!(input_byte & 0x80)) {
         status = stream->f4a;
@@ -68,22 +68,22 @@ s32 dispatch_sequence_event(S_80085FA8 *stream)
         if (stream->f49 != 0) {
             first_data = event_byte;
         } else {
-            first_data = read_next_byte_and_finish(stream);
+            first_data = read_sequence_byte(stream);
         }
         if (data_count == 2) {
-            second_data = read_next_byte_and_finish(stream);
+            second_data = read_sequence_byte(stream);
         }
         audio_dispatch_midi_event(stream, status & 0xFF, first_data, second_data & 0xFF);
         return 0;
     }
     if (event_byte != 0xF0) {
         if (event_byte == 0xFF) {
-            subcommand = read_next_byte_and_finish(stream);
+            subcommand = read_sequence_byte(stream);
             handle_sequence_meta_event(stream, subcommand & 0xFF);
             return 0;
         }
     } else {
-        skip_vlq_payload_until_f_7(stream);
+        skip_sequence_vlq_payload(stream);
         return 0;
     }
     noop_sequence_status_hook(event_byte);

@@ -20,15 +20,15 @@ void update_town_object_from_input(void *context, ObjectPosition *object, void *
 {
     GameWork *input = &g_game_work;
 
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
-    store_the_valid_shared_angle_in_offset_hex_10(context);
-    handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
+    resolve_collision_axis_order(object);
+    store_input_angle(context);
+    accelerate_toward_input_keep_speed(object);
 
     if (town_blocked_directions[0] != 0) {
         object->velocity_z = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
+        copy_z_to_collision_motion(object);
     } else {
-        add_hex_20000_s_signed_offset_hex_14(object);
+        add_vertical_gravity(object);
     }
 
     if (((u32)input->pressed_buttons) & 0x40) {

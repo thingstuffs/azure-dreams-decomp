@@ -61,7 +61,7 @@ typedef struct MotionDelta {
     u16 y;
 } MotionDelta;
 
-extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
+extern void apply_bound_adjustments(Subject *, Motion *);
 
 extern TownState scene_object_list_anchor;
 extern TownControl town_actor_control;
@@ -94,14 +94,14 @@ void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion 
         town_state->target->x += x_deltas[control->index].x;
         town_state->target->y += y_deltas[control->index].x;
     }
-    surface_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&position_query_scratch));
-    call_the_same_context_both_processing_routines(subject, motion);
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(subject, motion);
+    surface_height = get_min_surface_probe_capped(motion, ((u8 *)&position_query_scratch));
+    apply_bound_adjustments(subject, motion);
+    resolve_collider_overlaps(subject, motion);
     if (subject->state == 0) {
         if (surface_height - motion->height >= 4) {
             set_actor_drop_state(actor, subject, motion, context);
         } else {
-            set_the_state_flag_initialize_s_fixed_point_clear_paired_field(subject, motion, surface_height);
+            stop_at_max_z(subject, motion, surface_height);
         }
     }
 

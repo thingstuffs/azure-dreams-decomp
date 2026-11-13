@@ -67,9 +67,9 @@ typedef struct {
 } Position2;
 
 #include "dungeon/actor/spend_actor_mp_api.h"
+#include "dungeon/effect/sprite/rotating_entries.h"
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 
-extern u8 rotating_particle_sprite_entries[];
 extern u32 actor_update_node_cursor[];
 extern u8 D_8017086C[];
 extern u8 D_80170874[];
@@ -204,7 +204,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
                 tile->unk_00 = rotating_particle_sprite_entries;
                 tile->flags |= 0x0C;
                 {
-                    u32 texture_word = ((u32)((SpriteSourceEntry *)rotating_particle_sprite_entries)->source);
+                    u32 texture_word = (u32)rotating_particle_sprite_entries[0].source;
                     tile->unk_04 = 0;
                     tile->frame_ticks = 0;
                     tile->color.word = 0x00208020;

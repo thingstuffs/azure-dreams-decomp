@@ -20,9 +20,8 @@ typedef struct {
     s16 z;
     u8 pad[0x5A];
 } PositionTableEntry;
-extern s32 rising_sprite_entries[3];
-#include "shared/sprite_source.h"
-extern SpriteSourceEntry moving_sprite_entries[];
+#include "dungeon/effect/sprite/rising_entries.h"
+#include "dungeon/effect/sprite/moving_entries.h"
 extern M2C_UNK D_80167A2C;
 extern PositionTableEntry ribbon_vertices[];
 

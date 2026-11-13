@@ -46,6 +46,6 @@ void initialize_indexed_render_state(void *object, ObjectPosition *unused, Sprit
     state_table = D_800D0A34;
     state_entry = (u16 *) (((u8 *) state_table) + halfword_offset);
     initial_state = *state_entry;
-    *((u8 **) (((s8 *) object) + 0)) = decrement_target_halfword_by_four;
+    *((u8 **) (((s8 *) object) + 0)) = decrement_sprite_angle_y;
     *((u16 *) (((s8 *) object) + 0x22)) = initial_state;
 }

@@ -20,7 +20,7 @@ s32 check_entry_limit_or_combined_value(UnkStruct800B023C *entry) {
             return 1;
         }
         total = count_nonzero_fixed_table_words();
-        total += count_entries_with_flag_20(entry->unk20);
+        total += count_flagged_entries(entry->unk20);
         return total < 20;
     }
     return 1;

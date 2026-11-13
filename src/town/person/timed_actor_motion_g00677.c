@@ -4,7 +4,7 @@
 #include "town/person.h"
 
 /* Decrement the object's countdown and advance its state when the countdown expires. */
-void advance_object_after_timeout_variant_2(TownObjectRecord *object, s32 unused, void *updateContext) {
+void turn_object_after_timeout(TownObjectRecord *object, s32 unused, void *updateContext) {
     u16 remainingTicks;
 
     remainingTicks = object->timer - 1;
