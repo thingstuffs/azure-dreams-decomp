@@ -21,11 +21,11 @@ extern u8 dreamin_object_callback[];
 extern s32 dreamin_slot_f_action_callback;
 extern s32 D_8016D86C;
 
-void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_value) ;
+void *spawn_dreamin_in_slot_f(s16 init_flags, s16 x, s16 y, s16 initial_value) ;
 /* Allocates an object and initializes its state, placement, and mode. */
 /* Creates Dreamin with default frames at D_8016D86C, applies spawn flags, and attempts valid tile
  * placement. */
-void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_value) {
+void *spawn_dreamin_in_slot_f(s16 init_flags, s16 x, s16 y, s16 initial_value) {
     s32 unused_slot;
     s32 mode;
     SpriteFrameState *placement;

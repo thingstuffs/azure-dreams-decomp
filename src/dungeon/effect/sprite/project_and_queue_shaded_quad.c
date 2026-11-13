@@ -192,7 +192,7 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         state = NODE_BODY(effect);
         state->unk_5A = 10;
         state->unk_5C = 10;
-        random_value = project_and_queue_visible_shaded_quad(8);
+        random_value = rand_below_clamped_limit(8);
         state->unk_18.at00.v = 0x303030;
         if (random_value & 1) {
             state->unk_18.at00u.v = 0x90;
@@ -223,9 +223,9 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         state->unk_20 = ((s16)planar_radius * rcos(azimuth)) >> 12;
         state->unk_22 = ((s16)planar_radius * rsin(azimuth)) >> 12;
 
-        state->unk_26 = state->unk_20 + project_and_queue_visible_shaded_quad(0x10) - 8;
-        state->unk_28 = state->unk_22 + project_and_queue_visible_shaded_quad(0x10) - 8;
-        random_value = project_and_queue_visible_shaded_quad(0x10);
+        state->unk_26 = state->unk_20 + rand_below_clamped_limit(0x10) - 8;
+        state->unk_28 = state->unk_22 + rand_below_clamped_limit(0x10) - 8;
+        random_value = rand_below_clamped_limit(0x10);
         state->unk_36 = 0;
         state->unk_34 = 0;
         state->unk_32 = 0;
@@ -273,7 +273,7 @@ void update_effect_values_and_expire(Row_819231FC_S_800249FC_1 *object, s32 unus
         }
     }
 
-    check_result = project_and_queue_visible_shaded_quad(3);
+    check_result = rand_below_clamped_limit(3);
     flags = effect->unk_14;
     if ((flags & 0x80) || check_result != 0) {
         effect->unk_14 = flags & 0xFF7F;
@@ -326,7 +326,7 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
 
 /* Grows a sprite toward twice normal scale, advances animation every fourth update, and fades it to
    removal. */
-void advance_radial_effect_state(void *entity_data, s32 unused, SpriteFrameState *effect_data) {
+void grow_sprite_to_double_scale_and_fade(void *entity_data, s32 unused, SpriteFrameState *effect_data) {
     u16 ticks_left;
     u16 updated_value;
     s32 fade_level;

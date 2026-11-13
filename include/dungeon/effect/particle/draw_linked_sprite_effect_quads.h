@@ -4,7 +4,7 @@
 #include "shared/sprite_frame_state.h"
 
 void update_animated_target_effect(void *);
-void update_actor_movement_animation_collision(void *);
+void advance_radial_grid_age_and_expire(void *);
 s32 draw_fading_radial_effect_grid(void *);
 
 struct SpriteEffect;

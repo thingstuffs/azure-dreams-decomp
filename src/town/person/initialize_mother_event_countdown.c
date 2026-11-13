@@ -3,10 +3,10 @@
 #include "shared/town_object.h"
 #include "town/person.h"
 #include "town/data.h"
+#include "town/person/mother_event_motion_g00670.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern s32 D_800C7E70;
-extern s32 mother_event_object_entries;
 
 
 /* Initialize the object state, callback, countdown, and starting value. */

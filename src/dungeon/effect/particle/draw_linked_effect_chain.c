@@ -250,7 +250,7 @@ void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_80
 }
 
 /* Fades the sprite's grayscale color in proportion to its remaining lifetime and removes it at zero. */
-void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive)
+void fade_gray_sprite_by_remaining_life(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive)
 {
     s32 brightness;
     u16 remainingTicks;
@@ -301,7 +301,7 @@ void fade_quad_vertex_colors(void *fade_data)
 }
 
 /* Interpolates six saved geometry values and fades four vertex colors over the effect's countdown. */
-void advance_object_motion_and_animation(void *effect_arg) {
+void interpolate_quad_geometry_and_fade_colors(void *effect_arg) {
     Row_819A1118_S_819A1118_0 *effect = effect_arg;
     s32 blend_ticks;
     s32 elapsed_ticks;
@@ -350,7 +350,7 @@ void advance_object_motion_and_animation(void *effect_arg) {
 
 /* Fades and rotates a sprite while decrementing an extra byte field, then removes it when its
    countdown ends. */
-void choose_random_sign(EntityEffectSequenceBody *effect, s32 unused, void *primitive)
+void fade_and_rotate_effect_sprite(EntityEffectSequenceBody *effect, s32 unused, void *primitive)
 {
     EntityEffectSequenceBody *state = effect;
     s32 intensity;
@@ -531,7 +531,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
             if (entity->timer == 24) {
                 if (get_sprite_attachment_vector((&reference_tile_object[0])->found, &reference_tile_object[0], &entity->x, 0) != 0) {
                     spawn_index = 0;
-                    particle_callback = choose_random_sign;
+                    particle_callback = fade_and_rotate_effect_sprite;
                     origin_loop = view_reference_entity;
                     do {
                         task = allocate_flagged_object_node(0x212);
@@ -786,7 +786,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                                         effect->value10 = effect->value20;
                                         effect->value14 = effect->value24;
                                         effect->value18 = effect->value28;
-                                        task->callback = advance_object_motion_and_animation;
+                                        task->callback = interpolate_quad_geometry_and_fade_colors;
                                         register_node(task, draw_linked_effect_chain);
                                         sprite = task->sprite;
                                         sprite->field10 = 32;
@@ -839,7 +839,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                                             effect->value10 = effect->value20;
                                             effect->value14 = effect->value24;
                                             effect->value18 = effect->value28;
-                                            task->callback = advance_object_motion_and_animation;
+                                            task->callback = interpolate_quad_geometry_and_fade_colors;
                                             register_node(task, draw_linked_effect_chain);
                                             sprite = task->sprite;
                                             sprite->field10 = 32;

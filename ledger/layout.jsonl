@@ -120,7 +120,7 @@
 {"id":"main/func_80010894","path":"src/frontend/libcard/card_boot_initialize_three_row_command_panel.c"}
 {"id":"main/func_800108D4","path":"src/frontend/libcard/card_boot_create_three_row_command_panel.c"}
 {"id":"main/func_800109B0","path":"src/frontend/libcard/message/card_boot_release_three_row_panel_text.c"}
-{"id":"main/func_80010A00","path":"src/frontend/libcard/process_nonzero.c"}
+{"id":"main/func_80010A00","path":"src/frontend/libcard/card_boot_destroy_three_row_panel.c"}
 {"id":"main/func_80010A50","path":"src/frontend/libcard/card_boot_begin_selected_value_transition.c"}
 {"id":"main/func_80010A78","path":"src/frontend/libcard/card_boot_initialize_slot_window_frame.c"}
 {"id":"main/func_80010B18","path":"src/frontend/libcard/message/card_boot_layout_empty_slot_window.c"}
@@ -132,7 +132,7 @@
 {"id":"main/func_80010F94","path":"src/frontend/libcard/card_boot_set_slot_index_and_owner.c"}
 {"id":"main/func_80010FA0","path":"src/frontend/libcard/message/card_boot_initialize_slot_window.c"}
 {"id":"main/func_80010FF0","path":"src/frontend/libcard/message/card_boot_create_slot_window.c"}
-{"id":"main/func_800110EC","path":"src/frontend/libcard/write_fixed_palette_pixels.c"}
+{"id":"main/func_800110EC","path":"src/frontend/libcard/card_boot_release_slot_window_texts.c"}
 {"id":"main/func_80011160","path":"src/frontend/libcard/card_boot_clear_ten_display_slots.c"}
 {"id":"main/func_800111D4","path":"src/frontend/libcard/card_boot_set_slot_selection_marker.c"}
 {"id":"main/func_80011274","path":"src/frontend/card/card_slot_refresh.c"}
@@ -145,14 +145,14 @@
 {"id":"main/func_80011ACC","path":"src/frontend/libcard/build_and_queue_interpolated_vertical_quads_around_five_perimeter_points.c"}
 {"id":"main/func_80011C48","path":"src/frontend/libcard/update_effect_color_rotation_and_motion.c"}
 {"id":"main/func_80011D10","path":"src/frontend/libcard/store_word_at_address.c"}
-{"id":"main/func_80011D58","path":"src/frontend/libcard/render_rotated_grid_surface.c"}
-{"id":"main/func_80011E44","path":"src/frontend/libcard/draw_cylindrical.c"}
+{"id":"main/func_80011D58","path":"src/frontend/libcard/card_boot_create_or_reset_file_list_panel.c"}
+{"id":"main/func_80011E44","path":"src/frontend/libcard/card_boot_clear_slot_words.c"}
 {"id":"main/func_80011F3C","path":"src/frontend/libcard/card_boot_set_slot_details_selection.c"}
 {"id":"main/func_80011F7C","path":"src/frontend/libcard/card_boot_restore_saved_selection_callback.c"}
 {"id":"main/func_80011FAC","path":"src/frontend/libcard/state/card_boot_poll_status_and_dismiss_dialog.c"}
 {"id":"main/func_80011FFC","path":"src/frontend/libcard/card_boot_resume_menu_after_slot_refresh.c"}
 {"id":"main/func_80012030","path":"src/frontend/libcard/card_boot_refresh_five_slot_selection.c"}
-{"id":"main/func_800120E8","path":"src/frontend/libcard/update_spark_effect.c"}
+{"id":"main/func_800120E8","path":"src/frontend/libcard/card_boot_refresh_copy_slot_markers.c"}
 {"id":"main/func_8001219C","path":"src/frontend/card/no_op_card_hook.c"}
 {"id":"main/func_800121A4","path":"src/frontend/libcard/resource/card_boot_finish_slot_load_and_change_scene.c"}
 {"id":"main/func_80012230","path":"src/frontend/libcard/resource/card_boot_load_selected_slot.c"}
@@ -167,7 +167,7 @@
 {"id":"main/func_80012848","path":"src/frontend/libcard/card_boot_confirm_selected_slot_deletion.c"}
 {"id":"main/func_800128C8","path":"src/frontend/libcard/card_boot_dispatch_selected_menu_action.c"}
 {"id":"main/func_8001292C","path":"src/frontend/libcard/set_record_pair_to_one.c"}
-{"id":"main/func_8001293C","path":"src/frontend/libcard/build_install.c"}
+{"id":"main/func_8001293C","path":"src/frontend/libcard/card_boot_handle_slot_selection_input.c"}
 {"id":"main/func_80012B38","path":"src/main/func_80012B38.c"}
 {"id":"main/func_80012B40","path":"src/main/func_80012B40.c"}
 {"id":"main/func_80012B60","path":"src/frontend/libcard/card_boot_enter_slot_selection_input.c"}
@@ -179,7 +179,7 @@
 {"id":"main/func_80012E54","path":"src/frontend/libcard/card_boot_build_eight_entry_presence_mask.c"}
 {"id":"main/func_80012ECC","path":"src/frontend/libcard/card_boot_sum_slot_lookup_values.c"}
 {"id":"main/func_80012F0C","path":"src/frontend/libcard/card_boot_build_save_description.c"}
-{"id":"main/func_80012FFC","path":"src/frontend/libcard/message/initialize_text_editor_context.c"}
+{"id":"main/func_80012FFC","path":"src/frontend/libcard/message/card_boot_store_save_icon_clut_and_frames.c"}
 {"id":"main/func_80013128","path":"src/frontend/libcard/card_boot_prepare_save_buffer.c"}
 {"id":"main/func_80013240","path":"src/frontend/card/card_slot_records.c"}
 {"id":"main/func_80013270","path":"src/frontend/card/card_slot_records.c"}
@@ -188,7 +188,7 @@
 {"id":"main/func_8001344C","path":"src/frontend/libcard/card_boot_enter_overwrite_confirmation.c"}
 {"id":"main/func_80013494","path":"src/frontend/libcard/card_boot_enter_insufficient_space_advice.c"}
 {"id":"main/func_8001351C","path":"src/frontend/libcard/route_save_slot_validation.c"}
-{"id":"main/func_800135B8","path":"src/frontend/libcard/message/write_text_and_advance_selection.c"}
+{"id":"main/func_800135B8","path":"src/frontend/libcard/message/card_boot_update_save_slot_menu_input.c"}
 {"id":"main/func_80013720","path":"src/frontend/card/card_save_request.c"}
 {"id":"main/func_80013728","path":"src/frontend/card/card_save_request.c"}
 {"id":"main/func_80013748","path":"src/frontend/libcard/update_record_and_install_next_table.c"}
@@ -202,7 +202,7 @@
 {"id":"main/func_80013D78","path":"src/frontend/libcard/card_boot_initialize_paired_choice_layout.c"}
 {"id":"main/func_80013DC8","path":"src/frontend/libcard/card_boot_link_paired_choice_display_entries.c"}
 {"id":"main/func_80013E90","path":"src/frontend/libcard/card_boot_initialize_paired_choice_panel.c"}
-{"id":"main/func_80013ED0","path":"src/frontend/libcard/create_visual_object.c"}
+{"id":"main/func_80013ED0","path":"src/frontend/libcard/card_boot_create_or_reset_paired_choice_panel.c"}
 {"id":"main/func_80013FB4","path":"src/frontend/libcard/card_boot_mark_object_complete.c"}
 {"id":"main/func_80013FD4","path":"src/frontend/card/card_choice_state.c"}
 {"id":"main/func_80013FF8","path":"src/frontend/card/card_choice_state.c"}
@@ -212,7 +212,7 @@
 {"id":"main/func_80014254","path":"src/frontend/libcard/link_save_heading_draw_nodes.c"}
 {"id":"main/func_80014364","path":"src/frontend/libcard/create_save_heading.c"}
 {"id":"main/func_8001442C","path":"src/frontend/libcard/message/release_three_row_panel_text.c"}
-{"id":"main/func_800144A8","path":"src/frontend/libcard/state/reset_menu_object_state.c"}
+{"id":"main/func_800144A8","path":"src/frontend/libcard/state/card_boot_restore_chooser_callback_after_dialog.c"}
 {"id":"main/func_80014528","path":"src/frontend/libcard/card_boot_open_selected_request_menu.c"}
 {"id":"main/func_80014584","path":"src/frontend/libcard/card_boot_format_card_with_retry.c"}
 {"id":"main/func_8001465C","path":"src/frontend/libcard/card_boot_wait_before_formatting_card.c"}
@@ -1449,7 +1449,7 @@
 {"id":"town/func_800C0220","path":"src/town/map/paired_actor_motion_g00645.c"}
 {"id":"town/func_800C03C0","path":"src/town/map/object/create_positioned_graphic_object.c"}
 {"id":"town/func_800C0470","path":"src/town/map/object/create_positioned_visual_object.c"}
-{"id":"town/func_800C0538","path":"src/town/map/state/apply_item_and_update_matching_actor_state.c"}
+{"id":"town/func_800C0538","path":"src/town/map/state/fill_wrapped_tile_pair.c"}
 {"id":"town/func_800C0670","path":"src/town/map/fill_wrapped_four_by_four_grid.c"}
 {"id":"town/func_800C071C","path":"src/town/map/update_record_output_grid.c"}
 {"id":"town/func_800C0838","path":"src/town/map/effect/no_op_effect_callback.c"}
@@ -2143,7 +2143,7 @@
 {"id":"town/func_80470214","path":"src/town/scene/select_one_time_interaction_response.c"}
 {"id":"town/func_804702F0","path":"src/town/scene/flags/dispatch_entry_by_flag.c"}
 {"id":"town/func_80470408","path":"src/town/scene/dispatch_entry_and_set_fb_when_flagged.c"}
-{"id":"town/func_8047047C","path":"src/town/scene/event/select_event_fallback_event_handler.c"}
+{"id":"town/func_8047047C","path":"src/town/scene/event/select_event_response_with_flag_overrides.c"}
 {"id":"town/func_8047054C","path":"src/town/scene/flags/dispatch_entry_by_and_flags.c"}
 {"id":"town/func_80470664","path":"src/town/scene/select_mode_nine_lookup.c"}
 {"id":"town/func_80470808","path":"src/town/scene/progress_interaction_g00708.c"}
@@ -2204,7 +2204,7 @@
 {"id":"town/func_804763C0","path":"src/town/scene/event/run_event_403_get_buffer.c"}
 {"id":"town/func_8047641C","path":"src/town/scene/call_set_global_pointer.c"}
 {"id":"town/func_80476460","path":"src/town/scene/select_data_pointer_by_conditions.c"}
-{"id":"town/func_80476530","path":"src/town/scene/clear_generation_cell_masks.c"}
+{"id":"town/func_80476530","path":"src/town/scene/get_data_pointer_16400.c"}
 {"id":"town/func_8047653C","path":"src/town/scene/select_alternate_data_for_conditions.c"}
 {"id":"town/func_80476598","path":"src/town/scene/get_data_pointer_c.c"}
 {"id":"town/func_804765A4","path":"src/town/scene/get_data_pointer_c_b.c"}
@@ -2248,7 +2248,7 @@
 {"id":"town/func_8047AB38","path":"src/town/func_8047AB38.c"}
 {"id":"town/func_8047ABB8","path":"src/town/func_8047ABB8.c"}
 {"id":"town/func_8047ABC0","path":"src/town/func_8047ABC0.c"}
-{"id":"town/func_8047AD30","path":"src/town/scene/clear_generation_cell_masks_b.c"}
+{"id":"town/func_8047AD30","path":"src/town/scene/get_data_pointer_16400_b.c"}
 {"id":"town/func_8047AD98","path":"src/town/scene/get_data_pointer_c_d.c"}
 {"id":"town/func_8047ADA4","path":"src/town/scene/get_data_pointer_c_e.c"}
 {"id":"town/func_8047B03C","path":"src/town/scene/get_data_pointer_d_c_b.c"}
@@ -2270,13 +2270,13 @@
 {"id":"town/func_8047E24C","path":"src/town/scene/motion/set_active_position_state_record.c"}
 {"id":"town/func_8047E278","path":"src/town/scene/service/run_scene_service_26c_with_state.c"}
 {"id":"town/func_8047EA14","path":"src/town/func_8047EA14.c"}
-{"id":"town/func_8047EEE0","path":"src/town/scene/motion/check_position_thresholds_second.c"}
+{"id":"town/func_8047EEE0","path":"src/town/scene/motion/set_d_80017954_to_one.c"}
 {"id":"town/func_8047F3D4","path":"src/town/func_8047F3D4.c"}
 {"id":"town/func_8047F464","path":"src/town/func_8047F464.c"}
 {"id":"town/func_8047F470","path":"src/town/func_8047F470.c"}
 {"id":"town/func_8048013C","path":"src/town/scene/set_state_run_transition.c"}
 {"id":"town/func_80480148","path":"src/town/func_80480148.c"}
-{"id":"town/func_80480154","path":"src/town/scene/dispatch_status_boolean.c"}
+{"id":"town/func_80480154","path":"src/town/scene/process_history_and_copy_entry_table_value.c"}
 {"id":"town/func_804801D0","path":"src/town/scene/check_inputs_after_threshold_five.c"}
 {"id":"town/func_80480208","path":"src/town/scene/initialize_three_context_fields.c"}
 {"id":"town/func_804802BC","path":"src/town/scene/triggers_x_state_callback.c"}
@@ -2310,7 +2310,7 @@
 {"id":"town/func_804B85F4","path":"src/town/scene/dispatch_by_state_code.c"}
 {"id":"town/func_804B8618","path":"src/town/scene/resource/get_scene_resource_b.c"}
 {"id":"town/func_804B863C","path":"src/town/scene/event/get_scene_data_pointer.c"}
-{"id":"town/func_804B8648","path":"src/town/scene/award_next_unearned_milestone.c"}
+{"id":"town/func_804B8648","path":"src/town/scene/point_d_80018e50_at_d_80018ce8.c"}
 {"id":"town/func_804B865C","path":"src/town/scene/motion/scale_scene_position.c"}
 {"id":"town/func_804B86A4","path":"src/town/scene/object/set_scene_object_offset_a.c"}
 {"id":"town/func_804B86CC","path":"src/town/scene/event/set_scene_substate_offsets.c"}
@@ -2362,7 +2362,7 @@
 {"id":"town/func_8051EF40","path":"src/town/scene/initialize_scene_action_state.c"}
 {"id":"town/func_8051EFE8","path":"src/town/scene/dispatch_first_second.c"}
 {"id":"town/func_8051F1D0","path":"src/town/scene/apply_value_to_record.c"}
-{"id":"town/func_8051F1F8","path":"src/town/scene/decrement_current_entry_counter_condition_second.c"}
+{"id":"town/func_8051F1F8","path":"src/town/scene/apply_record_code_from_d_80018e30_table.c"}
 {"id":"town/func_8051F220","path":"src/town/scene/apply_scene_operation_be.c"}
 {"id":"town/func_8051F2BC","path":"src/town/scene/flags/call_set_script_flag_bit_second.c"}
 {"id":"town/func_8051F32C","path":"src/town/scene/scene_always_true.c"}
@@ -2388,7 +2388,7 @@
 {"id":"town/func_8051FBF0","path":"src/town/scene/tick_scene_counter.c"}
 {"id":"town/func_8051FC84","path":"src/town/scene/event/run_event_5c8_and_set_entry_state.c"}
 {"id":"town/func_8051FCE8","path":"src/town/scene/service/call_scene_service_280_with_flag_8000.c"}
-{"id":"town/func_8051FED4","path":"src/town/scene/select_next_eligible_wrapped_entry_second.c"}
+{"id":"town/func_8051FED4","path":"src/town/scene/run_service_callback_0x238.c"}
 {"id":"town/func_8054F9CC","path":"src/town/func_8054F9CC.c"}
 {"id":"town/func_8054FA0C","path":"src/town/func_8054FA0C.c"}
 {"id":"town/func_8054FA64","path":"src/town/scene/reset_selection_index.c"}
@@ -2536,7 +2536,7 @@
 {"id":"town/func_8067F2C0","path":"src/town/scene/check_inputs_after_threshold_ten.c"}
 {"id":"town/func_8067F3B0","path":"src/town/scene/check_inputs_after_threshold_twenty.c"}
 {"id":"town/func_8067F4A0","path":"src/town/scene/query_state_with_selector_second.c"}
-{"id":"town/func_8067F4E0","path":"src/town/scene/event/initialize_event_position_state.c"}
+{"id":"town/func_8067F4E0","path":"src/town/scene/event/get_script_flag_sbs20_pad07.c"}
 {"id":"town/func_8067F500","path":"src/town/shop/initialize_shop_runtime_pointers.c"}
 {"id":"town/func_8067F564","path":"src/town/shop/check_shop_value_threshold.c"}
 {"id":"town/func_8067F5C4","path":"src/town/shop/dispatch_event_a.c"}
@@ -2618,7 +2618,7 @@
 {"id":"town/func_806D435C","path":"src/town/scene/object/process_object_conditionally_passing_stored.c"}
 {"id":"town/func_806D43CC","path":"src/town/scene/lookup_slot_record.c"}
 {"id":"town/func_806D4430","path":"src/town/scene/select_request_conditionally_three_state.c"}
-{"id":"town/func_806D450C","path":"src/town/scene/process_entry_list_mode_1.c"}
+{"id":"town/func_806D450C","path":"src/town/scene/set_tamago_object_flag_and_process_entry.c"}
 {"id":"town/func_806D4578","path":"src/town/scene/select_table_query.c"}
 {"id":"town/func_806D45CC","path":"src/town/scene/flags/update_object_entry_flag.c"}
 {"id":"town/func_806D462C","path":"src/town/scene/lookup_entry_with_selector_overrides.c"}
@@ -2634,7 +2634,7 @@
 {"id":"town/func_806D4D78","path":"src/town/scene/event/select_data_array_based_flag_b.c"}
 {"id":"town/func_806D4D98","path":"src/town/scene/get_special_data_for_low_value_id.c"}
 {"id":"town/func_806D4EA0","path":"src/town/scene/event/query_event_c_return_one_b.c"}
-{"id":"town/func_806D4ECC","path":"src/town/scene/event/set_scene_substate_offsets_b.c"}
+{"id":"town/func_806D4ECC","path":"src/town/scene/event/subtract_stored_progress_from_callback_query.c"}
 {"id":"town/func_806D7918","path":"src/town/scene/lookup_code_special_results_b.c"}
 {"id":"town/func_806D7A24","path":"src/town/scene/lookup_variant_special_overrides_b.c"}
 {"id":"town/func_806D7B34","path":"src/town/scene/check_inputs_only_prerequisite_least_third.c"}
@@ -2794,7 +2794,7 @@
 {"id":"town/func_8081A100","path":"src/town/minigame/initialize_mogura_minigame.c"}
 {"id":"town/func_8081A3D8","path":"src/town/minigame/object/advance_object_spawning_displays_high.c"}
 {"id":"town/func_8081A954","path":"src/town/minigame/state/retire_scene_label_after_completion_flag.c"}
-{"id":"town/func_8081A9A0","path":"src/town/minigame/object/decrement_object_counter.c"}
+{"id":"town/func_8081A9A0","path":"src/town/minigame/object/refresh_mogura_counter_text.c"}
 {"id":"town/func_8081AA30","path":"src/town/minigame/position/fade_scene_tile_after_completion_flag.c"}
 {"id":"town/func_8081AB48","path":"src/town/minigame/update_actor_movement_animation_collision.c"}
 {"id":"town/func_8081B2B8","path":"src/town/minigame/effect/create_tinted_animated_particle.c"}
@@ -2804,7 +2804,7 @@
 {"id":"town/func_8081BBC8","path":"src/town/minigame/update_tako_minigame.c"}
 {"id":"town/func_8081C09C","path":"src/town/minigame/advance_fading_particle_until_animation_boundary.c"}
 {"id":"town/func_8081C14C","path":"src/town/minigame/object/update_object_movement_proximity_reactions.c"}
-{"id":"town/func_8081C748","path":"src/town/minigame/update_record_and_install_next_table.c"}
+{"id":"town/func_8081C748","path":"src/town/minigame/drift_and_shrink_reaction_effect.c"}
 {"id":"town/func_8081C7DC","path":"src/town/minigame/effect/create_randomized_trail_particle.c"}
 {"id":"town/func_8081C8DC","path":"src/town/minigame/advance_particle_until_animation_boundary.c"}
 {"id":"town/func_8081C978","path":"src/town/minigame/effect/create_brief_randomized_particle.c"}
@@ -2946,7 +2946,7 @@
 {"id":"town/func_80956158","path":"src/town/minigame/run_timed_value_decrease.c"}
 {"id":"town/func_80956260","path":"src/town/minigame/update_path_following_actor.c"}
 {"id":"town/func_809569A0","path":"src/town/minigame/fill_eligible_negative_slots.c"}
-{"id":"town/func_80956A00","path":"src/town/minigame/process_nonzero.c"}
+{"id":"town/func_80956A00","path":"src/town/minigame/update_keima_view_actor_facing_and_frames.c"}
 {"id":"town/func_80956C80","path":"src/town/minigame/state/update_object_state_and_size.c"}
 {"id":"town/func_80956DA0","path":"src/town/system/create_user_data_object.c"}
 {"id":"town/func_80956E6C","path":"src/town/system/create_paletted_position_object.c"}
@@ -4044,7 +4044,7 @@
 {"id":"dungeon/func_809750E8","path":"src/dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.c"}
 {"id":"dungeon/func_80975170","path":"src/dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.c"}
 {"id":"dungeon/func_80975244","path":"src/dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.c"}
-{"id":"dungeon/func_809753B0","path":"src/dungeon/monster/hikewne/create_configured_effect_actor.c"}
+{"id":"dungeon/func_809753B0","path":"src/dungeon/monster/hikewne/spawn_hikewne_actor.c"}
 {"id":"dungeon/func_809755A8","path":"src/dungeon/monster/hikewne/update_entity_movement_and_ground.c"}
 {"id":"dungeon/func_80975CD4","path":"src/dungeon/monster/hikewne/update_actor_behavior_animation_and_facing.c"}
 {"id":"dungeon/func_80976218","path":"src/dungeon/monster/hikewne/advance_actor_along_queued_path.c"}
@@ -4119,7 +4119,7 @@
 {"id":"dungeon/func_809F622C","path":"src/dungeon/monster/kid/update_actor_action_and_animation.c"}
 {"id":"dungeon/func_809F66D8","path":"src/dungeon/monster/kid/advance_entity_animation_actions.c"}
 {"id":"dungeon/func_809F6BEC","path":"src/dungeon/monster/kid/update_effect_trajectory_and_sprite.c"}
-{"id":"dungeon/func_809F6D74","path":"src/dungeon/monster/kid/update_actor_state_after_map_check.c"}
+{"id":"dungeon/func_809F6D74","path":"src/dungeon/monster/kid/project_kid_sprite_chain.c"}
 {"id":"dungeon/func_809F6E00","path":"src/dungeon/monster/kid/animate_effect_colors.c"}
 {"id":"dungeon/func_809F7000","path":"src/dungeon/monster/kid/create_randomly_rotated_offset_effect.c"}
 {"id":"dungeon/func_809F7148","path":"src/dungeon/monster/kid/initialize_counted_entity_action.c"}
@@ -4198,7 +4198,7 @@
 {"id":"dungeon/func_80AC5284","path":"src/dungeon/monster/saber/update_shrinking_sprite_effect.c"}
 {"id":"dungeon/func_80AC5470","path":"src/dungeon/monster/saber/update_fading_sprite_effect.c"}
 {"id":"dungeon/func_80AC55DC","path":"src/dungeon/monster/saber/create_returning_sprite_effect.c"}
-{"id":"dungeon/func_80AC5820","path":"src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c"}
+{"id":"dungeon/func_80AC5820","path":"src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c"}
 {"id":"dungeon/func_80AC5958","path":"src/dungeon/monster/saber/spawn_saber.c"}
 {"id":"dungeon/func_80AC5B20","path":"src/dungeon/monster/saber/update_entity_callbacks_and_floor_motion.c"}
 {"id":"dungeon/func_80AC5F28","path":"src/dungeon/monster/saber/update_creature_behavior_and_animation.c"}
@@ -4212,7 +4212,7 @@
 {"id":"dungeon/func_80AC854C","path":"src/dungeon/monster/saber/advance_actor_action_and_direction.c"}
 {"id":"dungeon/func_80AC88DC","path":"src/dungeon/monster/saber/update_actor_directional_animation.c"}
 {"id":"dungeon/func_80AC8DBC","path":"src/dungeon/monster/saber/process_nodes_at_target_tile.c"}
-{"id":"dungeon/func_80AC9000","path":"src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c"}
+{"id":"dungeon/func_80AC9000","path":"src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c"}
 {"id":"dungeon/func_80AC9128","path":"src/dungeon/monster/saber/clear_actor_flag_and_apply_effect.c"}
 {"id":"dungeon/func_80AC9228","path":"src/dungeon/monster/saber/advance_directional_effect_action.c"}
 {"id":"dungeon/func_80ACD3AC","path":"src/dungeon/monster/saber/update_tile_movement_and_action_completion.c"}
@@ -4256,7 +4256,7 @@
 {"id":"dungeon/func_80B6EDD0","path":"src/dungeon/monster/battnel/advance_actor_movement_sequence_and_resets.c"}
 {"id":"dungeon/func_80B6F204","path":"src/dungeon/monster/battnel/advance_actor_motion_sequence.c"}
 {"id":"dungeon/func_80B6F6F4","path":"src/dungeon/monster/battnel/decelerate_and_center_actor_on_tile.c"}
-{"id":"dungeon/func_80B6FA34","path":"src/dungeon/monster/battnel/advance_action_phase_and_process_actor.c"}
+{"id":"dungeon/func_80B6FA34","path":"src/dungeon/monster/battnel/remove_defeated_battnel.c"}
 {"id":"dungeon/func_80B73054","path":"src/dungeon/monster/battnel/create_dungeon_actor_from_spawn_flags.c"}
 {"id":"dungeon/func_80B7F054","path":"src/dungeon/monster/battnel/create_placed_dungeon_actor.c"}
 {"id":"dungeon/func_80B85054","path":"src/dungeon/monster/battnel/battnel.c"}
@@ -4384,7 +4384,7 @@
 {"id":"dungeon/func_80CC01AC","path":"src/dungeon/monster/pulunpa/select_variant_object_data_when_positive.c"}
 {"id":"dungeon/func_80CC0398","path":"src/dungeon/monster/pulunpa/set_map.c"}
 {"id":"dungeon/func_80CC085C","path":"src/dungeon/monster/pulunpa/choose_heading_and_advance_actor.c"}
-{"id":"dungeon/func_80CC1724","path":"src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c"}
+{"id":"dungeon/func_80CC1724","path":"src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c"}
 {"id":"dungeon/func_80CC2494","path":"src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c"}
 {"id":"dungeon/func_80CC25A4","path":"src/dungeon/monster/pulunpa/display_record_name_message.c"}
 {"id":"dungeon/func_80CC2614","path":"src/dungeon/monster/pulunpa/build_and_display_encoded_message.c"}
@@ -4623,7 +4623,7 @@
 {"id":"dungeon/func_80E8F314","path":"src/dungeon/monster/picket/clear_the_state_flag_allowed_resets_entity_selects_directional.c"}
 {"id":"dungeon/func_80E8F3F8","path":"src/dungeon/monster/picket/initialize_a_timed_action_restore_animation_clear_entity_flags.c"}
 {"id":"dungeon/func_80E8F548","path":"src/dungeon/monster/picket/create_and_initializes_display_source_position_appearance.c"}
-{"id":"dungeon/func_80E91000","path":"src/dungeon/monster/picket/clear_actor_action_markers.c"}
+{"id":"dungeon/func_80E91000","path":"src/dungeon/monster/picket/take_item_from_tile_ahead_or_neighbor.c"}
 {"id":"dungeon/func_80E9D000","path":"src/dungeon/monster/picket/move_eligible_item.c"}
 {"id":"dungeon/func_80EA3000","path":"src/dungeon/monster/picket/pick_up_adjacent_item.c"}
 {"id":"dungeon/func_80EB506C","path":"src/dungeon/monster/kraken/update_actor_action_controller.c"}
@@ -4658,7 +4658,7 @@
 {"id":"dungeon/func_80F09054","path":"src/dungeon/monster/stealth/spawn_mode_dependent_object.c"}
 {"id":"dungeon/func_80F0928C","path":"src/dungeon/monster/stealth/update_entity_callbacks_and_floor.c"}
 {"id":"dungeon/func_80F0A9A4","path":"src/dungeon/monster/stealth/start_actor_reaction_step.c"}
-{"id":"dungeon/func_80F0B0C4","path":"src/dungeon/monster/stealth/update_actor_actions_and_impact_effects.c"}
+{"id":"dungeon/func_80F0B0C4","path":"src/dungeon/monster/stealth/perform_stealth_directional_attack.c"}
 {"id":"dungeon/func_80F0B2A8","path":"src/dungeon/monster/stealth/advance_selected_motion_and_recover.c"}
 {"id":"dungeon/func_80F0B798","path":"src/dungeon/monster/stealth/update_directional_motion_and_target_tile.c"}
 {"id":"dungeon/func_80F0C3B8","path":"src/dungeon/monster/stealth/dim_and_clear_flagged_effect.c"}
@@ -4743,7 +4743,7 @@
 {"id":"dungeon/func_81005858","path":"src/dungeon/monster/garuda/update_creature_animation_action.c"}
 {"id":"dungeon/func_81006AE0","path":"src/dungeon/monster/garuda/advance_actor_walk_animation.c"}
 {"id":"dungeon/func_81006E50","path":"src/dungeon/monster/garuda/advance_actor_animation_sequence.c"}
-{"id":"dungeon/func_81007034","path":"src/dungeon/monster/garuda/update_jump_motion.c"}
+{"id":"dungeon/func_81007034","path":"src/dungeon/monster/garuda/cast_garuda_targeted_spell.c"}
 {"id":"dungeon/func_810074E0","path":"src/dungeon/monster/garuda/return_actor_to_tile_center.c"}
 {"id":"dungeon/func_810078B4","path":"src/dungeon/monster/garuda/actor_status_events_g00019.c"}
 {"id":"dungeon/func_81007CE0","path":"src/dungeon/monster/garuda/actor_status_events_g00019.c"}
@@ -4779,7 +4779,7 @@
 {"id":"dungeon/func_8105B1D4","path":"src/dungeon/monster/tyrant/advance_the_actor_animation_state_reset_movement_finishes.c"}
 {"id":"dungeon/func_8105C2D4","path":"src/dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.c"}
 {"id":"dungeon/func_8105C45C","path":"src/dungeon/monster/tyrant/run_the_actor_s_eight_step_sink_animation_advancing_state_swapping.c"}
-{"id":"dungeon/func_8105F098","path":"src/dungeon/monster/tyrant/copy_part_state.c"}
+{"id":"dungeon/func_8105F098","path":"src/dungeon/monster/tyrant/spawn_tyrant_with_slot_f_action.c"}
 {"id":"dungeon/func_8106B000","path":"src/dungeon/monster/tyrant/spawn_tyrant_slot_d.c"}
 {"id":"dungeon/func_81071000","path":"src/dungeon/monster/tyrant/spawn_tyrant_slot_c.c"}
 {"id":"dungeon/func_8107D000","path":"src/dungeon/monster/tyrant/spawn_tyrant.c"}
@@ -4799,7 +4799,7 @@
 {"id":"dungeon/func_81085DBC","path":"src/dungeon/monster/golem/advance_multi_stage_actor_effect.c"}
 {"id":"dungeon/func_810860B4","path":"src/dungeon/monster/golem/advance_actor_item_use_sequence.c"}
 {"id":"dungeon/func_810870DC","path":"src/dungeon/monster/golem/update_directional_transition_state.c"}
-{"id":"dungeon/func_81087200","path":"src/dungeon/monster/golem/find_first_entry_matching_keys.c"}
+{"id":"dungeon/func_81087200","path":"src/dungeon/monster/golem/remove_golem_effect_after_animation.c"}
 {"id":"dungeon/func_8108726C","path":"src/dungeon/monster/golem/create_primitive_state_object.c"}
 {"id":"dungeon/func_810873C8","path":"src/dungeon/monster/golem/create_offset_actor_object.c"}
 {"id":"dungeon/func_81087524","path":"src/dungeon/monster/golem/advance_timed_target_flags.c"}
@@ -4813,7 +4813,7 @@
 {"id":"dungeon/func_810AEADC","path":"src/dungeon/monster/maximum/process_interaction_and_reset_state.c"}
 {"id":"dungeon/func_810AEB74","path":"src/dungeon/monster/maximum/advance_jump_to_target_tile.c"}
 {"id":"dungeon/func_810AEEC4","path":"src/dungeon/monster/maximum/advance_actor_action_animation_and_cleanup.c"}
-{"id":"dungeon/func_810AF0B4","path":"src/dungeon/monster/maximum/resolve_actor_attack_damage.c"}
+{"id":"dungeon/func_810AF0B4","path":"src/dungeon/monster/maximum/cast_maximum_spell_with_child_sprite.c"}
 {"id":"dungeon/func_810AF65C","path":"src/dungeon/monster/maximum/update_directional_motion_and_return_to_tile.c"}
 {"id":"dungeon/func_810AFA04","path":"src/dungeon/monster/maximum/update_entity_animation_and_color_fade.c"}
 {"id":"dungeon/func_81251000","path":"src/dungeon/monster/beldo/update_actor_part_brightness.c"}
@@ -5032,7 +5032,7 @@
 {"id":"dungeon/func_81339700","path":"src/dungeon/monster/beldo_large/create_secondary_encounter_object.c"}
 {"id":"dungeon/func_8133985C","path":"src/dungeon/monster/beldo_large/update_vertical_motion_and_effect.c"}
 {"id":"dungeon/func_81339A5C","path":"src/dungeon/monster/beldo_large/create_linked_object_position.c"}
-{"id":"dungeon/func_81339BB0","path":"src/dungeon/monster/beldo_large/create_configured_effect_actor.c"}
+{"id":"dungeon/func_81339BB0","path":"src/dungeon/monster/beldo_large/advance_accelerating_particle_until_target_or_timeout.c"}
 {"id":"dungeon/func_81339D2C","path":"src/dungeon/monster/beldo_large/create_timed_offset_motion_effect.c"}
 {"id":"dungeon/func_81339F68","path":"src/dungeon/monster/beldo_large/update_dungeon_actor_behavior.c"}
 {"id":"dungeon/func_8133A3F0","path":"src/dungeon/monster/beldo_large/create_encounter_actor_object.c"}
@@ -5081,7 +5081,7 @@
 {"id":"dungeon/func_81810198","path":"src/dungeon/system/allocate_item_object.c"}
 {"id":"dungeon/func_8181037C","path":"src/dungeon/system/create_item_view.c"}
 {"id":"dungeon/func_818103A0","path":"src/dungeon/system/overlay.c"}
-{"id":"dungeon/func_818103C0","path":"src/dungeon/system/advance_paired_object_sequence.c"}
+{"id":"dungeon/func_818103C0","path":"src/dungeon/system/release_menu_children_and_copy_entity_string.c"}
 {"id":"dungeon/func_81810480","path":"src/dungeon/system/process_mode_gated_entity.c"}
 {"id":"dungeon/func_81810514","path":"src/dungeon/actor/object/set_object_data_pointer.c"}
 {"id":"dungeon/func_81810524","path":"src/dungeon/system/get_object_value_at.c"}
@@ -5222,7 +5222,7 @@
 {"id":"dungeon/func_8184AAA0","path":"src/dungeon/effect/motion/allocate_effect_at_coordinates.c"}
 {"id":"dungeon/func_8184ABE0","path":"src/dungeon/effect/motion/create_type_effect_object.c"}
 {"id":"dungeon/func_8184ACA4","path":"src/dungeon/effect/motion/update_derived_angle_and_offset.c"}
-{"id":"dungeon/func_8184AD50","path":"src/dungeon/effect/motion/mark_owner_on_target_completion.c"}
+{"id":"dungeon/func_8184AD50","path":"src/dungeon/effect/motion/spawn_sprite_at_random_radial_offset.c"}
 {"id":"dungeon/func_8184AEAC","path":"src/dungeon/effect/motion/advance_orbit_and_position.c"}
 {"id":"dungeon/func_8184AF90","path":"src/dungeon/effect/motion/create_indexed_color_effect.c"}
 {"id":"dungeon/func_8184B130","path":"src/dungeon/effect/sprite/draw_shaded_textured_cylinder.c"}
@@ -5539,7 +5539,7 @@
 {"id":"dungeon/func_81958878","path":"src/dungeon/effect/screen/advance_screen_transition.c"}
 {"id":"dungeon/func_81958BC4","path":"src/dungeon/effect/screen/screen.c"}
 {"id":"dungeon/func_81958D78","path":"src/dungeon/effect/screen/update_actor_effect_sequence.c"}
-{"id":"dungeon/func_81958E54","path":"src/dungeon/effect/screen/spawn_spiraling.c"}
+{"id":"dungeon/func_81958E54","path":"src/dungeon/effect/screen/compute_direction_angles_between_points.c"}
 {"id":"dungeon/func_81958F28","path":"src/dungeon/effect/sprite/update_following_color_blend_effect.c"}
 {"id":"dungeon/func_819596D4","path":"src/dungeon/effect/screen/create_linked_effect_segments.c"}
 {"id":"dungeon/func_819598B4","path":"src/dungeon/effect/sprite/update_ring_effect.c"}
@@ -6855,7 +6855,7 @@
 {"id":"dungeon/func_800B7914","path":"src/dungeon/actor/action_control_dispatch_g00352.c"}
 {"id":"dungeon/func_800BFE40","path":"src/dungeon/effect/mesh/draw_linked_mesh_chain.c"}
 {"id":"dungeon/func_800C2BB0","path":"src/dungeon/actor/is_linked_entity_flagged_80000.c"}
-{"id":"dungeon/func_800C2C2C","path":"src/dungeon/actor/object/initialize_object_configuration_x.c"}
+{"id":"dungeon/func_800C2C2C","path":"src/dungeon/actor/object/has_blindness_protection.c"}
 {"id":"dungeon/func_800C2CA8","path":"src/dungeon/actor/is_linked_entity_flagged_2000000.c"}
 {"id":"dungeon/func_800C2D24","path":"src/dungeon/actor/is_linked_entity_flagged_10000000.c"}
 {"id":"dungeon/func_800C2DA0","path":"src/dungeon/actor/is_linked_entity_flagged_100000.c"}
@@ -6887,7 +6887,7 @@
 {"id":"dungeon/func_809C05AC","path":"src/dungeon/monster/kewne/update_kewne_defeat_removal_slot_b.c"}
 {"id":"dungeon/func_809C65AC","path":"src/dungeon/monster/kewne/update_kewne_defeat_removal_slot_a.c"}
 {"id":"dungeon/func_809D1AC0","path":"src/dungeon/actor/forward_actor_defeat_removal_second.c"}
-{"id":"dungeon/func_80B998A4","path":"src/dungeon/monster/nyuel/update_actor_status_and_motion.c"}
+{"id":"dungeon/func_80B998A4","path":"src/dungeon/monster/nyuel/update_nyuel_defeat_removal.c"}
 {"id":"dungeon/func_80B9F8A4","path":"src/dungeon/monster/nyuel/update_nyuel_defeat_removal_slot_f.c"}
 {"id":"dungeon/func_80BA58A4","path":"src/dungeon/monster/nyuel/update_nyuel_defeat_removal_slot_e.c"}
 {"id":"dungeon/func_80BAB8A4","path":"src/dungeon/monster/nyuel/update_nyuel_defeat_removal_slot_d.c"}
@@ -6918,7 +6918,7 @@
 {"id":"dungeon/func_813266E8","path":"src/dungeon/monster/ghosh/check_ghosh_bound.c"}
 {"id":"dungeon/func_81326708","path":"src/dungeon/monster/ghosh/no_op_ghosh_hook_second.c"}
 {"id":"dungeon/func_81328A14","path":"src/dungeon/monster/ghosh/return_zero_ghosh_hook.c"}
-{"id":"dungeon/func_81329544","path":"src/dungeon/monster/ghosh/expand_fade_effect_and_expire.c"}
+{"id":"dungeon/func_81329544","path":"src/dungeon/monster/ghosh/reset_ghosh_linked_sprite_phase_and_timer.c"}
 {"id":"dungeon/func_81337E44","path":"src/dungeon/monster/beldo_large/no_op_beldo_large_hook.c"}
 {"id":"dungeon/func_813383A8","path":"src/dungeon/monster/beldo_large/reset_beldo_large_state.c"}
 {"id":"dungeon/func_813383C4","path":"src/dungeon/monster/beldo_large/advance_beldo_large_mode.c"}
@@ -7115,7 +7115,7 @@
 {"id":"town/func_804B7930","path":"src/town/scene/initialize_context_entry_tables_variant_1.c"}
 {"id":"town/func_804B7950","path":"src/town/scene/event/query_event_50d.c"}
 {"id":"town/func_804B7970","path":"src/town/scene/event/query_event_50e.c"}
-{"id":"town/func_804B7990","path":"src/town/scene/check_fixed_query_nonzero.c"}
+{"id":"town/func_804B7990","path":"src/town/scene/clear_script_flag_sbs07_pad23.c"}
 {"id":"town/func_804B79B0","path":"src/town/scene/event/advance_counter_dispatch_event.c"}
 {"id":"town/func_804B79D0","path":"src/town/scene/check_inputs_after_threshold_five_third.c"}
 {"id":"town/func_804B79F0","path":"src/town/scene/service/run_service_callback.c"}
@@ -7129,34 +7129,34 @@
 {"id":"town/func_80500178","path":"src/town/scene/initialize_context_entry_tables_variant_2.c"}
 {"id":"town/func_8050E168","path":"src/town/scene/get_state_counter_35be.c"}
 {"id":"town/func_8051FD58","path":"src/town/scene/service/call_scene_service_280_with_flag_1000.c"}
-{"id":"town/func_805209B0","path":"src/town/scene/test_unless_mode_2_d.c"}
+{"id":"town/func_805209B0","path":"src/town/scene/set_d_80019184_to_one.c"}
 {"id":"town/func_80579168","path":"src/town/scene/get_state_counter_35c0.c"}
-{"id":"town/func_80579188","path":"src/town/scene/check_record_value_threshold.c"}
+{"id":"town/func_80579188","path":"src/town/scene/tick_threshold_counter_and_toggle_flag_sbs12_pad13.c"}
 {"id":"town/func_805797CC","path":"src/town/scene/try_decrement_state_counter.c"}
 {"id":"town/func_8059E130","path":"src/town/scene/initialize_context_entry_tables_variant_c.c"}
-{"id":"town/func_8059E188","path":"src/town/scene/check_record_value_threshold_b.c"}
+{"id":"town/func_8059E188","path":"src/town/scene/forward_to_func_80017d48.c"}
 {"id":"town/func_8059E4A0","path":"src/town/scene/query_state_selector.c"}
 {"id":"town/func_8059E6D0","path":"src/town/scene/hooks/return_argument.c"}
 {"id":"town/func_8059E808","path":"src/town/scene/set_subwork_mode.c"}
 {"id":"town/func_8059EAC4","path":"src/town/scene/service/run_service_callback_b.c"}
 {"id":"town/func_8059EAFC","path":"src/town/scene/service/run_service_callback_c.c"}
 {"id":"town/func_805D210C","path":"src/town/scene/set_scene_mode_1.c"}
-{"id":"town/func_805D211C","path":"src/town/scene/store_values.c"}
+{"id":"town/func_805D211C","path":"src/town/scene/set_scene_dispatch_mode_index_2.c"}
 {"id":"town/func_805D212C","path":"src/town/scene/set_scene_mode_3.c"}
 {"id":"town/func_805D2174","path":"src/town/scene/call_helper_fixed_id.c"}
 {"id":"town/func_805D2194","path":"src/town/scene/event/query_event_631.c"}
 {"id":"town/func_805D2200","path":"src/town/scene/set_entry_state_b.c"}
 {"id":"town/func_805D2228","path":"src/town/scene/set_entry_state_c.c"}
-{"id":"town/func_805D2E0C","path":"src/town/scene/object/scale_scene_object_value_second.c"}
+{"id":"town/func_805D2E0C","path":"src/town/scene/object/get_script_flag_sbs14_pad23.c"}
 {"id":"town/func_805D2E2C","path":"src/town/scene/call_helper_fixed_id_b.c"}
 {"id":"town/func_806011DC","path":"src/town/scene/hooks/point_shared_buffer_at_data.c"}
-{"id":"town/func_806011F0","path":"src/town/scene/service/run_service_callback_d.c"}
+{"id":"town/func_806011F0","path":"src/town/scene/service/run_service_callback_0x4c.c"}
 {"id":"town/func_80601310","path":"src/town/scene/threshold_counter.c"}
 {"id":"town/func_80601338","path":"src/town/scene/threshold_counter.c"}
 {"id":"town/func_80632100","path":"src/town/scene/hooks/invoke_callback_set_shared_pointer_second.c"}
 {"id":"town/func_806321D0","path":"src/town/scene/check_inputs_after_threshold_five_b.c"}
 {"id":"town/func_80632280","path":"src/town/scene/motion/set_scene_position.c"}
-{"id":"town/func_8064711C","path":"src/town/scene/store_values_b.c"}
+{"id":"town/func_8064711C","path":"src/town/scene/test_script_flag_sbs18_pad05.c"}
 {"id":"town/func_8064713C","path":"src/town/scene/set_state_4_run_transition.c"}
 {"id":"town/func_80647190","path":"src/town/scene/check_fixed_query_nonzero_b.c"}
 {"id":"town/func_806471E8","path":"src/town/scene/check_fixed_query_nonzero_c.c"}
@@ -7168,7 +7168,7 @@
 {"id":"town/func_8067F74C","path":"src/town/scene/process_ids_zero_second.c"}
 {"id":"town/func_8067F840","path":"src/town/scene/get_saved_entry_count_second.c"}
 {"id":"town/func_8067F850","path":"src/town/scene/process_entry_list_in_mode_one.c"}
-{"id":"town/func_806A9C08","path":"src/town/scene/select_scene_result_address_second.c"}
+{"id":"town/func_806A9C08","path":"src/town/scene/set_d_800174dc_to_one.c"}
 {"id":"town/func_806C50F8","path":"src/town/scene/service/run_scene_service_218_g.c"}
 {"id":"town/func_806C5B5C","path":"src/town/scene/flags/set_flag_fe3_if_ready.c"}
 {"id":"town/func_806C5C20","path":"src/town/scene/flags/set_flag_fd3_if_fb1.c"}
@@ -7214,7 +7214,7 @@
 {"id":"town/func_8070F874","path":"src/town/scene/call_helper_fixed_id_e.c"}
 {"id":"town/func_8070F894","path":"src/town/scene/call_helper_fixed_id_f.c"}
 {"id":"town/func_8070F8EC","path":"src/town/person/object/get_referenced_object_active_flag.c"}
-{"id":"town/func_8070F90C","path":"src/town/scene/check_progress_against_callback_second.c"}
+{"id":"town/func_8070F90C","path":"src/town/scene/clear_script_flag_bar_pad12.c"}
 {"id":"town/func_8072A288","path":"src/town/scene/decrement_town_global_counter_second.c"}
 {"id":"town/func_8072A2A8","path":"src/town/scene/service/run_service_callback_zero_x_b.c"}
 {"id":"town/func_8072A308","path":"src/town/scene/call_helper_with_fixed_id_0xbdb.c"}
@@ -7223,8 +7223,8 @@
 {"id":"town/func_80761D50","path":"src/town/scene/flags/run_handler_after_flag_7.c"}
 {"id":"town/func_807701B4","path":"src/town/scene/event/dispatch_state_entry_event_8.c"}
 {"id":"town/func_80774928","path":"src/town/scene/dispatch_town_callback_fallback_g00763.c"}
-{"id":"town/func_8077E770","path":"src/town/scene/initialize_dungeon_region_record.c"}
-{"id":"town/func_807851EC","path":"src/town/scene/attach_global_data_invoke_callback.c"}
+{"id":"town/func_8077E770","path":"src/town/scene/set_word_17768_to_one.c"}
+{"id":"town/func_807851EC","path":"src/town/scene/attach_global_data_pointers.c"}
 {"id":"town/func_8079A240","path":"src/town/scene/object/get_scene_object_mode_and_raise_event.c"}
 {"id":"town/func_8079AD18","path":"src/town/scene/get_local_global_table_third.c"}
 {"id":"town/func_8080E594","path":"src/town/scene/hooks/return_zero_fn_p.c"}
@@ -7790,7 +7790,7 @@
 {"id":"dungeon/D_80CB7054","path":"src/dungeon/modules/ovl_cd7000.c"}
 {"id":"dungeon/D_80CB7058","path":"src/dungeon/modules/ovl_cd7000.c"}
 {"id":"dungeon/func_80D65244","path":"src/dungeon/monster/baloon/create_translucent_directional_sprite_copy_above_anchor.c"}
-{"id":"town/D_80785074","path":"src/town/scene/attach_global_data_invoke_callback.c"}
+{"id":"town/D_80785074","path":"src/town/scene/attach_global_data_pointers.c"}
 {"id":"town/D_8079A074","path":"src/town/scene/attach_global_data_and_invoke_callback.c"}
 {"id":"town/func_8081DA98","path":"src/town/minigame/initialize_casino_minigame.c"}
 {"id":"dungeon/func_81324F20","path":"src/dungeon/monster/ghosh/begin_ghosh_front_attack.c"}

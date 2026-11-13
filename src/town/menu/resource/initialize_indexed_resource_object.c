@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/town_object.h"
 #include "engine/node.h"
+#include "town/menu/indexed_effect_vectors_g00583.h"
 
 
 typedef struct S_800A7E7C_0_pre {
@@ -11,7 +12,6 @@ typedef struct S_800A7E7C_0_pre {
     u8 pad_04[0xC];
 } S_800A7E7C_0_pre;   /* the 0x10 bytes before arg0 in initialize_indexed_resource_object, addressed as arg0[-1] */
 
-extern s32 item_effect_descriptor;
 extern void update_linked_position_or_flag_object();
 
 /* Initialize the object state from its byte value and set the context resource and callback. */

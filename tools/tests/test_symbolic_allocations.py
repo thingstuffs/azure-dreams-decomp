@@ -39,6 +39,24 @@ class SymbolicOwnership(unittest.TestCase):
   for field,value in [('container','dungeon'),('foff',0x700)]:
    rows=copy.deepcopy(self.rows);rows['town/second'][field]=value
    with self.subTest(field=field),self.assertRaisesRegex(ValueError,'this load map'):P.validate_ownership(self.m,rows)
+ def per_image_names(self):
+  (self.root/'config').mkdir(exist_ok=True)
+  (self.root/'config/names.tsv').write_text('0x80010300\tfunc_80010300\tsecond\ttown: the table target\n'
+   '0x80010300\tfunc_80010300\tdungeon_second\tdungeon: another function at the same address\n')
+  self.slot['targets']=['first','func_80010300'];self.m['imports'][0]['symbol']='func_80010300'
+ def test_per_image_alias_resolves_to_the_name_in_the_slot_source(self):
+  self.per_image_names();Z.validate(self.m,self.root)
+  text=(self.root/'owner.c').read_text()
+  self.assertRegex('second','^'+Z.source_symbol_pattern('func_80010300',self.root,text)+'$')
+  self.assertNotRegex('dungeon_second','^'+Z.source_symbol_pattern('func_80010300',self.root,text)+'$')
+ def test_per_image_alias_without_one_spelling_in_the_source_is_refused(self):
+  self.per_image_names()
+  for body in ['Callback callbacks[2] = { first, func_80010300 };',
+               'extern void dungeon_second(void);\nCallback callbacks[2] = { first, second };']:
+   with self.subTest(body=body):
+    (self.root/'owner.c').write_text(body)
+    with self.assertRaisesRegex(ValueError,'ambiguous'):Z.validate(self.m,self.root)
+  with self.assertRaisesRegex(ValueError,'ambiguous'):Z.source_symbol_pattern('func_80010300',self.root)
  def test_partial_allocation_rejected(self):
   self.m['data_members'][0]['size']=4
   with self.assertRaisesRegex(ValueError,'extent/owner'):Z.validate(self.m,self.root)

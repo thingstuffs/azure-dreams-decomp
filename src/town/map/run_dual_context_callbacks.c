@@ -1,5 +1,6 @@
 #include "town/map/camera.h"
 #include "town/map/wide_culling_data.h"
+#include "town/map/sound_selection_g00648.h"
 #include "town/map.h"
 #include "town/data.h"
 
@@ -11,8 +12,6 @@ typedef struct S_func_800A496C_2 {
     u8 pad_00[0x6];
     s16 unk_06;
 } S_func_800A496C_2;
-
-extern s16 map_scene_selector_alias;
 
 /* Run both contexts' callbacks, then update the flag from the current mode and threshold. */
 void run_dual_context_callbacks(void)

@@ -617,15 +617,15 @@ void *find_linked_entity_of_type_21(void *entity)
     void *next_base;
     next_base = *((void **) (((u8 *) entity) + 0x5C));
     first_entity = entity;
-    entity = (u8 *) next_base + 0x20;
+    entity = NODE_BODY(next_base);
     if (entity != first_entity) {
         s32 target_type = 0x15;
         do {
-            entity_base = (u8 *) entity - 0x20;
+            entity_base = NODE_HEADER(entity);
             if ((*((((u8 *) entity) - -0x13))) == target_type) {
                 return entity_base;
             }
-            entity = (*((void **) (((u8 *) entity) + 0x5C))) + 0x20;
+            entity = NODE_BODY(*((void **) (((u8 *) entity) + 0x5C)));
         } while (entity != first_entity);
     }
     return 0;

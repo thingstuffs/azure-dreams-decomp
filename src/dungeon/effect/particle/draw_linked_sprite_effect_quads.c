@@ -189,7 +189,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         data_bytes = (u8 *) object_data;
         if (object_data != 0) {
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
-            object_data->unk_10 = update_actor_movement_animation_collision;
+            object_data->unk_10 = advance_radial_grid_age_and_expire;
             register_node(data_bytes, draw_fading_radial_effect_grid);
             data_bytes = ((u8 *)(&reference_tile_object));
             direction = ((u16) ((S_func_819B2800_5 *) (((int *)(&primary_actor_record)))[0])->unk_2A >> 9) & 7;
@@ -639,7 +639,7 @@ void mark_owner_while_sprite_animates(EffectRecord *effect, void *unused, Sprite
 
 typedef struct S_80024B48_0_pre {
     u16 unk_00;
-} S_80024B48_0_pre;   /* the 0x2 bytes before arg0 in update_actor_movement_animation_collision, addressed as arg0[-1] */
+} S_80024B48_0_pre;   /* the 0x2 bytes before arg0 in advance_radial_grid_age_and_expire, addressed as arg0[-1] */
 
 typedef struct S_80024B48_0 {
     void * unk_00;
@@ -652,15 +652,15 @@ typedef struct S_80024B48_0 {
     u16 unk_48;
     u8 pad_4A[0x2];
     s16 unk_4C;
-} S_80024B48_0;   /* arg0 in update_actor_movement_animation_collision */
+} S_80024B48_0;   /* arg0 in advance_radial_grid_age_and_expire */
 
 typedef struct S_80024B48_2 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_80024B48_2;   /* ((S_80024B48_0 *)arg0)->unk_00 in update_actor_movement_animation_collision */
+} S_80024B48_2;   /* ((S_80024B48_0 *)arg0)->unk_00 in advance_radial_grid_age_and_expire */
 
 /* Initialize object coordinates and set completion flags after 32 ticks. */
-void update_actor_movement_animation_collision(void *object_arg) {
+void advance_radial_grid_age_and_expire(void *object_arg) {
     S_80024B48_0 *object = object_arg;
     s32 tile_x;
     s32 tile_y;

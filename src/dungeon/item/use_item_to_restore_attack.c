@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "dungeon/item.h"
 #include "shared/actor_property_flags.h"
 #include "shared/dungeon_item_entries.h"
@@ -21,12 +22,6 @@
 extern u8 D_800E0EE1[38];
 
 
-typedef struct S_800BDA44_0_pre {
-    ObjectPosition *unk_00;
-    u8 pad_04[0x14];
-} S_800BDA44_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_restore_attack, addressed as arg0[-1] */
-
-
 /* Apply the item effect to the target and consume the item on completion. */
 s32 use_item_to_restore_attack(ActorRecord *target, DungeonItemEntry *item, s16 use_type) {
     if (target == dungeon_actor_ring_anchor) {
@@ -41,7 +36,7 @@ s32 use_item_to_restore_attack(ActorRecord *target, DungeonItemEntry *item, s16 
             return 1;
         }
     }
-    create_timed_paired_particle_emitter(((S_800BDA44_0_pre *)target)[-1].unk_00, 0x2020C0, target);
+    create_timed_paired_particle_emitter(NODE_HEADER(target)->position, 0x2020C0, target);
     target->current_attack = (u8) target->base_attack;
     apply_entity_effects(target);
     if (target->flags14 & ACTOR_PARTY_MEMBER) {

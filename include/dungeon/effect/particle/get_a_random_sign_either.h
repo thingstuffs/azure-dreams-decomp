@@ -111,7 +111,7 @@ void draw_effect_and_restore_clip(s32 draw_data, struct Row_818ED25C_S_80024A5C_
 extern u8 D_80020000[];
 extern Row_818EDB60_Rect D_80024048;
 s32 get_a_random_sign_either_n_1_n_1(void);
-void create_linked_effect_segments(ParticleWork *work, ParticlePosition *position);
+void lift_particle_above_terrain_and_age(ParticleWork *work, ParticlePosition *position);
 void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz);
 void update_an_effect_s_grayscale_intensity_animation_frame_marking_finished_end(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
 void advance_object_counters_animation_values_flag_expiration(void *object_ptr);

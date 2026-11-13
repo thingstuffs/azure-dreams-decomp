@@ -37,8 +37,10 @@ def reverse_symbols(module):
 
 
 def project_reverse(tokens, root):
-    # Match native source_symbol_pattern's raw row semantics, including aliases
-    # shadowed by later rows with the same new spelling. Empty queries bind misses.
+    # Bind every raw row alias native source_symbol_pattern may choose from,
+    # including aliases shadowed by later rows with the same new spelling (when a
+    # symbol has several, the pattern picks the one its slot source spells, and
+    # that source is a fingerprinted review input). Empty queries bind misses.
     result = {n: set() for n in tokens}
     if not result:
         return {}

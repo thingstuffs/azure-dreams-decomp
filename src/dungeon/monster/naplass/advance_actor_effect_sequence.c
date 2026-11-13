@@ -49,7 +49,7 @@ extern u8 D_801741FC[];
 /* Advances the actor effect sequence, updating directional animation and its attached effect. */
 /* Animates status slot 1, processes MP and turn updates while active, and releases its linked sprite
  * before restoring movement. */
-void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteFrameState *sprite, ActorRecord *actor_state) {
+void advance_naplass_sleep_and_wake_sequence(ActorRecord *body, void *transform, SpriteFrameState *sprite, ActorRecord *actor_state) {
     s32 actor_flags;
     s32 action_flags;
     s32 sprite_data;

@@ -5,7 +5,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Animate movement to the target tile and finalize the actor when the timer expires. */
-void create_tinted_sprite_effect_supplied_position(ActorRecord *animation, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor) {
+void troll_jump_arc_to_tile_and_end_turn(ActorRecord *animation, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor) {
     s32 state;
     s32 arc_ticks;
     s32 target_x;

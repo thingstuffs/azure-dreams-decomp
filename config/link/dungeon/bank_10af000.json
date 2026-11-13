@@ -507,7 +507,7 @@
     },
     {
       "row": "dungeon/func_81093200",
-      "tu": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "tu": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "home": "dungeon/func_81087200",
       "foff": "0x10B3200",
       "vma": "0x80168A00",

@@ -1,9 +1,7 @@
 #include "common.h"
 #include "town/map/resource.h"
 #include "town/map/saved_sound_data.h"
-
-extern s16 town_pending_sound[];
-extern s8 scene_music_hold[];
+#include "town/map/sound_selection_g00648.h"
 
 /* town_sd_se_load_init: Reset both sound-effect load slot arrays and clear the shared flag. */
 void town_sd_se_load_init(void) {

@@ -60,7 +60,7 @@ void card_boot_update_copy_destination_selection(u8 *menu_data)
             SD_Call(AUDIO_CURSOR_MOVE);
             menu->unk_28 =
                 advance_index_with_single_wrap(menu->unk_28, selection_delta, 5);
-            update_spark_effect(menu);
+            card_boot_refresh_copy_slot_markers(menu);
         }
     }
 

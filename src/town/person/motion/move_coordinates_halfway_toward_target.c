@@ -3,14 +3,7 @@
 #include "town/person/motion.h"
 #include "town/person.h"
 #include "town/person/position.h"
-
-typedef struct {
-    u8 pad0;
-    u8 field1;
-    u8 pad2[6];
-} Slot;
-
-extern Slot object_index_slots[];
+#include "shared/object_index_slots.h"
 
 /* Move coordinates halfway toward the target and advance state when the timer expires. */
 void move_coordinates_halfway_toward_target(TownObjectRecord *state, s32 *coords) {
@@ -30,6 +23,6 @@ void move_coordinates_halfway_toward_target(TownObjectRecord *state, s32 *coords
     state->timer = timer;
     if ((s16)timer <= 0) {
         state->handler = copy_global_position_output_offset;
-        object_index_slots[state->slot].field1 = 0;
+        object_index_slots[state->slot].unk_01 = 0;
     }
 }

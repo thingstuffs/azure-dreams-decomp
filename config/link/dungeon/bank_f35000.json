@@ -180,7 +180,7 @@
     },
     {
       "row": "dungeon/func_80F16CE4",
-      "tu": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "tu": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "home": "dungeon/func_80CC1724",
       "foff": "0xf36ce4",
       "vma": "0x801664e4",
@@ -219,7 +219,7 @@
     },
     {
       "row": "dungeon/func_80F170C4",
-      "tu": "src/dungeon/monster/stealth/update_actor_actions_and_impact_effects.c",
+      "tu": "src/dungeon/monster/stealth/perform_stealth_directional_attack.c",
       "home": "dungeon/func_80F0B0C4",
       "foff": "0xF370C4",
       "vma": "0x801668C4",

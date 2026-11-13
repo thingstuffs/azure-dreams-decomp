@@ -1,9 +1,8 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "slus.h"
+#include "town/map/map_cursor_input_g00641.h"
 #include "town/map/state.h"
-
-extern u8 town_map_selection_state[12];
 
 /* Store the state and issue an update at the grid cell center using the alternate buffer. */
 void store_state_and_update_grid_center(s8 state) {

@@ -75,7 +75,7 @@ void advance_fading_effect_animation(struct StarEdgeEffectBody *effect_data, str
 struct S_8187BE9C_1;
 struct ProjectileTrailFlashBody;
 void update_projectile_trail_flash(struct ProjectileTrailFlashBody *effect, s32 unused, struct S_8187BE9C_1 *primitive);
-s32 decrement_object_counter(void *record, void *context, void *data);
+s32 draw_chained_mesh_records(void *record, void *context, void *data);
 struct RandomRadialVectorEffectBody;
 struct SignedPositionView;
 s32 project_shaded_points_to_ordering_table(struct RandomRadialVectorEffectBody *points, struct SignedPositionView *position, u8 *orientation);

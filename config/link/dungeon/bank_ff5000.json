@@ -390,7 +390,7 @@
     {
       "row": "dungeon/func_80FD9974",
       "home": "dungeon/func_81087200",
-      "tu": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "tu": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "foff": "0x00FF9974",
       "vma": "0x80151174",
       "size": 108,

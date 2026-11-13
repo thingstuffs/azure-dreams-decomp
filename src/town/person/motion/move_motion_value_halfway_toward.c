@@ -3,8 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_delay_views.h"
 #include "town/person/motion.h"
-
-extern s32 town_target_height_offset;
+#include "town/menu/indexed_effect_vectors_g00583.h"
 
    /* arg1 in move_motion_value_halfway_toward */
 

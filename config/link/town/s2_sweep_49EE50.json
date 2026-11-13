@@ -59,7 +59,7 @@
     },
     {
       "row": "town/func_8051F1F8",
-      "tu": "src/town/scene/decrement_current_entry_counter_condition_second.c",
+      "tu": "src/town/scene/apply_record_code_from_d_80018e30_table.c",
       "home": "town/func_8051F1F8",
       "foff": "0x49F1F8",
       "vma": "0x800169f8",
@@ -67,7 +67,7 @@
     },
     {
       "row": "town/func_8051F26C",
-      "tu": "src/town/scene/decrement_current_entry_counter_condition_second.c",
+      "tu": "src/town/scene/apply_record_code_from_d_80018e30_table.c",
       "home": "town/func_8051F1F8",
       "foff": "0x49F26C",
       "vma": "0x80016a6c",
@@ -80,7 +80,7 @@
     },
     {
       "row": "town/func_8051F294",
-      "tu": "src/town/scene/decrement_current_entry_counter_condition_second.c",
+      "tu": "src/town/scene/apply_record_code_from_d_80018e30_table.c",
       "home": "town/func_8051F1F8",
       "foff": "0x49F294",
       "vma": "0x80016a94",
@@ -93,7 +93,7 @@
     },
     {
       "row": "town/func_8051F304",
-      "tu": "src/town/scene/decrement_current_entry_counter_condition_second.c",
+      "tu": "src/town/scene/apply_record_code_from_d_80018e30_table.c",
       "home": "town/func_8051F1F8",
       "foff": "0x49F304",
       "vma": "0x80016b04",

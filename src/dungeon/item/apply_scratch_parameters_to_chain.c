@@ -70,7 +70,7 @@ s32 apply_scratch_parameters_to_chain(void *object, MovingPosition *position, S_
         queue_visible_rectangle_copy(object, scratch);
 
         next_node = ((S_80099A1C_3_pre *)object)[-1].unk_00;
-        object = (u8 *)next_node + 0x20;
+        object = NODE_BODY(next_node);
         if (next_node == 0) {
             break;
         }

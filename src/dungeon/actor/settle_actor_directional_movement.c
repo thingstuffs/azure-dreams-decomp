@@ -99,7 +99,7 @@ void settle_actor_directional_movement(ActorRecord *controller, ObjectPosition *
         set_record_integer_tile_center(motion, entity->tile_x, entity->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
-        if (tracked_entity == (s32)((u8 *)source - 0x20)) {
+        if (tracked_entity == (s32)NODE_HEADER(source)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         controller->unk_8C.address = actor_action_resume_address;

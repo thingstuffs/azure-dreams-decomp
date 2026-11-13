@@ -18,11 +18,11 @@ def source_words(slot,root):
  typ=slot['type'];symbol=slot['symbol']
  if not re.fullmatch(r'[A-Za-z_]\w*',typ):raise ValueError('invalid pointer element type')
  from overlay_native_allocations import source_symbol_pattern
- found=re.findall(r'\b(?:const\s+)?'+re.escape(typ)+r'\s+'+source_symbol_pattern(symbol,root)+r'\s*\[\s*([0-9]+)\s*\]\s*=\s*\{([^{}]*)\}\s*;',text)
+ found=re.findall(r'\b(?:const\s+)?'+re.escape(typ)+r'\s+'+source_symbol_pattern(symbol,root,text)+r'\s*\[\s*([0-9]+)\s*\]\s*=\s*\{([^{}]*)\}\s*;',text)
  if len(found)!=1:raise ValueError('symbolic table ownership declaration differs')
  count,body=found[0];targets=[x.strip() for x in body.split(',') if x.strip()]
  if len(targets)!=int(count) or len(targets)*4!=slot['size']:raise ValueError('symbolic table initializer extent differs')
- if any(not re.fullmatch(source_symbol_pattern(expected,root),actual) for actual,expected in zip(targets,slot['targets'])) or len(targets)!=len(slot['targets']):raise ValueError('symbolic table source target differs')
+ if any(not re.fullmatch(source_symbol_pattern(expected,root,text),actual) for actual,expected in zip(targets,slot['targets'])) or len(targets)!=len(slot['targets']):raise ValueError('symbolic table source target differs')
  header=(root/slot['declaration']).read_text()
  if not re.search(r'\btypedef\s+void\s*\(\s*\*\s*'+re.escape(typ)+r'\s*\)\s*\(\s*[^()]+\)\s*;',header):raise ValueError('table lacks a typed callback contract')
  return bytes(slot['size'])

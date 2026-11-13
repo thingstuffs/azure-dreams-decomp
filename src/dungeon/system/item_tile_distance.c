@@ -4,10 +4,10 @@
 #include "sdk/libc.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-static s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
+static s16 get_byte_coordinate_chebyshev_distance(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
 
 /* Returns the larger absolute difference between the low-byte X and Y tile coordinates. */
-static s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y) {
+static s16 get_byte_coordinate_chebyshev_distance(s32 start_x, s32 start_y, s32 end_x, s32 end_y) {
     end_x &= 0xFF;
     start_x &= 0xFF;
     end_x -= start_x;
@@ -23,5 +23,5 @@ static s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y) {
 }
 
 s16 get_tile_chebyshev_distance(Rec_D_80082E80 *start_record, Rec_D_80082E80 *end_record) {
-    return set_item_w0(start_record->unk_24, start_record->unk_25, end_record->unk_24, end_record->unk_25);
+    return get_byte_coordinate_chebyshev_distance(start_record->unk_24, start_record->unk_25, end_record->unk_24, end_record->unk_25);
 }

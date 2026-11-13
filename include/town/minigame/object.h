@@ -114,8 +114,8 @@ void create_scene_object_with_48_byte_payload(s32 init_value, void *init_data);
 /* create_scene_object_with_record_payload.c */
 void create_scene_object_with_record_payload(void *object_value, void *record);
 
-/* decrement_object_counter.c */
-void decrement_object_counter(void *entry);
+/* refresh_mogura_counter_text.c */
+void refresh_mogura_counter_text(void *entry);
 
 /* fade_linked_object_color.c */
 void fade_linked_object_color(struct SceneTileObject *fade);

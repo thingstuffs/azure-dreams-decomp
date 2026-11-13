@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "shared/dungeon_image_buffer.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -86,8 +87,7 @@ void *create_status_linked_render_effect();     /* extern */
 
 extern s32 cd_cue_base;
 extern void *actor_effect_color_targets[];
-extern u8 dungeon_resource_buffer[];
-s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
+s32 project_kid_sprite_chain(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
 extern s32 D_80175200[];
 extern s16 D_80175218;
 extern s32 D_80175220;
@@ -179,7 +179,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
             return;
         }
         effect->update_callback = &blend_effect_channels_to_gray;
-        register_node(effect, &update_actor_state_after_map_check);
+        register_node(effect, &project_kid_sprite_chain);
         tint = 0x808080;
         state->unk_AC.address = effect;
         effect->position->x.v = (s32) position->x.v;

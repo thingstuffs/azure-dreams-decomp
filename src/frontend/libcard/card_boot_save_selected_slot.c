@@ -20,7 +20,7 @@ void *card_boot_save_selected_slot(Object_800128C8 *context) {
 
     card_boot_prepare_save_buffer(0x80010000, context->unk_2C, context->unk_24);
     if (card_boot_write_save_via_temporary_path(context->unk_2C, 0x80010000) == 0) {
-        *(u8 **)((s8 *)context + 0x34) = (u8 *)write_text_and_advance_selection;
+        *(u8 **)((s8 *)context + 0x34) = (u8 *)card_boot_update_save_slot_menu_input;
         card_boot_show_overwrite_failure_notice(NODE_HEADER(context));
         ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)&D_800261C0;
     } else {
@@ -32,7 +32,7 @@ void *card_boot_save_selected_slot(Object_800128C8 *context) {
             ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)&release_card_records_and_request_scene_state_three;
         } else {
             SD_Call(AUDIO_MENU_CONFIRM);
-            ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)write_text_and_advance_selection;
+            ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)card_boot_update_save_slot_menu_input;
         }
     }
     result = card_boot_recheck_selected_channel();

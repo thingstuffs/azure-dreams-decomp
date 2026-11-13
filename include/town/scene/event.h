@@ -5,7 +5,7 @@
 
 s32 query_event_d_82(void);
 s32 dispatch_event_63_a_through_194_d_8(void);
-s32 initialize_event_position_state(void);
+s32 get_script_flag_sbs20_pad07(void);
 s32 invoke_callback_event_11(void);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

@@ -18,7 +18,7 @@ void initialize_actor_object_action(void *object_state, void *unused_context, Re
 
 #include "shared/town_object.h"
 void advance_object_countdown_and_invoke_handlers(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);
-s32 initialize_object_configuration_x(EntityRec *entity);
+s32 has_blindness_protection(EntityRec *entity);
 
 
 void initialize_object_with_seven_tick_counter(TownObjectRecord *object, ObjectPosition *unused_position, void *context);

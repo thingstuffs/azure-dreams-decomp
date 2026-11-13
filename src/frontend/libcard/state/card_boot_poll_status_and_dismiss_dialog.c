@@ -14,6 +14,6 @@ void card_boot_poll_status_and_dismiss_dialog(Object_800128C8 *record_data) {
     card_boot_restore_saved_selection_callback(record_data);
     if (card_boot_debounce_card_status_events() >= 4) {
         card_boot_close_message_dialog(0);
-        ((ObjectNodeHeader *)record_data - 1)->update_callback = build_install;
+        ((ObjectNodeHeader *)record_data - 1)->update_callback = card_boot_handle_slot_selection_input;
     }
 }

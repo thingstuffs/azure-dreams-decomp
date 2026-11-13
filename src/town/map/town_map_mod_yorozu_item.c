@@ -57,7 +57,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     switch (shifted_type_index >> 16) {
     case 0:
     case 1:
-        apply_item_and_update_matching_actor_state((s16)x_or_object.coord, (s16)y_or_state.coord, object_type, (s16)spawn_param);
+        fill_wrapped_tile_pair((s16)x_or_object.coord, (s16)y_or_state.coord, object_type, (s16)spawn_param);
         return;
 
     case 7:

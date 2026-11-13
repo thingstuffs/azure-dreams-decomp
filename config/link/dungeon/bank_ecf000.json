@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_80EAF000",
-      "tu": "src/dungeon/monster/picket/clear_actor_action_markers.c",
+      "tu": "src/dungeon/monster/picket/take_item_from_tile_ahead_or_neighbor.c",
       "home": "dungeon/func_80E91000",
       "foff": "0xECF108",
       "vma": "0x8014c908",

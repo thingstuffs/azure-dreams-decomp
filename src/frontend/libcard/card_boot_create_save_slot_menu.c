@@ -26,7 +26,7 @@ void *card_boot_create_save_slot_menu(ObjectNodeHeader *init_value, s32 state_va
         card_boot_erase_temporary_file();
         card_boot_refresh_directory_summary();
         state->backdrop = create_or_reset_seven_entry_menu_backdrop(object, 0);
-        state->surface = render_rotated_grid_surface(object, state->selection, 3);
+        state->surface = card_boot_create_or_reset_file_list_panel(object, state->selection, 3);
         state->heading = create_save_heading(object);
         state->state = 0;
         object->update_callback = D_800267C0;

@@ -11,7 +11,7 @@ extern void *create_town_effect_object(s32, s32, void *, s32); /* Unprototyped: 
 extern void *initialize_object_transform_and_state(void *, SpriteFrameState *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Creates a white effect with scale 0x1800 and installs its fade-and-shrink callback. */
-void update_sine_pulse_color(s32 object_id) {
+void create_shrinking_white_fade_effect(s32 object_id) {
     SpriteFrameState *model;
     ObjectNodeHeader *object;
 

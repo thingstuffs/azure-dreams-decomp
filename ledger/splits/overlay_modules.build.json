@@ -6924,7 +6924,7 @@
     },
     {
       "module": "town_terminal_choice_705000",
-      "source": "src/town/scene/attach_global_data_invoke_callback.c",
+      "source": "src/town/scene/attach_global_data_pointers.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -14735,7 +14735,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/object/initialize_object_configuration_x.c",
+      "source": "src/dungeon/actor/object/has_blindness_protection.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -17205,7 +17205,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/hikewne/create_configured_effect_actor.c",
+      "source": "src/dungeon/monster/hikewne/spawn_hikewne_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -17495,7 +17495,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/hikewne/create_configured_effect_actor.c",
+      "source": "src/dungeon/monster/hikewne/spawn_hikewne_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -17755,7 +17755,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/hikewne/create_configured_effect_actor.c",
+      "source": "src/dungeon/monster/hikewne/spawn_hikewne_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -18045,7 +18045,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/hikewne/create_configured_effect_actor.c",
+      "source": "src/dungeon/monster/hikewne/spawn_hikewne_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -18335,7 +18335,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/hikewne/create_configured_effect_actor.c",
+      "source": "src/dungeon/monster/hikewne/spawn_hikewne_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -18595,7 +18595,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/hikewne/create_configured_effect_actor.c",
+      "source": "src/dungeon/monster/hikewne/spawn_hikewne_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -18885,7 +18885,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/hikewne/create_configured_effect_actor.c",
+      "source": "src/dungeon/monster/hikewne/spawn_hikewne_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -23965,7 +23965,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24285,7 +24285,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24605,7 +24605,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24925,7 +24925,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25245,7 +25245,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25545,7 +25545,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25865,7 +25865,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -28345,7 +28345,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -28725,7 +28725,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -29105,7 +29105,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -29485,7 +29485,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -29845,7 +29845,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -30205,7 +30205,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -32245,7 +32245,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -32605,7 +32605,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -32965,7 +32965,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -33325,7 +33325,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -33675,7 +33675,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -34025,7 +34025,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -34175,7 +34175,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -34465,7 +34465,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -34555,7 +34555,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -34845,7 +34845,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -34935,7 +34935,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -35225,7 +35225,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -35315,7 +35315,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -35605,7 +35605,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -35695,7 +35695,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -35985,7 +35985,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -36075,7 +36075,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -36355,7 +36355,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -36445,7 +36445,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -36725,7 +36725,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -37075,7 +37075,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -37105,7 +37105,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -37485,7 +37485,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -37515,7 +37515,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -37895,7 +37895,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -37925,7 +37925,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -38305,7 +38305,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -38335,7 +38335,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -38715,7 +38715,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -38745,7 +38745,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -39125,7 +39125,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "source": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -39155,7 +39155,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -41465,7 +41465,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -41845,7 +41845,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -42225,7 +42225,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -42595,7 +42595,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -42965,7 +42965,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -43335,7 +43335,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -43595,7 +43595,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/battnel/advance_action_phase_and_process_actor.c",
+      "source": "src/dungeon/monster/battnel/remove_defeated_battnel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -43885,7 +43885,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/battnel/advance_action_phase_and_process_actor.c",
+      "source": "src/dungeon/monster/battnel/remove_defeated_battnel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -44185,7 +44185,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/battnel/advance_action_phase_and_process_actor.c",
+      "source": "src/dungeon/monster/battnel/remove_defeated_battnel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -44485,7 +44485,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/battnel/advance_action_phase_and_process_actor.c",
+      "source": "src/dungeon/monster/battnel/remove_defeated_battnel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -44785,7 +44785,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/battnel/advance_action_phase_and_process_actor.c",
+      "source": "src/dungeon/monster/battnel/remove_defeated_battnel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -45085,7 +45085,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/battnel/advance_action_phase_and_process_actor.c",
+      "source": "src/dungeon/monster/battnel/remove_defeated_battnel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -45355,7 +45355,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/battnel/advance_action_phase_and_process_actor.c",
+      "source": "src/dungeon/monster/battnel/remove_defeated_battnel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -45625,7 +45625,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/nyuel/update_actor_status_and_motion.c",
+      "source": "src/dungeon/monster/nyuel/update_nyuel_defeat_removal.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -50215,7 +50215,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -50515,7 +50515,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -50835,7 +50835,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -51145,7 +51145,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -51445,7 +51445,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -51745,7 +51745,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -53535,7 +53535,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -53835,7 +53835,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -54135,7 +54135,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -54435,7 +54435,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -54735,7 +54735,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -55025,7 +55025,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -55325,7 +55325,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "source": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -58755,7 +58755,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -59195,7 +59195,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -59635,7 +59635,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -60075,7 +60075,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -60525,7 +60525,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -60965,7 +60965,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -61405,7 +61405,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -87015,7 +87015,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/picket/clear_actor_action_markers.c",
+      "source": "src/dungeon/monster/picket/take_item_from_tile_ahead_or_neighbor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -87365,7 +87365,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/picket/clear_actor_action_markers.c",
+      "source": "src/dungeon/monster/picket/take_item_from_tile_ahead_or_neighbor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -87715,7 +87715,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/picket/clear_actor_action_markers.c",
+      "source": "src/dungeon/monster/picket/take_item_from_tile_ahead_or_neighbor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -88765,7 +88765,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/picket/clear_actor_action_markers.c",
+      "source": "src/dungeon/monster/picket/take_item_from_tile_ahead_or_neighbor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -89115,7 +89115,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/picket/clear_actor_action_markers.c",
+      "source": "src/dungeon/monster/picket/take_item_from_tile_ahead_or_neighbor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -93845,7 +93845,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -93865,7 +93865,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/update_actor_actions_and_impact_effects.c",
+      "source": "src/dungeon/monster/stealth/perform_stealth_directional_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -94135,7 +94135,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -94155,7 +94155,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/update_actor_actions_and_impact_effects.c",
+      "source": "src/dungeon/monster/stealth/perform_stealth_directional_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -94435,7 +94435,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -94455,7 +94455,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/update_actor_actions_and_impact_effects.c",
+      "source": "src/dungeon/monster/stealth/perform_stealth_directional_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -94725,7 +94725,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -94745,7 +94745,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/update_actor_actions_and_impact_effects.c",
+      "source": "src/dungeon/monster/stealth/perform_stealth_directional_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95015,7 +95015,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95035,7 +95035,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/update_actor_actions_and_impact_effects.c",
+      "source": "src/dungeon/monster/stealth/perform_stealth_directional_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95315,7 +95315,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95335,7 +95335,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/update_actor_actions_and_impact_effects.c",
+      "source": "src/dungeon/monster/stealth/perform_stealth_directional_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95615,7 +95615,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95635,7 +95635,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/update_actor_actions_and_impact_effects.c",
+      "source": "src/dungeon/monster/stealth/perform_stealth_directional_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95915,7 +95915,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -96225,7 +96225,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -96545,7 +96545,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -96865,7 +96865,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -97175,7 +97175,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -97495,7 +97495,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -97805,7 +97805,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "source": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -102245,7 +102245,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -102575,7 +102575,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -102905,7 +102905,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -103235,7 +103235,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -103565,7 +103565,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -103885,7 +103885,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -104215,7 +104215,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -106405,7 +106405,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "source": "src/dungeon/monster/garuda/cast_garuda_targeted_spell.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -106685,7 +106685,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "source": "src/dungeon/monster/garuda/cast_garuda_targeted_spell.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -106965,7 +106965,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "source": "src/dungeon/monster/garuda/cast_garuda_targeted_spell.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -107245,7 +107245,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "source": "src/dungeon/monster/garuda/cast_garuda_targeted_spell.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -107525,7 +107525,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "source": "src/dungeon/monster/garuda/cast_garuda_targeted_spell.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -107805,7 +107805,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "source": "src/dungeon/monster/garuda/cast_garuda_targeted_spell.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -108085,7 +108085,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "source": "src/dungeon/monster/garuda/cast_garuda_targeted_spell.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -108645,7 +108645,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -109055,7 +109055,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -109465,7 +109465,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -109875,7 +109875,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -110285,7 +110285,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -110695,7 +110695,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "source": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -111105,7 +111105,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/tyrant/copy_part_state.c",
+      "source": "src/dungeon/monster/tyrant/spawn_tyrant_with_slot_f_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -111345,7 +111345,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/tyrant/copy_part_state.c",
+      "source": "src/dungeon/monster/tyrant/spawn_tyrant_with_slot_f_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -111595,7 +111595,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/tyrant/copy_part_state.c",
+      "source": "src/dungeon/monster/tyrant/spawn_tyrant_with_slot_f_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -112345,7 +112345,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/tyrant/copy_part_state.c",
+      "source": "src/dungeon/monster/tyrant/spawn_tyrant_with_slot_f_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -113185,7 +113185,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -113615,7 +113615,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -114045,7 +114045,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -114475,7 +114475,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -114905,7 +114905,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -115335,7 +115335,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -115765,7 +115765,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -115995,7 +115995,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/resolve_actor_attack_damage.c",
+      "source": "src/dungeon/monster/maximum/cast_maximum_spell_with_child_sprite.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -116275,7 +116275,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/resolve_actor_attack_damage.c",
+      "source": "src/dungeon/monster/maximum/cast_maximum_spell_with_child_sprite.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -116555,7 +116555,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/resolve_actor_attack_damage.c",
+      "source": "src/dungeon/monster/maximum/cast_maximum_spell_with_child_sprite.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -116835,7 +116835,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/resolve_actor_attack_damage.c",
+      "source": "src/dungeon/monster/maximum/cast_maximum_spell_with_child_sprite.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -117115,7 +117115,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/resolve_actor_attack_damage.c",
+      "source": "src/dungeon/monster/maximum/cast_maximum_spell_with_child_sprite.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -117395,7 +117395,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/resolve_actor_attack_damage.c",
+      "source": "src/dungeon/monster/maximum/cast_maximum_spell_with_child_sprite.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -117675,7 +117675,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/resolve_actor_attack_damage.c",
+      "source": "src/dungeon/monster/maximum/cast_maximum_spell_with_child_sprite.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -126865,7 +126865,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ghosh/expand_fade_effect_and_expire.c",
+      "source": "src/dungeon/monster/ghosh/reset_ghosh_linked_sprite_phase_and_timer.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -126875,7 +126875,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -127385,7 +127385,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -127615,7 +127615,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -128565,7 +128565,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo_large/create_configured_effect_actor.c",
+      "source": "src/dungeon/monster/beldo_large/advance_accelerating_particle_until_target_or_timeout.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -128965,7 +128965,7 @@
       ]
     },
     {
-      "source": "src/dungeon/system/advance_paired_object_sequence.c",
+      "source": "src/dungeon/system/release_menu_children_and_copy_entity_string.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -129255,7 +129255,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/motion/mark_owner_on_target_completion.c",
+      "source": "src/dungeon/effect/motion/spawn_sprite_at_random_radial_offset.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -129995,7 +129995,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/screen/spawn_spiraling.c",
+      "source": "src/dungeon/effect/screen/compute_direction_angles_between_points.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131365,7 +131365,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/process_nonzero.c",
+      "source": "src/frontend/libcard/card_boot_destroy_three_row_panel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131465,7 +131465,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/write_fixed_palette_pixels.c",
+      "source": "src/frontend/libcard/card_boot_release_slot_window_texts.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131575,7 +131575,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/render_rotated_grid_surface.c",
+      "source": "src/frontend/libcard/card_boot_create_or_reset_file_list_panel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131585,7 +131585,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/draw_cylindrical.c",
+      "source": "src/frontend/libcard/card_boot_clear_slot_words.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131645,7 +131645,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/update_spark_effect.c",
+      "source": "src/frontend/libcard/card_boot_refresh_copy_slot_markers.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131795,7 +131795,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/build_install.c",
+      "source": "src/frontend/libcard/card_boot_handle_slot_selection_input.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131895,7 +131895,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/message/initialize_text_editor_context.c",
+      "source": "src/frontend/libcard/message/card_boot_store_save_icon_clut_and_frames.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131975,7 +131975,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/message/write_text_and_advance_selection.c",
+      "source": "src/frontend/libcard/message/card_boot_update_save_slot_menu_input.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -132125,7 +132125,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/create_visual_object.c",
+      "source": "src/frontend/libcard/card_boot_create_or_reset_paired_choice_panel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -132245,7 +132245,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/state/reset_menu_object_state.c",
+      "source": "src/frontend/libcard/state/card_boot_restore_chooser_callback_after_dialog.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -134805,7 +134805,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/process_nonzero.c",
+      "source": "src/frontend/libcard/card_boot_destroy_three_row_panel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -134825,7 +134825,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/process_nonzero.c",
+      "source": "src/frontend/libcard/card_boot_destroy_three_row_panel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -134895,7 +134895,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/process_nonzero.c",
+      "source": "src/frontend/libcard/card_boot_destroy_three_row_panel.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -144075,7 +144075,7 @@
       ]
     },
     {
-      "source": "src/town/map/state/apply_item_and_update_matching_actor_state.c",
+      "source": "src/town/map/state/fill_wrapped_tile_pair.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -144195,7 +144195,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "source": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152855,7 +152855,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/select_event_fallback_event_handler.c",
+      "source": "src/town/scene/event/select_event_response_with_flag_overrides.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -153735,7 +153735,7 @@
       ]
     },
     {
-      "source": "src/town/scene/clear_generation_cell_masks.c",
+      "source": "src/town/scene/get_data_pointer_16400.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -154605,7 +154605,7 @@
       ]
     },
     {
-      "source": "src/town/scene/clear_generation_cell_masks_b.c",
+      "source": "src/town/scene/get_data_pointer_16400_b.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155585,7 +155585,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/check_position_thresholds_second.c",
+      "source": "src/town/scene/motion/set_d_80017954_to_one.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155815,7 +155815,7 @@
       ]
     },
     {
-      "source": "src/town/scene/dispatch_status_boolean.c",
+      "source": "src/town/scene/process_history_and_copy_entry_table_value.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156665,7 +156665,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_fixed_query_nonzero.c",
+      "source": "src/town/scene/clear_script_flag_sbs07_pad23.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157015,7 +157015,7 @@
       ]
     },
     {
-      "source": "src/town/scene/award_next_unearned_milestone.c",
+      "source": "src/town/scene/point_d_80018e50_at_d_80018ce8.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160155,7 +160155,7 @@
       ]
     },
     {
-      "source": "src/town/scene/decrement_current_entry_counter_condition_second.c",
+      "source": "src/town/scene/apply_record_code_from_d_80018e30_table.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160175,7 +160175,7 @@
       ]
     },
     {
-      "source": "src/town/scene/decrement_current_entry_counter_condition_second.c",
+      "source": "src/town/scene/apply_record_code_from_d_80018e30_table.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160185,7 +160185,7 @@
       ]
     },
     {
-      "source": "src/town/scene/decrement_current_entry_counter_condition_second.c",
+      "source": "src/town/scene/apply_record_code_from_d_80018e30_table.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160205,7 +160205,7 @@
       ]
     },
     {
-      "source": "src/town/scene/decrement_current_entry_counter_condition_second.c",
+      "source": "src/town/scene/apply_record_code_from_d_80018e30_table.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160505,7 +160505,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_next_eligible_wrapped_entry_second.c",
+      "source": "src/town/scene/run_service_callback_0x238.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -160735,7 +160735,7 @@
       ]
     },
     {
-      "source": "src/town/scene/test_unless_mode_2_d.c",
+      "source": "src/town/scene/set_d_80019184_to_one.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -162065,7 +162065,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_record_value_threshold.c",
+      "source": "src/town/scene/tick_threshold_counter_and_toggle_flag_sbs12_pad13.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -162475,7 +162475,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_record_value_threshold_b.c",
+      "source": "src/town/scene/forward_to_func_80017d48.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163645,7 +163645,7 @@
       ]
     },
     {
-      "source": "src/town/scene/store_values.c",
+      "source": "src/town/scene/set_scene_dispatch_mode_index_2.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163965,7 +163965,7 @@
       ]
     },
     {
-      "source": "src/town/scene/object/scale_scene_object_value_second.c",
+      "source": "src/town/scene/object/get_script_flag_sbs14_pad23.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -165065,7 +165065,7 @@
       ]
     },
     {
-      "source": "src/town/scene/service/run_service_callback_d.c",
+      "source": "src/town/scene/service/run_service_callback_0x4c.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -167115,7 +167115,7 @@
       ]
     },
     {
-      "source": "src/town/scene/store_values_b.c",
+      "source": "src/town/scene/test_script_flag_sbs18_pad05.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -168055,7 +168055,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_next_eligible_wrapped_entry_second.c",
+      "source": "src/town/scene/run_service_callback_0x238.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -168545,7 +168545,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/initialize_event_position_state.c",
+      "source": "src/town/scene/event/get_script_flag_sbs20_pad07.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -170495,7 +170495,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_scene_result_address_second.c",
+      "source": "src/town/scene/set_d_800174dc_to_one.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174375,7 +174375,7 @@
       ]
     },
     {
-      "source": "src/town/scene/process_entry_list_mode_1.c",
+      "source": "src/town/scene/set_tamago_object_flag_and_process_entry.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174605,7 +174605,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/set_scene_substate_offsets_b.c",
+      "source": "src/town/scene/event/subtract_stored_progress_from_callback_query.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -177605,7 +177605,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_progress_against_callback_second.c",
+      "source": "src/town/scene/clear_script_flag_bar_pad12.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -179445,7 +179445,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_record_value_threshold_b.c",
+      "source": "src/town/scene/forward_to_func_80017d48.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -181405,7 +181405,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_dungeon_region_record.c",
+      "source": "src/town/scene/set_word_17768_to_one.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -183385,7 +183385,7 @@
       ]
     },
     {
-      "source": "src/town/minigame/object/decrement_object_counter.c",
+      "source": "src/town/minigame/object/refresh_mogura_counter_text.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -183505,7 +183505,7 @@
       ]
     },
     {
-      "source": "src/town/minigame/update_record_and_install_next_table.c",
+      "source": "src/town/minigame/drift_and_shrink_reaction_effect.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -187405,7 +187405,7 @@
       ]
     },
     {
-      "source": "src/town/minigame/process_nonzero.c",
+      "source": "src/town/minigame/update_keima_view_actor_facing_and_frames.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""

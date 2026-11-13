@@ -1,9 +1,9 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 #include "town/scene/event.h"
+#include "town/scene/attach_global_data_and_invoke_callback.h"
 #include "town/data.h"
 
-extern s32 scene_event_data;
 extern u8 scene_mode_event_data[];
 extern s32 D_80017FD4[];
 

@@ -307,6 +307,34 @@ class RenameAndFullTests(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             self.assertEqual(C.report(base, moved, [], [], {}, 0, names, edited), 1)
 
+    def test_two_renames_in_one_file_with_equal_site_counts_are_not_new(self):
+        base = [finding('src/a.c', 'old_one', '-Wshadow', ['src/a.c:4:1']),
+                finding('src/a.c', 'old_two', '-Wshadow', ['src/a.c:9:1'])]
+        head = [finding('src/a.c', 'new_one', '-Wshadow', ['src/a.c:4:1']),
+                finding('src/a.c', 'new_two', '-Wshadow', ['src/a.c:9:1'])]
+        names = {'old_one': {'0x80024050'}, 'new_one': {'0x80024050'},
+                 'old_two': {'0x80024100'}, 'new_two': {'0x80024100'}}
+        with redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(C.report(base, head, [], [], {}, 0, names), 0)
+        self.assertIn('renamed -Wshadow src/a.c old_one -> new_one', out.getvalue())
+        self.assertIn('renamed -Wshadow src/a.c old_two -> new_two', out.getvalue())
+        with redirect_stdout(io.StringIO()) as out:                 # without the rows both stay new, hinted
+            self.assertEqual(C.report(base, head, [], [], {}, 0, {}), 1)
+        self.assertIn('hint: possibly old_one or old_two renamed', out.getvalue())
+
+    def test_recorded_renames_reads_base_rows(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            git(root, 'init', '-q')
+            (root / 'config').mkdir()
+            (root / 'config/names.tsv').write_text('0x80024050\tfunc_80024050\told_name\tboth images\n')
+            git(root, 'add', '-A')
+            git(root, 'commit', '-qm', 'base')
+            (root / 'config/names.tsv').write_text('0x80024050\tfunc_80024050\tnew_name\tthis image\n')
+            self.assertNotIn('old_name', C.recorded_renames(root))
+            self.assertEqual(C.recorded_renames(root, 'HEAD')['old_name'], {'0x80024050'})
+            self.assertEqual(C.recorded_renames(root, 'HEAD')['new_name'], {'0x80024050'})
+
     def test_rename_in_renamed_file_is_not_new(self):
         base = [finding('src/old.c', 'old_name', '-Wshadow', ['src/old.c:4:1'])]
         head = [finding('src/new.c', 'new_name', '-Wshadow', ['src/new.c:7:1'])]

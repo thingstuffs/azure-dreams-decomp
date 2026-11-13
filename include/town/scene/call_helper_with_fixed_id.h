@@ -6,5 +6,5 @@
 typedef s32 M2C_UNK;
 extern M2C_UNK D_80017A34;
 extern M2C_UNK *D_80017B3C;
-void call_helper_with_fixed_id_0xbdb(void);
+void set_d_80017b3c_and_invoke_callback_28c(void);
 #endif

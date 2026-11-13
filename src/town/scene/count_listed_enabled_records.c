@@ -2,8 +2,7 @@
 #include "town/scene.h"
 #include "town/data.h"
 #include "town/player/state.h"
-
-extern u8 town_selection_records[];
+#include "town/scene/build_selected_entry_output_g01237.h"
 
 /* Counts listed records whose value at offset 4 passes func_8001E670. */
 s32 count_listed_enabled_records(void) {

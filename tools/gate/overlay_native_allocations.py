@@ -38,19 +38,27 @@ def _source_aliases(path,stamp):
   old,new=columns[1].strip(),columns[2].strip()
   if old and new and old!=new:aliases.setdefault(old,set()).add(new)
  return aliases
-def source_symbol_pattern(symbol,root):
+def source_symbol_pattern(symbol,root,text=None):
+ """Regex for the source spelling of a retail symbol: the symbol or its config/names.tsv name.
+
+ One address can carry a name per image (two different functions that share an address in two overlays). Then the
+ name is the one that appears as an identifier in `text`, the slot's own (comment-stripped) source: exactly one must,
+ or the alias is refused as ambiguous (also when no text is given)."""
  names={symbol};table=Path(root)/'config/names.tsv'
  memo_read(table)  # _source_aliases is a process memo: bind the table in every reader, not only the first
  if table.is_file():
   stat=table.stat();aliases=_source_aliases(str(table),(stat.st_dev,stat.st_ino,stat.st_mtime_ns,stat.st_ctime_ns,stat.st_size)).get(symbol,set())
-  if len(aliases)>1 or any(not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*',n) for n in aliases):raise ValueError('ambiguous or invalid source ownership alias')
+  if any(not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*',n) for n in aliases):raise ValueError('ambiguous or invalid source ownership alias')
+  if len(aliases)>1:
+   aliases={n for n in aliases if text is not None and re.search(r'(?<![A-Za-z0-9_])'+re.escape(n)+r'(?![A-Za-z0-9_])',text)}
+   if len(aliases)!=1:raise ValueError('ambiguous or invalid source ownership alias')
   names.update(aliases)
  return '(?:'+'|'.join(re.escape(n) for n in sorted(names))+')'
 def slot_literal(slot,root):
  p=Path(slot['source'])
  if p.is_absolute() or '..' in p.parts:raise ValueError('unsafe storage source')
  text=(root/p).read_text();text=re.sub(r'/\*.*?\*/|//[^\n]*','',text,flags=re.S)
- name=source_symbol_pattern(slot['symbol'],root);kind=slot['kind']
+ name=source_symbol_pattern(slot['symbol'],root,text);kind=slot['kind']
  if kind=='typed_string':
   found=re.findall(r'\bstatic\s+const\s+char\s+'+name+r'\s*\[\s*\]\s*=\s*("(?:\\.|[^"\\])*")\s*;',text)
   if len(found)!=1:raise ValueError('string ownership declaration differs')

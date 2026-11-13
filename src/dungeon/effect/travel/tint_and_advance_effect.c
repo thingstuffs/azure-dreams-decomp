@@ -28,7 +28,7 @@ extern u8 D_800257D0[];
 extern u8 D_800257E8[];
 
 #include "dungeon/effect/screen.h"
-extern s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
+extern s16 get_byte_coordinate_chebyshev_distance(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
@@ -243,7 +243,7 @@ void update_accelerating_condition_projectile(TrackingEffect *self, ObjectPositi
 
         if (owner->target != 0) {
             if (self->sound_played == 0) {
-                if ((s16)set_item_w0(self->current_tile.tile.x.u, self->current_tile.tile.y.u,
+                if ((s16)get_byte_coordinate_chebyshev_distance(self->current_tile.tile.x.u, self->current_tile.tile.y.u,
                                      (u8)owner->target_tile_x, (u8)owner->target_tile_y) < 5) {
                     self->sound_played = 1;
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);

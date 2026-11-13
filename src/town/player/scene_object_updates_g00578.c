@@ -105,7 +105,7 @@ void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteF
             effect_pos.unk0 = position->x.v;
             effect_pos.unk4 = 0x06600000;
             effect_pos.unk8 = position->z.v - 0x00280000;
-            update_sine_pulse_color(&effect_pos);
+            create_shrinking_white_fade_effect(&effect_pos);
         } else {
             height_or_shade = sprite->color.c.r - 8;
             sprite->color.c.r = height_or_shade;

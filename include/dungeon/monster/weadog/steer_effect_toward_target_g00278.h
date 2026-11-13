@@ -72,7 +72,7 @@ extern u8 D_801712C4[];
 
 /* Functions defined in this translation unit. */
 void steer_effect_toward_target(SteeringEffectWork *motion, ObjectPosition *position, void *unused);
-void initialize_shared_state_active_entries(SteeringEffectWork *effect, ObjectPosition *position, s32 update_param);
+void update_weadog_steered_fading_effect(SteeringEffectWork *effect, ObjectPosition *position, s32 update_param);
 void create_random_color_offset_effect( void *parent, s16 initial_14, s32 unused, s16 initial_32, s16 offset_x, s16 offset_y, s16 offset_z);
 
 #endif

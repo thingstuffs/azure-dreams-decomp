@@ -252,7 +252,7 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
 
 /* Shrinks and rotates the effect, updates its color and projected depth, and removes it when its timer
  * expires. */
-void spawn_configured_overlay_object_b(void *effect_arg, MovingPosition *position, S_80BC1880_0 *render_state)
+void update_shrinking_fading_death_effect(void *effect_arg, MovingPosition *position, S_80BC1880_0 *render_state)
 {
     S_80BC1880_1 *effect = effect_arg;
     DepthProjectionWork projection;

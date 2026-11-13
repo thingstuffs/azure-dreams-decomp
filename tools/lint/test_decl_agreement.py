@@ -321,6 +321,29 @@ class TreeTests(unittest.TestCase):
         new, existing = D.new_problems(base_tree, self.root, {'pick'})        # rename unknown: looks new
         self.assertEqual([p['file'] for p in new], ['src/m/local_moved.c'])
 
+    def test_per_image_function_rename_keeps_existing_disagreement_existing(self):
+        self.retype()
+        (self.root / 'config').mkdir(exist_ok=True)
+        (self.root / 'config/names.tsv').write_text('0x80010000\tfunc_80010000\tpick\tthe function\n')
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'retype')
+        base = git(self.root, 'rev-parse', 'HEAD')
+        base_tree = D.C.materialize(self.root, base, self.root / 'out/fn_base')
+        for path in ('include/m/api.h', 'src/m/def.c', 'src/m/local.c', 'src/m/block.c'):
+            f = self.root / path
+            f.write_text(f.read_text().replace('pick(', 'choose('))
+        with (self.root / 'config/names.tsv').open('a') as table:
+            table.write('0x80010000\tfunc_80010000\tchoose\tanother image\'s function at this address\n')
+        renames = D.function_renames(self.root, base)
+        self.assertEqual(renames, {'choose': {'pick'}})
+        new, existing = D.new_problems(base_tree, self.root, {'choose'}, None, renames)
+        self.assertEqual((new, sorted(p['file'] for p in existing)), ([], ['src/m/block.c', 'src/m/local.c']))
+        new, existing = D.new_problems(base_tree, self.root, {'choose'})      # rename unknown: looks new
+        self.assertEqual(sorted(p['file'] for p in new), ['src/m/block.c', 'src/m/local.c'])
+        (self.root / 'src/m/local.c').write_text('s32 choose(Actor *a);\nint use(void) { return 0; }\n')
+        new, _ = D.new_problems(base_tree, self.root, {'choose'}, None, renames)   # a changed type is new
+        self.assertEqual([p['file'] for p in new], ['src/m/local.c'])
+
     def test_edited_callback_declaration_does_not_fail(self):
         (self.root / 'include/m/api.h').write_text(
             (self.root / 'include/m/api.h').read_text() + 'void on(void (*cb)(Actor *a, s32 n), s32 k);\n')

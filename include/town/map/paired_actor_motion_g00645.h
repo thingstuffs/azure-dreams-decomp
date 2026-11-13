@@ -1,6 +1,7 @@
 #ifndef TOWN_MAP_PAIRED_ACTOR_MOTION_G00645_H
 #define TOWN_MAP_PAIRED_ACTOR_MOTION_G00645_H
 #include "engine/node/registration.h"
+#include "engine/node/allocation.h"
 struct SpriteFrameState;
 #include "town/person/position.h"
 
@@ -109,7 +110,6 @@ struct Dst;
 struct Elem;
 struct ObjectNodeHeader;
 extern void select_record_entry_and_value(void *,void *, s16);
-extern void *allocate_list_node(s32, void *);
 extern s32 D_800E9E14[];
 /* Functions defined in this translation unit. */
 void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *motion,struct SpriteFrameState *sprite, s32 update_mode);

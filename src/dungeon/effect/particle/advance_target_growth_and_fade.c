@@ -122,7 +122,7 @@ extern s32 get_definition_entry_byte_13(s16 entry_index);
 
 #define D_80024538 ((u8 *)advance_target_growth_and_fade)
 extern u8 ribbon_sprite_entries[];
-#define D_80024684 ((u8 *)create_coordinate_sprite_object)
+#define D_80024684 ((u8 *)ramp_progress_value_over_countdown)
 
 extern u8 current_spell_effect_variant[];
 
@@ -427,15 +427,15 @@ typedef struct S_818DAE84_0 {
     u8 pad_04[0x8];
     s32 unk_0C;
     s16 unk_10;
-} S_818DAE84_0;   /* arg0 in create_coordinate_sprite_object */
+} S_818DAE84_0;   /* arg0 in ramp_progress_value_over_countdown */
 
 typedef struct S_818DAE84_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_818DAE84_1;   /* inner in create_coordinate_sprite_object */
+} S_818DAE84_1;   /* inner in ramp_progress_value_over_countdown */
 
 /* Updates progress from a countdown and sets completion flags when it expires. */
-void create_coordinate_sprite_object(S_818DAE84_0 *state) {
+void ramp_progress_value_over_countdown(S_818DAE84_0 *state) {
     s32 remaining;
     s16 next_remaining;
     s32 progress;

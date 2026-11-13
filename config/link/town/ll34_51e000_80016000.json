@@ -32,7 +32,7 @@
     },
     {
       "row": "town/func_8059E188",
-      "tu": "src/town/scene/check_record_value_threshold_b.c",
+      "tu": "src/town/scene/forward_to_func_80017d48.c",
       "home": "town/func_8059E188",
       "foff": "0x51E188",
       "vma": "0x80016188",

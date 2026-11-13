@@ -109,7 +109,7 @@ extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_pt
 /* Functions defined in this translation unit. */
 void initialize_panel_content_and_positions(S_800B19F8_0 *panel);
 void store_pair_values(S_800B1B04_0 *pair, s32 first, s32 second);
-void build_owned_floating_number_widget(s32 object_addr, s32 setup_value, s32 update_value_1, s32 update_value_2);
+void initialize_floating_number_widget_part(s32 object_addr, s32 setup_value, s32 update_value_1, s32 update_value_2);
 void initialize_four_anchored_nodes(void *state);
 void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y);
 

@@ -5,8 +5,7 @@
 #include "town/person/object_setup.h"
 #include "sdk/libgte.h"
 #include "town/person/object.h"
-
-extern ColliderView town_actor_control;
+#include "town/person/mother_event_motion_g00670.h"
 
 
 /* Update the object's orbit, apply a movement offset, and advance its timed state. */

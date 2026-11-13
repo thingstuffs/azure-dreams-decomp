@@ -73,7 +73,7 @@
     {
       "row": "dungeon/func_80AE3820",
       "home": "dungeon/func_80AC5820",
-      "tu": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "tu": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "foff": "0x00B03820",
       "vma": "0x80153020",
       "size": 312,
@@ -487,7 +487,7 @@
     },
     {
       "row": "dungeon/func_80AE7000",
-      "tu": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "tu": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "home": "dungeon/func_80AC9000",
       "foff": "0xB07000",
       "vma": "0x80156800",

@@ -66,14 +66,14 @@ void card_boot_stop_slot_window_updates(struct CardSlotWindow *window);
 /* format_save_heading_text.c */
 void format_save_heading_text(u8 *base_addr);
 
-/* initialize_text_editor_context.c */
-void initialize_text_editor_context(void *dest, s32 record_index);
+/* card_boot_store_save_icon_clut_and_frames.c */
+void card_boot_store_save_icon_clut_and_frames(void *dest, s32 record_index);
 
 /* release_three_row_panel_text.c */
 void release_three_row_panel_text(struct CardSaveHeadingDisplayPrefix *object);
 
-/* write_text_and_advance_selection.c */
-void write_text_and_advance_selection(struct CardSaveMenuBody *menu);
+/* card_boot_update_save_slot_menu_input.c */
+void card_boot_update_save_slot_menu_input(struct CardSaveMenuBody *menu);
 
 /* Panel display records.  A panel copies the resident templates
  * display_block_defaults (one CardDisplayBlock, copied as four words) and
@@ -83,7 +83,7 @@ typedef MenuDisplayBlock CardDisplayBlock;
 typedef MenuDisplayNode CardDisplayNode;
 
 /* Slot-detail panel: the 0xE30-byte body of card_rotated_grid_object, built by
- * render_rotated_grid_surface. A heading node with its own block and vector,
+ * card_boot_create_or_reset_file_list_panel. A heading node with its own block and vector,
  * then 21 list nodes that share one vector (init_card_file_list_panel,
  * init_card_file_list_nodes). card_boot_set_slot_details_selection and the
  * detail formatters read the same body as CardSlotDetails, whose text_nodes

@@ -40,7 +40,7 @@ s32 use_item_to_reset_actor_statuses(ActorRecord *actor, DungeonItemEntry *cause
             return 1;
         }
     }
-    create_timed_paired_particle_emitter(((ObjectNodeHeader *)actor)[-1].position, 0x20C0C0, actor);
+    create_timed_paired_particle_emitter(NODE_HEADER(actor)->position, 0x20C0C0, actor);
 
     if (actor->flags14 & 0x4000) {
         handle = get_unused_text_buffer();

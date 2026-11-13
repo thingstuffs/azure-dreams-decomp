@@ -443,7 +443,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     }
     if (owner->unk_60 != 0) {
         if (effect->unk_58 == 0) {
-            s32 target_distance = set_item_w0(
+            s32 target_distance = get_byte_coordinate_chebyshev_distance(
                 (effect)->unk_1C.parts.unk_1E.parts.unk_1E.u8,
                 (effect)->unk_1C.parts.unk_1E.parts.unk_1F.u8,
                 (owner)->unk_70.parts.unk_72.u8,

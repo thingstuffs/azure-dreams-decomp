@@ -13,7 +13,7 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
     S_800BC3E4_0_pre *node = start_node;
     GameWork *state = &g_game_work;
     SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
-    void *previous;
+    ObjectNodeHeader *previous;
 
     scratch->angles.vx = -state->view.camera_rotation.parts.camera_rotation_x;
     scratch->angles.vy = -state->view.camera_rotation.parts.camera_rotation_y;
@@ -31,11 +31,11 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
                 break;
             }
         }
-        previous = node[-1].unk_00;
+        previous = NODE_HEADER(node)->chain_next;
         if (previous == 0) {
             break;
         }
-        node = (S_800BC3E4_0_pre *)((u8 *)previous + 0x20);
+        node = NODE_BODY(previous);
     }
     return 0;
 }

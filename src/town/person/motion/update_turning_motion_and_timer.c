@@ -6,8 +6,7 @@
 #include "sdk/libgte.h"
 #include "town/person/motion.h"
 #include "town/person/object.h"
-
-extern ColliderView town_actor_control;
+#include "town/person/mother_event_motion_g00670.h"
 
 
 /* Updates turning motion, applies a position adjustment, and checks the timer. */

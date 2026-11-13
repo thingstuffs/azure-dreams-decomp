@@ -443,7 +443,7 @@
     },
     {
       "row": "dungeon/func_80B10E70",
-      "tu": "src/dungeon/monster/saber/create_randomly_rotated_offset_effect.c",
+      "tu": "src/dungeon/monster/saber/saber_attack_actors_on_target_tile.c",
       "home": "dungeon/func_80AC9000",
       "foff": "0xB30E70",
       "vma": "0x80156670",
@@ -483,7 +483,7 @@
     },
     {
       "row": "dungeon/func_80B113E4",
-      "tu": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "home": "dungeon/func_809F6D74",
       "foff": "0xB313E4",
       "vma": "0x80156BE4",

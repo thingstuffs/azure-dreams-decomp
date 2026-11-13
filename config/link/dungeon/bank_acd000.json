@@ -252,7 +252,7 @@
     },
     {
       "row": "dungeon/func_80AB08F4",
-      "tu": "src/dungeon/monster/kid/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kid/project_kid_sprite_chain.c",
       "home": "dungeon/func_809F6D74",
       "foff": "0xAD08F4",
       "vma": "0x801620F4",

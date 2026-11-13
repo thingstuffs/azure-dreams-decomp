@@ -20,7 +20,7 @@
 #include "shared/object_node.h"
 #include "dungeon/system.h"
 
-void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct ObjectPosition *position, struct SpriteFrameState *render_data) = set_record_pair_to_one;
+void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct ObjectPosition *position, struct SpriteFrameState *render_data) = update_wave_projectile_effect;
 const PackedVector wave_texture_rect = {832,340,96,84};
 const PackedVector wave_source_rect = {832,256,96,84};
 const Copy24 wave_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
@@ -571,7 +571,7 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
 
 
 /* Return a random sign of either -1 or 1. */
-s32 advance_effect_sequence(void) {
+s32 random_unit_sign(void) {
     s32 sign;
 
     sign = rand() & 1;
@@ -703,7 +703,7 @@ typedef struct CursorView {
 } CursorView;
 
 /* Update the effect's fade and rotation, draw it, and flag completion at its final frame. */
-void process_five_context_entries_or_fallback(ParticleState *effect, void *unused, SpriteFrameState *output)
+void update_expanding_wave_impact_effect(ParticleState *effect, void *unused, SpriteFrameState *output)
 {
     PackedVector source;
     PackedVector *source_ptr;
@@ -1102,7 +1102,7 @@ typedef struct EffectObject {
 } EffectObject;
 
 /* Update a projectile effect, spawn impact particles, and advance its cleanup state. */
-void set_record_pair_to_one(ProjectileSelf *self, ObjectPosition *position, SpriteFrameState *render_data)
+void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *position, SpriteFrameState *render_data)
 {
     ParentView *parent;
     ObjectNodeHeader *parent_base;
@@ -1359,7 +1359,7 @@ void set_record_pair_to_one(ProjectileSelf *self, ObjectPosition *position, Spri
                     }
                     index = 96;
                     particle_state->unk_9A = 0;
-                    impact->callback = process_five_context_entries_or_fallback;
+                    impact->callback = update_expanding_wave_impact_effect;
                     register_node(impact, project_sprite_chain);
                     impact_data = impact->render;
                     impact_data->unk_14 = 0x0C;
@@ -1482,14 +1482,14 @@ void set_record_pair_to_one(ProjectileSelf *self, ObjectPosition *position, Spri
                 target_pos = NODE_HEADER(parent->unk_60.p)->position;
                 flash_pos = impact->position;
                 offset_radius = rand();
-                offset_sign = advance_effect_sequence();
+                offset_sign = random_unit_sign();
                 offset_radius &= 0x1F;
                 offset_radius += 16;
                 reg_tmp = (u32)((u8 *)(offset_radius * offset_sign));
                 angle = (s32)((u8 *)reg_tmp) << 16;
                 flash_pos[0] = target_pos->x.v + angle;
                 offset_radius = rand();
-                offset_sign = advance_effect_sequence();
+                offset_sign = random_unit_sign();
                 offset_radius &= 0x1F;
                 offset_radius += 16;
                 reg_tmp = (u32)((u8 *)(offset_radius * offset_sign));

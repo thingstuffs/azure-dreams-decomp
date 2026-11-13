@@ -15,7 +15,7 @@ typedef struct CardSlotMenuState {
     u8 pad_38[4];
     s32 countdown;
     s32 unk_40;
-    s32 selected_command; /* +0x44: command row cursor, wrapped over three commands by build_install; indexes the card_boot_dispatch_selected_menu_action table */
+    s32 selected_command; /* +0x44: command row cursor, wrapped over three commands by card_boot_handle_slot_selection_input; indexes the card_boot_dispatch_selected_menu_action table */
     s32 unk_48;
     s32 unk_4C;
 } CardSlotMenuState;

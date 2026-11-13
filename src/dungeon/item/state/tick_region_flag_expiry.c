@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/dungeon_floor.h"
 #include "shared/item_ids.h"
 #include "dungeon/level/room_flags.h"
@@ -6,7 +7,6 @@
 #include "dungeon/item/message.h"
 #include "dungeon/item/state.h"
 #include "dungeon/data.h"
-typedef struct { u16 unk00; } Pre;
 extern s32 D_800E18C8;
 /* Counts active dungeon ticks, optionally reports expiry and clears room flag 2, then removes the timer. */
 void tick_region_flag_expiry(RegionFlagExpiryBody *state)
@@ -22,7 +22,7 @@ void tick_region_flag_expiry(RegionFlagExpiryBody *state)
                 entry_index = state->room_index;
                 dungeon_rooms[entry_index].flags = dungeon_rooms[entry_index].flags & ROOM_HOLY_BEAM_CLEAR_MASK;
             }
-            ((Pre *)state)[-1].unk00 |= 0x8000;
+            NODE_HEADER(state)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }

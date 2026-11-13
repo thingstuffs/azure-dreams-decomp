@@ -369,7 +369,7 @@
     },
     {
       "row": "dungeon/func_80CE5724",
-      "tu": "src/dungeon/monster/pulunpa/spawn_randomized_oscillating_effect.c",
+      "tu": "src/dungeon/monster/pulunpa/hop_pulunpa_to_tile_and_finish_move.c",
       "home": "dungeon/func_80CC1724",
       "foff": "0xD05724",
       "vma": "0x80150F24",

@@ -1,0 +1,68 @@
+#include "modules/town_map_props.h"
+#include "common.h"
+#include "shared/game_work.h"
+#include "town/map/state.h"
+
+extern const u16 D_80089660[8];
+
+/* Writes a selected pair of 16-bit values to adjacent positions in the wrapped buffer. */
+void fill_wrapped_tile_pair(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
+    u16 value_pairs[8];
+    s32 selected_pair;
+    s32 saved_pair;
+    register s32 first_x;
+    s32 height;
+    s32 y;
+    s32 x;
+    s32 x_limit;
+    s32 pair_test;
+    s32 shifted_y;
+    s32 x_end;
+    s32 y_limit;
+    s32 wrapped_y;
+    s32 pair_offset;
+    GameWork *state;
+    s8 *pair_src;
+    MapGrid *buffer_info;
+    s8 *buffer;
+
+    saved_pair = pair_index;
+    selected_pair = saved_pair;
+    memcpy(value_pairs, D_80089660, 0x10);
+    state = &g_game_work;
+    buffer_info = &state->map;
+    buffer = state->map.cells;
+    height = 1;
+    if ((mode == 2) || (selected_pair = 3, pair_test = saved_pair << 0x10, (pair_test == 0))) {
+        x = start_x;
+        x_limit = x;
+        x_limit += 2;
+        if (x < x_limit) {
+            shifted_y = start_y << 0x10;
+            saved_pair = selected_pair << 0x10;
+            pair_test = saved_pair;
+            pair_offset = ((s32)pair_test >> 0xE);
+            pair_src = (s8 *)((long)pair_offset + (long)value_pairs);
+            first_x = x;
+            x_end = x_limit;
+            while (x < x_end) {
+                y = shifted_y >> 0x10;
+                y_limit = y + height;
+                if (y < y_limit) {
+                    s8 *value_src;
+                    s32 y_end;
+                    value_src = (s8 *)((long)((x - first_x) * 2) + (long)pair_src);
+                    y_end = y_limit;
+                    do {
+                        wrapped_y = y & buffer_info->maskY;
+                        y += 1;
+                        *(u16 *)((long)((s32) (((((u16)buffer_info->maskX) & x)
+                            + (wrapped_y << buffer_info->shiftX)) << 0x10) >> 0xF)
+                            + (long)buffer) = *(u16 *)value_src;
+                    } while (y < y_end);
+                }
+                x += 1;
+            }
+        }
+    }
+}

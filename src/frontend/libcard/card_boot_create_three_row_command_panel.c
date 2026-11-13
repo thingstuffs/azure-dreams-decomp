@@ -32,7 +32,7 @@ void *card_boot_create_three_row_command_panel(void *init_value)
         object = initialize_scene_object_in_buffer(0, object, 0x112);
         register_node(object, card_boot_render_panel_hierarchy);
     } else {
-        process_nonzero(object);
+        card_boot_destroy_three_row_panel(object);
         object->flags &= 0x7FFF;
         bzero(state, 0x428);
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person/actor_slot_global_state_g00680.h"
 #include "town/minigame/keima.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -30,7 +31,6 @@ typedef struct {
     s32 field14;
 } Stack24;
 
-extern s32 loaded_town_resource_attributes[];
 
 /* Updates path following, turning, sprite state, and ground movement. */
 void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, SpriteFrameState *sprite) {

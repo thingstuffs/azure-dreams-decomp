@@ -278,7 +278,7 @@ typedef struct Row_8192365C_S_80024E5C_5 {
 } Row_8192365C_S_80024E5C_5;   /* ((Row_8192365C_S_80024E5C_0 *)arg0)->unk_8C in func_80024E5C */
 
 /* Update the effect's color cycle, movement, bursts, and destruction. */
-s32 project_and_queue_visible_shaded_quad(s32);
+s32 rand_below_clamped_limit(s32);
 s32 advance_sprite_animation_and_textures(void *effect_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
@@ -298,7 +298,7 @@ void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work);
 void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origin, void *unused_sprite);
 void update_effect_values_and_expire(Row_819231FC_S_800249FC_1 *object, s32 unused, Row_819231FC_S_800249FC_0 *effect);
 void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite);
-void advance_radial_effect_state(void *entity_data, s32 unused, SpriteFrameState *effect_data);
+void grow_sprite_to_double_scale_and_fade(void *entity_data, s32 unused, SpriteFrameState *effect_data);
 void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite);
 void update_effect_cycle_and_bursts(Row_8192365C_S_80024E5C_0 *effect, Row_8192365C_S_80024E5C_2 *motion, SpriteFrameState *sprite);
 extern u8 shaded_effect_update_flag[];

@@ -4,7 +4,7 @@
 #include "dungeon/item.h"
 
 /* Blends three source channels toward 0x80 using a triangular phase weight. */
-void itm_mon_koyaw_set(u8 *src, s8 *dst)
+void compute_pulsing_tint_offsets(u8 *src, s8 *dst)
 {
     s16 weight;
     s32 delta_0;
@@ -60,7 +60,7 @@ void apply_monster_koyaw_data(s32 flags, s8 *dst) {
             }
         }
         if (koyaw_data != 0) {
-            itm_mon_koyaw_set(koyaw_data, dst);
+            compute_pulsing_tint_offsets(koyaw_data, dst);
         }
     }
 }

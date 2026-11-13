@@ -93,7 +93,7 @@ void create_town_map_entry_processor(void)
     if (node != 0) {
         node->field_0x10 = D_8008C304;
         node->field_0x20 = 0;
-        node = (S_8008EC14_node *)((u8 *)node + 0x20);
+        node = (S_8008EC14_node *)NODE_BODY(node);
         town_map_processor[0] = node;
     }
 }

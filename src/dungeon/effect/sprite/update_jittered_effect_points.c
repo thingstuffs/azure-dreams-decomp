@@ -80,7 +80,7 @@ typedef struct S_func_819A6800_9 {
 
 extern u8 primary_actor_record[16];
 struct S_800244BC_2;
-s32 update_segment(void *);
+s32 draw_chained_trail_quads(void *);
 extern u8 moving_sprite_entries[];
 extern u32 D_800814A0[];
 
@@ -227,7 +227,7 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
                     JitteredBoltSegmentBody *child_data = NODE_BODY(record);
                     void *target_object;
                     record->update_callback = update_jittered_effect_points;
-                    register_node(record, update_segment);
+                    register_node(record, draw_chained_trail_quads);
                     target_object = owner->unk_60.p;
                     child_data->unk_3C = 0;
                     child_data->unk_3E = 0;
@@ -514,7 +514,7 @@ typedef struct
 }
 E_PRIM;
 /* Emit each chain node's four trail quads into the display list, depth-sorted into the OT. */
-s32 update_segment(void *node)
+s32 draw_chained_trail_quads(void *node)
 {
     E_SVEC scratch;
     s32 otz[6];
@@ -626,7 +626,7 @@ typedef struct S_819A764C_1 {
 
 
 
-s32 update_segment(void *);
+s32 draw_chained_trail_quads(void *);
 
 
 /* Update randomized intermediate points and advance the effect state. */
@@ -664,7 +664,7 @@ void update_randomized_intermediate_points(IntermediatePointEffectBody *self)
     switch (state) {
     case 0:
         object_base = NODE_HEADER(self);
-        message = update_segment;
+        message = draw_chained_trail_quads;
 
         register_node(object_base, message);
     case 1:

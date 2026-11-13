@@ -7,11 +7,6 @@
 #include "town/minigame.h"
 #include "town/paired_indicators.h"
 
-typedef struct S_8002415C_0_pre {
-    u8 * unk_00;
-    u8 pad_04[0x4];
-} S_8002415C_0_pre;   /* the 0x8 bytes before node in draw_depth_sorted_line_nodes, addressed as node[-1] */
-
 typedef struct S_8002415C_1 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -38,7 +33,7 @@ s32 draw_depth_sorted_line_nodes(PairedIndicators *node)
     GpuContext *render_state;
     u8 *line_prim;
     DR_MODE *draw_mode_prim;
-    void *next_link;
+    ObjectNodeHeader *next_link;
     s16 first_depth;
     s32 avg_depth;
     s32 ot_offset;
@@ -72,9 +67,9 @@ s32 draw_depth_sorted_line_nodes(PairedIndicators *node)
             }
         }
 
-        next_link = ((S_8002415C_0_pre *)node)[-1].unk_00;
+        next_link = NODE_HEADER(node)->chain_next;
         if (next_link != 0) {
-            node = next_link + 0x20;
+            node = NODE_BODY(next_link);
             continue;
         }
         break;

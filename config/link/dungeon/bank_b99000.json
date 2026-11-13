@@ -218,7 +218,7 @@
     },
     {
       "row": "dungeon/func_80B7BA34",
-      "tu": "src/dungeon/monster/battnel/advance_action_phase_and_process_actor.c",
+      "tu": "src/dungeon/monster/battnel/remove_defeated_battnel.c",
       "home": "dungeon/func_80B6FA34",
       "foff": "0xB9BA34",
       "vma": "0x80167234",

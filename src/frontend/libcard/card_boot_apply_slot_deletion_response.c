@@ -31,12 +31,12 @@ void card_boot_apply_slot_deletion_response(void *object_arg) {
     s32 entry_index;
 
     if (object->unk_38 != 0) {
-        ((S_80025788_0_pre *)object)[-1].unk_00 = build_install;
+        ((S_80025788_0_pre *)object)[-1].unk_00 = card_boot_handle_slot_selection_input;
         return;
     }
 
     if (card_boot_erase_slot_file(object->unk_28) != 0) {
-        ((S_80025788_0_pre *)object)[-1].unk_00 = build_install;
+        ((S_80025788_0_pre *)object)[-1].unk_00 = card_boot_handle_slot_selection_input;
         entry_index = 0;
         entry_cursor = object_arg;
         do {
@@ -45,7 +45,7 @@ void card_boot_apply_slot_deletion_response(void *object_arg) {
             entry_index++;
         } while (entry_index < 5);
     } else {
-        object->unk_34 = build_install;
+        object->unk_34 = card_boot_handle_slot_selection_input;
         card_boot_show_delete_failure_notice(NODE_HEADER(object));
         ((S_80025788_0_pre *)object)[-1].unk_00 = card_boot_restore_saved_selection_callback;
     }

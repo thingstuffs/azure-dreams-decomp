@@ -142,7 +142,7 @@ s8 *get_progress_byte_pointer(void);
 s32 lookup_entry_with_default_fallback(s32 value, s32 check_value, s32 lookup_value);
 s32 func_80017100(s32 value, s32 check_value, s32 lookup_value);
 s32 select_one_time_interaction_response(void *object, s32 check_value, s32 selection);
-s32 select_event_fallback_event_handler(s32 object, s32 request, s32 context);
+s32 select_event_response_with_flag_overrides(s32 object, s32 request, s32 context);
 s32 lookup_entry_with_fallback_b(s32 context, s32 check_value, s32 selector);
 s32 func_800175B4(s32 context, s32 check_value, s32 selector);
 s32 select_mode_nine_lookup(s32 input, s32 context, s32 mode);

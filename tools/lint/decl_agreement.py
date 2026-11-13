@@ -334,15 +334,54 @@ def changed_function_names(root, base, head):
     return names - C.STOP
 
 
-def new_problems(base_tree, head_tree, names, renames=None):
-    """(new, existing): HEAD disagreements split by whether the same declaration disagreed on BASE."""
+def function_renames(root, base, head_tree=None):
+    """{new name: {old names}} for config/names.tsv rows HEAD adds for an address BASE already named.
+
+    A per-image rename keeps the address (func_<addr> column) and gives one image's function a new
+    spelling, so a declaration that disagreed on BASE under the old spelling is the same declaration."""
+    def pairs(text):
+        out = set()
+        for raw in text.splitlines():
+            cols = raw.split('#', 1)[0].split('\t')
+            if len(cols) >= 3 and cols[1].strip() and cols[2].strip():
+                out.add((cols[1].strip(), cols[2].strip()))
+        return out
+    try:
+        before = pairs(subprocess.run(['git', '-C', str(root), 'show', f'{base}:config/names.tsv'],
+                                      capture_output=True, text=True, check=True).stdout)
+    except subprocess.CalledProcessError:
+        return {}
+    table = Path(head_tree or root) / 'config/names.tsv'
+    if not table.is_file():
+        table = Path(root) / 'config/names.tsv'
+    after = pairs(table.read_text()) if table.is_file() else set()
+    by_symbol = collections.defaultdict(set)
+    for symbol, name in before:
+        by_symbol[symbol].add(name)
+    result = collections.defaultdict(set)
+    for symbol, name in after - before:
+        result[name] |= by_symbol.get(symbol, set()) - {name}
+    return {k: v for k, v in result.items() if v}
+
+
+def new_problems(base_tree, head_tree, names, renames=None, function_renames=None):
+    """(new, existing): HEAD disagreements split by whether the same declaration disagreed on BASE.
+
+    renames maps renamed files back to their BASE path; function_renames maps a function's new
+    spelling to its BASE spellings (function_renames()), so a declaration that only changed its name
+    with its definition's rename stays existing."""
     head = check_tree(head_tree, names)
     back = {new: old for new, old in (renames or {}).items()}
-    base_keys = {(p['file'], p['name'], p['declared']) for p in check_tree(base_tree, names)}
+    spellings = function_renames or {}
+    base_names = set(names) | {old for name in names for old in spellings.get(name, ())}
+    base_keys = {(p['file'], p['name'], p['declared']) for p in check_tree(base_tree, base_names)}
     new, existing = [], []
     for p in head:
-        key = (back.get(p['file'], p['file']), p['name'], p['declared'])
-        (existing if key in base_keys else new).append(p)
+        file = back.get(p['file'], p['file'])
+        keys = [(file, p['name'], p['declared'])]
+        keys += [(file, old, re.sub(r'\b%s\b' % re.escape(p['name']), old, p['declared']))
+                 for old in sorted(spellings.get(p['name'], ()))]
+        (existing if any(k in base_keys for k in keys) else new).append(p)
     return new, existing
 
 
@@ -417,7 +456,8 @@ def check_change(root, base, head_tree, names, renames=None, out=None, base_tree
                 base_tree = Path(temporary) / 'base'
                 base_tree.mkdir(exist_ok=True)
         if names:
-            new, existing = new_problems(base_tree, head_tree, names, renames)
+            new, existing = new_problems(base_tree, head_tree, names, renames,
+                                         function_renames(root, base, head_tree))
             void = void_pointer_stale(base_tree, head_tree, names, renames)
         else:
             new, existing, void = [], [], ()

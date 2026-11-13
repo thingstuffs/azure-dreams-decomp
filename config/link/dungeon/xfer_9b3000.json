@@ -34,7 +34,7 @@
     },
     {
       "row": "dungeon/func_809933B0",
-      "tu": "src/dungeon/monster/hikewne/create_configured_effect_actor.c",
+      "tu": "src/dungeon/monster/hikewne/spawn_hikewne_actor.c",
       "home": "dungeon/func_809753B0",
       "foff": "0x9B33B0",
       "vma": "0x80152BB0",

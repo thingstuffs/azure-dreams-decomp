@@ -1014,7 +1014,7 @@ void *find_eligible_actor_at_tile_and_height(Node *node, s32 x, s32 y_in, s16 va
         return 0;
     }
     sentinel = node;
-    node = (Node *)((u8 *)node->next + 0x20);
+    node = NODE_BODY(node->next);
     while (node != sentinel) {
         owner = *(Owner **)((u8 *)node - 0x14);
         if (owner->x == target_x && owner->y == (u16)y) {
@@ -1026,7 +1026,7 @@ void *find_eligible_actor_at_tile_and_height(Node *node, s32 x, s32 y_in, s16 va
                 return node;
             }
         }
-        node = (Node *)((u8 *)node->next + 0x20);
+        node = NODE_BODY(node->next);
     }
     return 0;
 }
@@ -1037,8 +1037,8 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
 {
     u16 flags;
     s32 height_delta;
-    void *first_object;
-    void *object;
+    ActorRecord *first_object;
+    ActorRecord *object;
     void *tile;
 
     if ((get_offset_map_cell_value_and_flags((u16)(tile_x - 1), tile_y, 0, &flags) << 16) == 0) {
@@ -1063,7 +1063,7 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
                 return object;
             }
         }
-        object = (u8 *)*(void **)((u8 *)object + 0x5C) + 0x20;
+        object = NODE_BODY(object->next_actor_header);
     } while (object != first_object);
     return 0;
 }

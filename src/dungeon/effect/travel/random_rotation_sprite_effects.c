@@ -200,7 +200,7 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
  * Increments the linked object counter and advances sprite animation, setting local and global
  * removal flags when animation flags 0x6000 are set.
  */
-void mark_owner_on_target_completion(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target) {
+void animate_sprite_once_counting_owner_ticks(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target) {
     B22_81893474_EffectState *object;
 
     object = object_ref->owner;
@@ -221,7 +221,7 @@ ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->callback = (void *)mark_owner_on_target_completion;
+        obj->callback = (void *)animate_sprite_once_counting_owner_ticks;
         sprite = obj->sprite;
         obj->field20 = field_value;
         sprite[0xE] = 0x80;

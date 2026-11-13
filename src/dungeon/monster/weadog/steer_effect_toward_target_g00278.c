@@ -91,7 +91,7 @@ void steer_effect_toward_target(SteeringEffectWork *motion, ObjectPosition *posi
 }
 
 /* Advance the effect, then move and fade it until its timer expires. */
-void initialize_shared_state_active_entries(SteeringEffectWork *effect, ObjectPosition *position, s32 update_param)
+void update_weadog_steered_fading_effect(SteeringEffectWork *effect, ObjectPosition *position, s32 update_param)
 {
     s32 state;
 

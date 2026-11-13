@@ -5,17 +5,13 @@
  * docs/evidence/r121_rem_opus.md. */
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "dungeon/actor.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgpu_types.h"
 #include "sdk/libgte.h"
 #include "sdk/libgte_matrix.h"
-
-typedef struct S_80024740_0_pre {
-    u8 * unk_00;
-    u8 pad_04[0x4];
-} S_80024740_0_pre;   /* the 0x8 bytes before node in draw_gradient_line_chain, addressed as node[-1] */
 
 typedef struct S_80024740_0 {
     u8 pad_00[0x1E];
@@ -47,7 +43,7 @@ s32 draw_gradient_line_chain(S_80024740_0 *node)
     GpuContext *render;
     LineG2 *line;
     DR_MODE *draw_mode;
-    u8 *next_node;
+    ObjectNodeHeader *next_node;
     s16 start_depth;
     s32 mean_depth;
     s32 ot_offset;
@@ -76,9 +72,9 @@ s32 draw_gradient_line_chain(S_80024740_0 *node)
             SetDrawMode(draw_mode, 0, 0, GetTPage(zero, 1, zero, zero) & 0xFFFF, 0);
             addPrim((u8 *)(ot_offset + (long)((GpuContext *)town->draw_buffer)) + 0xB0, draw_mode);
         }
-        next_node = ((S_80024740_0_pre *)node)[-1].unk_00;
+        next_node = NODE_HEADER(node)->chain_next;
         if (next_node != 0) {
-            node = (S_80024740_0 *)(next_node + 0x20);
+            node = NODE_BODY(next_node);
             continue;
         }
         break;

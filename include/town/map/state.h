@@ -14,8 +14,8 @@ struct TownCameraState;
 struct MapSecondaryCallbackState;
 struct TownPropAnimationActor;
 
-/* apply_item_and_update_matching_actor_state.c */
-void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mode, s32 pair_index);
+/* fill_wrapped_tile_pair.c */
+void fill_wrapped_tile_pair(s16 start_x, s16 start_y, s16 mode, s32 pair_index);
 
 /* copy_record_state_to_destination.c */
 void copy_record_state_to_destination(struct TownPropAnimationActor *self, s32 unused_value, SpriteFrameState *destination);

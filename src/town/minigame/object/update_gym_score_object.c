@@ -3,6 +3,7 @@
 #include "shared/town_handler_entries.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "shared/entity_objects.h"
 #include "slus.h"
 #include "town/minigame/object.h"
 #include "town/player.h"
@@ -14,7 +15,6 @@
 
 
 
-extern ObjectPosition view_reference_entity;
 
 /* Update object motion, scoring, and timed state transitions. */
 void update_gym_score_object(GymScoreObject *obj, ObjectPosition *motion)

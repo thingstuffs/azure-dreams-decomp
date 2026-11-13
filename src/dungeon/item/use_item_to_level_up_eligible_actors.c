@@ -87,7 +87,7 @@ s32 use_item_to_level_up_eligible_actors(ActorRecord *target, DungeonItemEntry *
                         create_actor_value_popup(effect_id, node, -2, 1);
                     }
                 }
-                node = (u8 *)((S_800BF9EC_2 *)node)->unk_5C + 0x20;
+                node = NODE_BODY(((S_800BF9EC_2 *)node)->unk_5C);
             } while (node != head);
         }
     }

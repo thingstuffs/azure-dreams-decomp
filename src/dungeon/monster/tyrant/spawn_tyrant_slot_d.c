@@ -36,7 +36,7 @@ extern M2C_UNK D_80162000;
 
 /* Creates a Tyrant actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 input3) {
+void *spawn_tyrant_in_slot_d(s16 input0, s16 input1, s16 input2, s16 input3) {
     ActorRecord *record;
     void *body;
     s32 value;

@@ -203,7 +203,7 @@
     },
     {
       "row": "dungeon/func_81025034",
-      "tu": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "tu": "src/dungeon/monster/garuda/cast_garuda_targeted_spell.c",
       "home": "dungeon/func_81007034",
       "foff": "0x1045034",
       "vma": "0x80154834",

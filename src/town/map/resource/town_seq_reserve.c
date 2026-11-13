@@ -1,8 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/map/resource.h"
-
-extern u8 town_pending_sound[];
+#include "town/map/sound_selection_g00648.h"
 
 typedef struct S_800C17A0_0 {
     u8 pad_00[0x4];

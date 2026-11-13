@@ -124,7 +124,7 @@ void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, Sprite
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, info->tile_x, info->tile_y);
-        if ((g_dungeon_status.pending_display_owner) == (u8 *)anim - 0x20) {
+        if ((g_dungeon_status.pending_display_owner) == NODE_HEADER(anim)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         state->unk_8C.address = D_800D20D8;

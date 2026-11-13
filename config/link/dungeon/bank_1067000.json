@@ -11,7 +11,7 @@
     {
       "row": "dungeon/func_810470D4",
       "home": "dungeon/func_80AC5820",
-      "tu": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "tu": "src/dungeon/monster/saber/update_saber_effect_depth_and_lifetime.c",
       "foff": "0x10670D4",
       "vma": "0x801588D4",
       "size": 312,

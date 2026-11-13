@@ -172,7 +172,7 @@ void handle_increment_entry_counters_process_target_propagate_status_flags(Rando
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state);
 void advance_the_entry_counters_trigger_count_milestones_update_target(CountedSpriteEffectBody *entry, s32 unused, void *target);
 void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state);
-void mark_owner_on_target_completion(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target);
+void animate_sprite_once_counting_owner_ticks(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target);
 ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32 *initial_data);
 void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part);
 #endif

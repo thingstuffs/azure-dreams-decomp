@@ -10,15 +10,15 @@ typedef struct S_800165E4_0 {
     u32 unk_10;
     u8 pad_14[0x4];
     s16 unk_18;
-} S_800165E4_0;   /* arg0 in set_one */
+} S_800165E4_0;   /* arg0 in apply_entry_flag_if_flag_test_record_passes */
 
 typedef struct S_800165E4_1 {
     u8 pad_00[0xC];
     s16 unk_0C;
-} S_800165E4_1;   /* (void *)entry in set_one */
+} S_800165E4_1;   /* (void *)entry in apply_entry_flag_if_flag_test_record_passes */
 
 /* Processes a selected nonzero table value and its owner's parameter if the check succeeds. */
-s32 set_one(S_800165E4_0 *tableOwner, s32 entryIndex) {
+s32 apply_entry_flag_if_flag_test_record_passes(S_800165E4_0 *tableOwner, s32 entryIndex) {
     u32 entryAddress;
     s16 entryValue;
 

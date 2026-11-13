@@ -87,7 +87,7 @@ def source_words(slot, root):
             if not re.search(r'\btypedef\s+(?:const\s+)?(?:u8|char|void)\s*\*\s*' + re.escape(field['type']) + r'\s*;', header):
                 raise ValueError('descriptor lacks a typed data pointer')
     text = clean(root / slot['source'])
-    found = re.findall(r'\b(?:const\s+)?' + re.escape(slot['type']) + r'\s+' + source_symbol_pattern(slot['symbol'], root) + r'\s*\[\s*([0-9]+)\s*\]\s*=\s*\{((?:[^{}]|\{[^{}]*\})*)\}\s*;', text)
+    found = re.findall(r'\b(?:const\s+)?' + re.escape(slot['type']) + r'\s+' + source_symbol_pattern(slot['symbol'], root, text) + r'\s*\[\s*([0-9]+)\s*\]\s*=\s*\{((?:[^{}]|\{[^{}]*\})*)\}\s*;', text)
     if len(found) != 1 or int(found[0][0]) != len(slot['records']):
         raise ValueError('descriptor initializer/extent differs')
     body = found[0][1]
@@ -102,7 +102,7 @@ def source_words(slot, root):
             if field['kind'] == 'scalar':
                 if not re.fullmatch(r'-?(?:0x[0-9a-fA-F]+|[0-9]+)', value) or int(value, 0) != wanted:
                     raise ValueError('descriptor scalar initializer differs')
-            elif value != wanted and not re.fullmatch(source_symbol_pattern(wanted, root), value):
+            elif value != wanted and not re.fullmatch(source_symbol_pattern(wanted, root, text), value):
                 raise ValueError('descriptor symbolic initializer differs')
     return inventory(slot)[0]
 

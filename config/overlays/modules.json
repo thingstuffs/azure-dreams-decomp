@@ -100389,7 +100389,7 @@
       "key": "town_terminal_choice_705000",
       "container": "town",
       "name": "terminal_choice_705000",
-      "source": "src/town/scene/attach_global_data_invoke_callback.c",
+      "source": "src/town/scene/attach_global_data_pointers.c",
       "region": "r121c2_7051EC",
       "headers": [
         "include/town/scene.h"
@@ -100400,7 +100400,7 @@
       },
       "owned_data": [],
       "review_inputs": [
-        "src/town/scene/attach_global_data_invoke_callback.c",
+        "src/town/scene/attach_global_data_pointers.c",
         "docs/evidence/terminal_choice_705000.json",
         "docs/evidence/r124w_carve1_run13.md",
         "src/town/scene/find_eligible_entry.c",
@@ -100412,7 +100412,7 @@
       "data_members": [
         {
           "id": "town/D_80785074",
-          "source": "src/town/scene/attach_global_data_invoke_callback.c",
+          "source": "src/town/scene/attach_global_data_pointers.c",
           "symbol": "D_80016074",
           "foff": 7360628,
           "vma": 2147573876,
@@ -100422,7 +100422,7 @@
       "members": [
         {
           "id": "town/func_807851EC",
-          "source": "src/town/scene/attach_global_data_invoke_callback.c",
+          "source": "src/town/scene/attach_global_data_pointers.c",
           "function": "func_800161EC",
           "foff": 7361004,
           "vma": 2147574252,
@@ -100449,7 +100449,7 @@
               "symbol": "D_80016074",
               "offset": 0,
               "size": 16,
-              "source": "src/town/scene/attach_global_data_invoke_callback.c",
+              "source": "src/town/scene/attach_global_data_pointers.c",
               "type": "TownTerminalChoice",
               "declaration": "include/town/scene.h",
               "owner": "town/func_807851EC",

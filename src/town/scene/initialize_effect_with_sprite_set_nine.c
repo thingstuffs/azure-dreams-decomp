@@ -11,6 +11,7 @@
 #include "town/map.h"
 #include "town/map/state.h"
 #include "town/map/state_callbacks_api.h"
+#include "town/map/object/clear_object_link_and_mark_complete_g01169.h"
 
 static __inline__ EffectNode *effect_node(EffectState *state) {
     EffectPointer view;
@@ -19,7 +20,6 @@ static __inline__ EffectNode *effect_node(EffectState *state) {
 }
 
 extern u8 clipped_sprite_renderer_address[];
-extern u8 lit_mesh_renderer_address[];
 
 
 

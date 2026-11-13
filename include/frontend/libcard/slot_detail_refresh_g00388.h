@@ -20,6 +20,6 @@ extern u8 *card_empty_slot_guidance_lines[];
 
 /* Functions defined in this translation unit. */
 void card_boot_format_empty_slot_guidance(void *context);
-void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void *context);
+void card_boot_format_default_empty_slot_guidance(void *context);
 
 #endif

@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "shared/dungeon_image_buffer.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "engine/texture.h"
@@ -66,7 +67,6 @@ typedef struct S_801749A8_6 {
 extern s32 cd_cue_base[];
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
-extern u8 dungeon_resource_buffer[];
 extern s16 D_80174F48[];
 void unlink_entity_node();
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"

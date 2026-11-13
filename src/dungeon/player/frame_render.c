@@ -12,6 +12,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/game_work.h"
+#include "shared/sys_flags.h"
 #include "records/Rec_D_80083160.h"
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
@@ -47,7 +48,6 @@ typedef struct S_8003E2D8 S_8003E2D8;
 typedef s32 (*Callback)(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 extern s32 D_800814A0;
-extern u16 system_update_flags;
 extern void remove_marked_active_nodes(void);
 extern u8 upper_draw_context[16];
 s32 func_80067EF4(void *, s32, s32);

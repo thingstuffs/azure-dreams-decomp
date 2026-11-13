@@ -19,7 +19,7 @@ s32 roll_threshold_effect_variant_b(State *state_ptr, s16 limit_input, s16 byte_
     s32 dividend;
     s32 roll;
 
-    if (initialize_object_configuration_x(state) != 0) {
+    if (has_blindness_protection(state) != 0) {
         return 0;
     }
     dividend = generate_random_value() & 0xFFFF;

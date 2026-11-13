@@ -66,7 +66,7 @@ s32 use_random_healing_item(DungeonObject *obj, DungeonItemEntry *payload, s16 e
             return 1;
         }
     }
-    create_timed_paired_particle_emitter(((ObjectNodeHeader *)obj)[-1].position, 0x20E020, obj);
+    create_timed_paired_particle_emitter(NODE_HEADER(obj)->position, 0x20E020, obj);
     amount = (generate_random_value() & 7) + 0x20;
     if (amount >= 0x100) {
         amount = 0xFF;

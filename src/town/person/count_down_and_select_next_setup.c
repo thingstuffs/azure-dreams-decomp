@@ -8,7 +8,7 @@ void func_800CDE4C(void *, s32, void *);    /* extern */
 #include "records/Rec_D_800CFCB4.h"
 #include "engine/window.h"
 #include "town/person.h"
-extern ColliderView town_actor_control;
+#include "town/person/mother_event_motion_g00670.h"
 
 /* Count down when the object is ready and choose its next setup when the timer expires. */
 void count_down_and_select_next_setup(TownObjectRecord *object, void *request_data, void *request_param, s32 check_param) {

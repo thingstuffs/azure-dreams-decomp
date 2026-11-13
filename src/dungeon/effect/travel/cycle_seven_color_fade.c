@@ -563,7 +563,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
 
 
 /* Creates an object from source data and payload, initializing two fields randomly. */
-void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 *payload) {
+void create_randomized_radial_band_effect(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 *payload) {
     B28_818B77D4_Obj818B77D4 *obj;
     B28_818B77D4_Inner818B77D4 *state;
     u16 source_value;
@@ -586,7 +586,7 @@ void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4
 }
 
 /* Per-frame update for the four-phase spark effect: drift, tint ramp, hold, then mark the owner finished. */
-void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, SpriteFrameState *gfx) {
+void update_seven_color_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, SpriteFrameState *gfx) {
     s32 variant_index;
     s16 fade;
     s16 next_tick;
@@ -661,7 +661,7 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
         gfx->scale_y = fade;
         gfx->scale_x = fade;
         if ((s16) obj->field10 >= 0x10) {
-            draw_chained_object_records((void *)obj, (void *)motion);
+            create_randomized_radial_band_effect((void *)obj, (void *)motion);
             phase_value = (u16) obj->state;
             obj->field10 = 0U;
             obj->state = (s16) (phase_value + 1);
@@ -719,7 +719,7 @@ s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosi
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != NULL) {
-        update_handler = update_spark_effect;
+        update_handler = update_seven_color_spark_effect;
         part = NODE_BODY(obj);
         obj->update_callback = update_handler;
         ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_20 = owner;

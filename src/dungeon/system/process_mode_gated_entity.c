@@ -20,14 +20,14 @@ typedef struct {
     s32 field_18;
 } Entity;
 
-extern void advance_paired_object_sequence(Entity *);
+extern void release_menu_children_and_copy_entity_string(Entity *);
 extern Func D_800294A8[];
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* Process an entity and set entity and global flags when the mode or callback permits. */
 void process_mode_gated_entity(Entity *entity) {
     if (entity) {
-        advance_paired_object_sequence(entity);
+        release_menu_children_and_copy_entity_string(entity);
         if (runtime_dispatch_state.mode == 1 || D_800294A8[entity->field_18](entity->field_0, entity->field_10)) {
             ((S_80025480_0_pre *)entity)[-1].unk_00 |= 0x8000;
             D_800814A0.v |= OBJECT_REMOVE_PENDING;

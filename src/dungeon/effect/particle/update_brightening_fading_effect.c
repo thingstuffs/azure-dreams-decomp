@@ -264,14 +264,14 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
     return handle;
 }
 
-   /* arg0 in update_effect_and_spawn_fragments */
+   /* arg0 in settle_height_with_jitter_then_drift */
 
-   /* arg1 in update_effect_and_spawn_fragments */
+   /* arg1 in settle_height_with_jitter_then_drift */
 
 extern s32 rand();
 
 /* Interpolates height with jitter until the phase ends, then advances position by velocity. */
-void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion)
+void settle_height_with_jitter_then_drift(S_8195EE48_0 *state, S_8195EE48_1 *motion)
 {
     s32 phase_or_height;
     s16 ticks_left;
@@ -348,7 +348,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
             return NULL;
         }
         coord = NODE_BODY(obj);
-        obj->update_callback = update_effect_and_spawn_fragments;
+        obj->update_callback = settle_height_with_jitter_then_drift;
         register_node(obj, draw_linked_lit_meshes);
         render = obj->position;
         render->x.w.i = world_x;
@@ -413,7 +413,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
                         terrain_effect_height_grid[grid_y][grid_x] + origin->height;
                 }
                 if (!(func_80069EF8() & 7)) {
-                    set_record_pair_to_one((s16)(tile_x << 6), (s16)(tile_y << 6),
+                    spawn_ballistic_tile_fragment_particle((s16)(tile_x << 6), (s16)(tile_y << 6),
                                   (s16)terrain_effect_height_grid[grid_y][grid_x], (s16)grid_x,
                                   (s16)grid_y);
                 }
@@ -987,19 +987,19 @@ s32 draw_linked_object_chain(void *payload, void *position, void *render)
 #define NULL 0
 #endif
 
-   /* object in set_record_pair_to_one */
+   /* object in spawn_ballistic_tile_fragment_particle */
 
-   /* position in set_record_pair_to_one */
+   /* position in spawn_ballistic_tile_fragment_particle */
 
-   /* render in set_record_pair_to_one */
+   /* render in spawn_ballistic_tile_fragment_particle */
 
-   /* primitive in set_record_pair_to_one */
+   /* primitive in spawn_ballistic_tile_fragment_particle */
 
 struct ObjectNodeHeader;
 extern s32 rand();
 
 /* Spawn a textured particle with randomized motion at the given position. */
-void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
+void spawn_ballistic_tile_fragment_particle(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     s32 random_angle;
     s32 primitive_word;
     s16 tile_row_copy;

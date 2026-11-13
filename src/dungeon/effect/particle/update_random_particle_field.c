@@ -182,7 +182,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
     }
 }
 /* Moves a particle toward the terrain, spawns a random impact sprite on contact, and retires it afterward. */
-void draw_red(FallingParticleEffectBody *effect) {
+void drop_particle_to_terrain_and_spawn_impact(FallingParticleEffectBody *effect) {
     s32 ticks_left;
     s32 surface_height;
     s16 state;

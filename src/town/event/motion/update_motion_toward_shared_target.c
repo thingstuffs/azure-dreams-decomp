@@ -8,8 +8,7 @@
 #include "town/scene/motion.h"
 #include "town.h"
 #include "town/event/motion.h"
-
-extern s32 town_target_height_offset;
+#include "town/menu/indexed_effect_vectors_g00583.h"
 
 
 /* Update motion toward the shared target and advance state when the countdown expires. */

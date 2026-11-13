@@ -36,7 +36,7 @@ void card_boot_format_card_with_retry(void *state_arg) {
         context = NODE_HEADER(state);
         state->resume_callback = card_boot_update_card_chooser_input;
         card_boot_show_no_memory_card_notice(context);
-        NODE_HEADER(state)->update_callback = reset_menu_object_state_2;
+        NODE_HEADER(state)->update_callback = card_boot_restore_chooser_callback_after_dialog;
     } else {
         context = NODE_HEADER(state);
         state->resume_callback = card_boot_update_card_chooser_input;

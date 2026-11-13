@@ -11,7 +11,7 @@
     {
       "row": "dungeon/func_81065098",
       "home": "dungeon/func_8105F098",
-      "tu": "src/dungeon/monster/tyrant/copy_part_state.c",
+      "tu": "src/dungeon/monster/tyrant/spawn_tyrant_with_slot_f_action.c",
       "foff": "0x1085098",
       "vma": "0x80164898",
       "size": 524,

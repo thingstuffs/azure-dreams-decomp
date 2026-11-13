@@ -14,7 +14,7 @@ void card_boot_load_selected_slot(CardSlotMenuState *state) {
     result = card_boot_load_save_and_clear_marker(state->unk_28, 0x80010000, 1);
     owner = ((s8 *)state) - 0x20;
     if (result == 0) {
-        next_state = build_install;
+        next_state = card_boot_handle_slot_selection_input;
         state->saved_callback = next_state;
         card_boot_show_load_failure_notice(owner);
         next_state = (s32 *)0x80020000;

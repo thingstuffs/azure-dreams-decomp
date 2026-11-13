@@ -397,7 +397,7 @@ void create_scaling_impact_sprite(s32 state_value, S_800244BC_3 *source_pos)
 
 /* Returns a uniform random sample in [0, limit) by rejection: the rand() bits are masked down to the
  * smallest bit range that covers limit, and the draw repeats while it is out of range.  Zero when limit is zero. */
-s32 update_palette_particle_transition(s32 limit) {
+s32 rand_below_limit_rejection(s32 limit) {
     s32 sample;
 
     sample = 0;
@@ -595,7 +595,7 @@ void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origi
             sprite = ((ObjectNodeHeader *)object)->sprite;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
-            color_channel = update_palette_particle_transition(3);
+            color_channel = rand_below_limit_rejection(3);
             sprite->color.c.b = 0;
             sprite->color.c.g = 0;
             sprite->color.c.r = 0;
@@ -1892,7 +1892,7 @@ void create_offset_colored_effect(
         sprite = effect->sprite;
         sprite->scale_y = 0x3000;
         sprite->scale_x = 0x3000;
-        color_channel = update_palette_particle_transition(3);
+        color_channel = rand_below_limit_rejection(3);
         sprite->color.c.b = 0;
         sprite->color.c.g = 0;
         sprite->color.c.r = 0;

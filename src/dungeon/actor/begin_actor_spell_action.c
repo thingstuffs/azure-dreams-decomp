@@ -66,7 +66,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
             if ((input_flags & 8) || ((try_claim_dungeon_action_slot(object) << 16) != 0)) {
                 return;
             }
-            select_nearby_target_and_initialize_slot((u8 *)object - 0x20, effect_param, 8, 0x300);
+            select_nearby_target_and_initialize_slot(NODE_HEADER(object), effect_param, 8, 0x300);
             if ((try_claim_dungeon_action_slot(object) << 16) != 0) {
                 return;
             }

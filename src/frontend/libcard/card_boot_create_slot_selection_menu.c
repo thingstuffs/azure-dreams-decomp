@@ -24,7 +24,7 @@ void *card_boot_create_slot_selection_menu(ObjectNodeHeader *init_value, s32 unu
     state->unk_48 = 1;
     state->backdrop = create_or_reset_seven_entry_menu_backdrop(object, ((void *)object) + 0x68);
     state->command_panel = card_boot_create_three_row_command_panel(object);
-    state->slot_details = render_rotated_grid_surface(object, state->unk_28, 0);
+    state->slot_details = card_boot_create_or_reset_file_list_panel(object, state->unk_28, 0);
     state->mode = 0;
     object->update_callback = &create_next_card_slot_window;
     return object;

@@ -13,10 +13,10 @@ typedef struct S_8001B828_0 {
 } S_8001B828_0;   /* obj in dispatch_event_request */
 
 #include "town/scene.h"
+#include "town/scene/attach_global_data_and_invoke_callback.h"
 #include "town/player/state.h"
 #include "town/scene/event.h"
 
-extern s32 scene_event_data;
 extern u8 scene_mode_event_data[];
 extern u8 D_8001914C[];
 

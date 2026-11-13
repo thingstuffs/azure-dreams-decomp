@@ -482,7 +482,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
  *
  * Link packet: tag word (next address + length), then payload.
  */
-void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
+void draw_sprite_strips_with_clip_and_fill_rect(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];
     u16 clear_enabled;
@@ -681,9 +681,9 @@ void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source)
     }
 }
 
-/* Retail 81905880 (get_half_byte_length): spawn an effect object under the parent node, placed at the parent's
+/* Retail 81905880 (spawn_jittered_rising_tile_effect): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
-void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
+void spawn_jittered_rising_tile_effect(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
                    s16 offset_y, s16 offset_z) {
     ObjectNodeHeader *source_obj = parent;
     u32 saved_field_28 = field_28;
@@ -933,7 +933,7 @@ void build_inverted(TravelingSpriteEffectBody *context, void *unused, void *effe
         image_rect.h = 0x54;
         center.x = 0x370;
         center.y = 0x12a;
-        decrement_effect_counter_by_twelve(context->unk_48, &image_rect, &center, one, one);
+        draw_sprite_strips_with_clip_and_fill_rect(context->unk_48, &image_rect, &center, one, one);
         frame = (s16)context->unk_02;
         if (frame < 0x15) {
             *(s8 *)((u8 *)effect_data + 0xe) = (frame << 7) / 20;
@@ -1107,7 +1107,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
         index = 0;
         while (1) {
             random_bits = rand();
-            get_half_byte_length((u8 *)effect - 0x20, effect->direction, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
+            spawn_jittered_rising_tile_effect((u8 *)effect - 0x20, effect->direction, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
                 0, 0);
             index++;
             if (index >= 4) {

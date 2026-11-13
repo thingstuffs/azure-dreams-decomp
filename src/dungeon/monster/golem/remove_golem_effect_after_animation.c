@@ -1,0 +1,15 @@
+#include "common.h"
+#include "slus/imports.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/object_flags.h"
+
+
+// Process the source and set destination and global flags when source status bits are set.
+void remove_golem_effect_after_animation(void *destination, s32 unused, SpriteFrameState *source)
+{
+    advance_sprite_animation_and_textures(source);
+    if (source->flags & 0x6000) {
+        *(u16 *)((u8 *)destination - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+    }
+}

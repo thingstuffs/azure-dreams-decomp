@@ -9,5 +9,5 @@
 void card_boot_enter_slot_selection_input(void *record_data) {
     card_boot_refresh_five_slot_selection(record_data);
     card_boot_recheck_selected_channel();
-    ((ObjectNodeHeader *)record_data - 1)->update_callback = build_install;
+    ((ObjectNodeHeader *)record_data - 1)->update_callback = card_boot_handle_slot_selection_input;
 }

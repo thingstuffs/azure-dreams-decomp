@@ -406,7 +406,7 @@ s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850
 
 /* Draws the remaining shaded rings after the current segment index using phase-dependent radii and
    height offsets. */
-s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ObjectPosition *target, void *context) {
+s32 draw_remaining_shaded_rings(ovl_18d0850_818B1484_S_818B1484_1 *effect, ObjectPosition *target, void *context) {
     void *effect_arg;
     s32 wave_table[34];
     s32 *table_ptr;
@@ -474,7 +474,7 @@ s32 dispatch_effect_state_handler(void *state_ptr, ObjectPosition *second_ptr, S
         build_a_circular_lookup_table_submit_eight_phase_shifted_entries(state_ptr, second_ptr, third_ptr);
         break;
     case 6:
-        fade_effect_sprite_to_black(state_ptr, second_ptr, third_ptr);
+        draw_remaining_shaded_rings(state_ptr, second_ptr, third_ptr);
         break;
     }
     return 0;

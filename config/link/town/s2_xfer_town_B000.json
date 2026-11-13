@@ -1403,7 +1403,7 @@
     },
     {
       "row": "town/func_800C19FC",
-      "tu": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "tu": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "home": "dungeon/func_81087200",
       "foff": "0x419FC",
       "vma": "0x800bf15c",

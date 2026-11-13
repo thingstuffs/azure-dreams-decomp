@@ -43,8 +43,8 @@ extern s32 D_800E1C64;
 
 /* Applies effect 0x12 to an eligible entity and handles messages for flagged entities. */
 extern s16 D_80025308;
-extern s32 begin_view_parameter_transition(PointRecord *, ObjectPosition *);
-extern void create_randomized_transform_effect();
+extern s32 draw_linked_brightness_scaled_points(PointRecord *, ObjectPosition *);
+extern void lift_attached_particle_above_terrain_and_age();
 extern s16 D_80025308;
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector();
 extern const s16 D_80024038[8][2];
@@ -85,9 +85,9 @@ void apply_random_actor_value_adjustment(ActorRecord *entity, s32 effect_param, 
 }
 
 
-/* Retail 8186E96C (begin_view_parameter_transition): projects each linked point and queues a brightness-scaled shaded point
+/* Retail 8186E96C (draw_linked_brightness_scaled_points): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
-s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *start_coords)
+s32 draw_linked_brightness_scaled_points(PointRecord *start_node, ObjectPosition *start_coords)
 {
     GpuContext **state_ptr;
     Scratch8002416C *scratch;
@@ -174,7 +174,7 @@ s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *sta
 
 
 /* Raise the position toward the queried height and set flags when the countdown expires. */
-void create_randomized_transform_effect(u8 *state, UnkArg1 *position)
+void lift_attached_particle_above_terrain_and_age(u8 *state, UnkArg1 *position)
 {
     u16 countdown;
 
@@ -219,7 +219,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->update_callback = (void *)create_randomized_transform_effect;
+        spawned->update_callback = (void *)lift_attached_particle_above_terrain_and_age;
         jitter_x = rand() & 0x1F;
         position_x = source_obj->position->x.w.i;
         dest_x = spawned->position;
@@ -247,7 +247,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, begin_view_parameter_transition);
+        register_node(spawned, draw_linked_brightness_scaled_points);
         fields->color = saved_field_28;
     }
 }

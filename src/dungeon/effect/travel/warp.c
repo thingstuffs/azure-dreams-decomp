@@ -228,7 +228,7 @@ void advance_effect_phases(WarpPhaseEffectBody *object, Rec_func_800249DC_arg0 *
             offsets->y + object->offset_y;
         record->unk_0A =
             offsets->z + (u16)object->offset_z;
-        if (move_effect_toward_target(record) != 0) {
+        if (spawn_nine_warp_trail_sprites(record) != 0) {
             register_node(NODE_HEADER(object), project_sprite_chain);
             object->phase = (u16)((u16)object->phase + 1);
             return;
@@ -438,7 +438,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
     case 3:
         source = &reference_tile_object;
         if (resolve_record_orientation_or_fallback(((void *)source->sprite_source), source, &base, 0) != 0) {
-            update_object_movement_proximity_reactions(
+            spawn_warp_trail_sprites(
                 view_reference_entity.x.w.i + base.x,
                 view_reference_entity.y.w.i + base.y,
                 view_reference_entity.z.w.i + base.z,
@@ -483,7 +483,7 @@ typedef struct S_819AD1DC_3 {
 } S_819AD1DC_3;   /* part in func_819AD1DC */
 
 /* Spawn the nine trail sprites at the source position, the last one larger and all fading with distance. */
-void *move_effect_toward_target(MovingPosition *src)
+void *spawn_nine_warp_trail_sprites(MovingPosition *src)
 {
     s32 i;
     s32 *handler;
@@ -873,7 +873,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
         ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (calculate_planar_heading(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
             ((S_819AD81C_2 *)motion)->unk_10.at02.v) - 0x400);
         advance_animation_index_within_bounds(gfx, &entity->animation_index, entity->animation_start, entity->animation_end);
-        update_traveling((struct FrameState *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
+        copy_anim_entry_and_widen_fields((struct FrameState *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
         if (((S_819AD81C_1 *)gfx)->unk_14 & 0x4000) {
             ((S_819AD81C_1 *)gfx)->unk_04 = 0;
         }
@@ -973,7 +973,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
             spawn_opposite_offset_effect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
         }
         set_animation_entry_address(gfx, info->unk_04);
-        update_traveling((struct FrameState *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
+        copy_anim_entry_and_widen_fields((struct FrameState *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
     }
 }
 
@@ -1121,7 +1121,7 @@ typedef struct FrameState {
 } FrameState;
 
 /* Copies the animation entry, sign-extending its three byte fields into destination words. */
-void update_traveling(FrameState *dst, AnimEntry *src)
+void copy_anim_entry_and_widen_fields(FrameState *dst, AnimEntry *src)
 {
     s32 halfword;
 
@@ -1310,7 +1310,7 @@ s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, Entry *i
             slot += 0x10;
             set_animation_entry_address(entry_or_link, entry->field_4);
             slot_index++;
-            update_traveling(state, entry->field_0);
+            copy_anim_entry_and_widen_fields(state, entry->field_0);
             transform_shade_and_queue_model_quads(state, value, entry, entry->field_6);
             entry_or_link = entry;
         } while (slot_index < 12);
@@ -1393,7 +1393,7 @@ extern s32 rsin();
 extern s32 rcos();
 
 /* Update two animated points, fade their intensity, and flag expiration. */
-void initialize_inventory_packet(Rec_func_80025D28_arg0 *state, ObjectPosition *points, SpriteFrameState *appearance) {
+void animate_waving_point_pair_and_fade(Rec_func_80025D28_arg0 *state, ObjectPosition *points, SpriteFrameState *appearance) {
     s32 phase_angle;
     s32 phase_step;
     s32 side_offset_x;
@@ -1488,7 +1488,7 @@ void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param
 
     effect = allocate_flagged_object_node(0x202);
     if (effect != NULL) {
-        effect->update_callback = initialize_inventory_packet;
+        effect->update_callback = animate_waving_point_pair_and_fade;
         register_node(effect, process_linked_mesh_states_mode_0);
         position = effect->position;
         effect_state = NODE_BODY(effect);
@@ -1591,7 +1591,7 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 
 /* Spawns an effect actor or builds a curved trail toward the saved position. */
-void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
+void *spawn_warp_trail_sprites(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     Actor *actor;
     ObjectPosition *coord;
     SpriteFrameState *prim;
@@ -1631,7 +1631,7 @@ void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle,
             trail_y = y + step_y;
             trail_z = z + step_z;
             for (trail_index = 0; trail_index < 16; trail_index++) {
-                update_object_movement_proximity_reactions(trail_x + ((rcos(angle) * rsin(trail_index << 7)) >> 21),
+                spawn_warp_trail_sprites(trail_x + ((rcos(angle) * rsin(trail_index << 7)) >> 21),
                               trail_y + ((rsin(angle) * rsin(trail_index << 7)) >> 21),
                               trail_z, angle, 1);
                 trail_x += step_x;

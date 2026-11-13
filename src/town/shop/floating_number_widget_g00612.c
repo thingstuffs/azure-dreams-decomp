@@ -43,7 +43,7 @@ void store_pair_values(S_800B1B04_0 *pair, s32 first, s32 second) {
 }
 
 /* Set up the object, update its embedded records, and finalize it. */
-void build_owned_floating_number_widget(s32 object_addr, s32 setup_value, s32 update_value_1, s32 update_value_2) {
+void initialize_floating_number_widget_part(s32 object_addr, s32 setup_value, s32 update_value_1, s32 update_value_2) {
     store_pair_values((S_800B1B04_0 *)object_addr, setup_value, update_value_1);
     initialize_templated_state_and_position(object_addr + 0x38, object_addr + 0x10, object_addr + 0x20, update_value_1, update_value_2);
     initialize_panel_content_and_positions((S_800B19F8_0 *)object_addr);
@@ -102,7 +102,7 @@ void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
             object->sprite = (u8 *)object + 0x58;
             initialize_four_anchored_nodes(part);
             part->unk_44 = link_save_heading_draw_nodes((u8 *)object + 0x68);
-            build_owned_floating_number_widget((s32)part, setup_value, x, y);
+            initialize_floating_number_widget_part((s32)part, setup_value, x, y);
             register_node(object, dungeon_menu_tag);
             object->update_callback = lower_value_toward_target;
         } else {

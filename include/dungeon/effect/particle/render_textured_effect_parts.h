@@ -176,14 +176,14 @@ extern s16 textured_effect_update_flag;
 typedef struct S_80045C34 { u8 pad0[6]; s16 unk6; u8 pad1[12]; u16 unk14; } S_80045C34;
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
 s32 func_80045C34(u8 *, s32, S_80045C34 *);
-void render_textured_effect_parts(OffsetPalettedSpriteBody *record_data, void *unused, void *update_data);
+void animate_sprite_until_countdown_expires(OffsetPalettedSpriteBody *record_data, void *unused, void *update_data);
 void create_offset_paletted_sprite(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_id, s16 offset_x, s16 offset_y, s16 offset_z);
 s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_position);
-void create_radial_height_offset_effect(MotionState *state, s32 *sum, SpriteFrameState *flags);
+void move_and_animate_sprite_until_expired(MotionState *state, s32 *sum, SpriteFrameState *flags);
 void advance_scattered_directional_particle(void *object_data, s16 *position);
 void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void cycle_moving_effect_phase(struct DecrementObjectCounterBody *object, S_8181B078_1 *position, S_8181B078_2 *source);
-void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value);
+void create_cycling_offset_particle(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value);
 /* Lifetime counter for the spawned projectile impact sprite. */
 typedef struct TimedSpriteImpactBody {
     u8 pad_00[0x2];

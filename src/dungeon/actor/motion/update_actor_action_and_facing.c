@@ -34,7 +34,7 @@ void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *
             0);
 
         tracked_addr = ((s32)g_dungeon_status.pending_display_owner);
-        if (tracked_addr == (u32)((u8 *)actor - 0x20)) {
+        if (tracked_addr == (u32)NODE_HEADER(actor)) {
             g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
 

@@ -8,7 +8,7 @@
 #include "dungeon/monster/beldo.h"
 #include "shared/object_node.h"
 
-   /* the 0x2 bytes before root in create_flagged_actor_object_2, addressed as root[-1] */
+   /* the 0x2 bytes before root in sync_beldo_part_to_owner_and_pulse_shade, addressed as root[-1] */
 
 
 typedef struct S_81263000_1 {
@@ -17,7 +17,7 @@ typedef struct S_81263000_1 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_81263000_1;   /* owner in create_flagged_actor_object_2 */
+} S_81263000_1;   /* owner in sync_beldo_part_to_owner_and_pulse_shade */
 
 typedef struct S_81263000_2 {
     u8 pad_00[0x4];
@@ -27,9 +27,9 @@ typedef struct S_81263000_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81263000_2;   /* part in create_flagged_actor_object_2 */
+} S_81263000_2;   /* part in sync_beldo_part_to_owner_and_pulse_shade */
 
-   /* out in create_flagged_actor_object_2 */
+   /* out in sync_beldo_part_to_owner_and_pulse_shade */
 
 typedef struct S_81263000_5 {
     u8 pad_00[0x1];
@@ -39,12 +39,12 @@ typedef struct S_81263000_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81263000_5;   /* copy in create_flagged_actor_object_2 */
+} S_81263000_5;   /* copy in sync_beldo_part_to_owner_and_pulse_shade */
 
 
 
 /* Update part position, shading, and flags from its owner. */
-void create_flagged_actor_object_2(AttachedSpriteWithOffsetBody *root, void *output_pos_arg, void *target_data)
+void sync_beldo_part_to_owner_and_pulse_shade(AttachedSpriteWithOffsetBody *root, void *output_pos_arg, void *target_data)
 {
     MovingPosition *output_pos = output_pos_arg;
     SVECTOR offset;

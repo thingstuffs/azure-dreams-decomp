@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void create_flagged_actor_object_2(void);
+extern void spawn_tyrant_in_slot_d(void);
 
 /* entry; owner: dungeon/func_8106B000. */
 const void *const tyrant_slot_d_spawn_entry[1] __attribute__((aligned(4))) = {
-    create_flagged_actor_object_2
+    spawn_tyrant_in_slot_d
 };

@@ -85,7 +85,7 @@ typedef struct FallingParticleEffectBody {
     u16 unk_48;
     u8 pad_4A[0x2];
     s16 unk_4C;
-} FallingParticleEffectBody;   /* particle node body passed to draw_red */
+} FallingParticleEffectBody;   /* particle node body passed to drop_particle_to_terrain_and_spawn_impact */
 
 typedef struct S_81934C5C_1 {
     u8 pad_00[0xE];
@@ -124,5 +124,5 @@ void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, 
 s16 sample_terrain_surface_height();
 s32 decrement_flagged_item_parameters(DungeonObject *object);
 void update_random_particle_field(FallingParticleFieldSpellBody *self, void *output);
-void draw_red(FallingParticleEffectBody *effect);
+void drop_particle_to_terrain_and_spawn_impact(FallingParticleEffectBody *effect);
 #endif

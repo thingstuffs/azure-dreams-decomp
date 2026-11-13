@@ -2,7 +2,7 @@
 #include "frontend/card/server_imports.h"
 
 /* The devkit server's slot word references: 3 text, 4 detail and 10 icon words (the retail card UI keeps the
- * same three tables 0x34 bytes further in, see draw_cylindrical). */
+ * same three tables 0x34 bytes further in, see card_boot_clear_slot_words). */
 typedef struct CardDevSlotWords {
     u8 unk_000[0xB18];
     s32 *text_words[3];

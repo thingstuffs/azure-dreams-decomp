@@ -7,6 +7,7 @@
 #include "slus.h"
 #include "town/map/motion.h"
 #include "town/map.h"
+#include "town/map/paired_actor_motion_g00645.h"
 
 typedef struct Func800BF66CObject {
     u8 pad00[0x48];
@@ -18,7 +19,6 @@ typedef struct Func800BF66CObject {
 } Func800BF66CObject;
 
 
-extern u8 town_map_motion_defaults[];
 extern s32 D_800D211C[];
 extern s32 D_800D212C;
 

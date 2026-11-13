@@ -3,6 +3,7 @@
 #include "shared/vector.h"
 #include "engine/node.h"
 #include "shared/entity.h"
+#include "town/map/object/clear_object_link_and_mark_complete_g01169.h"
 
 typedef struct S_800A23D0_0 {
     s32 unk_00;
@@ -26,7 +27,6 @@ typedef struct S_800A23D0_2 {
    /* ((S_800A23D0_2 *)arg0)->unk_14 in initialize_object_position_state */
 
 
-extern u8 lit_mesh_renderer_address[];
 extern void copy_negated_menu_phase();
 extern M2C_UNK D_800D0A48;
 

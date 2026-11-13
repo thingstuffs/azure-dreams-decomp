@@ -439,10 +439,10 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
 #include "shared/object_node.h"
 
 
-/* Retail 8187B1A0 (decrement_object_counter).
+/* Retail 8187B1A0 (draw_chained_mesh_records).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
  * next record); each node supplies the context and data pointers for its record. */
-s32 decrement_object_counter(void *record, void *context, void *data) {
+s32 draw_chained_mesh_records(void *record, void *context, void *data) {
     ObjectNodeHeader *node;
 
     for (;;) {
@@ -1166,7 +1166,7 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
             edge_data = NODE_BODY(node);
             edge_data->unk_02 = 0x37 - (state_data->edge_index * 4);
             node->update_callback = advance_fading_effect_animation;
-            register_node(node, decrement_object_counter);
+            register_node(node, draw_chained_mesh_records);
 
             sprite = node->sprite;
             sprite->flags &= 0xFFF3;

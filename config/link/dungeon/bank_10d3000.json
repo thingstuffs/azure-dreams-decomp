@@ -159,7 +159,7 @@
     },
     {
       "row": "dungeon/func_810B50B4",
-      "tu": "src/dungeon/monster/maximum/resolve_actor_attack_damage.c",
+      "tu": "src/dungeon/monster/maximum/cast_maximum_spell_with_child_sprite.c",
       "home": "dungeon/func_810AF0B4",
       "foff": "0x10D50B4",
       "vma": "0x8016C8B4",

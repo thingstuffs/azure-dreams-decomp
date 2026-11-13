@@ -14,7 +14,7 @@ extern u8 D_800DD010[8];
 extern StateFunc player_action_handlers[];
 
 /* Advances the camera reset animation and resumes actor state handling. */
-void to_camera_zero_00(void *actor, void *context, void *animation, void *transform)
+void play_reset_pose_until_player_input(void *actor, void *context, void *animation, void *transform)
 {
     GameWork *camera = &g_game_work;
     s32 phase;

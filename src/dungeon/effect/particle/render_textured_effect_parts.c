@@ -26,7 +26,7 @@ void (*const dungeon_183a800_entry)(ProjectileBurstImpactBody *, ObjectPosition 
 const PathBlock textured_particle_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}}};
 
 /* Decrement the record counter, process update data, and flag depletion. */
-void render_textured_effect_parts(OffsetPalettedSpriteBody *record_data, void *unused, void *update_data) {
+void animate_sprite_until_countdown_expires(OffsetPalettedSpriteBody *record_data, void *unused, void *update_data) {
     s16 remaining;
     s16 *update_flag;
 
@@ -57,7 +57,7 @@ void create_offset_paletted_sprite(void *unused_context, ObjectPosition *origin,
         body = NODE_BODY(object);
         body->remaining = 1;
         body->unk_04 = 1;
-        object->update_callback = &render_textured_effect_parts;
+        object->update_callback = &animate_sprite_until_countdown_expires;
         register_node(object, project_sprite_chain);
         asset_param = 0x60;
         setup_mode = 2;
@@ -174,7 +174,7 @@ s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_posi
  *
  * Effect record: the object header precedes it; velocity is added to position every frame.
  */
-void create_radial_height_offset_effect(MotionState *state, s32 *sum, SpriteFrameState *flags) {
+void move_and_animate_sprite_until_expired(MotionState *state, s32 *sum, SpriteFrameState *flags) {
     s32 update_count;
     s32 more_updates;
     u16 next_tick;
@@ -358,7 +358,7 @@ void cycle_moving_effect_phase(DecrementObjectCounterBody *object_arg, S_8181B07
 extern s32 D_80025908[];
 
 /* Creates an effect at an offset from the source and initializes its state and appearance. */
-void decrement_object_counter(void *source_arg, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {
+void create_cycling_offset_particle(void *source_arg, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {
     ObjectNodeHeader *source = source_arg;
     SpriteFrameState *render;
     DecrementObjectCounterBody *state;
@@ -745,7 +745,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             impact_sprite -= 0x20;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            decrement_object_counter((u8 *)effect - 0x20, impact_sprite,
+            create_cycling_offset_particle((u8 *)effect - 0x20, impact_sprite,
                 (s16)((rand() & 0x3F) - 0x20),
                 (s16)(-(effect->unk_86 * 2) + 0x10), 0x1E);
         } while (particle_count_m < 2);
@@ -755,7 +755,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
         impact = allocate_flagged_object_node(particle_kind);
         if (impact != 0) {
             ((S_80024BE8_15 *)impact)->unk_22 = 0x1E;
-            impact->update_callback = create_radial_height_offset_effect;
+            impact->update_callback = move_and_animate_sprite_until_expired;
             register_node(impact, project_sprite_chain);
             particle_sprite = impact->sprite;
             particle_sprite->tpage_abr = 0;
@@ -845,7 +845,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             impact_sprite -= 0x20;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            decrement_object_counter((u8 *)effect - 0x20, impact_position, impact_sprite,
+            create_cycling_offset_particle((u8 *)effect - 0x20, impact_position, impact_sprite,
                 (s16)(-0x20 - (rand() & 0x3F)), 0x1E);
         } while (particle_count_m < 2);
 

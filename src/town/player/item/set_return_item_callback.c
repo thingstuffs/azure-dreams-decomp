@@ -1,7 +1,7 @@
 #include "common.h"
+#include "town/player/state_callback_g00544.h"
 #include "town/player/item.h"
 
-extern s32 *town_player_action_callback[3];
 
 
 /* Stores D_800947CC through town_player_action_callback and returns zero. */

@@ -46,7 +46,7 @@
     },
     {
       "row": "dungeon/func_8132E580",
-      "tu": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "tu": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "home": "dungeon/func_81087200",
       "foff": "0x134E580",
       "vma": "0x80165580",
@@ -115,7 +115,7 @@
     },
     {
       "row": "dungeon/func_81330A2C",
-      "tu": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "tu": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "home": "dungeon/func_81087200",
       "foff": "0x1350A2C",
       "vma": "0x80167A2C",

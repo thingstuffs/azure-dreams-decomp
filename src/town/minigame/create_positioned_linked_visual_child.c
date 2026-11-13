@@ -38,7 +38,7 @@ void create_positioned_linked_visual_child(void *object_arg, ObjectPosition *pla
 
     NODE_HEADER(object)->update_callback = advance_actor_state_nearby_activation;
     object->unk_50 = 0;
-    register_node(object_arg - 0x20, project_sprite_chain);
+    register_node(NODE_HEADER(object), project_sprite_chain);
     position->x.v = 0x0F200000;
     position->y.v = 0x02600000;
     position->z.v = 0;

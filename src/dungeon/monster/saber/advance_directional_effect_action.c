@@ -11,7 +11,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 
-void create_randomly_rotated_offset_effect(ActorRecord *actor, s32 tile_x, s32 tile_y, s16 target_height);
+void saber_attack_actors_on_target_tile(ActorRecord *actor, s32 tile_x, s32 tile_y, s16 target_height);
 
 
 
@@ -53,7 +53,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             y_offset = offset->y.s;
             x_sum = x_sum & 0xFFFF;
             coord_value = sprite->tile_y + y_offset;
-            create_randomly_rotated_offset_effect(effect_actor, x_sum, coord_value & 0xFFFF, height);
+            saber_attack_actors_on_target_tile(effect_actor, x_sum, coord_value & 0xFFFF, height);
         }
         if ((action->action_timer == 0x0A) ||
             (sprite->flags & 0x8000)) {

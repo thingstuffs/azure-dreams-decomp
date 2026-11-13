@@ -399,7 +399,7 @@ typedef struct {
 } Motion;
 
 /* Advance a timed effect, update its intensity and motion, and flag completion. */
-void fade_effect_color_by_quarter(QuarterColorFadeBody *effect, Motion *motion, SpriteFrameState *render_data)
+void fade_sprite_by_timer_and_drift(QuarterColorFadeBody *effect, Motion *motion, SpriteFrameState *render_data)
 {
     s32 intensity;
     u16 phase;
@@ -482,7 +482,7 @@ void fade_timed_quad_vertices(void *fade_data)
 
 
 /* Advance an effect's fade and mark it finished when its countdown expires. */
-void render_linked_jittered_effect_strips(void *effect, s32 unused, void *packet)
+void fade_and_spin_sprite_until_expired(void *effect, s32 unused, void *packet)
 {
     s32 intensity;
     u16 ticks_left;
@@ -609,7 +609,7 @@ void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, Sprite
         object_data = NODE_BODY(object);
         object_data->timer = 0x14;
         object_data->divisor = 0x14;
-        object->update_callback = (u8 *)fade_effect_color_by_quarter;
+        object->update_callback = (u8 *)fade_sprite_by_timer_and_drift;
         register_node(object, project_sprite_chain);
         sprite = object->sprite;
         sprite->tpage_abr = 0x20;

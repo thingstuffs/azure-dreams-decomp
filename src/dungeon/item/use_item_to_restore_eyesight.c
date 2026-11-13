@@ -51,7 +51,7 @@ s32 use_item_to_restore_eyesight(ActorRecord *entity_arg, DungeonItemEntry *item
         }
     }
 
-    create_timed_paired_particle_emitter(((ObjectNodeHeader *)entity_arg)[-1].position, 0xC02020, entity_arg);
+    create_timed_paired_particle_emitter(NODE_HEADER(entity_arg)->position, 0xC02020, entity_arg);
     if (entity_arg->flags14 & ACTOR_PARTY_MEMBER) {
         initial_id = get_unused_text_buffer();
         selected_id = initial_id;

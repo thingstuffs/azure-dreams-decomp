@@ -13,7 +13,7 @@ struct PairAction;
 struct S_800C9F34_3;
 
 /* func_8009A590.c */
-s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
+s16 get_byte_coordinate_chebyshev_distance(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
 
 /* func_800A46D8.c */
 s32 uses_direct_actor_sprite_frames(void *record);

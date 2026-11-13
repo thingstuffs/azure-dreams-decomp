@@ -7,7 +7,7 @@
 #include "sdk/libgte.h"
 
 extern u8 D_800DF334[];
-void spawn_spiraling();
+void compute_direction_angles_between_points();
 #include "engine/node/allocation.h"
 #include "dungeon/item/position.h"
 #include "dungeon/effect/screen.h"
@@ -93,7 +93,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
                 segment_state->unk_14 = (s16) (coords->unk_02 + (rcos(angle) >> 5));
                 segment_state->unk_16 = (s16) (coords->unk_06 + (rsin(angle) >> 5));
                 segment_state->unk_18 = (s16) (coords->unk_0A - 0x40);
-                spawn_spiraling((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14,
+                compute_direction_angles_between_points((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14,
                     (s32) segment_state->unk_16, (s32) segment_state->unk_18, ((void *)segment) + 0x2C);
                 setup_params.words[0] = 0x01200340;
                 setup_params.words[1] = 0x200020;

@@ -278,7 +278,7 @@ void shrink_and_brighten_effect(DelayAndFadeParticleBody *state_ref, void *unuse
 }
 
 /* Creates a large gray sprite at the supplied coordinates with a shrinking and brightening callback. */
-void delay_and_fade_particle(s32 value, void *source_data) {
+void create_shrinking_brightening_gray_sprite(s32 value, void *source_data) {
     ovl_188898c_81868FDC_Object *obj;
     SpriteFrameState *sprite;
     u16 *dst;
@@ -720,7 +720,7 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
         }
         input_ctrl->timer = 0;
         input_ctrl->state++;
-        delay_and_fade_particle(input_ctrl, input_motion);
+        create_shrinking_brightening_gray_sprite(input_ctrl, input_motion);
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         break;
 

@@ -2,7 +2,7 @@
 
 #include "sdk/abs.h"
 /* Returns the Chebyshev distance between two byte-sized coordinate pairs. */
-s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y) {
+s16 get_byte_coordinate_chebyshev_distance(s32 start_x, s32 start_y, s32 end_x, s32 end_y) {
     end_x &= 0xFF;
     start_x &= 0xFF;
     end_x -= start_x;

@@ -13,7 +13,7 @@
     "src/town/scene/find_eligible_entry.c",
     "src/town/scene/save_context_and_dispatch_entry_type.c",
     "src/town/scene/apply_selected_entry_values.c",
-    "src/town/scene/attach_global_data_invoke_callback.c"
+    "src/town/scene/attach_global_data_pointers.c"
   ],
   "references": [
     {

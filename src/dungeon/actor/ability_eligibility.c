@@ -350,7 +350,7 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
     }
 
     next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
-    candidate = (u8 *)next_link + 0x20;
+    candidate = NODE_BODY(next_link);
     if (candidate != base) {
         global_page = (S_800A3D18_3 *)0x800e0000;
         while (candidate != base) {
@@ -385,7 +385,7 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
                 }
             }
             entry_link = ((S_800A3D18_1 *)candidate)->unk_5C;
-            candidate = (u8 *)entry_link + 0x20;
+            candidate = NODE_BODY(entry_link);
         }
     }
 

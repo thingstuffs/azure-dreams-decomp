@@ -90,7 +90,7 @@ void card_boot_format_empty_slot_guidance(void *context)
 }
 
 /* Initialize two resource buffers and assign them to vertically spaced entries. */
-void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void *context) {
+void card_boot_format_default_empty_slot_guidance(void *context) {
     s32 entry_index;
     s16 x;
     s16 y;
@@ -137,5 +137,5 @@ void card_boot_refresh_slot_details(CardSlotDetails *object)
         card_boot_format_empty_slot_guidance(object);
         return;
     }
-    build_a_trigonometric_table_processes_up_eight_height_offset_segments(object);
+    card_boot_format_default_empty_slot_guidance(object);
 }

@@ -11,7 +11,7 @@ void card_boot_poll_card_chooser_status(Object_800128C8 *state);
 /* card_boot_poll_status_and_dismiss_dialog.c */
 void card_boot_poll_status_and_dismiss_dialog(Object_800128C8 *record_data);
 
-/* reset_menu_object_state.c */
-void reset_menu_object_state_2(void *record_part);
+/* card_boot_restore_chooser_callback_after_dialog.c */
+void card_boot_restore_chooser_callback_after_dialog(void *record_part);
 
 #endif

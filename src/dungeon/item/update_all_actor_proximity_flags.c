@@ -6,22 +6,16 @@
 #include "dungeon/item.h"
 #include "dungeon/item/state.h"
 
-typedef struct S_800A1B44_1 {
-    s32 unk_00;
-    u8 pad_04[0x6C];
-    s32 unk_70;
-} S_800A1B44_1;   /* Pointer addresses record offset 0x14. */
-
 /* Update proximity state for each actor in the list. */
 void update_all_actor_proximity_flags(s16 near_limit, s16 far_limit) {
-    void *actor;
+    ActorRecord *actor;
 
     actor = NODE_BODY(dungeon_actor_ring_anchor->next_actor_header);
-    if (actor != ((EntityRec *)dungeon_actor_ring_anchor)) {
+    if (actor != dungeon_actor_ring_anchor) {
         do {
             update_actor_proximity_flag(NODE_HEADER(actor)->sprite, actor, near_limit, far_limit,
                 (void *) ((u8 *) actor + 0x9C));
-            actor = (void *) (((S_800A1B44_1 *)((u8 *)actor - 0x14))->unk_70 + 0x20);
-        } while (actor != ((EntityRec *)dungeon_actor_ring_anchor));
+            actor = NODE_BODY(actor->next_actor_header);
+        } while (actor != dungeon_actor_ring_anchor);
     }
 }

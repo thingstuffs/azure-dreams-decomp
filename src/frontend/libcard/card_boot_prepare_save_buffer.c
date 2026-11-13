@@ -25,5 +25,5 @@ void card_boot_prepare_save_buffer(UA32 *buffer, s32 config, s32 mode) {
     *(s32 *)(state_base + 0x230) = card_boot_build_eight_entry_presence_mask();
     *(s32 *)(state_base + 0x228) = card_boot_sum_slot_lookup_values();
     card_boot_build_save_description(buffer, config);
-    initialize_text_editor_context(buffer, config);
+    card_boot_store_save_icon_clut_and_frames(buffer, config);
 }

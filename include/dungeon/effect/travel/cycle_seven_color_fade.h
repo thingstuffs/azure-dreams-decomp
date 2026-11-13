@@ -340,8 +340,8 @@ void * create_colored_offset_sprite(s32 context_value, ObjectPosition *source_st
 void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, ObjectPosition *render_arg, B28_818B6AFC_FxColorOut *color_out);
 s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source);
 s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, SpriteFrameState *draw_arg);
-void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 *payload);
-void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, SpriteFrameState *gfx);
+void create_randomized_radial_band_effect(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 *payload);
+void update_seven_color_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, SpriteFrameState *gfx);
 s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosition *transform);
 void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity);
 s32 spawn_owned_random_spin_effect(void *owner, ObjectPosition *source);

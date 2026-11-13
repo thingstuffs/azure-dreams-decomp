@@ -21,7 +21,7 @@ void card_boot_begin_selected_slot_load(void *state)
         menu->unk_40 = enabled;
         NODE_HEADER(state)->update_callback = card_boot_wait_before_loading_slot;
     } else {
-        menu->saved_callback = build_install;
+        menu->saved_callback = card_boot_handle_slot_selection_input;
         card_boot_show_no_saved_game_notice(parent);
         NODE_HEADER(state)->update_callback = card_boot_poll_status_and_dismiss_dialog;
     }

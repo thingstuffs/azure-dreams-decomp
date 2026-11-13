@@ -1,7 +1,7 @@
 #include "frontend/libcard/paired_choice.h"
 #include "frontend/libcard/message.h"
 
-/* create_visual_object clears a 0xF0-byte body and requests four nodes. */
+/* card_boot_create_or_reset_paired_choice_panel clears a 0xF0-byte body and requests four nodes. */
 
 /* Sibling message files declare these templates through their own local views. */
 extern CardDisplayBlock display_block_defaults;

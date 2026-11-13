@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
+#include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
@@ -52,7 +53,6 @@ typedef struct {
 } DungeonEntry;
 
 extern u8 ghosh_action_resume_address[];
-extern u16 system_update_flags;
 extern u8 D_801746B4[];
 extern u8 D_800F93AA[];
 

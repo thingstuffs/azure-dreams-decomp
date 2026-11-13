@@ -583,7 +583,7 @@ def run(args, parser):
     write_json(out / 'closure_result.json', dict(plan=plan, base_findings=base_findings,
                head_findings=head_findings, base_failures=base_failures, head_failures=head_failures))
     code = report(base_findings, head_findings, base_failures, head_failures, plan['renames'], started,
-                  recorded_renames(root), diff_line_map(root, args.base, plan['renames']) if not head else None,
+                  recorded_renames(root, args.base), diff_line_map(root, args.base, plan['renames']) if not head else None,
                   accepted=accepted_rows(root, args.base),
                   write_root=root if args.write_accepted else None, base=args.base,
                   sdk=sdk_functions(head_tree))
@@ -603,9 +603,10 @@ def write_json(path, data):
 
 
 def rename_hints(base_findings, head_findings, rising, renames=None):
-    """{(file, function, warning): old function} for new groups that look like a renamed function:
+    """{(file, function, warning): old function(s)} for new groups that look like a renamed function:
     a BASE group in the same file and class, with the same site count, whose function has no
-    group of that class on HEAD.  Hints only; the gate still fails."""
+    group of that class on HEAD (a string for one candidate, a sorted list when several functions of
+    one file vanished with that class and count).  Hints only; the gate still fails."""
     base = group_sites(base_findings, renames)
     head = group_sites(head_findings)
     vanished = collections.defaultdict(list)
@@ -616,17 +617,25 @@ def rename_hints(base_findings, head_findings, rising, renames=None):
     for row in rising:
         if row['base_sites'] == 0:
             old = vanished.get((row['file'], row['warning'], row['head_sites']))
-            if old and len(old) == 1:
-                hints[(row['file'], row['function'], row['warning'])] = old[0]
+            if old:
+                hints[(row['file'], row['function'], row['warning'])] = old[0] if len(old) == 1 else sorted(old)
     return hints
 
 
-def recorded_renames(root):
-    """{name: {address}} from config/names.tsv: a function renamed at its address keeps one row per name."""
+def recorded_renames(root, base=None):
+    """{name: {address}} from config/names.tsv: a function renamed at its address keeps one row per name.
+
+    With base, BASE's rows are read too, so a name whose row a rename replaced (both functions at an address
+    renamed) still records its address."""
     out = collections.defaultdict(set)
+    texts = []
     path = Path(root) / 'config/names.tsv'
     if path.is_file():
-        for line in path.read_text(errors='replace').splitlines():
+        texts.append(path.read_text(errors='replace'))
+    if base:
+        texts.append(git(root, 'show', f'{base}:config/names.tsv', check=False))
+    for text in texts:
+        for line in text.splitlines():
             cols = line.split('\t')
             if len(cols) >= 3 and cols[0].startswith('0x'):
                 out[cols[2]].add(cols[0].lower())
@@ -822,9 +831,11 @@ def report(base_findings, head_findings, base_failures, head_failures, renames, 
     hints = rename_hints(base_findings, head_findings, rising, renames)
     kept = []
     for row in rising:
-        old = hints.get((row['file'], row['function'], row['warning']))
-        if old and proven_rename(base_findings, row, old, names, line_map, renames):
-            print(f"renamed {row['warning']} {row['file']} {old} -> {row['function']}: the same "
+        hint = hints.get((row['file'], row['function'], row['warning']))
+        candidates = [hint] if isinstance(hint, str) else (hint or [])
+        proven = [old for old in candidates if proven_rename(base_findings, row, old, names, line_map, renames)]
+        if len(proven) == 1:
+            print(f"renamed {row['warning']} {row['file']} {proven[0]} -> {row['function']}: the same "
                   f"{row['head_sites']} site(s), both names at one address in config/names.tsv (not new)")
         else:
             kept.append(row)
@@ -857,7 +868,8 @@ def report(base_findings, head_findings, base_failures, head_failures, renames, 
         print('NEW ' + format_increase(row))
         old = hints.get((row['file'], row['function'], row['warning']))
         if old:
-            print(f'    hint: possibly {old} renamed (same file, class and site count gone from BASE)')
+            print(f'    hint: possibly {" or ".join(old) if isinstance(old, list) else old} renamed '
+                  '(same file, class and site count gone from BASE)')
     for failure in new_failures:
         print(f"NEW COMPILE FAILURE {failure['tu']} -{failure['mode']} {failure['phase']}: {failure['first_error']}")
     by_class = collections.Counter(r['warning'] for r in rising)
@@ -890,7 +902,7 @@ def run_full(args, root, out, started):
     head_failures = list(csv.DictReader((census / 'lint_compile_failures.tsv').open(), delimiter='\t'))
     renames = {new: old for status, old, new in changes(root, args.base, None) if status == 'R'}
     result = report(read_census(base_dir), read_census(census), base_failures, head_failures,
-                    renames, started, recorded_renames(root), diff_line_map(root, args.base, renames),
+                    renames, started, recorded_renames(root, args.base), diff_line_map(root, args.base, renames),
                     accepted=accepted_rows(root, args.base), write_root=root if args.write_accepted else None,
                     base=args.base, sdk=sdk_functions(root))
     if not args.no_decl_check:

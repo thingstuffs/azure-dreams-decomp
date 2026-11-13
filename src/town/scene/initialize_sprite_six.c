@@ -6,9 +6,8 @@
 #include "shared/game_work.h"
 #include "engine/node.h"
 #include "town/map/object.h"
+#include "town/map/object/clear_object_link_and_mark_complete_g01169.h"
 #include "town/scene.h"
-
-extern u8 lit_mesh_renderer_address[];
 
 void initialize_sprite_six(TownObjectRecord *state, ObjectPosition *position, SpriteSixRender *render) {
     SpriteSixNodeView node;

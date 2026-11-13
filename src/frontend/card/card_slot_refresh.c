@@ -24,7 +24,7 @@ void card_boot_refresh_slot_window(void *object_addr) {
 
     if (object_addr != 0) {
         object_data = object_addr + 0x20;
-        write_fixed_palette_pixels(object_data);
+        card_boot_release_slot_window_texts(object_data);
         card_boot_clear_ten_display_slots(object_data);
         card_boot_populate_slot_window_display(object_data);
     }

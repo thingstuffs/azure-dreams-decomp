@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "town/event/object.h"
+#include "town/menu/indexed_effect_vectors_g00583.h"
 #include "town/player/position.h"
 #include "town/shop.h"
 
@@ -17,8 +18,6 @@ typedef struct TownActor {
     u8 pad_00[0x6C];
     u16 countdown;
 } TownActor;
-
-extern s32 town_target_height_offset;
 
 extern s32 process_the_item_index_available_report_success(TownActor *actor, s32 context,
                          MotionVector *motion, s32 extra, s32 *work);

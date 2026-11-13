@@ -506,10 +506,10 @@ extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *
 extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
 void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context);
 void build_textured_sprite_strips(void *screen_pos, struct TravelingSpriteEffectBody *sprite, s32 *ordering_table, s32 draw_mode);
-void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);
+void draw_sprite_strips_with_clip_and_fill_rect(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);
 s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition *first_position);
 void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source);
-void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
+void spawn_jittered_rising_tile_effect(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void update_effect_animation_slots(TravelingSpriteEffectBody *anim_state);
 void tick_effect_record(CountdownRecord *record);
 void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unused, u8 *target);
