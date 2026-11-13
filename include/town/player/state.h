@@ -25,9 +25,6 @@ void clear_shared_flag_and_initialize_object(void *state, void *context, void *m
 /* clear_the_global_state_s_fifth_word_copy_source_s_second.c */
 void clear_the_global_state_s_fifth_word_copy_source_s_second(ObjectPosition *source);
 
-/* create_familiar_deployment_effect_with_owner_state.c */
-void create_familiar_deployment_effect_with_owner_state(void);
-
 /* dispatch_sound_by_global_flag.c */
 void dispatch_sound_by_global_flag(void);
 
@@ -83,6 +80,9 @@ void set_script_flag_bit(s32 bit_index);
 
 /* set_state_bytes_from_flags.c */
 void set_state_bytes_from_flags(s32 flags, u8 *state);
+
+/* stop_scene_player_and_defer_action_setup.c */
+void stop_scene_player_and_defer_action_setup(void);
 
 /* update_actor_action_state.c */
 void update_actor_action_state(TownObjectRecord *state, ObjectPosition *motion, s32 callback_arg);

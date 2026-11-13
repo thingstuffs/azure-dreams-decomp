@@ -103,6 +103,9 @@ lists each group with new sites, and any compiler failure HEAD has that BASE did
 Renaming a function moves its warnings to a new group, so a rename also fails; the
 output then prints a `hint: possibly OLD renamed` line when a BASE group of the same
 file, class and site count vanished; a confirmed rename is not a regression.
+The gate itself passes a hinted group when `config/names.tsv` records both names at one
+address and the BASE sites, carried through unchanged lines of `git diff -U0 BASE` (and
+from the BASE path of a file renamed since BASE), are the HEAD sites.
 
 A change that adopts a stricter contract on purpose (the typed Psy-Q prototypes in `include/sdk`)
 records the warning groups it raises in `tools/lint/accepted_warning_sites.tsv` with `--write-accepted`

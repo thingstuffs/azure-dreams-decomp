@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/audio.h"
-
-extern u8 runtime_dispatch_mode_alias[];
+#include "slus/runtime_directory.h"
 
 /* Return the current value capped at 40 when the mode is 2, or zero otherwise. */
 s32 read_capped_audio_meter(void)

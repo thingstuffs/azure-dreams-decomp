@@ -1,8 +1,9 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
+#include "slus/audio_master_level.h"
 
-typedef struct { s16 f0; s16 pad[7]; } S_80073738;
 
 typedef struct {
     s32 f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
@@ -58,10 +59,6 @@ typedef struct {
     s8 f98;
     u8 pad99[3];
 } S_80084960;
-
-extern s32 audio_voice_count[4];
-extern S_80073738 audio_master_level;
-extern s32 audio_voice_masks[24];
 extern S_80084960 audio_channel_controls[16];
 extern S_80085458 audio_voice_records[24];
 extern S_80085FA8 audio_sequence_tracks[32];

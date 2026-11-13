@@ -1562,7 +1562,7 @@
     },
     {
       "row": "town/func_800C42E4",
-      "tu": "src/town/scene/effect/create_familiar_restoration_effect.c",
+      "tu": "src/town/scene/effect/append_scene_movie_list_node.c",
       "home": "town/func_800C42E4",
       "foff": "0x442E4",
       "vma": "0x800c1a44",
@@ -1570,7 +1570,7 @@
     },
     {
       "row": "town/func_800C4330",
-      "tu": "src/town/scene/effect/create_familiar_restoration_effect.c",
+      "tu": "src/town/scene/effect/append_scene_movie_list_node.c",
       "home": "town/func_800C42E4",
       "foff": "0x44330",
       "vma": "0x800c1a90",
@@ -1644,7 +1644,7 @@
     },
     {
       "row": "town/func_800C4444",
-      "tu": "src/town/scene/effect/create_familiar_restoration_effect.c",
+      "tu": "src/town/scene/effect/append_scene_movie_list_node.c",
       "home": "town/func_800C42E4",
       "foff": "0x44444",
       "vma": "0x800c1ba4",

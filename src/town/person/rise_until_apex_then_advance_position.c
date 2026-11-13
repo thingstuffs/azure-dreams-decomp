@@ -10,8 +10,11 @@
 extern s32 D_800D6290[];
 
 
-/* Advance the motion state and update the object when its step is nonnegative. */
-void check_action_six_eligibility(TownObjectRecord *object, EntityRec *motion, void *context) {
+/*
+ * Rises by the vertical velocity at +0x14 and adds 0x20000 to it each step; at the apex (velocity no
+ * longer negative) selects the D_800D6290 entries and installs advance_object_position.
+ */
+void rise_until_apex_then_advance_position(TownObjectRecord *object, EntityRec *motion, void *context) {
     motion->z.v = (s32) (motion->z.v + motion->flags14);
     add_hex_20000_s_signed_offset_hex_14(motion);
     if (motion->flags14 >= 0) {

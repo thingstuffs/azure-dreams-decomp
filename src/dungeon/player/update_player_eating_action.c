@@ -52,6 +52,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
     SpriteFrameState *animation_actor;
     u8 *animation_entry;
     u8 *animation_table;
+    Rec_func_8008ACDC_arg0 *controller_view = (Rec_func_8008ACDC_arg0 *)controller;
 
     state = controller->action_phase;
     switch (state) {
@@ -80,12 +81,12 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
         if (find_flagged_record_by_id(actor->source, 0) == 0) {
             return;
         }
-        if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&held_item_record) {
-            ((Rec_func_8008ACDC_arg0 *)controller)->unk_124 = 0;
+        if (controller_view->unk_110 == (s32)&held_item_record) {
+            controller_view->unk_124 = 0;
             controller->flags1C &= 0xFFEFFFFF;
         }
         spawned = create_item_render_object(
-            NODE_HEADER(controller), ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
+            NODE_HEADER(controller), controller_view->unk_110, 0, 0, 0);
         if (spawned != NULL) {
             spawned->update_callback = &player_item_render_update_address;
             position = spawned->position;
@@ -107,10 +108,10 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             text_cursor = append_entity_display_text(transform, text_cursor);
             text_cursor = expand_text_control_codes(D_800E06E3, text_cursor);
             text_cursor = append_typed_formatted_value(
-                ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
+                controller_view->unk_110, text_cursor);
             text_cursor = expand_text_control_codes(D_800E06EB, text_cursor);
             text_cursor = process_eligible_object_value(
-                ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
+                controller_view->unk_110, text_cursor);
             clear_byte_and_advance(text_cursor);
             display_text_with_fullwidth_adjustment(text_start);
             play_sound_if_enabled(0x509);
@@ -122,7 +123,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
         if ((actor->flags & 0xE000) == 0) {
             return;
         }
-        if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 != 0) {
+        if (controller_view->unk_110 != 0) {
             begin_deferred_player_item_effect(controller, action_id, actor, transform);
             return;
         }

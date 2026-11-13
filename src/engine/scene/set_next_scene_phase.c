@@ -1,9 +1,7 @@
 #include "common.h"
 #include "engine/scene.h"
 #include "slus.h"
-
-extern s32 gpu_scratch_write_pointer;
-extern s32 gpu_scratch_buffer_base;
+#include "slus/gp_af3_pair.h"
 
 /*
  * Copies gpu_scratch_buffer_base's leading word into gpu_scratch_write_pointer and registers

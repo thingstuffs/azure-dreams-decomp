@@ -4,6 +4,7 @@
 #include "engine/scene.h"
 #include "town/menu.h"
 #include "town/menu/catalog.h"
+#include "town/menu/catalog_parts.h"
 #include "engine/item.h"
 #include "town/scene.h"
 #include "slus.h"
@@ -30,7 +31,6 @@ typedef struct {
 
 extern u8 scene_mode_code;
 extern s8 animation_tick_scale;
-extern s8 catalog_display_node_slots;
 
 /* Handles input to update object selections, action states, and exit behavior. */
 void handle_catalog_grid_input(Object *object)
@@ -87,7 +87,7 @@ void handle_catalog_grid_input(Object *object)
         SD_Call(0x700);
         if (scene_mode_code == 0x17) {
             create_deferred_resource_transition_task(0, 0, 0, 0);
-            reset_entries = (s32 **)&catalog_display_node_slots;
+            reset_entries = (s32 **)catalog_display_node_slots;
             for (entry_index = 0; entry_index < 98; entry_index++) {
                 *reset_entries[entry_index] = 0;
             }

@@ -2,6 +2,7 @@
 
 #include "engine/object.h"
 #include "slus/data.h"
+#include "slus/gp_d92c_owned.h"
 #include "slus.h"
 #include "town/map/variant_data.h"
 
@@ -55,7 +56,6 @@ extern PairRecord *build_four_value_entry_result(s16, s16);
 extern RuntimeState map_runtime_state;
 extern RuntimeState map_change_state;
 extern RuntimeCallback map_change_callback[3];
-extern u8 scene_music_hold;
 extern u8 runtime_script_state[9];
 extern TableEntry D_800D2650[];
 extern TableEntry D_800D2FC0[];

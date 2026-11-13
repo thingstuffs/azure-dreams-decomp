@@ -131555,7 +131555,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/advance_timed_visual.c",
+      "source": "src/frontend/libcard/store_word_at_address.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131825,7 +131825,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/update_inventory_menu.c",
+      "source": "src/frontend/libcard/create_next_card_slot_window.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -132205,7 +132205,7 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/advance_timed_visual.c",
+      "source": "src/frontend/libcard/store_word_at_address.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -133205,7 +133205,7 @@
       ]
     },
     {
-      "source": "src/frontend/card/message/check_record_field_is_one.c",
+      "source": "src/frontend/card/message/init_card_message_object_mode_seven.c",
       "recipe": {
         "cfg": "2.6.3",
         "row_asflags": ""
@@ -133885,7 +133885,7 @@
       ]
     },
     {
-      "source": "src/frontend/card/save/invoke_callback_with_zero.c",
+      "source": "src/frontend/card/save/refresh_save_slot_selection_and_resume_menu_input.c",
       "recipe": {
         "cfg": "2.7.2-G0",
         "row_asflags": ""
@@ -136215,7 +136215,7 @@
       ]
     },
     {
-      "source": "src/town/person/check_action_six_eligibility.c",
+      "source": "src/town/person/rise_until_apex_then_advance_position.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -136225,7 +136225,7 @@
       ]
     },
     {
-      "source": "src/town/person/check_action_six_eligibility.c",
+      "source": "src/town/person/rise_until_apex_then_advance_position.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -137795,7 +137795,7 @@
       ]
     },
     {
-      "source": "src/town/player/state/create_familiar_deployment_effect_with_owner_state.c",
+      "source": "src/town/player/state/stop_scene_player_and_defer_action_setup.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -144705,7 +144705,7 @@
       ]
     },
     {
-      "source": "src/town/scene/effect/create_familiar_restoration_effect.c",
+      "source": "src/town/scene/effect/append_scene_movie_list_node.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -144725,7 +144725,7 @@
       ]
     },
     {
-      "source": "src/town/scene/effect/create_familiar_restoration_effect.c",
+      "source": "src/town/scene/effect/append_scene_movie_list_node.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -144795,7 +144795,7 @@
       ]
     },
     {
-      "source": "src/town/scene/effect/create_familiar_restoration_effect.c",
+      "source": "src/town/scene/effect/append_scene_movie_list_node.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -146295,7 +146295,7 @@
       ]
     },
     {
-      "source": "src/town/person/check_action_six_eligibility.c",
+      "source": "src/town/person/rise_until_apex_then_advance_position.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174325,7 +174325,7 @@
       ]
     },
     {
-      "source": "src/town/scene/reset_dungeon_runtime_state.c",
+      "source": "src/town/scene/set_request_flag_during_niko_step_and_process.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""

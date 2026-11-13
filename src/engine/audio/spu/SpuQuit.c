@@ -3,9 +3,9 @@
 #include "engine/audio/spu/event_service_data.h"
 #include "sdk/libapi.h"
 #include "slus.h"
+#include "slus/sound_streaming_transfer.h"
 
 extern s32 spu_register_buffer_flags[];
-extern s32 spu_transfer_callback[3];
 extern s32 D_80079994[4];
 extern s32 spu_active_voice_mask[3];
 

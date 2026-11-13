@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/object.h"
+#include "town/menu/window.h"
 
 typedef struct {
     u8 pad0[3];
@@ -13,7 +14,6 @@ typedef struct {
 } Record;
 
 extern Record town_building_records[];
-extern u8 town_building_slot_rectangles[];
 
 /* CheckBuildBuildingLandNo collects eligible land slots for a building and returns their count. */
 s32 CheckBuildBuildingLandNo(record_key, slots_out)

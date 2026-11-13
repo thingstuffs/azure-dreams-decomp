@@ -62,17 +62,16 @@ s32 handle_type_two_query_result(void *object) {
 
 /* Calls the selected handler and updates object and slot status on success. */
 s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state) {
-    u8 *state = &trap_request_blocked;
     s32 result;
     StatusEntry *status;
     Arg1Struct *object = object_ptr;
     u8 *slot_base;
     s16 slot_index = slot_id;
 
-    state[0] = update_state;
+    trap_request_blocked = update_state;
     result = D_800DF2A8[(s16) handler_id](object, slot_index, slot_id << 0x10);
     if (result != 0) {
-        if (state[0] != 0) {
+        if (trap_request_blocked != 0) {
             process_unflagged_linked_entries_alt(object->unk5C);
             process_unflagged_linked_entries(object->unk5C);
             g_dungeon_status.flags |= 0x812;

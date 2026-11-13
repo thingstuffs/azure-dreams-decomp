@@ -1,4 +1,5 @@
 #include "town/person.h"
+#include "shared/object_node.h"
 #include "shared/object_index_slots.h"
 #include "town/person/object.h"
 #include "town/person/person_object_lifecycle_g00659.h"
@@ -36,5 +37,5 @@ void initialize_object_and_register_slot(TownObjectRecord *object, s32 slot_inde
     object->unk_7C.as_pps32 = field_7c_value;
     registered_slot = object->slot;
     object->descriptor = field_80_value;
-    object_index_slots[registered_slot].object = (u8 *)object - 0x20;
+    object_index_slots[registered_slot].object = NODE_HEADER(object);
 }

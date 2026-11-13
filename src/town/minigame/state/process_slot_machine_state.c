@@ -33,7 +33,7 @@ extern u8 D_80024470[];
 extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
-extern void *create_familiar_deployment_effect_with_owner_state(void);
+extern void stop_scene_player_and_defer_action_setup(void);
 
 typedef struct ReelSlotCursor {
     u8 pad_00[0x4C];
@@ -143,7 +143,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
         SD_Call(0x523);
         slot_bet_display_object[0] = (s32)create_dual_buffer_object(0, -80, 64);
         D_800834C8[0] = 0;
-        create_familiar_deployment_effect_with_owner_state();
+        stop_scene_player_and_defer_action_setup();
         money[0] -= 100;
     }
         (*(u16 *)((u8 *)state + (0x64))) = 1;

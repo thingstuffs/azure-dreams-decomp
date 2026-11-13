@@ -99,7 +99,7 @@ void initialize_scene_for_mode(void)
         initialize_six_global_pointers_corresponding_storage_blocks();
         run_the_three_update_routines_context(scene);
 
-        work = (func_80092868_TownWork *)((u8 *)object + 0x20);
+        work = NODE_BODY(object);
         work->field12 = -1;
         frame = state->frame;
         work->frame0 = frame;

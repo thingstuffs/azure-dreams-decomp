@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/person.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/town_object.h"
@@ -45,7 +46,7 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
     if (object != 0) {
         angle = town_facing_angles[angle_index];
         entry = object;
-        object_data = (u8 *)object + 0x20;
+        object_data = NODE_BODY(object);
         if (object_index == object_data->slot) {
             if (object_index == 1) {
                 object_kind = entry->unk_10;

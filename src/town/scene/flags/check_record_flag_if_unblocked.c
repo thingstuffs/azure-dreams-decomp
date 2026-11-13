@@ -1,14 +1,7 @@
 #include "shared/game_work.h"
 #include "town/player/script_flags.h"
+#include "town/data.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-
-extern s16 scene_gate_script_flag;
 /* Check the record flag only when the global blocking flag is clear. */
 s32 check_record_flag_if_unblocked(void *record)
 {

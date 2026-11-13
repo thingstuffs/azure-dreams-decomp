@@ -420,7 +420,7 @@ void card_boot_initialize_save_menu_request(CardSaveMenuBody *object, void *valu
 void card_boot_initialize_slot_menu_request(void *object, void *value);
 
 /* card_slot_records.c */
-void inventory_copy_and_sign_extend_record_fields(s32 object_data);
+void release_card_records_and_request_scene_state_three(s32 object_data);
 void card_boot_refresh_five_slot_objects(void *object_list);
 
 /* card_slot_refresh.c */

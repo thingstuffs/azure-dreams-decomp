@@ -7,6 +7,7 @@
 #include "main/data.h"
 #include "slus.h"
 #include "slus/runtime_saved_state_data.h"
+#include "slus/animation_tick_data.h"
 
 typedef struct Gfx
 {
@@ -18,7 +19,6 @@ typedef struct Gfx
     u8 pad7;
 }
 Gfx;
-extern u8 animation_tick_scale;
 extern s32 saved_cd_playback_volume_scale;
 extern s32 saved_sequence_volume_scale;
 extern s32 saved_voice_gain_scale;

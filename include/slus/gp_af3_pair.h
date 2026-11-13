@@ -3,6 +3,7 @@
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
+#include "slus/gpu_scratch_data.h"
 
 /* S_8006E704: array of pointers to a small struct whose only field this
  * function touches is a packed 32-bit "color/mode" word at offset 0 (top 9
@@ -42,10 +43,6 @@ typedef struct {
     void *field4; /* companion sound-set CD descriptor */
 } S_8006E6F4;
 extern S_8006E6F4 sound_set_resources[];
-
-/* External words: current buffer write position and buffer base. */
-extern s32 gpu_scratch_write_pointer;
-extern s32 gpu_scratch_buffer_base;
 
 extern s16 test_sound_channel_availability(s16 n);
 

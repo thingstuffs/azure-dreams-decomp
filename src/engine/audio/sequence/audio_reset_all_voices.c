@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
 
@@ -46,11 +47,8 @@ typedef struct {
     u8 pad52[0x94 - 0x52];
     s32 f94;
 } S_80056C30_85014;
-
-extern s32 audio_voice_count[4];
 /* 24 voices, one per SPU voice: the .bss records fill 0x80085458..0x80085F97 (24 * 0x78) up to
  * audio_update_guard, the masks are 1 << 0 .. 1 << 23, and set_audio_entry_count rejects counts above 24. */
-extern s32 audio_voice_masks[24];
 extern S_80056C30_85458 audio_voice_records[24];
 extern S_80056C30_85014 audio_reset_channel_control_alias;
 

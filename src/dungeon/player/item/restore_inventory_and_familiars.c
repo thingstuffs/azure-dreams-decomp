@@ -116,6 +116,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     ActorRecord *spawned;
     void *cursor;
     u8 *cursor_ptr;
+    S_80094988_0 *page_view;
     s16 entry_idx;
     u32 entry_idx32;
     u8 *save_page;
@@ -127,15 +128,16 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     s32 slot_offset;
 
     cursor_ptr = (u8 *)0x80010000;
-    flag_was_set = (s16)((S_80094988_0 *)cursor_ptr)->unk_3714 & 2;
-    ((S_80094988_0 *)cursor_ptr)->unk_3714 =
-        (s16)((u16)((S_80094988_0 *)cursor_ptr)->unk_3714 | 2);
+    page_view = (S_80094988_0 *)cursor_ptr;
+    flag_was_set = (s16)page_view->unk_3714 & 2;
+    page_view->unk_3714 =
+        (s16)((u16)page_view->unk_3714 | 2);
     spawn_x = base_x;
     spawn_y = base_y;
     restore_item_flag_400_bitmap();
     restore_actor_stats_from_snapshot(actor, (s32)cursor_ptr | 0x2194);
-    dungeon->unk_F8 = (u16)((S_80094988_0 *)cursor_ptr)->unk_2D50;
-    dungeon->unk_FC = (s32)((S_80094988_0 *)cursor_ptr)->unk_2D58;
+    dungeon->unk_F8 = (u16)page_view->unk_2D50;
+    dungeon->unk_FC = (s32)page_view->unk_2D58;
     i = 0;
     do {
         *(Unaligned4 *)(cursor_ptr + 0x248 + i * 4) = *(Unaligned4 *)(cursor_ptr + 0x21E8 + i * 4);

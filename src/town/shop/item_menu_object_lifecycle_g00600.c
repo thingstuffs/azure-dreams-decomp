@@ -20,7 +20,7 @@ void * create_item_menu_object(s32 selector) {
 
     if (object != 0) {
         initializer = (void *)0x8001029C;
-        state = (u8 *)object + 0x20;
+        state = NODE_BODY(object);
         state->unk_20 = initializer;
         state->unk_1C = func_800B0718();
         state->unk_74 = selector;

@@ -30,7 +30,7 @@ static void *create_catalog_display_node(void *data) {
     node = allocate_flagged_object_node(0);
     if (node != 0) {
         ((S_80126890_0 *)node)->unk_20 = data;
-        payload = (u8 *)node + 0x20;
+        payload = NODE_BODY(node);
         if (initialize_catalog_display_nodes(payload) != 0) {
             animation_tick_scale = 1;
             initialize_catalog_glyph_cache();

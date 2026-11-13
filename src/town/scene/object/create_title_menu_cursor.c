@@ -71,7 +71,7 @@ s32 create_title_menu_cursor(void)
     object = func_800374FC(0x136, &scene_object_factory_data);
     i = 2;
     if (object != 0) {
-        anchor = (u8 *)object + 0x20;
+        anchor = NODE_BODY(object);
         object->unk_10 = D_8052B5A4;
         object->unk_28.at02.v = 0x1E;
         object->unk_24.u16 = func_80071494() & 3;

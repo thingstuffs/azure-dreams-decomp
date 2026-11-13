@@ -22,6 +22,7 @@
     "card_dev_create_save_screen::src/frontend/card/card_dev_create_save_screen.c::src/frontend/card/menu/card_boot_clear_menu_state.c::return_type+param_kind",
     "card_dev_no_op_save::src/frontend/card/card_dev_no_op_save.c::src/frontend/card/save/complete_object_operation.c::arity",
     "card_dev_no_op_save::src/frontend/card/card_dev_no_op_save.c::src/frontend/card/save/process_object_entry_batch.c::arity",
+    "check_action_six_eligibility::src/dungeon/actor/check_action_six_eligibility.c::include/dungeon/monster/noise/start_directional_action_and_record_tile.h::return_type+param_kind",
     "check_directional_move_and_terrain::src/dungeon/level/tile.c::src/dungeon/monster/hikewne/select_movement_direction_and_advance.c::return_type",
     "check_directional_move_and_terrain::src/dungeon/level/tile.c::src/dungeon/monster/zu/update_bank_actor_movement.c::return_type",
     "check_movement_clearance_and_height::src/dungeon/level/tile.c::include/dungeon/monster/block.h::return_type",

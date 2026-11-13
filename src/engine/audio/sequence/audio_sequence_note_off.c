@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
 
@@ -6,8 +7,6 @@
 
 typedef SoundVoiceRecord S_80085458;
 
-extern s32 audio_voice_count[];
-extern s32 audio_voice_masks[];
 extern S_80085458 audio_voice_records[];
 
 

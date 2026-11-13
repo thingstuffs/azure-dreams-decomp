@@ -2,13 +2,11 @@
 #include "engine/resource.h"
 #include "sdk/libgpu.h"
 #include "slus/data.h"
+#include "slus/gp_af3_pair.h"
 
 /* Running write/base pointers into a growing decode buffer, plain 32-bit
  * scalars accessed via %hi/%lo (not $gp-relative) -- same globals as the
  * sibling decode_compressed_image_to_vram family (same -G0 TU). */
-extern s32 gpu_scratch_write_pointer;
-extern s32 gpu_scratch_buffer_base;
-
 /* Object header this function operates on: image_rect points at a struct whose
  * fields at 0x4/0x6 are s16 tile-dimension counters (same shape as the
  * S_8004878C_hdr sibling). */

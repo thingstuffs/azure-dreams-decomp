@@ -11,7 +11,7 @@
 #include "town/person.h"
 #include "town/shop/object.h"
 #include "town/shop/state.h"
-extern s32 display_block_defaults[4];
+#include "town/shop/floating_number_widget_g00612.h"
 extern DisplayPositionWords display_vector_defaults;
 
 void initialize_storage_display_links(StorageDisplayLinks *state, StorageDisplayBlock *primary, StorageVector *secondary) {

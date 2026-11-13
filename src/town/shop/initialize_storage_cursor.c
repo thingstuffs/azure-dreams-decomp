@@ -11,7 +11,7 @@
 #include "town/person.h"
 #include "town/shop/object.h"
 #include "town/shop/state.h"
-extern FrameNode shop_cursor_template;
+#include "town/shop/shop_window_layout_g00610.h"
 extern u8 D_80071244[];
 
 void initialize_storage_cursor(StorageOwner *object) {

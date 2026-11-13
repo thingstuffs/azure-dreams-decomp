@@ -7,10 +7,10 @@
 typedef struct Town654Request { u8 prefix[0x18]; s16 flag_18; } Town654Request;
 
 /*
- * Initializes the request entry pointers from flag_18 while F_s04_niko_step is set, then processes
- * the request and parameter through func_800177CC.
+ * Sets the request's script flag (flag_18) while F_s04_niko_step is set, then passes the request and
+ * parameter to process_checked_entry.
  */
-void reset_dungeon_runtime_state(Town654Request *request, s32 parameter)
+void set_request_flag_during_niko_step_and_process(Town654Request *request, s32 parameter)
 {
     if (get_script_flag_mask(F_s04_niko_step) != 0) set_script_flag_bit(request->flag_18);
     process_checked_entry(request, parameter);

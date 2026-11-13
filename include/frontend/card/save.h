@@ -24,8 +24,8 @@ void complete_object_operation(void *context);
 /* handle_object_menu_input.c */
 void handle_object_menu_input(void *menu);
 
-/* invoke_callback_with_zero.c */
-void invoke_callback_with_zero(void *record_data);
+/* refresh_save_slot_selection_and_resume_menu_input.c */
+void refresh_save_slot_selection_and_resume_menu_input(void *record_data);
 
 /* process_five_object_entries.c */
 void process_five_object_entries(struct S_func_804061C4_0 *state);

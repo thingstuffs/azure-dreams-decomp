@@ -44,10 +44,10 @@ void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_val
 
     if (parent != 0) {
         object = allocate_list_node(0x116, parent);
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
     } else {
         object = allocate_flagged_object_node(0x116);
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
     }
     if (object == NULL) {
         return NULL;
@@ -162,7 +162,7 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
             break;
         }
         velocity = part_object->position;
-        part_data = (u8 *)part_object + 0x20;
+        part_data = NODE_BODY(part_object);
         part_object->sprite->source =
             ((s32 *)((S_8009C648_2 *)source_data)->unk_80)[part_indices[part_index]];
         part_data->unk_60 = part_index;

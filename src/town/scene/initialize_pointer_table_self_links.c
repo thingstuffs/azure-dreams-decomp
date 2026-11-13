@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene.h"
-
-extern void *town_motion_list[];
+#include "town/scene/secondary_object_list_g00528.h"
 
 /* Initializes both town_motion_list links to the list sentinel. */
 void initialize_pointer_table_self_links(void) {

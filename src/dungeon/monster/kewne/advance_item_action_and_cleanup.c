@@ -19,8 +19,8 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "slus.h"
+#include "slus/animation_tick_data.h"
 extern s32 cd_cue_base[];
-extern u8 animation_tick_scale;
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
 extern u8 kewne_action_resume_address[];

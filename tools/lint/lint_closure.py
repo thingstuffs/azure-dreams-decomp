@@ -583,7 +583,8 @@ def run(args, parser):
     write_json(out / 'closure_result.json', dict(plan=plan, base_findings=base_findings,
                head_findings=head_findings, base_failures=base_failures, head_failures=head_failures))
     code = report(base_findings, head_findings, base_failures, head_failures, plan['renames'], started,
-                  recorded_renames(root), accepted=accepted_rows(root, args.base),
+                  recorded_renames(root), diff_line_map(root, args.base, plan['renames']) if not head else None,
+                  accepted=accepted_rows(root, args.base),
                   write_root=root if args.write_accepted else None, base=args.base,
                   sdk=sdk_functions(head_tree))
     if not args.no_decl_check:
@@ -632,14 +633,18 @@ def recorded_renames(root):
     return out
 
 
-def diff_line_map(root, base):
+def diff_line_map(root, base, renames=None):
     """line_map(path, base_line) -> HEAD line of an unchanged BASE line, or None when the line was edited, from
-    `git diff -U0 BASE` of the working tree (edits above a function shift its lines without changing them)."""
+    `git diff -U0 BASE` of the working tree (edits above a function shift its lines without changing them).
+    `path` is the HEAD path; a file renamed since BASE (renames: {HEAD path: BASE path}) is diffed against its
+    BASE path with rename detection."""
     cache = {}
+    renames = renames or {}
 
     def hunks(path):
         if path not in cache:
-            out = git(root, 'diff', '-U0', '--no-ext-diff', base, '--', path, check=False)
+            paths = [renames[path], path] if renames.get(path, path) != path else [path]
+            out = git(root, 'diff', '-U0', '-M', '--no-ext-diff', base, '--', *paths, check=False)
             cache[path] = [tuple(int(n) if n else 1 for n in m.groups())
                            for m in re.finditer(r'^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@', out, re.M)]
         return cache[path]
@@ -671,18 +676,22 @@ def mapped_sites(sites, line_map):
     return ';'.join(out)
 
 
-def proven_rename(base_findings, row, old, names, line_map=None):
+def proven_rename(base_findings, row, old, names, line_map=None, renames=None):
     """A hinted rename is the same warning site, not a new one, when the BASE group under the old name lists
     the same sites and config/names.tsv records both names at one address (an R6 rename). With line_map the BASE
     sites are first carried to their HEAD lines through unchanged lines, so an edit above the function that only
-    shifts it does not make its sites new."""
+    shifts it does not make its sites new.  A file renamed since BASE (renames: {HEAD path: BASE path}) is
+    compared under its HEAD path, as the closure compares renamed files."""
     if not names or not (names.get(old, set()) & names.get(row['function'], set())):
         return False
+    base_file = (renames or {}).get(row['file'], row['file'])
     for b in base_findings:
-        if b['file'] == row['file'] and b['function'] == old and b['warning'] == row['warning']:
-            if b.get('sites') == row['sites']:
+        if b['file'] == base_file and b['function'] == old and b['warning'] == row['warning']:
+            sites = ';'.join(row['file'] + site[len(base_file):] if site.startswith(base_file + ':') else site
+                             for site in (b.get('sites') or '').split(';') if site)
+            if sites == row['sites']:
                 return True
-            return bool(line_map) and mapped_sites(b.get('sites'), line_map) == row['sites']
+            return bool(line_map) and mapped_sites(sites, line_map) == row['sites']
     return False
 
 
@@ -814,7 +823,7 @@ def report(base_findings, head_findings, base_failures, head_failures, renames, 
     kept = []
     for row in rising:
         old = hints.get((row['file'], row['function'], row['warning']))
-        if old and proven_rename(base_findings, row, old, names, line_map):
+        if old and proven_rename(base_findings, row, old, names, line_map, renames):
             print(f"renamed {row['warning']} {row['file']} {old} -> {row['function']}: the same "
                   f"{row['head_sites']} site(s), both names at one address in config/names.tsv (not new)")
         else:
@@ -881,7 +890,7 @@ def run_full(args, root, out, started):
     head_failures = list(csv.DictReader((census / 'lint_compile_failures.tsv').open(), delimiter='\t'))
     renames = {new: old for status, old, new in changes(root, args.base, None) if status == 'R'}
     result = report(read_census(base_dir), read_census(census), base_failures, head_failures,
-                    renames, started, recorded_renames(root), diff_line_map(root, args.base),
+                    renames, started, recorded_renames(root), diff_line_map(root, args.base, renames),
                     accepted=accepted_rows(root, args.base), write_root=root if args.write_accepted else None,
                     base=args.base, sdk=sdk_functions(root))
     if not args.no_decl_check:

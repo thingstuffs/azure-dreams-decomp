@@ -100,7 +100,7 @@ s32 init_panel_display_nodes(void) {
     func_800351A8(0x3D, 0);
     node = func_800374FC(1, &scene_object_factory_data);
     if (node != 0) {
-        root = (u8 *)node + 0x20;
+        root = NODE_BODY(node);
         node->unk_10 = (s32)D_80527D5C;
     }
     node = func_800374FC(0x136, &scene_object_factory_data);
@@ -117,7 +117,7 @@ s32 init_panel_display_nodes(void) {
         render_state->unk_1C = 0x1000;
         func_80034A1C(render_state, D_80289454, 0);
         render_state->unk_0C = 0x00808080;
-        func_8023FAE8((u8 *)node + 0x20, node->unk_08, D_8052FF84);
+        func_8023FAE8(NODE_BODY(node), node->unk_08, D_8052FF84);
     }
 
     remaining = 7;

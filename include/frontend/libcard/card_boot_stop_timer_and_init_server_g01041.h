@@ -30,6 +30,6 @@ void save_and_clear_entity_flag_ten(void);
 void card_boot_stop_timer_and_init_server(void);
 void *card_boot_open_save_slot_selection(struct ObjectNodeHeader *request);
 void *dispatch_request_mode_two(void *request);
-void *dispatch_menu_update_callback(void *request);
+void *init_card_boot_request_with_centered_geometry(void *request);
 
 #endif

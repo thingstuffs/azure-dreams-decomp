@@ -6,10 +6,10 @@
 #include "slus.h"
 #include "town/map.h"
 #include "town/map/position.h"
+#include "town/menu/window.h"
 
 extern u32 D_800D1BF4[2];
 extern u8 town_building_records[];
-extern u8 town_building_slot_rectangles[];
 
 typedef struct S_800B98B4_0 {
     u8 unk_00;

@@ -5,8 +5,8 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "slus/animation_tick_data.h"
 
-extern u8 animation_tick_scale;
 extern short camera_shoulder_hold_ticks;
 extern short camera_shoulder_repeat_latch;
 extern short saved_cd_playback_volume_scale;

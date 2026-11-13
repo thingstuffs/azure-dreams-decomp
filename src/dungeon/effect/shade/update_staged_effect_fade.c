@@ -3,17 +3,11 @@
 #include "shared/object_flags.h"
 #include "dungeon/effect/shade.h"
 #include "sdk/libgte.h"
-
-
-typedef struct {
-    u16 value;
-    u8 pad[8];
-} Counter;
+#include "dungeon/effect/shade/staged_fade_data.h"
 
 #include "dungeon/effect/screen.h"
 #include "dungeon/data.h"
 
-extern Counter staged_fade_count;
 
 typedef struct S_80025E48_1 {
     u8 pad_00[0x2];
@@ -46,7 +40,7 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
 
     base_angle = effect->unk_22 << 8;
     held_angle = base_angle;
-    staged_fade_count.value++;
+    staged_fade_count.value.u++;
     if (effect->unk_24 != 0) {
         angle = base_angle + effect->unk_18.s * 0x10;
     } else {

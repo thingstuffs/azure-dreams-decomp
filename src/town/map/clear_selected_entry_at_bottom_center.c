@@ -1,15 +1,9 @@
 #include "shared/runtime_dispatch.h"
 #include "shared/game_work.h"
 #include "town/map/variant_data.h"
+#include "town/map/map_cursor_input_g00641.h"
+#include "town/menu/window.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-extern u8 town_map_selection_state[12];
-extern u8 town_building_slot_rectangles[];
 
 extern void request_scene_state_with_parameters(s32 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16);
 /*

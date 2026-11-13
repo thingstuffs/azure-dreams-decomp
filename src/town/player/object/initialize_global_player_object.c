@@ -18,7 +18,7 @@ void initialize_global_player_object(void)
     s32 init_value;
 
     object = scene_object_payload_alias;
-    object_header = (u8 *)object - 0x20;
+    object_header = NODE_HEADER(object);
     init_value = *(s32 *)&object_header->sprite;
     clear_entity_record_fields(*(s32 *)&object_header->position);
     call_the_handler_selects_nonzero_entry(town_scene_record_handlers, object, init_value);

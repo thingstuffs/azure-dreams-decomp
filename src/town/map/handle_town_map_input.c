@@ -5,6 +5,7 @@
 #include "engine/script.h"
 #include "town/map.h"
 #include "town/map/body.h"
+#include "town/menu/window.h"
 #include "slus/town_map_selection_data.h"
 
 void send_resource_command_23(s32);
@@ -13,7 +14,6 @@ extern u8 D_80072210[];
 extern u8 D_80072214[];
 extern u8 D_8008BED8[];
 extern u8 town_map_status;
-extern u8 town_building_slot_rectangles;
 
 /* Handle input and update the object display position for its current state. */
 void handle_town_map_input(TownMapBody *object, ObjectPosition *transform, SpriteFrameState *context) {
@@ -80,7 +80,7 @@ void handle_town_map_input(TownMapBody *object, ObjectPosition *transform, Sprit
             send_resource_command_23(entries[object->selection]);
         }
         entry_index = object->selection;
-        positions = &town_building_slot_rectangles;
+        positions = town_building_slot_rectangles;
         entry_id = entries[entry_index];
         object->context->unk_30 = positions[entry_id * 8] - 0x18;
 

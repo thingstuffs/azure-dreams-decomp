@@ -125,7 +125,7 @@ void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteF
 }
 
 /* Initialize object state and position, then invoke its new callback. */
-void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, void *callback_arg)
+void start_bicycle_at_view_reference(Obj *obj, State *state, VecState *motion, void *callback_arg)
 {
     void *resource_arg;
     void *resource;

@@ -10,14 +10,13 @@
 #include "sdk/libgpu.h"
 #include "slus.h"
 #include "slus/scene_frame_data.h"
+#include "slus/gpu_scratch_data.h"
+#include "slus/animation_tick_data.h"
 #include "sdk/libapi.h"
 
 extern void update_active_nodes_and_render_frame(void);
 
-extern u8 animation_tick_scale;
 extern s8 last_frame_ticks;
-extern s32 gpu_scratch_write_pointer;
-extern s32 gpu_scratch_buffer_base;
 extern u16 system_update_flags[];
 
 /* Present the frame, switch draw buffers, and synchronize frame timing. */

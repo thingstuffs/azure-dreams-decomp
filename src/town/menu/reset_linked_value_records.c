@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/menu.h"
+#include "town/menu/catalog_parts.h"
 
 extern s32 menu_initial_value_pairs[];
-extern u8 catalog_display_node_slots[];
 
 /* Initialize fourteen entries from the value table and clear their linked counters. */
 void reset_linked_value_records(void) {
@@ -11,11 +11,11 @@ void reset_linked_value_records(void) {
     s32 initial_value;
     s32 *value_pair;
     s32 entry_index;
-    u8 *state_base;
+    ItemMenuPart **state_base;
 
     entry_index = 0;
     state_base = catalog_display_node_slots;
-    entry_slot = (void **)(state_base + 0x38);
+    entry_slot = (void **)(state_base + 14);
     value_pair = menu_initial_value_pairs;
     do {
         entry = *entry_slot;

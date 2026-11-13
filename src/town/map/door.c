@@ -170,7 +170,7 @@ void *find_door_keyed_node(s32 requested_value)
             next_node = node->next;
             if (node_key < 0) {
                 if (!(node->flags & 0x400)) {
-                    node_data = (NodeData *)((u8 *)node + 0x20);
+                    node_data = (NodeData *)NODE_BODY(node);
                     if ((node_key == required_node_key) && (node_data->field_48 == requested_value)) {
                         result = node;
                         return result;
@@ -190,7 +190,7 @@ void door_open_demo_set_sub(s32 door_id, s16 demo_angle) {
     EntityStruct *door;
 
     door_object = find_door_keyed_node(door_id);
-    door = (EntityStruct *)((u8 *)door_object + 0x20);
+    door = (EntityStruct *)NODE_BODY(door_object);
     if (door_object != 0) {
         door->unk50 = &advance_door_open_angle;
         door->unk6C = demo_angle;
@@ -218,7 +218,7 @@ void into_dn_door_demo_set(void) {
     S_800A0A88_0 *door;
 
     door_object = find_door_keyed_node(&D_800D4404);
-    door = (void *)((u8 *)door_object + 0x20);
+    door = NODE_BODY(door_object);
     if (door_object != 0) {
         door->unk_90 = 6;
         door->unk_50 = &update_door_completion_state;

@@ -3,9 +3,9 @@
 #include "shared/item_menu.h"
 #include "slus.h"
 #include "town/shop/item.h"
+#include "town/shop/shop_window_layout_g00610.h"
 
 extern M2C_UNK D_80071244;
-extern FrameNode shop_cursor_template;
 
 
 /* When the menu lists entries, start the cursor stream on part 4 and point part 5 at the cursor frame. */

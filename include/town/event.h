@@ -47,7 +47,7 @@ s32 classify_item_check_result(s32 input);
 s32 classify_listed_entry_type(u8 *entry);
 s32 filter_entry_by_kind(s32 unused, u8 *entry);
 s32 get_group_record_table_entry(s32 group_id, void *record);
-void initialize_actor_sprite_and_animation(s32 entry_index);
+void increment_query_group_count_capped_at_three(s32 entry_index);
 s32 is_expected_movie_state(void);
 s32 test_resident_bit_11fa(void);
 s32 test_resident_bit_11fb(void);

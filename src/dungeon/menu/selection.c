@@ -246,7 +246,7 @@ void initialize_object_phase_data(void *recordFields, ObjectNodeHeader *recordVa
     set_descriptor_fields_and_flag(recordFields + 0x2C);
     record->unk_14 = recordValue24;
     record->unk_1C = recordValue2C;
-    ((ObjectNodeHeader *)recordFields - 1)->update_callback = (void *)apply_step_and_reset_after_five;
+    NODE_HEADER(recordFields)->update_callback = apply_step_and_reset_after_five;
 }
 
 /*

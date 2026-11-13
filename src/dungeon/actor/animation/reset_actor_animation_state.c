@@ -10,14 +10,6 @@
 #include "slus.h"
 #include "engine/entity.h"
 
-typedef struct S_800D8590_0 {
-    u8 pad_00[0xC];
-    u8 * unk_0C;
-    s32 unk_10;
-} S_800D8590_0;
-
-
-
 extern u8 D_800D8728[];
 
 extern void *actor_action_frames[];
@@ -29,17 +21,17 @@ void *reset_actor_animation_state(ActorRecord *body)
     u8 *map;
     s32 map_index;
     void *entity_arg;
-    S_800D8590_0 *parent;
+    ObjectNodeHeader *parent;
     ActorRecord *object;
     s32 frame_index;
 
     entity_arg = body;
-    parent = ((void *)body) - 0x20;
-    if ((u8 *)(g_dungeon_status.pending_display_owner) == parent) {
+    parent = NODE_HEADER(body);
+    if (g_dungeon_status.pending_display_owner == parent) {
         g_dungeon_status.pending_display_owner = (s32)parent & 0x7FFFFFFF;
     }
 
-    child = (SpriteFrameState *)parent->unk_0C;
+    child = parent->sprite;
     if (body->species == 0) {
         clear_player_linked_action_flags();
         child->flags |= 0x8000;
@@ -59,11 +51,11 @@ void *reset_actor_animation_state(ActorRecord *body)
             map += map_index;
             map[0xF9] = 1;
         }
-        bzero((u8 *)parent + 0xAC, 0x24);
+        object = NODE_BODY(parent);
+        bzero(&object->unk_8C, 0x24);
 
-        object = (ActorRecord *)((u8 *)parent + 0x20);
-        object->unk_AC.value = parent->unk_10;
-        parent->unk_10 = (s32)D_800D8728 & 0x7FFFFFFF;
+        object->unk_AC.address = parent->update_callback;
+        parent->update_callback = (void *)((s32)D_800D8728 & 0x7FFFFFFF);
         object->unk_A8 = body->species;
         body->species = MONSTER_FROG;
         object->action_id = 0xFF;

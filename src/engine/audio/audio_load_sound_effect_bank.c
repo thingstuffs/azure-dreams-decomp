@@ -5,6 +5,7 @@
 #include "engine/cd.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "slus/gpu_scratch_data.h"
 
 /* S_8006E61C: 12-byte record array indexed by a signed 16-bit id.
  * field0 (u16) is a counter/state value; field4 and field8 are pointers
@@ -18,9 +19,6 @@ typedef struct {
 extern S_8006E61C sound_effect_bank_descriptors[];
 
 /* Per-id "last processed" byte counter, indexed by field0-1. */
-
-extern s32 gpu_scratch_write_pointer;
-extern s32 gpu_scratch_buffer_base;
 
 /*
  * Skips an already loaded bank; otherwise drains audio work, loads both descriptor payloads

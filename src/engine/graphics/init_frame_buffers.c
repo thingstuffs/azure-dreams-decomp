@@ -6,6 +6,7 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "slus/gp_af3_pair.h"
 
 typedef u32 OT_TYPE;
 
@@ -14,8 +15,6 @@ typedef struct OrderingTable {
 } OrderingTable;
 
 
-extern s32 gpu_scratch_buffer_base;
-extern s32 gpu_scratch_write_pointer;
 extern OrderingTable alternate_frame_ordering_table;
 
 /* Initializes frame data and ordering tables, then enables display output. */

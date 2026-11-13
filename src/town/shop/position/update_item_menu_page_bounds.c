@@ -1,9 +1,7 @@
 #include "common.h"
 #include "shared/item_menu.h"
 #include "town/shop/position.h"
-
-extern u8 item_menu_primary_page_data[];
-extern u8 card_selection_display_data[];
+#include "town/menu/alternate_page_records_g00619.h"
 
 /* Shows or hides the previous/next page indicators (parts 38 and 39) and updates the page flags. */
 void update_item_menu_page_bounds(ItemMenuObject *obj)

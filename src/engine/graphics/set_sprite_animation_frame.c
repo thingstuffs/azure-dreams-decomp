@@ -3,9 +3,7 @@
 #include "shared/animation_views.h"
 #include "engine/graphics.h"
 #include "engine/texture.h"
-
-/* one byte (the next named symbol is D_80080A85); an extern, so absolute in ASPSX */
-extern u8 animation_tick_scale;
+#include "slus/animation_tick_data.h"
 
 /* Selects and dispatches a frame, stores its scaled leading value, and clears flags 0x6000. */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index) {

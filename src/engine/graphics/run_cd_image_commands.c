@@ -7,6 +7,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "slus/gp_af3_pair.h"
 
 typedef struct {
     u16 type;
@@ -16,9 +17,6 @@ typedef struct {
     u16 y;
     s16 flags;
 } StreamCommand;
-
-extern s32 gpu_scratch_write_pointer;
-extern s32 gpu_scratch_buffer_base;
 
 /* Processes a command stream for VRAM uploads, tile caching, memory copies, and pointer relocation. */
 void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute)

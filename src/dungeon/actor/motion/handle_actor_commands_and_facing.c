@@ -20,7 +20,6 @@ struct SpriteFrameState;
 #include "engine/resource.h"
 
 #include "dungeon/player.h"
-extern s32 begin_actor_attack();
 #include "dungeon/item.h"
 
 #include "dungeon/player/object/action_state.h"

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/floating_number_widget_g00612.h"
 
 typedef struct {
     s32 unk0;
@@ -24,7 +25,6 @@ typedef struct {
     TownPartB *partB;
 } TownOwner;
 
-extern s32 display_block_defaults[4];
 extern s32 display_vector_defaults[3];
 
 /* Initialize and attach both town parts, then set the owner and part defaults. */

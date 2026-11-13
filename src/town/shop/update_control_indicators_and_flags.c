@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/shop.h"
+#include "town/menu/alternate_page_records_g00619.h"
 
 typedef struct S_800B4AB0_1 {
     u8 pad_00[0x2C];
@@ -11,9 +12,6 @@ typedef struct S_800B4AB0_2 {
     u8 pad_00[0x2C];
     s32 unk_2C;
 } S_800B4AB0_2;   /* control->owner in update_control_indicators_and_flags */
-
-extern u8 item_menu_primary_page_data[];
-extern u8 card_selection_display_data[];
 
 /* Shows or hides the previous/next page indicators (parts 38 and 39) and updates the edge flags. */
 void update_control_indicators_and_flags(StorageOwner *control)

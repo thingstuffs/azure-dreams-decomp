@@ -79,8 +79,8 @@ struct CardDisplayNode;
 /* advance_card_boot_stream_pair.c */
 void advance_card_boot_stream_pair(u8 *record_addr);
 
-/* advance_timed_visual.c */
-void advance_timed_visual(s32 *dest, s32 value);
+/* store_word_at_address.c */
+void store_word_at_address(s32 *dest, s32 value);
 
 /* assign_object_descriptor_check.c */
 void assign_object_descriptor_on_check(void *object_data_addr);
@@ -356,8 +356,8 @@ void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 
 void card_boot_position_dialog_selection_marker(CardMessageDialogBody *context, s32 column, s32 mode, s32 row, s32 row_value);
 void card_boot_update_message_choice_highlight(void *object);
 
-/* dispatch_menu_update_callback.c */
-void *dispatch_menu_update_callback(void *request);
+/* card_boot_stop_timer_and_init_server_g01041.c */
+void *init_card_boot_request_with_centered_geometry(void *request);
 
 /* dispatch_request_mode_two.c */
 void *dispatch_request_mode_two(void *request);
@@ -424,8 +424,8 @@ void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void 
 void func_80024C48(struct S_800491F4 **target);
 void update_effect_color_rotation_and_motion(struct S_800491F4 **target);
 
-/* update_inventory_menu.c */
-void update_inventory_menu(void *state_arg);
+/* create_next_card_slot_window.c */
+void create_next_card_slot_window(void *state_arg);
 
 /* update_record_and_install_next_table.c */
 void update_record_and_install_next_table(void *record_data);

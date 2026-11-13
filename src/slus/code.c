@@ -30,6 +30,7 @@
 #include "engine/audio/slots.h"
 #include "engine/effect.h"
 #include "sdk/libspu.h"
+#include "slus/data.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
@@ -618,7 +619,6 @@ int count_tagged_records(Unk8004B4DC *record) {
     return count;
 }
 
-extern int global_cd_command_six_payload;
 /* Process the fixed global record with command six. */
 void submit_global_cd_command_six(void)
 {
@@ -899,8 +899,6 @@ void run_town_transition_callbacks(void)
 {
     run_deferred_callbacks(town_transition_callback_list);
 }
-
-extern char direct_load_resource_descriptor;
 
 /* Calls file_load_com with & direct_load_resource_descriptor. */
 void load_direct_resource_descriptor(void)

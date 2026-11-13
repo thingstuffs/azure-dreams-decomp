@@ -93,7 +93,7 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
             }
         }
     } else {
-        related = (u8 *)related + 0x20;
+        related = NODE_BODY(related);
         linked_data = related;
         transform->position.x.parts.whole.u = linked_data->history[2].x;
         transform->position.y.parts.whole.u = linked_data->history[2].y;

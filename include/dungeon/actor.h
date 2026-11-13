@@ -14,6 +14,7 @@ void jyotyu_set_reserve_dngn(void);
 void announce_familiar_defeat(void *input_data);
 void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *visual, void *current_actor);
 void begin_action_33_and_dispatch(void *object, void *unused_1, void *unused_2, void *target);
+s32 begin_actor_attack(ActorRecord *body, ObjectPosition *unused, void *action_param, ActorRecord *actor);
 s32 check_active_object_state_567(void);
 s32 check_enabled_neighbor_height(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disabled);
 s32 check_entity_eligibility(void *entity);

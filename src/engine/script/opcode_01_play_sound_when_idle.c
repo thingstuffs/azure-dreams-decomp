@@ -3,6 +3,7 @@
 #include "engine/script.h"
 #include "engine/script/vm.h"
 #include "slus.h"
+#include "slus/runtime_directory.h"
 
 typedef struct S_800390D0_0 {
     u8 pad_00[0x10];
@@ -10,8 +11,6 @@ typedef struct S_800390D0_0 {
     u8 pad_14[0x8];
     s32 unk_1C;
 } S_800390D0_0;   /* arg0 in script_end_message */
-
-extern u8 runtime_dispatch_mode_alias[];
 
 /* Opcode 0x01: End of message: unless dispatch mode is 2, rewind while the sound status is 0x100, then send SD_Call(AUDIO_MESSAGE_END); park the window. */
 void script_end_message(S_800390D0_0 *state) {

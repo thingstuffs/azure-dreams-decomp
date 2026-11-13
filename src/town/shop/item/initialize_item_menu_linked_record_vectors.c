@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/shop/item.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
+#include "town/shop/floating_number_widget_g00612.h"
 
 typedef struct S_800AEBC4_2 {
     u8 pad_00[0x2];
@@ -20,7 +21,6 @@ typedef struct S_800AEBC4_4 {
 } S_800AEBC4_4;   /* config */
 
 
-extern s32 display_block_defaults[4];
 extern s32 display_vector_defaults[3];
 
 /* Copies two templates into linked records and initializes position and offset vectors. */

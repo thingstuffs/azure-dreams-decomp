@@ -34,7 +34,7 @@ typedef struct {
 /* Bicycle work callback invoked with (entity, entity, position, sprite) by update_entity_sprite_and_effects. */
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
-/* Bicycle work callback slice initialized by save_and_clear_entity_flag_ten.
+/* Bicycle work callback slice initialized by start_bicycle_at_view_reference.
  * initialize_enabled_scene_object owns the node through create_town_effect_object. */
 typedef struct {
     s8 pad00[0x50];
@@ -43,7 +43,7 @@ typedef struct {
 
 typedef struct { u8 pad00[0x15]; u8 flag15; } State;
 
-/* Bicycle position/motion part initialized by save_and_clear_entity_flag_ten.
+/* Bicycle position/motion part initialized by start_bicycle_at_view_reference.
  * The initializer copies view_reference_entity and clears the three motion increments. */
 typedef struct { s32 x /* world X in 16.16 units */, y /* world Y in 16.16 units */, z /* world height in 16.16 units */, dx /* X motion increment in 16.16 units per position update; initially zero */, dy /* Y motion increment in 16.16 units per position update; initially zero */, dz; /* height increment in 16.16 units per position update; initially zero */ } VecState;
 
@@ -85,7 +85,7 @@ extern void *D_80100E28[1];
 /* Functions defined in this translation unit. */
 void initialize_enabled_scene_object(void);
 void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteFrameState *sprite);
-void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, void *callback_arg);
+void start_bicycle_at_view_reference(Obj *obj, State *state, VecState *motion, void *callback_arg);
 void update_actor_position_and_heading(void *actor, s32 update_context, void *position, void *setup_context);
 
 #endif

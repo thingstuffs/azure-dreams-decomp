@@ -1044,7 +1044,7 @@
     },
     {
       "row": "town/func_800CB028",
-      "tu": "src/town/person/check_action_six_eligibility.c",
+      "tu": "src/town/person/rise_until_apex_then_advance_position.c",
       "home": "town/func_800CB028",
       "foff": "0x4B028",
       "vma": "0x800C8788",
@@ -1696,7 +1696,7 @@
     },
     {
       "row": "town/func_80031020",
-      "tu": "src/town/person/check_action_six_eligibility.c",
+      "tu": "src/town/person/rise_until_apex_then_advance_position.c",
       "home": "town/func_800CB028",
       "foff": "0x51020",
       "vma": "0x800CE780",
@@ -1704,7 +1704,7 @@
     },
     {
       "row": "town/func_8003116C",
-      "tu": "src/town/person/check_action_six_eligibility.c",
+      "tu": "src/town/person/rise_until_apex_then_advance_position.c",
       "home": "town/func_800CB028",
       "foff": "0x5116C",
       "vma": "0x800CE8CC",

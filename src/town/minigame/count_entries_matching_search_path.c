@@ -77,7 +77,7 @@ extern s32 town_position_callback_address[3];
 
 extern void create_paired_vector_color_effect(void *, TownPos *, s32 *, TownCollectionSequence *);
 extern void return_zero_variadic(void *, s32);
-extern void create_familiar_deployment_effect_with_owner_state(void);
+extern void stop_scene_player_and_defer_action_setup(void);
 
 /* Town cutscene step machine: the 0x36 stage byte selects this frame's work -- seed the camera motion, run each animation phase in turn, and once past stage 4 clamp the camera to its limits. */
 void count_entries_matching_search_path(TownCollectionSequence *scene)
@@ -173,18 +173,20 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
     {
         s32 lim = 0x044FFFFF;
         s32 m1;
+        ObjectPosition *motion;
 
         work = ((u8 *)(&view_reference_entity));
-        if (((ObjectPosition *)work)->y.v <= lim) {
-            ((ObjectPosition *)work)->y.v += (0x04500000 - ((ObjectPosition *)work)->y.v) >> 1;
+        motion = (ObjectPosition *)work;
+        if (motion->y.v <= lim) {
+            motion->y.v += (0x04500000 - motion->y.v) >> 1;
         }
-        m1 = ((ObjectPosition *)work)->y.v;
+        m1 = motion->y.v;
         if (m1 > 0x04700000) {
-            ((ObjectPosition *)work)->y.v = m1 + ((0x04700000 - m1) >> 1);
+            motion->y.v = m1 + ((0x04700000 - m1) >> 1);
         }
         global->unk_10 = (((u16)global->unk_10) + 0x200) & 0xFFF;
         i = query_lowered_transform_position(work);
-        if (((ObjectPosition *)work)->z.w.i < i) {
+        if (motion->z.w.i < i) {
             break;
         }
     }
@@ -220,7 +222,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
             break;
         }
         global->unk_10 = 0x800;
-        create_familiar_deployment_effect_with_owner_state();
+        stop_scene_player_and_defer_action_setup();
         apply_global_scene_value(movement_action_handler_table);
         motion = ((&view_reference_entity));
         scene->saved_x.u = (motion->x).unsigned_parts.integer;
@@ -269,7 +271,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
             pos.h0A = scene->saved_y.u - t / 24;
         }
         if (part->unk_68 == 9) {
-            create_familiar_deployment_effect_with_owner_state();
+            stop_scene_player_and_defer_action_setup();
             apply_global_scene_value(movement_action_handler_table);
             create_paired_vector_color_effect(D_80022454, &pos, color, scene);
             scene->unk_28.u = 0x200;

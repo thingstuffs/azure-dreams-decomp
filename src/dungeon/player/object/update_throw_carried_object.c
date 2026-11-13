@@ -120,21 +120,22 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
             s32 active_entry;
             s32 effect_duration;
             u32 entity_flags;
+            S_8008FA7C_3 *actor_view = (S_8008FA7C_3 *)actor;
 
             mask_or_base = 0xFFEF0000;
-            linked_object = (S_8008FA7C_4 *)((S_8008FA7C_3 *)actor)->unk_124.p;
+            linked_object = (S_8008FA7C_4 *)actor_view->unk_124.p;
             set_mask = 0x200000;
             linked_flags = linked_object->unk_1C;
             mask_or_base |= 0xFFFF;
             linked_flags |= set_mask;
             linked_object->unk_1C = linked_flags;
-            linked_result = ((S_8008FA7C_3 *)actor)->unk_124.p;
+            linked_result = actor_view->unk_124.p;
             active_anim = animation;
             ((ActorRecord *)linked_result)->unk_8A = action_result;
             effect_duration = 0x78;
-            object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
+            object_or_base = actor_view->unk_124.i;
             ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_84 = effect_duration;
-            object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
+            object_or_base = actor_view->unk_124.i;
             ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_85 = 2;
             entity_flags = entity->flags1C;
             entity_flags &= mask_or_base;

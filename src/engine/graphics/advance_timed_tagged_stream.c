@@ -1,8 +1,7 @@
 #include "common.h"
 #include "engine/graphics.h"
 #include "shared/timed_stream.h"
-
-extern u8 animation_tick_scale;
+#include "slus/animation_tick_data.h"
 
 
 /* Advances the frame sequence and updates its output when the countdown expires. */

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 
 
@@ -13,8 +14,6 @@ typedef struct S_80056558_85458 {
     /* 0x6C */ s16 f6c;
     /* 0x6E */ u8 pad6e[0x0A];
 } S_80056558_85458;
-
-extern s32 audio_voice_count[4];
 extern S_80056558_85458 audio_voice_records[24];
 
 

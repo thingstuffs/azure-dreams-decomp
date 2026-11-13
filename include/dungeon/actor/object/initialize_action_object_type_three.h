@@ -30,7 +30,7 @@ extern void update_actor_input_actions(void);
 extern s32 D_800D0110[];
 extern u8 D_800D0118[];
 extern void dispatch_actor_interaction_with_fallback(void);
-extern void update_actor_with_interaction_state(void);
+extern void update_actor_with_interaction_state(TownObjectRecord *controller, ObjectPosition *entity, SpriteFrameState *context);
 extern s32 counted_action_handler_table[];
 extern u8 movement_action_handler_table[];
 extern void update_actor_movement_and_interaction(void *actor, ObjectPosition *position, s32 context);

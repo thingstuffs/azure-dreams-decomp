@@ -50,7 +50,7 @@ s32 update_actor_fade_in(StructArg0 *object_arg, s32 unused, StructArg2 *effect_
         if (effect->unk0F != 0) {
             return 0;
         }
-        owner = (StructArg0 *)((u8 *)object - 0x20);
+        owner = (StructArg0 *)NODE_HEADER(object);
         unlink_node(owner);
         effect->unk12 += 0x80;
         effect->unk14 &= 0xFFF3;

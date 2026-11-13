@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 
@@ -9,7 +10,6 @@
 
 
 extern SpuVoiceAttr_ audio_voice_request;
-extern s32 audio_voice_masks[];
 
 /* Builds and submits a request using the indexed table value. */
 void sound_reset_indexed_voice_envelope(s32 request_index) {

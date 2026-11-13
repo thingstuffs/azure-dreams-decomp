@@ -16,8 +16,8 @@ void card_boot_handle_menu_actions_and_repeat(void *menu);
 /* card_boot_position_four_display_items.c */
 void card_boot_position_four_display_items(u8 *state);
 
-/* check_record_field_is_one.c */
-void check_record_field_0x04_is_one(struct ObjectNodeHeader *value);
+/* init_card_message_object_mode_seven.c */
+void init_card_message_object_mode_seven(struct ObjectNodeHeader *value);
 
 /* init_card_message_object.c */
 u8 *init_card_message_object(struct ObjectNodeHeader *message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4);

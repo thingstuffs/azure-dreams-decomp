@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 
 /* D_80085458[64]: stride 0x78 table; only fields f06 (dispatch index), f10, f12
@@ -13,8 +14,6 @@ typedef struct S_800564A8_85458 {
 } S_800564A8_85458;
 
 /* Pass the selected shared audio channel control to the voice volume updater. */
-
-extern s32 audio_voice_count[4];
 extern S_800564A8_85458 audio_voice_records[24];
 extern AudioChannelControl audio_channel_controls[16];
 

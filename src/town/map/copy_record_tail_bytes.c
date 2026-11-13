@@ -1,9 +1,9 @@
 #include "common.h"
 #include "town/map.h"
+#include "town/menu/window.h"
 
 typedef unsigned long uptr;
 
-extern u8 town_building_slot_rectangles[];
 
 /* Copy the final two bytes of 34 records and clear the four destination flags. */
 void copy_record_tail_bytes(void)

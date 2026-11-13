@@ -6,6 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/effect/shade/staged_fade_data.h"
 
 typedef struct S_80024CD4_0 {
     u8 pad_00[0xA];
@@ -21,16 +22,10 @@ typedef struct S_80024CD4_0 {
 
 
 typedef struct {
-    u16 value;
-    u8 pad[8];
-} Counter;
-
-typedef struct {
     s16 value;
     u8 pad[8];
 } Flag;
 
-extern Counter staged_fade_count;
 extern Flag path_effect_release_flag;
 
 /* Advance the effect state, update its ramp and color, and apply its transform. */
@@ -44,7 +39,7 @@ void emit_particle_then_wait_for_path_release(void *effect, ObjectPosition *tran
     void *call_transform;
     s32 base_value;
 
-    staged_fade_count.value++;
+    staged_fade_count.value.u++;
     state = ((S_80024CD4_0 *)effect)->unk_0A;
     switch (state) {
     case 0:

@@ -6,9 +6,12 @@
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 
-/* Processes the object header and invokes two follow-up routines. */
+/*
+ * Releases the node's card record handles, closes the card boot events and resumes the timer, then
+ * requests scene dispatch state 3.
+ */
 
-void inventory_copy_and_sign_extend_record_fields(s32 object_data) {
+void release_card_records_and_request_scene_state_three(s32 object_data) {
     release_card_record_handles(object_data - 0x20);
     card_boot_close_events_and_resume_timer();
     request_scene_dispatch_state(3);

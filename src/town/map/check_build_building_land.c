@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/object.h"
 #include "town/map.h"
+#include "town/menu/window.h"
 
 typedef struct S_800B83DC_0 {
     u8 pad_00[0x33A4];
@@ -27,7 +28,6 @@ typedef struct {
 } Record;
 
 extern Record town_building_records[];
-extern u8 town_building_slot_rectangles[];
 
 /* Implements CheckBuildBuildingLand by checking pair assignments and matching land attributes. */
 s32 CheckBuildBuildingLand(s32 record_key) {

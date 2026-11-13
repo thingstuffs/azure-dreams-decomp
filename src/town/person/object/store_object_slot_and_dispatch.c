@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_index_slots.h"
 
 typedef struct {
@@ -15,7 +16,7 @@ void store_object_slot_and_dispatch(TownObjectRecord *object, ObjectPosition *up
     s32 slot_index;
 
     slot_index = object->slot;
-    object_index_slots[slot_index].object = (u8 *)object - 0x20;
+    object_index_slots[slot_index].object = NODE_HEADER(object);
     object_index_slots[object->slot].unk_00 = 0;
     apply_object_setup_and_update(object, update_context, setup_context);
 }

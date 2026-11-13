@@ -16,10 +16,6 @@ typedef struct Position {
     s32 half_dz;
 } Position;
 
-
-extern u8 town_scene_record_handlers[];
-
-
 extern IntVector3 D_800D0624;
 
 

@@ -3,6 +3,7 @@
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
 #include "slus/data.h"
+#include "slus/gp_af3_pair.h"
 
 typedef struct {
     void *data;
@@ -12,9 +13,6 @@ typedef struct {
     s16 height;
     s32 unk0C;
 } S_8003F8F8;
-
-extern s32 gpu_scratch_write_pointer;
-extern s32 gpu_scratch_buffer_base;
 
 /* Uploads a null-terminated image list to VRAM through a staging buffer. */
 void decode_and_upload_image_array(S_8003F8F8 *images)

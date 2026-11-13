@@ -144,7 +144,7 @@
 {"id":"main/func_80011A50","path":"src/frontend/libcard/slot_detail_refresh_g00388.c"}
 {"id":"main/func_80011ACC","path":"src/frontend/libcard/build_and_queue_interpolated_vertical_quads_around_five_perimeter_points.c"}
 {"id":"main/func_80011C48","path":"src/frontend/libcard/update_effect_color_rotation_and_motion.c"}
-{"id":"main/func_80011D10","path":"src/frontend/libcard/advance_timed_visual.c"}
+{"id":"main/func_80011D10","path":"src/frontend/libcard/store_word_at_address.c"}
 {"id":"main/func_80011D58","path":"src/frontend/libcard/render_rotated_grid_surface.c"}
 {"id":"main/func_80011E44","path":"src/frontend/libcard/draw_cylindrical.c"}
 {"id":"main/func_80011F3C","path":"src/frontend/libcard/card_boot_set_slot_details_selection.c"}
@@ -172,7 +172,7 @@
 {"id":"main/func_80012B40","path":"src/main/func_80012B40.c"}
 {"id":"main/func_80012B60","path":"src/frontend/libcard/card_boot_enter_slot_selection_input.c"}
 {"id":"main/func_80012B9C","path":"src/frontend/libcard/card_boot_return_from_slot_menu.c"}
-{"id":"main/func_80012BD4","path":"src/frontend/libcard/update_inventory_menu.c"}
+{"id":"main/func_80012BD4","path":"src/frontend/libcard/create_next_card_slot_window.c"}
 {"id":"main/func_80012C7C","path":"src/frontend/libcard/card_boot_create_slot_selection_menu.c"}
 {"id":"main/func_80012D34","path":"src/frontend/libcard/card_boot_destroy_slot_selection_menu.c"}
 {"id":"main/func_80012DC8","path":"src/frontend/libcard/resource/card_boot_highlight_selected_load_slot.c"}
@@ -309,7 +309,7 @@
 {"id":"main/func_8001C284","path":"src/frontend/card/card_dev_show_format_failure_notice.c"}
 {"id":"main/func_8001C2AC","path":"src/frontend/card/card_dev_show_format_success_notice.c"}
 {"id":"main/func_8001C2D4","path":"src/frontend/card/card_dev_show_damaged_memory_card_notice.c"}
-{"id":"main/func_8001C2FC","path":"src/frontend/card/message/check_record_field_is_one.c"}
+{"id":"main/func_8001C2FC","path":"src/frontend/card/message/init_card_message_object_mode_seven.c"}
 {"id":"main/func_8001C324","path":"src/frontend/card/card_dev_show_copying_progress.c"}
 {"id":"main/func_8001C34C","path":"src/frontend/card/card_dev_show_copy_failure_notice.c"}
 {"id":"main/func_8001C374","path":"src/frontend/card/card_dev_show_overwrite_protected_notice.c"}
@@ -356,7 +356,7 @@
 {"id":"main/func_8001E7F0","path":"src/frontend/card/init_card_info_object.c"}
 {"id":"main/func_8001EA00","path":"src/frontend/card/card_info_set_value_and_refresh.c"}
 {"id":"main/func_8001EA3C","path":"src/frontend/card/card_dev_commit_pending_value.c"}
-{"id":"main/func_8001EAB4","path":"src/frontend/card/save/invoke_callback_with_zero.c"}
+{"id":"main/func_8001EAB4","path":"src/frontend/card/save/refresh_save_slot_selection_and_resume_menu_input.c"}
 {"id":"main/func_8001EAE8","path":"src/frontend/card/save/card_devkit_refresh_save_slot_selection.c"}
 {"id":"main/func_8001EB98","path":"src/frontend/card/save/card_devkit_refresh_save_slot_pair_highlights.c"}
 {"id":"main/func_8001EC44","path":"src/frontend/card/card_dev_no_op_save.c"}
@@ -572,7 +572,7 @@
 {"id":"town/func_8009644C","path":"src/town/player/state/select_next_item_state.c"}
 {"id":"town/func_800964E0","path":"src/town/player/item/set_hold_item_callback.c"}
 {"id":"town/func_800964F8","path":"src/town/player/item/set_return_item_callback.c"}
-{"id":"town/func_80096510","path":"src/town/player/state/create_familiar_deployment_effect_with_owner_state.c"}
+{"id":"town/func_80096510","path":"src/town/player/state/stop_scene_player_and_defer_action_setup.c"}
 {"id":"town/func_8009658C","path":"src/town/player/apply_global_scene_value.c"}
 {"id":"town/func_800965B8","path":"src/town/player/initialize_shared_scene_data.c"}
 {"id":"town/func_800965D8","path":"src/town/player/set_default_scene_data_pointer.c"}
@@ -1514,7 +1514,7 @@
 {"id":"town/func_800C41F4","path":"src/town/scene/flags/set_global_flag_runs_setup.c"}
 {"id":"town/func_800C4264","path":"src/town/scene/append_data_pair_and_run_follow_up.c"}
 {"id":"town/func_800C42AC","path":"src/town/scene/resource/load_global_movie_resources.c"}
-{"id":"town/func_800C42E4","path":"src/town/scene/effect/create_familiar_restoration_effect.c"}
+{"id":"town/func_800C42E4","path":"src/town/scene/effect/append_scene_movie_list_node.c"}
 {"id":"town/func_800C4310","path":"src/town/scene/resource/reserve_movie_resource_id.c"}
 {"id":"town/func_800C435C","path":"src/town/scene/resource/set_state_value_when_asset_matches.c"}
 {"id":"town/func_800C438C","path":"src/town/scene/mcard_set.c"}
@@ -1687,7 +1687,7 @@
 {"id":"town/func_800CAEA0","path":"src/town/person/initialize_scene_slot_context.c"}
 {"id":"town/func_800CAF6C","path":"src/town/person/forward_three_args.c"}
 {"id":"town/func_800CAF8C","path":"src/town/person/position/advance_object_position.c"}
-{"id":"town/func_800CB028","path":"src/town/person/check_action_six_eligibility.c"}
+{"id":"town/func_800CB028","path":"src/town/person/rise_until_apex_then_advance_position.c"}
 {"id":"town/func_800CB0A8","path":"src/town/person/object/initialize_object_callback.c"}
 {"id":"town/func_800CB0FC","path":"src/town/person/state/run_object_handlers_supplied_state.c"}
 {"id":"town/func_800CB14C","path":"src/town/person/run_object_handlers_supplied_state.c"}
@@ -7186,7 +7186,7 @@
 {"id":"town/func_806CD32C","path":"src/town/scene/select_data_kind_index.c"}
 {"id":"town/func_806CDDE0","path":"src/town/scene/scale_record_value_add_offset.c"}
 {"id":"town/func_806CF0F8","path":"src/town/scene/build_record_state_calling.c"}
-{"id":"town/func_806D425C","path":"src/town/scene/reset_dungeon_runtime_state.c"}
+{"id":"town/func_806D425C","path":"src/town/scene/set_request_flag_during_niko_step_and_process.c"}
 {"id":"town/func_806D4920","path":"src/town/scene/event/init_request_if_flag_1455.c"}
 {"id":"town/func_806D4978","path":"src/town/scene/lookup_special_data_or_dispatch_request.c"}
 {"id":"town/func_806D4E00","path":"src/town/scene/get_special_data_by_id.c"}

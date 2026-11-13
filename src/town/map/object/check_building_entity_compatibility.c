@@ -2,8 +2,8 @@
 
 #include "engine/object/test_resident_bitmap_bit_api.h"
 #include "town/map/object.h"
+#include "town/menu/window.h"
 extern u8 town_building_records[];
-extern u8 town_building_slot_rectangles[];
 
 /* Checks whether a record can use an entity based on its kind and existing links. */
 s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)

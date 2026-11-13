@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 
 /* Element of D_80084960 stat/entity table, stride 0x9C (156) bytes.
@@ -27,8 +28,6 @@ typedef struct {
     u8 pad5c[0x14];
     s32 f70, f74;
 } S_80085458;
-
-extern s32 audio_voice_count[4];
 extern AudioChannelControl audio_channel_controls[16];
 extern S_80085458 audio_voice_records[24];
 

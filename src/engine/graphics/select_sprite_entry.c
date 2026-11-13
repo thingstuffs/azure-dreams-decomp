@@ -3,6 +3,7 @@
 #include "shared/animation_views.h"
 #include "engine/graphics.h"
 #include "engine/texture.h"
+#include "slus/animation_tick_data.h"
 
 /* Entry struct pointed to by S_80047784.unk00; only the leading u16 field is
  * accessed by this function. */
@@ -13,8 +14,6 @@
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index)
 {
     SpriteFrameState *object = object_data;
-    extern u8 animation_tick_scale;
-
     select_indirect_table_entry(object, table_index, entry_index);
     object->frame_ticks = (*(AnimationFrameRate **)&object->unk_00)->value / animation_tick_scale;
     object->flags &= 0x9FFF;

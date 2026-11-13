@@ -3,6 +3,7 @@
 #include "engine/texture.h"
 #include "sdk/libgpu.h"
 #include "slus/data.h"
+#include "slus/gp_af3_pair.h"
 
 /* This whole TU is compiled with -G0 (small-data disabled), so gcc
  * addresses these plain scalars via independent lui/%hi + lw/sw/%lo pairs
@@ -10,9 +11,6 @@
  * $gp. D_80080A7C is a plain int elsewhere too (see code5.c func_8004066C,
  * same -G0 TU). D_80081480/D_8008148C are really running write/base
  * pointers into a growing decode buffer, stored as plain 32-bit values. */
-extern s32 gpu_scratch_write_pointer;
-extern s32 gpu_scratch_buffer_base;
-
 /* Object header this function operates on: rect points at a struct whose
  * fields at 0x4/0x6 are s16 tile-dimension counters. */
 typedef struct {

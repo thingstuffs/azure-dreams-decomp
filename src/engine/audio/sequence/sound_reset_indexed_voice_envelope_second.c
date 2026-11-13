@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 #include "slus.h"
@@ -96,8 +97,6 @@ typedef struct S_8005B4D0_req
     u8 pad3e[0x40 - 0x3E];
 }
 S_8005B4D0_req;
-extern s32 audio_voice_count[4];
-extern s32 audio_voice_masks[24];
 extern S_80085458 audio_voice_records[24];
 extern s32 audio_update_guard[4];
 extern S_80086A40 audio_bank_slots[16];

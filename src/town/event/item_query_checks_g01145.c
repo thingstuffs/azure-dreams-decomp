@@ -154,8 +154,8 @@ s32 get_group_record_table_entry(s32 group_id, void *record) {
     return 0;
 }
 
-/* Increments the selected byte counter and clamps the result to three. */
-void initialize_actor_sprite_and_animation(s32 entry_index) {
+/* Increments the query group's count byte (0x800135C4 + group * 4) and caps it at three. */
+void increment_query_group_count_capped_at_three(s32 entry_index) {
     u8 count;
     S_800A9C18_0 *entry;
     void *table_base;

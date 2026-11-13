@@ -13,14 +13,18 @@ extern u8 scene_object_payload_alias[];
 extern u8 town_scene_record_handlers[];
 extern void *town_player_action_callback;
 
-/* Processes the object's header values and updates the global pointers. */
-void create_familiar_deployment_effect_with_owner_state(void) {
+/*
+ * Stops the scene player object for a minigame step: clears its velocity, reselects its scene record
+ * handler, replaces its update callback with a no-op and queues initialize_scene_action_record as the
+ * deferred player action.
+ */
+void stop_scene_player_and_defer_action_setup(void) {
     void *object;
     ObjectNodeHeader *object_header;
     s32 header_value;
 
     object = scene_object_payload_alias;
-    object_header = (u8 *)object - 0x20;
+    object_header = NODE_HEADER(object);
     header_value = *(s32 *)&object_header->sprite;
     clear_entity_record_fields(*(s32 *)&object_header->position);
     call_the_handler_selects_nonzero_entry(town_scene_record_handlers, object, header_value);

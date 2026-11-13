@@ -5,6 +5,8 @@
 
 #include "common.h"
 #include "slus/utility_hooks.h"
+#include "slus/audio_master_level.h"
+#include "slus/audio_voice_data.h"
 typedef struct S_80084960
 {
     s32 f00;
@@ -84,15 +86,6 @@ typedef struct S_80085458
     u8 pad1e[0x5A];
 }
 S_80085458;
-typedef struct S_80073738
-{
-    s16 f0;
-    s16 pad[7];
-}
-S_80073738;
-extern s32 audio_voice_count[4];
-extern S_80073738 audio_master_level;
-extern s32 audio_voice_masks[24];
 extern S_80084960 audio_channel_controls[16];
 extern S_80085458 audio_voice_records[24];
 extern void audio_refresh_sequence_voice_volumes(void);

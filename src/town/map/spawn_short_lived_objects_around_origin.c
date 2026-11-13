@@ -77,7 +77,7 @@ void spawn_short_lived_objects_around_origin(ShortLivedSpawnerObject *self, Copy
 
                 primitive->scale_y = 0x1000;
                 primitive->scale_x = 0x1000;
-                object = (void *)((u8 *)object + 0x20);
+                object = NODE_BODY(object);
                 if (origin->word[3] < 0) {
                     primitive->flags |= 1;
                 }

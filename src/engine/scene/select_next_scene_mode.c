@@ -2,9 +2,7 @@
 #include "common.h"
 #include "engine/resource.h"
 #include "slus/data.h"
-
-extern s32 gpu_scratch_buffer_base;
-extern s32 gpu_scratch_write_pointer;
+#include "slus/gp_af3_pair.h"
 
 #include "engine/scene.h"
 

@@ -31,7 +31,7 @@ s32 is_town_state_pair_accepted(void) {
 /* Initialize the global context record using its two stored values. */
 void initialize_town_context_action(void) {
     ObjectNodeHeader *context = &scene_object_list_anchor;
-    initialize_scene_action_record((TownObjectRecord *)((u8 *)context + 0x20),
+    initialize_scene_action_record(NODE_BODY(context),
                   context->position,
                   context->sprite);
 }
@@ -52,7 +52,7 @@ void handle_selection_and_create_object(void) {
     s32 mode;
 
     data = &scene_object_list_anchor;
-    object = (TownObjectRecord *)((u8 *)data + 0x20);
+    object = NODE_BODY(data);
     context = (S_80093894_1 *)item_menu_scene_state;
     position = data->position;
     callback_data = data->sprite;
@@ -120,7 +120,7 @@ void handle_selection_and_create_object(void) {
             Unk96134State *state = (Unk96134State *)town_actor_control;
             void *next_object;
 
-            next_object = (u8 *)created_entry + 0x20;
+            next_object = NODE_BODY(created_entry);
             object->unk_2C = next_object;
             state->unk10 = next_object;
             state->unk18 = 0;

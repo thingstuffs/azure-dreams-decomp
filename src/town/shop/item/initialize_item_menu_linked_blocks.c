@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/gpu_packets.h"
 #include "town/shop/item.h"
+#include "town/shop/floating_number_widget_g00612.h"
 
 typedef struct S_800AFF00_0 {
     s32 unk_00;
@@ -51,7 +52,6 @@ typedef struct S_800AFF00_7 {
 } S_800AFF00_7;   /* ((S_800AFF00_4 *)arg0)->unk_08 in initialize_item_menu_linked_blocks */
 
 
-extern s32 display_block_defaults[4];
 extern s32 display_vector_defaults[3];
 
 /* Initialize two linked data blocks from templates and set their default fields. */

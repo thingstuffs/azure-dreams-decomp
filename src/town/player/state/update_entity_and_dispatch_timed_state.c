@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/state_update_g00548.h"
 #include "town/player/initialize_shared_scene_data.h"
 #include "shared/town_object.h"
 #include "town/player/action_initializers.h"
@@ -12,7 +13,6 @@
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"       /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"       /* extern */
 #include "town/player/object/entity_record_fields.h"       /* extern */
-extern u8 town_scene_record_handlers[];
 extern s32 town_interaction_pending;
 
 

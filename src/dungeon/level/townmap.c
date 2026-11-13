@@ -103,7 +103,7 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
             if (linked_slot == count) {
                 linked_data = 0;
             } else {
-                linked_data = (u8 *)objects[linked_slot] + 0x20;
+                linked_data = NODE_BODY(objects[linked_slot]);
             }
             {
                 struct object_data {
@@ -111,7 +111,7 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
                     s32 field_74;
                     s32 field_78;
                     s32 field_7c;
-                } *payload = (struct object_data *)((u8 *)*object_cursor + 0x20);
+                } *payload = (struct object_data *)NODE_BODY(*object_cursor);
                 payload->field_74 = 0;
                 payload->field_78 = value_78;
                 payload->field_7c = value_7c;
@@ -279,7 +279,7 @@ void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFE
 {
     GameWork *input = &g_game_work;
     u8 *selection_ids = object->unk_7C;
-    u8 *display_record;
+    town_map_7FFEE4F8_S_8008BC58_3 *display_record;
     s16 state;
 
     if (town_map_status != 0) {
@@ -321,12 +321,12 @@ void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFE
         s32 y;
 
         advance_sprite_animation_and_textures(update_context);
-        display_record = *(u8 **)object;
+        display_record = *(town_map_7FFEE4F8_S_8008BC58_3 **)object;
         x = view_reference_entity.x.w.i / 64 - 0x18;
-        ((town_map_7FFEE4F8_S_8008BC58_3 *)display_record)->unk_30 = x;
-        display_record = *(u8 **)object;
+        display_record->unk_30 = x;
+        display_record = *(town_map_7FFEE4F8_S_8008BC58_3 **)object;
         y = view_reference_entity.y.w.i / 64 - 0x40;
-        ((town_map_7FFEE4F8_S_8008BC58_3 *)display_record)->unk_34 = y;
+        display_record->unk_34 = y;
         return;
     } else if (state == 10) {
         s32 selection_index;
@@ -361,12 +361,12 @@ void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFE
         selection_index_4 = object->unk_74;
         selection_positions = town_building_slot_rectangles;
         selection_id = selection_ids[selection_index_4];
-        ((town_map_7FFEE4F8_S_8008BC58_3 *)(*(u8 **)object))->unk_30 = selection_positions[selection_id * 8] - 0x18;
+        (*(town_map_7FFEE4F8_S_8008BC58_3 **)object)->unk_30 = selection_positions[selection_id * 8] - 0x18;
 
         selection_index_5 = object->unk_74;
         selection_id = selection_ids[selection_index_5];
-        display_record = *(u8 **)object;
-        ((town_map_7FFEE4F8_S_8008BC58_3 *)display_record)->unk_34 = selection_positions[selection_id * 8 + 1] - 0x40;
+        display_record = *(town_map_7FFEE4F8_S_8008BC58_3 **)object;
+        display_record->unk_34 = selection_positions[selection_id * 8 + 1] - 0x40;
 
         selection_index_6 = object->unk_74;
         selection_id = selection_ids[selection_index_6];

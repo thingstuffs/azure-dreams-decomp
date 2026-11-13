@@ -5,9 +5,9 @@
 #include "sdk/libgpu.h"
 #include "slus/data.h"
 #include "slus.h"
+#include "slus/gp_af3_pair.h"
 #include "town/map/variant_data.h"
 
-extern s32 gpu_scratch_write_pointer;
 extern u8 town_map_variants[][32];
 
 /* Loads shared and variant-specific resources, then processes the selected table entry. */

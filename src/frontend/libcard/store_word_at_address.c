@@ -2,6 +2,6 @@
 #include "frontend/libcard.h"
 
 /* Stores a value at the destination address. */
-void advance_timed_visual(s32 *dest, s32 value) {
+void store_word_at_address(s32 *dest, s32 value) {
     *dest = value;
 }

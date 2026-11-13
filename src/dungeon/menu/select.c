@@ -1092,7 +1092,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
 {
     s16 saved_rotation[4];
     s16 saved_position[4];
-    u8 *materials;
+    SVECTOR *materials;
     s32 col;
     s32 row;
     s32 cell_index;
@@ -1257,15 +1257,15 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
                             depth = scratch->depth - scratch->depth_base;
                             scratch->depth = depth;
                             if ((u32) (depth - 1) < 0x1DF) {
-                                func_80065034(materials + face->tex * 8, render_state->blend, prim->rgb);
+                                NormalColorCol(&materials[face->tex], &render_state->blend, &prim->rgb);
                                 prim->a = face->a;
                                 prim->b = face->b;
                                 prim->u2 = face->u2;
                                 prim->u3 = face->u3;
                                 if (render_params->color[0] != 0x80) {
-                                    prim->rgb[0] = (prim->rgb[0] * render_params->color[0]) >> 7;
-                                    prim->rgb[1] = (prim->rgb[1] * render_params->color[1]) >> 7;
-                                    prim->rgb[2] = (prim->rgb[2] * render_params->color[2]) >> 7;
+                                    prim->rgb.r = (prim->rgb.r * render_params->color[0]) >> 7;
+                                    prim->rgb.g = (prim->rgb.g * render_params->color[1]) >> 7;
+                                    prim->rgb.b = (prim->rgb.b * render_params->color[2]) >> 7;
                                 }
                                 prim->code = 9;
                                 AddPrim(scratch->ot + scratch->depth * 4, prim);

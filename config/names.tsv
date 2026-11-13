@@ -2141,6 +2141,7 @@
 0x80024008	func_80024008	compute_displacement_orientation	(medium) src/dungeon/func_8194C81C.c:14-36: Computes orientation angles from displacement between two points; caller none recorded in image-local inventory
 0x80016100	func_80016100	invoke_callback_and_set_shared_pointer	(medium) src/town/func_80559100.c:13-16: Invokes the callback and points the shared pointer at D_800173FC; caller none recorded in image-local inventory
 0x8001EAB4	func_8001EAB4	invoke_callback_with_zero	(medium) src/town/func_8035A5E4.c:9-11: Invokes the callback at offset 0x88 with zero; caller none recorded in image-local inventory
+0x8001EAB4	func_8001EAB4	refresh_save_slot_selection_and_resume_menu_input	src/frontend/card/save/refresh_save_slot_selection_and_resume_menu_input.c: the card save function at this address (not the town invoke_callback_with_zero at the same address) refreshes the save slot selection and sets its node callback to handle_object_menu_input
 0x80097EA0	func_80097EA0	forward_value_context_data_mode	(high) src/town/func_8009A740.c:8-10: Forwards value, context, data, and mode unchanged to func_80097DE8; caller townHandlerDispatch at src/town/func_8009A740.c:8
 0x80098140	func_80098140	forward_state_value_to_handler_a	(high) src/town/func_8009A9E0.c:8-10: Forwards the state and value to func_80098988; caller townStateHandlerTable at src/town/func_8009A9E0.c:8
 0x80098160	func_80098160	forward_state_value_to_handler_b	(high) src/town/func_8009AA00.c:8-10: Forwards the state and value to func_80098988 through the alternate handler entry; caller townStateHandlerTable at src/town/func_8009AA00.c:8
@@ -2588,6 +2589,7 @@
 0x800263C0	func_800263C0	inventory_set_object_entry_address	(high) src/dungeon/func_81984BC0.c:20-29: Sets the object entry address using a 22-byte stride; caller inventoryDispatch at src/dungeon/func_81984BC0.c:20
 0x800262B0	func_800262B0	inventory_select_entry_and_reset_object	(high) src/dungeon/func_81984AB0.c:24-32: Selects a 22-byte entry and resets object state and flags; caller inventoryDispatch at src/dungeon/func_81984AB0.c:24
 0x80026240	func_80026240	inventory_copy_and_sign_extend_record_fields	(high) src/dungeon/func_81984A40.c:25-36: Copies the source record and sign-extends its three byte fields into destination words; caller inventoryDispatch at src/dungeon/func_81984A40.c:25
+0x80026240	func_80026240	release_card_records_and_request_scene_state_three	src/frontend/card/card_slot_records.c: the card function at this address (not the dungeon inventory_copy_and_sign_extend_record_fields at the same address) releases the card record handles of its node, closes the card boot events and resumes the timer, then requests scene dispatch state 3; card_boot_save_selected_slot installs it as a node update callback
 0x800263F0	func_800263F0	inventory_clear_circular_list_flag_2000	(high) src/dungeon/func_81984BF0.c:16-41: Clears flag 0x2000 on every object in the circular list; caller inventoryDispatch at src/dungeon/func_81984BF0.c:16
 0x80026694	func_80026694	inventory_reset_shared_state_mode_13	(high) src/dungeon/func_81984E94.c:27-53: Resets shared state to mode thirteen and reports changes to its key and prior mode; caller inventoryDispatch at src/dungeon/func_81984E94.c:27
 0x80024B2C	func_80024B2C	spawn_effect_actor_or_curved_trail	(high) src/dungeon/func_8198332C.c:53-109: Spawns an effect actor or builds a curved trail to the saved position; caller dungeonEffectDispatch at src/dungeon/func_8198332C.c:53
@@ -5036,6 +5038,7 @@
 0x8001624C	func_8001624C	set_active_position_state_record	(medium) src/town/func_8047E24C.c:3: body supports set active position state record; definition identifier func_8001624C
 0x80016254	func_80016254	apply_operations_and_clear_first_entry	(medium) src/town/func_8051EA54.c:7
 0x8001625C	func_8001625C	reset_dungeon_runtime_state	(medium) src/dungeon/func_8028325C.c:3-52: clears dungeon runtime tables, counters, flags and shared state pointers.
+0x8001625C	func_8001625C	set_request_flag_during_niko_step_and_process	src/town/scene/set_request_flag_during_niko_step_and_process.c: the town scene function at this address (not the dungeon reset_dungeon_runtime_state at the same address) sets the request's script flag (+0x18) while F_s04_niko_step is set, then passes the request and parameter to process_checked_entry
 0x80016270	func_80016270	increment_16_bit_counter	(medium) src/town/func_8054FA70.c:5
 0x8001627C	func_8001627C	invoke_state_callback	(medium) src/town/func_804F027C.c:2
 0x80016280	func_80016280	set_scene_position_0x2a_8	(medium) src/town/func_80480280.c:6: Set the scene position record: state word 1, x = 0x2A, y = 8. (definition at line 7)
@@ -5279,6 +5282,7 @@
 0x8001B4C4	func_8001B4C4	store_event_state_4_alternate_indexed_value	(medium) src/town/func_8046A4C4.c:17: In event state 4, store func_8001AB68() in the indexed entry and return 0; otherwise return 1. (definition at line 18)
 0x8001BB90	func_8001BB90	pick_one_two_global_records	(medium) src/town/func_8046AB90.c:10: Pick one of two global records by the selector. (definition at line 11)
 0x8001C2FC	func_8001C2FC	check_record_field_0x04_is_one	(medium) src/town/func_8046B2FC.c:7: Checks whether the current record's unk_04 field equals one. (definition at line 8)
+0x8001C2FC	func_8001C2FC	init_card_message_object_mode_seven	src/frontend/card/message/init_card_message_object_mode_seven.c: the card function at this address (not the town check_record_field_0x04_is_one at the same address, which tests the selected entry) forwards its node to init_card_message_object with mode 7 and two zero arguments
 0x8001C708	func_8001C708	run_service_callback_0x2d8_with_code_3_copy	(medium) src/town/func_8046B708.c:11: Run town service callback 0x2D8 with code 3. (definition at line 12)
 0x8001D8C4	func_8001D8C4	pass_indexed_entry	(medium) src/town/func_8046C8C4.c:17: Pass the indexed entry and its identifier to the handler. (definition at line 18)
 0x8001DDA0	func_8001DDA0	blit_nonzero_rectangle_from_table_b	(medium) src/town/func_803335A0.c:6: body supports blit nonzero rectangle from table b; definition identifier func_8001DDA0
@@ -5348,6 +5352,7 @@
 0x80024CD4	func_80024CD4	draw_wave_sprite_in_draw_area	src/dungeon/effect/mesh/wave.c: the dungeon_ovl_1918800 function at this address sets the draw area, draws the wave-distorted sprite of the ParticleState it is given at the requested screen origin, optionally queues a fill of the restore rectangle, then restores the draw area to that rectangle (process_five_context_entries_or_fallback calls it)
 0x80024CD4	func_80024CD4	emit_particle_then_wait_for_path_release	src/dungeon/effect/shade/emit_particle_then_wait_for_path_release.c: the function at this address in the overlay of create_moving_fading_particle (which installs it as each particle's update callback) raises the sprite depth bias, emits one moving fading particle with a decaying and a rising parameter, sets path_effect_release_flag at step 0x6F, waits for that flag, then fades out and removes its node
 0x80024D10	func_80024D10	advance_timed_visual	(medium) src/dungeon/func_81971510.c:10: Advances a timed visual update and sets completion flags when the countdown expires
+0x80024D10	func_80024D10	store_word_at_address	src/frontend/libcard/store_word_at_address.c: the card library function at this address (not the dungeon effect timer advance_timed_visual at the same address) stores its second argument at the address in its first; init_card_file_list_panel stores the panel selection with it
 0x80024D58	func_80024D58	render_rotated_grid_surface	(medium) src/dungeon/func_81989558.c:3-221: Builds rings of points, transforms them and submits the resulting surface primitives.
 0x80024D84	func_80024D84	build_scaled	(medium) src/dungeon/func_81977584.c:34: Builds scaled vertices and submits a shaded strip using scratchpad storage
 0x80024DF4	func_80024DF4	dispatch_effect_state_handler	(medium) src/dungeon/func_818B15F4.c:3-24: Dispatches states four through six to their corresponding effect handlers.
@@ -5372,6 +5377,7 @@
 0x8002592C	func_8002592C	set_record_pair_to_one	(medium) src/main/func_8001292C.c:5: Sets both record fields to one.
 0x8002593C	func_8002593C	build_install	(medium) src/dungeon/func_819AE13C.c:53: Build and install a transform from position, rotation, and a base matrix
 0x80025BD4	func_80025BD4	update_inventory_menu	(medium) src/dungeon/func_81810BD4.c:3-3: Forwards the menu context to inventoryHandleMenuActionsAndRepeat.
+0x80025BD4	func_80025BD4	create_next_card_slot_window	src/frontend/libcard/create_next_card_slot_window.c: the card library function at this address (not the dungeon update_inventory_menu at the same address) loads the next of five card slots' metadata and creates its window, shows the load-failure notice when a slot cannot be read, and switches to slot selection input after the fifth; card_boot_create_slot_selection_menu installs it
 0x80025D28	func_80025D28	initialize_inventory_packet	(medium) src/dungeon/func_81810D28.c:3-18: Writes fixed packet dimensions, payload and flag fields.
 0x80025F54	func_80025F54	create_nine_linked_effects	(medium) src/dungeon/func_81984754.c:3-138: Allocates nine linked effect objects and initializes their target and angle state.
 0x80025FFC	func_80025FFC	initialize_text_editor_context	(medium) src/dungeon/func_81810FFC.c:3-15: Initializes packet fields, text, range values and the update callback.
@@ -5390,6 +5396,7 @@
 0x800274A8	func_800274A8	reset_menu_object_state_2	(medium) src/dungeon/func_818124A8.c:3-8: Installs the countdown callback, resets linked data and clears embedded state.
 0x80027D08	func_80027D08	update_menu_progress_bar	(medium) src/dungeon/func_81812D08.c:3-9: Updates the ratio, draws the progress bar and refreshes its entries.
 0x80027D7C	func_80027D7C	dispatch_menu_update_callback	(medium) src/dungeon/func_81812D7C.c:3-12: Calls the indexed handler, advances state and installs the next callback.
+0x80027D7C	func_80027D7C	init_card_boot_request_with_centered_geometry	src/frontend/libcard/card_boot_stop_timer_and_init_server_g01041.c: the card library function at this address (not the dungeon menu dispatch_menu_update_callback at the same address) stops the card boot timer and starts the server, sets the projection distance and SetGeomScreen to 0x200 and SetGeomOffset to (160, 120), then initialises the card boot request object in mode 0
 0x80027FCC	func_80027FCC	build_menu_entry_chain	(medium) src/dungeon/func_81812FCC.c:3-3: Builds the reverse-indexed chain using the 15-entry menu table.
 0x8002C9E8	func_8002C9E8	set_global_value_to_three	(medium) src/main/func_800199E8.c:3-5: Sets the shared word at 0x80409504 to 3 and returns zero.
 0x8002C9FC	func_8002C9FC	set_return	(medium) src/main/func_800199FC.c:3: Set the word at 0x80409504 to 4 and return zero
@@ -5439,6 +5446,7 @@
 0x80092ECC	func_80092ECC	update_actor_movement_with_radial_effects	(medium) src/town/func_8009576C.c:21 — Updates movement and angle state, then spawns radial effects on the threshold path.
 0x80093B00	func_80093B00	dispatch_actor_action	(medium) src/town/func_800963A0.c:7 — Dispatch the actor's action using its cached entry or the entry lookup result.
 0x80093C70	func_80093C70	create_familiar_deployment_effect_with_owner_state	(medium) src/dungeon/func_8008E510.c:55-87: allocates effect 0x310 at the supplied position, stores owner state and initializes render fields.
+0x80093C70	func_80093C70	stop_scene_player_and_defer_action_setup	src/town/player/state/stop_scene_player_and_defer_action_setup.c: the town function at this address (not the dungeon familiar deployment effect creator create_familiar_deployment_effect_with_owner_state at the same address) allocates nothing: it clears the scene player object's velocity, reselects its scene record handler from town_scene_record_handlers, replaces its update callback with the no-op at 0x8008FFC0 and stores initialize_scene_action_record in town_player_action_callback; the minigame steps in count_entries_matching_search_path, update_betting_effect and process_slot_machine_state call it
 0x800942B0	func_800942B0	initialize_actor_action_state	(medium) src/dungeon/func_7FFF6B50.c:3-9: plays the selected sound, initializes actor flags and installs the actor action update callback.
 0x8009431C	func_8009431C	initialize_threshold_interaction_action	(medium) src/dungeon/func_7FFF6BBC.c:3-6: installs the threshold-interaction callback and resets its state value.
 0x80094414	func_80094414	initialize_action_object_and_play_sound	(medium) src/dungeon/func_7FFF6CB4.c:3-8: plays sound 0x50B, stores the valid angle and selects a configured action handler.
@@ -5540,6 +5548,7 @@
 0x800A67F4	func_800A67F4	clear_pending_item_action_state	(medium) src/dungeon/func_800A1094.c:14-23: when allowed, clears pending status, displays the message and resets the state/entry range.
 0x800A6870	func_800A6870	get_random_scaled_value	(medium) src/dungeon/func_800A1110.c:7-15: scales the input value and adds a random offset from zero through three.
 0x800A68C0	func_800A68C0	save_and_clear_entity_flag_ten	(medium) src/dungeon/func_800A1160.c:10-13: saves entity flag 0x10 to shared state and clears it from the entity.
+0x800A68C0	func_800A68C0	start_bicycle_at_view_reference	src/town/player/scene_object_updates_g00578.c: the town function at this address (not the dungeon save_and_clear_entity_flag_ten at the same address) starts the bicycle object: clears its state flag and motion increments, installs update_actor_position_and_heading, selects its entries, places it at view_reference_entity, sets the indexed value and flagged entry callbacks and runs its first position update
 0x800A68F4	func_800A68F4	restore_entity_flag_ten	(medium) src/dungeon/func_800A1194.c:10-14: restores entity flag 0x10 when its saved shared bit is set.
 0x800A6928	func_800A6928	count_matching_packed_entity_keys	(medium) src/dungeon/func_800A11C8.c:5-26: counts twenty records whose referenced key matches the packed input bytes.
 0x800A697C	func_800A697C	has_recorded_value_pair	(medium) src/dungeon/func_800A121C.c:6-25: searches the value-pair table and falls back to checking the pair's aggregate count.
@@ -5582,6 +5591,7 @@
 0x800A9ADC	func_800A9ADC	filter_entry_by_kind	(medium) src/town/func_800AC37C.c:2 — Check whether the entry passes its kind-specific value filter.
 0x800A9B2C	func_800A9B2C	get_group_record_table_entry	(medium) src/town/func_800AC3CC.c:13 — Returns the table entry for a group and record, with a special-case override.
 0x800A9C18	func_800A9C18	initialize_actor_sprite_and_animation	(medium) src/dungeon/func_800A44B8.c:21-89: selects sprite data and animation flags from the actor kind and initialization mode.
+0x800A9C18	func_800A9C18	increment_query_group_count_capped_at_three	src/town/event/item_query_checks_g01145.c: the town function at this address (not the dungeon initialize_actor_sprite_and_animation at the same address) increments the per-group query byte at 0x800135C4 + group * 4 and caps it at 3; check_slot_threshold_or_fallback in the same file reads that byte against 3
 0x800A9C50	func_800A9C50	is_expected_movie_state	(medium) src/town/func_800AC4F0.c:4 — Returns whether D_8006ADD4 equals 0xD000C.
 0x800A9CAC	func_800A9CAC	find_unflagged_node_by_key	(medium) src/town/func_800AC54C.c:18 — Returns the node matching a negative key with flag 0x400 clear, or NULL.
 0x800A9D00	func_800A9D00	retry_sound_for_linked_item_and_remove_carry_item	(medium) src/town/func_800AC5A0.c:28 — Invokes townRetrySoundSequenceWhenReady for an eligible linked object with code 0xD04, then calls plt_carry_item_del_ext.
@@ -5691,6 +5701,7 @@
 0x800C19C4	func_800C19C4	append_data_pair_and_run_follow_up	(medium) src/town/func_800C4264.c:11: Pass the town data pair to appendTownMovieListNode, set the shared flag, and invoke the follow-up routines. (definition at line 12)
 0x800C1A0C	func_800C1A0C	load_global_movie_resources	(medium) src/town/func_800C42AC.c:10: Process both global objects with file_load_com, then call reserve_twch_load with 3. (definition at line 11)
 0x800C1A44	func_800C1A44	create_familiar_restoration_effect	(medium) src/dungeon/func_800BC2E4.c:42-65: allocates and initializes the positioned visual effect used during familiar restoration.
+0x800C1A44	func_800C1A44	append_scene_movie_list_node	src/town/scene/effect/append_scene_movie_list_node.c: the town scene function at this address (not the dungeon create_familiar_restoration_effect at the same address, which allocates a restoration sprite) appends the scene's movie list node D_800D42CC to the tail of town_movie_callback_list
 0x800C1A70	func_800C1A70	reserve_movie_resource_id_3	(medium) src/town/func_800C4310.c:3: Calls reserve_twch_load with argument 3. (definition at line 4)
 0x800C1A90	func_800C1A90	append_global_entry_to_linked_list	(medium) src/town/func_800C4330.c:8: Appends D_800D42E4 to the linked list rooted at D_800717D0. (definition at line 9)
 0x800C1ABC	func_800C1ABC	set_state_value_when_asset_matches	(medium) src/town/func_800C435C.c:6: Set the state halfword at offset 0xC4 to -0x240 when D_8006ADD4[0] is 0x3E000C. (definition at line 7)
@@ -5750,6 +5761,7 @@
 0x800C8524	func_800C8524	advance_object_after_timeout_variant_1	(medium) src/town/func_800CADC4.c:11: Decrement the object's countdown and advance its state when it expires. (definition at line 12)
 0x800C86EC	func_800C86EC	advance_object_position	(medium) src/town/func_800CAF8C.c:11: Advance the object's position and stop its movement when it exceeds the limit. (definition at line 12)
 0x800C8788	func_800C8788	check_action_six_eligibility	(medium) src/dungeon/func_800C3028.c:9-14: invokes the action-six eligibility helper with values derived from the target's scale.
+0x800C8788	func_800C8788	rise_until_apex_then_advance_position	src/town/person/rise_until_apex_then_advance_position.c: the town person function at this address (not the dungeon check_action_six_eligibility at the same address) adds the vertical velocity at +0x14 to the height and 0x20000 to the velocity each step, and once the velocity is no longer negative selects the D_800D6290 entries and installs advance_object_position
 0x800C8808	func_800C8808	initialize_object_callback	(medium) src/town/func_800CB0A8.c:17: Initialize the object callback and set its state value to negative ten in fixed point. (definition at line 18)
 0x800C885C	func_800C885C	run_object_handlers_supplied_state	(medium) src/town/func_800CB0FC.c:7: Run both object handlers with the supplied state and context. (definition at line 8)
 0x800C8900	func_800C8900	try_apply_effect_four_by_chance	(medium) src/dungeon/func_800C31A0.c:11-22: attempts effect four and records the success or failure message.

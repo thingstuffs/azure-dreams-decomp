@@ -48,7 +48,6 @@ s32 ratan2(s32, s32);
 void NormalColorCol(struct SVECTOR *, struct CVECTOR *, struct CVECTOR *);
 s32 ReadGeomScreen(void);
 
-void func_80065034(void *, void *, void *);
 void RotTransSV(struct SVECTOR *, struct SVECTOR *, s32 *);
 
 #endif

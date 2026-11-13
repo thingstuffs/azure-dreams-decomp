@@ -307,6 +307,33 @@ class RenameAndFullTests(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             self.assertEqual(C.report(base, moved, [], [], {}, 0, names, edited), 1)
 
+    def test_rename_in_renamed_file_is_not_new(self):
+        base = [finding('src/old.c', 'old_name', '-Wshadow', ['src/old.c:4:1'])]
+        head = [finding('src/new.c', 'new_name', '-Wshadow', ['src/new.c:7:1'])]
+        names = {'old_name': {'0x80024050'}, 'new_name': {'0x80024050'}}
+        renames = {'src/new.c': 'src/old.c'}
+        shifted = lambda path, line: line + 3 if path == 'src/new.c' else None
+        with redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(C.report(base, head, [], [], renames, 0, names, shifted), 0)
+        self.assertIn('renamed -Wshadow src/new.c old_name -> new_name', out.getvalue())
+        with redirect_stdout(io.StringIO()):                        # without the file rename the group is new
+            self.assertEqual(C.report(base, head, [], [], {}, 0, names, shifted), 1)
+
+    def test_diff_line_map_follows_a_renamed_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            git(root, 'init', '-q')
+            (root / 'src').mkdir()
+            (root / 'src/old.c').write_text(''.join(f'line{i}\n' for i in range(1, 11)))
+            git(root, 'add', '-A')
+            git(root, 'commit', '-qm', 'base')
+            git(root, 'mv', 'src/old.c', 'src/new.c')
+            text = (root / 'src/new.c').read_text().replace('line2\n', 'a\nb\nc\n')
+            (root / 'src/new.c').write_text(text)
+            line_map = C.diff_line_map(root, 'HEAD', {'src/new.c': 'src/old.c'})
+            self.assertEqual(line_map('src/new.c', 5), 7)
+            self.assertIsNone(line_map('src/new.c', 2))
+
     def census(self, directory, findings, **summary):
         directory.mkdir(parents=True, exist_ok=True)
         fields = ['finding', 'file', 'function', 'warning', 'subsystem', 'count', 'tu_count',

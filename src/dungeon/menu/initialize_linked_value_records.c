@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/menu.h"
+#include "town/menu/catalog_parts.h"
 
 typedef struct S_80123700_0 {
     u8 pad_00[0x8];
@@ -14,7 +15,6 @@ typedef struct S_80123700_1 {
 
 
 extern s32 menu_initial_value_pairs;
-extern s32 *catalog_display_node_slots[98];
 
 
 /* Initialize 14 entries from the value table and set each linked field to 0x800. */
@@ -29,7 +29,7 @@ void initialize_linked_value_records(void) {
 
     entry_index = 0;
     initial_value = 0x800;
-    entry_table = (s8 *)&catalog_display_node_slots;
+    entry_table = (s8 *)catalog_display_node_slots;
     entry_slot = (void **)(entry_table + 0x38);
     source_record = (s8 *)&menu_initial_value_pairs;
     do {

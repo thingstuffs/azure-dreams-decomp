@@ -6,7 +6,7 @@
 #include "frontend/libcard.h"
 
 /* Processes the current slot and selects callbacks when unavailable or all five are done. */
-void update_inventory_menu(void *state_arg) {
+void create_next_card_slot_window(void *state_arg) {
     void *state;
     s32 slot;
 

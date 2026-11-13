@@ -1,4 +1,5 @@
 #include "town/map/building_grid_g00638.h"
+#include "town/map/map_cursor_input_g00641.h"
 #include "common.h"
 #include "town/map.h"
 #include "town/menu.h"
@@ -13,7 +14,6 @@ typedef struct {
 
 extern Event6 D_800D1910[];
 extern u8 town_map_variants[];
-extern u8 town_map_selection_state[12];
 extern u16 D_80126494[];
 extern u16 D_8012669C[];
 extern u16 D_80126884[];

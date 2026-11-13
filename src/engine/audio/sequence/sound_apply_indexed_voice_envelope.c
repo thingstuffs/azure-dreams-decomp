@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 
 /* Inferred struct for global D_80084918, reconciled across this wave's siblings. */
@@ -13,7 +14,6 @@ typedef struct {
 } S_80084918;
 
 extern S_80084918 audio_voice_request;
-extern s32 audio_voice_masks[];
 
 
 extern s32 apply_spu_voice_attributes(S_80084918 *descriptor);

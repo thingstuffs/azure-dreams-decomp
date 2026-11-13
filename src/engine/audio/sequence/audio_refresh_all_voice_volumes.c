@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 
 /* D_80085458: struct array, stride 0x78 (120) bytes; only fields touched here. */
@@ -12,8 +13,6 @@ typedef struct S_80085458 {
 } S_80085458;
 
 /* Select the shared audio channel control using the voice channel index. */
-
-extern s32 audio_voice_count[4];
 extern S_80085458 audio_voice_records[24];
 extern AudioChannelControl audio_channel_controls[16];
 

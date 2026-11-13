@@ -68,7 +68,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
 
     object = create_town_effect_object(entry_or_body, entry_data, object_template, 0);
     if (object != NULL) {
-        body = (S_800A75E4_4 *)((u8 *)object + 0x20);
+        body = NODE_BODY(object);
         part = object->position;
         part_data = object->sprite;
         part_data->source = D_800D0E24[part_index];

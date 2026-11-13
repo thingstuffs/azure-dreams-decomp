@@ -1419,14 +1419,14 @@ s32 generate_floor_layout(void)
     s32 dir;
     s32 dw;
     s32 *cn;
-    floor_generate_isolated_80286AF8_Room *dc;
+    floor_generate_isolated_80286AF8_DungeonCfg *dc;
     floor_generate_isolated_80286AF8_Room *rp;
     s32 rh;
     s32 x0;
     s32 y0;
     s32 x1;
     s32 y1;
-    dc = (floor_generate_isolated_80286AF8_Room *) ((floor_generate_isolated_80286AF8_DungeonCfg *)((u8 *)&g_game_work + 476));
+    dc = (floor_generate_isolated_80286AF8_DungeonCfg *)((u8 *)&g_game_work + 476);
     j = 0;
     tries = 1024;
     rnd = generate_random_value();
@@ -1511,7 +1511,7 @@ s32 generate_floor_layout(void)
                         sy = sy + 6;
                         dungeon_rooms[k].x = sx;
                         dungeon_rooms[k].y = sy;
-                        generation_cells[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
+                        generation_cells[(((s16) sy) << dc->shift_x) + ((s16) sx)].value =
                             generate_random_value() & 0x60;
                     }
                 }
@@ -1523,7 +1523,7 @@ s32 generate_floor_layout(void)
                     sy = sy + 6;
                     dungeon_rooms[k].x = sx;
                     dungeon_rooms[k].y = sy;
-                    generation_cells[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
+                    generation_cells[(((s16) sy) << dc->shift_x) + ((s16) sx)].value =
                         generate_random_value() & 0x60;
                 }
             }
@@ -1538,9 +1538,9 @@ s32 generate_floor_layout(void)
         hdr[3] = 1;
         dungeon_rooms[0].x = 2;
         dungeon_rooms[0].y = 2;
-        full_height = 1 << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_y;
+        full_height = 1 << dc->shift_y;
         dungeon_rooms[0].active = 1;
-        dungeon_rooms[0].w = (1 << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) - 4;
+        dungeon_rooms[0].w = (1 << dc->shift_x) - 4;
         dungeon_rooms[0].h = full_height - 4;
         dungeon_rooms[0].unk_08 = generate_random_value() & 0x60;
         update_region_until_complete(&dungeon_rooms[0], 0);

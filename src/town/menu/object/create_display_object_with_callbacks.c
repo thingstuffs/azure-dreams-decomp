@@ -39,7 +39,7 @@ void *create_display_object_with_callbacks(s32 payload_word, s32 payload_halfwor
     display = object->unk_0C;
     object->unk_20 = initialize_indexed_render_state;
 
-    payload = (S_func_800A1C94_2 *)((u8 *)object + 0x20);
+    payload = NODE_BODY(object);
     payload->unk_10 = payload_word;
     payload->unk_20 = payload_halfword;
 

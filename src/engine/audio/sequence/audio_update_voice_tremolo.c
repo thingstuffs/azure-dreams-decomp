@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 #include "slus/data.h"
@@ -39,7 +40,6 @@ typedef struct S_80055E84
 }
 S_80055E84;
 extern S_80084918 audio_voice_request;
-extern s32 audio_voice_masks[];
 /* Advance volume modulation and apply the updated channel volumes. */
 void audio_update_voice_tremolo(S_80055E84 *voice)
 {

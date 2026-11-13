@@ -1,10 +1,6 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/spu.h"
-
-extern s32 audio_voice_masks[24];
-
-
-
 /* Processes the indexed table entry and copies the two request results to the output pointers. */
 s32 query_driver_halfword_pair(s16 entry_index, s16 *out_first_value, s16 *out_second_value) {
     SpuVoiceAttr_ request;

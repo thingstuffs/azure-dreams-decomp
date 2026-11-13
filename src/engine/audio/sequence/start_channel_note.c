@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 #include "slus/data.h"
@@ -133,8 +134,6 @@ typedef struct Req {
 extern AudioChannelControl audio_channel_controls[16];
 extern Voice audio_voice_records[24];
 extern Slot audio_bank_slots[16];
-extern s32 audio_voice_masks[];
-extern s32 audio_voice_count[4];
 extern s32 D_80073734_late[4] __asm__("D_80073734");  /* second view: retail hoists the base per voice loop */
 extern Req audio_voice_request;
 

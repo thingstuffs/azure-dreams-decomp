@@ -2,12 +2,7 @@
 #include "engine/resource.h"
 #include "engine/scene.h"
 #include "slus.h"
-
-/* External word holding the current buffer write position. */
-extern s32 gpu_scratch_write_pointer;
-
-/* External word holding the buffer base. */
-extern s32 gpu_scratch_buffer_base;
+#include "slus/gp_af3_pair.h"
 
 /*
  * Resets the GPU scratch write pointer and installs load_scene_dispatch_resources as the next

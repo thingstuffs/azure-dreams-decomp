@@ -4,10 +4,7 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
-
-
-extern s32 gpu_scratch_write_pointer;
-extern s32 gpu_scratch_buffer_base;
+#include "slus/gp_af3_pair.h"
 
 typedef struct { u32 word; } PackedLoc;
 

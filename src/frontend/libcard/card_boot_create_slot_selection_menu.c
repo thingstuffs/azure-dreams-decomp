@@ -26,6 +26,6 @@ void *card_boot_create_slot_selection_menu(ObjectNodeHeader *init_value, s32 unu
     state->command_panel = card_boot_create_three_row_command_panel(object);
     state->slot_details = render_rotated_grid_surface(object, state->unk_28, 0);
     state->mode = 0;
-    object->update_callback = &update_inventory_menu;
+    object->update_callback = &create_next_card_slot_window;
     return object;
 }

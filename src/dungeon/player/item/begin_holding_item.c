@@ -144,20 +144,21 @@ print_message:
         {
             register s32 data_word;
             u8 *sound_table;
+            S_80098CF8_6 *actor_view = actor;
             data_word = ((S_80098CF8_1 *)item)->unk_00.at00.v;
             state->unk_AC = 1;
             state->unk_90 = message;
             state->unk_8C = action;
             state->unk_A8 = 6;
             state->unk_98 = data_word;
-            ((S_80098CF8_6 *)actor)->unk_BC = item;
+            actor_view->unk_BC = item;
             target_arg = (void *)((S_80098CF8_1 *)item)->unk_00.at00.v;
             state->unk_9C = held_item_record;
-            ((S_80098CF8_6 *)actor)->unk_8C = 0;
-            ((S_80098CF8_6 *)actor)->unk_124 = 0;
+            actor_view->unk_8C = 0;
+            actor_view->unk_124 = 0;
             *(s32 *)held_item_record = (s32)target_arg;
-            ((S_80098CF8_6 *)actor)->unk_9A = 0x1B;
-            ((S_80098CF8_6 *)actor)->unk_9B = 0;
+            actor_view->unk_9A = 0x1B;
+            actor_view->unk_9B = 0;
             sound_table = player_carry_frames;
             (*(void * *)((u8 *)message + 0x2C)) = sound_table;
 

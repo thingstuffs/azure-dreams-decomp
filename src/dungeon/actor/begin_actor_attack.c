@@ -4,13 +4,14 @@
 #include "dungeon/system.h"
 #include "dungeon/item.h"
 #include "dungeon/level.h"
+#include "dungeon/actor.h"
 
 typedef struct Ent Ent;
 typedef struct Pos Pos;
 extern Ent *prepare_directional_attack(Ent *, Pos *, u32, s32, Ent *);
 
 /* Reset the entity state and initialize the active dungeon actor. */
-s32 begin_actor_attack(ActorRecord *body, s32 unused, void *action_param, ActorRecord *actor) {
+s32 begin_actor_attack(ActorRecord *body, ObjectPosition *unused, void *action_param, ActorRecord *actor) {
     body->action_state_flags |= 0x2000;
     prepare_directional_attack((Ent *)actor, action_param, actor->facing, 1, 0);
     if (actor->flags1C & 0x400) {

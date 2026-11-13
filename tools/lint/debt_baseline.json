@@ -1,4 +1,4 @@
-{"by_class":{"generated_layouts":5859,"goto":226,"local_externs":8418,"m2c_macros":361,"pointer_casts":31323,"sign_views":4456,"volatile":50},"by_file":{
+{"by_class":{"generated_layouts":5859,"goto":226,"local_externs":8418,"m2c_macros":361,"pointer_casts":31323,"sign_views":4458,"volatile":50},"by_file":{
 "src/dungeon":{
 "D_80283000.c":[150,{"<global>":[150,0,0,0,0,0,13]}],
 "D_80283034.c":[200,{"<global>":[200,0,0,0,0,0,18]}],
@@ -402,7 +402,7 @@
 "decay_step.c":[317,{"<global>":[119,0,2],"advance_decaying_effect_state#1":[167,0,1,0,0,0,2,5],"decay_step#1":[31,0,1]}],
 "draw_adjacent_row_quads.c":[918,{"<global>":[171,5],"draw_adjacent_row_quads#1":[747,0,0,0,0,0,35]}],
 "draw_shaded_textured_quad.c":[1657,{"<global>":[392,0,4],"draw_shaded_textured_quad#1":[1265,0,4,0,0,0,48]}],
-"emit_particle_then_wait_for_path_release.c":[564,{"<global>":[81,2,1],"emit_particle_then_wait_for_path_release#1":[483,0,1,0,0,0,15]}],
+"emit_particle_then_wait_for_path_release.c":[564,{"<global>":[81,2,1],"emit_particle_then_wait_for_path_release#1":[483,0,1,0,0,0,15,1]}],
 "emit_particles_until_expired.c":[412,{"<global>":[19,0,1],"emit_particles_until_expired#1":[393,0,1,0,0,0,1,3]}],
 "emit_randomized_relative_particles.c":[456,{"emit_randomized_relative_particles#1":[456,0,0,1,0,0,0,3]}],
 "fading_effect_set.c":[4723,{"advance_fading_effect#1":[188,0,0,0,0,0,3,1],"animate_spiral_grayscale_effect#1":[793,0,0,0,0,0,5],"apply_status_to_nearby_actors#1":[186,0,0,0,0,0,2],"create_coordinate_sprite_object#1":[237,0,0,0,0,0,6],"create_randomized_grayscale_effect#1":[236,0,0,0,0,0,1,3],"delay_and_fade_particle#1":[181,0,0,0,0,0,1],"interpolate_shade_and_queue_line#1":[1200,0,0,0,0,0,12],"move_linked_effect_along_path#1":[1496,0,0,0,1,0,17],"shrink_and_brighten_effect#1":[166,0,0,0,0,0,4,2]}],
@@ -424,7 +424,7 @@
 "update_oscillating_fading_effect.c":[1090,{"update_oscillating_fading_effect#1":[1090,0,0,0,0,0,75]}],
 "update_rotating_effect_fade.c":[1330,{"<global>":[89,6],"update_rotating_effect_fade#1":[1241,0,0,0,0,0,3]}],
 "update_rotating_effect_lifetime.c":[474,{"<global>":[41,0,2],"update_rotating_effect_lifetime#1":[433,0,2]}],
-"update_staged_effect_fade.c":[1072,{"<global>":[96,1,2],"update_staged_effect_fade#1":[976,0,2,0,0,0,0,38]}],
+"update_staged_effect_fade.c":[1072,{"<global>":[96,1,2],"update_staged_effect_fade#1":[976,0,2,0,0,0,0,39]}],
 "update_vertical_drift_effect.c":[199,{"<global>":[56,0,4],"update_vertical_drift_effect#1":[143,0,4,0,0,0,2]}]
 },
 "src/dungeon/effect/sprite":{
@@ -2714,9 +2714,9 @@
 "card_devkit_refresh_save_slot_selection.c":[218,{"<global>":[11,1],"card_devkit_refresh_save_slot_selection#1":[207,0,0,0,0,0,16]}],
 "complete_object_operation.c":[140,{"<global>":[29,4],"complete_object_operation#1":[111,0,0,0,0,0,2]}],
 "handle_object_menu_input.c":[517,{"<global>":[102,7,1],"handle_object_menu_input#1":[415,0,1,0,0,0,2]}],
-"invoke_callback_with_zero.c":[34,{"invoke_callback_with_zero#1":[34,0,0,0,0,0,2]}],
 "process_five_object_entries.c":[249,{"<global>":[83,3,2],"process_five_object_entries#1":[166,0,2,0,0,0,9]}],
 "process_object_entry_batch.c":[279,{"<global>":[72,4,1],"process_object_entry_batch#1":[207,0,1,0,0,0,8]}],
+"refresh_save_slot_selection_and_resume_menu_input.c":[34,{"refresh_save_slot_selection_and_resume_menu_input#1":[34,0,0,0,0,0,2]}],
 "select_object_callback_by_entry.c":[141,{"<global>":[29,4],"select_object_callback_by_entry#1":[112,0,0,0,0,0,2]}]
 },
 "src/frontend/card/service":{
@@ -2777,6 +2777,7 @@
 "card_boot_update_card_chooser_input.c":[358,{"<global>":[11,2],"card_boot_update_card_chooser_input#1":[347,0,0,0,0,0,2]}],
 "card_boot_update_copy_destination_selection.c":[312,{"card_boot_update_copy_destination_selection#1":[312,0,0,0,0,0,3]}],
 "card_boot_wait_before_loading_slot.c":[77,{"card_boot_wait_before_loading_slot#1":[77,0,0,0,0,0,5]}],
+"create_next_card_slot_window.c":[208,{"create_next_card_slot_window#1":[208,0,0,0,0,0,12]}],
 "create_visual_object.c":[163,{"create_visual_object#1":[160,0,0,0,0,0,6]}],
 "dialog_packet_setup_g00380.c":[264,{"card_boot_build_paired_dialog_packets#1":[241,0,0,0,0,0,5]}],
 "draw_cylindrical.c":[192,{"draw_cylindrical#1":[192,0,0,0,0,0,8]}],
@@ -2795,7 +2796,6 @@
 "set_entry_destination_and_value.c":[121,{"<global>":[4,1]}],
 "slot_detail_refresh_g00388.c":[715,{"build_a_trigonometric_table_processes_up_eight_height_offset_segments#1":[182,0,0,0,0,0,5],"card_boot_format_empty_slot_guidance#1":[453,0,0,0,0,0,8]}],
 "update_effect_color_rotation_and_motion.c":[25,{"<global>":[5,0,1],"update_effect_color_rotation_and_motion#1":[20,0,1]}],
-"update_inventory_menu.c":[208,{"update_inventory_menu#1":[208,0,0,0,0,0,12]}],
 "update_record_and_install_next_table.c":[32,{"update_record_and_install_next_table#1":[32,0,0,0,0,0,1]}],
 "update_spark_effect.c":[118,{"<global>":[12,1]}]
 },
@@ -3138,7 +3138,7 @@
 "initialize_object_resource_table.c":[68,{"<global>":[18,3],"initialize_object_resource_table#1":[50,0,0,0,0,0,2]}],
 "initialize_object_resource_tables.c":[79,{"<global>":[18,3],"initialize_object_resource_tables#1":[61,0,0,0,0,0,2]}],
 "initialize_object_state_and_position.c":[152,{"<global>":[37,8],"initialize_object_state_and_position#1":[115,0,0,0,0,0,1]}],
-"item_query_checks_g01145.c":[1198,{"check_slot_threshold_or_fallback#1":[77,0,0,0,0,0,1],"find_unflagged_node_by_key#1":[89,0,1],"get_group_record_table_entry#1":[200,0,0,0,0,0,2],"initialize_actor_sprite_and_animation#1":[72,0,1,0,0,0,1],"retry_sound_for_linked_item_and_remove_carry_item#1":[93,0,2,0,0,0,3],"select_response_for_source_and_target#1":[277,0,0,0,0,0,13]}],
+"item_query_checks_g01145.c":[1198,{"check_slot_threshold_or_fallback#1":[77,0,0,0,0,0,1],"find_unflagged_node_by_key#1":[89,0,1],"get_group_record_table_entry#1":[200,0,0,0,0,0,2],"increment_query_group_count_capped_at_three#1":[72,0,1,0,0,0,1],"retry_sound_for_linked_item_and_remove_carry_item#1":[93,0,2,0,0,0,3],"select_response_for_source_and_target#1":[277,0,0,0,0,0,13]}],
 "mesh_quad_transform_g00591.c":[1015,{"copy_even_halfwords_3#1":[46,0,2],"transform_and_queue_mesh_quads#1":[897,0,3,0,0,0,20]}],
 "resolve_owner_position_and_dispatch.c":[584,{"<global>":[110,3,3],"resolve_owner_position_and_dispatch#1":[474,0,3,0,0,0,7]}]
 },
@@ -3546,7 +3546,6 @@
 "approach_person_sample.c":[257,{"<global>":[61,0,1],"approach_person_sample#1":[196,0,1]}],
 "begin_mother_event_pause.c":[44,{"<global>":[6,1]}],
 "callback_object_reset_g00688.c":[140,{"reset_object_entry_and_brighten#1":[109,0,0,0,0,0,1]}],
-"check_action_six_eligibility.c":[77,{"<global>":[6,1]}],
 "check_transform_identifier_and_hook.c":[51,{"<global>":[15,3]}],
 "choose_random_movement_direction.c":[252,{"<global>":[4,1],"choose_random_movement_direction#1":[248,0,0,0,0,0,2]}],
 "choose_reaction_action_and_heading.c":[366,{"<global>":[19,1]}],
@@ -3614,6 +3613,7 @@
 "psn_lookable_get.c":[215,{"<global>":[66,3],"psn_lookable_get#1":[149,0,0,0,0,0,1]}],
 "randomize_person_color.c":[199,{"randomize_person_color#1":[190,0,0,0,0,0,8,2]}],
 "reset_actor_handler_from_linked_entries.c":[67,{"<global>":[6,1]}],
+"rise_until_apex_then_advance_position.c":[77,{"<global>":[6,1]}],
 "run_object_handlers_supplied_state.c":[59,{"<global>":[27,0,1],"initialize_object_with_supplied_state_handlers#1":[32,0,1]}],
 "run_unhandled_update_and_choose_direction.c":[78,{"<global>":[5,1]}],
 "set_flag_object_direction.c":[55,{"<global>":[25,0,1],"set_flag_object_direction_800#1":[30,0,1]}],
@@ -3797,7 +3797,7 @@
 "read_and_clear_stored_value.c":[33,{"<global>":[6,1]}],
 "record_value_table_contains.c":[86,{"record_value_table_contains#1":[86,0,0,0,0,0,5]}],
 "run_player_indexed_handler.c":[67,{"<global>":[6,1],"run_player_indexed_handler#1":[61,0,0,0,0,0,1]}],
-"scene_object_updates_g00578.c":[1442,{"initialize_enabled_scene_object#1":[387,0,0,0,0,0,9],"save_and_clear_entity_flag_ten#1":[159,0,0,0,0,0,3],"update_actor_position_and_heading#1":[256,0,1,0,0,0,11],"update_entity_sprite_and_effects#1":[640,0,0,0,0,0,30]}],
+"scene_object_updates_g00578.c":[1442,{"initialize_enabled_scene_object#1":[387,0,0,0,0,0,9],"start_bicycle_at_view_reference#1":[159,0,0,0,0,0,3],"update_actor_position_and_heading#1":[256,0,1,0,0,0,11],"update_entity_sprite_and_effects#1":[640,0,0,0,0,0,30]}],
 "select_an_eligible_source_entry_stores_pointer_in_destination.c":[480,{"<global>":[121,0,4],"select_an_eligible_source_entry_stores_pointer_in_destination#1":[359,0,4,0,0,0,9,4]}],
 "selection_object_action_g00534.c":[702,{"handle_selection_and_create_object#1":[588,0,2,0,0,0,10],"initialize_town_context_action#1":[39,0,0,0,0,0,2]}],
 "set_flagged_entry_values.c":[112,{"set_flagged_entry_values#1":[97,0,0,0,0,0,3]}],
@@ -3898,7 +3898,6 @@
 "clear_script_flag_bit.c":[143,{"clear_script_flag_bit#1":[143,0,0,0,0,0,5]}],
 "clear_shared_flag_and_initialize_object.c":[34,{"<global>":[4,1]}],
 "clear_the_global_state_s_fifth_word_copy_source_s_second.c":[33,{"<global>":[6,1]}],
-"create_familiar_deployment_effect_with_owner_state.c":[114,{"<global>":[34,4],"create_familiar_deployment_effect_with_owner_state#1":[80,0,0,0,0,0,4]}],
 "dispatch_sound_by_global_flag.c":[31,{"<global>":[4,1]}],
 "ease_object_value_and_advance_state.c":[121,{"<global>":[7,1],"ease_object_value_and_advance_state#1":[114,0,0,0,0,0,1]}],
 "forward_state_value_to_handler_a.c":[30,{"<global>":[10,1]}],
@@ -3913,6 +3912,7 @@
 "select_next_item_state.c":[77,{"<global>":[13,3]}],
 "set_handler_counter_and_clear_flag.c":[77,{"<global>":[40,2,1],"set_handler_counter_and_clear_flag#1":[37,0,1]}],
 "set_script_flag_bit.c":[136,{"set_script_flag_bit#1":[136,0,0,0,0,0,5]}],
+"stop_scene_player_and_defer_action_setup.c":[114,{"<global>":[34,4],"stop_scene_player_and_defer_action_setup#1":[80,0,0,0,0,0,4]}],
 "update_actor_action_state.c":[244,{"<global>":[28,4]}],
 "update_actor_and_dispatch_state.c":[98,{"<global>":[14,2]}],
 "update_actor_with_interaction_state.c":[282,{"<global>":[64,4,1],"update_actor_with_interaction_state#1":[218,0,1,0,0,0,1]}],
@@ -4396,8 +4396,8 @@
 "src/town/scene/effect":{
 "advance_effect_and_reduce_scale.c":[214,{"<global>":[30,0,2],"advance_effect_and_reduce_scale#1":[184,0,2]}],
 "animate_bouncing_score_object.c":[347,{"<global>":[141,2],"create_bouncing_score_sprite#1":[206,0,0,0,0,0,9]}],
+"append_scene_movie_list_node.c":[27,{"<global>":[12,2]}],
 "build_shop_display.c":[1125,{"<global>":[296,13,3],"create_linked_value_display#1":[829,0,3,0,0,0,13]}],
-"create_familiar_restoration_effect.c":[27,{"<global>":[12,2]}],
 "reset_effect_callback_state.c":[154,{"reset_effect_callback_state#1":[154,0,0,0,0,0,11]}],
 "spawn_offset_seed_effect.c":[432,{"<global>":[71,4],"spawn_offset_seed_effect#1":[361,0,0,0,0,0,20]}],
 "spawn_scattered_seed_effect.c":[446,{"<global>":[106,2],"spawn_scattered_seed_effect#1":[340,0,0,0,0,0,22]}]

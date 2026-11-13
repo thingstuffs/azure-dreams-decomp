@@ -48,7 +48,7 @@ void create_positioned_callback_object(Input *position, void *object_value, void
 
     object = allocate_flagged_object_node(0x136);
     if (object != 0) {
-        sub = (u8 *)object + 0x20;
+        sub = NODE_BODY(object);
         object->update_callback = object_value;
         (*(Vec * *)&object->position)->field_0x02 = position->field_0x00;
         (*(Vec * *)&object->position)->field_0x06 = position->field_0x02;

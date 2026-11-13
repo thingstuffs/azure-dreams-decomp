@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_index_slots.h"
 #include "town/person/person_object_lifecycle_g00659.h"
 
@@ -24,7 +25,7 @@ void anyone_now_ang_get(s32 object_slot) {
     if (object_slot != 0) {
         entry = object_index_slots[object_slot].object;
         if (entry != 0) {
-            data = (u8 *)entry + 0x20;
+            data = NODE_BODY(entry);
             if (object_slot == 1) {
                 void *kind = *(void **)((u8 *)entry + 0x10);
 

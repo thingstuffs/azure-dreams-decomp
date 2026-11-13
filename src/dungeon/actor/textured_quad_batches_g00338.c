@@ -40,11 +40,12 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     scratch->unk_20 = initial_manager + 0xB0;
 
     for (;;) {
-    quad_batch_callbacks[((S_800B06F0_2 *)batch)->unk_08 & 1](dispatch_arg, params, scratch);
+    S_800B06F0_2 *batch_view = (S_800B06F0_2 *)batch;
+    quad_batch_callbacks[batch_view->unk_08 & 1](dispatch_arg, params, scratch);
 
-    primitive_list = ((S_800B06F0_2 *)batch)->unk_00;
+    primitive_list = batch_view->unk_00;
     depth = scratch->unk_C0.i;
-    texture_data = ((S_800B06F0_2 *)batch)->unk_04;
+    texture_data = batch_view->unk_04;
 
     if (depth < 0x1E0U) {
         ot_entry_addr = depth * 4;

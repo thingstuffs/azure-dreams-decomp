@@ -9,6 +9,7 @@
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
+#include "sdk/libgte_matrix.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "shared/tile_object.h"
@@ -502,8 +503,7 @@ typedef struct {
 typedef struct {
     u8 pad0[3];
     u8 code;
-    u8 rgb[3];
-    u8 pad1;
+    CVECTOR rgb; /* NormalColorCol output: the shaded red, green and blue bytes and the GPU code byte */
     s32 xy0;
     s32 a;
     s32 xy1;
@@ -525,7 +525,8 @@ typedef struct {
 typedef struct {
     DrawBuffer *draw_buffer;
     u8 pad0[0xA4];
-    u8 blend[0xC];
+    CVECTOR blend; /* the view tint (GameWork view.tint) NormalColorCol shades each face normal with */
+    u8 pad_AC[8];
     u16 position[3];
     u8 pad1[0xA];
     u16 rotation[3];
@@ -561,7 +562,7 @@ typedef struct {
     u8 pad0[4];
     Face **faces;
     Vert *vertices;
-    u8 *materials;
+    SVECTOR *materials; /* face normals, one per face tex index (NormalColorCol input) */
 } Geometry;
 
 typedef struct {

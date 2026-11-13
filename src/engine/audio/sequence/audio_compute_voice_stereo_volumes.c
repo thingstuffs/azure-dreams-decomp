@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 #include "slus/data.h"
+#include "slus/audio_master_level.h"
 
 
 
@@ -11,11 +12,6 @@ typedef struct {
     u8 unk1B;
 } S_800561D8_D80086A40;
 
-
-typedef struct {
-    u16 f0;
-    s16 pad[7];
-} S_800561D8_D80073738;
 
 typedef struct {
     u8 pad00[0x10];
@@ -43,7 +39,6 @@ typedef struct {
 
 extern S_800561D8_D80086A40 audio_bank_slots[16];
 extern SoundSequenceSlot audio_sequence_slots[8];
-extern S_800561D8_D80073738 audio_master_level;
 
 /* Compute voice pan and stereo volumes from channel gains and sound parameters. */
 void audio_compute_voice_stereo_volumes(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)

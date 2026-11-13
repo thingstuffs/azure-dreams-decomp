@@ -47,10 +47,7 @@ void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data_arg, vo
             }
         }
         if ((s16) state_data->frame == 0x28) {
-            {
-                u8 *flag_page = (u8 *) 0x80170000;
-                *(u16 *)((u8 *)&encounter_blink_update_flag) = 1;
-            }
+            encounter_blink_update_flag = 1;
         }
         if ((s16) state_data->frame >= 0x28) {
             next_phase = state_data->phase.u + 1;

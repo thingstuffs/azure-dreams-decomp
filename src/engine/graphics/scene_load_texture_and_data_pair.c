@@ -5,13 +5,13 @@
 #include "sdk/libgpu.h"
 #include "slus.h"
 #include "slus/data.h"
+#include "slus/gp_af3_pair.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 extern u8 scene_texture_data_resource[];
-extern s32 gpu_scratch_write_pointer;
 
 /* Reads a texture and uploads it to VRAM, then reads the town menu code module; the status byte is cleared before each read. */
 void scene_load_texture_and_data_pair(s8 *status) {

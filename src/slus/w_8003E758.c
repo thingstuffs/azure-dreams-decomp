@@ -3,6 +3,7 @@
 #include "engine/runtime.h"
 #include "sdk/libcd.h"
 #include "slus.h"
+#include "slus/data.h"
 
 
 
@@ -14,12 +15,8 @@
  * Dispatching through it means this TU emits NO compiler-generated jump table
  * into .text-referenced .rodata, which is what makes the object LINK. */
 
-extern u8  cd_read_status_bytes[8];     /* CdReadSync buffer (retail extent 8: small data at -G8) */
 extern u32 gpu_scratch_write_pointer[1];     /* retail extent 5: small data at -G8 */
 extern u16 D_80083164[];
-
-extern u8  cd_command_phase[2];   /* CD driver state byte (+0); +1 is the byte at D_800814D4 */
-extern u8  cd_command_status_flags[1];
 
 #define CDBUF (cd_command_result.bytes)
 

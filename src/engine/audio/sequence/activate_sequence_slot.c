@@ -1,10 +1,7 @@
 #include "common.h"
+#include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
-
-
-extern s32 audio_voice_count[4];
-extern s32 audio_voice_masks[24];
 extern s32 audio_sequence_active[4];
 extern u8 audio_voice_records[0x78 * 24];
 extern s32 audio_update_guard[4];

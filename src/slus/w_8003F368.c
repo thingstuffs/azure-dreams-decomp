@@ -3,10 +3,8 @@
 #include "engine/util.h"
 #include "sdk/libcd.h"
 #include "slus.h"
+#include "slus/data.h"
 
-
-extern u8 cd_location_second_byte_alias[2];
-extern u8 cd_location_third_byte_alias[1];
 
 /* Reads and validates the CD location, returning its sector position or zero. */
 s32 query_validated_cd_sector_with_retry(void)

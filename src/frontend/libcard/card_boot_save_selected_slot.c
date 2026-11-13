@@ -29,7 +29,7 @@ void *card_boot_save_selected_slot(Object_800128C8 *context) {
         card_boot_set_slot_selection_marker(*(ObjectNodeHeader **)((s8 *)context + context->unk_2C * 4 + 0xC), 1);
         if (D_80010208[0] != 0) {
             configure_shared_fade_primitive();
-            ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)&inventory_copy_and_sign_extend_record_fields;
+            ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)&release_card_records_and_request_scene_state_three;
         } else {
             SD_Call(AUDIO_MENU_CONFIRM);
             ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)write_text_and_advance_selection;
