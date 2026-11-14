@@ -97,7 +97,7 @@ typedef struct SpiralingBody {
     s16 unk_34;
 } SpiralingBody;
 
-s32 random_value_below_limit(s32 limit);
+s32 random_below_limit(s32 limit);
 
 #include "shared/dungeon_effect_views.h"
 s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_position);

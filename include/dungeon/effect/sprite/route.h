@@ -331,9 +331,9 @@ typedef struct B32_818CE83C_S_8002403C_5 {
 } B32_818CE83C_S_8002403C_5;
 typedef struct { u32 addr:24; u32 length:8; } B32_818CE83C_PacketTag;
 s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, void *start_coords);
-void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, void *source_data);
+void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, ObjectPosition *source_data);
 void create_jittered_terrain_seeking_point( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
-void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, void *position, SpriteFrameState *object);
+void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, ObjectPosition *position, SpriteFrameState *object);
 void update_actor_effect_sequence(ChasingStarEffectBody *record);
 void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite);
 void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);

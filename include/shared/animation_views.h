@@ -16,6 +16,16 @@ typedef struct AnimEntry {
     s8 field_14; /* widened to dst->field_1C */
     u8 pad_15;
 } AnimEntry;
+/* The 0x20-byte current-frame block copy_anim_entry_and_widen_fields expands an AnimEntry into: the four
+ * leading words copied, the halfword and the three signed bytes widened to words. */
+typedef struct AnimFrame {
+    PackedWords4 words;
+    s16 field_10;
+    s16 pad_12;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+} AnimFrame;
 /* Caller-owned animation cursor; set_animation_entry_address resolves the entry through its owner.
  * advance_animation_index_within_bounds steps and clamps the signed entry index. */
 typedef struct AnimPlayer {

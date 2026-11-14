@@ -530,13 +530,24 @@ def sections(path):
  b=path.read_bytes();off=struct.unpack_from('<I',b,32)[0];ent,num,ni=struct.unpack_from('<HHH',b,46);hs=[struct.unpack_from('<10I',b,off+i*ent) for i in range(num)];s=b[hs[ni][4]:hs[ni][4]+hs[ni][5]]
  return [{'name':s[h[0]:].split(b'\0',1)[0].decode(),'type':h[1],'flags':h[2],'size':h[5]} for h in hs]
 
-def bind_native_entries(m, raw, registry, names):
+def family(name, copies):
+ """Addresses a recorded placed-copy family binds name to (name_inputs.family)."""
+ value=copies.get(name)
+ return {value['canonical'],*value['copies']} if value else set()
+
+
+def bind_native_entries(m, raw, registry, names, copies=None):
  """Bind only complete registered function entries, preserving source order.
 
  The global name table retains synthetic row identities. Native modules link
  at proven load addresses; this is a TU-local symbol spelling change, with no
  instruction, data, import or section-order substitution.
+
+ copies (name_inputs.copies) lets a member spell the one name of a recorded
+ placed-copy family when its own address is in that family: the name binds to
+ the member's address inside this TU, as for any other native entry.
  """
+ copies=copies or {}
  text=raw.decode()
  entries=re.findall(r'^\s*\.ent\s+(\S+)\s*$',text,re.M)
  if len(entries)!=len(m['members']):raise ValueError('native entry count differs from registered members')
@@ -549,7 +560,7 @@ def bind_native_entries(m, raw, registry, names):
   source_name=m.get('source_names',{}).get(member['id'])
   if source_name:
    if name!=source_name or names.get(name,name)!=name:raise ValueError('module-local source name differs: '+member['id'])
-  elif names.get(name,name) not in allowed:raise ValueError('native entry order/name differs: '+member['id'])
+  elif names.get(name,name) not in allowed and target not in family(name,copies):raise ValueError('native entry order/name differs: '+member['id'])
   if names.get(target,target)!=target:raise ValueError('ambiguous canonical native entry: '+target)
   if names.get(name,name)!=target:bindings[name]=target
  if not bindings:return raw,bindings
@@ -622,7 +633,7 @@ def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
  name_spec=importlib.util.spec_from_file_location('native_name_inputs',name_path)
  name_tools=importlib.util.module_from_spec(name_spec);name_spec.loader.exec_module(name_tools)
  names=name_tools.table(root/'config/names.tsv')
- entry_raw,entry_bindings=bind_native_entries(m,raw,rows(root),names)
+ entry_raw,entry_bindings=bind_native_entries(m,raw,rows(root),names,name_tools.copies(root/'config/names.tsv'))
  proc=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],root,env,out/'ccproc.log',entry_raw);(out/'sectioned.s').write_bytes(proc)
  command([root/'.venv/bin/python',root/'toolchain/maspsx/maspsx.py','--aspsx-version=2.79','--dont-force-G0','--run-assembler','--gnu-as-path=mipsel-linux-gnu-as','-I'+str(root),'-I'+str(root/'include'),'-EL','-march=r3000','-G8','-o',obj],root,env,out/'assemble.log',proc)
  shutil.copy2(obj,out/'module.untrimmed.o')

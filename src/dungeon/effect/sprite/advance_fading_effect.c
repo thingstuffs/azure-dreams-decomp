@@ -32,22 +32,22 @@ void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
 
 /* Expands and fades a sprite, restarts at frame 4 after its first completed animation, and removes it
    after the second. */
-void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect)
+void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, SpriteFrameState *effect)
 {
     u16 size;
     u8 brightness;
 
     state->unk00->unk14++;
-    size = effect->unk1E + 0x400;
-    brightness = effect->unk0E - 4;
-    effect->unk1E = size;
-    effect->unk1C = size;
-    effect->unk0E = brightness;
-    effect->unk0D = brightness;
-    effect->unk0C = brightness;
+    size = effect->scale_y + 0x400;
+    brightness = effect->color.c.b - 4;
+    effect->scale_y = size;
+    effect->scale_x = size;
+    effect->color.c.b = brightness;
+    effect->color.c.g = brightness;
+    effect->color.c.r = brightness;
     advance_sprite_animation_and_textures(effect);
 
-    if (effect->unk14 & 0x6000) {
+    if (effect->flags & 0x6000) {
         if (state->unk04 != 0) {
             NODE_HEADER(state)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

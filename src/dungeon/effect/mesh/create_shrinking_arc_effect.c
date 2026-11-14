@@ -12,7 +12,7 @@ void (*const dungeon_ovl_1930844_entry)(ApproachingImpactSpellBody *state, Objec
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */
-void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
+void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ObjectPosition *motion, SpriteFrameState *visual) {
     s32 pos_x;
     s32 pos_y;
     s32 velocity_x;
@@ -29,25 +29,25 @@ void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ovl_193084
         (u16) (owner->unk_14 + 1);
     state->elapsed.s =
         (u16) (state->elapsed.s + 1);
-    pos_x = motion->unk_00;
-    velocity_x = motion->unk_0C;
-    pos_y = motion->unk_04;
-    velocity_y = motion->unk_10;
-    motion->unk_00 = pos_x + velocity_x;
-    motion->unk_04 = pos_y + velocity_y;
+    pos_x = motion->x.v;
+    velocity_x = motion->velocity_x;
+    pos_y = motion->y.v;
+    velocity_y = motion->velocity_y;
+    motion->x.v = pos_x + velocity_x;
+    motion->y.v = pos_y + velocity_y;
     state->initial_z =
-        state->initial_z + motion->unk_14;
-    motion->unk_08 =
+        state->initial_z + motion->velocity_z;
+    motion->z.v =
         state->initial_z -
         ((rsin((0x800 / state->duration.s) *
                         (s16) state->elapsed.s) >> 4) << 0xE);
     scale_step = 0x200 / state->duration.s;
-    angle = visual->unk_1A;
-    scale = visual->unk_1E;
-    visual->unk_1A = angle + 0x300;
+    angle = visual->angle_z;
+    scale = visual->scale_y;
+    visual->angle_z = angle + 0x300;
     scale = scale - scale_step;
-    visual->unk_1E = scale;
-    visual->unk_1C = scale;
+    visual->scale_y = scale;
+    visual->scale_x = scale;
     elapsed = state->elapsed.u;
     duration = state->duration.s;
     if (elapsed > duration) {

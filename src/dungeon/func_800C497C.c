@@ -17,42 +17,42 @@ typedef struct S_800CA0DC_0 {
 } S_800CA0DC_0;   /* arg3 in advance_actor_along_path_points */
 
    /* Advances to the next path coordinate and updates movement state and timing. */
-void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path)
+void advance_actor_along_path_points(ActorRecord *motion, s32 unused, void *position, ActorRecord *path)
 {
     s32 step_count;
     s32 old_x;
     s32 old_y;
 
-    if (((s8)((S_800CA0DC_0 *)path)->unk_71) <= 0) {
+    if (((s8)path->movement_queue_state) <= 0) {
         return;
     }
-    if (((S_800CA0DC_0 *)path)->unk_71 <= ((S_800CA0DC_0 *)path)->unk_8A.s) {
+    if (path->movement_queue_state <= path->unk_8A) {
         return;
     }
 
     old_x = ((MovingTile *)position)->tile_x;
     old_y = ((MovingTile *)position)->tile_y;
     ((MovingTile *)position)->tile_x =
-        ((ActorStatusBytesView *)((u8 *)path + ((S_800CA0DC_0 *)path)->unk_8A.s))->path_x;
+        ((ActorStatusBytesView *)((u8 *)path + path->unk_8A))->path_x;
     ((MovingTile *)position)->tile_y =
-        ((ActorStatusBytesView *)((u8 *)path + ((S_800CA0DC_0 *)path)->unk_8A.s))->path_y;
+        ((ActorStatusBytesView *)((u8 *)path + path->unk_8A))->path_y;
     ((S_800CA0DC_0 *)path)->unk_8A.u++;
 
-    ((S_800CA0DC_0 *)path)->unk_2A =
+    path->facing =
         get_rounded_facing_and_rounding_flag(old_x, old_y, ((MovingTile *)position)->tile_x,
                       ((MovingTile *)position)->tile_y, (u8 *)motion + 0x98);
-    ((S_800CA0DC_0 *)path)->unk_1C |= 0x40000000;
-    ((Rec_func_800C9F34_arg0 *)motion)->unk_9A.as_u8 = 0xF;
+    path->flags1C |= 0x40000000;
+    motion->action_id = 0xF;
     (*(s32 *)((u8 *)motion + (0x8C))) = 0;
 
     if (g_dungeon_status.flags & 0x80) {
-        ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 0;
+        motion->action_timer = 0;
         return;
     }
 
-    ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 8;
-    step_count = ((S_800CA0DC_0 *)path)->unk_71;
+    motion->action_timer = 8;
+    step_count = path->movement_queue_state;
     if (step_count > 0) {
-        ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 8 / step_count;
+        motion->action_timer = 8 / step_count;
     }
 }

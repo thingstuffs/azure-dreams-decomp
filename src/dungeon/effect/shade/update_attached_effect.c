@@ -32,24 +32,13 @@ typedef struct S_800D4954_2 {
 
 
 
-typedef struct S_800D4954_4 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xB];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800D4954_4;   /* arg2 in update_attached_effect */
-
 typedef struct S_800D4954_5 {
     u8 pad_00[0x1E];
     u16 unk_1E;
 } S_800D4954_5;
 
 /* Updates an attached effect's position, color, growth, and removal flags. */
-void update_attached_effect(void *effect_arg, S_800D4954_2 *position, S_800D4954_4 *appearance) {
+void update_attached_effect(void *effect_arg, S_800D4954_2 *position, SpriteFrameState *appearance) {
     S_800D4954_0 *effect = effect_arg;
     u16 next_scale;
     void *source;
@@ -62,23 +51,23 @@ void update_attached_effect(void *effect_arg, S_800D4954_2 *position, S_800D4954
     position->unk_02 = source_position->x;
     position->unk_06 = source_position->y;
     position->unk_0A = source_position->z - 0x32;
-    appearance->unk_0E = 0x28;
-    appearance->unk_0D = 0x28;
-    appearance->unk_0C = 0x28;
-    appearance->unk_1A = appearance->unk_1A + 0x190;
+    appearance->color.c.b = 0x28;
+    appearance->color.c.g = 0x28;
+    appearance->color.c.r = 0x28;
+    appearance->angle_z = appearance->angle_z + 0x190;
     if (effect->unk_5A & 1) {
-        appearance->unk_0C = 0x64;
+        appearance->color.c.r = 0x64;
     }
     if (effect->unk_5A & 2) {
-        appearance->unk_0D = 0x64;
+        appearance->color.c.g = 0x64;
     }
     if (effect->unk_5A & 4) {
-        appearance->unk_0E = 0x64;
+        appearance->color.c.b = 0x64;
     }
-    if (appearance->unk_1C < 0x1800U) {
-        next_scale = appearance->unk_1E + 0x190;
-        appearance->unk_1E = next_scale;
-        appearance->unk_1C = next_scale;
+    if (appearance->scale_x < 0x1800U) {
+        next_scale = appearance->scale_y + 0x190;
+        appearance->scale_y = next_scale;
+        appearance->scale_x = next_scale;
     }
     if ((get_entity_effect_value(source, STATUS_DAMAGE_GUARD) << 0x10) == 0) {
         ((S_800D4954_0_pre *)effect)[-1].unk_00 |= 0x8000;

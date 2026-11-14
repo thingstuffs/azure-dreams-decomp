@@ -215,7 +215,7 @@ extern u8 countdown_sprite_entries[];
 extern s32 check_layer_offset_height();
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
-void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect);
+void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, SpriteFrameState *effect);
 void spawn_rising_sprite_at_source(s32 owner, void *source);
 void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *state, M2C_UNK context,struct SpriteFrameState *target);
 void create_radius_directional_effects(s32 effect_param, ObjectPosition *origin_arg, s16 radius_arg, u8 *blocked_dirs);

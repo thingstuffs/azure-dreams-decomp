@@ -322,7 +322,7 @@ typedef struct {
 s32 rsin(s32, s16 *); /* extern */
 
 /* Move toward the target while spawning effects, then mark the sequence complete. */
-void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, SpriteFrameState *context) {
+void advance_target_chasing_emitter(void *object, ObjectPosition *position, SpriteFrameState *context) {
     s16 target_pos[3];
     s16 phase;
     s32 effects_left;
@@ -342,14 +342,14 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
     case 1:
         if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
             advance_sprite_animation_and_textures(context);
-            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + view_reference_entity.x.w.i)
-                - position->unk_00.at02.v) << 0xE));
-            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + view_reference_entity.y.w.i)
-                - position->unk_04.at02.v) << 0xE));
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + view_reference_entity.z.w.i)
-                - position->unk_08.at02.v) << 0xE));
+            position->x.v = (s32) (position->x.v + (((target_pos[0] + view_reference_entity.x.w.i)
+                - position->x.w.i) << 0xE));
+            position->y.v = (s32) (position->y.v + (((target_pos[1] + view_reference_entity.y.w.i)
+                - position->y.w.i) << 0xE));
+            position->z.v = (s32) (position->z.v + (((target_pos[2] + view_reference_entity.z.w.i)
+                - position->z.w.i) << 0xE));
             effects_left = 0;
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v
+            position->z.v = (s32) (position->z.v
                 - (rsin(((s16) ((JitteredPointSequenceBody *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
             do {
                 effect = allocate_list_node(0x302, &scene_object_list_anchor.next);
@@ -363,9 +363,9 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
                     effect_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
                     effect_data->unk_38 = 0x404040;
                     memcpy((u8 *) effect + 0x24, (u8 *) object + 0xC, 8);
-                    effect_data->point_slots[4].x = (u16) position->unk_00.at02.v;
-                    effect_data->point_slots[4].y = (u16) position->unk_04.at02.v;
-                    effect_data->point_slots[4].z = (u16) position->unk_08.at02.v;
+                    effect_data->point_slots[4].x = (u16) position->x.w.i;
+                    effect_data->point_slots[4].y = (u16) position->y.w.i;
+                    effect_data->point_slots[4].z = (u16) position->z.w.i;
                     effect_data->unk_00 = ((JitteredPointSequenceBody *)object)->unk_00;
                 }
                 effects_left -= 1;
@@ -379,12 +379,12 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
     case 2:
         if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
             advance_sprite_animation_and_textures(context);
-            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + view_reference_entity.x.w.i)
-                - position->unk_00.at02.v) << 0xF));
-            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + view_reference_entity.y.w.i)
-                - position->unk_04.at02.v) << 0xF));
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + view_reference_entity.z.w.i)
-                - position->unk_08.at02.v) << 0xF));
+            position->x.v = (s32) (position->x.v + (((target_pos[0] + view_reference_entity.x.w.i)
+                - position->x.w.i) << 0xF));
+            position->y.v = (s32) (position->y.v + (((target_pos[1] + view_reference_entity.y.w.i)
+                - position->y.w.i) << 0xF));
+            position->z.v = (s32) (position->z.v + (((target_pos[2] + view_reference_entity.z.w.i)
+                - position->z.w.i) << 0xF));
         }
         if ((s16) ((JitteredPointSequenceBody *)object)->unk_48 <= 0) {
             NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);

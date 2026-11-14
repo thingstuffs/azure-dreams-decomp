@@ -8,14 +8,14 @@
 
 
 /* Keeps both sprite scales at normal size and removes the effect when its countdown ends. */
-void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state, ObjectPosition *unused, void *scale_data)
+void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state, ObjectPosition *unused, SpriteFrameState *scale_data)
 {
     s32 remaining_ticks;
-    u8 *scale = scale_data;
+    SpriteFrameState *scale = scale_data;
 
     state->unk_02.s -= 1;
-    *(s16 *)(scale + 0x1C) = 0x1000;
-    *(s16 *)(scale + 0x1E) = 0x1000;
+    scale->scale_x = 0x1000;
+    scale->scale_y = 0x1000;
     remaining_ticks = state->unk_02.u;
     particle_update_flag = 1;
     if (remaining_ticks <= 0) {

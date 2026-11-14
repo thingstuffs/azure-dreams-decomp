@@ -34,13 +34,13 @@ void interpolate_view_parameters(EntityRec *target, s32 gain_param, void *record
 #include "records/Rec_D_80082E80.h"
 
    /* Increment counters, reduce the stored value, and propagate status flags. */
-void lower_animated_sprite(ColoredOffsetSpriteBody *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status) {
+void lower_animated_sprite(ColoredOffsetSpriteBody *counter_state, ObjectPosition *value_state, SpriteFrameState *status) {
     B28_818B68B8_S_818B68B8_1 *linked_counter;
 
     linked_counter = counter_state->owner_context.owner;
     linked_counter->unk_14 = (u16) (linked_counter->unk_14 + 1);
     counter_state->update_count = (u16) (counter_state->update_count + 1);
-    value_state->unk_08 = (s32) (value_state->unk_08 + 0xFFF60000);
+    value_state->z.v = (s32) (value_state->z.v + 0xFFF60000);
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 = (u16) (((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 | 0x8000);
@@ -360,7 +360,7 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
    /* sc in draw_two_radial_effect_bands */
 
 /* Builds and draws two eight-segment radial bands around the effect center. */
-s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, SpriteFrameState *draw_arg) {
+s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, ObjectPosition *center, SpriteFrameState *draw_arg) {
     RadialBandQuadScratch *scratch;
     s32 first_outer_x;
     s32 first_outer_y;
@@ -386,7 +386,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     scratch = (RadialBandQuadScratch *)0x1F800000;
     if (effect->unk_06 < 8) {
         s32 growing_z;
-        growing_z = center->unk_08 - (effect->unk_06 * 0x180000);
+        growing_z = center->z.v - (effect->unk_06 * 0x180000);
         scratch->positions[1].vz = growing_z;
         scratch->positions[0].vz = growing_z;
         {
@@ -402,7 +402,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
         jitter_count = tip_radius + 1;
     } else if (effect->unk_06 < 40) {
         {
-            s32 plateau_z = center->unk_08 - (8 * 0x180000);
+            s32 plateau_z = center->z.v - (8 * 0x180000);
             scratch->positions[1].vz = plateau_z;
             scratch->positions[0].vz = plateau_z;
         }
@@ -413,7 +413,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     } else if (effect->unk_06 < 48) {
         s32 fading_z;
         jitter_count = 48;
-        fading_z = center->unk_08 - ((jitter_count - effect->unk_06) * 0x180000);
+        fading_z = center->z.v - ((jitter_count - effect->unk_06) * 0x180000);
         scratch->positions[1].vz = fading_z;
         scratch->positions[0].vz = fading_z;
         {
@@ -438,7 +438,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
 
     segment = 0;
     jitter_limit = (s16)jitter_count;
-    scratch->positions[2].vz = scratch->positions[3].vz = center->unk_08;
+    scratch->positions[2].vz = scratch->positions[3].vz = center->z.v;
     do {
         angle_step = segment * 512;
         radial_offset = rand() % jitter_limit;
@@ -446,24 +446,24 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
             s32 wave_x = rsin(effect->unk_0C + angle_step);
             radial_offset = (s16)radial_offset;
             jittered_outer = (s16)outer_radius + radial_offset;
-            scratch->positions[1].vx = center->unk_00 +
+            scratch->positions[1].vx = center->x.v +
                 (((wave_x >> 4) * jittered_outer) << 8);
         }
-        scratch->positions[1].vy = center->unk_04 +
+        scratch->positions[1].vy = center->y.v +
             (((rcos(effect->unk_0C + angle_step) >> 4) * jittered_outer) << 8);
         {
             s32 wave_x = rsin(effect->unk_0C + angle_step);
             jittered_inner = (s16)inner_radius + radial_offset;
-            scratch->positions[2].vx = center->unk_00 +
+            scratch->positions[2].vx = center->x.v +
                 (((wave_x >> 4) * jittered_inner) << 8);
         }
-        scratch->positions[2].vy = center->unk_04 +
+        scratch->positions[2].vy = center->y.v +
             (((rcos(effect->unk_0C + angle_step) >> 4) * jittered_inner) << 8);
         next_segment = segment + 1;
         next_angle = next_segment * 512;
-        scratch->positions[0].vx = scratch->positions[3].vx = center->unk_00 +
+        scratch->positions[0].vx = scratch->positions[3].vx = center->x.v +
             (((rsin(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
-        scratch->positions[0].vy = scratch->positions[3].vy = center->unk_04 +
+        scratch->positions[0].vy = scratch->positions[3].vy = center->y.v +
             (((rcos(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
         draw_indexed_shaded_quad((s16)segment, draw_arg);
         segment = next_segment;
@@ -488,7 +488,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
         s32 scaled_x;
         s32 outer_x;
         wave_x = rsin(effect->unk_0E);
-        outer_x = center->unk_00 +
+        outer_x = center->x.v +
             (((wave_x >> 4) * ((s16)outer_radius + (s16)outer_offset)) << 8);
         outer_offset = (s16)outer_radius + (s16)outer_offset;
         scratch->positions[0].vx = outer_x;
@@ -496,7 +496,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     }
     {
         s32 outer_y;
-        outer_y = center->unk_04 +
+        outer_y = center->y.v +
             (((rcos(effect->unk_0E) >> 4) * outer_offset) << 8);
         scratch->positions[0].vy = outer_y;
         first_outer_y = outer_y;
@@ -504,13 +504,13 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     {
         s32 wave_x = rsin(effect->unk_0E + 512);
         s32 inner_x;
-        inner_x = center->unk_00 +
+        inner_x = center->x.v +
             (((wave_x >> 4) * (s16)inner_radius) << 8);
         scratch->positions[3].vx = inner_x;
         first_inner_x = inner_x;
     }
     {
-        s32 inner_y = center->unk_04 +
+        s32 inner_y = center->y.v +
             (((rcos(effect->unk_0E + 512) >> 4) * (s16)inner_radius) << 8);
         scratch->positions[3].vy = inner_y;
         first_inner_y = inner_y;
@@ -543,15 +543,15 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
             {
                 scaled = rsin(effect->unk_0E + (segment * 512)) >> 4;
                 arm_radius = (s16)outer_radius + (s16)arm_offset;
-                scratch->positions[0].vx = center->unk_00 +
+                scratch->positions[0].vx = center->x.v +
                     ((scaled * arm_radius) << 8);
             }
             scaled = rcos(effect->unk_0E + (segment * 512)) >> 4;
-            scratch->positions[0].vy = center->unk_04 +
+            scratch->positions[0].vy = center->y.v +
                 ((scaled * arm_radius) << 8);
-            scratch->positions[3].vx = center->unk_00 +
+            scratch->positions[3].vx = center->x.v +
                 (((rsin(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
-            scratch->positions[3].vy = center->unk_04 +
+            scratch->positions[3].vy = center->y.v +
                 (((rcos(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
         }
         draw_indexed_shaded_quad((s16)segment, draw_arg);
@@ -586,7 +586,7 @@ void create_randomized_radial_band_effect(B28_818B77D4_Arg0818B77D4 *source, B28
 }
 
 /* Per-frame update for the four-phase spark effect: drift, tint ramp, hold, then mark the owner finished. */
-void update_seven_color_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, SpriteFrameState *gfx) {
+void update_seven_color_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, ObjectPosition *motion, SpriteFrameState *gfx) {
     s32 variant_index;
     s16 fade;
     s16 next_tick;
@@ -624,11 +624,11 @@ void update_seven_color_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78
     phase = obj->state;
     switch (phase) {
     case 0:
-        vec_x10 = motion->x10;
-        vec_x14 = motion->x14;
-        motion->x0 = (s32) (motion->x0 + motion->xC);
-        motion->x4 = (s32) (motion->x4 + vec_x10);
-        motion->x8 = (s32) (motion->x8 + vec_x14);
+        vec_x10 = motion->velocity_y;
+        vec_x14 = motion->velocity_z;
+        motion->x.v = (s32) (motion->x.v + motion->velocity_x);
+        motion->y.v = (s32) (motion->y.v + vec_x10);
+        motion->z.v = (s32) (motion->z.v + vec_x14);
         elapsed = (s16) obj->field10;
         limit = obj->field14;
         if (elapsed >= limit) {
@@ -755,16 +755,16 @@ s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosi
 }
 
 /* Advance counters, rotation, and position, and set flags when the counter exceeds its limit. */
-void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity)
+void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, ObjectPosition *vec, SpriteFrameState *entity)
 {
     owner->child->counter++;
     owner->counter++;
     advance_sprite_animation_and_textures(entity);
     entity->angle_z += 0x300;
 
-    vec->x += vec->dx;
-    vec->y += vec->dy;
-    vec->z += vec->dz;
+    vec->x.v += vec->velocity_x;
+    vec->y.v += vec->velocity_y;
+    vec->z.v += vec->velocity_z;
 
     if ((s16)owner->counter > owner->limit) {
         ((u16 *)owner)[-1] |= NODE_REMOVE;
@@ -774,7 +774,7 @@ void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C
 
 
 /* Spawn a 0x212 effect object owned by `owner`, give it a random 12-bit spin and copy the source transform into it. */
-s32 spawn_owned_random_spin_effect(void *owner, ObjectPosition *source)
+s32 spawn_owned_random_spin_effect(ReachableTileTravelBody *owner, ObjectPosition *source)
 {
     s32 random;
     s32 adjusted;

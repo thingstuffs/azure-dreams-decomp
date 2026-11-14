@@ -150,20 +150,20 @@ typedef struct S_818D4A94_1 {
 } S_818D4A94_1;   /* arg0 in func_80024294 */
 
 /* Advance position and velocity, and flag completion near the target or when the countdown expires. */
-void accelerate_particle_toward_source(void *motion_arg, void *position_data)
+void accelerate_particle_toward_source(void *motion_arg, ObjectPosition *position_data)
 {
     S_818D4A94_1 *motion = motion_arg;
-    S_818D4A94_0 *position = position_data;
+    ObjectPosition *position = position_data;
     s32 updated_value;
     s32 countdown;
 
-    position->unk_00.at00.v += motion->unk_3C;
-    position->unk_04 += motion->unk_40;
-    position->unk_08 += motion->unk_44;
+    position->x.v += motion->unk_3C;
+    position->y.v += motion->unk_40;
+    position->z.v += motion->unk_44;
     motion->unk_3C += motion->unk_48;
     motion->unk_40 += motion->unk_4C;
     motion->unk_44 += motion->unk_50;
-    updated_value = abs(motion->unk_34 - position->unk_00.at02.v);
+    updated_value = abs(motion->unk_34 - position->x.w.i);
     updated_value = updated_value < 0x10;
     D_80025118[0] = 1;
     if (updated_value) {
@@ -261,7 +261,7 @@ typedef struct RenderFade33 {
 } RenderFade33;   /* arg2 in func_80024548 */
 
 /* Fades and rotates an effect, decrements its timer, and flags completion. */
-void fade_and_rotate_timed_effect(void *record_data, ObjectPosition *unused, RenderFade33 *effect)
+void fade_and_rotate_timed_effect(void *record_data, ObjectPosition *unused, SpriteFrameState *effect)
 {
     void *record_cursor = record_data;
     u16 old_angle;
@@ -272,16 +272,16 @@ void fade_and_rotate_timed_effect(void *record_data, ObjectPosition *unused, Ren
     D_80025118[0] = 1;
     ((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_04 = (u16)(ticks_left - 1);
 
-    effect->unk_0C = (u8)((effect->unk_0C * 0xA) / 13);
-    effect->unk_0D = (u8)((effect->unk_0D * 0xA) / 13);
-    effect->unk_0E = (u8)((effect->unk_0E * 0xA) / 13);
+    effect->color.c.r = (u8)((effect->color.c.r * 0xA) / 13);
+    effect->color.c.g = (u8)((effect->color.c.g * 0xA) / 13);
+    effect->color.c.b = (u8)((effect->color.c.b * 0xA) / 13);
 
-    old_angle = effect->unk_1A;
+    old_angle = effect->angle_z;
     next_angle = old_angle + 0x300;
-    effect->unk_1A = next_angle;
+    effect->angle_z = next_angle;
 
     if ((u32)(next_angle & 0xFFFF) >= 0x1001U) {
-        effect->unk_1A = (u16)(old_angle - 0xD00);
+        effect->angle_z = (u16)(old_angle - 0xD00);
     }
 
     if ((s16)((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_04 <= 0) {
@@ -289,7 +289,7 @@ void fade_and_rotate_timed_effect(void *record_data, ObjectPosition *unused, Ren
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 
-    if (effect->unk_14 & 0x8000) {
+    if (effect->flags & 0x8000) {
         ((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 = (u16)(((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }

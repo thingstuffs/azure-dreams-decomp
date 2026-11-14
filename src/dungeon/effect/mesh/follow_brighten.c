@@ -107,7 +107,7 @@ ovl_18d0850_818B09F8_MainObj *create_owner_counter_sprite_effect(s32 object_valu
 
 /* Steps a sprite's height, resets its radial position at the height limit, and restarts its completed
    animation. */
-void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, SpriteFrameState *object) {
+void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ObjectPosition *position, SpriteFrameState *object) {
     s32 angle;
     u16 height_offset;
     ovl_18d0850_818B0AE0_S_800242E0_1 *counter;
@@ -118,12 +118,12 @@ void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *stat
     state->unk_04 = height_offset;
     if ((s16)height_offset < -0x80) {
         angle = rand() % 0x1000;
-        position->unk_02 = (s16)(state->unk_08 + ((rsin(angle) * 2) >> 8));
-        position->unk_06 = (s16)(state->unk_0A + ((rcos(angle) * 2) >> 8));
+        position->x.w.i = (s16)(state->unk_08 + ((rsin(angle) * 2) >> 8));
+        position->y.w.i = (s16)(state->unk_0A + ((rcos(angle) * 2) >> 8));
         state->unk_04 = (u16)(state->unk_04 + 0x80);
         state->unk_06 = (u16)(-6 - (rand() % 5));
     }
-    position->unk_0A = (s16)(state->unk_0C + state->unk_04);
+    position->z.w.i = (s16)(state->unk_0C + state->unk_04);
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
         select_record_entry_and_value(object, shared_sprite_entries, 0);
@@ -182,7 +182,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin_arg, s16 motion, 
 }
 
 /* Projects 16 shaded line segments from scaled points and queues each visible segment with its draw mode. */
-s32 queue_shaded_line_segments(void *unused_0, void *origin, SpriteFrameState *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
+s32 queue_shaded_line_segments(void *unused_0, ObjectPosition *origin, SpriteFrameState *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
   u8 *globals_page = resident_globals_page;
   s32 segment = 15;

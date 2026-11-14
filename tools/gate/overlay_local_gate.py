@@ -1320,7 +1320,9 @@ def renamed_symbols() -> dict[str, str]:
             for raw in path.read_text(errors="replace").splitlines():
                 raw = raw.split("#", 1)[0].rstrip()
                 cols = raw.split("\t")
-                if len(cols) >= 3 and cols[1].strip() and cols[2].strip() and cols[2].strip() != cols[1].strip():
+                if (len(cols) >= 3 and cols[1].strip() and cols[2].strip() and cols[2].strip() != cols[1].strip()
+                        # a placed-copy row (copy_of=, tools/build/name_inputs.py) never rebinds the canonical name
+                        and not (len(cols) >= 4 and cols[3].strip().startswith('copy_of='))):
                     _RENAMED[cols[2].strip()] = cols[1].strip()
     return _RENAMED
 

@@ -113,7 +113,7 @@ extern Row_818FF19C_Rect8 D_80024028;
 extern Row_818FF19C_Rect8 D_80024030;
 extern M2C_UNK D_80024750;
 extern Row_818FF5B8_Copy12 D_80025E64;
-void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state_data, struct ObjectPosition *unused, void *scale_data);
+void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state_data, struct ObjectPosition *unused, SpriteFrameState *scale_data);
 void finish_timed_visual_effect(void *object);
 void advance_timed_visual_effect(ParticleCleanupEffectBody *state, void *position, void *visual);
 void update_tiled_fade_effect(ParticleCleanupEffectBody *effect, void *offset_state, void *render_state);

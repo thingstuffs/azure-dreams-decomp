@@ -344,7 +344,7 @@ typedef struct S_81880F28_3_pre {
 } S_81880F28_3_pre;   /* the 0x14 bytes before effect->target.pointer in tint_effect_and_advance_motion */
 
 /* Tint the object red, restore its color, and advance its motion. */
-void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
+void tint_effect_and_advance_motion(void *effect_arg, ObjectPosition *motion_data) {
     BrighteningFollowerEffectBody *effect = effect_arg;
     ObjectPosition *motion = motion_data;
     ActorRecord *object;
@@ -453,14 +453,14 @@ typedef struct {
 } Global16;
 
 /* Advances counters and conditionally processes the target, propagating its status flag. */
-void advance_sprite_every_other_tick(void *record, ObjectPosition *unused, void *target)
+void advance_sprite_every_other_tick(void *record, ObjectPosition *unused, SpriteFrameState *target)
 {
     u16 flags = *(u16 *)((u8 *)record + 0x1C);
 
     tint_effect_update_count[0] = tint_effect_update_count[0] + 1;
     if (flags & 1) {
         advance_sprite_animation_and_textures(target);
-        if (*(u16 *)((u8 *)target + 0x14) & 0x4000) {
+        if (target->flags & 0x4000) {
             *(u16 *)((u8 *)record - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -977,21 +977,21 @@ void create_spark_effect(void *source_data, s16 initial_1a, s16 initial_1c, s16 
 #include "shared/object_flags.h"
 
 /* Fade the effect color and set completion flags when red falls below eight. */
-void fade_effect_color_below_eight(u16 *effect_data, ObjectPosition *unused, EffectColor *color) {
+void fade_effect_color_below_eight(u16 *effect_data, ObjectPosition *unused, SpriteFrameState *color) {
     u8 red;
     u8 green;
     u8 blue;
 
     tint_effect_update_count[0]++;
 
-    red = color->red;
-    green = color->green;
-    color->red = red - (red >> 3);
-    blue = color->blue;
-    color->green = green - (green >> 3);
-    color->blue = blue - (blue >> 3);
+    red = color->color.c.r;
+    green = color->color.c.g;
+    color->color.c.r = red - (red >> 3);
+    blue = color->color.c.b;
+    color->color.c.g = green - (green >> 3);
+    color->color.c.b = blue - (blue >> 3);
 
-    if (color->red < 8) {
+    if (color->color.c.r < 8) {
         effect_data[-1] |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

@@ -369,8 +369,14 @@ def project_edges(edges, plan, out_dir='build/partition_sources'):
     if seen!={p['id'] for p in plan}:raise PartitionError('missing partition remainder edge')
     return result
 
+COPY_OF=re.compile(r'copy_of=0x([0-9A-F]{8})(?:;|\s|$)')
+
 def read_aliases(file):
-    aliases={}
+    """readable name -> its one canonical func_<addr>.
+
+    A placed-copy row (evidence `copy_of=0x<addr>`, see tools/build/name_inputs.py) spells the family's name at a
+    second address; the alias stays the canonical address, and the copy row must name exactly that address."""
+    aliases={};copied=[]
     for line in Path(file).read_text().splitlines():
         columns=line.split('#',1)[0].split('\t')
         if len(columns)<3:continue
@@ -381,9 +387,15 @@ def read_aliases(file):
         if canonical==renamed:continue
         if not IDENT.fullmatch(renamed) or CANONICAL.fullmatch(renamed):
             raise PartitionError('invalid canonical name alias target: '+renamed)
+        copy=COPY_OF.match(columns[3].strip()) if len(columns)>=4 else None
+        if copy:
+            copied.append((renamed,'func_'+copy[1],canonical));continue
         if renamed in aliases and aliases[renamed]!=canonical:
             raise PartitionError('ambiguous canonical name alias: '+renamed)
         aliases[renamed]=canonical
+    for renamed,target,canonical in copied:
+        if aliases.get(renamed)!=target or target==canonical:
+            raise PartitionError('placed copy does not name its canonical row: '+renamed)
     return aliases
 
 def render_files(plan, root, out_dir='build/partition_sources', aliases=None):

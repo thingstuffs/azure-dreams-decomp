@@ -136,7 +136,7 @@ void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_re
 void *create_coordinate_sprite_effect(s32 user_data, ObjectPosition *source_coords);
 void advance_counted_sprite_animation(void **object_ref, long long value);
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);
-void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, SpriteFrameState *object);
+void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, ObjectPosition *position, SpriteFrameState *object);
 s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, ObjectPosition *origin, s16 effect_param, s16 frame_index);
 s32 create_randomly_rotated_effect(s32 object_param, ObjectPosition *spawn_position);
 #endif

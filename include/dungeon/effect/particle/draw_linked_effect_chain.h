@@ -399,8 +399,8 @@ void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_80
 void fade_gray_sprite_by_remaining_life(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive);
 void fade_quad_vertex_colors(void *fade_data);
 void interpolate_quad_geometry_and_fade_colors(void *effect);
-void fade_and_rotate_effect_sprite(EntityEffectSequenceBody *effect, s32 unused, void *primitive);
-void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unused, Row_819A13D0_Obj *obj);
+void fade_and_rotate_effect_sprite(EntityEffectSequenceBody *effect, s32 unused, SpriteFrameState *primitive);
+void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unused, SpriteFrameState *obj);
 void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z);
 void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition *saved_context, SpriteFrameState *saved_data);

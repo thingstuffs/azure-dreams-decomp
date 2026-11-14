@@ -545,5 +545,134 @@ class OwnViewTrial(unittest.TestCase):
         self.assertIn('who->b = 2;', text)
 
 
+ROWS_HEADER = """#ifndef ROWS_H
+#define ROWS_H
+typedef unsigned char u8;
+typedef short s16;
+typedef int s32;
+typedef struct Rec { s32 x; s16 y; s16 z; } Rec;
+s32 first(void *p);
+s32 second(void *q, s32 k);
+#endif
+"""
+
+ROWS_SRC = """#include "rows.h"
+
+s32 first(void *p) {
+    return ((Rec *)p)->x + ((Rec *)p)->y;
+}
+
+s32 second(void *q, s32 k) {
+    return ((Rec *)q)->z + k;
+}
+
+s32 third(u8 *r) {
+    return r[1] + r[2];
+}
+
+s32 fourth(u8 *p) {
+    return ((Rec *)p)->y;
+}
+
+typedef struct S_80001234_0 {
+    u8 pad[6];
+    s16 z;
+} S_80001234_0;
+
+s32 fifth(S_80001234_0 *v) {
+    return v->z;
+}
+"""
+
+ROWS_CALLER = """#include "rows.h"
+
+extern s32 third(u8 *r);
+extern s32 fourth(u8 *p);
+
+s32 drive(Rec *rec) {
+    return first(rec) + second(rec, 1) + third((u8 *)rec) + fourth((u8 *)rec);
+}
+"""
+
+
+@unittest.skipUnless(shutil.which('clang'), 'clang not installed')
+class Rows(unittest.TestCase):
+    """rows mode: every row planned on the earlier rows' text, one proof, sig_batch bisection."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        root = Path(self.tmp.name)
+        (root / 'include').mkdir()
+        (root / 'src').mkdir()
+        (root / 'include/rows.h').write_text(ROWS_HEADER)
+        (root / 'src/rows.c').write_text(ROWS_SRC)
+        (root / 'src/drive.c').write_text(ROWS_CALLER)
+        self.root = root
+        self.saved_fold = R.fold_touched
+        R.fold_touched = lambda root, files, touched: {}     # no build recipes in the fixture
+        self.rows = [dict(id='1', function='first', file='src/rows.c', param='0', type='Rec *'),
+                     dict(id='2', function='second', file='src/rows.c', param='0', type='Rec *'),
+                     dict(id='3', function='third', file='src/rows.c', param='0', type='Rec *'),
+                     dict(id='4', function='fourth', file='src/rows.c', param='0', type='Rec *'),
+                     dict(id='5', function='fifth', file='src/rows.c', param='0', type='Rec *')]
+
+    def tearDown(self):
+        R.fold_touched = self.saved_fold
+        self.tmp.cleanup()
+
+    def test_plan_applies_rows_in_order_and_restores_disk(self):
+        batch = R.RowPlan(self.root, self.rows, lambda f: True, log=lambda m: None)
+        names = {'first', 'second', 'third', 'fourth', 'fifth'}
+        self.assertEqual(list(batch.cands), ['first', 'second', 'third', 'fourth', 'fifth'])
+        texts, reports, file_names, held = batch.plan(names)
+        self.assertIn('return p->x + p->y;', texts['src/rows.c'])
+        self.assertIn('return q->z + k;', texts['src/rows.c'])
+        self.assertIn('s32 first(Rec *p);', texts['include/rows.h'])
+        self.assertIn('s32 second(Rec *q, s32 k);', texts['include/rows.h'])
+        self.assertEqual(sorted(file_names['src/rows.c']), ['fifth', 'first', 'fourth', 'second'])
+        self.assertIn('s32 fifth(Rec *v) {\n    return v->z;', texts['src/rows.c'])
+        self.assertNotIn('S_80001234_0', texts['src/rows.c'])      # the address view lost its last use
+        self.assertIn('    return p->y;\n}\n\ns32 fifth', texts['src/rows.c'])      # one blank line kept
+        # the caller passed the record through a (u8 *) cast: the cast goes, the declaration follows
+        self.assertIn('third((u8 *)rec) + fourth(rec);', texts['src/drive.c'])
+        self.assertIn('extern s32 fourth(Rec *p);', texts['src/drive.c'])
+        self.assertIn('return p->y;', texts['src/rows.c'])
+        self.assertIn('third', held)                      # r[1]: byte indexing is not a record member
+        self.assertEqual((self.root / 'src/rows.c').read_text(), ROWS_SRC)     # planning leaves the disk as it was
+        res = batch.row_results[frozenset(names)]
+        self.assertEqual(res['1'][:2], ('accepted', ''))
+        self.assertEqual(res['3'][0], 'refused')
+        self.assertGreaterEqual(res['1'][2], 2)            # both casts in first() dropped
+
+    def test_bisection_backs_off_the_failing_function(self):
+        import sig_batch as SB
+        proofs = []
+
+        def prover(files, texts):
+            # a stand-in proof: the retype of second() changes rows.c's object
+            bad = 'q->z' in texts.get('src/rows.c', '')
+            proofs.append(bad)
+            rec = dict(verdict='CHANGED' if bad else 'PASS', source='src/rows.c', difference='text')
+            return dict(verdict='CHANGED' if bad else 'PASS', recipes={'rows': rec}, counts={})
+
+        out = Path(self.tmp.name) / 'out'
+        out.mkdir()
+        rows = out / 'rows_in.tsv'
+        R.write_tsv(rows, self.rows, R.ROW_FIELDS)
+        summ = R.run_rows(self.root, out, rows, (), 1, 10, False, None, lambda m: None, prover=prover)
+        verdicts = {r['id']: (r['verdict'], r['reason']) for r in R.read_tsv(out / 'rows.tsv')}
+        self.assertEqual(verdicts['1'], ('accepted', ''))
+        self.assertEqual(verdicts['2'][0], 'backed_off')
+        self.assertEqual(verdicts['3'][0], 'refused')
+        self.assertEqual(verdicts['4'], ('accepted', ''))
+        self.assertEqual(verdicts['5'], ('accepted', ''))        # held names leave the proven set's rows reported
+        self.assertEqual(summ['functions'], 3)
+        text = (self.root / 'src/rows.c').read_text()       # the proven set stays written
+        self.assertIn('return p->x + p->y;', text)
+        self.assertIn('((Rec *)q)->z', text)
+        self.assertIn(True, proofs)
+        self.assertFalse(proofs[-1])
+
+
 if __name__ == '__main__':
     unittest.main()

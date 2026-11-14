@@ -261,7 +261,7 @@ void spawn_rising_effect_under_parent(ObjectNodeHeader *parent, s16 field_34, s3
 
 /* Returns a random value in [0, limit), or zero when limit is zero. Rejection sampling: the rand() bits are masked
  * to the smallest bit range that covers limit (2, 4, 6, 8, 12 or 16 bits) and redrawn until below limit. */
-s32 random_value_below_limit(s32 limit) {
+s32 random_below_limit(s32 limit) {
     s32 sample;
 
     sample = 0;
@@ -451,7 +451,7 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
             shuffle_order = D_80025648;
             slot_2 = shuffle_order + entry;
             saved_entry = *slot_2;
-            order_index = random_value_below_limit(0x30);
+            order_index = random_below_limit(0x30);
             *slot_2 = shuffle_order[order_index];
             shuffle_order[order_index] = saved_entry;
         }
@@ -459,7 +459,7 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
             shuffle_order = D_80025678;
             slot = shuffle_order + entry;
             saved_entry = *slot;
-            order_index = random_value_below_limit(0x2C);
+            order_index = random_below_limit(0x2C);
             *slot = shuffle_order[order_index];
             shuffle_order[order_index] = saved_entry;
         }

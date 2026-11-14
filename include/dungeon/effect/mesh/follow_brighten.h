@@ -274,9 +274,9 @@ void apply_random_actor_value_gain(EntityRec *entity, s32 value_id, void *record
 void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2);
 void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, SpriteFrameState *state);
 ovl_18d0850_818B09F8_MainObj *create_owner_counter_sprite_effect(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec);
-void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, SpriteFrameState *object);
+void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ObjectPosition *position, SpriteFrameState *object);
 s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 frame);
-s32 queue_shaded_line_segments(void *unused_0, void *origin, SpriteFrameState *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase);
+s32 queue_shaded_line_segments(void *unused_0, ObjectPosition *origin, SpriteFrameState *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase);
 s32 queue_height_offset_rings(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ObjectPosition *height_ref, void *context);
 s32 queue_phase_shifted_rings(ovl_18d0850_818B1334_S_818B1334_1 *source, ObjectPosition *target, SpriteFrameState *context);
 s32 draw_remaining_shaded_rings(ovl_18d0850_818B1484_S_818B1484_1 *effect, ObjectPosition *target, void *context);

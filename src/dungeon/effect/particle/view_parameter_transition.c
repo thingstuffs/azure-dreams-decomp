@@ -44,7 +44,7 @@ extern s32 D_800E1C64;
 
 /* Applies effect 0x12 to an eligible entity and handles messages for flagged entities. */
 extern s16 D_80025308;
-extern s32 draw_linked_brightness_scaled_points(PointRecord *, ObjectPosition *);
+extern s32 draw_linked_brightness_points(PointRecord *, ObjectPosition *);
 extern void lift_attached_particle_above_terrain_and_age();
 extern s16 D_80025308;
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector();
@@ -85,9 +85,9 @@ void apply_random_actor_value_adjustment(ActorRecord *entity, s32 effect_param, 
 }
 
 
-/* Retail 8186E96C (draw_linked_brightness_scaled_points): projects each linked point and queues a brightness-scaled shaded point
+/* Retail 8186E96C (draw_linked_brightness_points): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
-s32 draw_linked_brightness_scaled_points(PointRecord *start_node, ObjectPosition *start_coords)
+s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start_coords)
 {
     GpuContext **state_ptr;
     Scratch8002416C *scratch;
@@ -247,7 +247,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, draw_linked_brightness_scaled_points);
+        register_node(spawned, draw_linked_brightness_points);
         fields->color = saved_field_28;
     }
 }

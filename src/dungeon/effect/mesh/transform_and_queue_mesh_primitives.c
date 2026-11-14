@@ -508,7 +508,7 @@ typedef struct GlobalRef {
 typedef struct PrimitiveTag { unsigned addr : 24; unsigned len : 8; } PrimitiveTag;
 
 /* Projects points and adds brightness-scaled pixel primitives to the ordering table. */
-s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points, SignedPositionView *position, u8 *orientation) {
+s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points, ObjectPosition *position, u8 *orientation) {
     s32 view_matrix[8];
     void *model_matrix;
     u8 *scratch;
@@ -538,9 +538,9 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
     model_matrix = (u8 *)((u32)scratch | 0x74);
     transform_matrix = (u8 *)((u32)scratch | 0x54);
     do {
-        VFIELD(scratch, s32, 0x88) = position->x;
-        VFIELD(scratch, s32, 0x8C) = position->y;
-        ((S_8187B1F4_1 *)scratch)->unk_90 = position->z;
+        VFIELD(scratch, s32, 0x88) = position->x.w.i;
+        VFIELD(scratch, s32, 0x8C) = position->y.w.i;
+        ((S_8187B1F4_1 *)scratch)->unk_90 = position->z.w.i;
         PushMatrix();
         VFIELD(scratch, s32, 0x3C) = 0x1000;
         VFIELD(scratch, s32, 0x38) = 0x1000;
@@ -622,25 +622,20 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
             break;
         }
         point_packet = (u8 *)tail_2->sprite;
-        position = (SignedPositionView *)tail_2->position;
+        position = tail_2->position;
         orientation = point_packet;
     } while (1);
     return hard_zero;
 }
 #include "shared/object_flags.h"
 
-typedef struct S_8187B540_0 {
-    u8 pad_00[0x1A];
-    u16 unk_1A;
-} S_8187B540_0;   /* arg2 in func_80024D40 */
-
 /* Add the object increment to the target and flag completion when its countdown expires. */
-void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, ObjectPosition *unused, void *target) {
+void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, ObjectPosition *unused, SpriteFrameState *target) {
     RandomRadialVectorEffectBody *object_data = object;
     u8 *global_base = (u8 *)&point_cloud_update_flag - 0x694C;
     u16 remaining;
 
-    ((S_8187B540_0 *)target)->unk_1A += object_data->unk_A0;
+    target->angle_z += object_data->unk_A0;
     remaining = object_data->unk_10.u - 0x20;
     *(s16 *)(global_base + 0x694C) = 1;
     object_data->unk_10.u = remaining;
@@ -914,7 +909,7 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
 
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
-void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosition *unused_arg, void *color_data) {
+void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosition *unused_arg, SpriteFrameState *color_data) {
     SpriteFrameState *colors = color_data;
     register s32 tick_limit;
     s32 phase_state;
@@ -1041,17 +1036,8 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
 
 
 
-typedef struct S_8187BE9C_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-} S_8187BE9C_1;   /* arg2 in update_projectile_trail_flash */
-
 /* Advance the effect fade, scale primitive colors, and flag completion. */
-void update_projectile_trail_flash(ProjectileTrailFlashBody *effect, s32 unused, S_8187BE9C_1 *primitive)
+void update_projectile_trail_flash(ProjectileTrailFlashBody *effect, s32 unused, SpriteFrameState *primitive)
 {
     s16 phase;
 
@@ -1070,13 +1056,13 @@ void update_projectile_trail_flash(ProjectileTrailFlashBody *effect, s32 unused,
         break;
     }
 
-    primitive->unk_0C =
+    primitive->color.c.r =
         effect->unk_36 * effect->remaining_ticks /
         effect->unk_04;
-    primitive->unk_0D =
+    primitive->color.c.g =
         effect->unk_37 * effect->remaining_ticks /
         effect->unk_04;
-    primitive->unk_0E =
+    primitive->color.c.b =
         effect->unk_38 * effect->remaining_ticks /
         effect->unk_04;
 
@@ -1085,7 +1071,7 @@ void update_projectile_trail_flash(ProjectileTrailFlashBody *effect, s32 unused,
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
-    if (primitive->unk_14 & 0x8000) {
+    if (primitive->flags & 0x8000) {
         NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

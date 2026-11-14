@@ -9,7 +9,7 @@ void *find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
 s32 check_entity_interaction_compatibility(void *, void *);
 
 /* Returns the first valid candidate found while checking eight neighboring positions. */
-void *find_compatible_adjacent_actor(void *entity, u16 x, u16 y) {
+void *find_compatible_adjacent_actor(ActorRecord *entity, u16 x, u16 y) {
     u16 *x_offsets;
     u16 *y_offsets;
     void *entity_data;

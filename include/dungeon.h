@@ -28,7 +28,7 @@ void apply_actor_delta_and_cap_value(s32 unused_0, s32 unused_1, s32 unused_2, u
 void dispatch_actor_behavior_state(ActorRecord *actor_state, s32 context, struct S_800C9F34_3 *position, ActorRecord *entity);
 
 /* func_800C497C.c */
-void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path);
+void advance_actor_along_path_points(ActorRecord *motion, s32 unused, void *position, ActorRecord *path);
 
 /* func_800D7364.c */
 void initialize_nine_entry_links(void *entry_data, s32 enable_flag);

@@ -88,7 +88,7 @@ void create_owner_linked_mirrored_sprite(void *effect, ObjectPosition *source_po
 
 /* Callback entry points. */
 void expire_ribbon_segment(void *record_data);
-void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, ObjectPosition *unused, void *phase_state);
+void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, ObjectPosition *unused, SpriteFrameState *phase_state);
 typedef struct ColorCyclingPulseBody {
     u8 pad_00[0x18];
     u16 ticks_remaining;
@@ -96,7 +96,7 @@ typedef struct ColorCyclingPulseBody {
     u16 phase_index;
 } ColorCyclingPulseBody;
 void update_color_cycling_pulse(ColorCyclingPulseBody *state_data, void *unused, SpriteFrameState *color);
-void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, ObjectPosition *unused, void *rotation);
+void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, ObjectPosition *unused, SpriteFrameState *rotation);
 void update_staged_particle_emitter(void *effect_data);
 
 struct DirectionalEffectWork;
@@ -203,7 +203,7 @@ void advance_jittered_effect_modes(struct D_800DB420_Obj *state, struct D_800DB4
 s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position);
 void fade_linked_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused_context, void *effect_params);
 void fade_packed_object_color_to_zero(void *object);
-void fade_tinted_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused, void *primitive);
+void fade_tinted_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused, SpriteFrameState *primitive);
 void run_fading_sprite_projectile(struct S_func_81856800_1 *action, struct S_func_81856800_2 *motion_arg);
 void run_growing_target_effect(struct S_func_818DA800_1 *effect_state, struct S_func_818DA800_2 *motion);
 void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);

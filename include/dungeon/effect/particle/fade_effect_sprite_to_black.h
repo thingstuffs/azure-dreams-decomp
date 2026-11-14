@@ -193,6 +193,6 @@ void apply_attack_power_and_element_effects();
 s32 get_spell_range();
 extern u8 D_800DEBD8;
 void update_directional_actor_effect(void *effect, void *motion, void *sprite);
-void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect, S_8182D544_2 *motion, SpriteFrameState *sprite);
-void update_falling_damped_sprite_effect(Object *object, Motion *motion, SpriteFrameState *effect);
+void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_falling_damped_sprite_effect(Object *object, ObjectPosition *motion, SpriteFrameState *effect);
 #endif

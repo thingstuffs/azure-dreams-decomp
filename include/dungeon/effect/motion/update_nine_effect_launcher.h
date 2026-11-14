@@ -1,7 +1,9 @@
 #include "shared/gpu_packets.h"
+#include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_19A332C_H
 #define DUNGEON_OVL_19A332C_H
 #include "common.h"
+#include "shared/animation_views.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -435,24 +437,6 @@ typedef struct ovl_19a332c_81984754_Object {
     u8 pad14[0x20 - 0x14];
     ovl_19a332c_81984754_Entity entity;
 } ovl_19a332c_81984754_Object;
-typedef struct {
-    s32 words[4];
-} __attribute__((packed)) ovl_19a332c_81984A40_PackedWords4;
-typedef struct {
-    ovl_19a332c_81984A40_PackedWords4 words;
-    s16 field_10;
-    s8 field_12;
-    s8 field_13;
-    s8 field_14;
-} ovl_19a332c_81984A40_Source81984A40;
-typedef struct {
-    ovl_19a332c_81984A40_PackedWords4 words;
-    s16 field_10;
-    s16 pad_12;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-} ovl_19a332c_81984A40_Dest81984A40;
 typedef struct ovl_19a332c_81984AB0_S_81984AB0_1 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -573,17 +557,17 @@ extern s32 check_entity_interaction_compatibility(void *, void *);
 extern u8 D_80026BE4[16];
 extern u8 camera_transition_timer[16];
 void advance_image_tint_transition(void *transition);
-void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion);
+void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ObjectPosition *position, ovl_19a332c_81982B2C_Motion *motion);
 void *create_double_ellipse_sprite_effect(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s32 offset);
-void move_fade_and_expand_effect(HomingEffectBody *effect_data, void *motion_data, void *sprite_data);
+void move_fade_and_expand_effect(HomingEffectBody *effect_data, void *motion_data, SpriteFrameState *sprite_data);
 void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count);
-void advance_effect_motion_and_color_fade(HomingEffectBody *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color);
+void advance_effect_motion_and_color_fade(HomingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *color);
 void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unused_context);
-void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_819832B4_EffectColor *color);
+void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, SpriteFrameState *color);
 void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);
 void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, ovl_19a332c_819835AC_S_819835AC_3 *visual);
 void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle);
-void copy_effect_frame_entry(ovl_19a332c_81984A40_Dest81984A40 *dst, ovl_19a332c_81984A40_Source81984A40 *src);
+void copy_anim_entry_and_widen_fields(AnimFrame *dst, AnimEntry *src);
 void select_sprite_entry_and_clear_flags(ovl_19a332c_81984AB0_S_81984AB0_0 *object, s16 entry_index);
 void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s32 max_index);
 void inventory_set_object_entry_address(ovl_19a332c_81984BC0_S_81984BC0_0 *object, s16 entry_index);

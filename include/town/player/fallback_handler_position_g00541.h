@@ -7,6 +7,7 @@
 
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 struct SpriteFrameState;
 #include "shared/vector.h"
 #include "sdk/libgte.h"
@@ -32,6 +33,6 @@ void dispatch_fallback_position(TownPlayerRecord *entry, ObjectPosition *forward
 void clear_town_overlap_origin(void);
 void compute_fallback_position_offset(TownPlayerRecord *object, ObjectPosition *offset, void *resources);
 void *lookup_entry_by_byte_index(struct SpriteFrameState *object, u8 *values, s32 index);
-void *get_nested_table_entry_data(void *record, s32 row_index, s32 entry_index, s32 unused);
+void *get_nested_table_entry_data(SpriteFrameState *record, s32 row_index, s32 entry_index, s32 unused);
 
 #endif

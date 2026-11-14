@@ -34,8 +34,8 @@ extern u8 D_800256EC[16];
 
 /* Fades a red-tinted sprite, adjusts its offset, and clears the owner's indexed slot when the
    countdown ends. */
-void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused, void *primitive_arg) {
-    S_81940800_1 *primitive = primitive_arg;
+void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused, SpriteFrameState *primitive_arg) {
+    SpriteFrameState *primitive = primitive_arg;
     s32 shade;
     u16 frames_left;
 
@@ -43,11 +43,11 @@ void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused,
     shade = (s32)((s32)(frames_left << 0x10) >> 9) / effect->fade_step;
     tint_particle_effect_updated = 1;
     effect->remaining = frames_left;
-    primitive->unk_0E = (s8)shade;
-    primitive->unk_0D = (s8)shade;
-    primitive->unk_0C = (s8)(shade + 0x10);
-    if (primitive->unk_06 >= -6) {
-        primitive->unk_06 = (s16)((u16)primitive->unk_06 - 2);
+    primitive->color.c.b = (s8)shade;
+    primitive->color.c.g = (s8)shade;
+    primitive->color.c.r = (s8)(shade + 0x10);
+    if (primitive->depth_bias >= -6) {
+        primitive->depth_bias = (s16)((u16)primitive->depth_bias - 2);
     }
     if ((s16)((u16)effect->remaining) <= 0) {
         ((S_81940800_2 *)(((effect->slot_index * 2) + ((u8 *)effect->owner))))->unk_46 = 0;

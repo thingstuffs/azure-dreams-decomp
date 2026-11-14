@@ -580,7 +580,7 @@ case2_spawn_loop:
 
 /* Retail 81857050 (advance_motion_and_fade_sprite): updates the effect's motion, waits for its timer, then fades its sprite to
  * black and marks the effect (header and global flags) finished. */
-void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, SpriteEntry *sprite) {
+void advance_motion_and_fade_sprite(EffectRecord *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     EffectOwner *owner = effect->owner;
     s32 z_velocity;
     s16 state;
@@ -589,14 +589,14 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
 
     owner->flags |= 0x8000;
 
-    z_velocity = motion->vz;
+    z_velocity = motion->velocity_z;
     if (z_velocity != 0) {
         z_velocity -= 0x20000;
     }
-    motion->vz = z_velocity;
-    motion->x += motion->vx;
-    motion->y += motion->vy;
-    motion->z += motion->vz;
+    motion->velocity_z = z_velocity;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
 
     state = effect->state;
     switch (state) {
@@ -611,20 +611,20 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
 
     case 1:
         advance_sprite_animation_and_textures(sprite);
-        if (sprite->status & 0x6000) {
+        if (sprite->flags & 0x6000) {
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
         }
-        if (sprite->red <= effect->fade_step) {
-            *(u32 *)&sprite->red = 0;
+        if (sprite->color.c.r <= effect->fade_step) {
+            *(u32 *)&sprite->color.c.r = 0;
             NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        brightness = sprite->blue - effect->fade_step;
-        sprite->blue = brightness;
-        sprite->green = brightness;
-        sprite->red = brightness;
+        brightness = sprite->color.c.b - effect->fade_step;
+        sprite->color.c.b = brightness;
+        sprite->color.c.g = brightness;
+        sprite->color.c.r = brightness;
         break;
     }
 }

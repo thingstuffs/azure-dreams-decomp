@@ -128,7 +128,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 extern s16 tint_particle_effect_updated;
 extern PackedVec3 tint_particle_sprite_data;
-void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused, void *primitive);
+void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused, SpriteFrameState *primitive);
 void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner);
 void create_free_slot_display_spawner(void *source, void *unused_position, void *unused_sprite);
 s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition *first_position);

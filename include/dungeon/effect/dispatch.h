@@ -57,7 +57,7 @@ CentralChildEffectObject *create_central_and_child_effects(s16 tile_x, s16 tile_
 
 struct S_800C5D80_0;
 void advance_effect_motion_and_fade(VerticalParticleBurstBody *effect_data,
-                                    struct S_800C5D80_0 *motion,
+                                    ObjectPosition *motion,
                                     SpriteFrameState *primitive);
 
 

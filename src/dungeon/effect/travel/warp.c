@@ -652,7 +652,7 @@ typedef struct RenderData {
  *
  * The follower's record (the object header precedes it): it tracks the object stored at +8.
  */
-void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPosition *position, RenderData *render)
+void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPosition *position, SpriteFrameState *render)
 {
     ObjectNodeHeader *owner;
     ObjectPosition *owner_pos;
@@ -666,7 +666,7 @@ void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPositi
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    render->color = owner->sprite->color.word;
+    render->color.word = owner->sprite->color.word;
     owner_pos = record->owner->position;
     position->x.w.i = (u16)owner_pos->x.w.i;
     position->y.w.i = (u16)owner_pos->y.w.i;
@@ -873,7 +873,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
         ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (calculate_planar_heading(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
             ((S_819AD81C_2 *)motion)->unk_10.at02.v) - 0x400);
         advance_animation_index_within_bounds(gfx, &entity->animation_index, entity->animation_start, entity->animation_end);
-        copy_anim_entry_and_widen_fields((struct FrameState *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
+        copy_anim_entry_and_widen_fields((AnimFrame *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
         if (((S_819AD81C_1 *)gfx)->unk_14 & 0x4000) {
             ((S_819AD81C_1 *)gfx)->unk_04 = 0;
         }
@@ -973,7 +973,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
             spawn_opposite_offset_effect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
         }
         set_animation_entry_address(gfx, info->unk_04);
-        copy_anim_entry_and_widen_fields((struct FrameState *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
+        copy_anim_entry_and_widen_fields((AnimFrame *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
     }
 }
 
@@ -1110,18 +1110,9 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
 }
 
 
-/* The 0x20-byte current-frame block the entry is expanded into. */
-typedef struct FrameState {
-    PackedWords4 words;
-    s16 field_10;
-    s16 pad_12;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-} FrameState;
 
 /* Copies the animation entry, sign-extending its three byte fields into destination words. */
-void copy_anim_entry_and_widen_fields(FrameState *dst, AnimEntry *src)
+void copy_anim_entry_and_widen_fields(AnimFrame *dst, AnimEntry *src)
 {
     s32 halfword;
 
@@ -1205,22 +1196,6 @@ typedef struct S_8002593C_0 {
     s16 unk_60;
 } S_8002593C_0;   /* scratch in set_effect_gte_matrix */
 
-typedef struct S_8002593C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8002593C_1;   /* arg1 in set_effect_gte_matrix */
-
-typedef struct S_8002593C_2 {
-    u8 pad_00[0x16];
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_8002593C_2;   /* arg2 in set_effect_gte_matrix */
-
 #include "sdk/libgte_matrix.h"
 
 extern void CompMatrix(void *, void *, void *);
@@ -1233,14 +1208,14 @@ extern void RotMatrixY(u16, void *);
 extern void RotMatrixZ(u16, void *);
 
 /* Build and install a transform from position, rotation, and a base matrix. */
-void set_effect_gte_matrix(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rotation)
+void set_effect_gte_matrix(void *base_matrix, ObjectPosition *position, SpriteFrameState *rotation)
 {
     S_8002593C_0 *scratch = (S_8002593C_0 *)0x1F800000;
     MATRIX matrix;
 
-    scratch->unk_40 = position->unk_02;
-    scratch->unk_44 = position->unk_06;
-    scratch->unk_48 = position->unk_0A;
+    scratch->unk_40 = position->x.w.i;
+    scratch->unk_44 = position->y.w.i;
+    scratch->unk_48 = position->z.w.i;
     ReadRotMatrix(&matrix);
 
     scratch->unk_50 = scratch->unk_58 =
@@ -1249,9 +1224,9 @@ void set_effect_gte_matrix(void *base_matrix, S_8002593C_1 *position, S_8002593C
         scratch->unk_56 = scratch->unk_5A =
         scratch->unk_5C = scratch->unk_5E = 0;
 
-    RotMatrixX(rotation->unk_16, &scratch->unk_50);
-    RotMatrixZ(rotation->unk_1A, &scratch->unk_50);
-    RotMatrixY(rotation->unk_18, &scratch->unk_50);
+    RotMatrixX(rotation->angle_x, &scratch->unk_50);
+    RotMatrixZ(rotation->angle_z, &scratch->unk_50);
+    RotMatrixY(rotation->angle_y, &scratch->unk_50);
     TransMatrix(&scratch->unk_50, &scratch->unk_40);
     CompMatrix(&scratch->unk_50, base_matrix, (u8 *)scratch + 0xD0);
     SetTransMatrix((u8 *)scratch + 0xD0);
@@ -1527,21 +1502,21 @@ typedef struct EffectColor {
 } EffectColor;
 
 /* Fade the effect color and set flags when red falls below four. */
-void fade_warp_color_by_quarter(void *record, ObjectPosition *unused, EffectColor *color) {
+void fade_warp_color_by_quarter(void *record, ObjectPosition *unused, SpriteFrameState *color) {
     u8 red;
     u8 green;
     u8 blue;
 
     warp_effect_counters[0]++;
 
-    red = color->red;
-    green = color->green;
-    color->red = red - (red >> 2);
-    blue = color->blue;
-    color->green = green - (green >> 2);
-    color->blue = blue - (blue >> 2);
+    red = color->color.c.r;
+    green = color->color.c.g;
+    color->color.c.r = red - (red >> 2);
+    blue = color->color.c.b;
+    color->color.c.g = green - (green >> 2);
+    color->color.c.b = blue - (blue >> 2);
 
-    if (color->red < 4) {
+    if (color->color.c.r < 4) {
         NODE_HEADER(record)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

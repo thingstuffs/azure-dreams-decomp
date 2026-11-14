@@ -14,10 +14,10 @@ struct Motion33;
 struct Render33;
 void update_actor_effect_particles_and_cleanup(struct Actor33 *, struct Motion33 *, struct Render33 *);
 s32 draw_actor_effect_points(void *, void *);
-void accelerate_particle_toward_source(void *, void *);
+void accelerate_particle_toward_source(void *, ObjectPosition *);
 void create_accelerating_return_particle(ObjectNodeHeader *, s32, s32, s32, s32, s32, s32);
 struct RenderFade33;
-void fade_and_rotate_timed_effect(void *, ObjectPosition *, struct RenderFade33 *);
+void fade_and_rotate_timed_effect(void *, ObjectPosition *, SpriteFrameState *);
 extern const PackedOffsets dungeon_18f4800_offsets;
 extern s16 D_80025118[5];
 #endif

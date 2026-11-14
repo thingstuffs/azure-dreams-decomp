@@ -51,7 +51,7 @@ void initialize_gray_sprite_copy(CL_CB9000_8017087C_Object *object, ActorRecord 
 
 
 /* Grows and brightens a rotating effect, then shrinks and fades it until its lifetime expires. */
-void update_growing_rotating_fade_slot_f(void *effect_arg, void *unused, SpriteFrameState *visual)
+void expand_then_shrink_effect(void *effect_arg, void *unused, SpriteFrameState *visual)
 {
     CL_CB9000_80170920_S_80170920_0 *effect = effect_arg;
     s16 state;
@@ -479,7 +479,7 @@ void advance_block_path_slot_f(void *motion, ObjectPosition *update_param, void 
     if (result_code == 2) {
         if (!(g_dungeon_status.flags & 0x80)) {
             if (!(((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_14 & 0x8000)) {
-                begin_block_hop_slot_f(motion, update_param, entity, (CL_CB9000_80171F58_S_80171F58_2 *)state);
+                begin_block_hop_slot_f(motion, update_param, entity, state);
                 ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_A4 = stored_result;
             } else {
                 ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_9A = 15;
@@ -489,7 +489,7 @@ void advance_block_path_slot_f(void *motion, ObjectPosition *update_param, void 
         }
     } else {
         if (result_code == 3 && !(g_dungeon_status.flags & 0x80) && !(((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_14 & 0x8000)) {
-            begin_block_hop_slot_f(motion, update_param, entity, (CL_CB9000_80171F58_S_80171F58_2 *)state);
+            begin_block_hop_slot_f(motion, update_param, entity, state);
             ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_A4 = stored_result;
         } else {
             ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_9A = 15;
@@ -744,11 +744,11 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
  * Sets action state 0x10, clears its tick, and selects the local eight-way sprite frame table
  * using actor facing relative to the camera.
  */
-void begin_block_hop_slot_f(CL_CB9000_80171F58_S_80171F58_0 *state, ObjectPosition *unused_position, CL_CB9000_80171F58_S_80171F58_1 *render_state, CL_CB9000_80171F58_S_80171F58_2 *entity) {
-    state->action = 0x10;
-    state->action_tick = 0;
+void begin_block_hop_slot_f(ActorRecord *state, ObjectPosition *unused_position, CL_CB9000_80171F58_S_80171F58_1 *render_state, ActorRecord *entity) {
+    state->action_id = 0x10;
+    state->action_phase = 0;
     render_state->unk_2C = D_8016F2C4;
-    select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7) + D_8016F2C4), 0);
+    select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + D_8016F2C4), 0);
 }
 
 /* Starts a directional attack on a compatible nearby actor when height and dungeon activity allow it. */
@@ -1223,7 +1223,7 @@ void update_block_spell_slot_f(ActorRecord *work, ObjectPosition *position, Spri
             transform->unk_24 = 10;
             transform->unk_26 = 10;
             node = actor->unk_08;
-            actor->unk_10 = update_growing_rotating_fade_slot_f;
+            actor->unk_10 = expand_then_shrink_effect;
             node->unk_0A -= 0x1E;
             model = actor->unk_0C;
             model->unk_10 = 0x60;

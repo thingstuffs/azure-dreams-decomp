@@ -744,11 +744,11 @@ void choose_block_move_slot_a(Rec_func_800A9E70_arg0 *move_data, void *context, 
  * Sets action state 0x10, clears its tick, and selects the local eight-way sprite frame table
  * using actor facing relative to the camera.
  */
-void begin_block_hop_slot_a(CL_CD7000_80171F58_S_80171F58_0 *state, void *unused_position, CL_CD7000_80171F58_S_80171F58_1 *render_state, CL_CD7000_80171F58_S_80171F58_2 *entity) {
-    state->action = 0x10;
-    state->action_tick = 0;
+void begin_block_hop_slot_a(ActorRecord *state, void *unused_position, CL_CD7000_80171F58_S_80171F58_1 *render_state, ActorRecord *entity) {
+    state->action_id = 0x10;
+    state->action_phase = 0;
     render_state->unk_2C = D_801512C4;
-    select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7) + D_801512C4), 0);
+    select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + D_801512C4), 0);
 }
 
 /* Starts a directional attack on a compatible nearby actor when height and dungeon activity allow it. */

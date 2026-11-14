@@ -18,7 +18,7 @@
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 
-extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
+extern void update_directional_sprite_state_and_signals(ActorRecord *, void *, void *, void *);
 
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/item.h"

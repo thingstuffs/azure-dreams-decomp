@@ -295,7 +295,7 @@ void advance_delayed_fading_sprite(DelayParticle *effect, DelayPosition *motion,
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Brightens and accelerates an effect, spawns particles, then fades it out. */
-void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, DelaySpriteColor *sprite) {
+void brighten_accelerate_and_fade_effect(void *effect_arg, ObjectPosition *motion, SpriteFrameState *sprite) {
     s32 color;
     s32 phase;
     s32 z_velocity;
@@ -316,11 +316,11 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
     switch (phase) {
     case 0:
         advance_sprite_animation_and_textures(sprite);
-        if ((u8) sprite->color.at00.v < 0x81U) {
-            bright_level = sprite->color.at02.v + 0x20;
-            sprite->color.at02.v = bright_level;
-            sprite->color.at01.v = bright_level;
-            sprite->color.at00.v = bright_level;
+        if ((u8) sprite->color.c.r < 0x81U) {
+            bright_level = sprite->color.c.b + 0x20;
+            sprite->color.c.b = bright_level;
+            sprite->color.c.g = bright_level;
+            sprite->color.c.r = bright_level;
         }
         if ((s16) ((DelayParticle *)effect_arg)->timer <= 0) {
             ((DelayParticle *)effect_arg)->timer = 0x10U;
@@ -331,7 +331,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
     case 1:
         z_velocity = motion->velocity_z + 0x8000;
         motion->velocity_z = z_velocity;
-        motion->z = (s32) (motion->z + z_velocity);
+        motion->z.v = (s32) (motion->z.v + z_velocity);
         count_or_step = 0x14;
         if ((s16) ((DelayParticle *)effect_arg)->timer <= 0) {
             particle_data = advance_delayed_fading_sprite;
@@ -341,12 +341,12 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
                 if (particle != NULL) {
                     particle->update_callback = particle_data;
                     particle_sprite = particle->sprite;
-                    ((DelayVelocity *)(particle->position))->x = (s32) motion->x;
-                    ((DelayVelocity *)(particle->position))->y = (s32) motion->y;
+                    ((DelayVelocity *)(particle->position))->x = (s32) motion->x.v;
+                    ((DelayVelocity *)(particle->position))->y = (s32) motion->y.v;
                     random = rand();
                     {
                         DelayMotionZ *particle_motion = particle->position;
-                        particle_motion->unk_08 = (s32) (motion->z + ((random & 0x1F) << 0x10));
+                        particle_motion->unk_08 = (s32) (motion->z.v + ((random & 0x1F) << 0x10));
                         random = rand();
                     }
                     ((DelayVelocity *)(particle->position))->velocity_x =
@@ -379,16 +379,16 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
         return;
     case 2:
         count_or_step = 0x10;
-        if (count_or_step >= (s32) sprite->color.at00.v) {
-            sprite->color.at00u.v = 0;
+        if (count_or_step >= (s32) sprite->color.c.r) {
+            sprite->color.word = 0;
             ((DelayStatusPrefix *)effect_arg)[-1].flags = (u16) (((DelayStatusPrefix *)effect_arg)[-1].flags | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        fade_level = sprite->color.at02.v - 0x10;
-        sprite->color.at02.v = fade_level;
-        sprite->color.at01.v = fade_level;
-        sprite->color.at00.v = fade_level;
+        fade_level = sprite->color.c.b - 0x10;
+        sprite->color.c.b = fade_level;
+        sprite->color.c.g = fade_level;
+        sprite->color.c.r = fade_level;
 
         return;
     }

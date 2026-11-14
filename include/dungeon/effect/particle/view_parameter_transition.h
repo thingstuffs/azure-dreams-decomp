@@ -105,7 +105,7 @@ typedef struct MovingColorWork {
 
 void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, ObjectPosition *effect_pos, SpriteFrameState *effect_display);
 void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect);
-s32 draw_linked_brightness_scaled_points(PointRecord *start_node, ObjectPosition *start_coords);
+s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start_coords);
 void lift_attached_particle_above_terrain_and_age(u8 *state, UnkArg1 *position);
 void apply_random_actor_value_adjustment(ActorRecord *entity, s32 effect_param, void *context);
 void spawn_parent_attached_effect( ObjectNodeHeader *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);

@@ -9,7 +9,8 @@
 #include "dungeon/player/object.h"
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void * find_compatible_adjacent_actor(void *entity, u16 x, u16 y);
+#include "shared/entity.h"
+extern void * find_compatible_adjacent_actor(ActorRecord *entity, u16 x, u16 y);
 #include "dungeon/player/object/action_state.h"
 
 extern void update_actor_transform_from_parent_callback(void *, s32, void *, void *);

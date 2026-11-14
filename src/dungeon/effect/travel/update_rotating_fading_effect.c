@@ -31,7 +31,7 @@ void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorR
 }
 
 /* Delays a rotating sprite, eases it to its destination, expands and fades it, then plays its final
-   animation. */void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, void *position, SpriteFrameState *sprite)
+   animation. */void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite)
 {
     s32 quarter_turn;
     s32 rot;
@@ -62,17 +62,17 @@ void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorR
 
     case 1:
         quarter_turn = 0x400;
-        *(s32 *)((u8 *) position + 0) =
+        position->x.v =
             effect->start_x
         + ((rsin((quarter_turn / effect->quarter_turn_ticks)
             * effect->elapsed_ticks) >> 4)
             * (effect->offset_x >> 8));
-        *(s32 *)((u8 *) position + 4) =
+        position->y.v =
             effect->start_y
         + ((rsin((quarter_turn / effect->quarter_turn_ticks)
             * effect->elapsed_ticks) >> 4)
             * (effect->offset_y >> 8));
-        *(s32 *)((u8 *) position + 8) =
+        position->z.v =
             effect->start_z
         + ((rsin((quarter_turn / effect->quarter_turn_ticks)
             * effect->elapsed_ticks) >> 4)
@@ -88,9 +88,9 @@ void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorR
 
     case 2:
         rand_value = rand();
-        z_upper = (*(u16 *)((u8 *) position + 0xA)) - 1;
+        z_upper = ((u16)position->z.w.i) - 1;
         rounded_random = rand_value;
-        *(u16 *)((u8 *) position + 0xA) = z_upper - (rand_value % 4);
+        position->z.w.i = z_upper - (rand_value % 4);
 
         sprite->color.c.b = (brightness = (sprite->color.c.b) - 8);
         scale = (sprite->scale_y) + 0x100;

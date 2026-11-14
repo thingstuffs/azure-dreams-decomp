@@ -570,7 +570,7 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
 
 
 /* Return a random sign of either -1 or 1. */
-s32 random_unit_sign(void) {
+s32 choose_random_sign(void) {
     s32 sign;
 
     sign = rand() & 1;
@@ -1481,14 +1481,14 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
                 target_pos = NODE_HEADER(parent->unk_60.p)->position;
                 flash_pos = impact->position;
                 offset_radius = rand();
-                offset_sign = random_unit_sign();
+                offset_sign = choose_random_sign();
                 offset_radius &= 0x1F;
                 offset_radius += 16;
                 reg_tmp = (u32)((u8 *)(offset_radius * offset_sign));
                 angle = (s32)((u8 *)reg_tmp) << 16;
                 flash_pos[0] = target_pos->x.v + angle;
                 offset_radius = rand();
-                offset_sign = random_unit_sign();
+                offset_sign = choose_random_sign();
                 offset_radius &= 0x1F;
                 offset_radius += 16;
                 reg_tmp = (u32)((u8 *)(offset_radius * offset_sign));

@@ -436,22 +436,15 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
 }
 #include "m2c_compat.h"
 
-typedef struct S_800C5D80_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800C5D80_0;   /* arg1 in advance_effect_motion_and_fade */
-
 
 /* Advance effect motion, fade its color, and mark it finished when its timer expires. */
-void advance_effect_motion_and_fade(VerticalParticleBurstBody *effect_data, S_800C5D80_0 *motion,
+void advance_effect_motion_and_fade(VerticalParticleBurstBody *effect_data, ObjectPosition *motion,
                                     SpriteFrameState *primitive) {
     s16 ticks_left;
     u8 brightness;
 
-    motion->unk_08 += motion->unk_14;
-    motion->unk_14 += 0x2000;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_z += 0x2000;
     advance_sprite_animation_and_textures(primitive);
     brightness = primitive->color.c.r
         - ((s32) primitive->color.c.r / (s16) effect_data->remaining_ticks);

@@ -172,5 +172,5 @@ extern void *resolve_record_orientation_or_fallback(void *, void *, Vec3 *, s32)
 void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosition *motion, SpriteFrameState *source_render);
 void update_staged_color_flash_effect(s32 effect_or_count);
 s32 draw_layered_vertical_sprite_chain(u8 *first_node);
-void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, VecState *motion, SpriteFrameState *sprite);
+void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 #endif

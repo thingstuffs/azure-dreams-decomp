@@ -24,7 +24,7 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 #include "dungeon/actor/state.h"
 
-extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
+extern void update_directional_sprite_state_and_signals(ActorRecord *, void *, SpriteFrameState *, void *);
 
 extern u8 D_801740F8[];
 

@@ -34,7 +34,7 @@ typedef struct S_800D81D4_1 {
 } S_800D81D4_1;   /* p1 in update_orbiting_effect_particle */
 
 /* Updates a rotating effect's motion, color, and lifetime. */
-void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_data) {
+void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion, SpriteFrameState *primitive_data) {
     s32 phase_index;
     s32 height_offset;
     SpriteFrameState *primitive= primitive_data;

@@ -56,7 +56,7 @@ void update_spinning_object(void *object, void *context, SpriteFrameState *state
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 30. */
-void init_spinning_object_long_delay(TownObjectRecord *object, ObjectPosition *context, void *state) {
+void init_spinning_object_long_delay(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *state) {
     NODE_HEADER(object)->update_callback = D_800BB640;
     init_lit_mesh_object(object, context, state);
     ((s32 *)state)[2] = 30;
@@ -75,7 +75,7 @@ void init_static_object_long_delay(void *object, void *context, void *state) {
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 14. */
-void init_spinning_object_short_delay(TownObjectRecord *object, ObjectPosition *context, void *state) {
+void init_spinning_object_short_delay(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *state) {
     NODE_HEADER(object)->update_callback = D_800BB640;
     init_lit_mesh_object(object, context, state);
     ((s32 *)state)[2] = 14;

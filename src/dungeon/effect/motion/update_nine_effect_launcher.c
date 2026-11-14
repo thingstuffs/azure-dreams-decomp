@@ -119,7 +119,7 @@ update_dimming:
 }
 /* Warning: struct S_8003E2D8 is not defined (only forward-declared) */
 
-void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion)
+void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ObjectPosition *position, ovl_19a332c_81982B2C_Motion *motion)
 {
     s16 state;
     void *actor;
@@ -144,9 +144,9 @@ void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332
         }
 
         base_coords = entity->inner->coords;
-        position->x = base_coords[1] + entity->x;
-        position->y = base_coords[3] + entity->y;
-        position->z = base_coords[5] + entity->z;
+        position->x.w.i = base_coords[1] + entity->x;
+        position->y.w.i = base_coords[3] + entity->y;
+        position->z.w.i = base_coords[5] + entity->z;
         register_node((u8 *)entity - 0x20, project_sprite_chain);
         entity->state++;
         return;
@@ -157,7 +157,7 @@ void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332
             motion->value += 0x00202020;
             return;
         }
-        if (create_nine_linked_effects(position->x, position->y, position->z,
+        if (create_nine_linked_effects(position->x.w.i, position->y.w.i, position->z.w.i,
                           *(s16 *)(((u8 **)&tint_transition_source)[0] + 0x2A)) != 0) {
             entity->state++;
         }
@@ -212,7 +212,7 @@ void *create_double_ellipse_sprite_effect(ovl_19a332c_81982CEC_S_800244EC_2 *sou
 
 /* Advances an accelerating particle, fades its color, and eases its scale toward 0x400 until its
    countdown ends. */
-void move_fade_and_expand_effect(HomingEffectBody *effect, void *motion_data, void *sprite_data)
+void move_fade_and_expand_effect(HomingEffectBody *effect, void *motion_data, SpriteFrameState *sprite_data)
 {
     SpriteFrameState *sprite= (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
     ovl_19a332c_81982DF8_Arg1 *motion = motion_data;
@@ -297,7 +297,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
 
 /* Moves a particle with vertical acceleration, fades its grayscale color, and removes it when its
    lifetime expires. */
-void advance_effect_motion_and_color_fade(HomingEffectBody *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
+void advance_effect_motion_and_color_fade(HomingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *color) {
     s32 velocity_x;
     s32 velocity_y;
     u16 update_count;
@@ -306,18 +306,18 @@ void advance_effect_motion_and_color_fade(HomingEffectBody *effect, ovl_19a332c_
     u16 life_left;
 
     update_count = image_tint_update_count;
-    velocity_x = motion->unk_0C;
-    velocity_y = motion->unk_10;
+    velocity_x = motion->velocity_x;
+    velocity_y = motion->velocity_y;
     image_tint_update_count = update_count + 1;
-    motion->unk_00 = motion->unk_00 + velocity_x;
-    motion->unk_04 = motion->unk_04 + velocity_y;
-    motion->unk_08 = motion->unk_08 + motion->unk_14;
-    motion->unk_14 = motion->unk_14 + 0x2000;
-    brightness = color->unk_0C;
+    motion->x.v = motion->x.v + velocity_x;
+    motion->y.v = motion->y.v + velocity_y;
+    motion->z.v = motion->z.v + motion->velocity_z;
+    motion->velocity_z = motion->velocity_z + 0x2000;
+    brightness = color->color.c.r;
     faded_brightness = brightness - (brightness >> 4);
-    color->unk_0C = faded_brightness;
-    color->unk_0D = faded_brightness;
-    color->unk_0E = faded_brightness;
+    color->color.c.r = faded_brightness;
+    color->color.c.g = faded_brightness;
+    color->color.c.b = faded_brightness;
     life_left = effect->remaining_ticks - 1;
     effect->remaining_ticks = life_left;
     if ((life_left << 0x10) <= 0) {
@@ -378,21 +378,21 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
 }
 
 /* Reduces each sprite color channel by a quarter and removes the effect when red falls below 4. */
-void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_819832B4_EffectColor *color) {
+void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, SpriteFrameState *color) {
     u8 red;
     u8 green;
     u8 blue;
 
     image_tint_update_count++;
 
-    red = color->red;
-    green = color->green;
-    color->red = red - (red >> 2);
-    blue = color->blue;
-    color->green = green - (green >> 2);
-    color->blue = blue - (blue >> 2);
+    red = color->color.c.r;
+    green = color->color.c.g;
+    color->color.c.r = red - (red >> 2);
+    blue = color->color.c.b;
+    color->color.c.g = green - (green >> 2);
+    color->color.c.b = blue - (blue >> 2);
 
-    if (color->red < 4) {
+    if (color->color.c.r < 4) {
         effect_data[-1] |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -1097,7 +1097,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         }
         set_camera_track_target((u8 *) effect - 0x20, motion, 8, 0x300);
         step_and_clamp_entry_index(visual, (u8 *) effect + 0x36, effect->min_frame, effect->max_frame);
-        copy_effect_frame_entry(effect, visual->frame_entry);
+        copy_anim_entry_and_widen_fields(effect, visual->frame_entry);
         frame = visual->frame_index;
         if ((s8) frame == effect->max_frame) {
             frame_step = -1;
@@ -1153,7 +1153,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     visual->color.word = actor_data->unk_0C;
     if (D_80026BC8[effect->part_index] != 0) {
         inventory_set_object_entry_address(visual, actor_data->unk_04);
-        copy_effect_frame_entry(effect, visual->frame_entry);
+        copy_anim_entry_and_widen_fields(effect, visual->frame_entry);
     }
     effect->update_count = (u16) (effect->update_count + 1);
     return;
@@ -1289,7 +1289,7 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
         } while (history_index >= 0);
 
         select_sprite_entry_and_clear_flags(part, 0);
-        copy_effect_frame_entry(entity, part->unk_00);
+        copy_anim_entry_and_widen_fields(entity, part->unk_00);
         prev_entity = entity;
         object_slot++;
         object_index++;
@@ -1302,7 +1302,7 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
  * Copies the leading words, then widens the source halfword and three following bytes into the
  * destination fields.
  */
-void copy_effect_frame_entry(ovl_19a332c_81984A40_Dest81984A40 *dst, ovl_19a332c_81984A40_Source81984A40 *src)
+void copy_anim_entry_and_widen_fields(AnimFrame *dst, AnimEntry *src)
 {
     s32 sourceHalfword;
 

@@ -264,7 +264,7 @@ extern u8 D_800DE720[9];
 void apply_attack_power_and_element_effects();
 s32 check_layer_offset_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);
-void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual);
+void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ObjectPosition *motion, SpriteFrameState *visual);
 void * create_shrinking_arc_effect(ApproachingImpactSpellBody *owner, ObjectPosition *source_position);
 void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void *origin, s16 step_index, s16 scale_factor);
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den);

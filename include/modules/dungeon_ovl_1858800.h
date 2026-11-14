@@ -18,6 +18,6 @@ void advance_sprite_animation_and_textures(void *);                 /* extern */
 #include "dungeon/effect/sprite/shared_entries.h"
 #include "dungeon/effect/sprite/timed_projectile_entries.h"
 void run_timed_sprite_projectile(ProjectileState *, ProjectileMotion *, ProjectileSprite *);
-s32 draw_animated_projectile_quads(RenderRecord *, EntityRec *);
+s32 draw_animated_projectile_quads(RenderRecord *, ObjectPosition *);
 void update_timed_sprite_effect(void *, void *, void *);
 #endif

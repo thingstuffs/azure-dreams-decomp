@@ -239,9 +239,9 @@ typedef struct B22_81892800_Aux {
     u8 pad_00[0x1A];
     u16 angle;
 } B22_81892800_Aux;
-void advance_accelerating_spin_effect(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22_81892800_Aux *aux);
+void advance_accelerating_spin_effect(B22_81892800_Entity *entity, ObjectPosition *motion, SpriteFrameState *aux);
 void *create_randomly_rotated_sprite_object(struct B22_81893474_EffectState *context, B22_818928F8_Copy24 *src_data, s16 state_value);
-void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, void *accumulator, SpriteFrameState *target);
+void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, ObjectPosition *accumulator, SpriteFrameState *target);
 void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant);
 void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state);
 s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center);

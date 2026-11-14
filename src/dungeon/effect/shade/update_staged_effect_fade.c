@@ -23,13 +23,8 @@ typedef struct S_80025E48_1 {
     s16 unk_16;
 } S_80025E48_1;   /* arg1 in update_staged_effect_fade */
 
-typedef struct S_80025E48_2 {
-    u8 pad_00[0xD];
-    u8 unk_0D;
-} S_80025E48_2;   /* arg2 in update_staged_effect_fade */
-
 /* Update the effect position, staged motion, and color fades, then mark completion. */
-void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
+void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *points, SpriteFrameState *tint)
 {
     GpuRectBuffer draw_params;
     s16 state;
@@ -67,9 +62,9 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
 
             if (effect->unk_64.s > effect->unk_66.s) {
                 effect->unk_66.u++;
-                color = tint->unk_0D;
+                color = tint->color.c.g;
             } else {
-                color = tint->unk_0D;
+                color = tint->color.c.g;
             }
             target_color = effect->unk_24;
             fade_frames = effect->unk_1A.s;
@@ -78,7 +73,7 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
             } else {
                 target_color = 0x20;
             }
-            tint->unk_0D = ((s32)(color + ((s32)((target_color - color) / fade_frames))));
+            tint->color.c.g = ((s32)(color + ((s32)((target_color - color) / fade_frames))));
             frames_left = effect->unk_1A.u - 1;
             effect->unk_1A.u = frames_left;
             if ((frames_left << 16) > 0) {
@@ -171,22 +166,22 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
                 draw_textured_ellipse(glow, &draw_params.rect, 1, 0);
             }
             if (effect->unk_24 != 0) {
-                fast_color = tint->unk_0D;
+                fast_color = tint->color.c.g;
                 fade_step = fast_color /
                     (effect->unk_1A.s - 6);
                 fast_color -= fade_step;
-                tint->unk_0D = fast_color;
+                tint->color.c.g = fast_color;
                 frames_left = effect->unk_1A.u - 1;
                 effect->unk_1A.u = frames_left;
                 if ((s16)frames_left >= 7) {
                     return;
                 }
             } else {
-                slow_color = tint->unk_0D;
+                slow_color = tint->color.c.g;
                 fade_step = slow_color /
                     effect->unk_1A.s;
                 slow_color -= fade_step;
-                tint->unk_0D = slow_color;
+                tint->color.c.g = slow_color;
                 frames_left = effect->unk_1A.u - 1;
                 effect->unk_1A.u = frames_left;
                 if ((frames_left << 16) > 0) {

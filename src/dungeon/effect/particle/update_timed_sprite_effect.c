@@ -288,7 +288,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
 
 
 /* Advance the animation and enqueue a textured quad at the projected position. */
-s32 draw_animated_projectile_quads(RenderRecord *render_record, EntityRec *position)
+s32 draw_animated_projectile_quads(RenderRecord *render_record, ObjectPosition *position)
 {
     SVECTOR world_point;
     s16 screen[4];

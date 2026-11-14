@@ -17,7 +17,7 @@ extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
  * Alternates Hikewne's idle frames, updates its parent-relative motion, and restores its callback
  * after a floor trap.
  */
-void update_directional_sprite_state_and_signals(void *controller, void *update_arg, SpriteFrameState *sprite, ActorRecord *actor)
+void update_directional_sprite_state_and_signals(ActorRecord *controller, void *update_arg, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 *direction_table;
 
@@ -44,7 +44,7 @@ void update_directional_sprite_state_and_signals(void *controller, void *update_
 
     if (update_actor_transform_from_parent(controller, update_arg, sprite, actor) != 0) {
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((Rec_func_8017360C_arg0 *)controller)->unk_8C.as_pu8 = update_hikewne_actor_behavior;
+            controller->unk_8C.byte_ptr = update_hikewne_actor_behavior;
         }
     } else if ((*(u8 **)&sprite->frameTable == hikewne_frame_set_2) &&
                !(actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_ASLEEP))) {

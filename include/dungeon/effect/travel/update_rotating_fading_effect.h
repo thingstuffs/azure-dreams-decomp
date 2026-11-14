@@ -129,7 +129,7 @@ extern void advance_sprite_animation_and_textures(void *);
 extern u8 D_800777DC[];
 s32 check_layer_offset_height(s32, s32, s16, s32);
 void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorRecord *owner);
-void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, void *position, SpriteFrameState *sprite);
+void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 void *create_randomized_target_effect(TargetTravelStatusBody *source, ObjectPosition *start, ObjectPosition *center, s16 index);
 void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition *motion, SpriteFrameState *appearance);
 #endif

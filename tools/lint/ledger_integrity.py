@@ -72,6 +72,11 @@
     (by name) did not; --fail-all fails on every one.  A rename that leaves a floor row naming the old file
     makes the row unverifiable.
 
+(i) placed copies (tools/lint/placed_copies.py): every config/names.tsv row recorded `copy_of=0x<addr>` must be
+    the same function as its canonical row: one row at each family address defines the name, and the retail
+    words are equal except a jump within the function's own body.  --fail-new and --fail-all fail on any
+    family that differs or cannot be found (a copy record is a claim about bytes, not a ratchet).
+
 --rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
 the same cast spelling that passes the field rule, following the file's history from the
 newest committed version where the entry held (cast and field), unique per row; a line that
@@ -94,6 +99,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ledger_public  # noqa: E402
+import placed_copies  # noqa: E402
 
 FLOORS = 'ledger/prototype_floors.jsonl'
 
@@ -1044,11 +1050,17 @@ def main(argv=None):
     for name, missing in (floor_missing if (args.list or args.fail_all) else floor_missing_new):
         print(f"  {'NEW ' if any(n == name for n, _ in floor_missing_new) else ''}FLOOR PATH {name}: "
               + ', '.join(missing))
+    copy_families, copy_problems = placed_copies.check(root)
+    print(f'placed copies: {len(copy_families)} families, '
+          f'{sum(len(v) - 1 for v in copy_families.values())} copies, {len(copy_problems)} differ or cannot be found')
+    for problem in copy_problems:
+        print('  PLACED COPY ' + problem)
     lane_local = ledger_public.check(root, args.base, public_ref=args.public_ref)
     failed = (bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
               or (args.fail_all and floor_bad) or (args.fail_new and floor_new)
               or (args.fail_new and floor_missing_new) or (args.fail_all and floor_missing)
-              or ((args.fail_new or args.fail_all) and lane_local > 0))
+              or ((args.fail_new or args.fail_all) and lane_local > 0)
+              or ((args.fail_new or args.fail_all) and copy_problems))
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))
     return 1 if failed else 0
 

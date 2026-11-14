@@ -219,7 +219,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
 
 /* Shrinks and recolors a sprite along a rotated, jittered path, looping its animation until its
    lifetime ends. */
-void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_80082E80 *sprite)
+void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, ObjectPosition *position, Rec_D_80082E80 *sprite)
 {
     Row_818E0D94_CallRecord transform;
     Row_818E0D94_OutputVector offset;
@@ -272,9 +272,9 @@ void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, Row_818E0
     transform.field1A = 0;
     transform_rotated_vertices(&transform);
 
-    position->unk_02 = offset.x;
-    position->unk_06 = offset.y;
-    position->unk_0A = offset.z;
+    position->x.w.i = offset.x;
+    position->y.w.i = offset.y;
+    position->z.w.i = offset.z;
     advance_sprite_animation_and_textures(sprite);
 
     if (sprite->unk_14.at00_u16.v & 0x6000) {

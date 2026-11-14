@@ -350,7 +350,7 @@ void interpolate_quad_geometry_and_fade_colors(void *effect_arg) {
 
 /* Fades and rotates a sprite while decrementing an extra byte field, then removes it when its
    countdown ends. */
-void fade_and_rotate_effect_sprite(EntityEffectSequenceBody *effect, s32 unused, void *primitive)
+void fade_and_rotate_effect_sprite(EntityEffectSequenceBody *effect, s32 unused, SpriteFrameState *primitive)
 {
     EntityEffectSequenceBody *state = effect;
     s32 intensity;
@@ -360,11 +360,11 @@ void fade_and_rotate_effect_sprite(EntityEffectSequenceBody *effect, s32 unused,
     intensity = ((s32)(ticks_left << 16) >> 9) / state->prefix.timer3C;
     linked_effect_update_flag[0] = 1;
     state->prefix.timer3A = ticks_left;
-    *(s8 *)((u8 *)primitive + 0x0E) = intensity;
-    *(s8 *)((u8 *)primitive + 0x0D) = intensity;
-    *(s8 *)((u8 *)primitive + 0x0C) = intensity;
+    primitive->color.c.b = intensity;
+    primitive->color.c.g = intensity;
+    primitive->color.c.r = intensity;
     state->unk_8C -= 1;
-    *(u16 *)((u8 *)primitive + 0x1A) += state->prefix.random40;
+    primitive->angle_z += state->prefix.random40;
     if (state->prefix.timer3A <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -372,7 +372,7 @@ void fade_and_rotate_effect_sprite(EntityEffectSequenceBody *effect, s32 unused,
 }
 
 /* Rotates the sprite and fades its grayscale color in proportion to the countdown, then removes it. */
-void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unused, Row_819A13D0_Obj *obj) {
+void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unused, SpriteFrameState *obj) {
     s32 scaled_count;
     u16 count;
     u16 angle;
@@ -380,12 +380,12 @@ void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unuse
     count = work->count - 1;
     scaled_count = (s32)((s32)(count << 16) >> 9) / work->divisor;
     work->count = count;
-    angle = obj->angle;
+    angle = obj->angle_z;
     linked_effect_update_flag[0] = 1;
-    obj->angle = angle + 0x190;
-    obj->c2 = scaled_count;
-    obj->c1 = scaled_count;
-    obj->c0 = scaled_count;
+    obj->angle_z = angle + 0x190;
+    obj->color.c.b = scaled_count;
+    obj->color.c.g = scaled_count;
+    obj->color.c.r = scaled_count;
     if ((s16)work->count > 0) {
         return;
     }

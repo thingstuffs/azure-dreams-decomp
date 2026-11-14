@@ -19,7 +19,7 @@
 
 #include "dungeon/actor/state.h"
 
-extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
+extern void update_directional_sprite_state_and_signals(ActorRecord *, void *, SpriteFrameState *, void *);
 
 /* Advance actor states, select directional animations, and process entity actions. */
 void wait_for_hikewne_mp_recovery(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {

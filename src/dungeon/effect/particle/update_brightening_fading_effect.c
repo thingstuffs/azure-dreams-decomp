@@ -165,7 +165,7 @@ void update_directional_actor_effect(void *object)
 #include "dungeon/effect/particle/brightening_fade.h"
 
    /* Updates the effect position, brightens and fades its primitive, and marks completion. */
-void update_brightening_fading_effect(BrighteningFadeBody *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
+void update_brightening_fading_effect(BrighteningFadeBody *effect, ObjectPosition *position, S_8195EB88_4 *primitive)
 {
     s16 phase;
     u16 phase_value;
@@ -192,11 +192,11 @@ void update_brightening_fading_effect(BrighteningFadeBody *effect, S_8195EB88_2 
         }
 
         base_position = ((S_8195EB88_5 *)effect->source_node_address)->unk_08;
-        position->unk_02 =
+        position->x.w.i =
             base_position->unk_02 + effect->offset_x;
-        position->unk_06 =
+        position->y.w.i =
             base_position->unk_06 + effect->offset_y;
-        position->unk_0A =
+        position->z.w.i =
             base_position->unk_0A + (u16)effect->offset_z;
         if (allocate_nine_position_objects(position) != 0) {
             register_node(NODE_HEADER(effect), project_sprite_chain);
@@ -271,7 +271,7 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
 extern s32 rand();
 
 /* Interpolates height with jitter until the phase ends, then advances position by velocity. */
-void update_shaking_tile_mesh(S_8195EE48_0 *state, S_8195EE48_1 *motion)
+void update_shaking_tile_mesh(S_8195EE48_0 *state, ObjectPosition *motion)
 {
     s32 phase_or_height;
     s16 ticks_left;
@@ -289,7 +289,7 @@ void update_shaking_tile_mesh(S_8195EE48_0 *state, S_8195EE48_1 *motion)
             state->unk_3C =
                 (u16)state->unk_3C +
                 ((state->unk_62 + state->unk_60 - fragment_height) / ticks_left);
-            motion->unk_08.at02.v =
+            motion->z.w.i =
                 ((u16)state->unk_3C + (rand() & 3)) - 2;
         }
         next_ticks = (u16)state->unk_4C - 1;
@@ -300,9 +300,9 @@ void update_shaking_tile_mesh(S_8195EE48_0 *state, S_8195EE48_1 *motion)
             return;
         }
     } else {
-        motion->unk_00 += motion->unk_0C;
-        motion->unk_04 += motion->unk_10;
-        motion->unk_08.at00.v += motion->unk_14;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
     }
 }
 
@@ -821,24 +821,24 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
 }
 
 /* Advance motion, fade the effect, and flag expiry when its timer runs out. */
-void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect)
+void advance_ballistic_fading_effect(u16 *state, ObjectPosition *motion, SpriteFrameState *effect)
 {
     u8 brightness;
     s16 ticks_left;
 
     terrain_effect_update_count++;
 
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->z += motion->dz;
-    motion->dz += 0x40000;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_z += 0x40000;
 
-    effect->x += effect->dx;
-    effect->y += effect->dy;
+    effect->angle_x += effect->offset_x;
+    effect->angle_y += effect->offset_y;
 
-    brightness = effect->red;
+    brightness = effect->color.c.r;
     brightness = brightness - brightness / *(s16 *)((u8 *)state + 0x4C);
-    effect->blue = effect->green = effect->red = brightness;
+    effect->color.c.b = effect->color.c.g = effect->color.c.r = brightness;
 
     ticks_left = state[0x26] - 1;
     state[0x26] = ticks_left;
@@ -849,7 +849,7 @@ void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect)
 }
 
    /* Transform a textured quad and add it to the ordering table if visible. */
-void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
+void draw_depth_biased_textured_quad(s32 unused, ObjectPosition *position, S_8195FD40_3 *quad, s16 depth_bias)
 {
     s32 view_matrix[8];
     S_8195FD40_0 *scratch = (S_8195FD40_0 *)0x1F800000;
@@ -872,9 +872,9 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
 
     (void)unused;
     scratch->unk_20 = *render_context + 0xB0;
-    scratch->object_matrix.t[0] = position->unk_02;
-    scratch->object_matrix.t[1] = position->unk_06;
-    scratch->object_matrix.t[2] = position->unk_0A;
+    scratch->object_matrix.t[0] = position->x.w.i;
+    scratch->object_matrix.t[1] = position->y.w.i;
+    scratch->object_matrix.t[2] = position->z.w.i;
     packet = ((GpuContext *)(*render_context))->packetCursor;
     texture = (S_8195FD40_5 *)quad->unk_08;
     PushMatrix();
@@ -1801,7 +1801,7 @@ extern void **actor_direction_sprites;
  * is the symbol reference_tile_object, which is what frees the $2 pin; one u16 carrying the 5 and
  * the 4 keeps the join value in v0.
  */
-void interpolate_target_and_finish_transition(State *state, Target *target, S_func_819615E4_0 *color)
+void interpolate_target_and_finish_transition(State *state, Target *target, SpriteFrameState *color)
 {
     Vec3s position_offset;
     Vec3s position;
@@ -1890,14 +1890,14 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
     return;
 
     case 2:
-    color->unk_0C -= color->unk_0C / state->timer;
+    color->color.c.r -= color->color.c.r / state->timer;
     phase_value = state->timer - 1;
     state->timer = phase_value;
     if ((s16)phase_value > 0) {
         return;
     }
     if (state->step == 0) {
-        color->unk_0C = 0;
+        color->color.c.r = 0;
         const_reg = 4;
         state->phase = const_reg;
         phase_value = state->state;

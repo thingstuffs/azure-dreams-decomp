@@ -30,7 +30,7 @@
 extern u8 *find_eligible_actor_at_tile_and_height();
 extern s32 get_tile_chebyshev_distance();
 extern s32 get_actor_height_difference();
-extern void * find_compatible_adjacent_actor(void *entity, u16 x, u16 y);
+extern void * find_compatible_adjacent_actor(ActorRecord *entity, u16 x, u16 y);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"

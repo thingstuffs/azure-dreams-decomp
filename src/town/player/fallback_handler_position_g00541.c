@@ -85,7 +85,7 @@ void *lookup_entry_by_byte_index(SpriteFrameState *object, u8 *values, s32 index
 }
 
 /* Return the second word of an indexed entry in the record's nested table. */
-void *get_nested_table_entry_data(void *record, s32 row_index, s32 entry_index, s32 unused) {
+void *get_nested_table_entry_data(SpriteFrameState *record, s32 row_index, s32 entry_index, s32 unused) {
     typedef struct {
         s32 unk_00;
         void *data;

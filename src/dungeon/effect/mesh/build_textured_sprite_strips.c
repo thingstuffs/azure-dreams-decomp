@@ -563,9 +563,9 @@ void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, void *scre
 }
 #include "shared/entity.h"
 
-/* Retail 81905564 (draw_brightness_scaled_linked_tiles): projects each linked point and queues a brightness-scaled shaded tile
+/* Retail 81905564 (draw_linked_brightness_points): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
-s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition *first_position)
+s32 draw_linked_brightness_points(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
     ObjectPosition *position = first_position;
@@ -734,7 +734,7 @@ void spawn_jittered_rising_tile_effect(ObjectNodeHeader *parent, s16 field_34, s
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, draw_brightness_scaled_linked_tiles);
+        register_node(spawned, draw_linked_brightness_points);
         fields->color = saved_field_28;
     }
 }
@@ -805,7 +805,7 @@ void tick_strip_effect_countdown(CountdownRecord *record)
 }
 
 /* Updates a timed brightness pulse and clears the linked object flag on completion. */
-void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unused, u8 *target)
+void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unused, SpriteFrameState *target)
 {
     u8 *object;
     u8 *linked_object;
@@ -824,20 +824,20 @@ void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unu
 
     effect->unk_02 -= 1;
     linked_object = *(u8 **)((u8 *)effect->unk_3C - 0x14);
-    *(u16 *)(target + 0x14) &= 0xFF7F;
+    target->flags &= 0xFF7F;
     *(u16 *)(linked_object + 0x14) |= 0x80;
 
     timer = (s16)effect->unk_02;
     if (timer < 20) {
         intensity = ((20 - timer) * 96) / 20 + 32;
-        target[0xC] = intensity;
-        target[0xD] = intensity;
-        target[0xE] = intensity;
+        target->color.c.r = intensity;
+        target->color.c.g = intensity;
+        target->color.c.b = intensity;
     } else if (timer < 40) {
         intensity = ((timer - 20) * 96) / 20 + 32;
-        target[0xC] = intensity;
-        target[0xD] = intensity;
-        target[0xE] = intensity;
+        target->color.c.r = intensity;
+        target->color.c.g = intensity;
+        target->color.c.b = intensity;
     }
 
     if ((s16)effect->unk_02 <= 0) {
@@ -852,7 +852,7 @@ void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unu
 }
 
 /* Builds an inverted pixel mask and updates a timed fade effect. */
-void update_inverted_mask_strip_effect(TravelingSpriteEffectBody *context, void *unused, void *effect_data) {
+void update_inverted_mask_strip_effect(TravelingSpriteEffectBody *context, void *unused, SpriteFrameState *effect_data) {
     Box image_rect;
     Box mask_rect;
     Point center;
@@ -915,7 +915,7 @@ void update_inverted_mask_strip_effect(TravelingSpriteEffectBody *context, void 
             tile_x += 0x18;
         } while (tile_column < 4);
         context->state = (u16)context->state + 1;
-        *(u16 *)((u8 *)effect_data + 0x14) &= 0xff7f;
+        effect_data->flags &= 0xff7f;
 
     case 1:
         image_width = 0x60;
@@ -936,14 +936,14 @@ void update_inverted_mask_strip_effect(TravelingSpriteEffectBody *context, void 
         draw_clipped_sprite_strips(context->unk_48, &image_rect, &center, one, one);
         frame = (s16)context->unk_02;
         if (frame < 0x15) {
-            *(s8 *)((u8 *)effect_data + 0xe) = (frame << 7) / 20;
-            *(s8 *)((u8 *)effect_data + 0xd) = ((s16)context->unk_02 << 7) / 20;
-            *(s8 *)((u8 *)effect_data + 0xc) = ((s16)context->unk_02 << 7) / 20;
+            effect_data->color.c.b = (frame << 7) / 20;
+            effect_data->color.c.g = ((s16)context->unk_02 << 7) / 20;
+            effect_data->color.c.r = ((s16)context->unk_02 << 7) / 20;
         }
         if ((s16)context->unk_02 >= 0x51) {
-            *(s8 *)((u8 *)effect_data + 0xe) = ((0x64 - (s16)context->unk_02) << 7) / 20;
-            *(s8 *)((u8 *)effect_data + 0xd) = ((0x64 - (s16)context->unk_02) << 7) / 20;
-            *(s8 *)((u8 *)effect_data + 0xc) = ((0x64 - (s16)context->unk_02) << 7) / 20;
+            effect_data->color.c.b = ((0x64 - (s16)context->unk_02) << 7) / 20;
+            effect_data->color.c.g = ((0x64 - (s16)context->unk_02) << 7) / 20;
+            effect_data->color.c.r = ((0x64 - (s16)context->unk_02) << 7) / 20;
         }
         frame = (u16)(s16)context->unk_02 + 1;
         context->unk_02 = frame;
@@ -958,7 +958,7 @@ void update_inverted_mask_strip_effect(TravelingSpriteEffectBody *context, void 
     }
 
     if ((u32)(*((u8 *)context->unk_3C + 0x13) - 0x33) < 4U) {
-        *(u16 *)((u8 *)effect_data + 0x14) |= 0x80;
+        effect_data->flags |= 0x80;
     }
     return;
 }

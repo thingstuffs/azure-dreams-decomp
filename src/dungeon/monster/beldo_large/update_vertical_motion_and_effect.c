@@ -12,7 +12,7 @@ typedef struct S_8017085C_2 {
 } S_8017085C_2;   /* arg2 in update_vertical_motion_and_effect */
 
 /* Updates vertical animation and triggers an effect upon reaching the resting height. */
-void update_vertical_motion_and_effect(LinkedObjectPositionBody *motion, ObjectPosition *position, void *effect) {
+void update_vertical_motion_and_effect(LinkedObjectPositionBody *motion, ObjectPosition *position, SpriteFrameState *effect) {
     s8 effect_args[4];
     s16 world_z;
     s16 state;

@@ -2563,7 +2563,7 @@ typedef struct {
 
 
 /* Updates the object's countdown and triggers an effect when it expires. */
-void update_timed_tile_effect(Func800B5948Object *object, ObjectPosition *unused, Func800B5948Object *related_object) {
+void update_timed_tile_effect(Func800B5948Object *object, ObjectPosition *unused, SpriteFrameState *related_object) {
     u16 ticks_left;
 
     if (g_dungeon_status.flags & 0x10) {
@@ -2579,7 +2579,7 @@ void update_timed_tile_effect(Func800B5948Object *object, ObjectPosition *unused
             return;
         }
     }
-    related_object->unk1A = related_object->unk1A + 0x40;
+    related_object->angle_z = related_object->angle_z + 0x40;
 }
 typedef struct
 {
@@ -3061,16 +3061,16 @@ extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
 
 /* Updates angular motion and fades three channels in, holds them, then fades them out. */
-void update_orbiting_color_particle(OrbitingColorParticleBody *state, Output *output, Interp *interp) {
-    output->value2 = state->value4 + (rcos(state->angle) >> state->shift);
-    output->value6 = state->value6 + (rsin(state->angle) >> state->shift);
+void update_orbiting_color_particle(OrbitingColorParticleBody *state, ObjectPosition *output, SpriteFrameState *interp) {
+    output->x.w.i = state->value4 + (rcos(state->angle) >> state->shift);
+    output->y.w.i = state->value6 + (rsin(state->angle) >> state->shift);
     state->angle = state->angle + state->delta;
-    interp->value1a = state->angle + 0x400;
+    interp->angle_z = state->angle + 0x400;
 
     if (state->mode == 0) {
-        interp->value0c = interp->value0c + (state->target_color.c.r - interp->value0c) / state->count;
-        interp->value0d = interp->value0d + (state->target_color.c.g - interp->value0d) / state->count;
-        interp->value0e = interp->value0e + (state->target_color.c.b - interp->value0e) / state->count;
+        interp->color.c.r = interp->color.c.r + (state->target_color.c.r - interp->color.c.r) / state->count;
+        interp->color.c.g = interp->color.c.g + (state->target_color.c.g - interp->color.c.g) / state->count;
+        interp->color.c.b = interp->color.c.b + (state->target_color.c.b - interp->color.c.b) / state->count;
         state->count = state->count - 1;
         if (state->count <= 0) {
             state->count = 8;
@@ -3083,9 +3083,9 @@ void update_orbiting_color_particle(OrbitingColorParticleBody *state, Output *ou
             state->mode = state->mode + 1;
         }
     } else {
-        interp->value0c = interp->value0c - interp->value0c / state->count;
-        interp->value0d = interp->value0d - interp->value0d / state->count;
-        interp->value0e = interp->value0e - interp->value0e / state->count;
+        interp->color.c.r = interp->color.c.r - interp->color.c.r / state->count;
+        interp->color.c.g = interp->color.c.g - interp->color.c.g / state->count;
+        interp->color.c.b = interp->color.c.b - interp->color.c.b / state->count;
         state->count = state->count - 1;
         if (state->count <= 0) {
             *((u16 *)state - 1) |= 0x8000;
@@ -3270,7 +3270,7 @@ s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteF
 struct OrbitingColorParticleBody;
 struct Output;
 struct Interp;
-extern void update_orbiting_color_particle(struct OrbitingColorParticleBody *state, struct Output *output, struct Interp *interp);
+extern void update_orbiting_color_particle(struct OrbitingColorParticleBody *state, ObjectPosition *output, SpriteFrameState *interp);
 extern s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data);
 
 /* Creates an object and initializes its position, angle, and state. */

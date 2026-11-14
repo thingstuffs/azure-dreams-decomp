@@ -14,17 +14,17 @@ void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, ObjectPosition *
 #include "shared/object_flags.h"
 
 /* Advance motion and rotation, then set completion flags when the timer exceeds its limit. */
-void advance_accelerating_spin_effect(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22_81892800_Aux *aux) {
+void advance_accelerating_spin_effect(B22_81892800_Entity *entity, ObjectPosition *motion, SpriteFrameState *aux) {
     s16 timer;
 
     entity->link->counter++;
-    motion->x += motion->dx;
-    motion->y += motion->dy;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
     if (entity->timer < 8) {
-        motion->dz *= 2;
+        motion->velocity_z *= 2;
     }
-    motion->z += motion->dz;
-    aux->angle += 0x300;
+    motion->z.v += motion->velocity_z;
+    aux->angle_z += 0x300;
     timer = (u16)entity->timer + 1;
     entity->timer = timer;
     if (entity->limit < timer) {
@@ -77,7 +77,7 @@ void *create_randomly_rotated_sprite_object(B22_81893474_EffectState *context, B
 }
 
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
-void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, void *accumulator, SpriteFrameState *target)
+void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, ObjectPosition *accumulator, SpriteFrameState *target)
 {
     B22_81893474_EffectState *owner;
     s32 total;
@@ -87,11 +87,11 @@ void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_
     owner->field_14.u += 1;
     step_state->update_count++;
 
-    total = *(s32 *)((u8 *)accumulator + 8);
-    increment = *(s32 *)((u8 *)accumulator + 0x14);
-    *(s32 *)((u8 *)accumulator + 8) = total + increment;
+    total = accumulator->z.v;
+    increment = accumulator->velocity_z;
+    accumulator->z.v = total + increment;
     if (step_state->update_count < 8) {
-        *(s32 *)((u8 *)accumulator + 0x14) *= 2;
+        accumulator->velocity_z *= 2;
     }
 
     if (step_state->update_count == step_state->update_limit) {

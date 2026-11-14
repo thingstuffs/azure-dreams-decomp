@@ -7,6 +7,7 @@
     param_retype.py callbacks --spec SPEC.json --scope ... --out DIR [--exclude P...]
     param_retype.py own-view --scope src/dungeon/monster --out DIR [--apply] [--min-casts 3]
     param_retype.py own-view --trial --scope src/dungeon/effect --exclude ... --out DIR [--limit 0] [--jobs 2]
+    param_retype.py rows --rows ROWS.tsv --out DIR [--exclude P...] [--workers 8] [--max-proofs 40] [--no-proof]
 
 A callee whose real prototype tools/proto cannot publish because a caller passes a value of another
 type ('u8 *' to 's32 *', 'int' to 'void *', 'u8 *' to 'Rec_D_80082E80 *', ...) usually carries a
@@ -64,6 +65,19 @@ callbacks  (opt-in, writes sources like apply)
                          remaps the complete-TU identity proof accepts survive; retry without on rollback);
     "alias_cast": true   `V *a = p;` aliases keep their view through an explicit `(V *)` (kept only when the
                          function's casts still fall).
+
+rows  (opt-in, writes sources like apply; src/ and include/ must be committed)
+  Caller-agreed parameter rows as ONE batch (tools/typing/caller_types.py class A after review: every caller,
+  callback slot or installer passes the record).  ROWS.tsv has id, function, file (the definition), param,
+  type ('ActorRecord *'), optional replace (a named current parameter type the evidence proves is the same
+  object, comma-separated) and evidence.  Every row is planned like a callback (plan_callback: definition,
+  member renames, dropped casts, typed declarations, type include) on the text the earlier rows left, then
+  cast_fold folds the touched functions; a row whose files' debt rises is held.  The whole set is proven by ONE
+  tools/build/affected.py prove over every written file and its includers, and failures are settled the way
+  tools/typing/sig_batch.py settles them (sig_batch.Runner: names the compiler or the failing recipes attribute,
+  then halves by folder and name, each accepted state one whole-set PASS).  A name is a function; its rows are
+  its parameters.  Output: rows.tsv (verdict and reason per row: accepted, refused at planning, backed_off by
+  the proof), summary.json (proofs, back-offs, casts removed), changed_files.txt.
 """
 from __future__ import annotations
 
@@ -2226,7 +2240,7 @@ def apply_decls(root, prover, units, scope, exclude, symbols, log):
     return rows
 
 
-def plan_callback(root, units, index, symbol, param, spelling, editable, replace=(), own_view=False):
+def plan_callback(root, units, index, symbol, param, spelling, editable, replace=(), own_view=False, drop_casts=False):
     """Plan one indirect-dispatch parameter retype: `symbol`'s parameter `param` becomes `spelling` (the object
     body type of its object kind, tools/typing/object_kinds.py).  Callbacks have no direct callers to vote, so
     the type comes from the kind; any direct caller must already pass a compatible value.
@@ -2275,14 +2289,26 @@ def plan_callback(root, units, index, symbol, param, spelling, editable, replace
     if arity:
         return None, arity[0]
     bad = [x for x in per_param.get(param, []) if not assignable(tgt.canon, decay(x[1].canon(x[5])), x[6])]
-    if bad:
-        return None, 'direct_caller_incompatible:' + bad[0][0]
+    caller_edits, dropped = collections.defaultdict(list), 0
+    for x in bad:
+        # rows mode: a caller that passes the record through an explicit cast (`f((u8 *)actor)`) loses the cast
+        # (the call then passes the record itself; no call-site cast is ever added)
+        fix = holder_fix(x, target_in(x[1], tgt)) if drop_casts else {}
+        if fix.get('fix') == 'drop_cast' and editable(x[0]):
+            e = drop_cast_edit(x[1].text(x[0]), x[4], fix['cast'])
+            if e is not None:
+                caller_edits[x[0]].append(e)
+                dropped += 1
+                continue
+        return None, 'direct_caller_incompatible:' + x[0]
     plan = plan_retype(dunit, dpath, fn, pdecl, target_in(dunit, tgt))
     if plan.get('refused'):
         return None, 'retype:' + plan['refused']
     texts, touched, headers = {}, collections.defaultdict(set), collections.defaultdict(set)
     try:
-        texts[dpath] = apply_text_edits(dunit.text(dpath), plan['edits'])
+        texts[dpath] = apply_text_edits(dunit.text(dpath), plan['edits'] + caller_edits.pop(dpath, []))
+        for cf, es in caller_edits.items():
+            texts[cf] = apply_text_edits(units.get(cf).text(cf), es)
     except ValueError:
         return None, 'overlapping_edits:' + dpath
     touched[dpath].add(symbol)
@@ -2299,8 +2325,8 @@ def plan_callback(root, units, index, symbol, param, spelling, editable, replace
                 continue
             base = ensure_include(base, h)
         texts[f] = base
-    summary = dict(params=['%d:%s->%s' % (param, cur_c, tgt.spelling)], holders=0,
-                   casts_dropped=plan.get('removed', 0), renamed=plan.get('renamed', 0),
+    summary = dict(params=['%d:%s->%s' % (param, cur_c, tgt.spelling)], holders=0, caller_casts_dropped=dropped,
+                   casts_dropped=plan.get('removed', 0) + dropped, renamed=plan.get('renamed', 0),
                    inserted=plan.get('inserted', 0))
     return dict(texts=texts, touched=touched, headers=headers, summary=summary), ''
 
@@ -2705,9 +2731,295 @@ def own_view_trial_run(root, out, scope, exclude, min_casts, limit, jobs, max_cl
 
 # --------------------------------------------------------------------------------------------- main
 
+
+# ------------------------------------------------------------------------------------------- rows (batch)
+
+ROW_FIELDS = ['id', 'function', 'file', 'param', 'type', 'replace', 'evidence']
+ROW_RESULT_FIELDS = ['id', 'function', 'file', 'param', 'type', 'verdict', 'reason', 'casts_removed', 'files']
+ROW_RETRY = re.compile(r'(direct_caller_incompatible|retype:converted_to|retype:passed_as)')
+
+
+def row_name(row, unique):
+    """Batch name of a row's function: the bare name when one definition carries it (so compiler messages and
+    error lines attribute it), else name@file."""
+    return row['function'] if unique else '%s@%s' % (row['function'], row['file'])
+
+
+def remove_unused_views(text):
+    """Drop address views (S_<addr>_n typedefs) with no remaining use, and the blank line after each; unlike
+    tools/typing/fold_family.remove_unused_views the rest of the file's blank lines are left as written."""
+    pattern = re.compile(r'typedef\s+struct\s+([A-Za-z_]\w*)\s*\{')
+    for match in reversed(list(pattern.finditer(text))):
+        name = match.group(1)
+        if not re.search(r'(?:^|_)S_(?:[0-9A-Fa-f]{8}|func_)', name):
+            continue
+        depth, end = 0, None
+        for pos in range(match.end() - 1, len(text)):
+            depth += text[pos] == '{'
+            depth -= text[pos] == '}'
+            if depth == 0:
+                tail = re.match(r'\s*' + re.escape(name) + r'\s*;[ \t]*(?:(?:/\*.*?\*/|//[^\n]*)[ \t]*)?\n?(?:[ \t]*\n)?',
+                                text[pos + 1:], re.S)
+                if tail:
+                    end = pos + 1 + tail.end()
+                break
+        if end is None:
+            continue
+        outside = text[:match.start()] + text[end:]
+        if not re.search(r'\b' + re.escape(name) + r'\b', outside):
+            text = outside
+    return text
+
+
+class HashUnits(Units):
+    """Units keyed by each file's current text, so a re-plan of a subset reuses every parse of a text it has seen
+    (sig_batch bisection re-plans from the originals).  `drop` is a no-op: a changed text is a new key."""
+
+    def __init__(self, root, cap=160):
+        super().__init__(root)
+        self.cap = cap
+
+    def get(self, rel):
+        try:
+            data = (self.root / rel).read_bytes()
+        except OSError:
+            return None
+        key = (rel, hashlib.sha1(data).hexdigest())
+        if key in self.cache:
+            self.cache[key] = self.cache.pop(key)      # most recently used last
+            return self.cache[key]
+        while len(self.cache) >= self.cap:
+            self.cache.pop(next(iter(self.cache)))
+        try:
+            unit, _ = A.clang_unit(self.root, rel)
+        except Exception:  # noqa: BLE001
+            unit = None
+        self.cache[key] = unit
+        return unit
+
+    def drop(self, rels):
+        pass
+
+
+class RowPlan:
+    """The batch interface tools/typing/sig_batch.Runner settles (plan / text / originals / cands / state), over
+    caller-agreed parameter rows instead of owner headers.
+
+    A name is one function (its rows are its parameters).  plan(names) applies the rows of `names` in row order
+    on the original texts, each with plan_callback (definition, typed declarations, type include) and cast_fold
+    over the touched functions, holding a row whose own files' debt rises; refused rows whose reason another
+    row can remove (a caller's holder retyped in the same batch) get a second pass.  The disk is restored after
+    planning: the Runner writes the returned texts, proves them once, and bisects failures by halves (folder
+    first, then name)."""
+
+    def __init__(self, root, rows, editable, log=print, passes=2, units=None, index=None):
+        self.root = Path(root).resolve()
+        self.log = log
+        self.editable = editable
+        self.passes = passes
+        self.units = units or HashUnits(self.root)
+        self.index = index or Index(self.root)
+        counts = collections.Counter(r['function'] for r in rows)
+        defs = {n: len([d for d in self.index.definitions.get(n, []) if d.path.startswith('src/')]) for n in counts}
+        self.rows = []
+        for r in rows:
+            r = dict(r, param=int(r['param']))
+            r['name'] = row_name(r, defs.get(r['function'], 0) == 1)
+            self.rows.append(r)
+        self.cands = collections.OrderedDict()
+        for r in self.rows:
+            self.cands.setdefault(r['name'], r['file'].rsplit('/', 1)[0])    # split() halves by folder first
+        self.originals = {}
+        self.txns = {}
+        self.prechecked = {}
+        self.memo = {}
+        self.fold_memo = {}
+        self.row_results = {}    # frozenset(names) -> {row id: (verdict, reason, casts, files)}
+
+    # ---- the Runner's batch interface
+    def text(self, rel):
+        if rel not in self.originals:
+            p = self.root / rel
+            self.originals[rel] = p.read_text() if p.exists() else None
+        return self.originals[rel]
+
+    def state(self):
+        return ()
+
+    def plan(self, names):
+        key = frozenset(names)
+        if key not in self.memo:
+            self.memo[key] = self._plan(key)
+        return self.memo[key]
+
+    # ---- planning
+    def _write(self, rel, text):
+        self.text(rel)
+        (self.root / rel).write_text(text)
+
+    def _fold(self, files, touched):
+        key = tuple(sorted((f, hashlib.sha1((self.root / f).read_bytes()).hexdigest(), tuple(sorted(touched[f])))
+                           for f in files))
+        if key not in self.fold_memo:
+            self.fold_memo[key] = fold_touched(self.root, files, touched)
+        return self.fold_memo[key]
+
+    def _one(self, row):
+        """Plan and write one row on the current disk text: ('', info) or (reason, {})."""
+        plan, why = plan_callback(self.root, self.units, self.index, '%s@%s' % (row['function'], row['file']),
+                                  row['param'], row['type'], self.editable,
+                                  tuple(x for x in (row.get('replace') or '').split(',') if x), drop_casts=True)
+        if plan is None:
+            return why, {}
+        before = {f: (self.root / f).read_text() for f in plan['texts']}
+        for f, t in plan['texts'].items():
+            self._write(f, t)
+        cfiles = sorted(f for f in plan['texts'] if f.endswith('.c'))
+        folded = self._fold(cfiles, plan['touched']) if cfiles else {}
+        for f, t in folded.items():
+            before.setdefault(f, (self.root / f).read_text())
+            self._write(f, t)
+        dead = 0
+        for f in sorted(before):
+            # an address view (S_<addr>_n) the retype left without a use goes (tools/typing/fold_family.py)
+            if f.endswith('.c'):
+                now = (self.root / f).read_text()
+                trimmed = remove_unused_views(now)
+                if trimmed != now:
+                    dead += 1
+                    self._write(f, trimmed)
+        final = {f: (self.root / f).read_text() for f in before}
+        rises = [(f, k) for f in final if f.endswith('.c') for k in debt_rises(f, before[f], final[f])]
+        rises += [(f, 'header_casts') for f in final
+                  if f.endswith('.h') and casts_of(f, final[f]) > casts_of(f, before[f])]
+        if rises:
+            for f, t in before.items():
+                self._write(f, t)
+            return 'debt_rise:%s:%s' % rises[0], {}
+        casts = sum(casts_of(f, before[f]) - casts_of(f, final[f]) for f in final if f.endswith(('.c', '.h')))
+        return '', dict(files=sorted(final), casts=casts, folds=len(folded), dead_views=dead, summary=plan['summary'])
+
+    def _restore(self):
+        for rel, orig in self.originals.items():
+            p = self.root / rel
+            if orig is None:
+                p.unlink(missing_ok=True)
+            elif not p.exists() or p.read_text() != orig:
+                p.write_text(orig)
+
+    def _plan(self, names):
+        chosen = [r for r in self.rows if r['name'] in names]
+        results, file_names = {}, collections.defaultdict(list)
+        self._restore()     # the Runner may have left another set's texts on disk
+        try:
+            pending = chosen
+            for npass in range(max(1, self.passes)):
+                retry = []
+                for r in pending:
+                    why, info = self._one(r)
+                    if why:
+                        results[r['id']] = ('refused', why, 0, [])
+                        if ROW_RETRY.match(why):
+                            retry.append(r)
+                        continue
+                    results[r['id']] = ('accepted', '', info['casts'], info['files'])
+                    for f in info['files']:
+                        if r['name'] not in file_names[f]:
+                            file_names[f].append(r['name'])
+                if not retry or len(retry) == len(pending):
+                    break
+                pending = retry
+            texts = {}
+            for rel, orig in self.originals.items():
+                p = self.root / rel
+                now = p.read_text() if p.exists() else None
+                if now != orig:
+                    texts[rel] = now
+        finally:
+            self._restore()
+        accepted = {r['name'] for r in chosen if results[r['id']][0] == 'accepted'}
+        held = {}
+        for r in chosen:
+            if r['name'] not in accepted:
+                held.setdefault(r['name'], results[r['id']][1])
+        self.row_results[names] = results
+        # the Runner proves the set without its held names on these very texts: key the rows by that set too
+        self.row_results.setdefault(frozenset(accepted), results)
+        self.log('plan: %d names -> %d accepted, %d held, %d files' % (len(names), len(accepted), len(held),
+                                                                      len(texts)))
+        return texts, {}, dict(file_names), held
+
+
+def read_rows(path):
+    rows = read_tsv(path)
+    missing = [f for f in ('id', 'function', 'file', 'param', 'type') if rows and f not in rows[0]]
+    if missing:
+        raise SystemExit('%s: missing columns %s' % (path, ', '.join(missing)))
+    return rows
+
+
+def run_rows(root, out, rows_path, exclude, workers, max_proofs, no_proof, affected, log, passes=2,
+             prover=None):
+    """rows mode: plan every row, one proof, bisection (sig_batch.Runner); writes the proven texts."""
+    import types
+    import sig_batch as SB
+    root = Path(root).resolve()
+    rows = read_rows(rows_path)
+    editable = lambda f: in_scope(f, (), exclude)  # noqa: E731
+    t0 = time.time()
+    batch = RowPlan(root, rows, editable, log, passes)
+    log('rows: %d rows over %d functions (index %.0fs)' % (len(batch.rows), len(batch.cands), time.time() - t0))
+    screen = False
+    if prover is None and not no_proof:
+        prover = SB.Prover(root, affected, types.SimpleNamespace(corpus=batch.index.corpus), batch.originals,
+                           workers, log)
+        # screen proofs (one compile per distinct source and copy kind) attribute failing steps cheaply; the
+        # accepting proof is always the full scope
+        screen = 'select' in prover.mod.prove.__code__.co_varnames
+    runner = SB.Runner(root, batch, out, prover=prover, log=log, no_proof=no_proof, max_proofs=max_proofs,
+                       screen=screen)
+    final, entry, _ = runner.run()
+    results = batch.row_results.get(frozenset(final), {}) if final else {}
+    out_rows = []
+    for r in batch.rows:
+        if r['name'] in final and r['id'] in results:
+            verdict, why, casts, files = results[r['id']]
+        elif r['name'] in runner.dropped:
+            verdict, why, casts, files = 'backed_off', runner.dropped[r['name']], 0, []
+            # a planning refusal of this very row says more than the name's back-off
+            for res in batch.row_results.values():
+                if r['id'] in res and res[r['id']][0] == 'refused':
+                    verdict, why = 'refused', res[r['id']][1]
+                    break
+        else:
+            verdict, why, casts, files = 'refused', 'not_planned', 0, []
+        out_rows.append(dict(id=r['id'], function=r['function'], file=r['file'], param=r['param'], type=r['type'],
+                             verdict=verdict, reason=why, casts_removed=casts, files=','.join(files)))
+    write_tsv(out / 'rows.tsv', out_rows, ROW_RESULT_FIELDS)
+    changed = sorted(runner.written)
+    (out / 'changed_files.txt').write_text(''.join(f + '\n' for f in changed))
+    summ = dict(rows=len(out_rows), verdicts=dict(collections.Counter(r['verdict'] for r in out_rows)),
+                reasons=dict(collections.Counter(re.split(r'[:@]', r['reason'])[0] for r in out_rows
+                                                 if r['verdict'] != 'accepted')),
+                functions=len(final), proofs=runner.proofs, backoffs=runner.backoffs, changed_files=len(changed),
+                casts_removed=sum(casts_of(f, batch.originals[f] or '') - casts_of(f, runner.written[f] or '')
+                                  for f in changed if f.endswith(('.c', '.h'))))
+    (out / 'summary.json').write_text(json.dumps(summ, indent=1, sort_keys=True, default=str) + '\n')
+    log('rows: %s; %d functions, %d files, casts -%d, %d proofs' % (
+        json.dumps(summ['verdicts'], sort_keys=True), len(final), len(changed), summ['casts_removed'],
+        len(runner.proofs)))
+    return summ
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('mode', choices=('census', 'apply', 'callbacks', 'own-view'))
+    ap.add_argument('mode', choices=('census', 'apply', 'callbacks', 'own-view', 'rows'))
+    ap.add_argument('--rows', type=Path, help='rows: TSV of id, function, file, param, type[, replace, evidence]')
+    ap.add_argument('--affected', type=Path, help="rows: tools/build/affected.py (default: the root's own)")
+    ap.add_argument('--max-proofs', type=int, default=40, help='rows: proof budget of the bisection')
+    ap.add_argument('--no-proof', action='store_true', help='rows: plan and write only (the caller proves)')
+    ap.add_argument('--sign-remap', action='store_true',
+                    help='rows: a load may map to the same-width member of the other signedness (the proof decides)')
     ap.add_argument('--spec', type=Path, help='callbacks: {"type": "T *", "param": 0, "symbols": [...]}')
     ap.add_argument('--root', type=Path, default=ROOT)
     ap.add_argument('--scope', nargs='+', default=[], help='caller/declaration files (and editable files)')
@@ -2747,6 +3059,20 @@ def main(argv=None):
         logf.write(line + '\n')
         logf.flush()
 
+    if args.mode == 'rows':
+        global SIGN_REMAP
+        SIGN_REMAP = args.sign_remap
+        if not args.rows:
+            ap.error('rows needs --rows')
+        dirty = subprocess.run(['git', '-C', str(root), 'status', '--porcelain', '-uno', '--', 'src', 'include'],
+                               capture_output=True, text=True).stdout.strip()
+        if dirty:
+            raise SystemExit('src/ or include/ has uncommitted changes; commit first:\n' + dirty[:600])
+        if not 1 <= args.workers <= 8:
+            ap.error('between 1 and 8 workers on this host')
+        summ = run_rows(root, out, args.rows, args.exclude, args.workers, args.max_proofs, args.no_proof,
+                        args.affected or root / 'tools/build/affected.py', log, args.passes)
+        return 0 if summ['functions'] else 1
     if args.mode == 'own-view' and args.trial:
         own_view_trial_run(root, out, args.scope, args.exclude, args.min_casts, args.limit, args.jobs,
                            args.max_closure, log, args.plan, args.skip_targets)

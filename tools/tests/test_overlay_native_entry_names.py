@@ -61,6 +61,42 @@ class NativeEntryNames(unittest.TestCase):
         with self.assertRaises(ValueError):
             G.bind_native_entries(self.members, self.raw, self.registry, self.names)
 
+    def test_placed_copy_member_binds_the_family_name_to_its_own_address(self):
+        # 'first' is the canonical name at func_80040000 (another image); this module's first member is a
+        # recorded copy of it, so its entry and every reference bind to the member's own address.
+        names = dict(self.names, first='func_80040000')
+        with self.assertRaisesRegex(ValueError, 'native entry order/name differs'):
+            G.bind_native_entries(self.members, self.raw, self.registry, names)
+        copies = dict(first=dict(canonical='func_80040000', copies=['func_80016000']))
+        cooked, aliases = G.bind_native_entries(self.members, self.raw, self.registry, names, copies)
+        self.assertEqual(aliases['first'], 'func_80016000')
+        self.assertIn(b'.ent func_80016000', cooked)
+        self.assertIn(b'.word func_80016000', cooked)
+        self.assertNotIn(b'func_80040000', cooked)
+
+    def test_placed_copy_record_does_not_admit_other_members(self):
+        names = dict(self.names, first='func_80040000')
+        for family in (['func_80016020'], ['func_80099999']):
+            copies = dict(first=dict(canonical='func_80040000', copies=family))
+            with self.subTest(family=family), self.assertRaisesRegex(ValueError, 'native entry order/name differs'):
+                G.bind_native_entries(self.members, self.raw, self.registry, names, copies)
+
+    def test_name_table_never_lets_a_copy_row_shadow_its_canonical_row(self):
+        (ROOT / 'tmp').mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='native-copy-', dir=ROOT / 'tmp') as td:
+            path = Path(td) / 'names.tsv'
+            path.write_text('0x80040000\tfunc_80040000\tfirst\tcanonical\n'
+                            '0x80016000\tfunc_80016000\tfirst\tcopy_of=0x80040000; same words\n')
+            self.assertEqual(N.table(path), dict(first='func_80040000'))
+            self.assertEqual(N.copies(path), dict(first=dict(canonical='func_80040000', copies=['func_80016000'])))
+            self.assertEqual(N.family('first', N.copies(path)), {'func_80040000', 'func_80016000'})
+            for bad in ('0x80016000\tfunc_80016000\tfirst\tcopy_of=0x80020000; wrong canonical\n',
+                        '0x80016000\tfunc_80016000\tsecond\tcopy_of=0x80040000; no canonical row for second\n',
+                        '0x80040000\tfunc_80040000\tfirst\tcopy_of=0x80040000; its own copy\n'):
+                path.write_text('0x80040000\tfunc_80040000\tfirst\tcanonical\n' + bad)
+                with self.subTest(bad=bad), self.assertRaises(ValueError):
+                    N.copies(path)
+
     def test_original_name_dependencies_survive_binding(self):
         (ROOT / 'tmp').mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(prefix='native-entry-', dir=ROOT / 'tmp') as td:

@@ -348,6 +348,18 @@ class BuildProjectionTest(unittest.TestCase):
             p.write_text(p.read_text()+f'slus\t{C}\talpha\n')
             with self.assertRaises(P.PartitionError):P.read_aliases(p)
 
+    def test_alias_reader_keeps_placed_copies_on_their_canonical_address(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/'names.tsv'
+            p.write_text(f'slus\t{A}\talpha\tcanonical\nslus\t{C}\talpha\tcopy_of=0x{A[5:]}; same words\n')
+            self.assertEqual(P.read_aliases(p),{'alpha':A})
+            # a copy row must name the address its name's ordinary row binds
+            for wrong in (B, C):
+                p.write_text(f'slus\t{A}\talpha\tcanonical\nslus\t{C}\talpha\tcopy_of=0x{wrong[5:]}; same words\n')
+                with self.subTest(wrong=wrong), self.assertRaises(P.PartitionError):P.read_aliases(p)
+            p.write_text(f'slus\t{C}\talpha\tcopy_of=0x{A[5:]}; no canonical row\n')
+            with self.assertRaises(P.PartitionError):P.read_aliases(p)
+
     def test_malformed_path_and_alias_targets_fail_closed(self):
         with self.assertRaises(P.PartitionError):
             P.path('.', 'parent.source', 'src', '.c')

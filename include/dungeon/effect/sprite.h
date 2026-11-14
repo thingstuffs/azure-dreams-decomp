@@ -149,7 +149,7 @@ typedef struct FollowingColorBlendEffectBody {
 struct S_800244BC_2;
 s32 ground_items_lack_special_pair(void);
 void update_effect_countdown(AnchoredDirectionalObjectBody *object, MovingPosition *output, void *update_arg);
-void advance_target_chasing_emitter(void *object, struct S_800244BC_2 *position, SpriteFrameState *context);
+void advance_target_chasing_emitter(void *object, ObjectPosition *position, SpriteFrameState *context);
 void *create_object_ring_effect(s32 value, void *source, s32 unused, s32 context);
 struct POLY_FT4;
 void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, SpriteFrameState *render_state_addr, u8 *placement, struct POLY_FT4 *packet_buf);
@@ -184,7 +184,7 @@ struct S_func_81886800_3;
 void apply_timed_status_to_target(ActorRecord *target, s32 value, void *record);
 void create_falling_fading_sprite(s16 x, s16 y, s16 z);
 void create_quad_fragment_effects(void);
-void update_mesh_fade_color(void *effect, ObjectPosition *unused, struct EffectColor *color);
+void update_mesh_fade_color(void *effect, ObjectPosition *unused, SpriteFrameState *color);
 struct AttackSequenceController;
 void run_jittered_point_sequence(struct AttackSequenceController *sequence, void *out_position);
 void run_radial_sprite_sequence(struct S_func_81886800_1 *effect, struct S_func_81886800_11 *motion, struct S_func_81886800_3 *sprite);
@@ -199,7 +199,7 @@ s32 queue_shaded_line_chain(void *first_owner, void *first_vertices, void *first
 struct Row_818A4E74_S_func_818A4E74_1;
 s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data);
 s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *first_position);
-void randomize_counted_sprite_angle(void **object_ref, s32 unused, struct Row_818A4E74_S_func_818A4E74_1 *target);
+void randomize_counted_sprite_angle(void **object_ref, s32 unused, SpriteFrameState *target);
 
 struct ParticleCleanupEffectBody;
 void advance_timed_visual_effect(struct ParticleCleanupEffectBody *state, void *position_arg, void *visual_arg);

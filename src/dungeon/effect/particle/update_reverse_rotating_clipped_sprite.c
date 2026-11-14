@@ -19,7 +19,7 @@ extern Rect D_80164824;
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates effect rotation and rectangle, then flags timer expiration. */
-void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, ObjectPosition *unused, void *rotation)
+void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, ObjectPosition *unused, SpriteFrameState *rotation)
 {
     Rect rect;
     Point center;
@@ -32,14 +32,14 @@ void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, O
     center.x = rect.x + ((s16)rect.w >> 1);
     center.y = rect.y + ((s16)rect.h >> 1);
 
-    angle = *(u16 *)((u8 *)rotation + 0x1A);
+    angle = rotation->angle_z;
     next_angle = angle - 0x28;
     angle_sign = next_angle << 16;
     angle = next_angle;
     if (angle_sign <= 0) {
         angle += 0x1000;
     }
-    *(u16 *)((u8 *)rotation + 0x1A) = angle;
+    rotation->angle_z = angle;
 
     draw_transformed_sprite_with_clip_rect(effect, &rect, &center, 1, 1);
 

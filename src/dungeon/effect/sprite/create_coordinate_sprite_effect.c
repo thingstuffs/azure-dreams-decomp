@@ -131,7 +131,7 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
 
 /* Steps a sprite's height, resets its radial position at the height limit, and restarts its completed
    animation. */
-void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, SpriteFrameState *object) {
+void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, ObjectPosition *position, SpriteFrameState *object) {
     s16 angle;
     s32 random_value;
     s32 biased_random;
@@ -146,12 +146,12 @@ void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818
         random_value = rand();
         biased_random = random_value;
         angle = (random_value % 4096);
-        position->unk_02 = (s16) (motion->unk_08 + ((s32) (rsin(angle) * 2) >> 8));
-        position->unk_06 = (s16) (motion->unk_0A + ((s32) (rcos(angle) * 2) >> 8));
+        position->x.w.i = (s16) (motion->unk_08 + ((s32) (rsin(angle) * 2) >> 8));
+        position->y.w.i = (s16) (motion->unk_0A + ((s32) (rcos(angle) * 2) >> 8));
         motion->unk_04 = (u16) (motion->unk_04 + 0x80);
         motion->unk_06 = (u16) (-6 - (rand() % 5));
     }
-    position->unk_0A = (s16) (motion->unk_0C + motion->unk_04);
+    position->z.w.i = (s16) (motion->unk_0C + motion->unk_04);
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
         select_record_entry_and_value(object, &fading_sprite_entries, 0);
@@ -210,7 +210,7 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, ObjectPo
 }
 
 /* Increments the referenced object counter and stores a random angle modulo 0x1000 in the target. */
-void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target) {
+void randomize_counted_sprite_angle(void **object_ref, s32 unused, SpriteFrameState *target) {
     s32 random_value;
     s32 random_quotient;
     Row_818A4E74_S_func_818A4E74_0 *object;
@@ -219,7 +219,7 @@ void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_
     object->unk_14 = (u16)(object->unk_14 + 1);
     random_value = rand();
     random_quotient = random_value / 0x1000;
-    target->unk_1A = (s16)(random_value - (random_quotient << 12));
+    target->angle_z = (s16)(random_value - (random_quotient << 12));
 }
 
 typedef struct {

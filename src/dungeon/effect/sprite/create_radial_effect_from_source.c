@@ -766,21 +766,21 @@ extern u16 D_80026326;
 
 /* Retail 81887570 (update_mesh_fade_color): fade the colour by 1/8 per call and mark the effect (header and global
  * flags) finished once red falls below eight.  effect is the effect's record; its header precedes it. */
-void update_mesh_fade_color(void *effect, ObjectPosition *unused, EffectColor *color) {
+void update_mesh_fade_color(void *effect, ObjectPosition *unused, SpriteFrameState *color) {
     u8 red;
     u8 green;
     u8 blue;
 
     D_80026326++;
 
-    red = color->red;
-    green = color->green;
-    color->red = red - (red >> 3);
-    blue = color->blue;
-    color->green = green - (green >> 3);
-    color->blue = blue - (blue >> 3);
+    red = color->color.c.r;
+    green = color->color.c.g;
+    color->color.c.r = red - (red >> 3);
+    blue = color->color.c.b;
+    color->color.c.g = green - (green >> 3);
+    color->color.c.b = blue - (blue >> 3);
 
-    if (color->red < 8) {
+    if (color->color.c.r < 8) {
         NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -1367,7 +1367,7 @@ extern u16 D_80026326;
  * Integrates velocity with X/Y damping and Z acceleration 0x4000, fades each color channel by one
  * quarter, and advances animation. Flags removal when the signed 16-bit lifetime expires.
  */
-void update_falling_fading_sprite(Actor *actor, Motion *motion, SpriteFrameState *color)
+void update_falling_fading_sprite(Actor *actor, ObjectPosition *motion, SpriteFrameState *color)
 {
     u16 *counter = &D_80026326;
     u16 timer;
@@ -1377,12 +1377,12 @@ void update_falling_fading_sprite(Actor *actor, Motion *motion, SpriteFrameState
 
     counter[0]++;
 
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->z += motion->dz;
-    motion->dx -= motion->dx >> 3;
-    motion->dy -= motion->dy >> 3;
-    motion->dz += 0x4000;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_x -= motion->velocity_x >> 3;
+    motion->velocity_y -= motion->velocity_y >> 3;
+    motion->velocity_z += 0x4000;
 
     red = color->color.c.r;
     green = color->color.c.g;

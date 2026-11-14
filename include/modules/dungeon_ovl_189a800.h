@@ -69,16 +69,16 @@ typedef struct S_func_800241A8_4 {
 
 void transform_and_queue_mesh_primitives(S_func_800241A8_4 *,struct ObjectPosition *,struct SpriteFrameState *, s32);
 /* Bank callbacks whose definitions precede their users in the native TU. */
-void rotate_point_cloud_until_expired(struct RandomRadialVectorEffectBody *object, struct ObjectPosition *unused, void *target);
+void rotate_point_cloud_until_expired(struct RandomRadialVectorEffectBody *object, struct ObjectPosition *unused, SpriteFrameState *target);
 struct StarEdgeEffectBody;
-void advance_fading_effect_animation(struct StarEdgeEffectBody *effect_data, struct ObjectPosition *unused_arg, void *color_data);
+void advance_fading_effect_animation(struct StarEdgeEffectBody *effect_data, struct ObjectPosition *unused_arg, SpriteFrameState *color_data);
 struct S_8187BE9C_1;
 struct ProjectileTrailFlashBody;
-void update_projectile_trail_flash(struct ProjectileTrailFlashBody *effect, s32 unused, struct S_8187BE9C_1 *primitive);
+void update_projectile_trail_flash(struct ProjectileTrailFlashBody *effect, s32 unused, SpriteFrameState *primitive);
 s32 draw_chained_mesh_records(void *record, void *context, void *data);
 struct RandomRadialVectorEffectBody;
 struct SignedPositionView;
-s32 project_shaded_points_to_ordering_table(struct RandomRadialVectorEffectBody *points, struct SignedPositionView *position, u8 *orientation);
+s32 project_shaded_points_to_ordering_table(struct RandomRadialVectorEffectBody *points, ObjectPosition *position, u8 *orientation);
 struct StarSequenceBody;
 void initialize_star_effect_sequence(struct StarSequenceBody *state_data, void *source_data);
 #endif

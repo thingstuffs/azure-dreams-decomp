@@ -143,7 +143,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
 
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */
-void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, void *source_data)
+void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, ObjectPosition *source_data)
 {
     JitteredTerrainSeekingPointBody *object = object_data;
     ObjectPosition *source = source_data;
@@ -258,18 +258,18 @@ void create_jittered_terrain_seeking_point(
    The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */
 
 /* Advance position and object state, then flag completion on timeout or object status. */
-void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, void *position, SpriteFrameState *object)
+void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, ObjectPosition *position, SpriteFrameState *object)
 {
     s32 position_z;
     s32 step_z;
     u16 ticks_left;
 
-    *(s32 *)((u8 *)position + 0) += state->velocity_x;
-    *(s32 *)((u8 *)position + 4) += state->velocity_y;
-    position_z = *(s32 *)((u8 *)position + 8);
+    position->x.v += state->velocity_x;
+    position->y.v += state->velocity_y;
+    position_z = position->z.v;
     step_z = state->velocity_z;
     linked_point_effect_updated[0] = 1;
-    *(s32 *)((u8 *)position + 8) = position_z + step_z;
+    position->z.v = position_z + step_z;
     advance_sprite_animation_and_textures(object);
 
     object->scale_x += 0x80;

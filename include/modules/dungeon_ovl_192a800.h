@@ -16,7 +16,7 @@ s32 draw_dimmed_height_effect_points(struct PointRecord *,struct ObjectPosition 
 struct EffectRecord; struct EntityRec;
 void raise_effect_toward_terrain_height(struct EffectRecord *,struct ObjectPosition *);
 void spawn_rising_effect_under_parent(ObjectNodeHeader *,s16,s32,s16,s16,s16,s16);
-s32 random_value_below_limit(s32);
+s32 random_below_limit(s32);
 struct ShuffledSpriteClearBody;
 void update_shuffled_rect_clear_effect(struct ShuffledSpriteClearBody *,s32 *,void *);
 struct S_func_8190B2D0_0;

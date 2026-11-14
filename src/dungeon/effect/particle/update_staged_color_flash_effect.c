@@ -550,7 +550,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
 #include "shared/game_work.h"
 
 /* Updates effect motion, waits for its timer, then fades its sprite to black. */
-void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, VecState *motion, SpriteFrameState *sprite) {
+void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     B22_81893474_EffectState *owner = effect->owner;
     s32 z_velocity;
     s16 state;
@@ -558,14 +558,14 @@ void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, VecState *m
 
     owner->unk_52.u |= 0x8000;
 
-    z_velocity = motion->vz;
+    z_velocity = motion->velocity_z;
     if (z_velocity != 0) {
         z_velocity -= 0x20000;
     }
-    motion->vz = z_velocity;
-    motion->x += motion->vx;
-    motion->y += motion->vy;
-    motion->z += motion->vz;
+    motion->velocity_z = z_velocity;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
 
     state = (s16)effect->state;
     switch (state) {

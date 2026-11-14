@@ -9,12 +9,21 @@ from pathlib import Path
 import re
 
 
-def table(path):
-    result = {}
-    try:
-        text = Path(path).read_text()
-    except FileNotFoundError:
-        return result
+# A placed-copy row: the same function (same words, relocated fields aside) placed at a second address in
+# another image keeps its address row but spells the family's one name, and its evidence starts with
+# `copy_of=0x<canonical address>`. The canonical row is the name's ordinary row. The new -> old table below
+# never lets a copy row shadow the canonical address; a build step that compiles the copy binds the name to
+# the copy's own address inside that TU (tools/gate/overlay_module_gate.bind_native_entries).
+COPY_OF = re.compile(r'copy_of=0x([0-9A-F]{8})(?:;|\s|$)')
+
+
+def copy_of(evidence):
+    """Canonical func_<addr> a row's evidence records it as a placed copy of, or None."""
+    match = COPY_OF.match(evidence.strip())
+    return 'func_' + match[1] if match else None
+
+
+def _rows(text):
     for raw in text.splitlines():
         cols = raw.split('#', 1)[0].split('\t')
         if len(cols) >= 3:
@@ -22,8 +31,54 @@ def table(path):
             if old and new and new != old:
                 if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', new):
                     raise ValueError('invalid name-table identifier: ' + new)
-                result[new] = old
+                yield old, new, copy_of(cols[3]) if len(cols) >= 4 else None
+
+
+def _read(path):
+    try:
+        return Path(path).read_text()
+    except FileNotFoundError:
+        return ''
+
+
+def table(path):
+    result = {}
+    for old, new, canonical in _rows(_read(path)):
+        if canonical is None:
+            result[new] = old
     return result
+
+
+def copies(path):
+    """name -> {'canonical': func_<addr>, 'copies': sorted func_<addr>} for every recorded placed-copy family.
+
+    Fails closed: a copy row must name the address its name's ordinary row binds (so table() and this agree),
+    may not be its own canonical, and an address cannot be a copy of two families under one name."""
+    text = _read(path)
+    names = {}
+    found = {}
+    for old, new, canonical in _rows(text):
+        if canonical is None:
+            names[new] = old
+        else:
+            found.setdefault(new, set()).add((old, canonical))
+    result = {}
+    for new, members in sorted(found.items()):
+        canonical = {c for _, c in members}
+        if len(canonical) != 1 or names.get(new) not in canonical:
+            raise ValueError('placed copy does not name its canonical row: ' + new)
+        canonical = canonical.pop()
+        olds = sorted(old for old, _ in members)
+        if canonical in olds or len(set(olds)) != len(olds):
+            raise ValueError('invalid placed-copy family: ' + new)
+        result[new] = dict(canonical=canonical, copies=olds)
+    return result
+
+
+def family(name, families):
+    """Every address one name binds through recorded placed copies (empty when it has none)."""
+    value = families.get(name)
+    return {value['canonical'], *value['copies']} if value else set()
 
 
 def project(tokens, names):

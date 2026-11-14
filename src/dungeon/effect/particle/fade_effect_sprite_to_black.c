@@ -477,7 +477,7 @@ spawn_trail:
 }
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
-void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect_arg, S_8182D544_2 *motion, SpriteFrameState *sprite)
+void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect_arg, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     SpriteFadeCountdownBody *effect = effect_arg;
     s16 state;
@@ -491,11 +491,11 @@ void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect_arg, S_
     object = effect->unk_00;
     object->unk_0C |= 0x8000;
 
-    delta_y = motion->unk_10;
-    delta_z = motion->unk_14;
-    motion->unk_00 += motion->unk_0C;
-    motion->unk_04 += delta_y;
-    motion->unk_08 += delta_z;
+    delta_y = motion->velocity_y;
+    delta_z = motion->velocity_z;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += delta_y;
+    motion->z.v += delta_z;
 
     state = (s16)effect->unk_4C;
     switch (state) {
@@ -534,15 +534,15 @@ void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect_arg, S_
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Advance motion with damping and downward acceleration, then count down or fade the effect. */
-void update_falling_damped_sprite_effect(Object *object, Motion *motion, SpriteFrameState *effect) {
+void update_falling_damped_sprite_effect(Object *object, ObjectPosition *motion, SpriteFrameState *effect) {
     s16 state;
     ((s32 *)object->child)[3] |= 0x8000;
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->z += motion->dz;
-    motion->dx -= motion->dx >> 3;
-    motion->dy -= motion->dy >> 3;
-    motion->dz -= rand() * 4 + 0x4000;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_x -= motion->velocity_x >> 3;
+    motion->velocity_y -= motion->velocity_y >> 3;
+    motion->velocity_z -= rand() * 4 + 0x4000;
 
     state = object->kind;
     switch (state) {
